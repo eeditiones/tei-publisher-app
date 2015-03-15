@@ -21,6 +21,7 @@ declare function model:transform($options as map(*), $input as node()*) {
     let $config :=
         map:new(($options,
             map {
+                "output": "web",
                 "odd": "/db/apps/tei-simple/odd/teisimple.odd",
                 "apply": model:apply#2
             }
@@ -491,7 +492,7 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(w) return
                 pmf:inline($config, ., "w", .)
             case text() | xs:anyAtomicType return
-                .
+                pmf:escapeChars(.)
             default return 
                 $config?apply($config, ./node())
 

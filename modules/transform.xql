@@ -23,6 +23,6 @@ return
     if ($doc) then
         let $xml := doc($config:data-root || "/" || $doc)
         return
-            pmu:process($config:odd-root || "/" || $odd, $xml, $config:output-root, "../generated")
+            pmu:process($config:odd-root || "/" || $odd, $xml, $config:output-root, "web", "../generated")
     else
         <p>No document specified</p>

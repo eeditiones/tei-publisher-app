@@ -44,6 +44,7 @@ declare function pm:parse($odd as element(), $modules as array(*), $output as xs
 let $config :=
     map:new(($options,
         map {{
+            "output": "{ $output }",
             "odd": "{ document-uri(root($odd)) }",
             "apply": model:apply#2
         }}
@@ -72,7 +73,11 @@ let $config :=
                                             else
                                                 ()
                                     }
-                                    <case test="text() | xs:anyAtomicType">.</case>
+                                    <case test="text() | xs:anyAtomicType">
+                                        <function-call name="pmf:escapeChars">
+                                            <param>.</param>
+                                        </function-call>
+                                    </case>
                                     <default>
                                         <function-call name="$config?apply">
                                             <param>$config</param>

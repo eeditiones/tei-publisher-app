@@ -1,59 +1,53 @@
 xquery version "3.1";
 
 (:~
- : Function module to produce HTML output. The functions defined here are called 
+ : Function module to produce LaTeX output. The functions defined here are called 
  : from the generated XQuery transformation module. Function names must match
  : those of the corresponding TEI Processing Model functions.
  : 
  : @author Wolfgang Meier
  :)
-module namespace pmf="http://www.tei-c.org/tei-simple/xquery/functions";
+module namespace pmf="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    element { node-name($node) } {
-        attribute class { $class },
-        pmf:apply-children($config, $node, $content)
-    }
+    pmf:apply-children($config, $node, $content),
+    "&#10;"
 };
 
 declare function pmf:heading($config as map(*), $node as element(), $class as xs:string, $content as node()*, $type, $subdiv) {
     let $parent := local-name($content/..)
     let $level := count($content/ancestor::*[local-name(.) = $parent])
     return
-        element { "h" || $level } {
-            attribute class { $class },
+        if ($level < 3) then
+            "\" || ((2 to $level) ! "sub") || "section{" || pmf:apply-children($config, $node, $content) || "}"
+        else
             pmf:apply-children($config, $node, $content)
-        }
 };
 
 declare function pmf:list($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    <ul class="{$class}">{$config?apply($config, $content)}</ul>
+    $config?apply($config, $content)
 };
 
 declare function pmf:listItem($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    <li class="{$class}">{pmf:apply-children($config, $node, $content)}</li>
+    pmf:apply-children($config, $node, $content)
 };
 
 declare function pmf:block($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    <div class="{$class}">{pmf:apply-children($config, $node, $content)}</div>
+    pmf:apply-children($config, $node, $content)
 };
 
 declare function pmf:section($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    <section class="{$class}">{pmf:apply-children($config, $node, $content)}</section>
+    pmf:apply-children($config, $node, $content)
 };
 
 declare function pmf:anchor($config as map(*), $node as element(), $class as xs:string, $id as item()*) {
-    <span id="{$id}"/>
+    ()
 };
 
 declare function pmf:link($config as map(*), $node as element(), $class as xs:string, $content as node()*, $url as xs:anyURI?) {
-    <a href="{$url}">{pmf:apply-children($config, $node, $content)}</a>
-};
-
-declare function pmf:escapeChars($text as xs:string) {
-    $text
+    pmf:apply-children($config, $node, $content)
 };
 
 declare function pmf:glyph($config as map(*), $node as element(), $class as xs:string, $content as xs:anyURI?) {
@@ -68,21 +62,15 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
     let $style := if ($width) then "width: " || $width || "; " else ()
     let $style := if ($height) then $style || "height: " || $height || "; " else $style
     return
-        <img src="{$url}">
-        { if ($style) then attribute style { $style } else () }
-        </img>
+        ()
 };
 
 declare function pmf:inline($config as map(*), $node as element(), $class as xs:string, $content as item()*) {
-    <span class="{$class}">
-    {
-        pmf:apply-children($config, $node, $content)
-    }
-    </span>
+    pmf:apply-children($config, $node, $content)
 };
 
 declare function pmf:text($config as map(*), $node as element(), $class as xs:string, $content as item()*) {
-    string($content)
+    pmf:escapeChars(string-join($content))
 };
 
 declare function pmf:cit($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
@@ -90,7 +78,7 @@ declare function pmf:cit($config as map(*), $node as element(), $class as xs:str
 };
 
 declare function pmf:body($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    <body class="{$class}">{pmf:apply-children($config, $node, $content)}</body>
+    pmf:apply-children($config, $node, $content)
 };
 
 declare function pmf:omit($config as map(*), $node as element(), $class as xs:string) {
@@ -98,46 +86,58 @@ declare function pmf:omit($config as map(*), $node as element(), $class as xs:st
 };
 
 declare function pmf:break($config as map(*), $node as element(), $class as xs:string, $type as xs:string, $label as item()*) {
-    <br/>
+    "\linebreak"
 };
 
 declare function pmf:document($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    <html class="{$class}">{pmf:apply-children($config, $node, $content)}</html>
+    "\documentclass[11pt]{article}",
+    "\usepackage{colortbl}",
+    "\usepackage{fancyhdr}",
+    "\usepackage[a4paper,twoside,lmargin=1in,rmargin=1in,tmargin=1in,bmargin=1in,marginparwidth=0.75in]{geometry}",
+    "\usepackage{graphicx}",
+    "\usepackage{hyperref}",
+    "\usepackage{ifxetex}",
+    "\usepackage{longtable}",
+    "\renewcommand*{\marginfont}{\itshape\footnotesize}",
+    "\def\theendnote{\@alph\c@endnote}",
+    "\def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}",
+    "\pagestyle{fancy}",
+    "\hyperbaseurl{}",
+    "\paperwidth210mm",
+    "\paperheight297mm",
+    "\def\chaptername{Chapter}",
+    "\def\tableofcontents{\section*{\contentsname}\@starttoc{toc}}",
+    "\thispagestyle{empty}",
+    "\let\tabcellsep&amp; ",
+    '\IfFileExists{tei.sty}{\RequirePackage{tei}}{}"',
+    "\begin{document}",
+    pmf:apply-children($config, $node, $content),
+    "\end{document}"
 };
 
 declare function pmf:metadata($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    <head class="{$class}">{
-        pmf:apply-children($config, $node, $content),
-        if (exists($config?styles)) then
-            $config?styles?* !
-                <link rel="StyleSheet" type="text/css" href="{.}"/>
-        else
-            ()
-    }</head>
+    pmf:apply-children($config, $node, $content)
 };
 
 declare function pmf:title($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    <title>{pmf:apply-children($config, $node, $content)}</title>
+    "\title{" || pmf:apply-children($config, $node, $content) || "}"
 };
 
 declare function pmf:table($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    <table class="{$class}">{pmf:apply-children($config, $node, $content)}</table>
+    pmf:apply-children($config, $node, $content)
 };
 
 declare function pmf:row($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    <tr class="{$class}">{pmf:apply-children($config, $node, $content)}</tr>
+    pmf:apply-children($config, $node, $content)
 };
 
 declare function pmf:cell($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    <td class="{$class}">{pmf:apply-children($config, $node, $content)}</td>
+    pmf:apply-children($config, $node, $content)
 };
 
 declare function pmf:alternate($config as map(*), $node as element(), $class as xs:string, $option1 as node()*,
     $option2 as node()*) {
-    <span class="alternate {$class}">
-        <span>{pmf:apply-children($config, $node, $option1)}</span>
-        <span class="hidden altcontent">{pmf:apply-children($config, $node, $option2)}</span>
-    </span>
+    pmf:apply-children($config, $node, $option1)
 };
 
 declare function pmf:get-rendition($node as node()*, $class as xs:string) {
@@ -155,45 +155,35 @@ declare function pmf:get-rendition($node as node()*, $class as xs:string) {
 };
 
 declare function pmf:generate-css($root as document-node()) {
-    string-join((
-        "/* Generated stylesheet. Do not edit. */&#10;",
-        "/* Generated from " || document-uri($root) || " */&#10;&#10;",
-        "/* Global styles */&#10;",
-        for $rend in $root//tei:rendition[@xml:id][not(parent::tei:model)]
-        return
-            "&#10;.simple_" || $rend/@xml:id || " { " || 
-            normalize-space($rend/string()) || " }",
-        "&#10;&#10;/* Model rendition styles */&#10;",
-        for $model in $root//tei:model[tei:rendition]
-        let $spec := $model/ancestor::tei:elementSpec[1]
-        let $count := count($spec//tei:model)
-        for $rend in $model/tei:rendition
-        let $className :=
-            if ($count > 1) then
-                $spec/@ident || count($model/preceding::tei:model[. >> $spec]) + 1
-            else
-                $spec/@ident/string()
-        let $class :=
-            if ($rend/@scope) then
-                $className || ":" || $rend/@scope
-            else
-                $className
-        return
-            "&#10;." || $class || " { " ||
-            normalize-space($rend) || " }"
-    ))
+    ()
 };
 
 declare %private function pmf:apply-children($config as map(*), $node as element(), $content as item()*) {
-    if ($node/@xml:id) then
-        attribute id { $node/@xml:id }
-    else
-        (),
-    $content ! (
-        typeswitch(.)
-            case element() return
-                $config?apply($config, ./node())
-            default return
-                string(.)
+    string-join(
+        $content ! (
+            typeswitch(.)
+                case element() return
+                    $config?apply($config, ./node())
+                case text() return
+                    pmf:escapeChars(.)
+                default return
+                    pmf:escapeChars(.)
+        ), "&#10;"
+    )
+};
+
+declare function pmf:escapeChars($text as xs:string) {
+    replace(
+        replace(
+            replace(
+                replace(
+                    replace($text, "\\", "\\textbackslash "),
+                    '~','\\textasciitilde '
+                ),
+                '\^','\\textasciicircum '
+            ),
+            "_", "\\textunderscore "
+        ),
+        "([\}\{%&amp;\$#])", "\\$1"
     )
 };

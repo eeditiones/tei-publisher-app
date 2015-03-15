@@ -12,41 +12,57 @@ module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
 import module namespace pm="http://www.tei-c.org/tei-simple/xquery/model" at "model.xql";
-import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace pmf="http://www.tei-c.org/tei-simple/xquery/functions" at "html-functions.xql";
 
-declare variable $pmu:MODULES := [
-    map {
-        "uri": "http://www.tei-c.org/tei-simple/xquery/functions",
-        "prefix": "pmf",
-        "at": "html-functions.xql"
+declare variable $pmu:MODULES := map {
+    "web": map {
+        "output": "web",
+        "modules": [
+            map {
+                "uri": "http://www.tei-c.org/tei-simple/xquery/functions",
+                "prefix": "pmf",
+                "at": "html-functions.xql"
+            }
+        ]
+    },
+    "print": map {
+        "output": "print",
+        "modules": [
+            map {
+                "uri": "http://www.tei-c.org/tei-simple/xquery/functions/latex",
+                "prefix": "pmf",
+                "at": "latex-functions.xql"
+            }
+        ]
     }
-];
-
-declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string) {
-    pmu:process($oddPath, $xml, $output-root, "")
 };
 
-declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string, $relPath as xs:string) {
+declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string) {
+    pmu:process($oddPath, $xml, $output-root, "web", "")
+};
+
+declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string, 
+    $mode as xs:string, $relPath as xs:string) {
     let $name := replace($oddPath, "^.*?([^/]+)\.[^/]+$", "$1")
     let $odd := doc($oddPath)
     let $main :=
-        if (pmu:requires-update($odd, $output-root, $name || "-main.xql")) then
-            let $config := pmu:process-odd($odd, $output-root, $relPath)
+        if (pmu:requires-update($odd, $output-root, $name || "-" || $mode || "-main.xql")) then
+            let $config := pmu:process-odd($odd, $output-root, $mode, $relPath)
             return
                 $config?main
         else
-            $output-root || "/" || $name || "-main.xql"
+            $output-root || "/" || $name || "-" || $mode || "-main.xql"
     let $source := util:binary-to-string(util:binary-doc($main))
     return
         util:eval($source, true(), (xs:QName("xml"), $xml))
 };
 
 
-declare function pmu:process-odd($odd as document-node(), $output-root as xs:string, $relPath as xs:string) as map(*) {
+declare function pmu:process-odd($odd as document-node(), $output-root as xs:string, 
+    $mode as xs:string, $relPath as xs:string) as map(*) {
     let $name := replace(util:document-name($odd), "^([^\.]+)\.[^\.]+$", "$1")
-    let $generated := pm:parse($odd/*, $pmu:MODULES, "web")
-    let $xquery := xmldb:store($output-root, $name || ".xql", $generated?code, "application/xquery")
+    let $generated := pm:parse($odd/*, $pmu:MODULES?($mode)?modules, $pmu:MODULES?($mode)?output)
+    let $xquery := xmldb:store($output-root, $name || "-" || $mode || ".xql", $generated?code, "application/xquery")
     let $style := pmu:extract-styles($odd, $name, $output-root)
     let $mainCode :=
         "import module namespace m='" || $generated?uri || 
@@ -56,7 +72,7 @@ declare function pmu:process-odd($odd as document-node(), $output-root as xs:str
         '   "styles": ["' || $relPath || "/" || $style || '"]&#10;' ||
         '}&#10;' ||
         "return m:transform($options, $xml)"
-    let $main := xmldb:store($output-root, $name || "-main.xql", $mainCode, "application/xquery")
+    let $main := xmldb:store($output-root, $name || "-" || $mode || "-main.xql", $mainCode, "application/xquery")
     return
         map {
             "id": $name,
@@ -79,5 +95,5 @@ declare %private function pmu:requires-update($odd as document-node(), $collecti
     let $oddModified := xmldb:last-modified(util:collection-name($odd), util:document-name($odd))
     let $fileModified := xmldb:last-modified($collection, $file)
     return
-        $oddModified > $fileModified
+        empty($fileModified) or $oddModified > $fileModified
 };

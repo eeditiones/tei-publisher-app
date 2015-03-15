@@ -44,7 +44,7 @@ function app:odd-table($node as node(), $model as map(*)) {
                 <td>
                 {
                     let $outputPath := $config:output-root || "/" || $name
-                    let $xqlAvail := util:binary-doc-available($outputPath || ".xql")
+                    let $xqlAvail := util:binary-doc-available($outputPath || "-web.xql")
                     let $cssAvail := util:binary-doc-available($outputPath || ".css")
                     return
                         templates:process(
@@ -56,7 +56,7 @@ function app:odd-table($node as node(), $model as map(*)) {
                                     href="{substring-after($resource, $config:app-root)}">
                                     <i class="glyphicon glyphicon-edit"/> ODD</a>
                                 <a class="btn btn-default" data-template="app:load-source"
-                                    href="{substring-after($config:output-root, $config:app-root)}/{$name}.xql">
+                                    href="{substring-after($config:output-root, $config:app-root)}/{$name}-web.xql">
                                     { if ($xqlAvail) then () else attribute disabled { "disabled" } }
                                     <i class="glyphicon glyphicon-edit"/> XQL</a>
                                 <a class="btn btn-default" data-template="app:load-source"
@@ -77,7 +77,7 @@ declare
 function app:view($node as node(), $model as map(*), $odd as xs:string, $doc as xs:string) {
     let $xml := doc($config:data-root || "/" || $doc)//tei:text/*
     return
-        pmu:process($config:odd-root || "/" || $odd, $xml, $config:output-root, "../generated")
+        pmu:process($config:odd-root || "/" || $odd, $xml, $config:output-root, "web", "../generated")
 };
 
 declare
@@ -100,6 +100,7 @@ declare function app:action($node as node(), $model as map(*), $odd as xs:string
                     for $file in pmu:process-odd(
                         doc($config:odd-root || "/" || $odd), 
                         $config:output-root,
+                        "web",
                         "../generated")?("module", "style")
                     return
                         <li>{$file}</li>
