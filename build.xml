@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="all" name="eXist-db Demo Apps">
+    <property file="local.build.properties"/>
+    <property file="build.properties"/>
+    <property name="project.app" value="tei-simple"/>
+    <property name="project.version" value="0.0.1"/>
+    <property name="server.url" value="http://demo.exist-db.org/exist/apps/public-repo/public/"/>
+    <property name="build" value="build"/>
+    <condition property="git.commit" value="${git.commit}" else="">
+        <isset property="git.commit"/>
+    </condition>
+    <target name="all" depends="xar"/>
+    <target name="rebuild" depends="clean,all"/>
+    <target name="clean">
+        <delete dir="${build}"/>
+    </target>
+    <target name="xar">
+        <mkdir dir="${build}"/>
+        <zip basedir="." destfile="${build}/${project.app}-${project.version}${git.commit}.xar">
+            <exclude name="${build}/*"/>
+            <exclude name=".git*"/>
+            <exclude name="*.tmpl"/>
+            <exclude name="*.properties"/>
+        </zip>
+    </target>
+    <target name="upload">
+        <input message="Enter password:" addproperty="server.pass" defaultvalue="">
+            <handler type="secure"/>
+        </input>
+        <property name="xar" value="${project.app}-${project.version}${git.commit}.xar"/>
+        <exec executable="curl">
+            <arg line="-T ${build}/${xar} -u admin:${server.pass} ${server.url}/${xar}"/>
+        </exec>
+    </target>
+</project>

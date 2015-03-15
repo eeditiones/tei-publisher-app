@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <description>TEI-Simple Processing Model</description>
+    <author/>
+    <website/>
+    <status>alpha</status>
+    <license>GNU-LGPL</license>
+    <copyright>true</copyright>
+    <type>application</type>
+    <target>tei-simple</target>
+    <prepare>pre-install.xql</prepare>
+    <finish>post-install.xql</finish>
+    <permissions xmlns:repo="http://exist-db.org/xquery/repo" password="simple" user="tei" group="tei" mode="rwxrwxr-x"/>
+</meta>

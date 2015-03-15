@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://expath.org/ns/pkg" name="http://www.tei-c.org/tei-simple" abbrev="tei-simple" version="0.1" spec="1.0">
+    <title>TEI-Simple Processing Model</title>
+    <dependency package="http://exist-db.org/apps/shared"/>
+    <xquery>
+        <namespace>http://www.tei-c.org/tei-simple/xquery/functions</namespace>
+        <file>html-functions.xql</file>
+    </xquery>
+    <xquery>
+        <namespace>http://www.tei-c.org/tei-simple/xquery/model</namespace>
+        <file>model.xql</file>
+    </xquery>
+    <xquery>
+        <namespace>http://www.tei-c.org/tei-simple/xquery/util</namespace>
+        <file>util.xql</file>
+    </xquery>
+    <xquery>
+        <namespace>http://www.tei-c.org/tei-simple/xquery/xqgen</namespace>
+        <file>xqgen.xql</file>
+    </xquery>
+</package>

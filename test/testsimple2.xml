@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>The Vergins advice to the maids of London to the tune of Oh! that I were but young for you.</title>
+            </titleStmt>
+            <editionStmt>
+                <edition>
+                    <date>1680</date>
+                </edition>
+            </editionStmt>
+            <extent>Approx. 3 KB of XML-encoded text transcribed from 1 1-bit group-IV TIFF page image.</extent>
+            <publicationStmt>
+                <publisher>Text Creation Partnership,</publisher>
+                <pubPlace>Ann Arbor, MI ; Oxford (UK) :</pubPlace>
+                <date when="2009-10">2009-10 (EEBO-TCP Phase 1).</date>
+                <idno type="DLPS">B31385</idno>
+                <idno type="STC">Wing V639</idno>
+                <idno type="STC">ESTC R41726</idno>
+                <idno type="EEBO-CITATION">31355833</idno>
+                <idno type="OCLC">ocm 31355833</idno>
+                <idno type="VID">110643</idno>
+                <availability>
+                    <p>This keyboarded and encoded edition of the
+	       work described above is co-owned by the institutions
+	       providing financial support to the Early English Books
+	       Online Text Creation Partnership. This Phase I text is
+	       available for reuse, according to the terms of <ref target="https://creativecommons.org/publicdomain/zero/1.0/">Creative
+	       Commons 0 1.0 Universal</ref>. The text can be copied,
+	       modified, distributed and performed, even for
+	       commercial purposes, all without asking permission.</p>
+                </availability>
+            </publicationStmt>
+            <seriesStmt>
+                <title>Early English books online.</title>
+            </seriesStmt>
+            <notesStmt>
+                <note>(EEBO-TCP ; phase 1, no. B31385)</note>
+                <note>Transcribed from: (Early English Books Online ; image set 110643)</note>
+                <note>Images scanned from microfilm: (Early English books, 1641-1700 ; 1752:11)</note>
+            </notesStmt>
+            <sourceDesc>
+                <biblFull>
+                    <titleStmt>
+                        <title>The Vergins advice to the maids of London to the tune of Oh! that I were but young for you.</title>
+                    </titleStmt>
+                    <extent>1 sheet ([1] p.).   </extent>
+                    <publicationStmt>
+                        <publisher>Printed and sold by Charles Barnet,</publisher>
+                        <pubPlace>[London] :</pubPlace>
+                        <date>[between 1680 and 1695]</date>
+                    </publicationStmt>
+                    <notesStmt>
+                        <note>Date of publication suggested by Wing (2nd. ed)</note>
+                        <note>Printed on right half of sheet which also contains Wing (2nd ed.)  R1793, "Roger the West-country lad".</note>
+                        <note>Imperfect: faded, with loss of print.</note>
+                        <note>Reproduction of original in the Magdalene College Library, University of Cambridge.</note>
+                    </notesStmt>
+                </biblFull>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <projectDesc>
+                <p>Created by converting TCP files to TEI P5 using tcp2tei.xsl,
+      TEI @ Oxford.
+      </p>
+            </projectDesc>
+            <editorialDecl>
+                <p>EEBO-TCP is a partnership between the Universities of Michigan and Oxford and the publisher ProQuest to create accurately transcribed and encoded texts based on the image sets published by ProQuest via their Early English Books Online (EEBO) database (http://eebo.chadwyck.com). The general aim of EEBO-TCP is to encode one copy (usually the first edition) of every monographic English-language title published between 1473 and 1700 available in EEBO.</p>
+                <p>EEBO-TCP aimed to produce large quantities of textual data within the usual project restraints of time and funding, and therefore chose to create diplomatic transcriptions (as opposed to critical editions) with light-touch, mainly structural encoding based on the Text Encoding Initiative (http://www.tei-c.org).</p>
+                <p>The EEBO-TCP project was divided into two phases. The 25,363 texts created during Phase 1 of the project have been released into the public domain as of 1 January 2015. Anyone can now take and use these texts for their own purposes, but we respectfully request that due credit and attribution is given to their original source.</p>
+                <p>Users should be aware of the process of creating the TCP texts, and therefore of any assumptions that can be made about the data.</p>
+                <p>Text selection was based on the New Cambridge Bibliography of English Literature (NCBEL). If an author (or for an anonymous work, the title) appears in NCBEL, then their works are eligible for inclusion. Selection was intended to range over a wide variety of subject areas, to reflect the true nature of the print record of the period. In general, first editions of a works in English were prioritized, although there are a number of works in other languages, notably Latin and Welsh, included and sometimes a second or later edition of a work was chosen if there was a compelling reason to do so.</p>
+                <p>Image sets were sent to external keying companies for transcription and basic encoding. Quality assurance was then carried out by editorial teams in Oxford and Michigan. 5% (or 5 pages, whichever is the greater) of each text was proofread for accuracy and those which did not meet QA standards were returned to the keyers to be redone. After proofreading, the encoding was enhanced and/or corrected and characters marked as illegible were corrected where possible up to a limit of 100 instances per text. Any remaining illegibles were encoded as &lt;gap&gt;s. Understanding these processes should make clear that, while the overall quality of TCP data is very good, some errors will remain and some readable characters will be marked as illegible. Users should bear in mind that in all likelihood such instances will never have been looked at by a TCP editor.</p>
+                <p>The texts were encoded and linked to page images in accordance with level 4 of the TEI in Libraries guidelines.</p>
+                <p>Copies of the texts have been issued variously as SGML (TCP schema; ASCII text with mnemonic sdata character entities); displayable XML (TCP schema; characters represented either as UTF-8 Unicode or text strings within braces); or lossless XML (TEI P5, characters represented either as UTF-8 Unicode or TEI g elements).</p>
+                <p>Keying and markup guidelines are available at the <ref target="http://www.textcreationpartnership.org/docs/.">Text Creation Partnership web site</ref>.</p>
+            </editorialDecl>
+            <listPrefixDef>
+                <prefixDef ident="tcp" matchPattern="([0-9\-]+):([0-9IVX]+)" replacementPattern="http://eebo.chadwyck.com/downloadtiff?vid=$1&amp;page=$2"/>
+                <prefixDef ident="char" matchPattern="(.+)" replacementPattern="https://raw.githubusercontent.com/textcreationpartnership/Texts/master/tcpchars.xml#$1"/>
+            </listPrefixDef>
+        </encodingDesc>
+        <profileDesc>
+            <langUsage>
+                <language ident="eng">eng</language>
+            </langUsage>
+            <textClass>
+                <keywords scheme="http://authorities.loc.gov/">
+                    <term>Ballads, English --  17th century.</term>
+                    <term>Broadsides --  London (England) --  17th century.</term>
+                </keywords>
+            </textClass>
+        </profileDesc>
+        <revisionDesc>
+            <change>
+                <date>2008-10</date>
+                <label>TCP</label>Assigned for keying and markup</change>
+            <change>
+                <date>2008-12</date>
+                <label>SPi Global</label>Keyed and coded from ProQuest page images</change>
+            <change>
+                <date>2009-01</date>
+                <label>Megan Marion</label>Sampled and proofread</change>
+            <change>
+                <date>2009-01</date>
+                <label>Megan Marion</label>Text and markup reviewed and edited</change>
+            <change>
+                <date>2009-02</date>
+                <label>pfs</label>Batch review (QC) and XML conversion</change>
+        </revisionDesc>
+    </teiHeader>
+    <text xml:lang="eng">
+        <body>
+            <div type="ballad">
+                <pb facs="tcp:110643:1" rendition="simple:additions"/>
+            <!-- PDF PAGE 14 -->
+                <head>The Vergins Advice TO THE Maids of LONDON.</head>
+                <opener>To the Tune of, <hi>Oh! that I were but young for you.</hi>
+                </opener>
+                <lg>
+                    <l>OFt have I heard the Wives complain,</l>
+                    <l>O that they were but Maids again,</l>
+                    <l>Maids and they would <hi>marry</hi> with none,</l>
+                    <l>
+                        <hi>For the Maid is the beſt that lies alone.</hi>
+                    </l>
+                </lg>
+                <lg>
+                    <l>What is more <hi>ſweet</hi> than to live <hi>free,</hi>
+                    </l>
+                    <l>And to enjoy ones <hi>Liberty?</hi>
+                    </l>
+                    <l>Therefore I will <hi>marry with none,</hi>
+                    </l>
+                    <l>
+                        <hi>For the Maid is the beſt that lies alone.</hi>
+                    </l>
+                </lg>
+                <lg>
+                    <l>
+                        <hi>Love</hi> is a <hi>torment</hi> in the breaſt,</l>
+                    <l>And will not let a Maiden reſt,</l>
+                    <l>And the <hi>young men</hi> now ſo faithleſs are <hi>grown,</hi>
+                    </l>
+                    <l>
+                        <hi>That the maid is the beſt that lies alone.</hi>
+                    </l>
+                </lg>
+                <lg>
+                    <l>When we are Young they praiſe us all,</l>
+                    <l>And their <hi>Delights</hi> and <hi>Darlings</hi> call;</l>
+                    <l>And <hi>yet a Lover</hi> I will have none,</l>
+                    <l>
+                        <hi>For the Maid, &amp;c.</hi>
+                    </l>
+                </lg>
+                <lg>
+                    <l>Why ſhould wear Young <hi>Cupid</hi>'s Chain?</l>
+                    <l>Why ſhould I grieve and ſigh in vain?</l>
+                    <l>Now <hi>my</hi> heart I'm ſure is <hi>my</hi> own,</l>
+                    <l>
+                        <hi>And the Maid, &amp;c.</hi>
+                    </l>
+                </lg>
+                <lg>
+                    <l>Why ſhould the <hi>Maidens marry</hi> then?</l>
+                    <l>Only to pleaſe Fantaſtick men;</l>
+                    <l>No one <hi>need to make any moan,</hi>
+                    </l>
+                    <l>
+                        <hi>And the Maid, &amp;c.</hi>
+                    </l>
+                </lg>
+                <lg>
+                    <l>Which is moſt fine the <hi>Roſe</hi> or <hi>thorn?</hi>
+                    </l>
+                    <l>Or that which on <hi>ſome ſoft Breaſt</hi> is worn;</l>
+                    <l>There the fragrant <hi>ſweetneſs</hi> is gone,</l>
+                    <l>
+                        <hi>And the Maid, &amp;c.</hi>
+                    </l>
+                </lg>
+                <lg>
+                    <l>In a <hi>ſweet harmleſs ſingle life,</hi>
+                    </l>
+                    <l>There is no ſcolding noiſe or ſtrife,</l>
+                    <l>To which the Husbands <hi>ever were</hi> prone,</l>
+                    <l>
+                        <hi>Therefore maids are the beſt, &amp;c.</hi>
+                    </l>
+                </lg>
+                <lg>
+                    <l>In lying alone there is no harm,</l>
+                    <l>And our <hi>maidenheads</hi> ſure can <hi>keep</hi> us warm,</l>
+                    <l>Therefore Young Virgins <hi>keep</hi> what's your own,</l>
+                    <l>
+                        <hi>For the Maid, &amp;c.</hi>
+                    </l>
+                </lg>
+                <lg>
+                    <l>I do adviſe that you touch no man,</l>
+                    <l>And you'll be a Maid do what they can,</l>
+                    <l>And this I'll lay a hundred to one</l>
+                    <l>
+                        <hi>That ſhe's the beſt, &amp;c.</hi>
+                    </l>
+                </lg>
+                <lg>
+                    <l>Though men are fond, <hi>they're fickle</hi> ſtill,</l>
+                    <l>And <hi>every Jack</hi> muſt have his <hi>Jill,</hi>
+                    </l>
+                    <l>Have a <hi>Jill,</hi> though none of his own,</l>
+                    <l>
+                        <hi>Therefore Maids are the beſt, &amp;c.</hi>
+                    </l>
+                </lg>
+                <lg>
+                    <l>
+                        <hi>Cupid</hi> is but a <hi>ſilly Toy,</hi>
+                    </l>
+                    <l>An idle Young blind fantaſtick <hi>Boy,</hi>
+                    </l>
+                    <l>Therefore Lovers I will have none,</l>
+                    <l>
+                        <hi>For the maid, &amp;c.</hi>
+                    </l>
+                </lg>
+                <lg>
+                    <l>Therefore Young Damſels learn of me,</l>
+                    <l>For to live harmleſs and live free;</l>
+                    <l>But as for Young men meddle with none,</l>
+                    <l>
+                        <hi>For the Maid is the beſt that lies alone.</hi>
+                    </l>
+                </lg>
+            </div>
+        </body>
+        <back>
+            <div type="colophon">
+                <p>Printed and Sold <hi>by Charles Barnes</hi>
+                </p>
+            </div>
+        </back>
+    </text>
+</TEI>

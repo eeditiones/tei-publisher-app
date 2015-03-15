@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h1>TEI ODD extensions for processing models</h1>
+            </div>
+            <section>
+                <p>An implementation of the <a href="http://htmlpreview.github.io/?https://github.com/TEIC/TEI-Simple/blob/master/tei-pm.html">TEI-Simple Processing Model</a>
+                in XQuery.</p>
+            </section>
+            <div class="row">
+                <div data-template="app:action"/>
+            </div>
+            <section>
+                <h2>Documents</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Document</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody data-template="app:doc-table"/>
+                </table>
+            </section>
+            <section>
+                <h2>ODD Files</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Document</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody data-template="app:odd-table"/>
+                </table>
+            </section>
+        </div>
+    </div>
+</div>
