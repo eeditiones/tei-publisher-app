@@ -21,6 +21,9 @@ function app:doc-table($node as node(), $model as map(*)) {
                     {
                         templates:process(
                             <div class="btn-group" role="group">
+                                <a class="btn btn-default" 
+                                    href="modules/fo.xql?odd=teisimple.odd&amp;doc={substring-after($resource, $config:data-root || '/')}">
+                                    <i class="glyphicon glyphicon-book"/> PDF</a>
                                 <a class="btn btn-default" data-template="app:load-source"
                                     href="{substring-after($resource, $config:app-root)}">
                                     <i class="glyphicon glyphicon-edit"/> View Source</a>
@@ -101,6 +104,13 @@ declare function app:action($node as node(), $model as map(*), $odd as xs:string
                         doc($config:odd-root || "/" || $odd), 
                         $config:output-root,
                         "web",
+                        "../generated")?("module", "style")
+                    return
+                        <li>{$file}</li>,
+                    for $file in pmu:process-odd(
+                        doc($config:odd-root || "/" || $odd), 
+                        $config:output-root,
+                        "fo",
                         "../generated")?("module", "style")
                     return
                         <li>{$file}</li>

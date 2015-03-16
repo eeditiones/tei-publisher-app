@@ -10,4 +10,10 @@ declare variable $dir external;
 declare variable $target external;
 
 sm:chmod(xs:anyURI($target || "/modules/view.xql"), "rwsr-xr-x"),
-sm:chmod(xs:anyURI($target || "/modules/transform.xql"), "rwsr-xr-x")
+sm:chmod(xs:anyURI($target || "/modules/transform.xql"), "rwsr-xr-x"),
+sm:chmod(xs:anyURI($target || "/modules/fo.xql"), "rwsr-xr-x"),
+
+(: LaTeX requires dba permissions to execute shell process :)
+sm:chmod(xs:anyURI($target || "/modules/latex.xql"), "rwsr-xr-x"),
+sm:chown(xs:anyURI($target || "/modules/latex.xql"), "admin"),
+sm:chgrp(xs:anyURI($target || "/modules/latex.xql"), "dba")

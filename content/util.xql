@@ -12,7 +12,7 @@ module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
 import module namespace pm="http://www.tei-c.org/tei-simple/xquery/model" at "model.xql";
-import module namespace pmf="http://www.tei-c.org/tei-simple/xquery/functions" at "html-functions.xql";
+import module namespace pmfhtml="http://www.tei-c.org/tei-simple/xquery/functions" at "html-functions.xql";
 
 declare variable $pmu:MODULES := map {
     "web": map {
@@ -20,8 +20,8 @@ declare variable $pmu:MODULES := map {
         "modules": [
             map {
                 "uri": "http://www.tei-c.org/tei-simple/xquery/functions",
-                "prefix": "pmf",
-                "at": "html-functions.xql"
+                "prefix": "html",
+                "at": "../content/html-functions.xql"
             }
         ]
     },
@@ -30,8 +30,18 @@ declare variable $pmu:MODULES := map {
         "modules": [
             map {
                 "uri": "http://www.tei-c.org/tei-simple/xquery/functions/latex",
-                "prefix": "pmf",
-                "at": "latex-functions.xql"
+                "prefix": "latex",
+                "at": "../content/latex-functions.xql"
+            }
+        ]
+    },
+    "fo": map {
+        "output": "print",
+        "modules": [
+            map {
+                "uri": "http://www.tei-c.org/tei-simple/xquery/functions/fo",
+                "prefix": "fo",
+                "at": "../content/fo-functions.xql"
             }
         ]
     }
@@ -84,7 +94,7 @@ declare function pmu:process-odd($odd as document-node(), $output-root as xs:str
 };
 
 declare function pmu:extract-styles($odd as document-node(), $name as xs:string, $output-root as xs:string) {
-    let $style := pmf:generate-css($odd)
+    let $style := pmfhtml:generate-css($odd)
     let $path :=
         xmldb:store($output-root, $name || ".css", $style, "text/css")
     return

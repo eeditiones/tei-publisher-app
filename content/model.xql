@@ -74,7 +74,7 @@ let $config :=
                                                 ()
                                     }
                                     <case test="text() | xs:anyAtomicType">
-                                        <function-call name="pmf:escapeChars">
+                                        <function-call name="{$modules?1?prefix}:escapeChars">
                                             <param>.</param>
                                         </function-call>
                                     </case>
@@ -169,13 +169,13 @@ declare %private function pm:model($ident as xs:string, $model as element(tei:mo
                     <comment>{$model/tei:desc}</comment>
                 else
                     (),
-                <function-call name="pmf:{$task}">
+                <function-call name="{$modules?1?prefix}:{$task}">
                     <param>$config</param>
                     <param>.</param>
                     <param>
                     {
                         if ($model/@useSourceRendition = "true") then
-                            <function-call name="pmf:get-rendition">
+                            <function-call name="{$modules?1?prefix}:get-rendition">
                                 <param>.</param>
                                 <param>{'"' || $class || '"'}</param>
                             </function-call>
