@@ -22,6 +22,7 @@ else if (matches($exist:path, "/test/[^/]+\.xml$")) then
         <forward url="{$exist:controller}/view.html"/>
         <view>
             <forward url="{$exist:controller}/modules/view.xql">
+                <set-header name="Cache-Control" value="no-cache"/>
                 <add-parameter name="doc" value="{$exist:resource}"/>
             </forward>
         </view>
@@ -36,7 +37,9 @@ else if (ends-with($exist:resource, ".html")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/{$exist:resource}"/>
         <view>
-            <forward url="{$exist:controller}/modules/view.xql"/>
+            <forward url="{$exist:controller}/modules/view.xql">
+                <set-header name="Cache-Control" value="no-cache"/>
+            </forward>
         </view>
 		<error-handler>
 			<forward url="{$exist:controller}/error-page.html" method="get"/>
