@@ -93,6 +93,10 @@ declare function pmf:body($config as map(*), $node as element(), $class as xs:st
     <body class="{$class}">{pmf:apply-children($config, $node, $content)}</body>
 };
 
+declare function pmf:index($config as map(*), $node as element(), $class as xs:string, $content as node()*, $type as xs:string) {
+    ()
+};
+
 declare function pmf:omit($config as map(*), $node as element(), $class as xs:string) {
     ()
 };
@@ -196,4 +200,8 @@ declare %private function pmf:apply-children($config as map(*), $node as element
             default return
                 string(.)
     )
+};
+
+declare function pmf:escapeChars($text as xs:string) {
+    $text
 };

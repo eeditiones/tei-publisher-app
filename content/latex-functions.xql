@@ -27,11 +27,13 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
 };
 
 declare function pmf:list($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    $config?apply($config, $content)
+    "\begin{itemize}",
+    $config?apply($config, $content),
+    "\end{itemize}"
 };
 
 declare function pmf:listItem($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    pmf:apply-children($config, $node, $content)
+    "\item " || pmf:apply-children($config, $node, $content)
 };
 
 declare function pmf:block($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
@@ -43,11 +45,11 @@ declare function pmf:section($config as map(*), $node as element(), $class as xs
 };
 
 declare function pmf:anchor($config as map(*), $node as element(), $class as xs:string, $id as item()*) {
-    ()
+    "\label{" || $id || "}"
 };
 
 declare function pmf:link($config as map(*), $node as element(), $class as xs:string, $content as node()*, $url as xs:anyURI?) {
-    pmf:apply-children($config, $node, $content)
+    "\hyperlink{" || $url || "}{" || pmf:apply-children($config, $node, $content) || "}"
 };
 
 declare function pmf:glyph($config as map(*), $node as element(), $class as xs:string, $content as xs:anyURI?) {
@@ -98,7 +100,6 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
     "\usepackage{hyperref}",
     "\usepackage{ifxetex}",
     "\usepackage{longtable}",
-    "\renewcommand*{\marginfont}{\itshape\footnotesize}",
     "\def\theendnote{\@alph\c@endnote}",
     "\def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}",
     "\pagestyle{fancy}",
@@ -108,8 +109,6 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
     "\def\chaptername{Chapter}",
     "\def\tableofcontents{\section*{\contentsname}\@starttoc{toc}}",
     "\thispagestyle{empty}",
-    "\let\tabcellsep&amp; ",
-    '\IfFileExists{tei.sty}{\RequirePackage{tei}}{}"',
     "\begin{document}",
     pmf:apply-children($config, $node, $content),
     "\end{document}"
@@ -124,15 +123,18 @@ declare function pmf:title($config as map(*), $node as element(), $class as xs:s
 };
 
 declare function pmf:table($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    pmf:apply-children($config, $node, $content)
+    "\begin{tabular}",
+    pmf:apply-children($config, $node, $content),
+    "\end{tabular}"
 };
 
 declare function pmf:row($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    pmf:apply-children($config, $node, $content)
+    pmf:apply-children($config, $node, $content) || " \\"
 };
 
 declare function pmf:cell($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    pmf:apply-children($config, $node, $content)
+    pmf:apply-children($config, $node, $content) ||
+    (if ($node/following-sibling::*) then " &amp; " else ())
 };
 
 declare function pmf:alternate($config as map(*), $node as element(), $class as xs:string, $option1 as node()*,
