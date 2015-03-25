@@ -9,7 +9,7 @@ module namespace model="http://www.tei-c.org/tei-simple/models/teisimple.odd";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
-import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions" at "../content/html-functions.xql";
+import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/html-functions.xql";
 
 (:~
 
@@ -285,8 +285,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 html:inline($config, ., "name", .)
             case element(note) return
                 if (@place) then
-                    (: No function found for behavior: note(.,@place) :)
-                    $config?apply($config, ./node())
+                    html:note($config, ., "note1", ., @place)
                 else
                     if (parent::div and not(@place)) then
                         html:block($config, ., "note2", .)

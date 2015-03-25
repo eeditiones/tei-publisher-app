@@ -73,6 +73,13 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
         </img>
 };
 
+declare function pmf:note($config as map(*), $node as element(), $class as xs:string, $content as item()*, $place as xs:string?) {
+    <span class="{$class}" data-toggle="popover" 
+        data-content="{serialize(pmf:apply-children($config, $node, $content))}">
+        {count($node/preceding::tei:note)}    
+    </span>
+};
+
 declare function pmf:inline($config as map(*), $node as element(), $class as xs:string, $content as item()*) {
     <span class="{$class}">
     {

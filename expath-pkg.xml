@@ -7,6 +7,10 @@
         <file>html-functions.xql</file>
     </xquery>
     <xquery>
+        <namespace>http://www.tei-c.org/tei-simple/xquery/functions/fo</namespace>
+        <file>fo-functions.xql</file>
+    </xquery>
+    <xquery>
         <namespace>http://www.tei-c.org/tei-simple/xquery/model</namespace>
         <file>model.xql</file>
     </xquery>

@@ -14,6 +14,8 @@ declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 import module namespace pm="http://www.tei-c.org/tei-simple/xquery/model" at "model.xql";
 import module namespace pmfhtml="http://www.tei-c.org/tei-simple/xquery/functions" at "html-functions.xql";
 
+declare variable $pmu:ERR_UNKNOWN_MODE := xs:QName("pmu:err-mode-unknown");
+
 declare variable $pmu:MODULES := map {
     "web": map {
         "output": "web",
@@ -21,7 +23,7 @@ declare variable $pmu:MODULES := map {
             map {
                 "uri": "http://www.tei-c.org/tei-simple/xquery/functions",
                 "prefix": "html",
-                "at": "../content/html-functions.xql"
+                "at": "html-functions.xql"
             }
         ]
     },
@@ -31,7 +33,7 @@ declare variable $pmu:MODULES := map {
             map {
                 "uri": "http://www.tei-c.org/tei-simple/xquery/functions/latex",
                 "prefix": "latex",
-                "at": "../content/latex-functions.xql"
+                "at": "latex-functions.xql"
             }
         ]
     },
@@ -41,7 +43,7 @@ declare variable $pmu:MODULES := map {
             map {
                 "uri": "http://www.tei-c.org/tei-simple/xquery/functions/fo",
                 "prefix": "fo",
-                "at": "../content/fo-functions.xql"
+                "at": "fo-functions.xql"
             }
         ]
     }
@@ -64,33 +66,38 @@ declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-roo
             $output-root || "/" || $name || "-" || $mode || "-main.xql"
     let $source := util:binary-to-string(util:binary-doc($main))
     return
-        util:eval($source, true(), (xs:QName("xml"), $xml))
+        util:eval($source, false(), (xs:QName("xml"), $xml))
 };
 
 
 declare function pmu:process-odd($odd as document-node(), $output-root as xs:string, 
     $mode as xs:string, $relPath as xs:string) as map(*) {
     let $name := replace(util:document-name($odd), "^([^\.]+)\.[^\.]+$", "$1")
-    let $generated := pm:parse($odd/*, $pmu:MODULES?($mode)?modules, $pmu:MODULES?($mode)?output)
-    let $xquery := xmldb:store($output-root, $name || "-" || $mode || ".xql", $generated?code, "application/xquery")
-    let $style := pmu:extract-styles($odd, $name, $output-root)
-    let $mainCode :=
-        "import module namespace m='" || $generated?uri || 
-        "' at '" || $xquery || "';&#10;&#10;" ||
-        "declare variable $xml external;&#10;&#10;" ||
-        "let $options := map {&#10;" ||
-        '   "styles": ["' || $relPath || "/" || $style || '"]&#10;' ||
-        '}&#10;' ||
-        "return m:transform($options, $xml)"
-    let $main := xmldb:store($output-root, $name || "-" || $mode || "-main.xql", $mainCode, "application/xquery")
+    let $module := $pmu:MODULES?($mode)
     return
-        map {
-            "id": $name,
-            "uri": $generated?uri,
-            "module": $xquery,
-            "style": $style,
-            "main": $main
-        }
+        if (empty($module)) then
+            error($pmu:ERR_UNKNOWN_MODE, "output mode " || $mode || " is unknown")
+        else
+            let $generated := pm:parse($odd/*, pmu:fix-module-paths($module?modules), $module?output)
+            let $xquery := xmldb:store($output-root, $name || "-" || $mode || ".xql", $generated?code, "application/xquery")
+            let $style := pmu:extract-styles($odd, $name, $output-root)
+            let $mainCode :=
+                "import module namespace m='" || $generated?uri || 
+                "' at '" || $xquery || "';&#10;&#10;" ||
+                "declare variable $xml external;&#10;&#10;" ||
+                "let $options := map {&#10;" ||
+                '   "styles": ["' || $relPath || "/" || $style || '"]&#10;' ||
+                '}&#10;' ||
+                "return m:transform($options, $xml)"
+            let $main := xmldb:store($output-root, $name || "-" || $mode || "-main.xql", $mainCode, "application/xquery")
+            return
+                map {
+                    "id": $name,
+                    "uri": $generated?uri,
+                    "module": $xquery,
+                    "style": $style,
+                    "main": $main
+                }
 };
 
 declare function pmu:extract-styles($odd as document-node(), $name as xs:string, $output-root as xs:string) {
@@ -106,4 +113,12 @@ declare %private function pmu:requires-update($odd as document-node(), $collecti
     let $fileModified := xmldb:last-modified($collection, $file)
     return
         empty($fileModified) or $oddModified > $fileModified
+};
+
+declare %private function pmu:fix-module-paths($modules as array(*)) {
+    array {
+        for $module in $modules?*
+        return
+            map:new(($module, map:entry("at", system:get-module-load-path() || "/" || $module?at)))
+    }
 };

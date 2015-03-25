@@ -13,41 +13,64 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace fo="http://www.w3.org/1999/XSL/Format";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
-import module namespace console="http://exist-db.org/xquery/console";
-
-declare variable $pmf:DEFAULT_HEADINGS :=
-    [[36, 44, "normal"], [24, 29, "normal"], [18, 22, "normal"], [11, 16, "bold"]];
+declare variable $pmf:DEFAULT_STYLES := map {
+    "head1": map {
+        "font-size": "36pt",
+        "line-height": "44pt",
+        "space-before": "66pt",
+        "keep-with-next": "always"
+    },
+    "head2": map {
+        "font-size": "24pt",
+        "line-height": "29pt",
+        "space-before": "29pt",
+        "keep-with-next": "always"
+    },
+    "head3": map {
+        "font-size": "18pt",
+        "line-height": "22pt",
+        "space-before": "22pt",
+        "keep-with-next": "always"
+    },
+    "head4": map {
+        "font-size": "11pt",
+        "line-height": "16pt",
+        "font-weight": "bold",
+        "keep-with-next": "always"
+    }
+};
 
 declare variable $pmf:CSS_PROPERTIES := (
     "font-family", 
     "font-weight",
     "font-style",
+    "font-size",
     "font-variant",
     "text-align", 
     "text-decoration",
     "line-height",
     "color",
-    "background-color"
+    "background-color",
+    "space-after",
+    "space-before",
+    "keep-with-next"
 );
 
 declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    <fo:block text-align="left" text-indent="2em" hyphenate="true">{pmf:apply-children($config, $node, $content)}</fo:block>
+    <fo:block text-align="justify" text-indent="2em" hyphenate="true">{pmf:apply-children($config, $node, $content)}</fo:block>
 };
 
 declare function pmf:heading($config as map(*), $node as element(), $class as xs:string, $content as node()*, $type, $subdiv) {
     let $parent := local-name($content/..)
     let $level := count($content/ancestor::*[local-name(.) = $parent])
-    let $defaults :=
-        if ($level < 5) then
-            $pmf:DEFAULT_HEADINGS($level + 1)
-        else
-            $pmf:DEFAULT_HEADINGS(array:size($pmf:DEFAULT_HEADINGS))
+    let $defaultStyle := $pmf:DEFAULT_STYLES("head" || $level)
     return
-        <fo:block font-size="{$defaults?1}pt" space-after="{$defaults?2}pt"
-            space-before="{$defaults?2}pt"
-            keep-with-next.within-page="always" line-height="{$defaults?2}pt"
-            font-weight="{$defaults?3}">
-            {pmf:apply-children($config, $node, $content)}
+        <fo:block>
+        {
+            pmf:check-styles($config, $class, $defaultStyle),
+            comment { "heading level " || $level || " (" || $class || ")"},
+            pmf:apply-children($config, $node, $content)
+        }
         </fo:block>
 };
 
@@ -73,9 +96,36 @@ declare function pmf:listItem($config as map(*), $node as element(), $class as x
 };
 
 declare function pmf:block($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    <fo:block text-align="left" text-indent="2em" hyphenate="true">
-    {pmf:apply-children($config, $node, $content)}
+    <fo:block>
+    {
+        pmf:check-styles($config, $class, ()),
+        pmf:apply-children($config, $node, $content)
+    }
     </fo:block>
+};
+
+declare function pmf:note($config as map(*), $node as element(), $class as xs:string, $content as item()*, $place as xs:string?) {
+    let $number := count($node/preceding::tei:note)
+    return
+        <fo:footnote>
+            <fo:inline keep-with-previous.within-line="always" baseline-shift="super" font-size="60%">
+            {$number} 
+            </fo:inline>
+            <fo:footnote-body start-indent="0mm" end-indent="0mm" text-indent="0mm" white-space-treatment="ignore-if-surrounding-linefeed">
+                <fo:list-block>
+                    <fo:list-item>
+                        <fo:list-item-label end-indent="label-end()" >
+                            <fo:block font-size=".60em">
+                            { $number }
+                            </fo:block>
+                        </fo:list-item-label>
+                        <fo:list-item-body start-indent="body-start()">
+                            <fo:block font-size=".85em">{pmf:apply-children($config, $node, $content)}</fo:block>
+                        </fo:list-item-body>
+                    </fo:list-item>
+                </fo:list-block>
+            </fo:footnote-body>
+        </fo:footnote>
 };
 
 declare function pmf:section($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
@@ -100,9 +150,9 @@ declare function pmf:escapeChars($text as xs:string) {
 };
 
 declare function pmf:glyph($config as map(*), $node as element(), $class as xs:string, $content as xs:anyURI?) {
-    if ($content = "char:EOLhyphen") then
-        "&#xAD;"
-    else
+(:    if ($content = "char:EOLhyphen") then:)
+(:        "&#xAD;":)
+(:    else:)
         ()
 };
 
@@ -119,7 +169,7 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
 declare function pmf:inline($config as map(*), $node as element(), $class as xs:string, $content as item()*) {
     <fo:inline>
     {
-        pmf:check-styles($config, $class),
+        pmf:check-styles($config, $class, ()),
         pmf:apply-children($config, $node, $content)
     }
     </fo:inline>
@@ -134,7 +184,12 @@ declare function pmf:cit($config as map(*), $node as element(), $class as xs:str
 };
 
 declare function pmf:body($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    pmf:apply-children($config, $node, $content)
+    <fo:block>
+    {
+        pmf:check-styles($config, $class, ()),
+        pmf:apply-children($config, $node, $content)
+    }
+    </fo:block>
 };
 
 declare function pmf:index($config as map(*), $node as element(), $class as xs:string, $content as node()*, $type as xs:string) {
@@ -152,10 +207,6 @@ declare function pmf:break($config as map(*), $node as element(), $class as xs:s
 declare function pmf:document($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
     let $odd := doc($config?odd)
     let $config := pmf:load-styles($config, $odd)
-    let $log := console:log(serialize($config?styles, <output:serialization-parameters>
-            <output:method>json</output:method>
-            <output:indent>yes</output:indent>
-        </output:serialization-parameters>))
     return
      <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
         <fo:layout-master-set>
@@ -265,8 +316,13 @@ declare function pmf:get-after($config as map(*), $class as xs:string) {
         if ($after) then <fo:inline>{$after}</fo:inline> else ()
 };
 
-declare function pmf:check-styles($config as map(*), $class as xs:string) {
-    let $styles := $config?styles?($class)
+declare function pmf:check-styles($config as map(*), $class as xs:string, $default as map(*)?) {
+    let $customStyles := $config?styles?($class)
+    let $styles := 
+        if (exists($customStyles)) then
+            pmf:merge-maps($customStyles, $default)
+        else
+            $default
     return
         if (exists($styles)) then
             for $style in $styles?*[. = $pmf:CSS_PROPERTIES]
@@ -274,6 +330,13 @@ declare function pmf:check-styles($config as map(*), $class as xs:string) {
                 attribute { $style } { $styles($style) }
         else
             ()
+};
+
+declare %private function pmf:merge-maps($map as map(*), $defaults as map(*)?) {
+    if (empty($defaults)) then
+        $map
+    else
+        map:new(($defaults, $map))
 };
 
 declare function pmf:load-styles($config as map(*), $root as document-node()) {
@@ -298,7 +361,7 @@ declare function pmf:parse-css($css as xs:string) {
     )
 };
 
-declare function pmf:generate-css($root as document-node()) {
+declare %private function pmf:generate-css($root as document-node()) {
     string-join((
         for $rend in $root//tei:rendition[@xml:id][not(parent::tei:model)]
         return
