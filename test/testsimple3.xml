@@ -117,8 +117,8 @@
     <text xml:lang="eng">
         <front>
             <div type="illustration">
-                <pb facs="tcp:1160:1"/>
                 <p>
+                    <pb facs="tcp:1160:1"/>
                     <figure>
                         <figDesc>coat of arms of the Honourable Artillery Company</figDesc>
                         <q>ARMA PACIS FVLCRA</q>

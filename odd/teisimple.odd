@@ -301,6 +301,7 @@
                       <?exactMatch margin-outer?>
                       <?exactMatch marg1?>
                       <?exactMatch marg2?>
+                      <?exactMatch marg3?>
                       <?exactMatch marg4?>
                                             <desc>in the outer margin</desc>
                                         </valItem>
@@ -335,8 +336,8 @@
                                             <desc>in a predefined space, for example left by an earlier
                                     scribe.</desc>
                                         </valItem>
-                                        <valItem ident="display">
-                                            <desc>formatted like a quotation</desc>
+                                        <valItem ident="block">
+                                            <desc>formatted as an indented paragraph</desc>
                                         </valItem>
                                     </valList>
                                 </attDef>
@@ -572,7 +573,6 @@
                             <model behaviour="paragraph(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="abbr">
-                            <model predicate="parent::choice and count(parent::*/*) gt 1" behaviour="omit()"/>
                             <model behaviour="inline(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="actor">
@@ -674,16 +674,16 @@
                     Element "<name/>" must have corresponding corr/sic, expand/abbr, reg/orig </assert>
                                 </constraint>
                             </constraintSpec>
-                            <model predicate="sic and corr" behaviour="alternate(corr[1],sic[1])"/>
-                            <model predicate="abbr and expan" behaviour="alternate(expan[1],abbr[1])"/>
-                            <model predicate="orig and reg" behaviour="alternate(reg[1],orig[1])"/>
                             <model output="plain" predicate="sic and corr" behaviour="inline(corr[1])"/>
                             <model output="plain" predicate="abbr and expan" behaviour="inline(expan[1])"/>
                             <model output="plain" predicate="orig and reg" behaviour="inline(reg[1])"/>
+                            <model predicate="sic and corr" behaviour="alternate(corr[1],sic[1])"/>
+                            <model predicate="abbr and expan" behaviour="alternate(expan[1],abbr[1])"/>
+                            <model predicate="orig and reg" behaviour="alternate(reg[1],orig[1])"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="cit">
                             <model predicate="child::quote and child::bibl" behaviour="cit(.)">
-                                <desc>Insert cit. </desc>
+                                <desc>Insert citation </desc>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="closer">
@@ -692,8 +692,8 @@
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="corr">
-                            <model predicate="parent::choice and count(parent::*/*) gt 1" behaviour="omit()">
-                                <desc>Omit, if handled in parent choice. </desc>
+                            <model predicate="parent::choice and count(parent::*/*) gt 1" behaviour="inline(.)">
+                                <desc>simple inline, if in parent choice. </desc>
                             </model>
                             <model behaviour="inline(.)">
                                 <rendition scope="before">content: '[';</rendition>
@@ -703,7 +703,7 @@
                         <elementSpec mode="change" ident="date">
                             <model output="print" predicate="text()" behaviour="inline(.)"/>
                             <model output="print" predicate="@when and not(text())" behaviour="inline(@when)"/>
-                            <model predicate="@when" output="web" behaviour="alternate(.,@when)"/>
+                            <model output="web" predicate="@when" behaviour="alternate(.,@when)"/>
                             <model predicate="text()" behaviour="inline(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="dateline">
@@ -715,7 +715,7 @@
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="desc">
-                            <model behaviour="omit()"/>
+                            <model behaviour="inline()"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="div">
                             <model predicate="@type='title_page'" behaviour="block(.)">
@@ -751,8 +751,8 @@
                             <model predicate="ancestor::teiHeader" behaviour="omit()">
                                 <desc>Omit if located in teiHeader. </desc>
                             </model>
-                            <model behaviour="block(.)">
-                                <rendition>font-size: large;</rendition>
+                            <model behaviour="block(.)" useSourceRendition="true">
+                                <rendition>font-size: larger;</rendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="epigraph">
@@ -762,7 +762,6 @@
                             <model behaviour="inline(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="expan">
-                            <model predicate="parent::choice and count(parent::*/*) gt 1" behaviour="omit()"/>
                             <model behaviour="inline(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="figDesc">
@@ -860,8 +859,7 @@ border-bottom: solid 1pt blue;
                             <model behaviour="block(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="item">
-                            <model predicate="parent::list[@rendition]" behaviour="listItem(.)"/>
-                            <model predicate="not(parent::list[@rendition])" behaviour="listItem(.)"/>
+                            <model behaviour="listItem(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="l">
                             <model behaviour="block(.)" useSourceRendition="true">
@@ -872,8 +870,7 @@ border-bottom: solid 1pt blue;
                             <model behaviour="inline(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="lb">
-                            <model predicate="ancestor::sp" behaviour="break('line',@n)"/>
-                            <model behaviour="omit()"/>
+                            <model behaviour="break('line',@n)" useSourceRendition="true"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="lg">
                             <model behaviour="block(.)"/>
@@ -912,9 +909,6 @@ border-bottom: solid 1pt blue;
                             <model behaviour="block(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="orig">
-                            <model predicate="parent::choice and count(parent::*/*) gt 1" behaviour="omit()">
-                                <desc>Omit, if handled in parent choice. </desc>
-                            </model>
                             <model behaviour="inline(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="p">
@@ -928,9 +922,10 @@ border-bottom: solid 1pt blue;
                                     <report xmlns="http://purl.oclc.org/dsdl/schematron" test="parent::*/text() and not           (preceding-sibling::text() and           following-sibling::text())">please make sure pb elements are not at the start or end of mixed content </report>
                                 </constraint>
                             </constraintSpec>
-                            <model behaviour="break('page',@n)">
+                            <model behaviour="break('page',(concat(if(@n) then     concat(@n,' ') else '',if(@facs) then     concat('@',@facs) else '')))" useSourceRendition="true">
                                 <rendition>
 	  display: block;
+	  margin-left: 4pt;
 	  color: grey;
 	  float: right;
 	</rendition>
@@ -986,10 +981,6 @@ border-bottom: solid 1pt blue;
                             <model behaviour="link(.,@target)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="reg">
-                            <model predicate="not(parent::choice)" behaviour="inline(.)"/>
-                            <model predicate="parent::choice and count(parent::*/*) gt 1" behaviour="omit()">
-                                <desc>Omit, if handled in parent choice.</desc>
-                            </model>
                             <model behaviour="inline(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="rhyme">
@@ -1020,10 +1011,10 @@ border-bottom: solid 1pt blue;
                             <model behaviour="block(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="seg">
-                            <model behaviour="inline(.)"/>
+                            <model behaviour="inline(.)" useSourceRendition="true"/>
                         </elementSpec>
                         <elementSpec ident="sic" mode="change">
-                            <model predicate="parent::choice and count(parent::*/*) gt 1" behaviour="omit()"/>
+                            <model predicate="parent::choice and count(parent::*/*) gt 1" behaviour="inline(.)"/>
                             <model behaviour="inline(.)">
                                 <rendition scope="before">content: '{';</rendition>
                                 <rendition scope="after">content: '}';</rendition>
@@ -1064,7 +1055,7 @@ border-bottom: solid 1pt blue;
                             <model behaviour="inline(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="supplied">
-                            <model predicate="parent::choice" behaviour="omit()"/>
+                            <model predicate="parent::choice" behaviour="inline(.)"/>
                             <model predicate="@reason='damage'" behaviour="inline(.)">
                                 <rendition scope="before">content:"&lt;";</rendition>
                                 <rendition scope="after">content:"&gt;";</rendition>
@@ -1106,6 +1097,13 @@ border-bottom: solid 1pt blue;
                             <model behaviour="metadata(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="TEI">
+                            <attList>
+                                <attDef ident="scheme" mode="add">
+                                    <datatype maxOccurs="unbounded">
+                                        <macroRef key="data.word"/>
+                                    </datatype>
+                                </attDef>
+                            </attList>
                             <model behaviour="document(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="text">
@@ -1151,12 +1149,12 @@ border-bottom: solid 1pt blue;
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="titlePage">
-                            <model behaviour="block(.)">
+                            <model behaviour="block(.)" useSourceRendition="true">
                                 <rendition>    text-align: center;</rendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="titlePart">
-                            <model behaviour="block(.)"/>
+                            <model behaviour="block(.)" useSourceRendition="true"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="trailer">
                             <model behaviour="block(.)">
