@@ -12,15 +12,16 @@ module namespace pmf="http://www.tei-c.org/tei-simple/xquery/functions";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    element { node-name($node) } {
+    <p>
+    {
         attribute class { $class },
         pmf:apply-children($config, $node, $content)
     }
+    </p>
 };
 
 declare function pmf:heading($config as map(*), $node as element(), $class as xs:string, $content as node()*, $type, $subdiv) {
-    let $parent := local-name($content/..)
-    let $level := count($content/ancestor::*[local-name(.) = $parent])
+    let $level := count($content/ancestor::tei:div)
     return
         element { "h" || $level } {
             attribute class { $class },
@@ -29,11 +30,24 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
 };
 
 declare function pmf:list($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    <ul class="{$class}">{$config?apply($config, $content)}</ul>
+    if ($node/tei:label) then
+        <dl class="{$class}">
+        { $config?apply($config, $content) }
+        </dl>
+    else
+        switch($node/@type)
+            case "ordered" return
+                <ol class="{$class}">{$config?apply($config, $content)}</ol>
+            default return
+                <ul class="{$class}">{$config?apply($config, $content)}</ul>
 };
 
 declare function pmf:listItem($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    <li class="{$class}">{pmf:apply-children($config, $node, $content)}</li>
+    if ($node/preceding-sibling::tei:label) then (
+        <dt>{$config?apply($config, $node/preceding-sibling::tei:label[1])}</dt>,
+        <dd>{pmf:apply-children($config, $node, $content)}</dd>
+    ) else
+        <li class="{$class}">{pmf:apply-children($config, $node, $content)}</li>
 };
 
 declare function pmf:block($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
@@ -104,12 +118,16 @@ declare function pmf:index($config as map(*), $node as element(), $class as xs:s
     ()
 };
 
-declare function pmf:omit($config as map(*), $node as element(), $class as xs:string) {
+declare function pmf:omit($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
     ()
 };
 
 declare function pmf:break($config as map(*), $node as element(), $class as xs:string, $type as xs:string, $label as item()*) {
-    <br/>
+    switch($type)
+        case "page" return
+            <span class="{$class}">{pmf:apply-children($config, $node, $label)}</span>
+        default return
+            <br/>
 };
 
 declare function pmf:document($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
@@ -140,7 +158,21 @@ declare function pmf:row($config as map(*), $node as element(), $class as xs:str
 };
 
 declare function pmf:cell($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    <td class="{$class}">{pmf:apply-children($config, $node, $content)}</td>
+    <td class="{$class}">
+    {
+        if ($node/@cols) then
+            attribute colspan { $node/@cols }
+        else
+            (),
+        if ($node/@rows) then
+            attribute rowspan { $node/@rows }
+        else
+            ()
+    }
+    {
+        pmf:apply-children($config, $node, $content)
+    }
+    </td>
 };
 
 declare function pmf:alternate($config as map(*), $node as element(), $class as xs:string, $option1 as node()*,
@@ -209,6 +241,6 @@ declare %private function pmf:apply-children($config as map(*), $node as element
     )
 };
 
-declare function pmf:escapeChars($text as xs:string) {
+declare function pmf:escapeChars($text as item()) {
     $text
 };
