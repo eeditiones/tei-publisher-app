@@ -50,7 +50,7 @@
 .corr2:after { content: ']'; }
 .del { text-decoration: line-through; }
 .div1 { border: 1px solid black; padding: 5px; }
-.docTitle2 { font-size: large; }
+.docTitle2 { font-size: larger; }
 .figDesc:before { content: '[..'; }
 .figDesc:after { content: '..]'; }
 .figDesc { color: grey;font-style:italic; }
@@ -74,7 +74,7 @@
 .note3:after { content:"] "; }
 .note3 { font-size:small; }
 .p { text-align: justify; }
-.pb { display: block; color: grey; float: right; }
+.pb { display: block; margin-left: 4pt; color: grey; float: right; }
 .pb:before { content: '[Page '; }
 .pb:after { content: ']'; }
 .q1 { margin-left: 10px; margin-right: 10px; }

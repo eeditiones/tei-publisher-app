@@ -158,7 +158,10 @@ declare %private function pm:model-or-sequence($ident as xs:string, $models as e
 declare %private function pm:model($ident as xs:string, $model as element(tei:model), $modules as array(*)) {
     let $behaviour := $model/@behaviour
     let $task := substring-before(normalize-space($model/@behaviour),'(')
-    let $params := tokenize(replace(normalize-space($behaviour),'[^\(]*\((.*)\)$','$1'),',')
+    let $argStr := replace(normalize-space($behaviour),'[^\(]*\((.*)\)$','$1')
+    let $args := analyze-string($argStr, "('.*?'|&quot;.*?&quot;|[^\(]+?|\(.*?\))(?:\s*,\s*|$)")//fn:group/string()
+    let $params := if (count($args) = 0) then "." else $args
+    
     let $fn := pm:lookup($modules, $task, count($params) + 3)
     return
         if (exists($fn)) then

@@ -37,10 +37,7 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(ab) return
                 html:paragraph($config, ., "ab", .)
             case element(abbr) return
-                if (parent::choice and count(parent::*/*) gt 1) then
-                    html:omit($config, ., "abbr1")
-                else
-                    html:inline($config, ., "abbr2", .)
+                html:inline($config, ., "abbr", .)
             case element(actor) return
                 html:inline($config, ., "actor", .)
             case element(add) return
@@ -59,7 +56,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 html:block($config, ., "argument", .)
             case element(author) return
                 if (ancestor::teiHeader) then
-                    html:omit($config, ., "author1")
+                    html:omit($config, ., "author1", .)
                 else
                     html:inline($config, ., "author2", .)
             case element(back) return
@@ -108,7 +105,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             $config?apply($config, ./node())
             case element(cit) return
                 if (child::quote and child::bibl) then
-                    (: Insert cit. :)
+                    (: Insert citation :)
                     html:cit($config, ., "cit", .)
                 else
                     $config?apply($config, ./node())
@@ -116,8 +113,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                 html:block($config, ., "closer", .)
             case element(corr) return
                 if (parent::choice and count(parent::*/*) gt 1) then
-                    (: Omit, if handled in parent choice. :)
-                    html:omit($config, ., "corr1")
+                    (: simple inline, if in parent choice. :)
+                    html:inline($config, ., "corr1", .)
                 else
                     html:inline($config, ., "corr2", .)
             case element(date) return
@@ -133,7 +130,7 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(del) return
                 html:inline($config, ., "del", .)
             case element(desc) return
-                html:omit($config, ., "desc")
+                html:inline($config, ., "desc", .)
             case element(div) return
                 if (@type='title_page') then
                     html:block($config, ., "div1", .)
@@ -142,42 +139,39 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(docAuthor) return
                 if (ancestor::teiHeader) then
                     (: Omit if located in teiHeader. :)
-                    html:omit($config, ., "docAuthor1")
+                    html:omit($config, ., "docAuthor1", .)
                 else
                     html:inline($config, ., "docAuthor2", .)
             case element(docDate) return
                 if (ancestor::teiHeader) then
                     (: Omit if located in teiHeader. :)
-                    html:omit($config, ., "docDate1")
+                    html:omit($config, ., "docDate1", .)
                 else
                     html:inline($config, ., "docDate2", .)
             case element(docEdition) return
                 if (ancestor::teiHeader) then
                     (: Omit if located in teiHeader. :)
-                    html:omit($config, ., "docEdition1")
+                    html:omit($config, ., "docEdition1", .)
                 else
                     html:inline($config, ., "docEdition2", .)
             case element(docImprint) return
                 if (ancestor::teiHeader) then
                     (: Omit if located in teiHeader. :)
-                    html:omit($config, ., "docImprint1")
+                    html:omit($config, ., "docImprint1", .)
                 else
                     html:inline($config, ., "docImprint2", .)
             case element(docTitle) return
                 if (ancestor::teiHeader) then
                     (: Omit if located in teiHeader. :)
-                    html:omit($config, ., "docTitle1")
+                    html:omit($config, ., "docTitle1", .)
                 else
-                    html:block($config, ., "docTitle2", .)
+                    html:block($config, ., html:get-rendition(., "docTitle2"), .)
             case element(epigraph) return
                 html:block($config, ., "epigraph", .)
             case element(ex) return
                 html:inline($config, ., "ex", .)
             case element(expan) return
-                if (parent::choice and count(parent::*/*) gt 1) then
-                    html:omit($config, ., "expan1")
-                else
-                    html:inline($config, ., "expan2", .)
+                html:inline($config, ., "expan", .)
             case element(figDesc) return
                 html:inline($config, ., "figDesc", .)
             case element(figure) return
@@ -213,8 +207,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     if (@extent) then
                         html:inline($config, ., "gap2", @extent)
                     else
-                        (: No function found for behavior: inline() :)
-                        $config?apply($config, ./node())
+                        html:inline($config, ., "gap3", .)
             case element(graphic) return
                 html:graphic($config, ., "graphic", @url, @width, @height, @scale)
             case element(group) return
@@ -249,22 +242,13 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(imprimatur) return
                 html:block($config, ., "imprimatur", .)
             case element(item) return
-                if (parent::list[@rendition]) then
-                    html:listItem($config, ., "item1", .)
-                else
-                    if (not(parent::list[@rendition])) then
-                        html:listItem($config, ., "item2", .)
-                    else
-                        $config?apply($config, ./node())
+                html:listItem($config, ., "item", .)
             case element(l) return
                 html:block($config, ., html:get-rendition(., "l"), .)
             case element(label) return
                 html:inline($config, ., "label", .)
             case element(lb) return
-                if (ancestor::sp) then
-                    html:break($config, ., "lb1", 'line', @n)
-                else
-                    html:omit($config, ., "lb2")
+                html:break($config, ., html:get-rendition(., "lb"), 'line', @n)
             case element(lg) return
                 html:block($config, ., "lg", .)
             case element(list) return
@@ -299,15 +283,11 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(opener) return
                 html:block($config, ., "opener", .)
             case element(orig) return
-                if (parent::choice and count(parent::*/*) gt 1) then
-                    (: Omit, if handled in parent choice. :)
-                    html:omit($config, ., "orig1")
-                else
-                    html:inline($config, ., "orig2", .)
+                html:inline($config, ., "orig", .)
             case element(p) return
                 html:paragraph($config, ., html:get-rendition(., "p"), .)
             case element(pb) return
-                html:break($config, ., "pb", 'page', @n)
+                html:break($config, ., html:get-rendition(., "pb"), 'page', (concat(if(@n) then concat(@n,' ') else '',if(@facs) then concat('@',@facs) else '')))
             case element(pc) return
                 html:inline($config, ., "pc", .)
             case element(postscript) return
@@ -315,13 +295,13 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(publisher) return
                 if (ancestor::teiHeader) then
                     (: Omit if located in teiHeader. :)
-                    html:omit($config, ., "publisher")
+                    html:omit($config, ., "publisher", .)
                 else
                     $config?apply($config, ./node())
             case element(pubPlace) return
                 if (ancestor::teiHeader) then
                     (: Omit if located in teiHeader. :)
-                    html:omit($config, ., "pubPlace")
+                    html:omit($config, ., "pubPlace", .)
                 else
                     $config?apply($config, ./node())
             case element(q) return
@@ -348,14 +328,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     else
                         html:link($config, ., "ref3", ., @target)
             case element(reg) return
-                if (not(parent::choice)) then
-                    html:inline($config, ., "reg1", .)
-                else
-                    if (parent::choice and count(parent::*/*) gt 1) then
-                        (: Omit, if handled in parent choice. :)
-                        html:omit($config, ., "reg2")
-                    else
-                        html:inline($config, ., "reg3", .)
+                html:inline($config, ., "reg", .)
             case element(rhyme) return
                 html:inline($config, ., "rhyme", .)
             case element(role) return
@@ -378,10 +351,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 else
                     html:block($config, ., "salute2", .)
             case element(seg) return
-                html:inline($config, ., "seg", .)
+                html:inline($config, ., html:get-rendition(., "seg"), .)
             case element(sic) return
                 if (parent::choice and count(parent::*/*) gt 1) then
-                    html:omit($config, ., "sic1")
+                    html:inline($config, ., "sic1", .)
                 else
                     html:inline($config, ., "sic2", .)
             case element(signed) return
@@ -403,7 +376,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 html:inline($config, ., "subst", .)
             case element(supplied) return
                 if (parent::choice) then
-                    html:omit($config, ., "supplied1")
+                    html:inline($config, ., "supplied1", .)
                 else
                     if (@reason='damage') then
                         html:inline($config, ., "supplied2", .)
@@ -420,11 +393,11 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(fileDesc) return
                 html:title($config, ., "fileDesc", titleStmt)
             case element(profileDesc) return
-                html:omit($config, ., "profileDesc")
+                html:omit($config, ., "profileDesc", .)
             case element(revisionDesc) return
-                html:omit($config, ., "revisionDesc")
+                html:omit($config, ., "revisionDesc", .)
             case element(encodingDesc) return
-                html:omit($config, ., "encodingDesc")
+                html:omit($config, ., "encodingDesc", .)
             case element(teiHeader) return
                 html:metadata($config, ., "teiHeader", .)
             case element(TEI) return
@@ -451,8 +424,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             (
                                 html:inline($config, ., "title1", .),
                                 if (ancestor::biblStruct or       ancestor::biblFull) then
-                                    (: No function found for behavior: text(', ') :)
-                                    $config?apply($config, ./node())
+                                    html:text($config, ., "title2", ', ')
                                 else
                                     ()
                             )
@@ -480,9 +452,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 else
                                     html:inline($config, ., "title2", .)
             case element(titlePage) return
-                html:block($config, ., "titlePage", .)
+                html:block($config, ., html:get-rendition(., "titlePage"), .)
             case element(titlePart) return
-                html:block($config, ., "titlePart", .)
+                html:block($config, ., html:get-rendition(., "titlePart"), .)
             case element(trailer) return
                 html:block($config, ., "trailer", .)
             case element(unclear) return
