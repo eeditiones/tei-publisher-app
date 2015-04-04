@@ -94,13 +94,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                 html:cell($config, ., "cell", .)
             case element(choice) return
                 if (sic and corr) then
-                    html:alternate($config, ., "choice1", corr[1], sic[1])
+                    html:alternate($config, ., "choice4", corr[1], sic[1])
                 else
                     if (abbr and expan) then
-                        html:alternate($config, ., "choice2", expan[1], abbr[1])
+                        html:alternate($config, ., "choice5", expan[1], abbr[1])
                     else
                         if (orig and reg) then
-                            html:alternate($config, ., "choice3", reg[1], orig[1])
+                            html:alternate($config, ., "choice6", reg[1], orig[1])
                         else
                             $config?apply($config, ./node())
             case element(cit) return

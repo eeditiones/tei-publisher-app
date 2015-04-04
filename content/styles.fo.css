@@ -1,36 +1,57 @@
-TEI:left {
+@page:left {
     margin-bottom: 10mm;
     margin-top: 10mm;
     margin-left: 12mm;
     margin-right: 24mm;
 }
-TEI:right {
+@page:right {
     margin-bottom: 10mm;
     margin-top: 10mm;
     margin-left: 24mm;
     margin-right: 12mm;
 }
-.head1 {
-    font-size: 36pt;
-    line-height: 44pt;
-    space-before: 66pt;
-    keep-with-next: always;
-}
-.head2 {
-    font-size: 24pt;
-    line-height: 29pt;
-    space-before: 29pt;
-    keep-with-next: always;
-}
-.head3 {
-    font-size: 18pt;
-    line-height: 22pt;
-    space-before: 22pt;
-    keep-with-next: always;
-}
-.head4 {
+.text {
     font-size: 11pt;
     line-height: 16pt;
+}
+.head1 {
+    font-size: 4.209em;
+    line-height: 1;
+    space-before: 1em;
+    keep-with-next: always;
+    keep-together.within-page: always;
+}
+.head2 {
+    font-size: 3.157em;
+    line-height: 1;
+    space-before: 1em;
+    keep-with-next: always;
+    keep-together.within-page: always;
+}
+.head3 {
+    font-size: 2.369em;
+    line-height: 1;
+    space-before: 1em;
+    keep-with-next: always;
+    keep-together.within-page: always;
+}
+.head4 {
+    font-size: 1.777em;
+    line-height: 1;
     font-weight: bold;
     keep-with-next: always;
+    keep-together.within-page: always;
+}
+.head5 {
+    font-size: 1.333em;
+    line-height: 1;
+    font-weight: bold;
+    keep-with-next: always;
+    keep-together.within-page: always;
+}
+.p {
+    space-before: .5em;
+    space-after: .5em;
+    text-indent: 1.5em;
+    text-align: justify;
 }
