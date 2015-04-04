@@ -20,15 +20,43 @@ declare option output:media-type "text/xml";
 
 declare variable $local:WORKING_DIR := system:get-exist-home() || "/webapp";
 
+declare variable $local:CONFIG := 
+    <fop version="1.0">
+      <!-- Strict user configuration -->
+      <strict-configuration>true</strict-configuration>
+
+      <!-- Strict FO validation -->
+      <strict-validation>true</strict-validation>
+
+      <!-- Base URL for resolving relative URLs -->
+      <base>./</base>
+
+      <!-- Font Base URL for resolving relative font URLs -->
+      <font-base>file:///Users/wolf/Source/apps/tei-simple</font-base>
+      <renderers>
+          <renderer mime="application/pdf">
+            <fonts>
+                <directory>resources/fonts</directory>
+                <auto-detect/>
+            </fonts>
+            </renderer>
+        </renderers>
+    </fop>;
+    
 let $doc := request:get-parameter("doc", ())
 let $odd := request:get-parameter("odd", "teisimple.odd")
+let $source := request:get-parameter("source", ())
 return
     if ($doc) then
         let $xml := doc($config:data-root || "/" || $doc)
         let $fo :=
                 pmu:process($config:odd-root || "/" || $odd, $xml, $config:output-root, "fo", "../generated")
-        let $pdf := xslfo:render($fo, "application/pdf", ())
         return
-            response:stream-binary($pdf, "media-type=application/pdf", replace($doc, "^(.*?)\..*", "$1") || ".pdf")
+            if ($source) then
+                $fo
+            else
+                let $pdf := xslfo:render($fo, "application/pdf", $local:CONFIG)
+                return
+                    response:stream-binary($pdf, "media-type=application/pdf", replace($doc, "^(.*?)\..*", "$1") || ".pdf")
     else
         <p>No document specified</p>

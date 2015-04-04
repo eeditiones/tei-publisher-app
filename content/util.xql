@@ -86,7 +86,8 @@ declare function pmu:process-odd($odd as document-node(), $output-root as xs:str
                 "' at '" || $xquery || "';&#10;&#10;" ||
                 "declare variable $xml external;&#10;&#10;" ||
                 "let $options := map {&#10;" ||
-                '   "styles": ["' || $relPath || "/" || $style || '"]&#10;' ||
+                '   "styles": ["' || $relPath || "/" || $style || '"],&#10;' ||
+                '   "collection": "' || $output-root || '"&#10;' ||
                 '}&#10;' ||
                 "return m:transform($options, $xml)"
             let $main := xmldb:store($output-root, $name || "-" || $mode || "-main.xql", $mainCode, "application/xquery")

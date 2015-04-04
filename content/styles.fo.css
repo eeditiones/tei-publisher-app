@@ -1,0 +1,36 @@
+TEI:left {
+    margin-bottom: 10mm;
+    margin-top: 10mm;
+    margin-left: 12mm;
+    margin-right: 24mm;
+}
+TEI:right {
+    margin-bottom: 10mm;
+    margin-top: 10mm;
+    margin-left: 24mm;
+    margin-right: 12mm;
+}
+.head1 {
+    font-size: 36pt;
+    line-height: 44pt;
+    space-before: 66pt;
+    keep-with-next: always;
+}
+.head2 {
+    font-size: 24pt;
+    line-height: 29pt;
+    space-before: 29pt;
+    keep-with-next: always;
+}
+.head3 {
+    font-size: 18pt;
+    line-height: 22pt;
+    space-before: 22pt;
+    keep-with-next: always;
+}
+.head4 {
+    font-size: 11pt;
+    line-height: 16pt;
+    font-weight: bold;
+    keep-with-next: always;
+}

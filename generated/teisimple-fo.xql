@@ -37,10 +37,7 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(ab) return
                 fo:paragraph($config, ., "ab", .)
             case element(abbr) return
-                if (parent::choice and count(parent::*/*) gt 1) then
-                    fo:omit($config, ., "abbr1")
-                else
-                    fo:inline($config, ., "abbr2", .)
+                fo:inline($config, ., "abbr", .)
             case element(actor) return
                 fo:inline($config, ., "actor", .)
             case element(add) return
@@ -59,7 +56,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                 fo:block($config, ., "argument", .)
             case element(author) return
                 if (ancestor::teiHeader) then
-                    fo:omit($config, ., "author1")
+                    (: No function found for behavior: omit() :)
+                    $config?apply($config, ./node())
                 else
                     fo:inline($config, ., "author2", .)
             case element(back) return
@@ -108,7 +106,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             $config?apply($config, ./node())
             case element(cit) return
                 if (child::quote and child::bibl) then
-                    (: Insert cit. :)
+                    (: Insert citation :)
                     fo:cit($config, ., "cit", .)
                 else
                     $config?apply($config, ./node())
@@ -116,8 +114,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                 fo:block($config, ., "closer", .)
             case element(corr) return
                 if (parent::choice and count(parent::*/*) gt 1) then
-                    (: Omit, if handled in parent choice. :)
-                    fo:omit($config, ., "corr1")
+                    (: simple inline, if in parent choice. :)
+                    fo:inline($config, ., "corr1", .)
                 else
                     fo:inline($config, ., "corr2", .)
             case element(date) return
@@ -136,7 +134,7 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(del) return
                 fo:inline($config, ., "del", .)
             case element(desc) return
-                fo:omit($config, ., "desc")
+                fo:inline($config, ., "desc", .)
             case element(div) return
                 if (@type='title_page') then
                     fo:block($config, ., "div1", .)
@@ -144,43 +142,40 @@ declare function model:apply($config as map(*), $input as node()*) {
                     fo:section($config, ., "div2", .)
             case element(docAuthor) return
                 if (ancestor::teiHeader) then
-                    (: Omit if located in teiHeader. :)
-                    fo:omit($config, ., "docAuthor1")
+                    (: No function found for behavior: omit() :)
+                    $config?apply($config, ./node())
                 else
                     fo:inline($config, ., "docAuthor2", .)
             case element(docDate) return
                 if (ancestor::teiHeader) then
-                    (: Omit if located in teiHeader. :)
-                    fo:omit($config, ., "docDate1")
+                    (: No function found for behavior: omit() :)
+                    $config?apply($config, ./node())
                 else
                     fo:inline($config, ., "docDate2", .)
             case element(docEdition) return
                 if (ancestor::teiHeader) then
-                    (: Omit if located in teiHeader. :)
-                    fo:omit($config, ., "docEdition1")
+                    (: No function found for behavior: omit() :)
+                    $config?apply($config, ./node())
                 else
                     fo:inline($config, ., "docEdition2", .)
             case element(docImprint) return
                 if (ancestor::teiHeader) then
-                    (: Omit if located in teiHeader. :)
-                    fo:omit($config, ., "docImprint1")
+                    (: No function found for behavior: omit() :)
+                    $config?apply($config, ./node())
                 else
                     fo:inline($config, ., "docImprint2", .)
             case element(docTitle) return
                 if (ancestor::teiHeader) then
-                    (: Omit if located in teiHeader. :)
-                    fo:omit($config, ., "docTitle1")
+                    (: No function found for behavior: omit() :)
+                    $config?apply($config, ./node())
                 else
-                    fo:block($config, ., "docTitle2", .)
+                    fo:block($config, ., fo:get-rendition(., "docTitle2"), .)
             case element(epigraph) return
                 fo:block($config, ., "epigraph", .)
             case element(ex) return
                 fo:inline($config, ., "ex", .)
             case element(expan) return
-                if (parent::choice and count(parent::*/*) gt 1) then
-                    fo:omit($config, ., "expan1")
-                else
-                    fo:inline($config, ., "expan2", .)
+                fo:inline($config, ., "expan", .)
             case element(figDesc) return
                 fo:inline($config, ., "figDesc", .)
             case element(figure) return
@@ -216,8 +211,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     if (@extent) then
                         fo:inline($config, ., "gap2", @extent)
                     else
-                        (: No function found for behavior: inline() :)
-                        $config?apply($config, ./node())
+                        fo:inline($config, ., "gap3", .)
             case element(graphic) return
                 fo:graphic($config, ., "graphic", @url, @width, @height, @scale)
             case element(group) return
@@ -252,22 +246,13 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(imprimatur) return
                 fo:block($config, ., "imprimatur", .)
             case element(item) return
-                if (parent::list[@rendition]) then
-                    fo:listItem($config, ., "item1", .)
-                else
-                    if (not(parent::list[@rendition])) then
-                        fo:listItem($config, ., "item2", .)
-                    else
-                        $config?apply($config, ./node())
+                fo:listItem($config, ., "item", .)
             case element(l) return
                 fo:block($config, ., fo:get-rendition(., "l"), .)
             case element(label) return
                 fo:inline($config, ., "label", .)
             case element(lb) return
-                if (ancestor::sp) then
-                    fo:break($config, ., "lb1", 'line', @n)
-                else
-                    fo:omit($config, ., "lb2")
+                fo:break($config, ., fo:get-rendition(., "lb"), 'line', @n)
             case element(lg) return
                 fo:block($config, ., "lg", .)
             case element(list) return
@@ -302,29 +287,25 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(opener) return
                 fo:block($config, ., "opener", .)
             case element(orig) return
-                if (parent::choice and count(parent::*/*) gt 1) then
-                    (: Omit, if handled in parent choice. :)
-                    fo:omit($config, ., "orig1")
-                else
-                    fo:inline($config, ., "orig2", .)
+                fo:inline($config, ., "orig", .)
             case element(p) return
                 fo:paragraph($config, ., fo:get-rendition(., "p"), .)
             case element(pb) return
-                fo:break($config, ., "pb", 'page', @n)
+                fo:break($config, ., fo:get-rendition(., "pb"), 'page', (concat(if(@n) then concat(@n,' ') else '',if(@facs) then concat('@',@facs) else '')))
             case element(pc) return
                 fo:inline($config, ., "pc", .)
             case element(postscript) return
                 fo:block($config, ., "postscript", .)
             case element(publisher) return
                 if (ancestor::teiHeader) then
-                    (: Omit if located in teiHeader. :)
-                    fo:omit($config, ., "publisher")
+                    (: No function found for behavior: omit() :)
+                    $config?apply($config, ./node())
                 else
                     $config?apply($config, ./node())
             case element(pubPlace) return
                 if (ancestor::teiHeader) then
-                    (: Omit if located in teiHeader. :)
-                    fo:omit($config, ., "pubPlace")
+                    (: No function found for behavior: omit() :)
+                    $config?apply($config, ./node())
                 else
                     $config?apply($config, ./node())
             case element(q) return
@@ -351,14 +332,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     else
                         fo:link($config, ., "ref3", ., @target)
             case element(reg) return
-                if (not(parent::choice)) then
-                    fo:inline($config, ., "reg1", .)
-                else
-                    if (parent::choice and count(parent::*/*) gt 1) then
-                        (: Omit, if handled in parent choice. :)
-                        fo:omit($config, ., "reg2")
-                    else
-                        fo:inline($config, ., "reg3", .)
+                fo:inline($config, ., "reg", .)
             case element(rhyme) return
                 fo:inline($config, ., "rhyme", .)
             case element(role) return
@@ -381,10 +355,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 else
                     fo:block($config, ., "salute2", .)
             case element(seg) return
-                fo:inline($config, ., "seg", .)
+                fo:inline($config, ., fo:get-rendition(., "seg"), .)
             case element(sic) return
                 if (parent::choice and count(parent::*/*) gt 1) then
-                    fo:omit($config, ., "sic1")
+                    fo:inline($config, ., "sic1", .)
                 else
                     fo:inline($config, ., "sic2", .)
             case element(signed) return
@@ -406,7 +380,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 fo:inline($config, ., "subst", .)
             case element(supplied) return
                 if (parent::choice) then
-                    fo:omit($config, ., "supplied1")
+                    fo:inline($config, ., "supplied1", .)
                 else
                     if (@reason='damage') then
                         fo:inline($config, ., "supplied2", .)
@@ -423,11 +397,14 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(fileDesc) return
                 fo:title($config, ., "fileDesc", titleStmt)
             case element(profileDesc) return
-                fo:omit($config, ., "profileDesc")
+                (: No function found for behavior: omit() :)
+                $config?apply($config, ./node())
             case element(revisionDesc) return
-                fo:omit($config, ., "revisionDesc")
+                (: No function found for behavior: omit() :)
+                $config?apply($config, ./node())
             case element(encodingDesc) return
-                fo:omit($config, ., "encodingDesc")
+                (: No function found for behavior: omit() :)
+                $config?apply($config, ./node())
             case element(teiHeader) return
                 fo:metadata($config, ., "teiHeader", .)
             case element(TEI) return
@@ -454,8 +431,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             (
                                 fo:inline($config, ., "title1", .),
                                 if (ancestor::biblStruct or       ancestor::biblFull) then
-                                    (: No function found for behavior: text(', ') :)
-                                    $config?apply($config, ./node())
+                                    fo:text($config, ., "title2", ', ')
                                 else
                                     ()
                             )
@@ -483,9 +459,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 else
                                     fo:inline($config, ., "title2", .)
             case element(titlePage) return
-                fo:block($config, ., "titlePage", .)
+                fo:block($config, ., fo:get-rendition(., "titlePage"), .)
             case element(titlePart) return
-                fo:block($config, ., "titlePart", .)
+                fo:block($config, ., fo:get-rendition(., "titlePart"), .)
             case element(trailer) return
                 fo:block($config, ., "trailer", .)
             case element(unclear) return

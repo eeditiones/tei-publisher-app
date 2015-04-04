@@ -13,32 +13,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace fo="http://www.w3.org/1999/XSL/Format";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
-declare variable $pmf:DEFAULT_STYLES := map {
-    "head1": map {
-        "font-size": "36pt",
-        "line-height": "44pt",
-        "space-before": "66pt",
-        "keep-with-next": "always"
-    },
-    "head2": map {
-        "font-size": "24pt",
-        "line-height": "29pt",
-        "space-before": "29pt",
-        "keep-with-next": "always"
-    },
-    "head3": map {
-        "font-size": "18pt",
-        "line-height": "22pt",
-        "space-before": "22pt",
-        "keep-with-next": "always"
-    },
-    "head4": map {
-        "font-size": "11pt",
-        "line-height": "16pt",
-        "font-weight": "bold",
-        "keep-with-next": "always"
-    }
-};
+import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
 declare variable $pmf:CSS_PROPERTIES := (
     "font-family", 
@@ -53,17 +28,26 @@ declare variable $pmf:CSS_PROPERTIES := (
     "background-color",
     "space-after",
     "space-before",
-    "keep-with-next"
+    "keep-with-next",
+    "margin-top",
+    "margin-bottom",
+    "margin-left",
+    "margin-right"
 );
 
 declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    <fo:block text-align="justify" text-indent="2em" hyphenate="true">{pmf:apply-children($config, $node, $content)}</fo:block>
+    <fo:block>
+    {
+        pmf:check-styles($config, $class, ()),
+        comment { "paragraph" || " (" || $class || ")"},
+        pmf:apply-children($config, $node, $content)
+    }
+    </fo:block>
 };
 
 declare function pmf:heading($config as map(*), $node as element(), $class as xs:string, $content as node()*, $type, $subdiv) {
-    let $parent := local-name($content/..)
-    let $level := count($content/ancestor::*[local-name(.) = $parent])
-    let $defaultStyle := $pmf:DEFAULT_STYLES("head" || $level)
+    let $level := count($content/ancestor::tei:div)
+    let $defaultStyle := $config?default-styles("head" || $level)
     return
         <fo:block>
         {
@@ -88,7 +72,14 @@ declare function pmf:list($config as map(*), $node as element(), $class as xs:st
 
 declare function pmf:listItem($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
     <fo:list-item>
-        <fo:list-item-label><fo:block/></fo:list-item-label>
+        <fo:list-item-label>
+        {
+            if ($node/preceding-sibling::tei:label) then
+                <fo:block>{$config?apply($config, $node/preceding-sibling::tei:label[1])}</fo:block>
+            else
+                <fo:block/>
+        }
+        </fo:list-item-label>
         <fo:list-item-body start-indent="body-start()">
             <fo:block>{pmf:apply-children($config, $node, $content)}</fo:block>
         </fo:list-item-body>
@@ -145,25 +136,32 @@ declare function pmf:link($config as map(*), $node as element(), $class as xs:st
         <fo:basic-link external-destination="{$url}">{pmf:apply-children($config, $node, $content)}</fo:basic-link>
 };
 
-declare function pmf:escapeChars($text as xs:string) {
+declare function pmf:escapeChars($text as item()) {
     $text
 };
 
 declare function pmf:glyph($config as map(*), $node as element(), $class as xs:string, $content as xs:anyURI?) {
-(:    if ($content = "char:EOLhyphen") then:)
-(:        "&#xAD;":)
-(:    else:)
+    if ($content = "char:EOLhyphen") then
+        "&#xAD;"
+    else
         ()
 };
 
 declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string, $url as xs:anyURI,
     $width, $height, $scale) {
-    let $style := if ($width) then "width: " || $width || "; " else ()
-    let $style := if ($height) then $style || "height: " || $height || "; " else $style
+    let $base :=
+        if (matches($url, "^\w+://")) then
+            $url
+        else
+            request:get-scheme() || "://" || request:get-server-name() || ":" || request:get-server-port() ||
+            request:get-context-path() || "/rest/" || util:collection-name($node)
     return
-        <img src="{$url}">
-        { if ($style) then attribute style { $style } else () }
-        </img>
+        <fo:external-graphic src="url({$base}/{$url})" scaling="uniform">
+        {
+             pmf:check-styles($config, $class, $config?default-styles($class))
+        }
+        { comment { $class } }
+        </fo:external-graphic>
 };
 
 declare function pmf:inline($config as map(*), $node as element(), $class as xs:string, $content as item()*) {
@@ -206,19 +204,17 @@ declare function pmf:break($config as map(*), $node as element(), $class as xs:s
 
 declare function pmf:document($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
     let $odd := doc($config?odd)
-    let $config := pmf:load-styles($config, $odd)
+    let $config := pmf:load-styles(pmf:load-default-styles($config), $odd)
     return
      <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
         <fo:layout-master-set>
-            <fo:simple-page-master master-name="page-left" margin-top="10mm"
-                    margin-bottom="10mm" margin-left="24mm"
-                    margin-right="12mm" page-height="297mm" page-width="210mm">
+            <fo:simple-page-master master-name="page-left" page-height="297mm" page-width="210mm">
+                { pmf:check-styles($config, $class || ":left", $config?default-styles($class || ":left"))}
                 <fo:region-body margin-bottom="10mm" margin-top="16mm"/>
                 <fo:region-before region-name="head-left" extent="10mm"/>
             </fo:simple-page-master>
-            <fo:simple-page-master master-name="page-right" margin-top="10mm"
-                    margin-bottom="10mm" margin-left="12mm"
-                    margin-right="24mm" page-height="297mm" page-width="210mm">
+            <fo:simple-page-master master-name="page-right" page-height="297mm" page-width="210mm">
+                { pmf:check-styles($config, $class || ":right", $config?default-styles($class || ":right"))}
                 <fo:region-body margin-bottom="10mm" margin-top="16mm"/>
                 <fo:region-before region-name="head-right" extent="10mm"/>
             </fo:simple-page-master>
@@ -256,9 +252,7 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
                     <fo:leader leader-length="40%" rule-thickness="2pt" leader-pattern="rule" color="grey"/>
                 </fo:block>
             </fo:static-content>
-            <fo:flow flow-name="xsl-region-body" font-family="serif"
-                font-size="11pt" line-height="16pt"
-                xml:lang="sa" language="sa" hyphenate="true">
+            <fo:flow flow-name="xsl-region-body" hyphenate="true" language="en" xml:lang="en">
                 {pmf:apply-children($config, $node, $content)}
             </fo:flow>                         
         </fo:page-sequence>
@@ -274,15 +268,36 @@ declare function pmf:title($config as map(*), $node as element(), $class as xs:s
 };
 
 declare function pmf:table($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    pmf:apply-children($config, $node, $content)
+    <fo:table>
+        { pmf:check-styles($config, $class, ()) }
+        <fo:table-body>
+        { $config?apply($config, $node/tei:row) }
+        </fo:table-body>
+    </fo:table>
 };
 
 declare function pmf:row($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    pmf:apply-children($config, $node, $content)
+    <fo:table-row>
+    { pmf:apply-children($config, $node, $content) }
+    </fo:table-row>
 };
 
 declare function pmf:cell($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    pmf:apply-children($config, $node, $content)
+    <fo:table-cell>
+        {
+            if ($node/@cols) then
+                attribute number-columns-spanned { $node/@cols }
+            else
+                (),
+            if ($node/@rows) then
+                attribute number-rows-spanned { $node/@rows }
+            else
+                ()
+        }
+        <fo:block>
+        {pmf:apply-children($config, $node, $content)}
+        </fo:block>
+    </fo:table-cell>
 };
 
 declare function pmf:alternate($config as map(*), $node as element(), $class as xs:string, $option1 as node()*,
@@ -317,10 +332,15 @@ declare function pmf:get-after($config as map(*), $class as xs:string) {
 };
 
 declare function pmf:check-styles($config as map(*), $class as xs:string, $default as map(*)?) {
+    let $defaultStyles :=
+        if (exists($default)) then
+            $default
+        else
+            $config?default-styles($class)
     let $customStyles := $config?styles?($class)
     let $styles := 
         if (exists($customStyles)) then
-            pmf:merge-maps($customStyles, $default)
+            pmf:merge-maps($customStyles, $defaultStyles)
         else
             $default
     return
@@ -335,6 +355,8 @@ declare function pmf:check-styles($config as map(*), $class as xs:string, $defau
 declare %private function pmf:merge-maps($map as map(*), $defaults as map(*)?) {
     if (empty($defaults)) then
         $map
+    else if (empty($map)) then
+        $defaults
     else
         map:new(($defaults, $map))
 };
@@ -346,9 +368,31 @@ declare function pmf:load-styles($config as map(*), $root as document-node()) {
         map:new(($config, map:entry("styles", $styles)))
 };
 
+declare function pmf:load-default-styles($config as map(*)) {
+    let $path := $config?collection || "/styles.fo.css"
+    let $log := console:log($path)
+    let $userStyles := pmf:read-css($path)
+    let $systemStyles := pmf:read-css(system:get-module-load-path() || "/styles.fo.css")
+    let $log := console:log(serialize(pmf:merge-maps($userStyles, $systemStyles), 
+            <output:serialization-parameters>
+                <output:method>json</output:method>
+            </output:serialization-parameters>))
+    return
+        map:new(($config, map:entry("default-styles", pmf:merge-maps($userStyles, $systemStyles))))
+};
+
+declare function pmf:read-css($path) {
+	if (util:binary-doc-available($path)) then
+        let $css := util:binary-to-string(util:binary-doc($path))
+        return
+            pmf:parse-css($css)
+    else
+        ()
+};
+
 declare function pmf:parse-css($css as xs:string) {
     map:new(
-        let $analyzed := analyze-string($css, "^\s*\.(.*?)\s*\{\s*(.*?)\s*\}", "m")
+        let $analyzed := analyze-string($css, "\.(.*?)\s*\{\s*([^\}]*?)\s*\}", "m")
         for $match in $analyzed/fn:match
         let $selector := $match/fn:group[@nr = "1"]/string()
         let $styles := map:new(
@@ -398,6 +442,6 @@ declare %private function pmf:apply-children($config as map(*), $node as element
     )
 };
 
-declare function pmf:escapeChars($text as xs:string) {
+declare function pmf:escapeChars($text as item()) {
     $text
 };
