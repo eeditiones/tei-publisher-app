@@ -1,4 +1,19 @@
 /* Application styles could go here */
+
+@font-face {
+    font-family: "Junicode";
+    src: url("../fonts/Junicode.eot?") format("eot"),
+        url("../fonts/Junicode.woff") format("woff"),
+        url("../fonts/Junicode.ttf") format("truetype"),
+        url("../fonts/Junicode.svg#Junicode") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.front, .body1, .body2 {
+    font-family: Junicode, Georgia, Times, serif;
+}
+
 .poweredby {
   text-align: right;
   line-height: 93px;
