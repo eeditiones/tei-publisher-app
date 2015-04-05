@@ -102,6 +102,18 @@ let $config :=
                                             else
                                                 ()
                                     }
+                                    {
+                                        if ($output = "web") then
+                                            <case test="element(exist:match)">
+                                                <function-call name="{$modules?1?prefix}:match">
+                                                    <param>$config</param>
+                                                    <param>.</param>
+                                                    <param>.</param>
+                                                </function-call>
+                                            </case>
+                                        else
+                                            ()
+                                    }
                                     <case test="text() | xs:anyAtomicType">
                                         <function-call name="{$modules?1?prefix}:escapeChars">
                                             <param>.</param>

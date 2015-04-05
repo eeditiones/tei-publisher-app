@@ -15,34 +15,27 @@
     line-height: 16pt;
 }
 .head1 {
-    font-size: 4.209em;
-    line-height: 1;
-    space-before: 1em;
-    keep-with-next: always;
-    keep-together.within-page: always;
-}
-.head2 {
     font-size: 3.157em;
     line-height: 1;
     space-before: 1em;
     keep-with-next: always;
     keep-together.within-page: always;
 }
-.head3 {
+.head2 {
     font-size: 2.369em;
     line-height: 1;
     space-before: 1em;
     keep-with-next: always;
     keep-together.within-page: always;
 }
-.head4 {
+.head3 {
     font-size: 1.777em;
     line-height: 1;
     font-weight: bold;
     keep-with-next: always;
     keep-together.within-page: always;
 }
-.head5 {
+.head4 {
     font-size: 1.333em;
     line-height: 1;
     font-weight: bold;

@@ -218,6 +218,10 @@ declare function pmf:alternate($config as map(*), $node as element(), $class as 
     </span>
 };
 
+declare function pmf:match($config as map(*), $node as element(), $content as node()*) {
+    <mark>{pmf:apply-children($config, $node, $content)}</mark>
+};
+
 declare function pmf:get-rendition($node as node()*, $class as xs:string) {
     let $rend := $node/@rendition
     return

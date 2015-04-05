@@ -418,7 +418,7 @@ declare %private function pmf:merge-maps($map as map(*), $defaults as map(*)?) {
         map:new(($defaults, $map))
 };
 
-declare %private function pmf:merge-styles($map as map(*), $defaults as map(*)?) {
+declare %private function pmf:merge-styles($map as map(*)?, $defaults as map(*)?) {
     if (empty($defaults)) then
         $map
     else if (empty($map)) then
@@ -446,7 +446,6 @@ declare function pmf:load-styles($config as map(*), $root as document-node()) {
 
 declare function pmf:load-default-styles($config as map(*)) {
     let $path := $config?collection || "/styles.fo.css"
-    let $log := console:log($path)
     let $userStyles := pmf:read-css($path)
     let $systemStyles := pmf:read-css(system:get-module-load-path() || "/styles.fo.css")
     let $log := console:log(serialize(pmf:merge-styles($userStyles, $systemStyles), 
