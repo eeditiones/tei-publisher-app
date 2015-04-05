@@ -18,31 +18,47 @@ declare option output:method "xml";
 declare option output:html-version "5.0";
 declare option output:media-type "text/xml";
 
-declare variable $local:WORKING_DIR := system:get-exist-home() || "/webapp";
-
 declare variable $local:CONFIG := 
     <fop version="1.0">
-      <!-- Strict user configuration -->
-      <strict-configuration>true</strict-configuration>
-
-      <!-- Strict FO validation -->
-      <strict-validation>true</strict-validation>
-
-      <!-- Base URL for resolving relative URLs -->
-      <base>./</base>
-
-      <!-- Font Base URL for resolving relative font URLs -->
-      <font-base>file:///Users/wolf/Source/apps/tei-simple</font-base>
-      <renderers>
-          <renderer mime="application/pdf">
-            <fonts>
-                <directory>resources/fonts</directory>
-                <auto-detect/>
-            </fonts>
+        <!-- Strict user configuration -->
+        <strict-configuration>true</strict-configuration>
+        
+        <!-- Strict FO validation -->
+        <strict-validation>true</strict-validation>
+        
+        <!-- Base URL for resolving relative URLs -->
+        <base>./</base>
+        
+        <!-- Font Base URL for resolving relative font URLs -->
+        <font-base>{substring-before(request:get-url(), "/modules")}/resources/fonts/</font-base>
+        <renderers>
+            <renderer mime="application/pdf">
+                <fonts>
+                    <font kerning="yes"
+                        embed-url="Junicode.ttf"
+                        encoding-mode="single-byte">
+                        <font-triplet name="Junicode" style="normal" weight="normal"/>
+                    </font>
+                    <font kerning="yes"
+                        embed-url="Junicode-Bold.ttf"
+                        encoding-mode="single-byte">
+                        <font-triplet name="Junicode" style="normal" weight="700"/>
+                    </font>
+                    <font kerning="yes"
+                        embed-url="Junicode-Italic.ttf"
+                        encoding-mode="single-byte">
+                        <font-triplet name="Junicode" style="italic" weight="normal"/>
+                    </font>
+                    <font kerning="yes"
+                        embed-url="Junicode-BoldItalic.ttf"
+                        encoding-mode="single-byte">
+                        <font-triplet name="Junicode" style="italic" weight="700"/>
+                    </font>
+                </fonts>
             </renderer>
         </renderers>
     </fop>;
-    
+
 let $doc := request:get-parameter("doc", ())
 let $odd := request:get-parameter("odd", "teisimple.odd")
 let $source := request:get-parameter("source", ())
@@ -55,7 +71,7 @@ return
             if ($source) then
                 $fo
             else
-                let $pdf := xslfo:render($fo, "application/pdf", $local:CONFIG)
+                let $pdf := xslfo:render($fo, "application/pdf", (), $local:CONFIG)
                 return
                     response:stream-binary($pdf, "media-type=application/pdf", replace($doc, "^(.*?)\..*", "$1") || ".pdf")
     else

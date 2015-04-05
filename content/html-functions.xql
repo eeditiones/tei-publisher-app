@@ -88,10 +88,16 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
 };
 
 declare function pmf:note($config as map(*), $node as element(), $class as xs:string, $content as item()*, $place as xs:string?) {
-    <span class="{$class}" data-toggle="popover" 
-        data-content="{serialize(pmf:apply-children($config, $node, $content))}">
-        {count($node/preceding::tei:note)}    
-    </span>
+    switch ($place)
+        case "margin" return
+            <div class="margin-note">
+            { pmf:apply-children($config, $node, $content) }
+            </div>
+        default return
+            <span class="label label-default note {$class}" data-toggle="popover" 
+                data-content="{serialize(pmf:apply-children($config, $node, $content))}">
+                {count($node/preceding::tei:note)}    
+            </span>
 };
 
 declare function pmf:inline($config as map(*), $node as element(), $class as xs:string, $content as item()*) {

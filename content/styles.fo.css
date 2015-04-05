@@ -1,14 +1,14 @@
 @page:left {
     margin-bottom: 10mm;
     margin-top: 10mm;
-    margin-left: 12mm;
-    margin-right: 24mm;
+    margin-left: 36mm;
+    margin-right: 18mm;
 }
 @page:right {
     margin-bottom: 10mm;
     margin-top: 10mm;
-    margin-left: 24mm;
-    margin-right: 12mm;
+    margin-left: 18mm;
+    margin-right: 36mm;
 }
 .text {
     font-size: 11pt;

@@ -420,7 +420,7 @@ declare function pmf:load-default-styles($config as map(*)) {
     let $log := console:log($path)
     let $userStyles := pmf:read-css($path)
     let $systemStyles := pmf:read-css(system:get-module-load-path() || "/styles.fo.css")
-    let $log := console:log(serialize($systemStyles, 
+    let $log := console:log(serialize(pmf:merge-styles($userStyles, $systemStyles), 
             <output:serialization-parameters>
                 <output:method>json</output:method>
             </output:serialization-parameters>))

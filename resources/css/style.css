@@ -1,17 +1,28 @@
 /* Application styles could go here */
-
-@font-face {
-    font-family: "Junicode";
-    src: url("../fonts/Junicode.eot?") format("eot"),
-        url("../fonts/Junicode.woff") format("woff"),
-        url("../fonts/Junicode.ttf") format("truetype"),
-        url("../fonts/Junicode.svg#Junicode") format("svg");
-    font-weight: normal;
-    font-style: normal;
-}
+@import url('../fonts/font.css');
 
 .front, .body1, .body2 {
     font-family: Junicode, Georgia, Times, serif;
+}
+
+.note {
+    font-size: 66%;
+    vertical-align: super;
+    cursor: pointer;
+    margin-left: .25em;
+}
+
+.margin-note {
+    float: right;
+    display: block;
+    font-size: small;
+    font-weight: normal;
+    clear: right;
+    padding: 4pt;
+    font-style: italic;
+    width: 15%;
+    background-color: #F8F8FF;
+    margin: 6pt;
 }
 
 .poweredby {
