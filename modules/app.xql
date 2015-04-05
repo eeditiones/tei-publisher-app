@@ -47,7 +47,8 @@ function app:odd-table($node as node(), $model as map(*)) {
                 <td>
                 {
                     let $outputPath := $config:output-root || "/" || $name
-                    let $xqlAvail := util:binary-doc-available($outputPath || "-web.xql")
+                    let $xqlWebAvail := util:binary-doc-available($outputPath || "-web.xql")
+                    let $xqlFoAvail := util:binary-doc-available($outputPath || "-fo.xql")
                     let $cssAvail := util:binary-doc-available($outputPath || ".css")
                     return
                         templates:process(
@@ -60,8 +61,12 @@ function app:odd-table($node as node(), $model as map(*)) {
                                     <i class="glyphicon glyphicon-edit"/> ODD</a>
                                 <a class="btn btn-default" data-template="app:load-source"
                                     href="{substring-after($config:output-root, $config:app-root)}/{$name}-web.xql">
-                                    { if ($xqlAvail) then () else attribute disabled { "disabled" } }
-                                    <i class="glyphicon glyphicon-edit"/> XQL</a>
+                                    { if ($xqlWebAvail) then () else attribute disabled { "disabled" } }
+                                    <i class="glyphicon glyphicon-edit"/> Web XQL</a>
+                                <a class="btn btn-default" data-template="app:load-source"
+                                    href="{substring-after($config:output-root, $config:app-root)}/{$name}-fo.xql">
+                                    { if ($xqlFoAvail) then () else attribute disabled { "disabled" } }
+                                    <i class="glyphicon glyphicon-edit"/> Print XQL</a>
                                 <a class="btn btn-default" data-template="app:load-source"
                                     href="{substring-after($config:output-root, $config:app-root)}/{$name}.css">
                                     { if ($cssAvail) then () else attribute disabled { "disabled" } }
@@ -111,7 +116,7 @@ declare function app:action($node as node(), $model as map(*), $odd as xs:string
                         doc($config:odd-root || "/" || $odd), 
                         $config:output-root,
                         "fo",
-                        "../generated")?("module", "style")
+                        "../generated")?("module")
                     return
                         <li>{$file}</li>
                 }
