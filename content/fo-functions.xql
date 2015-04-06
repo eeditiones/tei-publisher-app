@@ -88,6 +88,14 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
         {
             pmf:check-styles($config, $class, $defaultStyle),
             comment { "heading level " || $level || " (" || $class || ")"},
+            if ($level = 1 and exists($content/ancestor::tei:body)) then
+                <fo:marker marker-class-name="heading">
+                {
+                    $content/string()
+                }
+                </fo:marker>
+            else
+                (),
             pmf:apply-children($config, $node, $content)
         }
         </fo:block>
@@ -170,7 +178,7 @@ declare function pmf:section($config as map(*), $node as element(), $class as xs
 };
 
 declare function pmf:anchor($config as map(*), $node as element(), $class as xs:string, $id as item()*) {
-    ()
+    <fo:inline id="{$id}"/>
 };
 
 declare function pmf:link($config as map(*), $node as element(), $class as xs:string, $content as node()*, $url as xs:anyURI?) {
@@ -281,16 +289,16 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         </fo:layout-master-set>
         <fo:page-sequence master-reference="page-content">
             <fo:static-content flow-name="head-left">
-                <fo:block margin-bottom="0.7mm" text-align-last="justify" font-family="serif"
-                    font-size="10pt">
+                <fo:block>
+                    { pmf:check-styles($config, "@page:head", ())}
                     <fo:page-number/>
                     <fo:leader/>
                     <fo:retrieve-marker retrieve-class-name="heading"/>
                 </fo:block>
             </fo:static-content>
             <fo:static-content flow-name="head-right">
-                <fo:block margin-bottom="0.7mm" text-align-last="justify" font-family="serif"
-                    font-size="10pt">
+                <fo:block>
+                    { pmf:check-styles($config, "@page:head", ())}
                     <fo:retrieve-marker retrieve-class-name="heading"/>
                     <fo:leader/>
                     <fo:page-number/>

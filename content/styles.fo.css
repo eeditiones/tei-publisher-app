@@ -10,21 +10,33 @@
     margin-left: 18mm;
     margin-right: 36mm;
 }
+@page:head {
+    margin-bottom: 0.7mm; 
+    text-align-last: justify; 
+    font-size: 10pt;
+}
 .text {
     font-size: 11pt;
     line-height: 16pt;
 }
+.front {
+    page-break-after: right;
+}
+.body2 {
+    page-break-after: right;
+}
 .head1 {
     font-size: 3.157em;
     line-height: 1;
-    space-before: 1em;
+    space-before: 2em;
+    space-after: .5em;
     keep-with-next: always;
     keep-together.within-page: always;
 }
 .head2 {
     font-size: 2.369em;
     line-height: 1;
-    space-before: 1em;
+    space-before: 1.5em;
     keep-with-next: always;
     keep-together.within-page: always;
 }
@@ -32,6 +44,7 @@
     font-size: 1.777em;
     line-height: 1;
     font-weight: bold;
+    space-before: 1em;
     keep-with-next: always;
     keep-together.within-page: always;
 }
@@ -39,6 +52,7 @@
     font-size: 1.333em;
     line-height: 1;
     font-weight: bold;
+    space-before: 1em;
     keep-with-next: always;
     keep-together.within-page: always;
 }
