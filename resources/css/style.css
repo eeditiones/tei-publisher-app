@@ -5,6 +5,15 @@
     font-family: Junicode, Georgia, Times, serif;
 }
 
+.code {
+    font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
+}
+
+.ab>div {
+    padding: 8px;
+    font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
+}
+
 .note {
     font-size: 66%;
     vertical-align: super;

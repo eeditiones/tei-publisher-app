@@ -17,13 +17,13 @@ else if ($exist:path eq "/") then
         <redirect url="index.html"/>
     </dispatch>
     
-else if (matches($exist:path, "/test/[^/]+\.xml$")) then
+else if (matches($exist:path, "/(test|doc)/[^/]+\.xml$")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/view.html"/>
         <view>
             <forward url="{$exist:controller}/modules/view.xql">
                 <set-header name="Cache-Control" value="no-cache"/>
-                <add-parameter name="doc" value="{$exist:resource}"/>
+                <add-parameter name="doc" value="{$exist:path}"/>
             </forward>
         </view>
 		<error-handler>

@@ -83,7 +83,7 @@ function app:odd-table($node as node(), $model as map(*)) {
 declare
     %templates:wrap
 function app:view($node as node(), $model as map(*), $odd as xs:string, $doc as xs:string) {
-    let $xml := doc($config:data-root || "/" || $doc)//tei:text/*
+    let $xml := doc($config:app-root || "/" || $doc)//tei:text/*
     return
         pmu:process($config:odd-root || "/" || $odd, $xml, $config:output-root, "web", "../generated")
 };

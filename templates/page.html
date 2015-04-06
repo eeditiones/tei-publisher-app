@@ -24,13 +24,11 @@
             </div>
             <div class="navbar-collapse collapse" id="navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown" id="about">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Home</a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="/exist/apps/tei-simple/index.html">Home</a>
-                            </li>
-                        </ul>
+                    <li>
+                        <a href="/exist/apps/tei-simple/index.html">Home</a>
+                    </li>
+                    <li>
+                        <a href="/exist/apps/tei-simple/doc/documentation.xml?odd=teisimple.odd">Documentation</a>
                     </li>
                 </ul>
             </div>
@@ -44,5 +42,18 @@
                 <img src="$shared/resources/images/powered-by.svg" alt="Powered by eXist-db" height="49"/>
             </a>
         </footer>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/ace.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-javascript.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-text.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-xquery.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-java.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-css.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-xml.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/theme-tomorrow_night.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/theme-dawn.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/highlight.js"/>
+        <script type="text/javascript">
+            $(".ab").highlight({ mode: "xquery"});
+        </script>
     </body>
 </html>
