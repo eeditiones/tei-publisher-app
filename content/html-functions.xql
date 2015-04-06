@@ -91,7 +91,7 @@ declare function pmf:anchor($config as map(*), $node as element(), $class as xs:
     <span id="{$id}"/>
 };
 
-declare function pmf:link($config as map(*), $node as element(), $class as xs:string, $content as node()*, $url as xs:anyURI?) {
+declare function pmf:link($config as map(*), $node as element(), $class as xs:string, $content as node()*, $url as item()?) {
     <a href="{$url}">{pmf:apply-children($config, $node, $content)}</a>
 };
 
