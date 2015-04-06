@@ -43,6 +43,7 @@ declare namespace fo="http://www.w3.org/1999/XSL/Format";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
+import module namespace counter="http://exist-db.org/xquery/counter" at "java:org.exist.xquery.modules.counter.CounterModule";
 
 declare variable $pmf:CSS_PROPERTIES := (
     "font-family", 
@@ -70,6 +71,8 @@ declare variable $pmf:CSS_PROPERTIES := (
     "margin-right"
 );
 
+declare variable $pmf:NOTE_COUNTER_ID := "notes-" || util:uuid();
+
 declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
     <fo:block>
     {
@@ -89,11 +92,14 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
             pmf:check-styles($config, $class, $defaultStyle),
             comment { "heading level " || $level || " (" || $class || ")"},
             if ($level = 1 and exists($content/ancestor::tei:body)) then
-                <fo:marker marker-class-name="heading">
-                {
-                    $content/string()
-                }
-                </fo:marker>
+                let $content := string-join($content)
+                return
+                    if (string-length($content) > 60) then
+                        ()
+                    else
+                        <fo:marker marker-class-name="heading">
+                        { $content }
+                        </fo:marker>
             else
                 (),
             pmf:apply-children($config, $node, $content)
@@ -144,7 +150,8 @@ declare function pmf:block($config as map(*), $node as element(), $class as xs:s
 };
 
 declare function pmf:note($config as map(*), $node as element(), $class as xs:string, $content as item()*, $place as xs:string?) {
-    let $number := count($node/preceding::tei:note)
+(:    let $number := count($node/preceding::tei:note):)
+    let $number := counter:next-value($pmf:NOTE_COUNTER_ID)
     return
         <fo:footnote>
             <fo:inline keep-with-previous.within-line="always" baseline-shift="super" font-size="60%">
@@ -263,6 +270,7 @@ declare function pmf:break($config as map(*), $node as element(), $class as xs:s
 };
 
 declare function pmf:document($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
+    let $counter := counter:create($pmf:NOTE_COUNTER_ID)
     let $odd := doc($config?odd)
     let $config := pmf:load-styles(pmf:load-default-styles($config), $odd)
     return
@@ -313,7 +321,8 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
                 </fo:block>
             </fo:static-content>
             <fo:flow flow-name="xsl-region-body" hyphenate="true" language="en" xml:lang="en">
-                {pmf:apply-children($config, $node, $content)}
+            {pmf:apply-children($config, $node, $content)}
+            {counter:destroy($pmf:NOTE_COUNTER_ID)[2]}
             </fo:flow>                         
         </fo:page-sequence>
     </fo:root>
