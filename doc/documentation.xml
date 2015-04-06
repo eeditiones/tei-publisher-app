@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tei-c.org/ns/1.0 file:/Users/wolf/Source/TEI-Simple/teisimple.xsd">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>TEI-Simple Processing Model Implementation in XQuery</title>
+                <author>Wolfgang Meier</author>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>eXistSolutions GmbH</publisher>
+            </publicationStmt>
+            <sourceDesc>
+                <p>App documentation</p>
+            </sourceDesc>
+        </fileDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <div>
+                <head>TEI-Simple Processing Model in XQuery</head>
+                <p>This expath app package provides library functions to render a TEI-Simple
+                    compliant document into various output formats based on the ODD extensions for
+                    processing models. The main goal was to make it as simple as possible to use the
+                    library from other applications dealing with TEI-Simple documents.</p>
+                <p>The library takes as input:</p>
+                <list>
+                    <item>
+                        a TEI-Simple compliant XML document
+                    </item>
+                    <item>an ODD file containing TEI-Simple processing model instructions</item>
+                </list>
+                <p>Rendering a document proceeds in two steps:</p>
+                <list type="ordered">
+                    <item>
+                        <p>In a first step, the ODD file is pre-processed to generate an XQuery library module
+                    which implements the processing model instructions. It mainly consists of a single
+                    XQuery typeswitch transformation, which calls library functions. The names
+                    of the library functions correspond to the processing model functions specified in the
+                    behaviour attribute of each model element. There are different libraries for each output
+                    type supported.
+                </p>
+                    </item>
+                    <item>
+                        <p>The second step is to pass the source TEI document through the generated XQuery library
+                    module to render it (or parts thereof) into the desired output format.</p>
+                    </item>
+                </list>
+                <p>For convenience, a utility module is provided, so library users do not need to bother with
+                    pre-processing, code generation or caching. Instead they call a single main function.</p>
+                <div>
+                    <head>Usage</head>
+                    <p>To use the library, import the utility module:</p>
+                    <ab>import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";</ab>
+                    <p>The main function of the utility module is:</p>
+                    <ab>pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string, $mode as xs:string, $relPath as xs:string)</ab>
+                    <p>The parameters are as follows:</p>
+                    <table>
+                        <row>
+                            <cell>
+                                <hi rendition="code">$oddPath</hi>
+                            </cell>
+                            <cell>Absolute path to the ODD file containing the processing model instructions 
+                                to use</cell>
+                        </row>
+                        <row>
+                            <cell>
+                                <hi rendition="code">$xml</hi>
+                            </cell>
+                            <cell>The XML nodes to render. Any sequence of nodes is allowed here.</cell>
+                        </row>
+                        <row>
+                            <cell>
+                                <hi rendition="code">$output-root</hi>
+                            </cell>
+                            <cell>Absolute path to a database collection which is used for 
+                                caching the generated XQuery modules</cell>
+                        </row>
+                        <row>
+                            <cell>
+                                <hi rendition="code">$mode</hi>
+                            </cell>
+                            <cell>The output mode: either "web" or "fo" (for PDF output)</cell>
+                        </row>
+                        <row>
+                            <cell>
+                                <hi rendition="code">$relPath</hi>
+                            </cell>
+                            <cell>A relative URL pointing to the output collection given in 
+                            $output-root. This will be used by the web browser to locate the generated
+                            CSS stylesheets, so it should be relative to the page URL viewed in the 
+                            browser.</cell>
+                        </row>
+                    </table>
+                    <p>A simple main query to transform a TEI document into HTML may use the function
+                        as follows:</p>
+                    <ab>xquery version "3.0";
+                        
+declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
+
+import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";
+
+declare option output:method "html";
+declare option output:html-version "5.0";
+declare option output:media-type "text/html";
+
+let $doc := request:get-parameter("doc", ())
+let $odd := request:get-parameter("odd", "teisimple.odd")
+return
+    if ($doc) then
+        let $xml := doc("/db/test/" || $doc)
+        return
+            pmu:process("/db/test/" || $odd, $xml, "/db/test/generated", "web", "generated")
+    else
+        &lt;p&gt;No document specified&lt;/p&gt;</ab>
+                    <p>After calling this the first time, the specified output collection:
+                    <hi rendition="code">/db/test/generated</hi> should contain 3 new files:</p>
+                    <list>
+                        <item>teisimple-web.xql</item>
+                        <item>teisimple-web-main.xql</item>
+                        <item>teisimple.css</item>
+                    </list>
+                </div>
+                <div>
+                    <head>Best Practice Recommendations</head>
+                    <list>
+                        <item>
+                            <p>While the ODD may describe the rendition of an element using CSS, this 
+                                should be used with care: styling imposed by the ODD should be generic
+                            and not interfere with application-specific design choices.</p>
+                            <p>For example, defining a font family for a certain element in the ODD
+                                makes it difficult for web designers to set the font via an external 
+                                stylesheet.</p>
+                            <p>The HTML as well as the FO output function libraries provide ways to
+                                customize the styling through additional, user-supplied CSS.</p>
+                        </item>
+                    </list>
+                </div>
+            </div>
+        </body>
+    </text>
+</TEI>
