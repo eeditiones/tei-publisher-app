@@ -461,6 +461,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                 html:inline($config, ., "unclear", .)
             case element(w) return
                 html:inline($config, ., "w", .)
+            case element(exist:match) return
+                html:match($config, ., .)
             case text() | xs:anyAtomicType return
                 html:escapeChars(.)
             default return 
