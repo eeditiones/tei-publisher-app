@@ -569,6 +569,10 @@
                     <p>The main part of Simple is the set of selected elements.</p>
                     <include xmlns="http://www.w3.org/2001/XInclude" href="simpleelements.xml"/>
                     <specGrp xmlns:XSL="http://www.w3.org/1999/XSL/Transform" xml:id="simpleelementspm">
+                        <elementSpec mode="change" ident="code">
+                            <model behaviour="inline(.)" predicate="parent::cell|parent::p"/>
+                            <model behaviour="code(., @lang)"/>
+                        </elementSpec>
                         <elementSpec mode="change" ident="ab">
                             <model behaviour="paragraph(.)"/>
                         </elementSpec>

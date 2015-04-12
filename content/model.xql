@@ -213,7 +213,7 @@ declare %private function pm:model($ident as xs:string, $model as element(tei:mo
                     <comment>{$model/tei:desc}</comment>
                 else
                     (),
-                <function-call name="{$modules?1?prefix}:{$task}">
+                <function-call name="{$fn?prefix}:{$task}">
                     <param>$config</param>
                     <param>.</param>
                     <param>
@@ -261,13 +261,13 @@ declare %private function pm:modelSequence($ident as xs:string, $seq as element(
     </sequence>
 };
 
-declare %private function pm:lookup($modules as array(*), $task as xs:string, $arity as xs:int) {
+declare %private function pm:lookup($modules as array(*), $task as xs:string, $arity as xs:int) as map(*)? {
     if (array:size($modules) > 0) then
         let $module := array:head($modules)
         let $fn := function-lookup(QName($module?uri, $task), $arity)
         return
             if (exists($fn)) then
-                $fn
+                map { "function": $fn, "prefix": $module?prefix }
             else
                 pm:lookup(array:tail($modules), $task, $arity)
     else

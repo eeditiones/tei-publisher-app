@@ -5,12 +5,12 @@
     font-family: Junicode, Georgia, Times, serif;
 }
 
-.code {
+.code1 {
     font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
 }
 
-.ab>div {
-    padding: 8px;
+.sourcecode .ace_text-layer {
+    padding: 0 8px;
     font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
 }
 

@@ -60,16 +60,6 @@ declare variable $pmu:MODULES := map {
         "output": "print",
         "modules": [
             map {
-                "uri": "http://www.tei-c.org/tei-simple/xquery/functions/latex",
-                "prefix": "latex",
-                "at": "latex-functions.xql"
-            }
-        ]
-    },
-    "fo": map {
-        "output": "print",
-        "modules": [
-            map {
                 "uri": "http://www.tei-c.org/tei-simple/xquery/functions/fo",
                 "prefix": "fo",
                 "at": "fo-functions.xql"
@@ -79,16 +69,16 @@ declare variable $pmu:MODULES := map {
 };
 
 declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string) {
-    pmu:process($oddPath, $xml, $output-root, "web", "")
+    pmu:process($oddPath, $xml, $output-root, "web", "", ())
 };
 
 declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string, 
-    $mode as xs:string, $relPath as xs:string) {
+    $mode as xs:string, $relPath as xs:string, $ext-modules as map(*)*) {
     let $name := replace($oddPath, "^.*?([^/]+)\.[^/]+$", "$1")
     let $odd := doc($oddPath)
     let $main :=
         if (pmu:requires-update($odd, $output-root, $name || "-" || $mode || "-main.xql")) then
-            let $config := pmu:process-odd($odd, $output-root, $mode, $relPath)
+            let $config := pmu:process-odd($odd, $output-root, $mode, $relPath, $ext-modules)
             return
                 $config?main
         else
@@ -100,9 +90,14 @@ declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-roo
 
 
 declare function pmu:process-odd($odd as document-node(), $output-root as xs:string, 
-    $mode as xs:string, $relPath as xs:string) as map(*) {
+    $mode as xs:string, $relPath as xs:string, $ext-modules as map(*)*) as map(*) {
     let $name := replace(util:document-name($odd), "^([^\.]+)\.[^\.]+$", "$1")
-    let $module := $pmu:MODULES?($mode)
+    let $modulesDefault := $pmu:MODULES?($mode)
+    let $module :=
+        if (exists($ext-modules)) then
+            map:new(($modulesDefault, map:entry("modules", array { $modulesDefault?modules?*, $ext-modules })))
+        else
+            $modulesDefault
     return
         if (empty($module)) then
             error($pmu:ERR_UNKNOWN_MODE, "output mode " || $mode || " is unknown")

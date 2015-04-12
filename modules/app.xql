@@ -9,6 +9,13 @@ import module namespace dbutil="http://exist-db.org/xquery/dbutil";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
+declare variable $app:ext-html := 
+    map {
+        "uri": "http://www.tei-c.org/tei-simple/xquery/ext-html",
+        "prefix": "ext",
+        "at": "../modules/ext-html.xql"
+    };
+
 declare
     %templates:wrap
 function app:doc-table($node as node(), $model as map(*)) {
@@ -85,7 +92,7 @@ declare
 function app:view($node as node(), $model as map(*), $odd as xs:string, $doc as xs:string) {
     let $xml := doc($config:app-root || "/" || $doc)//tei:text/*
     return
-        pmu:process($config:odd-root || "/" || $odd, $xml, $config:output-root, "web", "../generated")
+        pmu:process($config:odd-root || "/" || $odd, $xml, $config:output-root, "web", "../generated", $app:ext-html)
 };
 
 declare
@@ -109,14 +116,16 @@ declare function app:action($node as node(), $model as map(*), $odd as xs:string
                         doc($config:odd-root || "/" || $odd), 
                         $config:output-root,
                         "web",
-                        "../generated")?("module", "style")
+                        "../generated",
+                        $app:ext-html)?("module", "style")
                     return
                         <li>{$file}</li>,
                     for $file in pmu:process-odd(
                         doc($config:odd-root || "/" || $odd), 
                         $config:output-root,
-                        "fo",
-                        "../generated")?("module")
+                        "print",
+                        "../generated",
+                        $app:ext-html)("module")
                     return
                         <li>{$file}</li>
                 }

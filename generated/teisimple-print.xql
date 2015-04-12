@@ -11,6 +11,8 @@ declare default element namespace "http://www.tei-c.org/ns/1.0";
 
 import module namespace fo="http://www.tei-c.org/tei-simple/xquery/functions/fo" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/fo-functions.xql";
 
+import module namespace ext="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/../modules/ext-html.xql";
+
 (:~
 
     Main entry point for the transformation.
@@ -34,6 +36,8 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
     $input !     (
         typeswitch(.)
+            case element(code) return
+                ext:code($config, ., "code", ., @lang)
             case element(ab) return
                 fo:paragraph($config, ., "ab", .)
             case element(abbr) return

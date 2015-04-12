@@ -50,50 +50,57 @@
                 <div>
                     <head>Usage</head>
                     <p>To use the library, import the utility module:</p>
-                    <ab>import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";</ab>
+                    <code>import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";</code>
                     <p>The main function of the utility module is:</p>
-                    <ab>pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string, $mode as xs:string, $relPath as xs:string)</ab>
+                    <code>pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string, $mode as xs:string, $relPath as xs:string, $ext-modules as map(*)*)</code>
                     <p>The parameters are as follows:</p>
                     <table>
                         <row>
                             <cell>
-                                <hi rendition="code">$oddPath</hi>
+                                <code>$oddPath</code>
                             </cell>
                             <cell>Absolute path to the ODD file containing the processing model instructions 
                                 to use</cell>
                         </row>
                         <row>
                             <cell>
-                                <hi rendition="code">$xml</hi>
+                                <code>$xml</code>
                             </cell>
                             <cell>The XML nodes to render. Any sequence of nodes is allowed here.</cell>
                         </row>
                         <row>
                             <cell>
-                                <hi rendition="code">$output-root</hi>
+                                <code>$output-root</code>
                             </cell>
                             <cell>Absolute path to a database collection which is used for 
                                 caching the generated XQuery modules</cell>
                         </row>
                         <row>
                             <cell>
-                                <hi rendition="code">$mode</hi>
+                                <code>$mode</code>
                             </cell>
                             <cell>The output mode: either "web" or "fo" (for PDF output)</cell>
                         </row>
                         <row>
                             <cell>
-                                <hi rendition="code">$relPath</hi>
+                                <code>$relPath</code>
                             </cell>
                             <cell>A relative URL pointing to the output collection given in 
-                            $output-root. This will be used by the web browser to locate the generated
+                            <code>$output-root</code>. This will be used by the web browser to locate the generated
                             CSS stylesheets, so it should be relative to the page URL viewed in the 
                             browser.</cell>
+                        </row>
+                        <row>
+                            <cell>
+                                <code>$ext-modules</code>
+                            </cell>
+                            <cell>An optional sequence of XQuery modules containing custom behaviour functions.
+                            See below for more.</cell>
                         </row>
                     </table>
                     <p>A simple main query to transform a TEI document into HTML may use the function
                         as follows:</p>
-                    <ab>xquery version "3.0";
+                    <code>xquery version "3.0";
                         
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
@@ -109,16 +116,96 @@ return
     if ($doc) then
         let $xml := doc("/db/test/" || $doc)
         return
-            pmu:process("/db/test/" || $odd, $xml, "/db/test/generated", "web", "generated")
+            pmu:process("/db/test/" || $odd, $xml, "/db/test/generated", "web", "generated", ())
     else
-        &lt;p&gt;No document specified&lt;/p&gt;</ab>
+        &lt;p&gt;No document specified&lt;/p&gt;</code>
                     <p>After calling this the first time, the specified output collection:
-                    <hi rendition="code">/db/test/generated</hi> should contain 3 new files:</p>
+                    <code>/db/test/generated</code> should contain 3 new files:</p>
                     <list>
                         <item>teisimple-web.xql</item>
                         <item>teisimple-web-main.xql</item>
                         <item>teisimple.css</item>
                     </list>
+                    <p>The CSS file is automatically included into the HTML header if the transformation
+                    is run on a complete TEI document. If you would like to embed the generated HTML
+                    into an existing page, you should import the CSS in the header manually.</p>
+                </div>
+                <div>
+                    <head>Extension Modules</head>
+                    <p>Where possible, developers should stick to the standard processing model functions for
+                    defining behaviours. However, there might be situations in which one has to generate 
+                    a specific type of output, which is not handled by the default function module. To facilitate this,
+                    the implementation allows additional extension modules to be configured:</p>
+                    <p>The last parameter to <code>pmu:process</code> may be a sequence of XQuery maps defining
+                        extension modules to be loaded. Each map should specify the namespace URI, prefix and
+                        location of an XQuery module to be imported. For example:</p>
+                    <code>map {
+    "uri": "http://www.tei-c.org/tei-simple/xquery/ext-html",
+    "prefix": "ext",
+    "at": "../modules/ext-html.xql"
+};</code>
+                    <p>defines an extension module stored in the <code>../modules/ext-html.xql</code>
+                    XQuery module. Whenever the library tries to locate a processing model function
+                    for a given behaviour, it will <hi rendition="simple:bold">first</hi> check any extension
+                    module it knows to see if it contains a matching function. One can thus 
+                        <hi rendition="simple:bold">overwrite</hi> the default
+                    functions as well as define new ones.</p>
+                    <p>To be recognized by the library, an extension function needs to accept at least
+                    3 default arguments, plus any number of custom parameters (to be passed in the 
+                    behaviour attribute).</p>
+                    <p>For example, our extension module <code>ext-html.xql</code> may look as follows:</p>
+                    <code>xquery version "3.1";
+
+(:~
+: Non-standard extension functions, mainly used for the documentation.
+:)
+module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-html";
+
+declare namespace tei="http://www.tei-c.org/ns/1.0";
+
+declare function pmf:code($config as map(*), $node as element(), 
+    $class as xs:string, $content as node()*, $lang as item()?) {
+    &lt;pre class="sourcecode" data-language="{if ($lang) then $lang else 'xquery'}"&gt;
+    {$config?apply($config, $content/node())}
+    &lt;/pre&gt;
+};</code>
+                    <p>It defines one function, <code>pmf:code</code>, which can be called from the ODD as follows:</p>
+                    <code lang="xml">&lt;model behaviour="code(., @lang)"/&gt;</code>
+                </div>
+                <div>
+                    <head>FO Output</head>
+                    <p>When generating XSL:FO output, the implementation tries to translate the CSS rules
+                        specified for renditions into the corresponding XSL:FO formatting properties.
+                        Not all CSS properties are recognized. Unknown properties defined in a rendition 
+                        will be ignored.</p>
+                    <p>The default rendering for headings, paragraphs and the like is defined by a separate
+                        CSS file. The implementation merges those defaults with the custom renditions given
+                        in the ODD.</p>
+                    <p>The library searches for default CSS styles in a file named 
+                        <code>styles.fo.css</code> inside the specified output collection
+                    (in which the generated XQuery files are stored). The style definitions are copied into
+                    the output XSL:FO elements, so any property which is valid for the corresponding element 
+                    may be used.</p>
+                    <p>
+                        <code>styles.fo.css</code> is also used to set general properties like the page
+                        size or the appearance of the page header:</p>
+                    <code lang="css">@page:left {
+    margin-bottom: 10mm;
+    margin-top: 10mm;
+    margin-left: 36mm;
+    margin-right: 18mm;
+}
+@page:right {
+    margin-bottom: 10mm;
+    margin-top: 10mm;
+    margin-left: 18mm;
+    margin-right: 36mm;
+}
+@page:head {
+    margin-bottom: 0.7mm; 
+    text-align-last: justify; 
+    font-size: 10pt;
+}</code>
                 </div>
                 <div>
                     <head>Best Practice Recommendations</head>
