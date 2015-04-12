@@ -87,24 +87,27 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
     let $level := count($content/ancestor::tei:div)
     let $defaultStyle := $config?default-styles("head" || $level)
     return
-        <fo:block>
-        {
-            pmf:check-styles($config, $class, $defaultStyle),
-            comment { "heading level " || $level || " (" || $class || ")"},
-            if ($level = 1 and exists($content/ancestor::tei:body)) then
-                let $content := string-join($content)
-                return
-                    if (string-length($content) > 60) then
-                        ()
-                    else
-                        <fo:marker marker-class-name="heading">
-                        { $content }
-                        </fo:marker>
-            else
-                (),
-            pmf:apply-children($config, $node, $content)
-        }
-        </fo:block>
+        if ($content//text()) then
+            <fo:block>
+            {
+                pmf:check-styles($config, $class, $defaultStyle),
+                comment { "heading level " || $level || " (" || $class || ")"},
+                if ($level = 1 and exists($content/ancestor::tei:body)) then
+                    let $content := string-join($content)
+                    return
+                        if (string-length($content) > 60) then
+                            ()
+                        else
+                            <fo:marker marker-class-name="heading">
+                            { $content }
+                            </fo:marker>
+                else
+                    (),
+                pmf:apply-children($config, $node, $content)
+            }
+            </fo:block>
+        else
+            ()
 };
 
 declare function pmf:list($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
@@ -266,7 +269,12 @@ declare function pmf:omit($config as map(*), $node as element(), $class as xs:st
 };
 
 declare function pmf:break($config as map(*), $node as element(), $class as xs:string, $type as xs:string, $label as item()*) {
-    <fo:block/>
+    switch($type)
+        case "page" return
+            ()
+        default return
+            <fo:block/>,
+    comment { $type || " - " || $label || " (" || $class || ")" }
 };
 
 declare function pmf:document($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
