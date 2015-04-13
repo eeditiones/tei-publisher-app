@@ -144,6 +144,9 @@ declare %private function pmu:fix-module-paths($modules as array(*)) {
     array {
         for $module in $modules?*
         return
-            map:new(($module, map:entry("at", system:get-module-load-path() || "/" || $module?at)))
+            if (matches($module?at, "^(/|xmldb:).*")) then
+                $module
+            else
+                map:new(($module, map:entry("at", system:get-module-load-path() || "/" || $module?at)))
     }
 };

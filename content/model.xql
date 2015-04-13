@@ -263,13 +263,13 @@ declare %private function pm:modelSequence($ident as xs:string, $seq as element(
 
 declare %private function pm:lookup($modules as array(*), $task as xs:string, $arity as xs:int) as map(*)? {
     if (array:size($modules) > 0) then
-        let $module := array:head($modules)
+        let $module := $modules(array:size($modules))
         let $fn := function-lookup(QName($module?uri, $task), $arity)
         return
             if (exists($fn)) then
                 map { "function": $fn, "prefix": $module?prefix }
             else
-                pm:lookup(array:tail($modules), $task, $arity)
+                pm:lookup(array:subarray($modules, 1, array:size($modules) - 1), $task, $arity)
     else
         ()
 };
