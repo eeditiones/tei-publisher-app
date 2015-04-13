@@ -50,7 +50,7 @@ declare function pmf:paragraph($config as map(*), $node as element(), $class as 
 };
 
 declare function pmf:heading($config as map(*), $node as element(), $class as xs:string, $content as node()*, $type, $subdiv) {
-    let $level := count($content/ancestor::tei:div)
+    let $level := max((count($content/ancestor::tei:div), 1))
     return
         element { "h" || $level } {
             attribute class { $class },
