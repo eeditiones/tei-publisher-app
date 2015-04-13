@@ -5,6 +5,18 @@ An implementation of the TEI Simple ODD extensions for processing models in XQue
 Due to a bug in the 2.2 release, the tei-simple module needs the current development version of eXist. Get it from
 https://github.com/eXist-db/exist
 
+For PDF output, you need to enable the Apache FOP extension as follows:
+
+* in extensions/build.properties, set "include.module.xslfo = true"
+* rebuild eXist to install the Apache FOP libraries
+* edit conf.xml and uncomment the fo module:
+
+```xml
+<module uri="http://exist-db.org/xquery/xslfo" class="org.exist.xquery.modules.xslfo.XSLFOModule">
+    <parameter name="processorAdapter" value="org.exist.xquery.modules.xslfo.ApacheFopProcessorAdapter"/>
+</module>
+```
+
 tei-simple-pm ships as a .xar package which can be installed into any eXist instance using the dashboard. You may get the
 latest .xar here:
 
