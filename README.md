@@ -1,5 +1,17 @@
 An implementation of the TEI Simple ODD extensions for processing models in XQuery.
 
+# Building
+
+Due to a bug in the 2.2 release, the tei-simple module needs the current development version of eXist. Get it from
+https://github.com/eXist-db/exist
+
+tei-simple-pm ships as a .xar package which can be installed into any eXist instance using the dashboard. You may get the
+latest .xar here:
+
+https://github.com/wolfgangmm/tei-simple-pm/releases/tag/0.2
+
+To build tei-simple-pm, clone the repository and call "ant" in the root directory. This will create a .xar inside the build directory.
+
 # License
 
 This software is dual-licensed: 
