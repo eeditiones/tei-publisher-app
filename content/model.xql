@@ -41,6 +41,8 @@ import module namespace xqgen="http://www.tei-c.org/tei-simple/xquery/xqgen" at 
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
+declare variable $pm:ERR_TOO_MANY_MODELS := xs:QName("pm:too-many-models");
+
 (:~
  : Parse the given ODD and generate an XQuery transformation module.
  : 
@@ -168,7 +170,10 @@ declare %private function pm:process-models($ident as xs:string, $models as elem
                         <else>
                         {
                             if ($models[not(@predicate)]) then
-                                pm:model-or-sequence($ident, $models[not(@predicate)], $modules, $output)
+                                if (count($models[not(@predicate)]) > 1 and not($models/parent::tei:modelSequence)) then
+                                    error($pm:ERR_TOO_MANY_MODELS, "More than one model without predicate found outside modelSequence")
+                                else
+                                    pm:model-or-sequence($ident, $models[not(@predicate)], $modules, $output)
                             else
                                 <function-call name="$config?apply">
                                     <param>$config</param>
@@ -179,6 +184,8 @@ declare %private function pm:process-models($ident as xs:string, $models as elem
                 }
             </if>
         })
+    else if (count($models) > 1 and not($models/parent::tei:modelSequence)) then
+        error($pm:ERR_TOO_MANY_MODELS, "More than one model without predicate found outside modelSequence")
     else
         $models ! pm:model-or-sequence($ident, ., $modules, $output)
 };
