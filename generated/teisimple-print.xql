@@ -64,8 +64,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 fo:block($config, ., "argument", .)
             case element(author) return
                 if (ancestor::teiHeader) then
-                    (: No function found for behavior: omit() :)
-                    $config?apply($config, ./node())
+                    fo:omit($config, ., "author1", .)
                 else
                     fo:inline($config, ., "author2", .)
             case element(back) return
@@ -150,32 +149,32 @@ declare function model:apply($config as map(*), $input as node()*) {
                     fo:section($config, ., "div2", .)
             case element(docAuthor) return
                 if (ancestor::teiHeader) then
-                    (: No function found for behavior: omit() :)
-                    $config?apply($config, ./node())
+                    (: Omit if located in teiHeader. :)
+                    fo:omit($config, ., "docAuthor1", .)
                 else
                     fo:inline($config, ., "docAuthor2", .)
             case element(docDate) return
                 if (ancestor::teiHeader) then
-                    (: No function found for behavior: omit() :)
-                    $config?apply($config, ./node())
+                    (: Omit if located in teiHeader. :)
+                    fo:omit($config, ., "docDate1", .)
                 else
                     fo:inline($config, ., "docDate2", .)
             case element(docEdition) return
                 if (ancestor::teiHeader) then
-                    (: No function found for behavior: omit() :)
-                    $config?apply($config, ./node())
+                    (: Omit if located in teiHeader. :)
+                    fo:omit($config, ., "docEdition1", .)
                 else
                     fo:inline($config, ., "docEdition2", .)
             case element(docImprint) return
                 if (ancestor::teiHeader) then
-                    (: No function found for behavior: omit() :)
-                    $config?apply($config, ./node())
+                    (: Omit if located in teiHeader. :)
+                    fo:omit($config, ., "docImprint1", .)
                 else
                     fo:inline($config, ., "docImprint2", .)
             case element(docTitle) return
                 if (ancestor::teiHeader) then
-                    (: No function found for behavior: omit() :)
-                    $config?apply($config, ./node())
+                    (: Omit if located in teiHeader. :)
+                    fo:omit($config, ., "docTitle1", .)
                 else
                     fo:block($config, ., fo:get-rendition(., "docTitle2"), .)
             case element(epigraph) return
@@ -306,14 +305,14 @@ declare function model:apply($config as map(*), $input as node()*) {
                 fo:block($config, ., "postscript", .)
             case element(publisher) return
                 if (ancestor::teiHeader) then
-                    (: No function found for behavior: omit() :)
-                    $config?apply($config, ./node())
+                    (: Omit if located in teiHeader. :)
+                    fo:omit($config, ., "publisher", .)
                 else
                     $config?apply($config, ./node())
             case element(pubPlace) return
                 if (ancestor::teiHeader) then
-                    (: No function found for behavior: omit() :)
-                    $config?apply($config, ./node())
+                    (: Omit if located in teiHeader. :)
+                    fo:omit($config, ., "pubPlace", .)
                 else
                     $config?apply($config, ./node())
             case element(q) return
@@ -405,14 +404,11 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(fileDesc) return
                 fo:title($config, ., "fileDesc", titleStmt)
             case element(profileDesc) return
-                (: No function found for behavior: omit() :)
-                $config?apply($config, ./node())
+                fo:omit($config, ., "profileDesc", .)
             case element(revisionDesc) return
-                (: No function found for behavior: omit() :)
-                $config?apply($config, ./node())
+                fo:omit($config, ., "revisionDesc", .)
             case element(encodingDesc) return
-                (: No function found for behavior: omit() :)
-                $config?apply($config, ./node())
+                fo:omit($config, ., "encodingDesc", .)
             case element(teiHeader) return
                 fo:metadata($config, ., "teiHeader", .)
             case element(TEI) return
