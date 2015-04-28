@@ -9,6 +9,14 @@
     font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
 }
 
+.label:not(.note) {
+    font-weight: bold;
+    font-size: inherit;
+    color: inherit;
+    padding: inherit;
+    margin: inherit;
+}
+
 .sourcecode .ace_text-layer {
     padding: 0 8px;
     font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;

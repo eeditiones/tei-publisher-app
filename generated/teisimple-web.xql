@@ -25,7 +25,8 @@ declare function model:transform($options as map(*), $input as node()*) {
             map {
                 "output": "web",
                 "odd": "/db/apps/tei-simple/odd/teisimple.odd",
-                "apply": model:apply#2
+                "apply": model:apply#2,
+                "apply-children": model:apply-children#3
             }
         ))
         return
@@ -477,5 +478,23 @@ declare function model:apply($config as map(*), $input as node()*) {
 
     )
 
+};
+
+declare function model:apply-children($config as map(*), $node as element(), $content as item()*) {
+        
+    if ($node/@xml:id) then
+        attribute id { $node/@xml:id }
+    else
+        (),
+    $content ! (
+        typeswitch(.)
+            case element() return
+                if (. is $node) then
+                    $config?apply($config, ./node())
+                else
+                    $config?apply($config, .)
+            default return
+                string(.)
+    )
 };
 

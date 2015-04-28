@@ -77,7 +77,8 @@ let $config :=
         map {{
             "output": "{ $output }",
             "odd": "{ document-uri(root($odd)) }",
-            "apply": model:apply#2
+            "apply": model:apply#2,
+            "apply-children": model:apply-children#3
         }}
     ))
     return
@@ -132,6 +133,26 @@ let $config :=
                         </sequence>
                     </body>
                 </function>
+                <function name="model:apply-children">
+                    <param>$config as map(*)</param>
+                    <param>$node as element()</param>
+                    <param>$content as item()*</param>
+                    <body>
+if ($node/@xml:id) then
+    attribute id {{ $node/@xml:id }}
+else
+    (),
+$content ! (
+    typeswitch(.)
+        case element() return
+            if (. is $node) then
+                $config?apply($config, ./node())
+            else
+                $config?apply($config, .)
+        default return
+            string(.)
+)</body>
+            </function>
             </module>
         </xquery>
     return
@@ -207,7 +228,7 @@ declare %private function pm:model($ident as xs:string, $model as element(tei:mo
     let $behaviour := $model/@behaviour
     let $task := substring-before(normalize-space($model/@behaviour),'(')
     let $argStr := replace(normalize-space($behaviour),'[^\(]*\((.*)\)$','$1')
-    let $args := analyze-string($argStr, "('.*?'|&quot;.*?&quot;|[^\(]+?|\(.*?\))(?:\s*,\s*|$)")//fn:group/string()
+    let $args := analyze-string($argStr, "('.*?'|&quot;.*?&quot;|[^\(]+?|[^\(]*?\(.*?\))(?:\s*,\s*|$)")//fn:group/string()
     let $params := if (count($args) = 0) then "." else $args
     
     let $fn := pm:lookup($modules, $task, count($params) + 3)
