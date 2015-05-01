@@ -138,10 +138,12 @@ let $config :=
                     <param>$node as element()</param>
                     <param>$content as item()*</param>
                     <body>
-if ($node/@xml:id) then
-    attribute id {{ $node/@xml:id }}
-else
-    (),
+let $id := $node/@xml:id
+return
+    if ($id) then
+        attribute id {{ $id }}
+    else
+        (),
 $content ! (
     typeswitch(.)
         case element() return

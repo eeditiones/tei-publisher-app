@@ -22,16 +22,26 @@
     </head>
     <body>
         <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content" data-template-using="body">
-            <div class="row">
-                <div class="btn-group">
-                    <a class="btn btn-default" href=".." title="Back to index page">
-                        <i class="glyphicon glyphicon-chevron-left"/>
-                    </a>
+            <div data-template="app:load">
+                <div class="row">
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-default" href=".." title="Back to index page">
+                            <i class="glyphicon glyphicon-chevron-left"/>
+                        </a>
+                        <a class="btn btn-default" data-template="app:pdf-link">
+                            <i class="glyphicon glyphicon-print"/> PDF
+                        </a>
+                        <a class="btn btn-default" data-template="app:epub-link" title="Download as epub ebook">
+                            <i class="glyphicon glyphicon-book"/> ePUB
+                        </a>
+                        <a class="btn btn-default" data-template="app:xml-link">
+                            <i class="glyphicon glyphicon-pencil"/> XML</a>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div data-template="app:view"/>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div data-template="app:view" class="content"/>
+                    </div>
                 </div>
             </div>
         </div>

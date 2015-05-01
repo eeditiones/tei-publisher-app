@@ -8,6 +8,7 @@ import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "..
 import module namespace dbutil="http://exist-db.org/xquery/dbutil";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
+declare namespace expath="http://expath.org/ns/pkg";
 
 declare variable $app:ext-html := 
     map {
@@ -16,6 +17,17 @@ declare variable $app:ext-html :=
         "at": "../modules/ext-html.xql"
     };
 
+declare variable $app:EXIDE := 
+    let $pkg := collection(repo:get-root())//expath:package[@name = "http://exist-db.org/apps/eXide"]
+    let $appLink :=
+        if ($pkg) then
+            substring-after(util:collection-name($pkg), repo:get-root())
+        else
+            ()
+    let $path := string-join((request:get-context-path(), request:get-attribute("$exist:prefix"), $appLink, "index.html"), "/")
+    return
+        replace($path, "/+", "/");
+        
 declare
     %templates:wrap
 function app:doc-table($node as node(), $model as map(*)) {
@@ -30,7 +42,10 @@ function app:doc-table($node as node(), $model as map(*)) {
                             <div class="btn-group" role="group">
                                 <a class="btn btn-default" 
                                     href="modules/fo.xql?odd=teisimple.odd&amp;doc={substring-after($resource, $config:data-root || '/')}">
-                                    <i class="glyphicon glyphicon-book"/> PDF</a>
+                                    <i class="glyphicon glyphicon-print"/> PDF</a>
+                                <a class="btn btn-default" 
+                                    href="modules/get-epub.xql?odd=teisimple.odd&amp;doc={substring-after($resource, $config:data-root || '/')}">
+                                    <i class="glyphicon glyphicon-book"/> ePUB</a>
                                 <a class="btn btn-default" data-template="app:load-source"
                                     href="{substring-after($resource, $config:app-root)}">
                                     <i class="glyphicon glyphicon-edit"/> View Source</a>
@@ -89,10 +104,62 @@ function app:odd-table($node as node(), $model as map(*)) {
 
 declare
     %templates:wrap
-function app:view($node as node(), $model as map(*), $odd as xs:string, $doc as xs:string) {
-    let $xml := doc($config:app-root || "/" || $doc)//tei:text/*
+function app:load($node as node(), $model as map(*), $doc as xs:string) {
+    let $xml := doc($config:app-root || "/" || $doc)//tei:text
     return
+        map {
+            "data": $xml
+        }
+};
+
+declare function app:pdf-link($node as node(), $model as map(*), $doc as xs:string) {
+    element { node-name($node) } {
+        attribute href {
+            "../modules/fo.xql?odd=teisimple.odd&amp;doc=" || util:document-name($model?data)
+        },
+        $node/@*,
+        $node/node()
+    }
+};
+
+declare function app:epub-link($node as node(), $model as map(*), $doc as xs:string) {
+    element { node-name($node) } {
+        $node/@* except $node/@href,
+        attribute href { "../modules/get-epub.xql?odd=teisimple.odd&amp;doc=" || util:document-name($model?data) },
+        $node/node()
+    }
+};
+
+declare function app:xml-link($node as node(), $model as map(*), $doc as xs:string) {
+    let $doc-path := $config:app-root || $doc
+    let $eXide-link := $app:EXIDE || "?open=" || $doc-path
+    let $rest-link := '/exist/rest' || $doc-path
+    return
+        element { node-name($node) } {
+            $node/@* except ($node/@href, $node/@class),
+            if ($app:EXIDE)
+            then (
+                attribute href { $eXide-link },
+                attribute data-exide-open { $doc-path },
+                attribute class { "eXide-open " || $node/@class },
+                attribute target { "eXide" }
+            ) else (
+                attribute href { $rest-link },
+                attribute target { "_blank" }
+            ),
+            $node/node()
+        }
+};
+
+declare function app:view($node as node(), $model as map(*), $odd as xs:string) {
+    let $xml := $model("data")
+    let $html :=
         pmu:process($config:odd-root || "/" || $odd, $xml, $config:output-root, "web", "../generated", $app:ext-html)
+    let $class := if ($html//*[@class = "margin-note"]) then "margin-right" else ()
+    return
+        <div class="content {$class}">
+        {$html}
+        </div>
 };
 
 declare

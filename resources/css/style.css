@@ -1,12 +1,52 @@
 /* Application styles could go here */
 @import url('../fonts/font.css');
 
-.front, .body1, .body2 {
+.content {
     font-family: Junicode, Georgia, Times, serif;
+    font-size: 16px;
+}
+
+.content h1 { font-size: 3.157em; }
+.content h2 { font-size: 2.369em; }
+.content h3 { font-size: 1.777em; }
+.content h4 { font-size: 1.333em; }
+
+.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
+    font-family: Junicode, Georgia, Times, serif;
+}
+
+.content>*>section {
+    border-top: 1px solid #777;
+    margin: 2.5em 0;
+    padding-top: 2em;
+}
+
+.margin-right {
+    margin-right: 200px;
+    position: relative;
 }
 
 .code1 {
     font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
+}
+
+.note {
+    font-size: 66%;
+    vertical-align: super;
+    cursor: pointer;
+    margin-left: .25em;
+}
+
+.margin-note {
+    background: #F8F8FF;
+    display: block;
+    font-size: small;
+    margin-right: -200px;
+    padding: 5px;
+    position: absolute;
+    right: 0;
+    top: auto;
+    width: 190px;
 }
 
 .label:not(.note) {
@@ -20,26 +60,6 @@
 .sourcecode .ace_text-layer {
     padding: 0 8px;
     font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
-}
-
-.note {
-    font-size: 66%;
-    vertical-align: super;
-    cursor: pointer;
-    margin-left: .25em;
-}
-
-.margin-note {
-    float: right;
-    display: block;
-    font-size: small;
-    font-weight: normal;
-    clear: right;
-    padding: 4pt;
-    font-style: italic;
-    width: 15%;
-    background-color: #F8F8FF;
-    margin: 6pt;
 }
 
 .poweredby {

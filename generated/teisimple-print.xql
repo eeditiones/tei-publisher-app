@@ -11,8 +11,6 @@ declare default element namespace "http://www.tei-c.org/ns/1.0";
 
 import module namespace fo="http://www.tei-c.org/tei-simple/xquery/functions/fo" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/fo-functions.xql";
 
-import module namespace ext="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/../modules/ext-html.xql";
-
 (:~
 
     Main entry point for the transformation.
@@ -41,7 +39,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                 if (parent::cell|parent::p) then
                     fo:inline($config, ., "code1", .)
                 else
-                    ext:code($config, ., "code2", ., @lang)
+                    (: No function found for behavior: code(., @lang) :)
+                    $config?apply($config, ./node())
             case element(ab) return
                 fo:paragraph($config, ., "ab", .)
             case element(abbr) return
@@ -483,10 +482,12 @@ declare function model:apply($config as map(*), $input as node()*) {
 
 declare function model:apply-children($config as map(*), $node as element(), $content as item()*) {
         
-    if ($node/@xml:id) then
-        attribute id { $node/@xml:id }
-    else
-        (),
+    let $id := $node/@xml:id
+    return
+        if ($id) then
+            attribute id { $id }
+        else
+            (),
     $content ! (
         typeswitch(.)
             case element() return

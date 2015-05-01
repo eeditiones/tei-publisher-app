@@ -482,10 +482,12 @@ declare function model:apply($config as map(*), $input as node()*) {
 
 declare function model:apply-children($config as map(*), $node as element(), $content as item()*) {
         
-    if ($node/@xml:id) then
-        attribute id { $node/@xml:id }
-    else
-        (),
+    let $id := $node/@xml:id
+    return
+        if ($id) then
+            attribute id { $id }
+        else
+            (),
     $content ! (
         typeswitch(.)
             case element() return

@@ -41,9 +41,8 @@ module namespace pmf="http://www.tei-c.org/tei-simple/xquery/functions";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string, $content) {
-    <p>
+    <p class="{$class}">
     {
-        attribute class { $class },
         $config?apply-children($config, $node, $content)
     }
     </p>
@@ -123,9 +122,9 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
 declare function pmf:note($config as map(*), $node as element(), $class as xs:string, $content, $place as xs:string?) {
     switch ($place)
         case "margin" return
-            <div class="margin-note">
+            <span class="margin-note">
             { $config?apply-children($config, $node, $content) }
-            </div>
+            </span>
         default return
             <span class="label label-default note {$class}" data-toggle="popover" 
                 data-content="{serialize(<div>{$config?apply-children($config, $node, $content/node())}</div>)}">
