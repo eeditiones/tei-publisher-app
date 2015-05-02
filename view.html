@@ -24,7 +24,7 @@
         <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content" data-template-using="body">
             <div data-template="app:load">
                 <div class="row">
-                    <div class="btn-group" role="group">
+                    <div class="btn-group actions" role="group">
                         <a class="btn btn-default" href=".." title="Back to index page">
                             <i class="glyphicon glyphicon-chevron-left"/>
                         </a>
@@ -36,11 +36,30 @@
                         </a>
                         <a class="btn btn-default" data-template="app:xml-link">
                             <i class="glyphicon glyphicon-pencil"/> XML</a>
+                        <a class="btn btn-default" data-template="app:single-page-link">
+                            <i class="glyphicon glyphicon-resize-full"/> Single Page</a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
+                        <div data-template="app:navigation" class="content-nav top">
+                            <h5 class="navigation-top" data-template="app:navigation-title"/>
+                            <!--div data-template="app:breadcrumbs" class="breadcrumb"/-->
+                            <a data-template="app:navigation-link" data-template-direction="next" class="next">
+                                Next <i class="glyphicon glyphicon-chevron-right"/>
+                            </a>
+                            <a data-template="app:navigation-link" data-template-direction="previous" class="previous">
+                                <i class="glyphicon glyphicon-chevron-left"/> Previous</a>
+                        </div>
                         <div data-template="app:view" class="content"/>
+                        <div data-template="app:navigation" class="content-nav bottom">
+                            <a data-template="app:navigation-link" data-template-direction="previous" class="previous">
+                                <i class="glyphicon glyphicon-chevron-left"/> Previous</a>
+                            <a data-template="app:navigation-link" data-template-direction="next" class="next">
+                                Next <i class="glyphicon glyphicon-chevron-right"/>
+                            </a>
+                            <h5 class="navigation-bottom" data-template="app:navigation-title"/>
+                        </div>
                     </div>
                 </div>
             </div>

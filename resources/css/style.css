@@ -57,6 +57,45 @@
     margin: inherit;
 }
 
+/* Page by page navigation */
+.navigation-top, .navigation-bottom {
+  vertical-align: middle;
+  font-family: "Junicode", Georgia, "Times New Roman", serif;
+}
+
+.content-nav .next {
+    float: right;
+}
+
+.content-nav h5 {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    font-weight: normal;
+    font-size: 2em;
+}
+
+.content-nav.top {
+    padding: 10px 10px 10px 0;
+    margin-bottom: 1em;
+    border-bottom: 2px solid #CCC;
+}
+
+.content-nav.bottom {
+    padding: 10px 10px 10px 0;
+    margin-top: 1em;
+    border-top: 2px solid #CCC;
+}
+
+.navigation-top a, .navigation-bottom a {
+    font-size: 100%;
+}
+
+.actions {
+    margin-bottom: 10px;
+}
+
+/* Source code in documentation */
 .sourcecode .ace_text-layer {
     padding: 0 8px;
     font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;

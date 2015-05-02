@@ -30,21 +30,22 @@ declare variable $app:EXIDE :=
         
 declare
     %templates:wrap
-function app:doc-table($node as node(), $model as map(*)) {
+    %templates:default("odd", "teisimple.odd")
+function app:doc-table($node as node(), $model as map(*), $odd as xs:string) {
     dbutil:find-by-mimetype(xs:anyURI($config:data-root), "application/xml", function($resource) {
         let $name := replace($resource, "^.*/([^/]+)$", "$1")
         return
             <tr>
-                <td><a href="test/{$name}?odd=teisimple.odd">{$name}</a></td>
+                <td><a href="test/{$name}?odd={$odd}">{$name}</a></td>
                 <td>
                     {
                         templates:process(
                             <div class="btn-group" role="group">
                                 <a class="btn btn-default" 
-                                    href="modules/fo.xql?odd=teisimple.odd&amp;doc={substring-after($resource, $config:data-root || '/')}">
+                                    href="modules/fo.xql?odd={$odd}&amp;doc={substring-after($resource, $config:data-root || '/')}">
                                     <i class="glyphicon glyphicon-print"/> PDF</a>
                                 <a class="btn btn-default" 
-                                    href="modules/get-epub.xql?odd=teisimple.odd&amp;doc={substring-after($resource, $config:data-root || '/')}">
+                                    href="modules/get-epub.xql?odd={$odd}&amp;doc={substring-after($resource, $config:data-root || '/')}">
                                     <i class="glyphicon glyphicon-book"/> ePUB</a>
                                 <a class="btn btn-default" data-template="app:load-source"
                                     href="{substring-after($resource, $config:app-root)}">
@@ -60,7 +61,8 @@ function app:doc-table($node as node(), $model as map(*)) {
 
 declare
     %templates:wrap
-function app:odd-table($node as node(), $model as map(*)) {
+    %templates:default("odd", "teisimple.odd")
+function app:odd-table($node as node(), $model as map(*), $odd as xs:string) {
     dbutil:find-by-mimetype(xs:anyURI($config:odd-root), "application/xml", function($resource) {
         let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
         return
@@ -70,13 +72,16 @@ function app:odd-table($node as node(), $model as map(*)) {
                 {
                     let $outputPath := $config:output-root || "/" || $name
                     let $xqlWebAvail := util:binary-doc-available($outputPath || "-web.xql")
-                    let $xqlFoAvail := util:binary-doc-available($outputPath || "-fo.xql")
+                    let $xqlFoAvail := util:binary-doc-available($outputPath || "-print.xql")
                     let $cssAvail := util:binary-doc-available($outputPath || ".css")
                     return
                         templates:process(
                             <div class="btn-group" role="group">
+                                <a class="btn btn-default {if ($odd = $name || '.odd') then 'active' else ''}" href="?odd={$name}.odd">
+                                    <i class="glyphicon glyphicon-ok"/> Use ODD
+                                </a>
                                 <a class="btn btn-default"
-                                    href="?action=refresh&amp;odd={$name}.odd">
+                                    href="?action=refresh&amp;source={$name}.odd&amp;odd={$odd}">
                                     <i class="glyphicon glyphicon-refresh"/> Regenerate</a>
                                 <a class="btn btn-default" data-template="app:load-source"
                                     href="{substring-after($resource, $config:app-root)}">
@@ -86,7 +91,7 @@ function app:odd-table($node as node(), $model as map(*)) {
                                     { if ($xqlWebAvail) then () else attribute disabled { "disabled" } }
                                     <i class="glyphicon glyphicon-edit"/> Web XQL</a>
                                 <a class="btn btn-default" data-template="app:load-source"
-                                    href="{substring-after($config:output-root, $config:app-root)}/{$name}-fo.xql">
+                                    href="{substring-after($config:output-root, $config:app-root)}/{$name}-print.xql">
                                     { if ($xqlFoAvail) then () else attribute disabled { "disabled" } }
                                     <i class="glyphicon glyphicon-edit"/> Print XQL</a>
                                 <a class="btn btn-default" data-template="app:load-source"
@@ -104,30 +109,54 @@ function app:odd-table($node as node(), $model as map(*)) {
 
 declare
     %templates:wrap
-function app:load($node as node(), $model as map(*), $doc as xs:string) {
-    let $xml := doc($config:app-root || "/" || $doc)//tei:text
+    %templates:default("view", "div")
+function app:load($node as node(), $model as map(*), $doc as xs:string, $root as xs:string?, $view as xs:string) {
+    let $xml :=
+        if ($view = "div") then
+            if ($root) then
+                let $doc := doc($config:app-root || "/" || $doc)
+                return 
+                    util:node-by-id($doc, $root)
+            else
+                (doc($config:app-root || "/" || $doc)//tei:div)[1]
+        else
+            doc($config:app-root || "/" || $doc)/tei:TEI/tei:text
     return
         map {
             "data": $xml
         }
 };
 
-declare function app:pdf-link($node as node(), $model as map(*), $doc as xs:string) {
+declare function app:pdf-link($node as node(), $model as map(*), $odd as xs:string) {
     element { node-name($node) } {
         attribute href {
-            "../modules/fo.xql?odd=teisimple.odd&amp;doc=" || util:document-name($model?data)
+            "../modules/fo.xql?odd=" || $odd || "&amp;doc=" || util:document-name($model?data)
         },
         $node/@*,
         $node/node()
     }
 };
 
-declare function app:epub-link($node as node(), $model as map(*), $doc as xs:string) {
+declare function app:epub-link($node as node(), $model as map(*), $odd as xs:string) {
     element { node-name($node) } {
         $node/@* except $node/@href,
-        attribute href { "../modules/get-epub.xql?odd=teisimple.odd&amp;doc=" || util:document-name($model?data) },
+        attribute href { "../modules/get-epub.xql?odd=" || $odd || "&amp;doc=" || util:document-name($model?data) },
         $node/node()
     }
+};
+
+declare 
+    %templates:default("view", "div")
+function app:single-page-link($node as node(), $model as map(*), $odd as xs:string, $view as xs:string) {
+    let $type := if ($view = "single") then "div" else "single"
+    let $class := if ($view = "single") then $node/@class || " active" else $node/@class
+    return
+        element { node-name($node) } {
+            $node/@* except ($node/@href, $node/@class),
+            attribute class { $class },
+            attribute href { "?odd=" || $odd || "&amp;view=" || $type },
+            $node/node()
+        }
 };
 
 declare function app:xml-link($node as node(), $model as map(*), $doc as xs:string) {
@@ -151,8 +180,14 @@ declare function app:xml-link($node as node(), $model as map(*), $doc as xs:stri
         }
 };
 
-declare function app:view($node as node(), $model as map(*), $odd as xs:string) {
-    let $xml := $model("data")
+declare 
+    %templates:default("view", "div")
+function app:view($node as node(), $model as map(*), $odd as xs:string, $view as xs:string) {
+    let $xml := 
+        if ($view = "div") then
+            app:get-content($model("data"))
+        else
+            $model?data
     let $html :=
         pmu:process($config:odd-root || "/" || $odd, $xml, $config:output-root, "web", "../generated", $app:ext-html)
     let $class := if ($html//*[@class = "margin-note"]) then "margin-right" else ()
@@ -172,7 +207,104 @@ function app:styles($node as node(), $model as map(*), $odd as xs:string) {
     }
 };
 
-declare function app:action($node as node(), $model as map(*), $odd as xs:string?, $action as xs:string?) {
+declare 
+    %templates:wrap
+    %templates:default("view", "div")
+function app:navigation($node as node(), $model as map(*), $view as xs:string) {
+    if ($view = "single") then
+        ()
+    else
+        let $div := $model("data")
+        let $parent := $div/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
+        let $prevDiv := $div/preceding::tei:div[1]
+        let $prevDiv := app:get-previous(if ($parent and $div/.. >> $prevDiv) then $div/.. else $prevDiv)
+        let $nextDiv := app:get-next($div)
+    (:        ($div//tei:div[not(*[1] instance of element(tei:div))] | $div/following::tei:div)[1]:)
+        let $work := $div/ancestor-or-self::tei:TEI
+        return
+            map {
+                "previous" := $prevDiv,
+                "next" := $nextDiv,
+                "work" := $work,
+                "div" := $div
+            }
+};
+
+declare %private function app:get-next($div as element()) {
+    if ($div/tei:div) then
+        if (count(($div/tei:div[1])/preceding-sibling::*) < 5) then
+            app:get-next($div/tei:div[1])
+        else
+            $div/tei:div[1]
+    else
+        $div/following::tei:div[1]
+};
+
+declare %private function app:get-previous($div as element(tei:div)?) {
+    if (empty($div)) then
+        ()
+    else
+        if (
+            empty($div/preceding-sibling::tei:div)  (: first div in section :)
+            and count($div/preceding-sibling::*) < 5 (: less than 5 elements before div :)
+            and $div/.. instance of element(tei:div) (: parent is a div :)
+        ) then
+            app:get-previous($div/..)
+        else
+            $div
+};
+
+declare function app:get-content($div as element()) {
+    if ($div instance of element(tei:teiHeader)) then 
+        $div
+    else
+        if ($div instance of element(tei:div)) then
+            if ($div/tei:div) then
+                if (count(($div/tei:div[1])/preceding-sibling::*) < 5) then
+                    let $child := $div/tei:div[1]
+                    return
+                        element { node-name($div) } {
+                            $div/@*,
+                            $child/preceding-sibling::*,
+                            app:get-content($child)
+                        }
+                else
+                    element { node-name($div) } {
+                        $div/@*,
+                        $div/tei:div[1]/preceding-sibling::*
+                    }
+            else
+                $div
+        else ()
+};
+
+declare
+    %templates:wrap
+function app:navigation-title($node as node(), $model as map(*)) {
+    app:work-title($model('data')/ancestor-or-self::tei:TEI)
+};
+
+declare function app:navigation-link($node as node(), $model as map(*), $direction as xs:string, $odd as xs:string) {
+    if ($model($direction)) then
+        element { node-name($node) } {
+            $node/@* except $node/@href,
+            let $id := util:document-name($model($direction)) || "?root=" || util:node-id($model($direction)) || "&amp;odd=" || $odd
+            return
+                attribute href { $id },
+            $node/node()
+        }
+    else
+        '&#xA0;' (:hack to keep "Next" from dropping into the hr when there is no "Previous":) 
+};
+
+declare %private function app:work-title($work as element(tei:TEI)?) {
+    let $main-title := $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'main']/text()
+    let $main-title := if ($main-title) then $main-title else $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/text()
+    return
+        $main-title
+};
+
+declare function app:action($node as node(), $model as map(*), $source as xs:string?, $action as xs:string?) {
     switch ($action)
         case "refresh" return
             <div class="alert alert-success" role="alert">
@@ -180,7 +312,7 @@ declare function app:action($node as node(), $model as map(*), $odd as xs:string
                 <ul>
                 {
                     for $file in pmu:process-odd(
-                        doc($config:odd-root || "/" || $odd), 
+                        doc($config:odd-root || "/" || $source),
                         $config:output-root,
                         "web",
                         "../generated",
@@ -188,7 +320,7 @@ declare function app:action($node as node(), $model as map(*), $odd as xs:string
                     return
                         <li>{$file}</li>,
                     for $file in pmu:process-odd(
-                        doc($config:odd-root || "/" || $odd), 
+                        doc($config:odd-root || "/" || $source),
                         $config:output-root,
                         "print",
                         "../generated",
