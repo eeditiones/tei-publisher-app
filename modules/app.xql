@@ -127,6 +127,16 @@ function app:load($node as node(), $model as map(*), $doc as xs:string, $root as
         }
 };
 
+declare function app:back-link($node as node(), $model as map(*), $odd as xs:string) {
+    element { node-name($node) } {
+        attribute href {
+            "../index.html?odd=" || $odd
+        },
+        $node/@*,
+        $node/node()
+    }
+};
+
 declare function app:pdf-link($node as node(), $model as map(*), $odd as xs:string) {
     element { node-name($node) } {
         attribute href {
