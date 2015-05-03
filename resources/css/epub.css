@@ -1,0 +1,60 @@
+@font-face {
+  src: url('Fonts/Junicode.ttf') format('truetype');
+}
+@font-face {
+  src: url('Fonts/Junicode-Bold.ttf') format('truetype');
+}
+@font-face {
+  src: url('Fonts/Junicode-Italic.ttf') format('truetype');
+}
+@font-face {
+  src: url('Fonts/Junicode-BoldItalic.ttf') format('truetype');
+}
+body {
+  font-family: "Junicode", Georgia, "Times New Roman", serif;
+}
+p,
+li {
+  orphans: 2;
+  widows: 2;
+}
+h1 {
+  font-size: 2.84em;
+}
+h2 {
+  font-size: 2.13em;
+}
+h3 {
+  font-size: 1.6em;
+}
+h4 {
+  font-size: 1.2em;
+}
+.note {
+  font-size: x-small;
+  vertical-align: super;
+}
+.note-number {
+  font-size: x-small;
+  width: 10%;
+  vertical-align: top;
+}
+.margin-note {
+  background: #F8F8FF;
+  font-size: small;
+}
+.margin-note:before {
+  content: " [";
+}
+.margin-note:after {
+  content: "] ";
+}
+.pb,
+.pb2 {
+  font-size: xx-small;
+  color: #c0c0c0;
+  vertical-align: super;
+  display: inline;
+  float: inherit;
+  margin: 0;
+}
