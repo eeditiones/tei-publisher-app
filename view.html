@@ -7,6 +7,7 @@
         <link rel="shortcut icon" href="$shared/resources/images/exist_icon_16x16.ico"/>
         <link rel="stylesheet" type="text/css" href="$shared/resources/css/bootstrap-3.0.3.min.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/animate.min.css"/>
         <link rel="stylesheet" type="text/css" data-template="app:styles"/>
         <script type="text/javascript" src="$shared/resources/scripts/jquery/jquery-1.7.1.min.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
@@ -19,6 +20,7 @@
                 });
             });
         </script>
+        <script type="text/javascript" src="resources/scripts/app.js"/>
     </head>
     <body>
         <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content" data-template-using="body">
@@ -51,14 +53,15 @@
                             <a data-template="app:navigation-link" data-template-direction="previous" class="previous">
                                 <i class="glyphicon glyphicon-chevron-left"/> Previous</a>
                         </div>
-                        <div data-template="app:view" class="content"/>
+                        <div id="content-container">
+                            <div data-template="app:view" class="content"/>
+                        </div>
                         <div data-template="app:navigation" class="content-nav bottom">
                             <a data-template="app:navigation-link" data-template-direction="previous" class="previous">
                                 <i class="glyphicon glyphicon-chevron-left"/> Previous</a>
                             <a data-template="app:navigation-link" data-template-direction="next" class="next">
                                 Next <i class="glyphicon glyphicon-chevron-right"/>
                             </a>
-                            <h5 class="navigation-bottom" data-template="app:navigation-title"/>
                         </div>
                     </div>
                 </div>

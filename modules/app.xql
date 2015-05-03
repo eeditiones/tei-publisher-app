@@ -111,20 +111,21 @@ declare
     %templates:wrap
     %templates:default("view", "div")
 function app:load($node as node(), $model as map(*), $doc as xs:string, $root as xs:string?, $view as xs:string) {
-    let $xml :=
-        if ($view = "div") then
-            if ($root) then
-                let $doc := doc($config:app-root || "/" || $doc)
-                return 
-                    util:node-by-id($doc, $root)
-            else
-                (doc($config:app-root || "/" || $doc)//tei:div)[1]
+    map {
+        "data": app:load-xml($view, $root, $doc)
+    }
+};
+
+declare function app:load-xml($view as xs:string, $root as xs:string?, $doc as xs:string) {
+	if ($view = "div") then
+        if ($root) then
+            let $doc := doc($config:app-root || "/" || $doc)
+            return 
+                util:node-by-id($doc, $root)
         else
-            doc($config:app-root || "/" || $doc)/tei:TEI/tei:text
-    return
-        map {
-            "data": $xml
-        }
+            (doc($config:app-root || "/" || $doc)//tei:div)[1]
+    else
+        doc($config:app-root || "/" || $doc)/tei:TEI/tei:text
 };
 
 declare function app:back-link($node as node(), $model as map(*), $odd as xs:string) {
@@ -198,7 +199,12 @@ function app:view($node as node(), $model as map(*), $odd as xs:string, $view as
             app:get-content($model("data"))
         else
             $model?data
-    let $html :=
+    return
+        app:process-content($odd, $xml)
+};
+
+declare function app:process-content($odd as xs:string, $xml as element()*) {
+	let $html :=
         pmu:process($config:odd-root || "/" || $odd, $xml, $config:output-root, "web", "../generated", $app:ext-html)
     let $class := if ($html//*[@class = "margin-note"]) then "margin-right" else ()
     return
@@ -240,7 +246,7 @@ function app:navigation($node as node(), $model as map(*), $view as xs:string) {
             }
 };
 
-declare %private function app:get-next($div as element()) {
+declare function app:get-next($div as element()) {
     if ($div/tei:div) then
         if (count(($div/tei:div[1])/preceding-sibling::*) < 5) then
             app:get-next($div/tei:div[1])
@@ -250,7 +256,7 @@ declare %private function app:get-next($div as element()) {
         $div/following::tei:div[1]
 };
 
-declare %private function app:get-previous($div as element(tei:div)?) {
+declare function app:get-previous($div as element(tei:div)?) {
     if (empty($div)) then
         ()
     else
@@ -296,15 +302,20 @@ function app:navigation-title($node as node(), $model as map(*)) {
 
 declare function app:navigation-link($node as node(), $model as map(*), $direction as xs:string, $odd as xs:string) {
     if ($model($direction)) then
-        element { node-name($node) } {
+        <a data-doc="{util:document-name($model($direction))}"
+            data-root="{util:node-id($model($direction))}"
+            data-current="{util:node-id($model('div'))}"
+            data-odd="{$odd}">
+        {
             $node/@* except $node/@href,
             let $id := util:document-name($model($direction)) || "?root=" || util:node-id($model($direction)) || "&amp;odd=" || $odd
             return
                 attribute href { $id },
             $node/node()
         }
+        </a>
     else
-        '&#xA0;' (:hack to keep "Next" from dropping into the hr when there is no "Previous":) 
+        <a href="#" style="visibility: hidden;">{$node/@class, $node/node()}</a>
 };
 
 declare %private function app:work-title($work as element(tei:TEI)?) {

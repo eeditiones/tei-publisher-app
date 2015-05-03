@@ -21,6 +21,12 @@
     padding-top: 2em;
 }
 
+#content-container {
+  -webkit-animation-duration: 400ms;
+  -moz-animation-duration: 400ms;
+  animation-duration: 400ms;
+}
+
 .margin-right {
     margin-right: 200px;
     position: relative;

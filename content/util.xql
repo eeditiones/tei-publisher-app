@@ -65,6 +65,21 @@ declare variable $pmu:MODULES := map {
                 "at": "fo-functions.xql"
             }
         ]
+    },
+    "epub": map {
+        "output": "web",
+        "modules": [
+            map {
+                "uri": "http://www.tei-c.org/tei-simple/xquery/functions",
+                "prefix": "html",
+                "at": "html-functions.xql"
+            },
+            map {
+                "uri": "http://www.tei-c.org/tei-simple/xquery/functions/epub",
+                "prefix": "epub",
+                "at": "ext-epub.xql"
+            }
+        ]
     }
 };
 
