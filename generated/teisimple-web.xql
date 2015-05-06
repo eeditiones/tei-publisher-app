@@ -74,7 +74,7 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(body) return
                 (
                     html:index($config, ., "body1", ., 'toc'),
-                    html:block($config, ., "body2", .)
+                    html:block($config, ., "body1", .)
                 )
 
             case element(byline) return
@@ -102,13 +102,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                 html:cell($config, ., "cell", .)
             case element(choice) return
                 if (sic and corr) then
-                    html:alternate($config, ., "choice4", corr[1], sic[1])
+                    html:alternate($config, ., "choice2", corr[1], sic[1])
                 else
                     if (abbr and expan) then
-                        html:alternate($config, ., "choice5", expan[1], abbr[1])
+                        html:alternate($config, ., "choice2", expan[1], abbr[1])
                     else
                         if (orig and reg) then
-                            html:alternate($config, ., "choice6", reg[1], orig[1])
+                            html:alternate($config, ., "choice2", reg[1], orig[1])
                         else
                             $config?apply($config, ./node())
             case element(cit) return
@@ -127,10 +127,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                     html:inline($config, ., "corr2", .)
             case element(date) return
                 if (@when) then
-                    html:alternate($config, ., "date3", ., @when)
+                    html:alternate($config, ., "date2", ., @when)
                 else
                     if (text()) then
-                        html:inline($config, ., "date4", .)
+                        html:inline($config, ., "date2", .)
                     else
                         $config?apply($config, ./node())
             case element(dateline) return
@@ -215,7 +215,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     if (@extent) then
                         html:inline($config, ., "gap2", @extent)
                     else
-                        html:inline($config, ., "gap3", .)
+                        html:inline($config, ., "gap2", .)
             case element(graphic) return
                 html:graphic($config, ., "graphic", @url, @width, @height, @scale)
             case element(group) return
@@ -233,12 +233,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:block($config, ., "head3", .)
                         else
                             if (parent::list) then
-                                html:block($config, ., "head4", .)
+                                html:block($config, ., "head3", .)
                             else
                                 if (parent::div) then
-                                    html:heading($config, ., "head5", ., @type, div)
+                                    html:heading($config, ., "head3", ., @type, div)
                                 else
-                                    html:block($config, ., "head6", .)
+                                    html:block($config, ., "head3", .)
             case element(hi) return
                 if (@rendition) then
                     html:inline($config, ., html:get-rendition(., "hi1"), .)
@@ -277,13 +277,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                 html:inline($config, ., "name", .)
             case element(note) return
                 if (@place) then
-                    html:note($config, ., "note1", ., @place)
+                    html:note($config, ., "note1", ., @place, @n)
                 else
                     if (parent::div and not(@place)) then
                         html:block($config, ., "note2", .)
                     else
                         if (not(@place)) then
-                            html:inline($config, ., "note3", .)
+                            html:inline($config, ., "note2", .)
                         else
                             $config?apply($config, ./node())
             case element(num) return
@@ -291,7 +291,7 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(opener) return
                 html:block($config, ., "opener", .)
             case element(orig) return
-                html:inline($config, ., "orig", .)
+                html:inline($config, ., "orig", @n)
             case element(p) return
                 html:paragraph($config, ., html:get-rendition(., "p"), .)
             case element(pb) return
@@ -334,7 +334,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     if (not(text())) then
                         html:link($config, ., "ref2", @target, @target)
                     else
-                        html:link($config, ., "ref3", ., @target)
+                        html:link($config, ., "ref2", ., @target)
             case element(reg) return
                 html:inline($config, ., "reg", .)
             case element(rhyme) return
@@ -390,12 +390,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:inline($config, ., "supplied2", .)
                     else
                         if (@reason='illegible' or not(@reason)) then
-                            html:inline($config, ., "supplied3", .)
+                            html:inline($config, ., "supplied2", .)
                         else
                             if (@reason='omitted') then
-                                html:inline($config, ., "supplied4", .)
+                                html:inline($config, ., "supplied2", .)
                             else
-                                html:inline($config, ., "supplied5", .)
+                                html:inline($config, ., "supplied2", .)
             case element(table) return
                 html:table($config, ., "table", .)
             case element(fileDesc) return
@@ -421,18 +421,18 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:text($config, ., "title1", ' — ')
                         else
                             (),
-                        html:text($config, ., "title2", .)
+                        html:text($config, ., "title1", .)
                     )
 
                 else
                     if (not(@level) and parent::bibl) then
-                        html:inline($config, ., "title1", .)
+                        html:inline($config, ., "title2", .)
                     else
                         if (@level='m' or not(@level)) then
                             (
                                 html:inline($config, ., "title1", .),
                                 if (ancestor::biblStruct or       ancestor::biblFull) then
-                                    html:text($config, ., "title2", ', ')
+                                    html:text($config, ., "title1", ', ')
                                 else
                                     ()
                             )
@@ -442,7 +442,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 (
                                     html:inline($config, ., "title1", .),
                                     if (following-sibling::* and     (ancestor::biblStruct  or     ancestor::biblFull)) then
-                                        html:text($config, ., "title2", ' ')
+                                        html:text($config, ., "title1", ' ')
                                     else
                                         ()
                                 )
@@ -452,7 +452,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     (
                                         html:inline($config, ., "title1", .),
                                         if (following-sibling::* and     (ancestor::biblStruct  or     ancestor::biblFull)) then
-                                            html:text($config, ., "title2", '. ')
+                                            html:text($config, ., "title1", '. ')
                                         else
                                             ()
                                     )

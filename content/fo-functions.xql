@@ -152,7 +152,7 @@ declare function pmf:block($config as map(*), $node as element(), $class as xs:s
     </fo:block>
 };
 
-declare function pmf:note($config as map(*), $node as element(), $class as xs:string, $content as item()*, $place as xs:string?) {
+declare function pmf:note($config as map(*), $node as element(), $class as xs:string, $content as item()*, $place as xs:string?, $n as xs:string?) {
 (:    let $number := count($node/preceding::tei:note):)
     let $number := counter:next-value($pmf:NOTE_COUNTER_ID)
     return

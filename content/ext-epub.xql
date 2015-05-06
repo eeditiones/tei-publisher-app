@@ -29,7 +29,7 @@ declare function pmf:cells($config as map(*), $node as element(), $class as xs:s
     </tr>
 };
 
-declare function pmf:note($config as map(*), $node as element(), $class as xs:string, $content, $place as xs:string?) {
+declare function pmf:note($config as map(*), $node as element(), $class as xs:string, $content, $place as xs:string?, $n as xs:string?) {
     let $id := translate(generate-id($node), ".", "_")
     return
         switch ($place)

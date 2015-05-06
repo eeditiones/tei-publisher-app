@@ -37,11 +37,6 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
     $input !     (
         typeswitch(.)
-            case element(code) return
-                if (parent::cell|parent::p) then
-                    fo:inline($config, ., "code1", .)
-                else
-                    ext:code($config, ., "code2", ., @lang)
             case element(ab) return
                 fo:paragraph($config, ., "ab", .)
             case element(abbr) return
@@ -280,7 +275,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 fo:inline($config, ., "name", .)
             case element(note) return
                 if (@place) then
-                    fo:note($config, ., "note1", ., @place)
+                    fo:note($config, ., "note1", ., @place, @n)
                 else
                     if (parent::div and not(@place)) then
                         fo:block($config, ., "note2", .)
@@ -294,7 +289,7 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(opener) return
                 fo:block($config, ., "opener", .)
             case element(orig) return
-                fo:inline($config, ., "orig", .)
+                fo:inline($config, ., "orig", @n)
             case element(p) return
                 fo:paragraph($config, ., fo:get-rendition(., "p"), .)
             case element(pb) return

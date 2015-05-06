@@ -7,6 +7,7 @@
 .simple_blackletter { font-family: fantasy; }
 .simple_bold { font-weight: bold; }
 .simple_bottombraced { padding-bottom: 2pt; border-bottom: dashed gray 2pt; }
+.simple_block { display:block; }
 .simple_boxed { padding: 2pt; border: solid black 1pt; }
 .simple_centre { text-align: center; }
 .simple_cursive { font-family: cursive; }
@@ -16,8 +17,8 @@
 .simple_float { float:right; display: block; font-size: smaller; clear: right; padding: 4pt; width: 15%; }
 .simple_hyphen {  }
 .simple_inline { display:inline; }
-.simple_display { display:block; }
 .simple_italic { font-style: italic; }
+.simple_justify { text-align: justify; }
 .simple_larger { font-size: larger; }
 .simple_left { text-align: left; }
 .simple_leftbraced { padding-left: 2pt; border-left: dotted gray 2pt; }

@@ -119,7 +119,7 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
         </img>
 };
 
-declare function pmf:note($config as map(*), $node as element(), $class as xs:string, $content, $place as xs:string?) {
+declare function pmf:note($config as map(*), $node as element(), $class as xs:string, $content, $place as xs:string?, $n as xs:string?) {
     switch ($place)
         case "margin" return
             <span class="margin-note">

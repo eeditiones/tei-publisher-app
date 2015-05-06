@@ -58,7 +58,7 @@
                 <docAuthor>Sebastian Rahtz</docAuthor>
                 <docAuthor>Brian Pytlik Zillig</docAuthor>
                 <docAuthor>Martin Mueller</docAuthor>
-                <docDate>Version 0.1: 30th November 2014</docDate>
+                <docDate>Version 0.2: 12th April 2015</docDate>
             </titlePage>
         </front>
         <body>
@@ -274,7 +274,8 @@
                                         <valItem ident="top-left">
                                             <desc>at the top left of the page</desc>
                                         </valItem>
-                                        <valItem ident="top-center">
+                                        <valItem ident="top-centre">
+                      <?exactMatch top-center?>
                                             <desc>at the top center of the page</desc>
                                         </valItem>
                                         <valItem ident="bottom-right">
@@ -285,9 +286,10 @@
                       <?exactMatch bot-left?>
                                             <desc>at the bottom left of the page</desc>
                                         </valItem>
-                                        <valItem ident="bottom-center">
+                                        <valItem ident="bottom-centre">
+                      <?exactMatch bottom-center?>
                       <?exactMatch bot-center?>
-                                            <desc>at the bottom center of the page</desc>
+                                            <desc>at the bottom centre of the page</desc>
                                         </valItem>
                                         <valItem ident="bottom">
                       <?exactMatch foot?>
@@ -297,27 +299,34 @@
                                             <desc>underneath a table</desc>
                       <?exactMatch tablefoot?>
                                         </valItem>
-                                        <valItem ident="margin">
+                                        <valItem ident="margin-right">
                       <?exactMatch margin-outer?>
+                      <?exactMatch right?>
                       <?exactMatch marg1?>
                       <?exactMatch marg2?>
                       <?exactMatch marg3?>
                       <?exactMatch marg4?>
+                                            <desc>in the right-hand margin</desc>
+                                        </valItem>
+                                        <valItem ident="margin-outer">
+                      <?exactMatch margin?>
                                             <desc>in the outer margin</desc>
+                                        </valItem>
+                                        <valItem ident="margin-inner">
+                                            <desc>in the inner margin</desc>
                                         </valItem>
                                         <valItem ident="margin-left">
                       <?exactMatch left?>
-                                            <desc>in the left margin</desc>
-                                        </valItem>
-                                        <valItem ident="margin-right">
-                      <?exactMatch right?>
-                                            <desc>in the right margin</desc>
+                                            <desc>in the left-hand margin</desc>
                                         </valItem>
                                         <valItem ident="opposite">
                                             <desc>on the opposite, i.e. facing, page.</desc>
                                         </valItem>
                                         <valItem ident="overleaf">
                                             <desc>on the other side of the leaf.</desc>
+                                        </valItem>
+                                        <valItem ident="overstrike">
+                                            <desc>superimposed on top of the current context</desc>
                                         </valItem>
                                         <valItem ident="end">
                                             <desc>at the end of the volume.</desc>
@@ -337,6 +346,7 @@
                                     scribe.</desc>
                                         </valItem>
                                         <valItem ident="block">
+		      <?exactMatch display?>
                                             <desc>formatted as an indented paragraph</desc>
                                         </valItem>
                                     </valList>
@@ -377,7 +387,7 @@
                                 </attDef>
                             </attList>
                         </classSpec>
-                        <classSpec type="atts" ident="att.global" mode="change">
+                        <classSpec type="atts" ident="att.global.rendition" mode="change">
                             <constraintSpec ident="renditionpointer" scheme="isoschematron">
                                 <constraint>
                                     <rule xmlns="http://purl.oclc.org/dsdl/schematron" context="tei:*[@rendition]">
@@ -458,6 +468,9 @@
                                         </valItem>
                                         <valItem ident="simple:inline">
                                             <desc>inline rendering</desc>
+                                        </valItem>
+                                        <valItem ident="simple:justify">
+                                            <desc>justified text</desc>
                                         </valItem>
                                         <valItem ident="simple:italic">
                       <?exactMatch italics?>
@@ -569,6 +582,7 @@
                     <p>The main part of Simple is the set of selected elements.</p>
                     <include xmlns="http://www.w3.org/2001/XInclude" href="simpleelements.xml"/>
                     <specGrp xmlns:XSL="http://www.w3.org/1999/XSL/Transform" xml:id="simpleelementspm">
+                        <!-- Added by Wolfgang for the documentation -->
                         <elementSpec mode="change" ident="code">
                             <model behaviour="inline(.)" predicate="parent::cell|parent::p"/>
                             <model behaviour="code(., @lang)"/>
@@ -890,13 +904,13 @@ border-bottom: solid 1pt blue;
                             <model behaviour="inline(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="milestone">
-                            <model behaviour="inline(.)"/>
+                            <model behaviour="inline()"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="name">
                             <model behaviour="inline(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="note">
-                            <model predicate="@place" behaviour="note(.,@place)"/>
+                            <model predicate="@place" behaviour="note(.,@place,@n)"/>
                             <model predicate="parent::div and not(@place)" behaviour="block(.)">
                                 <rendition>margin-left: 10px;margin-right: 10px; font-size:smaller;</rendition>
                             </model>
@@ -913,7 +927,7 @@ border-bottom: solid 1pt blue;
                             <model behaviour="block(.)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="orig">
-                            <model behaviour="inline(.)"/>
+                            <model behaviour="inline(@n)"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="p">
                             <model behaviour="paragraph(.)" useSourceRendition="true">
@@ -1253,6 +1267,7 @@ border-bottom: solid 1pt blue;
                         <rendition xml:id="blackletter">font-family: fantasy;</rendition>
                         <rendition xml:id="bold">font-weight: bold;</rendition>
                         <rendition xml:id="bottombraced">padding-bottom: 2pt; border-bottom: dashed gray 2pt;</rendition>
+                        <rendition xml:id="block">display:block;</rendition>
                         <rendition xml:id="boxed">padding: 2pt; border: solid black 1pt;</rendition>
                         <rendition xml:id="centre">text-align: center;</rendition>
                         <rendition xml:id="cursive">font-family: cursive;</rendition>
@@ -1277,8 +1292,8 @@ border-bottom: solid 1pt blue;
 </rendition>
                         <rendition xml:id="hyphen"/>
                         <rendition xml:id="inline">display:inline;</rendition>
-                        <rendition xml:id="display">display:block;</rendition>
                         <rendition xml:id="italic">font-style: italic;</rendition>
+                        <rendition xml:id="justify">text-align: justify;</rendition>
                         <rendition xml:id="larger">font-size: larger;</rendition>
                         <rendition xml:id="left">text-align: left;</rendition>
                         <rendition xml:id="leftbraced">padding-left: 2pt; border-left: dotted gray 2pt; </rendition>
