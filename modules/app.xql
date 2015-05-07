@@ -347,6 +347,14 @@ declare function app:action($node as node(), $model as map(*), $source as xs:str
                         "../generated",
                         $app:ext-html)("module")
                     return
+                        <li>{$file}</li>,
+                    for $file in pmu:process-odd(
+                        doc($config:odd-root || "/" || $source),
+                        $config:output-root,
+                        "odt",
+                        "../generated",
+                        $app:ext-html)("module")
+                    return
                         <li>{$file}</li>
                 }
                 </ul>

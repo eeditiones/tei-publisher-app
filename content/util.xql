@@ -80,6 +80,16 @@ declare variable $pmu:MODULES := map {
                 "at": "ext-epub.xql"
             }
         ]
+    },
+    "odt": map {
+        "output": "print",
+        "modules": [
+            map {
+                "uri": "http://www.tei-c.org/tei-simple/xquery/functions/odt",
+                "prefix": "odt",
+                "at": "odt-functions.xql"
+            }
+        ]
     }
 };
 
