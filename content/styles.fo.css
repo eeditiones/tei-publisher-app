@@ -26,31 +26,31 @@
     page-break-after: right;
 }
 .head1 {
-    font-size: 3.157em;
-    line-height: 1;
+    font-size: 2.441em;
+    line-height: 1.2;
     space-before: 2em;
     space-after: .5em;
     keep-with-next: always;
     keep-together.within-page: always;
 }
 .head2 {
-    font-size: 2.369em;
-    line-height: 1;
+    font-size: 1.953em;
+    line-height: 1.2;
     space-before: 1.5em;
     keep-with-next: always;
     keep-together.within-page: always;
 }
 .head3 {
-    font-size: 1.777em;
-    line-height: 1;
+    font-size: 1.563em;
+    line-height: 1.2;
     font-weight: bold;
     space-before: 1em;
     keep-with-next: always;
     keep-together.within-page: always;
 }
 .head4 {
-    font-size: 1.333em;
-    line-height: 1;
+    font-size: 1.25em;
+    line-height: 1.2;
     font-weight: bold;
     space-before: 1em;
     keep-with-next: always;
@@ -61,4 +61,12 @@
     space-after: .5em;
     text-indent: 1.5em;
     text-align: justify;
+}
+.note {
+    font-size: 60%;
+    keep-with-previous.within-line: always;
+    baseline-shift: super;
+}
+.note-body {
+    font-size: 9pt;
 }

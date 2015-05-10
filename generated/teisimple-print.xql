@@ -9,6 +9,8 @@ module namespace model="http://www.tei-c.org/tei-simple/models/teisimple.odd";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
+import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/css.xql";
+
 import module namespace fo="http://www.tei-c.org/tei-simple/xquery/functions/fo" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/fo-functions.xql";
 
 import module namespace ext="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/../modules/ext-html.xql";
@@ -37,6 +39,11 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
     $input !     (
         typeswitch(.)
+            case element(code) return
+                if (parent::cell|parent::p) then
+                    fo:inline($config, ., "code1", .)
+                else
+                    ext:code($config, ., "code2", ., @lang)
             case element(ab) return
                 fo:paragraph($config, ., "ab", .)
             case element(abbr) return
@@ -87,7 +94,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 fo:listItem($config, ., "castItem", .)
             case element(castList) return
                 if (child::*) then
-                    fo:list($config, ., fo:get-rendition(., "castList"), castItem)
+                    fo:list($config, ., css:get-rendition(., "castList"), castItem)
                 else
                     $config?apply($config, ./node())
             case element(cb) return
@@ -171,7 +178,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     (: Omit if located in teiHeader. :)
                     fo:omit($config, ., "docTitle1", .)
                 else
-                    fo:block($config, ., fo:get-rendition(., "docTitle2"), .)
+                    fo:block($config, ., css:get-rendition(., "docTitle2"), .)
             case element(epigraph) return
                 fo:block($config, ., "epigraph", .)
             case element(ex) return
@@ -239,7 +246,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     fo:block($config, ., "head6", .)
             case element(hi) return
                 if (@rendition) then
-                    fo:inline($config, ., fo:get-rendition(., "hi1"), .)
+                    fo:inline($config, ., css:get-rendition(., "hi1"), .)
                 else
                     if (not(@rendition)) then
                         fo:inline($config, ., "hi2", .)
@@ -250,16 +257,16 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(item) return
                 fo:listItem($config, ., "item", .)
             case element(l) return
-                fo:block($config, ., fo:get-rendition(., "l"), .)
+                fo:block($config, ., css:get-rendition(., "l"), .)
             case element(label) return
                 fo:inline($config, ., "label", .)
             case element(lb) return
-                fo:break($config, ., fo:get-rendition(., "lb"), 'line', @n)
+                fo:break($config, ., css:get-rendition(., "lb"), 'line', @n)
             case element(lg) return
                 fo:block($config, ., "lg", .)
             case element(list) return
                 if (@rendition) then
-                    fo:list($config, ., fo:get-rendition(., "list1"), item)
+                    fo:list($config, ., css:get-rendition(., "list1"), item)
                 else
                     if (not(@rendition)) then
                         fo:list($config, ., "list2", item)
@@ -291,9 +298,9 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(orig) return
                 fo:inline($config, ., "orig", @n)
             case element(p) return
-                fo:paragraph($config, ., fo:get-rendition(., "p"), .)
+                fo:paragraph($config, ., css:get-rendition(., "p"), .)
             case element(pb) return
-                fo:break($config, ., fo:get-rendition(., "pb"), 'page', (concat(if(@n) then concat(@n,' ') else '',if(@facs) then concat('@',@facs) else '')))
+                fo:break($config, ., css:get-rendition(., "pb"), 'page', (concat(if(@n) then concat(@n,' ') else '',if(@facs) then concat('@',@facs) else '')))
             case element(pc) return
                 fo:inline($config, ., "pc", .)
             case element(postscript) return
@@ -312,19 +319,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                     $config?apply($config, ./node())
             case element(q) return
                 if (l) then
-                    fo:block($config, ., fo:get-rendition(., "q1"), .)
+                    fo:block($config, ., css:get-rendition(., "q1"), .)
                 else
                     if (ancestor::p or ancestor::cell) then
-                        fo:inline($config, ., fo:get-rendition(., "q2"), .)
+                        fo:inline($config, ., css:get-rendition(., "q2"), .)
                     else
-                        fo:block($config, ., fo:get-rendition(., "q3"), .)
+                        fo:block($config, ., css:get-rendition(., "q3"), .)
             case element(quote) return
                 if (ancestor::p) then
                     (: If it is inside a paragraph then it is inline, otherwise it is block level :)
-                    fo:inline($config, ., fo:get-rendition(., "quote1"), .)
+                    fo:inline($config, ., css:get-rendition(., "quote1"), .)
                 else
                     (: If it is inside a paragraph then it is inline, otherwise it is block level :)
-                    fo:block($config, ., fo:get-rendition(., "quote2"), .)
+                    fo:block($config, ., css:get-rendition(., "quote2"), .)
             case element(ref) return
                 if (not(@target)) then
                     fo:inline($config, ., "ref1", .)
@@ -357,7 +364,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 else
                     fo:block($config, ., "salute2", .)
             case element(seg) return
-                fo:inline($config, ., fo:get-rendition(., "seg"), .)
+                fo:inline($config, ., css:get-rendition(., "seg"), .)
             case element(sic) return
                 if (parent::choice and count(parent::*/*) gt 1) then
                     fo:inline($config, ., "sic1", .)
@@ -458,9 +465,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 else
                                     fo:inline($config, ., "title2", .)
             case element(titlePage) return
-                fo:block($config, ., fo:get-rendition(., "titlePage"), .)
+                fo:block($config, ., css:get-rendition(., "titlePage"), .)
             case element(titlePart) return
-                fo:block($config, ., fo:get-rendition(., "titlePart"), .)
+                fo:block($config, ., css:get-rendition(., "titlePart"), .)
             case element(trailer) return
                 fo:block($config, ., "trailer", .)
             case element(unclear) return

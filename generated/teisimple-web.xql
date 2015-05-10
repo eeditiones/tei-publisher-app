@@ -9,6 +9,8 @@ module namespace model="http://www.tei-c.org/tei-simple/models/teisimple.odd";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
+import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/css.xql";
+
 import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/html-functions.xql";
 
 import module namespace ext="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/../modules/ext-html.xql";
@@ -74,7 +76,7 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(body) return
                 (
                     html:index($config, ., "body1", ., 'toc'),
-                    html:block($config, ., "body1", .)
+                    html:block($config, ., "body2", .)
                 )
 
             case element(byline) return
@@ -92,7 +94,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 html:listItem($config, ., "castItem", .)
             case element(castList) return
                 if (child::*) then
-                    html:list($config, ., html:get-rendition(., "castList"), castItem)
+                    html:list($config, ., css:get-rendition(., "castList"), castItem)
                 else
                     $config?apply($config, ./node())
             case element(cb) return
@@ -102,13 +104,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                 html:cell($config, ., "cell", .)
             case element(choice) return
                 if (sic and corr) then
-                    html:alternate($config, ., "choice2", corr[1], sic[1])
+                    html:alternate($config, ., "choice4", corr[1], sic[1])
                 else
                     if (abbr and expan) then
-                        html:alternate($config, ., "choice2", expan[1], abbr[1])
+                        html:alternate($config, ., "choice5", expan[1], abbr[1])
                     else
                         if (orig and reg) then
-                            html:alternate($config, ., "choice2", reg[1], orig[1])
+                            html:alternate($config, ., "choice6", reg[1], orig[1])
                         else
                             $config?apply($config, ./node())
             case element(cit) return
@@ -127,10 +129,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                     html:inline($config, ., "corr2", .)
             case element(date) return
                 if (@when) then
-                    html:alternate($config, ., "date2", ., @when)
+                    html:alternate($config, ., "date3", ., @when)
                 else
                     if (text()) then
-                        html:inline($config, ., "date2", .)
+                        html:inline($config, ., "date4", .)
                     else
                         $config?apply($config, ./node())
             case element(dateline) return
@@ -173,7 +175,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     (: Omit if located in teiHeader. :)
                     html:omit($config, ., "docTitle1", .)
                 else
-                    html:block($config, ., html:get-rendition(., "docTitle2"), .)
+                    html:block($config, ., css:get-rendition(., "docTitle2"), .)
             case element(epigraph) return
                 html:block($config, ., "epigraph", .)
             case element(ex) return
@@ -215,7 +217,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     if (@extent) then
                         html:inline($config, ., "gap2", @extent)
                     else
-                        html:inline($config, ., "gap2", .)
+                        html:inline($config, ., "gap3", .)
             case element(graphic) return
                 html:graphic($config, ., "graphic", @url, @width, @height, @scale)
             case element(group) return
@@ -233,15 +235,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:block($config, ., "head3", .)
                         else
                             if (parent::list) then
-                                html:block($config, ., "head3", .)
+                                html:block($config, ., "head4", .)
                             else
                                 if (parent::div) then
-                                    html:heading($config, ., "head3", ., @type, div)
+                                    html:heading($config, ., "head5", ., @type, div)
                                 else
-                                    html:block($config, ., "head3", .)
+                                    html:block($config, ., "head6", .)
             case element(hi) return
                 if (@rendition) then
-                    html:inline($config, ., html:get-rendition(., "hi1"), .)
+                    html:inline($config, ., css:get-rendition(., "hi1"), .)
                 else
                     if (not(@rendition)) then
                         html:inline($config, ., "hi2", .)
@@ -252,16 +254,16 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(item) return
                 html:listItem($config, ., "item", .)
             case element(l) return
-                html:block($config, ., html:get-rendition(., "l"), .)
+                html:block($config, ., css:get-rendition(., "l"), .)
             case element(label) return
                 html:inline($config, ., "label", .)
             case element(lb) return
-                html:break($config, ., html:get-rendition(., "lb"), 'line', @n)
+                html:break($config, ., css:get-rendition(., "lb"), 'line', @n)
             case element(lg) return
                 html:block($config, ., "lg", .)
             case element(list) return
                 if (@rendition) then
-                    html:list($config, ., html:get-rendition(., "list1"), item)
+                    html:list($config, ., css:get-rendition(., "list1"), item)
                 else
                     if (not(@rendition)) then
                         html:list($config, ., "list2", item)
@@ -283,7 +285,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:block($config, ., "note2", .)
                     else
                         if (not(@place)) then
-                            html:inline($config, ., "note2", .)
+                            html:inline($config, ., "note3", .)
                         else
                             $config?apply($config, ./node())
             case element(num) return
@@ -293,9 +295,9 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(orig) return
                 html:inline($config, ., "orig", @n)
             case element(p) return
-                html:paragraph($config, ., html:get-rendition(., "p"), .)
+                html:paragraph($config, ., css:get-rendition(., "p"), .)
             case element(pb) return
-                html:break($config, ., html:get-rendition(., "pb"), 'page', (concat(if(@n) then concat(@n,' ') else '',if(@facs) then concat('@',@facs) else '')))
+                html:break($config, ., css:get-rendition(., "pb"), 'page', (concat(if(@n) then concat(@n,' ') else '',if(@facs) then concat('@',@facs) else '')))
             case element(pc) return
                 html:inline($config, ., "pc", .)
             case element(postscript) return
@@ -314,19 +316,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                     $config?apply($config, ./node())
             case element(q) return
                 if (l) then
-                    html:block($config, ., html:get-rendition(., "q1"), .)
+                    html:block($config, ., css:get-rendition(., "q1"), .)
                 else
                     if (ancestor::p or ancestor::cell) then
-                        html:inline($config, ., html:get-rendition(., "q2"), .)
+                        html:inline($config, ., css:get-rendition(., "q2"), .)
                     else
-                        html:block($config, ., html:get-rendition(., "q3"), .)
+                        html:block($config, ., css:get-rendition(., "q3"), .)
             case element(quote) return
                 if (ancestor::p) then
                     (: If it is inside a paragraph then it is inline, otherwise it is block level :)
-                    html:inline($config, ., html:get-rendition(., "quote1"), .)
+                    html:inline($config, ., css:get-rendition(., "quote1"), .)
                 else
                     (: If it is inside a paragraph then it is inline, otherwise it is block level :)
-                    html:block($config, ., html:get-rendition(., "quote2"), .)
+                    html:block($config, ., css:get-rendition(., "quote2"), .)
             case element(ref) return
                 if (not(@target)) then
                     html:inline($config, ., "ref1", .)
@@ -334,7 +336,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     if (not(text())) then
                         html:link($config, ., "ref2", @target, @target)
                     else
-                        html:link($config, ., "ref2", ., @target)
+                        html:link($config, ., "ref3", ., @target)
             case element(reg) return
                 html:inline($config, ., "reg", .)
             case element(rhyme) return
@@ -359,7 +361,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 else
                     html:block($config, ., "salute2", .)
             case element(seg) return
-                html:inline($config, ., html:get-rendition(., "seg"), .)
+                html:inline($config, ., css:get-rendition(., "seg"), .)
             case element(sic) return
                 if (parent::choice and count(parent::*/*) gt 1) then
                     html:inline($config, ., "sic1", .)
@@ -390,12 +392,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:inline($config, ., "supplied2", .)
                     else
                         if (@reason='illegible' or not(@reason)) then
-                            html:inline($config, ., "supplied2", .)
+                            html:inline($config, ., "supplied3", .)
                         else
                             if (@reason='omitted') then
-                                html:inline($config, ., "supplied2", .)
+                                html:inline($config, ., "supplied4", .)
                             else
-                                html:inline($config, ., "supplied2", .)
+                                html:inline($config, ., "supplied5", .)
             case element(table) return
                 html:table($config, ., "table", .)
             case element(fileDesc) return
@@ -421,18 +423,18 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:text($config, ., "title1", ' — ')
                         else
                             (),
-                        html:text($config, ., "title1", .)
+                        html:text($config, ., "title2", .)
                     )
 
                 else
                     if (not(@level) and parent::bibl) then
-                        html:inline($config, ., "title2", .)
+                        html:inline($config, ., "title1", .)
                     else
                         if (@level='m' or not(@level)) then
                             (
                                 html:inline($config, ., "title1", .),
                                 if (ancestor::biblStruct or       ancestor::biblFull) then
-                                    html:text($config, ., "title1", ', ')
+                                    html:text($config, ., "title2", ', ')
                                 else
                                     ()
                             )
@@ -442,7 +444,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 (
                                     html:inline($config, ., "title1", .),
                                     if (following-sibling::* and     (ancestor::biblStruct  or     ancestor::biblFull)) then
-                                        html:text($config, ., "title1", ' ')
+                                        html:text($config, ., "title2", ' ')
                                     else
                                         ()
                                 )
@@ -452,7 +454,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     (
                                         html:inline($config, ., "title1", .),
                                         if (following-sibling::* and     (ancestor::biblStruct  or     ancestor::biblFull)) then
-                                            html:text($config, ., "title1", '. ')
+                                            html:text($config, ., "title2", '. ')
                                         else
                                             ()
                                     )
@@ -460,9 +462,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 else
                                     html:inline($config, ., "title2", .)
             case element(titlePage) return
-                html:block($config, ., html:get-rendition(., "titlePage"), .)
+                html:block($config, ., css:get-rendition(., "titlePage"), .)
             case element(titlePart) return
-                html:block($config, ., html:get-rendition(., "titlePart"), .)
+                html:block($config, ., css:get-rendition(., "titlePart"), .)
             case element(trailer) return
                 html:block($config, ., "trailer", .)
             case element(unclear) return

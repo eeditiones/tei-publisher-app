@@ -14,7 +14,6 @@ xquery version "3.1";
 
 module namespace epub = "http://exist-db.org/xquery/epub";
 
-import module namespace compression = "http://exist-db.org/xquery/compression";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "/db/apps/tei-simple/content/util.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";

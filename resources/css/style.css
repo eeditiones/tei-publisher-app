@@ -6,13 +6,14 @@
     font-size: 16px;
 }
 
-.content h1 { font-size: 3.157em; }
-.content h2 { font-size: 2.369em; }
-.content h3 { font-size: 1.777em; }
-.content h4 { font-size: 1.333em; }
+.content h1 { font-size: 2.441em; }
+.content h2 { font-size: 1.953em; }
+.content h3 { font-size: 1.563em; }
+.content h4 { font-size: 1.25em; }
 
 .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
     font-family: Junicode, Georgia, Times, serif;
+    line-height: 1.2;
 }
 
 .content>*>section {
@@ -36,8 +37,10 @@
     font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
 }
 
+.note, .popover {
+    font-size: 13px;
+}
 .note {
-    font-size: 66%;
     vertical-align: super;
     cursor: pointer;
     margin-left: .25em;

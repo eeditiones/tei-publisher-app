@@ -64,6 +64,7 @@ declare function pm:parse($odd as element(), $modules as array(*), $output as xs
             </comment>
             <module prefix="model" uri="{$uri}">
                 <default-element-namespace>http://www.tei-c.org/ns/1.0</default-element-namespace>
+                <import-module prefix="css" uri="http://www.tei-c.org/tei-simple/xquery/css" at="{system:get-module-load-path()}/css.xql"/>
                 { pm:import-modules($modules) }
                 <comment type="xqdoc">
                     Main entry point for the transformation.
@@ -249,7 +250,7 @@ declare %private function pm:model($ident as xs:string, $model as element(tei:mo
                     <param>
                     {
                         if ($model/@useSourceRendition = "true") then
-                            <function-call name="{$modules?1?prefix}:get-rendition">
+                            <function-call name="css:get-rendition">
                                 <param>.</param>
                                 <param>{'"' || $class || '"'}</param>
                             </function-call>

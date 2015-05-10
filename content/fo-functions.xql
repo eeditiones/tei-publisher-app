@@ -44,6 +44,7 @@ declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 import module namespace counter="http://exist-db.org/xquery/counter" at "java:org.exist.xquery.modules.counter.CounterModule";
+import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "css.xql";
 
 declare variable $pmf:CSS_PROPERTIES := (
     "font-family", 
@@ -157,19 +158,22 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
     let $number := counter:next-value($pmf:NOTE_COUNTER_ID)
     return
         <fo:footnote>
-            <fo:inline keep-with-previous.within-line="always" baseline-shift="super" font-size="60%">
+            <fo:inline>
+            {pmf:check-styles($config, "note", ())}
             {$number} 
             </fo:inline>
             <fo:footnote-body start-indent="0mm" end-indent="0mm" text-indent="0mm" white-space-treatment="ignore-if-surrounding-linefeed">
                 <fo:list-block>
                     <fo:list-item>
                         <fo:list-item-label end-indent="label-end()" >
-                            <fo:block font-size=".60em">
+                            <fo:block>
+                            {pmf:check-styles($config, "note-body", ())}
                             { $number }
                             </fo:block>
                         </fo:list-item-label>
                         <fo:list-item-body start-indent="body-start()">
-                            <fo:block font-size=".85em">{$config?apply-children($config, $node, $content/node())}</fo:block>
+                            {pmf:check-styles($config, "note-body", ())}
+                            <fo:block>{$config?apply-children($config, $node, $content/node())}</fo:block>
                         </fo:list-item-body>
                     </fo:list-item>
                 </fo:list-block>
@@ -386,20 +390,6 @@ declare function pmf:omit($config as map(*), $node as element(), $class as xs:st
     ()
 };
 
-declare function pmf:get-rendition($node as node()*, $class as xs:string) {
-    let $rend := $node/@rendition
-    return
-        if ($rend) then
-            if (starts-with($rend, "#")) then
-                'document_' || substring-after(.,'#')
-            else if (starts-with($rend,'simple:')) then
-                translate($rend,':','_')
-            else
-                $rend
-        else
-            $class
-};
-
 declare function pmf:get-before($config as map(*), $class as xs:string) {
     let $before := $config?styles?($class || ":before")
     return
@@ -467,8 +457,8 @@ declare %private function pmf:merge-styles($map as map(*)?, $defaults as map(*)?
 };
 
 declare function pmf:load-styles($config as map(*), $root as document-node()) {
-    let $css := pmf:generate-css($root)
-    let $styles := pmf:parse-css($css)
+    let $css := css:generate-css($root)
+    let $styles := css:parse-css($css)
     return
         map:new(($config, map:entry("styles", $styles)))
 };
@@ -477,10 +467,6 @@ declare function pmf:load-default-styles($config as map(*)) {
     let $path := $config?collection || "/styles.fo.css"
     let $userStyles := pmf:read-css($path)
     let $systemStyles := pmf:read-css(system:get-module-load-path() || "/styles.fo.css")
-    let $log := console:log(serialize(pmf:merge-styles($userStyles, $systemStyles), 
-            <output:serialization-parameters>
-                <output:method>json</output:method>
-            </output:serialization-parameters>))
     return
         map:new(($config, map:entry("default-styles", pmf:merge-styles($userStyles, $systemStyles))))
 };
@@ -489,51 +475,9 @@ declare function pmf:read-css($path) {
 	if (util:binary-doc-available($path)) then
         let $css := util:binary-to-string(util:binary-doc($path))
         return
-            pmf:parse-css($css)
+            css:parse-css($css)
     else
         ()
-};
-
-declare function pmf:parse-css($css as xs:string) {
-    map:new(
-        let $analyzed := analyze-string($css, "\.?(.*?)\s*\{\s*([^\}]*?)\s*\}", "m")
-        for $match in $analyzed/fn:match
-        let $selector := $match/fn:group[@nr = "1"]/string()
-        let $styles := map:new(
-            for $match in analyze-string($match/fn:group[@nr = "2"], "\s*(.*?)\s*\:\s*['&quot;]?(.*?)['&quot;]?\;")/fn:match
-            return
-                map:entry($match/fn:group[1]/string(), $match/fn:group[2]/string())
-        )
-        return
-            map:entry($selector, $styles)
-    )
-};
-
-declare %private function pmf:generate-css($root as document-node()) {
-    string-join((
-        for $rend in $root//tei:rendition[@xml:id][not(parent::tei:model)]
-        return
-            "&#10;.simple_" || $rend/@xml:id || " { " || 
-            normalize-space($rend/string()) || " }",
-        "&#10;",
-        for $model in $root//tei:model[tei:rendition]
-        let $spec := $model/ancestor::tei:elementSpec[1]
-        let $count := count($spec//tei:model)
-        for $rend in $model/tei:rendition
-        let $className :=
-            if ($count > 1) then
-                $spec/@ident || count($model/preceding::tei:model[. >> $spec]) + 1
-            else
-                $spec/@ident/string()
-        let $class :=
-            if ($rend/@scope) then
-                $className || ":" || $rend/@scope
-            else
-                $className
-        return
-            "&#10;." || $class || " { " ||
-            normalize-space($rend) || " }"
-    ))
 };
 
 declare function pmf:escapeChars($text as item()) {

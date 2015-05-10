@@ -41,7 +41,7 @@ module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
 import module namespace pm="http://www.tei-c.org/tei-simple/xquery/model" at "model.xql";
-import module namespace pmfhtml="http://www.tei-c.org/tei-simple/xquery/functions" at "html-functions.xql";
+import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "css.xql";
 
 declare variable $pmu:ERR_UNKNOWN_MODE := xs:QName("pmu:err-mode-unknown");
 
@@ -141,7 +141,7 @@ declare function pmu:process-odd($odd as document-node(), $output-root as xs:str
 };
 
 declare function pmu:extract-styles($odd as document-node(), $name as xs:string, $output-root as xs:string) {
-    let $style := pmfhtml:generate-css($odd)
+    let $style := css:generate-css($odd)
     let $path :=
         xmldb:store($output-root, $name || ".css", $style, "text/css")
     return
