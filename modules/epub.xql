@@ -34,17 +34,19 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
     @see http://demo.exist-db.org/exist/functions/compression/zip
 :)
 declare function epub:generate-epub($config as map(*), $doc, $css, $filename) {
+    let $xhtml := epub:body-xhtml-entries($doc, $config)
     let $entries :=
         (
             epub:mimetype-entry(),
             epub:container-entry(),
-            epub:content-opf-entry($config, $doc),
+            epub:content-opf-entry($config, $doc, $xhtml),
             epub:title-xhtml-entry($doc),
             epub:table-of-contents-xhtml-entry($config?metadata?title, $doc, false()),
-            epub:body-xhtml-entries($doc, $config),
+            epub:images-entry($doc, $xhtml),
             epub:stylesheet-entry($css),
             epub:toc-ncx-entry($config?metadata?urn, $config?metadata?title, $doc),
-            epub:fonts-entry($config)
+            epub:fonts-entry($config),
+            $xhtml
         )
     return
         $entries
@@ -93,7 +95,7 @@ declare function epub:container-entry() {
     @param $text the tei:text element for the file, which contains the divs to be processed into the EPUB
     @return the OEBPS/content.opf entry
 :)
-declare function epub:content-opf-entry($config as map(*), $text) {
+declare function epub:content-opf-entry($config as map(*), $text, $xhtml as element()*) {
     let $content-opf := 
         <package xmlns="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" unique-identifier="bookid">
             <metadata>
@@ -116,9 +118,15 @@ declare function epub:content-opf-entry($config as map(*), $text) {
                 <item id="endnotes" href="endnotes.html" media-type="application/xhtml+xml"/>
                 <item id="css" href="stylesheet.css" media-type="text/css"/>
                 {
-                for $image in $text//tei:graphic[@url]
+                for $img in distinct-values($xhtml//*:img/@src)
+                let $suffix := replace($img, "^.*\.([^\.]+)$", "$1")
+                let $media-type := 
+                    switch ($suffix)
+                        case "jpg" return "image/jpeg"
+                        case "tif" return "image/tiff"
+                        default return "image/" || $suffix
                 return
-                    <item id="{$image/@url}" href="images/{$image/@url}.png" media-type="image/png"/>
+                    <item id="{$img}" href="{$img}" media-type="{$media-type}"/>
                 }
                 {
                     for $font in $config?fonts?*
@@ -159,6 +167,17 @@ declare function epub:content-opf-entry($config as map(*), $text) {
         </package>
     return
         <entry name="OEBPS/content.opf" type="xml">{$content-opf}</entry>
+};
+
+declare function epub:images-entry($doc, $entries as element()*) {
+    let $root := util:collection-name($doc)
+    for $relPath in distinct-values($entries//*:img/@src)
+    let $path := $root || "/" || $relPath
+    return
+        if (util:binary-doc-available($path)) then
+            <entry name="OEBPS/{$relPath}" type="binary">{util:binary-doc($path)}</entry>
+        else
+            ()
 };
 
 (:~ 
