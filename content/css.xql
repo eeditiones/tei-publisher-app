@@ -84,15 +84,15 @@ declare function css:generate-css($root as document-node()) {
 };
 
 declare function css:get-rendition($node as node()*, $class as xs:string) {
-    let $rend := $node/@rendition
-    return
-        if ($rend) then
+    if ($node/@rendition) then
+        for $rend in tokenize($node/@rendition, "\s+")
+        return
             if (starts-with($rend, "#")) then
-                'document_' || substring-after(.,'#')
+                'document_' || substring-after($rend,'#')
             else if (starts-with($rend,'simple:')) then
                 translate($rend,':','_')
             else
                 $rend
-        else
-            $class
+    else
+        $class
 };
