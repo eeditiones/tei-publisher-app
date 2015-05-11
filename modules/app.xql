@@ -45,6 +45,9 @@ function app:doc-table($node as node(), $model as map(*), $odd as xs:string) {
                                     href="modules/fo.xql?odd={$odd}&amp;doc={substring-after($resource, $config:data-root || '/')}">
                                     <i class="glyphicon glyphicon-print"/> PDF</a>
                                 <a class="btn btn-default" 
+                                    href="modules/latex.xql?odd={$odd}&amp;doc={substring-after($resource, $config:data-root || '/')}">
+                                    <i class="glyphicon glyphicon-print"/> LaTeX</a>
+                                <a class="btn btn-default" 
                                     href="modules/get-epub.xql?odd={$odd}&amp;doc={substring-after($resource, $config:data-root || '/')}">
                                     <i class="glyphicon glyphicon-book"/> ePUB</a>
                                 <a class="btn btn-default" data-template="app:load-source"
@@ -142,6 +145,16 @@ declare function app:pdf-link($node as node(), $model as map(*), $odd as xs:stri
     element { node-name($node) } {
         attribute href {
             "../modules/fo.xql?odd=" || $odd || "&amp;doc=" || util:document-name($model?data)
+        },
+        $node/@*,
+        $node/node()
+    }
+};
+
+declare function app:latex-link($node as node(), $model as map(*), $odd as xs:string) {
+    element { node-name($node) } {
+        attribute href {
+            "../modules/latex.xql?odd=" || $odd || "&amp;doc=" || util:document-name($model?data)
         },
         $node/@*,
         $node/node()
@@ -332,20 +345,13 @@ declare function app:action($node as node(), $model as map(*), $source as xs:str
                 <p>Generated files:</p>
                 <ul>
                 {
+                    for $module in ("web", "print", "latex", "epub")
                     for $file in pmu:process-odd(
                         doc($config:odd-root || "/" || $source),
                         $config:output-root,
-                        "web",
+                        $module,
                         "../generated",
-                        $app:ext-html)?("module", "style")
-                    return
-                        <li>{$file}</li>,
-                    for $file in pmu:process-odd(
-                        doc($config:odd-root || "/" || $source),
-                        $config:output-root,
-                        "print",
-                        "../generated",
-                        $app:ext-html)("module")
+                        $app:ext-html)?("module")
                     return
                         <li>{$file}</li>
                 }

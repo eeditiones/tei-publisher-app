@@ -153,7 +153,7 @@ $content ! (
             else
                 $config?apply($config, .)
         default return
-            string(.)
+            {$modules?1?prefix}:escapeChars(.)
 )</body>
             </function>
             </module>

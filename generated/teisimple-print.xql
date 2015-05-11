@@ -499,7 +499,7 @@ declare function model:apply-children($config as map(*), $node as element(), $co
                 else
                     $config?apply($config, .)
             default return
-                string(.)
+                fo:escapeChars(.)
     )
 };
 

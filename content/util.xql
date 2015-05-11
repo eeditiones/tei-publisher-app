@@ -80,6 +80,16 @@ declare variable $pmu:MODULES := map {
                 "at": "ext-epub.xql"
             }
         ]
+    },
+    "latex": map {
+        "output": "print",
+        "modules": [
+            map {
+                "uri": "http://www.tei-c.org/tei-simple/xquery/functions/latex",
+                "prefix": "latex",
+                "at": "latex-functions.xql"
+            }
+        ]
     }
 };
 

@@ -10,56 +10,74 @@ xquery version "3.1";
 module namespace pmf="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
+declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
-declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    pmf:apply-children($config, $node, $content),
-    "&#10;"
+import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "css.xql";
+import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
+
+declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string+, $content) {
+    pmf:get-content($config, $node, $class, $content),
+    "&#10;&#10;"
 };
 
-declare function pmf:heading($config as map(*), $node as element(), $class as xs:string, $content as node()*, $type, $subdiv) {
-    let $parent := local-name($content/..)
-    let $level := count($content/ancestor::*[local-name(.) = $parent])
+declare function pmf:heading($config as map(*), $node as element(), $class as xs:string+, $content, $type, $subdiv) {
+    let $level := if ($content instance of node()) then max((count($content/ancestor::tei:div), 1)) else 1
     return
-        if ($level < 3) then
-            "\" || ((2 to $level) ! "sub") || "section{" || pmf:apply-children($config, $node, $content) || "}"
-        else
-            pmf:apply-children($config, $node, $content)
+        switch ($level)
+            case 1 return
+                "\chapter{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+            case 2 return
+                "\section{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+            case 3 return
+                "\subsection{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+            case 4 return
+                "\subsubsection{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+            case 5 return
+                "\paragraph{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+            case 6 return
+                "\subparagraph{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+            default return
+                "\section{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
 };
 
-declare function pmf:list($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    "\begin{itemize}",
+declare function pmf:list($config as map(*), $node as element(), $class as xs:string+, $content) {
+    "\begin{itemize}&#10;",
     $config?apply($config, $content),
-    "\end{itemize}"
+    "\end{itemize}&#10;"
 };
 
-declare function pmf:listItem($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    "\item " || pmf:apply-children($config, $node, $content)
+declare function pmf:listItem($config as map(*), $node as element(), $class as xs:string+, $content) {
+    "\item " || pmf:get-content($config, $node, $class, $content) || "&#10;"
 };
 
-declare function pmf:block($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    pmf:apply-children($config, $node, $content)
+declare function pmf:block($config as map(*), $node as element(), $class as xs:string+, $content) {
+    pmf:get-content($config, $node, $class, $content),
+    "\par&#10;"
 };
 
-declare function pmf:section($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    pmf:apply-children($config, $node, $content)
+declare function pmf:section($config as map(*), $node as element(), $class as xs:string+, $content) {
+    pmf:get-content($config, $node, $class, $content)
 };
 
-declare function pmf:anchor($config as map(*), $node as element(), $class as xs:string, $id as item()*) {
+declare function pmf:anchor($config as map(*), $node as element(), $class as xs:string+, $id as item()*) {
     "\label{" || $id || "}"
 };
 
-declare function pmf:link($config as map(*), $node as element(), $class as xs:string, $content as node()*, $url as xs:anyURI?) {
-    "\hyperlink{" || $url || "}{" || pmf:apply-children($config, $node, $content) || "}"
+declare function pmf:link($config as map(*), $node as element(), $class as xs:string+, $content, $url as xs:anyURI?) {
+    if (starts-with($url, "#")) then
+        ("\hyperlink{", pmf:escapeChars(substring-after($url, "#")), "}{", pmf:get-content($config, $node, $class, $content), "}")
+    else
+        ("\hyperlink{", pmf:escapeChars($url), "}{", pmf:get-content($config, $node, $class, $content), "}")
 };
 
-declare function pmf:glyph($config as map(*), $node as element(), $class as xs:string, $content as xs:anyURI?) {
+declare function pmf:glyph($config as map(*), $node as element(), $class as xs:string+, $content as xs:anyURI?) {
     if ($content = "char:EOLhyphen") then
         "&#xAD;"
     else
         ()
 };
 
-declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string, $url as xs:anyURI,
+declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $url as xs:anyURI,
     $width, $height, $scale) {
     let $style := if ($width) then "width: " || $width || "; " else ()
     let $style := if ($height) then $style || "height: " || $height || "; " else $style
@@ -67,114 +85,109 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
         ()
 };
 
-declare function pmf:inline($config as map(*), $node as element(), $class as xs:string, $content as item()*) {
-    pmf:apply-children($config, $node, $content)
+declare function pmf:inline($config as map(*), $node as element(), $class as xs:string+, $content as item()*) {
+    pmf:get-content($config, $node, $class, $content)
 };
 
-declare function pmf:text($config as map(*), $node as element(), $class as xs:string, $content as item()*) {
+declare function pmf:text($config as map(*), $node as element(), $class as xs:string+, $content as item()*) {
     pmf:escapeChars(string-join($content))
 };
 
-declare function pmf:cit($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
+declare function pmf:cit($config as map(*), $node as element(), $class as xs:string+, $content as node()*) {
     pmf:inline($config, $node, $class, $content)
 };
 
-declare function pmf:body($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    pmf:apply-children($config, $node, $content)
+declare function pmf:body($config as map(*), $node as element(), $class as xs:string+, $content) {
+    pmf:get-content($config, $node, $class, $content)
 };
 
-declare function pmf:omit($config as map(*), $node as element(), $class as xs:string) {
+declare function pmf:omit($config as map(*), $node as element(), $class as xs:string+, $content) {
     ()
 };
 
-declare function pmf:break($config as map(*), $node as element(), $class as xs:string, $type as xs:string, $label as item()*) {
-    "\linebreak"
-};
-
-declare function pmf:document($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    "\documentclass[11pt]{article}",
-    "\usepackage{colortbl}",
-    "\usepackage{fancyhdr}",
-    "\usepackage[a4paper,twoside,lmargin=1in,rmargin=1in,tmargin=1in,bmargin=1in,marginparwidth=0.75in]{geometry}",
-    "\usepackage{graphicx}",
-    "\usepackage{hyperref}",
-    "\usepackage{ifxetex}",
-    "\usepackage{longtable}",
-    "\def\theendnote{\@alph\c@endnote}",
-    "\def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}",
-    "\pagestyle{fancy}",
-    "\hyperbaseurl{}",
-    "\paperwidth210mm",
-    "\paperheight297mm",
-    "\def\chaptername{Chapter}",
-    "\def\tableofcontents{\section*{\contentsname}\@starttoc{toc}}",
-    "\thispagestyle{empty}",
-    "\begin{document}",
-    pmf:apply-children($config, $node, $content),
-    "\end{document}"
-};
-
-declare function pmf:metadata($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    pmf:apply-children($config, $node, $content)
-};
-
-declare function pmf:title($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    "\title{" || pmf:apply-children($config, $node, $content) || "}"
-};
-
-declare function pmf:table($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    "\begin{tabular}",
-    pmf:apply-children($config, $node, $content),
-    "\end{tabular}"
-};
-
-declare function pmf:row($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    pmf:apply-children($config, $node, $content) || " \\"
-};
-
-declare function pmf:cell($config as map(*), $node as element(), $class as xs:string, $content as node()*) {
-    pmf:apply-children($config, $node, $content) ||
-    (if ($node/following-sibling::*) then " &amp; " else ())
-};
-
-declare function pmf:alternate($config as map(*), $node as element(), $class as xs:string, $option1 as node()*,
-    $option2 as node()*) {
-    pmf:apply-children($config, $node, $option1)
-};
-
-declare function pmf:get-rendition($node as node()*, $class as xs:string) {
-    let $rend := $node/@rendition
-    return
-        if ($rend) then
-            if (starts-with($rend, "#")) then
-                'document_' || substring-after(.,'#')
-            else if (starts-with($rend,'simple:')) then
-                translate($rend,':','_')
-            else
-                $rend
-        else
-            $class
-};
-
-declare function pmf:generate-css($root as document-node()) {
+declare function pmf:index($config as map(*), $node as element(), $class as xs:string+, $content, $type as xs:string) {
     ()
 };
 
-declare %private function pmf:apply-children($config as map(*), $node as element(), $content as item()*) {
-    string-join(
-        $content ! (
-            typeswitch(.)
-                case element() return
-                    $config?apply($config, ./node())
-                case text() return
-                    pmf:escapeChars(.)
-                default return
-                    pmf:escapeChars(.)
-        ), "&#10;"
+declare function pmf:break($config as map(*), $node as element(), $class as xs:string+, $type as xs:string, $label as item()*) {
+    switch($type)
+        case "page" return
+            ()
+        default return
+            "\linebreak "
+};
+
+declare function pmf:document($config as map(*), $node as element(), $class as xs:string+, $content) {
+    let $odd := doc($config?odd)
+    let $config := pmf:load-styles($config, $odd)
+    return (
+        "\documentclass[11pt]{book}&#10;",
+        "\usepackage[english]{babel}&#10;",
+        "\usepackage{colortbl}&#10;",
+        "\usepackage{fancyhdr}&#10;",
+        "\usepackage{color}&#10;",
+        "\usepackage[a4paper, twoside, top=25mm, bottom=25mm, outer=40mm, inner=20mm, heightrounded, marginparwidth=25mm, marginparsep=5mm]{geometry}&#10;",
+        "\usepackage{graphicx}&#10;",
+        "\usepackage{hyperref}&#10;",
+        "\usepackage{ifxetex}&#10;",
+        "\usepackage{longtable}&#10;",
+        "\def\theendnote{\@alph\c@endnote}&#10;",
+        "\def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}&#10;",
+        "\pagestyle{fancy}&#10;",
+        "\hyperbaseurl{}&#10;",
+        "\def\chaptername{Chapter}&#10;",
+        "\def\tableofcontents{\section*{\contentsname}\@starttoc{toc}}&#10;",
+        "\thispagestyle{empty}&#10;",
+        "\begin{document}&#10;",
+        "\frontmatter&#10;",
+        "\mainmatter&#10;",
+        $config?apply-children($config, $node, $content),
+        "\end{document}"
     )
 };
 
-declare function pmf:escapeChars($text as xs:string) {
+declare function pmf:metadata($config as map(*), $node as element(), $class as xs:string+, $content) {
+    $config?apply-children($config, $node, $content),
+    "\maketitle&#10;"
+};
+
+declare function pmf:title($config as map(*), $node as element(), $class as xs:string+, $content) {
+    "\title{", pmf:get-content($config, $node, $class, $content), "}&#10;"
+};
+
+declare function pmf:table($config as map(*), $node as element(), $class as xs:string+, $content) {
+    let $cols := max($node/tei:row ! count(tei:cell))
+    return
+        "\begin{longtable}{" || string-join((1 to $cols) ! "l", "|") || "}&#10;",
+        $config?apply-children($config, $node, $content),
+        "\end{longtable}&#10;"
+};
+
+declare function pmf:row($config as map(*), $node as element(), $class as xs:string+, $content) {
+    $config?apply-children($config, $node, $content), " \\&#10;"
+};
+
+declare function pmf:cell($config as map(*), $node as element(), $class as xs:string+, $content) {
+    pmf:get-content($config, $node, $class, $content),
+    (if ($node/following-sibling::*) then " &amp; " else ())
+};
+
+declare function pmf:alternate($config as map(*), $node as element(), $class as xs:string+, $option1 as node()*,
+    $option2 as node()*) {
+    pmf:get-content($config, $node, $class, $option1),
+    "\footnote{", pmf:get-content($config, $node, $class, $option2), "}"
+};
+
+declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content as item()*, $place as xs:string?, $n as xs:string?) {
+    switch($place)
+        case "margin" return (
+            "\marginpar{\noindent\raggedleft\footnotesize ", pmf:get-content($config, $node, $class, $content), "}"
+        )
+        default return
+            "\footnote{", pmf:get-content($config, $node, $class, $content), "}"
+};
+
+declare function pmf:escapeChars($text as xs:string?) {
     replace(
         replace(
             replace(
@@ -188,4 +201,111 @@ declare function pmf:escapeChars($text as xs:string) {
         ),
         "([\}\{%&amp;\$#])", "\\$1"
     )
+};
+
+declare %private function pmf:get-content($config as map(*), $node as element(), $class as xs:string+, $content) {
+    pmf:get-before($config, $class),
+    pmf:check-styles($config, $class, $config?apply-children($config, $node, $content)),
+    pmf:get-after($config, $class)
+};
+
+declare %private function pmf:get-before($config as map(*), $classes as xs:string+) {
+    for $class in $classes
+    let $before := $config?styles?($class || ":before")
+    return
+        if (exists($before)) then pmf:escapeChars($before?content) else ()
+};
+
+declare %private function pmf:get-after($config as map(*), $classes as xs:string+) {
+    for $class in $classes
+    let $after := $config?styles?($class || ":after")
+    return
+        if (exists($after)) then pmf:escapeChars($after?content) else ()
+};
+
+declare %private function pmf:check-styles($config as map(*), $classes as xs:string+, $content as item()*) {
+    fold-right($classes, string-join($content), function($class, $text) {
+        let $styles := $config?styles?($class)
+        return
+            if (exists($styles)) then
+                pmf:style($styles?*, $styles, $text)
+            else
+                $text
+    })
+};
+
+declare %private function pmf:style($names as xs:string*, $styles as map(*), $text) {
+    if (empty($names)) then
+        $text
+    else
+        let $style := head($names)
+        let $value := $styles($style)
+        let $styled :=
+            switch($style)
+                case "font-weight" return
+                    switch($value)
+                        case "bold" return
+                            "\textbf{" || $text || "}"
+                        default return
+                            $text
+                case "font-style" return
+                    switch($value)
+                        case "italic" return
+                            "\textit{" || $text || "}"
+                        default return
+                            $text
+                case "font-variant" return
+                    if ($value = "small-caps") then
+                        "\sc{"  || $text || "}"
+                    else
+                        $text
+                case "font-size" return
+                    switch ($value)
+                        case "small" case "smaller" return
+                            "{\small " || $text || "}"
+                        case "x-small" return
+                            "{\footnotesize " || $text || "}"
+                        case "xx-small" return
+                            "{\tiny " || $text || "}"
+                        case "large" case "larger" return
+                            "{\large " || $text || "}"
+                        case "x-large" return
+                            "{\Large " || $text || "}"
+                        default return
+                            if (matches($value, "^\d+\w+$")) then
+                                "{\fontsize{" || $value || "}{1.2em}\selectfont " || $text || "}"
+                            else
+                                $text
+                case "color" return
+                    if (starts-with($value, "#")) then
+                        $text
+(:                        "\textcolor[HTML]{" || substring-after($value, "#") || "}{" || $text || "}":)
+                    else
+                        "\textcolor{" || $value || "}{" || $text || "}"
+                case "text-decoration" return
+                    if ($value = "underline") then
+                        "\underline{" || $text || "}"
+                    else
+                        $text
+                case "text-align" return
+                    switch ($value)
+                        case "left" return
+                            "{\raggedleft " || $text || "}"
+                        case "right" return
+                            "{\raggedright " || $text || "}"
+                        case "center" return
+                            "{\centering " || $text || "}"
+                        default return
+                            $text
+                default return
+                    $text
+        return
+            pmf:style(tail($names), $styles, $styled)
+};
+
+declare %private function pmf:load-styles($config as map(*), $root as document-node()) {
+    let $css := css:generate-css($root)
+    let $styles := css:parse-css($css)
+    return
+        map:new(($config, map:entry("styles", $styles)))
 };

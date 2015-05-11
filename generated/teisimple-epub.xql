@@ -15,6 +15,8 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions" 
 
 import module namespace epub="http://www.tei-c.org/tei-simple/xquery/functions/epub" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/ext-epub.xql";
 
+import module namespace ext="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/../modules/ext-html.xql";
+
 (:~
 
     Main entry point for the transformation.
@@ -43,8 +45,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 if (parent::cell|parent::p) then
                     html:inline($config, ., "code1", .)
                 else
-                    (: No function found for behavior: code(., @lang) :)
-                    $config?apply($config, ./node())
+                    ext:code($config, ., "code2", ., @lang)
             case element(ab) return
                 html:paragraph($config, ., "ab", .)
             case element(abbr) return
@@ -499,7 +500,7 @@ declare function model:apply-children($config as map(*), $node as element(), $co
                 else
                     $config?apply($config, .)
             default return
-                string(.)
+                html:escapeChars(.)
     )
 };
 
