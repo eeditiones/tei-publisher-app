@@ -12,6 +12,14 @@
         <file>fo-functions.xql</file>
     </xquery>
     <xquery>
+        <namespace>http://www.tei-c.org/tei-simple/xquery/functions/latex</namespace>
+        <file>latex-functions.xql</file>
+    </xquery>
+    <xquery>
+        <namespace>http://www.tei-c.org/tei-simple/xquery/functions/epub</namespace>
+        <file>ext-epub.xql</file>
+    </xquery>
+    <xquery>
         <namespace>http://www.tei-c.org/tei-simple/xquery/model</namespace>
         <file>model.xql</file>
     </xquery>
@@ -22,5 +30,9 @@
     <xquery>
         <namespace>http://www.tei-c.org/tei-simple/xquery/xqgen</namespace>
         <file>xqgen.xql</file>
+    </xquery>
+    <xquery>
+        <namespace>http://www.tei-c.org/tei-simple/xquery/css</namespace>
+        <file>css.xql</file>
     </xquery>
 </package>

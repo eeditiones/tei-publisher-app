@@ -25,19 +25,21 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
     return
         switch ($level)
             case 1 return
-                "\chapter{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+                let $heading := pmf:get-content($config, $node, $class, $content)
+                return
+                    "\chapter*{" || $heading || " \markboth{" || $heading || "}{" || $heading || "}}&#10;"
             case 2 return
-                "\section{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+                "\section*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
             case 3 return
-                "\subsection{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+                "\subsection*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
             case 4 return
-                "\subsubsection{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+                "\subsubsection*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
             case 5 return
-                "\paragraph{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+                "\paragraph*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
             case 6 return
-                "\subparagraph{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+                "\subparagraph*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
             default return
-                "\section{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+                "\section*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
 };
 
 declare function pmf:list($config as map(*), $node as element(), $class as xs:string+, $content) {
@@ -52,7 +54,7 @@ declare function pmf:listItem($config as map(*), $node as element(), $class as x
 
 declare function pmf:block($config as map(*), $node as element(), $class as xs:string+, $content) {
     pmf:get-content($config, $node, $class, $content),
-    "\par&#10;"
+    "&#10;&#10;"
 };
 
 declare function pmf:section($config as map(*), $node as element(), $class as xs:string+, $content) {
@@ -114,7 +116,7 @@ declare function pmf:break($config as map(*), $node as element(), $class as xs:s
         case "page" return
             ()
         default return
-            "\linebreak "
+            "\\"
 };
 
 declare function pmf:document($config as map(*), $node as element(), $class as xs:string+, $content) {
@@ -131,16 +133,18 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         "\usepackage{hyperref}&#10;",
         "\usepackage{ifxetex}&#10;",
         "\usepackage{longtable}&#10;",
+        "\pagestyle{fancy}&#10;",
+        "\fancyhf{}&#10;",
         "\def\theendnote{\@alph\c@endnote}&#10;",
         "\def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}&#10;",
-        "\pagestyle{fancy}&#10;",
         "\hyperbaseurl{}&#10;",
-        "\def\chaptername{Chapter}&#10;",
         "\def\tableofcontents{\section*{\contentsname}\@starttoc{toc}}&#10;",
         "\thispagestyle{empty}&#10;",
         "\begin{document}&#10;",
-        "\frontmatter&#10;",
         "\mainmatter&#10;",
+        "\fancyhead[EL,OR]{\thepage}&#10;",
+        "\fancyhead[ER]{\leftmark}&#10;",
+        "\fancyhead[OL]{\leftmark}&#10;",
         $config?apply-children($config, $node, $content),
         "\end{document}"
     )
