@@ -18,18 +18,16 @@ li {
   orphans: 2;
   widows: 2;
 }
-h1 {
-  font-size: 2.84em;
+
+h1,h2,h3,h4 {
+    line-height: 1.2em;
 }
-h2 {
-  font-size: 2.13em;
-}
-h3 {
-  font-size: 1.6em;
-}
-h4 {
-  font-size: 1.2em;
-}
+
+h1 { font-size: 2.441em; }
+h2 { font-size: 1.953em; }
+h3 { font-size: 1.563em; }
+h4 { font-size: 1.25em; }
+
 .note {
   font-size: x-small;
   vertical-align: super;
