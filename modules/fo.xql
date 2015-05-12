@@ -64,7 +64,7 @@ let $odd := request:get-parameter("odd", "teisimple.odd")
 let $source := request:get-parameter("source", ())
 return
     if ($doc) then
-        let $xml := doc($config:data-root || "/" || $doc)
+        let $xml := doc($config:app-root || "/" || $doc)
         let $fo :=
                 pmu:process($config:odd-root || "/" || $odd, $xml, $config:output-root, "print", "../generated", ())
         return
@@ -73,6 +73,6 @@ return
             else
                 let $pdf := xslfo:render($fo, "application/pdf", (), $local:CONFIG)
                 return
-                    response:stream-binary($pdf, "media-type=application/pdf", replace($doc, "^(.*?)\..*", "$1") || ".pdf")
+                    response:stream-binary($pdf, "media-type=application/pdf", replace($doc, "^.*?([^/]+)\..*", "$1") || ".pdf")
     else
         <p>No document specified</p>

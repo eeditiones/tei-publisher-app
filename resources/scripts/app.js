@@ -3,7 +3,7 @@ $(document).ready(function() {
     
     $(".next,.previous").click(function(ev) {
         ev.preventDefault();
-        var url = "doc=" + this.pathname.replace(/^.*\/([^/]+)$/, "$1") + "&" + this.search.substring(1);
+        var url = "doc=" + this.pathname.replace(/^.*\/([^/]+\/[^/]+)$/, "$1") + "&" + this.search.substring(1);
         if (historySupport) {
             history.pushState(null, null, this.href);
         }
@@ -11,7 +11,7 @@ $(document).ready(function() {
     });
     
     $(window).on("popstate", function(ev) {
-        var url = "doc=" + window.location.pathname.replace(/^.*\/([^/]+)$/, "$1") + "&" + window.location.search.substring(1);
+        var url = "doc=" + window.location.pathname.replace(/^.*\/([^/]+\/[^/]+)$/, "$1") + "&" + window.location.search.substring(1);
         load(url);
     });
 });
@@ -24,6 +24,11 @@ function load(params, direction) {
             var container = $(this);
             $.getJSON("../modules/ajax.xql", params, function(data) {
                 $(".content").replaceWith(data.content);
+                $(".content .note").popover({
+                    html: true,
+                    trigger: "hover"
+                });
+                $(".content .sourcecode").highlight();
                 container.removeClass("animated " + animOut);
                 $("#content-container").addClass("animated " + animIn).one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
                     $(this).removeClass("animated " + animIn);

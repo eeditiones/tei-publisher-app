@@ -38,8 +38,8 @@ declare function local:work2epub($id as xs:string, $work as element(), $odd as x
 
 let $doc := request:get-parameter("doc", ())
 let $odd := request:get-parameter("odd", ())
-let $id := substring-before($doc, ".xml")
-let $work := doc($config:data-root || "/" || $doc)/tei:TEI
+let $id := replace($doc, "^.*?([^/]+)\..*$", "$1")
+let $work := doc($config:app-root || "/" || $doc)/tei:TEI
 let $entries := local:work2epub($id, $work, $odd)
 return
     (

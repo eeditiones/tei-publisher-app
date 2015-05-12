@@ -24,18 +24,25 @@ declare variable $local:TeX_COMMAND := function($file) {
     ( "/opt/local/bin/pdflatex", "-interaction=nonstopmode", $file )
 };
 
+declare variable $local:ext-latex := 
+    map {
+        "uri": "http://www.tei-c.org/tei-simple/xquery/ext-latex",
+        "prefix": "ext",
+        "at": "../modules/ext-latex.xql"
+    };
+    
 let $doc := request:get-parameter("doc", ())
 let $odd := request:get-parameter("odd", "teisimple.odd")
 let $source := request:get-parameter("source", ())
 return
     if ($doc) then
-        let $xml := doc($config:data-root || "/" || $doc)
+        let $xml := doc($config:app-root || "/" || $doc)
         let $tex :=
             string-join(
-                pmu:process($config:odd-root || "/" || $odd, $xml, $config:output-root, "latex", "../generated", ())
+                pmu:process($config:odd-root || "/" || $odd, $xml, $config:output-root, "latex", "../generated", $local:ext-latex)
             )
         let $file := 
-            replace($doc, "^(.*?)\..*$", "$1") ||
+            replace($doc, "^.*?([^/]+)\..*$", "$1") ||
             format-dateTime(current-dateTime(), "-[Y0000][M00][D00]-[H00][m00]")
         return
             if ($source) then

@@ -6,6 +6,7 @@ import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";
 import module namespace dbutil="http://exist-db.org/xquery/dbutil";
+import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace expath="http://expath.org/ns/pkg";
@@ -15,6 +16,13 @@ declare variable $app:ext-html :=
         "uri": "http://www.tei-c.org/tei-simple/xquery/ext-html",
         "prefix": "ext",
         "at": "../modules/ext-html.xql"
+    };
+    
+declare variable $app:ext-latex := 
+    map {
+        "uri": "http://www.tei-c.org/tei-simple/xquery/ext-latex",
+        "prefix": "ext-latex",
+        "at": "../modules/ext-latex.xql"
     };
 
 declare variable $app:EXIDE := 
@@ -32,34 +40,39 @@ declare
     %templates:wrap
     %templates:default("odd", "teisimple.odd")
 function app:doc-table($node as node(), $model as map(*), $odd as xs:string) {
-    dbutil:find-by-mimetype(xs:anyURI($config:data-root), "application/xml", function($resource) {
-        let $name := replace($resource, "^.*/([^/]+)$", "$1")
-        return
-            <tr>
-                <td><a href="test/{$name}?odd={$odd}">{$name}</a></td>
-                <td>
-                    {
-                        templates:process(
-                            <div class="btn-group" role="group">
-                                <a class="btn btn-default" 
-                                    href="modules/fo.xql?odd={$odd}&amp;doc={substring-after($resource, $config:data-root || '/')}">
-                                    <i class="glyphicon glyphicon-print"/> PDF</a>
-                                <a class="btn btn-default" 
-                                    href="modules/latex.xql?odd={$odd}&amp;doc={substring-after($resource, $config:data-root || '/')}">
-                                    <i class="glyphicon glyphicon-print"/> LaTeX</a>
-                                <a class="btn btn-default" 
-                                    href="modules/get-epub.xql?odd={$odd}&amp;doc={substring-after($resource, $config:data-root || '/')}">
-                                    <i class="glyphicon glyphicon-book"/> ePUB</a>
-                                <a class="btn btn-default" data-template="app:load-source"
-                                    href="{substring-after($resource, $config:app-root)}">
-                                    <i class="glyphicon glyphicon-edit"/> View Source</a>
-                            </div>,
-                            $model
-                        )
-                    }
-                </td>
-            </tr>
-    })
+    let $docs :=
+        dbutil:find-by-mimetype(xs:anyURI($config:data-root), "application/xml", function($resource) {
+            let $name := replace($resource, "^.*/([^/]+)$", "$1")
+            return
+                <tr>
+                    <td><a href="test/{$name}?odd={$odd}">{$name}</a></td>
+                    <td>
+                        {
+                            templates:process(
+                                <div class="btn-group" role="group">
+                                    <a class="btn btn-default" 
+                                        href="modules/fo.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
+                                        <i class="glyphicon glyphicon-print"/> PDF</a>
+                                    <a class="btn btn-default" 
+                                        href="modules/latex.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
+                                        <i class="glyphicon glyphicon-print"/> LaTeX</a>
+                                    <a class="btn btn-default" 
+                                        href="modules/get-epub.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
+                                        <i class="glyphicon glyphicon-book"/> ePUB</a>
+                                    <a class="btn btn-default" data-template="app:load-source"
+                                        href="{substring-after($resource, $config:app-root)}">
+                                        <i class="glyphicon glyphicon-edit"/> View Source</a>
+                                </div>,
+                                $model
+                            )
+                        }
+                    </td>
+                </tr>
+        })
+    for $doc in $docs
+    order by $doc/td/a/text()
+    return
+        $doc
 };
 
 declare
@@ -144,7 +157,7 @@ declare function app:back-link($node as node(), $model as map(*), $odd as xs:str
 declare function app:pdf-link($node as node(), $model as map(*), $odd as xs:string) {
     element { node-name($node) } {
         attribute href {
-            "../modules/fo.xql?odd=" || $odd || "&amp;doc=" || util:document-name($model?data)
+            "../modules/fo.xql?odd=" || $odd || "&amp;doc=" || substring-after(document-uri(root($model?data)), $config:app-root)
         },
         $node/@*,
         $node/node()
@@ -154,7 +167,7 @@ declare function app:pdf-link($node as node(), $model as map(*), $odd as xs:stri
 declare function app:latex-link($node as node(), $model as map(*), $odd as xs:string) {
     element { node-name($node) } {
         attribute href {
-            "../modules/latex.xql?odd=" || $odd || "&amp;doc=" || util:document-name($model?data)
+            "../modules/latex.xql?odd=" || $odd || "&amp;doc=" || substring-after(document-uri(root($model?data)), $config:app-root)
         },
         $node/@*,
         $node/node()
@@ -164,7 +177,7 @@ declare function app:latex-link($node as node(), $model as map(*), $odd as xs:st
 declare function app:epub-link($node as node(), $model as map(*), $odd as xs:string) {
     element { node-name($node) } {
         $node/@* except $node/@href,
-        attribute href { "../modules/get-epub.xql?odd=" || $odd || "&amp;doc=" || util:document-name($model?data) },
+        attribute href { "../modules/get-epub.xql?odd=" || $odd || "&amp;doc=" || substring-after(document-uri(root($model?data)), $config:app-root) },
         $node/node()
     }
 };
@@ -245,8 +258,8 @@ function app:navigation($node as node(), $model as map(*), $view as xs:string) {
     else
         let $div := $model("data")
         let $parent := $div/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
-        let $prevDiv := $div/preceding::tei:div[1]
-        let $prevDiv := app:get-previous(if ($parent and $div/.. >> $prevDiv) then $div/.. else $prevDiv)
+        let $prevDiv := $div/preceding::tei:div
+        let $prevDiv := app:get-previous(if ($parent and (empty($prevDiv) or $div/.. >> $prevDiv)) then $div/.. else $prevDiv)
         let $nextDiv := app:get-next($div)
     (:        ($div//tei:div[not(*[1] instance of element(tei:div))] | $div/following::tei:div)[1]:)
         let $work := $div/ancestor-or-self::tei:TEI
@@ -351,7 +364,7 @@ declare function app:action($node as node(), $model as map(*), $source as xs:str
                         $config:output-root,
                         $module,
                         "../generated",
-                        $app:ext-html)?("module")
+                        if ($module = "latex") then $app:ext-latex else $app:ext-html)?("module")
                     return
                         <li>{$file}</li>
                 }
