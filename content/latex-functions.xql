@@ -43,13 +43,30 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
 };
 
 declare function pmf:list($config as map(*), $node as element(), $class as xs:string+, $content) {
-    "\begin{itemize}&#10;",
-    $config?apply($config, $content),
-    "\end{itemize}&#10;"
+    if ($node/tei:label) then (
+        "\begin{description}&#10;",
+        $config?apply($config, $content),
+        "\end{description}&#10;"
+    ) else
+        switch($node/@type)
+            case "ordered" return (
+                "\begin{enumerate}&#10;",
+                $config?apply($config, $content),
+                "\end{enumerate}&#10;"
+            )
+            default return (
+                "\begin{itemize}&#10;",
+                $config?apply($config, $content),
+                "\end{itemize}&#10;"
+            )
 };
 
 declare function pmf:listItem($config as map(*), $node as element(), $class as xs:string+, $content) {
-    "\item " || pmf:get-content($config, $node, $class, $content) || "&#10;"
+    if ($node/preceding-sibling::tei:label) then
+        "\item[" || pmf:get-content($config, $node, $class, $node/preceding-sibling::tei:label[1]) || "] " ||
+        pmf:get-content($config, $node, $class, $content) || "&#10;"
+    else
+        "\item " || pmf:get-content($config, $node, $class, $content) || "&#10;"
 };
 
 declare function pmf:block($config as map(*), $node as element(), $class as xs:string+, $content) {
@@ -207,7 +224,7 @@ declare function pmf:escapeChars($text as xs:string?) {
     )
 };
 
-declare %private function pmf:get-content($config as map(*), $node as element(), $class as xs:string+, $content) {
+declare function pmf:get-content($config as map(*), $node as element(), $class as xs:string+, $content) {
     pmf:get-before($config, $class),
     pmf:check-styles($config, $class, $config?apply-children($config, $node, $content)),
     pmf:get-after($config, $class)

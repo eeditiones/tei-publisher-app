@@ -13,7 +13,7 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "xml
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/latex-functions.xql";
 
-import module namespace ext="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/../modules/ext-html.xql";
+import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/../modules/ext-latex.xql";
 
 (:~
 
@@ -43,7 +43,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 if (parent::cell|parent::p) then
                     latex:inline($config, ., "code1", .)
                 else
-                    ext:code($config, ., "code2", ., @lang)
+                    ext-latex:code($config, ., "code2", ., @lang)
             case element(ab) return
                 latex:paragraph($config, ., "ab", .)
             case element(abbr) return
