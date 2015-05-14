@@ -49,7 +49,7 @@ declare function xqgen:generate($nodes as node()*, $indent as xs:int) {
                 case element(xquery) return
                     xqgen:generate($node/*, $indent)
                 case element(module) return
-                    'xquery version "3.0";' || $xqgen:LFF ||
+                    'xquery version "3.1";' || $xqgen:LFF ||
                     'module namespace ' || $node/@prefix || '="' || $node/@uri || '";' || $xqgen:LFF ||
                     xqgen:generate($node/*, $indent)
                 case element(default-element-namespace) return

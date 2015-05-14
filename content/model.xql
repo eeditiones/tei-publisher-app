@@ -52,8 +52,8 @@ declare variable $pm:ERR_TOO_MANY_MODELS := xs:QName("pm:too-many-models");
  : will be used.
  : @param output the output method to use ("web" by default) 
  :)
-declare function pm:parse($odd as element(), $modules as array(*), $output as xs:string?) as map(*) {
-    let $output := if ($output) then $output else "web"
+declare function pm:parse($odd as element(), $modules as array(*), $output as xs:string*) as map(*) {
+    let $output := if (exists($output)) then $output else "web"
     let $uri := "http://www.tei-c.org/tei-simple/models/" || util:document-name($odd)
     let $xqueryXML :=
         <xquery>
@@ -76,7 +76,7 @@ declare function pm:parse($odd as element(), $modules as array(*), $output as xs
 let $config :=
     map:new(($options,
         map {{
-            "output": "{ $output }",
+            "output": [{ string-join(for $out in $output return '"' || $out || '"', ",")}],
             "odd": "{ document-uri(root($odd)) }",
             "apply": model:apply#2,
             "apply-children": model:apply-children#3
@@ -172,7 +172,7 @@ declare %private function pm:import-modules($modules as array(*)) {
     })
 };
 
-declare %private function pm:elementSpec($spec as element(tei:elementSpec), $modules as array(*), $output as xs:string) {
+declare %private function pm:elementSpec($spec as element(tei:elementSpec), $modules as array(*), $output as xs:string+) {
     pm:process-models(
         $spec/@ident, 
         $spec/(tei:model[not(@output)]|tei:model[@output = $output]|tei:modelSequence),
@@ -182,7 +182,7 @@ declare %private function pm:elementSpec($spec as element(tei:elementSpec), $mod
 };
 
 declare %private function pm:process-models($ident as xs:string, $models as element()+, $modules as array(*),
-    $output as xs:string) {
+    $output as xs:string+) {
     if ($models[@predicate]) then
         fold-right($models[@predicate], (), function($cond, $zero) {
             <if test="{$cond/@predicate}">
@@ -215,7 +215,7 @@ declare %private function pm:process-models($ident as xs:string, $models as elem
 };
 
 declare %private function pm:model-or-sequence($ident as xs:string, $models as element()+, 
-    $modules as array(*), $output as xs:string) {
+    $modules as array(*), $output as xs:string+) {
     for $model in $models
     return
         typeswitch($model)
@@ -272,10 +272,10 @@ declare %private function pm:model($ident as xs:string, $model as element(tei:mo
 };
 
 declare %private function pm:modelSequence($ident as xs:string, $seq as element(tei:modelSequence), 
-    $modules as array(*), $output as xs:string) {
+    $modules as array(*), $output as xs:string+) {
     <sequence>
     {
-        for $model in $seq/*[not(@output)] | $seq/*[@output = $output]
+        for $model in $seq/*[not(@output)] | $seq/*[@output = $output][1]
         return
             <item>
             {

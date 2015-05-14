@@ -205,7 +205,11 @@ declare function pmf:link($config as map(*), $node as element(), $class as xs:st
 };
 
 declare function pmf:escapeChars($text as item()) {
-    $text
+    typeswitch($text)
+        case attribute() return
+            data($text)
+        default return
+            $text
 };
 
 declare function pmf:glyph($config as map(*), $node as element(), $class as xs:string+, $content as xs:anyURI?) {
@@ -217,16 +221,16 @@ declare function pmf:glyph($config as map(*), $node as element(), $class as xs:s
 
 declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $url as xs:anyURI,
     $width, $height, $scale) {
-    let $base :=
+    let $src :=
         if (matches($url, "^\w+://")) then
             $url
         else
             request:get-scheme() || "://" || request:get-server-name() || ":" || request:get-server-port() ||
-            request:get-context-path() || "/rest/" || util:collection-name($node)
+            request:get-context-path() || "/rest/" || util:collection-name($node) || "/" || $url
     let $width := if ($scale) then (100 * $scale) || "%" else $width
     let $height := if ($scale) then (100 * $scale) || "%" else $height
     return
-        <fo:external-graphic src="url({$base}/{$url})" scaling="uniform"
+        <fo:external-graphic src="url({$src})" scaling="uniform"
             content-width="{($width, 'scale-to-fit')[1]}"
             content-height="{($height, 'scale-to-fit')[1]}">
         {
@@ -367,11 +371,11 @@ declare function pmf:cell($config as map(*), $node as element(), $class as xs:st
     <fo:table-cell>
         {
             if ($node/@cols) then
-                attribute number-columns-spanned { $node/@cols }
+                attribute number-columns-spanned { $node/@cols - 1}
             else
                 (),
             if ($node/@rows) then
-                attribute number-rows-spanned { $node/@rows }
+                attribute number-rows-spanned { $node/@rows - 1}
             else
                 ()
         }
@@ -481,8 +485,4 @@ declare function pmf:read-css($path) {
             css:parse-css($css)
     else
         ()
-};
-
-declare function pmf:escapeChars($text as item()) {
-    $text
 };

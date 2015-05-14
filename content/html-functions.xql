@@ -98,8 +98,12 @@ declare function pmf:link($config as map(*), $node as element(), $class as xs:st
     <a href="{$url}">{$config?apply-children($config, $node, $content)}</a>
 };
 
-declare function pmf:escapeChars($text as xs:string) {
-    $text
+declare function pmf:escapeChars($text as item()*) {
+    typeswitch($text)
+        case attribute() return
+            data($text)
+        default return
+            $text
 };
 
 declare function pmf:glyph($config as map(*), $node as element(), $class as xs:string+, $content as xs:anyURI?) {
@@ -122,9 +126,15 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
 declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content, $place as xs:string?, $n as xs:string?) {
     switch ($place)
         case "margin" return
-            <span class="margin-note">
-            { $config?apply-children($config, $node, $content) }
-            </span>
+            if ($n) then (
+                <span class="margin-note-ref">{$n}</span>,
+                <span class="margin-note">
+                    <span class="n">{$n}) </span>{ $config?apply-children($config, $node, $content) }
+                </span>
+            ) else
+                <span class="margin-note">
+                { $config?apply-children($config, $node, $content) }
+                </span>
         default return
             <span class="label label-default note {$class}" data-toggle="popover" 
                 data-content="{serialize(<div>{$config?apply-children($config, $node, $content/node())}</div>)}">

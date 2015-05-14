@@ -25,7 +25,7 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
     return
         switch ($level)
             case 1 return
-                let $heading := pmf:get-content($config, $node, $class, $content)
+                let $heading := normalize-space(pmf:get-content($config, $node, $class, $content))
                 return
                     "\chapter*{" || $heading || " \markboth{" || $heading || "}{" || $heading || "}}&#10;"
             case 2 return
@@ -98,10 +98,19 @@ declare function pmf:glyph($config as map(*), $node as element(), $class as xs:s
 
 declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $url as xs:anyURI,
     $width, $height, $scale) {
-    let $style := if ($width) then "width: " || $width || "; " else ()
-    let $style := if ($height) then $style || "height: " || $height || "; " else $style
+    let $w := if ($width) then "width=" || $width else ()
+    let $h := if ($height) then "height=" || $height else ()
+    let $s := if ($scale) then "scale=" || $scale else ()
+    let $options := string-join(($w, $h, $s), ",")
+    let $url :=
+        if (matches($url, "^\w+://")) then
+            $url
+        else
+            request:get-scheme() || "://" || request:get-server-name() || ":" || request:get-server-port() ||
+            request:get-context-path() || "/rest/" || util:collection-name($node) || "/" || $url
     return
         ()
+(:        "\includegraphics[" || $options || "]{" || $url || "}":)
 };
 
 declare function pmf:inline($config as map(*), $node as element(), $class as xs:string+, $content as item()*) {
@@ -144,12 +153,15 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         "\usepackage[english]{babel}&#10;",
         "\usepackage{colortbl}&#10;",
         "\usepackage{fancyhdr}&#10;",
-        "\usepackage{color}&#10;",
-        "\usepackage[a4paper, twoside, top=25mm, bottom=25mm, outer=40mm, inner=20mm, heightrounded, marginparwidth=25mm, marginparsep=5mm]{geometry}&#10;",
+        "\usepackage{xcolor}&#10;",
+        "\usepackage[normalem]{ulem}&#10;",
+        "\usepackage{marginfix}&#10;",
+        "\usepackage[a4paper, twoside, top=25mm, bottom=35mm, outer=40mm, inner=20mm, heightrounded, marginparwidth=25mm, marginparsep=5mm]{geometry}&#10;",
         "\usepackage{graphicx}&#10;",
         "\usepackage{hyperref}&#10;",
         "\usepackage{ifxetex}&#10;",
         "\usepackage{longtable}&#10;",
+        "\usepackage[maxfloats=64]{morefloats}&#10;",
         "\pagestyle{fancy}&#10;",
         "\fancyhf{}&#10;",
         "\def\theendnote{\@alph\c@endnote}&#10;",
@@ -168,8 +180,15 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
 };
 
 declare function pmf:metadata($config as map(*), $node as element(), $class as xs:string+, $content) {
-    $config?apply-children($config, $node, $content),
-    "\maketitle&#10;"
+    let $fileDesc := $node//tei:fileDesc
+    let $titleStmt := $fileDesc/tei:titleStmt
+    let $editionStmt := $fileDesc/tei:editionStmt
+    return (
+        "\title{" || pmf:get-content($config, $node, $class, $titleStmt/tei:title) || "}&#10;",
+        "\author{" || string-join($titleStmt/tei:author ! pmf:escapeChars(.), " \and ") || "}&#10;",
+        "\date{" || pmf:escapeChars($editionStmt/tei:edition) || "}&#10;",
+        "\maketitle&#10;"
+    )
 };
 
 declare function pmf:title($config as map(*), $node as element(), $class as xs:string+, $content) {
@@ -202,10 +221,11 @@ declare function pmf:alternate($config as map(*), $node as element(), $class as 
 declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content as item()*, $place as xs:string?, $n as xs:string?) {
     switch($place)
         case "margin" return (
-            "\marginpar{\noindent\raggedleft\footnotesize ", pmf:get-content($config, $node, $class, $content), "}"
+            "\marginpar{\noindent\raggedleft\footnotesize " || pmf:get-content($config, $node, $class, $content) || "}"
         )
-        default return
-            "\footnote{", pmf:get-content($config, $node, $class, $content), "}"
+        default return (
+            "\footnote{" || pmf:get-content($config, $node, $class, $content) || "}"
+        )
 };
 
 declare function pmf:escapeChars($text as xs:string?) {
@@ -213,14 +233,17 @@ declare function pmf:escapeChars($text as xs:string?) {
         replace(
             replace(
                 replace(
-                    replace($text, "\\", "\\textbackslash "),
-                    '~','\\textasciitilde '
+                    replace(
+                        replace($text, "\\", "\\textbackslash "),
+                        '~','\\textasciitilde '
+                    ),
+                    '\^','\\textasciicircum '
                 ),
-                '\^','\\textasciicircum '
+                "_", "\\textunderscore "
             ),
-            "_", "\\textunderscore "
+            "([\}\{%&amp;\$#])", "\\$1"
         ),
-        "([\}\{%&amp;\$#])", "\\$1"
+        "\s+", " "
     )
 };
 
@@ -299,13 +322,14 @@ declare %private function pmf:style($names as xs:string*, $styles as map(*), $te
                                 $text
                 case "color" return
                     if (starts-with($value, "#")) then
-                        $text
-(:                        "\textcolor[HTML]{" || substring-after($value, "#") || "}{" || $text || "}":)
+                        "\textcolor[HTML]{" || substring-after($value, "#") || "}{" || $text || "}"
                     else
                         "\textcolor{" || $value || "}{" || $text || "}"
                 case "text-decoration" return
                     if ($value = "underline") then
                         "\underline{" || $text || "}"
+                    else if ($value = "line-through") then
+                        "\sout{" || $text || "}"
                     else
                         $text
                 case "text-align" return
