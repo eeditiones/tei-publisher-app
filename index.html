@@ -1,41 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>TEI ODD extensions for processing models</h1>
-            </div>
-            <section>
-                <p>An implementation of the <a href="http://htmlpreview.github.io/?https://github.com/TEIC/TEI-Simple/blob/master/tei-pm.html">TEI-Simple Processing Model</a>
-                in XQuery. See <a href="doc/documentation.xml?odd=teisimple.odd">documentation</a> for more usage details.</p>
-            </section>
-            <div class="row">
-                <div data-template="app:action"/>
-            </div>
-            <section>
-                <h2>Documents</h2>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Document</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody data-template="app:doc-table"/>
-                </table>
-            </section>
-            <section>
-                <h2>ODD Files</h2>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Document</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody data-template="app:odd-table"/>
-                </table>
-            </section>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"/>
+                <span class="icon-bar"/>
+                <span class="icon-bar"/>
+            </button>
+            <a data-template="config:app-title" class="navbar-brand" href="./index.html">App Title</a>
         </div>
+        <div class="navbar-collapse collapse" id="navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="/exist/apps/tei-simple/index.html">Home</a>
+                </li>
+                <li>
+                    <a href="/exist/apps/tei-simple/doc/documentation.xml?odd=teisimple.odd">Documentation</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row main">
+            <div class="col-md-12">
+                <div class="page-header">
+                    <h1>TEI ODD extensions for processing models</h1>
+                </div>
+                <section>
+                    <p>An implementation of the <a href="http://htmlpreview.github.io/?https://github.com/TEIC/TEI-Simple/blob/master/tei-pm.html">TEI-Simple Processing Model</a>
+                    in XQuery. See <a href="doc/documentation.xml?odd=teisimple.odd">documentation</a> for more usage details.</p>
+                </section>
+                <div class="row">
+                    <div data-template="app:action"/>
+                </div>
+                <section>
+                    <h2>Documents</h2>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Document</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody data-template="app:doc-table"/>
+                    </table>
+                </section>
+                <section>
+                    <h2>ODD Files</h2>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Document</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody data-template="app:odd-table"/>
+                    </table>
+                </section>
+            </div>
+        </div>
+        <footer class="poweredby">
+            <a href="http://tei-c.org">
+                <img src="resources/images/powered-by-TEI.png" alt="Powered by TEI"/>
+            </a>
+            <a href="http://exist-db.org">
+                <img src="$shared/resources/images/powered-by.svg" alt="Powered by eXist-db" height="49"/>
+            </a>
+        </footer>
     </div>
 </div>

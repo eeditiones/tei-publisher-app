@@ -232,11 +232,33 @@ function app:view($node as node(), $model as map(*), $odd as xs:string, $view as
 declare function app:process-content($odd as xs:string, $xml as element()*) {
 	let $html :=
         pmu:process($config:odd-root || "/" || $odd, $xml, $config:output-root, "web", "../generated", $app:ext-html)
-    let $class := if ($html//*[@class = "margin-note"]) then "margin-right" else ()
+    let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
     return
         <div class="content {$class}">
         {$html}
         </div>
+};
+
+declare
+    %templates:wrap
+function app:table-of-contents($node as node(), $model as map(*), $odd as xs:string) {
+    app:toc-div(root($model?data), $odd)
+};
+
+declare %private function app:toc-div($node, $odd as xs:string) {
+    let $divs := $node//tei:div[empty(ancestor::tei:div) or ancestor::tei:div[1] is $node][tei:head]
+    return
+        <ul>
+        {
+            for $div in $divs
+            let $html := $div/tei:head//text()
+            return
+                <li>
+                    <a class="toc-link" href="{util:document-name($div)}?root={util:node-id($div)}&amp;odd={$odd}">{$html}</a>
+                    {app:toc-div($div, $odd)}
+                </li>
+        }
+        </ul>
 };
 
 declare
@@ -258,7 +280,7 @@ function app:navigation($node as node(), $model as map(*), $view as xs:string) {
     else
         let $div := $model("data")
         let $parent := $div/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
-        let $prevDiv := $div/preceding::tei:div
+        let $prevDiv := $div/preceding::tei:div[1]
         let $prevDiv := app:get-previous(if ($parent and (empty($prevDiv) or $div/.. >> $prevDiv)) then $div/.. else $prevDiv)
         let $nextDiv := app:get-next($div)
     (:        ($div//tei:div[not(*[1] instance of element(tei:div))] | $div/following::tei:div)[1]:)

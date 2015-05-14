@@ -5,13 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta data-template="config:app-meta"/>
         <link rel="shortcut icon" href="$shared/resources/images/exist_icon_16x16.ico"/>
-        <link rel="stylesheet" type="text/css" href="$shared/resources/css/bootstrap-3.0.3.min.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/animate.min.css"/>
         <link rel="stylesheet" type="text/css" data-template="app:styles"/>
-        <script type="text/javascript" src="$shared/resources/scripts/jquery/jquery-1.7.1.min.js"/>
+        <script type="text/javascript" src="resources/scripts/jquery-1.11.3.min.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
-        <script type="text/javascript" src="$shared/resources/scripts/bootstrap-3.0.3.min.js"/>
+        <script type="text/javascript" src="resources/scripts/bootstrap.min.js"/>
         <script type="text/javascript">
             $(document).ready(function() {
                 $(".note").popover({
@@ -24,47 +24,78 @@
     </head>
     <body>
         <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content" data-template-using="body">
-            <div data-template="app:load">
-                <div class="row">
-                    <div class="btn-group actions" role="group">
-                        <a class="btn btn-default" data-template="app:back-link" title="Back to index page">
-                            <i class="glyphicon glyphicon-chevron-left"/>
-                        </a>
-                        <a class="btn btn-default" data-template="app:pdf-link">
-                            <i class="glyphicon glyphicon-print"/> PDF
-                        </a>
-                        <a class="btn btn-default" data-template="app:latex-link">
-                            <i class="glyphicon glyphicon-print"/> LaTeX
-                        </a>
-                        <a class="btn btn-default" data-template="app:epub-link" title="Download as epub ebook">
-                            <i class="glyphicon glyphicon-book"/> ePUB
-                        </a>
-                        <a class="btn btn-default" data-template="app:xml-link">
-                            <i class="glyphicon glyphicon-pencil"/> XML</a>
-                        <a class="btn btn-default" data-template="app:single-page-link">
-                            <i class="glyphicon glyphicon-resize-full"/> Single Page</a>
-                    </div>
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"/>
+                        <span class="icon-bar"/>
+                        <span class="icon-bar"/>
+                    </button>
+                    <a data-template="config:app-title" class="navbar-brand" href="./index.html">App Title</a>
                 </div>
+                <div class="navbar-collapse collapse" id="navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="hidden-sm">
+                            <button id="collapse-sidebar" type="button" class="btn btn-default navbar-btn">
+                                <i class="glyphicon glyphicon-menu-hamburger"/>
+                            </button>
+                        </li>
+                        <li>
+                            <a href="/exist/apps/tei-simple/index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="/exist/apps/tei-simple/doc/documentation.xml?odd=teisimple.odd">Documentation</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div data-template="app:load" class="container-fluid">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div data-template="app:navigation" class="content-nav top">
-                            <h5 class="navigation-top" data-template="app:navigation-title"/>
-                            <!--div data-template="app:breadcrumbs" class="breadcrumb"/-->
-                            <a data-template="app:navigation-link" data-template-direction="next" class="next">
-                                Next <i class="glyphicon glyphicon-chevron-right"/>
-                            </a>
-                            <a data-template="app:navigation-link" data-template-direction="previous" class="previous">
-                                <i class="glyphicon glyphicon-chevron-left"/> Previous</a>
-                        </div>
-                        <div id="content-container">
-                            <div data-template="app:view" class="content"/>
-                        </div>
-                        <div data-template="app:navigation" class="content-nav bottom">
-                            <a data-template="app:navigation-link" data-template-direction="previous" class="previous">
-                                <i class="glyphicon glyphicon-chevron-left"/> Previous</a>
-                            <a data-template="app:navigation-link" data-template-direction="next" class="next">
-                                Next <i class="glyphicon glyphicon-chevron-right"/>
-                            </a>
+                    <aside id="sidebar" class="col-md-3 hidden-xs toc">
+                        <h3>Contents</h3>
+                        <div data-template="app:table-of-contents"/>
+                    </aside>
+                    <div id="right-panel" class="col-md-9 col-md-offset-3 col-xs-12">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="btn-group actions" role="group">
+                                        <a class="btn btn-default" data-template="app:back-link" title="Back to index page">
+                                            <i class="glyphicon glyphicon-chevron-left"/>
+                                        </a>
+                                        <a class="btn btn-default" data-template="app:pdf-link">
+                                            <i class="glyphicon glyphicon-print"/> PDF
+                                        </a>
+                                        <a class="btn btn-default" data-template="app:latex-link">
+                                            <i class="glyphicon glyphicon-print"/> LaTeX
+                                        </a>
+                                        <a class="btn btn-default" data-template="app:epub-link" title="Download as epub ebook">
+                                            <i class="glyphicon glyphicon-book"/> ePUB
+                                        </a>
+                                        <a class="btn btn-default" data-template="app:xml-link">
+                                            <i class="glyphicon glyphicon-pencil"/> XML</a>
+                                        <a class="btn btn-default" data-template="app:single-page-link">
+                                            <i class="glyphicon glyphicon-resize-full"/> Single Page</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" data-template="app:navigation">
+                                <div class="col-md-12">
+                                    <h5 class="navigation-top" data-template="app:navigation-title"/>
+                                    <div id="content-inner">
+                                        <a data-template="app:navigation-link" data-template-direction="next" class="nav-next page-nav">
+                                            <i class="glyphicon glyphicon-chevron-right"/>
+                                        </a>
+                                        <a data-template="app:navigation-link" data-template-direction="previous" class="nav-prev page-nav">
+                                            <i class="glyphicon glyphicon-chevron-left"/>
+                                        </a>
+                                        <div id="content-container">
+                                            <div data-template="app:view" class="content"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
