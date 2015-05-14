@@ -14,7 +14,7 @@ $(document).ready(function() {
     $(window).on("popstate", function(ev) {
         var url = "doc=" + window.location.pathname.replace(/^.*\/([^/]+\/[^/]+)$/, "$1") + "&" + window.location.search.substring(1);
         load(url);
-    });
+    }).on("resize", resize);
     
     $("#collapse-sidebar").click(function(ev) {
         $("#sidebar").toggleClass("hidden");

@@ -224,7 +224,7 @@ function app:view($node as node(), $model as map(*), $odd as xs:string, $view as
         if ($view = "div") then
             app:get-content($model("data"))
         else
-            $model?data
+            $model?data//*:body/*
     return
         app:process-content($odd, $xml)
 };
@@ -275,23 +275,27 @@ declare
     %templates:wrap
     %templates:default("view", "div")
 function app:navigation($node as node(), $model as map(*), $view as xs:string) {
-    if ($view = "single") then
-        ()
-    else
-        let $div := $model("data")
-        let $parent := $div/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
-        let $prevDiv := $div/preceding::tei:div[1]
-        let $prevDiv := app:get-previous(if ($parent and (empty($prevDiv) or $div/.. >> $prevDiv)) then $div/.. else $prevDiv)
-        let $nextDiv := app:get-next($div)
-    (:        ($div//tei:div[not(*[1] instance of element(tei:div))] | $div/following::tei:div)[1]:)
-        let $work := $div/ancestor-or-self::tei:TEI
-        return
+    let $div := $model("data")
+    let $work := $div/ancestor-or-self::tei:TEI
+    return
+        if ($view = "single") then
             map {
-                "previous" := $prevDiv,
-                "next" := $nextDiv,
-                "work" := $work,
-                "div" := $div
+                "div" : $div,
+                "work" : $work
             }
+        else
+            let $parent := $div/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
+            let $prevDiv := $div/preceding::tei:div[1]
+            let $prevDiv := app:get-previous(if ($parent and (empty($prevDiv) or $div/.. >> $prevDiv)) then $div/.. else $prevDiv)
+            let $nextDiv := app:get-next($div)
+        (:        ($div//tei:div[not(*[1] instance of element(tei:div))] | $div/following::tei:div)[1]:)
+            return
+                map {
+                    "previous" : $prevDiv,
+                    "next" : $nextDiv,
+                    "work" : $work,
+                    "div" : $div
+                }
 };
 
 declare function app:get-next($div as element()) {
@@ -348,8 +352,12 @@ function app:navigation-title($node as node(), $model as map(*)) {
     app:work-title($model('data')/ancestor-or-self::tei:TEI)
 };
 
-declare function app:navigation-link($node as node(), $model as map(*), $direction as xs:string, $odd as xs:string) {
-    if ($model($direction)) then
+declare
+    %templates:default("view", "div")
+function app:navigation-link($node as node(), $model as map(*), $direction as xs:string, $odd as xs:string, $view as xs:string) {
+    if ($view = "single") then
+        ()
+    else if ($model($direction)) then
         <a data-doc="{util:document-name($model($direction))}"
             data-root="{util:node-id($model($direction))}"
             data-current="{util:node-id($model('div'))}"

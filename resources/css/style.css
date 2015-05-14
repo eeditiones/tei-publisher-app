@@ -56,8 +56,8 @@
   -moz-animation-duration: 400ms;
   animation-duration: 400ms;
   overflow:auto;
-  margin-left: 90px;
-  margin-right: 90px;
+  margin-left: 60px;
+  margin-right: 60px;
 }
 
 .margin-right {
@@ -141,7 +141,7 @@
 @media (min-width: 979px) {
   .page-nav.affix-top {
     position: absolute;
-    width: 90px;
+    width: 60px;
   }
   
   .page-nav.affix {
@@ -157,7 +157,7 @@
 .page-nav {
     position: fixed;
     margin: 0;
-    width: 90px;
+    width: 60px;
     display: flex;
     justify-content: center;
     align-content: center;
@@ -174,7 +174,7 @@
     color: #ccc;
 }
 .nav-next {
-    right: 0;
+    right: 30px;
 }
 .nav-prev {
     left: 0;
@@ -187,14 +187,14 @@
     padding: 10px 10px 10px 0;
     margin-bottom: 1em;
     border-bottom: 2px solid #CCC;
-    margin-left: 90px;
-    margin-right: 90px;
+    margin-left: 60px;
+    margin-right: 60px;
 }
 
 .actions {
     margin-bottom: 10px;
-    margin-left: 90px;
-    margin-right: 90px;
+    margin-left: 60px;
+    margin-right: 60px;
     margin-top: 71px;
 }
 
