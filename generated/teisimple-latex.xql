@@ -3,7 +3,7 @@
     Transformation module generated from TEI ODD extensions for processing models.
     ODD: /db/apps/tei-simple/odd/teisimple.odd
  :)
-xquery version "3.0";
+xquery version "3.1";
 
 module namespace model="http://www.tei-c.org/tei-simple/models/teisimple.odd";
 
@@ -25,7 +25,7 @@ declare function model:transform($options as map(*), $input as node()*) {
     let $config :=
         map:new(($options,
             map {
-                "output": "print",
+                "output": ["latex","print"],
                 "odd": "/db/apps/tei-simple/odd/teisimple.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
@@ -39,11 +39,6 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
     $input !     (
         typeswitch(.)
-            case element(code) return
-                if (parent::cell|parent::p) then
-                    latex:inline($config, ., "code1", .)
-                else
-                    ext-latex:code($config, ., "code2", ., @lang)
             case element(ab) return
                 latex:paragraph($config, ., "ab", .)
             case element(abbr) return
@@ -57,11 +52,11 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(addrLine) return
                 latex:block($config, ., "addrLine", .)
             case element(addSpan) return
-                latex:anchor($config, ., "addSpan", @xml:id)
+                latex:anchor($config, ., "addSpan", ., @xml:id)
             case element(am) return
                 latex:inline($config, ., "am", .)
             case element(anchor) return
-                latex:anchor($config, ., "anchor", @xml:id)
+                latex:anchor($config, ., "anchor", ., @xml:id)
             case element(argument) return
                 latex:block($config, ., "argument", .)
             case element(author) return
@@ -98,19 +93,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                 else
                     $config?apply($config, ./node())
             case element(cb) return
-                latex:break($config, ., "cb", 'column', @n)
+                latex:break($config, ., "cb", ., 'column', @n)
             case element(cell) return
                 (: Insert table cell. :)
                 latex:cell($config, ., "cell", .)
             case element(choice) return
                 if (sic and corr) then
-                    latex:alternate($config, ., "choice4", corr[1], sic[1])
+                    latex:alternate($config, ., "choice4", ., corr[1], sic[1])
                 else
                     if (abbr and expan) then
-                        latex:alternate($config, ., "choice5", expan[1], abbr[1])
+                        latex:alternate($config, ., "choice5", ., expan[1], abbr[1])
                     else
                         if (orig and reg) then
-                            latex:alternate($config, ., "choice6", reg[1], orig[1])
+                            latex:alternate($config, ., "choice6", ., reg[1], orig[1])
                         else
                             $config?apply($config, ./node())
             case element(cit) return
@@ -148,7 +143,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 if (@type='title_page') then
                     latex:block($config, ., "div1", .)
                 else
-                    latex:section($config, ., "div2", .)
+                    if (parent::body or parent::front or parent::back) then
+                        latex:section($config, ., "div2", .)
+                    else
+                        latex:block($config, ., "div3", .)
             case element(docAuthor) return
                 if (ancestor::teiHeader) then
                     (: Omit if located in teiHeader. :)
@@ -210,19 +208,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                     latex:block($config, ., "fw2", .)
             case element(g) return
                 if (not(text())) then
-                    latex:glyph($config, ., "g1", @ref)
+                    latex:glyph($config, ., "g1", ., @ref)
                 else
                     latex:inline($config, ., "g2", .)
             case element(gap) return
                 if (desc) then
-                    latex:inline($config, ., "gap1", desc)
+                    latex:inline($config, ., "gap1", .)
                 else
                     if (@extent) then
                         latex:inline($config, ., "gap2", @extent)
                     else
                         latex:inline($config, ., "gap3", .)
             case element(graphic) return
-                latex:graphic($config, ., "graphic", @url, @width, @height, @scale)
+                latex:graphic($config, ., "graphic", desc, @url, @width, @height, @scale)
             case element(group) return
                 latex:block($config, ., "group", .)
             case element(handShift) return
@@ -241,7 +239,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 latex:block($config, ., "head4", .)
                             else
                                 if (parent::div) then
-                                    latex:heading($config, ., "head5", ., @type, div)
+                                    latex:heading($config, ., "head5", .)
                                 else
                                     latex:block($config, ., "head6", .)
             case element(hi) return
@@ -261,7 +259,7 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(label) return
                 latex:inline($config, ., "label", .)
             case element(lb) return
-                latex:break($config, ., css:get-rendition(., "lb"), 'line', @n)
+                latex:break($config, ., css:get-rendition(., "lb"), ., 'line', @n)
             case element(lg) return
                 latex:block($config, ., "lg", .)
             case element(list) return
@@ -300,7 +298,7 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(p) return
                 latex:paragraph($config, ., css:get-rendition(., "p"), .)
             case element(pb) return
-                latex:break($config, ., css:get-rendition(., "pb"), 'page', (concat(if(@n) then concat(@n,' ') else '',if(@facs) then concat('@',@facs) else '')))
+                latex:break($config, ., css:get-rendition(., "pb"), ., 'page', (concat(if(@n) then     concat(@n,' ') else '',if(@facs) then     concat('@',@facs) else '')))
             case element(pc) return
                 latex:inline($config, ., "pc", .)
             case element(postscript) return
@@ -447,7 +445,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 (
                                     latex:inline($config, ., "title1", .),
                                     if (following-sibling::* and     (ancestor::biblStruct  or     ancestor::biblFull)) then
-                                        latex:text($config, ., "title2", ' ')
+                                        latex:text($config, ., "title2", ', ')
                                     else
                                         ()
                                 )
@@ -491,15 +489,18 @@ declare function model:apply-children($config as map(*), $node as element(), $co
             attribute id { $id }
         else
             (),
-    $content ! (
-        typeswitch(.)
-            case element() return
-                if (. is $node) then
-                    $config?apply($config, ./node())
-                else
-                    $config?apply($config, .)
-            default return
-                latex:escapeChars(.)
+    if (empty($content)) then
+        $config?apply($config, ./node())
+    else
+        $content ! (
+            typeswitch(.)
+                case element() return
+                    if (. is $node) then
+                        $config?apply($config, ./node())
+                    else
+                        $config?apply($config, .)
+                default return
+                    latex:escapeChars(.)
     )
 };
 

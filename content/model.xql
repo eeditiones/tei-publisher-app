@@ -145,15 +145,18 @@ return
         attribute id {{ $id }}
     else
         (),
-$content ! (
-    typeswitch(.)
-        case element() return
-            if (. is $node) then
-                $config?apply($config, ./node())
-            else
-                $config?apply($config, .)
-        default return
-            {$modules?1?prefix}:escapeChars(.)
+if (empty($content)) then
+    $config?apply($config, ./node())
+else
+    $content ! (
+        typeswitch(.)
+            case element() return
+                if (. is $node) then
+                    $config?apply($config, ./node())
+                else
+                    $config?apply($config, .)
+            default return
+                {$modules?1?prefix}:escapeChars(.)
 )</body>
             </function>
             </module>
@@ -229,39 +232,44 @@ declare %private function pm:model-or-sequence($ident as xs:string, $models as e
 
 declare %private function pm:model($ident as xs:string, $model as element(tei:model), $modules as array(*)) {
     let $behaviour := $model/@behaviour
-    let $task := substring-before(normalize-space($model/@behaviour),'(')
-    let $argStr := replace(normalize-space($behaviour),'[^\(]*\((.*)\)$','$1')
-    let $args := analyze-string($argStr, "('.*?'|&quot;.*?&quot;|[^\(]+?|[^\(]*?\(.*?\))(?:\s*,\s*|$)")//fn:group/string()
-    let $params := if (count($args) = 0) then "." else $args
-    
+    let $task := normalize-space($model/@behaviour)
+    let $params := $model/tei:param
+    let $params := if (empty($params[@name="content"])) then ($params, <tei:param name="content">.</tei:param>) else $params
     let $fn := pm:lookup($modules, $task, count($params) + 3)
     return
         if (exists($fn)) then
+            let $signature := inspect:inspect-function($fn?function)
             let $count := count($model/../tei:model)
             let $class := $ident || (if ($count > 1) then count($model/preceding-sibling::tei:model) + 1 else ())
             return (
-                if ($model/tei:desc) then
-                    <comment>{$model/tei:desc}</comment>
-                else
-                    (),
-                <function-call name="{$fn?prefix}:{$task}">
-                    <param>$config</param>
-                    <param>.</param>
-                    <param>
-                    {
-                        if ($model/@useSourceRendition = "true") then
-                            <function-call name="css:get-rendition">
-                                <param>.</param>
-                                <param>{'"' || $class || '"'}</param>
-                            </function-call>
-                        else 
-                            '"' || $class || '"'
-                    }
-                    </param>
-                    {
-                        $params ! <param>{.}</param>
-                    }
-                </function-call>
+                try {
+                    if ($model/tei:desc) then
+                        <comment>{$model/tei:desc}</comment>
+                    else
+                        (),
+                    <function-call name="{$fn?prefix}:{$task}">
+                        <param>$config</param>
+                        <param>.</param>
+                        <param>
+                        {
+                            if ($model/@useSourceRendition = "true") then
+                                <function-call name="css:get-rendition">
+                                    <param>.</param>
+                                    <param>{'"' || $class || '"'}</param>
+                                </function-call>
+                            else 
+                                '"' || $class || '"'
+                        }
+                        </param>
+                        {
+                            pm:map-parameters($signature, $params)
+                        }
+                    </function-call>
+                } catch pm:not-found {
+                    <comment>Failed to map function for behavior {$behaviour/string()}. {$err:description}</comment>,
+                    <comment>{serialize($model)}</comment>,
+                    "()"
+                }
         ) else (
             <comment>No function found for behavior: {$behaviour/string()}</comment>,
             <function-call name="$config?apply">
@@ -303,4 +311,14 @@ declare %private function pm:lookup($modules as array(*), $task as xs:string, $a
                 pm:lookup(array:subarray($modules, 1, array:size($modules) - 1), $task, $arity)
     else
         ()
+};
+
+declare function pm:map-parameters($signature as element(function), $params as element(tei:param)+) {
+    for $arg in subsequence($signature/argument, 4)
+    let $mapped := $params[@name = $arg/@var]
+    return
+        if ($mapped) then
+            <param>{$mapped/string()}</param>
+        else
+            error(xs:QName("pm:not-found"), "No matching parameter found for argument " || $arg/@var)
 };

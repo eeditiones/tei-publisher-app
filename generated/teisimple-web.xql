@@ -3,7 +3,7 @@
     Transformation module generated from TEI ODD extensions for processing models.
     ODD: /db/apps/tei-simple/odd/teisimple.odd
  :)
-xquery version "3.0";
+xquery version "3.1";
 
 module namespace model="http://www.tei-c.org/tei-simple/models/teisimple.odd";
 
@@ -25,7 +25,7 @@ declare function model:transform($options as map(*), $input as node()*) {
     let $config :=
         map:new(($options,
             map {
-                "output": "web",
+                "output": ["web"],
                 "odd": "/db/apps/tei-simple/odd/teisimple.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
@@ -39,11 +39,6 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
     $input !     (
         typeswitch(.)
-            case element(code) return
-                if (parent::cell|parent::p) then
-                    html:inline($config, ., "code1", .)
-                else
-                    ext:code($config, ., "code2", ., @lang)
             case element(ab) return
                 html:paragraph($config, ., "ab", .)
             case element(abbr) return
@@ -57,11 +52,11 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(addrLine) return
                 html:block($config, ., "addrLine", .)
             case element(addSpan) return
-                html:anchor($config, ., "addSpan", @xml:id)
+                html:anchor($config, ., "addSpan", ., @xml:id)
             case element(am) return
                 html:inline($config, ., "am", .)
             case element(anchor) return
-                html:anchor($config, ., "anchor", @xml:id)
+                html:anchor($config, ., "anchor", ., @xml:id)
             case element(argument) return
                 html:block($config, ., "argument", .)
             case element(author) return
@@ -75,7 +70,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 html:inline($config, ., "bibl", .)
             case element(body) return
                 (
-                    html:index($config, ., "body1", ., 'toc'),
+                    html:index($config, ., "body1", 'toc', .),
                     html:block($config, ., "body2", .)
                 )
 
@@ -98,19 +93,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                 else
                     $config?apply($config, ./node())
             case element(cb) return
-                html:break($config, ., "cb", 'column', @n)
+                html:break($config, ., "cb", ., 'column', @n)
             case element(cell) return
                 (: Insert table cell. :)
                 html:cell($config, ., "cell", .)
             case element(choice) return
                 if (sic and corr) then
-                    html:alternate($config, ., "choice4", corr[1], sic[1])
+                    html:alternate($config, ., "choice4", ., corr[1], sic[1])
                 else
                     if (abbr and expan) then
-                        html:alternate($config, ., "choice5", expan[1], abbr[1])
+                        html:alternate($config, ., "choice5", ., expan[1], abbr[1])
                     else
                         if (orig and reg) then
-                            html:alternate($config, ., "choice6", reg[1], orig[1])
+                            html:alternate($config, ., "choice6", ., reg[1], orig[1])
                         else
                             $config?apply($config, ./node())
             case element(cit) return
@@ -129,7 +124,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     html:inline($config, ., "corr2", .)
             case element(date) return
                 if (@when) then
-                    html:alternate($config, ., "date3", ., @when)
+                    html:alternate($config, ., "date3", ., ., @when)
                 else
                     if (text()) then
                         html:inline($config, ., "date4", .)
@@ -145,7 +140,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 if (@type='title_page') then
                     html:block($config, ., "div1", .)
                 else
-                    html:section($config, ., "div2", .)
+                    if (parent::body or parent::front or parent::back) then
+                        html:section($config, ., "div2", .)
+                    else
+                        html:block($config, ., "div3", .)
             case element(docAuthor) return
                 if (ancestor::teiHeader) then
                     (: Omit if located in teiHeader. :)
@@ -207,19 +205,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                     html:block($config, ., "fw2", .)
             case element(g) return
                 if (not(text())) then
-                    html:glyph($config, ., "g1", @ref)
+                    html:glyph($config, ., "g1", ., @ref)
                 else
                     html:inline($config, ., "g2", .)
             case element(gap) return
                 if (desc) then
-                    html:inline($config, ., "gap1", desc)
+                    html:inline($config, ., "gap1", .)
                 else
                     if (@extent) then
                         html:inline($config, ., "gap2", @extent)
                     else
                         html:inline($config, ., "gap3", .)
             case element(graphic) return
-                html:graphic($config, ., "graphic", @url, @width, @height, @scale)
+                html:graphic($config, ., "graphic", desc, @url, @width, @height, @scale)
             case element(group) return
                 html:block($config, ., "group", .)
             case element(handShift) return
@@ -238,7 +236,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 html:block($config, ., "head4", .)
                             else
                                 if (parent::div) then
-                                    html:heading($config, ., "head5", ., @type, div)
+                                    html:heading($config, ., "head5", .)
                                 else
                                     html:block($config, ., "head6", .)
             case element(hi) return
@@ -258,7 +256,7 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(label) return
                 html:inline($config, ., "label", .)
             case element(lb) return
-                html:break($config, ., css:get-rendition(., "lb"), 'line', @n)
+                html:break($config, ., css:get-rendition(., "lb"), ., 'line', @n)
             case element(lg) return
                 html:block($config, ., "lg", .)
             case element(list) return
@@ -297,7 +295,7 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(p) return
                 html:paragraph($config, ., css:get-rendition(., "p"), .)
             case element(pb) return
-                html:break($config, ., css:get-rendition(., "pb"), 'page', (concat(if(@n) then concat(@n,' ') else '',if(@facs) then concat('@',@facs) else '')))
+                html:break($config, ., css:get-rendition(., "pb"), ., 'page', (concat(if(@n) then     concat(@n,' ') else '',if(@facs) then     concat('@',@facs) else '')))
             case element(pc) return
                 html:inline($config, ., "pc", .)
             case element(postscript) return
@@ -444,7 +442,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 (
                                     html:inline($config, ., "title1", .),
                                     if (following-sibling::* and     (ancestor::biblStruct  or     ancestor::biblFull)) then
-                                        html:text($config, ., "title2", ' ')
+                                        html:text($config, ., "title2", ', ')
                                     else
                                         ()
                                 )
@@ -490,15 +488,18 @@ declare function model:apply-children($config as map(*), $node as element(), $co
             attribute id { $id }
         else
             (),
-    $content ! (
-        typeswitch(.)
-            case element() return
-                if (. is $node) then
-                    $config?apply($config, ./node())
-                else
-                    $config?apply($config, .)
-            default return
-                html:escapeChars(.)
+    if (empty($content)) then
+        $config?apply($config, ./node())
+    else
+        $content ! (
+            typeswitch(.)
+                case element() return
+                    if (. is $node) then
+                        $config?apply($config, ./node())
+                    else
+                        $config?apply($config, .)
+                default return
+                    html:escapeChars(.)
     )
 };
 

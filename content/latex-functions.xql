@@ -20,7 +20,7 @@ declare function pmf:paragraph($config as map(*), $node as element(), $class as 
     "&#10;&#10;"
 };
 
-declare function pmf:heading($config as map(*), $node as element(), $class as xs:string+, $content, $type, $subdiv) {
+declare function pmf:heading($config as map(*), $node as element(), $class as xs:string+, $content) {
     let $level := if ($content instance of node()) then max((count($content/ancestor::tei:div), 1)) else 1
     return
         switch ($level)
@@ -78,25 +78,25 @@ declare function pmf:section($config as map(*), $node as element(), $class as xs
     pmf:get-content($config, $node, $class, $content)
 };
 
-declare function pmf:anchor($config as map(*), $node as element(), $class as xs:string+, $id as item()*) {
+declare function pmf:anchor($config as map(*), $node as element(), $class as xs:string+, $content, $id as item()*) {
     "\label{" || $id || "}"
 };
 
-declare function pmf:link($config as map(*), $node as element(), $class as xs:string+, $content, $url as xs:anyURI?) {
-    if (starts-with($url, "#")) then
-        ("\hyperlink{", pmf:escapeChars(substring-after($url, "#")), "}{", pmf:get-content($config, $node, $class, $content), "}")
+declare function pmf:link($config as map(*), $node as element(), $class as xs:string+, $content, $link as xs:anyURI?) {
+    if (starts-with($link, "#")) then
+        ("\hyperlink{", pmf:escapeChars(substring-after($link, "#")), "}{", pmf:get-content($config, $node, $class, $content), "}")
     else
-        ("\hyperlink{", pmf:escapeChars($url), "}{", pmf:get-content($config, $node, $class, $content), "}")
+        ("\hyperlink{", pmf:escapeChars($link), "}{", pmf:get-content($config, $node, $class, $content), "}")
 };
 
-declare function pmf:glyph($config as map(*), $node as element(), $class as xs:string+, $content as xs:anyURI?) {
-    if ($content = "char:EOLhyphen") then
+declare function pmf:glyph($config as map(*), $node as element(), $class as xs:string+, $content as xs:anyURI?, $g) {
+    if ($g = "char:EOLhyphen") then
         "&#xAD;"
     else
         ()
 };
 
-declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $url as xs:anyURI,
+declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url as xs:anyURI,
     $width, $height, $scale) {
     let $w := if ($width) then "width=" || $width else ()
     let $h := if ($height) then "height=" || $height else ()
@@ -137,7 +137,7 @@ declare function pmf:index($config as map(*), $node as element(), $class as xs:s
     ()
 };
 
-declare function pmf:break($config as map(*), $node as element(), $class as xs:string+, $type as xs:string, $label as item()*) {
+declare function pmf:break($config as map(*), $node as element(), $class as xs:string+, $content, $type as xs:string, $label as item()*) {
     switch($type)
         case "page" return
             ()
@@ -212,13 +212,13 @@ declare function pmf:cell($config as map(*), $node as element(), $class as xs:st
     (if ($node/following-sibling::*) then " &amp; " else ())
 };
 
-declare function pmf:alternate($config as map(*), $node as element(), $class as xs:string+, $option1 as node()*,
-    $option2 as node()*) {
-    pmf:get-content($config, $node, $class, $option1),
-    "\footnote{", pmf:get-content($config, $node, $class, $option2), "}"
+declare function pmf:alternate($config as map(*), $node as element(), $class as xs:string+, $content, $default as node()*,
+    $alternate as node()*) {
+    pmf:get-content($config, $node, $class, $default),
+    "\footnote{", pmf:get-content($config, $node, $class, $alternate), "}"
 };
 
-declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content as item()*, $place as xs:string?, $n as xs:string?) {
+declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content as item()*, $place as xs:string?, $label as xs:string?) {
     switch($place)
         case "margin" return (
             "\marginpar{\noindent\raggedleft\footnotesize " || pmf:get-content($config, $node, $class, $content) || "}"

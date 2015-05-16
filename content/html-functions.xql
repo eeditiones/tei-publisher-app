@@ -48,7 +48,7 @@ declare function pmf:paragraph($config as map(*), $node as element(), $class as 
     </p>
 };
 
-declare function pmf:heading($config as map(*), $node as element(), $class as xs:string+, $content, $type, $subdiv) {
+declare function pmf:heading($config as map(*), $node as element(), $class as xs:string+, $content) {
     let $level := 
         if ($content instance of element()) then
             max((count($content/ancestor::tei:div), 1))
@@ -90,12 +90,12 @@ declare function pmf:section($config as map(*), $node as element(), $class as xs
     <section class="{$class}">{$config?apply-children($config, $node, $content)}</section>
 };
 
-declare function pmf:anchor($config as map(*), $node as element(), $class as xs:string+, $id as item()*) {
+declare function pmf:anchor($config as map(*), $node as element(), $class as xs:string+, $content, $id as item()*) {
     <span id="{$id}"/>
 };
 
-declare function pmf:link($config as map(*), $node as element(), $class as xs:string+, $content, $url as item()?) {
-    <a href="{$url}">{$config?apply-children($config, $node, $content)}</a>
+declare function pmf:link($config as map(*), $node as element(), $class as xs:string+, $content, $link as item()?) {
+    <a href="{$link}">{$config?apply-children($config, $node, $content)}</a>
 };
 
 declare function pmf:escapeChars($text as item()*) {
@@ -106,14 +106,14 @@ declare function pmf:escapeChars($text as item()*) {
             $text
 };
 
-declare function pmf:glyph($config as map(*), $node as element(), $class as xs:string+, $content as xs:anyURI?) {
-    if ($content = "char:EOLhyphen") then
+declare function pmf:glyph($config as map(*), $node as element(), $class as xs:string+, $content, $g) {
+    if ($g = "char:EOLhyphen") then
         "&#xAD;"
     else
         ()
 };
 
-declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $url as xs:anyURI,
+declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url as xs:anyURI,
     $width, $height, $scale) {
     let $style := if ($width) then "width: " || $width || "; " else ()
     let $style := if ($height) then $style || "height: " || $height || "; " else $style
@@ -123,13 +123,13 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
         </img>
 };
 
-declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content, $place as xs:string?, $n as xs:string?) {
+declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content, $place as xs:string?, $label as xs:string?) {
     switch ($place)
         case "margin" return
-            if ($n) then (
-                <span class="margin-note-ref">{$n}</span>,
+            if ($label) then (
+                <span class="margin-note-ref">{$label}</span>,
                 <span class="margin-note">
-                    <span class="n">{$n}) </span>{ $config?apply-children($config, $node, $content) }
+                    <span class="n">{$label}) </span>{ $config?apply-children($config, $node, $content) }
                 </span>
             ) else
                 <span class="margin-note">
@@ -162,7 +162,7 @@ declare function pmf:body($config as map(*), $node as element(), $class as xs:st
     <body class="{$class}">{$config?apply-children($config, $node, $content)}</body>
 };
 
-declare function pmf:index($config as map(*), $node as element(), $class as xs:string+, $content, $type as xs:string) {
+declare function pmf:index($config as map(*), $node as element(), $class as xs:string+, $type, $content) {
     ()
 };
 
@@ -170,7 +170,7 @@ declare function pmf:omit($config as map(*), $node as element(), $class as xs:st
     ()
 };
 
-declare function pmf:break($config as map(*), $node as element(), $class as xs:string+, $type as xs:string, $label as item()*) {
+declare function pmf:break($config as map(*), $node as element(), $class as xs:string+, $content, $type as xs:string, $label as item()*) {
     switch($type)
         case "page" return
             <span class="{$class}">{$config?apply-children($config, $node, $label)}</span>
@@ -223,11 +223,11 @@ declare function pmf:cell($config as map(*), $node as element(), $class as xs:st
     </td>
 };
 
-declare function pmf:alternate($config as map(*), $node as element(), $class as xs:string+, $option1 as node()*,
-    $option2 as node()*) {
+declare function pmf:alternate($config as map(*), $node as element(), $class as xs:string+, $content, $default as node()*,
+    $alternate as node()*) {
     <span class="alternate {$class}">
-        <span>{$config?apply-children($config, $node, $option1)}</span>
-        <span class="hidden altcontent">{$config?apply-children($config, $node, $option2)}</span>
+        <span>{$config?apply-children($config, $node, $default)}</span>
+        <span class="hidden altcontent">{$config?apply-children($config, $node, $alternate)}</span>
     </span>
 };
 

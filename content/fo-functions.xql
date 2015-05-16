@@ -84,7 +84,7 @@ declare function pmf:paragraph($config as map(*), $node as element(), $class as 
     </fo:block>
 };
 
-declare function pmf:heading($config as map(*), $node as element(), $class as xs:string+, $content, $type, $subdiv) {
+declare function pmf:heading($config as map(*), $node as element(), $class as xs:string+, $content) {
     let $level := if ($content instance of node()) then max((count($content/ancestor::tei:div), 1)) else 1
     let $defaultStyle := $config?default-styles("head" || $level)
     return
@@ -153,7 +153,7 @@ declare function pmf:block($config as map(*), $node as element(), $class as xs:s
     </fo:block>
 };
 
-declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content as item()*, $place as xs:string?, $n as xs:string?) {
+declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content as item()*, $place as xs:string?, $label as xs:string?) {
 (:    let $number := count($node/preceding::tei:note):)
     let $number := counter:next-value($pmf:NOTE_COUNTER_ID)
     return
@@ -191,17 +191,17 @@ declare function pmf:section($config as map(*), $node as element(), $class as xs
     </fo:block>
 };
 
-declare function pmf:anchor($config as map(*), $node as element(), $class as xs:string+, $id as item()*) {
+declare function pmf:anchor($config as map(*), $node as element(), $class as xs:string+, $content, $id as item()*) {
     <fo:inline id="{$id}"/>
 };
 
-declare function pmf:link($config as map(*), $node as element(), $class as xs:string+, $content, $url as xs:anyURI?) {
-    if (starts-with($url, "#")) then
-        <fo:basic-link internal-destination="{substring-after($url, '#')}">
+declare function pmf:link($config as map(*), $node as element(), $class as xs:string+, $content, $link as xs:anyURI?) {
+    if (starts-with($link, "#")) then
+        <fo:basic-link internal-destination="{substring-after($link, '#')}">
         {$config?apply-children($config, $node, $content)}
         </fo:basic-link>
     else
-        <fo:basic-link external-destination="{$url}">{$config?apply-children($config, $node, $content)}</fo:basic-link>
+        <fo:basic-link external-destination="{$link}">{$config?apply-children($config, $node, $content)}</fo:basic-link>
 };
 
 declare function pmf:escapeChars($text as item()) {
@@ -212,14 +212,14 @@ declare function pmf:escapeChars($text as item()) {
             $text
 };
 
-declare function pmf:glyph($config as map(*), $node as element(), $class as xs:string+, $content as xs:anyURI?) {
-    if ($content = "char:EOLhyphen") then
+declare function pmf:glyph($config as map(*), $node as element(), $class as xs:string+, $content as xs:anyURI?, $g) {
+    if ($g = "char:EOLhyphen") then
         "&#xAD;"
     else
         ()
 };
 
-declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $url as xs:anyURI,
+declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url as xs:anyURI,
     $width, $height, $scale) {
     let $src :=
         if (matches($url, "^\w+://")) then
@@ -276,7 +276,7 @@ declare function pmf:omit($config as map(*), $node as element(), $class as xs:st
     ()
 };
 
-declare function pmf:break($config as map(*), $node as element(), $class as xs:string+, $type as xs:string, $label as item()*) {
+declare function pmf:break($config as map(*), $node as element(), $class as xs:string+, $content, $type as xs:string, $label as item()*) {
     switch($type)
         case "page" return
             ()
@@ -385,9 +385,9 @@ declare function pmf:cell($config as map(*), $node as element(), $class as xs:st
     </fo:table-cell>
 };
 
-declare function pmf:alternate($config as map(*), $node as element(), $class as xs:string+, $option1 as node()*,
-    $option2 as node()*) {
-    $config?apply-children($config, $node, $option1)
+declare function pmf:alternate($config as map(*), $node as element(), $class as xs:string+, $content, $default as node()*,
+    $alternate as node()*) {
+    $config?apply-children($config, $node, $alternate)
 };
 
 declare function pmf:omit($config as map(*), $node as element(), $class as xs:string+, $content) {
