@@ -25,6 +25,13 @@ declare variable $app:ext-latex :=
         "at": "../modules/ext-latex.xql"
     };
 
+declare variable $app:ext-fo := 
+    map {
+        "uri": "http://www.tei-c.org/tei-simple/xquery/ext-fo",
+        "prefix": "ext-fo",
+        "at": "../modules/ext-fo.xql"
+    };
+    
 declare variable $app:EXIDE := 
     let $pkg := collection(repo:get-root())//expath:package[@name = "http://exist-db.org/apps/eXide"]
     let $appLink :=
@@ -394,7 +401,7 @@ declare function app:action($node as node(), $model as map(*), $source as xs:str
                         $config:output-root,
                         $module,
                         "../generated",
-                        if ($module = "latex") then $app:ext-latex else $app:ext-html)?("module")
+                        if ($module = "latex") then $app:ext-latex else if ($module = "print") then $app:ext-fo else $app:ext-html)?("module")
                     return
                         <li>{$file}</li>
                 }

@@ -69,7 +69,11 @@ declare variable $pmf:CSS_PROPERTIES := (
     "margin-top",
     "margin-bottom",
     "margin-left",
-    "margin-right"
+    "margin-right",
+    "wrap-option", 
+    "linefeed-treatment",
+    "white-space-collapse",
+    "white-space-treatment"
 );
 
 declare variable $pmf:NOTE_COUNTER_ID := "notes-" || util:uuid();

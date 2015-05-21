@@ -62,6 +62,18 @@
     text-indent: 1.5em;
     text-align: justify;
 }
+.code1 {
+    font-family: monospace;
+    font-size: 9pt;
+}
+.code2 {
+    font-family: monospace;
+    font-size: 9pt;
+    wrap-option: wrap;
+    linefeed-treatment: preserve;
+    white-space-collapse: false;
+    white-space-treatment: preserve;
+}
 .note {
     font-size: 60%;
     keep-with-previous.within-line: always;
