@@ -6,7 +6,7 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>TEI Simple customization for the documentation</title>
+                <title>TEI Simple customization</title>
             </titleStmt>
             <publicationStmt>
                 <publisher>TEI Consortium</publisher>
@@ -45,17 +45,34 @@
                 </availability>
             </publicationStmt>
             <sourceDesc>
-                <p>created by Wolfgang for tei-simple-pm app</p>
+                <p>created ab initio during a meeting in Oxford</p>
             </sourceDesc>
         </fileDesc>
     </teiHeader>
     <text>
         <body>
-            <schemaSpec ident="docs" start="TEI teiCorpus" source="teisimple.odd">
-                <elementSpec mode="add" ident="code">
-                    <model behaviour="inline" predicate="parent::cell|parent::p|parent::ab"/>
-                    <model behaviour="code">
-                        <param name="lang">@lang</param>
+            <schemaSpec ident="myteisimple" start="TEI teiCorpus" source="teisimple.odd">
+                <elementSpec mode="change" ident="add">
+                    <model behaviour="block">
+                        <rendition>color: red; text-decoration: underline;</rendition>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="name" mode="change">
+                    <attList>
+                        <attDef ident="type" mode="change">
+                            <valList mode="replace" type="closed">
+                                <valItem ident="person"/>
+                                <valItem ident="forename"/>
+                                <valItem ident="surname"/>
+                                <valItem ident="organisation"/>
+                                <valItem ident="object"/>
+                                <valItem ident="country"/>
+                                <valItem ident="place"/>
+                            </valList>
+                        </attDef>
+                    </attList>
+                    <model behaviour="block">
+                        <rendition>color: blue;</rendition>
                     </model>
                 </elementSpec>
                 <moduleRef key="tei"/>

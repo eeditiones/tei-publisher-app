@@ -1,5 +1,5 @@
 /* Generated stylesheet. Do not edit. */
-/* Generated from /db/apps/tei-simple/odd/teisimple.odd */
+/* Generated from /db/apps/tei-simple/odd/compiled/teisimple.odd */
 
 /* Global styles */
 
@@ -23,6 +23,7 @@
 .simple_left { text-align: left; }
 .simple_leftbraced { padding-left: 2pt; border-left: dotted gray 2pt; }
 .simple_letterspace { letter-spacing: 0.5em; }
+.simple_literall { font-family:monospace; white-space:pre; }
 .simple_normalstyle { font-style:roman; }
 .simple_normalweight { font-weight:normal; }
 .simple_right { text-align: right; }

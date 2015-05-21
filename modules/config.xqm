@@ -33,6 +33,8 @@ declare variable $config:data-root := $config:app-root || "/test";
 
 declare variable $config:odd-root := $config:app-root || "/odd";
 
+declare variable $config:compiled-odd-root := $config:odd-root || "/compiled";
+
 declare variable $config:output := "generated";
 
 declare variable $config:output-root := $config:app-root || "/" || $config:output;

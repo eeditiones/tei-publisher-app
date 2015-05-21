@@ -4,6 +4,7 @@ module namespace app="http://www.tei-c.org/tei-simple/templates";
 
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "odd2odd.xql";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";
 import module namespace dbutil="http://exist-db.org/xquery/dbutil";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
@@ -86,47 +87,50 @@ declare
     %templates:wrap
     %templates:default("odd", "teisimple.odd")
 function app:odd-table($node as node(), $model as map(*), $odd as xs:string) {
-    dbutil:find-by-mimetype(xs:anyURI($config:odd-root), "application/xml", function($resource) {
-        let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
-        return
-            <tr>
-                <td>{$name}</td>
-                <td>
-                {
-                    let $outputPath := $config:output-root || "/" || $name
-                    let $xqlWebAvail := util:binary-doc-available($outputPath || "-web.xql")
-                    let $xqlFoAvail := util:binary-doc-available($outputPath || "-print.xql")
-                    let $cssAvail := util:binary-doc-available($outputPath || ".css")
-                    return
-                        templates:process(
-                            <div class="btn-group" role="group">
-                                <a class="btn btn-default {if ($odd = $name || '.odd') then 'active' else ''}" href="?odd={$name}.odd">
-                                    <i class="glyphicon glyphicon-ok"/> Use ODD
-                                </a>
-                                <a class="btn btn-default"
-                                    href="?action=refresh&amp;source={$name}.odd&amp;odd={$odd}">
-                                    <i class="glyphicon glyphicon-refresh"/> Regenerate</a>
-                                <a class="btn btn-default" data-template="app:load-source"
-                                    href="{substring-after($resource, $config:app-root)}">
-                                    <i class="glyphicon glyphicon-edit"/> ODD</a>
-                                <a class="btn btn-default" data-template="app:load-source"
-                                    href="{substring-after($config:output-root, $config:app-root)}/{$name}-web.xql">
-                                    { if ($xqlWebAvail) then () else attribute disabled { "disabled" } }
-                                    <i class="glyphicon glyphicon-edit"/> Web XQL</a>
-                                <a class="btn btn-default" data-template="app:load-source"
-                                    href="{substring-after($config:output-root, $config:app-root)}/{$name}-print.xql">
-                                    { if ($xqlFoAvail) then () else attribute disabled { "disabled" } }
-                                    <i class="glyphicon glyphicon-edit"/> Print XQL</a>
-                                <a class="btn btn-default" data-template="app:load-source"
-                                    href="{substring-after($config:output-root, $config:app-root)}/{$name}.css">
-                                    { if ($cssAvail) then () else attribute disabled { "disabled" } }
-                                    <i class="glyphicon glyphicon-edit"/> CSS</a>
-                            </div>,
-                            $model
-                        )
-                }
-                </td>
-            </tr>
+    dbutil:scan-resources(xs:anyURI($config:odd-root), function($resource) {
+        if (ends-with($resource, ".odd")) then
+            let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
+            return
+                <tr>
+                    <td>{$name}</td>
+                    <td>
+                    {
+                        let $outputPath := $config:output-root || "/" || $name
+                        let $xqlWebAvail := util:binary-doc-available($outputPath || "-web.xql")
+                        let $xqlFoAvail := util:binary-doc-available($outputPath || "-print.xql")
+                        let $cssAvail := util:binary-doc-available($outputPath || ".css")
+                        return
+                            templates:process(
+                                <div class="btn-group" role="group">
+                                    <a class="btn btn-default {if ($odd = $name || '.odd') then 'active' else ''}" href="?odd={$name}.odd">
+                                        <i class="glyphicon glyphicon-ok"/> Use ODD
+                                    </a>
+                                    <a class="btn btn-default"
+                                        href="?action=refresh&amp;source={$name}.odd&amp;odd={$odd}">
+                                        <i class="glyphicon glyphicon-refresh"/> Regenerate</a>
+                                    <a class="btn btn-default" data-template="app:load-source"
+                                        href="{substring-after($resource, $config:app-root)}">
+                                        <i class="glyphicon glyphicon-edit"/> ODD</a>
+                                    <a class="btn btn-default" data-template="app:load-source"
+                                        href="{substring-after($config:output-root, $config:app-root)}/{$name}-web.xql">
+                                        { if ($xqlWebAvail) then () else attribute disabled { "disabled" } }
+                                        <i class="glyphicon glyphicon-edit"/> Web XQL</a>
+                                    <a class="btn btn-default" data-template="app:load-source"
+                                        href="{substring-after($config:output-root, $config:app-root)}/{$name}-print.xql">
+                                        { if ($xqlFoAvail) then () else attribute disabled { "disabled" } }
+                                        <i class="glyphicon glyphicon-edit"/> Print XQL</a>
+                                    <a class="btn btn-default" data-template="app:load-source"
+                                        href="{substring-after($config:output-root, $config:app-root)}/{$name}.css">
+                                        { if ($cssAvail) then () else attribute disabled { "disabled" } }
+                                        <i class="glyphicon glyphicon-edit"/> CSS</a>
+                                </div>,
+                                $model
+                            )
+                    }
+                    </td>
+                </tr>
+        else
+            ()
     })
 };
 
@@ -238,7 +242,7 @@ function app:view($node as node(), $model as map(*), $odd as xs:string, $view as
 
 declare function app:process-content($odd as xs:string, $xml as element()*) {
 	let $html :=
-        pmu:process($config:odd-root || "/" || $odd, $xml, $config:output-root, "web", "../generated", $app:ext-html)
+        pmu:process(odd:get-compiled($odd), $xml, $config:output-root, "web", "../generated", $app:ext-html)
     let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
     return
         <div class="content {$class}">
@@ -397,7 +401,7 @@ declare function app:action($node as node(), $model as map(*), $source as xs:str
                 {
                     for $module in ("web", "print", "latex", "epub")
                     for $file in pmu:process-odd(
-                        doc($config:odd-root || "/" || $source),
+                        doc(odd:get-compiled($source)),
                         $config:output-root,
                         $module,
                         "../generated",

@@ -10,6 +10,7 @@ declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";
+import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "odd2odd.xql";
 import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -39,7 +40,7 @@ return
         let $xml := doc($config:app-root || "/" || $doc)
         let $tex :=
             string-join(
-                pmu:process($config:odd-root || "/" || $odd, $xml, $config:output-root, "latex", "../generated", $local:ext-latex)
+                pmu:process(odd:get-compiled($odd), $xml, $config:output-root, "latex", "../generated", $local:ext-latex)
             )
         let $file := 
             replace($doc, "^.*?([^/]+)\..*$", "$1") ||
