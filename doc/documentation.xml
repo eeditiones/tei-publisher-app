@@ -170,7 +170,9 @@ declare function pmf:code($config as map(*), $node as element(),
     &lt;/pre&gt;
 };</code>
                     <p>It defines one function, <code>pmf:code</code>, which can be called from the ODD as follows:</p>
-                    <code lang="xml">&lt;model behaviour="code(., @lang)"/&gt;</code>
+                    <code lang="xml">&lt;model behaviour="code"&gt;
+    &lt;param name="lang"&gt;@lang&lt;/param&gt;
+&lt;/model&gt;</code>
                 </div>
                 <div>
                     <head>FO Output</head>
