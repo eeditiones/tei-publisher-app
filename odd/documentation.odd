@@ -55,76 +55,21 @@
                 <docTitle>
                     <titlePart type="main">TEI Simple</titlePart>
                 </docTitle>
-                <docAuthor>Sebastian Rahtz</docAuthor>
-                <docAuthor>Brian Pytlik Zillig</docAuthor>
-                <docAuthor>Martin Mueller</docAuthor>
-                <docDate>Version 0.3: 12th May 2015</docDate>
+                <docAuthor>Wolfgang Meier</docAuthor>
+                <docAuthor>Joe Wicentowski</docAuthor>
+                <docDate>Version 0.1: 21st May 2015</docDate>
             </titlePage>
         </front>
         <body>
             <div>
                 <head>Summary</head>
-                <p>The <hi>TEI Simple</hi> project aims to define a <hi rend="italic">highly-constrained</hi> and <hi rend="italic">prescriptive</hi> subset of the Text Encoding Initiative (TEI) Guidelines
-          suited to the representation of early modern and modern books, a formally-defined set of
-          processing rules which permit modern web applications to easily present and analyze the
-          encoded texts, mapping to other ontologies, and processes to describe the encoding status
-          and richness of a TEI digital text. This document describes
-	the constrained subset</p>
-            </div>
-            <div>
-                <head>
-                    <anchor xml:id="SECTION_1002"/>Background</head>
-                <p>The Text Encoding Initiative (TEI) has developed over 20 years into a key technology in
-          text-centric humanities disciplines, with an extremely wide range of applications, from
-          diplomatic editions to dictionaries, from prosopography to speech transcription and
-          linguistic analysis. It has been able to achieve its range of use by adopting a <hi rend="italic">descriptive</hi> rather than <hi rend="italic">prescriptive </hi> approach
-          , by recommending <hi rend="italic">customization</hi> to suit particular projects, and by
-          eschewing any attempt to dictate how the digital texts should be rendered or exchanged.
-          However, this flexibility has come at the cost of relatively limited success in
-          interoperability. In our view there is a distinct set of uses (primarily in the area of
-          digitized ‘European’-style books) that would benefit from a <hi rend="italic">prescriptive</hi> recipe for digital text; this will sit alongside other
-          domain-specific, constrained TEI customizations, such as the very successful <hi rend="italic">Epidoc</hi> in the epigraphic community. TEI-Simple may become a prototype
-          for a new family of constrained customizations. For instance, a TEI Simple MS for
-          manuscript based work could be built on top of the ENRICH project, drawing on many of the
-          lessons and some of the code for TEI Simple. </p>
-                <p>The TEI has long maintained an introductory subset (TEI Lite), and a constrained
-          customization for use in outsourcing production to commercial vendors (TEI Tite), but both
-          of these permit enormous variation, and have nothing to say about processing. The present
-          project can be viewed in some ways as a revision of TEI Lite, re-examining the basis of
-          the choices therein, focusing it for a more specific area, and adding a "cradle to grave"
-          processing model that associates the TEI Simple schema with explicit and standardized
-          options for displaying and querying texts. This means being able to specify what a
-          programmer should do with particular TEI elements when they are encountered, allowing
-          programmers to build stylesheets that work for everybody and to query a corpus of
-          documents reliably.</p>
-                <p>This project, TEI Simple, focuses on interoperability, machine generation, and
-          low-cost integration. The TEI architecture facilitates customizations of many kinds; TEI
-          Simple aims to produce a complete 'out of the box' customization which meets the needs of
-          the many users for whom the task of creating a customization is daunting or seems
-          irrelevant. TEI Simple in no way intends to constrain the expressive liberty of encoders
-          who do not think that it is either possible or desirable to follow this path. It does,
-          however, promise to make life easier for those who think there is some virtue in
-          travelling that path as far as it will take you, which for quite a few projects will be
-          far enough. Some users will never feel the need to move beyond it, others will outgrow it,
-          and when they do they will have learned enough to do so.</p>
-                <p>A major driver for this project is the texts created by phase 1 of the EEBO-TCP project,
-          which were placed in the public domain on 1 January 2015. Another 45,000 texts will
-          join over the following five years, creating by 2020 an archive of 70,000 consistently
-          encoded books published in England from 1475 to 1700, including works of literature,
-          philosophy, politics, religion, geography, science and all other areas of human endeavor.
-          When we compare the query potential of the EEBO TCP texts in their current and quite
-          simple encoding with flat file versions of those text, it is clear that the difference in
-          query potential is very high, especially if you add to that coarse encoding simple forms
-          of linguistic annotation or named entity tagging that can be added in a largely
-          algorithmic fashion. During 2012 and 2013 extensive work has been undertaken at
-          Northwestern, Michigan and Oxford to enrich these texts and bring them into line with the
-          current TEI Guidelines (where necessary working with the TEI to modify the Guidelines).
-          TEI Simple uses this corpus as a point of departure and will provide its users with a
-          friendlier environment for manipulating EEBO texts in various projects. But TEI Simple
-          should not be understood as an EEBO specific project. We believe that, given the
-          extraordinary degree of internal diversity in the EEBO source files, a project that starts
-          from them can, with appropriate modifications, accommodate a wide range of printed texts
-          differing in language, genre, or time and place of origin. </p>
+                <p>This customization of the <hi>TEI Simple</hi> ODD adds handling for the
+                        <gi>code</gi> element with its <att>lang</att> attribute, and extends the
+                    processing model with a "code" behavior, handling for which is provided by the
+                        <hi>tei-simple-pm</hi> app. The purpose of this extension/customization is
+                to support the tei-simple-pm app's need to render source code, where whitespace is
+                preserved and syntax coloring libraries can apply language-specific rules to make
+                code more readable and understandable. No other changes have been made.</p>
             </div>
             <div>
                 <head>The TEI Simple schema</head>
