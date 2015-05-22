@@ -24051,7 +24051,7 @@ Measures</ref>
                         </content>
                         <attList/>
                         <model xmlns:XSL="http://www.w3.org/1999/XSL/Transform" behaviour="inline">
-                            <param name="label">@n</param>
+                            <param name="content">@n</param>
                         </model>
                         <exemplum xml:lang="en">
                             <p>If all that is desired is to call attention to the original version in the copy text,

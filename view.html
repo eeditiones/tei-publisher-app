@@ -36,16 +36,22 @@
                 </div>
                 <div class="navbar-collapse collapse" id="navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li class="hidden-sm">
-                            <button id="collapse-sidebar" type="button" class="btn btn-default navbar-btn">
-                                <i class="glyphicon glyphicon-menu-hamburger"/>
-                            </button>
-                        </li>
                         <li>
                             <a href="/exist/apps/tei-simple/index.html">Home</a>
                         </li>
-                        <li>
-                            <a href="/exist/apps/tei-simple/doc/documentation.xml?odd=teisimple.odd">Documentation</a>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                                Documentation
+                                <span class="caret"/>
+                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li>
+                                    <a href="/exist/apps/tei-simple/doc/documentation.xml?odd=documentation.odd">Documentation</a>
+                                </li>
+                                <li>
+                                    <a href="/exist/apps/tei-simple/modules/latex.xql?odd=beamer.odd&amp;doc=/doc/presentation.xml">Presentation</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </div>

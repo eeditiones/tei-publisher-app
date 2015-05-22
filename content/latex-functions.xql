@@ -150,6 +150,7 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
     let $config := pmf:load-styles($config, $odd)
     return (
         "\documentclass[11pt]{book}&#10;",
+        "\usepackage[utf8]{inputenc}",
         "\usepackage[english]{babel}&#10;",
         "\usepackage{colortbl}&#10;",
         "\usepackage{fancyhdr}&#10;",
@@ -348,7 +349,7 @@ declare %private function pmf:style($names as xs:string*, $styles as map(*), $te
             pmf:style(tail($names), $styles, $styled)
 };
 
-declare %private function pmf:load-styles($config as map(*), $root as document-node()) {
+declare function pmf:load-styles($config as map(*), $root as document-node()) {
     let $css := css:generate-css($root)
     let $styles := css:parse-css($css)
     return

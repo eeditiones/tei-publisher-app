@@ -1,7 +1,7 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/tei-simple/odd/teisimple.odd
+    ODD: /db/apps/tei-simple/odd/compiled/teisimple.odd
  :)
 xquery version "3.1";
 
@@ -26,7 +26,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["latex","print"],
-                "odd": "/db/apps/tei-simple/odd/teisimple.odd",
+                "odd": "/db/apps/tei-simple/odd/compiled/teisimple.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }
@@ -39,6 +39,16 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
     $input !     (
         typeswitch(.)
+            case element(fileDesc) return
+                latex:title($config, ., "fileDesc", titleStmt)
+            case element(encodingDesc) return
+                latex:omit($config, ., "encodingDesc", .)
+            case element(profileDesc) return
+                latex:omit($config, ., "profileDesc", .)
+            case element(revisionDesc) return
+                latex:omit($config, ., "revisionDesc", .)
+            case element(teiHeader) return
+                latex:metadata($config, ., "teiHeader", .)
             case element(ab) return
                 latex:paragraph($config, ., "ab", .)
             case element(abbr) return
@@ -401,16 +411,6 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 latex:inline($config, ., "supplied5", .)
             case element(table) return
                 latex:table($config, ., "table", .)
-            case element(fileDesc) return
-                latex:title($config, ., "fileDesc", titleStmt)
-            case element(profileDesc) return
-                latex:omit($config, ., "profileDesc", .)
-            case element(revisionDesc) return
-                latex:omit($config, ., "revisionDesc", .)
-            case element(encodingDesc) return
-                latex:omit($config, ., "encodingDesc", .)
-            case element(teiHeader) return
-                latex:metadata($config, ., "teiHeader", .)
             case element(TEI) return
                 latex:document($config, ., "TEI", .)
             case element(text) return

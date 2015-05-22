@@ -3,52 +3,52 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>TEI Simple customization</title>
+                <title>TEI Simple customization for LaTeX beamer presentations</title>
             </titleStmt>
             <publicationStmt>
                 <publisher>TEI Consortium</publisher>
                 <availability>
                     <licence target="http://creativecommons.org/licenses/by-sa/3.0/"> Distributed under a
-                  Creative Commons Attribution-ShareAlike 3.0 Unported License </licence>
+                        Creative Commons Attribution-ShareAlike 3.0 Unported License </licence>
                     <licence target="http://www.opensource.org/licenses/BSD-2-Clause">
                         <p>Copyright 2014 TEI Consortium.</p>
                         <p>All rights reserved.</p>
                         <p>Redistribution and use in source and binary forms, with or without
-                     modification, are permitted provided that the following conditions are met:</p>
+                            modification, are permitted provided that the following conditions are met:</p>
                         <list>
                             <item>Redistributions of source code must retain the above copyright notice,
-                        this list of conditions and the following disclaimer.</item>
+                                this list of conditions and the following disclaimer.</item>
                             <item>Redistributions in binary form must reproduce the above copyright notice,
-                        this list of conditions and the following disclaimer in the documentation
-                        and/or other materials provided with the distribution.</item>
+                                this list of conditions and the following disclaimer in the documentation
+                                and/or other materials provided with the distribution.</item>
                         </list>
                         <p>This software is provided by the copyright holders and contributors "as is" and
-                     any express or implied warranties, including, but not limited to, the implied
-                     warranties of merchantability and fitness for a particular purpose are
-                     disclaimed. In no event shall the copyright holder or contributors be liable
-                     for any direct, indirect, incidental, special, exemplary, or consequential
-                     damages (including, but not limited to, procurement of substitute goods or
-                     services; loss of use, data, or profits; or business interruption) however
-                     caused and on any theory of liability, whether in contract, strict liability,
-                     or tort (including negligence or otherwise) arising in any way out of the use
-                     of this software, even if advised of the possibility of such damage.</p>
+                            any express or implied warranties, including, but not limited to, the implied
+                            warranties of merchantability and fitness for a particular purpose are
+                            disclaimed. In no event shall the copyright holder or contributors be liable
+                            for any direct, indirect, incidental, special, exemplary, or consequential
+                            damages (including, but not limited to, procurement of substitute goods or
+                            services; loss of use, data, or profits; or business interruption) however
+                            caused and on any theory of liability, whether in contract, strict liability,
+                            or tort (including negligence or otherwise) arising in any way out of the use
+                            of this software, even if advised of the possibility of such damage.</p>
                     </licence>
                     <p>TEI material can be licensed differently depending on the use you intend to make
-                  of it. Hence it is made available under both the CC+BY and BSD-2 licences. The
-                  CC+BY licence is generally appropriate for usages which treat TEI content as data
-                  or documentation. The BSD-2 licence is generally appropriate for usage of TEI
-                  content in a software environment. For further information or clarification,
-                  please contact the <ref target="mailto:info@tei-c.org">TEI Consortium</ref>. </p>
+                        of it. Hence it is made available under both the CC+BY and BSD-2 licences. The
+                        CC+BY licence is generally appropriate for usages which treat TEI content as data
+                        or documentation. The BSD-2 licence is generally appropriate for usage of TEI
+                        content in a software environment. For further information or clarification,
+                        please contact the <ref target="mailto:info@tei-c.org">TEI Consortium</ref>. </p>
                 </availability>
             </publicationStmt>
             <sourceDesc>
-                <p>created ab initio during a meeting in Oxford</p>
+                <p>created by Wolfgang for tei-simple-pm app</p>
             </sourceDesc>
         </fileDesc>
     </teiHeader>
     <text>
         <body>
-            <schemaSpec ident="myteisimple" start="TEI teiCorpus" source="teisimple.odd">
+            <schemaSpec ident="docs" start="TEI teiCorpus" source="teisimple.odd">
                 <classSpec rend="add" module="tei" type="atts" ident="att.ascribed">
                     <desc xmlns:rng="http://relaxng.org/ns/structure/1.0" versionDate="2006-01-05" xml:lang="en">provides attributes for elements representing speech or action that can be ascribed to a
     specific individual.</desc>
@@ -7454,19 +7454,19 @@ relatedItem element must be empty</sch:report>
                     <desc xmlns:rng="http://relaxng.org/ns/structure/1.0" versionDate="2007-01-21" xml:lang="it">contiene lettere,
   parole o frasi inserite in un testo da un autore, copista,
   commentatore o correttore.</desc>
-                    <classes>
+                    <classes xmlns:rng="http://relaxng.org/ns/structure/1.0">
                         <memberOf key="att.global"/>
                         <memberOf key="model.pPart.transcriptional"/>
                         <memberOf key="att.transcriptional"/>
                         <memberOf key="att.placement"/>
                         <memberOf key="att.typed"/>
                     </classes>
-                    <content>
+                    <content xmlns:rng="http://relaxng.org/ns/structure/1.0">
                         <ref xmlns="http://relaxng.org/ns/structure/1.0" name="macro.paraContent"/>
                     </content>
                     <attList/>
-                    <model behaviour="block">
-                        <rendition>color: red; text-decoration: underline;</rendition>
+                    <model xmlns:XSL="http://www.w3.org/1999/XSL/Transform" xmlns:rng="http://relaxng.org/ns/structure/1.0" behaviour="inline">
+                        <rendition>color: green; text-decoration: underline;</rendition>
                     </model>
                     <exemplum xmlns:rng="http://relaxng.org/ns/structure/1.0" xml:lang="en">
                         <egXML xmlns="http://www.tei-c.org/ns/Examples">The story I am
@@ -9185,13 +9185,13 @@ Ce ne seroyt que bon que nous rendissiez noz cloches...</egXML>
     título de una sección o el encabezado de una lista, glosario, descripción de un manuscrito, etc.</desc>
                     <desc xmlns:rng="http://relaxng.org/ns/structure/1.0" versionDate="2007-01-21" xml:lang="it">contiene qualsiasi tipo di titolo, per esempio il titolo
     di una sezione, di una lista, di un glossario, di una descrizione di manoscritto, ecc.</desc>
-                    <classes xmlns:rng="http://relaxng.org/ns/structure/1.0">
+                    <classes>
                         <memberOf key="att.global"/>
                         <memberOf key="att.typed"/>
                         <memberOf key="model.headLike"/>
                         <memberOf key="model.pLike.front"/>
                     </classes>
-                    <content xmlns:rng="http://relaxng.org/ns/structure/1.0">
+                    <content>
                         <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0">
                             <choice>
                                 <text/>
@@ -9205,20 +9205,7 @@ Ce ne seroyt que bon que nous rendissiez noz cloches...</egXML>
                         </zeroOrMore>
                     </content>
                     <attList/>
-                    <model xmlns:XSL="http://www.w3.org/1999/XSL/Transform" xmlns:rng="http://relaxng.org/ns/structure/1.0" predicate="parent::figure" behaviour="block">
-                        <rendition>font-style: italic;</rendition>
-                    </model>
-                    <model xmlns:XSL="http://www.w3.org/1999/XSL/Transform" xmlns:rng="http://relaxng.org/ns/structure/1.0" predicate="parent::table" behaviour="block">
-                        <rendition>font-style: italic;</rendition>
-                    </model>
-                    <model xmlns:XSL="http://www.w3.org/1999/XSL/Transform" xmlns:rng="http://relaxng.org/ns/structure/1.0" predicate="parent::lg" behaviour="block">
-                        <rendition>font-style: italic;</rendition>
-                    </model>
-                    <model xmlns:XSL="http://www.w3.org/1999/XSL/Transform" xmlns:rng="http://relaxng.org/ns/structure/1.0" predicate="parent::list" behaviour="block">
-                        <rendition>font-weight: bold;</rendition>
-                    </model>
-                    <model xmlns:XSL="http://www.w3.org/1999/XSL/Transform" xmlns:rng="http://relaxng.org/ns/structure/1.0" predicate="parent::div" behaviour="heading"/>
-                    <model xmlns:XSL="http://www.w3.org/1999/XSL/Transform" xmlns:rng="http://relaxng.org/ns/structure/1.0" behaviour="block"/>
+                    <model behaviour="frametitle"/>
                     <exemplum xmlns:rng="http://relaxng.org/ns/structure/1.0" xml:lang="en">
                         <p>The most common use for the <gi>head</gi> element is to mark the headings of sections. In
       older writings, the headings or <term>incipits</term> may be rather longer than usual in
@@ -10727,7 +10714,7 @@ Elements</ref>
                     <desc xmlns:rng="http://relaxng.org/ns/structure/1.0" versionDate="2009-01-06" xml:lang="fr">contient un nom propre ou un syntagme nominal.</desc>
                     <desc xmlns:rng="http://relaxng.org/ns/structure/1.0" versionDate="2007-05-04" xml:lang="es">contiene un nombre propio o un sintagma nominal</desc>
                     <desc xmlns:rng="http://relaxng.org/ns/structure/1.0" versionDate="2007-01-21" xml:lang="it">contiene un nome proprio o un sintagma nominale.</desc>
-                    <classes>
+                    <classes xmlns:rng="http://relaxng.org/ns/structure/1.0">
                         <memberOf key="att.global"/>
                         <memberOf key="model.nameLike.agent"/>
                         <memberOf key="att.personal"/>
@@ -10735,25 +10722,27 @@ Elements</ref>
                         <memberOf key="att.editLike"/>
                         <memberOf key="att.typed"/>
                     </classes>
-                    <content>
+                    <content xmlns:rng="http://relaxng.org/ns/structure/1.0">
                         <ref xmlns="http://relaxng.org/ns/structure/1.0" name="macro.phraseSeq"/>
                     </content>
                     <attList>
-                        <attDef ident="type" mode="change" rend="change">
-                            <valList type="closed" mode="add">
+                        <attDef xmlns:XSL="http://www.w3.org/1999/XSL/Transform" xmlns:rng="http://relaxng.org/ns/structure/1.0" ident="type" mode="change">
+                            <valList mode="add" type="closed">
                                 <valItem ident="person"/>
                                 <valItem ident="forename"/>
                                 <valItem ident="surname"/>
+                                <valItem ident="personGenName"/>
+                                <valItem ident="personRoleName"/>
+                                <valItem ident="personAddName"/>
+                                <valItem ident="nameLink"/>
                                 <valItem ident="organisation"/>
-                                <valItem ident="object"/>
                                 <valItem ident="country"/>
+                                <valItem ident="placeGeog"/>
                                 <valItem ident="place"/>
                             </valList>
                         </attDef>
                     </attList>
-                    <model behaviour="block">
-                        <rendition>color: blue;</rendition>
-                    </model>
+                    <model xmlns:XSL="http://www.w3.org/1999/XSL/Transform" xmlns:rng="http://relaxng.org/ns/structure/1.0" behaviour="inline"/>
                     <exemplum xmlns:rng="http://relaxng.org/ns/structure/1.0" xml:lang="mul">
                         <egXML xmlns="http://www.tei-c.org/ns/Examples">
                             <name type="person">Thomas Hoccleve</name>
@@ -25200,13 +25189,13 @@ it may optionally be tagged using the <gi>docAuthor</gi> element.</p>
     cuerpo del texto o del paratexto final.</desc>
                     <desc xmlns:rng="http://relaxng.org/ns/structure/1.0" versionDate="2007-01-21" xml:lang="it">contiene una suddivisione del peritesto iniziale, del
     corpo del testo, o del peritesto finale</desc>
-                    <classes xmlns:rng="http://relaxng.org/ns/structure/1.0">
+                    <classes>
                         <memberOf key="att.global"/>
                         <memberOf key="att.typed"/>
                         <memberOf key="att.declaring"/>
                         <memberOf key="model.divLike"/>
                     </classes>
-                    <content xmlns:rng="http://relaxng.org/ns/structure/1.0">
+                    <content>
                         <group xmlns="http://relaxng.org/ns/structure/1.0">
                             <zeroOrMore>
                                 <choice>
@@ -25259,11 +25248,17 @@ it may optionally be tagged using the <gi>docAuthor</gi> element.</p>
                         </group>
                     </content>
                     <attList/>
-                    <model xmlns:XSL="http://www.w3.org/1999/XSL/Transform" xmlns:rng="http://relaxng.org/ns/structure/1.0" predicate="@type='title_page'" behaviour="block">
-                        <rendition>border: 1px solid black; padding: 5px;</rendition>
+                    <model predicate="@type='block'" behaviour="beamer-block">
+                        <param name="type">"block"</param>
+                        <param name="content">*[not(self::head)]</param>
+                        <param name="heading">head</param>
                     </model>
-                    <model xmlns:XSL="http://www.w3.org/1999/XSL/Transform" xmlns:rng="http://relaxng.org/ns/structure/1.0" behaviour="section" predicate="parent::body or parent::front or parent::back"/>
-                    <model xmlns:XSL="http://www.w3.org/1999/XSL/Transform" xmlns:rng="http://relaxng.org/ns/structure/1.0" behaviour="block"/>
+                    <model predicate="@type='alert'" behaviour="beamer-block">
+                        <param name="type">"alertblock"</param>
+                        <param name="content">*[not(self::head)]</param>
+                        <param name="heading">head</param>
+                    </model>
+                    <model behaviour="frame"/>
                     <exemplum xmlns:rng="http://relaxng.org/ns/structure/1.0" xml:lang="en">
                         <egXML xmlns="http://www.tei-c.org/ns/Examples">
                             <body>
@@ -26722,10 +26717,10 @@ enthält ein einzelnes TEI-konformes Dokument, das aus TEI-Header (Dateikopf) un
                     </desc>
                     <desc xmlns:rng="http://relaxng.org/ns/structure/1.0" versionDate="2007-01-21" xml:lang="it">contiene un documento TEI-conforme, comprendente un'intestazione e un testo, sia esso isolato o parte di un elemento <gi>teiCorpus</gi>
                     </desc>
-                    <classes xmlns:rng="http://relaxng.org/ns/structure/1.0">
+                    <classes>
                         <memberOf key="att.global"/>
                     </classes>
-                    <content xmlns:rng="http://relaxng.org/ns/structure/1.0">
+                    <content>
                         <group xmlns="http://relaxng.org/ns/structure/1.0">
                             <ref name="teiHeader"/>
                             <choice>
@@ -26753,6 +26748,11 @@ enthält ein einzelnes TEI-konformes Dokument, das aus TEI-Header (Dateikopf) un
                         </constraint>
                     </constraintSpec>
                     <attList>
+                        <attDef ident="scheme">
+                            <datatype maxOccurs="unbounded">
+                                <macroRef key="data.word"/>
+                            </datatype>
+                        </attDef>
                         <attDef xmlns:rng="http://relaxng.org/ns/structure/1.0" ident="scheme">
                             <datatype xmlns:XSL="http://www.w3.org/1999/XSL/Transform" maxOccurs="unbounded">
                                 <macroRef key="data.word"/>
@@ -26780,7 +26780,7 @@ P5. </p>
                             </remarks>
                         </attDef>
                     </attList>
-                    <model xmlns:XSL="http://www.w3.org/1999/XSL/Transform" xmlns:rng="http://relaxng.org/ns/structure/1.0" behaviour="document"/>
+                    <model behaviour="beamer-document"/>
                     <exemplum xmlns:rng="http://relaxng.org/ns/structure/1.0" xml:lang="en">
                         <egXML xmlns="http://www.tei-c.org/ns/Examples">
                             <TEI version="5.0">
@@ -28127,6 +28127,13 @@ Mathematical Expressions</ref>
                     <listRef xmlns:rng="http://relaxng.org/ns/structure/1.0">
                         <ref target="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/VE.html#VERH">6.5. Rhyme</ref>
                     </listRef>
+                </elementSpec>
+                <elementSpec rend="add" module="derived-module-docs" mode="add" ident="code">
+                    <attList/>
+                    <model behaviour="inline" predicate="parent::cell|parent::p|parent::ab"/>
+                    <model behaviour="code">
+                        <param name="lang">@lang</param>
+                    </model>
                 </elementSpec>
                 <moduleSpec xmlns:rng="http://relaxng.org/ns/structure/1.0" n="ST" xml:id="DSTTEI2" ident="tei" type="core"/>
                 <moduleSpec xmlns:rng="http://relaxng.org/ns/structure/1.0" n="CO" xml:id="DCO" ident="core"/>

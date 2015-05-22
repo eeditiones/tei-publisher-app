@@ -301,8 +301,7 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(opener) return
                 html:block($config, ., "opener", .)
             case element(orig) return
-                (: No function found for behavior: inline :)
-                $config?apply($config, ./node())
+                html:inline($config, ., "orig", @n)
             case element(p) return
                 html:paragraph($config, ., css:get-rendition(., "p"), .)
             case element(pb) return

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tei-c.org/ns/1.0 file:/Users/wolf/Source/TEI-Simple/teisimple.xsd">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>TEI Simple Processing Model in XQuery</title>
+                <author>Wolfgang Meier</author>
+            </titleStmt>
+            <editionStmt>
+                <edition>
+                    TEI Simple Workshop, May 27, Oxford
+                </edition>
+            </editionStmt>
+            <publicationStmt>
+                <p/>
+            </publicationStmt>
+            <sourceDesc>
+                <p/>
+            </sourceDesc>
+        </fileDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <div>
+                <head>TEI-Simple Processing Model in XQuery</head>
+                <list>
+                    <item>integrate TEI-Simple into an XML-based web application</item>
+                    <item>a package of library functions to render a TEI-Simple compliant 
+                        document into various output formats</item>
+                </list>
+            </div>
+            <div>
+                <head>TEI-Simple Processing Model in XQuery</head>
+                <div type="alert">
+                    <head>Example Alert</head>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+            </div>
+            <div>
+                <head>TEI-Simple Processing Model in XQuery</head>
+                <div type="block">
+                    <head>Example Block</head>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+            </div>
+        </body>
+    </text>
+</TEI>

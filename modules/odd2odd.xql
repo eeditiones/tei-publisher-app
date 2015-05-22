@@ -35,12 +35,13 @@ declare function odd:compile($input as xs:string) {
                 <parameters>
                     <param name="currentDirectory" value="xmldb:exist://{$config:compiled-odd-root}"/>
                     <param name="lang" value="en"/>
+                    <param name="exist:stop-on-warn" value="yes"/>
+                    <param name="exist:stop-on-error" value="yes"/>
                 </parameters>
-            let $compiled :=
-                serialize(transform:transform($root, $odd:XSL, $params))
+            let $compiled := transform:transform($root, $odd:XSL, $params)
             let $stored :=
                 if (exists($compiled)) then
-                    xmldb:store($config:compiled-odd-root, $input, $compiled, "application/xml")
+                    xmldb:store($config:compiled-odd-root, $input, serialize($compiled), "application/xml")
                 else
                     ()
             return

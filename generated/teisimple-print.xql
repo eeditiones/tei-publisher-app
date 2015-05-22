@@ -1,7 +1,7 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/tei-simple/odd/teisimple.odd
+    ODD: /db/apps/tei-simple/odd/compiled/teisimple.odd
  :)
 xquery version "3.1";
 
@@ -13,7 +13,7 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "xml
 
 import module namespace fo="http://www.tei-c.org/tei-simple/xquery/functions/fo" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/fo-functions.xql";
 
-import module namespace ext="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/../modules/ext-html.xql";
+import module namespace ext-fo="http://www.tei-c.org/tei-simple/xquery/ext-fo" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/../modules/ext-fo.xql";
 
 (:~
 
@@ -26,7 +26,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["fo","print"],
-                "odd": "/db/apps/tei-simple/odd/teisimple.odd",
+                "odd": "/db/apps/tei-simple/odd/compiled/teisimple.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }
@@ -39,6 +39,16 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
     $input !     (
         typeswitch(.)
+            case element(fileDesc) return
+                fo:title($config, ., "fileDesc", titleStmt)
+            case element(encodingDesc) return
+                fo:omit($config, ., "encodingDesc", .)
+            case element(profileDesc) return
+                fo:omit($config, ., "profileDesc", .)
+            case element(revisionDesc) return
+                fo:omit($config, ., "revisionDesc", .)
+            case element(teiHeader) return
+                fo:metadata($config, ., "teiHeader", .)
             case element(ab) return
                 fo:paragraph($config, ., "ab", .)
             case element(abbr) return
@@ -401,16 +411,6 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 fo:inline($config, ., "supplied5", .)
             case element(table) return
                 fo:table($config, ., "table", .)
-            case element(fileDesc) return
-                fo:title($config, ., "fileDesc", titleStmt)
-            case element(profileDesc) return
-                fo:omit($config, ., "profileDesc", .)
-            case element(revisionDesc) return
-                fo:omit($config, ., "revisionDesc", .)
-            case element(encodingDesc) return
-                fo:omit($config, ., "encodingDesc", .)
-            case element(teiHeader) return
-                fo:metadata($config, ., "teiHeader", .)
             case element(TEI) return
                 fo:document($config, ., "TEI", .)
             case element(text) return
