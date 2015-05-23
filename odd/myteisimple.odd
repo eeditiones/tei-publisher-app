@@ -15,7 +15,7 @@
                   Creative Commons Attribution-ShareAlike 3.0 Unported License </licence>
                     <licence target="http://www.opensource.org/licenses/BSD-2-Clause">
                         <p>Copyright 2014 TEI Consortium.</p>
-                        <p>All rights reserved.</p>
+                        <p>All rights reserved. </p>
                         <p>Redistribution and use in source and binary forms, with or without
                      modification, are permitted provided that the following conditions are met:</p>
                         <list>
@@ -52,6 +52,30 @@
     <text>
         <body>
             <schemaSpec ident="myteisimple" start="TEI teiCorpus" source="teisimple.odd">
+                <elementSpec mode="change" ident="head">
+                    <model predicate="parent::figure" behaviour="block">
+                        <rendition>font-style: italic;</rendition>
+                    </model>
+                    <model predicate="parent::table" behaviour="block">
+                        <rendition>font-style: italic;</rendition>
+                    </model>
+                    <model predicate="parent::lg" behaviour="block">
+                        <rendition>font-style: italic;</rendition>
+                    </model>
+                    <model predicate="parent::list" behaviour="block">
+                        <rendition>font-weight: bold;</rendition>
+                    </model>
+                    <model predicate="not(parent::div/ancestor::div)" behaviour="heading">
+                        <rendition>
+                            color: #983722; 
+                            border-bottom: 1px solid #983722;
+                            margin-bottom: .5em;
+                            padding-bottom: .25em;
+                        </rendition>
+                    </model>
+                    <model predicate="parent::div" behaviour="heading"/>
+                    <model behaviour="block"/>
+                </elementSpec>
                 <elementSpec mode="change" ident="add">
                     <model behaviour="block">
                         <rendition>color: red; text-decoration: underline;</rendition>
