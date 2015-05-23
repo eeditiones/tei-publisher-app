@@ -68,14 +68,42 @@
                                 <div class="col-md-12">
                                     <div class="btn-group actions" role="group">
                                         <a class="btn btn-default" data-template="app:back-link" title="Back to index page">
-                                            <i class="glyphicon glyphicon-chevron-left"/>
+                                            <i class="glyphicon glyphicon-home"/> Documents
                                         </a>
-                                        <a class="btn btn-default" data-template="app:pdf-link">
-                                            <i class="glyphicon glyphicon-print"/> PDF
-                                        </a>
-                                        <a class="btn btn-default" data-template="app:latex-link">
-                                            <i class="glyphicon glyphicon-print"/> LaTeX
-                                        </a>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                <i class="glyphicon glyphicon-print"/> PDF <span class="caret"/>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li>
+                                                    <a data-template="app:pdf-link">
+                                                        Download PDF
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a target="_new" data-template="app:pdf-link" data-template-source="true">
+                                                        FO Source
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                <i class="glyphicon glyphicon-print"/> LaTeX <span class="caret"/>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li>
+                                                    <a data-template="app:latex-link">
+                                                        Download PDF
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a target="_new" data-template="app:latex-link" data-template-source="true">
+                                                        LaTeX Source
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                         <a class="btn btn-default" data-template="app:epub-link" title="Download as epub ebook">
                                             <i class="glyphicon glyphicon-book"/> ePUB
                                         </a>

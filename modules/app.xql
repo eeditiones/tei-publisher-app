@@ -58,12 +58,42 @@ function app:doc-table($node as node(), $model as map(*), $odd as xs:string) {
                         {
                             templates:process(
                                 <div class="btn-group" role="group">
-                                    <a class="btn btn-default" 
-                                        href="modules/fo.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
-                                        <i class="glyphicon glyphicon-print"/> PDF</a>
-                                    <a class="btn btn-default" 
-                                        href="modules/latex.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
-                                        <i class="glyphicon glyphicon-print"/> LaTeX</a>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="glyphicon glyphicon-print"/> PDF <span class="caret"/>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>
+                                                <a href="modules/fo.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
+                                                    Download PDF
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a target="_new"
+                                                    href="modules/fo.xql?source=yes&amp;odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
+                                                    FO Code
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="glyphicon glyphicon-print"/> LaTeX <span class="caret"/>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>
+                                                <a href="modules/latex.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
+                                                    Download PDF
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a target="_new"
+                                                    href="modules/latex.xql?source=yes&amp;odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
+                                                    LaTeX Code
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                     <a class="btn btn-default" 
                                         href="modules/get-epub.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
                                         <i class="glyphicon glyphicon-book"/> ePUB</a>
@@ -165,20 +195,22 @@ declare function app:back-link($node as node(), $model as map(*), $odd as xs:str
     }
 };
 
-declare function app:pdf-link($node as node(), $model as map(*), $odd as xs:string) {
+declare function app:pdf-link($node as node(), $model as map(*), $odd as xs:string, $source as xs:boolean?) {
     element { node-name($node) } {
         attribute href {
             "../modules/fo.xql?odd=" || $odd || "&amp;doc=" || substring-after(document-uri(root($model?data)), $config:app-root)
+            || (if ($source) then "&amp;source=yes" else ())
         },
         $node/@*,
         $node/node()
     }
 };
 
-declare function app:latex-link($node as node(), $model as map(*), $odd as xs:string) {
+declare function app:latex-link($node as node(), $model as map(*), $odd as xs:string, $source as xs:boolean?) {
     element { node-name($node) } {
         attribute href {
             "../modules/latex.xql?odd=" || $odd || "&amp;doc=" || substring-after(document-uri(root($model?data)), $config:app-root)
+            || (if ($source) then "&amp;source=yes" else ())
         },
         $node/@*,
         $node/node()
@@ -262,7 +294,12 @@ declare %private function app:toc-div($node, $odd as xs:string) {
         <ul>
         {
             for $div in $divs
-            let $html := $div/tei:head//text()
+            let $html := for-each($div/tei:head//text(), function($node) {
+                if ($node/ancestor::tei:note) then
+                    ()
+                else
+                    $node
+            })
             return
                 <li>
                     <a class="toc-link" href="{util:document-name($div)}?root={util:node-id($div)}&amp;odd={$odd}">{$html}</a>
