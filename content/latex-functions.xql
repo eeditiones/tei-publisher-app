@@ -16,7 +16,7 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "css
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
 declare variable $pmf:WORKING_DIR := system:get-exist-home() || "/webapp";
-declare variable $pmf:IMAGE_DIR := $pmf:WORKING_DIR || "/WEB-INF/data/expathrepo/tei-simple-0.2/test";
+declare variable $pmf:IMAGE_DIR := $pmf:WORKING_DIR || "/WEB-INF/data/expathrepo/tei-simple-0.2/test/";
 
 declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string+, $content) {
     pmf:get-content($config, $node, $class, $content),
@@ -147,7 +147,6 @@ declare function pmf:break($config as map(*), $node as element(), $class as xs:s
 declare function pmf:document($config as map(*), $node as element(), $class as xs:string+, $content) {
     let $odd := doc($config?odd)
     let $config := pmf:load-styles($config, $odd)
-    let $dir := $pmf:IMAGE_DIR
     return (
         "\documentclass[11pt]{book}&#10;",
 (:        "\usepackage[utf8]{inputenc}&#10;",:)
@@ -168,7 +167,7 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         "\def\theendnote{\@alph\c@endnote}&#10;",
         "\def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}&#10;",
         "\hyperbaseurl{}&#10;",
-        "\graphicspath{{" || $dir || "}}&#10;",
+        "\graphicspath{{" || $pmf:IMAGE_DIR || "}}&#10;",
         "\def\tableofcontents{\section*{\contentsname}\@starttoc{toc}}&#10;",
         "\thispagestyle{empty}&#10;",
         "\begin{document}&#10;",
