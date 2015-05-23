@@ -55,7 +55,7 @@ declare function odd:strip-down($nodes as node()*) {
     for $node in $nodes
     return
         typeswitch($node)
-            case processing-instruction() | element(tei:remarks) | element(tei:exemplum) | element(tei:listRef) return
+            case processing-instruction() | element(tei:remarks) | element(tei:exemplum) | element(tei:listRef) | element(tei:gloss) return
                 ()
             case element(tei:desc) return
                 if ($node/parent::tei:model) then
