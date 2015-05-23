@@ -12,7 +12,9 @@ $(document).ready(function() {
     });
     
     $(window).on("popstate", function(ev) {
-        var url = "doc=" + window.location.pathname.replace(/^.*\/([^/]+\/[^/]+)$/, "$1") + "&" + window.location.search.substring(1);
+        var url = "doc=" + window.location.pathname.replace(/^.*\/([^/]+\/[^/]+)$/, "$1") + "&" + window.location.search.substring(1) +
+            "&id=" + window.location.hash.substring(1);
+        console.log("popstate: %s", url);
         load(url);
     }).on("resize", resize);
     
@@ -36,10 +38,21 @@ function resize() {
 function load(params, direction) {
     var animOut = direction == "nav-next" ? "fadeOutLeft" : "fadeOutRight";
     var animIn = direction == "nav-next" ? "fadeInRight" : "fadeInLeft";
-    $("#content-container").addClass("animated " + animOut)
-        .one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
-            var container = $(this);
-            $.getJSON("../modules/ajax.xql", params, function(data) {
+    var container = $("#content-container");
+    $.ajax({
+        url: "../modules/ajax.xql",
+        dataType: "json",
+        data: params,
+        error: function(xhr, status) {
+            alert("Not found: " + params);
+        },
+        success: function(data) {
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+            container.addClass("animated " + animOut)
+                .one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
                 $(".content").replaceWith(data.content);
                 $(".content .note").popover({
                     html: true,
@@ -61,5 +74,6 @@ function load(params, direction) {
                     $(".nav-prev").css("visibility", "hidden");
                 }
             });
+        }
     });
 }

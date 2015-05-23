@@ -13,24 +13,40 @@ declare option output:media-type "application/json";
 let $doc := request:get-parameter("doc", ())
 let $root := request:get-parameter("root", ())
 let $odd := request:get-parameter("odd", ())
-let $xml := app:load-xml("div", $root, $doc)
-let $parent := $xml/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
-let $prevDiv := $xml/preceding::tei:div[1]
-let $prev := app:get-previous(if ($parent and $xml/.. >> $prevDiv) then $xml/.. else $prevDiv)
-let $next := app:get-next($xml)
-let $html := app:process-content($odd, app:get-content($xml))
-let $doc := substring-after($doc, "/")
+let $id := request:get-parameter("id", ())
+let $xml := 
+    if ($id) then (
+        console:log("Loading by id " || $id),
+        let $node := doc($config:app-root || "/" || $doc)/id($id)
+        let $div := $node/ancestor-or-self::tei:div[1]
+        return
+            if (empty($div)) then
+                $node/following-sibling::tei:div[1]
+            else
+                $div
+    ) else
+        app:load-xml("div", $root, $doc)
 return
-    map {
-        "doc": $doc,
-        "odd": $odd,
-        "next": 
-            if ($next) then 
-                $doc || "?root=" || util:node-id($next) || "&amp;odd=" || $odd
-            else (),
-        "previous": 
-            if ($prev) then 
-                $doc || "?root=" || util:node-id($prev) || "&amp;odd=" || $odd
-            else (),
-        "content": $html
-    }
+    if ($xml) then
+        let $parent := $xml/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
+        let $prevDiv := $xml/preceding::tei:div[1]
+        let $prev := app:get-previous(if ($parent and (empty($prevDiv) or $xml/.. >> $prevDiv)) then $xml/.. else $prevDiv)
+        let $next := app:get-next($xml)
+        let $html := app:process-content($odd, app:get-content($xml))
+        let $doc := substring-after($doc, "/")
+        return
+            map {
+                "doc": $doc,
+                "odd": $odd,
+                "next": 
+                    if ($next) then 
+                        $doc || "?root=" || util:node-id($next) || "&amp;odd=" || $odd
+                    else (),
+                "previous": 
+                    if ($prev) then 
+                        $doc || "?root=" || util:node-id($prev) || "&amp;odd=" || $odd
+                    else (),
+                "content": $html
+            }
+    else
+        map { "error": "Not found" }
