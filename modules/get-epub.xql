@@ -17,7 +17,7 @@ declare function local:work2epub($id as xs:string, $work as element(), $odd as x
             "urn": util:uuid(),
             "language": "en"
         },
-        "odd": $config:odd-root || "/" || $odd,
+        "odd": $odd,
         "output-root": $config:output-root,
         "fonts": [ 
             "/db/apps/tei-simple/resources/fonts/Junicode.ttf",
