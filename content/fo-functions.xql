@@ -475,7 +475,9 @@ declare function pmf:load-styles($config as map(*), $root as document-node()) {
 };
 
 declare function pmf:load-default-styles($config as map(*)) {
-    let $path := $config?collection || "/styles.fo.css"
+    let $oddName := replace($config?odd, "^.*/([^/\.]+)\.?.*$", "$1")
+    let $path := $config?collection || "/" || $oddName || ".fo.css"
+    let $log := console:log("loading user styles from " || $path)
     let $userStyles := pmf:read-css($path)
     let $systemStyles := pmf:read-css(system:get-module-load-path() || "/styles.fo.css")
     return

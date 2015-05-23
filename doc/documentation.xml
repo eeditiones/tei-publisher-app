@@ -50,9 +50,9 @@
                 <div>
                     <head>Usage</head>
                     <p>To use the library, import the utility module:</p>
-                    <code>import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";</code>
+                    <code lang="xquery">import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";</code>
                     <p>The main function of the utility module is:</p>
-                    <code>pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string, $mode as xs:string, $relPath as xs:string, $ext-modules as map(*)*)</code>
+                    <code lang="xquery">pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string, $mode as xs:string, $relPath as xs:string, $ext-modules as map(*)*)</code>
                     <p>The parameters are as follows:</p>
                     <table>
                         <row>
@@ -100,7 +100,7 @@
                     </table>
                     <p>A simple main query to transform a TEI document into HTML may use the function
                         as follows:</p>
-                    <code>xquery version "3.0";
+                    <code lang="xquery">xquery version "3.0";
                         
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
@@ -139,7 +139,7 @@ return
                     <p>The last parameter to <code>pmu:process</code> may be a sequence of XQuery maps defining
                         extension modules to be loaded. Each map should specify the namespace URI, prefix and
                         location of an XQuery module to be imported. For example:</p>
-                    <code>map {
+                    <code lang="xquery">map {
     "uri": "http://www.tei-c.org/tei-simple/xquery/ext-html",
     "prefix": "ext",
     "at": "../modules/ext-html.xql"
@@ -154,7 +154,7 @@ return
                     3 default arguments, plus any number of custom parameters (to be passed in the 
                     behaviour attribute).</p>
                     <p>For example, our extension module <code>ext-html.xql</code> may look as follows:</p>
-                    <code>xquery version "3.1";
+                    <code lang="xquery">xquery version "3.1";
 
 (:~
 : Non-standard extension functions, mainly used for the documentation.
@@ -184,12 +184,12 @@ declare function pmf:code($config as map(*), $node as element(),
                         CSS file. The implementation merges those defaults with the custom renditions given
                         in the ODD.</p>
                     <p>The library searches for default CSS styles in a file named 
-                        <code>styles.fo.css</code> inside the specified output collection
-                    (in which the generated XQuery files are stored). The style definitions are copied into
-                    the output XSL:FO elements, so any property which is valid for the corresponding element 
+                        <code>&lt;odd-name&gt;.fo.css</code> inside the specified output collection
+                    (in which the generated XQuery files are stored). The style definitions are copied literally into attributes on
+                    the output XSL:FO elements, so any property which is a valid attribute for the corresponding element 
                     may be used.</p>
                     <p>
-                        <code>styles.fo.css</code> is also used to set general properties like the page
+                        The default styles file can also used to set general properties like the page
                         size or the appearance of the page header:</p>
                     <code lang="css">@page:left {
     margin-bottom: 10mm;
