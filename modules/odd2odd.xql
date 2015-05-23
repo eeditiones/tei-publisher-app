@@ -41,11 +41,32 @@ declare function odd:compile($input as xs:string) {
             let $compiled := transform:transform($root, $odd:XSL, $params)
             let $stored :=
                 if (exists($compiled)) then
-                    xmldb:store($config:compiled-odd-root, $input, serialize($compiled), "application/xml")
+                    xmldb:store($config:compiled-odd-root, $input, odd:strip-down($compiled), "application/xml")
                 else
                     ()
             return
                 $stored
         ) else
             error(xs:QName("odd:not-found"), "ODD not found: " || $config:odd-root || "/" || $input)
+};
+
+(:~ Strip out documentation elements to speed things up :)
+declare function odd:strip-down($nodes as node()*) {
+    for $node in $nodes
+    return
+        typeswitch($node)
+            case processing-instruction() | element(tei:remarks) | element(tei:exemplum) | element(tei:listRef) return
+                ()
+            case element(tei:desc) return
+                if ($node/parent::tei:model) then
+                    $node
+                else
+                    ()
+            case element() return
+                element { node-name($node) } {
+                    $node/@*,
+                    odd:strip-down($node/node())
+                }
+            default return
+                $node
 };
