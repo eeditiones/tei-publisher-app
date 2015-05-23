@@ -15,6 +15,9 @@ declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "css.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
+declare variable $pmf:WORKING_DIR := system:get-exist-home() || "/webapp";
+declare variable $pmf:IMAGE_DIR := $pmf:WORKING_DIR || "/WEB-INF/data/expathrepo/tei-simple-0.2/test";
+
 declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string+, $content) {
     pmf:get-content($config, $node, $class, $content),
     "&#10;&#10;"
@@ -98,19 +101,15 @@ declare function pmf:glyph($config as map(*), $node as element(), $class as xs:s
 
 declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url as xs:anyURI,
     $width, $height, $scale) {
-    let $w := if ($width) then "width=" || $width else ()
-    let $h := if ($height) then "height=" || $height else ()
+    let $w := if ($width and not(ends-with($width, "%"))) then "width=" || $width else ()
+    let $h := if ($height and not(ends-with($height, "%"))) then "height=" || $height else ()
     let $s := if ($scale) then "scale=" || $scale else ()
     let $options := string-join(($w, $h, $s), ",")
-    let $url :=
-        if (matches($url, "^\w+://")) then
-            $url
-        else
-            request:get-scheme() || "://" || request:get-server-name() || ":" || request:get-server-port() ||
-            request:get-context-path() || "/rest/" || util:collection-name($node) || "/" || $url
     return
-        ()
-(:        "\includegraphics[" || $options || "]{" || $url || "}":)
+        if ($options) then
+            "\includegraphics[" || $options || "]{" || $url || "}"
+        else
+            "\includegraphics{" || $url || "}"
 };
 
 declare function pmf:inline($config as map(*), $node as element(), $class as xs:string+, $content as item()*) {
@@ -148,9 +147,10 @@ declare function pmf:break($config as map(*), $node as element(), $class as xs:s
 declare function pmf:document($config as map(*), $node as element(), $class as xs:string+, $content) {
     let $odd := doc($config?odd)
     let $config := pmf:load-styles($config, $odd)
+    let $dir := $pmf:IMAGE_DIR
     return (
         "\documentclass[11pt]{book}&#10;",
-        "\usepackage[utf8]{inputenc}&#10;",
+(:        "\usepackage[utf8]{inputenc}&#10;",:)
         "\usepackage[english]{babel}&#10;",
         "\usepackage{colortbl}&#10;",
         "\usepackage{fancyhdr}&#10;",
@@ -168,6 +168,7 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         "\def\theendnote{\@alph\c@endnote}&#10;",
         "\def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}&#10;",
         "\hyperbaseurl{}&#10;",
+        "\graphicspath{{" || $dir || "}}&#10;",
         "\def\tableofcontents{\section*{\contentsname}\@starttoc{toc}}&#10;",
         "\thispagestyle{empty}&#10;",
         "\begin{document}&#10;",
@@ -322,7 +323,9 @@ declare %private function pmf:style($names as xs:string*, $styles as map(*), $te
                             else
                                 $text
                 case "color" return
-                    if (starts-with($value, "#")) then
+                    if (matches($value, "#.{3}")) then
+                        ()
+                    else if (starts-with($value, "#")) then
                         "\textcolor[HTML]{" || substring-after($value, "#") || "}{" || $text || "}"
                     else
                         "\textcolor{" || $value || "}{" || $text || "}"
