@@ -42,7 +42,8 @@ declare function pmf:beamer-document($config as map(*), $node as element(), $cla
         "\usepackage{graphicx}&#10;",
         "\usepackage{hyperref}&#10;",
         "\usepackage{longtable}&#10;",
-        "\usetheme{Madrid}&#10;",
+        "\usetheme{AnnArbor}&#10;",
+        "\usecolortheme{beaver}&#10;",
         "\begin{document}&#10;",
         $config?apply-children($config, $node, $content),
         "\end{document}"

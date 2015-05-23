@@ -12,6 +12,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";
 import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "odd2odd.xql";
 import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
+import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
@@ -58,11 +59,19 @@ return
                     process:execute(
                         ( $local:TeX_COMMAND($file) ), $options
                     )
+                let $output :=
+                    if ($output/@existCode = 0) then
+                        process:execute(
+                            ( $local:TeX_COMMAND($file) ), $options
+                        )
+                    else
+                        $output
+                let $log := console:log($output)
                 return
-                    if ($output/@exitCode < 2) then
+                    if ($output/@exitCode = 0) then
                         let $pdf := file:read-binary($local:WORKING_DIR || "/" || $file || ".pdf")
                         return
-                            response:stream-binary($pdf, "media-type=application/x-latex", $file || ".pdf")
+                            response:stream-binary($pdf, "media-type=application/pdf", $file || ".pdf")
                     else
                         $output
     else

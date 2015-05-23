@@ -150,7 +150,7 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
     let $config := pmf:load-styles($config, $odd)
     return (
         "\documentclass[11pt]{book}&#10;",
-        "\usepackage[utf8]{inputenc}",
+        "\usepackage[utf8]{inputenc}&#10;",
         "\usepackage[english]{babel}&#10;",
         "\usepackage{colortbl}&#10;",
         "\usepackage{fancyhdr}&#10;",
