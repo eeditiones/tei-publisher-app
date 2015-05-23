@@ -45,34 +45,43 @@ return
             )
         let $file := 
             replace($doc, "^.*?([^/]+)\..*$", "$1") ||
+            "-" || request:get-remote-addr() ||
             format-dateTime(current-dateTime(), "-[Y0000][M00][D00]-[H00][m00]")
         return
             if ($source) then
                 $tex
             else
-                let $serialized := file:serialize-binary(util:string-to-binary($tex), $local:WORKING_DIR || "/" || $file || ".tex")
-                let $options :=
-                    <option>
-                        <workingDir>{$local:WORKING_DIR}</workingDir>
-                    </option>
-                let $output :=
-                    process:execute(
-                        ( $local:TeX_COMMAND($file) ), $options
-                    )
-                let $output :=
-                    if ($output/@existCode = 0) then
-                        process:execute(
-                            ( $local:TeX_COMMAND($file) ), $options
-                        )
-                    else
-                        $output
-                let $log := console:log($output)
+                let $dir := $local:WORKING_DIR || "/" || $file
+                let $mkdir := file:mkdir($local:WORKING_DIR || "/" || $file)
                 return
-                    if ($output/@exitCode = 0) then
-                        let $pdf := file:read-binary($local:WORKING_DIR || "/" || $file || ".pdf")
+                    if ($mkdir) then
+                        let $serialized := file:serialize-binary(util:string-to-binary($tex), $dir || "/" || $file || ".tex")
+                        let $options :=
+                            <option>
+                                <workingDir>{$dir}</workingDir>
+                            </option>
+                        let $output :=
+                            process:execute(
+                                ( $local:TeX_COMMAND($file) ), $options
+                            )
+                        let $output :=
+                            if ($output/@existCode < 2) then
+                                process:execute(
+                                    ( $local:TeX_COMMAND($file) ), $options
+                                )
+                            else
+                                $output
+                        let $log := console:log($output)
                         return
-                            response:stream-binary($pdf, "media-type=application/pdf", $file || ".pdf")
-                    else
-                        $output
+                            if ($output/@exitCode < 2) then
+                                let $pdf := file:read-binary($dir || "/" || $file || ".pdf")
+                                return
+                                    response:stream-binary($pdf, "media-type=application/pdf", $file || ".pdf")
+                            else
+                                $output
+                    else (
+                        response:set-status-code(404),
+                        <p>Failed to create output directory: {$dir}</p>
+                    )
     else
         <p>No document specified</p>
