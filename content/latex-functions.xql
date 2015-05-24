@@ -92,15 +92,15 @@ declare function pmf:link($config as map(*), $node as element(), $class as xs:st
         ("\hyperlink{", pmf:escapeChars($link), "}{", pmf:get-content($config, $node, $class, $content), "}")
 };
 
-declare function pmf:glyph($config as map(*), $node as element(), $class as xs:string+, $content as xs:anyURI?, $g) {
-    if ($g = "char:EOLhyphen") then
+declare function pmf:glyph($config as map(*), $node as element(), $class as xs:string+, $content as xs:anyURI?) {
+    if ($content = "char:EOLhyphen") then
         "&#xAD;"
     else
         ()
 };
 
 declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url as xs:anyURI,
-    $width, $height, $scale) {
+    $width, $height, $scale, $title) {
     let $w := if ($width and not(ends-with($width, "%"))) then "width=" || $width else ()
     let $h := if ($height and not(ends-with($height, "%"))) then "height=" || $height else ()
     let $s := if ($scale) then "scale=" || $scale else ()

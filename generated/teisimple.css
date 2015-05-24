@@ -23,7 +23,7 @@
 .simple_left { text-align: left; }
 .simple_leftbraced { padding-left: 2pt; border-left: dotted gray 2pt; }
 .simple_letterspace { letter-spacing: 0.5em; }
-.simple_literall { font-family:monospace; white-space:pre; }
+.simple_literal { font-family:monospace; white-space:pre; }
 .simple_normalstyle { font-style:roman; }
 .simple_normalweight { font-weight:normal; }
 .simple_right { text-align: right; }

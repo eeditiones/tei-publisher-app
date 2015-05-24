@@ -35,8 +35,8 @@ declare function pmf:frametitle($config as map(*), $node as element(), $class as
     "\frametitle{" || latex:get-content($config, $node, $class, $content) || "}&#10;"
 };
 
-declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url as xs:anyURI,
-    $width, $height, $scale) {
+declare function pmf:beamer-graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url as xs:anyURI,
+    $title) {
     "\begin{center}&#10;",
     "\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{" || $url || "}",
     "\end{center}&#10;"

@@ -215,7 +215,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     html:block($config, ., "fw2", .)
             case element(g) return
                 if (not(text())) then
-                    html:glyph($config, ., "g1", ., @ref)
+                    html:glyph($config, ., "g1", @ref)
                 else
                     html:inline($config, ., "g2", .)
             case element(gap) return
@@ -227,7 +227,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     else
                         html:inline($config, ., "gap3", .)
             case element(graphic) return
-                html:graphic($config, ., "graphic", desc, @url, @width, @height, @scale)
+                html:graphic($config, ., "graphic", ., @url, @width, @height, @scale, desc)
             case element(group) return
                 html:block($config, ., "group", .)
             case element(handShift) return
@@ -301,7 +301,7 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(opener) return
                 html:block($config, ., "opener", .)
             case element(orig) return
-                html:inline($config, ., "orig", @n)
+                html:inline($config, ., "orig", .)
             case element(p) return
                 html:paragraph($config, ., css:get-rendition(., "p"), .)
             case element(pb) return

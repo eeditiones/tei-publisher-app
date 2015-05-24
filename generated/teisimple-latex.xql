@@ -13,7 +13,7 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "xml
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/latex-functions.xql";
 
-import module namespace ext="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/../modules/ext-latex.xql";
+import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/../modules/ext-latex.xql";
 
 (:~
 
@@ -218,7 +218,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     latex:block($config, ., "fw2", .)
             case element(g) return
                 if (not(text())) then
-                    latex:glyph($config, ., "g1", ., @ref)
+                    latex:glyph($config, ., "g1", @ref)
                 else
                     latex:inline($config, ., "g2", .)
             case element(gap) return
@@ -230,7 +230,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     else
                         latex:inline($config, ., "gap3", .)
             case element(graphic) return
-                latex:graphic($config, ., "graphic", desc, @url, @width, @height, @scale)
+                latex:graphic($config, ., "graphic", ., @url, @width, @height, @scale, desc)
             case element(group) return
                 latex:block($config, ., "group", .)
             case element(handShift) return
@@ -304,7 +304,7 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(opener) return
                 latex:block($config, ., "opener", .)
             case element(orig) return
-                latex:inline($config, ., "orig", @n)
+                latex:inline($config, ., "orig", .)
             case element(p) return
                 latex:paragraph($config, ., css:get-rendition(., "p"), .)
             case element(pb) return

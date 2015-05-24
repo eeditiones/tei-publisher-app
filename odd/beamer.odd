@@ -83,6 +83,12 @@
                         <param name="lang">@lang</param>
                     </model>
                 </elementSpec>
+                <elementSpec mode="change" ident="graphic">
+                    <model behaviour="beamer-graphic">
+                        <param name="url">@url</param>
+                        <param name="title">desc</param>
+                    </model>
+                </elementSpec>
                 <moduleRef key="tei"/>
                 <moduleRef key="header"/>
                 <moduleRef key="tagdocs"/>

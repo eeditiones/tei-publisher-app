@@ -83,7 +83,7 @@
           However, this flexibility has come at the cost of relatively limited success in
           interoperability. In our view there is a distinct set of uses (primarily in the area of
           digitized ‘European’-style books) that would benefit from a <hi rend="italic">prescriptive</hi> recipe for digital text; this will sit alongside other
-          domain-specific, constrained TEI customizations, such as the very successful <hi rend="italic">Epidoc</hi> in the epigraphic community. TEI-Simple may become a prototype
+          domain-specific, constrained TEI customizations, such as the very successful <hi rend="italic">Epidoc</hi> in the epigraphic community. TEI Simple may become a prototype
           for a new family of constrained customizations. For instance, a TEI Simple MS for
           manuscript based work could be built on top of the ENRICH project, drawing on many of the
           lessons and some of the code for TEI Simple. </p>
@@ -855,7 +855,7 @@ border-bottom: solid 1pt blue;
                         </elementSpec>
                         <elementSpec mode="change" ident="g">
                             <model predicate="not(text())" behaviour="glyph">
-                                <param name="g">@ref</param>
+                                <param name="content">@ref</param>
                             </model>
                             <model behaviour="inline"/>
                         </elementSpec>
@@ -879,7 +879,7 @@ border-bottom: solid 1pt blue;
                                 <param name="width">@width</param>
                                 <param name="height">@height</param>
                                 <param name="scale">@scale</param>
-                                <param name="content">desc</param>
+                                <param name="title">desc</param>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="group">
@@ -978,9 +978,7 @@ border-bottom: solid 1pt blue;
                             <model behaviour="block"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="orig">
-                            <model behaviour="inline">
-                                <param name="content">@n</param>
-                            </model>
+                            <model behaviour="inline"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="p">
                             <model behaviour="paragraph" useSourceRendition="true">
@@ -1368,7 +1366,7 @@ border-bottom: solid 1pt blue;
                         <rendition xml:id="left">text-align: left;</rendition>
                         <rendition xml:id="leftbraced">padding-left: 2pt; border-left: dotted gray 2pt; </rendition>
                         <rendition xml:id="letterspace">letter-spacing: 0.5em;</rendition>
-                        <rendition xml:id="literall">font-family:monospace;    white-space:pre;</rendition>
+                        <rendition xml:id="literal">font-family:monospace;    white-space:pre;</rendition>
                         <rendition xml:id="normalstyle">font-style:roman;</rendition>
                         <rendition xml:id="normalweight">font-weight:normal;</rendition>
                         <rendition xml:id="right">text-align: right;</rendition>
