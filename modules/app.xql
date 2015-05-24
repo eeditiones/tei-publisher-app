@@ -268,7 +268,7 @@ function app:view($node as node(), $model as map(*), $odd as xs:string, $view as
 
 declare function app:process-content($odd as xs:string, $xml as element()*) {
 	let $html :=
-        pmu:process(odd:get-compiled($odd), $xml, $config:output-root, "web", "../generated", $app:ext-html)
+        pmu:process(odd:get-compiled($odd), $xml, $config:output-root, "web", "../generated", $config:module-config)
     let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
     return
         <div class="content {$class}">
@@ -436,7 +436,7 @@ declare function app:action($node as node(), $model as map(*), $source as xs:str
                         $config:output-root,
                         $module,
                         "../generated",
-                        if ($module = "latex") then $app:ext-latex else if ($module = "print") then $app:ext-fo else $app:ext-html)?("module")
+                        $config:module-config)?("module")
                     return
                         <li>{$file}</li>
                 }

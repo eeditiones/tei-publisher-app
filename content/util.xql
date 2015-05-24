@@ -99,12 +99,12 @@ declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-roo
 };
 
 declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string, 
-    $mode as xs:string, $relPath as xs:string, $ext-modules as map(*)*) {
+    $mode as xs:string, $relPath as xs:string, $config as element(modules)?) {
     let $name := replace($oddPath, "^.*?([^/]+)\.[^/]+$", "$1")
     let $odd := doc($oddPath)
     let $main :=
         if (pmu:requires-update($odd, $output-root, $name || "-" || $mode || "-main.xql")) then
-            let $config := pmu:process-odd($odd, $output-root, $mode, $relPath, $ext-modules)
+            let $config := pmu:process-odd($odd, $output-root, $mode, $relPath, $config)
             return
                 $config?main
         else
@@ -116,9 +116,10 @@ declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-roo
 
 
 declare function pmu:process-odd($odd as document-node(), $output-root as xs:string, 
-    $mode as xs:string, $relPath as xs:string, $ext-modules as map(*)*) as map(*) {
+    $mode as xs:string, $relPath as xs:string, $config as element(modules)?) as map(*) {
     let $name := replace(util:document-name($odd), "^([^\.]+)\.[^\.]+$", "$1")
     let $modulesDefault := $pmu:MODULES?($mode)
+    let $ext-modules := pmu:parse-config($name, $mode, $config)
     let $module :=
         if (exists($ext-modules)) then
             map:new(($modulesDefault, map:entry("modules", array { $modulesDefault?modules?*, $ext-modules })))
@@ -137,8 +138,9 @@ declare function pmu:process-odd($odd as document-node(), $output-root as xs:str
                 "' at '" || $xquery || "';&#10;&#10;" ||
                 "declare variable $xml external;&#10;&#10;" ||
                 "let $options := map {&#10;" ||
-                '   "styles": ["' || $relPath || "/" || $style || '"],&#10;' ||
-                '   "collection": "' || $output-root || '"&#10;' ||
+                pmu:properties($ext-modules) ||
+                '    "styles": ["' || $relPath || "/" || $style || '"],&#10;' ||
+                '    "collection": "' || $output-root || '"&#10;' ||
                 '}&#10;' ||
                 "return m:transform($options, $xml)"
             let $main := xmldb:store($output-root, $name || "-" || $mode || "-main.xql", $mainCode, "application/xquery")
@@ -158,6 +160,33 @@ declare function pmu:extract-styles($odd as document-node(), $name as xs:string,
         xmldb:store($output-root, $name || ".css", $style, "text/css")
     return
         $name || ".css"
+};
+
+declare %private function pmu:parse-config($odd as xs:string, $mode as xs:string, $config as element(modules)?) {
+    if ($config) then
+        for $module in $config/output[@mode = $mode][not(@odd) or @odd = $odd]/module
+        return
+            map {
+                "uri": $module/@uri,
+                "prefix": $module/@prefix,
+                "at": $module/@at,
+                "properties": $module/property
+            }
+    else
+        ()
+};
+
+declare function pmu:properties($modules as map(*)*) {
+    let $properties :=
+        for $module in $modules
+        for $property in $module?properties
+        return
+            '    "' || $property/@name || '": ' || normalize-space($property)
+    return
+        if ($properties) then
+            string-join($properties, ",&#10;") || ",&#10;"
+        else
+            ()
 };
 
 declare %private function pmu:requires-update($odd as document-node(), $collection as xs:string, $file as xs:string) {

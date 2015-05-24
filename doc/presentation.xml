@@ -90,7 +90,8 @@
                 <head>Code Generation</head>
                 <list>
                     <item>Parses the ODD</item>
-                    <item>Generates an XQuery typeswitch transformation</item>
+                    <item>Generates an XQuery <hi>typeswitch transformation</hi>
+                    </item>
                     <item>Imports one or more behaviour function modules</item>
                     <item>Maps behaviours to XQuery function calls</item>
                 </list>

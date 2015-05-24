@@ -13,8 +13,6 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "xml
 
 import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/html-functions.xql";
 
-import module namespace ext="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/../modules/ext-html.xql";
-
 (:~
 
     Main entry point for the transformation.

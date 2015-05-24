@@ -52,16 +52,6 @@
     <text>
         <body>
             <schemaSpec ident="docs" start="TEI teiCorpus" source="teisimple.odd">
-                <elementSpec mode="change" ident="TEI">
-                    <attList>
-                        <attDef ident="scheme" mode="add">
-                            <datatype maxOccurs="unbounded">
-                                <macroRef key="data.word"/>
-                            </datatype>
-                        </attDef>
-                    </attList>
-                    <model behaviour="beamer-document"/>
-                </elementSpec>
                 <elementSpec mode="change" ident="div">
                     <model predicate="@type='block'" behaviour="beamer-block">
                         <param name="type">"block"</param>
@@ -83,11 +73,8 @@
                         <param name="lang">@lang</param>
                     </model>
                 </elementSpec>
-                <elementSpec mode="change" ident="graphic">
-                    <model behaviour="beamer-graphic">
-                        <param name="url">@url</param>
-                        <param name="title">desc</param>
-                    </model>
+                <elementSpec mode="change" ident="hi">
+                    <model behaviour="alert"/>
                 </elementSpec>
                 <moduleRef key="tei"/>
                 <moduleRef key="header"/>

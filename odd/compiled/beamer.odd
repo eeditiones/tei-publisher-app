@@ -2075,8 +2075,11 @@ relatedItem element must be empty</sch:report>
                         </zeroOrMore>
                     </content>
                     <attList/>
-                    <model behaviour="beamer-graphic">
+                    <model behaviour="graphic">
                         <param name="url">@url</param>
+                        <param name="width">@width</param>
+                        <param name="height">@height</param>
+                        <param name="scale">@scale</param>
                         <param name="title">desc</param>
                     </model>
                 </elementSpec>
@@ -2112,12 +2115,7 @@ relatedItem element must be empty</sch:report>
                         <ref xmlns="http://relaxng.org/ns/structure/1.0" name="macro.paraContent"/>
                     </content>
                     <attList/>
-                    <model predicate="@rendition" behaviour="inline" useSourceRendition="true">
-                        <rendition>font-style: italic;</rendition>
-                    </model>
-                    <model predicate="not(@rendition)" behaviour="inline">
-                        <rendition>font-style: italic;</rendition>
-                    </model>
+                    <model behaviour="alert"/>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="item">
                     <classes>
@@ -6370,18 +6368,13 @@ The @spanTo attribute of <name/> is required.</assert>
                                 <macroRef key="data.word"/>
                             </datatype>
                         </attDef>
-                        <attDef ident="scheme">
-                            <datatype maxOccurs="unbounded">
-                                <macroRef key="data.word"/>
-                            </datatype>
-                        </attDef>
                         <attDef ident="version" usage="opt">
                             <datatype>
                                 <ref xmlns="http://relaxng.org/ns/structure/1.0" name="data.version"/>
                             </datatype>
                         </attDef>
                     </attList>
-                    <model behaviour="beamer-document"/>
+                    <model behaviour="document"/>
                 </elementSpec>
                 <elementSpec rend="change" module="textstructure" ident="text">
                     <classes>

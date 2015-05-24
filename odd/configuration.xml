@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Defines extension modules to be loaded for a given output mode, optionally limited to a
+    specific odd file. Order is important: the first module function matching a given behaviour
+    will be used.
+    
+    Every output element may list an arbitrary number of modules, though they should differ by
+    uri and prefix.
+    
+    "mode" is the mode identification string passed to pmu:process.
+    The "odd" is defined by its name, without the .odd suffix.
+-->
+<modules>
+    <!-- Special latex configuration for presentations -->
+    <output mode="latex" odd="beamer">
+        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latexbeamer" prefix="ext-beamer" at="../modules/ext-latexbeamer.xql">
+            <!-- directory from which images should be loaded -->
+            <property name="image-dir">
+                system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-0.2/doc/"
+            </property>
+        </module>
+    </output>
+    <!-- General latex extension functions -->
+    <output mode="latex">
+        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latex" prefix="ext-latex" at="../modules/ext-latex.xql"/>
+    </output>
+    <!-- General fo extension functions -->
+    <output mode="print">
+        <module mode="print" uri="http://www.tei-c.org/tei-simple/xquery/ext-fo" prefix="ext-fo" at="../modules/ext-fo.xql"/>
+    </output>
+    <!-- Special web configuration for the documentation (to handle <code>) -->
+    <output mode="web" odd="documentation">
+        <module mode="html" uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="../modules/ext-html.xql"/>
+    </output>
+</modules>

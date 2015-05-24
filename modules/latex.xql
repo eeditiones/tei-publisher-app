@@ -28,13 +28,6 @@ declare variable $local:TeX_COMMAND := function($file) {
     ( "/opt/local/bin/pdflatex", "-interaction=nonstopmode", $file )
 };
 
-declare variable $local:ext-latex := 
-    map {
-        "uri": "http://www.tei-c.org/tei-simple/xquery/ext-latex",
-        "prefix": "ext",
-        "at": "../modules/ext-latex.xql"
-    };
-
 declare function local:create-output-dir() {
     if (file:is-directory($local:OUTPUT_DIR)) then
         if (file:is-writeable($local:OUTPUT_DIR)) then
@@ -59,7 +52,7 @@ return
         let $xml := doc($config:app-root || "/" || $doc)
         let $tex :=
             string-join(
-                pmu:process(odd:get-compiled($odd), $xml, $config:output-root, "latex", "../generated", $local:ext-latex)
+                pmu:process(odd:get-compiled($odd), $xml, $config:output-root, "latex", "../generated", $config:module-config)
             )
         let $file := 
             replace($doc, "^.*?([^/]+)\..*$", "$1-") ||

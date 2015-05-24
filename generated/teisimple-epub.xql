@@ -15,8 +15,6 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions" 
 
 import module namespace epub="http://www.tei-c.org/tei-simple/xquery/functions/epub" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/ext-epub.xql";
 
-import module namespace ext="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/../modules/ext-html.xql";
-
 (:~
 
     Main entry point for the transformation.
