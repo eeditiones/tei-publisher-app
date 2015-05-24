@@ -105,11 +105,20 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
     let $h := if ($height and not(ends-with($height, "%"))) then "height=" || $height else ()
     let $s := if ($scale) then "scale=" || $scale else ()
     let $options := string-join(($w, $h, $s), ",")
-    return
+    let $cmd :=
         if ($options) then
             "\includegraphics[" || $options || "]{" || $url || "}"
         else
             "\includegraphics{" || $url || "}"
+    return
+        if ($title) then (
+            "\begin[h]{figure}&#10;",
+            "\centering&#10;",
+            $cmd,
+            "\caption{", pmf:get-content($config, $node, $class, $title), "}&#10;",
+            "\end{figure}&#10;"
+        ) else
+            $cmd
 };
 
 declare function pmf:inline($config as map(*), $node as element(), $class as xs:string+, $content as item()*) {

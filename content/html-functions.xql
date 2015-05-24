@@ -118,9 +118,17 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
     let $style := if ($width) then "width: " || $width || "; " else ()
     let $style := if ($height) then $style || "height: " || $height || "; " else $style
     return
-        <img src="{$url}">
-        { if ($style) then attribute style { $style } else () }
-        </img>
+        if ($title) then
+            <figure>
+                <img src="{$url}">
+                { if ($style) then attribute style { $style } else () }
+                </img>
+                <figcaption>{$config?apply-children($config, $node, $title)}</figcaption>
+            </figure>
+        else
+            <img src="{$url}">
+            { if ($style) then attribute style { $style } else () }
+            </img>
 };
 
 declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content, $place as xs:string?, $label as xs:string?) {
