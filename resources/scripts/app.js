@@ -36,8 +36,8 @@ function resize() {
 }
 
 function load(params, direction) {
-    var animOut = direction == "nav-next" ? "fadeOutLeft" : "fadeOutRight";
-    var animIn = direction == "nav-next" ? "fadeInRight" : "fadeInLeft";
+    var animOut = direction == "nav-next" ? "fadeOutLeft" : (direction == "nav-prev" ? "fadeOutRight" : "zoomOut");
+    var animIn = direction == "nav-next" ? "fadeInRight" : (direction == "nav-prev" ? "fadeInLeft" : "zoomIn");
     var container = $("#content-container");
     $.ajax({
         url: "../modules/ajax.xql",
