@@ -8,7 +8,7 @@
             </titleStmt>
             <editionStmt>
                 <edition>
-                    TEI Simple Workshop, May 27, Oxford
+                    May 27, 2015
                 </edition>
             </editionStmt>
             <publicationStmt>
@@ -22,26 +22,96 @@
     <text>
         <body>
             <div>
-                <head>TEI-Simple Processing Model in XQuery</head>
-                <list>
-                    <item>integrate TEI-Simple into an XML-based web application</item>
-                    <item>a package of library functions to render a TEI-Simple compliant 
-                        document into various output formats</item>
-                </list>
+                <head>A Note about this Presentation</head>
+                <div type="alert">
+                    <head>The slides you are viewing ...</head>
+                    <list>
+                        <item>are all written in TEI Simple</item>
+                        <item>rendered to PDF via the LaTeX beamer package</item>
+                        <item>based on a custom ODD, using 3 additional behaviour functions</item>
+                    </list>
+                </div>
             </div>
             <div>
                 <head>TEI-Simple Processing Model in XQuery</head>
                 <div type="alert">
-                    <head>Example Alert</head>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <head>So TEI-Simple is great, BUT...</head>
+                    <list>
+                        <item>can it be integrated into a real web application to deliver a rich, user-friendly
+                        experience?</item>
+                        <item>will it scale?</item>
+                        <item>how do we use it with existing web frameworks or templates for print?</item>
+                    </list>
                 </div>
             </div>
             <div>
-                <head>TEI-Simple Processing Model in XQuery</head>
+                <head>The TEI-Simple App</head>
+                <p>Two components</p>
+                <list type="ordered">
+                    <item>
+                        <p>A package of library modules to render a TEI-Simple compliant document
+                        into various output formats</p>
+                        <list>
+                            <item>to be imported into other applications</item>
+                        </list>
+                    </item>
+                    <item>
+                        <p>A web application to demonstrate the functionality</p>
+                        <list>
+                            <item>adds browsing/navigation</item>
+                            <item>wrapper code to call FO or LaTeX processors</item>
+                            <item>uses bootstrap web framework and eXist's templating module
+                                to create mobile-friendly experience</item>
+                        </list>
+                    </item>
+                </list>
+            </div>
+            <div>
+                <head>Supported output formats</head>
+                <list>
+                    <item>HTML5/XHTML</item>
+                    <item>PDF via FO</item>
+                    <item>PDF via LaTeX</item>
+                    <item>ePUB</item>
+                </list>
                 <div type="block">
-                    <head>Example Block</head>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <head>Plug in your own ...</head>
+                    <p>Basically works with any processor which can be called from
+                        Java or as a system process.</p>
                 </div>
+            </div>
+            <div>
+                <head>How does it work?</head>
+                <figure>
+                    <graphic url="TEISimpleDia.png"/>
+                </figure>
+            </div>
+            <div>
+                <head>Code Generation</head>
+                <list>
+                    <item>Parses the ODD</item>
+                    <item>Generates an XQuery typeswitch transformation</item>
+                    <item>Imports one or more behaviour function modules</item>
+                    <item>Maps behaviours to XQuery function calls</item>
+                </list>
+            </div>
+            <div>
+                <head>Extensibility</head>
+                <list type="ordered">
+                    <item>Customize the ODD</item>
+                    <item>Overwrite styles via external CSS</item>
+                    <item>Add your own behaviour functions</item>
+                </list>
+            </div>
+            <div>
+                <head>Customize the ODD</head>
+                <p>You can customize <code>teisimple.odd</code> in two ways:</p>
+                <list type="ordered">
+                    <item>Copy the entire odd and modify it</item>
+                    <item>Create a new odd which extends <code>teisimple.odd</code>
+                        and overwrites one or more <code>elementSpec</code>
+                    </item>
+                </list>
             </div>
         </body>
     </text>

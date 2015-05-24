@@ -79,7 +79,6 @@
                     <model behaviour="frametitle"/>
                 </elementSpec>
                 <elementSpec mode="add" ident="code">
-                    <model behaviour="inline" predicate="parent::cell|parent::p|parent::ab"/>
                     <model behaviour="code">
                         <param name="lang">@lang</param>
                     </model>

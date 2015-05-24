@@ -9,8 +9,14 @@ import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
+declare variable $pmf:WORKING_DIR := system:get-exist-home() || "/webapp";
+declare variable $pmf:IMAGE_DIR := $pmf:WORKING_DIR || "/WEB-INF/data/expathrepo/tei-simple-0.2/doc/";
+
 declare function pmf:code($config as map(*), $node as element(), $class as xs:string, $content as node()*, $lang as item()?) {
-    "\begin{verbatim}" || latex:get-content($config, $node, $class, $content) || "\end{verbatim}&#10;"
+    if ($node/../text()) then
+        "\texttt{" || $content/string() || "}"
+    else
+        "\begin{verbatim}" || latex:get-content($config, $node, $class, $content) || "\end{verbatim}&#10;"
 };
 
 declare function pmf:frame($config as map(*), $node as element(), $class as xs:string+, $content) {
@@ -29,6 +35,13 @@ declare function pmf:frametitle($config as map(*), $node as element(), $class as
     "\frametitle{" || latex:get-content($config, $node, $class, $content) || "}&#10;"
 };
 
+declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url as xs:anyURI,
+    $width, $height, $scale) {
+    "\begin{center}&#10;",
+    "\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{" || $url || "}",
+    "\end{center}&#10;"
+};
+
 declare function pmf:beamer-document($config as map(*), $node as element(), $class as xs:string+, $content) {
     let $odd := doc($config?odd)
     let $config := latex:load-styles($config, $odd)
@@ -44,6 +57,7 @@ declare function pmf:beamer-document($config as map(*), $node as element(), $cla
         "\usepackage{longtable}&#10;",
         "\usetheme{AnnArbor}&#10;",
         "\usecolortheme{beaver}&#10;",
+        "\graphicspath{{" || $pmf:IMAGE_DIR || "}}&#10;",
         "\begin{document}&#10;",
         $config?apply-children($config, $node, $content),
         "\end{document}"
