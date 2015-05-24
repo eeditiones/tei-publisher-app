@@ -18,19 +18,29 @@ else if ($exist:path eq "/") then
     </dispatch>
     
 else if (matches($exist:path, "/(test|doc)/[^/]+\.xml$")) then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/view.html"/>
-        <view>
-            <forward url="{$exist:controller}/modules/view.xql">
-                <set-header name="Cache-Control" value="no-cache"/>
-                <add-parameter name="doc" value="{$exist:path}"/>
-            </forward>
-        </view>
-		<error-handler>
-			<forward url="{$exist:controller}/error-page.html" method="get"/>
-			<forward url="{$exist:controller}/modules/view.xql"/>
-		</error-handler>
-    </dispatch>
+    let $view := request:get-parameter("view", ())
+    return
+        if ($view = "plain") then
+            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+                <forward url="{$exist:controller}/modules/transform.xql">
+                    <set-header name="Cache-Control" value="no-cache"/>
+                    <add-parameter name="doc" value="{$exist:path}"/>
+                </forward>
+            </dispatch>
+        else
+            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+                <forward url="{$exist:controller}/view.html"/>
+                <view>
+                    <forward url="{$exist:controller}/modules/view.xql">
+                        <set-header name="Cache-Control" value="no-cache"/>
+                        <add-parameter name="doc" value="{$exist:path}"/>
+                    </forward>
+                </view>
+        		<error-handler>
+        			<forward url="{$exist:controller}/error-page.html" method="get"/>
+        			<forward url="{$exist:controller}/modules/view.xql"/>
+        		</error-handler>
+            </dispatch>
     
 else if (ends-with($exist:resource, ".html")) then
     (: the html page is run through view.xql to expand templates :)

@@ -225,18 +225,12 @@ declare function app:epub-link($node as node(), $model as map(*), $odd as xs:str
     }
 };
 
-declare 
-    %templates:default("view", "div")
-function app:single-page-link($node as node(), $model as map(*), $odd as xs:string, $view as xs:string) {
-    let $type := if ($view = "single") then "div" else "single"
-    let $class := if ($view = "single") then $node/@class || " active" else $node/@class
-    return
-        element { node-name($node) } {
-            $node/@* except ($node/@href, $node/@class),
-            attribute class { $class },
-            attribute href { "?odd=" || $odd || "&amp;view=" || $type },
-            $node/node()
-        }
+declare function app:single-page-link($node as node(), $model as map(*), $odd as xs:string, $doc as xs:string) {
+    element { node-name($node) } {
+        $node/@* except $node/@href,
+        attribute href { "?view=plain&amp;odd=" || $odd },
+        $node/node()
+    }
 };
 
 declare function app:xml-link($node as node(), $model as map(*), $doc as xs:string) {
