@@ -7,9 +7,7 @@
                 <author>Wolfgang Meier, eXist Solutions GmbH</author>
             </titleStmt>
             <editionStmt>
-                <edition>
-                    May 27, 2015
-                </edition>
+                <edition> May 27, 2015 </edition>
             </editionStmt>
             <publicationStmt>
                 <p/>
@@ -37,10 +35,11 @@
                 <div type="block">
                     <head>So TEI Simple is great, BUT...</head>
                     <list>
-                        <item>can it be integrated into a real web application to deliver a rich, user-friendly
-                        experience?</item>
+                        <item>can it be integrated into a real web application to deliver a rich,
+                            user-friendly experience?</item>
                         <item>will it scale?</item>
-                        <item>how do we use it with existing web frameworks or templates for print?</item>
+                        <item>how do we use it with existing web frameworks or templates for
+                            print?</item>
                     </list>
                 </div>
             </div>
@@ -50,7 +49,7 @@
                 <list type="ordered">
                     <item>
                         <p>A package of library modules to render a TEI-Simple compliant document
-                        into various output formats</p>
+                            into various output formats</p>
                         <list>
                             <item>to be imported into other applications</item>
                         </list>
@@ -60,8 +59,8 @@
                         <list>
                             <item>adds browsing/navigation</item>
                             <item>wrapper code to call FO or LaTeX processors</item>
-                            <item>uses bootstrap web framework and eXist's templating module
-                                to create mobile-friendly experience</item>
+                            <item>uses bootstrap web framework and eXist's templating module to
+                                create mobile-friendly experience</item>
                         </list>
                     </item>
                 </list>
@@ -76,8 +75,8 @@
                 </list>
                 <div type="block">
                     <head>Plug in your own ...</head>
-                    <p>Basically works with any processor which can be called from
-                        Java or as a system process.</p>
+                    <p>Basically works with any processor which can be called from Java or as a
+                        system process.</p>
                 </div>
             </div>
             <div type="frame">
@@ -115,8 +114,8 @@
                         <cell>CSS styles generated from the ODD</cell>
                     </row>
                 </table>
-                <p>Files are by default stored into <code>generated</code>. They start with the name of 
-                    the odd and the output mode they belong to.</p>
+                <p>Files are by default stored into <code>generated</code>. They start with the name
+                    of the odd and the output mode they belong to.</p>
             </div>
             <div type="frame">
                 <head>Extensibility</head>
@@ -131,20 +130,21 @@
                 <p>You can customize <code>teisimple.odd</code> in two ways:</p>
                 <list type="ordered">
                     <item>Copy the entire odd and modify it (dirty!)</item>
-                    <item>Create a new odd which extends <code>teisimple.odd</code>
-                        and overwrites one or more <code>elementSpec</code>
+                    <item>Create a new odd which extends <code>teisimple.odd</code> and overwrites
+                        one or more <code>elementSpec</code>
                     </item>
                 </list>
                 <p>Using method 2), the new odd needs to be passed through a <hi>compile step</hi>
-                to merge it with the odd it extends. This is done automatically by the app though.</p>
+                    to merge it with the odd it extends. This is done automatically by the app
+                    though.</p>
             </div>
             <div type="frame">
                 <head>Overwrite Default CSS Styles</head>
                 <list>
-                    <item>CSS specified in renditions should be rather generic and limited to the rendering 
-                        of a particular element</item>
-                    <item>The general design of a page should be handled by external stylesheets outside
-                        the odd</item>
+                    <item>CSS specified in renditions should be rather generic and limited to the
+                        rendering of a particular element</item>
+                    <item>The general design of a page should be handled by external stylesheets
+                        outside the odd</item>
                 </list>
             </div>
             <div type="frame">
@@ -153,7 +153,8 @@
                     <tei:label xmlns:tei="http://www.tei-c.org/ns/1.0">resources/css/style.css</tei:label>
                     <item>General styles for the tei-simple web app</item>
                     <tei:label xmlns:tei="http://www.tei-c.org/ns/1.0">generated/teisimple.fo.css</tei:label>
-                    <item>General styles applied to the teisimple ODD when generating FO output</item>
+                    <item>General styles applied to the teisimple ODD when generating FO
+                        output (non standard CSS)</item>
                     <tei:label xmlns:tei="http://www.tei-c.org/ns/1.0">resources/css/epub.css</tei:label>
                     <item>General styles for epub publications</item>
                 </list>
@@ -161,11 +162,13 @@
             <div type="frame">
                 <head>Add Your Own Behaviours</head>
                 <list>
-                    <item>For each output mode, there's a standard module of behaviour functions</item>
-                    <item>Additional extension modules can be plugged in via <code>configuration.xml</code>
+                    <item>For each output mode, there's a standard module of behaviour
+                        functions</item>
+                    <item>Additional extension modules can be plugged in via
+                            <code>configuration.xml</code>
                     </item>
-                    <item>Code generation searches all modules and uses the first matching behaviour function
-                        it finds</item>
+                    <item>Code generation searches all modules and uses the first matching behaviour
+                        function it finds</item>
                     <item>Extension modules may overwrite standard behaviours or add new ones</item>
                 </list>
             </div>
@@ -174,6 +177,40 @@
                 <figure>
                     <graphic url="TEISimpleBeamer.png"/>
                 </figure>
+            </div>
+            <div type="frame">
+                <head>Function Signature Mapping</head>
+                <p>For a function to be chosen, the following conditions have to hold:</p>
+                <list>
+                    <item>local name of the function matches name of behaviour</item>
+                    <item>takes at least 3 default parameters</item>
+                    <item>the remaining parameters match those in the behaviour</item>
+                    <item>thus: arity of the function = behaviour parameter count + 3</item>
+                </list>
+                <code lang="xquery">declare function pmf:paragraph($config as map(*), 
+    $node as element(), $class as xs:string+, $content)</code>
+            </div>
+            <div type="frame">
+                <head>Default Parameters</head>
+                <list type="gloss">
+                    <tei:label xmlns:tei="http://www.tei-c.org/ns/1.0">$config</tei:label>
+                    <item>configuration map as passed in from <code>teisimple-main.xql</code>
+                    </item>
+                    <tei:label xmlns:tei="http://www.tei-c.org/ns/1.0">$node</tei:label>
+                    <item>currently process TEI element</item>
+                    <tei:label xmlns:tei="http://www.tei-c.org/ns/1.0">$class</tei:label>
+                    <item>generated class name for CSS styles etc.</item>
+                </list>
+            </div>
+            <div type="frame">
+                <head>Lookup Failures</head>
+                <list type="ordered">
+                    <item>No function matches the behaviour: <hi>continue processing descendants</hi>
+                    </item>
+                    <item>Parameters do not match: <hi>ignore the element</hi>
+                    </item>
+                </list>
+                <p>In both cases the generated XQL will contain comments describing the issue.</p>
             </div>
         </body>
     </text>

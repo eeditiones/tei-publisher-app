@@ -13,5 +13,5 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     if ($node/../text()) then
         "\texttt{" || $content/string() || "}"
     else
-        "\begin{verbatim}" || latex:get-content($config, $node, $class, $content) || "\end{verbatim}&#10;"
+        "\begin{verbatim}" || string-join($content) || "\end{verbatim}&#10;"
 };

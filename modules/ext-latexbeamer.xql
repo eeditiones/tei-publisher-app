@@ -4,8 +4,13 @@ module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-latexbeamer";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex" at "../content/latex-functions.xql";
 
+declare namespace tei="http://www.tei-c.org/ns/1.0";
+
 declare function pmf:frame($config as map(*), $node as element(), $class as xs:string+, $content) {
-    "\begin{frame}&#10;" || latex:get-content($config, $node, $class, $content) || "&#10;\end{frame}&#10;"
+    if ($node//tei:code) then
+        "\begin{frame}[fragile]&#10;" || latex:get-content($config, $node, $class, $content) || "&#10;\end{frame}&#10;"
+    else
+        "\begin{frame}&#10;" || latex:get-content($config, $node, $class, $content) || "&#10;\end{frame}&#10;"
 };
 
 declare function pmf:beamer-block($config as map(*), $node as element(), $class as xs:string+, $type, $content, $heading) {
