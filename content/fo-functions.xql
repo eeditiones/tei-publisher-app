@@ -97,7 +97,6 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
             <fo:block>
             {
                 pmf:check-styles($config, $class, $defaultStyle),
-                $config?apply-children($config, $node, $content),
                 if ($level = 1 and $content instance of node() and exists($content/ancestor::tei:body)) then
                     let $content := string-join($content)
                     return
@@ -108,7 +107,8 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
                             { $content }
                             </fo:marker>
                 else
-                    ()
+                    (),
+                $config?apply-children($config, $node, $content)
             }
             </fo:block>
         ) else
