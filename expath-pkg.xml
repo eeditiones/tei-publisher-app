@@ -35,4 +35,8 @@
         <namespace>http://www.tei-c.org/tei-simple/xquery/css</namespace>
         <file>css.xql</file>
     </xquery>
+    <xquery>
+        <namespace>http://www.tei-c.org/tei-simple/odd2odd</namespace>
+        <file>odd2odd.xql</file>
+    </xquery>
 </package>

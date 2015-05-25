@@ -15,7 +15,7 @@ xquery version "3.1";
 module namespace epub = "http://exist-db.org/xquery/epub";
 
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "odd2odd.xql";
+import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "../content/odd2odd.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
@@ -228,7 +228,7 @@ declare function epub:body-xhtml-entries($doc, $config) {
     let $entries :=
         for $div in $doc//tei:text/tei:body/tei:div
         let $title := $div/tei:head/text()
-        let $body := pmu:process(odd:get-compiled($config?odd), $div, $config?output-root, "epub", "../resources/odd", $config?modules)
+        let $body := pmu:process(odd:get-compiled($config?odd-root, $config?odd, $config?compiled-odd-root), $div, $config?output-root, "epub", "../resources/odd", $config?modules)
         let $body-xhtml:= epub:assemble-xhtml($title, epub:fix-namespaces($body))
         return
             <entry name="{concat('OEBPS/', epub:generate-id($div), '.html')}" type="xml">{$body-xhtml}</entry>

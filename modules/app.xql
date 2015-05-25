@@ -4,7 +4,7 @@ module namespace app="http://www.tei-c.org/tei-simple/templates";
 
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "odd2odd.xql";
+import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "../content/odd2odd.xql";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";
 import module namespace dbutil="http://exist-db.org/xquery/dbutil";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
@@ -12,27 +12,6 @@ import module namespace console="http://exist-db.org/xquery/console" at "java:or
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace expath="http://expath.org/ns/pkg";
 
-declare variable $app:ext-html := 
-    map {
-        "uri": "http://www.tei-c.org/tei-simple/xquery/ext-html",
-        "prefix": "ext",
-        "at": "../modules/ext-html.xql"
-    };
-    
-declare variable $app:ext-latex := 
-    map {
-        "uri": "http://www.tei-c.org/tei-simple/xquery/ext-latex",
-        "prefix": "ext-latex",
-        "at": "../modules/ext-latex.xql"
-    };
-
-declare variable $app:ext-fo := 
-    map {
-        "uri": "http://www.tei-c.org/tei-simple/xquery/ext-fo",
-        "prefix": "ext-fo",
-        "at": "../modules/ext-fo.xql"
-    };
-    
 declare variable $app:EXIDE := 
     let $pkg := collection(repo:get-root())//expath:package[@name = "http://exist-db.org/apps/eXide"]
     let $appLink :=
@@ -268,7 +247,7 @@ function app:view($node as node(), $model as map(*), $odd as xs:string, $view as
 
 declare function app:process-content($odd as xs:string, $xml as element()*) {
 	let $html :=
-        pmu:process(odd:get-compiled($odd), $xml, $config:output-root, "web", "../generated", $config:module-config)
+        pmu:process(odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root), $xml, $config:output-root, "web", "../generated", $config:module-config)
     let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
     return
         <div class="content {$class}">
@@ -432,7 +411,7 @@ declare function app:action($node as node(), $model as map(*), $source as xs:str
                 {
                     for $module in ("web", "print", "latex", "epub")
                     for $file in pmu:process-odd(
-                        doc(odd:get-compiled($source)),
+                        doc(odd:get-compiled($config:odd-root, $source, $config:compiled-odd-root)),
                         $config:output-root,
                         $module,
                         "../generated",
