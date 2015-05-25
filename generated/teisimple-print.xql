@@ -489,18 +489,15 @@ declare function model:apply-children($config as map(*), $node as element(), $co
             attribute id { $id }
         else
             (),
-    if (empty($content)) then
-        $config?apply($config, ./node())
-    else
-        $content ! (
-            typeswitch(.)
-                case element() return
-                    if (. is $node) then
-                        $config?apply($config, ./node())
-                    else
-                        $config?apply($config, .)
-                default return
-                    fo:escapeChars(.)
+    $content ! (
+        typeswitch(.)
+            case element() return
+                if (. is $node) then
+                    $config?apply($config, ./node())
+                else
+                    $config?apply($config, .)
+            default return
+                fo:escapeChars(.)
     )
 };
 
