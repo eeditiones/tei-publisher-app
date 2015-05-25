@@ -39,30 +39,28 @@ function load(params, direction) {
     var animOut = direction == "nav-next" ? "fadeOutLeft" : (direction == "nav-prev" ? "fadeOutRight" : "fadeOut");
     var animIn = direction == "nav-next" ? "fadeInRight" : (direction == "nav-prev" ? "fadeInLeft" : "fadeIn");
     var container = $("#content-container");
-    $.ajax({
-        url: "../modules/ajax.xql",
-        dataType: "json",
-        data: params,
-        error: function(xhr, status) {
-            alert("Not found: " + params);
-        },
-        success: function(data) {
-            if (data.error) {
-                alert(data.error);
-                return;
-            }
-            container.addClass("animated " + animOut)
-                .one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
+    container.addClass("animated " + animOut)
+        .one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
+        $.ajax({
+            url: "../modules/ajax.xql",
+            dataType: "json",
+            data: params,
+            error: function(xhr, status) {
+                alert("Not found: " + params);
+                showContent(container, animIn, animOut);
+            },
+            success: function(data) {
+                if (data.error) {
+                    alert(data.error);
+                    showContent(container, animIn, animOut);
+                    return;
+                }
                 $(".content").replaceWith(data.content);
                 $(".content .note").popover({
                     html: true,
                     trigger: "hover"
                 });
                 $(".content .sourcecode").highlight();
-                container.removeClass("animated " + animOut);
-                $("#content-container").addClass("animated " + animIn).one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
-                    $(this).removeClass("animated " + animIn);
-                });
                 if (data.next) {
                     $(".nav-next").attr("href", data.next).css("visibility", "");
                 } else {
@@ -73,7 +71,15 @@ function load(params, direction) {
                 } else {
                     $(".nav-prev").css("visibility", "hidden");
                 }
-            });
-        }
+                showContent(container, animIn, animOut);
+            }
+        });
+    });
+}
+
+function showContent(container, animIn, animOut) {
+    container.removeClass("animated " + animOut);
+    $("#content-container").addClass("animated " + animIn).one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
+        $(this).removeClass("animated " + animIn);
     });
 }
