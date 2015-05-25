@@ -4,7 +4,7 @@
         <fileDesc>
             <titleStmt>
                 <title>TEI Simple Processing Model in XQuery</title>
-                <author>Wolfgang Meier</author>
+                <author>Wolfgang Meier, eXist Solutions GmbH</author>
             </titleStmt>
             <editionStmt>
                 <edition>
@@ -21,20 +21,20 @@
     </teiHeader>
     <text>
         <body>
-            <div>
+            <div type="frame">
                 <head>A Note about this Presentation</head>
-                <div type="alert">
+                <div type="block">
                     <head>The slides you are viewing ...</head>
                     <list>
                         <item>are all written in TEI Simple</item>
                         <item>rendered to PDF via the LaTeX beamer package</item>
-                        <item>based on a custom ODD, using 3 additional behaviour functions</item>
+                        <item>based on a custom ODD, using 4 additional behaviour functions</item>
                     </list>
                 </div>
             </div>
-            <div>
+            <div type="frame">
                 <head>TEI Simple Processing Model in XQuery</head>
-                <div type="alert">
+                <div type="block">
                     <head>So TEI Simple is great, BUT...</head>
                     <list>
                         <item>can it be integrated into a real web application to deliver a rich, user-friendly
@@ -44,12 +44,12 @@
                     </list>
                 </div>
             </div>
-            <div>
+            <div type="frame">
                 <head>The TEI Simple App</head>
                 <p>Two components</p>
                 <list type="ordered">
                     <item>
-                        <p>A package of library modules to render a TEI Simple compliant document
+                        <p>A package of library modules to render a TEI-Simple compliant document
                         into various output formats</p>
                         <list>
                             <item>to be imported into other applications</item>
@@ -66,13 +66,13 @@
                     </item>
                 </list>
             </div>
-            <div>
+            <div type="frame">
                 <head>Supported output formats</head>
                 <list>
                     <item>HTML5/XHTML</item>
                     <item>PDF via FO</item>
                     <item>PDF via LaTeX</item>
-                    <item>EPUB</item>
+                    <item>ePUB</item>
                 </list>
                 <div type="block">
                     <head>Plug in your own ...</head>
@@ -80,13 +80,13 @@
                         Java or as a system process.</p>
                 </div>
             </div>
-            <div>
+            <div type="frame">
                 <head>How does it work?</head>
                 <figure>
                     <graphic url="TEISimpleDia.png"/>
                 </figure>
             </div>
-            <div>
+            <div type="frame">
                 <head>Code Generation</head>
                 <list>
                     <item>Parses the ODD</item>
@@ -96,7 +96,29 @@
                     <item>Maps behaviours to XQuery function calls</item>
                 </list>
             </div>
-            <div>
+            <div type="frame">
+                <head>Generated Files</head>
+                <p>You do not really need to understand any of the code the library generates, but
+                    in case of an issue, it may help to know the files:</p>
+                <table>
+                    <row>
+                        <cell>teisimple-web.xql</cell>
+                        <cell>The module generated for output mode <code>web</code>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>teisimple-web-main.xql</cell>
+                        <cell>Main query to be called to run a transformation</cell>
+                    </row>
+                    <row>
+                        <cell>teisimple.css</cell>
+                        <cell>CSS styles generated from the ODD</cell>
+                    </row>
+                </table>
+                <p>Files are by default stored into <code>generated</code>. They start with the name of 
+                    the odd and the output mode they belong to.</p>
+            </div>
+            <div type="frame">
                 <head>Extensibility</head>
                 <list type="ordered">
                     <item>Customize the ODD</item>
@@ -104,15 +126,54 @@
                     <item>Add your own behaviour functions</item>
                 </list>
             </div>
-            <div>
+            <div type="frame">
                 <head>Customize the ODD</head>
                 <p>You can customize <code>teisimple.odd</code> in two ways:</p>
                 <list type="ordered">
-                    <item>Copy the entire odd and modify it</item>
+                    <item>Copy the entire odd and modify it (dirty!)</item>
                     <item>Create a new odd which extends <code>teisimple.odd</code>
                         and overwrites one or more <code>elementSpec</code>
                     </item>
                 </list>
+                <p>Using method 2), the new odd needs to be passed through a <hi>compile step</hi>
+                to merge it with the odd it extends. This is done automatically by the app though.</p>
+            </div>
+            <div type="frame">
+                <head>Overwrite Default CSS Styles</head>
+                <list>
+                    <item>CSS specified in renditions should be rather generic and limited to the rendering 
+                        of a particular element</item>
+                    <item>The general design of a page should be handled by external stylesheets outside
+                        the odd</item>
+                </list>
+            </div>
+            <div type="frame">
+                <head>Default CSS Stylesheets</head>
+                <list>
+                    <tei:label xmlns:tei="http://www.tei-c.org/ns/1.0">resources/css/style.css</tei:label>
+                    <item>General styles for the tei-simple web app</item>
+                    <tei:label xmlns:tei="http://www.tei-c.org/ns/1.0">generated/teisimple.fo.css</tei:label>
+                    <item>General styles applied to the teisimple ODD when generating FO output</item>
+                    <tei:label xmlns:tei="http://www.tei-c.org/ns/1.0">resources/css/epub.css</tei:label>
+                    <item>General styles for epub publications</item>
+                </list>
+            </div>
+            <div type="frame">
+                <head>Add Your Own Behaviours</head>
+                <list>
+                    <item>For each output mode, there's a standard module of behaviour functions</item>
+                    <item>Additional extension modules can be plugged in via <code>configuration.xml</code>
+                    </item>
+                    <item>Code generation searches all modules and uses the first matching behaviour function
+                        it finds</item>
+                    <item>Extension modules may overwrite standard behaviours or add new ones</item>
+                </list>
+            </div>
+            <div type="frame">
+                <head>Example: Rendering this Presentation</head>
+                <figure>
+                    <graphic url="TEISimpleBeamer.png"/>
+                </figure>
             </div>
         </body>
     </text>

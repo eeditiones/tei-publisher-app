@@ -63,10 +63,12 @@
                         <param name="content">*[not(self::head)]</param>
                         <param name="heading">head</param>
                     </model>
-                    <model behaviour="frame"/>
+                    <model predicate="@type='frame'" behaviour="frame"/>
+                    <model behaviour="section"/>
                 </elementSpec>
                 <elementSpec mode="change" ident="head">
-                    <model behaviour="frametitle"/>
+                    <model predicate="parent::div[@type='frame']" behaviour="frametitle"/>
+                    <model behaviour="heading"/>
                 </elementSpec>
                 <elementSpec mode="add" ident="code">
                     <model behaviour="code">

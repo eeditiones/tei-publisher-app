@@ -20,8 +20,9 @@ let $doc := request:get-parameter("doc", ())
 let $odd := request:get-parameter("odd", "teisimple.odd")
 return
     if ($doc) then
+        let $odd := odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root)
         let $xml := doc($config:app-root || "/" || $doc)
         return
-            pmu:process(odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root), $xml, $config:output-root, "web", "../generated", ())
+            pmu:process($odd, $xml, $config:output-root, "web", "../generated", $config:module-config)
     else
         <p>No document specified</p>

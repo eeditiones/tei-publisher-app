@@ -44,8 +44,8 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         "\usepackage{graphicx}&#10;",
         "\usepackage{hyperref}&#10;",
         "\usepackage{longtable}&#10;",
-        "\usetheme{AnnArbor}&#10;",
-        "\usecolortheme{beaver}&#10;",
+        "\usetheme{Boadilla}&#10;",
+        "\usecolortheme{seahorse}&#10;",
         if ($config?image-dir) then
             "\graphicspath{" || 
             string-join(
