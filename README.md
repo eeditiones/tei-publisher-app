@@ -1,5 +1,11 @@
 An implementation of the TEI Simple ODD extensions for processing models in XQuery.
 
+# Demo
+
+A demo of the app is available on
+
+http://showcases.exist-db.org/exist/apps/tei-simple/index.html
+
 # Building
 
 Due to a bug in the 2.2 release, the tei-simple module needs the current development version of eXist. Get it from
