@@ -13,16 +13,17 @@
 <modules>
     <!-- Special latex configuration for presentations -->
     <output mode="latex" odd="beamer">
-        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latexbeamer" prefix="ext-beamer" at="../modules/ext-latexbeamer.xql">
-            <!-- directory from which images should be loaded -->
-            <property name="image-dir">
-                system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-0.2/doc/"
-            </property>
-        </module>
+        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latexbeamer" prefix="ext-beamer" at="../modules/ext-latexbeamer.xql"/>
     </output>
     <!-- General latex extension functions -->
     <output mode="latex">
-        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latex" prefix="ext-latex" at="../modules/ext-latex.xql"/>
+        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latex" prefix="ext-latex" at="../modules/ext-latex.xql">
+            <!-- directory from which images should be loaded -->
+            <property name="image-dir">
+                (system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-0.3/test/",
+                system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-0.3/doc/")
+            </property>
+        </module>
     </output>
     <!-- General fo extension functions -->
     <output mode="print">

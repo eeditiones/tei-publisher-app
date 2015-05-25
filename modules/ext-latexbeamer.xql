@@ -46,7 +46,7 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         "\usepackage{longtable}&#10;",
         "\usetheme{Boadilla}&#10;",
         "\usecolortheme{seahorse}&#10;",
-        if ($config?image-dir) then
+        if (exists($config?image-dir)) then
             "\graphicspath{" || 
             string-join(
                 for $dir in $config?image-dir return "{" || $dir || "}"

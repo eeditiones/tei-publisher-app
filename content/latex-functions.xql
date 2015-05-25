@@ -115,14 +115,7 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
         else
             "\includegraphics{" || $url || "}"
     return
-        if ($title) then (
-            "\begin[h]{figure}&#10;",
-            "\centering&#10;",
-            $cmd,
-            "\caption{", pmf:get-content($config, $node, $class, $title), "}&#10;",
-            "\end{figure}&#10;"
-        ) else
-            $cmd
+        $cmd
 };
 
 declare function pmf:inline($config as map(*), $node as element(), $class as xs:string+, $content as item()*) {
@@ -180,7 +173,14 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         "\def\theendnote{\@alph\c@endnote}&#10;",
         "\def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}&#10;",
         "\hyperbaseurl{}&#10;",
-        "\graphicspath{{" || $pmf:IMAGE_DIR || "}}&#10;",
+        if (exists($config?image-dir)) then
+            "\graphicspath{" || 
+            string-join(
+                for $dir in $config?image-dir return "{" || $dir || "}"
+            ) ||
+            "}&#10;"
+        else
+            (),
         "\def\tableofcontents{\section*{\contentsname}\@starttoc{toc}}&#10;",
         "\thispagestyle{empty}&#10;",
         "\begin{document}&#10;",

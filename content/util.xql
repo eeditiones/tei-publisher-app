@@ -183,7 +183,7 @@ declare function pmu:properties($modules as map(*)*) {
         return
             '    "' || $property/@name || '": ' || normalize-space($property)
     return
-        if ($properties) then
+        if (exists($properties)) then
             string-join($properties, ",&#10;") || ",&#10;"
         else
             ()
