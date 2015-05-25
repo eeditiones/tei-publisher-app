@@ -26,7 +26,7 @@ For PDF output, you need to enable the Apache FOP extension as follows:
 tei-simple-pm ships as a .xar package which can be installed into any eXist instance using the dashboard. You may get the
 latest .xar here:
 
-https://github.com/wolfgangmm/tei-simple-pm/releases/tag/0.2
+https://github.com/wolfgangmm/tei-simple-pm/releases/tag/0.3
 
 To build tei-simple-pm, clone the repository and call "ant" in the root directory. This will create a .xar inside the build directory.
 
