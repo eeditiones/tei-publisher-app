@@ -46,11 +46,15 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
 };
 
 declare function pmf:list($config as map(*), $node as element(), $class as xs:string+, $content) {
-    if ($node/tei:label) then (
-        "\begin{description}&#10;",
-        $config?apply($config, $content),
-        "\end{description}&#10;"
-    ) else
+    if ($node/tei:label) then 
+        let $max := max($node/tei:label ! string-length(.))
+        let $longest := ($node/tei:label[string-length(.) = $max])[1]/string()
+        return (
+            "\begin{description}[" || pmf:escapeChars($longest) || "]&#10;",
+            $config?apply($config, $content),
+            "\end{description}&#10;"
+        )
+    else
         switch($node/@type)
             case "ordered" return (
                 "\begin{enumerate}&#10;",
@@ -208,7 +212,7 @@ declare function pmf:title($config as map(*), $node as element(), $class as xs:s
 declare function pmf:table($config as map(*), $node as element(), $class as xs:string+, $content) {
     let $cols := max($node/tei:row ! count(tei:cell))
     return
-        "\begin{longtable}{" || string-join((1 to $cols) ! "l", "|") || "}&#10;",
+        "\begin{longtable}{" || string-join((1 to $cols) ! "l", "l") || "}&#10;",
         $config?apply-children($config, $node, $content),
         "\end{longtable}&#10;"
 };
