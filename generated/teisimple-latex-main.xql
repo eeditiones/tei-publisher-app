@@ -3,7 +3,8 @@ import module namespace m='http://www.tei-c.org/tei-simple/models/teisimple.odd'
 declare variable $xml external;
 
 let $options := map {
-   "styles": ["../generated/teisimple.css"],
-   "collection": "/db/apps/tei-simple/generated"
+    "image-dir": system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-0.3/test/",
+    "styles": ["../generated/teisimple.css"],
+    "collection": "/db/apps/tei-simple/generated"
 }
 return m:transform($options, $xml)
