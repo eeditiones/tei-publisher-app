@@ -33,9 +33,9 @@
                 </div>
             </div>
             <div>
-                <head>TEI-Simple Processing Model in XQuery</head>
+                <head>TEI Simple Processing Model in XQuery</head>
                 <div type="alert">
-                    <head>So TEI-Simple is great, BUT...</head>
+                    <head>So TEI Simple is great, BUT...</head>
                     <list>
                         <item>can it be integrated into a real web application to deliver a rich, user-friendly
                         experience?</item>
@@ -45,11 +45,11 @@
                 </div>
             </div>
             <div>
-                <head>The TEI-Simple App</head>
+                <head>The TEI Simple App</head>
                 <p>Two components</p>
                 <list type="ordered">
                     <item>
-                        <p>A package of library modules to render a TEI-Simple compliant document
+                        <p>A package of library modules to render a TEI Simple compliant document
                         into various output formats</p>
                         <list>
                             <item>to be imported into other applications</item>
@@ -72,7 +72,7 @@
                     <item>HTML5/XHTML</item>
                     <item>PDF via FO</item>
                     <item>PDF via LaTeX</item>
-                    <item>ePUB</item>
+                    <item>EPUB</item>
                 </list>
                 <div type="block">
                     <head>Plug in your own ...</head>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <meta xmlns="http://exist-db.org/xquery/repo">
-    <description>TEI-Simple Processing Model</description>
+    <description>TEI Simple Processing Model</description>
     <author/>
     <website/>
     <status>alpha</status>
