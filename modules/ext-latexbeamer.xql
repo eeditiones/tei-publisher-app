@@ -49,6 +49,12 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         "\usepackage{graphicx}&#10;",
         "\usepackage{hyperref}&#10;",
         "\usepackage{longtable}&#10;",
+        "\usepackage{listings}&#10;",
+        "\lstset{&#10;",
+        "basicstyle=\small\ttfamily,",
+        "columns=flexible,",
+        "breaklines=true",
+        "}&#10;",
         "\usetheme{Boadilla}&#10;",
         "\usecolortheme{seahorse}&#10;",
         if (exists($config?image-dir)) then
