@@ -32,7 +32,9 @@ $(document).ready(function() {
 function resize() {
     var wh = ($(window).height()) / 2;
     $(".page-nav").css("top", wh);
-    $(".nav-prev").css("left", $("#content-inner").offset().left);
+    if ($("#sidebar").is(":visible")) {
+        $(".nav-prev").css("left", $("#content-inner").offset().left);
+    }
 }
 
 function load(params, direction) {
