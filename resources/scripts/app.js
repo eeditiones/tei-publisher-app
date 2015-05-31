@@ -27,6 +27,19 @@ $(document).ready(function() {
         }
         resize();
     });
+    
+    $(".content .note").popover({
+        html: true,
+        trigger: "hover"
+    });
+    $(".content .sourcecode").highlight();
+    $(".content .alternate").each(function() {
+        $(this).popover({
+            content: $(this).find(".altcontent").html(),
+            trigger: "hover",
+            html: true
+        });
+    });
 });
 
 function resize() {
@@ -63,6 +76,13 @@ function load(params, direction) {
                     trigger: "hover"
                 });
                 $(".content .sourcecode").highlight();
+                $(".content .alternate").each(function() {
+                    $(this).popover({
+                        content: $(this).find(".altcontent").html(),
+                        trigger: "hover",
+                        html: true
+                    });
+                });
                 if (data.next) {
                     $(".nav-next").attr("href", data.next).css("visibility", "");
                 } else {

@@ -76,6 +76,20 @@
     font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
 }
 
+.alternate {
+    cursor: pointer;
+    color: #7777FF;
+}
+
+.alternate .altcontent {
+    display: none;
+}
+
+/*.alternate:hover .altcontent {*/
+/*    display: inline;*/
+/*    color: red;*/
+/*}*/
+
 .note, .popover {
     font-size: 13px;
 }

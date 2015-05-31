@@ -235,7 +235,7 @@ declare function pmf:alternate($config as map(*), $node as element(), $class as 
     $alternate as node()*) {
     <span class="alternate {$class}">
         <span>{$config?apply-children($config, $node, $default)}</span>
-        <span class="hidden altcontent">{$config?apply-children($config, $node, $alternate)}</span>
+        <span class="altcontent">{$config?apply-children($config, $node, $alternate)}</span>
     </span>
 };
 
