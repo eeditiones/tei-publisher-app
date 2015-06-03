@@ -38,10 +38,13 @@ xquery version "3.1";
 module namespace pm="http://www.tei-c.org/tei-simple/xquery/model";
 
 import module namespace xqgen="http://www.tei-c.org/tei-simple/xquery/xqgen" at "xqgen.xql";
+import module namespace console="http://exist-db.org/xquery/console";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare variable $pm:ERR_TOO_MANY_MODELS := xs:QName("pm:too-many-models");
+declare variable $pm:MULTIPLE_FUNCTIONS_FOUND := xs:QName("pm:multiple-functions");
+declare variable $pm:NOT_FOUND := xs:QName("pm:not-found");
 
 (:~
  : Parse the given ODD and generate an XQuery transformation module.
@@ -55,6 +58,7 @@ declare variable $pm:ERR_TOO_MANY_MODELS := xs:QName("pm:too-many-models");
 declare function pm:parse($odd as element(), $modules as array(*), $output as xs:string*) as map(*) {
     let $output := if (exists($output)) then $output else "web"
     let $uri := "http://www.tei-c.org/tei-simple/models/" || util:document-name($odd)
+    let $moduleDesc := pm:load-modules($modules)
     let $xqueryXML :=
         <xquery>
             <comment type="xqdoc">
@@ -97,7 +101,7 @@ let $config :=
                                 <typeswitch op=".">
                                     {
                                         for $spec in $odd//tei:elementSpec[.//tei:model]
-                                        let $case := pm:elementSpec($spec, $modules, $output)
+                                        let $case := pm:elementSpec($spec, $moduleDesc, $output)
                                         return
                                             if (exists($case)) then
                                                 <case test="element({$spec/@ident})">
@@ -165,9 +169,14 @@ $content ! (
         }
 };
 
+declare function pm:load-modules($modules as array(*)) as array(*) {
+    array:for-each($modules, function($module) {
+        map:new(($module, map { "description": inspect:inspect-module(xs:anyURI($module?at)) }))
+    })
+};
+
 declare %private function pm:import-modules($modules as array(*)) {
     array:for-each($modules, function($module) {
-        util:import-module($module?uri, $module?prefix, $module?at),
         <import-module prefix="{$module?prefix}" uri="{$module?uri}" at="{$module?at}"/>
     })
 };
@@ -234,11 +243,15 @@ declare %private function pm:model($ident as xs:string, $model as element(tei:mo
     let $params := if (empty($params[@name="content"])) then ($params, <tei:param name="content">.</tei:param>) else $params
     let $fn := pm:lookup($modules, $task, count($params) + 3)
     return
-        if (exists($fn)) then
-            let $signature := inspect:inspect-function($fn?function)
+        if (exists($fn)) then (
+            if (count($fn?function) > 1) then
+                <comment>More than one function found matching behaviour {$behaviour/string()}</comment>
+            else
+                (),
+            let $signature := $fn?function[1]
             let $count := count($model/../tei:model)
             let $class := $ident || (if ($count > 1) then count($model/preceding-sibling::tei:model) + 1 else ())
-            return (
+            return
                 try {
                     if ($model/tei:desc) then
                         <comment>{$model/tei:desc}</comment>
@@ -299,8 +312,9 @@ declare %private function pm:modelSequence($ident as xs:string, $seq as element(
 
 declare %private function pm:lookup($modules as array(*), $task as xs:string, $arity as xs:int) as map(*)? {
     if (array:size($modules) > 0) then
-        let $module := $modules(array:size($modules))
-        let $fn := function-lookup(QName($module?uri, $task), $arity)
+        let $module := $modules?(array:size($modules))
+        let $moduleDesc := $module?description
+        let $fn := $moduleDesc/function[@name = $moduleDesc/@prefix || ":" || $task]
         return
             if (exists($fn)) then
                 map { "function": $fn, "prefix": $module?prefix }
@@ -315,7 +329,9 @@ declare function pm:map-parameters($signature as element(function), $params as e
     let $mapped := $params[@name = $arg/@var]
     return
         if ($mapped) then
-            <param>{$mapped/string()}</param>
+            <param>{if ($mapped != "") then $mapped/string() else "()"}</param>
+        else if ($arg/@cardinality = ("zero or one", "zero or more")) then
+            <param>()</param>
         else
-            error(xs:QName("pm:not-found"), "No matching parameter found for argument " || $arg/@var)
+            error($pm:NOT_FOUND, "No matching parameter found for argument " || $arg/@var)
 };

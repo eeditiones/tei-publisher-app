@@ -131,7 +131,7 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
             </img>
 };
 
-declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content, $place as xs:string?, $label as xs:string?) {
+declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content, $place, $label) {
     switch ($place)
         case "margin" return
             if ($label) then (
@@ -146,7 +146,12 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
         default return
             <span class="label label-default note {$class}" data-toggle="popover" 
                 data-content="{serialize(<div>{$config?apply-children($config, $node, $content/node())}</div>)}">
-                {count($node/preceding::tei:note) + 1}
+                {
+                    if ($label) then
+                        $label
+                    else
+                        count($node/preceding::tei:note) + 1
+                }
             </span>
 };
 

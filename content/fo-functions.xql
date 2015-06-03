@@ -276,10 +276,6 @@ declare function pmf:index($config as map(*), $node as element(), $class as xs:s
     ()
 };
 
-declare function pmf:omit($config as map(*), $node as element(), $class as xs:string+) {
-    ()
-};
-
 declare function pmf:break($config as map(*), $node as element(), $class as xs:string+, $content, $type as xs:string, $label as item()*) {
     switch($type)
         case "page" return
