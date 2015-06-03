@@ -201,7 +201,7 @@ declare function epub:title-xhtml-entry($doc) {
     @param $volume the volume's ID
     @return the entry for the OEBPS/cover.html file
 :)
-declare function epub:title-xhtml-body($fileDesc as element(tei:fileDesc)) {
+declare function epub:title-xhtml-body($fileDesc as element(tei:fileDesc)?) {
     <div xmlns="http://www.w3.org/1999/xhtml" id="title">
         <h2 class="author">{ $fileDesc/tei:titleStmt/tei:author/string() }</h2>
         <h1>

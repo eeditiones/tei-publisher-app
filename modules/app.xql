@@ -159,7 +159,12 @@ declare function app:load-xml($view as xs:string, $root as xs:string?, $doc as x
             return 
                 util:node-by-id($doc, $root)
         else
-            (doc($config:app-root || "/" || $doc)//tei:div)[1]
+            let $div := (doc($config:app-root || "/" || $doc)//tei:div)[1]
+            return
+                if ($div) then
+                    $div
+                else
+                    doc($config:app-root || "/" || $doc)/tei:TEI//tei:body
     else
         doc($config:app-root || "/" || $doc)/tei:TEI/tei:text
 };
@@ -364,7 +369,8 @@ declare function app:get-content($div as element()) {
                     }
             else
                 $div
-        else ()
+        else 
+            $div
 };
 
 declare

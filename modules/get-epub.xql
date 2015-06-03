@@ -8,7 +8,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=xml media-type=text/xml";
 
 declare function local:work2epub($id as xs:string, $work as element(), $odd as xs:string) {
-    let $root := $work/ancestor-or-self::tei:TEI
+    let $root := root($work)
     let $fileDesc := $root/tei:teiHeader/tei:fileDesc
     let $config := map {
         "metadata": map {
@@ -33,7 +33,6 @@ declare function local:work2epub($id as xs:string, $work as element(), $odd as x
     let $css := $cssDefault || 
         "&#10;/* styles imported from epub.css */&#10;" || 
         $cssEpub
-    let $text := $root/tei:text/tei:body
     return
         epub:generate-epub($config, $root, $css, $id)
 };
@@ -41,7 +40,7 @@ declare function local:work2epub($id as xs:string, $work as element(), $odd as x
 let $doc := request:get-parameter("doc", ())
 let $odd := request:get-parameter("odd", ())
 let $id := replace($doc, "^.*?([^/]+)\..*$", "$1")
-let $work := doc($config:app-root || "/" || $doc)/tei:TEI
+let $work := doc($config:app-root || "/" || $doc)/*
 let $entries := local:work2epub($id, $work, $odd)
 return
     (
