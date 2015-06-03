@@ -178,6 +178,10 @@ of this software, even if advised of the possibility of such damage.
                     <xsl:value-of select="replace($loc,'tei:',$defaultTEIServer)"/>
                     <xsl:text>/xml/tei/odd/p5subset.xml</xsl:text>
                 </xsl:when>
+                <xsl:when test="base-uri($top)=''">
+                    <xsl:value-of select="$currentDirectory"/>
+                    <xsl:value-of select="$loc"/>
+                </xsl:when>
                 <xsl:when test="$currentDirectory=''">
                     <xsl:value-of select="resolve-uri($loc,base-uri($top))"/>
                 </xsl:when>
@@ -439,11 +443,11 @@ of this software, even if advised of the possibility of such damage.
                 </xsl:for-each>
             </xsl:copy>
         </xsl:variable>
-    <!--
+<!--
     	<xsl:result-document href="/tmp/odd2odd-pass1.xml">
 	  <xsl:copy-of select="$pass1"/>
 	</xsl:result-document>
-	-->
+-->
         <xsl:for-each select="$pass1">
             <xsl:apply-templates mode="pass2"/>
         </xsl:for-each>
@@ -1672,7 +1676,7 @@ so that is only put back in if there is some content
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    <xsl:template match="tei:valDesc|tei:equiv|tei:gloss|tei:desc|tei:remarks|tei:exemplum|tei:modelGrp|tei:model|tei:modelSequence|tei:listRef" mode="pass3">
+    <xsl:template match="tei:valDesc|tei:equiv|tei:gloss|tei:desc|tei:remarks|tei:exemplum|tei:modelGrp|tei:model|tei:modelSequence|tei:rendition|tei:listRef" mode="pass3">
         <xsl:choose>
             <xsl:when test="$stripped='true'"/>
             <xsl:otherwise>
@@ -1716,6 +1720,7 @@ so that is only put back in if there is some content
         <xsl:copy>
             <xsl:copy-of select="@*"/>
             <xsl:apply-templates mode="pass3" select="text()|comment()|*"/>
+            <xsl:copy-of select="document($orig)//tei:schemaSpec/tei:rendition"/>
             <xsl:for-each select="distinct-values(//*[@module]/@module)">
                 <xsl:variable name="m" select="."/>
                 <xsl:for-each select="document($orig)/key('odd2odd-MODULES',$m)">
