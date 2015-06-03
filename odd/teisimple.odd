@@ -244,8 +244,8 @@
                                             <rule xmlns="http://purl.oclc.org/dsdl/schematron" context="tei:*[@target]">
                                                 <let name="results" value="for $t in        tokenize(normalize-space(@target),'\s+') return starts-with($t,'#') and not(id(substring($t,2)))"/>
                                                 <report test="some $x in $results  satisfies $x"> Error: Every
-                                       local pointer in "<param-of select="@target"/>" must point to
-                                       an ID in this document (<param-of select="$results"/>)</report>
+                                       local pointer in "<value-of select="@target"/>" must point to
+                                       an ID in this document (<value-of select="$results"/>)</report>
                                             </rule>
                                         </constraint>
                                     </constraintSpec>
@@ -300,7 +300,6 @@
                       <?exactMatch tablefoot?>
                                         </valItem>
                                         <valItem ident="margin-right">
-                      <?exactMatch margin-outer?>
                       <?exactMatch right?>
                       <?exactMatch marg1?>
                       <?exactMatch marg2?>
@@ -308,8 +307,8 @@
                       <?exactMatch marg4?>
                                             <desc>in the right-hand margin</desc>
                                         </valItem>
-                                        <valItem ident="margin-outer">
-                      <?exactMatch margin?>
+                                        <valItem ident="margin">
+                      <?exactMatch margin-outer?>
                                             <desc>in the outer margin</desc>
                                         </valItem>
                                         <valItem ident="margin-inner">
@@ -393,9 +392,9 @@
                                     <rule xmlns="http://purl.oclc.org/dsdl/schematron" context="tei:*[@rendition]">
                                         <let name="results" value="for $val in tokenize(normalize-space(@rendition),'\s+') return        starts-with($val,'simple:')        or        (starts-with($val,'#')        and        //tei:rendition[@xml:id=substring($val,2)])"/>
                                         <assert test="every $x in $results satisfies $x"> Error: Each of
-                                       the rendition values in "<param-of select="@rendition"/>"
+                                       the rendition values in "<value-of select="@rendition"/>"
                                        must point to a local ID or to a token in the Simple scheme
-                                          (<param-of select="$results"/>)</assert>
+                                          (<value-of select="$results"/>)</assert>
                                     </rule>
                                 </constraint>
                             </constraintSpec>
@@ -404,8 +403,8 @@
                                     <rule xmlns="http://purl.oclc.org/dsdl/schematron" context="tei:*[@corresp]">
                                         <let name="results" value="for $t in        tokenize(normalize-space(@corresp),'\s+') return starts-with($t,'#') and not(id(substring($t,2)))"/>
                                         <report test="some $x in $results  satisfies $x"> Error: Every
-                                       local pointer in "<param-of select="@corresp"/>" must point to
-                                       an ID in this document (<param-of select="$results"/>)</report>
+                                       local pointer in "<value-of select="@corresp"/>" must point to
+                                       an ID in this document (<value-of select="$results"/>)</report>
                                     </rule>
                                 </constraint>
                             </constraintSpec>
@@ -596,18 +595,18 @@
                         </elementSpec>
                         <elementSpec mode="change" ident="add">
                             <model behaviour="inline">
-                                <rendition>color: green; text-decoration: underline;</rendition>
+                                <outputRendition>color: green; text-decoration: underline;</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="address">
                             <model behaviour="block">
-                                <rendition>margin-top: 2em; margin-left: 2em; margin-right: 2em; margin-bottom:
-            2em;</rendition>
+                                <outputRendition>margin-top: 2em; margin-left: 2em; margin-right: 2em; margin-bottom:
+            2em;</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="addrLine">
                             <model behaviour="block">
-                                <rendition>white-space: nowrap;</rendition>
+                                <outputRendition>white-space: nowrap;</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="addSpan">
@@ -625,7 +624,7 @@
                         </elementSpec>
                         <elementSpec mode="change" ident="argument">
                             <model behaviour="block">
-                                <rendition>margin-bottom: 0.5em;</rendition>
+                                <outputRendition>margin-bottom: 0.5em;</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="author">
@@ -643,6 +642,7 @@
             </assert>
                                 </constraint>
                             </constraintSpec>
+                            <model predicate="parent::listBibl" behaviour="listItem"/>
                             <model behaviour="inline"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="body">
@@ -673,7 +673,7 @@
                         <elementSpec mode="change" ident="castList">
                             <model predicate="child::*" behaviour="list" useSourceRendition="true">
                                 <param name="content">castItem</param>
-                                <rendition>list-style: ordered;</rendition>
+                                <outputRendition>list-style: ordered;</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="cb">
@@ -730,7 +730,7 @@
                         </elementSpec>
                         <elementSpec mode="change" ident="closer">
                             <model behaviour="block">
-                                <rendition>margin-top: 1em; margin-left: 1em; margin-left: 1em;</rendition>
+                                <outputRendition>margin-top: 1em; margin-left: 1em; margin-left: 1em;</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="corr">
@@ -738,8 +738,8 @@
                                 <desc>simple inline, if in parent choice. </desc>
                             </model>
                             <model behaviour="inline">
-                                <rendition scope="before">content: '[';</rendition>
-                                <rendition scope="after">content: ']';</rendition>
+                                <outputRendition scope="before">content: '[';</outputRendition>
+                                <outputRendition scope="after">content: ']';</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="date">
@@ -758,7 +758,7 @@
                         </elementSpec>
                         <elementSpec mode="change" ident="del">
                             <model behaviour="inline">
-                                <rendition>   text-decoration: line-through;</rendition>
+                                <outputRendition>   text-decoration: line-through;</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="desc">
@@ -766,7 +766,7 @@
                         </elementSpec>
                         <elementSpec mode="change" ident="div">
                             <model predicate="@type='title_page'" behaviour="block">
-                                <rendition>border: 1px solid black; padding: 5px;</rendition>
+                                <outputRendition>border: 1px solid black; padding: 5px;</outputRendition>
                             </model>
                             <model behaviour="section" predicate="parent::body or parent::front or parent::back"/>
                             <model behaviour="block"/>
@@ -800,7 +800,7 @@
                                 <desc>Omit if located in teiHeader. </desc>
                             </model>
                             <model behaviour="block" useSourceRendition="true">
-                                <rendition>font-size: larger;</rendition>
+                                <outputRendition>font-size: larger;</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="epigraph">
@@ -814,32 +814,32 @@
                         </elementSpec>
                         <elementSpec mode="change" ident="figDesc">
                             <model behaviour="inline">
-                                <rendition scope="before">content: '[..';</rendition>
-                                <rendition scope="after">content: '..]';</rendition>
-                                <rendition>color: grey;font-style:italic;</rendition>
+                                <outputRendition scope="before">content: '[..';</outputRendition>
+                                <outputRendition scope="after">content: '..]';</outputRendition>
+                                <outputRendition>color: grey;font-style:italic;</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="figure">
                             <model predicate="head or @rendition='simple:display'" behaviour="block"/>
                             <model behaviour="inline">
-                                <rendition>
+                                <outputRendition>
 display: block;
 border-top: solid 1pt blue;
 border-bottom: solid 1pt blue;
-		</rendition>
+		</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="floatingText">
                             <model behaviour="block">
-                                <rendition>
+                                <outputRendition>
 	  margin: 6pt;
 	  border: solid black 1pt;
-	</rendition>
+	</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="foreign">
                             <model behaviour="inline">
-                                <rendition>font-style:italic;</rendition>
+                                <outputRendition>font-style:italic;</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="formula">
@@ -861,16 +861,16 @@ border-bottom: solid 1pt blue;
                         </elementSpec>
                         <elementSpec mode="change" ident="gap">
                             <model predicate="desc" behaviour="inline">
-                                <rendition>color: grey;</rendition>
+                                <outputRendition>color: grey;</outputRendition>
                             </model>
                             <model predicate="@extent" behaviour="inline">
                                 <param name="content">@extent</param>
-                                <rendition scope="before">content: '[..';</rendition>
-                                <rendition scope="after">content: '..]';</rendition>
-                                <rendition>color: grey;</rendition>
+                                <outputRendition scope="before">content: '[..';</outputRendition>
+                                <outputRendition scope="after">content: '..]';</outputRendition>
+                                <outputRendition>color: grey;</outputRendition>
                             </model>
                             <model behaviour="inline">
-                                <rendition scope="before">content: '[...]';</rendition>
+                                <outputRendition scope="before">content: '[...]';</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="graphic">
@@ -890,26 +890,28 @@ border-bottom: solid 1pt blue;
                         </elementSpec>
                         <elementSpec mode="change" ident="head">
                             <model predicate="parent::figure" behaviour="block">
-                                <rendition>font-style: italic;</rendition>
+                                <outputRendition>font-style: italic;</outputRendition>
                             </model>
                             <model predicate="parent::table" behaviour="block">
-                                <rendition>font-style: italic;</rendition>
+                                <outputRendition>font-style: italic;</outputRendition>
                             </model>
                             <model predicate="parent::lg" behaviour="block">
-                                <rendition>font-style: italic;</rendition>
+                                <outputRendition>font-style: italic;</outputRendition>
                             </model>
                             <model predicate="parent::list" behaviour="block">
-                                <rendition>font-weight: bold;</rendition>
+                                <outputRendition>font-weight: bold;</outputRendition>
                             </model>
-                            <model predicate="parent::div" behaviour="heading"/>
+                            <model predicate="parent::div" behaviour="heading">
+                                <param name="level">count(ancestor::div)</param>
+                            </model>
                             <model behaviour="block"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="hi">
                             <model predicate="@rendition" behaviour="inline" useSourceRendition="true">
-                                <rendition>font-style: italic;</rendition>
+                                <outputRendition>font-style: italic;</outputRendition>
                             </model>
                             <model predicate="not(@rendition)" behaviour="inline">
-                                <rendition>font-style: italic;</rendition>
+                                <outputRendition>font-style: italic;</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="imprimatur">
@@ -920,7 +922,7 @@ border-bottom: solid 1pt blue;
                         </elementSpec>
                         <elementSpec mode="change" ident="l">
                             <model behaviour="block" useSourceRendition="true">
-                                <rendition> margin-left: 1em; </rendition>
+                                <outputRendition> margin-left: 1em; </outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="label">
@@ -944,9 +946,10 @@ border-bottom: solid 1pt blue;
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="listBibl">
-                            <model behaviour="list">
+                            <model predicate="bibl" behaviour="list">
                                 <param name="content">bibl</param>
                             </model>
+                            <model behaviour="block"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="measure">
                             <model behaviour="inline"/>
@@ -963,12 +966,12 @@ border-bottom: solid 1pt blue;
                                 <param name="label">@n</param>
                             </model>
                             <model predicate="parent::div and not(@place)" behaviour="block">
-                                <rendition>margin-left: 10px;margin-right: 10px; font-size:smaller;</rendition>
+                                <outputRendition>margin-left: 10px;margin-right: 10px; font-size:smaller;</outputRendition>
                             </model>
                             <model predicate="not(@place)" behaviour="inline">
-                                <rendition scope="before">content:" [";</rendition>
-                                <rendition scope="after">content:"] ";</rendition>
-                                <rendition>font-size:small;</rendition>
+                                <outputRendition scope="before">content:" [";</outputRendition>
+                                <outputRendition scope="after">content:"] ";</outputRendition>
+                                <outputRendition>font-size:small;</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="num">
@@ -982,7 +985,7 @@ border-bottom: solid 1pt blue;
                         </elementSpec>
                         <elementSpec mode="change" ident="p">
                             <model behaviour="paragraph" useSourceRendition="true">
-                                <rendition>text-align: justify;</rendition>
+                                <outputRendition>text-align: justify;</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="pb">
@@ -994,14 +997,14 @@ border-bottom: solid 1pt blue;
                             <model behaviour="break" useSourceRendition="true">
                                 <param name="type">'page'</param>
                                 <param name="label">(concat(if(@n) then     concat(@n,' ') else '',if(@facs) then     concat('@',@facs) else ''))</param>
-                                <rendition>
+                                <outputRendition>
 	  display: block;
 	  margin-left: 4pt;
 	  color: grey;
 	  float: right;
-	</rendition>
-                                <rendition scope="before">content: '[Page ';</rendition>
-                                <rendition scope="after">content: ']';</rendition>
+	</outputRendition>
+                                <outputRendition scope="before">content: '[Page ';</outputRendition>
+                                <outputRendition scope="after">content: ']';</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="pc">
@@ -1022,28 +1025,28 @@ border-bottom: solid 1pt blue;
                         </elementSpec>
                         <elementSpec mode="change" ident="q">
                             <model predicate="l" behaviour="block" useSourceRendition="true">
-                                <rendition>margin-left: 10px; margin-right: 10px;
-		</rendition>
+                                <outputRendition>margin-left: 10px; margin-right: 10px;
+		</outputRendition>
                             </model>
                             <model predicate="ancestor::p or ancestor::cell" behaviour="inline" useSourceRendition="true">
-                                <rendition scope="before">content: '‘';</rendition>
-                                <rendition scope="after">content: '’';</rendition>
+                                <outputRendition scope="before">content: '‘';</outputRendition>
+                                <outputRendition scope="after">content: '’';</outputRendition>
                             </model>
                             <model behaviour="block" useSourceRendition="true">
-                                <rendition>margin-left: 10px; margin-right: 10px;
-		</rendition>
+                                <outputRendition>margin-left: 10px; margin-right: 10px;
+		</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="quote">
                             <model predicate="ancestor::p" behaviour="inline" useSourceRendition="true">
                                 <desc>If it is inside a paragraph then it is inline, otherwise it is block level</desc>
-                                <rendition scope="before">content: '‘';</rendition>
-                                <rendition scope="after">content: '’';</rendition>
+                                <outputRendition scope="before">content: '‘';</outputRendition>
+                                <outputRendition scope="after">content: '’';</outputRendition>
                             </model>
                             <model behaviour="block" useSourceRendition="true">
                                 <desc>If it is inside a paragraph then it is inline, otherwise it is block level</desc>
-                                <rendition>margin-left: 10px; margin-right: 10px;
-		</rendition>
+                                <outputRendition>margin-left: 10px; margin-right: 10px;
+		</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="ref">
@@ -1070,7 +1073,7 @@ border-bottom: solid 1pt blue;
                         </elementSpec>
                         <elementSpec mode="change" ident="row">
                             <model predicate="@role='label'" behaviour="row">
-                                <rendition>font-weight: bold;</rendition>
+                                <outputRendition>font-weight: bold;</outputRendition>
                             </model>
                             <model behaviour="row">
                                 <desc>Insert table row. </desc>
@@ -1092,20 +1095,20 @@ border-bottom: solid 1pt blue;
                         <elementSpec ident="sic" mode="change">
                             <model predicate="parent::choice and count(parent::*/*) gt 1" behaviour="inline"/>
                             <model behaviour="inline">
-                                <rendition scope="before">content: '{';</rendition>
-                                <rendition scope="after">content: '}';</rendition>
+                                <outputRendition scope="before">content: '{';</outputRendition>
+                                <outputRendition scope="after">content: '}';</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="signed">
                             <model behaviour="block" predicate="parent::closer">
-                                <rendition>
+                                <outputRendition>
 		  text-align: right;
-		</rendition>
+		</outputRendition>
                             </model>
                             <model behaviour="inline">
-                                <rendition>
+                                <outputRendition>
 		 font-style: italic;
-		</rendition>
+		</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="sp">
@@ -1116,7 +1119,7 @@ border-bottom: solid 1pt blue;
                         </elementSpec>
                         <elementSpec mode="change" ident="speaker">
                             <model behaviour="block">
-                                <rendition> font-style:italic; </rendition>
+                                <outputRendition> font-style:italic; </outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="spGrp">
@@ -1124,7 +1127,7 @@ border-bottom: solid 1pt blue;
                         </elementSpec>
                         <elementSpec mode="change" ident="stage">
                             <model behaviour="block">
-                                <rendition>font-style: italic;</rendition>
+                                <outputRendition>font-style: italic;</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="subst">
@@ -1133,28 +1136,28 @@ border-bottom: solid 1pt blue;
                         <elementSpec mode="change" ident="supplied">
                             <model predicate="parent::choice" behaviour="inline"/>
                             <model predicate="@reason='damage'" behaviour="inline">
-                                <rendition scope="before">content:"&lt;";</rendition>
-                                <rendition scope="after">content:"&gt;";</rendition>
+                                <outputRendition scope="before">content:"&lt;";</outputRendition>
+                                <outputRendition scope="after">content:"&gt;";</outputRendition>
                             </model>
                             <model predicate="@reason='illegible' or not(@reason)" behaviour="inline">
-                                <rendition scope="before">content:"[";</rendition>
-                                <rendition scope="after">content:"]";</rendition>
+                                <outputRendition scope="before">content:"[";</outputRendition>
+                                <outputRendition scope="after">content:"]";</outputRendition>
                             </model>
                             <model predicate="@reason='omitted'" behaviour="inline">
-                                <rendition scope="before">content:"(";</rendition>
-                                <rendition scope="after">content:")";</rendition>
+                                <outputRendition scope="before">content:"(";</outputRendition>
+                                <outputRendition scope="after">content:")";</outputRendition>
                             </model>
                             <model behaviour="inline">
-                                <rendition scope="before">content:"{";</rendition>
-                                <rendition scope="after">content:"}";</rendition>
+                                <outputRendition scope="before">content:"{";</outputRendition>
+                                <outputRendition scope="after">content:"}";</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="table">
                             <model behaviour="table">
-                                <rendition>
+                                <outputRendition>
 		  font-size: smaller;
 		  background-color: #F0F0F0;
-		</rendition>
+		</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="fileDesc">
@@ -1175,22 +1178,15 @@ border-bottom: solid 1pt blue;
                             <model behaviour="metadata"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="TEI">
-                            <attList>
-                                <attDef ident="scheme" mode="add">
-                                    <datatype maxOccurs="unbounded">
-                                        <macroRef key="data.word"/>
-                                    </datatype>
-                                </attDef>
-                            </attList>
                             <model behaviour="document"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="text">
                             <model behaviour="body">
-                                <rendition>
+                                <outputRendition>
             max-width: 80%;
             margin: auto;
             font-family: Verdana, Tahoma, Geneva, Arial, Helvetica, sans-serif;
-         </rendition>
+         </outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="time">
@@ -1201,14 +1197,14 @@ border-bottom: solid 1pt blue;
                                 <model predicate="preceding-sibling::title" behaviour="text">
                                     <param name="content">' — '</param>
                                 </model>
-                                <model behaviour="text">
-                                    <rendition>color: red; font-size: 2em;</rendition>
+                                <model behaviour="inline">
+                                    <outputRendition>color: red; font-size: 2em;</outputRendition>
                                 </model>
                             </modelSequence>
                             <model predicate="not(@level) and parent::bibl" behaviour="inline"/>
                             <modelSequence predicate="@level='m' or not(@level)">
                                 <model behaviour="inline">
-                                    <rendition>font-style: italic;</rendition>
+                                    <outputRendition>font-style: italic;</outputRendition>
                                 </model>
                                 <model predicate="ancestor::biblStruct or       ancestor::biblFull" behaviour="text">
                                     <param name="content">', '</param>
@@ -1216,7 +1212,7 @@ border-bottom: solid 1pt blue;
                             </modelSequence>
                             <modelSequence predicate="@level='s' or @level='j'">
                                 <model behaviour="inline">
-                                    <rendition>font-style: italic;</rendition>
+                                    <outputRendition>font-style: italic;</outputRendition>
                                 </model>
                                 <model predicate="following-sibling::* and     (ancestor::biblStruct  or     ancestor::biblFull)" behaviour="text">
                                     <param name="content">', '</param>
@@ -1224,19 +1220,19 @@ border-bottom: solid 1pt blue;
                             </modelSequence>
                             <modelSequence predicate="@level='u' or @level='a'">
                                 <model behaviour="inline">
-                                    <rendition>font-style: italic;</rendition>
+                                    <outputRendition>font-style: italic;</outputRendition>
                                 </model>
                                 <model predicate="following-sibling::* and     (ancestor::biblStruct  or     ancestor::biblFull)" behaviour="text">
                                     <param name="content">'. '</param>
                                 </model>
                             </modelSequence>
                             <model behaviour="inline">
-                                <rendition>font-style: italic;</rendition>
+                                <outputRendition>font-style: italic;</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="titlePage">
                             <model behaviour="block" useSourceRendition="true">
-                                <rendition>    text-align: center;</rendition>
+                                <outputRendition>    text-align: center;</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="titlePart">
@@ -1244,12 +1240,12 @@ border-bottom: solid 1pt blue;
                         </elementSpec>
                         <elementSpec mode="change" ident="trailer">
                             <model behaviour="block">
-                                <rendition>color: green;</rendition>
+                                <outputRendition>color: green;</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="unclear">
                             <model behaviour="inline">
-                                <rendition scope="after">content: ' [?] ';</rendition>
+                                <outputRendition scope="after">content: ' [?] ';</outputRendition>
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="w">
@@ -1331,17 +1327,17 @@ border-bottom: solid 1pt blue;
                         </elementSpec>
                     </specGrp>
                     <specGrp xml:id="rendition">
-                        <rendition xml:id="allcaps">text-transform: uppercase;</rendition>
-                        <rendition xml:id="blackletter">font-family: fantasy;</rendition>
-                        <rendition xml:id="bold">font-weight: bold;</rendition>
-                        <rendition xml:id="bottombraced">padding-bottom: 2pt; border-bottom: dashed gray 2pt;</rendition>
-                        <rendition xml:id="block">display:block;</rendition>
-                        <rendition xml:id="boxed">padding: 2pt; border: solid black 1pt;</rendition>
-                        <rendition xml:id="centre">text-align: center;</rendition>
-                        <rendition xml:id="cursive">font-family: cursive;</rendition>
-                        <rendition xml:id="doublestrikethrough">text-decoration: line-through;    color: red;</rendition>
-                        <rendition xml:id="doubleunderline">text-decoration: underline;    color: red;</rendition>
-                        <rendition xml:id="dropcap">font-size : 6em;
+                        <outputRendition xml:id="allcaps">text-transform: uppercase;</outputRendition>
+                        <outputRendition xml:id="blackletter">font-family: fantasy;</outputRendition>
+                        <outputRendition xml:id="bold">font-weight: bold;</outputRendition>
+                        <outputRendition xml:id="bottombraced">padding-bottom: 2pt; border-bottom: dashed gray 2pt;</outputRendition>
+                        <outputRendition xml:id="block">display:block;</outputRendition>
+                        <outputRendition xml:id="boxed">padding: 2pt; border: solid black 1pt;</outputRendition>
+                        <outputRendition xml:id="centre">text-align: center;</outputRendition>
+                        <outputRendition xml:id="cursive">font-family: cursive;</outputRendition>
+                        <outputRendition xml:id="doublestrikethrough">text-decoration: line-through;    color: red;</outputRendition>
+                        <outputRendition xml:id="doubleunderline">text-decoration: underline;    color: red;</outputRendition>
+                        <outputRendition xml:id="dropcap">font-size : 6em;
     font-family: cursive;
     font-weight : bold;
     vertical-align: top;
@@ -1351,37 +1347,38 @@ border-bottom: solid 1pt blue;
     width : 1em;
     color : #c00;
     margin: 0em;
-    padding: 0px;</rendition>
-                        <rendition xml:id="float">float:right;    display: block;
+    padding: 0px;</outputRendition>
+                        <outputRendition xml:id="float">float:right;    display: block;
     font-size: smaller;
     clear: right;
     padding: 4pt;
     width: 15%;
-</rendition>
-                        <rendition xml:id="hyphen"/>
-                        <rendition xml:id="inline">display:inline;</rendition>
-                        <rendition xml:id="italic">font-style: italic;</rendition>
-                        <rendition xml:id="justify">text-align: justify;</rendition>
-                        <rendition xml:id="larger">font-size: larger;</rendition>
-                        <rendition xml:id="left">text-align: left;</rendition>
-                        <rendition xml:id="leftbraced">padding-left: 2pt; border-left: dotted gray 2pt; </rendition>
-                        <rendition xml:id="letterspace">letter-spacing: 0.5em;</rendition>
-                        <rendition xml:id="literal">font-family:monospace;    white-space:pre;</rendition>
-                        <rendition xml:id="normalstyle">font-style:roman;</rendition>
-                        <rendition xml:id="normalweight">font-weight:normal;</rendition>
-                        <rendition xml:id="right">text-align: right;</rendition>
-                        <rendition xml:id="rightbraced">padding-right: 2pt; border-right: dotted gray 2pt; </rendition>
-                        <rendition xml:id="rotateleft">-webkit-transform: rotate(90deg);    transform: rotate(90deg);</rendition>
-                        <rendition xml:id="rotateright">-webkit-transform: rotate(-90deg);    transform: rotate(-90deg);</rendition>
-                        <rendition xml:id="smallcaps">font-variant: small-caps;</rendition>
-                        <rendition xml:id="smaller">font-size: smaller;</rendition>
-                        <rendition xml:id="strikethrough">text-decoration: line-through;</rendition>
-                        <rendition xml:id="subscript">vertical-align: bottom;    font-size: smaller;</rendition>
-                        <rendition xml:id="superscript">vertical-align: super;    font-size: smaller;</rendition>
-                        <rendition xml:id="topbraced">padding-top: 2pt;  border-top: dotted gray 2pt; </rendition>
-                        <rendition xml:id="typewriter">font-family:monospace;</rendition>
-                        <rendition xml:id="underline">text-decoration: underline;</rendition>
-                        <rendition xml:id="wavyunderline">text-decoration: underline;       text-decoration-style: wavy;</rendition>
+</outputRendition>
+                        <outputRendition xml:id="hyphen"/>
+                        <outputRendition xml:id="inline">display:inline;</outputRendition>
+                        <outputRendition xml:id="italic">font-style: italic;</outputRendition>
+                        <outputRendition xml:id="justify">text-align: justify;</outputRendition>
+                        <outputRendition xml:id="larger">font-size: larger;</outputRendition>
+                        <outputRendition xml:id="left">text-align: left;</outputRendition>
+                        <outputRendition xml:id="leftbraced">padding-left: 2pt; border-left: dotted gray 2pt; </outputRendition>
+                        <outputRendition xml:id="letterspace">letter-spacing: 0.5em;</outputRendition>
+                        <outputRendition xml:id="literal">font-family:monospace;    white-space:pre;</outputRendition>
+                        <outputRendition xml:id="normalstyle">font-style:roman;</outputRendition>
+                        <outputRendition xml:id="normalweight">font-weight:normal;</outputRendition>
+                        <outputRendition xml:id="right">text-align: right;</outputRendition>
+                        <outputRendition xml:id="rightbraced">padding-right: 2pt; border-right: dotted gray 2pt; </outputRendition>
+                        <outputRendition xml:id="rotateleft">-webkit-transform: rotate(90deg);    transform: rotate(90deg);</outputRendition>
+                        <outputRendition xml:id="rotateright">-webkit-transform: rotate(-90deg);    transform: rotate(-90deg);</outputRendition>
+                        <outputRendition xml:id="rules">border: 1px solid black; padding: 2px;border-collapse:collapse;border-spacing:0;</outputRendition>
+                        <outputRendition xml:id="smallcaps">font-variant: small-caps;</outputRendition>
+                        <outputRendition xml:id="smaller">font-size: smaller;</outputRendition>
+                        <outputRendition xml:id="strikethrough">text-decoration: line-through;</outputRendition>
+                        <outputRendition xml:id="subscript">vertical-align: bottom;    font-size: smaller;</outputRendition>
+                        <outputRendition xml:id="superscript">vertical-align: super;    font-size: smaller;</outputRendition>
+                        <outputRendition xml:id="topbraced">padding-top: 2pt;  border-top: dotted gray 2pt; </outputRendition>
+                        <outputRendition xml:id="typewriter">font-family:monospace;</outputRendition>
+                        <outputRendition xml:id="underline">text-decoration: underline;</outputRendition>
+                        <outputRendition xml:id="wavyunderline">text-decoration: underline;       text-decoration-style: wavy;</outputRendition>
                     </specGrp>
                 </div>
             </div>

@@ -30,6 +30,7 @@
 .simple_rightbraced { padding-right: 2pt; border-right: dotted gray 2pt; }
 .simple_rotateleft { -webkit-transform: rotate(90deg); transform: rotate(90deg); }
 .simple_rotateright { -webkit-transform: rotate(-90deg); transform: rotate(-90deg); }
+.simple_rules { border: 1px solid black; padding: 2px;border-collapse:collapse;border-spacing:0; }
 .simple_smallcaps { font-variant: small-caps; }
 .simple_smaller { font-size: smaller; }
 .simple_strikethrough { text-decoration: line-through; }

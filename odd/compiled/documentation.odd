@@ -361,9 +361,9 @@ belongs, but this <sch:name/> element has no textual content.</sch:assert>
                             <rule xmlns="http://purl.oclc.org/dsdl/schematron" context="tei:*[@rendition]">
                                 <let name="results" value="for $val in tokenize(normalize-space(@rendition),'\s+') return        starts-with($val,'simple:')        or        (starts-with($val,'#')        and        //tei:rendition[@xml:id=substring($val,2)])"/>
                                 <assert test="every $x in $results satisfies $x"> Error: Each of
-                                       the rendition values in "<param-of select="@rendition"/>"
+                                       the rendition values in "<value-of select="@rendition"/>"
                                        must point to a local ID or to a token in the Simple scheme
-                                          (<param-of select="$results"/>)</assert>
+                                          (<value-of select="$results"/>)</assert>
                             </rule>
                         </constraint>
                     </constraintSpec>
@@ -372,8 +372,8 @@ belongs, but this <sch:name/> element has no textual content.</sch:assert>
                             <rule xmlns="http://purl.oclc.org/dsdl/schematron" context="tei:*[@corresp]">
                                 <let name="results" value="for $t in        tokenize(normalize-space(@corresp),'\s+') return starts-with($t,'#') and not(id(substring($t,2)))"/>
                                 <report test="some $x in $results  satisfies $x"> Error: Every
-                                       local pointer in "<param-of select="@corresp"/>" must point to
-                                       an ID in this document (<param-of select="$results"/>)</report>
+                                       local pointer in "<value-of select="@corresp"/>" must point to
+                                       an ID in this document (<value-of select="$results"/>)</report>
                             </rule>
                         </constraint>
                     </constraintSpec>
@@ -620,7 +620,7 @@ belongs, but this <sch:name/> element has no textual content.</sch:assert>
                                 <valItem ident="bottom"/>
                                 <valItem ident="tablebottom"/>
                                 <valItem ident="margin-right"/>
-                                <valItem ident="margin-outer"/>
+                                <valItem ident="margin"/>
                                 <valItem ident="margin-inner"/>
                                 <valItem ident="margin-left"/>
                                 <valItem ident="opposite"/>
@@ -679,8 +679,8 @@ belongs, but this <sch:name/> element has no textual content.</sch:assert>
                                     <rule xmlns="http://purl.oclc.org/dsdl/schematron" context="tei:*[@target]">
                                         <let name="results" value="for $t in        tokenize(normalize-space(@target),'\s+') return starts-with($t,'#') and not(id(substring($t,2)))"/>
                                         <report test="some $x in $results  satisfies $x"> Error: Every
-                                       local pointer in "<param-of select="@target"/>" must point to
-                                       an ID in this document (<param-of select="$results"/>)</report>
+                                       local pointer in "<value-of select="@target"/>" must point to
+                                       an ID in this document (<value-of select="$results"/>)</report>
                                     </rule>
                                 </constraint>
                             </constraintSpec>
@@ -1728,7 +1728,7 @@ relatedItem element must be empty</sch:report>
                     </content>
                     <attList/>
                     <model behaviour="inline">
-                        <rendition>color: green; text-decoration: underline;</rendition>
+                        <outputRendition>color: green; text-decoration: underline;</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="address">
@@ -1754,8 +1754,8 @@ relatedItem element must be empty</sch:report>
                     </content>
                     <attList/>
                     <model behaviour="block">
-                        <rendition>margin-top: 2em; margin-left: 2em; margin-right: 2em; margin-bottom:
-            2em;</rendition>
+                        <outputRendition>margin-top: 2em; margin-left: 2em; margin-right: 2em; margin-bottom:
+            2em;</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="addrLine">
@@ -1768,7 +1768,7 @@ relatedItem element must be empty</sch:report>
                     </content>
                     <attList/>
                     <model behaviour="block">
-                        <rendition>white-space: nowrap;</rendition>
+                        <outputRendition>white-space: nowrap;</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="author">
@@ -1816,6 +1816,7 @@ relatedItem element must be empty</sch:report>
                         </constraint>
                     </constraintSpec>
                     <attList/>
+                    <model predicate="parent::listBibl" behaviour="listItem"/>
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="cb">
@@ -1923,8 +1924,8 @@ relatedItem element must be empty</sch:report>
                         <desc>simple inline, if in parent choice. </desc>
                     </model>
                     <model behaviour="inline">
-                        <rendition scope="before">content: '[';</rendition>
-                        <rendition scope="after">content: ']';</rendition>
+                        <outputRendition scope="before">content: '[';</outputRendition>
+                        <outputRendition scope="after">content: ']';</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="date">
@@ -1969,7 +1970,7 @@ relatedItem element must be empty</sch:report>
                     </content>
                     <attList/>
                     <model behaviour="inline">
-                        <rendition>   text-decoration: line-through;</rendition>
+                        <outputRendition>   text-decoration: line-through;</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="desc">
@@ -2009,7 +2010,7 @@ relatedItem element must be empty</sch:report>
                     </content>
                     <attList/>
                     <model behaviour="inline">
-                        <rendition>font-style:italic;</rendition>
+                        <outputRendition>font-style:italic;</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="gap">
@@ -2048,16 +2049,16 @@ relatedItem element must be empty</sch:report>
                         </attDef>
                     </attList>
                     <model predicate="desc" behaviour="inline">
-                        <rendition>color: grey;</rendition>
+                        <outputRendition>color: grey;</outputRendition>
                     </model>
                     <model predicate="@extent" behaviour="inline">
                         <param name="content">@extent</param>
-                        <rendition scope="before">content: '[..';</rendition>
-                        <rendition scope="after">content: '..]';</rendition>
-                        <rendition>color: grey;</rendition>
+                        <outputRendition scope="before">content: '[..';</outputRendition>
+                        <outputRendition scope="after">content: '..]';</outputRendition>
+                        <outputRendition>color: grey;</outputRendition>
                     </model>
                     <model behaviour="inline">
-                        <rendition scope="before">content: '[...]';</rendition>
+                        <outputRendition scope="before">content: '[...]';</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="core" xml:id="GRAPHIC" ident="graphic">
@@ -2105,18 +2106,20 @@ relatedItem element must be empty</sch:report>
                     </content>
                     <attList/>
                     <model predicate="parent::figure" behaviour="block">
-                        <rendition>font-style: italic;</rendition>
+                        <outputRendition>font-style: italic;</outputRendition>
                     </model>
                     <model predicate="parent::table" behaviour="block">
-                        <rendition>font-style: italic;</rendition>
+                        <outputRendition>font-style: italic;</outputRendition>
                     </model>
                     <model predicate="parent::lg" behaviour="block">
-                        <rendition>font-style: italic;</rendition>
+                        <outputRendition>font-style: italic;</outputRendition>
                     </model>
                     <model predicate="parent::list" behaviour="block">
-                        <rendition>font-weight: bold;</rendition>
+                        <outputRendition>font-weight: bold;</outputRendition>
                     </model>
-                    <model predicate="parent::div" behaviour="heading"/>
+                    <model predicate="parent::div" behaviour="heading">
+                        <param name="level">count(ancestor::div)</param>
+                    </model>
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="hi">
@@ -2129,10 +2132,10 @@ relatedItem element must be empty</sch:report>
                     </content>
                     <attList/>
                     <model predicate="@rendition" behaviour="inline" useSourceRendition="true">
-                        <rendition>font-style: italic;</rendition>
+                        <outputRendition>font-style: italic;</outputRendition>
                     </model>
                     <model predicate="not(@rendition)" behaviour="inline">
-                        <rendition>font-style: italic;</rendition>
+                        <outputRendition>font-style: italic;</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="item">
@@ -2157,7 +2160,7 @@ relatedItem element must be empty</sch:report>
                     </content>
                     <attList/>
                     <model behaviour="block" useSourceRendition="true">
-                        <rendition> margin-left: 1em; </rendition>
+                        <outputRendition> margin-left: 1em; </outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="label">
@@ -2352,9 +2355,10 @@ relatedItem element must be empty</sch:report>
                         </group>
                     </content>
                     <attList/>
-                    <model behaviour="list">
+                    <model predicate="bibl" behaviour="list">
                         <param name="content">bibl</param>
                     </model>
+                    <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="measure">
                     <classes>
@@ -2454,12 +2458,12 @@ relatedItem element must be empty</sch:report>
                         <param name="label">@n</param>
                     </model>
                     <model predicate="parent::div and not(@place)" behaviour="block">
-                        <rendition>margin-left: 10px;margin-right: 10px; font-size:smaller;</rendition>
+                        <outputRendition>margin-left: 10px;margin-right: 10px; font-size:smaller;</outputRendition>
                     </model>
                     <model predicate="not(@place)" behaviour="inline">
-                        <rendition scope="before">content:" [";</rendition>
-                        <rendition scope="after">content:"] ";</rendition>
-                        <rendition>font-size:small;</rendition>
+                        <outputRendition scope="before">content:" [";</outputRendition>
+                        <outputRendition scope="after">content:"] ";</outputRendition>
+                        <outputRendition>font-size:small;</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="num">
@@ -2518,7 +2522,7 @@ relatedItem element must be empty</sch:report>
                     </content>
                     <attList/>
                     <model behaviour="paragraph" useSourceRendition="true">
-                        <rendition>text-align: justify;</rendition>
+                        <outputRendition>text-align: justify;</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="pb">
@@ -2542,14 +2546,14 @@ relatedItem element must be empty</sch:report>
                     <model behaviour="break" useSourceRendition="true">
                         <param name="type">'page'</param>
                         <param name="label">(concat(if(@n) then     concat(@n,' ') else '',if(@facs) then     concat('@',@facs) else ''))</param>
-                        <rendition>
+                        <outputRendition>
 	  display: block;
 	  margin-left: 4pt;
 	  color: grey;
 	  float: right;
-	</rendition>
-                        <rendition scope="before">content: '[Page ';</rendition>
-                        <rendition scope="after">content: ']';</rendition>
+	</outputRendition>
+                        <outputRendition scope="before">content: '[Page ';</outputRendition>
+                        <outputRendition scope="after">content: ']';</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="publisher">
@@ -2610,16 +2614,16 @@ relatedItem element must be empty</sch:report>
                         </attDef>
                     </attList>
                     <model predicate="l" behaviour="block" useSourceRendition="true">
-                        <rendition>margin-left: 10px; margin-right: 10px;
-		</rendition>
+                        <outputRendition>margin-left: 10px; margin-right: 10px;
+		</outputRendition>
                     </model>
                     <model predicate="ancestor::p or ancestor::cell" behaviour="inline" useSourceRendition="true">
-                        <rendition scope="before">content: '‘';</rendition>
-                        <rendition scope="after">content: '’';</rendition>
+                        <outputRendition scope="before">content: '‘';</outputRendition>
+                        <outputRendition scope="after">content: '’';</outputRendition>
                     </model>
                     <model behaviour="block" useSourceRendition="true">
-                        <rendition>margin-left: 10px; margin-right: 10px;
-		</rendition>
+                        <outputRendition>margin-left: 10px; margin-right: 10px;
+		</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="quote">
@@ -2635,13 +2639,13 @@ relatedItem element must be empty</sch:report>
                     <attList/>
                     <model predicate="ancestor::p" behaviour="inline" useSourceRendition="true">
                         <desc>If it is inside a paragraph then it is inline, otherwise it is block level</desc>
-                        <rendition scope="before">content: '‘';</rendition>
-                        <rendition scope="after">content: '’';</rendition>
+                        <outputRendition scope="before">content: '‘';</outputRendition>
+                        <outputRendition scope="after">content: '’';</outputRendition>
                     </model>
                     <model behaviour="block" useSourceRendition="true">
                         <desc>If it is inside a paragraph then it is inline, otherwise it is block level</desc>
-                        <rendition>margin-left: 10px; margin-right: 10px;
-		</rendition>
+                        <outputRendition>margin-left: 10px; margin-right: 10px;
+		</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="ref">
@@ -2715,8 +2719,8 @@ relatedItem element must be empty</sch:report>
                     <attList/>
                     <model predicate="parent::choice and count(parent::*/*) gt 1" behaviour="inline"/>
                     <model behaviour="inline">
-                        <rendition scope="before">content: '{';</rendition>
-                        <rendition scope="after">content: '}';</rendition>
+                        <outputRendition scope="before">content: '{';</outputRendition>
+                        <outputRendition scope="after">content: '}';</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="sp">
@@ -2763,7 +2767,7 @@ relatedItem element must be empty</sch:report>
                     </content>
                     <attList/>
                     <model behaviour="block">
-                        <rendition> font-style:italic; </rendition>
+                        <outputRendition> font-style:italic; </outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="stage">
@@ -2795,7 +2799,7 @@ relatedItem element must be empty</sch:report>
                         </attDef>
                     </attList>
                     <model behaviour="block">
-                        <rendition>font-style: italic;</rendition>
+                        <outputRendition>font-style: italic;</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="add" module="core" ident="teiCorpus">
@@ -2896,14 +2900,14 @@ relatedItem element must be empty</sch:report>
                         <model predicate="preceding-sibling::title" behaviour="text">
                             <param name="content">' — '</param>
                         </model>
-                        <model behaviour="text">
-                            <rendition>color: red; font-size: 2em;</rendition>
+                        <model behaviour="inline">
+                            <outputRendition>color: red; font-size: 2em;</outputRendition>
                         </model>
                     </modelSequence>
                     <model predicate="not(@level) and parent::bibl" behaviour="inline"/>
                     <modelSequence predicate="@level='m' or not(@level)">
                         <model behaviour="inline">
-                            <rendition>font-style: italic;</rendition>
+                            <outputRendition>font-style: italic;</outputRendition>
                         </model>
                         <model predicate="ancestor::biblStruct or       ancestor::biblFull" behaviour="text">
                             <param name="content">', '</param>
@@ -2911,7 +2915,7 @@ relatedItem element must be empty</sch:report>
                     </modelSequence>
                     <modelSequence predicate="@level='s' or @level='j'">
                         <model behaviour="inline">
-                            <rendition>font-style: italic;</rendition>
+                            <outputRendition>font-style: italic;</outputRendition>
                         </model>
                         <model predicate="following-sibling::* and     (ancestor::biblStruct  or     ancestor::biblFull)" behaviour="text">
                             <param name="content">', '</param>
@@ -2919,14 +2923,14 @@ relatedItem element must be empty</sch:report>
                     </modelSequence>
                     <modelSequence predicate="@level='u' or @level='a'">
                         <model behaviour="inline">
-                            <rendition>font-style: italic;</rendition>
+                            <outputRendition>font-style: italic;</outputRendition>
                         </model>
                         <model predicate="following-sibling::* and     (ancestor::biblStruct  or     ancestor::biblFull)" behaviour="text">
                             <param name="content">'. '</param>
                         </model>
                     </modelSequence>
                     <model behaviour="inline">
-                        <rendition>font-style: italic;</rendition>
+                        <outputRendition>font-style: italic;</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="core" ident="unclear">
@@ -2962,7 +2966,7 @@ relatedItem element must be empty</sch:report>
                         </attDef>
                     </attList>
                     <model behaviour="inline">
-                        <rendition scope="after">content: ' [?] ';</rendition>
+                        <outputRendition scope="after">content: ' [?] ';</outputRendition>
                     </model>
                 </elementSpec>
                 <classSpec rend="add" module="header" type="atts" ident="att.patternReplacement">
@@ -5138,20 +5142,20 @@ The @spanTo attribute of <name/> is required.</assert>
                     </attList>
                     <model predicate="parent::choice" behaviour="inline"/>
                     <model predicate="@reason='damage'" behaviour="inline">
-                        <rendition scope="before">content:"&lt;";</rendition>
-                        <rendition scope="after">content:"&gt;";</rendition>
+                        <outputRendition scope="before">content:"&lt;";</outputRendition>
+                        <outputRendition scope="after">content:"&gt;";</outputRendition>
                     </model>
                     <model predicate="@reason='illegible' or not(@reason)" behaviour="inline">
-                        <rendition scope="before">content:"[";</rendition>
-                        <rendition scope="after">content:"]";</rendition>
+                        <outputRendition scope="before">content:"[";</outputRendition>
+                        <outputRendition scope="after">content:"]";</outputRendition>
                     </model>
                     <model predicate="@reason='omitted'" behaviour="inline">
-                        <rendition scope="before">content:"(";</rendition>
-                        <rendition scope="after">content:")";</rendition>
+                        <outputRendition scope="before">content:"(";</outputRendition>
+                        <outputRendition scope="after">content:")";</outputRendition>
                     </model>
                     <model behaviour="inline">
-                        <rendition scope="before">content:"{";</rendition>
-                        <rendition scope="after">content:"}";</rendition>
+                        <outputRendition scope="before">content:"{";</outputRendition>
+                        <outputRendition scope="after">content:"}";</outputRendition>
                     </model>
                 </elementSpec>
                 <classSpec rend="add" predeclare="true" module="analysis" xml:id="CLANA" type="atts" ident="att.global.analytic">
@@ -5582,7 +5586,7 @@ The @spanTo attribute of <name/> is required.</assert>
                     <attList/>
                     <model predicate="child::*" behaviour="list" useSourceRendition="true">
                         <param name="content">castItem</param>
-                        <rendition>list-style: ordered;</rendition>
+                        <outputRendition>list-style: ordered;</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="drama" ident="role">
@@ -5658,7 +5662,7 @@ The @spanTo attribute of <name/> is required.</assert>
                     </content>
                     <attList/>
                     <model behaviour="block">
-                        <rendition>margin-bottom: 0.5em;</rendition>
+                        <outputRendition>margin-bottom: 0.5em;</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="textstructure" ident="back">
@@ -5892,7 +5896,7 @@ The @spanTo attribute of <name/> is required.</assert>
                     </content>
                     <attList/>
                     <model behaviour="block">
-                        <rendition>margin-top: 1em; margin-left: 1em; margin-left: 1em;</rendition>
+                        <outputRendition>margin-top: 1em; margin-left: 1em; margin-left: 1em;</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="textstructure" ident="dateline">
@@ -5975,7 +5979,7 @@ The @spanTo attribute of <name/> is required.</assert>
                     </content>
                     <attList/>
                     <model predicate="@type='title_page'" behaviour="block">
-                        <rendition>border: 1px solid black; padding: 5px;</rendition>
+                        <outputRendition>border: 1px solid black; padding: 5px;</outputRendition>
                     </model>
                     <model behaviour="section" predicate="parent::body or parent::front or parent::back"/>
                     <model behaviour="block"/>
@@ -6084,7 +6088,7 @@ The @spanTo attribute of <name/> is required.</assert>
                         <desc>Omit if located in teiHeader. </desc>
                     </model>
                     <model behaviour="block" useSourceRendition="true">
-                        <rendition>font-size: larger;</rendition>
+                        <outputRendition>font-size: larger;</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="textstructure" ident="epigraph">
@@ -6140,10 +6144,10 @@ The @spanTo attribute of <name/> is required.</assert>
                     </content>
                     <attList/>
                     <model behaviour="block">
-                        <rendition>
+                        <outputRendition>
 	  margin: 6pt;
 	  border: solid black 1pt;
-	</rendition>
+	</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="textstructure" ident="front">
@@ -6333,14 +6337,14 @@ The @spanTo attribute of <name/> is required.</assert>
                     </content>
                     <attList/>
                     <model behaviour="block" predicate="parent::closer">
-                        <rendition>
+                        <outputRendition>
 		  text-align: right;
-		</rendition>
+		</outputRendition>
                     </model>
                     <model behaviour="inline">
-                        <rendition>
+                        <outputRendition>
 		 font-style: italic;
-		</rendition>
+		</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="textstructure" ident="TEI">
@@ -6375,11 +6379,6 @@ The @spanTo attribute of <name/> is required.</assert>
                         </constraint>
                     </constraintSpec>
                     <attList>
-                        <attDef ident="scheme">
-                            <datatype maxOccurs="unbounded">
-                                <macroRef key="data.word"/>
-                            </datatype>
-                        </attDef>
                         <attDef ident="version" usage="opt">
                             <datatype>
                                 <ref xmlns="http://relaxng.org/ns/structure/1.0" name="data.version"/>
@@ -6423,18 +6422,18 @@ The @spanTo attribute of <name/> is required.</assert>
                     <_0:constraintSpec xmlns:_0="http://www.tei-c.org/ns/1.0" ident="headeronlyelement" scheme="isoschematron">
                         <_0:constraint>
                             <rule xmlns="http://purl.oclc.org/dsdl/schematron" context="att|&#xA;biblFull|&#xA;biblScope|&#xA;biblStruct|&#xA;change|&#xA;charDecl|&#xA;charProp|&#xA;editor|&#xA;editorialDecl|&#xA;email|&#xA;encodingDesc|&#xA;extent|&#xA;fileDesc|&#xA;gi|&#xA;glyph|&#xA;glyphName|&#xA;idno|&#xA;imprint|&#xA;keywords|&#xA;licence|&#xA;listChange|&#xA;listPerson|&#xA;localName|&#xA;monogr|&#xA;msDesc|&#xA;msIdentifier|&#xA;physDesc|&#xA;profileDesc|&#xA;publicationStmt|&#xA;relatedItem|&#xA;repository|&#xA;resp|&#xA;respStmt|&#xA;sourceDesc|&#xA;teiHeader|&#xA;textClass|&#xA;textDesc|&#xA;titleStmt|&#xA;typeDesc|&#xA;value">
-                                <report test="ancestor::tei:text">Error:  The element <name/>
+                                <report test="ancestor::tei:text">Error:  The element <sch:name xmlns:sch="http://purl.oclc.org/dsdl/schematron"/>
 is not permitted outside the header</report>
                             </rule>
                         </_0:constraint>
                     </_0:constraintSpec>
                     <attList/>
                     <model behaviour="body">
-                        <rendition>
+                        <outputRendition>
             max-width: 80%;
             margin: auto;
             font-family: Verdana, Tahoma, Geneva, Arial, Helvetica, sans-serif;
-         </rendition>
+         </outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="textstructure" ident="titlePage">
@@ -6466,7 +6465,7 @@ is not permitted outside the header</report>
                         </attDef>
                     </attList>
                     <model behaviour="block" useSourceRendition="true">
-                        <rendition>    text-align: center;</rendition>
+                        <outputRendition>    text-align: center;</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="textstructure" ident="titlePart">
@@ -6516,7 +6515,7 @@ is not permitted outside the header</report>
                     </content>
                     <attList/>
                     <model behaviour="block">
-                        <rendition>color: green;</rendition>
+                        <outputRendition>color: green;</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="figures" ident="cell">
@@ -6550,9 +6549,9 @@ is not permitted outside the header</report>
                     </content>
                     <attList/>
                     <model behaviour="inline">
-                        <rendition scope="before">content: '[..';</rendition>
-                        <rendition scope="after">content: '..]';</rendition>
-                        <rendition>color: grey;font-style:italic;</rendition>
+                        <outputRendition scope="before">content: '[..';</outputRendition>
+                        <outputRendition scope="after">content: '..]';</outputRendition>
+                        <outputRendition>color: grey;font-style:italic;</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="figures" ident="figure">
@@ -6577,11 +6576,11 @@ is not permitted outside the header</report>
                     <attList/>
                     <model predicate="head or @rendition='simple:display'" behaviour="block"/>
                     <model behaviour="inline">
-                        <rendition>
+                        <outputRendition>
 display: block;
 border-top: solid 1pt blue;
 border-bottom: solid 1pt blue;
-		</rendition>
+		</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="figures" ident="formula">
@@ -6632,7 +6631,7 @@ border-bottom: solid 1pt blue;
                         </attDef>
                     </attList>
                     <model predicate="@role='label'" behaviour="row">
-                        <rendition>font-weight: bold;</rendition>
+                        <outputRendition>font-weight: bold;</outputRendition>
                     </model>
                     <model behaviour="row">
                         <desc>Insert table row. </desc>
@@ -6690,10 +6689,10 @@ border-bottom: solid 1pt blue;
                         </attDef>
                     </attList>
                     <model behaviour="table">
-                        <rendition>
+                        <outputRendition>
 		  font-size: smaller;
 		  background-color: #F0F0F0;
-		</rendition>
+		</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec rend="change" module="verse" ident="rhyme">

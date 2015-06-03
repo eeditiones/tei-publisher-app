@@ -4,6 +4,7 @@
         <fileDesc>
             <titleStmt>
                 <title>TEI Simple Processing Model in XQuery</title>
+                <title type="sub">TEI Simple in XQuery</title>
                 <author>Wolfgang Meier, eXist Solutions GmbH</author>
             </titleStmt>
             <editionStmt>
@@ -64,6 +65,22 @@
                         </list>
                     </item>
                 </list>
+            </div>
+            <div type="frame">
+                <head>Not Limited to TEI Simple</head>
+                <list>
+                    <item>processing model is not limited to TEI Simple</item>
+                    <item>open to hacking</item>
+                    <item>may even be applied to non-TEI</item>
+                    <item>library only recognizes model elements, ignores the rest</item>
+                </list>
+            </div>
+            <div type="frame">
+                <head>Using TEI Simple in Another Application</head>
+                <p>An example for using TEI Simple as a library in another application:</p>
+                <p>
+                    <ref target="http://showcases.exist-db.org/exist/apps/ebbo/">http://showcases.exist-db.org/exist/apps/ebbo/</ref>
+                </p>
             </div>
             <div type="frame">
                 <head>Supported output formats</head>

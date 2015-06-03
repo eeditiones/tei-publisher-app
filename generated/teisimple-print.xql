@@ -77,7 +77,10 @@ declare function model:apply($config as map(*), $input as node()*) {
             case element(back) return
                 fo:block($config, ., "back", .)
             case element(bibl) return
-                fo:inline($config, ., "bibl", .)
+                if (parent::listBibl) then
+                    fo:listItem($config, ., "bibl1", .)
+                else
+                    fo:inline($config, ., "bibl2", .)
             case element(body) return
                 (
                     fo:index($config, ., "body1", ., 'toc'),
@@ -281,7 +284,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                     else
                         $config?apply($config, ./node())
             case element(listBibl) return
-                fo:list($config, ., "listBibl", bibl)
+                if (bibl) then
+                    fo:list($config, ., "listBibl1", bibl)
+                else
+                    fo:block($config, ., "listBibl2", .)
             case element(measure) return
                 fo:inline($config, ., "measure", .)
             case element(milestone) return
@@ -424,7 +430,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             fo:text($config, ., "title1", ' — ')
                         else
                             (),
-                        fo:text($config, ., "title2", .)
+                        fo:inline($config, ., "title2", .)
                     )
 
                 else

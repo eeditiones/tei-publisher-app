@@ -70,3 +70,16 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         "\end{document}"
     )
 };
+
+declare function pmf:metadata($config as map(*), $node as element(), $class as xs:string+, $content) {
+    let $fileDesc := $node//tei:fileDesc
+    let $titleStmt := $fileDesc/tei:titleStmt
+    let $editionStmt := $fileDesc/tei:editionStmt
+    return (
+        "\title[" || string-join($titleStmt/tei:title[@type="sub"]) ||
+            "]{" || string-join($titleStmt/tei:title[not(@type)]) || "}&#10;",
+        "\author{" || string-join($titleStmt/tei:author ! latex:escapeChars(.), " \and ") || "}&#10;",
+        "\date{" || latex:escapeChars($editionStmt/tei:edition) || "}&#10;",
+        "\maketitle&#10;"
+    )
+};

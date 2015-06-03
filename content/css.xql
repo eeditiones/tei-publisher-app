@@ -58,15 +58,15 @@ declare function css:generate-css($root as document-node()) {
         "/* Generated stylesheet. Do not edit. */&#10;",
         "/* Generated from " || document-uri($root) || " */&#10;&#10;",
         "/* Global styles */&#10;",
-        for $rend in $root//tei:rendition[@xml:id][not(parent::tei:model)]
+        for $rend in $root//tei:outputRendition[@xml:id][not(parent::tei:model)]
         return
             "&#10;.simple_" || $rend/@xml:id || " { " || 
             normalize-space($rend/string()) || " }",
         "&#10;&#10;/* Model rendition styles */&#10;",
-        for $model in $root//tei:model[tei:rendition]
+        for $model in $root//tei:model[tei:outputRendition]
         let $spec := $model/ancestor::tei:elementSpec[1]
         let $count := count($spec//tei:model)
-        for $rend in $model/tei:rendition
+        for $rend in $model/tei:outputRendition
         let $className :=
             if ($count > 1) then
                 $spec/@ident || count($model/preceding::tei:model[. >> $spec]) + 1
