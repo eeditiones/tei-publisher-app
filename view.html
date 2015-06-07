@@ -12,6 +12,7 @@
         <script type="text/javascript" src="resources/scripts/jquery-1.11.3.min.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
         <script type="text/javascript" src="resources/scripts/bootstrap.min.js"/>
+        <script type="text/javascript" src="resources/scripts/jquery.touchSwipe.min.js"/>
         <script type="text/javascript">
             $(document).ready(function() {
                 $(".note").popover({
@@ -35,64 +36,77 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="btn-group actions" role="group">
-                                        <a class="btn btn-default" data-template="app:back-link" title="Back to index page">
-                                            <i class="glyphicon glyphicon-home"/> Documents
-                                        </a>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                <i class="glyphicon glyphicon-print"/> PDF <span class="caret"/>
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a data-template="app:pdf-link">
-                                                        Download PDF
+                                    <div class="btn-toolbar actions">
+                                        <div class="btn-group" role="group">
+                                            <a class="btn btn-default" data-template="app:back-link" title="Back to index page">
+                                                <i class="glyphicon glyphicon-home"/>
+                                                <span class="hidden-xs">Documents</span>
+                                            </a>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    <i class="glyphicon glyphicon-print"/>
+                                                    <span class="hidden-xs">PDF</span>
+                                                    <span class="caret"/>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li>
+                                                        <a data-template="app:pdf-link">
+                                                        PDF via FO
                                                     </a>
-                                                </li>
-                                                <li>
-                                                    <a target="_new" data-template="app:pdf-link" data-template-source="true">
+                                                    </li>
+                                                    <li>
+                                                        <a target="_new" data-template="app:pdf-link" data-template-source="true">
                                                         FO Source
                                                     </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                <i class="glyphicon glyphicon-print"/> LaTeX <span class="caret"/>
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a data-template="app:latex-link">
-                                                        Download PDF
+                                                    </li>
+                                                    <li>
+                                                        <a data-template="app:latex-link">
+                                                        PDF via LaTeX
                                                     </a>
-                                                </li>
-                                                <li>
-                                                    <a target="_new" data-template="app:latex-link" data-template-source="true">
+                                                    </li>
+                                                    <li>
+                                                        <a target="_new" data-template="app:latex-link" data-template-source="true">
                                                         LaTeX Source
                                                     </a>
-                                                </li>
-                                            </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <a class="btn btn-default" data-template="app:epub-link" title="Download as epub ebook">
+                                                <i class="glyphicon glyphicon-book"/>
+                                                <span class="hidden-xs">ePUB</span>
+                                            </a>
+                                            <a class="btn btn-default" data-template="app:xml-link">
+                                                <i class="glyphicon glyphicon-pencil"/>
+                                                <span class="hidden-xs">XML</span>
+                                            </a>
+                                            <a target="_new" class="btn btn-default" data-template="app:single-page-link" title="View plain HTML on a single page">
+                                                <i class="glyphicon glyphicon-resize-full"/>
+                                                <span class="hidden-xs">Single Page</span>
+                                            </a>
                                         </div>
-                                        <a class="btn btn-default" data-template="app:epub-link" title="Download as epub ebook">
-                                            <i class="glyphicon glyphicon-book"/> ePUB
-                                        </a>
-                                        <a class="btn btn-default" data-template="app:xml-link">
-                                            <i class="glyphicon glyphicon-pencil"/> XML</a>
-                                        <a target="_new" class="btn btn-default" data-template="app:single-page-link" title="View plain HTML on a single page">
-                                            <i class="glyphicon glyphicon-resize-full"/> Single Page</a>
+                                        <div class="btn-group" role="group">
+                                            <a class="btn btn-default" href="#" id="zoom-in">
+                                                <i class="glyphicon glyphicon-zoom-in"/>
+                                            </a>
+                                            <a class="btn btn-default" href="#" id="zoom-out">
+                                                <i class="glyphicon glyphicon-zoom-out"/>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row" data-template="app:navigation">
                                 <div class="col-md-12">
-                                    <h5 class="navigation-top" data-template="app:navigation-title"/>
-                                    <div id="content-inner">
+                                    <div class="navigation-top">
                                         <a data-template="app:navigation-link" data-template-direction="next" class="nav-next page-nav">
                                             <i class="glyphicon glyphicon-chevron-right"/>
                                         </a>
                                         <a data-template="app:navigation-link" data-template-direction="previous" class="nav-prev page-nav">
                                             <i class="glyphicon glyphicon-chevron-left"/>
                                         </a>
+                                        <h5 data-template="app:navigation-title"/>
+                                    </div>
+                                    <div id="content-inner">
                                         <div id="content-container">
                                             <div data-template="app:view" class="content"/>
                                         </div>

@@ -39,12 +39,12 @@ function app:doc-table($node as node(), $model as map(*), $odd as xs:string) {
                                 <div class="btn-group" role="group">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                            <i class="glyphicon glyphicon-print"/> PDF <span class="caret"/>
+                                            <i class="glyphicon glyphicon-print"/> <span class="hidden-xs">PDF</span> <span class="caret"/>
                                         </button>
                                         <ul class="dropdown-menu" role="menu">
                                             <li>
                                                 <a href="modules/fo.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
-                                                    Download PDF
+                                                    PDF via FO
                                                 </a>
                                             </li>
                                             <li>
@@ -53,16 +53,9 @@ function app:doc-table($node as node(), $model as map(*), $odd as xs:string) {
                                                     FO Code
                                                 </a>
                                             </li>
-                                        </ul>
-                                    </div>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                            <i class="glyphicon glyphicon-print"/> LaTeX <span class="caret"/>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
                                             <li>
                                                 <a href="modules/latex.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
-                                                    Download PDF
+                                                    PDF via LaTeX
                                                 </a>
                                             </li>
                                             <li>
@@ -75,10 +68,10 @@ function app:doc-table($node as node(), $model as map(*), $odd as xs:string) {
                                     </div>
                                     <a class="btn btn-default" 
                                         href="modules/get-epub.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
-                                        <i class="glyphicon glyphicon-book"/> ePUB</a>
+                                        <i class="glyphicon glyphicon-book"/> <span class="hidden-xs">ePUB</span></a>
                                     <a class="btn btn-default" data-template="app:load-source"
                                         href="{substring-after($resource, $config:app-root)}">
-                                        <i class="glyphicon glyphicon-edit"/> View Source</a>
+                                        <i class="glyphicon glyphicon-edit"/> <span class="hidden-xs">View Source</span></a>
                                 </div>,
                                 $model
                             )
@@ -112,26 +105,47 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string) {
                             templates:process(
                                 <div class="btn-group" role="group">
                                     <a class="btn btn-default {if ($odd = $name || '.odd') then 'active' else ''}" href="?odd={$name}.odd">
-                                        <i class="glyphicon glyphicon-ok"/> Use ODD
+                                        <i class="glyphicon glyphicon-ok"/> <span class="hidden-xs">Use ODD</span>
                                     </a>
                                     <a class="btn btn-default"
                                         href="?action=refresh&amp;source={$name}.odd&amp;odd={$odd}">
-                                        <i class="glyphicon glyphicon-refresh"/> Regenerate</a>
-                                    <a class="btn btn-default" data-template="app:load-source"
-                                        href="{substring-after($resource, $config:app-root)}">
-                                        <i class="glyphicon glyphicon-edit"/> ODD</a>
-                                    <a class="btn btn-default" data-template="app:load-source"
-                                        href="{substring-after($config:output-root, $config:app-root)}/{$name}-web.xql">
-                                        { if ($xqlWebAvail) then () else attribute disabled { "disabled" } }
-                                        <i class="glyphicon glyphicon-edit"/> Web XQL</a>
-                                    <a class="btn btn-default" data-template="app:load-source"
-                                        href="{substring-after($config:output-root, $config:app-root)}/{$name}-print.xql">
-                                        { if ($xqlFoAvail) then () else attribute disabled { "disabled" } }
-                                        <i class="glyphicon glyphicon-edit"/> Print XQL</a>
-                                    <a class="btn btn-default" data-template="app:load-source"
-                                        href="{substring-after($config:output-root, $config:app-root)}/{$name}.css">
-                                        { if ($cssAvail) then () else attribute disabled { "disabled" } }
-                                        <i class="glyphicon glyphicon-edit"/> CSS</a>
+                                        <i class="glyphicon glyphicon-refresh"/> <span class="hidden-xs">Regenerate</span></a>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="glyphicon glyphicon-edit"/> <span class="hidden-xs">Sources</span> <span class="caret"/>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>
+                                                <a data-template="app:load-source"
+                                                    href="{substring-after($resource, $config:app-root)}">
+                                                    <i class="glyphicon glyphicon-edit"/> ODD</a>
+                                            </li>
+                                            <li>
+                                                <a data-template="app:load-source"
+                                                    href="{substring-after($config:output-root, $config:app-root)}/{$name}-web.xql">
+                                                    { if ($xqlWebAvail) then () else attribute disabled { "disabled" } }
+                                                    <i class="glyphicon glyphicon-edit"/> Web XQL</a>
+                                            </li>
+                                            <li>
+                                                <a data-template="app:load-source"
+                                                    href="{substring-after($config:output-root, $config:app-root)}/{$name}-print.xql">
+                                                    { if ($xqlFoAvail) then () else attribute disabled { "disabled" } }
+                                                    <i class="glyphicon glyphicon-edit"/> FO XQL</a>
+                                            </li>
+                                            <li>
+                                                <a data-template="app:load-source"
+                                                    href="{substring-after($config:output-root, $config:app-root)}/{$name}-latex.xql">
+                                                    { if ($xqlFoAvail) then () else attribute disabled { "disabled" } }
+                                                    <i class="glyphicon glyphicon-edit"/> LaTeX XQL</a>
+                                            </li>
+                                            <li>
+                                                <a data-template="app:load-source"
+                                                    href="{substring-after($config:output-root, $config:app-root)}/{$name}.css">
+                                                    { if ($cssAvail) then () else attribute disabled { "disabled" } }
+                                                    <i class="glyphicon glyphicon-edit"/> CSS</a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>,
                                 $model
                             )
