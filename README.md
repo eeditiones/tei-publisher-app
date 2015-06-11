@@ -9,7 +9,7 @@ http://showcases.exist-db.org/exist/apps/tei-simple/index.html
 # Building
 
 Due to a bug in the 2.2 release, the tei-simple module needs the current development version of eXist. Get it from
-https://github.com/eXist-db/exist
+https://github.com/eXist-db/exist or use a [nightly build](http://static.adamretter.org.uk/exist-nightly/).
 
 For PDF output, you need to enable the Apache FOP extension as follows:
 
