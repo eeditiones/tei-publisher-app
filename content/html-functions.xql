@@ -137,7 +137,7 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
             if ($label) then (
                 <span class="margin-note-ref">{$label}</span>,
                 <span class="margin-note">
-                    <span class="n">{$label}) </span>{ $config?apply-children($config, $node, $content) }
+                    <span class="n">{$label/string()}) </span>{ $config?apply-children($config, $node, $content) }
                 </span>
             ) else
                 <span class="margin-note">
