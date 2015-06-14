@@ -33,7 +33,7 @@ declare function odd:compile($inputCol as xs:string, $odd as xs:string, $outputC
                 odd:get-compiled($inputCol, $name, $outputCol)[2],
             let $params :=
                 <parameters>
-                    <param name="currentDirectory" value="xmldb:exist://{$outputCol}"/>
+                    <param name="currentDirectory" value="xmldb:exist://{$outputCol}/"/>
                     <param name="lang" value="en"/>
                     <param name="exist:stop-on-warn" value="yes"/>
                     <param name="exist:stop-on-error" value="yes"/>
