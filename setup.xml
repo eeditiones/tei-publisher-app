@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<setup>
+    <!-- collections containing TEI data to be displayed by the app -->
+    <collections>
+        <path>test</path>
+        <path>doc</path>
+    </collections>
+    <!-- the ODD to use by default if no other is specified in a request -->
+    <default-odd>teisimple.odd</default-odd>
+</setup>

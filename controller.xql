@@ -1,10 +1,14 @@
 xquery version "3.0";
 
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "modules/config.xqm";
+
 declare variable $exist:path external;
 declare variable $exist:resource external;
 declare variable $exist:controller external;
 declare variable $exist:prefix external;
 declare variable $exist:root external;
+
+declare variable $data-collections := $config:setup/collections/path;
 
 if ($exist:path eq '') then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
@@ -17,7 +21,7 @@ else if ($exist:path eq "/") then
         <redirect url="index.html"/>
     </dispatch>
     
-else if (matches($exist:path, "/(test|doc)/[^/]+\.xml$")) then
+else if (matches($exist:path, "/(" || string-join($data-collections, "|") || ")/.*[^/]+\.xml$")) then
     let $view := request:get-parameter("view", ())
     return
         if ($view = "plain") then

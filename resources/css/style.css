@@ -240,9 +240,9 @@
     margin-left: .5em;
 }
 
-.documents td:nth-child(2) {
+.documents td:nth-child(3) {
     text-align: right;
-    width: 30%;
+    width: 320px;
 }
 
 @media (max-width: 768px) {
@@ -255,7 +255,7 @@
         word-wrap: break-word;
     }
     
-    .documents th:nth-child(2) {
+    .documents th:nth-child(3) {
         width: 160px;
     }
 }

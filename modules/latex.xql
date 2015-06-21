@@ -44,7 +44,7 @@ declare function local:create-output-dir() {
 };
 
 let $doc := request:get-parameter("doc", ())
-let $odd := request:get-parameter("odd", "teisimple.odd")
+let $odd := request:get-parameter("odd", $config:default-odd)
 let $source := request:get-parameter("source", ())
 let $dir := local:create-output-dir()
 return

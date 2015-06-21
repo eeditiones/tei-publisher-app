@@ -1,5 +1,10 @@
 xquery version "3.0";
 
+(:~
+ : Extension behaviour functions for generating presentations based on the LaTeX beamer package.
+ : 
+ : @author Wolfgang Meier
+ :)
 module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-latexbeamer";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex" at "../content/latex-functions.xql";

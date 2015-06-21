@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" data-template="pages:app-root">
     <head>
         <title data-template="config:app-title">App Title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -8,7 +8,7 @@
         <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/animate.min.css"/>
-        <link rel="stylesheet" type="text/css" data-template="app:styles"/>
+        <link rel="stylesheet" type="text/css" data-template="pages:styles"/>
         <script type="text/javascript" src="resources/scripts/jquery-1.11.3.min.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
         <script type="text/javascript" src="resources/scripts/bootstrap.min.js"/>
@@ -26,11 +26,11 @@
     <body>
         <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content" data-template-using="body">
             <div data-template="templates:include" data-template-path="templates/menu.html"/>
-            <div data-template="app:load" class="container-fluid">
+            <div data-template="pages:load" class="container-fluid">
                 <div class="row">
                     <aside id="sidebar" class="col-md-3 hidden-xs toc">
                         <h3>Contents</h3>
-                        <div data-template="app:table-of-contents"/>
+                        <div data-template="pages:table-of-contents"/>
                     </aside>
                     <div id="right-panel" class="col-md-9 col-md-offset-3 col-xs-12">
                         <div class="container-fluid">
@@ -38,7 +38,7 @@
                                 <div class="col-md-12">
                                     <div class="btn-toolbar actions">
                                         <div class="btn-group" role="group">
-                                            <a class="btn btn-default" data-template="app:back-link" title="Back to index page">
+                                            <a class="btn btn-default" data-template="pages:back-link" title="Back to index page">
                                                 <i class="glyphicon glyphicon-home"/>
                                                 <span class="hidden-xs">Documents</span>
                                             </a>
@@ -50,36 +50,36 @@
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <li>
-                                                        <a data-template="app:pdf-link">
+                                                        <a data-template="pages:pdf-link">
                                                         PDF via FO
                                                     </a>
                                                     </li>
                                                     <li>
-                                                        <a target="_new" data-template="app:pdf-link" data-template-source="true">
+                                                        <a target="_new" data-template="pages:pdf-link" data-template-source="true">
                                                         FO Source
                                                     </a>
                                                     </li>
                                                     <li>
-                                                        <a data-template="app:latex-link">
+                                                        <a data-template="pages:latex-link">
                                                         PDF via LaTeX
                                                     </a>
                                                     </li>
                                                     <li>
-                                                        <a target="_new" data-template="app:latex-link" data-template-source="true">
+                                                        <a target="_new" data-template="pages:latex-link" data-template-source="true">
                                                         LaTeX Source
                                                     </a>
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <a class="btn btn-default" data-template="app:epub-link" title="Download as epub ebook">
+                                            <a class="btn btn-default" data-template="pages:epub-link" title="Download as epub ebook">
                                                 <i class="glyphicon glyphicon-book"/>
                                                 <span class="hidden-xs">ePUB</span>
                                             </a>
-                                            <a class="btn btn-default" data-template="app:xml-link">
+                                            <a class="btn btn-default" data-template="pages:xml-link">
                                                 <i class="glyphicon glyphicon-pencil"/>
                                                 <span class="hidden-xs">XML</span>
                                             </a>
-                                            <a target="_new" class="btn btn-default" data-template="app:single-page-link" title="View plain HTML on a single page">
+                                            <a target="_new" class="btn btn-default" data-template="pages:single-page-link" title="View plain HTML on a single page">
                                                 <i class="glyphicon glyphicon-resize-full"/>
                                                 <span class="hidden-xs">Single Page</span>
                                             </a>
@@ -95,20 +95,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" data-template="app:navigation">
+                            <div class="row" data-template="pages:navigation">
                                 <div class="col-md-12">
                                     <div class="navigation-top">
-                                        <a data-template="app:navigation-link" data-template-direction="next" class="nav-next page-nav">
+                                        <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav">
                                             <i class="glyphicon glyphicon-chevron-right"/>
                                         </a>
-                                        <a data-template="app:navigation-link" data-template-direction="previous" class="nav-prev page-nav">
+                                        <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav">
                                             <i class="glyphicon glyphicon-chevron-left"/>
                                         </a>
-                                        <h5 data-template="app:navigation-title"/>
+                                        <h5 data-template="pages:navigation-title"/>
                                     </div>
                                     <div id="content-inner">
                                         <div id="content-container">
-                                            <div data-template="app:view" class="content"/>
+                                            <div data-template="pages:view" class="content"/>
                                         </div>
                                     </div>
                                 </div>

@@ -318,7 +318,7 @@ declare function epub:toc-ncx-entry($urn, $title, $text) {
 declare function epub:toc-ncx-div($root as element(), $start as xs:int) {
     for $div in $root/tei:div
     let $id := epub:generate-id($div)
-    let $file := epub:generate-id($div/ancestor-or-self::tei:div[last()])
+    let $file := epub:generate-id(($div/ancestor-or-self::tei:div)[last()])
     let $index := count($div/preceding::tei:div[ancestor::tei:body]) + count($div/ancestor::tei:div) + 1
     return
         <navPoint id="navpoint-{$id}" playOrder="{$start + $index}" xmlns="http://www.daisy.org/z3986/2005/ncx/">

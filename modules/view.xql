@@ -13,6 +13,8 @@ import module namespace templates="http://exist-db.org/xquery/templates";
  :)
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace app="http://www.tei-c.org/tei-simple/templates" at "app.xql";
+import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
+
 
 declare option exist:serialize "method=html5 media-type=text/html enforce-xhtml=yes";
 

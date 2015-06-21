@@ -17,7 +17,7 @@ declare option output:html-version "5.0";
 declare option output:media-type "text/html";
 
 let $doc := request:get-parameter("doc", ())
-let $odd := request:get-parameter("odd", "teisimple.odd")
+let $odd := request:get-parameter("odd", $config:default-odd)
 return
     if ($doc) then
         let $odd := odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root)

@@ -11,7 +11,7 @@ declare namespace templates="http://exist-db.org/xquery/templates";
 declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace expath="http://expath.org/ns/pkg";
 
-(: 
+(:
     Determine the application root collection from the current module load path.
 :)
 declare variable $config:app-root := 
@@ -29,7 +29,11 @@ declare variable $config:app-root :=
         substring-before($modulePath, "/modules")
 ;
 
-declare variable $config:data-root := $config:app-root || "/test";
+declare variable $config:setup := doc($config:app-root || "/setup.xml")/setup;
+
+declare variable $config:data-root := $config:setup/collections/path ! ($config:app-root || "/" || .);
+
+declare variable $config:default-odd := $config:setup/default-odd/string();
 
 declare variable $config:odd-root := $config:app-root || "/odd";
 

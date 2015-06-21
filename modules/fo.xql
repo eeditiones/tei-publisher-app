@@ -61,7 +61,7 @@ declare variable $local:CONFIG :=
     </fop>;
 
 let $doc := request:get-parameter("doc", ())
-let $odd := request:get-parameter("odd", "teisimple.odd")
+let $odd := request:get-parameter("odd", $config:default-odd)
 let $source := request:get-parameter("source", ())
 return
     if ($doc) then
