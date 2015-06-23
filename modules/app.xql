@@ -55,7 +55,7 @@ function app:doc-table($node as node(), $model as map(*), $odd as xs:string?) {
                 return
                     <tr>
                         <td><a href="{$name}?odd={$odd}">{$name}</a></td>
-                        <td><a href="{$name}?odd={$odd}">{pages:title(doc($resource)/*)}</a></td>
+                        <td class="hidden-xs"><a href="{$name}?odd={$odd}">{pages:title(doc($resource)/*)}</a></td>
                         <td>
                             {
                                 templates:process(

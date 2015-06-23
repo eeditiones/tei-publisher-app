@@ -77,6 +77,11 @@ $(document).ready(function() {
         });
     }
     
+    function isMobile() {
+      try{ document.createEvent("TouchEvent"); return true; }
+      catch(e){ return false; }
+    }
+    
     resize();
     $(".page-nav,.toc-link").click(function(ev) {
         ev.preventDefault();
@@ -117,24 +122,26 @@ $(document).ready(function() {
         resize();
     });
     
-    $("#content-container").swipe({
-        swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
-            var nav;
-            if (direction === "left") {
-                nav = $(".nav-next").get(0);
-            } else if (direction === "right") {
-                nav = $(".nav-prev").get(0);
-            } else {
-                return;
-            }
-            var url = "doc=" + nav.pathname.replace(/^.*\/([^/]+\/[^/]+)$/, "$1") + "&" + nav.search.substring(1);
-            if (historySupport) {
-                history.pushState(null, null, nav.href);
-            }
-            load(url, nav.className.split(" ")[0]);
-        },
-        allowPageScroll: "vertical"
-    });
+    if (isMobile()) {
+        $("#content-container").swipe({
+            swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
+                var nav;
+                if (direction === "left") {
+                    nav = $(".nav-next").get(0);
+                } else if (direction === "right") {
+                    nav = $(".nav-prev").get(0);
+                } else {
+                    return;
+                }
+                var url = "doc=" + nav.pathname.replace(/^.*\/([^/]+\/[^/]+)$/, "$1") + "&" + nav.search.substring(1);
+                if (historySupport) {
+                    history.pushState(null, null, nav.href);
+                }
+                load(url, nav.className.split(" ")[0]);
+            },
+            allowPageScroll: "vertical"
+        });
+    }
     
     initContent();
 });

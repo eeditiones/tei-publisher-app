@@ -39,14 +39,14 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
     $input !     (
         typeswitch(.)
-            case element(fileDesc) return
-                latex:title($config, ., "fileDesc", titleStmt)
-            case element(encodingDesc) return
-                latex:omit($config, ., "encodingDesc", .)
-            case element(profileDesc) return
-                latex:omit($config, ., "profileDesc", .)
             case element(revisionDesc) return
                 latex:omit($config, ., "revisionDesc", .)
+            case element(encodingDesc) return
+                latex:omit($config, ., "encodingDesc", .)
+            case element(fileDesc) return
+                latex:title($config, ., "fileDesc", titleStmt)
+            case element(profileDesc) return
+                latex:omit($config, ., "profileDesc", .)
             case element(teiHeader) return
                 latex:metadata($config, ., "teiHeader", .)
             case element(ab) return
@@ -221,7 +221,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     latex:block($config, ., "fw2", .)
             case element(g) return
                 if (not(text())) then
-                    latex:glyph($config, ., "g1", @ref)
+                    latex:glyph($config, ., "g1", .)
                 else
                     latex:inline($config, ., "g2", .)
             case element(gap) return

@@ -58,7 +58,7 @@
                 <docAuthor>Sebastian Rahtz</docAuthor>
                 <docAuthor>Brian Pytlik Zillig</docAuthor>
                 <docAuthor>Martin Mueller</docAuthor>
-                <docDate>Version 0.3: 12th May 2015</docDate>
+                <docDate>Version 0.4: 6th June 2015</docDate>
             </titlePage>
         </front>
         <body>
@@ -131,6 +131,7 @@
                 <schemaSpec ident="teisimple" start="TEI teiCorpus">
                     <specGrpRef target="#base"/>
                     <specGrpRef target="#header"/>
+                    <specGrpRef target="#header2"/>
                     <specGrpRef target="#transcr"/>
                     <specGrpRef target="#attclasses"/>
                     <specGrpRef target="#modelclasses"/>
@@ -152,34 +153,8 @@
                      <term>header</term> module. In addition, elements from other modules are
                   loaded, if they are tagged in the classification as being needed for the header
                   only.</p>
-                    <specGrp xml:id="header">
-                        <moduleRef key="header"/>
-                        <elementRef key="att"/>
-                        <elementRef key="biblStruct"/>
-                        <elementRef key="biblScope"/>
-                        <elementRef key="charDecl"/>
-                        <elementRef key="charProp"/>
-                        <elementRef key="editor"/>
-                        <elementRef key="email"/>
-                        <elementRef key="gi"/>
-                        <elementRef key="glyph"/>
-                        <elementRef key="glyphName"/>
-                        <elementRef key="imprint"/>
-                        <elementRef key="localName"/>
-                        <elementRef key="listPerson"/>
-                        <elementRef key="monogr"/>
-                        <elementRef key="msDesc"/>
-                        <elementRef key="msIdentifier"/>
-                        <elementRef key="physDesc"/>
-                        <elementRef key="relatedItem"/>
-                        <elementRef key="repository"/>
-                        <elementRef key="resp"/>
-                        <elementRef key="respStmt"/>
-                        <elementRef key="teiHeader"/>
-                        <elementRef key="term"/>
-                        <elementRef key="textDesc"/>
-                        <elementRef key="typeDesc"/>
-                        <elementRef key="value"/>
+                    <include xmlns="http://www.w3.org/2001/XInclude" href="headerelements.xml"/>
+                    <specGrp xml:id="header2">
                         <p>Elements which are only intended to be used in the header are banned from the
                         <gi>text</gi>, using a Schematron rule.</p>
                         <elementSpec ident="text" mode="change">
@@ -493,7 +468,7 @@
                                         </valItem>
                                         <valItem ident="simple:letterspace">
                       <?exactMatch spaceletter?>
-                                            <desc>letter-spaced</desc>
+                                            <desc>larger-than-normal spacing between letters, usually for emphasis</desc>
                                         </valItem>
                                         <valItem ident="simple:literal">
                                             <desc>fixed-width typeface, spacing preserved</desc>
@@ -855,7 +830,7 @@ border-bottom: solid 1pt blue;
                         </elementSpec>
                         <elementSpec mode="change" ident="g">
                             <model predicate="not(text())" behaviour="glyph">
-                                <param name="content">@ref</param>
+                                <param name="uri">@ref</param>
                             </model>
                             <model behaviour="inline"/>
                         </elementSpec>
@@ -1276,7 +1251,7 @@ border-bottom: solid 1pt blue;
                                         <valItem ident="personRoleName"/>
                                         <valItem ident="personAddName"/>
                                         <valItem ident="nameLink"/>
-                                        <valItem ident="organisation"/>
+                                        <valItem ident="org"/>
                                         <valItem ident="country"/>
                                         <valItem ident="placeGeog"/>
                                         <valItem ident="place"/>
