@@ -92,10 +92,12 @@
                         </row>
                         <row>
                             <cell>
-                                <code>$ext-modules</code>
+                                <code>$config</code>
                             </cell>
-                            <cell>An optional sequence of XQuery modules containing custom behaviour functions.
-                            See below for more.</cell>
+                            <cell>An XML fragment defining any additional XQuery modules to be loaded
+                            for the different odds and output modes. Use this to extend the default set
+                            of behaviour functions with your own. For an example, check the supplied
+                            configuration in <code>odd/configuration.xml</code>.</cell>
                         </row>
                     </table>
                     <p>A simple main query to transform a TEI document into HTML may use the function
@@ -104,7 +106,9 @@
                         
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";
+import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "../content/odd2odd.xql";
 
 declare option output:method "html";
 declare option output:html-version "5.0";
@@ -114,9 +118,10 @@ let $doc := request:get-parameter("doc", ())
 let $odd := request:get-parameter("odd", "teisimple.odd")
 return
     if ($doc) then
-        let $xml := doc("/db/test/" || $doc)
+        let $odd := odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root)
+        let $xml := doc($config:app-root || "/" || $doc)
         return
-            pmu:process("/db/test/" || $odd, $xml, "/db/test/generated", "web", "generated", ())
+            pmu:process($odd, $xml, $config:output-root, "web", "../generated", $config:module-config)
     else
         &lt;p&gt;No document specified&lt;/p&gt;</code>
                     <p>After calling this the first time, the specified output collection:
