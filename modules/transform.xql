@@ -23,6 +23,6 @@ return
         let $odd := odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root)
         let $xml := doc($config:app-root || "/" || $doc)
         return
-            pmu:process($odd, $xml, $config:output-root, "web", "../generated", $config:module-config)
+            pmu:process($odd, $xml, $config:output-root, "web", "../" || $config:output, $config:module-config)
     else
         <p>No document specified</p>

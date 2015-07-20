@@ -52,7 +52,7 @@ return
         let $xml := doc($config:app-root || "/" || $doc)
         let $tex :=
             string-join(
-                pmu:process(odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root), $xml, $config:output-root, "latex", "../generated", $config:module-config)
+                pmu:process(odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root), $xml, $config:output-root, "latex", "../" || $config:output, $config:module-config)
             )
         let $file := 
             replace($doc, "^.*?([^/]+)\..*$", "$1-") ||

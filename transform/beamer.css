@@ -1,0 +1,70 @@
+/* Generated stylesheet. Do not edit. */
+/* Generated from /db/apps/tei-simple/odd/compiled/beamer.odd */
+
+/* Global styles */
+
+
+/* Model rendition styles */
+
+.add { color: green; text-decoration: underline; }
+.address { margin-top: 2em; margin-left: 2em; margin-right: 2em; margin-bottom: 2em; }
+.addrLine { white-space: nowrap; }
+.corr2:before { content: '['; }
+.corr2:after { content: ']'; }
+.del { text-decoration: line-through; }
+.foreign { font-style:italic; }
+.gap1 { color: grey; }
+.gap2:before { content: '[..'; }
+.gap2:after { content: '..]'; }
+.gap2 { color: grey; }
+.gap3:before { content: '[...]'; }
+.l { margin-left: 1em; }
+.note2 { margin-left: 10px;margin-right: 10px; font-size:smaller; }
+.note3:before { content:" ["; }
+.note3:after { content:"] "; }
+.note3 { font-size:small; }
+.p { text-align: justify; }
+.pb { display: block; margin-left: 4pt; color: grey; float: right; }
+.pb:before { content: '[Page '; }
+.pb:after { content: ']'; }
+.q1 { margin-left: 10px; margin-right: 10px; }
+.q2:before { content: '‘'; }
+.q2:after { content: '’'; }
+.q3 { margin-left: 10px; margin-right: 10px; }
+.quote1:before { content: '‘'; }
+.quote1:after { content: '’'; }
+.quote2 { margin-left: 10px; margin-right: 10px; }
+.sic2:before { content: '{'; }
+.sic2:after { content: '}'; }
+.speaker { font-style:italic; }
+.stage { font-style: italic; }
+.title2 { color: red; font-size: 2em; }
+.title4 { font-style: italic; }
+.title6 { font-style: italic; }
+.title8 { font-style: italic; }
+.title10 { font-style: italic; }
+.unclear:after { content: ' [?] '; }
+.supplied2:before { content:"<"; }
+.supplied2:after { content:">"; }
+.supplied3:before { content:"["; }
+.supplied3:after { content:"]"; }
+.supplied4:before { content:"("; }
+.supplied4:after { content:")"; }
+.supplied5:before { content:"{"; }
+.supplied5:after { content:"}"; }
+.castList { list-style: ordered; }
+.argument { margin-bottom: 0.5em; }
+.closer { margin-top: 1em; margin-left: 1em; margin-left: 1em; }
+.docTitle2 { font-size: larger; }
+.floatingText { margin: 6pt; border: solid black 1pt; }
+.signed1 { text-align: right; }
+.signed2 { font-style: italic; }
+.text { max-width: 80%; margin: auto; font-family: Verdana, Tahoma, Geneva, Arial, Helvetica, sans-serif; }
+.titlePage { text-align: center; }
+.trailer { color: green; }
+.figDesc:before { content: '[..'; }
+.figDesc:after { content: '..]'; }
+.figDesc { color: grey;font-style:italic; }
+.figure2 { display: block; border-top: solid 1pt blue; border-bottom: solid 1pt blue; }
+.row1 { font-weight: bold; }
+.table { font-size: smaller; background-color: #F0F0F0; }

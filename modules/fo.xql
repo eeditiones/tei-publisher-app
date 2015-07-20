@@ -67,7 +67,7 @@ return
     if ($doc) then
         let $xml := doc($config:app-root || "/" || $doc)
         let $fo :=
-                pmu:process(odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root), $xml, $config:output-root, "print", "../generated", $config:module-config)
+                pmu:process(odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root), $xml, $config:output-root, "print", "../" || $config:output, $config:module-config)
         return
             if ($source) then
                 $fo

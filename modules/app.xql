@@ -51,7 +51,6 @@ function app:doc-table($node as node(), $model as map(*), $odd as xs:string?) {
         return
             dbutil:find-by-mimetype(xs:anyURI($collection), "application/xml", function($resource) {
                 let $name := substring-after($resource, $config:app-root || "/")
-                let $log := console:log($odd)
                 return
                     <tr>
                         <td><a href="{$name}?odd={$odd}">{$name}</a></td>
@@ -193,7 +192,7 @@ declare function app:action($node as node(), $model as map(*), $source as xs:str
                         doc(odd:get-compiled($config:odd-root, $source, $config:compiled-odd-root)),
                         $config:output-root,
                         $module,
-                        "../generated",
+                        "../" || $config:output,
                         $config:module-config)?("module")
                     return
                         <li>{$file}</li>
