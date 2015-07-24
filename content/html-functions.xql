@@ -95,7 +95,7 @@ declare function pmf:anchor($config as map(*), $node as element(), $class as xs:
 };
 
 declare function pmf:link($config as map(*), $node as element(), $class as xs:string+, $content, $link as item()?) {
-    <a href="{$link}">{$config?apply-children($config, $node, $content)}</a>
+    <a href="{$link}" class="{$class}">{$config?apply-children($config, $node, $content)}</a>
 };
 
 declare function pmf:escapeChars($text as item()*) {
