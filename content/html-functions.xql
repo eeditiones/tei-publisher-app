@@ -43,7 +43,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string+, $content) {
     <p class="{$class}">
     {
-        $config?apply-children($config, $node, $content)
+        pmf:apply-children($config, $node, $content)
     }
     </p>
 };
@@ -57,37 +57,37 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
     return
         element { "h" || $level } {
             attribute class { $class },
-            $config?apply-children($config, $node, $content)
+            pmf:apply-children($config, $node, $content)
         }
 };
 
 declare function pmf:list($config as map(*), $node as element(), $class as xs:string+, $content) {
     if ($node/tei:label) then
         <dl class="{$class}">
-        { $config?apply-children($config, $node, $content) }
+        { pmf:apply-children($config, $node, $content) }
         </dl>
     else
         switch($node/@type)
             case "ordered" return
-                <ol class="{$class}">{$config?apply-children($config, $node, $content)}</ol>
+                <ol class="{$class}">{pmf:apply-children($config, $node, $content)}</ol>
             default return
-                <ul class="{$class}">{$config?apply-children($config, $node, $content)}</ul>
+                <ul class="{$class}">{pmf:apply-children($config, $node, $content)}</ul>
 };
 
 declare function pmf:listItem($config as map(*), $node as element(), $class as xs:string+, $content) {
     if ($node/preceding-sibling::tei:label) then (
-        <dt>{$config?apply-children($config, $node, $node/preceding-sibling::tei:label[1])}</dt>,
-        <dd>{$config?apply-children($config, $node, $content)}</dd>
+        <dt>{pmf:apply-children($config, $node, $node/preceding-sibling::tei:label[1])}</dt>,
+        <dd>{pmf:apply-children($config, $node, $content)}</dd>
     ) else
-        <li class="{$class}">{$config?apply-children($config, $node, $content)}</li>
+        <li class="{$class}">{pmf:apply-children($config, $node, $content)}</li>
 };
 
 declare function pmf:block($config as map(*), $node as element(), $class as xs:string+, $content) {
-    <div class="{$class}">{$config?apply-children($config, $node, $content)}</div>
+    <div class="{$class}">{pmf:apply-children($config, $node, $content)}</div>
 };
 
 declare function pmf:section($config as map(*), $node as element(), $class as xs:string+, $content) {
-    <section class="{$class}">{$config?apply-children($config, $node, $content)}</section>
+    <section class="{$class}">{pmf:apply-children($config, $node, $content)}</section>
 };
 
 declare function pmf:anchor($config as map(*), $node as element(), $class as xs:string+, $content, $id as item()*) {
@@ -95,7 +95,7 @@ declare function pmf:anchor($config as map(*), $node as element(), $class as xs:
 };
 
 declare function pmf:link($config as map(*), $node as element(), $class as xs:string+, $content, $link as item()?) {
-    <a href="{$link}" class="{$class}">{$config?apply-children($config, $node, $content)}</a>
+    <a href="{$link}" class="{$class}">{pmf:apply-children($config, $node, $content)}</a>
 };
 
 declare function pmf:escapeChars($text as item()*) {
@@ -123,7 +123,7 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
                 <img src="{$url}">
                 { if ($style) then attribute style { $style } else () }
                 </img>
-                <figcaption>{$config?apply-children($config, $node, $title)}</figcaption>
+                <figcaption>{pmf:apply-children($config, $node, $title)}</figcaption>
             </figure>
         else
             <img src="{$url}">
@@ -141,7 +141,7 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
                 </span>
             ) else
                 <span class="margin-note">
-                { $config?apply-children($config, $node, $content) }
+                { pmf:apply-children($config, $node, $content) }
                 </span>
         default return
             <span class="label label-default note {$class}" data-toggle="popover" 
@@ -158,7 +158,7 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
 declare function pmf:inline($config as map(*), $node as element(), $class as xs:string+, $content) {
     <span class="{$class}">
     {
-        $config?apply-children($config, $node, $content)
+        pmf:apply-children($config, $node, $content)
     }
     </span>
 };
@@ -172,7 +172,7 @@ declare function pmf:cit($config as map(*), $node as element(), $class as xs:str
 };
 
 declare function pmf:body($config as map(*), $node as element(), $class as xs:string+, $content) {
-    <body class="{$class}">{$config?apply-children($config, $node, $content)}</body>
+    <body class="{$class}">{pmf:apply-children($config, $node, $content)}</body>
 };
 
 declare function pmf:index($config as map(*), $node as element(), $class as xs:string+, $type, $content) {
@@ -186,13 +186,13 @@ declare function pmf:omit($config as map(*), $node as element(), $class as xs:st
 declare function pmf:break($config as map(*), $node as element(), $class as xs:string+, $content, $type as xs:string, $label as item()*) {
     switch($type)
         case "page" return
-            <span class="{$class}">{$config?apply-children($config, $node, $label)}</span>
+            <span class="{$class}">{pmf:apply-children($config, $node, $label)}</span>
         default return
             <br/>
 };
 
 declare function pmf:document($config as map(*), $node as element(), $class as xs:string+, $content) {
-    <html class="{$class}">{$config?apply-children($config, $node, $content)}</html>
+    <html class="{$class}">{pmf:apply-children($config, $node, $content)}</html>
 };
 
 declare function pmf:metadata($config as map(*), $node as element(), $class as xs:string+, $content) {
