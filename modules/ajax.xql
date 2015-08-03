@@ -38,8 +38,11 @@ import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.
 import module namespace app="http://www.tei-c.org/tei-simple/templates" at "app.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
+declare boundary-space strip;
+
 declare option output:method "json";
 declare option output:media-type "application/json";
+
 
 (: 
  : This module is called from Javascript when the user wants to navigate to the next/previous
@@ -81,7 +84,10 @@ return
                     if ($prev) then 
                         $doc || "?root=" || util:node-id($prev) || "&amp;odd=" || $odd
                     else (),
-                "content": $html
+                "content": serialize($html,
+                    <output:serialization-parameters xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                      <output:indent>no</output:indent>
+                    </output:serialization-parameters>)
             }
     else
         map { "error": "Not found" }
