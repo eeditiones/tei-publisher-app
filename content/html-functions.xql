@@ -197,7 +197,7 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
 
 declare function pmf:metadata($config as map(*), $node as element(), $class as xs:string+, $content) {
     <head class="{$class}">{
-        $config?apply-children($config, $node, $content),
+        pmf:apply-children($config, $node, $content),
         if (exists($config?styles)) then
             $config?styles?* !
                 <link rel="StyleSheet" type="text/css" href="{.}"/>
@@ -207,15 +207,15 @@ declare function pmf:metadata($config as map(*), $node as element(), $class as x
 };
 
 declare function pmf:title($config as map(*), $node as element(), $class as xs:string+, $content) {
-    <title>{$config?apply-children($config, $node, $content)}</title>
+    <title>{pmf:apply-children($config, $node, $content)}</title>
 };
 
 declare function pmf:table($config as map(*), $node as element(), $class as xs:string+, $content) {
-    <table class="{$class}">{$config?apply-children($config, $node, $content)}</table>
+    <table class="{$class}">{pmf:apply-children($config, $node, $content)}</table>
 };
 
 declare function pmf:row($config as map(*), $node as element(), $class as xs:string+, $content) {
-    <tr class="{$class}">{$config?apply-children($config, $node, $content)}</tr>
+    <tr class="{$class}">{pmf:apply-children($config, $node, $content)}</tr>
 };
 
 declare function pmf:cell($config as map(*), $node as element(), $class as xs:string+, $content) {
@@ -231,7 +231,7 @@ declare function pmf:cell($config as map(*), $node as element(), $class as xs:st
             ()
     }
     {
-        $config?apply-children($config, $node, $content)
+        pmf:apply-children($config, $node, $content)
     }
     </td>
 };
@@ -239,11 +239,19 @@ declare function pmf:cell($config as map(*), $node as element(), $class as xs:st
 declare function pmf:alternate($config as map(*), $node as element(), $class as xs:string+, $content, $default as node()*,
     $alternate as node()*) {
     <span class="alternate {$class}">
-        <span>{$config?apply-children($config, $node, $default)}</span>
-        <span class="altcontent">{$config?apply-children($config, $node, $alternate)}</span>
+        <span>{pmf:apply-children($config, $node, $default)}</span>
+        <span class="altcontent">{pmf:apply-children($config, $node, $alternate)}</span>
     </span>
 };
 
 declare function pmf:match($config as map(*), $node as element(), $content) {
-    <mark>{$config?apply-children($config, $node, $content)}</mark>
+    <mark>{pmf:apply-children($config, $node, $content)}</mark>
+};
+
+declare function pmf:apply-children($config as map(*), $node as element(), $content) {
+    if ($node/@xml:id) then
+        attribute id { $node/@xml:id }
+    else
+        (),
+    $config?apply-children($config, $node, $content)
 };

@@ -82,7 +82,7 @@ declare function pmf:paragraph($config as map(*), $node as element(), $class as 
     comment { "paragraph" || " (" || $class || ")"},
     <fo:block>
     {
-        pmf:check-styles($config, $class, ()),
+        pmf:check-styles($config, $node, $class, ()),
         $config?apply-children($config, $node, $content)
     }
     </fo:block>
@@ -96,7 +96,7 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
             comment { "heading level " || $level || " (" || $class || ")"},
             <fo:block>
             {
-                pmf:check-styles($config, $class, $defaultStyle),
+                pmf:check-styles($config, $node, $class, $defaultStyle),
                 if ($level = 1 and $content instance of node() and exists($content/ancestor::tei:body)) then
                     let $content := string-join($content)
                     return
@@ -151,7 +151,7 @@ declare function pmf:block($config as map(*), $node as element(), $class as xs:s
     comment { "block" || " (" || $class || ")"},
     <fo:block>
     {
-        pmf:check-styles($config, $class, ()),
+        pmf:check-styles($config, $node, $class, ()),
         $config?apply-children($config, $node, $content)
     }
     </fo:block>
@@ -163,7 +163,7 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
     return
         <fo:footnote>
             <fo:inline>
-            {pmf:check-styles($config, "note", ())}
+            {pmf:check-styles($config, $node, "note", ())}
             {$number} 
             </fo:inline>
             <fo:footnote-body start-indent="0mm" end-indent="0mm" text-indent="0mm" white-space-treatment="ignore-if-surrounding-linefeed">
@@ -171,12 +171,12 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
                     <fo:list-item>
                         <fo:list-item-label end-indent="label-end()" >
                             <fo:block>
-                            {pmf:check-styles($config, "note-body", ())}
+                            {pmf:check-styles($config, (), "note-body", ())}
                             { $number }
                             </fo:block>
                         </fo:list-item-label>
                         <fo:list-item-body start-indent="body-start()">
-                            {pmf:check-styles($config, "note-body", ())}
+                            {pmf:check-styles($config, (), "note-body", ())}
                             <fo:block>{$config?apply-children($config, $node, $content/node())}</fo:block>
                         </fo:list-item-body>
                     </fo:list-item>
@@ -189,7 +189,7 @@ declare function pmf:section($config as map(*), $node as element(), $class as xs
     comment { "section" || " (" || $class || ")"},
     <fo:block>
     { 
-        pmf:check-styles($config, $class, ()),
+        pmf:check-styles($config, $node, $class, ()),
         $config?apply-children($config, $node, $content)
     }
     </fo:block>
@@ -238,7 +238,7 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
             content-width="{($width, 'scale-to-fit')[1]}"
             content-height="{($height, 'scale-to-fit')[1]}">
         {
-             pmf:check-styles($config, $class, ())
+             pmf:check-styles($config, $node, $class, ())
         }
         { comment { $class } }
         </fo:external-graphic>
@@ -247,7 +247,7 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
 declare function pmf:inline($config as map(*), $node as element(), $class as xs:string+, $content as item()*) {
     <fo:inline>
     {
-        pmf:check-styles($config, $class, ()),
+        pmf:check-styles($config, $node, $class, ()),
         $config?apply-children($config, $node, $content),
         pmf:get-after($config, $class)
     }
@@ -266,7 +266,7 @@ declare function pmf:body($config as map(*), $node as element(), $class as xs:st
     comment { "body" || " (" || $class || ")"},
     <fo:block>
     {
-        pmf:check-styles($config, $class, ()),
+        pmf:check-styles($config, $node, $class, ()),
         $config?apply-children($config, $node, $content)
     }
     </fo:block>
@@ -293,12 +293,12 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
      <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
         <fo:layout-master-set>
             <fo:simple-page-master master-name="page-left" page-height="297mm" page-width="210mm">
-                { pmf:check-styles($config, "@page:left", ())}
+                { pmf:check-styles($config, (), "@page:left", ())}
                 <fo:region-body margin-bottom="10mm" margin-top="16mm"/>
                 <fo:region-before region-name="head-left" extent="10mm"/>
             </fo:simple-page-master>
             <fo:simple-page-master master-name="page-right" page-height="297mm" page-width="210mm">
-                { pmf:check-styles($config, "@page:right", ())}
+                { pmf:check-styles($config, (), "@page:right", ())}
                 <fo:region-body margin-bottom="10mm" margin-top="16mm"/>
                 <fo:region-before region-name="head-right" extent="10mm"/>
             </fo:simple-page-master>
@@ -314,7 +314,7 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         <fo:page-sequence master-reference="page-content">
             <fo:static-content flow-name="head-left">
                 <fo:block>
-                    { pmf:check-styles($config, "@page:head", ())}
+                    { pmf:check-styles($config, (), "@page:head", ())}
                     <fo:page-number/>
                     <fo:leader/>
                     <fo:retrieve-marker retrieve-class-name="heading"/>
@@ -322,7 +322,7 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
             </fo:static-content>
             <fo:static-content flow-name="head-right">
                 <fo:block>
-                    { pmf:check-styles($config, "@page:head", ())}
+                    { pmf:check-styles($config, (), "@page:head", ())}
                     <fo:retrieve-marker retrieve-class-name="heading"/>
                     <fo:leader/>
                     <fo:page-number/>
@@ -354,7 +354,7 @@ declare function pmf:title($config as map(*), $node as element(), $class as xs:s
 
 declare function pmf:table($config as map(*), $node as element(), $class as xs:string+, $content) {
     <fo:table>
-        { pmf:check-styles($config, $class, ()) }
+        { pmf:check-styles($config, $node, $class, ()) }
         <fo:table-body>
         { $config?apply($config, $node/tei:row) }
         </fo:table-body>
@@ -408,7 +408,11 @@ declare function pmf:get-after($config as map(*), $classes as xs:string+) {
         if (exists($after)) then <fo:inline>{$after?content}</fo:inline> else ()
 };
 
-declare function pmf:check-styles($config as map(*), $classes as xs:string+, $default as map(*)?) {
+declare function pmf:check-styles($config as map(*), $node as element()?, $classes as xs:string+, $default as map(*)?) {
+    if ($node/@xml:id) then
+        attribute id { $node/@xml:id }
+    else
+        (),
     for $class in $classes
     let $defaultStyles :=
         if (exists($default)) then

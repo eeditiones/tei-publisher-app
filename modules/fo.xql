@@ -25,7 +25,7 @@ declare variable $local:CONFIG :=
         <strict-configuration>true</strict-configuration>
         
         <!-- Strict FO validation -->
-        <strict-validation>true</strict-validation>
+        <strict-validation>false</strict-validation>
         
         <!-- Base URL for resolving relative URLs -->
         <base>./</base>

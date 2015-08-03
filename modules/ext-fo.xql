@@ -13,7 +13,7 @@ declare namespace fo="http://www.w3.org/1999/XSL/Format";
 declare function pmf:code($config as map(*), $node as element(), $class as xs:string, $content as node()*, $lang as item()?) {
     <fo:block>
     {
-        print:check-styles($config, $class, ()),
+        print:check-styles($config, $node, $class, ()),
         $config?apply-children($config, $node, $content)
     }
     </fo:block>
