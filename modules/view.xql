@@ -16,7 +16,7 @@ import module namespace app="http://www.tei-c.org/tei-simple/templates" at "app.
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 
 
-declare option exist:serialize "method=html5 media-type=text/html enforce-xhtml=yes";
+declare option exist:serialize "method=html5 media-type=text/html enforce-xhtml=yes indent=no";
 
 let $config := map {
     $templates:CONFIG_APP_ROOT := $config:app-root,

@@ -186,7 +186,7 @@ declare %private function pages:toc-div($node, $odd as xs:string) {
         {
             for $div in $divs
             let $html := for-each($div/tei:head//text(), function($node) {
-                if ($node/ancestor::tei:note) then
+                if ($node/(ancestor::tei:note|ancestor::tei:reg|ancestor::tei:sic)) then
                     ()
                 else
                     $node

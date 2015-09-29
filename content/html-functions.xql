@@ -158,13 +158,13 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
 declare function pmf:inline($config as map(*), $node as element(), $class as xs:string+, $content) {
     <span class="{$class}">
     {
-        pmf:apply-children($config, $node, $content)
+        $config?apply-children($config, $node, $content)
     }
     </span>
 };
 
 declare function pmf:text($config as map(*), $node as element(), $class as xs:string+, $content) {
-    string($content)
+    string-join($content)
 };
 
 declare function pmf:cit($config as map(*), $node as element(), $class as xs:string+, $content) {
