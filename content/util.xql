@@ -100,6 +100,11 @@ declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-roo
 
 declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string, 
     $mode as xs:string, $relPath as xs:string, $config as element(modules)?) {
+    pmu:process($oddPath, $xml, $output-root, $mode, $relPath, $config, ())
+};
+
+declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string, 
+    $mode as xs:string, $relPath as xs:string, $config as element(modules)?, $parameters as map(*)?) {
     let $name := replace($oddPath, "^.*?([^/]+)\.[^/]+$", "$1")
     let $odd := doc($oddPath)
     let $main :=
@@ -111,7 +116,7 @@ declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-roo
             $output-root || "/" || $name || "-" || $mode || "-main.xql"
     let $source := util:binary-to-string(util:binary-doc($main))
     return
-        util:eval($source, false(), (xs:QName("xml"), $xml))
+        util:eval($source, false(), (xs:QName("xml"), $xml, xs:QName("parameters"), $parameters))
 };
 
 
@@ -137,10 +142,12 @@ declare function pmu:process-odd($odd as document-node(), $output-root as xs:str
                 "import module namespace m='" || $generated?uri || 
                 "' at '" || $xquery || "';&#10;&#10;" ||
                 "declare variable $xml external;&#10;&#10;" ||
+                "declare variable $parameters external;&#10;&#10;" ||
                 "let $options := map {&#10;" ||
                 pmu:properties($ext-modules) ||
                 '    "styles": ["' || $relPath || "/" || $style || '"],&#10;' ||
-                '    "collection": "' || $output-root || '"&#10;' ||
+                '    "collection": "' || $output-root || '",&#10;' ||
+                '    "parameters": $parameters&#10;' ||
                 '}&#10;' ||
                 "return m:transform($options, $xml)"
             let $main := xmldb:store($output-root, $name || "-" || $mode || "-main.xql", $mainCode, "application/xquery")

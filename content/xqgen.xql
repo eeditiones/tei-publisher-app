@@ -71,6 +71,14 @@ declare function xqgen:generate($nodes as node()*, $indent as xs:int) {
                     ') {' || $xqgen:LF || xqgen:indent($indent + 1) ||
                     xqgen:generate($node/body/node(), $indent + 1) || $xqgen:LF ||
                     xqgen:indent($indent) || '};' || $xqgen:LFF
+                case element(let) return
+                    'let $' || $node/@var || ' := ' || $xqgen:LF ||
+                    xqgen:generate($node/expr/node(), $indent + 1) || $xqgen:LF ||
+                    xqgen:indent($indent) ||
+                    xqgen:generate($node/node()[not(self::expr)], $indent)
+                case element(return) return
+                    'return' || $xqgen:LF || xqgen:indent($indent) ||
+                    xqgen:generate($node/node(), $indent + 1)
                 case element(typeswitch) return
                     xqgen:indent($indent) ||
                     'typeswitch(' || $node/@op || ')' || $xqgen:LF ||
