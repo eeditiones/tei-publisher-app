@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <div data-template="templates:include" data-template-path="templates/menu.html"/>
+    <div class="app:query col-md-12">
+        <p class="main-content">Found: <span id="hit-count" data-template="app:hit-count"/>
+        </p><!-- pagination for small device -->
+        <div class="hidden-md hidden-lg hidden-sm">
+            <ul class="pagination" data-template="app:paginate" data-template-per-page="20" data-template-max-pages="5" data-template-min-hits="21"/>
+        </div><!-- pagination for larger device -->
+        <div class="hidden-xs">
+            <ul class="pagination" data-template="app:paginate" data-template-per-page="20" data-template-max-pages="9" data-template-min-hits="21"/>
+        </div><!-- query results -->
+        <table id="results" class="col-md-12 table">
+            <colgroup>
+                <col class="previous"/>
+                <col class="hi"/>
+                <col class="next"/>
+            </colgroup>
+            <tbody data-template="app:show-hits" data-template-per-page="20"/>
+        </table><!-- bottom pagination for small device -->
+        <div class="hidden-md hidden-lg hidden-sm">
+            <ul class="pagination" data-template="app:paginate" data-template-per-page="20" data-template-max-pages="5" data-template-min-hits="21"/>
+        </div><!-- bottom pagination for larger device -->
+        <div class="hidden-xs">
+            <ul class="pagination" data-template="app:paginate" data-template-per-page="20" data-template-max-pages="9" data-template-min-hits="21"/>
+        </div>
+    </div>
+</div>

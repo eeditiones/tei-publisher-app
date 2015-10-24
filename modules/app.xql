@@ -216,3 +216,16 @@ declare function app:load-source($node as node(), $model as map(*)) as node()* {
             $node/node()
         }
 };
+
+declare
+    %templates:wrap
+function app:form-odd-select($node as node(), $model as map(*)) {
+    dbutil:scan-resources(xs:anyURI($config:odd-root), function($resource) {
+        if (ends-with($resource, ".odd")) then
+            let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
+            return
+                <option value="{replace($resource, "^.*/([^/]+)$", "$1")}">{$name}</option>
+        else
+            ()
+    })
+};

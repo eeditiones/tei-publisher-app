@@ -245,7 +245,10 @@ declare function pmf:alternate($config as map(*), $node as element(), $class as 
 };
 
 declare function pmf:match($config as map(*), $node as element(), $content) {
-    <mark>{pmf:apply-children($config, $node, $content)}</mark>
+    <mark id="{$node/../@exist:id}">
+    {
+        pmf:apply-children($config, $node, $content)
+    }</mark>
 };
 
 declare function pmf:apply-children($config as map(*), $node as element(), $content) {

@@ -267,19 +267,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                                         html:inline($config, ., "title2", .)
                 case element(unclear) return
                     html:inline($config, ., "unclear", .)
-                case element(fileDesc) return
-                    html:title($config, ., "fileDesc", titleStmt)
-                case element(encodingDesc) return
-                    html:omit($config, ., "encodingDesc", .)
-                case element(profileDesc) return
-                    html:omit($config, ., "profileDesc", .)
                 case element(revisionDesc) return
                     html:omit($config, ., "revisionDesc", .)
+                case element(encodingDesc) return
+                    html:omit($config, ., "encodingDesc", .)
+                case element(fileDesc) return
+                    html:title($config, ., "fileDesc", titleStmt)
+                case element(profileDesc) return
+                    html:omit($config, ., "profileDesc", .)
                 case element(teiHeader) return
                     html:metadata($config, ., "teiHeader", .)
                 case element(g) return
                     if (not(text())) then
-                        html:glyph($config, ., "g1", @ref)
+                        html:glyph($config, ., "g1", .)
                     else
                         html:inline($config, ., "g2", .)
                 case element(addSpan) return

@@ -270,19 +270,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                                         fo:inline($config, ., "title2", .)
                 case element(unclear) return
                     fo:inline($config, ., "unclear", .)
-                case element(fileDesc) return
-                    fo:title($config, ., "fileDesc", titleStmt)
-                case element(encodingDesc) return
-                    fo:omit($config, ., "encodingDesc", .)
-                case element(profileDesc) return
-                    fo:omit($config, ., "profileDesc", .)
                 case element(revisionDesc) return
                     fo:omit($config, ., "revisionDesc", .)
+                case element(encodingDesc) return
+                    fo:omit($config, ., "encodingDesc", .)
+                case element(fileDesc) return
+                    fo:title($config, ., "fileDesc", titleStmt)
+                case element(profileDesc) return
+                    fo:omit($config, ., "profileDesc", .)
                 case element(teiHeader) return
                     fo:metadata($config, ., "teiHeader", .)
                 case element(g) return
                     if (not(text())) then
-                        fo:glyph($config, ., "g1", @ref)
+                        fo:glyph($config, ., "g1", .)
                     else
                         fo:inline($config, ., "g2", .)
                 case element(addSpan) return

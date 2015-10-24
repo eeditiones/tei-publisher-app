@@ -63,6 +63,7 @@ else if (ends-with($exist:resource, ".html")) then
 
 else if (ends-with($exist:resource, ".xql")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/modules/{$exist:resource}"/>
 		<error-handler>
 			<forward url="{$exist:controller}/error-page.html" method="get"/>
 			<forward url="{$exist:controller}/modules/view.xql"/>
@@ -75,6 +76,11 @@ else if (contains($exist:path, "/$shared/")) then
         <forward url="/shared-resources/{substring-after($exist:path, '/$shared/')}">
             <set-header name="Cache-Control" value="max-age=3600, must-revalidate"/>
         </forward>
+    </dispatch>
+
+else if (contains($exist:path, "/templates/")) then
+     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/templates/{substring-after($exist:path, '/templates/')}"/>
     </dispatch>
     
 else if (contains($exist:path, "/resources/")) then

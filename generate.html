@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <div data-template="templates:include" data-template-path="templates/menu.html"/>
+    <div class="container">
+        <div class="row main">
+            <div class="col-md-12">
+                <div class="page-header">
+                    <h1>TEI Simple Application Generator</h1>
+                </div>
+                <p>Use this form to generate an application based on an ODD file and TEI data.
+                This is experimental! Not all features may work as expected.</p>
+                <form id="form-generate" method="post" action="" class="form-horizontal">
+                    <div class="form-group form-group-lg">
+                        <label for="app-odd" class="col-sm-2 control-label">ODD:</label>
+                        <div class="col-sm-4">
+                            <select name="odd" id="app-odd" class="form-control" data-template="app:form-odd-select" aria-describedby="odd-select-help"/>
+                            <span id="odd-select-help" class="help-block">
+                                Select the ODD on which the app will be based.
+                            </span>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="form-group">
+                        <label for="app-name" class="col-sm-2 control-label">Name:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="app-name" name="uri" placeholder="http://exist-db.org/apps/my-simple-app"/>
+                            <p class="help-block">A URL to uniquely identify the app. Should not be used by any other app in the db.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="app-abbrev" class="col-sm-2 control-label">Abbreviation:</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="app-abbrev" name="abbrev" placeholder="Short name"/>
+                            <p class="help-block">A short name to be used in URLs and file names (only characters and "-" or "_", no spaces)</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="app-target" class="col-sm-2 control-label">Data Collection:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="app-target" name="data-collection" placeholder="/db/apps/myapp/data"/>
+                            <p class="help-block">An existing collection which holds the TEI documents. If left empty,
+                            a collection "data" will be created below the app collection.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="app-title" class="col-sm-2 control-label">Title:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="app-title" name="title" placeholder="Title of the app"/>
+                            <p class="help-block">The title of the app which will be shown e.g. in the dashboard.</p>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary">
+                                <i id="icon-process" class="fa fa-cog"/> Create</button>
+                            <span id="msg-progress">In progress ...</span>
+                        </div>
+                    </div>
+                </form>
+                <div id="msg" class="alert alert-success" style="display: none">
+                    <p>A new application has been generated in <span id="msg-collection"/>.
+                    You can <a id="msg-link" href="#" target="_new">view the app here</a>.</p>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <a href="http://tei-c.org" class="poweredby">
+                <img src="resources/images/powered-by-TEI.png" alt="Powered by TEI"/>
+            </a>
+            <a href="http://exist-db.org" class="poweredby">
+                <img src="$shared/resources/images/powered-by.svg" alt="Powered by eXist-db" height="49"/>
+            </a>
+        </footer>
+    </div>
+    <script type="text/javascript">
+        $("#form-generate").submit(function(ev) {
+            ev.preventDefault();
+            $("#icon-process").toggleClass("fa-spin");
+            $("#msg-progress").show();
+            var data = $(this).serialize();
+            $.ajax({
+                url: "modules/generator.xql",
+                dataType: "json",
+                data: data,
+                success: function(data) {
+                    $("#msg-collection").text(data.target);
+                    $("#msg-link").attr("href", "../" + data.abbrev);
+                    $("#msg").show();
+                    $("#icon-process").toggleClass("fa-spin");
+                    $("#msg-progress").hide();
+                }
+            });
+        });
+    </script>
+</div>

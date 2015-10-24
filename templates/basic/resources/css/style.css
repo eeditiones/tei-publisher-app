@@ -5,6 +5,9 @@ footer .poweredby {
 footer .poweredby img {
   width: 120px;
 }
+body {
+  padding-top: 70px;
+}
 .browse {
   font-size: 1em !important;
 }
@@ -234,7 +237,6 @@ footer .poweredby img {
 }
 .actions {
   margin-bottom: 10px;
-  margin-top: 71px;
 }
 .btn-group .hidden-xs {
   margin-left: .5em;
@@ -258,17 +260,34 @@ footer .poweredby img {
     width: 160px;
   }
 }
-#msg-progress {
-  display: none;
-  font-weight: bold;
-  margin-left: 2em;
-  animation: blinker 1.2s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
+.result-count {
+  font-size: .666em;
+  margin-left: 1em;
 }
-@keyframes blinker {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+#results {
+  font-size: 1em;
+  table-layout: fixed;
+}
+#results .following,
+#results .previous,
+#results .hi {
+  /*white-space: pre-wrap;*/
+  /* css-3 */
+  /*white-space: -moz-pre-wrap;*/
+  /* Mozilla, since 1999 */
+  /*white-space: -pre-wrap;*/
+  /* Opera 4-6 */
+  /*white-space: -o-pre-wrap;*/
+  /* Opera 7 */
+  word-wrap: break-word;
+}
+#results .previous {
+  text-align: right;
+}
+#results .hi {
+  width: 10em;
+  text-align: center;
+}
+#results .reference .number {
+  margin-right: 1em;
 }
