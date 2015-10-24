@@ -3,7 +3,7 @@
     <property file="local.build.properties"/>
     <property file="build.properties"/>
     <property name="project.app" value="tei-simple"/>
-    <property name="project.version" value="0.5.0"/>
+    <property name="project.version" value="0.6.0"/>
     <property name="server.url" value="http://demo.exist-db.org/exist/apps/public-repo/public/"/>
     <property name="build" value="build"/>
     <condition property="git.commit" value="${git.commit}" else="">

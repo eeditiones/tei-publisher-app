@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package xmlns="http://expath.org/ns/pkg" name="http://www.tei-c.org/tei-simple" abbrev="tei-simple" version="0.5" spec="1.0">
+<package xmlns="http://expath.org/ns/pkg" name="http://www.tei-c.org/tei-simple" abbrev="tei-simple" version="0.6" spec="1.0">
     <title>TEI Simple Processing Model</title>
     <dependency processor="http://exist-db.org" semver-min="2.3.0"/>
     <dependency package="http://exist-db.org/apps/shared"/>
