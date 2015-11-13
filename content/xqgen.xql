@@ -54,6 +54,8 @@ declare function xqgen:generate($nodes as node()*, $indent as xs:int) {
                     xqgen:generate($node/*, $indent)
                 case element(default-element-namespace) return
                     'declare default element namespace "' || $node/string() || '";' || $xqgen:LFF
+                case element(declare-namespace) return
+                    'declare namespace ' || $node/@prefix || "='" || $node/@uri || "';" || $xqgen:LFF
                 case element(import-module) return
                     string-join((
                         'import module namespace ' || $node/@prefix || '="' || $node/@uri || '"' ||
