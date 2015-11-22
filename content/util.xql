@@ -138,19 +138,8 @@ declare function pmu:process-odd($odd as document-node(), $output-root as xs:str
             let $generated := pm:parse($odd/*, pmu:fix-module-paths($module?modules), $module?output?*)
             let $xquery := xmldb:store($output-root, $name || "-" || $mode || ".xql", $generated?code, "application/xquery")
             let $style := pmu:extract-styles($odd, $name, $output-root)
-            let $mainCode :=
-                "import module namespace m='" || $generated?uri || 
-                "' at '" || $xquery || "';&#10;&#10;" ||
-                "declare variable $xml external;&#10;&#10;" ||
-                "declare variable $parameters external;&#10;&#10;" ||
-                "let $options := map {&#10;" ||
-                pmu:properties($ext-modules) ||
-                '    "styles": ["' || $relPath || "/" || $style || '"],&#10;' ||
-                '    "collection": "' || $output-root || '",&#10;' ||
-                '    "parameters": $parameters&#10;' ||
-                '}&#10;' ||
-                "return m:transform($options, $xml)"
-            let $main := xmldb:store($output-root, $name || "-" || $mode || "-main.xql", $mainCode, "application/xquery")
+            let $main := pmu:generate-main($name, $generated?uri, $xquery, $ext-modules, $output-root, $mode, $relPath, $style)
+            let $module := pmu:generate-module($name, $generated?uri, $xquery, $ext-modules, $output-root, $mode, $relPath, $style)
             return
                 map {
                     "id": $name,
@@ -159,6 +148,46 @@ declare function pmu:process-odd($odd as document-node(), $output-root as xs:str
                     "style": $style,
                     "main": $main
                 }
+};
+
+declare function pmu:generate-module($name as xs:string, $uri as xs:string, $xqueryFile as xs:string, $ext-modules as map(*)*, $output-root as xs:string,
+    $mode as xs:string, $relPath as xs:string?, $style as xs:string?) {
+    let $mainCode :=
+        "module namespace pml='" || $uri || "/module';&#10;&#10;" ||
+        "import module namespace m='" || $uri || 
+        "' at '" || $xqueryFile || "';&#10;&#10;" ||
+        "(: Generated library module to be directly imported into code which&#10;" ||
+        " : needs to transform TEI nodes using the ODD this module is based on.&#10;" ||
+        " :)&#10;" ||
+        "declare function pml:transform($xml as node()*, $parameters as map(*)?) {&#10;&#10;" ||
+        "   let $options := map {&#10;" ||
+        pmu:properties($ext-modules) ||
+        '       "styles": ["' || $relPath || "/" || $style || '"],&#10;' ||
+        '       "collection": "' || $output-root || '",&#10;' ||
+        '       "parameters": $parameters&#10;' ||
+        '   }&#10;' ||
+        "   return m:transform($options, $xml)&#10;" ||
+        "};"
+    return
+        xmldb:store($output-root, $name || "-" || $mode || "-module.xql", $mainCode, "application/xquery")
+};
+
+declare function pmu:generate-main($name as xs:string, $uri as xs:string, $xqueryFile as xs:string, $ext-modules as map(*)*, $output-root as xs:string,
+    $mode as xs:string, $relPath as xs:string?, $style as xs:string?) {
+    let $mainCode :=
+        "import module namespace m='" || $uri || 
+        "' at '" || $xqueryFile || "';&#10;&#10;" ||
+        "declare variable $xml external;&#10;&#10;" ||
+        "declare variable $parameters external;&#10;&#10;" ||
+        "let $options := map {&#10;" ||
+        pmu:properties($ext-modules) ||
+        '    "styles": ["' || $relPath || "/" || $style || '"],&#10;' ||
+        '    "collection": "' || $output-root || '",&#10;' ||
+        '    "parameters": $parameters&#10;' ||
+        '}&#10;' ||
+        "return m:transform($options, $xml)"
+    return
+        xmldb:store($output-root, $name || "-" || $mode || "-main.xql", $mainCode, "application/xquery")
 };
 
 declare function pmu:extract-styles($odd as document-node(), $name as xs:string, $output-root as xs:string) {
