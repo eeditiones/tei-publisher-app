@@ -2,7 +2,8 @@
 <?xml-model href="tei-pm.nvdl"
   type="application/xml"
   schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xml:lang="en">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+    xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -11,37 +12,41 @@
             <publicationStmt>
                 <publisher>TEI Consortium</publisher>
                 <availability>
-                    <licence target="http://creativecommons.org/licenses/by-sa/3.0/"> Distributed under a
-                  Creative Commons Attribution-ShareAlike 3.0 Unported License </licence>
+                    <licence target="http://creativecommons.org/licenses/by-sa/3.0/"> Distributed
+                        under a Creative Commons Attribution-ShareAlike 3.0 Unported License </licence>
                     <licence target="http://www.opensource.org/licenses/BSD-2-Clause">
                         <p>Copyright 2014 TEI Consortium.</p>
                         <p>All rights reserved. </p>
                         <p>Redistribution and use in source and binary forms, with or without
-                     modification, are permitted provided that the following conditions are met:</p>
+                            modification, are permitted provided that the following conditions are
+                            met:</p>
                         <list>
-                            <item>Redistributions of source code must retain the above copyright notice,
-                        this list of conditions and the following disclaimer.</item>
-                            <item>Redistributions in binary form must reproduce the above copyright notice,
-                        this list of conditions and the following disclaimer in the documentation
-                        and/or other materials provided with the distribution.</item>
+                            <item>Redistributions of source code must retain the above copyright
+                                notice, this list of conditions and the following disclaimer.</item>
+                            <item>Redistributions in binary form must reproduce the above copyright
+                                notice, this list of conditions and the following disclaimer in the
+                                documentation and/or other materials provided with the
+                                distribution.</item>
                         </list>
-                        <p>This software is provided by the copyright holders and contributors "as is" and
-                     any express or implied warranties, including, but not limited to, the implied
-                     warranties of merchantability and fitness for a particular purpose are
-                     disclaimed. In no event shall the copyright holder or contributors be liable
-                     for any direct, indirect, incidental, special, exemplary, or consequential
-                     damages (including, but not limited to, procurement of substitute goods or
-                     services; loss of use, data, or profits; or business interruption) however
-                     caused and on any theory of liability, whether in contract, strict liability,
-                     or tort (including negligence or otherwise) arising in any way out of the use
-                     of this software, even if advised of the possibility of such damage.</p>
+                        <p>This software is provided by the copyright holders and contributors "as
+                            is" and any express or implied warranties, including, but not limited
+                            to, the implied warranties of merchantability and fitness for a
+                            particular purpose are disclaimed. In no event shall the copyright
+                            holder or contributors be liable for any direct, indirect, incidental,
+                            special, exemplary, or consequential damages (including, but not limited
+                            to, procurement of substitute goods or services; loss of use, data, or
+                            profits; or business interruption) however caused and on any theory of
+                            liability, whether in contract, strict liability, or tort (including
+                            negligence or otherwise) arising in any way out of the use of this
+                            software, even if advised of the possibility of such damage.</p>
                     </licence>
-                    <p>TEI material can be licensed differently depending on the use you intend to make
-                  of it. Hence it is made available under both the CC+BY and BSD-2 licences. The
-                  CC+BY licence is generally appropriate for usages which treat TEI content as data
-                  or documentation. The BSD-2 licence is generally appropriate for usage of TEI
-                  content in a software environment. For further information or clarification,
-                  please contact the <ref target="mailto:info@tei-c.org">TEI Consortium</ref>. </p>
+                    <p>TEI material can be licensed differently depending on the use you intend to
+                        make of it. Hence it is made available under both the CC+BY and BSD-2
+                        licences. The CC+BY licence is generally appropriate for usages which treat
+                        TEI content as data or documentation. The BSD-2 licence is generally
+                        appropriate for usage of TEI content in a software environment. For further
+                        information or clarification, please contact the <ref
+                            target="mailto:info@tei-c.org">TEI Consortium</ref>. </p>
                 </availability>
             </publicationStmt>
             <sourceDesc>
@@ -66,12 +71,8 @@
                         <outputRendition>font-weight: bold;</outputRendition>
                     </model>
                     <model predicate="not(parent::div/ancestor::div)" behaviour="heading">
-                        <outputRendition>
-                            color: #983722; 
-                            border-bottom: 1px solid #983722;
-                            margin-bottom: .5em;
-                            padding-bottom: .25em;
-                        </outputRendition>
+                        <outputRendition> color: #983722; border-bottom: 1px solid #983722;
+                            margin-bottom: .5em; padding-bottom: .25em; </outputRendition>
                     </model>
                     <model predicate="parent::div" behaviour="heading"/>
                     <model behaviour="block"/>
@@ -98,46 +99,51 @@
                     <model behaviour="block">
                         <outputRendition>color: blue;</outputRendition>
                     </model>
-                    <elementSpec mode="change" ident="choice">
-                        <constraintSpec ident="choiceSize" scheme="isoschematron" mode="add">
-                            <constraint>
-                                <assert xmlns="http://purl.oclc.org/dsdl/schematron" test="count(*) &gt; 1" role="ERROR">
-                    Element "<sch:name xmlns:sch="http://purl.oclc.org/dsdl/schematron"/>" must have at least two child
-		    elements.</assert>
-                            </constraint>
-                        </constraintSpec>
-                        <constraintSpec ident="choiceContent" scheme="isoschematron" mode="add">
-                            <constraint>
-                                <assert xmlns="http://purl.oclc.org/dsdl/schematron" test="(tei:corr or tei:sic or tei:expan or     tei:abbr or tei:reg or tei:orig) and ((tei:corr and tei:sic) or (tei:expan     and tei:abbr) or (tei:reg and tei:orig))" role="ERROR">
-                    Element "<sch:name xmlns:sch="http://purl.oclc.org/dsdl/schematron"/>" must have corresponding corr/sic, expand/abbr, reg/orig </assert>
-                            </constraint>
-                        </constraintSpec>
-                        <model output="plain" predicate="sic and corr" behaviour="inline">
-                            <param name="content">corr[1]</param>
-                        </model>
-                        <model output="plain" predicate="abbr and expan" behaviour="inline">
-                            <param name="content">expan[1]</param>
-                        </model>
-                        <model output="plain" predicate="orig and reg" behaviour="inline">
-                            <param name="content">reg[1]</param>
-                        </model>
-                        <model predicate="sic and corr" behaviour="alternate">
-                            <param name="default">corr[1]</param>
-                            <param name="alternate">sic[1]</param>
-                        </model>
-                        <model predicate="abbr and expan" behaviour="alternate">
-                            <param name="default">expan[1]</param>
-                            <param name="alternate">abbr[1]</param>
-                        </model>
-                        <model predicate="orig and reg" behaviour="alternate">
-                            <param name="default">reg[1]</param>
-                            <param name="alternate">orig[1]</param>
-                        </model>
-                        <model predicate="unclear" behaviour="alternate">
-                            <param name="default">if (unclear[@cert="high"]) then unclear[@cert="high"] else unclear[1]</param>
-                            <param name="alternate">unclear[@cert!="high"]</param>
-                        </model>
-                    </elementSpec>
+                </elementSpec>
+                <elementSpec mode="change" ident="choice">
+                    <constraintSpec ident="choiceSize" scheme="isoschematron" mode="add">
+                        <constraint>
+                            <assert xmlns="http://purl.oclc.org/dsdl/schematron"
+                                test="count(*) &gt; 1" role="ERROR"> Element "<sch:name
+                                    xmlns:sch="http://purl.oclc.org/dsdl/schematron"/>" must have at
+                                least two child elements.</assert>
+                        </constraint>
+                    </constraintSpec>
+                    <constraintSpec ident="choiceContent" scheme="isoschematron" mode="add">
+                        <constraint>
+                            <assert xmlns="http://purl.oclc.org/dsdl/schematron"
+                                test="(tei:corr or tei:sic or tei:expan or     tei:abbr or tei:reg or tei:orig) and ((tei:corr and tei:sic) or (tei:expan     and tei:abbr) or (tei:reg and tei:orig))"
+                                role="ERROR"> Element "<sch:name
+                                    xmlns:sch="http://purl.oclc.org/dsdl/schematron"/>" must have
+                                corresponding corr/sic, expand/abbr, reg/orig </assert>
+                        </constraint>
+                    </constraintSpec>
+                    <model output="plain" predicate="sic and corr" behaviour="inline">
+                        <param name="content">corr[1]</param>
+                    </model>
+                    <model output="plain" predicate="abbr and expan" behaviour="inline">
+                        <param name="content">expan[1]</param>
+                    </model>
+                    <model output="plain" predicate="orig and reg" behaviour="inline">
+                        <param name="content">reg[1]</param>
+                    </model>
+                    <model predicate="sic and corr" behaviour="alternate">
+                        <param name="default">corr[1]</param>
+                        <param name="alternate">sic[1]</param>
+                    </model>
+                    <model predicate="abbr and expan" behaviour="alternate">
+                        <param name="default">expan[1]</param>
+                        <param name="alternate">abbr[1]</param>
+                    </model>
+                    <model predicate="orig and reg" behaviour="alternate">
+                        <param name="default">reg[1]</param>
+                        <param name="alternate">orig[1]</param>
+                    </model>
+                    <model predicate="unclear" behaviour="alternate">
+                        <param name="default">if (unclear[@cert="high"]) then unclear[@cert="high"]
+                            else unclear[1]</param>
+                        <param name="alternate">unclear[@cert!="high"]</param>
+                    </model>
                 </elementSpec>
                 <moduleRef key="tei"/>
                 <moduleRef key="header"/>
