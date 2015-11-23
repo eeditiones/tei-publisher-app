@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+    <teiHeader type="text">
+        <fileDesc>
+            <titleStmt>
+                <title type="main">If</title>
+                <author>Rudyard Kipling</author>
+            </titleStmt>
+            <publicationStmt>
+                <p>Stylesheets test file</p>
+            </publicationStmt>
+            <sourceDesc>
+                <p>Transcribed from the <ref
+                        target="http://www.poetryfoundation.org/poem/175772#poem">Poetry Foundation
+                        web page</ref> by Magdalena Turska.</p>
+            </sourceDesc>
+        </fileDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <head>If—</head>
+            <lg>
+                <l> If you can keep your head when all about you</l>
+                <l> Are losing theirs and blaming it on you, </l>
+                <l> If you can trust yourself when all men doubt you,</l>
+                <l> But make allowance for their doubting too; </l>
+                <l> If you can wait and not be tired by waiting,</l>
+                <l> Or being lied about, don’t deal in lies,</l>
+                <l> Or being hated, don’t give way to hating,</l>
+                <l> And yet don’t look too good, nor talk too wise:</l>
+            </lg>
+            <lg>
+                <l> If you can dream—and not make dreams your master; </l>
+                <l> If you can think—and not make thoughts your aim; </l>
+                <l> If you can meet with Triumph and Disaster</l>
+                <l> And treat those two impostors just the same; </l>
+                <l> If you can bear to hear the truth you’ve spoken</l>
+                <l> Twisted by knaves to make a trap for fools,</l>
+                <l> Or watch the things you gave your life to, broken,</l>
+                <l> And stoop and build ’em up with worn-out tools:</l>
+            </lg>
+            <lg>
+                <l> If you can make one heap of all your winnings</l>
+                <l> And risk it on one turn of pitch-and-toss,</l>
+                <l> And lose, and start again at your beginnings</l>
+                <l> And never breathe a word about your loss;</l>
+                <l> If you can force your heart and nerve and sinew</l>
+                <l> To serve your turn long after they are gone, </l>
+                <l> And so hold on when there is nothing in you</l>
+                <l> Except the Will which says to them: ‘Hold on!’</l>
+            </lg>
+            <lg>
+                <l> If you can talk with crowds and keep your virtue, </l>
+                <l> Or walk with Kings—nor lose the common touch,</l>
+                <l> If neither foes nor loving friends can hurt you,</l>
+                <l> If all men count with you, but none too much;</l>
+                <l> If you can fill the unforgiving minute</l>
+                <l> With sixty seconds’ worth of distance run, </l>
+                <l> Yours is the Earth and everything that’s in it, </l>
+                <l> And—which is more—you’ll be a Man, my son!</l>
+            </lg>
+        </body>
+    </text>
+</TEI>
