@@ -1,0 +1,668 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Letter #6 from Robert Graves to William Graves (at Oundle School) <date>November
+                  15, 1957</date>
+                </title>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Digital Humanities at Oxford Summer School</publisher>
+                <pubPlace>Oxford</pubPlace>
+                <date when="2015-07">July 2015</date>
+                <availability>
+                    <licence target="http://creativecommons.org/licenses/by-nc-sa/4.0/" notBefore="2015-07-11">
+                        <p>The original copyrighted material belongs to The Robert Graves Copyright Trust
+                     and is reproduced here with permission.</p>
+                        <p>This work is licensed under a Creative Commons
+                     Attribution-NonCommercial-ShareAlike 4.0 International License.</p>
+                        <p> You are free to: <list>
+                                <item> Share — copy and redistribute the material in any medium or
+                           format</item>
+                                <item> Adapt — remix, transform, and build upon the material</item>
+                            </list>
+                        </p>
+                        <p> Under the following terms: <list>
+                                <item> Attribution — You must give appropriate credit, provide a link to the
+                           license, and indicate if changes were made. You may do so in any
+                           reasonable manner, but not in any way that suggests the licensor endorses
+                           you or your use.</item>
+                                <item> NonCommercial — You may not use the material for commercial
+                           purposes.</item>
+                                <item> ShareAlike — If you remix, transform, or build upon the material, you
+                           must distribute your contributions under the same license as the
+                           original.</item>
+                                <item> No additional restrictions — You may not apply legal terms or
+                           technological measures that legally restrict others from doing anything
+                           the license permits.</item>
+                            </list>
+                        </p>
+                        <p>The licence was added on July 11, 2015.</p>
+                    </licence>
+                </availability>
+            </publicationStmt>
+            <sourceDesc>
+                <p>Letters from Robert and Beryl Graves to William Graves 1957-1967. 41 ALS and TLS,
+               56pp. , St John’s College (Oxford) Library, Special Collections (Holmes 4) , Box 4
+               Gp17 </p>
+                <p>ST JOHN'S COLLEGE LIBRARY COLLECTION OWNED LETTERS FROM ROBERT (1895-1985) &amp;
+               BERYL (1915-2003) GRAVES TO WILLIAM GRAVES (1940- ) </p>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <particDesc>
+                <listPerson>
+                    <person xml:id="GravesWilliam">
+                        <persName>
+                            <forename>William</forename>
+                            <surname>Graves</surname>
+                        </persName>
+                        <birth when="1940">1940</birth>
+                        <sex value="M">male</sex>
+                        <note>Robert Graves' eldest son by Beryl</note>
+                    </person>
+                    <person xml:id="GravesRobert">
+                        <persName>Robert Graves</persName>
+        <!-- to be completed by the students -->
+                        <note>Robert Graves (1895-1985) was a poet, novelist, mythographer, critic and historian.
+            Probably best known as the author of <title>I,Claudius</title>, and <title>Claudius the God</title> and as a survivor and
+            poet of the Great War, he is one of the great figures of 20th Century English Poetry and
+            Literature.</note>
+                    </person>
+                    <person xml:id="GravesBeryl">
+                        <persName>
+                            <forename>Beryl</forename>
+                            <surname>Pritchard</surname>
+                            <surname type="married">Hodge</surname>
+                            <surname type="married">Graves</surname>
+                        </persName>
+                        <idno type="VIAF">22304002</idno>
+                        <idno type="LC-Name-Authority-File">nr96004407</idno>
+                        <birth when="1915-02-22">
+                            <placeName ref="#London">London</placeName>, 22 February
+            1915</birth>
+                        <death when="2003-10-27">
+                            <placeName ref="#Palma">Palma</placeName>, 27 October
+            2003</death>
+                        <sex value="F">female</sex>
+                        <note>Robert Graves's second wife. PPE at St Anne's College, Oxford. Married Alan Hodge 1938.
+            Changed her name by deed poll from Hodge to Graves in June 1943. Married Robert Graves in
+            May 1950 after his divorce from Nancy Nicholson earlier that year.</note>
+                    </person>
+                    <person xml:id="GoldschmidtKarl">
+                        <persName>
+                            <forename>Karl</forename>
+                            <surname>Goldschmidt</surname>
+                            <addName>
+                                <forename type="first">Kenneth</forename>
+                                <forename type="middle">Charles</forename>
+                                <surname>Gay</surname>
+                            </addName>
+                        </persName>
+                        <birth when="1912-02-12">
+                            <placeName>Elbefeld</placeName>12 February 1912</birth>
+                        <death when="1995-03-26">
+                            <placeName ref="#Palma">Palma</placeName>26 March
+            1995</death>
+                        <sex value="M">male</sex>
+                        <occupation>Secretary, friend and collaborator of <name type="person" ref="#RG">Robert Graves</name>
+                        </occupation>
+                        <occupation from="1965" to="1978">Librarian at University Libraries of the State
+            University of New York at Buffalo</occupation>
+                        <occupation from="1968" to="1978">Curator of the Poetry Collection at University
+            Libraries of the State University of New York at Buffalo</occupation>
+                        <note>He was born Karl Goldschmidt in Germany, in 1912. He trained as a graphic artist
+            but left his native country in 1933 on Hitler's rise to power. 
+            1934 found him in Dey, Majorca, where the poets Robert Graves and Laura Riding
+            befriended the intelligent young man. He learnt English (reading Defoe) and was
+            soon helping with their Seizin Press and their typing, and wrote amusingly in Focus, their magazine.
+            At the outbreak of the Spanish Civil War in 1936, all three left Majorca on a Royal Navy destroyer.
+            Graves persuaded the ship's captain not to transfer Goldschmidt to a German ship, and back to Germany,
+            conscious of the fate that would, as a Jew, await him.
+            In England Goldschmidt obtained leave to stay and work and, when the Second World War broke out,
+            he gallantly served first in the Pioneer Corps, and later in the Royal Navy.
+            In the Pioneers - as a protection in case of capture - he had been made to change his name.
+            He became known (though he was always called Karl by his friends) as Kenneth Gay.
+            When the war was over, he was granted full British citizenship.</note>
+                    </person>
+                    <person xml:id="ReidAlastair">
+                        <persName>
+                            <forename>Alastair</forename>
+                            <surname>Reid</surname>
+                        </persName>
+                        <idno type="VIAF">15102127</idno>
+                        <idno type="LC-Name-Authority-File">n79085083</idno>
+                        <birth when="1926-03-22">
+                            <placeName>Whithorn</placeName>, 22 march 1926</birth>
+                        <death when="2014-09-21">
+                            <placeName>Manhattan</placeName>, 21 September
+            2014</death>
+                        <sex value="M">male</sex>
+                        <occupation>Writer</occupation>
+                        <note>Scottish poet, writer, translator. On staff of "The New Yorker". Graves's friend and
+            confidant. Quarelled in 1961.</note>
+                    </person>
+                    <person xml:id="JepsonSelwin">
+                        <persName>
+                            <forename>Selwyn</forename>
+                            <surname>Jepson</surname>
+                        </persName>
+                        <idno type="VIAF">118242376</idno>
+                        <idno type="LC-Name-Authority-File">n89633547</idno>
+                        <birth when="1899">1899</birth>
+                        <death when="1989">1989</death>
+                        <sex value="M">male</sex>
+                        <occupation>Writer</occupation>
+                    </person>
+                    <person xml:id="GravesTomas">
+                        <persName>
+                            <forename>Tomás</forename>
+                            <surname>Graves</surname>
+                        </persName>
+                        <idno type="VIAF">60874780</idno>
+                        <idno type="LC-Name-Authority-File">n99034882</idno>
+                        <birth when="1953-01-27">
+                            <placeName>Palma</placeName>, 27 January 1953</birth>
+                        <sex value="M">male</sex>
+                        <occupation>Writer and musician</occupation>
+                        <note>Robert Graves' third son by Beryl</note>
+                    </person>
+                    <person xml:id="NicholsonNancy">
+                        <persName>Nancy Nicholson</persName>
+                        <note>Robert Graves' first wife</note>
+                    </person>
+                    <person xml:id="NicholsonJenny">
+                        <persName>Jenny Nicholson</persName>
+                        <note>Robert Graves' eldest daughter by Nancy</note>
+                    </person>
+                    <person xml:id="NicholsonCatherine">
+                        <persName>Catherine Nicholson</persName>
+                        <note>Robert Graves' second daughter by Nancy</note>
+                    </person>
+                    <person xml:id="GravesLucia">
+                        <persName>Lucia Graves</persName>
+                        <note>Robert Graves' first daughter by Beryl</note>
+                    </person>
+                    <person xml:id="GravesJuan">
+                        <persName>Juan Graves</persName>
+                        <note>Robert Graves' second son by Beryl</note>
+                    </person>
+                    <person xml:id="BevanAneurin">
+                        <persName>Aneurin Bevan</persName>
+                        <note>Labour politician</note>
+                    </person>
+                    <person xml:id="Castor">
+                        <persName>Castor</persName>
+                    </person>
+                    <person xml:id="Ann">
+                        <persName>Ann</persName>
+                    </person>
+                    <person xml:id="Emilia">
+                        <persName>Emilia</persName>
+                    </person>
+                    <person xml:id="Jaime">
+                        <persName>Jaime</persName>
+                    </person>
+                    <person xml:id="PomeroyMarnie">
+                        <persName>Marnie Pomeroy</persName>
+                        <note>Canadian author, poet, publisher and teacher. Among other books, she is the author of
+            <title>Emily Dickinson</title> in the Greenwich Exchange Student Guide Literary Series. She was in
+            Mallorca in 1956 -1958 and a close friend of the Graves's.</note>
+                    </person>
+                    <person xml:id="PritchardEnid">
+                        <persName>Enid Pritchard</persName>
+                        <note>English solicitor, who helped draw up Robert Graves's Will. Beryl Graves's sister.</note>
+                    </person>
+                    <person xml:id="Claudius">
+                        <persName>
+                            <forename>Tiberius</forename>
+                            <surname>Claudius</surname>
+                            <addName>Caesar Augustus Germanicus</addName>
+                        </persName>
+                        <birth when="-0010-08-01">
+                            <placeName ref="#Lyon">Lugdunum</placeName>
+            1 August 10 BC</birth>
+                        <death when="0054-10-13">
+                            <placeName ref="#Rome">Rome</placeName>13 October AD 54</death>
+                        <sex value="M">male</sex>
+                        <note> Claudius was emperor of Rome from AD 41-54. He married four times, and was succeeded by the emperor Nero. </note>
+                    </person>
+                    <person xml:id="CallasMargot">
+                        <persName>
+                            <forename>Margot</forename>
+                            <surname>Callas</surname>
+                        </persName>
+                        <sex value="F">female</sex>
+                    </person>
+                    <person xml:id="WattWilliam">
+                        <persName>
+                            <forename>William</forename>
+                            <surname>Watt</surname>
+                        </persName>
+                        <note>Son and partner of A.S.Watt, Director of A.P.Watt &amp; Son, in 1940s
+            (British Literary agency that represented Robert Graves as from the late
+            1930's).</note>
+                    </person>
+                    <person xml:id="CrotonAntonia">
+                        <persName>
+                            <forename>Antonia</forename>
+                            <surname type="birth">Dalton</surname>
+                            <surname type="married">Croton</surname>
+                        </persName>
+                        <birth when="1945">
+            1945
+        </birth>
+                        <sex value="F">Female</sex>
+                        <note>Graves's granddaughter (Catherine Nicholson's daughter)</note>
+                    </person>
+                    <person xml:id="CameronIsla">
+                        <persName>
+                            <forename>Isla</forename>
+                            <surname>Cameron</surname>
+                        </persName>
+                        <birth when="1930-03-05">
+                            <placeName>Scotland</placeName>March 5 1930</birth>
+                        <death when="1980-05">May 1980</death>
+                        <sex value="F">female</sex>
+                        <occupation>Actress and Folk Singer</occupation>
+                        <note>Scottish actress and folk singer. Came to Deya in the early 1960s with Maggie Smith.</note>
+                    </person>
+                    <person xml:id="PortagaEleni">
+                        <persName>
+                            <forename>Eleni</forename>
+                            <surname>Portaga Stratu</surname>
+                        </persName>
+                        <sex value="F">female</sex>
+                        <occupation>Greek Sculpturess</occupation>
+                    </person>
+                    <person xml:id="ScottRonnie">
+                        <persName>
+                            <forename>Ronnie</forename>
+                            <surname>Scott</surname>
+                        </persName>
+                        <birth when="1927-01-28">28th January 1927</birth>
+                        <death when="1966-12-23">23rd December 1966</death>
+                        <sex value="M">male</sex>
+                        <occupation>Jazz saxophonist</occupation>
+                    </person>
+                </listPerson>
+            </particDesc>
+            <settingDesc>
+                <listPlace>
+                    <place xml:id="Deia">
+                        <placeName>Deya</placeName>
+                        <placeName>Deià</placeName>
+                        <location>
+                            <geo>39.7484 2.64918</geo>
+                        </location>
+                        <location type="geopolitical">
+                            <settlement>Deya</settlement>
+                            <region>Majorca</region>
+                            <region>Balearic Islands</region>
+                            <country>Spain</country>
+                        </location>
+                        <note>Deià is a small coastal village in the Serra de Tramuntana, which forms the northern
+      ridge of the Spanish island of Mallorca. It is located about ten miles north of
+      Valldemossa, and it is known for its literary and musical residents. Its idyllic landscape,
+      orange and olive groves on steep cliffs overlooking the Mediterranean, served as a draw for
+      German, English, and American expatriates after the First World War.</note>
+                    </place>
+                    <place xml:id="Canellun">
+                        <placeName>Canellun</placeName>
+                        <location>
+                            <geo>39.7484 2.64918</geo>
+                        </location>
+                        <location type="geopolitical">
+                            <settlement>Deya</settlement>
+                            <region>Majorca</region>
+                            <region>Balearic Islands</region>
+                            <country>Spain</country>
+                        </location>
+                        <note>Graves' house in Deia</note>
+                    </place>
+                    <place xml:id="CanFloque">
+                        <placeName>Can Floque</placeName>
+                        <location>
+                            <geo>39.7484 2.64918</geo>
+                        </location>
+                        <location type="geopolitical">
+                            <settlement>Deya</settlement>
+                            <region>Majorca</region>
+                            <region>Balearic Islands</region>
+                            <country>Spain</country>
+                        </location>
+                        <note>Graves' boat house in Deia</note>
+                    </place>
+                    <place xml:id="Austria">
+                        <placeName>Austria</placeName>
+                        <location>
+                            <geo>47.516231 14.550072</geo>
+                        </location>
+                        <location type="geopolitical">
+                            <country>Austria</country>
+                        </location>
+                    </place>
+                    <place xml:id="Yugoslavia">
+                        <placeName>Yugoslavia</placeName>
+                        <location type="geopolitical">
+                            <country notAfter="1991">Yugoslavia</country>
+                        </location>
+                    </place>
+                    <place xml:id="Baleares">
+                        <placeName>Balearic Islands</placeName>
+                        <location>
+                            <geo>39.534179 2.85771</geo>
+                        </location>
+                        <location>
+                            <region>Balearic Islands</region>
+                            <country>Spain</country>
+                        </location>
+                    </place>
+                    <place xml:id="Barcelona">
+                        <placeName>Barcelona</placeName>
+                        <location>
+                            <geo>41.385064 2.173403</geo>
+                        </location>
+                        <location type="geopolitica">
+                            <settlement>Barcelona</settlement>
+                            <region>Catalonia</region>
+                            <country>Spain</country>
+                        </location>
+                    </place>
+                    <place xml:id="Palma">
+                        <placeName>Palma</placeName>
+                        <placeName xml:lang="en">Palma, Majorca</placeName>
+                        <placeName xml:lang="sp">Palma de Mallorca</placeName>
+                        <location>
+                            <geo>39.569600 2.650160</geo>
+                        </location>
+                        <location type="geopolitic">
+                            <settlement>Palma</settlement>
+                            <region>Majorca</region>
+                            <region>Balearic Islands</region>
+                            <country>Spain</country>
+                        </location>
+                    </place>
+                    <place xml:id="Rome">
+                        <placeName>Rome</placeName>
+                        <location>
+                            <geo>41.902783 12.496366</geo>
+                        </location>
+                        <location type="geopolitical">
+                            <settlement>Rome</settlement>
+                            <country>Italy</country>
+                        </location>
+                    </place>
+                    <place xml:id="France">
+                        <placeName>France</placeName>
+                        <location>
+                            <geo>46.227638 2.213749</geo>
+                        </location>
+                        <location type="geopolitical">
+                            <country>France</country>
+                        </location>
+                    </place>
+                    <place xml:id="London">
+                        <placeName>London</placeName>
+                        <location>
+                            <geo>51.507351 -0.127758</geo>
+                        </location>
+                        <location type="geopolitica">
+                            <settlement>London</settlement>
+                            <region>London</region>
+                            <country>England</country>
+                            <country>United Kingdom</country>
+                        </location>
+                    </place>
+                    <place xml:id="Puigpunent">
+                        <placeName>Puigpunent</placeName>
+                        <location>
+                            <geo>39.627202 2.528332</geo>
+                        </location>
+                        <location type="geopolitical">
+                            <settlement>Puigpunent</settlement>
+                            <region>Mallorca</region>
+                            <region>Balearic Islands</region>
+                            <country>Spain</country>
+                        </location>
+                    </place>
+                    <place xml:id="BellRockHouse">
+                        <placeName>Bell Rock House</placeName>
+                        <location>
+                            <geo>56.450487 -2.881644</geo>
+                        </location>
+                        <location type="geopolitical">
+                            <region>Angus</region>
+                            <country>Scotland</country>
+                            <country>United Kingdom</country>
+                        </location>
+                        <settlement>St Andrews</settlement>
+                        <settlement ref="#Fife">Fife</settlement>
+                    </place>
+                    <place xml:id="Fife">
+                        <placeName>Fife</placeName>
+                        <location>
+                            <geo>56.208208 -3.149518</geo>
+                        </location>
+                        <location type="geopolitical">
+                            <region>Fife</region>
+                            <country>Scotland</country>
+                            <country>United Kingdom</country>
+                        </location>
+                    </place>
+                    <place xml:id="Soller">
+                        <placeName>Soller</placeName>
+                        <location>
+                            <geo>39.767069 2.715787</geo>
+                        </location>
+                        <location type="geopolitica">
+                            <settlement>Soller</settlement>
+                            <region>Majorca</region>
+                            <region>Balearic Islands</region>
+                            <country>Spain</country>
+                        </location>
+                    </place>
+                    <place xml:id="Switzerlands">
+                        <placeName>Switzerland</placeName>
+                        <location>
+                            <geo>46.818188 8.227512</geo>
+                        </location>
+                        <location type="geopolitica">
+                            <country>Switzerland</country>
+                        </location>
+                    </place>
+                    <place xml:id="England">
+                        <placeName>England</placeName>
+                        <location>
+                            <geo>52.355518 -1.174320</geo>
+                        </location>
+                        <location type="geopolitica">
+                            <country>England</country>
+                        </location>
+                    </place>
+                    <place xml:id="USA">
+                        <placeName>United States of America</placeName>
+                        <placeName full="abb">USA</placeName>
+                        <location>
+                            <geo>37.090240 -95.712891</geo>
+                        </location>
+                        <location>
+                            <country>United States of America</country>
+                        </location>
+                    </place>
+                    <place xml:id="Vercors">
+                        <placeName>
+                            <geogName>Vercors</geogName>
+                            <geogFeat>Massif</geogFeat>
+                        </placeName>
+                        <location>
+                            <geo>44.969985 5.419979</geo>
+                        </location>
+                        <location type="geopolitical">
+                            <country>France</country>
+                        </location>
+                    </place>
+                    <place xml:id="NarbonneRoad">
+                        <placeName>Narbonne Road</placeName>
+                        <placeName>Via Domitia</placeName>
+                        <location>
+                            <country>France</country>
+                        </location>
+                    </place>
+                    <place xml:id="Montelimar">
+                        <placeName>Montelimar</placeName>
+                        <location>
+                            <geo>44.556944 4.749496</geo>
+                        </location>
+                        <location>
+                            <settlement>Montelimar</settlement>
+                            <region>Rhône-Alpes</region>
+                            <country>France</country>
+                        </location>
+                    </place>
+                    <place xml:id="BrooklynBridge">
+                        <placeName>Brooklyn Bridge</placeName>
+                        <location>
+                            <geo>40.7057 73.9964</geo>
+                        </location>
+                        <location>
+                            <settlement type="city">New York</settlement>
+                            <country>United States of America</country>
+                        </location>
+                    </place>
+                    <place xml:id="Abilene">
+                        <placeName>Abilene</placeName>
+                        <country>Syria</country>
+                        <note>An ancient city.</note>
+                    </place>
+                    <place xml:id="Abiline">
+                        <placeName>Abiline</placeName>
+                        <country>U.S.A.</country>
+                        <location>
+                            <geo>51.5033640 -0.1276250</geo>
+                        </location>
+                        <note>Abiline is a city in Texas.</note>
+                    </place>
+                    <place xml:id="Epidaurus">
+                        <placeName>Epidaurus</placeName>
+                        <location>
+                            <geo>37.626573 23.132244</geo>
+                        </location>
+                    </place>
+                    <place xml:id="Oxford">
+                        <placeName>Oxford</placeName>
+                        <location>
+                            <geo>51.751944 -1.257778</geo>
+                            <settlement>Oxford</settlement>
+                            <region>Oxfordshire</region>
+                            <country>United Kingdom</country>
+                        </location>
+                        <location type="geopolitical">
+                            <settlement>Oxford</settlement>
+                            <region>Oxfordshire</region>
+                            <country>United Kingdom</country>
+                        </location>
+                    </place>
+                    <place xml:id="Geneva">
+                        <placeName>Geneva</placeName>
+                        <country>Switzerland</country>
+                        <location>
+                            <geo>46.198392 6.142296</geo>
+                        </location>
+                    </place>
+                    <place xml:id="BakerStreet">
+                        <placeName>Baker Street</placeName>
+                        <location>
+                            <geo>51.520602 -0.156827</geo>
+                        </location>
+                        <location type="geopolitical">
+                            <settlement>London</settlement>
+                            <region>London</region>
+                            <country>England</country>
+                        </location>
+                    </place>
+                </listPlace>
+            </settingDesc>
+            <correspDesc>
+                <correspAction type="sending">
+                    <persName ref="#GravesRobert">Robert Graves</persName>
+                    <settlement ref="#Deia">Deya</settlement>
+                    <date when="1957-11-15">November 15, 1957</date>
+                </correspAction>
+                <correspAction type="receiving">
+                    <persName ref="#GravesWilliam">William Graves</persName>
+                    <settlement>Oundle School</settlement>
+                </correspAction>
+            </correspDesc>
+        </profileDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <pb facs="WG.57.11.15.a.jpg"/>
+            <opener>
+                <dateline>
+                    <date when="1957-11-15">November 15, 1957</date>
+                </dateline>
+                <salute> Dearest <name type="person" ref="#GravesWilliam">
+                        <abbr>Wm</abbr>
+                    </name>: </salute>
+            </opener>
+            <p> Good luck in your interview. If you are wholly at your ease - and why not? - all
+               will go well. But try to raise some sort of enthusiasm for your proposed career:
+               dont-care-ism doesn't go down well. </p>
+            <p> There's never been so wet a <date>November</date> since - since last time - but we
+               have had about three sunny days, and I even bathed three days ago at <name type="place" ref="#CanFloque">Can Floque</name>. The best news is getting 3
+               bottles of butagaz smuggled from <name type="place" ref="#France">France</name>,
+               which means no more dirty carbon in the kitchen until the supply gives out. </p>
+            <p> We hope to spend a few days in <name type="place" ref="#Austria">Austria</name> with
+                  <name type="person" ref="#NicholsonJenny">Jenny</name> on the way to <name type="place" ref="#Yugoslavia">Jugland</name>, but she is all snarled up with the
+                  <name type="person" ref="#BevanAneurin">Bevan</name> libel case (on November 21st)
+               &amp; doesn't answer letters. She was very nice to <name type="person" ref="#GravesLucia">Lucia</name> and <name type="person" ref="#GravesJuan">Juan</name> on the way through. </p>
+            <p> I expect my <title>Goodbye To All That</title> will create a stir again as it did in
+                  <date>1929</date> when it first came out - <name type="place" ref="#Canellun">Canellun</name> was built on the spoils. The       
+               <pb facs="WG.57.11.15.b.jpg"/>
+                <title>Sunday Express</title>
+               reviewer cabled could he fly out &amp; interview me. I cabled "yes: but you'll have
+               to come out to <name type="place" ref="#Deia">Deya</name>", &amp; that's the last
+               I've heard. The pups are eating raw meat now &amp; are very large &amp; fat &amp;
+               active; <name type="person" ref="#GravesBeryl">Mother</name> spends most of her time
+               trying to make them make little puddles on the <name type="place" ref="#Baleares">Baleares</name>. </p>
+            <p>
+                <name type="person">Castor</name> is trimming the trees in the garden; the oranges
+               nearly ripe. The stupid lilac thinks it is spring &amp; is flowering like the pear
+               tree. Did you hear about <name type="person" ref="#Ann">Ann</name>'s dream when she was (in real
+               life not dream) crippled with a slipped disk and in agony, &amp; the doctor kept
+               ineffectually injecting her with anaesthetics. In the dream a woman said: "I have a
+               wonderful recipe for you downstairs, come and try it!" She crawled out of bed, fell
+               downstairs, &amp; somehow in her fall slipped the disk back. Now she's as right as
+               rain. <name type="person" ref="#ReidAlastair">Alastair</name>'s address is: <name type="place" ref="#BellRockHouse">Bell Rock
+                  House St Andrews Fife</name>. He's writing a novel there. </p>
+            <p>
+                <name type="person" ref="#GravesTomas">Tomas</name> is learning to read much faster
+               than any of you: good Old Lob! The cats resent the puppies &amp; constantly sneak in
+               to wet the sofa. <name type="person">Emilia</name> &amp; <name type="person">Jaime</name> &amp; family and <name type="person" ref="#PomeroyMarnie">Marnie</name> are coming this
+               week end. </p>
+            <p> Hope to God the weather mends. </p>
+            <closer>
+                <salute>Love</salute>
+                <name type="person" ref="#GravesRobert">Father</name>
+            </closer>
+            <note place="margin" resp="#GravesBeryl">
+                <p>Please get 2 photos (passport x4cm large) and send them to <name type="person" ref="#PritchardEnid">Enid</name> for your <name type="place" ref="#Yugoslavia">Yug</name> visa.
+                    Better get some extra copies as you never know. Love, <name type="person" ref="#GravesBeryl">Mother</name>. BG: An Aviaco plane from <name type="place" ref="#Barcelona">Barcelona</name>-<name type="place" ref="#Palma">Palma</name>
+                  crashed <date>Friday night</date> at <name type="place" ref="#Puigpunent">Puigpunent</name>. Only
+                  two passengers aboard.</p>
+            </note>
+            <note place="margin" resp="#GravesBeryl">
+                <p>STOP PRESS. Have changed our plans due to a letter from <name type="person" ref="#NicholsonJenny">Jenny</name> who begs us to spend Christmas with her in
+                     <name type="place" ref="#Rome">Rome</name>. So get the photos but bring them
+                  with you. We can get <name type="place" ref="#Yugoslavia">Yug</name> visas in
+                     <name type="place" ref="#Rome">Rome</name>. Will get you a ticket from <name type="place" ref="#London">London</name> to <name type="place" ref="#Rome">Rome</name> leaving on the <date when="1957-12-20">20th</date>. Is that right?
+                  And a couchette. Or is it the <date when="1957-12-19">19th</date>? Can't you
+                  arrange the driving test when you get back? Just let me know as soon as possible
+                  if you want to leave the <date when="1957-12-19">19th</date> or <date when="1957-12-20">20th</date>. Hope you like this idea as much as we do. Love,
+                     <name type="person" ref="#GravesBeryl">Mother</name>. </p>
+            </note>
+        </body>
+    </text>
+</TEI>
