@@ -260,8 +260,7 @@ declare %private function pm:model($ident as xs:string, $model as element(tei:mo
             else
                 (),
             let $signature := $fn?function[1]
-            let $count := count($model/../tei:model)
-            let $class := $ident || (if ($count > 1) then count($model/preceding-sibling::tei:model) + 1 else ())
+            let $class := pm:get-class($ident, $model)
             return
                 try {
                     if ($model/tei:desc) then
@@ -319,6 +318,16 @@ declare %private function pm:modelSequence($ident as xs:string, $seq as element(
             </item>
     }
     </sequence>
+};
+
+declare %private function pm:get-class($ident as xs:string, $model as element(tei:model)) {
+    let $count := count($model/../tei:model)
+    let $genClass := $ident || (if ($count > 1) then count($model/preceding-sibling::tei:model) + 1 else ())
+    return
+        if ($model/@cssClass) then
+            $genClass || " " || $model/@cssClass/string()
+        else
+            $genClass
 };
 
 declare %private function pm:lookup($modules as array(*), $task as xs:string, $arity as xs:int) as map(*)? {
