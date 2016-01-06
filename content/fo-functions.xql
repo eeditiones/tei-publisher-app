@@ -79,7 +79,7 @@ declare variable $pmf:CSS_PROPERTIES := (
 declare variable $pmf:NOTE_COUNTER_ID := "notes-" || util:uuid();
 
 declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string+, $content) {
-    comment { "paragraph" || " (" || $class || ")"},
+    comment { "paragraph" || " (" || string-join($class, ", ") || ")"},
     <fo:block>
     {
         pmf:check-styles($config, $node, $class, ()),
@@ -93,7 +93,7 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
     let $defaultStyle := $config?default-styles("head" || $level)
     return
         if ($content instance of node() and $content//text()) then (
-            comment { "heading level " || $level || " (" || $class || ")"},
+            comment { "heading level " || $level || " (" || string-join($class, ", ") || ")"},
             <fo:block>
             {
                 pmf:check-styles($config, $node, $class, $defaultStyle),
@@ -148,7 +148,7 @@ declare function pmf:listItem($config as map(*), $node as element(), $class as x
 };
 
 declare function pmf:block($config as map(*), $node as element(), $class as xs:string+, $content) {
-    comment { "block" || " (" || $class || ")"},
+    comment { "block" || " (" || string-join($class, ", ") || ")"},
     <fo:block>
     {
         pmf:check-styles($config, $node, $class, ()),
@@ -186,7 +186,7 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
 };
 
 declare function pmf:section($config as map(*), $node as element(), $class as xs:string+, $content) {
-    comment { "section" || " (" || $class || ")"},
+    comment { "section" || " (" || string-join($class, ", ") || ")"},
     <fo:block>
     { 
         pmf:check-styles($config, $node, $class, ()),
@@ -240,7 +240,7 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
         {
              pmf:check-styles($config, $node, $class, ())
         }
-        { comment { $class } }
+        { comment { string-join($class, ", ") } }
         </fo:external-graphic>
 };
 
@@ -263,7 +263,7 @@ declare function pmf:cit($config as map(*), $node as element(), $class as xs:str
 };
 
 declare function pmf:body($config as map(*), $node as element(), $class as xs:string+, $content) {
-    comment { "body" || " (" || $class || ")"},
+    comment { "body" || " (" || string-join($class, ", ") || ")"},
     <fo:block>
     {
         pmf:check-styles($config, $node, $class, ()),
@@ -282,7 +282,7 @@ declare function pmf:break($config as map(*), $node as element(), $class as xs:s
             ()
         default return
             <fo:block/>,
-    comment { $type || " - " || $label || " (" || $class || ")" }
+    comment { $type || " - " || $label || " (" || string-join($class, ", ") || ")" }
 };
 
 declare function pmf:document($config as map(*), $node as element(), $class as xs:string+, $content) {
@@ -413,16 +413,20 @@ declare function pmf:check-styles($config as map(*), $node as element()?, $class
         attribute id { $node/@xml:id }
     else
         (),
-    for $class in $classes
     let $defaultStyles :=
         if (exists($default)) then
             $default
         else
-            $config?default-styles($class)
-    let $customStyles := $config?styles?($class)
+            map:new($classes ! $config?default-styles(.))
+    let $stylesForClass :=
+        map:new(
+            for $class in $classes
+            return
+                pmf:filter-styles($config?styles?($class))
+        )
     let $styles := 
-        if (exists($customStyles)) then
-            pmf:merge-maps(pmf:filter-styles($customStyles), $defaultStyles)
+        if (exists($stylesForClass)) then
+            pmf:merge-maps($stylesForClass, $defaultStyles)
         else
             $defaultStyles
     return
@@ -435,8 +439,11 @@ declare function pmf:check-styles($config as map(*), $node as element()?, $class
     pmf:get-before($config, $classes)
 };
 
-declare %private function pmf:filter-styles($styles as map(*)) {
-    map:new($styles?*[. = $pmf:CSS_PROPERTIES] ! map:entry(., $styles(.)))
+declare %private function pmf:filter-styles($styles as map(*)?) {
+    if (exists($styles)) then
+        $styles?*[. = $pmf:CSS_PROPERTIES] ! map:entry(., $styles(.))
+    else
+        ()
 };
 
 declare %private function pmf:merge-maps($map as map(*), $defaults as map(*)?) {
@@ -470,8 +477,10 @@ declare %private function pmf:merge-styles($map as map(*)?, $defaults as map(*)?
 declare function pmf:load-styles($config as map(*), $root as document-node()) {
     let $css := css:generate-css($root)
     let $styles := css:parse-css($css)
-    return
+    let $styles :=
         map:new(($config, map:entry("styles", $styles)))
+    return
+        $styles
 };
 
 declare function pmf:load-default-styles($config as map(*)) {

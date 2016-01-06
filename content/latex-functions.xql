@@ -288,14 +288,13 @@ declare %private function pmf:get-after($config as map(*), $classes as xs:string
 };
 
 declare %private function pmf:check-styles($config as map(*), $classes as xs:string+, $content as item()*) {
-    fold-right($classes, string-join($content), function($class, $text) {
-        let $styles := $config?styles?($class)
-        return
-            if (exists($styles)) then
-                pmf:style($styles?*, $styles, $text)
-            else
-                $text
-    })
+    let $styles := map:new(for $class in $classes return $config?styles?($class))
+    let $text := string-join($content)
+    return
+        if (exists($styles)) then
+            pmf:style($styles?*, $styles, $text)
+        else
+            $text
 };
 
 declare %private function pmf:style($names as xs:string*, $styles as map(*), $text) {
@@ -342,7 +341,7 @@ declare %private function pmf:style($names as xs:string*, $styles as map(*), $te
                                 $text
                 case "color" return
                     if (matches($value, "#.{3}")) then
-                        ()
+                        $text
                     else if (starts-with($value, "#")) then
                         "\textcolor[HTML]{" || substring-after($value, "#") || "}{" || $text || "}"
                     else
