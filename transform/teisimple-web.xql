@@ -31,9 +31,12 @@ declare function model:transform($options as map(*), $input as node()*) {
                 "apply-children": model:apply-children#3
             }
         ))
-        return
-            model:apply($config, $input)
-                        
+    
+    return (
+        html:prepare($config, $input),
+    
+        model:apply($config, $input)
+    )
 };
 
 declare function model:apply($config as map(*), $input as node()*) {

@@ -78,6 +78,13 @@ declare variable $pmf:CSS_PROPERTIES := (
 
 declare variable $pmf:NOTE_COUNTER_ID := "notes-" || util:uuid();
 
+declare function pmf:init($config as map(*), $node as node()*) {
+    let $renditionStyles := string-join(css:rendition-styles-html($node))
+    let $styles := if ($renditionStyles) then css:parse-css($renditionStyles) else map {}
+    return
+        map:new(($config, map:entry("rendition-styles", $styles)))
+};
+
 declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string+, $content) {
     comment { "paragraph" || " (" || string-join($class, ", ") || ")"},
     <fo:block>
@@ -421,8 +428,10 @@ declare function pmf:check-styles($config as map(*), $node as element()?, $class
     let $stylesForClass :=
         map:new(
             for $class in $classes
-            return
-                pmf:filter-styles($config?styles?($class))
+            return (
+                pmf:filter-styles($config?styles?($class)),
+                pmf:filter-styles($config?rendition-styles?($class))
+            )
         )
     let $styles := 
         if (exists($stylesForClass)) then
@@ -489,11 +498,6 @@ declare function pmf:load-default-styles($config as map(*)) {
     let $log := console:log("loading user styles from " || $path)
     let $userStyles := pmf:read-css($path)
     let $systemStyles := pmf:read-css(system:get-module-load-path() || "/styles.fo.css")
-    let $log := console:log(serialize($systemStyles, <output:serialization-parameters
-           xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
-        <output:method value="json"/>
-        <output:indent value="yes"/>
-      </output:serialization-parameters>))
     return
         map:new(($config, map:entry("default-styles", pmf:merge-styles($userStyles, $systemStyles))))
 };

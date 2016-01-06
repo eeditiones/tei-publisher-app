@@ -81,6 +81,10 @@
                 <prefixDef ident="tcp" matchPattern="([0-9\-]+):([0-9IVX]+)" replacementPattern="http://eebo.chadwyck.com/downloadtiff?vid=$1&amp;page=$2"/>
                 <prefixDef ident="char" matchPattern="(.+)" replacementPattern="https://raw.githubusercontent.com/textcreationpartnership/Texts/master/tcpchars.xml#$1"/>
             </listPrefixDef>
+            <tagsDecl>
+                <rendition xml:id="underline">text-decoration: underline;</rendition>
+                <rendition xml:id="larger">font-size: 125%;</rendition>
+            </tagsDecl>
         </encodingDesc>
         <profileDesc>
             <langUsage>
@@ -114,15 +118,14 @@
     <text xml:lang="eng">
         <body>
             <div type="ballad">
-                <pb facs="tcp:110643:1" rendition="simple:additions"/>
-            <!-- PDF PAGE 14 -->
+                <pb facs="tcp:110643:1" rendition="simple:additions"/><!-- PDF PAGE 14 -->
                 <head>The Vergins Advice TO THE Maids of LONDON.</head>
                 <opener>To the Tune of, <hi>Oh! that I were but young for you.</hi>
                 </opener>
                 <lg>
                     <l>OFt have I heard the Wives complain,</l>
                     <l>O that they were but Maids again,</l>
-                    <l>Maids and they would <hi>marry</hi> with none,</l>
+                    <l rendition="#underline #larger">Maids and they would <hi>marry</hi> with none,</l>
                     <l>
                         <hi>For the Maid is the beſt that lies alone.</hi>
                     </l>

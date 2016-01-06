@@ -40,6 +40,12 @@ module namespace pmf="http://www.tei-c.org/tei-simple/xquery/functions";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
+import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "css.xql";
+
+declare function pmf:prepare($config as map(*), $node as node()*) {
+    <style type="text/css">{ css:rendition-styles-html($node) }</style>
+};
+
 declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string+, $content) {
     <p class="{$class}">
     {

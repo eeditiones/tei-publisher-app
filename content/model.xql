@@ -98,9 +98,11 @@ let $config :=
             "apply-children": model:apply-children#3
         }}
     ))
-    return
-        model:apply($config, $input)
-                    </body>
+{ pm:init-modules($moduleDesc) }
+return (
+    { pm:prepare-modules($moduleDesc) }
+    model:apply($config, $input)
+)</body>
                 </function>
                 <function name="model:apply">
                     <param>$config as map(*)</param>
@@ -189,6 +191,24 @@ declare function pm:load-modules($modules as array(*)) as array(*) {
 declare %private function pm:import-modules($modules as array(*)) {
     array:for-each($modules, function($module) {
         <import-module prefix="{$module?prefix}" uri="{$module?uri}" at="{$module?at}"/>
+    })
+};
+
+declare %private function pm:init-modules($modules as array(*)) {
+    array:for-each($modules, function($module) {
+        let $moduleDesc := $module?description
+        for $fn in $moduleDesc/function[@name = $moduleDesc/@prefix || ":init"][count(argument) = 2]
+        return
+            "let $config := " || $module?prefix || ":init($config, $input)&#10;"
+    })
+};
+
+declare %private function pm:prepare-modules($modules as array(*)) {
+    array:for-each($modules, function($module) {
+        let $moduleDesc := $module?description
+        for $fn in $moduleDesc/function[@name = $moduleDesc/@prefix || ":prepare"][count(argument) = 2]
+        return
+            $module?prefix || ":prepare($config, $input),&#10;"
     })
 };
 
