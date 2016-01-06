@@ -78,7 +78,7 @@ declare function css:generate-css($root as document-node()) {
             else
                 $className
         return
-            "&#10;." || $class || " { " ||
+            "&#10;.tei-" || $class || " { " ||
             normalize-space($rend) || " }"
     ))
 };

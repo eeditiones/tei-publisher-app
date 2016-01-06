@@ -90,7 +90,7 @@ declare function pmf:paragraph($config as map(*), $node as element(), $class as 
 
 declare function pmf:heading($config as map(*), $node as element(), $class as xs:string+, $content) {
     let $level := if ($content instance of node()) then max((count($content/ancestor::tei:div), 1)) else 1
-    let $defaultStyle := $config?default-styles("head" || $level)
+    let $defaultStyle := $config?default-styles("tei-head" || $level)
     return
         if ($content instance of node() and $content//text()) then (
             comment { "heading level " || $level || " (" || string-join($class, ", ") || ")"},
@@ -163,7 +163,7 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
     return
         <fo:footnote>
             <fo:inline>
-            {pmf:check-styles($config, $node, "note", ())}
+            {pmf:check-styles($config, $node, "tei-note", ())}
             {$number} 
             </fo:inline>
             <fo:footnote-body start-indent="0mm" end-indent="0mm" text-indent="0mm" white-space-treatment="ignore-if-surrounding-linefeed">
@@ -171,12 +171,12 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
                     <fo:list-item>
                         <fo:list-item-label end-indent="label-end()" >
                             <fo:block>
-                            {pmf:check-styles($config, (), "note-body", ())}
+                            {pmf:check-styles($config, (), "tei-note-body", ())}
                             { $number }
                             </fo:block>
                         </fo:list-item-label>
                         <fo:list-item-body start-indent="body-start()">
-                            {pmf:check-styles($config, (), "note-body", ())}
+                            {pmf:check-styles($config, (), "tei-note-body", ())}
                             <fo:block>{$config?apply-children($config, $node, $content/node())}</fo:block>
                         </fo:list-item-body>
                     </fo:list-item>
@@ -489,6 +489,11 @@ declare function pmf:load-default-styles($config as map(*)) {
     let $log := console:log("loading user styles from " || $path)
     let $userStyles := pmf:read-css($path)
     let $systemStyles := pmf:read-css(system:get-module-load-path() || "/styles.fo.css")
+    let $log := console:log(serialize($systemStyles, <output:serialization-parameters
+           xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+        <output:method value="json"/>
+        <output:indent value="yes"/>
+      </output:serialization-parameters>))
     return
         map:new(($config, map:entry("default-styles", pmf:merge-styles($userStyles, $systemStyles))))
 };

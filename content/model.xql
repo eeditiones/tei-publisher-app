@@ -322,7 +322,7 @@ declare %private function pm:modelSequence($ident as xs:string, $seq as element(
 
 declare %private function pm:get-class($ident as xs:string, $model as element(tei:model)) as xs:string+ {
     let $count := count($model/../tei:model)
-    let $genClass := $ident || (if ($count > 1) then count($model/preceding-sibling::tei:model) + 1 else ())
+    let $genClass := "tei-" || $ident || (if ($count > 1) then count($model/preceding-sibling::tei:model) + 1 else ())
     return
         if ($model/@cssClass) then
             ($genClass, $model/@cssClass/string())

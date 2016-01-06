@@ -1,12 +1,12 @@
-.front {
+.tei-front {
     font-family: "Junicode";
 }
-.body2 {
+.tei-body2 {
     font-family: "Junicode";
 }
-.floatingText {
+.tei-floatingText {
     padding: 6pt;
 }
-.p {
+.tei-p {
     text-align: justify;
 }

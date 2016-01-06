@@ -15,17 +15,17 @@
     text-align-last: justify; 
     font-size: 10pt;
 }
-.text {
+.tei-text {
     font-size: 11pt;
     line-height: 16pt;
 }
-.front {
+.tei-front {
     page-break-after: right;
 }
-.body2 {
+.tei-body2 {
     page-break-after: right;
 }
-.head1 {
+.tei-head1 {
     font-size: 2.441em;
     line-height: 1.2;
     space-before: 2em;
@@ -33,14 +33,14 @@
     keep-with-next: always;
     keep-together.within-page: always;
 }
-.head2 {
+.tei-head2 {
     font-size: 1.953em;
     line-height: 1.2;
     space-before: 1.5em;
     keep-with-next: always;
     keep-together.within-page: always;
 }
-.head3 {
+.tei-head3 {
     font-size: 1.563em;
     line-height: 1.2;
     font-weight: bold;
@@ -48,7 +48,7 @@
     keep-with-next: always;
     keep-together.within-page: always;
 }
-.head4 {
+.tei-head4 {
     font-size: 1.25em;
     line-height: 1.2;
     font-weight: bold;
@@ -56,17 +56,17 @@
     keep-with-next: always;
     keep-together.within-page: always;
 }
-.p {
+.tei-p {
     space-before: .5em;
     space-after: .5em;
     text-indent: 1.5em;
     text-align: justify;
 }
-.code1 {
+.tei-code1 {
     font-family: monospace;
     font-size: 9pt;
 }
-.code2 {
+.tei-code2 {
     font-family: monospace;
     font-size: 9pt;
     wrap-option: wrap;
@@ -74,11 +74,11 @@
     white-space-collapse: false;
     white-space-treatment: preserve;
 }
-.note {
+.tei-note {
     font-size: 60%;
     keep-with-previous.within-line: always;
     baseline-shift: super;
 }
-.note-body {
+.tei-note-body {
     font-size: 9pt;
 }
