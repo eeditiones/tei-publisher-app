@@ -83,7 +83,7 @@ declare function css:generate-css($root as document-node()) {
     ))
 };
 
-declare function css:get-rendition($node as node()*, $class as xs:string) {
+declare function css:get-rendition($node as node()*, $class as xs:string+) {
     $class,
     for $rend in tokenize($node/@rendition, "\s+")
     return
