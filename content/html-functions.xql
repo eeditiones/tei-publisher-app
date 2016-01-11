@@ -224,9 +224,9 @@ declare function pmf:row($config as map(*), $node as element(), $class as xs:str
     <tr class="{$class}">{pmf:apply-children($config, $node, $content)}</tr>
 };
 
-declare function pmf:cell($config as map(*), $node as element(), $class as xs:string+, $content) {
-    <td class="{$class}">
-    {
+declare function pmf:cell($config as map(*), $node as element(), $class as xs:string+, $content, $type as xs:string?) {
+    element {if($type='head') then 'th' else 'td'} {
+    attribute class {$class},
         if ($node/@cols) then
             attribute colspan { $node/@cols }
         else
@@ -234,14 +234,10 @@ declare function pmf:cell($config as map(*), $node as element(), $class as xs:st
         if ($node/@rows) then
             attribute rowspan { $node/@rows }
         else
-            ()
-    }
-    {
+        (),
         pmf:apply-children($config, $node, $content)
     }
-    </td>
 };
-
 declare function pmf:alternate($config as map(*), $node as element(), $class as xs:string+, $content, $default as node()*,
     $alternate as node()*) {
     <span class="alternate {$class}">
