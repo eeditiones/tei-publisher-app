@@ -28,7 +28,7 @@ declare function odd:compile($inputCol as xs:string, $odd as xs:string, $outputC
         xmldb:store($outputCol, $odd, $compiled, "application/xml")
 };
 
-declare %private function odd:compile($inputCol as xs:string, $odd as xs:string) {
+declare function odd:compile($inputCol as xs:string, $odd as xs:string) {
     let $root := doc($inputCol || "/" || $odd)/tei:TEI
     return
         if ($root) then
@@ -63,29 +63,31 @@ declare %private function odd:merge($parent as element(tei:TEI), $child as eleme
             <body>
             {
                 (: Copy element specs which are not overwritten by child :)
-                for $spec in $parent//tei:elementSpec[.//tei:model]
-                let $childSpec := $child//tei:elementSpec[@ident = $spec/@ident][@mode = "change"]
+                for $spec in $parent//elementSpec
+                let $childSpec := $child//elementSpec[@ident = $spec/@ident][@mode = "change"]
                 return
                     if ($childSpec) then
                         $childSpec
-                    else
+                    else if ($spec//model) then
                         $spec
+                    else
+                        ()
             }
             {
                 (: Copy added element specs :)
-                for $spec in $child//tei:elementSpec[@mode = "add"][.//tei:model]
+                for $spec in $child//elementSpec[.//model]
                 (: Skip specs which already exist in parent :)
-                where empty($parent//tei:elementSpec[@ident = $spec/@ident])
+                where empty($parent//elementSpec[@ident = $spec/@ident])
                 return
                     $spec
             }
             {
                 (: Merge global outputRenditions :)
-                for $rendition in $child//tei:outputRendition[@xml:id][not(ancestor::tei:model)]
+                for $rendition in $child//outputRendition[@xml:id][not(ancestor::model)]
                 where exists($parent/id($rendition/@xml:id))
                 return
                     $rendition,
-                for $parentRendition in $parent//tei:outputRendition[@xml:id][not(ancestor::tei:model)]
+                for $parentRendition in $parent//outputRendition[@xml:id][not(ancestor::model)]
                 where empty($child/id($parentRendition/@xml:id))
                 return
                     $parentRendition
