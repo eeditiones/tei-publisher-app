@@ -86,6 +86,7 @@ declare function deploy:store-expath($collection as xs:string?, $userData as xs:
             version="{request:get-parameter('version', '0.1')}" spec="1.0">
             <title>{request:get-parameter("title", ())}</title>
             <dependency package="http://exist-db.org/apps/shared"/>
+            <dependency package="http://www.tei-c.org/tei-simple"/>
         </package>
     return (
         xmldb:store($collection, "expath-pkg.xml", $descriptor, "text/xml"),
