@@ -58,6 +58,9 @@
                         <param name="lang">@lang</param>
                     </model>
                 </elementSpec>
+                <elementSpec mode="change" ident="table">
+                    <model behaviour="table" cssClass="table table-bordered"/>
+                </elementSpec>
                 <moduleRef key="tei"/>
                 <moduleRef key="header"/>
                 <moduleRef key="tagdocs"/>
