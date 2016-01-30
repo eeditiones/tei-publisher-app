@@ -107,7 +107,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     epub:break($config, ., ("tei-cb"), ., 'column', @n)
                 case element(cell) return
                     (: Insert table cell. :)
-                    html:cell($config, ., ("tei-cell"), .)
+                    html:cell($config, ., ("tei-cell"), ., ())
                 case element(choice) return
                     if (sic and corr) then
                         html:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])

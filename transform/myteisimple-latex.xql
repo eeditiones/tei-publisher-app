@@ -78,8 +78,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 latex:alternate($config, ., ("tei-choice6"), ., reg[1], orig[1])
                             else
                                 if (unclear) then
-                                    latex:alternate($config, ., ("tei-choice7"), ., if (unclear[@cert="high"]) then unclear[@cert="high"]
-                            else unclear[1], unclear[@cert!="high"])
+                                    latex:alternate($config, ., ("tei-choice7"), ., if (unclear[@cert="high"]) then unclear[@cert="high"] else unclear[1], unclear[@cert!="high"])
                                 else
                                     $config?apply($config, ./node())
                 case element(cit) return
@@ -137,7 +136,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     latex:block($config, ., ("tei-head4"), .)
                                 else
                                     if (not(parent::div/ancestor::div)) then
-                                        latex:heading($config, ., ("tei-head5", "main-heading"), .)
+                                        latex:heading($config, ., ("tei-head5"), .)
                                     else
                                         if (parent::div) then
                                             latex:heading($config, ., ("tei-head6"), .)
@@ -298,19 +297,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                                         latex:inline($config, ., ("tei-title2"), .)
                 case element(unclear) return
                     latex:inline($config, ., ("tei-unclear"), .)
-                case element(revisionDesc) return
-                    latex:omit($config, ., ("tei-revisionDesc"), .)
-                case element(encodingDesc) return
-                    latex:omit($config, ., ("tei-encodingDesc"), .)
                 case element(fileDesc) return
                     latex:title($config, ., ("tei-fileDesc"), titleStmt)
+                case element(encodingDesc) return
+                    latex:omit($config, ., ("tei-encodingDesc"), .)
                 case element(profileDesc) return
                     latex:omit($config, ., ("tei-profileDesc"), .)
+                case element(revisionDesc) return
+                    latex:omit($config, ., ("tei-revisionDesc"), .)
                 case element(teiHeader) return
                     latex:metadata($config, ., ("tei-teiHeader"), .)
                 case element(g) return
                     if (not(text())) then
-                        latex:glyph($config, ., ("tei-g1"), .)
+                        latex:glyph($config, ., ("tei-g1"), @ref)
                     else
                         latex:inline($config, ., ("tei-g2"), .)
                 case element(addSpan) return

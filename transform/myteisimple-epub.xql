@@ -78,8 +78,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 html:alternate($config, ., ("tei-choice6"), ., reg[1], orig[1])
                             else
                                 if (unclear) then
-                                    html:alternate($config, ., ("tei-choice7"), ., if (unclear[@cert="high"]) then unclear[@cert="high"]
-                            else unclear[1], unclear[@cert!="high"])
+                                    html:alternate($config, ., ("tei-choice7"), ., if (unclear[@cert="high"]) then unclear[@cert="high"] else unclear[1], unclear[@cert!="high"])
                                 else
                                     $config?apply($config, ./node())
                 case element(cit) return
@@ -134,7 +133,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     html:block($config, ., ("tei-head4"), .)
                                 else
                                     if (not(parent::div/ancestor::div)) then
-                                        html:heading($config, ., ("tei-head5", "main-heading"), .)
+                                        html:heading($config, ., ("tei-head5"), .)
                                     else
                                         if (parent::div) then
                                             html:heading($config, ., ("tei-head6"), .)
@@ -295,19 +294,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                                         html:inline($config, ., ("tei-title2"), .)
                 case element(unclear) return
                     html:inline($config, ., ("tei-unclear"), .)
-                case element(revisionDesc) return
-                    html:omit($config, ., ("tei-revisionDesc"), .)
-                case element(encodingDesc) return
-                    html:omit($config, ., ("tei-encodingDesc"), .)
                 case element(fileDesc) return
                     html:title($config, ., ("tei-fileDesc"), titleStmt)
+                case element(encodingDesc) return
+                    html:omit($config, ., ("tei-encodingDesc"), .)
                 case element(profileDesc) return
                     html:omit($config, ., ("tei-profileDesc"), .)
+                case element(revisionDesc) return
+                    html:omit($config, ., ("tei-revisionDesc"), .)
                 case element(teiHeader) return
                     html:metadata($config, ., ("tei-teiHeader"), .)
                 case element(g) return
                     if (not(text())) then
-                        html:glyph($config, ., ("tei-g1"), .)
+                        html:glyph($config, ., ("tei-g1"), @ref)
                     else
                         html:inline($config, ., ("tei-g2"), .)
                 case element(addSpan) return
@@ -467,7 +466,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     html:block($config, ., ("tei-trailer"), .)
                 case element(cell) return
                     (: Insert table cell. :)
-                    html:cell($config, ., ("tei-cell"), .)
+                    html:cell($config, ., ("tei-cell"), ., ())
                 case element(figDesc) return
                     html:inline($config, ., ("tei-figDesc"), .)
                 case element(figure) return

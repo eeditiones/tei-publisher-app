@@ -450,7 +450,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     html:block($config, ., ("tei-trailer"), .)
                 case element(cell) return
                     (: Insert table cell. :)
-                    html:cell($config, ., ("tei-cell"), .)
+                    html:cell($config, ., ("tei-cell"), ., ())
                 case element(figDesc) return
                     html:inline($config, ., ("tei-figDesc"), .)
                 case element(figure) return
