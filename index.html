@@ -3,20 +3,24 @@
     <div data-template="templates:include" data-template-path="templates/menu.html"/>
     <div class="container">
         <div class="row main">
-            <div class="col-md-12">
-                <div class="page-header">
-                    <h1>TEI ODD extensions for processing models</h1>
-                </div>
-                <section>
-                    <p>An implementation of the <a href="http://htmlpreview.github.io/?https://github.com/TEIC/TEI-Simple/blob/master/tei-pm.html">TEI Simple Processing Model</a>
-                    in XQuery. See <a href="doc/documentation.xml?odd=documentation.odd">documentation</a> for more usage details.</p>
-                </section>
+            <div class="page-header">
+                <h1>TEI ODD extensions for processing models</h1>
+            </div>
+            <p>An implementation of the <a href="http://htmlpreview.github.io/?https://github.com/TEIC/TEI-Simple/blob/master/tei-pm.html">TEI Simple Processing Model</a>
+            in XQuery. See <a href="doc/documentation.xml?odd=documentation.odd">documentation</a> for more usage details.</p>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
                 <div class="row">
                     <div data-template="app:action"/>
                 </div>
-                <section>
-                    <h2>Documents</h2>
-                    <table class="table table-bordered table-hover documents">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Documents</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="documents list-group" data-template="app:doc-table"/>
+                    </div><!--table class="table table-bordered table-hover documents">
                         <thead>
                             <tr>
                                 <th>Document</th>
@@ -25,22 +29,23 @@
                             </tr>
                         </thead>
                         <tbody data-template="app:doc-table"/>
-                    </table>
-                </section>
-                <section>
-                    <h2>ODD Files</h2>
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>Document</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody data-template="app:odd-table"/>
-                    </table>
-                </section>
+                    </table-->
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">ODD Files</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <tbody data-template="app:odd-table"/>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="row"/>
         <footer>
             <a href="http://tei-c.org" class="poweredby">
                 <img src="resources/images/powered-by-TEI.png" alt="Powered by TEI"/>

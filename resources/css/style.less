@@ -46,10 +46,11 @@ a, a:hover, a:focus {
 }
 .main {
     margin-top: 50px;
+    margin-bottom: 20px;
 }
 
 #content-inner {
-    font-family: Junicode, Georgia, Times, serif;
+    font-family: @serifFont;
     font-size: 16px;
 }
 
@@ -59,7 +60,7 @@ a, a:hover, a:focus {
 .content h4 { font-size: 1.25em; }
 
 .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
-    font-family: Junicode, Georgia, Times, serif;
+    font-family: @serifFont;
     line-height: 1.2;
 }
 
@@ -195,7 +196,7 @@ a, a:hover, a:focus {
     
     h5 {
         text-align: center;
-        font-family: "Junicode", Georgia, "Times New Roman", serif;
+        font-family: @serifFont;
         font-size: 16px;
         padding: 10px 10px 10px 0;
     }
@@ -234,7 +235,22 @@ a, a:hover, a:focus {
     margin-left: .5em;
 }
 
-.documents td:nth-child(3) {
+.documents {
+    h5 {
+        font-family: @serifFont;
+        font-size: 16px;
+    }
+    .toolbar {
+        float: right;
+        margin-top: 0;
+    }
+    .list-group-item {
+        border-bottom: 1px solid #C0C0C0;
+        margin-bottom: 15px;
+    }
+}
+
+/*.documents td:nth-child(3) {
     text-align: right;
     width: 403px;
 }
@@ -252,7 +268,7 @@ a, a:hover, a:focus {
     .documents th:nth-child(3) {
         width: 160px;
     }
-}
+}*/
 
 #msg-progress {
     display: none;

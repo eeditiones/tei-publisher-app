@@ -52,54 +52,54 @@ function app:doc-table($node as node(), $model as map(*), $odd as xs:string?) {
             dbutil:find-by-mimetype(xs:anyURI($collection), "application/xml", function($resource) {
                 let $name := substring-after($resource, $config:app-root || "/")
                 return
-                    <tr>
-                        <td><a href="{$name}?odd={$odd}">{$name}</a></td>
-                        <td class="hidden-xs"><a href="{$name}?odd={$odd}">{pages:title(doc($resource)/*)}</a></td>
-                        <td>
-                            {
-                                templates:process(
-                                    <div class="btn-group btn-group-justified" role="group">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                <i class="material-icons">print</i> <span class="hidden-xs">PDF</span> <span class="caret"/>
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a href="modules/fo.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
-                                                        PDF via FO
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a target="_new"
-                                                        href="modules/fo.xql?source=yes&amp;odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
-                                                        FO Code
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="modules/latex.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
-                                                        PDF via LaTeX
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a target="_new"
-                                                        href="modules/latex.xql?source=yes&amp;odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
-                                                        LaTeX Code
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <a class="btn btn-default"
-                                            href="modules/get-epub.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
-                                            <i class="material-icons">book</i> <span class="hidden-xs">ePUB</span></a>
-                                        <a class="btn btn-default" data-template="app:load-source"
-                                            href="{substring-after($resource, $config:app-root)}">
-                                            <i class="material-icons">code</i> <span class="hidden-xs">Source</span></a>
-                                    </div>,
-                                    $model
-                                )
-                            }
-                        </td>
-                    </tr>
+                    <li class="list-group-item">
+                        <h5><a href="{$name}?odd={$odd}">{pages:title(doc($resource)/*)}</a></h5>
+                        <div>
+                        {
+                            templates:process(
+                                <div class="toolbar btn-group" role="group">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="material-icons">print</i> <span class="hidden-xs">PDF</span> <span class="caret"/>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>
+                                                <a href="modules/fo.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
+                                                    PDF via FO
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a target="_new"
+                                                    href="modules/fo.xql?source=yes&amp;odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
+                                                    FO Code
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="modules/latex.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
+                                                    PDF via LaTeX
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a target="_new"
+                                                    href="modules/latex.xql?source=yes&amp;odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
+                                                    LaTeX Code
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a class="btn btn-default"
+                                        href="modules/get-epub.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
+                                        <i class="material-icons">book</i> <span class="hidden-xs">ePUB</span></a>
+                                    <a class="btn btn-default" data-template="app:load-source"
+                                        href="{substring-after($resource, $config:app-root)}">
+                                        <i class="material-icons">code</i> <span class="hidden-xs">Source</span></a>
+                                </div>,
+                                $model
+                            )
+                        }
+                        <span>{$name}</span>
+                        </div>
+                    </li>
             })
     for $doc in $docs
     order by $doc/td[2]/a/text()
@@ -117,6 +117,14 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
                 let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
                 return
                     <tr>
+                        <td>
+                        {
+                            if ($odd = $name || ".odd") then
+                                <i class="material-icons">check_box</i>
+                            else
+                                <a href="?odd={$name}.odd"><i class="material-icons">check_box_outline_blank</i></a>
+                        }
+                        </td>
                         <td>{$name}</td>
                         <td>
                         {
@@ -127,45 +135,44 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
                             return
                                 templates:process(
                                     <div class="btn-group" role="group">
-                                        <a class="btn btn-default {if ($odd = $name || '.odd') then 'active' else ''}" href="?odd={$name}.odd">
-                                            <i class="material-icons">build</i> <span class="hidden-xs">Use ODD</span>
-                                        </a>
-                                        <a class="btn btn-default"
+                                        <a class="btn btn-default" title="Regenerate"
                                             href="?action=refresh&amp;source={$name}.odd&amp;odd={$odd}">
-                                            <i class="material-icons">update</i> <span class="hidden-xs">Regenerate</span></a>
+                                            <i class="material-icons">update</i>
+                                            <span class="hidden-xs">Regenerate</span>
+                                        </a>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                <i class="material-icons">code</i> <span class="hidden-xs">Sources</span> <span class="caret"/>
+                                                <i class="material-icons">code</i> <span class="hidden-xs">Source</span> <span class="caret"/>
                                             </button>
                                             <ul class="dropdown-menu" role="menu">
                                                 <li>
                                                     <a data-template="app:load-source"
                                                         href="{substring-after($resource, $config:app-root)}">
-                                                        <i class="glyphicon glyphicon-edit"/> ODD</a>
+                                                        <i class="material-icons">edit</i> ODD</a>
                                                 </li>
                                                 <li>
                                                     <a data-template="app:load-source"
                                                         href="{substring-after($config:output-root, $config:app-root)}/{$name}-web.xql">
                                                         { if ($xqlWebAvail) then () else attribute disabled { "disabled" } }
-                                                        <i class="glyphicon glyphicon-edit"/> Web XQL</a>
+                                                        <i class="material-icons">edit</i> Web XQL</a>
                                                 </li>
                                                 <li>
                                                     <a data-template="app:load-source"
                                                         href="{substring-after($config:output-root, $config:app-root)}/{$name}-print.xql">
                                                         { if ($xqlFoAvail) then () else attribute disabled { "disabled" } }
-                                                        <i class="glyphicon glyphicon-edit"/> FO XQL</a>
+                                                        <i class="material-icons">edit</i> FO XQL</a>
                                                 </li>
                                                 <li>
                                                     <a data-template="app:load-source"
                                                         href="{substring-after($config:output-root, $config:app-root)}/{$name}-latex.xql">
                                                         { if ($xqlFoAvail) then () else attribute disabled { "disabled" } }
-                                                        <i class="glyphicon glyphicon-edit"/> LaTeX XQL</a>
+                                                        <i class="material-icons">edit</i> LaTeX XQL</a>
                                                 </li>
                                                 <li>
                                                     <a data-template="app:load-source"
                                                         href="{substring-after($config:output-root, $config:app-root)}/{$name}.css">
                                                         { if ($cssAvail) then () else attribute disabled { "disabled" } }
-                                                        <i class="glyphicon glyphicon-edit"/> CSS</a>
+                                                        <i class="material-icons">edit</i> CSS</a>
                                                 </li>
                                             </ul>
                                         </div>

@@ -48,9 +48,10 @@ a:focus {
 }
 .main {
   margin-top: 50px;
+  margin-bottom: 20px;
 }
 #content-inner {
-  font-family: Junicode, Georgia, Times, serif;
+  font-family: "Junicode", Georgia, "Times New Roman", serif;
   font-size: 16px;
 }
 .content h1 {
@@ -71,7 +72,7 @@ a:focus {
 .content h4,
 .content h5,
 .content h6 {
-  font-family: Junicode, Georgia, Times, serif;
+  font-family: "Junicode", Georgia, "Times New Roman", serif;
   line-height: 1.2;
 }
 .content > * > section {
@@ -235,22 +236,37 @@ a:focus {
 .btn-group .hidden-xs + span {
   margin-left: .5em;
 }
-.documents td:nth-child(3) {
-  text-align: right;
-  width: 403px;
+.documents h5 {
+  font-family: "Junicode", Georgia, "Times New Roman", serif;
+  font-size: 16px;
 }
+.documents .toolbar {
+  float: right;
+  margin-top: 0;
+}
+.documents .list-group-item {
+  border-bottom: 1px solid #C0C0C0;
+  margin-bottom: 15px;
+}
+/*.documents td:nth-child(3) {
+    text-align: right;
+    width: 403px;
+}
+
 @media (max-width: 768px) {
-  .documents {
-    table-layout: fixed;
-  }
-  .documents td:nth-child(1) {
-    white-space: pre-line;
-    word-wrap: break-word;
-  }
-  .documents th:nth-child(3) {
-    width: 160px;
-  }
-}
+    .documents {
+        table-layout: fixed;
+    }
+
+    .documents td:nth-child(1) {
+        white-space: pre-line;
+        word-wrap: break-word;
+    }
+
+    .documents th:nth-child(3) {
+        width: 160px;
+    }
+}*/
 #msg-progress {
   display: none;
   font-weight: bold;
