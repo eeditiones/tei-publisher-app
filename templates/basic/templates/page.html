@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title data-template="config:app-title">App Title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta data-template="config:app-meta"/>
         <link rel="shortcut icon" href="$shared/resources/images/exist_icon_16x16.ico"/>
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css"/>
+        <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
         <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css"/>
-        <link rel="stylesheet" type="text/css" href="resources/css/font-awesome.min.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/bootstrap-material-design.min.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/ripples.min.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
-        <script type="text/javascript" src="resources/scripts/jquery.min.js"/>
+        <script type="text/javascript" src="resources/scripts/jquery-1.11.3.min.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
         <script type="text/javascript" src="resources/scripts/bootstrap.min.js"/>
+        <script type="text/javascript" src="resources/scripts/material.min.js"/>
+        <script type="text/javascript" src="resources/scripts/ripples.min.js"/>
     </head>
     <body id="body">
-        <div id="content-wrapper">
-            <div id="content" class="container-fluid"/>
-        </div>
-        <footer>
-            <a class="poweredby" href="http://exist-db.org">
-                <img src="$shared/resources/images/powered-by.svg" alt="Powered by eXist-db"/>
-            </a>
-        </footer>
+        <div id="content"/>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/ace.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-javascript.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-text.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-xquery.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-java.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-css.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-xml.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/theme-tomorrow_night.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/ace/theme-dawn.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/highlight.js"/>
+        <script type="text/javascript">
+            $(".sourcecode").highlight();
+            $.material.init();
+        </script>
     </body>
 </html>

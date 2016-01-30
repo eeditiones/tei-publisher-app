@@ -5,15 +5,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta data-template="config:app-meta"/>
         <link rel="shortcut icon" href="$shared/resources/images/exist_icon_16x16.ico"/>
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css"/>
+        <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
         <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css"/>
-        <link rel="stylesheet" type="text/css" href="resources/css/font-awesome.min.css"/>
-        <link rel="stylesheet" type="text/css" href="../../tei-simple/resources/fonts/font.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/bootstrap-material-design.min.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/ripples.min.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/animate.min.css"/>
         <link rel="stylesheet" type="text/css" data-template="pages:styles"/>
-        <script type="text/javascript" src="resources/scripts/jquery.min.js"/>
+        <script type="text/javascript" src="resources/scripts/jquery-1.11.3.min.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
         <script type="text/javascript" src="resources/scripts/bootstrap.min.js"/>
+        <script type="text/javascript" src="resources/scripts/material.min.js"/>
+        <script type="text/javascript" src="resources/scripts/ripples.min.js"/>
         <script type="text/javascript" src="resources/scripts/jquery.touchSwipe.min.js"/>
         <script type="text/javascript">
             $(document).ready(function() {
@@ -21,6 +25,7 @@
                     html: true,
                     trigger: "hover"
                 });
+                $.material.init();
             });
         </script>
         <script type="text/javascript" src="resources/scripts/app.js"/>
@@ -41,25 +46,22 @@
                                     <div class="btn-toolbar actions">
                                         <div class="btn-group" role="group">
                                             <a class="btn btn-default" data-template="pages:back-link" title="Back to index page">
-                                                <i class="fa fa-home"/>
-                                                <span class="hidden-xs">Documents</span>
+                                                <i class="material-icons">home</i>
                                             </a>
-                                            <div class="btn-group">
+                                            <div class="btn-group hidden-xs">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                    <i class="fa fa-file-pdf-o"/>
+                                                    <i class="material-icons">print</i>
                                                     <span class="hidden-xs">PDF</span>
                                                     <span class="caret"/>
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <li>
-                                                        <a data-template="app:download-link" data-template-type="pdf">
-                                                        PDF via FO
-                                                    </a>
+                                                        <a data-template="app:download-link" data-template-type="pdf">PDF via FO</a>
                                                     </li>
                                                     <li>
                                                         <a target="_new" data-template="app:download-link" data-template-type="pdf" data-template-source="true">
-                                                        FO Source
-                                                    </a>
+                                                            FO Source
+                                                        </a>
                                                     </li><!--li>
                                                         <a data-template="pages:latex-link">
                                                         PDF via LaTeX
@@ -71,45 +73,61 @@
                                                     </a>
                                                     </li-->
                                                 </ul>
-                                            </div><!--a class="btn btn-default" data-template="pages:epub-link" title="Download as epub ebook">
-                                                <i class="glyphicon glyphicon-book"/>
+                                            </div><!--a class="btn btn-default hidden-xs" data-template="pages:epub-link" title="Download as epub ebook">
+                                                <i class="material-icons">book</i>
                                                 <span class="hidden-xs">ePUB</span>
                                             </a-->
-                                            <a class="btn btn-default" data-template="pages:xml-link">
-                                                <i class="fa fa-file-code-o"/>
+                                            <a class="btn btn-default hidden-xs" data-template="pages:xml-link">
+                                                <i class="material-icons">code</i>
                                                 <span class="hidden-xs">XML</span>
-                                            </a><!--a target="_new" class="btn btn-default" data-template="pages:single-page-link" title="View plain HTML on a single page">
-                                                <i class="glyphicon glyphicon-resize-full"/>
-                                                <span class="hidden-xs">Single Page</span>
+                                            </a><!--a target="_new" class="btn btn-default hidden-xs" data-template="pages:single-page-link" title="View plain HTML on a single page">
+                                                <i class="material-icons">swap_vert</i>
+                                                <span class="hidden-xs">Plain</span>
                                             </a-->
                                         </div>
                                         <div class="btn-group" role="group">
                                             <a class="btn btn-default" href="#" id="zoom-in">
-                                                <i class="fa fa-search-plus"/>
+                                                <i class="material-icons">zoom_in</i>
                                             </a>
                                             <a class="btn btn-default" href="#" id="zoom-out">
-                                                <i class="fa fa-search-minus"/>
+                                                <i class="material-icons">zoom_out</i>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row" data-template="pages:navigation">
-                                <div class="col-md-12">
-                                    <div class="navigation-top">
-                                        <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav">
-                                            <i class="glyphicon glyphicon-chevron-right"/>
-                                        </a>
-                                        <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav">
-                                            <i class="glyphicon glyphicon-chevron-left"/>
-                                        </a>
-                                        <h5 data-template="pages:navigation-title"/>
+                                <div class="col-md-1 hidden-sm hidden-xs">
+                                    <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab">
+                                        <i class="material-icons">navigate_before</i>
+                                    </a>
+                                </div>
+                                <div class="col-md-10 col-sm-12">
+                                    <div class="navigation-top row">
+                                        <div class="hidden-md hidden-lg btn-group-sm">
+                                            <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab">
+                                                <i class="material-icons">navigate_before</i>
+                                            </a>
+                                        </div>
+                                        <div class="hidden-xs hidden-sm col-md-12 col-lg-12 col-title">
+                                            <h5 data-template="pages:navigation-title"/>
+                                        </div>
+                                        <div class="hidden-md hidden-lg btn-group-sm">
+                                            <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab">
+                                                <i class="material-icons">navigate_next</i>
+                                            </a>
+                                        </div>
                                     </div>
                                     <div id="content-inner">
                                         <div id="content-container">
                                             <div data-template="pages:view" class="content"/>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-md-1 hidden-sm hidden-xs">
+                                    <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab">
+                                        <i class="material-icons">navigate_next</i>
+                                    </a>
                                 </div>
                             </div>
                         </div>

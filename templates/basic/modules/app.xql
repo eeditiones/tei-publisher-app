@@ -74,17 +74,17 @@ function app:paginate($node as node(), $model as map(*), $key as xs:string, $sta
             return (
                 if ($start = 1) then (
                     <li class="disabled">
-                        <a><i class="glyphicon glyphicon-fast-backward"/></a>
+                        <a><i class="material-icons">fast_rewind</i></a>
                     </li>,
                     <li class="disabled">
-                        <a><i class="glyphicon glyphicon-backward"/></a>
+                        <a><i class="material-icons">fast_forward</i></a>
                     </li>
                 ) else (
                     <li>
-                        <a href="?start=1"><i class="glyphicon glyphicon-fast-backward"/></a>
+                        <a href="?start=1"><i class="material-icons">fast_rewind</i></a>
                     </li>,
                     <li>
-                        <a href="?start={max( ($start - $per-page, 1 ) ) }"><i class="glyphicon glyphicon-backward"/></a>
+                        <a href="?start={max( ($start - $per-page, 1 ) ) }"><i class="material-icons">fast_forward</i></a>
                     </li>
                 ),
                 let $startPage := xs:integer(ceiling($start div $per-page))
@@ -99,17 +99,17 @@ function app:paginate($node as node(), $model as map(*), $key as xs:string, $sta
                         <li><a href="?start={max( (($i - 1) * $per-page + 1, 1)) }">{$i}</a></li>,
                 if ($start + $per-page < count($model($key))) then (
                     <li>
-                        <a href="?start={$start + $per-page}"><i class="glyphicon glyphicon-forward"/></a>
+                        <a href="?start={$start + $per-page}"><i class="material-icons">forward</i></a>
                     </li>,
                     <li>
-                        <a href="?start={max( (($count - 1) * $per-page + 1, 1))}"><i class="glyphicon glyphicon-fast-forward"/></a>
+                        <a href="?start={max( (($count - 1) * $per-page + 1, 1))}"><i class="material-icons">fast_forward</i></a>
                     </li>
                 ) else (
                     <li class="disabled">
-                        <a><i class="glyphicon glyphicon-forward"/></a>
+                        <a><i class="material-design">forward</i></a>
                     </li>,
                     <li>
-                        <a><i class="glyphicon glyphicon-fast-forward"/></a>
+                        <a><i class="material-design">fast_forward</i></a>
                     </li>
                 )
             )
