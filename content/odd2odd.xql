@@ -7,8 +7,6 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../modules/config.xqm";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
-declare variable $odd:XSL := doc($config:app-root || "/resources/xsl/odd2odd.xsl");
-
 declare function odd:get-compiled($inputCol as xs:string, $odd as xs:string, $outputCol as xs:string) as xs:string {
     if (doc-available($outputCol || "/" || $odd)) then
         let $last-modified := xmldb:last-modified($inputCol, $odd)
