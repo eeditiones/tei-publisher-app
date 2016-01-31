@@ -74,17 +74,17 @@ function app:paginate($node as node(), $model as map(*), $key as xs:string, $sta
             return (
                 if ($start = 1) then (
                     <li class="disabled">
-                        <a><i class="material-icons">fast_rewind</i></a>
+                        <a><i class="glyphicon glyphicon-fast-backward"/></a>
                     </li>,
                     <li class="disabled">
-                        <a><i class="material-icons">fast_forward</i></a>
+                        <a><i class="glyphicon glyphicon-backward"/></a>
                     </li>
                 ) else (
                     <li>
-                        <a href="?start=1"><i class="material-icons">fast_rewind</i></a>
+                        <a href="?start=1"><i class="glyphicon glyphicon-fast-backward"/></a>
                     </li>,
                     <li>
-                        <a href="?start={max( ($start - $per-page, 1 ) ) }"><i class="material-icons">fast_forward</i></a>
+                        <a href="?start={max( ($start - $per-page, 1 ) ) }"><i class="glyphicon glyphicon-backward"/></a>
                     </li>
                 ),
                 let $startPage := xs:integer(ceiling($start div $per-page))
@@ -99,17 +99,17 @@ function app:paginate($node as node(), $model as map(*), $key as xs:string, $sta
                         <li><a href="?start={max( (($i - 1) * $per-page + 1, 1)) }">{$i}</a></li>,
                 if ($start + $per-page < count($model($key))) then (
                     <li>
-                        <a href="?start={$start + $per-page}"><i class="material-icons">forward</i></a>
+                        <a href="?start={$start + $per-page}"><i class="glyphicon glyphicon-forward"/></a>
                     </li>,
                     <li>
-                        <a href="?start={max( (($count - 1) * $per-page + 1, 1))}"><i class="material-icons">fast_forward</i></a>
+                        <a href="?start={max( (($count - 1) * $per-page + 1, 1))}"><i class="glyphicon glyphicon-fast-forward"/></a>
                     </li>
                 ) else (
                     <li class="disabled">
-                        <a><i class="material-design">forward</i></a>
+                        <a><i class="glyphicon glyphicon-forward"/></a>
                     </li>,
                     <li>
-                        <a><i class="material-design">fast_forward</i></a>
+                        <a><i class="glyphicon glyphicon-fast-forward"/></a>
                     </li>
                 )
             )
@@ -151,7 +151,7 @@ declare function app:work-title($node as node(), $model as map(*), $type as xs:s
     let $work := $model("work")/ancestor-or-self::tei:TEI
     let $id := util:document-name($work)
     return
-        <a xmlns="http://www.w3.org/1999/xhtml" href="{$node/@href}{$id}{$suffix}">{ app:work-title($work) }</a>
+        <a href="{$node/@href}{$id}{$suffix}">{ app:work-title($work) }</a>
 };
 
 declare %private function app:work-title($work as element(tei:TEI)?) {
@@ -340,7 +340,9 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
         <tr class="reference">
             <td colspan="3">
                 <span class="number">{$start + $p - 1}</span>
-                <a href="{$work-id}">{$work-title}</a>{if ($div-head) then ' / ' else ''}<a href="{$parent-id}.html?action=search">{$div-head}</a>
+                <span class="headings">
+                    <a href="{$work-id}">{$work-title}</a>{if ($div-head) then ' / ' else ''}<a href="{$parent-id}.html?action=search">{$div-head}</a>
+                </span>
             </td>
         </tr>
     let $matchId := util:node-id($hit)

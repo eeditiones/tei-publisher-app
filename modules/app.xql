@@ -120,9 +120,13 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
                         <td>
                         {
                             if ($odd = $name || ".odd") then
-                                <i class="material-icons">check_box</i>
+                                <a href="?odd={$name}.odd">
+                                    <i class="material-icons">check_box</i>
+                                </a>
                             else
-                                <a href="?odd={$name}.odd"><i class="material-icons">check_box_outline_blank</i></a>
+                                <a href="?odd={$name}.odd">
+                                    <i class="material-icons">check_box_outline_blank</i>
+                                </a>
                         }
                         </td>
                         <td>{$name}</td>

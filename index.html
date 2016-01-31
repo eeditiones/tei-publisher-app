@@ -14,31 +14,33 @@
                 <div class="row">
                     <div data-template="app:action"/>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Documents</h3>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Documents</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="documents list-group" data-template="app:doc-table"/>
+                        </div><!--table class="table table-bordered table-hover documents">
+                            <thead>
+                                <tr>
+                                    <th>Document</th>
+                                    <th class="hidden-xs">Title</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody data-template="app:doc-table"/>
+                        </table-->
                     </div>
-                    <div class="panel-body">
-                        <ul class="documents list-group" data-template="app:doc-table"/>
-                    </div><!--table class="table table-bordered table-hover documents">
-                        <thead>
-                            <tr>
-                                <th>Document</th>
-                                <th class="hidden-xs">Title</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody data-template="app:doc-table"/>
-                    </table-->
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="panel panel-default">
+                <div class="panel panel-info">
                     <div class="panel-heading">
                         <h3 class="panel-title">ODD Files</h3>
                     </div>
                     <div class="panel-body">
-                        <table>
+                        <table class="odd-table">
                             <tbody data-template="app:odd-table"/>
                         </table>
                     </div>
