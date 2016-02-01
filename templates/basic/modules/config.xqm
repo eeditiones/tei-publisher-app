@@ -4,17 +4,23 @@ xquery version "3.0";
  : A set of helper functions to access the application context from
  : within a module.
  :)
-module namespace config="$$config-namespace$$";
+module namespace config="http://www.tei-c.org/tei-simple/config";
 
 declare namespace templates="http://exist-db.org/xquery/templates";
 
 declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace expath="http://expath.org/ns/pkg";
 
-(: 
+import module namespace pm-web="http://www.tei-c.org/tei-simple/models/$$config-odd$$/web/module" at "../transform/$$config-odd-name$$-web-module.xql";
+import module namespace pm-print="http://www.tei-c.org/tei-simple/models/$$config-odd$$/fo/module" at "../transform/$$config-odd-name$$-print-module.xql";
+
+declare variable $config:web-transform := pm-web:transform#2;
+declare variable $config:print-transform := pm-print:transform#2;
+
+(:
     Determine the application root collection from the current module load path.
 :)
-declare variable $config:app-root := 
+declare variable $config:app-root :=
     let $rawPath := system:get-module-load-path()
     let $modulePath :=
         (: strip the xmldb: part :)

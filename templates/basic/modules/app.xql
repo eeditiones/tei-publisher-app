@@ -1,11 +1,11 @@
 xquery version "3.0";
 
-module namespace app="$$namespace$$";
+module namespace app="http://www.tei-c.org/tei-simple/templates";
 
-import module namespace templates="http://exist-db.org/xquery/templates" $$templates$$;
-import module namespace config="$$config-namespace$$" at "config.xqm";
+import module namespace templates="http://exist-db.org/xquery/templates";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace kwic="http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
-import module namespace pages="$$pages-namespace$$" at "pages.xql";
+import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 
 declare namespace expath="http://expath.org/ns/pkg";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -13,7 +13,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 (:~
  : List documents in data collection
  :)
-declare 
+declare
     %templates:wrap
 function app:list-works($node as node(), $model as map(*), $filter as xs:string?, $browse as xs:string?) {
     let $cached := session:get-attribute("simple.works")
@@ -121,14 +121,14 @@ function app:paginate($node as node(), $model as map(*), $key as xs:string, $sta
 (:~
     Create a span with the number of items in the current search result.
 :)
-declare 
+declare
     %templates:wrap
     %templates:default("key", "hits")
 function app:hit-count($node as node()*, $model as map(*), $key as xs:string) {
     count($model($key))
 };
 
-declare 
+declare
     %templates:wrap
 function app:checkbox($node as node(), $model as map(*), $target-texts as xs:string*) {
     let $id := $model("work")/@xml:id/string()
@@ -144,7 +144,7 @@ function app:checkbox($node as node(), $model as map(*), $target-texts as xs:str
 };
 
 (:~
- : 
+ :
  :)
 declare function app:work-title($node as node(), $model as map(*), $type as xs:string?) {
     let $suffix := if ($type) then "." || $type else ()
@@ -164,11 +164,11 @@ declare %private function app:work-title($work as element(tei:TEI)?) {
 declare function app:work-author($node as node(), $model as map(*)) {
     let $work := $model("work")/ancestor-or-self::tei:TEI
     let $work-authors := $work//tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:biblFull/tei:titleStmt/tei:author
-    return 
+    return
         string-join($work-authors, "; ")
 };
 
-declare 
+declare
     %templates:wrap
 function app:work-edition($node as node(), $model as map(*)) {
     $model("work")/ancestor-or-self::tei:TEI/tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:edition/tei:date/text()
@@ -176,17 +176,17 @@ function app:work-edition($node as node(), $model as map(*)) {
 
 declare function app:download-link($node as node(), $model as map(*), $type as xs:string, $doc as xs:string?,
     $source as xs:boolean?) {
-    let $file := 
-        if ($model?work) then 
+    let $file :=
+        if ($model?work) then
             replace(util:document-name($model("work")), "^(.*?)\.[^\.]*$", "$1")
-        else 
+        else
             replace($doc, "^(.*)\..*$", "$1")
     let $uuid := util:uuid()
     return
         element { node-name($node) } {
             $node/@*,
             attribute data-token { $uuid },
-            attribute href { $node/@href || $file || "." || $type || "?token=" || $uuid || "&amp;cache=no" 
+            attribute href { $node/@href || $file || "." || $type || "?token=" || $uuid || "&amp;cache=no"
                 || (if ($source) then "&amp;source=yes" else ())
             },
             $node/node()
@@ -234,7 +234,7 @@ declare function app:fix-links($nodes as node()*) {
 :
 : @author Wolfgang M. Meier
 : @author Jens Østergaard Petersen
-: @param $node 
+: @param $node
 : @param $model
 : @param $query The query string. This string is transformed into a <query> element containing one or two <bool> elements in a Lucene query and it is transformed into a sequence of one or two query strings in an ngram query. The first <bool> and the first string contain the query as input and the second the query as transliterated into Devanagari or IAST as determined by $query-scripts. One <bool> and one query string may be empty.
 : @param $index The index against which the query is to be performed, as the string "ngram" or "lucene".
@@ -246,7 +246,7 @@ declare function app:fix-links($nodes as node()*) {
 
 : @return The function returns a map containing the $hits, the $query, and the $query-scope. The search results are output through the nested templates, app:hit-count, app:paginate, and app:show-hits.
 :)
-declare 
+declare
     %templates:default("lucene-query-mode", "any")
     %templates:default("tei-target", "tei-text")
     %templates:default("query-scope", "narrow")
@@ -269,7 +269,7 @@ function app:query($node as node()*, $model as map(*), $query as xs:string?, $lu
             (:The query passed to a Luecene query in ft:query is an XML element <query> containing one or two <bool>. The <bool> contain the original query and the transliterated query, as indicated by the user in $query-scripts.:)
             let $hits :=
                     (:If the $query-scope is narrow, query the elements immediately below the lowest div in tei:text and the four major element below tei:teiHeader.:)
-                    for $hit in 
+                    for $hit in
                         (:If both tei-text and tei-header is queried.:)
                         if (count($tei-target) eq 2)
                         then
@@ -279,11 +279,11 @@ function app:query($node as node()*, $model as map(*), $query as xs:string?, $lu
                             if ($tei-target = 'tei-text')
                             then
                                 collection($config:data-root)//tei:div[ft:query(., $query)]
-                            else 
+                            else
                                 if ($tei-target = 'tei-head')
-                                then 
+                                then
                                     collection($config:data-root)//tei:head[ft:query(., $query)]
-                                else ()    
+                                else ()
                     order by ft:score($hit) descending
                     return $hit
             let $hitCount := count($hits)
@@ -307,19 +307,19 @@ function app:query($node as node()*, $model as map(*), $query as xs:string?, $lu
 (:~
     Output the actual search result as a div, using the kwic module to summarize full text matches.
 :)
-declare 
+declare
     %templates:wrap
     %templates:default("start", 1)
     %templates:default("per-page", 10)
 function app:show-hits($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer) {
     for $hit at $p in subsequence($model("hits"), $start, $per-page)
     let $parent := $hit/ancestor-or-self::tei:div[1]
-    let $parent := if ($parent) then $parent else $hit/ancestor-or-self::tei:teiHeader  
+    let $parent := if ($parent) then $parent else $hit/ancestor-or-self::tei:teiHeader
     let $div := app:get-current($parent)
     let $parent-id := util:document-name($parent) || "_" || util:node-id($parent)
     let $div-id := util:document-name($div) || "_" || util:node-id($div)
     (:if the nearest div does not have an xml:id, find the nearest element with an xml:id and use it:)
-    (:is this necessary - can't we just use the nearest ancestor?:) 
+    (:is this necessary - can't we just use the nearest ancestor?:)
 (:    let $div-id := :)
 (:        if ($div-id) :)
 (:        then $div-id :)
@@ -335,8 +335,8 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
     (:pad hit with surrounding siblings:)
     let $hit-padded := $hit
 (:    let $hit-padded := <hit>{($hit/preceding-sibling::*[1], $hit, $hit/following-sibling::*[1])}</hit>:)
-        
-    let $loc := 
+
+    let $loc :=
         <tr class="reference">
             <td colspan="3">
                 <span class="number">{$start + $p - 1}</span>

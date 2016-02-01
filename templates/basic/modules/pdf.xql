@@ -9,7 +9,7 @@ declare option output:method "xml";
 declare option output:media-type "application/xml";
 declare option output:omit-xml-declaration "no";
 
-import module namespace config="$$config-namespace$$" at "config.xqm";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "/db/apps/tei-simple/content/util.xql";
@@ -37,10 +37,10 @@ declare function local:fop($id as xs:string, $fo as element()) {
     <fop version="1.0">
         <!-- Strict user configuration -->
         <strict-configuration>true</strict-configuration>
-    
+
         <!-- Strict FO validation -->
         <strict-validation>no</strict-validation>
-    
+
         <!-- Font Base URL for resolving relative font URLs -->
         <font-base>{substring-before(request:get-url(), "/" || $appName)}/tei-simple/resources/fonts/</font-base>
         <renderers>
@@ -77,8 +77,8 @@ return
 };
 
 declare function local:antenna-house($id as xs:string, $fo as element()) {
-    let $file := 
-        $local:WORKING_DIR || "/" || encode-for-uri($id) || 
+    let $file :=
+        $local:WORKING_DIR || "/" || encode-for-uri($id) ||
         format-dateTime(current-dateTime(), "-[Y0000][M00][D00]-[H00][m00]") || "-" || request:get-remote-addr()
     let $serialized := file:serialize($fo, $file || ".fo", "indent=no")
     let $options :=
@@ -90,7 +90,7 @@ declare function local:antenna-house($id as xs:string, $fo as element()) {
         process:execute(
             (
                 "sh", "/usr/AHFormatterV6_64/run.sh", "-d", $file || ".fo", "-o", $file || ".pdf", "-x", "2",
-                "-peb", "1", "-pdfver", "PDF1.6", 
+                "-peb", "1", "-pdfver", "PDF1.6",
                 "-p", "@PDF",
                 "-tpdf"
             ), $options
@@ -145,7 +145,7 @@ return
                 response:stream-binary($cached, "media-type=application/pdf", $id || ".pdf")
             ) else
                 let $start := util:system-time()
-                let $fo := pmu:process(odd:get-compiled($config:odd-root, $config:odd, $config:compiled-odd-root), $doc, $config:output-root, "print", "../" || $config:output, $config:module-config)
+                let $fo := $config:print-transform($doc, ())
                 return (
                     console:log("Generated fo for " || $name || " in " || util:system-time() - $start),
                     if ($source) then

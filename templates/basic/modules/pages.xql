@@ -1,27 +1,27 @@
-(: 
+(:
  : Copyright 2015, Wolfgang Meier
- : 
- : This software is dual-licensed: 
- : 
+ :
+ : This software is dual-licensed:
+ :
  : 1. Distributed under a Creative Commons Attribution-ShareAlike 3.0 Unported License
- : http://creativecommons.org/licenses/by-sa/3.0/ 
- : 
- : 2. http://www.opensource.org/licenses/BSD-2-Clause 
- : 
- : All rights reserved. Redistribution and use in source and binary forms, with or without 
- : modification, are permitted provided that the following conditions are met: 
- : 
- : * Redistributions of source code must retain the above copyright notice, this list of 
- : conditions and the following disclaimer. 
+ : http://creativecommons.org/licenses/by-sa/3.0/
+ :
+ : 2. http://www.opensource.org/licenses/BSD-2-Clause
+ :
+ : All rights reserved. Redistribution and use in source and binary forms, with or without
+ : modification, are permitted provided that the following conditions are met:
+ :
+ : * Redistributions of source code must retain the above copyright notice, this list of
+ : conditions and the following disclaimer.
  : * Redistributions in binary form must reproduce the above copyright
  : notice, this list of conditions and the following disclaimer in the documentation
- : and/or other materials provided with the distribution. 
- : 
- : This software is provided by the copyright holders and contributors "as is" and any 
- : express or implied warranties, including, but not limited to, the implied warranties 
- : of merchantability and fitness for a particular purpose are disclaimed. In no event 
- : shall the copyright holder or contributors be liable for any direct, indirect, 
- : incidental, special, exemplary, or consequential damages (including, but not limited to, 
+ : and/or other materials provided with the distribution.
+ :
+ : This software is provided by the copyright holders and contributors "as is" and any
+ : express or implied warranties, including, but not limited to, the implied warranties
+ : of merchantability and fitness for a particular purpose are disclaimed. In no event
+ : shall the copyright holder or contributors be liable for any direct, indirect,
+ : incidental, special, exemplary, or consequential damages (including, but not limited to,
  : procurement of substitute goods or services; loss of use, data, or profits; or business
  : interruption) however caused and on any theory of liability, whether in contract,
  : strict liability, or tort (including negligence or otherwise) arising in any way out
@@ -29,24 +29,24 @@
  :)
 xquery version "3.1";
 
-(:~ 
+(:~
  : Template functions to handle page by page navigation and display
  : pages using TEI Simple.
  :)
-module namespace pages="$$pages-namespace$$";
+module namespace pages="http://www.tei-c.org/tei-simple/pages";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace expath="http://expath.org/ns/pkg";
 
 import module namespace templates="http://exist-db.org/xquery/templates";
-import module namespace config="$$config-namespace$$" at "config.xqm";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "../../tei-simple/content/odd2odd.xql";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../../tei-simple/content/util.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
 declare variable $pages:app-root := request:get-context-path() || substring-after($config:app-root, "/db");
 
-declare variable $pages:EXIDE := 
+declare variable $pages:EXIDE :=
     let $pkg := collection(repo:get-root())//expath:package[@name = "http://exist-db.org/apps/eXide"]
     let $appLink :=
         if ($pkg) then
@@ -56,7 +56,7 @@ declare variable $pages:EXIDE :=
     let $path := string-join((request:get-context-path(), request:get-attribute("$exist:prefix"), $appLink, "index.html"), "/")
     return
         replace($path, "/+", "/");
-        
+
 declare
     %templates:wrap
     %templates:default("view", "div")
@@ -77,7 +77,7 @@ declare function pages:load-xml($view as xs:string, $root as xs:string?, $doc as
                 util:node-by-id($doc, $nodeId)
         else if ($root) then
             let $doc := doc($config:data-root || "/" || $doc)
-            return 
+            return
                 util:node-by-id($doc, $root)
         else
             let $div := (doc($config:data-root || "/" || $doc)//tei:div)[1]
@@ -109,7 +109,7 @@ declare function pages:single-page-link($node as node(), $model as map(*), $doc 
 };
 
 declare function pages:xml-link($node as node(), $model as map(*), $doc as xs:string?) {
-    let $doc-path := 
+    let $doc-path :=
         if ($doc) then
             $config:data-root || $doc
         else
@@ -133,7 +133,7 @@ declare function pages:xml-link($node as node(), $model as map(*), $doc as xs:st
         }
 };
 
-declare 
+declare
     %templates:default("view", "div")
     %templates:default("action", "browse")
 function pages:view($node as node(), $model as map(*), $view as xs:string, $action as xs:string) {
@@ -150,7 +150,7 @@ function pages:view($node as node(), $model as map(*), $view as xs:string, $acti
                 )
         else
             $model?data
-    let $xml := 
+    let $xml :=
         if ($view = "div") then
             pages:get-content($data[1])
         else
@@ -160,8 +160,7 @@ function pages:view($node as node(), $model as map(*), $view as xs:string, $acti
 };
 
 declare function pages:process-content($xml as element()*) {
-	let $html :=
-        pmu:process(odd:get-compiled($config:odd-root, $config:odd, $config:compiled-odd-root), $xml, $config:output-root, "web", "../generated", $config:module-config)
+	let $html := $config:web-transform($xml, ())
     let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
     return
         <div class="content {$class}">
@@ -206,7 +205,7 @@ function pages:styles($node as node(), $model as map(*)) {
     }
 };
 
-declare 
+declare
     %templates:wrap
     %templates:default("view", "div")
 function pages:navigation($node as node(), $model as map(*), $view as xs:string) {
@@ -258,7 +257,7 @@ declare function pages:get-previous($div as element(tei:div)?) {
 };
 
 declare function pages:get-content($div as element()) {
-    if ($div instance of element(tei:teiHeader)) then 
+    if ($div instance of element(tei:teiHeader)) then
         $div
     else
         if ($div instance of element(tei:div)) then
@@ -278,7 +277,7 @@ declare function pages:get-content($div as element()) {
                     }
             else
                 $div
-        else 
+        else
             $div
 };
 
