@@ -10,8 +10,8 @@
             </div>
         </div>
         <div class="row">
-            <form action="search.html" class="form form-horizontal">
-                <div class="col-md-3 col-md-push-9">
+            <div class="col-md-3 col-md-push-9">
+                <form action="search.html" class="form form-horizontal">
                     <div class="well well-sm">
                         <div class="form-group">
                             <div class="col-md-12 col-xs-12">
@@ -36,8 +36,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
             <div class="col-md-9 col-md-pull-3">
                 <div class="container-fluid">
                     <div class="row">
@@ -51,8 +51,8 @@
                                             <span id="hit-count" data-template="app:hit-count" data-template-key="all"/> documents.</span>
                                     </h5>
                                     <ul class="pagination" data-template="app:paginate" data-template-per-page="20" data-template-max-pages="5" data-template-min-hits="21" data-template-key="all"/>
-                                    <ul class="documents list-group" data-template="app:browse" data-template-per-page="20">
-                                        <li class="list-group-item">
+                                    <ul class="documents" data-template="app:browse" data-template-per-page="20">
+                                        <li>
                                             <div data-template="app:short-header"/>
                                             <div class="btn-group toolbar">
                                                 <a class="btn btn-default download-link" data-template="app:download-link" data-template-type="pdf" title="Download as PDF">
@@ -62,6 +62,7 @@
                                                     <i class="material-icons">code</i>
                                                 </a>
                                             </div>
+                                            <br class="clear"/>
                                         </li>
                                     </ul>
                                 </div>

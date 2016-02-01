@@ -52,7 +52,7 @@ function app:doc-table($node as node(), $model as map(*), $odd as xs:string?) {
             dbutil:find-by-mimetype(xs:anyURI($collection), "application/xml", function($resource) {
                 let $name := substring-after($resource, $config:app-root || "/")
                 return
-                    <li class="list-group-item">
+                    <li>
                         <h5><a href="{$name}?odd={$odd}">{pages:title(doc($resource)/*)}</a></h5>
                         <div>
                         {
@@ -98,6 +98,7 @@ function app:doc-table($node as node(), $model as map(*), $odd as xs:string?) {
                             )
                         }
                         <span>{$name}</span>
+                        <div class="clear"/>
                         </div>
                     </li>
             })

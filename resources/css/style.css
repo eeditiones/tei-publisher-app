@@ -256,9 +256,13 @@ mark {
   float: right;
   margin-top: 0;
 }
-.documents .list-group-item {
+.documents > li {
+  list-style: none;
   border-bottom: 1px solid #C0C0C0;
   margin-bottom: 15px;
+}
+.documents .clear {
+  clear: both;
 }
 #results {
   font-family: "Junicode", Georgia, "Times New Roman", serif;
