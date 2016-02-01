@@ -20,7 +20,7 @@ footer .poweredby img {
 @media (min-width: 768px) {
   .toc {
     position: fixed;
-    top: 51px;
+    top: 61px;
     bottom: 0;
     left: 0;
     z-index: 1000;
@@ -39,10 +39,10 @@ footer .poweredby img {
 }
 .navbar-default {
   margin-bottom: 0;
-  background-color: #3F51B5 !important;
+  background-color: #3f51b5 !important;
 }
 .top {
-  margin-top: 71px;
+  margin-top: 61px;
 }
 .panel.panel-primary > .panel-heading {
   background-color: #C5CAE9;
@@ -53,7 +53,7 @@ footer .poweredby img {
 a,
 a:hover,
 a:focus {
-  color: #303F9F;
+  color: #303f9f;
 }
 .main {
   margin-top: 50px;
@@ -143,7 +143,7 @@ mark {
   margin-right: 4px;
 }
 .margin-note {
-  background: #B6B6B6;
+  background: #b6b6b6;
   /*border: 1px solid #CACACA;*/
   display: block;
   font-size: small;
@@ -220,7 +220,7 @@ mark {
 .page-nav,
 .page-nav:link,
 .page-nav:active {
-  background-color: #607D8B !important;
+  background-color: #607d8b !important;
 }
 @media (min-width: 769px) {
   .page-nav,
@@ -240,7 +240,7 @@ mark {
 }
 .actions {
   margin-bottom: 10px;
-  margin-top: 71px;
+  margin-top: 61px;
 }
 .btn-group .hidden-xs {
   margin-left: .5em;

@@ -1,4 +1,4 @@
-@serifFont: "Junicode", Georgia, "Times New Roman", serif;
+@import "variables.less";
 
 footer .poweredby { float: right; margin: 33px 10px 0 0;}
 footer .poweredby img { width: 120px; }
@@ -18,7 +18,7 @@ footer .poweredby img { width: 120px; }
 @media (min-width: 768px) {
     .toc {
         position: fixed;
-        top: 51px;
+        top: 61px;
         bottom: 0;
         left: 0;
         z-index: 1000;
@@ -38,11 +38,16 @@ footer .poweredby img { width: 120px; }
 
 .navbar-default {
     margin-bottom: 0;
-    background-color: #3F51B5 !important;
+    background-color: @navbarBackgroundColor !important;
+    .navbarBackgroundImage();
+    
+    .navbar-brand, .navbar-brand:focus, .navbar-brand:hover {
+        .logo();
+    }
 }
 
 .top {
-    margin-top: 71px;
+    margin-top: 61px;
 }
 
 .panel.panel-primary>.panel-heading {
@@ -53,7 +58,7 @@ footer .poweredby img { width: 120px; }
 }
 
 a, a:hover, a:focus {
-    color: #303F9F;
+    color: @linkColor;
 }
 .main {
     margin-top: 50px;
@@ -140,7 +145,7 @@ mark {
 }
 
 .margin-note {
-    background: #B6B6B6;
+    background: @marginNoteBackgroundColor;
     // color: white;
     /*border: 1px solid #CACACA;*/
     display: block;
@@ -224,7 +229,7 @@ mark {
 }
 
 .page-nav, .page-nav:link, .page-nav:active {
-    background-color: #607D8B !important;
+    background-color: @navButtonColor !important;
 
     @media (min-width: 769px) {
         position: fixed;
@@ -240,7 +245,7 @@ mark {
 
 .actions {
     margin-bottom: 10px;
-    margin-top: 71px;
+    margin-top: 61px;
 }
 
 .btn-group .hidden-xs {

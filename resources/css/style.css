@@ -20,7 +20,7 @@ footer .poweredby img {
 @media (min-width: 768px) {
   .toc {
     position: fixed;
-    top: 51px;
+    top: 61px;
     bottom: 0;
     left: 0;
     z-index: 1000;
@@ -42,7 +42,7 @@ footer .poweredby img {
   background-color: #3F51B5 !important;
 }
 .top {
-  margin-top: 71px;
+  margin-top: 61px;
 }
 .panel.panel-primary > .panel-heading {
   background-color: #C5CAE9;
@@ -240,7 +240,7 @@ mark {
 }
 .actions {
   margin-bottom: 10px;
-  margin-top: 71px;
+  margin-top: 61px;
 }
 .btn-group .hidden-xs {
   margin-left: .5em;
