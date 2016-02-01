@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/tei-simple/models/beamer.odd' at '/db/apps/tei-simple/transform/beamer-latex.xql';
+import module namespace m='http://www.tei-c.org/tei-simple/models/beamer.odd/latex' at '/db/apps/tei-simple/transform/beamer-latex.xql';
 
 declare variable $xml external;
 

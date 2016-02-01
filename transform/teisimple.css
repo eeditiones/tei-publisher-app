@@ -103,12 +103,16 @@
 .tei-supplied5:before { content:"{"; }
 .tei-supplied5:after { content:"}"; }
 .tei-table { font-size: smaller; background-color: #F0F0F0; }
+.tei-author1:before { content: 'By '; }
+.tei-edition:before { content: 'Edition: '; }
+.tei-publisher:before { content: 'Published by: ' }
+.tei-seriesStmt:before { content: 'Series: '; }
 .tei-text { max-width: 80%; margin: auto; font-family: Verdana, Tahoma, Geneva, Arial, Helvetica, sans-serif; }
-.tei-title2 { color: red; font-size: 2em; }
-.tei-title4 { font-style: italic; }
-.tei-title6 { font-style: italic; }
-.tei-title8 { font-style: italic; }
-.tei-title10 { font-style: italic; }
+.tei-title3 { color: red; font-size: 2em; }
+.tei-title5 { font-style: italic; }
+.tei-title7 { font-style: italic; }
+.tei-title9 { font-style: italic; }
+.tei-title11 { font-style: italic; }
 .tei-titlePage { text-align: center; }
 .tei-trailer { color: green; }
 .tei-unclear:after { content: ' [?] '; }

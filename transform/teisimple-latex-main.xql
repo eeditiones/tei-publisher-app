@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/tei-simple/models/teisimple.odd' at '/db/apps/tei-simple/transform/teisimple-latex.xql';
+import module namespace m='http://www.tei-c.org/tei-simple/models/teisimple.odd/latex' at '/db/apps/tei-simple/transform/teisimple-latex.xql';
 
 declare variable $xml external;
 

@@ -58,10 +58,6 @@
                     <outputRendition>margin-bottom: 0.5em;</outputRendition>
                 </model>
             </elementSpec>
-            <elementSpec mode="change" ident="author">
-                <model predicate="ancestor::teiHeader" behaviour="omit"/>
-                <model behaviour="inline"/>
-            </elementSpec>
             <elementSpec mode="change" ident="back">
                 <model behaviour="block"/>
             </elementSpec>
@@ -444,16 +440,6 @@ border-bottom: solid 1pt blue;
             <elementSpec mode="change" ident="postscript">
                 <model behaviour="block"/>
             </elementSpec>
-            <elementSpec mode="change" ident="publisher">
-                <model predicate="ancestor::teiHeader" behaviour="omit">
-                    <desc>Omit if located in teiHeader. </desc>
-                </model>
-            </elementSpec>
-            <elementSpec mode="change" ident="pubPlace">
-                <model predicate="ancestor::teiHeader" behaviour="omit">
-                    <desc>Omit if located in teiHeader. </desc>
-                </model>
-            </elementSpec>
             <elementSpec mode="change" ident="q">
                 <model predicate="l" behaviour="block" useSourceRendition="true">
                     <outputRendition>margin-left: 10px; margin-right: 10px;
@@ -586,11 +572,6 @@ border-bottom: solid 1pt blue;
             <elementSpec mode="change" ident="table">
                 <model behaviour="table" cssClass="table table-bordered"/>
             </elementSpec>
-            <elementSpec mode="change" ident="fileDesc">
-                <model behaviour="title">
-                    <param name="content">titleStmt</param>
-                </model>
-            </elementSpec>
             <elementSpec mode="change" ident="profileDesc">
                 <model behaviour="omit"/>
             </elementSpec>
@@ -601,7 +582,103 @@ border-bottom: solid 1pt blue;
                 <model behaviour="omit"/>
             </elementSpec>
             <elementSpec mode="change" ident="teiHeader">
-                <model behaviour="metadata"/>
+                <model output="latex" behaviour="metadata"/>
+                <model output="fo" behaviour="omit"/>
+                <model output="web" predicate="$parameters?header='short'" behaviour="block"/>
+                <model output="web" behaviour="metadata"/>
+            </elementSpec>
+            <elementSpec mode="change" ident="author">
+                <model predicate="ancestor::teiHeader" behaviour="block">
+                    <outputRendition scope="before">content: 'By ';</outputRendition>
+                </model>
+                <model behaviour="inline"/>
+            </elementSpec>
+            <elementSpec mode="change" ident="availability">
+                <model behaviour="block"/>
+            </elementSpec>
+            <elementSpec mode="change" ident="edition">
+                <model predicate="ancestor::teiHeader" behaviour="block">
+                    <outputRendition scope="before">content: 'Edition: ';</outputRendition>
+                </model>
+            </elementSpec>
+            <elementSpec mode="change" ident="idno">
+                <model output="web" behaviour="cells">
+                    <param name="content">(@type, .)</param>
+                </model>
+                <model output="print" behaviour="omit"/>
+            </elementSpec>
+            <elementSpec mode="change" ident="publicationStmt">
+                <modelSequence>
+                    <model behaviour="paragraph">
+                        <param name="content">(publisher,pubPlace)</param>
+                    </model>
+                    <model behaviour="heading">
+                        <param name="content">'Identifiers'</param>
+                    </model>
+                    <model behaviour="table">
+                        <param name="content">idno</param>
+                    </model>
+                    <model behaviour="paragraph">
+                        <param name="content">availability</param>
+                    </model>
+                </modelSequence>
+            </elementSpec>
+            <elementSpec mode="change" ident="publisher">
+                <model behaviour="inline">
+                    <outputRendition scope="before">content: 'Published by: '</outputRendition>
+                </model>
+            </elementSpec>
+            <elementSpec mode="change" ident="pubPlace">
+                <model behaviour="inline"/>
+            </elementSpec>
+            <elementSpec mode="change" ident="seriesStmt">
+                <model behaviour="block">
+                    <outputRendition scope="before">content: 'Series: ';</outputRendition>
+                </model>
+            </elementSpec>
+            <elementSpec mode="change" ident="fileDesc">
+                <modelSequence predicate="$parameters?header='short'">
+                    <model behaviour="block" cssClass="header-short">
+                        <param name="content">titleStmt</param>
+                    </model>
+                    <model behaviour="block" cssClass="header-short">
+                        <param name="content">editionStmt</param>
+                    </model>
+                </modelSequence>
+                <modelSequence>
+                    <model behaviour="block">
+                        <param name="content">titleStmt</param>
+                    </model>
+                    <model behaviour="block">
+                        <param name="content">seriesStmt</param>
+                    </model>
+                    <model behaviour="paragraph">
+                        <param name="content">editionStmt</param>
+                    </model>
+                    <model output="web" behaviour="collapse">
+                        <param name="title">'Extended Header'</param>
+                        <param name="content">publicationStmt</param>
+                    </model>
+                    <model output="print" behaviour="block">
+                        <param name="content">publicationStmt</param>
+                    </model>
+                </modelSequence>
+            </elementSpec>
+            <elementSpec ident="titleStmt" mode="change">
+                <model output="latex" behaviour="meta">
+                    <param name="content">.</param>
+                </model>
+                <model output="fo" behaviour="heading"/>
+                <modelSequence output="web" predicate="$parameters?header='short'">
+                    <model behaviour="link">
+                        <param name="content">title</param>
+                        <param name="link">$parameters?doc</param>
+                    </model>
+                    <model behaviour="block">
+                        <param name="content">author</param>
+                    </model>
+                </modelSequence>
+                <model output="web" behaviour="block"/>
             </elementSpec>
             <elementSpec mode="change" ident="TEI">
                 <model behaviour="document"/>
@@ -619,6 +696,7 @@ border-bottom: solid 1pt blue;
                 <model behaviour="inline"/>
             </elementSpec>
             <elementSpec mode="change" ident="title">
+                <model predicate="$parameters?header='short'" behaviour="heading"/>
                 <modelSequence predicate="parent::titleStmt/parent::fileDesc">
                     <model predicate="preceding-sibling::title" behaviour="text">
                         <param name="content">' — '</param>
