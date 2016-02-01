@@ -86,8 +86,18 @@ declare function deploy:init-simple($collection as xs:string?, $userData as xs:s
     return (
         deploy:xconf($collection, $odd, $userData, $permissions),
         for $file in ("elementsummary.xml", "headerelements.xml", "headeronly.xml", "simpleelements.xml", "teisimple.odd", $odd, "configuration.xml")
-        return
+        return (
             xmldb:copy($config:odd-root, $target, $file),
+            if (exists($userData)) then
+                let $stored := xs:anyURI($target || "/" || $file)
+                return (
+                    sm:chmod($stored, $permissions),
+                    sm:chown($stored, $userData[1]),
+                    sm:chgrp($stored, $userData[2])
+                )
+            else
+                ()
+        ),
         deploy:mkcol($target || "/compiled", $userData, $permissions),
         (: xmldb:copy($config:compiled-odd-root, $target || "/compiled", "teisimple.odd"), :)
         deploy:mkcol($collection || "/data", $userData, $permissions),
@@ -146,15 +156,17 @@ declare function deploy:repo-descriptor($target as xs:string) {
         <prepare>pre-install.xql</prepare>
         <finish>post-install.xql</finish>
         {
-            if (request:get-parameter("owner", ())) then
-                let $group := request:get-parameter("group", ())
-                return
-                    <permissions user="{request:get-parameter('owner', ())}"
-                        password="{request:get-parameter('password', ())}"
-                        group="{if ($group != '') then $group else 'dba'}"
-                        mode="{request:get-parameter('mode', ())}"/>
-            else
-                ()
+            let $owner := request:get-parameter("owner", ())
+            return
+                if ($owner and $owner != "") then
+                    let $group := request:get-parameter("group", $owner)
+                    return
+                        <permissions user="{$owner}"
+                            password="{request:get-parameter('password', ())}"
+                            group="{if ($group != '') then $group else 'dba'}"
+                            mode="rw-rw-r--"/>
+                else
+                    ()
         }
     </meta>
 };
@@ -212,7 +224,7 @@ declare function deploy:check-group($group as xs:string) {
     if (xmldb:group-exists($group)) then
         ()
     else
-        xmldb:create-group($group)
+        sm:create-group($group)
 };
 
 declare function deploy:check-user($repoConf as element()) as xs:string+ {

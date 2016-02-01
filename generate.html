@@ -51,6 +51,23 @@
                     </div>
                     <hr/>
                     <div class="form-group">
+                        <label for="app-owner" class="col-sm-2 control-label">User:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="app-owner" name="owner" placeholder="Username"/>
+                            <p class="help-block">The user account who will own the app. Use this account for administrative tasks.
+                                The user will be created if it does not yet exist.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="app-password" class="col-sm-2 control-label">Password:</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="app-password" name="password" placeholder="Password"/>
+                            <p class="help-block">Password for the user owning this app.</p>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <button type="submit" class="btn btn-primary">
                                 <i id="icon-process" class="fa fa-cog"/> Create</button>
