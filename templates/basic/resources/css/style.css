@@ -188,6 +188,12 @@ a:focus {
     bottom: 20px;
   }
 }
+.list-works .pagination {
+  margin: 0;
+}
+.list-works .form-inline .form-group {
+  margin: 0;
+}
 .actions {
   margin-bottom: 10px;
   margin-top: 61px;
@@ -274,6 +280,7 @@ a:focus {
 }
 #results {
   font-family: "Junicode", Georgia, "Times New Roman", serif;
+  font-size: 1.2em;
 }
 #results td {
   border: 0;
@@ -287,6 +294,9 @@ a:focus {
 }
 #results .reference .number {
   padding-right: 1em;
+}
+#results .previous {
+  text-align: right;
 }
 #msg-progress {
   display: none;

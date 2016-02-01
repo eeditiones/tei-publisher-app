@@ -41,30 +41,61 @@
             <div class="col-md-9 col-md-pull-3">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-12" data-template="app:list-works">
+                        <div class="col-md-12 list-works" data-template="app:list-works">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Documents</h3>
                                 </div>
                                 <div class="panel-body">
-                                    <h5>Browsing <span class="result-count text-success">
-                                            <span id="hit-count" data-template="app:hit-count" data-template-key="all"/> documents.</span>
-                                    </h5>
-                                    <ul class="pagination" data-template="app:paginate" data-template-per-page="20" data-template-max-pages="5" data-template-min-hits="21" data-template-key="all"/>
-                                    <ul class="documents" data-template="app:browse" data-template-per-page="20">
-                                        <li>
-                                            <div data-template="app:short-header"/>
-                                            <div class="btn-group toolbar">
-                                                <a class="btn btn-default download-link" data-template="app:download-link" data-template-type="pdf" title="Download as PDF">
-                                                    <i class="material-icons">print</i>
-                                                </a>
-                                                <a class="btn btn-default" data-template="pages:xml-link" title="View TEI XML">
-                                                    <i class="material-icons">code</i>
-                                                </a>
+                                    <div class="row">
+                                        <form action="" class="form-inline col-md-12">
+                                            <div class="form-group">
+                                                <select name="browse" class="form-control" data-template="templates:form-control">
+                                                    <option value="author">Author</option>
+                                                    <option value="title">Title</option>
+                                                    <option value="file">Filename</option>
+                                                </select>
                                             </div>
-                                            <br class="clear"/>
-                                        </li>
-                                    </ul>
+                                            <div class="form-group">
+                                                <span class="input-group">
+                                                    <input type="text" name="filter" class="form-control typeahead-meta" data-template="templates:form-control" autocomplete="off" placeholder="filter by"/>
+                                                    <span class="input-group-btn">
+                                                        <button id="f-btn-search" type="submit" class="btn btn-primary">
+                                                            <span class="glyphicon glyphicon-search"/>
+                                                        </button>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <ul class="pagination" data-template="app:paginate" data-template-per-page="20" data-template-max-pages="5" data-template-min-hits="21" data-template-key="all"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5 class="pull-right">Browsing <span class="result-count text-success">
+                                                    <span id="hit-count" data-template="app:hit-count" data-template-key="all"/> documents.</span>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <ul class="documents" data-template="app:browse" data-template-per-page="20">
+                                                <li>
+                                                    <div data-template="app:short-header"/>
+                                                    <div class="btn-group toolbar">
+                                                        <a class="btn btn-default download-link" data-template="app:download-link" data-template-type="pdf" title="Download as PDF">
+                                                            <i class="material-icons">print</i>
+                                                        </a>
+                                                        <a class="btn btn-default" data-template="pages:xml-link" title="View TEI XML">
+                                                            <i class="material-icons">code</i>
+                                                        </a>
+                                                    </div>
+                                                    <br class="clear"/>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

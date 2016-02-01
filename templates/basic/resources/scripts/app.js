@@ -151,8 +151,54 @@ $(document).ready(function() {
             dataType: "html",
             success: function(data) {
                 $("#messageDialog .message").html(data);
+            },
+            error: function(xhr, status) {
+                $("#messageDialog .message").html(xhr.responseXML);
             }
         });
     });
+    $("#reindex").click(function(ev) {
+        ev.preventDefault();
+        $("#messageDialog .message").html("Updating indexes ...");
+        $("#messageDialog").modal("show");
+        $.ajax({
+            url: appRoot + "/modules/index.xql",
+            dataType: "html",
+            success: function(data) {
+                $("#messageDialog .message").html(data);
+            },
+            error: function(xhr, status) {
+                $("#messageDialog .message").html(xhr.responseXML);
+            }
+        });
+    });
+    
+    $('.typeahead-meta').typeahead({
+        items: 20,
+        minLength: 4,
+        source: function(query, callback) {
+            var type = $("select[name='browse']").val();
+            $.getJSON("../modules/autocomplete.xql?q=" + query + "&type=" + type, function(data) {
+                callback(data || []);
+            });
+        },
+        updater: function(item) {
+            if (/[\s,]/.test(item)) {
+                return '"' + item + '"';
+            }
+            return item;
+        }
+    });
+    $('.typeahead-search').typeahead({
+        items: 30,
+        minLength: 4,
+        source: function(query, callback) {
+            var type = $("select[name='tei-target']").val();
+            $.getJSON("../modules/autocomplete.xql?q=" + query + "&type=" + type, function(data) {
+                callback(data || []);
+            });
+        }
+    });
+    
     initContent();
 });
