@@ -108,12 +108,16 @@ declare function pages:single-page-link($node as node(), $model as map(*), $doc 
     }
 };
 
-declare function pages:xml-link($node as node(), $model as map(*), $doc as xs:string?) {
+declare function pages:xml-link($node as node(), $model as map(*), $source as xs:string?) {
     let $doc-path :=
-        if ($model?work) then
+        if ($source = "odd") then
+            $config:odd-root || "/" || $config:odd
+        else if ($model?work) then
             document-uri(root($model?work))
+        else if ($model?data) then
+            document-uri(root($model?data))
         else
-            $config:data-root || $doc
+            $config:app-root || "/" || $source
     let $eXide-link := $pages:EXIDE || "?open=" || $doc-path
     let $rest-link := '/exist/rest' || $doc-path
     return

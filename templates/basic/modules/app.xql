@@ -10,6 +10,34 @@ import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.
 declare namespace expath="http://expath.org/ns/pkg";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
+declare
+    %templates:wrap
+function app:check-login($node as node(), $model as map(*)) {
+    let $user := request:get-attribute("org.exist.tei-simple.user")
+    return
+        if ($user) then
+            templates:process($node/*[2], $model)
+        else
+            templates:process($node/*[1], $model)
+};
+
+declare
+    %templates:wrap
+function app:current-user($node as node(), $model as map(*)) {
+    request:get-attribute("org.exist.tei-simple.user")
+};
+
+declare
+    %templates:wrap
+function app:show-if-logged-in($node as node(), $model as map(*)) {
+    let $user := request:get-attribute("org.exist.tei-simple.user")
+    return
+        if ($user) then
+            templates:process($node/node(), $model)
+        else
+            ()
+};
+
 (:~
  : List documents in data collection
  :)

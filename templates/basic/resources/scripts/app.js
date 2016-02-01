@@ -142,5 +142,17 @@ $(document).ready(function() {
         });
     }
 
+    $("#recompile").click(function(ev) {
+        ev.preventDefault();
+        $("#messageDialog .message").html("Processing ...");
+        $("#messageDialog").modal("show");
+        $.ajax({
+            url: appRoot + "/modules/regenerate.xql",
+            dataType: "html",
+            success: function(data) {
+                $("#messageDialog .message").html(data);
+            }
+        });
+    });
     initContent();
 });
