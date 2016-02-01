@@ -153,7 +153,7 @@ declare function pmu:process-odd($odd as document-node(), $output-root as xs:str
 declare function pmu:generate-module($name as xs:string, $uri as xs:string, $xqueryFile as xs:string, $ext-modules as map(*)*, $output-root as xs:string,
     $mode as xs:string, $relPath as xs:string?, $style as xs:string?) {
     let $mainCode :=
-        "module namespace pml='" || $uri || "/module/" || $mode || "';&#10;&#10;" ||
+        "module namespace pml='" || $uri || "/module" || "';&#10;&#10;" ||
         "import module namespace m='" || $uri ||
         "' at '" || $xqueryFile || "';&#10;&#10;" ||
         "(: Generated library module to be directly imported into code which&#10;" ||

@@ -1,27 +1,27 @@
-(: 
+(:
  : Copyright 2015, Wolfgang Meier
- : 
- : This software is dual-licensed: 
- : 
+ :
+ : This software is dual-licensed:
+ :
  : 1. Distributed under a Creative Commons Attribution-ShareAlike 3.0 Unported License
- : http://creativecommons.org/licenses/by-sa/3.0/ 
- : 
- : 2. http://www.opensource.org/licenses/BSD-2-Clause 
- : 
- : All rights reserved. Redistribution and use in source and binary forms, with or without 
- : modification, are permitted provided that the following conditions are met: 
- : 
- : * Redistributions of source code must retain the above copyright notice, this list of 
- : conditions and the following disclaimer. 
+ : http://creativecommons.org/licenses/by-sa/3.0/
+ :
+ : 2. http://www.opensource.org/licenses/BSD-2-Clause
+ :
+ : All rights reserved. Redistribution and use in source and binary forms, with or without
+ : modification, are permitted provided that the following conditions are met:
+ :
+ : * Redistributions of source code must retain the above copyright notice, this list of
+ : conditions and the following disclaimer.
  : * Redistributions in binary form must reproduce the above copyright
  : notice, this list of conditions and the following disclaimer in the documentation
- : and/or other materials provided with the distribution. 
- : 
- : This software is provided by the copyright holders and contributors "as is" and any 
- : express or implied warranties, including, but not limited to, the implied warranties 
- : of merchantability and fitness for a particular purpose are disclaimed. In no event 
- : shall the copyright holder or contributors be liable for any direct, indirect, 
- : incidental, special, exemplary, or consequential damages (including, but not limited to, 
+ : and/or other materials provided with the distribution.
+ :
+ : This software is provided by the copyright holders and contributors "as is" and any
+ : express or implied warranties, including, but not limited to, the implied warranties
+ : of merchantability and fitness for a particular purpose are disclaimed. In no event
+ : shall the copyright holder or contributors be liable for any direct, indirect,
+ : incidental, special, exemplary, or consequential damages (including, but not limited to,
  : procurement of substitute goods or services; loss of use, data, or profits; or business
  : interruption) however caused and on any theory of liability, whether in contract,
  : strict liability, or tort (including negligence or otherwise) arising in any way out
@@ -32,7 +32,7 @@ xquery version "3.1";
 (:~
  : Parses an ODD and generates an XQuery transformation module based on
  : the TEI Simple Processing Model.
- : 
+ :
  : @author Wolfgang Meier
  :)
 module namespace pm="http://www.tei-c.org/tei-simple/xquery/model";
@@ -48,16 +48,16 @@ declare variable $pm:NOT_FOUND := xs:QName("pm:not-found");
 
 (:~
  : Parse the given ODD and generate an XQuery transformation module.
- : 
+ :
  : @param $odd the root node of the ODD document
  : @param $modules an array of maps. Each map defines a module to be used for resolving
  : processing model functions. The first function whose name and parameters match the behaviour
  : will be used.
- : @param output the output method to use ("web" by default) 
+ : @param output the output method to use ("web" by default)
  :)
 declare function pm:parse($odd as element(), $modules as array(*), $output as xs:string*) as map(*) {
     let $output := if (exists($output)) then $output else "web"
-    let $uri := "http://www.tei-c.org/tei-simple/models/" || util:document-name($odd)
+    let $uri := "http://www.tei-c.org/tei-simple/models/" || util:document-name($odd) || "/" || $output[1]
     let $root := $odd/ancestor-or-self::tei:TEI
     let $prefixes := in-scope-prefixes($root)[not(. = ("", "xml"))]
     let $namespaces := $prefixes ! namespace-uri-for-prefix(., $root)
@@ -66,13 +66,13 @@ declare function pm:parse($odd as element(), $modules as array(*), $output as xs
         <xquery>
             <comment type="xqdoc">
                 Transformation module generated from TEI ODD extensions for processing models.
-                
+
                 ODD: { document-uri(root($odd)) }
             </comment>
             <module prefix="model" uri="{$uri}">
                 <default-element-namespace>http://www.tei-c.org/ns/1.0</default-element-namespace>
                 <declare-namespace prefix="xhtml" uri="http://www.w3.org/1999/xhtml"/>
-                <!-- 
+                <!--
                     Should dynamically generate namespace declarations for all namespaces defined
                     on the root element of the odd. Doesn't work due to merge process though.
                 {
@@ -214,7 +214,7 @@ declare %private function pm:prepare-modules($modules as array(*)) {
 
 declare %private function pm:elementSpec($spec as element(tei:elementSpec), $modules as array(*), $output as xs:string+) {
     pm:process-models(
-        $spec/@ident, 
+        $spec/@ident,
         $spec/(tei:model[not(@output)]|tei:model[@output = $output]|tei:modelSequence),
         $modules,
         $output
@@ -254,7 +254,7 @@ declare %private function pm:process-models($ident as xs:string, $models as elem
         $models ! pm:model-or-sequence($ident, ., $modules, $output)
 };
 
-declare %private function pm:model-or-sequence($ident as xs:string, $models as element()+, 
+declare %private function pm:model-or-sequence($ident as xs:string, $models as element()+,
     $modules as array(*), $output as xs:string+) {
     for $model in $models
     return
@@ -297,7 +297,7 @@ declare %private function pm:model($ident as xs:string, $model as element(tei:mo
                                     <param>.</param>
                                     <param>({string-join(for $class in $classes return '"' || $class || '"', ", ")})</param>
                                 </function-call>
-                            else 
+                            else
                                 "(" || string-join(for $class in $classes return '"' || $class || '"', ", ") || ")"
                         }
                         </param>
@@ -319,7 +319,7 @@ declare %private function pm:model($ident as xs:string, $model as element(tei:mo
         )
 };
 
-declare %private function pm:modelSequence($ident as xs:string, $seq as element(tei:modelSequence), 
+declare %private function pm:modelSequence($ident as xs:string, $seq as element(tei:modelSequence),
     $modules as array(*), $output as xs:string+) {
     <sequence>
     {
