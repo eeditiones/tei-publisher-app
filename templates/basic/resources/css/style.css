@@ -269,6 +269,9 @@ a:focus {
 .panel.panel-info > .panel-heading {
   background-color: #607D8B;
 }
+.search {
+  margin-top: 81px;
+}
 #results {
   font-family: "Junicode", Georgia, "Times New Roman", serif;
 }
