@@ -232,15 +232,13 @@
                             <attList>
                                 <attDef ident="place" mode="change">
                                     <valList type="closed" mode="replace">
-                                        <valItem ident="above">
-                      <?exactMatch supralinear?>
+                                        <valItem ident="above"><?exactMatch supralinear?>
                                             <desc>above the line</desc>
                                         </valItem>
                                         <valItem ident="below">
                                             <desc>below the line</desc>
                                         </valItem>
-                                        <valItem ident="top">
-                      <?exactMatch pageTop?>
+                                        <valItem ident="top"><?exactMatch pageTop?>
                                             <desc>at the top of the page</desc>
                                         </valItem>
                                         <valItem ident="top-right">
@@ -249,48 +247,34 @@
                                         <valItem ident="top-left">
                                             <desc>at the top left of the page</desc>
                                         </valItem>
-                                        <valItem ident="top-centre">
-                      <?exactMatch top-center?>
+                                        <valItem ident="top-centre"><?exactMatch top-center?>
                                             <desc>at the top center of the page</desc>
                                         </valItem>
-                                        <valItem ident="bottom-right">
-                      <?exactMatch bot-right?>
+                                        <valItem ident="bottom-right"><?exactMatch bot-right?>
                                             <desc>at the bottom right of the page</desc>
                                         </valItem>
-                                        <valItem ident="bottom-left">
-                      <?exactMatch bot-left?>
+                                        <valItem ident="bottom-left"><?exactMatch bot-left?>
                                             <desc>at the bottom left of the page</desc>
                                         </valItem>
-                                        <valItem ident="bottom-centre">
-                      <?exactMatch bottom-center?>
-                      <?exactMatch bot-center?>
+                                        <valItem ident="bottom-centre"><?exactMatch bottom-center?><?exactMatch bot-center?>
                                             <desc>at the bottom centre of the page</desc>
                                         </valItem>
-                                        <valItem ident="bottom">
-                      <?exactMatch foot?>
+                                        <valItem ident="bottom"><?exactMatch foot?>
                                             <desc>at the foot of the page</desc>
                                         </valItem>
                                         <valItem ident="tablebottom">
-                                            <desc>underneath a table</desc>
-                      <?exactMatch tablefoot?>
+                                            <desc>underneath a table</desc><?exactMatch tablefoot?>
                                         </valItem>
-                                        <valItem ident="margin-right">
-                      <?exactMatch right?>
-                      <?exactMatch marg1?>
-                      <?exactMatch marg2?>
-                      <?exactMatch marg3?>
-                      <?exactMatch marg4?>
+                                        <valItem ident="margin-right"><?exactMatch right?><?exactMatch marg1?><?exactMatch marg2?><?exactMatch marg3?><?exactMatch marg4?>
                                             <desc>in the right-hand margin</desc>
                                         </valItem>
-                                        <valItem ident="margin">
-                      <?exactMatch margin-outer?>
+                                        <valItem ident="margin"><?exactMatch margin-outer?>
                                             <desc>in the outer margin</desc>
                                         </valItem>
                                         <valItem ident="margin-inner">
                                             <desc>in the inner margin</desc>
                                         </valItem>
-                                        <valItem ident="margin-left">
-                      <?exactMatch left?>
+                                        <valItem ident="margin-left"><?exactMatch left?>
                                             <desc>in the left-hand margin</desc>
                                         </valItem>
                                         <valItem ident="opposite">
@@ -311,16 +295,14 @@
                                         <valItem ident="parend">
                                             <desc>at the end the current paragraph.</desc>
                                         </valItem>
-                                        <valItem ident="inline">
-                      <?exactMatch in?>
+                                        <valItem ident="inline"><?exactMatch in?>
                                             <desc>within the body of the text.</desc>
                                         </valItem>
                                         <valItem ident="inspace">
                                             <desc>in a predefined space, for example left by an earlier
                                     scribe.</desc>
                                         </valItem>
-                                        <valItem ident="block">
-		      <?exactMatch display?>
+                                        <valItem ident="block"><?exactMatch display?>
                                             <desc>formatted as an indented paragraph</desc>
                                         </valItem>
                                     </valList>
@@ -332,21 +314,16 @@
                                 <attDef ident="unit" mode="change">
                                     <valList mode="add" type="closed">
                                         <valItem ident="chars">
-                                            <desc>characters</desc>
-                      <?exactMatch char?>
-                      <?exactMatch characters?>
+                                            <desc>characters</desc><?exactMatch char?><?exactMatch characters?>
                                         </valItem>
                                         <valItem ident="lines">
-                                            <desc>lines</desc>
-                      <?exactMatch line?>
+                                            <desc>lines</desc><?exactMatch line?>
                                         </valItem>
                                         <valItem ident="pages">
-                                            <desc>pages</desc>
-                      <?exactMatch page?>
+                                            <desc>pages</desc><?exactMatch page?>
                                         </valItem>
                                         <valItem ident="words">
-                                            <desc>words</desc>
-                      <?exactMatch word?>
+                                            <desc>words</desc><?exactMatch word?>
                                         </valItem>
                                         <valItem ident="cm">
                                             <desc>centimetres</desc>
@@ -388,34 +365,22 @@
                                 <attDef ident="style" mode="delete"/>
                                 <attDef ident="rendition" mode="change">
                                     <valList mode="add" type="semi">
-                                        <valItem ident="simple:allcaps">
-                      <?exactMatch upper-roman?>
-                      <?exactMatch uc?>
+                                        <valItem ident="simple:allcaps"><?exactMatch upper-roman?><?exactMatch uc?>
                                             <desc>all capitals</desc>
                                         </valItem>
-                                        <valItem ident="simple:blackletter">
-                      <?exactMatch blackLetter?>
-                      <?exactMatch blackletterType?>
-                      <?exactMatch FrakturType?>
-                      <?exactMatch gothic?>
+                                        <valItem ident="simple:blackletter"><?exactMatch blackLetter?><?exactMatch blackletterType?><?exactMatch FrakturType?><?exactMatch gothic?>
                                             <desc>black letter or gothic typeface</desc>
                                         </valItem>
-                                        <valItem ident="simple:bold">
-                      <?exactMatch b?>
-                      <?exactMatch bo?>
-                      <?exactMatch bol?>
-                      <?exactMatch strong?>
+                                        <valItem ident="simple:bold"><?exactMatch b?><?exactMatch bo?><?exactMatch bol?><?exactMatch strong?>
                                             <desc>bold typeface</desc>
                                         </valItem>
                                         <valItem ident="simple:bottombraced">
                                             <desc>marked with a brace under the bottom of the text</desc>
                                         </valItem>
-                                        <valItem ident="simple:boxed">
-                      <?exactMatch border?>
+                                        <valItem ident="simple:boxed"><?exactMatch border?>
                                             <desc>border around the text</desc>
                                         </valItem>
-                                        <valItem ident="simple:centre">
-                      <?exactMatch center?>
+                                        <valItem ident="simple:centre"><?exactMatch center?>
                                             <desc>centred</desc>
                                         </valItem>
                                         <valItem ident="simple:cursive">
@@ -430,8 +395,7 @@
                                         <valItem ident="simple:doubleunderline">
                                             <desc>underlined with double line</desc>
                                         </valItem>
-                                        <valItem ident="simple:dropcap">
-                      <?exactMatch decorInit?>
+                                        <valItem ident="simple:dropcap"><?exactMatch decorInit?>
                                             <desc>initial letter larger or decorated</desc>
                                         </valItem>
                                         <valItem ident="simple:float">
@@ -446,28 +410,19 @@
                                         <valItem ident="simple:justify">
                                             <desc>justified text</desc>
                                         </valItem>
-                                        <valItem ident="simple:italic">
-                      <?exactMatch italics?>
-                      <?exactMatch ITALIC?>
-                      <?exactMatch i?>
-                      <?exactMatch it?>
-                      <?exactMatch ital?>
+                                        <valItem ident="simple:italic"><?exactMatch italics?><?exactMatch ITALIC?><?exactMatch i?><?exactMatch it?><?exactMatch ital?>
                                             <desc>italic typeface</desc>
                                         </valItem>
-                                        <valItem ident="simple:larger">
-                      <?exactMatch large?>
+                                        <valItem ident="simple:larger"><?exactMatch large?>
                                             <desc>larger type</desc>
                                         </valItem>
-                                        <valItem ident="simple:left">
-                      <?exactMatch left?>
+                                        <valItem ident="simple:left"><?exactMatch left?>
                                             <desc>aligned to the left or left-justified</desc>
                                         </valItem>
-                                        <valItem ident="simple:leftbraced">
-                      <?exactMatch braced?>
+                                        <valItem ident="simple:leftbraced"><?exactMatch braced?>
                                             <desc>marked with a brace on the left side of the text</desc>
                                         </valItem>
-                                        <valItem ident="simple:letterspace">
-                      <?exactMatch spaceletter?>
+                                        <valItem ident="simple:letterspace"><?exactMatch spaceletter?>
                                             <desc>larger-than-normal spacing between letters, usually for emphasis</desc>
                                         </valItem>
                                         <valItem ident="simple:literal">
@@ -476,44 +431,34 @@
                                         <valItem ident="simple:normalstyle">
                                             <desc>upright shape and default weight of typeface</desc>
                                         </valItem>
-                                        <valItem ident="simple:normalweight">
-                      <?exactMatch roman?>
+                                        <valItem ident="simple:normalweight"><?exactMatch roman?>
                                             <desc>normal typeface weight</desc>
                                         </valItem>
-                                        <valItem ident="simple:right">
-                      <?exactMatch right-aligned?>
+                                        <valItem ident="simple:right"><?exactMatch right-aligned?>
                                             <desc>aligned to the right or right-justified</desc>
                                         </valItem>
                                         <valItem ident="simple:rightbraced">
                                             <desc>marked with a brace to the right of the text</desc>
                                         </valItem>
-                                        <valItem ident="simple:rotateleft">
-                      <?exactMatch rotateCounterclockwise?>
+                                        <valItem ident="simple:rotateleft"><?exactMatch rotateCounterclockwise?>
                                             <desc>rotated to the left</desc>
                                         </valItem>
-                                        <valItem ident="simple:rotateright">
-                      <?exactMatch rotateClockwise?>
+                                        <valItem ident="simple:rotateright"><?exactMatch rotateClockwise?>
                                             <desc>rotated to the right</desc>
                                         </valItem>
-                                        <valItem ident="simple:smallcaps">
-                      <?exactMatch sc?>
-                      <?exactMatch smallCap?>
+                                        <valItem ident="simple:smallcaps"><?exactMatch sc?><?exactMatch smallCap?>
                                             <desc>small caps</desc>
                                         </valItem>
-                                        <valItem ident="simple:smaller">
-                      <?exactMatch small?>
+                                        <valItem ident="simple:smaller"><?exactMatch small?>
                                             <desc>smaller type</desc>
                                         </valItem>
                                         <valItem ident="simple:strikethrough">
                                             <desc>strike through</desc>
                                         </valItem>
-                                        <valItem ident="simple:subscript">
-                      <?exactMatch sub?>
+                                        <valItem ident="simple:subscript"><?exactMatch sub?>
                                             <desc>subscript</desc>
                                         </valItem>
-                                        <valItem ident="simple:superscript">
-                      <?exactMatch sup?>
-                      <?exactMatch super?>
+                                        <valItem ident="simple:superscript"><?exactMatch sup?><?exactMatch super?>
                                             <desc>superscript</desc>
                                         </valItem>
                                         <valItem ident="simple:topbraced">
@@ -522,8 +467,7 @@
                                         <valItem ident="simple:typewriter">
                                             <desc>fixed-width typeface, like typewriter</desc>
                                         </valItem>
-                                        <valItem ident="simple:underline">
-                      <?exactMatch u?>
+                                        <valItem ident="simple:underline"><?exactMatch u?>
                                             <desc>underlined with single line</desc>
                                         </valItem>
                                         <valItem ident="simple:wavyunderline">
@@ -601,10 +545,6 @@
                             <model behaviour="block">
                                 <outputRendition>margin-bottom: 0.5em;</outputRendition>
                             </model>
-                        </elementSpec>
-                        <elementSpec mode="change" ident="author">
-                            <model predicate="ancestor::teiHeader" behaviour="omit"/>
-                            <model behaviour="inline"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="back">
                             <model behaviour="block"/>
@@ -988,16 +928,6 @@ border-bottom: solid 1pt blue;
                         <elementSpec mode="change" ident="postscript">
                             <model behaviour="block"/>
                         </elementSpec>
-                        <elementSpec mode="change" ident="publisher">
-                            <model predicate="ancestor::teiHeader" behaviour="omit">
-                                <desc>Omit if located in teiHeader. </desc>
-                            </model>
-                        </elementSpec>
-                        <elementSpec mode="change" ident="pubPlace">
-                            <model predicate="ancestor::teiHeader" behaviour="omit">
-                                <desc>Omit if located in teiHeader. </desc>
-                            </model>
-                        </elementSpec>
                         <elementSpec mode="change" ident="q">
                             <model predicate="l" behaviour="block" useSourceRendition="true">
                                 <outputRendition>margin-left: 10px; margin-right: 10px;
@@ -1135,11 +1065,6 @@ border-bottom: solid 1pt blue;
 		</outputRendition>
                             </model>
                         </elementSpec>
-                        <elementSpec mode="change" ident="fileDesc">
-                            <model behaviour="title">
-                                <param name="content">titleStmt</param>
-                            </model>
-                        </elementSpec>
                         <elementSpec mode="change" ident="profileDesc">
                             <model behaviour="omit"/>
                         </elementSpec>
@@ -1150,7 +1075,103 @@ border-bottom: solid 1pt blue;
                             <model behaviour="omit"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="teiHeader">
-                            <model behaviour="metadata"/>
+                            <model output="latex" behaviour="metadata"/>
+                            <model output="fo" behaviour="omit"/>
+                            <model output="web" predicate="$parameters?header='short'" behaviour="block"/>
+                            <model output="web" behaviour="metadata"/>
+                        </elementSpec>
+                        <elementSpec mode="change" ident="author">
+                            <model predicate="ancestor::teiHeader" behaviour="block">
+                                <outputRendition scope="before">content: 'By ';</outputRendition>
+                            </model>
+                            <model behaviour="inline"/>
+                        </elementSpec>
+                        <elementSpec mode="change" ident="availability">
+                            <model behaviour="block"/>
+                        </elementSpec>
+                        <elementSpec mode="change" ident="edition">
+                            <model predicate="ancestor::teiHeader" behaviour="block">
+                                <outputRendition scope="before">content: 'Edition: ';</outputRendition>
+                            </model>
+                        </elementSpec>
+                        <elementSpec mode="change" ident="idno">
+                            <model output="web" behaviour="cells">
+                                <param name="content">(@type, .)</param>
+                            </model>
+                            <model output="print" behaviour="omit"/>
+                        </elementSpec>
+                        <elementSpec mode="change" ident="publicationStmt">
+                            <modelSequence>
+                                <model behaviour="paragraph">
+                                    <param name="content">(publisher,pubPlace)</param>
+                                </model>
+                                <model behaviour="heading">
+                                    <param name="content">'Identifiers'</param>
+                                </model>
+                                <model behaviour="table">
+                                    <param name="content">idno</param>
+                                </model>
+                                <model behaviour="paragraph">
+                                    <param name="content">availability</param>
+                                </model>
+                            </modelSequence>
+                        </elementSpec>
+                        <elementSpec mode="change" ident="publisher">
+                            <model behaviour="inline">
+                                <outputRendition scope="before">content: 'Published by: '</outputRendition>
+                            </model>
+                        </elementSpec>
+                        <elementSpec mode="change" ident="pubPlace">
+                            <model behaviour="inline"/>
+                        </elementSpec>
+                        <elementSpec mode="change" ident="seriesStmt">
+                            <model behaviour="block">
+                                <outputRendition scope="before">content: 'Series: ';</outputRendition>
+                            </model>
+                        </elementSpec>
+                        <elementSpec mode="change" ident="fileDesc">
+                            <modelSequence predicate="$parameters?header='short'">
+                                <model behaviour="block" cssClass="header-short">
+                                    <param name="content">titleStmt</param>
+                                </model>
+                                <model behaviour="block" cssClass="header-short">
+                                    <param name="content">editionStmt</param>
+                                </model>
+                            </modelSequence>
+                            <modelSequence>
+                                <model behaviour="block">
+                                    <param name="content">titleStmt</param>
+                                </model>
+                                <model behaviour="block">
+                                    <param name="content">seriesStmt</param>
+                                </model>
+                                <model behaviour="paragraph">
+                                    <param name="content">editionStmt</param>
+                                </model>
+                                <model output="web" behaviour="collapse">
+                                    <param name="title">'Extended Header'</param>
+                                    <param name="content">publicationStmt</param>
+                                </model>
+                                <model output="print" behaviour="block">
+                                    <param name="content">publicationStmt</param>
+                                </model>
+                            </modelSequence>
+                        </elementSpec>
+                        <elementSpec ident="titleStmt" mode="change">
+                            <model output="latex" behaviour="meta">
+                                <param name="content">.</param>
+                            </model>
+                            <model output="fo" behaviour="heading"/>
+                            <modelSequence output="web" predicate="$parameters?header='short'">
+                                <model behaviour="link">
+                                    <param name="content">title</param>
+                                    <param name="link">$parameters?doc</param>
+                                </model>
+                                <model behaviour="block">
+                                    <param name="content">author</param>
+                                </model>
+                            </modelSequence>
+                            <model output="web" behaviour="block"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="TEI">
                             <model behaviour="document"/>
@@ -1168,6 +1189,7 @@ border-bottom: solid 1pt blue;
                             <model behaviour="inline"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="title">
+                            <model predicate="$parameters?header='short'" behaviour="heading"/>
                             <modelSequence predicate="parent::titleStmt/parent::fileDesc">
                                 <model predicate="preceding-sibling::title" behaviour="text">
                                     <param name="content">' — '</param>
@@ -1267,8 +1289,7 @@ border-bottom: solid 1pt blue;
                                             <desc>data cell</desc>
                                         </valItem>
                                         <valItem ident="label">
-                                            <desc>label cell</desc>
-                      <?exactMatch LABEL?>
+                                            <desc>label cell</desc><?exactMatch LABEL?>
                                         </valItem>
                                         <valItem ident="sum">
                                             <desc>row or column sum data</desc>

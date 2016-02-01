@@ -49,10 +49,19 @@ declare
     %templates:default("per-page", 10)
 function app:browse($node as node(), $model as map(*), $start as xs:int, $per-page as xs:int) {
     subsequence($model?all, $start, $per-page) !
-        element { node-name($node) } {
-            $node/@*,
-            templates:process($node/node(), map:new(($model, map { "work": . })))
-        }
+        templates:process($node/node(), map:new(($model, map { "work": . })))
+};
+
+declare
+    %templates:wrap
+function app:short-header($node as node(), $model as map(*)) {
+    let $work := $model("work")/ancestor-or-self::tei:TEI
+    let $id := util:document-name($work)
+    return
+        $config:web-transform($work/tei:teiHeader, map { 
+            "header": "short",
+            "doc": $id
+        })
 };
 
 (:~
@@ -128,21 +137,6 @@ function app:hit-count($node as node()*, $model as map(*), $key as xs:string) {
     count($model($key))
 };
 
-declare
-    %templates:wrap
-function app:checkbox($node as node(), $model as map(*), $target-texts as xs:string*) {
-    let $id := $model("work")/@xml:id/string()
-    return (
-        attribute { "value" } {
-            $id
-        },
-        if ($id = $target-texts) then
-            attribute checked { "checked" }
-        else
-            ()
-    )
-};
-
 (:~
  :
  :)
@@ -159,19 +153,6 @@ declare %private function app:work-title($work as element(tei:TEI)?) {
     let $main-title := if ($main-title) then $main-title else $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/text()
     return
         $main-title
-};
-
-declare function app:work-author($node as node(), $model as map(*)) {
-    let $work := $model("work")/ancestor-or-self::tei:TEI
-    let $work-authors := $work//tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:biblFull/tei:titleStmt/tei:author
-    return
-        string-join($work-authors, "; ")
-};
-
-declare
-    %templates:wrap
-function app:work-edition($node as node(), $model as map(*)) {
-    $model("work")/ancestor-or-self::tei:TEI/tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:edition/tei:date/text()
 };
 
 declare function app:download-link($node as node(), $model as map(*), $type as xs:string, $doc as xs:string?,

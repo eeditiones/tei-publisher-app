@@ -1,3 +1,10 @@
+.navbarBackgroundImage {
+  background-size: auto 100%;
+}
+.logo {
+  background-size: auto 100%;
+  width: 200px;
+}
 footer .poweredby {
   float: right;
   margin: 33px 10px 0 0;
@@ -40,6 +47,13 @@ footer .poweredby img {
 .navbar-default {
   margin-bottom: 0;
   background-color: #3f51b5 !important;
+  background-size: auto 100%;
+}
+.navbar-default .navbar-brand,
+.navbar-default .navbar-brand:focus,
+.navbar-default .navbar-brand:hover {
+  background-size: auto 100%;
+  width: 200px;
 }
 .top {
   margin-top: 61px;
@@ -259,6 +273,10 @@ mark {
 .documents .list-group-item {
   border-bottom: 1px solid #C0C0C0;
   margin-bottom: 15px;
+}
+.documents .header-short h1 {
+  font-family: "Junicode", Georgia, "Times New Roman", serif;
+  font-size: 20px;
 }
 #results {
   font-family: "Junicode", Georgia, "Times New Roman", serif;

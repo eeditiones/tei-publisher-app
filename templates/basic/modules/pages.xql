@@ -110,10 +110,10 @@ declare function pages:single-page-link($node as node(), $model as map(*), $doc 
 
 declare function pages:xml-link($node as node(), $model as map(*), $doc as xs:string?) {
     let $doc-path :=
-        if ($doc) then
-            $config:data-root || $doc
+        if ($model?work) then
+            document-uri(root($model?work))
         else
-            document-uri(root($model("work")))
+            $config:data-root || $doc
     let $eXide-link := $pages:EXIDE || "?open=" || $doc-path
     let $rest-link := '/exist/rest' || $doc-path
     return
