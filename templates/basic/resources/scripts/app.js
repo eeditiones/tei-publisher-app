@@ -69,10 +69,17 @@ $(document).ready(function() {
         });
     }
 
-    function showContent(container, animIn, animOut) {
+    function showContent(container, animIn, animOut, id) {
+        if (!id) {
+            window.scrollTo(0,0);
+        }
         container.removeClass("animated " + animOut);
         $("#content-container").addClass("animated " + animIn).one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
             $(this).removeClass("animated " + animIn);
+            if (id) {
+                var target = document.getElementById(id.substring(1));
+                target && target.scrollIntoView();
+            }
         });
     }
 
