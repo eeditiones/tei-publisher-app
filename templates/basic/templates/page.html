@@ -19,6 +19,7 @@
         <script type="text/javascript" src="resources/scripts/material.min.js"/>
         <script type="text/javascript" src="resources/scripts/ripples.min.js"/>
         <script type="text/javascript" src="resources/scripts/bootstrap3-typeahead.min.js"/>
+        <script type="text/javascript" src="resources/scripts/jquery.fs.macaroon.min.js"/>
         <script type="text/javascript" src="resources/scripts/app.js"/>
     </head>
     <body id="body">
@@ -65,6 +66,27 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="pdf-info">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span class="fa fa-times" aria-hidden="true"/>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title">Generating File...</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Generating a file for download may take up to a few minutes. Please wait.</p>
+                        <p>This dialog should close automatically when the download has completed.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <i class="glyphicon glyphicon-remove"/> Close</button>
                     </div>
                 </div>
             </div>

@@ -20,6 +20,8 @@
         <script type="text/javascript" src="resources/scripts/material.min.js"/>
         <script type="text/javascript" src="resources/scripts/ripples.min.js"/>
         <script type="text/javascript" src="resources/scripts/jquery.touchSwipe.min.js"/>
+        <script type="text/javascript" src="resources/scripts/bootstrap3-typeahead.min.js"/>
+        <script type="text/javascript" src="resources/scripts/jquery.fs.macaroon.min.js"/>
         <script type="text/javascript">
             $(document).ready(function() {
                 $(".note").popover({
@@ -57,7 +59,7 @@
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <li>
-                                                        <a data-template="app:download-link" data-template-type="pdf">PDF (FO Version)</a>
+                                                        <a class="download-link" data-template="app:download-link" data-template-type="pdf">PDF (FO Version)</a>
                                                     </li>
                                                     <li data-template="app:show-if-logged-in">
                                                         <a target="_new" data-template="app:download-link" data-template-type="pdf" data-template-source="true">
@@ -75,7 +77,7 @@
                                                     </li-->
                                                 </ul>
                                             </div>
-                                            <a class="btn btn-default hidden-xs" data-template="app:download-link" data-template-type="epub" title="Download as epub ebook">
+                                            <a class="btn btn-default hidden-xs download-link" data-template="app:download-link" data-template-type="epub" title="Download as epub ebook">
                                                 <i class="material-icons">book</i>
                                                 <span class="hidden-xs">ePUB</span>
                                             </a>
@@ -133,6 +135,27 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="pdf-info">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span class="fa fa-times" aria-hidden="true"/>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title">Generating File...</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Generating a file for download may take up to a few minutes. Please wait.</p>
+                        <p>This dialog should close automatically when the download has completed.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <i class="glyphicon glyphicon-remove"/> Close</button>
                     </div>
                 </div>
             </div>

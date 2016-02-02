@@ -139,7 +139,7 @@ return
     if ($doc) then
         let $cached := if ($useCache = ("yes", "true")) then local:get-cached($name, $doc) else ()
         return (
-            response:set-cookie("sarit.token", $token),
+            response:set-cookie("simple.token", $token),
             if (not($source) and exists($cached)) then (
                 console:log("Reading " || $name || " pdf from cache"),
                 response:stream-binary($cached, "media-type=application/pdf", $id || ".pdf")
