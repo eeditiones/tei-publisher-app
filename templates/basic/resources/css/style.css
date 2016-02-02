@@ -142,9 +142,11 @@ a:focus {
     margin-bottom: 5em;
   }
 }
-.margin-right {
-  margin-right: 200px;
-  position: relative;
+@media (min-width: 769px) {
+  .margin-right {
+    margin-right: 200px;
+    position: relative;
+  }
 }
 /* Page by page navigation */
 #content-inner {
