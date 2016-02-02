@@ -6,6 +6,7 @@ import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace kwic="http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
+import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
 declare namespace expath="http://expath.org/ns/pkg";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -160,9 +161,14 @@ function app:paginate($node as node(), $model as map(*), $key as xs:string, $sta
 :)
 declare
     %templates:wrap
-    %templates:default("key", "hits")
+    %templates:default("key", "hitCount")
 function app:hit-count($node as node()*, $model as map(*), $key as xs:string) {
-    count($model($key))
+    let $value := $model?($key)
+    return
+        if ($value instance of xs:integer) then
+            $value
+        else
+            count($value)
 };
 
 (:~
