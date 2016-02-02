@@ -8,7 +8,7 @@ xquery version "3.0";
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
-import module namespace config="http://exist-db.org/apps/appblueprint/config" at "config.xqm";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "/db/apps/tei-simple/content/util.xql";
 import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "/db/apps/tei-simple/content/odd2odd.xql";
 import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
@@ -22,20 +22,17 @@ declare option output:media-type "text/text";
 declare variable $local:WORKING_DIR := system:get-exist-home() || "/webapp";
 
 declare variable $local:TeX_COMMAND := function($file) {
-    ( "/opt/local/bin/pdflatex", "-interaction=nonstopmode", $file )
+    ( "/usr/local/bin/pdflatex", "-interaction=nonstopmode", $file )
 };
 
 let $id := request:get-parameter("id", ())
 let $token := request:get-parameter("token", ())
 let $source := request:get-parameter("source", ())
 return (
-    response:set-cookie("sarit.token", $token),
+    response:set-cookie("simple.token", $token),
     if ($id) then
-        let $xml := doc($config:remote-data-root || "/" || $id || ".xml")/tei:TEI
-        let $tex :=
-            string-join(
-                pmu:process(odd:get-compiled($config:odd-root, $config:odd, $config:compiled-odd), $xml, $config:odd-root, "latex", "../resources/odd", ())
-            )
+        let $xml := doc($config:data-root || "/" || $id || ".xml")/tei:TEI
+        let $tex := string-join($config:latex-transform($xml, ()))
         let $file := 
             $id || format-dateTime(current-dateTime(), "-[Y0000][M00][D00]-[H00][m00]")
         return

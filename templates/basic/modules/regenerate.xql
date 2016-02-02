@@ -15,7 +15,7 @@ declare option output:media-type "text/html";
     <ul>
     {
         for $source in $config:odd
-        for $module in ("web", "print")
+        for $module in ("web", "print", "latex")
         for $file in pmu:process-odd(
             doc(odd:get-compiled($config:odd-root, $config:odd, $config:compiled-odd-root)),
             $config:output-root,

@@ -13,7 +13,7 @@ declare function trigger:after-update-document($uri as xs:anyURI) {
     util:log("INFO", "trigger on " || $uri || " using " || $local:collection),
     if (ends-with($uri, ".odd")) then
         for $source in $local:odd
-        for $module in ("web", "print")
+        for $module in ("web", "print", "latex")
         for $file in pmu:process-odd(
             doc(odd:get-compiled($local:collection || "/resources/odd", $local:odd, $local:collection || "/resources/odd/compiled")),
             $local:collection || "/transform",
