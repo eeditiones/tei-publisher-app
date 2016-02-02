@@ -57,9 +57,9 @@
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <li>
-                                                        <a data-template="app:download-link" data-template-type="pdf">PDF via FO</a>
+                                                        <a data-template="app:download-link" data-template-type="pdf">PDF (FO Version)</a>
                                                     </li>
-                                                    <li>
+                                                    <li data-template="app:show-if-logged-in">
                                                         <a target="_new" data-template="app:download-link" data-template-type="pdf" data-template-source="true">
                                                             FO Source
                                                         </a>
@@ -74,10 +74,11 @@
                                                     </a>
                                                     </li-->
                                                 </ul>
-                                            </div><!--a class="btn btn-default hidden-xs" data-template="pages:epub-link" title="Download as epub ebook">
+                                            </div>
+                                            <a class="btn btn-default hidden-xs" data-template="app:download-link" data-template-type="epub" title="Download as epub ebook">
                                                 <i class="material-icons">book</i>
                                                 <span class="hidden-xs">ePUB</span>
-                                            </a-->
+                                            </a>
                                             <a class="btn btn-default hidden-xs" data-template="pages:xml-link">
                                                 <i class="material-icons">code</i>
                                                 <span class="hidden-xs">XML</span>

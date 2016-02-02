@@ -84,8 +84,25 @@
                                                 <li>
                                                     <div data-template="app:short-header"/>
                                                     <div class="btn-group toolbar">
-                                                        <a class="btn btn-default download-link" data-template="app:download-link" data-template-type="pdf" title="Download as PDF">
-                                                            <i class="material-icons">print</i>
+                                                        <div class="btn-group hidden-xs">
+                                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                <i class="material-icons">print</i>
+                                                                <span class="hidden-xs">PDF</span>
+                                                                <span class="caret"/>
+                                                            </button>
+                                                            <ul class="dropdown-menu" role="menu">
+                                                                <li>
+                                                                    <a class="download-link" data-template="app:download-link" data-template-type="pdf" title="Download as PDF">PDF (FO Version)</a>
+                                                                </li>
+                                                                <li data-template="app:show-if-logged-in">
+                                                                    <a target="_new" data-template="app:download-link" data-template-type="pdf" data-template-source="true">
+                                                                        FO Source
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <a class="btn btn-default hidden-xs" data-template="app:download-link" data-template-type="epub" title="Download as epub ebook">
+                                                            <i class="material-icons">book</i>
                                                         </a>
                                                         <a class="btn btn-default" data-template="pages:xml-link" title="View TEI XML">
                                                             <i class="material-icons">code</i>

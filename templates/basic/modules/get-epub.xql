@@ -1,6 +1,6 @@
 xquery version "3.1";
 
-import module namespace config="http://exist-db.org/apps/appblueprint/config" at "config.xqm";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace epub="http://exist-db.org/xquery/epub" at "epub.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -26,7 +26,8 @@ declare function local:work2epub($id as xs:string, $work as element()) {
             "/db/apps/tei-simple/resources/fonts/Junicode-Italic.ttf"
         ]
     }
-    let $cssDefault := util:binary-to-string(util:binary-doc($config:odd-root || "/teisimple-eebo.css"))
+    let $oddName := replace($config:odd, "^([^/\.]+).*$", "$1")
+    let $cssDefault := util:binary-to-string(util:binary-doc($config:output-root || "/" || $oddName || ".css"))
     let $cssEpub := util:binary-to-string(util:binary-doc($config:app-root || "/resources/css/epub.css"))
     let $css := $cssDefault || 
         "&#10;/* styles imported from epub.css */&#10;" || 
@@ -38,11 +39,11 @@ declare function local:work2epub($id as xs:string, $work as element()) {
 
 let $id := request:get-parameter("id", ())
 let $token := request:get-parameter("token", ())
-let $work := doc($config:remote-data-root || "/" || $id || ".xml")/tei:TEI
+let $work := doc($config:data-root || "/" || $id || ".xml")/tei:TEI
 let $entries := local:work2epub($id, $work)
 return
     (
-        response:set-cookie("sarit.token", $token),
+        response:set-cookie("simple.token", $token),
         response:set-header("Content-Disposition", concat("attachment; filename=", concat($id, '.epub'))),
         response:stream-binary(
             compression:zip( $entries, true() ),
