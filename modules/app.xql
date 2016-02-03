@@ -192,7 +192,7 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
         })
 };
 
-declare function app:action($node as node(), $model as map(*), $source as xs:string?, $action as xs:string?) {
+declare function app:action($node as node(), $model as map(*), $source as xs:string?, $action as xs:string?, $new-odd as xs:string?) {
     switch ($action)
         case "refresh" return
             <div class="panel panel-primary" role="alert">
@@ -213,8 +213,42 @@ declare function app:action($node as node(), $model as map(*), $source as xs:str
                     </ul>
                 </div>
             </div>
+        case "create-odd" return
+            <div class="panel panel-primary" role="alert">
+                <div class="panel-heading"><h3 class="panel-title">Generated Files</h3></div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                    {
+                        let $template := doc($config:odd-root || "/template.odd.xml")
+                        return
+                            xmldb:store($config:odd-root, $new-odd || ".odd", document { app:parse-template($template, $new-odd) }, "text/xml")
+                    }
+                    </ul>
+                </div>
+            </div>
         default return
             ()
+};
+
+declare function app:parse-template($nodes as node()*, $odd as xs:string) {
+    for $node in $nodes
+    return
+        typeswitch ($node)
+        case document-node() return
+            app:parse-template($node/node(), $odd)
+        case element(tei:schemaSpec) return
+            element { node-name($node) } {
+                $node/@*,
+                attribute ident { $odd },
+                app:parse-template($node/node(), $odd)
+            }
+        case element() return
+            element { node-name($node) } {
+                $node/@*,
+                app:parse-template($node/node(), $odd)
+            }
+        default return
+            $node
 };
 
 declare function app:load-source($node as node(), $model as map(*)) as node()* {

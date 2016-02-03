@@ -34,7 +34,14 @@ else if (contains($exist:path, "/components")) then
         <forward url="{$exist:controller}/components/{substring-after($exist:path, '/components/')}"/>
     </dispatch>
 
-else if (starts-with($exist:path, "/works/")) then (
+else if (ends-with($exist:resource, ".xql")) then (
+    login:set-user("org.exist.tei-simple", (), false()),
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/modules/{$exist:resource}"/>
+        <cache-control cache="no"/>
+    </dispatch>
+    
+) else if (starts-with($exist:path, "/works/")) then (
     login:set-user("org.exist.tei-simple", (), false()),
     let $id := replace(xmldb:decode($exist:resource), "^(.*)\..*$", "$1")
     let $html :=
@@ -105,12 +112,6 @@ else if (starts-with($exist:path, "/works/")) then (
 			<forward url="{$exist:controller}/error-page.html" method="get"/>
 			<forward url="{$exist:controller}/modules/view.xql"/>
 		</error-handler>
-    </dispatch>
-
-) else if (ends-with($exist:resource, ".xql")) then (
-    login:set-user("org.exist.tei-simple", (), false()),
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <cache-control cache="no"/>
     </dispatch>
     
 ) else

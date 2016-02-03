@@ -63,14 +63,19 @@ declare function deploy:xconf($collection as xs:string, $odd as xs:string, $user
         <collection xmlns="http://exist-db.org/collection-config/1.0">
             <index xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
                 <fulltext default="none" attributes="false"/>
+                <lucene>
+                    <text qname="tei:div"/>
+                    <text qname="tei:head"/>
+                    <text match="//tei:sourceDesc/tei:biblFull/tei:titleStmt/tei:title"/>
+                </lucene>
             </index>
-            <triggers>
+            <!--triggers>
                 <trigger event="update" class="org.exist.collections.triggers.XQueryTrigger">
                     <parameter name="url" value="xmldb:exist://{$collection}/modules/on-odd-changed.xql"/>
                     <parameter name="odd" value="{$odd}"/>
                     <parameter name="collection" value="{$collection}"/>
                 </trigger>
-            </triggers>
+            </triggers-->
         </collection>
     return (
         xmldb:store($collection, "collection.xconf", $xconf),

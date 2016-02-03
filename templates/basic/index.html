@@ -37,6 +37,30 @@
                         </div>
                     </div>
                 </form>
+                <div class="panel panel-info" data-template="app:show-if-logged-in">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Upload</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>Upload TEI XML files. Click on the button below or
+                            drag&amp;drop files on it. Reload the page when done.
+                        </p>
+                        <span class="btn btn-success btn-block fileinput-button">
+                            <i class="material-icons">file_upload</i>
+                            <span>Select files...</span>
+                            <input id="fileupload" type="file" name="files[]" multiple="multiple"/>
+                        </span><!-- The global progress bar -->
+                        <div id="progress" class="progress">
+                            <div class="progress-bar progress-bar-success"/>
+                        </div><!-- The container for the uploaded files -->
+                        <table id="files-table" class="files table table-striped">
+                            <thead>
+                                <th>Uploaded Files</th>
+                            </thead>
+                            <tbody id="files"/>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="col-md-9 col-md-pull-3">
                 <div class="container-fluid">
@@ -118,6 +142,9 @@
                                                     </div>
                                                     <br class="clear"/>
                                                 </li>
+                                                <li class="empty">
+                                                    <p>The data collection is empty. Log in to upload documents.</p>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -129,4 +156,39 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="resources/scripts/jquery.ui.widget.js"/>
+    <script type="text/javascript" src="resources/scripts/jquery.iframe-transport.js"/>
+    <script type="text/javascript" src="resources/scripts/jquery.fileupload.js"/>
+    <script type="text/javascript">
+    $(function () {
+        'use strict';
+        
+        function reloadDocTable() {
+            $("#documents").load("doc-table.html");
+        }
+        
+        $('#fileupload').fileupload({
+            url: "modules/upload.xql",
+            dataType: 'json',
+            done: function (e, data) {
+                $.each(data.result.files, function (index, file) {
+                    var tr = document.createElement("tr");
+                    var td = document.createElement("td");
+                    td.appendChild(document.createTextNode(file.name));
+                    tr.appendChild(td);
+                    $("#files").append(tr);
+                });
+                reloadDocTable();
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#progress .progress-bar').css(
+                    'width',
+                    progress + '%'
+                );
+            }
+        }).prop('disabled', !$.support.fileInput)
+            .parent().addClass($.support.fileInput ? undefined : 'disabled');
+    });
+    </script>
 </div>

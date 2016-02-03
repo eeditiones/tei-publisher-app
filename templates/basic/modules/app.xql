@@ -76,9 +76,12 @@ declare
     %templates:wrap
     %templates:default("start", 1)
     %templates:default("per-page", 10)
-function app:browse($node as node(), $model as map(*), $start as xs:int, $per-page as xs:int) {
-    subsequence($model?all, $start, $per-page) !
-        templates:process($node/node(), map:new(($model, map { "work": . })))
+function app:browse($node as node(), $model as map(*), $start as xs:int, $per-page as xs:int, $filter as xs:string?) {
+    if (empty($model?all) and empty($filter)) then
+        templates:process($node/*[@class="empty"], $model)
+    else
+        subsequence($model?all, $start, $per-page) !
+            templates:process($node/*[not(@class="empty")], map:new(($model, map { "work": . })))
 };
 
 declare

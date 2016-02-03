@@ -40,6 +40,7 @@ sm:chmod(xs:anyURI($target || "/modules/pdf.xql"), "rwsr-xr-x"),
 sm:chmod(xs:anyURI($target || "/modules/get-epub.xql"), "rwsr-xr-x"),
 sm:chmod(xs:anyURI($target || "/modules/ajax.xql"), "rwsr-xr-x"),
 sm:chmod(xs:anyURI($target || "/modules/regenerate.xql"), "rwsr-xr-x"),
+sm:chmod(xs:anyURI($target || "/modules/upload.xql"), "rwsr-xr-x"),
 
 (: LaTeX requires dba permissions to execute shell process :)
 sm:chmod(xs:anyURI($target || "/modules/latex.xql"), "rwxr-Sr-x"),

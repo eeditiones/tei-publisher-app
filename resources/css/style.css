@@ -313,3 +313,13 @@ mark {
     opacity: 0;
   }
 }
+.odd-table {
+  border-bottom: 1px solid #C5CAE9;
+}
+.fileinput-button {
+  margin: 20px 0 20px 0;
+  border: 1px dotted #C5CAE9;
+}
+#files {
+  margin-top: 20px;
+}
