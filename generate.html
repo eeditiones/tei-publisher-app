@@ -9,7 +9,9 @@
                 </div>
                 <p>Use this form to generate an application based on an ODD file and TEI data.
                 This is experimental! Not all features may work as expected.</p>
-                <form id="form-generate" method="post" action="" class="form-horizontal">
+                <p>Check out the <a href="http://showcases.exist-db.org/exist/apps/eebo/works/">EEBO app</a> to see a live example of an application
+            which was created using this generator.</p>
+                <form id="form-generate" data-toggle="validator" method="post" action="" class="form-horizontal">
                     <div class="form-group">
                         <label for="app-odd" class="col-sm-2 control-label">ODD:</label>
                         <div class="col-sm-4">
@@ -20,18 +22,20 @@
                         </div>
                     </div>
                     <hr/>
-                    <div class="form-group">
+                    <div class="form-group has-feedback">
                         <label for="app-name" class="col-sm-2 control-label">Name:</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="app-name" name="uri" placeholder="http://exist-db.org/apps/my-simple-app"/>
-                            <p class="help-block">A URL to uniquely identify the app. Should not be used by any other app in the db.</p>
+                            <input type="url" required="required" class="form-control" id="app-name" name="uri" placeholder="http://exist-db.org/apps/my-simple-app"/>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"/>
+                            <p class="help-block with-errors">A URL to uniquely identify the app. Should not be used by any other app in the db.</p>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group has-feedback">
                         <label for="app-abbrev" class="col-sm-2 control-label">Abbreviation:</label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" id="app-abbrev" name="abbrev" placeholder="Short name"/>
-                            <p class="help-block">A short name to be used in URLs and file names (only characters and "-" or "_", no spaces)</p>
+                            <input type="text" required="required" class="form-control" id="app-abbrev" pattern="[a-zA-Z0-9-_]+" name="abbrev" placeholder="Short name"/>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"/>
+                            <p class="help-block with-errors">A short name to be used in URLs and file names (only characters and "-" or "_", no spaces)</p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -42,30 +46,35 @@
                             a collection "data" will be created below the app collection.</p>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group has-feedback">
                         <label for="app-title" class="col-sm-2 control-label">Title:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="app-title" name="title" placeholder="Title of the app"/>
+                            <input type="text" required="required" class="form-control" id="app-title" name="title" placeholder="Title of the app"/>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"/>
                             <p class="help-block">The title of the app which will be shown e.g. in the dashboard.</p>
                         </div>
                     </div>
                     <hr/>
-                    <div class="form-group">
-                        <label for="app-owner" class="col-sm-2 control-label">User:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="app-owner" name="owner" placeholder="Username"/>
-                            <p class="help-block">The user account who will own the app. Use this account for administrative tasks.
-                                The user will be created if it does not yet exist.
-                            </p>
+                    <fieldset>
+                        <div class="form-group has-feedback">
+                            <label for="app-owner" class="col-sm-2 control-label">User:</label>
+                            <div class="col-sm-10">
+                                <input type="text" required="required" class="form-control" id="app-owner" name="owner" placeholder="Username"/>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"/>
+                                <p class="help-block">The user account who will own the app. Use this account for administrative tasks.
+                                    The user will be created if it does not yet exist.
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="app-password" class="col-sm-2 control-label">Password:</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" id="app-password" name="password" placeholder="Password"/>
-                            <p class="help-block">Password for the user owning this app.</p>
+                        <div class="form-group has-feedback">
+                            <label for="app-password" class="col-sm-2 control-label">Password:</label>
+                            <div class="col-sm-10">
+                                <input type="password" required="required" class="form-control" id="app-password" name="password" placeholder="Password"/>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"/>
+                                <p class="help-block">Password for the user owning this app.</p>
+                            </div>
                         </div>
-                    </div>
+                    </fieldset>
                     <hr/>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
@@ -91,8 +100,20 @@
         </footer>
     </div>
     <script type="text/javascript">
-        $("#form-generate").submit(function(ev) {
+    $(document).ready(function() {
+
+        var $form = $("#form-generate");
+        $form.find("input").change(function(ev) {
+            this.setCustomValidity("");
+        });
+        
+        $form.submit(function(ev) {
+            console.log("form submitted");
             ev.preventDefault();
+            if (!this.checkValidity()) {
+                this.find('input:invalid, select:invalid, textarea:invalid').eq(0).focus();
+            }
+            
             $("#icon-process").toggleClass("fa-spin");
             $("#msg-progress").show();
             var data = $(this).serialize();
@@ -101,13 +122,23 @@
                 dataType: "json",
                 data: data,
                 success: function(data) {
-                    $("#msg-collection").text(data.target);
-                    $("#msg-link").attr("href", "../" + data.abbrev);
-                    $("#msg").show();
+                    if (!data.error) {
+                        $("#msg-collection").text(data.target);
+                        $("#msg-link").attr("href", "../" + data.abbrev);
+                        $("#msg").show();
+                    } else {
+                        $form.find("input[name='" + data.param + "']").each(function() {
+                            console.log("invalidating %o", this);
+                            this.setCustomValidity(data.error);
+                            $form.validator('validate');
+                            $(this).focus();
+                        });
+                    }
                     $("#icon-process").toggleClass("fa-spin");
                     $("#msg-progress").hide();
                 }
             });
         });
+    });
     </script>
 </div>

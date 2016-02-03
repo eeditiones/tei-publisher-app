@@ -454,11 +454,34 @@ declare function deploy:deploy($collection as xs:string, $expathConf as element(
         ()
 };
 
+declare function deploy:validate() {
+    let $uri := request:get-parameter("uri", ())
+    return
+        if ($uri = repo:list()) then
+            map {
+                "error": "An app with this URI does already exist",
+                "param": "uri"
+            }
+        else
+            let $abbrev := request:get-parameter("abbrev", ())
+            return
+                if (collection(repo:get-root() || "/" || $abbrev)/*) then
+                    map {
+                        "error": "There is already an app using this abbreviation",
+                        "param": "abbrev"
+                    }
+                else
+                    ()
+};
+
 let $abbrev := request:get-parameter("abbrev", ())
 let $collection := request:get-parameter("collection", ())
+let $errors := deploy:validate()
 return
     if (empty($abbrev)) then
         ()
+    else if (exists($errors)) then
+        $errors
     else
         let $target :=
             if ($collection) then
