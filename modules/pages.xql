@@ -93,33 +93,45 @@ declare function pages:back-link($node as node(), $model as map(*), $odd as xs:s
 };
 
 declare function pages:pdf-link($node as node(), $model as map(*), $odd as xs:string, $source as xs:boolean?) {
-    element { node-name($node) } {
-        attribute href {
-            $pages:app-root || "/modules/fo.xql?odd=" || $odd || "&amp;doc=" || substring-after(document-uri(root($model?data)), $config:app-root)
-            || (if ($source) then "&amp;source=yes" else ())
-        },
-        $node/@*,
-        $node/node()
-    }
+    let $uuid := util:uuid()
+    return
+        element { node-name($node) } {
+            attribute href {
+                $pages:app-root || "/modules/fo.xql?odd=" || $odd || "&amp;doc=" || substring-after(document-uri(root($model?data)), $config:app-root)
+                || "&amp;token=" || $uuid || (if ($source) then "&amp;source=yes" else ())
+            },
+            attribute data-token { $uuid },
+            $node/@*,
+            $node/node()
+        }
 };
 
 declare function pages:latex-link($node as node(), $model as map(*), $odd as xs:string, $source as xs:boolean?) {
-    element { node-name($node) } {
-        attribute href {
-            $pages:app-root || "/modules/latex.xql?odd=" || $odd || "&amp;doc=" || substring-after(document-uri(root($model?data)), $config:app-root)
-            || (if ($source) then "&amp;source=yes" else ())
-        },
-        $node/@*,
-        $node/node()
-    }
+    let $uuid := util:uuid()
+    return
+        element { node-name($node) } {
+            attribute href {
+                $pages:app-root || "/modules/latex.xql?odd=" || $odd || "&amp;doc=" || substring-after(document-uri(root($model?data)), $config:app-root)
+                || "&amp;token=" || $uuid || (if ($source) then "&amp;source=yes" else ())
+            },
+            $node/@*,
+            attribute data-token { $uuid },
+            $node/node()
+        }
 };
 
 declare function pages:epub-link($node as node(), $model as map(*), $odd as xs:string) {
-    element { node-name($node) } {
-        $node/@* except $node/@href,
-        attribute href { $pages:app-root || "/modules/get-epub.xql?odd=" || $odd || "&amp;doc=" || substring-after(document-uri(root($model?data)), $config:app-root) },
-        $node/node()
-    }
+    let $uuid := util:uuid()
+    return
+        element { node-name($node) } {
+            $node/@* except $node/@href,
+            attribute href { 
+                $pages:app-root || "/modules/get-epub.xql?odd=" || $odd || "&amp;doc=" || substring-after(document-uri(root($model?data)), $config:app-root) 
+                || "&amp;token=" || $uuid
+            },
+            attribute data-token { $uuid },
+            $node/node()
+        }
 };
 
 declare function pages:single-page-link($node as node(), $model as map(*), $odd as xs:string, $doc as xs:string) {
@@ -272,8 +284,8 @@ declare function pages:get-content($div as element()) {
                     return
                         element { node-name($div) } {
                             $div/@*,
-                            $child/preceding-sibling::*,
-                            pages:get-content($child)
+                            ($child/preceding-sibling::*,
+                            pages:get-content($child))
                         }
                 else
                     element { node-name($div) } {

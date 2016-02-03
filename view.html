@@ -57,7 +57,7 @@
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <li>
-                                                        <a data-template="pages:pdf-link">
+                                                        <a class="download-link" data-template="pages:pdf-link">
                                                         PDF via FO
                                                     </a>
                                                     </li>
@@ -67,7 +67,7 @@
                                                     </a>
                                                     </li>
                                                     <li>
-                                                        <a data-template="pages:latex-link">
+                                                        <a class="download-link" data-template="pages:latex-link">
                                                         PDF via LaTeX
                                                     </a>
                                                     </li>
@@ -78,7 +78,7 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <a class="btn btn-default hidden-xs" data-template="pages:epub-link" title="Download as epub ebook">
+                                            <a class="btn btn-default hidden-xs download-link" data-template="pages:epub-link" title="Download as epub ebook">
                                                 <i class="material-icons">book</i>
                                                 <span class="hidden-xs">ePUB</span>
                                             </a>
@@ -137,6 +137,27 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="pdf-info">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span class="fa fa-times" aria-hidden="true"/>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title">Generating File...</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Generating a file for download may take up to a few minutes. Please wait.</p>
+                        <p>This dialog should close automatically when the download has completed.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <i class="glyphicon glyphicon-remove"/> Close</button>
                     </div>
                 </div>
             </div>

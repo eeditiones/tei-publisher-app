@@ -56,46 +56,50 @@ function app:doc-table($node as node(), $model as map(*), $odd as xs:string?) {
                         <h5><a href="{$name}?odd={$odd}">{pages:title(doc($resource)/*)}</a></h5>
                         <div>
                         {
-                            templates:process(
-                                <div class="toolbar btn-group" role="group">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                            <i class="material-icons">print</i> <span class="hidden-xs">PDF</span> <span class="caret"/>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li>
-                                                <a href="modules/fo.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
-                                                    PDF via FO
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a target="_new"
-                                                    href="modules/fo.xql?source=yes&amp;odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
-                                                    FO Code
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="modules/latex.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
-                                                    PDF via LaTeX
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a target="_new"
-                                                    href="modules/latex.xql?source=yes&amp;odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
-                                                    LaTeX Code
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <a class="btn btn-default"
-                                        href="modules/get-epub.xql?odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
-                                        <i class="material-icons">book</i> <span class="hidden-xs">ePUB</span></a>
-                                    <a class="btn btn-default" data-template="app:load-source"
-                                        href="{substring-after($resource, $config:app-root)}">
-                                        <i class="material-icons">code</i> <span class="hidden-xs">Source</span></a>
-                                </div>,
-                                $model
-                            )
+                            let $token := util:uuid()
+                            return
+                                templates:process(
+                                    <div class="toolbar btn-group" role="group">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                <i class="material-icons">print</i> <span class="hidden-xs">PDF</span> <span class="caret"/>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li>
+                                                    <a class="download-link" data-token="{$token}"
+                                                        href="modules/fo.xql?token={$token}&amp;odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
+                                                        PDF via FO
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a target="_new"
+                                                        href="modules/fo.xql?source=yes&amp;odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
+                                                        FO Code
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="download-link" data-token="{$token}"
+                                                        href="modules/latex.xql?token={$token}&amp;odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
+                                                        PDF via LaTeX
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a target="_new"
+                                                        href="modules/latex.xql?source=yes&amp;odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
+                                                        LaTeX Code
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <a class="btn btn-default download-link" data-token="{$token}"
+                                            href="modules/get-epub.xql?token={$token}&amp;odd={$odd}&amp;doc={substring-after($resource, $config:app-root || '/')}">
+                                            <i class="material-icons">book</i> <span class="hidden-xs">ePUB</span></a>
+                                        <a class="btn btn-default" data-template="app:load-source"
+                                            href="{substring-after($resource, $config:app-root)}">
+                                            <i class="material-icons">code</i> <span class="hidden-xs">Source</span></a>
+                                    </div>,
+                                    $model
+                                )
                         }
                         <span>{$name}</span>
                         <div class="clear"/>

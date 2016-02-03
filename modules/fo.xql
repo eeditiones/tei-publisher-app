@@ -62,9 +62,11 @@ declare variable $local:CONFIG :=
 
 let $doc := request:get-parameter("doc", ())
 let $odd := request:get-parameter("odd", $config:default-odd)
+let $token := request:get-parameter("token", "none")
 let $source := request:get-parameter("source", ())
 return
-    if ($doc) then
+    if ($doc) then (
+        response:set-cookie("simple.token", $token),
         let $xml := doc($config:app-root || "/" || $doc)
         let $fo :=
                 pmu:process(odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root), $xml, $config:output-root, "print", "../" || $config:output, $config:module-config)
@@ -75,5 +77,5 @@ return
                 let $pdf := xslfo:render($fo, "application/pdf", (), $local:CONFIG)
                 return
                     response:stream-binary($pdf, "media-type=application/pdf", replace($doc, "^.*?([^/]+)\..*", "$1") || ".pdf")
-    else
+    ) else
         <p>No document specified</p>
