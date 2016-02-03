@@ -77,7 +77,7 @@ declare
     %templates:default("start", 1)
     %templates:default("per-page", 10)
 function app:browse($node as node(), $model as map(*), $start as xs:int, $per-page as xs:int, $filter as xs:string?) {
-    if (empty($model?all) and empty($filter)) then
+    if (empty($model?all) and (empty($filter) or $filter = "")) then
         templates:process($node/*[@class="empty"], $model)
     else
         subsequence($model?all, $start, $per-page) !

@@ -6,13 +6,16 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare function local:index() {
     for $doc in collection($config:data-root)/tei:TEI
-    let $titleStmt := $doc//tei:sourceDesc/tei:biblFull/tei:titleStmt
+    let $titleStmt := (
+        $doc//tei:sourceDesc/tei:biblFull/tei:titleStmt,
+        $doc//tei:fileDesc/tei:titleStmt
+    )
     let $index :=
         <doc>
             {
                 for $title in $titleStmt/tei:title
                 return
-                    <field name="title" store="yes">{$title/text()}</field>
+                    <field name="title" store="yes">{string-join($title/text(), " ")}</field>
             }
             {
                 for $author in $titleStmt/tei:author

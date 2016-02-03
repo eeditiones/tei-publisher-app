@@ -67,6 +67,7 @@ declare function deploy:xconf($collection as xs:string, $odd as xs:string, $user
                     <text qname="tei:div"/>
                     <text qname="tei:head"/>
                     <text match="//tei:sourceDesc/tei:biblFull/tei:titleStmt/tei:title"/>
+                    <text match="//tei:fileDesc/tei:titleStmt/tei:title"/>
                 </lucene>
             </index>
             <!--triggers>
