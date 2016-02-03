@@ -25,7 +25,7 @@ declare function local:generate-code($collection as xs:string) {
         doc($collection || "/resources/odd/configuration.xml")/*)?("module")
     return 
         (),
-    let $permissions := doc($collection || "/repo.xml")//repo:permissions
+    let $permissions := collection($collection)//repo:permissions[1]
     for $file in xmldb:get-child-resources($collection || "/transform")
     let $path := xs:anyURI($collection || "/transform/" || $file)
     return (
