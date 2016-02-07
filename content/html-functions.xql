@@ -124,20 +124,20 @@ declare function pmf:glyph($config as map(*), $node as element(), $class as xs:s
         ()
 };
 
-declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url as xs:anyURI,
+declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url,
     $width, $height, $scale, $title) {
     let $style := if ($width) then "width: " || $width || "; " else ()
     let $style := if ($height) then $style || "height: " || $height || "; " else $style
     return
         if ($title) then
             <figure>
-                <img src="{$url}">
+                <img src="{$url}" class="{$class}">
                 { if ($style) then attribute style { $style } else () }
                 </img>
                 <figcaption>{pmf:apply-children($config, $node, $title)}</figcaption>
             </figure>
         else
-            <img src="{$url}">
+            <img src="{$url}" class="{$class}">
             { if ($style) then attribute style { $style } else () }
             </img>
 };

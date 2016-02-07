@@ -110,7 +110,7 @@ declare function pmf:glyph($config as map(*), $node as element(), $class as xs:s
         ()
 };
 
-declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url as xs:anyURI,
+declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url,
     $width, $height, $scale, $title) {
     let $w := if ($width and not(ends-with($width, "%"))) then "width=" || $width else ()
     let $h := if ($height and not(ends-with($height, "%"))) then "height=" || $height else ()

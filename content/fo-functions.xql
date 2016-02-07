@@ -230,7 +230,7 @@ declare function pmf:glyph($config as map(*), $node as element(), $class as xs:s
         ()
 };
 
-declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url as xs:anyURI,
+declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url,
     $width, $height, $scale, $title) {
     let $src :=
         if (matches($url, "^\w+://")) then
