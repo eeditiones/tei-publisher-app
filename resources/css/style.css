@@ -254,6 +254,11 @@ mark {
   margin-bottom: 10px;
   margin-top: 61px;
 }
+@media (max-width: 769px) {
+  .actions .btn {
+    padding: 8px 20px;
+  }
+}
 .btn-group .hidden-xs {
   margin-left: .5em;
 }
