@@ -14,6 +14,13 @@ declare variable $dir external;
 (: the target collection into which the app is deployed :)
 declare variable $target external;
 
+declare variable $repoxml :=
+    let $uri := doc($target || "/expath-pkg.xml")/*/@name
+    let $repo := util:binary-to-string(repo:get-resource($uri, "repo.xml"))
+    return
+        parse-xml($repo)
+;
+
 declare function local:generate-code($collection as xs:string) {
     for $source in xmldb:get-child-resources($collection || "/resources/odd")[ends-with(., ".odd")]
     for $module in ("web", "print", "latex")
@@ -25,7 +32,7 @@ declare function local:generate-code($collection as xs:string) {
         doc($collection || "/resources/odd/configuration.xml")/*)?("module")
     return 
         (),
-    let $permissions := collection($collection)//repo:permissions[1]
+    let $permissions := $repoxml//repo:permissions[1]
     return (
         for $file in xmldb:get-child-resources($collection || "/transform")
         let $path := xs:anyURI($collection || "/transform/" || $file)
@@ -55,3 +62,4 @@ sm:chmod(xs:anyURI($target || "/modules/latex.xql"), "rwxr-Sr-x"),
 sm:chgrp(xs:anyURI($target || "/modules/latex.xql"), "dba"),
 
 local:generate-code($target)
+
