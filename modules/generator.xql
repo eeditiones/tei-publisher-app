@@ -357,6 +357,7 @@ declare function deploy:expand($collection as xs:string, $resource as xs:string,
 declare function deploy:expand-xql($target as xs:string) {
     let $name := request:get-parameter("uri", ())
     let $odd := request:get-parameter("odd", "teisimple.odd")
+    let $defaultView := request:get-parameter("default-view", "div")
     let $data-param := request:get-parameter("data-collection", ())
     let $data-param :=
         if (ends-with($data-param, "/")) then $data-param else $data-param || "/"
@@ -371,6 +372,7 @@ declare function deploy:expand-xql($target as xs:string) {
             <param name="namespace" value="{$name}/templates"/>
             <param name="config-namespace" value="{$name}/config"/>
             <param name="pages-namespace" value="{$name}/pages"/>
+            <param name="default-view" value="{$defaultView}"/>
             <param name="config-data" value="{$data-root}"/>
             <param name="config-odd" value="{$odd}"/>
             <param name="config-odd-name" value="{substring-before($odd, '.odd')}"/>

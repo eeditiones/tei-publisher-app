@@ -49,6 +49,9 @@ $(document).ready(function() {
                     } else {
                         $(".nav-prev").css("visibility", "hidden");
                     }
+                    if (data.switchView) {
+                        $("#switch-view").attr("href", data.switchView);
+                    }
                     showContent(container, animIn, animOut);
                 }
             });

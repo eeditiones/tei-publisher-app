@@ -19,6 +19,8 @@ declare variable $config:web-transform := pm-web:transform#2;
 declare variable $config:print-transform := pm-print:transform#2;
 declare variable $config:latex-transform := pm-latex:transform#2;
 
+declare variable $config:default-view := "$$default-view$$";
+
 (:
     Determine the application root collection from the current module load path.
 :)

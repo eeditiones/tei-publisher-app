@@ -52,6 +52,7 @@ let $doc := request:get-parameter("doc", ())
 let $root := request:get-parameter("root", ())
 let $odd := request:get-parameter("odd", ())
 let $id := request:get-parameter("id", ())
+let $view := request:get-parameter("view", $config:default-view)
 let $xml := 
     if ($id) then (
         console:log("Loading by id " || $id),
@@ -68,8 +69,21 @@ return
     if ($xml) then
         let $parent := $xml/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
         let $prevDiv := $xml/preceding::tei:div[1]
-        let $prev := pages:get-previous(if ($parent and (empty($prevDiv) or $xml/.. >> $prevDiv)) then $xml/.. else $prevDiv)
-        let $next := pages:get-next($xml)
+        let $prev := 
+            switch ($view)
+                case "page" return
+                    $xml/preceding::tei:pb[1]
+                default return
+                    let $parent := $xml/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
+                    let $prevDiv := $xml/preceding::tei:div[1]
+                    return
+                        pages:get-previous(if ($parent and (empty($prevDiv) or $xml/.. >> $prevDiv)) then $xml/.. else $prevDiv)
+        let $next :=
+            switch ($view)
+                case "page" return
+                    $xml/following::tei:pb[1]
+                default return
+                    pages:get-next($xml)
         let $html := pages:process-content($odd, pages:get-content($xml))
         let $doc := replace($doc, "^.*/([^/]+)$", "$1")
         return
@@ -78,12 +92,20 @@ return
                 "odd": $odd,
                 "next": 
                     if ($next) then 
-                        $doc || "?root=" || util:node-id($next) || "&amp;odd=" || $odd
+                        $doc || "?root=" || util:node-id($next) || "&amp;odd=" || $odd || "&amp;view=" || $view
                     else (),
                 "previous": 
                     if ($prev) then 
-                        $doc || "?root=" || util:node-id($prev) || "&amp;odd=" || $odd
+                        $doc || "?root=" || util:node-id($prev) || "&amp;odd=" || $odd || "&amp;view=" || $view
                     else (),
+                "switchView": 
+                    let $root := pages:switch-view-id($xml, $view)
+                    return
+                        if ($root) then
+                            $doc || "?root=" || util:node-id($root) || "&amp;odd=" || $odd || 
+                                "&amp;view=" || (if ($view = "div") then "page" else "div")
+                        else
+                            (),
                 "content": serialize($html,
                     <output:serialization-parameters xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
                       <output:indent>no</output:indent>

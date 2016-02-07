@@ -29,6 +29,8 @@ declare variable $config:app-root :=
         substring-before($modulePath, "/modules")
 ;
 
+declare variable $config:default-view := "div";
+
 declare variable $config:setup := doc($config:app-root || "/setup.xml")/setup;
 
 declare variable $config:data-root := $config:setup/collections/path ! ($config:app-root || "/" || .);

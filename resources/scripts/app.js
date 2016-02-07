@@ -46,6 +46,9 @@ $(document).ready(function() {
                     } else {
                         $(".nav-prev").css("visibility", "hidden");
                     }
+                    if (data.switchView) {
+                        $("#switch-view").attr("href", data.switchView);
+                    }
                     showContent(container, animIn, animOut);
                 }
             });
@@ -67,7 +70,10 @@ $(document).ready(function() {
         });
     }
 
-    function showContent(container, animIn, animOut) {
+    function showContent(container, animIn, animOut, id) {
+        if (!id) {
+            window.scrollTo(0,0);
+        }
         container.removeClass("animated " + animOut);
         $("#content-container").addClass("animated " + animIn).one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
             $(this).removeClass("animated " + animIn);

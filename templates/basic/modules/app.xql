@@ -291,12 +291,12 @@ function app:query($node as node()*, $model as map(*), $query as xs:string?, $lu
                         (:If both tei-text and tei-header is queried.:)
                         if (count($tei-target) eq 2)
                         then
-                            collection($config:data-root)//tei:div[ft:query(., $query)] |
+                            collection($config:data-root)//tei:div[ft:query(., $query)][not(tei:div)] |
                             collection($config:data-root)//tei:head[ft:query(., $query)]
                         else
                             if ($tei-target = 'tei-text')
                             then
-                                collection($config:data-root)//tei:div[ft:query(., $query)]
+                                collection($config:data-root)//tei:div[ft:query(., $query)][not(tei:div)]
                             else
                                 if ($tei-target = 'tei-head')
                                 then
@@ -329,7 +329,8 @@ declare
     %templates:wrap
     %templates:default("start", 1)
     %templates:default("per-page", 10)
-function app:show-hits($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer) {
+function app:show-hits($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer, $view as xs:string?) {
+    let $view := if ($view) then $view else $config:default-view
     for $hit at $p in subsequence($model("hits"), $start, $per-page)
     let $parent := $hit/ancestor-or-self::tei:div[1]
     let $parent := if ($parent) then $parent else $hit/ancestor-or-self::tei:teiHeader
@@ -350,9 +351,6 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
     (:the work always has xml:id.:)
     let $work-id := $work/@xml:id/string()
     let $work-id := if ($work-id) then $work-id else util:document-name($work) || "_1"
-    (:pad hit with surrounding siblings:)
-    let $hit-padded := $hit
-(:    let $hit-padded := <hit>{($hit/preceding-sibling::*[1], $hit, $hit/following-sibling::*[1])}</hit>:)
 
     let $loc :=
         <tr class="reference">
@@ -363,12 +361,20 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
                 </span>
             </td>
         </tr>
-    let $matchId := util:node-id($hit)
-    let $config := <config width="60" table="yes" link="{$div-id}.xml?action=search#{$matchId}"/>
-    let $expanded := util:expand($hit)
+    let $expanded := util:expand($hit, "add-exist-id=all")
     return (
         $loc,
         for $match in subsequence($expanded//exist:match, 1, 5)
+        let $matchId := $match/../@exist:id
+        let $docLink :=
+            if ($view = "page") then
+                let $contextNode := util:node-by-id($div, $matchId)
+                let $page := $contextNode/preceding::tei:pb[1]
+                return
+                    util:document-name($work) || "_" || util:node-id($page)
+            else
+                $div-id
+        let $config := <config width="60" table="yes" link="{$docLink}.xml?action=search&amp;view={$view}#{$matchId}"/>
         let $kwic := kwic:get-summary($expanded, $match, $config)
         return $kwic
     )
