@@ -2,12 +2,19 @@
   background-size: auto 100%;
 }
 .logo {
+  background: url('../images/icon.png') top left no-repeat;
   background-size: auto 100%;
+}
+.logo span {
+  margin-left: 60px;
 }
 a,
 a:hover,
 a:focus {
   color: #303f9f;
+}
+#main-container {
+  max-width: 1600px;
 }
 .main {
   margin-top: 50px;
@@ -16,6 +23,9 @@ a:focus {
 #content-inner {
   font-family: "Junicode", Georgia, "Times New Roman", serif;
   font-size: 16px;
+}
+.content {
+  padding-bottom: 30px;
 }
 .content h1 {
   font-size: 2.441em;
@@ -125,6 +135,12 @@ a:focus {
   padding: inherit;
   margin: inherit;
 }
+#image-container {
+  overflow: auto;
+}
+#image-container img {
+  width: 100%;
+}
 #content-container {
   -webkit-animation-duration: 400ms;
   -moz-animation-duration: 400ms;
@@ -133,8 +149,8 @@ a:focus {
 }
 @media (min-width: 769px) {
   #content-container {
-    margin-left: 60px;
-    margin-right: 60px;
+    /*margin-left: 60px;
+    margin-right: 60px;*/
   }
 }
 @media (max-width: 768px) {
@@ -188,6 +204,14 @@ a:focus {
   .page-nav:active {
     position: fixed;
     bottom: 20px;
+  }
+}
+@media (min-width: 769px) {
+  .nav-prev {
+    left: 30px;
+  }
+  .nav-next {
+    right: 30px;
   }
 }
 .list-works .pagination {
@@ -257,6 +281,13 @@ a:focus {
   .toc ul {
     padding-left: 20px;
   }
+  .toc-toggle {
+    position: fixed !important;
+    left: 30px;
+    top: inherit;
+    background-color: #607D8B !important;
+    color: white;
+  }
 }
 .navbar-default {
   margin-bottom: 0;
@@ -266,7 +297,13 @@ a:focus {
 .navbar-default .navbar-brand,
 .navbar-default .navbar-brand:focus,
 .navbar-default .navbar-brand:hover {
+  background: url('../images/icon.png') top left no-repeat;
   background-size: auto 100%;
+}
+.navbar-default .navbar-brand span,
+.navbar-default .navbar-brand:focus span,
+.navbar-default .navbar-brand:hover span {
+  margin-left: 60px;
 }
 .top {
   margin-top: 61px;

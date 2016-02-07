@@ -13,6 +13,7 @@
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/animate.min.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/jasny-bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" data-template="pages:styles"/>
         <script type="text/javascript" src="resources/scripts/jquery-1.11.3.min.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
@@ -20,6 +21,7 @@
         <script type="text/javascript" src="resources/scripts/material.min.js"/>
         <script type="text/javascript" src="resources/scripts/ripples.min.js"/>
         <script type="text/javascript" src="resources/scripts/jquery.touchSwipe.min.js"/>
+        <script type="text/javascript" src="resources/scripts/jasny-bootstrap.min.js"/>
         <script type="text/javascript">
             $(document).ready(function() {
                 $(".note").popover({
@@ -34,16 +36,16 @@
     <body>
         <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content" data-template-using="body">
             <div data-template="templates:include" data-template-path="templates/menu.html"/>
-            <div data-template="pages:load" class="container-fluid">
+            <div id="main-container" data-template="pages:load" class="container-fluid">
                 <div class="row">
-                    <aside id="sidebar" class="col-md-3 hidden-xs toc">
+                    <aside id="sidebar" class="col-md-3 hidden-xs toc offcanvas">
                         <h3>Contents</h3>
                         <div data-template="pages:table-of-contents"/>
                     </aside>
-                    <div id="right-panel" class="col-md-9 col-md-offset-3 col-xs-12">
+                    <div id="right-panel" class="col-md-12 col-xs-12">
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-11 col-md-offset-1">
                                     <div class="btn-toolbar actions">
                                         <div class="btn-group" role="group">
                                             <a class="btn btn-default" data-template="pages:back-link" title="Back to index page">
@@ -107,6 +109,9 @@
                             </div>
                             <div class="row" data-template="pages:navigation">
                                 <div class="col-md-1 hidden-sm hidden-xs">
+                                    <a class="btn btn-primary btn-fab toc-toggle" data-toggle="offcanvas" data-target="#sidebar" data-canvas="#main-container">
+                                        <i class="material-icons">view_list</i>
+                                    </a>
                                     <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab">
                                         <i class="material-icons">navigate_before</i>
                                     </a>

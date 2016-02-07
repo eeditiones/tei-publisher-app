@@ -3,6 +3,10 @@
 footer .poweredby { float: right; margin: 33px 10px 0 0;}
 footer .poweredby img { width: 120px; }
 
+#main-container {
+    max-width: 1200px;
+}
+
 .browse {
     font-size: 1em !important;
 
@@ -33,6 +37,14 @@ footer .poweredby img { width: 120px; }
 
     .toc ul {
         padding-left: 20px;
+    }
+    
+    .toc-toggle {
+        position: fixed !important;
+        left: 30px;
+        top: inherit;
+        background-color: #607D8B !important;
+        color: white;
     }
 }
 
@@ -87,10 +99,6 @@ a, a:hover, a:focus {
   animation-duration: 400ms;
   overflow:auto;
 
-  @media (min-width: 769px) {
-    margin-left: 60px;
-    margin-right: 60px;
-  }
   @media (max-width: 768px) {
       margin-bottom: 5em;
   }
@@ -235,6 +243,16 @@ mark {
         position: fixed;
         bottom: 20px;
         // top: 20px;
+    }
+}
+
+@media (min-width: 769px) {
+    .nav-prev {
+        left: 30px;
+    }
+    
+    .nav-next {
+        right: 30px;
     }
 }
 

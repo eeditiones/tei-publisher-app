@@ -5,16 +5,22 @@
 @navbarBackgroundColor: #3F51B5;
 
 .navbarBackgroundImage {
-    // background: url('../images/eebo-bg.png') top left repeat;
+    // background: url('../images/icon.png') top left repeat;
     background-size: auto 100%;
 }
 
 .logo {
     // background: url('../images/eebo-small.png') top left no-repeat;
+    background: url('../images/icon.png') top left no-repeat;
     background-size: auto 100%;
+    
     // width: 200px;
 
     // color: transparent;
+    
+    span {
+        margin-left: 60px;
+    }
 }
 
 @navButtonColor: #607D8B;
@@ -24,6 +30,11 @@
 a, a:hover, a:focus {
     color: @linkColor;
 }
+
+#main-container {
+    max-width: 1600px;
+}
+
 .main {
     margin-top: 50px;
     margin-bottom: 20px;
@@ -35,6 +46,9 @@ a, a:hover, a:focus {
 }
 
 .content {
+    
+    padding-bottom: 30px;
+    
     h1 { font-size: 2.441em; }
     h2 { font-size: 1.953em; }
     h3 { font-size: 1.563em; }
@@ -144,6 +158,13 @@ a, a:hover, a:focus {
     }
 }
 
+#image-container {
+    overflow: auto;
+    img {
+        width: 100%;
+    }
+}
+
 #content-container {
   -webkit-animation-duration: 400ms;
   -moz-animation-duration: 400ms;
@@ -151,8 +172,8 @@ a, a:hover, a:focus {
   overflow:auto;
   
   @media (min-width: 769px) {
-    margin-left: 60px;
-    margin-right: 60px;
+    /*margin-left: 60px;
+    margin-right: 60px;*/
   }
   @media (max-width: 768px) {
       margin-bottom: 5em;
@@ -203,6 +224,16 @@ a, a:hover, a:focus {
         position: fixed;
         bottom: 20px;
         // top: 20px;
+    }
+}
+
+@media (min-width: 769px) {
+    .nav-prev {
+        left: 30px;
+    }
+    
+    .nav-next {
+        right: 30px;
     }
 }
 
@@ -281,6 +312,14 @@ a, a:hover, a:focus {
 
     .toc ul {
         padding-left: 20px;
+    }
+    
+    .toc-toggle {
+        position: fixed !important;
+        left: 30px;
+        top: inherit;
+        background-color: #607D8B !important;
+        color: white;
     }
 }
 

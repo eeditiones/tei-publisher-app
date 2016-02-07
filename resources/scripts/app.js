@@ -96,7 +96,10 @@ $(document).ready(function() {
         }
         load(url, this.className.split(" ")[0]);
     });
-
+    $(".toc .toc-link").click(function(ev) {
+        $(".toc").offcanvas('hide');
+    });
+    
     $("#zoom-in").click(function(ev) {
         ev.preventDefault();
         var size = getFontSize();
