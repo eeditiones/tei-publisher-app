@@ -40,6 +40,7 @@ declare namespace expath="http://expath.org/ns/pkg";
 
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
 import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "../../tei-simple/content/odd2odd.xql";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../../tei-simple/content/util.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
@@ -191,7 +192,7 @@ function pages:view($node as node(), $model as map(*), $view as xs:string?, $act
 };
 
 declare function pages:process-content($xml as element()*) {
-	let $html := $config:web-transform($xml, ())
+	let $html := $pm-config:web-transform($xml, ())
     let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
     return
         <div class="content {$class}">

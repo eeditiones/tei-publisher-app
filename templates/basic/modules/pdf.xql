@@ -10,6 +10,7 @@ declare option output:media-type "application/xml";
 declare option output:omit-xml-declaration "no";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "/db/apps/tei-simple/content/util.xql";
@@ -145,7 +146,7 @@ return
                 response:stream-binary($cached, "media-type=application/pdf", $id || ".pdf")
             ) else
                 let $start := util:system-time()
-                let $fo := $config:print-transform($doc, ())
+                let $fo := $pm-config:print-transform($doc, ())
                 return (
                     console:log("Generated fo for " || $name || " in " || util:system-time() - $start),
                     if ($source) then

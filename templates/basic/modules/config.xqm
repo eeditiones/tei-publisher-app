@@ -11,14 +11,6 @@ declare namespace templates="http://exist-db.org/xquery/templates";
 declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace expath="http://expath.org/ns/pkg";
 
-import module namespace pm-web="http://www.tei-c.org/tei-simple/models/$$config-odd$$/web/module" at "../transform/$$config-odd-name$$-web-module.xql";
-import module namespace pm-print="http://www.tei-c.org/tei-simple/models/$$config-odd$$/fo/module" at "../transform/$$config-odd-name$$-print-module.xql";
-import module namespace pm-latex="http://www.tei-c.org/tei-simple/models/$$config-odd$$/latex/module" at "../transform/$$config-odd-name$$-latex-module.xql";
-
-declare variable $config:web-transform := pm-web:transform#2;
-declare variable $config:print-transform := pm-print:transform#2;
-declare variable $config:latex-transform := pm-latex:transform#2;
-
 declare variable $config:default-view := "$$default-view$$";
 
 (:

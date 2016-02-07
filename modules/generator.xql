@@ -377,7 +377,7 @@ declare function deploy:expand-xql($target as xs:string) {
             <param name="config-odd" value="{$odd}"/>
             <param name="config-odd-name" value="{substring-before($odd, '.odd')}"/>
         </parameters>
-    for $module in ("config.xqm")
+    for $module in ("config.xqm", "pm-config.xql")
     return
         deploy:expand($target || "/modules", $module, $parameters)
 };

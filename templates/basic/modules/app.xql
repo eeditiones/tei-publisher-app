@@ -4,6 +4,7 @@ module namespace app="http://www.tei-c.org/tei-simple/templates";
 
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
 import module namespace kwic="http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
@@ -90,7 +91,7 @@ function app:short-header($node as node(), $model as map(*)) {
     let $work := $model("work")/ancestor-or-self::tei:TEI
     let $id := util:document-name($work)
     return
-        $config:web-transform($work/tei:teiHeader, map { 
+        $pm-config:web-transform($work/tei:teiHeader, map { 
             "header": "short",
             "doc": $id
         })
