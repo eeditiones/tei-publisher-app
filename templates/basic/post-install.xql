@@ -26,11 +26,19 @@ declare function local:generate-code($collection as xs:string) {
     return 
         (),
     let $permissions := collection($collection)//repo:permissions[1]
-    for $file in xmldb:get-child-resources($collection || "/transform")
-    let $path := xs:anyURI($collection || "/transform/" || $file)
     return (
-        sm:chown($path, $permissions/@user),
-        sm:chgrp($path, $permissions/@group)
+        for $file in xmldb:get-child-resources($collection || "/transform")
+        let $path := xs:anyURI($collection || "/transform/" || $file)
+        return (
+            sm:chown($path, $permissions/@user),
+            sm:chgrp($path, $permissions/@group)
+        ),
+        for $file in xmldb:get-child-resources($collection || "/resources/odd/compiled")
+        let $path := xs:anyURI($collection || "/resources/odd/compiled/" || $file)
+        return (
+            sm:chown($path, $permissions/@user),
+            sm:chgrp($path, $permissions/@group)
+        )
     )
 };
 
