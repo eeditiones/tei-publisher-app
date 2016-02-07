@@ -16,14 +16,24 @@ declare option output:media-type "text/html";
     {
         for $source in $config:odd
         for $module in ("web", "print", "latex")
-        for $file in pmu:process-odd(
-            doc(odd:get-compiled($config:odd-root, $config:odd, $config:compiled-odd-root)),
-            $config:output-root,
-            $module,
-            "../" || $config:output,
-            $config:module-config)?("module")
         return
-            <li>{$file}</li>
+            try {
+                for $file in pmu:process-odd(
+                    doc(odd:get-compiled($config:odd-root, $config:odd, $config:compiled-odd-root)),
+                    $config:output-root,
+                    $module,
+                    "../" || $config:output,
+                    $config:module-config)?("module")
+                let $src := util:binary-to-string(util:binary-doc($file))
+                let $compiled := util:compile($src)
+                return
+                    if ($compiled) then
+                        <li>{$compiled}</li>
+                    else
+                        <li>{$file}</li>
+            } catch * {
+                <li>Error for output mode {$module}: {$err:description}</li>
+            }
     }
     </ul>
 </div>
