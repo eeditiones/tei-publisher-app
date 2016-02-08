@@ -27,7 +27,7 @@ declare function local:upload($collection, $paths, $payloads) {
 
 let $name := request:get-uploaded-file-name("files[]")
 let $data := request:get-uploaded-file-data("files[]")
-let $target := $config:data-root
+let $target := $config:data-root[1]
 return
     try {
         local:upload($target, $name, $data)
