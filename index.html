@@ -3,14 +3,52 @@
     <div data-template="templates:include" data-template-path="templates/menu.html"/>
     <div class="container">
         <div class="row main">
-            <div class="page-header">
-                <h1>TEI ODD extensions for processing models</h1>
+            <div class="col-md-8 col-xs-12">
+                <div class="page-header">
+                    <h1>TEI Processing Model Toolbox</h1>
+                </div>
+                <p>Publish your data using the <a href="http://htmlpreview.github.io/?https://github.com/TEIC/TEI-Simple/blob/master/tei-pm.html">TEI Processing Model</a>.
+                Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD,
+                then generate your own, standalone app covering all core features like browsing, search and PDF generation.</p>
+                <p>The documents shown below are test documents only. You can upload additional documents/ODDs using the side panel below 
+                (or switch to <a target="_new" href="../eXide/">eXide</a> for more complex maintenance/edit tasks).</p>
+                <p>Once your happy with an ODD, call the <a href="generate.html">App Generator</a> to create a standalone app based on it. Check the "App Examples" box for real examples.</p>
             </div>
-            <p>An implementation of the <a href="http://htmlpreview.github.io/?https://github.com/TEIC/TEI-Simple/blob/master/tei-pm.html">TEI Simple     
-            Processing Model</a> in XQuery. Use this app to experiment and try out various ODDs containing processing model instructions. The 
-            documents shown below are test documents only. You can upload additional documents/ODDs by using <a href="../eXide/">eXide</a>.</p>
-            <p>Once your happy with an ODD, use the "App Generator" to create a standalone app based on it. Please check the 
-            <a href="http://showcases.exist-db.org/exist/apps/eebo/works/">Early English Books Online (EEBO)</a> app to see an example of a real application which was generated this way.</p>
+            <div class="col-md-4 col-xs-12 main">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">App Examples</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="media">
+                            <div class="media-left media-top">
+                                <a href="http://showcases.exist-db.org/exist/apps/eebo/">
+                                    <img class="media-object" src="http://showcases.exist-db.org/exist/apps/eebo/icon.png" alt="Early English Books Online" style="width: 80px;"/>
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                    <a href="http://showcases.exist-db.org/exist/apps/eebo/">Early English Books</a>
+                                </h4>
+                                <p>Browse the entire corpus of texts (32852 books) contained in the Early English Books collection.</p>
+                            </div>
+                        </div>
+                        <div class="media">
+                            <div class="media-left media-top">
+                                <a href="http://showcases.exist-db.org/exist/apps/shakespeare-pm/">
+                                    <img class="media-object" src="http://showcases.exist-db.org/exist/apps/shakespeare-pm/icon.png" alt="Shakespeare's Plays" style="height: 99px"/>
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                    <a href="http://showcases.exist-db.org/exist/apps/shakespeare-pm/">Shakespeare's Plays</a>
+                                </h4>
+                                <p>A collection of Shakespeare plays taken from The Bodleian First Folio.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-8">
