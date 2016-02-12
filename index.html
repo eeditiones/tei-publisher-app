@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div data-template="templates:include" data-template-path="templates/menu.html"/>
-    <div class="container">
-        <div class="row main">
-            <div class="col-md-8 col-xs-12">
+    <div class="container main">
+        <div class="row">
+            <div class="col-md-12">
                 <div class="page-header">
-                    <h1>TEI Processing Model Toolbox</h1>
+                    <h1>The Lazy Publisher's Toolbox</h1>
                 </div>
-                <p>Publish your data using the <a href="http://htmlpreview.github.io/?https://github.com/TEIC/TEI-Simple/blob/master/tei-pm.html">TEI Processing Model</a>.
-                Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD,
-                then generate your own, standalone app covering all core features like browsing, search and PDF generation.</p>
-                <p>The documents shown below are test documents only. You can upload additional documents/ODDs using the side panel below 
-                (or switch to <a target="_new" href="../eXide/">eXide</a> for more complex maintenance/edit tasks).</p>
-                <p>Once your happy with an ODD, call the <a href="generate.html">App Generator</a> to create a standalone app based on it. Check the "App Examples" box for real examples.</p>
             </div>
-            <div class="col-md-4 col-xs-12 main">
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-xs-12">
+                <p>Publish your data in various media formats without writing complex stylesheets. Using the
+                <a href="http://htmlpreview.github.io/?https://github.com/TEIC/TEI-Simple/blob/master/tei-pm.html">TEI Processing Model</a>,
+                customising the appearance of the text is all done in TEI by mapping each TEI element to a limited set of 
+                well-defined behaviour functions, e.g. “paragraph” or “heading”. The specification
+                includes a standard mapping, which can be extended by overwriting selected elements. Rendition styles are 
+                transparently translated into different output media types like HTML, XSL-FO, LaTeX, or ePUB. This approach
+                may easily save a few thousand lines of code for media specific stylesheets.</p>
+                <p>Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD,
+                then generate your own, standalone app (using the <a href="generate.html">App Generator</a>) covering all core 
+                features like browsing, search and PDF generation. Check the "App Examples" box for real examples.</p>
+            </div>
+            <div class="col-md-4 col-xs-12">
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <h3 class="panel-title">App Examples</h3>
