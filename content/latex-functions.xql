@@ -370,6 +370,8 @@ declare %private function pmf:style($names as xs:string*, $styles as map(*), $te
                             "{\centering " || $text || "}"
                         default return
                             $text
+                case "text-indent" return
+                    "{\setlength{\parindent}{" || $value || "}" || $text || "}"
                 default return
                     $text
         return
