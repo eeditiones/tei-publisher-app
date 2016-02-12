@@ -382,8 +382,8 @@ function pages:navigation-title($node as node(), $model as map(*)) {
 
 declare function pages:title($work as element()) {
     let $main-title := (
-        $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'main']/text(),
-        $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/text(),
+        $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'main']/string(),
+        $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/string(),
         util:document-name($work)
     )
     return
