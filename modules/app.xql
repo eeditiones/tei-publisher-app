@@ -41,7 +41,16 @@ import module namespace dbutil="http://exist-db.org/xquery/dbutil";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
+declare namespace expath="http://expath.org/ns/pkg";
 
+declare variable $app:EXIDE := 
+    let $path := collection(repo:get-root())//expath:package[@name = "http://exist-db.org/apps/eXide"]
+    return
+        if ($path) then
+            substring-after(util:collection-name($path), repo:get-root())
+        else
+            ();
+            
 declare
     %templates:wrap
 function app:doc-table($node as node(), $model as map(*), $odd as xs:string?) {
@@ -257,7 +266,14 @@ declare function app:parse-template($nodes as node()*, $odd as xs:string) {
 
 declare function app:load-source($node as node(), $model as map(*)) as node()* {
     let $href := $node/@href/string()
-    let $link := templates:link-to-app("http://exist-db.org/apps/eXide", "index.html?open=" || templates:get-app-root($model) || "/" || $href)
+    let $link :=
+        let $path := string-join(
+            (request:get-context-path(), request:get-attribute("$exist:prefix"), $app:EXIDE,
+            "index.html?open=" || templates:get-app-root($model) || "/" || $href)
+            , "/"
+        )
+        return
+            replace($path, "/+", "/")
     return
         element { node-name($node) } {
             attribute href { $link },
