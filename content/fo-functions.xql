@@ -299,14 +299,18 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
     return
      <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
         <fo:layout-master-set>
-            <fo:simple-page-master master-name="page-left" page-height="297mm" page-width="210mm">
-                { pmf:check-styles($config, (), "@page:left", ())}
-                <fo:region-body margin-bottom="10mm" margin-top="16mm"/>
+            <fo:simple-page-master master-name="page-left">
+                { pmf:check-styles($config, (), "@page:left", ()) }
+                <fo:region-body>
+                { pmf:check-styles($config, (), "@page:left-body", ())}
+                </fo:region-body>
                 <fo:region-before region-name="head-left" extent="10mm"/>
             </fo:simple-page-master>
-            <fo:simple-page-master master-name="page-right" page-height="297mm" page-width="210mm">
+            <fo:simple-page-master master-name="page-right">
                 { pmf:check-styles($config, (), "@page:right", ())}
-                <fo:region-body margin-bottom="10mm" margin-top="16mm"/>
+                <fo:region-body>
+                { pmf:check-styles($config, (), "@page:right-body", ())}
+                </fo:region-body>
                 <fo:region-before region-name="head-right" extent="10mm"/>
             </fo:simple-page-master>
             <fo:page-sequence-master master-name="page-content">
@@ -495,11 +499,10 @@ declare function pmf:load-styles($config as map(*), $root as document-node()) {
 declare function pmf:load-default-styles($config as map(*)) {
     let $oddName := replace($config?odd, "^.*/([^/\.]+)\.?.*$", "$1")
     let $path := $config?collection || "/" || $oddName || ".fo.css"
-    let $log := console:log("loading user styles from " || $path)
     let $userStyles := pmf:read-css($path)
     let $systemStyles := pmf:read-css(system:get-module-load-path() || "/styles.fo.css")
     return
-        map:new(($config, map:entry("default-styles", pmf:merge-styles($userStyles, $systemStyles))))
+        map:new(($config, map:entry("default-styles", pmf:merge-styles($systemStyles, $userStyles))))
 };
 
 declare function pmf:read-css($path) {

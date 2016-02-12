@@ -1,14 +1,26 @@
 @page:left {
+    page-height: 297mm; 
+    page-width: 210mm;
     margin-bottom: 10mm;
     margin-top: 10mm;
     margin-left: 36mm;
     margin-right: 18mm;
 }
+@page:left-body {
+    margin-bottom: 10mm; 
+    margin-top: 16mm;
+}
 @page:right {
+    page-height: 297mm; 
+    page-width: 210mm;
     margin-bottom: 10mm;
     margin-top: 10mm;
     margin-left: 18mm;
     margin-right: 36mm;
+}
+@page:right-body {
+    margin-bottom: 10mm; 
+    margin-top: 16mm;
 }
 @page:head {
     margin-bottom: 0.7mm; 
