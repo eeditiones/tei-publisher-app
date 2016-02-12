@@ -86,7 +86,7 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
                         if ($div) then
                             $div
                         else
-                            doc($config:app-root || "/" || $doc)/tei:TEI//tei:body
+                            doc($config:data-root || "/" || $doc)/tei:TEI//tei:body
             case "page" return
                 if (matches($doc, "_\d+\.[\d\.]+\.xml$")) then
                     let $analyzed := analyze-string($doc, "^(.*)_(\d+\.[\d\.]+)\.xml$")
@@ -102,9 +102,9 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
                         if ($div) then
                             $div
                         else
-                            doc($config:app-root || "/" || $doc)/tei:TEI//tei:body
+                            doc($config:data-root || "/" || $doc)/tei:TEI//tei:body
             default return
-                doc($config:app-root || "/" || $doc)/tei:TEI/tei:text
+                doc($config:data-root || "/" || $doc)/tei:TEI/tei:text
 };
 
 declare function pages:back-link($node as node(), $model as map(*)) {
