@@ -1,27 +1,27 @@
-(: 
+(:
  : Copyright 2015, Wolfgang Meier
- : 
- : This software is dual-licensed: 
- : 
+ :
+ : This software is dual-licensed:
+ :
  : 1. Distributed under a Creative Commons Attribution-ShareAlike 3.0 Unported License
- : http://creativecommons.org/licenses/by-sa/3.0/ 
- : 
- : 2. http://www.opensource.org/licenses/BSD-2-Clause 
- : 
- : All rights reserved. Redistribution and use in source and binary forms, with or without 
- : modification, are permitted provided that the following conditions are met: 
- : 
- : * Redistributions of source code must retain the above copyright notice, this list of 
- : conditions and the following disclaimer. 
+ : http://creativecommons.org/licenses/by-sa/3.0/
+ :
+ : 2. http://www.opensource.org/licenses/BSD-2-Clause
+ :
+ : All rights reserved. Redistribution and use in source and binary forms, with or without
+ : modification, are permitted provided that the following conditions are met:
+ :
+ : * Redistributions of source code must retain the above copyright notice, this list of
+ : conditions and the following disclaimer.
  : * Redistributions in binary form must reproduce the above copyright
  : notice, this list of conditions and the following disclaimer in the documentation
- : and/or other materials provided with the distribution. 
- : 
- : This software is provided by the copyright holders and contributors "as is" and any 
- : express or implied warranties, including, but not limited to, the implied warranties 
+ : and/or other materials provided with the distribution.
+ :
+ : This software is provided by the copyright holders and contributors "as is" and any
+ : express or implied warranties, including, but not limited to, the implied warranties
  : of merchantability and fitness for a particular purpose are disclaimed. In no event 
- : shall the copyright holder or contributors be liable for any direct, indirect, 
- : incidental, special, exemplary, or consequential damages (including, but not limited to, 
+ : shall the copyright holder or contributors be liable for any direct, indirect,
+ : incidental, special, exemplary, or consequential damages (including, but not limited to,
  : procurement of substitute goods or services; loss of use, data, or profits; or business
  : interruption) however caused and on any theory of liability, whether in contract,
  : strict liability, or tort (including negligence or otherwise) arising in any way out
@@ -29,7 +29,7 @@
  :)
 xquery version "3.0";
 
-(:~ 
+(:~
  : Template functions to handle page by page navigation and display
  : pages using TEI Simple.
  :)
@@ -46,7 +46,7 @@ import module namespace console="http://exist-db.org/xquery/console" at "java:or
 
 declare variable $pages:app-root := request:get-context-path() || substring-after($config:app-root, "/db");
 
-declare variable $pages:EXIDE := 
+declare variable $pages:EXIDE :=
     let $pkg := collection(repo:get-root())//expath:package[@name = "http://exist-db.org/apps/eXide"]
     let $appLink :=
         if ($pkg) then
@@ -56,7 +56,7 @@ declare variable $pages:EXIDE :=
     let $path := string-join((request:get-context-path(), request:get-attribute("$exist:prefix"), $appLink, "index.html"), "/")
     return
         replace($path, "/+", "/");
-        
+
 declare
     %templates:wrap
     %templates:default("view", "div")
@@ -73,8 +73,8 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
     return
         switch ($view)
     	    case "div" return
-        	    if (matches($doc, "_[\d\.]+\.xml$")) then
-                    let $analyzed := analyze-string($doc, "^(.*)_([\d\.]+)\.xml$")
+        	    if (matches($doc, "_\d+\.[\d\.]+\.xml$")) then
+                    let $analyzed := analyze-string($doc, "^(.*)_(\d+\.[\d\.]+)\.xml$")
                     let $docName := $analyzed//fn:group[@nr = 1]/text()
                     return
                         util:node-by-id(doc($config:app-root || "/" || $docName), $analyzed//fn:group[@nr = 2]/string())
@@ -88,8 +88,8 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
                         else
                             doc($config:app-root || "/" || $doc)/tei:TEI//tei:body
             case "page" return
-                if (matches($doc, "_[\d\.]+\.xml$")) then
-                    let $analyzed := analyze-string($doc, "^(.*)_([\d\.]+)\.xml$")
+                if (matches($doc, "_\d+\.[\d\.]+\.xml$")) then
+                    let $analyzed := analyze-string($doc, "^(.*)_(\d+\.[\d\.]+)\.xml$")
                     let $docName := $analyzed//fn:group[@nr = 1]/text()
                     let $targetNode := util:node-by-id(doc($config:app-root || "/" || $docName), $analyzed//fn:group[@nr = 2]/string())
                     return
@@ -150,8 +150,8 @@ declare function pages:epub-link($node as node(), $model as map(*), $odd as xs:s
     return
         element { node-name($node) } {
             $node/@* except $node/@href,
-            attribute href { 
-                $pages:app-root || "/modules/get-epub.xql?odd=" || $odd || "&amp;doc=" || substring-after(document-uri(root($model?data)), $config:app-root) 
+            attribute href {
+                $pages:app-root || "/modules/get-epub.xql?odd=" || $odd || "&amp;doc=" || substring-after(document-uri(root($model?data)), $config:app-root)
                 || "&amp;token=" || $uuid
             },
             attribute data-token { $uuid },
@@ -190,7 +190,7 @@ declare function pages:xml-link($node as node(), $model as map(*), $doc as xs:st
 
 declare function pages:view($node as node(), $model as map(*), $odd as xs:string, $view as xs:string?) {
     let $view := if ($view) then $view else $config:default-view
-    let $xml := 
+    let $xml :=
         if ($view = ("div", "page")) then
             pages:get-content($model("data"))
         else
@@ -294,21 +294,21 @@ declare %private function pages:milestone-chunk($ms1 as element(), $ms2 as eleme
 {
     typeswitch ($node)
         case element() return
-            if ($node is $ms1) then 
+            if ($node is $ms1) then
                 $node
             else if ( some $n in $node/descendant::* satisfies ($n is $ms1 or $n is $ms2) ) then
-                element { node-name($node) } { 
+                element { node-name($node) } {
                     $node/@*,
                     for $i in ( $node/node() )
                     return pages:milestone-chunk($ms1, $ms2, $i)
                 }
-            else if ($node >> $ms1 and (empty($ms2) or $node << $ms2)) then 
+            else if ($node >> $ms1 and (empty($ms2) or $node << $ms2)) then
                 $node
-            else 
+            else
                 ()
-        case attribute() return 
+        case attribute() return
             $node (: will never match attributes outside non-returned elements :)
-        default return 
+        default return
             if ($node >> $ms1 and (empty($ms2) or $node << $ms2)) then $node
             else ()
 };
@@ -343,8 +343,8 @@ declare function pages:get-content($div as element()) {
             $div
         case element(tei:pb) return (
             let $nextPage := $div/following::tei:pb[1]
-            let $chunk := 
-                pages:milestone-chunk($div, $nextPage, 
+            let $chunk :=
+                pages:milestone-chunk($div, $nextPage,
                     if ($nextPage) then
                         ($div/ancestor::* intersect $nextPage/ancestor::*)[last()]
                     else
@@ -381,9 +381,13 @@ function pages:navigation-title($node as node(), $model as map(*)) {
 };
 
 declare function pages:title($work as element()) {
-    let $main-title := $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'main']/text()
+    let $main-title := (
+        $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'main']/text(),
+        $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/text(),
+        util:document-name($work)
+    )
     return
-        if ($main-title) then $main-title else $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/text()
+        $main-title[1]
 };
 
 declare function pages:navigation-link($node as node(), $model as map(*), $direction as xs:string, $odd as xs:string, $view as xs:string?) {

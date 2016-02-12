@@ -73,8 +73,8 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
     return
         switch ($view)
     	    case "div" return
-        	    if (matches($doc, "_[\d\.]+\.xml$")) then
-                    let $analyzed := analyze-string($doc, "^(.*)_([\d\.]+)\.xml$")
+        	    if (matches($doc, "_\d+\.[\d\.]+\.xml$")) then
+                    let $analyzed := analyze-string($doc, "^(.*)_(\d+\.[\d\.]+)\.xml$")
                     let $docName := $analyzed//fn:group[@nr = 1]/text()
                     return
                         util:node-by-id(doc($config:data-root || "/" || $docName), $analyzed//fn:group[@nr = 2]/string())
@@ -88,8 +88,8 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
                         else
                             doc($config:app-root || "/" || $doc)/tei:TEI//tei:body
             case "page" return
-                if (matches($doc, "_[\d\.]+\.xml$")) then
-                    let $analyzed := analyze-string($doc, "^(.*)_([\d\.]+)\.xml$")
+                if (matches($doc, "_\d+\.[\d\.]+\.xml$")) then
+                    let $analyzed := analyze-string($doc, "^(.*)_(\d+\.[\d\.]+)\.xml$")
                     let $docName := $analyzed//fn:group[@nr = 1]/text()
                     let $targetNode := util:node-by-id(doc($config:data-root || "/" || $docName), $analyzed//fn:group[@nr = 2]/string())
                     return
