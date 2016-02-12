@@ -6,10 +6,16 @@ declare namespace json="http://www.json.org";
 
 declare option exist:serialize "method=json media-type=application/json";
 
-declare function local:upload($collection, $paths, $payloads) {
+declare function local:upload($paths, $payloads) {
     let $paths := 
         for-each-pair($paths, $payloads, function($path, $data) {
-            xmldb:store($collection, $path, $data)
+            let $target :=
+                if (ends-with($path, ".odd")) then
+                    $config:odd-root
+                else
+                    $config:data-root[1]
+            return
+                xmldb:store($target, $path, $data)
         })
     return
         map {
@@ -27,10 +33,9 @@ declare function local:upload($collection, $paths, $payloads) {
 
 let $name := request:get-uploaded-file-name("files[]")
 let $data := request:get-uploaded-file-data("files[]")
-let $target := $config:data-root[1]
 return
     try {
-        local:upload($target, $name, $data)
+        local:upload($name, $data)
     } catch * {
         map {
             "name": $name,
