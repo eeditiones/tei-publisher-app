@@ -71,13 +71,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                     fo:block($config, ., ("tei-back"), .)
                 case element(bibl) return
                     if (parent::listBibl) then
-                        fo:listItem($config, ., ("tei-bibl2"), .)
+                        fo:listItem($config, ., ("tei-bibl1"), .)
                     else
                         fo:inline($config, ., ("tei-bibl2"), .)
                 case element(body) return
                     (
                         fo:index($config, ., ("tei-body1"), ., 'toc'),
-                        fo:block($config, ., ("tei-body1"), .)
+                        fo:block($config, ., ("tei-body2"), .)
                     )
 
                 case element(byline) return
@@ -105,13 +105,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                     fo:cell($config, ., ("tei-cell"), .)
                 case element(choice) return
                     if (sic and corr) then
-                        fo:alternate($config, ., ("tei-choice2"), ., corr[1], sic[1])
+                        fo:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
                     else
                         if (abbr and expan) then
-                            fo:alternate($config, ., ("tei-choice2"), ., expan[1], abbr[1])
+                            fo:alternate($config, ., ("tei-choice5"), ., expan[1], abbr[1])
                         else
                             if (orig and reg) then
-                                fo:alternate($config, ., ("tei-choice2"), ., reg[1], orig[1])
+                                fo:alternate($config, ., ("tei-choice6"), ., reg[1], orig[1])
                             else
                                 $config?apply($config, ./node())
                 case element(cit) return
@@ -136,7 +136,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             fo:inline($config, ., ("tei-date2"), @when)
                         else
                             if (text()) then
-                                fo:inline($config, ., ("tei-date3"), .)
+                                fo:inline($config, ., ("tei-date4"), .)
                             else
                                 $config?apply($config, ./node())
                 case element(dateline) return
@@ -152,7 +152,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (parent::body or parent::front or parent::back) then
                             fo:section($config, ., ("tei-div2"), .)
                         else
-                            fo:block($config, ., ("tei-div2"), .)
+                            fo:block($config, ., ("tei-div3"), .)
                 case element(docAuthor) return
                     if (ancestor::teiHeader) then
                         (: Omit if located in teiHeader. :)
@@ -239,15 +239,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                             fo:block($config, ., ("tei-head2"), .)
                         else
                             if (parent::lg) then
-                                fo:block($config, ., ("tei-head2"), .)
+                                fo:block($config, ., ("tei-head3"), .)
                             else
                                 if (parent::list) then
-                                    fo:block($config, ., ("tei-head2"), .)
+                                    fo:block($config, ., ("tei-head4"), .)
                                 else
                                     if (parent::div) then
-                                        fo:heading($config, ., ("tei-head2"), .)
+                                        fo:heading($config, ., ("tei-head5"), .)
                                     else
-                                        fo:block($config, ., ("tei-head2"), .)
+                                        fo:block($config, ., ("tei-head6"), .)
                 case element(hi) return
                     if (@rendition) then
                         fo:inline($config, ., css:get-rendition(., ("tei-hi1")), .)
@@ -295,7 +295,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             fo:block($config, ., ("tei-note2"), .)
                         else
                             if (not(@place)) then
-                                fo:inline($config, ., ("tei-note2"), .)
+                                fo:inline($config, ., ("tei-note3"), .)
                             else
                                 $config?apply($config, ./node())
                 case element(num) return
@@ -319,7 +319,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (ancestor::p or ancestor::cell) then
                             fo:inline($config, ., css:get-rendition(., ("tei-q2")), .)
                         else
-                            fo:block($config, ., css:get-rendition(., ("tei-q2")), .)
+                            fo:block($config, ., css:get-rendition(., ("tei-q3")), .)
                 case element(quote) return
                     if (ancestor::p) then
                         (: If it is inside a paragraph then it is inline, otherwise it is block level :)
@@ -334,7 +334,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (not(text())) then
                             fo:link($config, ., ("tei-ref2"), @target, @target)
                         else
-                            fo:link($config, ., ("tei-ref2"), ., @target)
+                            fo:link($config, ., ("tei-ref3"), ., @target)
                 case element(reg) return
                     fo:inline($config, ., ("tei-reg"), .)
                 case element(rhyme) return
@@ -390,12 +390,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                             fo:inline($config, ., ("tei-supplied2"), .)
                         else
                             if (@reason='illegible' or not(@reason)) then
-                                fo:inline($config, ., ("tei-supplied2"), .)
+                                fo:inline($config, ., ("tei-supplied3"), .)
                             else
                                 if (@reason='omitted') then
-                                    fo:inline($config, ., ("tei-supplied2"), .)
+                                    fo:inline($config, ., ("tei-supplied4"), .)
                                 else
-                                    fo:inline($config, ., ("tei-supplied2"), .)
+                                    fo:inline($config, ., ("tei-supplied5"), .)
                 case element(table) return
                     fo:table($config, ., ("tei-table"), .)
                 case element(profileDesc) return
@@ -423,9 +423,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(publicationStmt) return
                     (
                         fo:paragraph($config, ., ("tei-publicationStmt1"), (publisher,pubPlace)),
-                        fo:heading($config, ., ("tei-publicationStmt1"), 'Identifiers'),
-                        fo:table($config, ., ("tei-publicationStmt1"), idno),
-                        fo:paragraph($config, ., ("tei-publicationStmt1"), availability)
+                        fo:heading($config, ., ("tei-publicationStmt2"), 'Identifiers'),
+                        fo:table($config, ., ("tei-publicationStmt3"), idno),
+                        fo:paragraph($config, ., ("tei-publicationStmt4"), availability)
                     )
 
                 case element(publisher) return
@@ -437,23 +437,23 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(fileDesc) return
                     if ($parameters?header='short') then
                         (
-                            fo:block($config, ., ("tei-fileDesc2", "header-short"), titleStmt),
-                            fo:block($config, ., ("tei-fileDesc3", "header-short"), editionStmt)
+                            fo:block($config, ., ("tei-fileDesc1", "header-short"), titleStmt),
+                            fo:block($config, ., ("tei-fileDesc2", "header-short"), editionStmt)
                         )
 
                     else
                         (
                             fo:block($config, ., ("tei-fileDesc1"), titleStmt),
-                            fo:block($config, ., ("tei-fileDesc1"), seriesStmt),
-                            fo:paragraph($config, ., ("tei-fileDesc1"), editionStmt),
-                            fo:block($config, ., ("tei-fileDesc1"), publicationStmt)
+                            fo:block($config, ., ("tei-fileDesc2"), seriesStmt),
+                            fo:paragraph($config, ., ("tei-fileDesc3"), editionStmt),
+                            fo:block($config, ., ("tei-fileDesc5"), publicationStmt)
                         )
 
                 case element(titleStmt) return
                     if ($parameters?header='short') then
                         (
                             fo:link($config, ., ("tei-titleStmt1"), title, $parameters?doc),
-                            fo:block($config, ., ("tei-titleStmt1"), author)
+                            fo:block($config, ., ("tei-titleStmt2"), author)
                         )
 
                     else
@@ -474,18 +474,18 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     fo:text($config, ., ("tei-title1"), ' — ')
                                 else
                                     (),
-                                fo:inline($config, ., ("tei-title1"), .)
+                                fo:inline($config, ., ("tei-title2"), .)
                             )
 
                         else
                             if (not(@level) and parent::bibl) then
-                                fo:inline($config, ., ("tei-title3"), .)
+                                fo:inline($config, ., ("tei-title2"), .)
                             else
                                 if (@level='m' or not(@level)) then
                                     (
                                         fo:inline($config, ., ("tei-title1"), .),
                                         if (ancestor::biblStruct or       ancestor::biblFull) then
-                                            fo:text($config, ., ("tei-title1"), ', ')
+                                            fo:text($config, ., ("tei-title2"), ', ')
                                         else
                                             ()
                                     )
@@ -495,7 +495,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                         (
                                             fo:inline($config, ., ("tei-title1"), .),
                                             if (following-sibling::* and     (ancestor::biblStruct  or     ancestor::biblFull)) then
-                                                fo:text($config, ., ("tei-title1"), ', ')
+                                                fo:text($config, ., ("tei-title2"), ', ')
                                             else
                                                 ()
                                         )
@@ -505,13 +505,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                                             (
                                                 fo:inline($config, ., ("tei-title1"), .),
                                                 if (following-sibling::* and     (ancestor::biblStruct  or     ancestor::biblFull)) then
-                                                    fo:text($config, ., ("tei-title1"), '. ')
+                                                    fo:text($config, ., ("tei-title2"), '. ')
                                                 else
                                                     ()
                                             )
 
                                         else
-                                            fo:inline($config, ., ("tei-title4"), .)
+                                            fo:inline($config, ., ("tei-title3"), .)
                 case element(titlePage) return
                     fo:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                 case element(titlePart) return

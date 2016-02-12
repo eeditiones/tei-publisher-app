@@ -59,9 +59,11 @@ declare function pmf:paragraph($config as map(*), $node as element(), $class as 
     </p>
 };
 
-declare function pmf:heading($config as map(*), $node as element(), $class as xs:string+, $content) {
-    let $level := 
-        if ($content instance of element()) then
+declare function pmf:heading($config as map(*), $node as element(), $class as xs:string+, $content, $level) {
+    let $level :=
+        if ($level) then
+            $level
+        else if ($content instance of element()) then
             max((count($content/ancestor::tei:div), 1))
         else
             4

@@ -237,7 +237,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         (: No function found for behavior: frametitle :)
                         $config?apply($config, ./node())
                     else
-                        html:heading($config, ., ("tei-head2"), .)
+                        html:heading($config, ., ("tei-head2"), ., ())
                 case element(hi) return
                     (: No function found for behavior: alert :)
                     $config?apply($config, ./node())
@@ -412,7 +412,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(publicationStmt) return
                     (
                         html:paragraph($config, ., ("tei-publicationStmt1"), (publisher,pubPlace)),
-                        html:heading($config, ., ("tei-publicationStmt2"), 'Identifiers'),
+                        html:heading($config, ., ("tei-publicationStmt2"), 'Identifiers', ()),
                         html:table($config, ., ("tei-publicationStmt3"), idno),
                         html:paragraph($config, ., ("tei-publicationStmt4"), availability)
                     )
@@ -456,7 +456,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     html:inline($config, ., ("tei-time"), .)
                 case element(title) return
                     if ($parameters?header='short') then
-                        html:heading($config, ., ("tei-title1"), .)
+                        html:heading($config, ., ("tei-title1"), ., ())
                     else
                         if (parent::titleStmt/parent::fileDesc) then
                             (

@@ -71,13 +71,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                     latex:block($config, ., ("tei-back"), .)
                 case element(bibl) return
                     if (parent::listBibl) then
-                        latex:listItem($config, ., ("tei-bibl2"), .)
+                        latex:listItem($config, ., ("tei-bibl1"), .)
                     else
                         latex:inline($config, ., ("tei-bibl2"), .)
                 case element(body) return
                     (
                         latex:index($config, ., ("tei-body1"), ., 'toc'),
-                        latex:block($config, ., ("tei-body1"), .)
+                        latex:block($config, ., ("tei-body2"), .)
                     )
 
                 case element(byline) return
@@ -105,13 +105,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                     latex:cell($config, ., ("tei-cell"), .)
                 case element(choice) return
                     if (sic and corr) then
-                        latex:alternate($config, ., ("tei-choice2"), ., corr[1], sic[1])
+                        latex:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
                     else
                         if (abbr and expan) then
-                            latex:alternate($config, ., ("tei-choice2"), ., expan[1], abbr[1])
+                            latex:alternate($config, ., ("tei-choice5"), ., expan[1], abbr[1])
                         else
                             if (orig and reg) then
-                                latex:alternate($config, ., ("tei-choice2"), ., reg[1], orig[1])
+                                latex:alternate($config, ., ("tei-choice6"), ., reg[1], orig[1])
                             else
                                 $config?apply($config, ./node())
                 case element(cit) return
@@ -136,7 +136,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             latex:inline($config, ., ("tei-date2"), @when)
                         else
                             if (text()) then
-                                latex:inline($config, ., ("tei-date3"), .)
+                                latex:inline($config, ., ("tei-date4"), .)
                             else
                                 $config?apply($config, ./node())
                 case element(dateline) return
@@ -152,7 +152,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (parent::body or parent::front or parent::back) then
                             latex:section($config, ., ("tei-div2"), .)
                         else
-                            latex:block($config, ., ("tei-div2"), .)
+                            latex:block($config, ., ("tei-div3"), .)
                 case element(docAuthor) return
                     if (ancestor::teiHeader) then
                         (: Omit if located in teiHeader. :)
@@ -239,15 +239,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                             latex:block($config, ., ("tei-head2"), .)
                         else
                             if (parent::lg) then
-                                latex:block($config, ., ("tei-head2"), .)
+                                latex:block($config, ., ("tei-head3"), .)
                             else
                                 if (parent::list) then
-                                    latex:block($config, ., ("tei-head2"), .)
+                                    latex:block($config, ., ("tei-head4"), .)
                                 else
                                     if (parent::div) then
-                                        latex:heading($config, ., ("tei-head2"), .)
+                                        latex:heading($config, ., ("tei-head5"), .)
                                     else
-                                        latex:block($config, ., ("tei-head2"), .)
+                                        latex:block($config, ., ("tei-head6"), .)
                 case element(hi) return
                     if (@rendition) then
                         latex:inline($config, ., css:get-rendition(., ("tei-hi1")), .)
@@ -295,7 +295,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             latex:block($config, ., ("tei-note2"), .)
                         else
                             if (not(@place)) then
-                                latex:inline($config, ., ("tei-note2"), .)
+                                latex:inline($config, ., ("tei-note3"), .)
                             else
                                 $config?apply($config, ./node())
                 case element(num) return
@@ -319,7 +319,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (ancestor::p or ancestor::cell) then
                             latex:inline($config, ., css:get-rendition(., ("tei-q2")), .)
                         else
-                            latex:block($config, ., css:get-rendition(., ("tei-q2")), .)
+                            latex:block($config, ., css:get-rendition(., ("tei-q3")), .)
                 case element(quote) return
                     if (ancestor::p) then
                         (: If it is inside a paragraph then it is inline, otherwise it is block level :)
@@ -334,7 +334,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (not(text())) then
                             latex:link($config, ., ("tei-ref2"), @target, @target)
                         else
-                            latex:link($config, ., ("tei-ref2"), ., @target)
+                            latex:link($config, ., ("tei-ref3"), ., @target)
                 case element(reg) return
                     latex:inline($config, ., ("tei-reg"), .)
                 case element(rhyme) return
@@ -390,12 +390,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                             latex:inline($config, ., ("tei-supplied2"), .)
                         else
                             if (@reason='illegible' or not(@reason)) then
-                                latex:inline($config, ., ("tei-supplied2"), .)
+                                latex:inline($config, ., ("tei-supplied3"), .)
                             else
                                 if (@reason='omitted') then
-                                    latex:inline($config, ., ("tei-supplied2"), .)
+                                    latex:inline($config, ., ("tei-supplied4"), .)
                                 else
-                                    latex:inline($config, ., ("tei-supplied2"), .)
+                                    latex:inline($config, ., ("tei-supplied5"), .)
                 case element(table) return
                     latex:table($config, ., ("tei-table"), .)
                 case element(profileDesc) return
@@ -423,9 +423,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(publicationStmt) return
                     (
                         latex:paragraph($config, ., ("tei-publicationStmt1"), (publisher,pubPlace)),
-                        latex:heading($config, ., ("tei-publicationStmt1"), 'Identifiers'),
-                        latex:table($config, ., ("tei-publicationStmt1"), idno),
-                        latex:paragraph($config, ., ("tei-publicationStmt1"), availability)
+                        latex:heading($config, ., ("tei-publicationStmt2"), 'Identifiers'),
+                        latex:table($config, ., ("tei-publicationStmt3"), idno),
+                        latex:paragraph($config, ., ("tei-publicationStmt4"), availability)
                     )
 
                 case element(publisher) return
@@ -437,23 +437,23 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(fileDesc) return
                     if ($parameters?header='short') then
                         (
-                            latex:block($config, ., ("tei-fileDesc2", "header-short"), titleStmt),
-                            latex:block($config, ., ("tei-fileDesc3", "header-short"), editionStmt)
+                            latex:block($config, ., ("tei-fileDesc1", "header-short"), titleStmt),
+                            latex:block($config, ., ("tei-fileDesc2", "header-short"), editionStmt)
                         )
 
                     else
                         (
                             latex:block($config, ., ("tei-fileDesc1"), titleStmt),
-                            latex:block($config, ., ("tei-fileDesc1"), seriesStmt),
-                            latex:paragraph($config, ., ("tei-fileDesc1"), editionStmt),
-                            latex:block($config, ., ("tei-fileDesc1"), publicationStmt)
+                            latex:block($config, ., ("tei-fileDesc2"), seriesStmt),
+                            latex:paragraph($config, ., ("tei-fileDesc3"), editionStmt),
+                            latex:block($config, ., ("tei-fileDesc5"), publicationStmt)
                         )
 
                 case element(titleStmt) return
                     if ($parameters?header='short') then
                         (
                             latex:link($config, ., ("tei-titleStmt1"), title, $parameters?doc),
-                            latex:block($config, ., ("tei-titleStmt1"), author)
+                            latex:block($config, ., ("tei-titleStmt2"), author)
                         )
 
                     else
@@ -475,18 +475,18 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     latex:text($config, ., ("tei-title1"), ' — ')
                                 else
                                     (),
-                                latex:inline($config, ., ("tei-title1"), .)
+                                latex:inline($config, ., ("tei-title2"), .)
                             )
 
                         else
                             if (not(@level) and parent::bibl) then
-                                latex:inline($config, ., ("tei-title3"), .)
+                                latex:inline($config, ., ("tei-title2"), .)
                             else
                                 if (@level='m' or not(@level)) then
                                     (
                                         latex:inline($config, ., ("tei-title1"), .),
                                         if (ancestor::biblStruct or       ancestor::biblFull) then
-                                            latex:text($config, ., ("tei-title1"), ', ')
+                                            latex:text($config, ., ("tei-title2"), ', ')
                                         else
                                             ()
                                     )
@@ -496,7 +496,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                         (
                                             latex:inline($config, ., ("tei-title1"), .),
                                             if (following-sibling::* and     (ancestor::biblStruct  or     ancestor::biblFull)) then
-                                                latex:text($config, ., ("tei-title1"), ', ')
+                                                latex:text($config, ., ("tei-title2"), ', ')
                                             else
                                                 ()
                                         )
@@ -506,13 +506,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                                             (
                                                 latex:inline($config, ., ("tei-title1"), .),
                                                 if (following-sibling::* and     (ancestor::biblStruct  or     ancestor::biblFull)) then
-                                                    latex:text($config, ., ("tei-title1"), '. ')
+                                                    latex:text($config, ., ("tei-title2"), '. ')
                                                 else
                                                     ()
                                             )
 
                                         else
-                                            latex:inline($config, ., ("tei-title4"), .)
+                                            latex:inline($config, ., ("tei-title3"), .)
                 case element(titlePage) return
                     latex:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                 case element(titlePart) return
