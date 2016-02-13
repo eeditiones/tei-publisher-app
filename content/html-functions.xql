@@ -88,11 +88,13 @@ declare function pmf:list($config as map(*), $node as element(), $class as xs:st
 };
 
 declare function pmf:listItem($config as map(*), $node as element(), $class as xs:string+, $content) {
-    if ($node/preceding-sibling::tei:label) then (
-        <dt>{pmf:apply-children($config, $node, $node/preceding-sibling::tei:label[1])}</dt>,
-        <dd>{pmf:apply-children($config, $node, $content)}</dd>
-    ) else
-        <li class="{$class}">{pmf:apply-children($config, $node, $content)}</li>
+    let $label := $node/preceding-sibling::*[1][self::tei:label]
+    return
+        if ($label) then (
+            <dt>{pmf:apply-children($config, $node, $label)}</dt>,
+            <dd>{pmf:apply-children($config, $node, $content)}</dd>
+        ) else
+            <li class="{$class}">{pmf:apply-children($config, $node, $content)}</li>
 };
 
 declare function pmf:block($config as map(*), $node as element(), $class as xs:string+, $content) {
