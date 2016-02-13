@@ -1,123 +1,192 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div data-template="templates:include" data-template-path="templates/menu.html"/>
-    <div class="row">
-        <form action="search.html" class="form form-horizontal">
-            <div class="col-md-3 col-md-push-9">
-                <div class="well well-sm">
-                    <div class="form-group">
-                        <div class="col-md-12 col-xs-12">
-                            <span class="input-group">
-                                <input name="query" type="search" class="templates:form-control form-control typeahead-search" placeholder="Search For What?" autocomplete="off"/>
-                                <span class="input-group-btn">
-                                    <button id="f-btn-search" type="submit" class="btn btn-primary">
-                                        <span class="fa fa-search"/>
-                                    </button>
-                                </span>
-                            </span>
-                            <input type="hidden" name="field" value="text"/>
-                        </div>
-                    </div><!--div id="mode-selection" class="form-group" data-toggle="tooltip" data-placement="left" title="Use Which Search Mode?">
-                        <div class="col-md-12 col-xs-12">
-                            <select name="lucene-query-mode" class="form-control" data-template="templates:form-control">
-                                <option value="any">Any Search Term</option>
-                                <option value="all">All Search Terms Together</option>
-                                <option value="phrase">Phrase Search</option>
-                                <option value="near-ordered">Proximity Search (Ordered)</option>
-                                <option value="near-unordered">Proximity Search (Unordered)</option>
-                                <option value="fuzzy">Fuzzy Search</option>
-                                <option value="regex">Regex Search</option>
-                            </select>
-                        </div>
-                    </div-->
-                    <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Which Document Part?">
-                        <div class="col-md-12 col-xs-12">
-                            <select name="tei-target" class="form-control" data-template="templates:form-control">
-                                <option value="tei-text" selected="selected">Search
-                                    Sections</option>
-                                <option value="tei-head">Search Headings</option>
-                            </select>
-                        </div>
-                    </div><!--div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Narrowly Or Broadly?">
-                        <div class="col-md-12 col-xs-12">
-                            <select name="query-scope" class="form-control" data-template="templates:form-control">
-                                <option value="narrow" selected="selected">Perform Narrow Search</option>
-                                <option value="broad">Perform Broad Search</option>
-                            </select>
-                        </div>
-                    </div-->
+    <div class="container-fluid">
+        <div class="row actions">
+            <div class="col-md-12">
+                <div class="page-header">
+                    <h1 data-template="config:app-title"/>
                 </div>
             </div>
-        </form>
-        <div class="col-md-9 col-md-pull-3">
-            <div class="container-fluid"><!--div class="row">
-                    <div class="col-md-4">
-                        <form action="" class="form-inline">
-                            <select name="browse" class="form-control" data-template="templates:form-control">
-                                <option value="author">Author</option>
-                                <option value="title">Title</option>
-                                <option value="file">Filename</option>
-                            </select>
-                            <span class="input-group">
-                                <input type="text" name="filter" class="form-control typeahead-meta" data-template="templates:form-control" autocomplete="off"/>
-                                <span class="input-group-btn">
-                                    <button id="f-btn-search" type="submit" class="btn btn-primary">
-                                        <span class="fa fa-search"/>
-                                    </button>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-md-push-9">
+                <form action="search.html" class="form form-horizontal">
+                    <div class="well well-sm">
+                        <div class="form-group">
+                            <div class="col-md-12 col-xs-12">
+                                <span class="input-group">
+                                    <input name="query" type="search" class="templates:form-control form-control typeahead-search" placeholder="Search For What?" autocomplete="off"/>
+                                    <span class="input-group-btn">
+                                        <button id="f-btn-search" type="submit" class="btn btn-primary">
+                                            <span class="fa fa-search"/>
+                                        </button>
+                                    </span>
                                 </span>
-                            </span>
-                        </form>
+                                <input type="hidden" name="field" value="text"/>
+                            </div>
+                        </div>
+                        <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Which Document Part?">
+                            <div class="col-md-12 col-xs-12">
+                                <select name="tei-target" class="form-control" data-template="templates:form-control">
+                                    <option value="tei-text" selected="selected">Search
+                                    Sections</option>
+                                    <option value="tei-head">Search Headings</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div-->
-                <div class="row">
-                    <div class="col-md-12" data-template="app:list-works">
-                        <h5>Browsing <span class="result-count text-success">
-                                <span id="hit-count" data-template="app:hit-count" data-template-key="all"/> documents.</span>
-                        </h5>
-                        <ul class="pagination" data-template="app:paginate" data-template-per-page="20" data-template-max-pages="5" data-template-min-hits="21" data-template-key="all"/>
-                        <table class="browse table">
+                </form>
+                <div class="panel panel-info" data-template="app:show-if-logged-in">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Upload</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>Upload TEI XML or ODD files into the test document set. Click on the button below or
+                            drag&amp;drop files on it.
+                        </p>
+                        <span class="btn btn-success btn-block fileinput-button">
+                            <i class="material-icons">file_upload</i>
+                            <span>Select files...</span>
+                            <input id="fileupload" type="file" name="files[]" multiple="multiple"/>
+                        </span><!-- The global progress bar -->
+                        <div id="progress" class="progress">
+                            <div class="progress-bar progress-bar-success"/>
+                        </div><!-- The container for the uploaded files -->
+                        <table id="files-table" class="files table table-striped">
                             <thead>
-                                <tr>
-                                    <th/>
-                                    <th>Title</th>
-                                    <th>Author</th>
-                                    <th>Edition</th>
-                                    <th/>
-                                </tr>
+                                <th>Uploaded Files</th>
                             </thead>
-                            <tbody>
-                                <tr data-template="app:browse" data-template-per-page="20">
-                                    <td>
-                                        <input type="checkbox" name="target-texts" data-template="app:checkbox"/>
-                                    </td>
-                                    <td>
-                                        <a href="" data-template="app:work-title"/>
-                                    </td>
-                                    <td>
-                                        <a href="" data-template="app:work-author"/>
-                                    </td>
-                                    <td data-template="app:work-edition"/>
-                                    <td>
-                                        <div class="btn-group">
-                                            <a class="btn btn-default download-link" data-template="app:download-link" data-template-type="pdf" title="Download as PDF">
-                                                <i class="fa fa-file-pdf-o"/>
-                                            </a><!--a class="btn btn-default download-link" data-template="app:download-link" data-template-type="tex" title="Download as LaTeX PDF">
-                                                <i class="fa fa-leanpub"/>
-                                            </a>
-                                            <a class="btn btn-default download-link" data-template="app:download-link" data-template-type="epub" title="Download as epub ebook">
-                                                <i class="fa fa-book"/>
-                                            </a-->
-                                            <a class="btn btn-default" data-template="pages:xml-link" title="View TEI XML">
-                                                <i class="fa fa-file-code-o"/>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody id="files"/>
                         </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 col-md-pull-3">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 list-works" data-template="app:list-works">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Documents</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <form action="" class="form-inline col-md-12">
+                                            <div class="form-group">
+                                                <select name="browse" class="form-control" data-template="templates:form-control">
+                                                    <option value="author">Author</option>
+                                                    <option value="title">Title</option>
+                                                    <option value="file">Filename</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <span class="input-group">
+                                                    <input type="text" name="filter" class="form-control typeahead-meta" data-template="templates:form-control" autocomplete="off" placeholder="filter by"/>
+                                                    <span class="input-group-btn">
+                                                        <button id="f-btn-search" type="submit" class="btn btn-primary">
+                                                            <span class="glyphicon glyphicon-search"/>
+                                                        </button>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <ul class="pagination" data-template="app:paginate" data-template-per-page="20" data-template-max-pages="5" data-template-min-hits="21" data-template-key="all"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5 class="pull-right">Browsing <span class="result-count text-success">
+                                                    <span id="hit-count" data-template="app:hit-count" data-template-key="all"/> documents.</span>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <ul class="documents" data-template="app:browse" data-template-per-page="20">
+                                                <li>
+                                                    <div data-template="app:short-header"/>
+                                                    <div class="btn-group toolbar">
+                                                        <div class="btn-group hidden-xs">
+                                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                <i class="material-icons">print</i>
+                                                                <span class="hidden-xs">PDF</span>
+                                                                <span class="caret"/>
+                                                            </button>
+                                                            <ul class="dropdown-menu" role="menu">
+                                                                <li>
+                                                                    <a class="download-link" data-template="app:download-link" data-template-type="pdf" title="Download as PDF">PDF (FO Version)</a>
+                                                                </li>
+                                                                <li data-template="app:show-if-logged-in">
+                                                                    <a target="_blank" data-template="app:download-link" data-template-type="pdf" data-template-source="true">
+                                                                        FO Source
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="download-link" data-template="app:download-link" data-template-type="tex" title="Download as PDF">PDF (LaTeX Version)</a>
+                                                                </li>
+                                                                <li data-template="app:show-if-logged-in">
+                                                                    <a target="_blank" data-template="app:download-link" data-template-type="tex" data-template-source="true">
+                                                                        TeX Source
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <a class="btn btn-default hidden-xs download-link" data-template="app:download-link" data-template-type="epub" title="Download as epub ebook">
+                                                            <i class="material-icons">book</i>
+                                                        </a>
+                                                        <a class="btn btn-default" data-template="pages:xml-link" title="View TEI XML">
+                                                            <i class="material-icons">code</i>
+                                                        </a>
+                                                    </div>
+                                                    <br class="clear"/>
+                                                </li>
+                                                <li class="empty">Please login to upload some documents!</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="resources/scripts/jquery.ui.widget.js"/>
+    <script type="text/javascript" src="resources/scripts/jquery.iframe-transport.js"/>
+    <script type="text/javascript" src="resources/scripts/jquery.fileupload.js"/>
+    <script type="text/javascript">
+    $(function () {
+        'use strict';
+        
+        function reloadDocTable() {
+            $("#documents").load("doc-table.html");
+        }
+        
+        $('#fileupload').fileupload({
+            url: "modules/upload.xql",
+            dataType: 'json',
+            done: function (e, data) {
+                $.each(data.result.files, function (index, file) {
+                    var tr = document.createElement("tr");
+                    var td = document.createElement("td");
+                    td.appendChild(document.createTextNode(file.name));
+                    tr.appendChild(td);
+                    $("#files").append(tr);
+                });
+                reloadDocTable();
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#progress .progress-bar').css(
+                    'width',
+                    progress + '%'
+                );
+            }
+        }).prop('disabled', !$.support.fileInput)
+            .parent().addClass($.support.fileInput ? undefined : 'disabled');
+    });
+    </script>
 </div>

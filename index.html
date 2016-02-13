@@ -1,46 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div data-template="templates:include" data-template-path="templates/menu.html"/>
-    <div class="container">
-        <div class="row main">
+    <div class="container main">
+        <div class="row">
             <div class="col-md-12">
                 <div class="page-header">
-                    <h1>TEI ODD extensions for processing models</h1>
+                    <h1>The Lazy Publisher's Toolbox</h1>
                 </div>
-                <section>
-                    <p>An implementation of the <a href="http://htmlpreview.github.io/?https://github.com/TEIC/TEI-Simple/blob/master/tei-pm.html">TEI Simple Processing Model</a>
-                    in XQuery. See <a href="doc/documentation.xml?odd=documentation.odd">documentation</a> for more usage details.</p>
-                </section>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-xs-12">
+                <p>Publish your data in various media formats without writing complex stylesheets. Using the
+                <a href="http://htmlpreview.github.io/?https://github.com/TEIC/TEI-Simple/blob/master/tei-pm.html">TEI Processing Model</a>,
+                customising the appearance of the text is all done in TEI by mapping each TEI element to a limited set of 
+                well-defined behaviour functions, e.g. “paragraph” or “heading”. The specification
+                includes a standard mapping, which can be extended by overwriting selected elements. Rendition styles are 
+                transparently translated into different output media types like HTML, XSL-FO, LaTeX, or ePUB. This approach
+                may easily save a few thousand lines of code for media specific stylesheets.</p>
+                <p>Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD,
+                then generate your own, standalone app (using the <a href="generate.html">App Generator</a>) covering all core 
+                features like browsing, search and PDF generation. Check the "App Examples" box for real examples.</p>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">App Examples</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="media">
+                            <div class="media-left media-top">
+                                <a href="http://showcases.exist-db.org/exist/apps/eebo/">
+                                    <img class="media-object" src="http://showcases.exist-db.org/exist/apps/eebo/icon.png" alt="Early English Books Online" style="width: 80px;"/>
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                    <a href="http://showcases.exist-db.org/exist/apps/eebo/">Early English Books</a>
+                                </h4>
+                                <p>Browse the entire corpus of texts (32852 books) contained in the Early English Books collection.</p>
+                            </div>
+                        </div>
+                        <div class="media">
+                            <div class="media-left media-top">
+                                <a href="http://showcases.exist-db.org/exist/apps/shakespeare-pm/">
+                                    <img class="media-object" src="http://showcases.exist-db.org/exist/apps/shakespeare-pm/icon.png" alt="Shakespeare's Plays" style="height: 99px"/>
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                    <a href="http://showcases.exist-db.org/exist/apps/shakespeare-pm/">Shakespeare's Plays</a>
+                                </h4>
+                                <p>A collection of Shakespeare plays taken from 
+                                    <a href="http://firstfolio.bodleian.ox.ac.uk/">The Bodleian First Folio</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
                 <div class="row">
                     <div data-template="app:action"/>
                 </div>
-                <section>
-                    <h2>Documents</h2>
-                    <table class="table table-bordered table-hover documents">
-                        <thead>
-                            <tr>
-                                <th>Document</th>
-                                <th class="hidden-xs">Title</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody data-template="app:doc-table"/>
-                    </table>
-                </section>
-                <section>
-                    <h2>ODD Files</h2>
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>Document</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody data-template="app:odd-table"/>
-                    </table>
-                </section>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Documents</h3>
+                        </div>
+                        <div class="panel-body" id="documents">
+                            <ul class="documents" data-template="app:doc-table"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">ODD Files</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="odd-table">
+                            <tbody data-template="app:odd-table"/>
+                        </table>
+                        <div class="col-md-12">
+                            <form class="form" action="" method="POST" data-toggle="validator">
+                                <div class="form-group">
+                                    <input type="text" name="new-odd" class="form-control" placeholder="Name of new customization" required="required" pattern="[a-zA-Z0-9-_]+"/>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-default btn-block" type="submit">Create</button>
+                                </div>
+                                <input type="hidden" name="action" value="create-odd"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Upload</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>Upload TEI XML or ODD files into the test document set. Click on the button below or
+                            drag&amp;drop files on it.
+                        </p>
+                        <span class="btn btn-success btn-block fileinput-button">
+                            <i class="material-icons">file_upload</i>
+                            <span>Select files...</span>
+                            <input id="fileupload" type="file" name="files[]" multiple="multiple"/>
+                        </span><!-- The global progress bar -->
+                        <div id="progress" class="progress">
+                            <div class="progress-bar progress-bar-success"/>
+                        </div><!-- The container for the uploaded files -->
+                        <table id="files-table" class="files table table-striped">
+                            <thead>
+                                <th>Uploaded Files</th>
+                            </thead>
+                            <tbody id="files"/>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="row"/>
         <footer>
             <a href="http://tei-c.org" class="poweredby">
                 <img src="resources/images/powered-by-TEI.png" alt="Powered by TEI"/>
@@ -50,4 +133,42 @@
             </a>
         </footer>
     </div>
+    <a href="https://github.com/wolfgangmm/tei-simple-pm" class="hidden-xs hidden-sm">
+        <img style="position: absolute; top: 60px; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"/>
+    </a>
+    <script type="text/javascript" src="resources/scripts/jquery.ui.widget.js"/>
+    <script type="text/javascript" src="resources/scripts/jquery.iframe-transport.js"/>
+    <script type="text/javascript" src="resources/scripts/jquery.fileupload.js"/>
+    <script type="text/javascript">
+    $(function () {
+        'use strict';
+        
+        function reloadDocTable() {
+            $("#documents").load("doc-table.html");
+        }
+        
+        $('#fileupload').fileupload({
+            url: "modules/upload.xql",
+            dataType: 'json',
+            done: function (e, data) {
+                $.each(data.result.files, function (index, file) {
+                    var tr = document.createElement("tr");
+                    var td = document.createElement("td");
+                    td.appendChild(document.createTextNode(file.name));
+                    tr.appendChild(td);
+                    $("#files").append(tr);
+                });
+                reloadDocTable();
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#progress .progress-bar').css(
+                    'width',
+                    progress + '%'
+                );
+            }
+        }).prop('disabled', !$.support.fileInput)
+            .parent().addClass($.support.fileInput ? undefined : 'disabled');
+    });
+    </script>
 </div>

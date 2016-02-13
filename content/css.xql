@@ -78,21 +78,48 @@ declare function css:generate-css($root as document-node()) {
             else
                 $className
         return
-            "&#10;." || $class || " { " ||
+            "&#10;.tei-" || $class || " { " ||
             normalize-space($rend) || " }"
     ))
 };
 
-declare function css:get-rendition($node as node()*, $class as xs:string) {
-    if ($node/@rendition) then
-        for $rend in tokenize($node/@rendition, "\s+")
-        return
-            if (starts-with($rend, "#")) then
-                'document_' || substring-after($rend,'#')
-            else if (starts-with($rend,'simple:')) then
-                translate($rend,':','_')
-            else
-                $rend
-    else
-        $class
+declare function css:get-rendition($node as node()*, $class as xs:string+) {
+    $class,
+    for $rend in tokenize($node/@rendition, "\s+")
+    return
+        if (starts-with($rend, "#")) then
+            'document_' || substring-after($rend,'#')
+        else if (starts-with($rend,'simple:')) then
+            translate($rend,':','_')
+        else
+            $rend
+};
+
+declare function css:rendition-styles($node as node()*) as map(*)? {
+    let $renditions := $node//@rendition[starts-with(., "#")]
+    return
+        if ($renditions) then
+            map:new(
+                for $renditionDef in $renditions
+                for $rendition in tokenize($renditionDef, "\s+")
+                let $id := substring-after($rendition, "#")
+                let $def := root($node)/id($id)
+                return
+                    map:entry("document_" || $id, $def/string())
+            )
+        else
+            ()
+};
+
+declare function css:rendition-styles-html($node as node()*) {
+    let $styles := css:rendition-styles($node)
+    return
+        if (exists($styles)) then
+            map:for-each-entry($styles, function($key, $value) {
+                "." || $key || " {&#10;" ||
+                "   " || $value || "&#10;" ||
+                "}&#10;&#10;"
+            })
+        else
+            ()
 };

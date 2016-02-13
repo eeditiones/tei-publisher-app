@@ -3,9 +3,13 @@
 footer .poweredby { float: right; margin: 33px 10px 0 0;}
 footer .poweredby img { width: 120px; }
 
+#main-container {
+    max-width: 1200px;
+}
+
 .browse {
     font-size: 1em !important;
-    
+
     td:nth-child(2), td:nth-child(3), td:nth-child(4) {
         font-family: @serifFont;
     }
@@ -18,7 +22,7 @@ footer .poweredby img { width: 120px; }
 @media (min-width: 768px) {
     .toc {
         position: fixed;
-        top: 51px;
+        top: 61px;
         bottom: 0;
         left: 0;
         z-index: 1000;
@@ -30,22 +34,46 @@ footer .poweredby img { width: 120px; }
         border-right: 1px solid #eee;
         border-top: 1px solid #eee;
     }
-  
+
     .toc ul {
         padding-left: 20px;
+    }
+    
+    .toc-toggle {
+        position: fixed !important;
+        left: 30px;
+        top: inherit;
+        background-color: #607D8B !important;
+        color: white;
     }
 }
 
 .navbar-default {
     margin-bottom: 0;
+    background-color: #3F51B5 !important;
 }
 
+.top {
+    margin-top: 61px;
+}
+
+.panel.panel-primary>.panel-heading {
+    background-color: #C5CAE9;
+}
+.panel.panel-info>.panel-heading {
+    background-color: #607D8B;
+}
+
+a, a:hover, a:focus {
+    color: #303F9F;
+}
 .main {
     margin-top: 50px;
+    margin-bottom: 20px;
 }
 
 #content-inner {
-    font-family: Junicode, Georgia, Times, serif;
+    font-family: @serifFont;
     font-size: 16px;
 }
 
@@ -55,7 +83,7 @@ footer .poweredby img { width: 120px; }
 .content h4 { font-size: 1.25em; }
 
 .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
-    font-family: Junicode, Georgia, Times, serif;
+    font-family: @serifFont;
     line-height: 1.2;
 }
 
@@ -70,13 +98,14 @@ footer .poweredby img { width: 120px; }
   -moz-animation-duration: 400ms;
   animation-duration: 400ms;
   overflow:auto;
+
+  @media (max-width: 768px) {
+      margin-bottom: 5em;
+  }
 }
 
-@media (min-width: 769px) {
-    #content-container {
-        margin-left: 60px;
-        margin-right: 60px;
-    }
+mark {
+    background-color: #FFEB3B;
 }
 
 .margin-right {
@@ -84,8 +113,9 @@ footer .poweredby img { width: 120px; }
     position: relative;
 }
 
-.code1 {
+.tei-code1 {
     font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
+    font-size: 85%;
 }
 
 .alternate {
@@ -119,7 +149,8 @@ footer .poweredby img { width: 120px; }
 }
 
 .margin-note {
-    background: #F8F8FF;
+    background: #B6B6B6;
+    // color: white;
     /*border: 1px solid #CACACA;*/
     display: block;
     font-size: small;
@@ -141,7 +172,7 @@ footer .poweredby img { width: 120px; }
     .margin-note {
         display: none;
     }
-    
+
     .margin-right {
         margin-right: 0;
     }
@@ -181,70 +212,60 @@ footer .poweredby img { width: 120px; }
     min-height: 450px;
 }
 
-.page-nav {
-    width: 30px;
-    font-size: 20px;
+.navigation-top {
+    @media (min-width: 769px) {
+        margin-bottom: 1em;
+        border-bottom: 2px solid #CCC;
+    }
+
+    h5 {
+        text-align: center;
+        font-family: @serifFont;
+        font-size: 16px;
+        padding: 10px 10px 10px 0;
+    }
+
+    @media (max-width: 768px) {
+        .nav-next {
+            right: 10px;
+        }
+    }
+}
+
+.page-nav, .page-nav:link, .page-nav:active {
+    background-color: #607D8B !important;
+
+    @media (min-width: 769px) {
+        position: fixed;
+        top:50%;
+    }
+
+    @media (max-width: 768px) {
+        position: fixed;
+        bottom: 20px;
+        // top: 20px;
+    }
 }
 
 @media (min-width: 769px) {
-    .page-nav {
-        position: fixed;
-        margin: 0;
-        width: 60px;
-        display: flex;
-        justify-content: center;
-        align-content: center;
-        flex-direction: column;
-        font-size: 40px;
-        text-align: center;
+    .nav-prev {
+        left: 30px;
     }
     
     .nav-next {
-        right: 10px;
-    }
-    .nav-prev {
-        left: 10px;
-    }
-}
-
-.page-nav:link, .page-nav, .page-nav:active {
-    text-decoration: none;
-    color: #ccc;
-}
-
-.navigation-top {
-    margin-bottom: 1em;
-    border-bottom: 2px solid #CCC;
-}
-
-.navigation-top h5 {
-    text-align: center;
-    font-family: "Junicode", Georgia, "Times New Roman", serif;
-    font-size: 16px;
-    padding: 10px 10px 10px 0;
-    margin-left: 60px;
-    margin-right: 60px;
-}
-
-@media (max-width: 768px) {
-    .navigation-top h5 {
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-    .nav-next {
-        float: right;
-        margin-top: 10px;
-        margin-bottom: auto;
-    }
-    .nav-prev {
-        float: left;
-        margin-top: 10px;
+        right: 30px;
     }
 }
 
 .actions {
     margin-bottom: 10px;
-    margin-top: 71px;
+    margin-top: 61px;
+    
+    @media (max-width: 769px) {
+        .btn {
+            padding: 8px 20px;
+        }
+    }
 }
 
 .btn-group .hidden-xs {
@@ -254,34 +275,83 @@ footer .poweredby img { width: 120px; }
     margin-left: .5em;
 }
 
-.documents td:nth-child(3) {
+.documents {
+    h5 {
+        font-family: @serifFont;
+        font-size: 16px;
+    }
+    .toolbar {
+        float: right;
+        margin-top: 0;
+    }
+    >li {
+        list-style: none;
+        border-bottom: 1px solid #C0C0C0;
+        margin-bottom: 15px;
+    }
+    .clear {
+        clear: both;
+    }
+}
+
+#results {
+    font-family: @serifFont;
+
+    td {
+        border: 0;
+    }
+    .reference {
+        border-top: 1px solid #ddd;
+
+        .number, .headings {
+            display: table-cell;
+        }
+        .number {
+            padding-right: 1em;
+        }
+    }
+}
+
+/*.documents td:nth-child(3) {
     text-align: right;
-    width: 320px;
+    width: 403px;
 }
 
 @media (max-width: 768px) {
     .documents {
         table-layout: fixed;
     }
-    
+
     .documents td:nth-child(1) {
         white-space: pre-line;
         word-wrap: break-word;
     }
-    
+
     .documents th:nth-child(3) {
         width: 160px;
     }
-}
+}*/
 
 #msg-progress {
     display: none;
     font-weight: bold;
     margin-left: 2em;
-    animation: blinker 1.2s cubic-bezier(.5, 0, 1, 1) infinite alternate;  
+    animation: blinker 1.2s cubic-bezier(.5, 0, 1, 1) infinite alternate;
 
-    @keyframes blinker {  
+    @keyframes blinker {
       from { opacity: 1; }
       to { opacity: 0; }
     }
+}
+
+.odd-table {
+    border-bottom: 1px solid #C5CAE9;
+}
+.fileinput-button {
+    margin: 20px 0 20px 0;
+    border: 1px dotted #C5CAE9;
+}
+
+#files {
+    margin-top: 20px;
 }

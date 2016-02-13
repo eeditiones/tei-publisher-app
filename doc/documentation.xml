@@ -3,7 +3,7 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>TEI-Simple Processing Model Implementation in XQuery</title>
+                <title>TEI Processing Model Toolbox</title>
                 <author>Wolfgang Meier</author>
             </titleStmt>
             <publicationStmt>
@@ -17,36 +17,90 @@
     <text>
         <body>
             <div>
-                <head>TEI-Simple Processing Model in XQuery</head>
-                <p>This expath app package provides library functions to render a TEI-Simple
-                    compliant document into various output formats based on the ODD extensions for
-                    processing models. The main goal was to make it as simple as possible to use the
-                    library from other applications dealing with TEI-Simple documents.</p>
-                <p>The library takes as input:</p>
-                <list>
-                    <item>
-                        a TEI-Simple compliant XML document
-                    </item>
-                    <item>an ODD file containing TEI-Simple processing model instructions</item>
-                </list>
-                <p>Rendering a document proceeds in two steps:</p>
-                <list type="ordered">
-                    <item>
-                        <p>In a first step, the ODD file is pre-processed to generate an XQuery library module
-                    which implements the processing model instructions. It mainly consists of a single
-                    XQuery typeswitch transformation, which calls library functions. The names
-                    of the library functions correspond to the processing model functions specified in the
-                    behaviour attribute of each model element. There are different libraries for each output
-                    type supported.
-                </p>
-                    </item>
-                    <item>
-                        <p>The second step is to pass the source TEI document through the generated XQuery library
-                    module to render it (or parts thereof) into the desired output format.</p>
-                    </item>
-                </list>
-                <p>For convenience, a utility module is provided, so library users do not need to bother with
-                    pre-processing, code generation or caching. Instead they call a single main function.</p>
+                <head>TEI Processing Model Toolbox</head>
+                <div>
+                    <head>Introduction</head>
+                    <p>The TEI Processing Model (PM) extends the TEI ODD format with a processing model for
+                    documents, which can be expressed within the TEI vocubulary itself. It aims at the
+                    XML-savvy editor who is familiar with TEI but is not a developer. The editor knows the logical 
+                    structure of the text and maps it to a small set of abstract transformation functions, called
+                    "behaviours". Predefined behaviours are, for example, "paragraph", "heading" or "note".</p>
+                    <p>Basic styling features can be set directly within the ODD using CSS. The processing model
+                    is media-agnostic: rendition styles are transparently translated into the different output media 
+                    types like HTML, XSL-FO, LaTeX, or ePUB.</p>
+                    <p>At the same time, the processing model implements a clean separation of concerns to improve
+                    the workflow between editors, designers and developers. The editor defines how elements are 
+                    mapped to behavior functions and specifies basic styling rules, the designer controls the 
+                    overall presentation of the material, and the developer concentrates on the general application 
+                    framework and—if necessary—supports the editor by providing custom behavior functions as 
+                    extension modules.</p>
+                    <p>A word of warning though: while the processing model was developed as part of the
+                TEI Simple initiative, it is not necessarily "simple" regarding the knowledge it requires.
+                The goal rather was to improve workflows and interoperability by providing a 
+                minimal abstraction for the processing rules applied to a document. Using the processing model
+                definitely simplifies the life of the developer, who often has to write a few thousand lines 
+                just to render a particular TEI document to HTML, and then repeat that for PDF. It also
+                empowers the scholary editor to create high-quality prototype websites from a given
+                data set without even relying on a developer.</p>
+                </div>
+                <div>
+                    <head>The Toolbox</head>
+                    <p>The toolbox does a lot more than just implement the TEI processing model. It consists
+                    of the following components:</p>
+                    <list type="ordered">
+                        <item>
+                            A set of library modules to render a TEI document into various output formats, 
+                            which is imported into other applications.
+                        </item>
+                        <item>
+                            The core application to work and experiment with various documents and processing
+                            model instances.
+                        </item>
+                        <item>
+                            An application generator, which takes a processing model instance and creates 
+                            a user interface around it, resulting in a stand alone web application for a
+                            certain corpus of documents.
+                        </item>
+                    </list>
+                    <p>So in a strict sense, only the first component implements the processing model specification. 
+                        The larger part of the toolbox deals with graphical user interface components, adding
+                    pagination, navigation and even some simple search features.</p>
+                </div>
+                <div>
+                    <head>Getting Started</head>
+                    <p>The toolbox is distributed as an eXist application package, making it easy to install
+                    on any local or remote eXist database instance. Just go to the dashboard, open the package
+                    manager and install the TEI processing model package from the public repository.</p>
+                    <p>Once installed, play around with the provided documents or upload your own via the file
+                    upload panel in the right sidebar. You may modify any of the supplied ODD files and see how
+                    the rendering changes.</p>
+                    <p>To create your own custom ODD, tailored to the data set you are working on, the general 
+                        procedure is as follows:</p>
+                    <list>
+                        <item>Create a new customization</item>
+                        <item>Overwrite the standard processing model rules for selected TEI elements or add
+                        model rules for elements not handled by the standard ODD.</item>
+                        <item>Test your modifications by applying the ODD and rendering a few documents.</item>
+                    </list>
+                    <p>The steps will be described in detail in the following sections.</p>
+                    <div>
+                        <head>Create a new customization</head>
+                        <p>Create a new customization by entering a name and clicking "Create" at the bottom 
+                            of the right sidebar panel listing the available ODDs. Reload the page to see
+                            the new ODD appear in the list.</p>
+                        <p>Open the created ODD using the "source" button. This will create a new browser tab
+                        showing the editor which is part of eXist, called "eXide". The ODD will be loaded into 
+                        it.</p>
+                        <p>As you can see, the ODD is nearly empty, containing just boilerplate code. However,
+                        it imports the standard <code>teisimple.odd</code> within the <code>schemaSpec</code>
+                        element:</p>
+                        <code lang="xml">&lt;schemaSpec ident="myteisimple" start="TEI teiCorpus" source="teisimple.odd"&gt;</code>
+                        <p>This means your new ODD extends the standard <code>teisimple.odd</code>, which 
+                        provides useful defaults for the TEI core elements. In general, most of those defaults
+                        should be ok and you only need to overwrite a hand full of selected mappings within your
+                        own ODD.</p>
+                    </div>
+                </div>
                 <div>
                     <head>Usage</head>
                     <p>To use the library, import the utility module:</p>

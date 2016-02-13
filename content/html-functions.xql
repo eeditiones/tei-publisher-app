@@ -40,6 +40,17 @@ module namespace pmf="http://www.tei-c.org/tei-simple/xquery/functions";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
+import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "css.xql";
+
+declare function pmf:prepare($config as map(*), $node as node()*) {
+    let $styles := css:rendition-styles-html($node)
+    return
+        if ($styles != "") then
+            <style type="text/css">{ $styles }</style>
+        else
+            ()
+};
+
 declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string+, $content) {
     <p class="{$class}">
     {
@@ -48,9 +59,11 @@ declare function pmf:paragraph($config as map(*), $node as element(), $class as 
     </p>
 };
 
-declare function pmf:heading($config as map(*), $node as element(), $class as xs:string+, $content) {
-    let $level := 
-        if ($content instance of element()) then
+declare function pmf:heading($config as map(*), $node as element(), $class as xs:string+, $content, $level) {
+    let $level :=
+        if ($level) then
+            $level
+        else if ($content instance of element()) then
             max((count($content/ancestor::tei:div), 1))
         else
             4
@@ -113,20 +126,20 @@ declare function pmf:glyph($config as map(*), $node as element(), $class as xs:s
         ()
 };
 
-declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url as xs:anyURI,
+declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url,
     $width, $height, $scale, $title) {
     let $style := if ($width) then "width: " || $width || "; " else ()
     let $style := if ($height) then $style || "height: " || $height || "; " else $style
     return
         if ($title) then
             <figure>
-                <img src="{$url}">
+                <img src="{$url}" class="{$class}">
                 { if ($style) then attribute style { $style } else () }
                 </img>
                 <figcaption>{pmf:apply-children($config, $node, $title)}</figcaption>
             </figure>
         else
-            <img src="{$url}">
+            <img src="{$url}" class="{$class}">
             { if ($style) then attribute style { $style } else () }
             </img>
 };

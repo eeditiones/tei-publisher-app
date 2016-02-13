@@ -78,8 +78,15 @@ declare variable $pmf:CSS_PROPERTIES := (
 
 declare variable $pmf:NOTE_COUNTER_ID := "notes-" || util:uuid();
 
+declare function pmf:init($config as map(*), $node as node()*) {
+    let $renditionStyles := string-join(css:rendition-styles-html($node))
+    let $styles := if ($renditionStyles) then css:parse-css($renditionStyles) else map {}
+    return
+        map:new(($config, map:entry("rendition-styles", $styles)))
+};
+
 declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string+, $content) {
-    comment { "paragraph" || " (" || $class || ")"},
+    comment { "paragraph" || " (" || string-join($class, ", ") || ")"},
     <fo:block>
     {
         pmf:check-styles($config, $node, $class, ()),
@@ -90,10 +97,10 @@ declare function pmf:paragraph($config as map(*), $node as element(), $class as 
 
 declare function pmf:heading($config as map(*), $node as element(), $class as xs:string+, $content) {
     let $level := if ($content instance of node()) then max((count($content/ancestor::tei:div), 1)) else 1
-    let $defaultStyle := $config?default-styles("head" || $level)
+    let $defaultStyle := $config?default-styles("tei-head" || $level)
     return
         if ($content instance of node() and $content//text()) then (
-            comment { "heading level " || $level || " (" || $class || ")"},
+            comment { "heading level " || $level || " (" || string-join($class, ", ") || ")"},
             <fo:block>
             {
                 pmf:check-styles($config, $node, $class, $defaultStyle),
@@ -148,7 +155,7 @@ declare function pmf:listItem($config as map(*), $node as element(), $class as x
 };
 
 declare function pmf:block($config as map(*), $node as element(), $class as xs:string+, $content) {
-    comment { "block" || " (" || $class || ")"},
+    comment { "block" || " (" || string-join($class, ", ") || ")"},
     <fo:block>
     {
         pmf:check-styles($config, $node, $class, ()),
@@ -163,7 +170,7 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
     return
         <fo:footnote>
             <fo:inline>
-            {pmf:check-styles($config, $node, "note", ())}
+            {pmf:check-styles($config, $node, "tei-note", ())}
             {$number} 
             </fo:inline>
             <fo:footnote-body start-indent="0mm" end-indent="0mm" text-indent="0mm" white-space-treatment="ignore-if-surrounding-linefeed">
@@ -171,12 +178,12 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
                     <fo:list-item>
                         <fo:list-item-label end-indent="label-end()" >
                             <fo:block>
-                            {pmf:check-styles($config, (), "note-body", ())}
+                            {pmf:check-styles($config, (), "tei-note-body", ())}
                             { $number }
                             </fo:block>
                         </fo:list-item-label>
                         <fo:list-item-body start-indent="body-start()">
-                            {pmf:check-styles($config, (), "note-body", ())}
+                            {pmf:check-styles($config, (), "tei-note-body", ())}
                             <fo:block>{$config?apply-children($config, $node, $content/node())}</fo:block>
                         </fo:list-item-body>
                     </fo:list-item>
@@ -186,7 +193,7 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
 };
 
 declare function pmf:section($config as map(*), $node as element(), $class as xs:string+, $content) {
-    comment { "section" || " (" || $class || ")"},
+    comment { "section" || " (" || string-join($class, ", ") || ")"},
     <fo:block>
     { 
         pmf:check-styles($config, $node, $class, ()),
@@ -223,7 +230,7 @@ declare function pmf:glyph($config as map(*), $node as element(), $class as xs:s
         ()
 };
 
-declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url as xs:anyURI,
+declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url,
     $width, $height, $scale, $title) {
     let $src :=
         if (matches($url, "^\w+://")) then
@@ -240,7 +247,7 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
         {
              pmf:check-styles($config, $node, $class, ())
         }
-        { comment { $class } }
+        { comment { string-join($class, ", ") } }
         </fo:external-graphic>
 };
 
@@ -263,7 +270,7 @@ declare function pmf:cit($config as map(*), $node as element(), $class as xs:str
 };
 
 declare function pmf:body($config as map(*), $node as element(), $class as xs:string+, $content) {
-    comment { "body" || " (" || $class || ")"},
+    comment { "body" || " (" || string-join($class, ", ") || ")"},
     <fo:block>
     {
         pmf:check-styles($config, $node, $class, ()),
@@ -282,7 +289,7 @@ declare function pmf:break($config as map(*), $node as element(), $class as xs:s
             ()
         default return
             <fo:block/>,
-    comment { $type || " - " || $label || " (" || $class || ")" }
+    comment { $type || " - " || $label || " (" || string-join($class, ", ") || ")" }
 };
 
 declare function pmf:document($config as map(*), $node as element(), $class as xs:string+, $content) {
@@ -292,14 +299,18 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
     return
      <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
         <fo:layout-master-set>
-            <fo:simple-page-master master-name="page-left" page-height="297mm" page-width="210mm">
-                { pmf:check-styles($config, (), "@page:left", ())}
-                <fo:region-body margin-bottom="10mm" margin-top="16mm"/>
+            <fo:simple-page-master master-name="page-left">
+                { pmf:check-styles($config, (), "@page:left", ()) }
+                <fo:region-body>
+                { pmf:check-styles($config, (), "@page:left-body", ())}
+                </fo:region-body>
                 <fo:region-before region-name="head-left" extent="10mm"/>
             </fo:simple-page-master>
-            <fo:simple-page-master master-name="page-right" page-height="297mm" page-width="210mm">
+            <fo:simple-page-master master-name="page-right">
                 { pmf:check-styles($config, (), "@page:right", ())}
-                <fo:region-body margin-bottom="10mm" margin-top="16mm"/>
+                <fo:region-body>
+                { pmf:check-styles($config, (), "@page:right-body", ())}
+                </fo:region-body>
                 <fo:region-before region-name="head-right" extent="10mm"/>
             </fo:simple-page-master>
             <fo:page-sequence-master master-name="page-content">
@@ -413,16 +424,22 @@ declare function pmf:check-styles($config as map(*), $node as element()?, $class
         attribute id { $node/@xml:id }
     else
         (),
-    for $class in $classes
     let $defaultStyles :=
         if (exists($default)) then
             $default
         else
-            $config?default-styles($class)
-    let $customStyles := $config?styles?($class)
+            map:new($classes ! $config?default-styles(.))
+    let $stylesForClass :=
+        map:new(
+            for $class in $classes
+            return (
+                pmf:filter-styles($config?styles?($class)),
+                pmf:filter-styles($config?rendition-styles?($class))
+            )
+        )
     let $styles := 
-        if (exists($customStyles)) then
-            pmf:merge-maps(pmf:filter-styles($customStyles), $defaultStyles)
+        if (exists($stylesForClass)) then
+            pmf:merge-maps($stylesForClass, $defaultStyles)
         else
             $defaultStyles
     return
@@ -435,8 +452,11 @@ declare function pmf:check-styles($config as map(*), $node as element()?, $class
     pmf:get-before($config, $classes)
 };
 
-declare %private function pmf:filter-styles($styles as map(*)) {
-    map:new($styles?*[. = $pmf:CSS_PROPERTIES] ! map:entry(., $styles(.)))
+declare %private function pmf:filter-styles($styles as map(*)?) {
+    if (exists($styles)) then
+        $styles?*[. = $pmf:CSS_PROPERTIES] ! map:entry(., $styles(.))
+    else
+        ()
 };
 
 declare %private function pmf:merge-maps($map as map(*), $defaults as map(*)?) {
@@ -470,18 +490,19 @@ declare %private function pmf:merge-styles($map as map(*)?, $defaults as map(*)?
 declare function pmf:load-styles($config as map(*), $root as document-node()) {
     let $css := css:generate-css($root)
     let $styles := css:parse-css($css)
-    return
+    let $styles :=
         map:new(($config, map:entry("styles", $styles)))
+    return
+        $styles
 };
 
 declare function pmf:load-default-styles($config as map(*)) {
     let $oddName := replace($config?odd, "^.*/([^/\.]+)\.?.*$", "$1")
     let $path := $config?collection || "/" || $oddName || ".fo.css"
-    let $log := console:log("loading user styles from " || $path)
     let $userStyles := pmf:read-css($path)
     let $systemStyles := pmf:read-css(system:get-module-load-path() || "/styles.fo.css")
     return
-        map:new(($config, map:entry("default-styles", pmf:merge-styles($userStyles, $systemStyles))))
+        map:new(($config, map:entry("default-styles", pmf:merge-styles($systemStyles, $userStyles))))
 };
 
 declare function pmf:read-css($path) {

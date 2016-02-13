@@ -39,11 +39,13 @@ declare function local:work2epub($id as xs:string, $work as element(), $odd as x
 
 let $doc := request:get-parameter("doc", ())
 let $odd := request:get-parameter("odd", ())
+let $token := request:get-parameter("token", ())
 let $id := replace($doc, "^.*?([^/]+)\..*$", "$1")
 let $work := doc($config:app-root || "/" || $doc)/*
 let $entries := local:work2epub($id, $work, $odd)
 return
     (
+        response:set-cookie("simple.token", $token),
         response:set-header("Content-Disposition", concat("attachment; filename=", concat($id, '.epub'))),
         response:stream-binary(
             compression:zip( $entries, true() ),

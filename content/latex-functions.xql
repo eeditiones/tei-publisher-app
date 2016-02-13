@@ -18,6 +18,13 @@ import module namespace console="http://exist-db.org/xquery/console" at "java:or
 declare variable $pmf:WORKING_DIR := system:get-exist-home() || "/webapp";
 declare variable $pmf:IMAGE_DIR := $pmf:WORKING_DIR || "/WEB-INF/data/expathrepo/tei-simple-0.2/test/";
 
+declare function pmf:init($config as map(*), $node as node()*) {
+    let $renditionStyles := string-join(css:rendition-styles-html($node))
+    let $styles := if ($renditionStyles) then css:parse-css($renditionStyles) else map {}
+    return
+        map:new(($config, map:entry("rendition-styles", $styles)))
+};
+
 declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string+, $content) {
     pmf:get-content($config, $node, $class, $content),
     "&#10;&#10;"
@@ -103,7 +110,7 @@ declare function pmf:glyph($config as map(*), $node as element(), $class as xs:s
         ()
 };
 
-declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url as xs:anyURI,
+declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url,
     $width, $height, $scale, $title) {
     let $w := if ($width and not(ends-with($width, "%"))) then "width=" || $width else ()
     let $h := if ($height and not(ends-with($height, "%"))) then "height=" || $height else ()
@@ -288,14 +295,13 @@ declare %private function pmf:get-after($config as map(*), $classes as xs:string
 };
 
 declare %private function pmf:check-styles($config as map(*), $classes as xs:string+, $content as item()*) {
-    fold-right($classes, string-join($content), function($class, $text) {
-        let $styles := $config?styles?($class)
-        return
-            if (exists($styles)) then
-                pmf:style($styles?*, $styles, $text)
-            else
-                $text
-    })
+    let $styles := map:new(for $class in $classes return ($config?styles?($class), $config?rendition-styles?($class)))
+    let $text := string-join($content)
+    return
+        if (exists($styles)) then
+            pmf:style($styles?*, $styles, $text)
+        else
+            $text
 };
 
 declare %private function pmf:style($names as xs:string*, $styles as map(*), $text) {
@@ -342,7 +348,7 @@ declare %private function pmf:style($names as xs:string*, $styles as map(*), $te
                                 $text
                 case "color" return
                     if (matches($value, "#.{3}")) then
-                        ()
+                        $text
                     else if (starts-with($value, "#")) then
                         "\textcolor[HTML]{" || substring-after($value, "#") || "}{" || $text || "}"
                     else
@@ -364,6 +370,8 @@ declare %private function pmf:style($names as xs:string*, $styles as map(*), $te
                             "{\centering " || $text || "}"
                         default return
                             $text
+                case "text-indent" return
+                    "{\setlength{\parindent}{" || $value || "}" || $text || "}"
                 default return
                     $text
         return

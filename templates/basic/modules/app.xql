@@ -1,19 +1,49 @@
 xquery version "3.0";
 
-module namespace app="$$namespace$$";
+module namespace app="http://www.tei-c.org/tei-simple/templates";
 
-import module namespace templates="http://exist-db.org/xquery/templates" $$templates$$;
-import module namespace config="$$config-namespace$$" at "config.xqm";
+import module namespace templates="http://exist-db.org/xquery/templates";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
 import module namespace kwic="http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
-import module namespace pages="$$pages-namespace$$" at "pages.xql";
+import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
+import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
 declare namespace expath="http://expath.org/ns/pkg";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
+declare
+    %templates:wrap
+function app:check-login($node as node(), $model as map(*)) {
+    let $user := request:get-attribute("org.exist.tei-simple.user")
+    return
+        if ($user) then
+            templates:process($node/*[2], $model)
+        else
+            templates:process($node/*[1], $model)
+};
+
+declare
+    %templates:wrap
+function app:current-user($node as node(), $model as map(*)) {
+    request:get-attribute("org.exist.tei-simple.user")
+};
+
+declare
+    %templates:wrap
+function app:show-if-logged-in($node as node(), $model as map(*)) {
+    let $user := request:get-attribute("org.exist.tei-simple.user")
+    return
+        if ($user) then
+            templates:process($node/node(), $model)
+        else
+            ()
+};
+
 (:~
  : List documents in data collection
  :)
-declare 
+declare
     %templates:wrap
 function app:list-works($node as node(), $model as map(*), $filter as xs:string?, $browse as xs:string?) {
     let $cached := session:get-attribute("simple.works")
@@ -47,12 +77,24 @@ declare
     %templates:wrap
     %templates:default("start", 1)
     %templates:default("per-page", 10)
-function app:browse($node as node(), $model as map(*), $start as xs:int, $per-page as xs:int) {
-    subsequence($model?all, $start, $per-page) !
-        element { node-name($node) } {
-            $node/@*,
-            templates:process($node/node(), map:new(($model, map { "work": . })))
-        }
+function app:browse($node as node(), $model as map(*), $start as xs:int, $per-page as xs:int, $filter as xs:string?) {
+    if (empty($model?all) and (empty($filter) or $filter = "")) then
+        templates:process($node/*[@class="empty"], $model)
+    else
+        subsequence($model?all, $start, $per-page) !
+            templates:process($node/*[not(@class="empty")], map:new(($model, map { "work": . })))
+};
+
+declare
+    %templates:wrap
+function app:short-header($node as node(), $model as map(*)) {
+    let $work := $model("work")/ancestor-or-self::tei:TEI
+    let $id := util:document-name($work)
+    return
+        $pm-config:web-transform($work/tei:teiHeader, map { 
+            "header": "short",
+            "doc": $id
+        })
 };
 
 (:~
@@ -121,37 +163,27 @@ function app:paginate($node as node(), $model as map(*), $key as xs:string, $sta
 (:~
     Create a span with the number of items in the current search result.
 :)
-declare 
+declare
     %templates:wrap
-    %templates:default("key", "hits")
+    %templates:default("key", "hitCount")
 function app:hit-count($node as node()*, $model as map(*), $key as xs:string) {
-    count($model($key))
-};
-
-declare 
-    %templates:wrap
-function app:checkbox($node as node(), $model as map(*), $target-texts as xs:string*) {
-    let $id := $model("work")/@xml:id/string()
-    return (
-        attribute { "value" } {
-            $id
-        },
-        if ($id = $target-texts) then
-            attribute checked { "checked" }
+    let $value := $model?($key)
+    return
+        if ($value instance of xs:integer) then
+            $value
         else
-            ()
-    )
+            count($value)
 };
 
 (:~
- : 
+ :
  :)
 declare function app:work-title($node as node(), $model as map(*), $type as xs:string?) {
     let $suffix := if ($type) then "." || $type else ()
     let $work := $model("work")/ancestor-or-self::tei:TEI
     let $id := util:document-name($work)
     return
-        <a xmlns="http://www.w3.org/1999/xhtml" href="{$node/@href}{$id}{$suffix}">{ app:work-title($work) }</a>
+        <a href="{$node/@href}{$id}{$suffix}">{ app:work-title($work) }</a>
 };
 
 declare %private function app:work-title($work as element(tei:TEI)?) {
@@ -161,32 +193,19 @@ declare %private function app:work-title($work as element(tei:TEI)?) {
         $main-title
 };
 
-declare function app:work-author($node as node(), $model as map(*)) {
-    let $work := $model("work")/ancestor-or-self::tei:TEI
-    let $work-authors := $work//tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:biblFull/tei:titleStmt/tei:author
-    return 
-        string-join($work-authors, "; ")
-};
-
-declare 
-    %templates:wrap
-function app:work-edition($node as node(), $model as map(*)) {
-    $model("work")/ancestor-or-self::tei:TEI/tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:edition/tei:date/text()
-};
-
 declare function app:download-link($node as node(), $model as map(*), $type as xs:string, $doc as xs:string?,
     $source as xs:boolean?) {
-    let $file := 
-        if ($model?work) then 
+    let $file :=
+        if ($model?work) then
             replace(util:document-name($model("work")), "^(.*?)\.[^\.]*$", "$1")
-        else 
+        else
             replace($doc, "^(.*)\..*$", "$1")
     let $uuid := util:uuid()
     return
         element { node-name($node) } {
             $node/@*,
             attribute data-token { $uuid },
-            attribute href { $node/@href || $file || "." || $type || "?token=" || $uuid || "&amp;cache=no" 
+            attribute href { $node/@href || $file || "." || $type || "?token=" || $uuid || "&amp;cache=no"
                 || (if ($source) then "&amp;source=yes" else ())
             },
             $node/node()
@@ -234,7 +253,7 @@ declare function app:fix-links($nodes as node()*) {
 :
 : @author Wolfgang M. Meier
 : @author Jens Østergaard Petersen
-: @param $node 
+: @param $node
 : @param $model
 : @param $query The query string. This string is transformed into a <query> element containing one or two <bool> elements in a Lucene query and it is transformed into a sequence of one or two query strings in an ngram query. The first <bool> and the first string contain the query as input and the second the query as transliterated into Devanagari or IAST as determined by $query-scripts. One <bool> and one query string may be empty.
 : @param $index The index against which the query is to be performed, as the string "ngram" or "lucene".
@@ -246,7 +265,7 @@ declare function app:fix-links($nodes as node()*) {
 
 : @return The function returns a map containing the $hits, the $query, and the $query-scope. The search results are output through the nested templates, app:hit-count, app:paginate, and app:show-hits.
 :)
-declare 
+declare
     %templates:default("lucene-query-mode", "any")
     %templates:default("tei-target", "tei-text")
     %templates:default("query-scope", "narrow")
@@ -269,21 +288,21 @@ function app:query($node as node()*, $model as map(*), $query as xs:string?, $lu
             (:The query passed to a Luecene query in ft:query is an XML element <query> containing one or two <bool>. The <bool> contain the original query and the transliterated query, as indicated by the user in $query-scripts.:)
             let $hits :=
                     (:If the $query-scope is narrow, query the elements immediately below the lowest div in tei:text and the four major element below tei:teiHeader.:)
-                    for $hit in 
+                    for $hit in
                         (:If both tei-text and tei-header is queried.:)
                         if (count($tei-target) eq 2)
                         then
-                            collection($config:data-root)//tei:div[ft:query(., $query)] |
+                            collection($config:data-root)//tei:div[ft:query(., $query)][not(tei:div)] |
                             collection($config:data-root)//tei:head[ft:query(., $query)]
                         else
                             if ($tei-target = 'tei-text')
                             then
-                                collection($config:data-root)//tei:div[ft:query(., $query)]
-                            else 
+                                collection($config:data-root)//tei:div[ft:query(., $query)][not(tei:div)]
+                            else
                                 if ($tei-target = 'tei-head')
-                                then 
+                                then
                                     collection($config:data-root)//tei:head[ft:query(., $query)]
-                                else ()    
+                                else ()
                     order by ft:score($hit) descending
                     return $hit
             let $hitCount := count($hits)
@@ -307,19 +326,20 @@ function app:query($node as node()*, $model as map(*), $query as xs:string?, $lu
 (:~
     Output the actual search result as a div, using the kwic module to summarize full text matches.
 :)
-declare 
+declare
     %templates:wrap
     %templates:default("start", 1)
     %templates:default("per-page", 10)
-function app:show-hits($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer) {
+function app:show-hits($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer, $view as xs:string?) {
+    let $view := if ($view) then $view else $config:default-view
     for $hit at $p in subsequence($model("hits"), $start, $per-page)
     let $parent := $hit/ancestor-or-self::tei:div[1]
-    let $parent := if ($parent) then $parent else $hit/ancestor-or-self::tei:teiHeader  
+    let $parent := if ($parent) then $parent else $hit/ancestor-or-self::tei:teiHeader
     let $div := app:get-current($parent)
     let $parent-id := util:document-name($parent) || "_" || util:node-id($parent)
     let $div-id := util:document-name($div) || "_" || util:node-id($div)
     (:if the nearest div does not have an xml:id, find the nearest element with an xml:id and use it:)
-    (:is this necessary - can't we just use the nearest ancestor?:) 
+    (:is this necessary - can't we just use the nearest ancestor?:)
 (:    let $div-id := :)
 (:        if ($div-id) :)
 (:        then $div-id :)
@@ -332,23 +352,30 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
     (:the work always has xml:id.:)
     let $work-id := $work/@xml:id/string()
     let $work-id := if ($work-id) then $work-id else util:document-name($work) || "_1"
-    (:pad hit with surrounding siblings:)
-    let $hit-padded := $hit
-(:    let $hit-padded := <hit>{($hit/preceding-sibling::*[1], $hit, $hit/following-sibling::*[1])}</hit>:)
-        
-    let $loc := 
+
+    let $loc :=
         <tr class="reference">
             <td colspan="3">
                 <span class="number">{$start + $p - 1}</span>
-                <a href="{$work-id}">{$work-title}</a>{if ($div-head) then ' / ' else ''}<a href="{$parent-id}.html?action=search">{$div-head}</a>
+                <span class="headings">
+                    <a href="{$work-id}">{$work-title}</a>{if ($div-head) then ' / ' else ''}<a href="{$parent-id}.html?action=search">{$div-head}</a>
+                </span>
             </td>
         </tr>
-    let $matchId := util:node-id($hit)
-    let $config := <config width="60" table="yes" link="{$div-id}.xml?action=search#{$matchId}"/>
-    let $expanded := util:expand($hit)
+    let $expanded := util:expand($hit, "add-exist-id=all")
     return (
         $loc,
         for $match in subsequence($expanded//exist:match, 1, 5)
+        let $matchId := $match/../@exist:id
+        let $docLink :=
+            if ($view = "page") then
+                let $contextNode := util:node-by-id($div, $matchId)
+                let $page := $contextNode/preceding::tei:pb[1]
+                return
+                    util:document-name($work) || "_" || util:node-id($page)
+            else
+                $div-id
+        let $config := <config width="60" table="yes" link="{$docLink}.xml?action=search&amp;view={$view}#{$matchId}"/>
         let $kwic := kwic:get-summary($expanded, $match, $config)
         return $kwic
     )

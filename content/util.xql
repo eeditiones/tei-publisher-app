@@ -1,27 +1,27 @@
-(: 
+(:
  : Copyright 2015, Wolfgang Meier
- : 
- : This software is dual-licensed: 
- : 
+ :
+ : This software is dual-licensed:
+ :
  : 1. Distributed under a Creative Commons Attribution-ShareAlike 3.0 Unported License
- : http://creativecommons.org/licenses/by-sa/3.0/ 
- : 
- : 2. http://www.opensource.org/licenses/BSD-2-Clause 
- : 
- : All rights reserved. Redistribution and use in source and binary forms, with or without 
- : modification, are permitted provided that the following conditions are met: 
- : 
- : * Redistributions of source code must retain the above copyright notice, this list of 
- : conditions and the following disclaimer. 
+ : http://creativecommons.org/licenses/by-sa/3.0/
+ :
+ : 2. http://www.opensource.org/licenses/BSD-2-Clause
+ :
+ : All rights reserved. Redistribution and use in source and binary forms, with or without
+ : modification, are permitted provided that the following conditions are met:
+ :
+ : * Redistributions of source code must retain the above copyright notice, this list of
+ : conditions and the following disclaimer.
  : * Redistributions in binary form must reproduce the above copyright
  : notice, this list of conditions and the following disclaimer in the documentation
- : and/or other materials provided with the distribution. 
- : 
- : This software is provided by the copyright holders and contributors "as is" and any 
- : express or implied warranties, including, but not limited to, the implied warranties 
- : of merchantability and fitness for a particular purpose are disclaimed. In no event 
- : shall the copyright holder or contributors be liable for any direct, indirect, 
- : incidental, special, exemplary, or consequential damages (including, but not limited to, 
+ : and/or other materials provided with the distribution.
+ :
+ : This software is provided by the copyright holders and contributors "as is" and any
+ : express or implied warranties, including, but not limited to, the implied warranties
+ : of merchantability and fitness for a particular purpose are disclaimed. In no event
+ : shall the copyright holder or contributors be liable for any direct, indirect,
+ : incidental, special, exemplary, or consequential damages (including, but not limited to,
  : procurement of substitute goods or services; loss of use, data, or profits; or business
  : interruption) however caused and on any theory of liability, whether in contract,
  : strict liability, or tort (including negligence or otherwise) arising in any way out
@@ -33,7 +33,7 @@ xquery version "3.1";
  : Utility functions for parsing an ODD and running a transformation.
  : This module is the main entry point for transformations based on
  : the TEI Simple ODD extensions.
- : 
+ :
  : @author Wolfgang Meier
  :)
 module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
@@ -98,12 +98,12 @@ declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-roo
     pmu:process($oddPath, $xml, $output-root, "web", "", ())
 };
 
-declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string, 
+declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string,
     $mode as xs:string, $relPath as xs:string, $config as element(modules)?) {
     pmu:process($oddPath, $xml, $output-root, $mode, $relPath, $config, ())
 };
 
-declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string, 
+declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string,
     $mode as xs:string, $relPath as xs:string, $config as element(modules)?, $parameters as map(*)?) {
     let $name := replace($oddPath, "^.*?([^/]+)\.[^/]+$", "$1")
     let $odd := doc($oddPath)
@@ -120,7 +120,7 @@ declare function pmu:process($oddPath as xs:string, $xml as node()*, $output-roo
 };
 
 
-declare function pmu:process-odd($odd as document-node(), $output-root as xs:string, 
+declare function pmu:process-odd($odd as document-node(), $output-root as xs:string,
     $mode as xs:string, $relPath as xs:string, $config as element(modules)?) as map(*) {
     let $name := replace(util:document-name($odd), "^([^\.]+)\.[^\.]+$", "$1")
     let $modulesDefault := $pmu:MODULES?($mode)
@@ -153,8 +153,8 @@ declare function pmu:process-odd($odd as document-node(), $output-root as xs:str
 declare function pmu:generate-module($name as xs:string, $uri as xs:string, $xqueryFile as xs:string, $ext-modules as map(*)*, $output-root as xs:string,
     $mode as xs:string, $relPath as xs:string?, $style as xs:string?) {
     let $mainCode :=
-        "module namespace pml='" || $uri || "/module';&#10;&#10;" ||
-        "import module namespace m='" || $uri || 
+        "module namespace pml='" || $uri || "/module" || "';&#10;&#10;" ||
+        "import module namespace m='" || $uri ||
         "' at '" || $xqueryFile || "';&#10;&#10;" ||
         "(: Generated library module to be directly imported into code which&#10;" ||
         " : needs to transform TEI nodes using the ODD this module is based on.&#10;" ||
@@ -175,7 +175,7 @@ declare function pmu:generate-module($name as xs:string, $uri as xs:string, $xqu
 declare function pmu:generate-main($name as xs:string, $uri as xs:string, $xqueryFile as xs:string, $ext-modules as map(*)*, $output-root as xs:string,
     $mode as xs:string, $relPath as xs:string?, $style as xs:string?) {
     let $mainCode :=
-        "import module namespace m='" || $uri || 
+        "import module namespace m='" || $uri ||
         "' at '" || $xqueryFile || "';&#10;&#10;" ||
         "declare variable $xml external;&#10;&#10;" ||
         "declare variable $parameters external;&#10;&#10;" ||

@@ -5,15 +5,45 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta data-template="config:app-meta"/>
         <link rel="shortcut icon" href="$shared/resources/images/exist_icon_16x16.ico"/>
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css"/>
+        <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
         <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css"/>
-        <link rel="stylesheet" type="text/css" href="templates/basic/resources/css/font-awesome.min.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/bootstrap-material-design.min.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/ripples.min.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/jquery.fileupload.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
         <script type="text/javascript" src="resources/scripts/jquery-1.11.3.min.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
         <script type="text/javascript" src="resources/scripts/bootstrap.min.js"/>
+        <script type="text/javascript" src="resources/scripts/material.min.js"/>
+        <script type="text/javascript" src="resources/scripts/ripples.min.js"/>
+        <script type="text/javascript" src="resources/scripts/jquery.fs.macaroon.min.js"/>
+        <script type="text/javascript" src="resources/scripts/app.js"/>
     </head>
     <body id="body">
         <div id="content"/>
+        <div class="modal fade" id="pdf-info">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span class="fa fa-times" aria-hidden="true"/>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title">Generating File...</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Generating a file for download may take up to a few minutes. Please wait.</p>
+                        <p>This dialog should close automatically when the download has completed.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <i class="glyphicon glyphicon-remove"/> Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script type="text/javascript" src="$shared/resources/scripts/ace/ace.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/ace/mode-javascript.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/ace/mode-text.js"/>
@@ -26,6 +56,7 @@
         <script type="text/javascript" src="$shared/resources/scripts/highlight.js"/>
         <script type="text/javascript">
             $(".sourcecode").highlight();
+            $.material.init();
         </script>
     </body>
 </html>

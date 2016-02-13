@@ -1,5 +1,7 @@
 xquery version "3.0";
 
+import module namespace login="http://exist-db.org/xquery/login" at "resource:org/exist/xquery/modules/persistentlogin/login.xql";
+
 declare variable $exist:path external;
 declare variable $exist:resource external;
 declare variable $exist:controller external;
@@ -32,7 +34,15 @@ else if (contains($exist:path, "/components")) then
         <forward url="{$exist:controller}/components/{substring-after($exist:path, '/components/')}"/>
     </dispatch>
 
-else if (starts-with($exist:path, "/works/")) then
+else if (ends-with($exist:resource, ".xql")) then (
+    login:set-user("org.exist.tei-simple", (), false()),
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/modules/{$exist:resource}"/>
+        <cache-control cache="no"/>
+    </dispatch>
+    
+) else if (starts-with($exist:path, "/works/")) then (
+    login:set-user("org.exist.tei-simple", (), false()),
     let $id := replace(xmldb:decode($exist:resource), "^(.*)\..*$", "$1")
     let $html :=
         if ($exist:resource = "") then
@@ -91,8 +101,8 @@ else if (starts-with($exist:path, "/works/")) then
                     <forward url="{$exist:controller}/modules/view.xql"/>
                 </error-handler>
             </dispatch>
-
-else if (ends-with($exist:resource, ".html")) then
+) else if (ends-with($exist:resource, ".html")) then (
+    login:set-user("org.exist.tei-simple", (), false()),
     (: the html page is run through view.xql to expand templates :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <view>
@@ -104,7 +114,7 @@ else if (ends-with($exist:resource, ".html")) then
 		</error-handler>
     </dispatch>
     
-else
+) else
     (: everything else is passed through :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <cache-control cache="yes"/>

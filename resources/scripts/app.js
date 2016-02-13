@@ -1,22 +1,19 @@
 $(document).ready(function() {
     var historySupport = !!(window.history && window.history.pushState);
     var appRoot = $("html").data("app");
-    
+
     function resize() {
-        var wh = ($(window).height()) / 2;
-        $(".page-nav").css("top", wh);
-        if ($("#sidebar").is(":visible")) {
-            $(".nav-prev").css("left", $("#content-inner").offset().left);
-        }
-        var tw = $(".toc").width();
-        $(".toc").css("max-width", tw);
+        // var wh = ($(window).height()) / 2;
+        // $(".page-nav").css("top", wh);
+        // var tw = $(".toc").width();
+        // $(".toc").css("max-width", tw);
     }
-    
+
     function getFontSize() {
         var size = $("#content-inner").css("font-size");
         return parseInt(size.replace(/^(\d+)px/, "$1"));
     }
-    
+
     function load(params, direction) {
         var animOut = direction == "nav-next" ? "fadeOutLeft" : (direction == "nav-prev" ? "fadeOutRight" : "fadeOut");
         var animIn = direction == "nav-next" ? "fadeInRight" : (direction == "nav-prev" ? "fadeInLeft" : "fadeIn");
@@ -49,12 +46,15 @@ $(document).ready(function() {
                     } else {
                         $(".nav-prev").css("visibility", "hidden");
                     }
+                    if (data.switchView) {
+                        $("#switch-view").attr("href", data.switchView);
+                    }
                     showContent(container, animIn, animOut);
                 }
             });
         });
     }
-    
+
     function initContent() {
         $(".content .note").popover({
             html: true,
@@ -69,29 +69,35 @@ $(document).ready(function() {
             });
         });
     }
-    
-    function showContent(container, animIn, animOut) {
+
+    function showContent(container, animIn, animOut, id) {
+        if (!id) {
+            window.scrollTo(0,0);
+        }
         container.removeClass("animated " + animOut);
         $("#content-container").addClass("animated " + animIn).one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
             $(this).removeClass("animated " + animIn);
         });
     }
-    
+
     function isMobile() {
       try{ document.createEvent("TouchEvent"); return true; }
       catch(e){ return false; }
     }
-    
+
     resize();
     $(".page-nav,.toc-link").click(function(ev) {
         ev.preventDefault();
-        
+
         var relPath = this.pathname.replace(new RegExp("^" + appRoot + "(.*)$"), "$1");
         var url = "doc=" + relPath + "&" + this.search.substring(1);
         if (historySupport) {
             history.pushState(null, null, this.href);
         }
         load(url, this.className.split(" ")[0]);
+    });
+    $(".toc .toc-link").click(function(ev) {
+        $(".toc").offcanvas('hide');
     });
     
     $("#zoom-in").click(function(ev) {
@@ -104,14 +110,14 @@ $(document).ready(function() {
         var size = getFontSize();
         $("#content-inner").css("font-size", (size - 1) + "px");
     });
-    
+
     $(window).on("popstate", function(ev) {
         var url = "doc=" + window.location.pathname.replace(new RegExp("^" + appRoot + "(.*)$"), "$1") + "&" + window.location.search.substring(1) +
             "&id=" + window.location.hash.substring(1);
         console.log("popstate: %s", url);
         load(url);
     }).on("resize", resize);
-    
+
     $("#collapse-sidebar").click(function(ev) {
         $("#sidebar").toggleClass("hidden");
         if ($("#sidebar").is(":visible")) {
@@ -121,7 +127,7 @@ $(document).ready(function() {
         }
         resize();
     });
-    
+
     if (isMobile()) {
         $("#content-container").swipe({
             swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
@@ -142,6 +148,20 @@ $(document).ready(function() {
             allowPageScroll: "vertical"
         });
     }
+
+    $(".download-link").click(function(ev) {
+        $("#pdf-info").modal("show");
+        var token = $(this).attr("data-token");
+        console.log("token = %s", token);
+        downloadCheck = window.setInterval(function() {
+            var cookieValue = $.macaroon("simple.token");
+            if (cookieValue == token) {
+                window.clearInterval(downloadCheck);
+                $.macaroon("simple.token", null);
+                $("#pdf-info").modal("hide");
+            }
+        }, 100);
+    });
     
     initContent();
 });
