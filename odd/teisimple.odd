@@ -785,6 +785,12 @@
                                 <outputRendition scope="before">content: '[...]';</outputRendition>
                             </model>
                         </elementSpec>
+                        <elementSpec mode="change" ident="gi">
+                            <model behaviour="inline">
+                                <outputRendition scope="before">content:"&lt;";</outputRendition>
+                                <outputRendition scope="after">content:"&gt;";</outputRendition>
+                            </model>
+                        </elementSpec>
                         <elementSpec mode="change" ident="graphic">
                             <model behaviour="graphic">
                                 <param name="url">@url</param>

@@ -20,9 +20,10 @@
                 <head>TEI Processing Model Toolbox</head>
                 <div>
                     <head>Introduction</head>
-                    <p>The TEI Processing Model (PM) extends the TEI ODD format with a processing model for
-                    documents, which can be expressed within the TEI vocubulary itself. It aims at the
-                    XML-savvy editor who is familiar with TEI but is not a developer. The editor knows the logical 
+                    <p>The TEI Processing Model (PM) extends the TEI ODD specification format with a processing model for
+                    documents. That way intended processing for all elements can be expressed within the TEI vocubulary itself.
+                    It aims at the
+                    XML-savvy editor who is familiar with TEI but is not necessarily a developer. The editor knows the logical 
                     structure of the text and maps it to a small set of abstract transformation functions, called
                     "behaviours". Predefined behaviours are, for example, "paragraph", "heading" or "note".</p>
                     <p>Basic styling features can be set directly within the ODD using CSS. The processing model
@@ -34,14 +35,20 @@
                     overall presentation of the material, and the developer concentrates on the general application 
                     framework and—if necessary—supports the editor by providing custom behavior functions as 
                     extension modules.</p>
+                    <p>
+                        <figure>
+                            <graphic url="rahtzrationale.png"/>
+                        </figure>
+                    </p>
                     <p>A word of warning though: while the processing model was developed as part of the
-                TEI Simple initiative, it is not necessarily "simple" regarding the knowledge it requires.
+                TEI Simple initiative, it is not necessarily trivial to comprehend nor "simple" regarding 
+                the knowledge and skill it requires.
                 The goal rather was to improve workflows and interoperability by providing a 
                 minimal abstraction for the processing rules applied to a document. Using the processing model
-                definitely simplifies the life of the developer, who often has to write a few thousand lines 
-                just to render a particular TEI document to HTML, and then repeat that for PDF. It also
-                empowers the scholary editor to create high-quality prototype websites from a given
-                data set without even relying on a developer.</p>
+                definitely simplifies the life of the developer, who often has to write a few thousand lines of code
+                just to render a particular TEI document into HTML, only to repeat the same tedious process for PDF output. 
+                Last but not least the processing model empowers the scholary editor to create high-quality prototype 
+                websites from a given data set without even relying on a developer.</p>
                 </div>
                 <div>
                     <head>The Toolbox</head>
@@ -50,21 +57,21 @@
                     <list type="ordered">
                         <item>
                             A set of library modules to render a TEI document into various output formats, 
-                            which is imported into other applications.
+                            which can be imported into other applications.
                         </item>
                         <item>
-                            The core application to work and experiment with various documents and processing
+                            The core application to work and experiment with various source documents and processing
                             model instances.
                         </item>
                         <item>
                             An application generator, which takes a processing model instance and creates 
-                            a user interface around it, resulting in a stand alone web application for a
+                            a user interface around it, resulting in a standalone web application for a
                             certain corpus of documents.
                         </item>
                     </list>
-                    <p>So in a strict sense, only the first component implements the processing model specification. 
+                    <p>In a strict sense, only the first component implements the processing model specification. 
                         The larger part of the toolbox deals with graphical user interface components, adding
-                    pagination, navigation and even some simple search features.</p>
+                    pagination, navigation and search features.</p>
                 </div>
                 <div>
                     <head>Getting Started</head>
@@ -106,222 +113,426 @@
                     </div>
                 </div>
                 <div>
-                    <head>Available Behaviours</head>
-                    <p>All behaviour functions take at least one parameter: <code>content</code>. It
-                    will be added by default unless specified and contains
-                    the content of the currently processed node. You may change this by explicitely setting
-                    a <code>content</code> parameter inside the model.</p>
-                    <p>In the parameter lists below we skip the <code>content</code> parameter as it is available for
-                        every behaviour.</p>
-                    <list type="gloss">
-                        <label>alternate</label>
-                        <item>
-                            <p>Display alternating elements for displaying the preferred version and an 
-                                alternative, both at once or by some method of toggling between the two.
-                                The concrete implementation depends on the output format.</p>
-                            <table>
-                                <row role="label">
-                                    <cell>Parameter</cell>
-                                    <cell>Description</cell>
-                                </row>
-                                <row>
-                                    <cell>default</cell>
-                                    <cell>the content to display by default</cell>
-                                </row>
-                                <row>
-                                    <cell>alternate</cell>
-                                    <cell>alternate content</cell>
-                                </row>
-                            </table>
-                        </item>
-                        <label>anchor</label>
-                        <item>
-                            <p>Create an anchor to which you can link, identified by the given id.</p>
-                            <table>
-                                <row role="label">
-                                    <cell>Parameter</cell>
-                                    <cell>Description</cell>
-                                </row>
-                                <row>
-                                    <cell>id</cell>
-                                    <cell>the id</cell>
-                                </row>
-                            </table>
-                        </item>
-                        <label>block</label>
-                        <item>
-                            <p>Create a block structure, usually a div in HTML or fo:block in fo.</p>
-                        </item>
-                        <label>body</label>
-                        <item>
-                            <p>Create the body of a document. In HTML this will result in a &lt;body&gt; tag.</p>
-                        </item>
-                        <label>break</label>
-                        <item>
-                            <p>Create a line, column, or page break according to type.</p>
-                            <table>
-                                <row role="label">
-                                    <cell>Parameter</cell>
-                                    <cell>Description</cell>
-                                </row>
-                                <row>
-                                    <cell>type</cell>
-                                    <cell>e.g. "page", "column", "line"</cell>
-                                </row>
-                            </table>
-                        </item>
-                        <label>cell</label>
-                        <item>
-                            <p>Create a table cell. If the @cols or @rows attribute is specified, the cell may span several columns/rows.</p>
-                        </item>
-                        <label>cit</label>
-                        <item>
-                            <p>Show a citation, with an indication of the source.</p>
-                            <table>
-                                <row role="label">
-                                    <cell>Parameter</cell>
-                                    <cell>Description</cell>
-                                </row>
-                                <row>
-                                    <cell>source</cell>
-                                    <cell>the citation source</cell>
-                                </row>
-                            </table>
-                        </item>
-                        <label>document</label>
-                        <item>
-                            <p>Start a new output document.</p>
-                        </item>
-                        <label>figure</label>
-                        <item>
-                            <p>Make a figure with provided title argument as caption</p>
-                            <table>
-                                <row role="label">
-                                    <cell>Parameter</cell>
-                                    <cell>Description</cell>
-                                </row>
-                                <row>
-                                    <cell>title</cell>
-                                    <cell>a caption</cell>
-                                </row>
-                            </table>
-                        </item>
-                        <label>graphic</label>
-                        <item>
-                            <p>Display the graphic retrieved from the given url.</p>
-                            <table>
-                                <row role="label">
-                                    <cell>Parameter</cell>
-                                    <cell>Description</cell>
-                                </row>
-                                <row>
-                                    <cell>url</cell>
-                                    <cell>the url to load the graphic from</cell>
-                                </row>
-                                <row>
-                                    <cell>width</cell>
-                                    <cell>the width of the graphic, e.g. "300px", "50%" ...</cell>
-                                </row>
-                                <row>
-                                    <cell>height</cell>
-                                    <cell>the height of the graphic, e.g. "300px", "50%" ...</cell>
-                                </row>
-                                <row>
-                                    <cell>scale</cell>
-                                    <cell>a scaling factor to apply. If specified, width and height will be output as percentage based on the scaling factor, which
-                                    should be a number between 0 and 1.</cell>
-                                </row>
-                                <row>
-                                    <cell>title</cell>
-                                    <cell>a title for the graphics element. Usually not shown directly.</cell>
-                                </row>
-                            </table>
-                        </item>
-                        <label>heading</label>
-                        <item>
-                            <p>Creates a heading.</p>
-                            <table>
-                                <row role="label">
-                                    <cell>Parameter</cell>
-                                    <cell>Description</cell>
-                                </row>
-                                <row>
-                                    <cell>level</cell>
-                                    <cell>the structural level of this heading. In HTML mode, this translates to &lt;h1&gt;, &lt;h2&gt; etc.</cell>
-                                </row>
-                            </table>
-                        </item>
-                        <label>inline</label>
-                        <item>
-                            <p>Outputs an inline element.</p>
-                        </item>
-                        <label>link</label>
-                        <item>
-                            <p>Create a hyperlink.</p>
-                            <table>
-                                <row role="label">
-                                    <cell>Parameter</cell>
-                                    <cell>Description</cell>
-                                </row>
-                                <row>
-                                    <cell>uri</cell>
-                                    <cell>the link url</cell>
-                                </row>
-                            </table>
-                        </item>
-                        <label>list</label>
-                        <item>
-                            <p>Creates an ordered or unordered list, depending on the type attribute (e.g. <code>type="ordered"</code>). If a label
-                            is present before each item, a description list is output instead, using the label as definition term.</p>
-                        </item>
-                        <label>listItem</label>
-                        <item>
-                            <p>Outputs an item in a list.</p>
-                        </item>
-                        <label>metadata</label>
-                        <item>
-                            <p>Outputs a metadata section, e.g. a &lt;head&gt; in HTML.</p>
-                        </item>
-                        <label>note</label>
-                        <item>
-                            <p>create a note, often out of line, depending
-                                on the value of <term>place</term>; could be "margin", "footnote", "endnote", "inline"</p>
-                            <table>
-                                <row role="label">
-                                    <cell>Parameter</cell>
-                                    <cell>Description</cell>
-                                </row>
-                                <row>
-                                    <cell>place</cell>
-                                    <cell>defines the placement of the note, e.g. "margin", "footnote" ...</cell>
-                                </row>
-                                <row>
-                                    <cell>label</cell>
-                                    <cell>the label to use for the footnote reference, usually a number.</cell>
-                                </row>
-                            </table>
-                        </item>
-                        <label>omit</label>
-                        <item>
-                            Do nothing, skip this element, do not process children
-                        </item>
-                        <label>paragraph</label>
-                        <item>
-                            Create a paragraph.
-                        </item>
-                        <label>row</label>
-                        <item>
-                            Create a table row.
-                        </item>
-                        <label>section</label>
-                        <item>Create a new section in the output document. In HTML mode, this translates to a &lt;section&gt; element being output.</item>
-                        <label>table</label>
-                        <item>Create a table.</item>
-                        <label>text</label>
-                        <item>Output literal text.</item>
-                        <label>title</label>
-                        <item>Output the document title. In HTML mode, this creates a &lt;title&gt; element. In LaTeX, it adds the title to the document metadata.</item>
-                    </list>
+                    <head>Processing Model syntax</head>
+                    <div>
+                        <head>
+                            <gi>model</gi> element</head>
+                        <p>
+                            <gi>model</gi> element is primarily used to document intended processing for a given element.
+                    One or more of these elements may appear directly within an <gi>elementSpec</gi> element specification to
+                    define the processing anticipated for that element. Where multiple <gi>model</gi> elements appear, they are
+                    understood to document mutually exclusive processing scenarios, possibly for different outputs or 
+                    applicable in different contexts. 
+                    </p>
+                        <p>A processing model defines on an abstract level how a given element may be transformed to produce
+                    one or more outputs.
+                    The model is expressed in terms of <term>behaviours</term> and their <term>parameters</term>, using high-level
+                    formatting concepts, such as <soCalled>block</soCalled>, <soCalled>inline</soCalled>, <soCalled>note</soCalled>
+                    or <soCalled>heading</soCalled>. A processing model is thus a template description, used to generate the code
+                    needed by the publishing application to process the source document into required output. 
+                    </p>
+                        <p>
+                    Example below depicts a situation where a single model is defined for <gi>app</gi> element. As no @predicate
+                    or @output are specified, this model applies for all contexts in which <gi>app</gi> may appear and all possible
+                    outputs. Thus for all <gi>app</gi> elements they will be transformed into inline chunks of text containing only
+                    contents of <gi>app</gi>'s <gi>lem</gi> child and omitting any possible <gi>rdg</gi> children.
+                    <pre>
+                                <code lang="xml">&lt;elementSpec mode="change" ident="app"&gt;
+ &lt;model behaviour="inline"&gt;
+  &lt;param name="content"&gt;lem&lt;/param&gt;
+ &lt;/model&gt;
+&lt;/elementSpec&gt;
+</code>
+                            </pre>
+                        </p>
+                    </div>
+                    <div>
+                        <head>
+                            <gi>model</gi> children and attributes:</head>
+                        <p>
+                            <list>
+                                <item>@predicate: the condition under which this model applies, given as an XPath Predicate Expression</item>
+                                <item>@behaviour: names the function which this processing model uses in order to produce output; possible values include: alternate, block, figure, heading, inline, link, list, note, paragraph</item>
+                                <item>@output: identifier of the intended output for which this model applies; applies to all output if no @output is present on a <gi>model</gi>
+                                </item>
+                                <item>@useSourceRendition: whether to obey any rendition attribute which is present in the source document</item>
+                                <item>
+                                    <gi>param</gi>: allows to pass parameters to @behaviour function; parameters available
+                            depend on the behaviour in question; when parameters are not explicitly passed, default values
+                            for those are assumed; all behaviour functions use current	element as default content</item>
+                                <item>
+                                    <gi>outputRendition</gi>: supplies information about the desired output rendition in CSS; its attribute @scope provides a way of defining ‘pseudo-elements’ eg: first-line, first-letter, before, after
+                            </item>
+                            </list>
+                        </p>
+                        <p>
+                    Simple model explicitly specifying content parameter: for <gi>app</gi> entries only content of its <gi>lem</gi> child is to be displayed (as an inline chunk of text)
+                    <pre>
+                                <code lang="xml">&lt;elementSpec mode="change" ident="app"&gt;
+ &lt;model behaviour="inline"&gt;
+  &lt;param name="content"&gt;lem&lt;/param&gt;
+ &lt;/model&gt;
+&lt;/elementSpec&gt;
+</code>
+                            </pre>
+                        </p>
+                        <p>
+                    Model specifying output rendition: contents of <gi>ex</gi> elements are to be displayed in italic and wrapped in parentheses
+					<pre>
+                                <code lang="xml">&lt;elementSpec mode="change" ident="ex"&gt;
+ &lt;model behaviour="inline"&gt;
+   &lt;outputRendition&gt;font-style: italic;&lt;/outputRendition&gt;
+   &lt;outputRendition scope="before"&gt;content:"(";&lt;/outputRendition&gt;
+   &lt;outputRendition scope="after"&gt;content:")";&lt;/outputRendition&gt;
+ &lt;/model&gt;
+&lt;/elementSpec&gt;</code>
+                            </pre>
+                        </p>
+                        <p>Sometimes different processing models are required for the same element in different contexts. 
+                    For example, we may wish to process the <gi>quote</gi> element as an inline italic element when it
+                    appears inside a <gi>p</gi> element, but as an indented block when it appears elsewhere. 
+                    To achieve this, we need to change the specification for the <gi>quote</gi> element to include
+                    two <gi>model</gi> elements as follows:
+					<pre>
+                                <code lang="xml">&lt;elementSpec mode="change" ident="quote"&gt;
+    &lt;model predicate="ancestor::p" behaviour="inline"&gt;
+        &lt;outputRendition&gt;font-style: italic;&lt;/outputRendition&gt;
+    &lt;/model&gt;
+    &lt;model behaviour="block"&gt;
+        &lt;outputRendition&gt;left-margin: 2em;&lt;/outputRendition&gt;
+    &lt;/model&gt;
+&lt;/elementSpec&gt;
+</code>
+                            </pre>
+           The first processing model will be used only for <gi>quote</gi> elements which match the XPath
+           expression given as value for the <att>predicate</att> attribute.
+           Other element occurrences will use the second processing model. 
+            Set of multiple <gi>model</gi> statements is regarded as an alternation and only the 
+            first model with @predicatematching current context is applied
+
+<!--
+           					<pre>
+					<code><elementSpec mode="change" ident="choice">
+	<model output="plain" predicate="sic and corr"  behaviour="inline">
+		<param name="content">corr[1]</param>
+	</model>
+	<model output="plain" predicate="abbr and expan" behaviour="inline">
+		<param name="content">expan[1]</param>
+	</model>
+	<model output="plain" predicate="orig and reg" behaviour="inline">
+		<param name="content">reg[1]</param>
+	</model>
+	<model predicate="sic and corr" behaviour="alternate">
+		<param name="default">corr[1]</param>
+		<param name="alternate">sic[1]</param>
+	</model>
+	<model predicate="abbr and expan" behaviour="alternate">
+		<param name="default">expan[1]</param>
+		<param name="alternate">abbr[1]</param>
+	</model>
+	<model predicate="orig and reg" behaviour="alternate">
+		<param name="default">reg[1]</param>
+		<param name="alternate">orig[1]</param>
+	</model>
+</elementSpec></code></pre>
+-->
+                        </p>
+                    </div>
+                    <div>
+                        <head>
+                            <gi>modelSequence</gi> and <gi>modelGrp</gi>
+                        </head>
+                        <p>
+                        Summary of elements that can be used to document one or more processing models for a given element:
+                        <list>
+                                <item>
+                                    <gi>model</gi> describes the processing intended for a specific context
+                            </item>
+                                <item>
+                                    <gi>modelSequence</gi> (sequence of processing models) a group of model elements
+                                documenting intended processing models for this element, to be acted upon in sequence
+                            </item>
+                                <item>
+                                    <gi>modelGrp</gi> (processing model group) a group of model elements documenting
+                                intended processing models for this element
+                            </item>
+                            </list>
+                        </p>
+                        <p>
+                    The
+                    <gi>modelGrp</gi> element may be used to group alternative <gi>model</gi> elements intended for 
+                    a single kind of output. The <gi>modelSequence</gi> element is provided for the case where a sequence 
+                    of models is to be processed, functioning as a single unit. Common use case would be to use modelSequence to
+                    generate table of contents along with the reading text as shown in the example below:
+					<pre>
+                                <code lang="xml">&lt;elementSpec mode="change" ident="body"&gt;
+&lt;modelSequence&gt;
+    &lt;model behaviour="index"&gt;
+        &lt;param name="type"&gt;'toc'&lt;/param&gt;
+    &lt;/model&gt;
+    &lt;model behaviour="block"/&gt;
+&lt;/modelSequence&gt;
+&lt;/elementSpec&gt;
+</code>
+                            </pre>
+                        </p>
+                    </div>
+                    <div>
+                        <head>Behaviours</head>
+                        <p>Most of the processing complexity is hidden behind behaviour functions which were designed
+                to cover majority of commonly occurring processing tasks. Function names are wherever possible 
+                based on commonly used terms such as 'inline', 'block', 'note' or 'link'.</p>
+                        <p>Behaviour functions accept a range of parameters, depending on the function in question. Where these
+                parameters are left unspecified in the <gi>model</gi>, default values are used.</p>
+                        <p>MORE ON BEHAViours goes here</p>
+                        <div>
+                            <head>Available Behaviours</head>
+                            <p>All behaviour functions take at least one parameter: <code>content</code>. It
+                                will be added by default unless specified and contains
+                                the content of the currently processed node. You may change this by explicitely setting
+                                a <code>content</code> parameter inside the model.</p>
+                            <p>In the parameter lists below we skip the <code>content</code> parameter as it is available for
+                                every behaviour.</p>
+                            <list type="gloss">
+                                <label>alternate</label>
+                                <item>
+                                    <p>Display alternating elements for displaying the preferred version and an 
+                                        alternative, both at once or by some method of toggling between the two.
+                                        The concrete implementation depends on the output format.</p>
+                                    <table>
+                                        <row role="label">
+                                            <cell>Parameter</cell>
+                                            <cell>Description</cell>
+                                        </row>
+                                        <row>
+                                            <cell>default</cell>
+                                            <cell>the content to display by default</cell>
+                                        </row>
+                                        <row>
+                                            <cell>alternate</cell>
+                                            <cell>alternate content</cell>
+                                        </row>
+                                    </table>
+                                </item>
+                                <label>anchor</label>
+                                <item>
+                                    <p>Create an anchor to which you can link, identified by the given id.</p>
+                                    <table>
+                                        <row role="label">
+                                            <cell>Parameter</cell>
+                                            <cell>Description</cell>
+                                        </row>
+                                        <row>
+                                            <cell>id</cell>
+                                            <cell>the id</cell>
+                                        </row>
+                                    </table>
+                                </item>
+                                <label>block</label>
+                                <item>
+                                    <p>Create a block structure, usually a div in HTML or fo:block in fo.</p>
+                                </item>
+                                <label>body</label>
+                                <item>
+                                    <p>Create the body of a document. In HTML this will result in a &lt;body&gt; tag.</p>
+                                </item>
+                                <label>break</label>
+                                <item>
+                                    <p>Create a line, column, or page break according to type.</p>
+                                    <table>
+                                        <row role="label">
+                                            <cell>Parameter</cell>
+                                            <cell>Description</cell>
+                                        </row>
+                                        <row>
+                                            <cell>type</cell>
+                                            <cell>e.g. "page", "column", "line"</cell>
+                                        </row>
+                                    </table>
+                                </item>
+                                <label>cell</label>
+                                <item>
+                                    <p>Create a table cell. If the @cols or @rows attribute is specified, the cell may span several columns/rows.</p>
+                                </item>
+                                <label>cit</label>
+                                <item>
+                                    <p>Show a citation, with an indication of the source.</p>
+                                    <table>
+                                        <row role="label">
+                                            <cell>Parameter</cell>
+                                            <cell>Description</cell>
+                                        </row>
+                                        <row>
+                                            <cell>source</cell>
+                                            <cell>the citation source</cell>
+                                        </row>
+                                    </table>
+                                </item>
+                                <label>document</label>
+                                <item>
+                                    <p>Start a new output document.</p>
+                                </item>
+                                <label>figure</label>
+                                <item>
+                                    <p>Make a figure with provided title argument as caption</p>
+                                    <table>
+                                        <row role="label">
+                                            <cell>Parameter</cell>
+                                            <cell>Description</cell>
+                                        </row>
+                                        <row>
+                                            <cell>title</cell>
+                                            <cell>a caption</cell>
+                                        </row>
+                                    </table>
+                                </item>
+                                <label>graphic</label>
+                                <item>
+                                    <p>Display the graphic retrieved from the given url.</p>
+                                    <table>
+                                        <row role="label">
+                                            <cell>Parameter</cell>
+                                            <cell>Description</cell>
+                                        </row>
+                                        <row>
+                                            <cell>url</cell>
+                                            <cell>the url to load the graphic from</cell>
+                                        </row>
+                                        <row>
+                                            <cell>width</cell>
+                                            <cell>the width of the graphic, e.g. "300px", "50%" ...</cell>
+                                        </row>
+                                        <row>
+                                            <cell>height</cell>
+                                            <cell>the height of the graphic, e.g. "300px", "50%" ...</cell>
+                                        </row>
+                                        <row>
+                                            <cell>scale</cell>
+                                            <cell>a scaling factor to apply. If specified, width and height will be output as percentage based on the scaling factor, which
+                                                should be a number between 0 and 1.</cell>
+                                        </row>
+                                        <row>
+                                            <cell>title</cell>
+                                            <cell>a title for the graphics element. Usually not shown directly.</cell>
+                                        </row>
+                                    </table>
+                                </item>
+                                <label>heading</label>
+                                <item>
+                                    <p>Creates a heading.</p>
+                                    <table>
+                                        <row role="label">
+                                            <cell>Parameter</cell>
+                                            <cell>Description</cell>
+                                        </row>
+                                        <row>
+                                            <cell>level</cell>
+                                            <cell>the structural level of this heading. In HTML mode, this translates to &lt;h1&gt;, &lt;h2&gt; etc.</cell>
+                                        </row>
+                                    </table>
+                                </item>
+                                <label>inline</label>
+                                <item>
+                                    <p>Outputs an inline element.</p>
+                                </item>
+                                <label>link</label>
+                                <item>
+                                    <p>Create a hyperlink.</p>
+                                    <table>
+                                        <row role="label">
+                                            <cell>Parameter</cell>
+                                            <cell>Description</cell>
+                                        </row>
+                                        <row>
+                                            <cell>uri</cell>
+                                            <cell>the link url</cell>
+                                        </row>
+                                    </table>
+                                </item>
+                                <label>list</label>
+                                <item>
+                                    <p>Creates an ordered or unordered list, depending on the type attribute (e.g. <code>type="ordered"</code>). If a label
+                                        is present before each item, a description list is output instead, using the label as definition term.</p>
+                                </item>
+                                <label>listItem</label>
+                                <item>
+                                    <p>Outputs an item in a list.</p>
+                                </item>
+                                <label>metadata</label>
+                                <item>
+                                    <p>Outputs a metadata section, e.g. a &lt;head&gt; in HTML.</p>
+                                </item>
+                                <label>note</label>
+                                <item>
+                                    <p>create a note, often out of line, depending
+                                        on the value of <term>place</term>; could be "margin", "footnote", "endnote", "inline"</p>
+                                    <table>
+                                        <row role="label">
+                                            <cell>Parameter</cell>
+                                            <cell>Description</cell>
+                                        </row>
+                                        <row>
+                                            <cell>place</cell>
+                                            <cell>defines the placement of the note, e.g. "margin", "footnote" ...</cell>
+                                        </row>
+                                        <row>
+                                            <cell>label</cell>
+                                            <cell>the label to use for the footnote reference, usually a number.</cell>
+                                        </row>
+                                    </table>
+                                </item>
+                                <label>omit</label>
+                                <item>
+                                    Do nothing, skip this element, do not process children
+                                </item>
+                                <label>paragraph</label>
+                                <item>
+                                    Create a paragraph.
+                                </item>
+                                <label>row</label>
+                                <item>
+                                    Create a table row.
+                                </item>
+                                <label>section</label>
+                                <item>Create a new section in the output document. In HTML mode, this translates to a &lt;section&gt; element being output.</item>
+                                <label>table</label>
+                                <item>Create a table.</item>
+                                <label>text</label>
+                                <item>Output literal text.</item>
+                                <label>title</label>
+                                <item>Output the document title. In HTML mode, this creates a &lt;title&gt; element. In LaTeX, it adds the title to the document metadata.</item>
+                            </list>
+                        </div>
+                    </div>
+                    <div>
+                        <head>Output formatting options</head><!--
+<p>This component of an element specification describes the rendering or appearance intended for all occurrences of the element in a specified context for a specified type of output. The <gi>rendition</gi> element, by contrast, describes the actual rendering or appearance of all occurrences of the specified element in a source document. The <att>useSourceRendition</att> attribute may however be used to indicate that formatting information provided by a <gi>rendition</gi> element is to be  combined with any provided by an <gi>outputRendition</gi> element.</p>
+<p>It is strongly recommended that the W3C Cascading Stylesheet language (CSS2 or later) be used to express the required formatting information.</p>
+-->
+                        <p>
+The intended rendering for a particular behaviour of a processing model may be documented in one or all of the three following ways. Firstly, the @CSSclass attribute may be used to specify the name of a CSS style in some associated CSS stylesheet which is to be applied to each occurrence of a specified element found (in a given context, for a specified output). Secondly, the attribute @useSourceRendition may be used to indicate that the rendition specified in the source document should be applied. Thirdly, the styling to be applied may be specified explicitly as content of a child <gi>outputRendition</gi> element.
+</p>
+                        <p>
+When more than one of these options is used, they are understood to be combined in accordance with the rules for multiple declaration of the styling language used.
+</p>
+                        <p>
+It is strongly recommended that use <gi>outputRendition</gi> should be limited to strictly editorial decisions, such as 'conjectures are to be displayed in square brackets' and not as means to record all typesetting and layout specific design choices.</p>
+                    </div>
+                    <div>
+                        <head>Best Practice Recommendations</head>
+                        <list>
+                            <item>
+                                <p>While the ODD may describe the rendition of an element using CSS, this 
+                                should be used with care: styling imposed by the ODD should be generic
+                            and not interfere with application-specific design choices.</p>
+                                <p>For example, defining a font family for a certain element in the ODD
+                                makes it difficult for web designers to set the font via an external 
+                                stylesheet.</p>
+                                <p>The HTML as well as the FO output function libraries provide ways to
+                                customize the styling through additional, user-supplied CSS.</p>
+                            </item>
+                        </list>
+                    </div>
                 </div>
                 <div>
                     <head>Output Media</head>
@@ -462,21 +673,6 @@ declare function pmf:code($config as map(*), $node as element(),
                     <code lang="xml">&lt;model behaviour="code"&gt;
     &lt;param name="lang"&gt;@lang&lt;/param&gt;
 &lt;/model&gt;</code>
-                </div>
-                <div>
-                    <head>Best Practice Recommendations</head>
-                    <list>
-                        <item>
-                            <p>While the ODD may describe the rendition of an element using CSS, this 
-                                should be used with care: styling imposed by the ODD should be generic
-                            and not interfere with application-specific design choices.</p>
-                            <p>For example, defining a font family for a certain element in the ODD
-                                makes it difficult for web designers to set the font via an external 
-                                stylesheet.</p>
-                            <p>The HTML as well as the FO output function libraries provide ways to
-                                customize the styling through additional, user-supplied CSS.</p>
-                        </item>
-                    </list>
                 </div>
             </div>
         </body>
