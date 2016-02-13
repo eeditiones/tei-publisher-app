@@ -102,7 +102,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     html:break($config, ., ("tei-cb"), ., 'column', @n)
                 case element(cell) return
                     if (parent::row[@role='label']) then
-                        html:cell($config, ., ("tei-cell1"), ., 'head')
+                        html:cell($config, ., ("tei-cell1", "table-head"), ., 'head')
                     else
                         html:cell($config, ., ("tei-cell2"), ., ())
                 case element(choice) return
@@ -191,10 +191,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(figDesc) return
                     html:inline($config, ., ("tei-figDesc"), .)
                 case element(figure) return
-                    if (head or @rendition='simple:display') then
-                        html:block($config, ., ("tei-figure1"), .)
+                    if (head) then
+                        html:figure($config, ., ("tei-figure2"), *[not(self::head)], head/node())
                     else
-                        html:inline($config, ., ("tei-figure2"), .)
+                        html:block($config, ., ("tei-figure3"), .)
                 case element(floatingText) return
                     html:block($config, ., ("tei-floatingText"), .)
                 case element(foreign) return
@@ -225,7 +225,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             html:inline($config, ., ("tei-gap3"), .)
                 case element(graphic) return
-                    html:graphic($config, ., ("tei-graphic"), ., @url, @width, @height, @scale, desc)
+                    html:graphic($config, ., ("tei-graphic", "img-responsive"), ., @url, @width, @height, @scale, desc)
                 case element(group) return
                     html:block($config, ., ("tei-group"), .)
                 case element(handShift) return
@@ -528,7 +528,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     html:inline($config, ., ("tei-w"), .)
                 case element(cell) return
                     if (parent::row[@role='label']) then
-                        html:cell($config, ., ("tei-cell1"), ., 'head')
+                        html:cell($config, ., ("tei-cell1", "table-head"), ., 'head')
                     else
                         html:cell($config, ., ("tei-cell2"), ., ())
                 case element(code) return

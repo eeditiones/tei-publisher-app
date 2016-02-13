@@ -62,10 +62,27 @@
                     <model behaviour="table" cssClass="table table-bordered"/>
                 </elementSpec>
                 <elementSpec mode="change" ident="cell">
-                    <model predicate="parent::row[@role='label']" behaviour="cell">
+                    <model predicate="parent::row[@role='label']" behaviour="cell" cssClass="table-head">
                         <param name="type">'head'</param>
                     </model>
                     <model behaviour="cell"/>
+                </elementSpec>
+                <elementSpec mode="change" ident="figure">
+                    <model output="print" predicate="@type='animated'" behaviour="omit"/>
+                    <model predicate="head" behaviour="figure">
+                        <param name="title">head/node()</param>
+                        <param name="content">*[not(self::head)]</param>
+                    </model>
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec mode="change" ident="graphic">
+                    <model behaviour="graphic" cssClass="img-responsive">
+                        <param name="url">@url</param>
+                        <param name="width">@width</param>
+                        <param name="height">@height</param>
+                        <param name="scale">@scale</param>
+                        <param name="title">desc</param>
+                    </model>
                 </elementSpec>
                 <moduleRef key="tei"/>
                 <moduleRef key="header"/>

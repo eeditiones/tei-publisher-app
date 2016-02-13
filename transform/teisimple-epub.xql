@@ -189,10 +189,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(figDesc) return
                     html:inline($config, ., ("tei-figDesc"), .)
                 case element(figure) return
-                    if (head or @rendition='simple:display') then
-                        html:block($config, ., ("tei-figure1"), .)
+                    if (head) then
+                        html:figure($config, ., ("tei-figure1"), *[not(self::head)], head/node())
                     else
-                        html:inline($config, ., ("tei-figure2"), .)
+                        html:block($config, ., ("tei-figure2"), .)
                 case element(floatingText) return
                     html:block($config, ., ("tei-floatingText"), .)
                 case element(foreign) return

@@ -732,14 +732,11 @@
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="figure">
-                            <model predicate="head or @rendition='simple:display'" behaviour="block"/>
-                            <model behaviour="inline">
-                                <outputRendition>
-display: block;
-border-top: solid 1pt blue;
-border-bottom: solid 1pt blue;
-		</outputRendition>
+                            <model predicate="head" behaviour="figure">
+                                <param name="title">head/node()</param>
+                                <param name="content">*[not(self::head)]</param>
                             </model>
+                            <model behaviour="block"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="floatingText">
                             <model behaviour="block">

@@ -101,8 +101,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(cb) return
                     fo:break($config, ., ("tei-cb"), ., 'column', @n)
                 case element(cell) return
-                    (: Insert table cell. :)
-                    fo:cell($config, ., ("tei-cell"), .)
+                    if (parent::row[@role='label']) then
+                        fo:cell($config, ., ("tei-cell1", "table-head"), ., 'head')
+                    else
+                        fo:cell($config, ., ("tei-cell2"), ., ())
                 case element(choice) return
                     if (sic and corr) then
                         fo:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
@@ -192,10 +194,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(figDesc) return
                     fo:inline($config, ., ("tei-figDesc"), .)
                 case element(figure) return
-                    if (head or @rendition='simple:display') then
-                        fo:block($config, ., ("tei-figure1"), .)
+                    if (@type='animated') then
+                        fo:omit($config, ., ("tei-figure1"), .)
                     else
-                        fo:inline($config, ., ("tei-figure2"), .)
+                        if (head) then
+                            fo:figure($config, ., ("tei-figure2"), *[not(self::head)], head/node())
+                        else
+                            fo:block($config, ., ("tei-figure3"), .)
                 case element(floatingText) return
                     fo:block($config, ., ("tei-floatingText"), .)
                 case element(foreign) return
@@ -226,7 +231,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             fo:inline($config, ., ("tei-gap3"), .)
                 case element(graphic) return
-                    fo:graphic($config, ., ("tei-graphic"), ., @url, @width, @height, @scale, desc)
+                    fo:graphic($config, ., ("tei-graphic", "img-responsive"), ., @url, @width, @height, @scale, desc)
                 case element(group) return
                     fo:block($config, ., ("tei-group"), .)
                 case element(handShift) return
@@ -450,14 +455,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         )
 
                 case element(titleStmt) return
-                    if ($parameters?header='short') then
-                        (
-                            fo:link($config, ., ("tei-titleStmt1"), title, $parameters?doc),
-                            fo:block($config, ., ("tei-titleStmt2"), author)
-                        )
-
-                    else
-                        fo:heading($config, ., ("tei-titleStmt2"), .)
+                    fo:heading($config, ., ("tei-titleStmt2"), .)
                 case element(TEI) return
                     fo:document($config, ., ("tei-TEI"), .)
                 case element(text) return
@@ -522,6 +520,11 @@ declare function model:apply($config as map(*), $input as node()*) {
                     fo:inline($config, ., ("tei-unclear"), .)
                 case element(w) return
                     fo:inline($config, ., ("tei-w"), .)
+                case element(cell) return
+                    if (parent::row[@role='label']) then
+                        fo:cell($config, ., ("tei-cell1", "table-head"), ., 'head')
+                    else
+                        fo:cell($config, ., ("tei-cell2"), ., ())
                 case element(code) return
                     if (parent::cell|parent::p|parent::ab) then
                         fo:inline($config, ., ("tei-code1"), .)

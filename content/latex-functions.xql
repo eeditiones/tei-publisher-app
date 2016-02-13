@@ -57,7 +57,7 @@ declare function pmf:list($config as map(*), $node as element(), $class as xs:st
         let $max := max($node/tei:label ! string-length(.))
         let $longest := ($node/tei:label[string-length(.) = $max])[1]/string()
         return (
-            "\begin{description}[" || pmf:escapeChars($longest) || "]&#10;",
+            "\begin{description}&#10;",
             $config?apply($config, $content),
             "\end{description}&#10;"
         )
@@ -77,10 +77,10 @@ declare function pmf:list($config as map(*), $node as element(), $class as xs:st
 
 declare function pmf:listItem($config as map(*), $node as element(), $class as xs:string+, $content) {
     if ($node/preceding-sibling::tei:label) then
-        "\item[" || pmf:get-content($config, $node, $class, $node/preceding-sibling::tei:label[1]) || "] " ||
-        pmf:get-content($config, $node, $class, $content) || "&#10;"
+        "\item[" || pmf:get-content($config, $node, $class, $node/preceding-sibling::tei:label[1]) || "]\hfill \\ {" ||
+        pmf:get-content($config, $node, $class, $content) || "}&#10;"
     else
-        "\item " || pmf:get-content($config, $node, $class, $content) || "&#10;"
+        "\item {" || pmf:get-content($config, $node, $class, $content) || "&#10;}"
 };
 
 declare function pmf:block($config as map(*), $node as element(), $class as xs:string+, $content) {
@@ -108,6 +108,13 @@ declare function pmf:glyph($config as map(*), $node as element(), $class as xs:s
         "&#xAD;"
     else
         ()
+};
+
+declare function pmf:figure($config as map(*), $node as element(), $class as xs:string+, $content, $title) {
+    "\begin{figure}[h]&#10;" ||
+    (if ($title) then "\caption{" || $title || "}&#10;" else ()) ||
+    pmf:get-content($config, $node, $class, $content) ||
+    "\end{figure}&#10;"
 };
 
 declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url,
@@ -225,16 +232,20 @@ declare function pmf:title($config as map(*), $node as element(), $class as xs:s
 declare function pmf:table($config as map(*), $node as element(), $class as xs:string+, $content) {
     let $cols := max($node/tei:row ! count(tei:cell))
     return
-        "\begin{longtable}{" || string-join((1 to $cols) ! "l", "l") || "}&#10;",
+        "\begin{longtable}[h]{" || string-join((1 to $cols) ! "l") || "}&#10;",
         $config?apply-children($config, $node, $content),
         "\end{longtable}&#10;"
 };
 
 declare function pmf:row($config as map(*), $node as element(), $class as xs:string+, $content) {
-    $config?apply-children($config, $node, $content), " \\&#10;"
+    $config?apply-children($config, $node, $content), 
+    if ($node/@role = "label") then
+        " \\&#10;\hline&#10;"
+    else
+        " \\&#10;"
 };
 
-declare function pmf:cell($config as map(*), $node as element(), $class as xs:string+, $content) {
+declare function pmf:cell($config as map(*), $node as element(), $class as xs:string+, $content, $type) {
     pmf:get-content($config, $node, $class, $content),
     (if ($node/following-sibling::*) then " &amp; " else ())
 };

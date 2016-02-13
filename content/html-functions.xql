@@ -128,22 +128,26 @@ declare function pmf:glyph($config as map(*), $node as element(), $class as xs:s
         ()
 };
 
+declare function pmf:figure($config as map(*), $node as element(), $class as xs:string+, $content, $title) {
+    <figure class="{$class}">
+    { pmf:apply-children($config, $node, $content) }
+    {
+        if ($title) then
+            <figcaption>{ pmf:apply-children($config, $node, $title) }</figcaption>
+        else
+            ()
+    }
+    </figure>
+};
+
 declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url,
     $width, $height, $scale, $title) {
     let $style := if ($width) then "width: " || $width || "; " else ()
     let $style := if ($height) then $style || "height: " || $height || "; " else $style
     return
-        if ($title) then
-            <figure>
-                <img src="{$url}" class="{$class}">
-                { if ($style) then attribute style { $style } else () }
-                </img>
-                <figcaption>{pmf:apply-children($config, $node, $title)}</figcaption>
-            </figure>
-        else
-            <img src="{$url}" class="{$class}">
-            { if ($style) then attribute style { $style } else () }
-            </img>
+        <img src="{$url}" class="{$class}" title="{$title}">
+        { if ($style) then attribute style { $style } else () }
+        </img>
 };
 
 declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content, $place, $label) {
@@ -233,7 +237,7 @@ declare function pmf:row($config as map(*), $node as element(), $class as xs:str
     <tr class="{$class}">{pmf:apply-children($config, $node, $content)}</tr>
 };
 
-declare function pmf:cell($config as map(*), $node as element(), $class as xs:string+, $content, $type as xs:string?) {
+declare function pmf:cell($config as map(*), $node as element(), $class as xs:string+, $content, $type) {
     element {if($type='head') then 'th' else 'td'} {
     attribute class {$class},
         if ($node/@cols) then

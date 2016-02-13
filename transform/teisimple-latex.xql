@@ -102,7 +102,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     latex:break($config, ., ("tei-cb"), ., 'column', @n)
                 case element(cell) return
                     (: Insert table cell. :)
-                    latex:cell($config, ., ("tei-cell"), .)
+                    latex:cell($config, ., ("tei-cell"), ., ())
                 case element(choice) return
                     if (sic and corr) then
                         latex:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
@@ -192,10 +192,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(figDesc) return
                     latex:inline($config, ., ("tei-figDesc"), .)
                 case element(figure) return
-                    if (head or @rendition='simple:display') then
-                        latex:block($config, ., ("tei-figure1"), .)
+                    if (head) then
+                        latex:figure($config, ., ("tei-figure1"), *[not(self::head)], head/node())
                     else
-                        latex:inline($config, ., ("tei-figure2"), .)
+                        latex:block($config, ., ("tei-figure2"), .)
                 case element(floatingText) return
                     latex:block($config, ., ("tei-floatingText"), .)
                 case element(foreign) return
@@ -450,15 +450,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                         )
 
                 case element(titleStmt) return
-                    if ($parameters?header='short') then
-                        (
-                            latex:link($config, ., ("tei-titleStmt1"), title, $parameters?doc),
-                            latex:block($config, ., ("tei-titleStmt2"), author)
-                        )
-
-                    else
-                        (: No function found for behavior: meta :)
-                        $config?apply($config, ./node())
+                    (: No function found for behavior: meta :)
+                    $config?apply($config, ./node())
                 case element(TEI) return
                     latex:document($config, ., ("tei-TEI"), .)
                 case element(text) return

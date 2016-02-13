@@ -102,7 +102,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     fo:break($config, ., ("tei-cb"), ., 'column', @n)
                 case element(cell) return
                     (: Insert table cell. :)
-                    fo:cell($config, ., ("tei-cell"), .)
+                    fo:cell($config, ., ("tei-cell"), ., ())
                 case element(choice) return
                     if (sic and corr) then
                         fo:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
@@ -192,10 +192,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(figDesc) return
                     fo:inline($config, ., ("tei-figDesc"), .)
                 case element(figure) return
-                    if (head or @rendition='simple:display') then
-                        fo:block($config, ., ("tei-figure1"), .)
+                    if (head) then
+                        fo:figure($config, ., ("tei-figure1"), *[not(self::head)], head/node())
                     else
-                        fo:inline($config, ., ("tei-figure2"), .)
+                        fo:block($config, ., ("tei-figure2"), .)
                 case element(floatingText) return
                     fo:block($config, ., ("tei-floatingText"), .)
                 case element(foreign) return
@@ -450,14 +450,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         )
 
                 case element(titleStmt) return
-                    if ($parameters?header='short') then
-                        (
-                            fo:link($config, ., ("tei-titleStmt1"), title, $parameters?doc),
-                            fo:block($config, ., ("tei-titleStmt2"), author)
-                        )
-
-                    else
-                        fo:heading($config, ., ("tei-titleStmt2"), .)
+                    fo:heading($config, ., ("tei-titleStmt2"), .)
                 case element(TEI) return
                     fo:document($config, ., ("tei-TEI"), .)
                 case element(text) return

@@ -230,6 +230,24 @@ declare function pmf:glyph($config as map(*), $node as element(), $class as xs:s
         ()
 };
 
+declare function pmf:figure($config as map(*), $node as element(), $class as xs:string+, $content, $title) {
+    <fo:block>
+    {
+        pmf:check-styles($config, $node, $class, ()),
+        $config?apply-children($config, $node, $content),
+        if ($title) then
+            <fo:block>
+            {
+                pmf:check-styles($config, $node, "tei-caption", ()),
+                $config?apply-children($config, $node, $title)
+            }
+            </fo:block>
+        else
+            ()
+    }
+    </fo:block>
+};
+
 declare function pmf:graphic($config as map(*), $node as element(), $class as xs:string+, $content, $url,
     $width, $height, $scale, $title) {
     let $src :=
@@ -378,7 +396,7 @@ declare function pmf:row($config as map(*), $node as element(), $class as xs:str
     </fo:table-row>
 };
 
-declare function pmf:cell($config as map(*), $node as element(), $class as xs:string+, $content) {
+declare function pmf:cell($config as map(*), $node as element(), $class as xs:string+, $content, $type) {
     <fo:table-cell>
         {
             if ($node/@cols) then

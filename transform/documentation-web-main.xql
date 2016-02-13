@@ -5,7 +5,7 @@ declare variable $xml external;
 declare variable $parameters external;
 
 let $options := map {
-    "styles": ["../generated/documentation.css"],
+    "styles": ["../transform/documentation.css"],
     "collection": "/db/apps/tei-simple/transform",
     "parameters": $parameters
 }

@@ -101,8 +101,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(cb) return
                     latex:break($config, ., ("tei-cb"), ., 'column', @n)
                 case element(cell) return
-                    (: Insert table cell. :)
-                    latex:cell($config, ., ("tei-cell"), .)
+                    if (parent::row[@role='label']) then
+                        latex:cell($config, ., ("tei-cell1", "table-head"), ., 'head')
+                    else
+                        latex:cell($config, ., ("tei-cell2"), ., ())
                 case element(choice) return
                     if (sic and corr) then
                         latex:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
@@ -192,10 +194,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(figDesc) return
                     latex:inline($config, ., ("tei-figDesc"), .)
                 case element(figure) return
-                    if (head or @rendition='simple:display') then
-                        latex:block($config, ., ("tei-figure1"), .)
+                    if (@type='animated') then
+                        latex:omit($config, ., ("tei-figure1"), .)
                     else
-                        latex:inline($config, ., ("tei-figure2"), .)
+                        if (head) then
+                            latex:figure($config, ., ("tei-figure2"), *[not(self::head)], head/node())
+                        else
+                            latex:block($config, ., ("tei-figure3"), .)
                 case element(floatingText) return
                     latex:block($config, ., ("tei-floatingText"), .)
                 case element(foreign) return
@@ -226,7 +231,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             latex:inline($config, ., ("tei-gap3"), .)
                 case element(graphic) return
-                    latex:graphic($config, ., ("tei-graphic"), ., @url, @width, @height, @scale, desc)
+                    latex:graphic($config, ., ("tei-graphic", "img-responsive"), ., @url, @width, @height, @scale, desc)
                 case element(group) return
                     latex:block($config, ., ("tei-group"), .)
                 case element(handShift) return
@@ -450,15 +455,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                         )
 
                 case element(titleStmt) return
-                    if ($parameters?header='short') then
-                        (
-                            latex:link($config, ., ("tei-titleStmt1"), title, $parameters?doc),
-                            latex:block($config, ., ("tei-titleStmt2"), author)
-                        )
-
-                    else
-                        (: No function found for behavior: meta :)
-                        $config?apply($config, ./node())
+                    (: No function found for behavior: meta :)
+                    $config?apply($config, ./node())
                 case element(TEI) return
                     latex:document($config, ., ("tei-TEI"), .)
                 case element(text) return
@@ -523,6 +521,11 @@ declare function model:apply($config as map(*), $input as node()*) {
                     latex:inline($config, ., ("tei-unclear"), .)
                 case element(w) return
                     latex:inline($config, ., ("tei-w"), .)
+                case element(cell) return
+                    if (parent::row[@role='label']) then
+                        latex:cell($config, ., ("tei-cell1", "table-head"), ., 'head')
+                    else
+                        latex:cell($config, ., ("tei-cell2"), ., ())
                 case element(code) return
                     if (parent::cell|parent::p|parent::ab) then
                         latex:inline($config, ., ("tei-code1"), .)

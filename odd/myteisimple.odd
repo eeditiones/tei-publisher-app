@@ -2,8 +2,7 @@
 <?xml-model href="tei-pm.nvdl"
   type="application/xml"
   schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:skos="http://www.w3.org/2004/02/skos/core#"
-    xml:lang="en">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -45,8 +44,7 @@
                         licences. The CC+BY licence is generally appropriate for usages which treat
                         TEI content as data or documentation. The BSD-2 licence is generally
                         appropriate for usage of TEI content in a software environment. For further
-                        information or clarification, please contact the <ref
-                            target="mailto:info@tei-c.org">TEI Consortium</ref>. </p>
+                        information or clarification, please contact the <ref target="mailto:info@tei-c.org">TEI Consortium</ref>. </p>
                 </availability>
             </publicationStmt>
             <sourceDesc>
@@ -103,18 +101,13 @@
                 <elementSpec mode="change" ident="choice">
                     <constraintSpec ident="choiceSize" scheme="isoschematron" mode="add">
                         <constraint>
-                            <assert xmlns="http://purl.oclc.org/dsdl/schematron"
-                                test="count(*) &gt; 1" role="ERROR"> Element "<sch:name
-                                    xmlns:sch="http://purl.oclc.org/dsdl/schematron"/>" must have at
+                            <assert xmlns="http://purl.oclc.org/dsdl/schematron" test="count(*) &gt; 1" role="ERROR"> Element "<sch:name xmlns:sch="http://purl.oclc.org/dsdl/schematron"/>" must have at
                                 least two child elements.</assert>
                         </constraint>
                     </constraintSpec>
                     <constraintSpec ident="choiceContent" scheme="isoschematron" mode="add">
                         <constraint>
-                            <assert xmlns="http://purl.oclc.org/dsdl/schematron"
-                                test="(tei:corr or tei:sic or tei:expan or     tei:abbr or tei:reg or tei:orig) and ((tei:corr and tei:sic) or (tei:expan     and tei:abbr) or (tei:reg and tei:orig))"
-                                role="ERROR"> Element "<sch:name
-                                    xmlns:sch="http://purl.oclc.org/dsdl/schematron"/>" must have
+                            <assert xmlns="http://purl.oclc.org/dsdl/schematron" test="(tei:corr or tei:sic or tei:expan or     tei:abbr or tei:reg or tei:orig) and ((tei:corr and tei:sic) or (tei:expan     and tei:abbr) or (tei:reg and tei:orig))" role="ERROR"> Element "<sch:name xmlns:sch="http://purl.oclc.org/dsdl/schematron"/>" must have
                                 corresponding corr/sic, expand/abbr, reg/orig </assert>
                         </constraint>
                     </constraintSpec>
