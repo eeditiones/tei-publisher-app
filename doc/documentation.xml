@@ -110,31 +110,207 @@
                 </div>
                 <div>
                     <head>Processing Model syntax</head>
-                    <p>here goes explanation of model syntax</p>
-model: @behaviour
-    param
-    outputRendition
-alternate models: @predicate
-modelSequence
-                </div>
-                <div>
-                    <head>outputRendition @cssClass and @useSourceRendition</head>
-                    <p>here goes discussion of rendition options</p>
-                </div>
-                <div>
-                    <head>Best Practice Recommendations</head>
-                    <list>
-                        <item>
-                            <p>While the ODD may describe the rendition of an element using CSS, this 
+                    <div>
+                        <head>
+                            <gi>model</gi> element</head>
+                        <p>
+                            <gi>model</gi> element is primarily used to document intended processing for a given element.
+                    One or more of these elements may appear directly within an <gi>elementSpec</gi> element specification to
+                    define the processing anticipated for that element. Where multiple <gi>model</gi> elements appear, they are
+                    understood to document mutually exclusive processing scenarios, possibly for different outputs or 
+                    applicable in different contexts. 
+                    </p>
+                        <p>A processing model defines on an abstract level how a given element may be transformed to produce
+                    one or more outputs.
+                    The model is expressed in terms of <term>behaviours</term> and their <term>parameters</term>, using high-level
+                    formatting concepts, such as <soCalled>block</soCalled>, <soCalled>inline</soCalled>, <soCalled>note</soCalled>
+                    or <soCalled>heading</soCalled>. A processing model is thus a template description, used to generate the code
+                    needed by the publishing application to process the source document into required output. 
+                    </p>
+                        <p>
+                    Example below depicts a situation where a single model is defined for <gi>app</gi> element. As no @predicate
+                    or @output are specified, this model applies for all contexts in which <gi>app</gi> may appear and all possible
+                    outputs. Thus for all <gi>app</gi> elements they will be transformed into inline chunks of text containing only
+                    contents of <gi>app</gi>'s <gi>lem</gi> child and omitting any possible <gi>rdg</gi> children.
+                    <pre>
+                                <code lang="xml">&lt;elementSpec mode="change" ident="app"&gt;
+ &lt;model behaviour="inline"&gt;
+  &lt;param name="content"&gt;lem&lt;/param&gt;
+ &lt;/model&gt;
+&lt;/elementSpec&gt;
+</code>
+                            </pre>
+                        </p>
+                    </div>
+                    <div>
+                        <head>
+                            <gi>model</gi> children and attributes:</head>
+                        <p>
+                            <list>
+                                <item>@predicate: the condition under which this model applies, given as an XPath Predicate Expression</item>
+                                <item>@behaviour: names the function which this processing model uses in order to produce output; possible values include: alternate, block, figure, heading, inline, link, list, note, paragraph</item>
+                                <item>@output: identifier of the intended output for which this model applies; applies to all output if no @output is present on a <gi>model</gi>
+                                </item>
+                                <item>@useSourceRendition: whether to obey any rendition attribute which is present in the source document</item>
+                                <item>
+                                    <gi>param</gi>: allows to pass parameters to @behaviour function; parameters available
+                            depend on the behaviour in question; when parameters are not explicitly passed, default values
+                            for those are assumed; all behaviour functions use current	element as default content</item>
+                                <item>
+                                    <gi>outputRendition</gi>: supplies information about the desired output rendition in CSS; its attribute @scope provides a way of defining ‘pseudo-elements’ eg: first-line, first-letter, before, after
+                            </item>
+                            </list>
+                        </p>
+                        <p>
+                    Simple model explicitly specifying content parameter: for <gi>app</gi> entries only content of its <gi>lem</gi> child is to be displayed (as an inline chunk of text)
+                    <pre>
+                                <code lang="xml">&lt;elementSpec mode="change" ident="app"&gt;
+ &lt;model behaviour="inline"&gt;
+  &lt;param name="content"&gt;lem&lt;/param&gt;
+ &lt;/model&gt;
+&lt;/elementSpec&gt;
+</code>
+                            </pre>
+                        </p>
+                        <p>
+                    Model specifying output rendition: contents of <gi>ex</gi> elements are to be displayed in italic and wrapped in parentheses
+					<pre>
+                                <code lang="xml">&lt;elementSpec mode="change" ident="ex"&gt;
+ &lt;model behaviour="inline"&gt;
+   &lt;outputRendition&gt;font-style: italic;&lt;/outputRendition&gt;
+   &lt;outputRendition scope="before"&gt;content:"(";&lt;/outputRendition&gt;
+   &lt;outputRendition scope="after"&gt;content:")";&lt;/outputRendition&gt;
+ &lt;/model&gt;
+&lt;/elementSpec&gt;</code>
+                            </pre>
+                        </p>
+                        <p>Sometimes different processing models are required for the same element in different contexts. 
+                    For example, we may wish to process the <gi>quote</gi> element as an inline italic element when it
+                    appears inside a <gi>p</gi> element, but as an indented block when it appears elsewhere. 
+                    To achieve this, we need to change the specification for the <gi>quote</gi> element to include
+                    two <gi>model</gi> elements as follows:
+					<pre>
+                                <code lang="xml">&lt;elementSpec mode="change" ident="quote"&gt;
+    &lt;model predicate="ancestor::p" behaviour="inline"&gt;
+        &lt;outputRendition&gt;font-style: italic;&lt;/outputRendition&gt;
+    &lt;/model&gt;
+    &lt;model behaviour="block"&gt;
+        &lt;outputRendition&gt;left-margin: 2em;&lt;/outputRendition&gt;
+    &lt;/model&gt;
+&lt;/elementSpec&gt;
+</code>
+                            </pre>
+           The first processing model will be used only for <gi>quote</gi> elements which match the XPath
+           expression given as value for the <att>predicate</att> attribute.
+           Other element occurrences will use the second processing model. 
+            Set of multiple <gi>model</gi> statements is regarded as an alternation and only the 
+            first model with @predicatematching current context is applied
+
+<!--
+           					<pre>
+					<code><elementSpec mode="change" ident="choice">
+	<model output="plain" predicate="sic and corr"  behaviour="inline">
+		<param name="content">corr[1]</param>
+	</model>
+	<model output="plain" predicate="abbr and expan" behaviour="inline">
+		<param name="content">expan[1]</param>
+	</model>
+	<model output="plain" predicate="orig and reg" behaviour="inline">
+		<param name="content">reg[1]</param>
+	</model>
+	<model predicate="sic and corr" behaviour="alternate">
+		<param name="default">corr[1]</param>
+		<param name="alternate">sic[1]</param>
+	</model>
+	<model predicate="abbr and expan" behaviour="alternate">
+		<param name="default">expan[1]</param>
+		<param name="alternate">abbr[1]</param>
+	</model>
+	<model predicate="orig and reg" behaviour="alternate">
+		<param name="default">reg[1]</param>
+		<param name="alternate">orig[1]</param>
+	</model>
+</elementSpec></code></pre>
+-->
+                        </p>
+                    </div>
+                    <div>
+                        <head>
+                            <gi>modelSequence</gi> and <gi>modelGrp</gi>
+                        </head>
+                        <p>
+                        Summary of elements that can be used to document one or more processing models for a given element:
+                        <list>
+                                <item>
+                                    <gi>model</gi> describes the processing intended for a specific context
+                            </item>
+                                <item>
+                                    <gi>modelSequence</gi> (sequence of processing models) a group of model elements
+                                documenting intended processing models for this element, to be acted upon in sequence
+                            </item>
+                                <item>
+                                    <gi>modelGrp</gi> (processing model group) a group of model elements documenting
+                                intended processing models for this element
+                            </item>
+                            </list>
+                        </p>
+                        <p>
+                    The
+                    <gi>modelGrp</gi> element may be used to group alternative <gi>model</gi> elements intended for 
+                    a single kind of output. The <gi>modelSequence</gi> element is provided for the case where a sequence 
+                    of models is to be processed, functioning as a single unit. Common use case would be to use modelSequence to
+                    generate table of contents along with the reading text as shown in the example below:
+					<pre>
+                                <code lang="xml">&lt;elementSpec mode="change" ident="body"&gt;
+&lt;modelSequence&gt;
+    &lt;model behaviour="index"&gt;
+        &lt;param name="type"&gt;'toc'&lt;/param&gt;
+    &lt;/model&gt;
+    &lt;model behaviour="block"/&gt;
+&lt;/modelSequence&gt;
+&lt;/elementSpec&gt;
+</code>
+                            </pre>
+                        </p>
+                    </div>
+                    <div>
+                        <head>Behaviours</head>
+                        <p>Most of the processing complexity is hidden behind behaviour functions which were designed
+                to cover majority of commonly occurring processing tasks. Function names are wherever possible 
+                based on commonly used terms such as 'inline', 'block', 'note' or 'link'.</p>
+                        <p>Behaviour functions accept a range of parameters, depending on the function in question. Where these
+                parameters are left unspecified in the <gi>model</gi>, default values are used.</p>
+                        <p>MORE ON BEHAViours goes here</p>
+                    </div>
+                    <div>
+                        <head>Output formatting options</head><!--
+<p>This component of an element specification describes the rendering or appearance intended for all occurrences of the element in a specified context for a specified type of output. The <gi>rendition</gi> element, by contrast, describes the actual rendering or appearance of all occurrences of the specified element in a source document. The <att>useSourceRendition</att> attribute may however be used to indicate that formatting information provided by a <gi>rendition</gi> element is to be  combined with any provided by an <gi>outputRendition</gi> element.</p>
+<p>It is strongly recommended that the W3C Cascading Stylesheet language (CSS2 or later) be used to express the required formatting information.</p>
+-->
+                        <p>
+The intended rendering for a particular behaviour of a processing model may be documented in one or all of the three following ways. Firstly, the @CSSclass attribute may be used to specify the name of a CSS style in some associated CSS stylesheet which is to be applied to each occurrence of a specified element found (in a given context, for a specified output). Secondly, the attribute @useSourceRendition may be used to indicate that the rendition specified in the source document should be applied. Thirdly, the styling to be applied may be specified explicitly as content of a child <gi>outputRendition</gi> element.
+</p>
+                        <p>
+When more than one of these options is used, they are understood to be combined in accordance with the rules for multiple declaration of the styling language used.
+</p>
+                        <p>
+It is strongly recommended that use <gi>outputRendition</gi> should be limited to strictly editorial decisions, such as 'conjectures are to be displayed in square brackets' and not as means to record all typesetting and layout specific design choices.</p>
+                    </div>
+                    <div>
+                        <head>Best Practice Recommendations</head>
+                        <list>
+                            <item>
+                                <p>While the ODD may describe the rendition of an element using CSS, this 
                                 should be used with care: styling imposed by the ODD should be generic
                             and not interfere with application-specific design choices.</p>
-                            <p>For example, defining a font family for a certain element in the ODD
+                                <p>For example, defining a font family for a certain element in the ODD
                                 makes it difficult for web designers to set the font via an external 
                                 stylesheet.</p>
-                            <p>The HTML as well as the FO output function libraries provide ways to
+                                <p>The HTML as well as the FO output function libraries provide ways to
                                 customize the styling through additional, user-supplied CSS.</p>
-                        </item>
-                    </list>
+                            </item>
+                        </list>
+                    </div>
                 </div>
                 <div>
                     <head>Extension Modules</head>
