@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tei-c.org/ns/1.0 file:/Users/wolf/Source/TEI-Simple/teisimple.xsd">
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -99,7 +99,229 @@
                         provides useful defaults for the TEI core elements. In general, most of those defaults
                         should be ok and you only need to overwrite a hand full of selected mappings within your
                         own ODD.</p>
+                        <figure type="animated">
+                            <head>Create a custom ODD</head>
+                            <graphic url="CreateODD.gif"/>
+                        </figure>
                     </div>
+                </div>
+                <div>
+                    <head>Available Behaviours</head>
+                    <p>All behaviour functions take at least one parameter: <code>content</code>. It
+                    will be added by default unless specified and contains
+                    the content of the currently processed node. You may change this by explicitely setting
+                    a <code>content</code> parameter inside the model.</p>
+                    <p>In the parameter lists below we skip the <code>content</code> parameter as it is available for
+                        every behaviour.</p>
+                    <list type="gloss">
+                        <label>alternate</label>
+                        <item>
+                            <p>Display alternating elements for displaying the preferred version and an 
+                                alternative, both at once or by some method of toggling between the two.
+                                The concrete implementation depends on the output format.</p>
+                            <table>
+                                <row role="label">
+                                    <cell>Parameter</cell>
+                                    <cell>Description</cell>
+                                </row>
+                                <row>
+                                    <cell>default</cell>
+                                    <cell>the content to display by default</cell>
+                                </row>
+                                <row>
+                                    <cell>alternate</cell>
+                                    <cell>alternate content</cell>
+                                </row>
+                            </table>
+                        </item>
+                        <label>anchor</label>
+                        <item>
+                            <p>Create an anchor to which you can link, identified by the given id.</p>
+                            <table>
+                                <row role="label">
+                                    <cell>Parameter</cell>
+                                    <cell>Description</cell>
+                                </row>
+                                <row>
+                                    <cell>id</cell>
+                                    <cell>the id</cell>
+                                </row>
+                            </table>
+                        </item>
+                        <label>block</label>
+                        <item>
+                            <p>Create a block structure, usually a div in HTML or fo:block in fo.</p>
+                        </item>
+                        <label>body</label>
+                        <item>
+                            <p>Create the body of a document. In HTML this will result in a &lt;body&gt; tag.</p>
+                        </item>
+                        <label>break</label>
+                        <item>
+                            <p>Create a line, column, or page break according to type.</p>
+                            <table>
+                                <row role="label">
+                                    <cell>Parameter</cell>
+                                    <cell>Description</cell>
+                                </row>
+                                <row>
+                                    <cell>type</cell>
+                                    <cell>e.g. "page", "column", "line"</cell>
+                                </row>
+                            </table>
+                        </item>
+                        <label>cell</label>
+                        <item>
+                            <p>Create a table cell. If the @cols or @rows attribute is specified, the cell may span several columns/rows.</p>
+                        </item>
+                        <label>cit</label>
+                        <item>
+                            <p>Show a citation, with an indication of the source.</p>
+                            <table>
+                                <row role="label">
+                                    <cell>Parameter</cell>
+                                    <cell>Description</cell>
+                                </row>
+                                <row>
+                                    <cell>source</cell>
+                                    <cell>the citation source</cell>
+                                </row>
+                            </table>
+                        </item>
+                        <label>document</label>
+                        <item>
+                            <p>Start a new output document.</p>
+                        </item>
+                        <label>figure</label>
+                        <item>
+                            <p>Make a figure with provided title argument as caption</p>
+                            <table>
+                                <row role="label">
+                                    <cell>Parameter</cell>
+                                    <cell>Description</cell>
+                                </row>
+                                <row>
+                                    <cell>title</cell>
+                                    <cell>a caption</cell>
+                                </row>
+                            </table>
+                        </item>
+                        <label>graphic</label>
+                        <item>
+                            <p>Display the graphic retrieved from the given url.</p>
+                            <table>
+                                <row role="label">
+                                    <cell>Parameter</cell>
+                                    <cell>Description</cell>
+                                </row>
+                                <row>
+                                    <cell>url</cell>
+                                    <cell>the url to load the graphic from</cell>
+                                </row>
+                                <row>
+                                    <cell>width</cell>
+                                    <cell>the width of the graphic, e.g. "300px", "50%" ...</cell>
+                                </row>
+                                <row>
+                                    <cell>height</cell>
+                                    <cell>the height of the graphic, e.g. "300px", "50%" ...</cell>
+                                </row>
+                                <row>
+                                    <cell>scale</cell>
+                                    <cell>a scaling factor to apply. If specified, width and height will be output as percentage based on the scaling factor, which
+                                    should be a number between 0 and 1.</cell>
+                                </row>
+                                <row>
+                                    <cell>title</cell>
+                                    <cell>a title for the graphics element. Usually not shown directly.</cell>
+                                </row>
+                            </table>
+                        </item>
+                        <label>heading</label>
+                        <item>
+                            <p>Creates a heading.</p>
+                            <table>
+                                <row role="label">
+                                    <cell>Parameter</cell>
+                                    <cell>Description</cell>
+                                </row>
+                                <row>
+                                    <cell>level</cell>
+                                    <cell>the structural level of this heading. In HTML mode, this translates to &lt;h1&gt;, &lt;h2&gt; etc.</cell>
+                                </row>
+                            </table>
+                        </item>
+                        <label>inline</label>
+                        <item>
+                            <p>Outputs an inline element.</p>
+                        </item>
+                        <label>link</label>
+                        <item>
+                            <p>Create a hyperlink.</p>
+                            <table>
+                                <row role="label">
+                                    <cell>Parameter</cell>
+                                    <cell>Description</cell>
+                                </row>
+                                <row>
+                                    <cell>uri</cell>
+                                    <cell>the link url</cell>
+                                </row>
+                            </table>
+                        </item>
+                        <label>list</label>
+                        <item>
+                            <p>Creates an ordered or unordered list, depending on the type attribute (e.g. <code>type="ordered"</code>). If a label
+                            is present before each item, a description list is output instead, using the label as definition term.</p>
+                        </item>
+                        <label>listItem</label>
+                        <item>
+                            <p>Outputs an item in a list.</p>
+                        </item>
+                        <label>metadata</label>
+                        <item>
+                            <p>Outputs a metadata section, e.g. a &lt;head&gt; in HTML.</p>
+                        </item>
+                        <label>note</label>
+                        <item>
+                            <p>create a note, often out of line, depending
+                                on the value of <term>place</term>; could be "margin", "footnote", "endnote", "inline"</p>
+                            <table>
+                                <row role="label">
+                                    <cell>Parameter</cell>
+                                    <cell>Description</cell>
+                                </row>
+                                <row>
+                                    <cell>place</cell>
+                                    <cell>defines the placement of the note, e.g. "margin", "footnote" ...</cell>
+                                </row>
+                                <row>
+                                    <cell>label</cell>
+                                    <cell>the label to use for the footnote reference, usually a number.</cell>
+                                </row>
+                            </table>
+                        </item>
+                        <label>omit</label>
+                        <item>
+                            Do nothing, skip this element, do not process children
+                        </item>
+                        <label>paragraph</label>
+                        <item>
+                            Create a paragraph.
+                        </item>
+                        <label>row</label>
+                        <item>
+                            Create a table row.
+                        </item>
+                        <label>section</label>
+                        <item>Create a new section in the output document. In HTML mode, this translates to a &lt;section&gt; element being output.</item>
+                        <label>table</label>
+                        <item>Create a table.</item>
+                        <label>text</label>
+                        <item>Output literal text.</item>
+                        <label>title</label>
+                        <item>Output the document title. In HTML mode, this creates a &lt;title&gt; element. In LaTeX, it adds the title to the document metadata.</item>
+                    </list>
                 </div>
                 <div>
                     <head>Usage</head>
