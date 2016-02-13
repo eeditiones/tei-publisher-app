@@ -324,92 +324,89 @@
                     </list>
                 </div>
                 <div>
-                    <head>Usage</head>
-                    <p>To use the library, import the utility module:</p>
-                    <code lang="xquery">import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";</code>
-                    <p>The main function of the utility module is:</p>
-                    <code lang="xquery">pmu:process($oddPath as xs:string, $xml as node()*, $output-root as xs:string, $mode as xs:string, $relPath as xs:string, $ext-modules as map(*)*)</code>
-                    <p>The parameters are as follows:</p>
-                    <table>
-                        <row>
-                            <cell>
-                                <code>$oddPath</code>
-                            </cell>
-                            <cell>Absolute path to the ODD file containing the processing model instructions 
-                                to use</cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <code>$xml</code>
-                            </cell>
-                            <cell>The XML nodes to render. Any sequence of nodes is allowed here.</cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <code>$output-root</code>
-                            </cell>
-                            <cell>Absolute path to a database collection which is used for 
-                                caching the generated XQuery modules</cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <code>$mode</code>
-                            </cell>
-                            <cell>The output mode: either "web" or "fo" (for PDF output)</cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <code>$relPath</code>
-                            </cell>
-                            <cell>A relative URL pointing to the output collection given in 
-                            <code>$output-root</code>. This will be used by the web browser to locate the generated
-                            CSS stylesheets, so it should be relative to the page URL viewed in the 
-                            browser.</cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <code>$config</code>
-                            </cell>
-                            <cell>An XML fragment defining any additional XQuery modules to be loaded
-                            for the different odds and output modes. Use this to extend the default set
-                            of behaviour functions with your own. For an example, check the supplied
-                            configuration in <code>odd/configuration.xml</code>.</cell>
-                        </row>
-                    </table>
-                    <p>A simple main query to transform a TEI document into HTML may use the function
-                        as follows:</p>
-                    <code lang="xquery">xquery version "3.0";
-                        
-declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
-
-import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "../content/odd2odd.xql";
-
-declare option output:method "html";
-declare option output:html-version "5.0";
-declare option output:media-type "text/html";
-
-let $doc := request:get-parameter("doc", ())
-let $odd := request:get-parameter("odd", "teisimple.odd")
-return
-    if ($doc) then
-        let $odd := odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root)
-        let $xml := doc($config:app-root || "/" || $doc)
-        return
-            pmu:process($odd, $xml, $config:output-root, "web", "../generated", $config:module-config)
-    else
-        &lt;p&gt;No document specified&lt;/p&gt;</code>
-                    <p>After calling this the first time, the specified output collection:
-                    <code>/db/test/generated</code> should contain 3 new files:</p>
-                    <list>
-                        <item>teisimple-web.xql</item>
-                        <item>teisimple-web-main.xql</item>
-                        <item>teisimple.css</item>
+                    <head>Output Media</head>
+                    <p>The library supports various output media formats and translates styles into the corresponding format. Currently the following output modes
+                        are supported and can be used in the <code>@output</code> attribute:</p>
+                    <list type="gloss">
+                        <label>web</label>
+                        <item>Produces HTML output</item>
+                        <label>fo</label>
+                        <item>Generates a PDF via XSL:FO</item>
+                        <label>latex</label>
+                        <item>Creates a PDF via LaTeX</item>
+                        <label>print</label>
+                        <item>An alias which applies to both: fo and latex modes.</item>
+                        <label>epub</label>
+                        <item>Similar to web concerning features, but targetted at epub documents</item>
                     </list>
-                    <p>The CSS file is automatically included into the HTML header if the transformation
-                    is run on a complete TEI document. If you would like to embed the generated HTML
-                    into an existing page, you should import the CSS in the header manually.</p>
+                    <p>The quality of the generated output may vary a lot for the fo and latex modes, depending on the type of input document. The following
+                    section provides more details on the configuration of the FO output option:</p>
+                    <div>
+                        <head>FO Output</head>
+                        <p>When generating XSL:FO output, the implementation tries to translate the CSS rules
+                            specified for renditions into the corresponding XSL:FO formatting properties.
+                            Not all CSS properties are recognized or can be mapped to FO properties. Unknown properties defined in a rendition 
+                            will be ignored.</p>
+                        <p>The default rendering for headings, paragraphs and the like is defined by a separate
+                            CSS file. The implementation merges those defaults with the custom renditions given
+                            in the ODD.</p>
+                        <p>The library searches for default CSS styles in a file named 
+                            <code>&lt;odd-name&gt;.fo.css</code> inside the specified output collection
+                            (in which the generated XQuery files are stored). The style definitions are copied literally into attributes on
+                            the output XSL:FO elements, so any property which is a valid attribute for the corresponding element 
+                            may be used.</p>
+                        <p>
+                            The default styles file can also used to set general properties like the page
+                            size or the appearance of the page header:</p>
+                        <code lang="css">@page:left {
+    page-height: 297mm; 
+    page-width: 210mm;
+    margin-bottom: 10mm;
+    margin-top: 10mm;
+    margin-left: 28mm;
+    margin-right: 16mm;
+}
+@page:right {
+    page-height: 297mm; 
+    page-width: 210mm;
+    margin-bottom: 10mm;
+    margin-top: 10mm;
+    margin-left: 16mm;
+    margin-right: 28mm;
+}
+@page:right-body {
+    column-count: 2;
+    column-gap: 6mm;
+}
+@page:left-body {
+    column-count: 2;
+    column-gap: 6mm;
+}
+@page:head {
+    font-family: "Junicode";
+}</code>
+                    </div>
+                    <div>
+                        <head>LaTeX Output</head>
+                        <p>The latex output mode produces good results for longer texts which fit well into the pre-defined LaTeX environments. The number
+                            of supported CSS properties is limited though:</p>
+                        <list>
+                            <item>font-weight</item>
+                            <item>font-style</item>
+                            <item>font-variant</item>
+                            <item>font-size</item>
+                            <item>color</item>
+                            <item>text-decoration</item>
+                            <item>text-align</item>
+                            <item>text-indent</item>
+                        </list>
+                        <p>We're looking for contributors familiar with TeX to support more properties.</p>
+                    </div>
+                </div>
+                <div xml:id="appgen">
+                    <head>Using the App Generator</head>
+                    <p>The App Generator takes an ODD file and generates a complete, standalone application
+                        out of it, including features like a simple search facility.</p>
                 </div>
                 <div>
                     <head>Extension Modules</head>
@@ -417,23 +414,34 @@ return
                     defining behaviours. However, there might be situations in which one has to generate 
                     a specific type of output, which is not handled by the default function module. To facilitate this,
                     the implementation allows additional extension modules to be configured:</p>
-                    <p>The last parameter to <code>pmu:process</code> may be a sequence of XQuery maps defining
-                        extension modules to be loaded. Each map should specify the namespace URI, prefix and
-                        location of an XQuery module to be imported. For example:</p>
-                    <code lang="xquery">map {
-    "uri": "http://www.tei-c.org/tei-simple/xquery/ext-html",
-    "prefix": "ext",
-    "at": "../modules/ext-html.xql"
-};</code>
-                    <p>defines an extension module stored in the <code>../modules/ext-html.xql</code>
-                    XQuery module. Whenever the library tries to locate a processing model function
+                    <p>Configuration is done via an XML file which should reside in the same collection as the source ODD files.
+                        It contains a series of <tag>output</tag> elements, each listing the extension modules to be loaded
+                        for the given output mode. Each definition may optionally be limited to a specific ODD, whose name
+                        is specified in the <att>odd</att> attribute.</p>
+                    <code lang="xml">&lt;modules&gt;
+    &lt;!-- General fo extension functions --&gt;
+    &lt;output mode="print"&gt;
+        &lt;module mode="print" uri="http://www.tei-c.org/tei-simple/xquery/ext-fo" prefix="ext-fo" at="../modules/ext-fo.xql"/&gt;
+    &lt;/output&gt;
+    &lt;!-- Special web configuration for the documentation (to handle &lt;code&gt;) --&gt;
+    &lt;output mode="web" odd="documentation"&gt;
+        &lt;module mode="html" uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="../modules/ext-html.xql"/&gt;
+    &lt;/output&gt;
+&lt;/modules&gt;</code>
+                    <p>Whenever the library tries to locate a processing model function
                     for a given behaviour, it will <hi rendition="simple:bold">first</hi> check any extension
                     module it knows to see if it contains a matching function. One can thus 
                         <hi rendition="simple:bold">overwrite</hi> the default
                     functions as well as define new ones.</p>
                     <p>To be recognized by the library, an extension function needs to accept at least
-                    3 default arguments, plus any number of custom parameters (to be passed in the 
-                    behaviour attribute).</p>
+                    4 default arguments, plus any number of custom parameters (to be passed in the 
+                    behaviour attribute). The processing model implementation tries to fill each custom parameter
+                    with a corresponding value by looking through the <tag>param</tag> tags in the ODD to find
+                        one with a name matching the variable name. If no matching parameter can be found, the
+                        function argument will be set to the empty sequence<note place="bottom">You should not enforce a type 
+                        or cardinality for any of the custom parameters as this may lead to unexpected errors. The parameters
+                        may always be empty or contain more than one item.</note>. The default <code>$content</code>
+                        will always be filled, except for empty elements.</p>
                     <p>For example, our extension module <code>ext-html.xql</code> may look as follows:</p>
                     <code lang="xquery">xquery version "3.1";
 
@@ -454,41 +462,6 @@ declare function pmf:code($config as map(*), $node as element(),
                     <code lang="xml">&lt;model behaviour="code"&gt;
     &lt;param name="lang"&gt;@lang&lt;/param&gt;
 &lt;/model&gt;</code>
-                </div>
-                <div>
-                    <head>FO Output</head>
-                    <p>When generating XSL:FO output, the implementation tries to translate the CSS rules
-                        specified for renditions into the corresponding XSL:FO formatting properties.
-                        Not all CSS properties are recognized. Unknown properties defined in a rendition 
-                        will be ignored.</p>
-                    <p>The default rendering for headings, paragraphs and the like is defined by a separate
-                        CSS file. The implementation merges those defaults with the custom renditions given
-                        in the ODD.</p>
-                    <p>The library searches for default CSS styles in a file named 
-                        <code>&lt;odd-name&gt;.fo.css</code> inside the specified output collection
-                    (in which the generated XQuery files are stored). The style definitions are copied literally into attributes on
-                    the output XSL:FO elements, so any property which is a valid attribute for the corresponding element 
-                    may be used.</p>
-                    <p>
-                        The default styles file can also used to set general properties like the page
-                        size or the appearance of the page header:</p>
-                    <code lang="css">@page:left {
-    margin-bottom: 10mm;
-    margin-top: 10mm;
-    margin-left: 36mm;
-    margin-right: 18mm;
-}
-@page:right {
-    margin-bottom: 10mm;
-    margin-top: 10mm;
-    margin-left: 18mm;
-    margin-right: 36mm;
-}
-@page:head {
-    margin-bottom: 0.7mm; 
-    text-align-last: justify; 
-    font-size: 10pt;
-}</code>
                 </div>
                 <div>
                     <head>Best Practice Recommendations</head>

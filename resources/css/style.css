@@ -124,6 +124,20 @@ a:focus {
 .content .tei-list2 dd {
   margin-left: 2em;
 }
+.content figure {
+  text-align: center;
+  margin: 16px 0;
+  padding: 16px 0;
+  border-top: 1px solid #C0C0C0;
+  border-bottom: 1px solid #C0C0C0;
+}
+.content figure img.img-responsive {
+  margin: 0 auto;
+}
+.content figcaption {
+  margin-top: .5em;
+  text-align: right;
+}
 mark {
   background-color: #FFEB3B;
 }
