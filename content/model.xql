@@ -215,7 +215,7 @@ declare %private function pm:prepare-modules($modules as array(*)) {
 declare %private function pm:elementSpec($spec as element(tei:elementSpec), $modules as array(*), $output as xs:string+) {
     pm:process-models(
         $spec/@ident,
-        $spec/(tei:model[not(@output)]|tei:model[@output = $output]|tei:modelSequence),
+        $spec/(tei:model[not(@output)]|tei:model[@output = $output]|tei:modelSequence[not(@output)]|tei:modelSequence[@output = $output]),
         $modules,
         $output
     )
