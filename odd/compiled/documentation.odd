@@ -110,9 +110,10 @@
                 </model>
             </elementSpec>
             <elementSpec mode="change" ident="cell">
-                <model behaviour="cell">
-                    <desc>Insert table cell. </desc>
+                <model predicate="parent::row[@role='label']" behaviour="cell">
+                    <param name="type">'head'</param>
                 </model>
+                <model behaviour="cell"/>
             </elementSpec>
             <elementSpec mode="change" ident="choice">
                 <constraintSpec ident="choiceSize" scheme="isoschematron" mode="add">
@@ -754,6 +755,12 @@ border-bottom: solid 1pt blue;
             </elementSpec>
             <elementSpec mode="change" ident="w">
                 <model behaviour="inline"/>
+            </elementSpec>
+            <elementSpec mode="change" ident="cell">
+                <model predicate="parent::row[@role='label']" behaviour="cell">
+                    <param name="type">'head'</param>
+                </model>
+                <model behaviour="cell"/>
             </elementSpec>
             <elementSpec mode="add" ident="code">
                 <model behaviour="inline" predicate="parent::cell|parent::p|parent::ab"/>

@@ -61,6 +61,12 @@
                 <elementSpec mode="change" ident="table">
                     <model behaviour="table" cssClass="table table-bordered"/>
                 </elementSpec>
+                <elementSpec mode="change" ident="cell">
+                    <model predicate="parent::row[@role='label']" behaviour="cell">
+                        <param name="type">'head'</param>
+                    </model>
+                    <model behaviour="cell"/>
+                </elementSpec>
                 <moduleRef key="tei"/>
                 <moduleRef key="header"/>
                 <moduleRef key="tagdocs"/>

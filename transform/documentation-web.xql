@@ -101,8 +101,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(cb) return
                     html:break($config, ., ("tei-cb"), ., 'column', @n)
                 case element(cell) return
-                    (: Insert table cell. :)
-                    html:cell($config, ., ("tei-cell"), ., ())
+                    if (parent::row[@role='label']) then
+                        html:cell($config, ., ("tei-cell1"), ., 'head')
+                    else
+                        html:cell($config, ., ("tei-cell2"), ., ())
                 case element(choice) return
                     if (sic and corr) then
                         html:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
@@ -524,6 +526,11 @@ declare function model:apply($config as map(*), $input as node()*) {
                     html:inline($config, ., ("tei-unclear"), .)
                 case element(w) return
                     html:inline($config, ., ("tei-w"), .)
+                case element(cell) return
+                    if (parent::row[@role='label']) then
+                        html:cell($config, ., ("tei-cell1"), ., 'head')
+                    else
+                        html:cell($config, ., ("tei-cell2"), ., ())
                 case element(code) return
                     if (parent::cell|parent::p|parent::ab) then
                         html:inline($config, ., ("tei-code1"), .)
