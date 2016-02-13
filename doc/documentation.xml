@@ -20,9 +20,10 @@
                 <head>TEI Processing Model Toolbox</head>
                 <div>
                     <head>Introduction</head>
-                    <p>The TEI Processing Model (PM) extends the TEI ODD format with a processing model for
-                    documents, which can be expressed within the TEI vocubulary itself. It aims at the
-                    XML-savvy editor who is familiar with TEI but is not a developer. The editor knows the logical 
+                    <p>The TEI Processing Model (PM) extends the TEI ODD specification format with a processing model for
+                    documents. That way intended processing for all elements can be expressed within the TEI vocubulary itself.
+                    It aims at the
+                    XML-savvy editor who is familiar with TEI but is not necessarily a developer. The editor knows the logical 
                     structure of the text and maps it to a small set of abstract transformation functions, called
                     "behaviours". Predefined behaviours are, for example, "paragraph", "heading" or "note".</p>
                     <p>Basic styling features can be set directly within the ODD using CSS. The processing model
@@ -34,14 +35,20 @@
                     overall presentation of the material, and the developer concentrates on the general application 
                     framework and—if necessary—supports the editor by providing custom behavior functions as 
                     extension modules.</p>
+                    <p>
+                        <figure>
+                            <graphic url="rahtzrationale.png"/>
+                        </figure>
+                    </p>
                     <p>A word of warning though: while the processing model was developed as part of the
-                TEI Simple initiative, it is not necessarily "simple" regarding the knowledge it requires.
+                TEI Simple initiative, it is not necessarily trivial to comprehend nor "simple" regarding 
+                the knowledge and skill it requires.
                 The goal rather was to improve workflows and interoperability by providing a 
                 minimal abstraction for the processing rules applied to a document. Using the processing model
-                definitely simplifies the life of the developer, who often has to write a few thousand lines 
-                just to render a particular TEI document to HTML, and then repeat that for PDF. It also
-                empowers the scholary editor to create high-quality prototype websites from a given
-                data set without even relying on a developer.</p>
+                definitely simplifies the life of the developer, who often has to write a few thousand lines of code
+                just to render a particular TEI document into HTML, only to repeat the same tedious process for PDF output. 
+                Last but not least the processing model empowers the scholary editor to create high-quality prototype 
+                websites from a given data set without even relying on a developer.</p>
                 </div>
                 <div>
                     <head>The Toolbox</head>
@@ -50,21 +57,21 @@
                     <list type="ordered">
                         <item>
                             A set of library modules to render a TEI document into various output formats, 
-                            which is imported into other applications.
+                            which can be imported into other applications.
                         </item>
                         <item>
-                            The core application to work and experiment with various documents and processing
+                            The core application to work and experiment with various source documents and processing
                             model instances.
                         </item>
                         <item>
                             An application generator, which takes a processing model instance and creates 
-                            a user interface around it, resulting in a stand alone web application for a
+                            a user interface around it, resulting in a standalone web application for a
                             certain corpus of documents.
                         </item>
                     </list>
-                    <p>So in a strict sense, only the first component implements the processing model specification. 
+                    <p>In a strict sense, only the first component implements the processing model specification. 
                         The larger part of the toolbox deals with graphical user interface components, adding
-                    pagination, navigation and even some simple search features.</p>
+                    pagination, navigation and search features.</p>
                 </div>
                 <div>
                     <head>Getting Started</head>
@@ -102,7 +109,83 @@
                     </div>
                 </div>
                 <div>
-                    <head>Usage</head>
+                    <head>Processing Model syntax</head>
+                    <p>here goes explanation of model syntax</p>
+model: @behaviour
+    param
+    outputRendition
+alternate models: @predicate
+modelSequence
+                </div>
+                <div>
+                    <head>outputRendition @cssClass and @useSourceRendition</head>
+                    <p>here goes discussion of rendition options</p>
+                </div>
+                <div>
+                    <head>Best Practice Recommendations</head>
+                    <list>
+                        <item>
+                            <p>While the ODD may describe the rendition of an element using CSS, this 
+                                should be used with care: styling imposed by the ODD should be generic
+                            and not interfere with application-specific design choices.</p>
+                            <p>For example, defining a font family for a certain element in the ODD
+                                makes it difficult for web designers to set the font via an external 
+                                stylesheet.</p>
+                            <p>The HTML as well as the FO output function libraries provide ways to
+                                customize the styling through additional, user-supplied CSS.</p>
+                        </item>
+                    </list>
+                </div>
+                <div>
+                    <head>Extension Modules</head>
+                    <p>Where possible, developers should stick to the standard processing model functions for
+                    defining behaviours. However, there might be situations in which one has to generate 
+                    a specific type of output, which is not handled by the default function module. To facilitate this,
+                    the implementation allows additional extension modules to be configured:</p>
+                    <p>The last parameter to <code>pmu:process</code> may be a sequence of XQuery maps defining
+                        extension modules to be loaded. Each map should specify the namespace URI, prefix and
+                        location of an XQuery module to be imported. For example:</p>
+                    <code lang="xquery">map {
+    "uri": "http://www.tei-c.org/tei-simple/xquery/ext-html",
+    "prefix": "ext",
+    "at": "../modules/ext-html.xql"
+};</code>
+                    <p>defines an extension module stored in the <code>../modules/ext-html.xql</code>
+                    XQuery module. Whenever the library tries to locate a processing model function
+                    for a given behaviour, it will <hi rendition="simple:bold">first</hi> check any extension
+                    module it knows to see if it contains a matching function. One can thus 
+                        <hi rendition="simple:bold">overwrite</hi> the default
+                    functions as well as define new ones.</p>
+                    <p>To be recognized by the library, an extension function needs to accept at least
+                    3 default arguments, plus any number of custom parameters (to be passed in the 
+                    behaviour attribute).</p>
+                    <p>For example, our extension module <code>ext-html.xql</code> may look as follows:</p>
+                    <code lang="xquery">xquery version "3.1";
+
+(:~
+: Non-standard extension functions, mainly used for the documentation.
+:)
+module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-html";
+
+declare namespace tei="http://www.tei-c.org/ns/1.0";
+
+declare function pmf:code($config as map(*), $node as element(), 
+    $class as xs:string, $content as node()*, $lang as item()?) {
+    &lt;pre class="sourcecode" data-language="{if ($lang) then $lang else 'xquery'}"&gt;
+    {$config?apply($config, $content/node())}
+    &lt;/pre&gt;
+};</code>
+                    <p>It defines one function, <code>pmf:code</code>, which can be called from the ODD as follows:</p>
+                    <code lang="xml">&lt;model behaviour="code"&gt;
+    &lt;param name="lang"&gt;@lang&lt;/param&gt;
+&lt;/model&gt;</code>
+                </div>
+                <div>
+                    <head>App generator</head>
+                    <p>here goes whatever needs sayin' about the wonders of app generator</p>
+                </div>
+                <div>
+                    <head>TEI PM as a library</head>
                     <p>To use the library, import the utility module:</p>
                     <code lang="xquery">import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";</code>
                     <p>The main function of the utility module is:</p>
@@ -190,50 +273,6 @@ return
                     into an existing page, you should import the CSS in the header manually.</p>
                 </div>
                 <div>
-                    <head>Extension Modules</head>
-                    <p>Where possible, developers should stick to the standard processing model functions for
-                    defining behaviours. However, there might be situations in which one has to generate 
-                    a specific type of output, which is not handled by the default function module. To facilitate this,
-                    the implementation allows additional extension modules to be configured:</p>
-                    <p>The last parameter to <code>pmu:process</code> may be a sequence of XQuery maps defining
-                        extension modules to be loaded. Each map should specify the namespace URI, prefix and
-                        location of an XQuery module to be imported. For example:</p>
-                    <code lang="xquery">map {
-    "uri": "http://www.tei-c.org/tei-simple/xquery/ext-html",
-    "prefix": "ext",
-    "at": "../modules/ext-html.xql"
-};</code>
-                    <p>defines an extension module stored in the <code>../modules/ext-html.xql</code>
-                    XQuery module. Whenever the library tries to locate a processing model function
-                    for a given behaviour, it will <hi rendition="simple:bold">first</hi> check any extension
-                    module it knows to see if it contains a matching function. One can thus 
-                        <hi rendition="simple:bold">overwrite</hi> the default
-                    functions as well as define new ones.</p>
-                    <p>To be recognized by the library, an extension function needs to accept at least
-                    3 default arguments, plus any number of custom parameters (to be passed in the 
-                    behaviour attribute).</p>
-                    <p>For example, our extension module <code>ext-html.xql</code> may look as follows:</p>
-                    <code lang="xquery">xquery version "3.1";
-
-(:~
-: Non-standard extension functions, mainly used for the documentation.
-:)
-module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-html";
-
-declare namespace tei="http://www.tei-c.org/ns/1.0";
-
-declare function pmf:code($config as map(*), $node as element(), 
-    $class as xs:string, $content as node()*, $lang as item()?) {
-    &lt;pre class="sourcecode" data-language="{if ($lang) then $lang else 'xquery'}"&gt;
-    {$config?apply($config, $content/node())}
-    &lt;/pre&gt;
-};</code>
-                    <p>It defines one function, <code>pmf:code</code>, which can be called from the ODD as follows:</p>
-                    <code lang="xml">&lt;model behaviour="code"&gt;
-    &lt;param name="lang"&gt;@lang&lt;/param&gt;
-&lt;/model&gt;</code>
-                </div>
-                <div>
                     <head>FO Output</head>
                     <p>When generating XSL:FO output, the implementation tries to translate the CSS rules
                         specified for renditions into the corresponding XSL:FO formatting properties.
@@ -267,21 +306,6 @@ declare function pmf:code($config as map(*), $node as element(),
     text-align-last: justify; 
     font-size: 10pt;
 }</code>
-                </div>
-                <div>
-                    <head>Best Practice Recommendations</head>
-                    <list>
-                        <item>
-                            <p>While the ODD may describe the rendition of an element using CSS, this 
-                                should be used with care: styling imposed by the ODD should be generic
-                            and not interfere with application-specific design choices.</p>
-                            <p>For example, defining a font family for a certain element in the ODD
-                                makes it difficult for web designers to set the font via an external 
-                                stylesheet.</p>
-                            <p>The HTML as well as the FO output function libraries provide ways to
-                                customize the styling through additional, user-supplied CSS.</p>
-                        </item>
-                    </list>
                 </div>
             </div>
         </body>
