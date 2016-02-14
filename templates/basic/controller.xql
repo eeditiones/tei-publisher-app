@@ -8,6 +8,9 @@ declare variable $exist:controller external;
 declare variable $exist:prefix external;
 declare variable $exist:root external;
 
+declare variable $logout := request:get-parameter("logout", ());
+declare variable $login := request:get-parameter("user", ());
+
 if ($exist:path eq '') then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <redirect url="{request:get-uri()}/"/>
@@ -39,6 +42,12 @@ else if (ends-with($exist:resource, ".xql")) then (
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/modules/{$exist:resource}"/>
         <cache-control cache="no"/>
+    </dispatch>
+
+) else if ($logout or $login) then (
+    login:set-user("org.exist.tei-simple", (), false()),
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <redirect url="{replace(request:get-uri(), "^(.*)\?", "$1")}"/>
     </dispatch>
     
 ) else if (starts-with($exist:path, "/works/")) then (
