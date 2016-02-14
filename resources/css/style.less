@@ -1,5 +1,6 @@
 @serifFont: "Junicode", Georgia, "Times New Roman", serif;
 @sansserifFont: Trebuchet, Verdana, "Helvetica", sans-serif;
+@monospaceFont: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
 
 footer .poweredby { float: right; margin: 33px 10px 0 0;}
 footer .poweredby img { width: 120px; }
@@ -116,7 +117,7 @@ a, a:hover, a:focus {
 
 .content {
     .tei-code1 {
-        font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
+        font-family: @monospaceFont;
         font-size: 85%;
     }
     
@@ -124,9 +125,14 @@ a, a:hover, a:focus {
         margin-left: 2em;
     }
     
+    .tei-gi, .xml-attribute {
+        font-family: @monospaceFont;
+        font-size: 85%;
+    }
+    
     figure {
         text-align: center;
-        margin: 16px 0;
+        margin: 24px 0;
         padding: 16px 0;
         border-top: 1px solid #C0C0C0;
         border-bottom: 1px solid #C0C0C0;

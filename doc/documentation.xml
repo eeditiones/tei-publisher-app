@@ -34,12 +34,10 @@
                     mapped to behavior functions and specifies basic styling rules, the designer controls the 
                     overall presentation of the material, and the developer concentrates on the general application 
                     framework and—if necessary—supports the editor by providing custom behavior functions as 
-                    extension modules.</p>
-                    <p>
-                        <figure>
-                            <graphic url="rahtzrationale.png"/>
-                        </figure>
-                    </p>
+                    <ref target="#extension-modules">extension modules</ref>.</p>
+                    <figure>
+                        <graphic url="rahtzrationale.png"/>
+                    </figure>
                     <p>A word of warning though: while the processing model was developed as part of the
                 TEI Simple initiative, it is not necessarily trivial to comprehend nor "simple" regarding 
                 the knowledge and skill it requires.
@@ -151,11 +149,18 @@
                             <gi>model</gi> children and attributes:</head>
                         <p>
                             <list>
-                                <item>@predicate: the condition under which this model applies, given as an XPath Predicate Expression</item>
-                                <item>@behaviour: names the function which this processing model uses in order to produce output; possible values include: alternate, block, figure, heading, inline, link, list, note, paragraph</item>
-                                <item>@output: identifier of the intended output for which this model applies; applies to all output if no @output is present on a <gi>model</gi>
+                                <item>
+                                    <att>predicate</att>: the condition under which this model applies, given as an XPath Predicate Expression</item>
+                                <item>
+                                    <att>behaviour</att>: names the function which this processing model uses in order to produce output; possible values include: alternate, block, figure, heading, inline, link, list, note, paragraph</item>
+                                <item>
+                                    <att>output</att>: identifier of the intended output for which this model applies; applies to all output if no @output is present on a <gi>model</gi>
                                 </item>
-                                <item>@useSourceRendition: whether to obey any rendition attribute which is present in the source document</item>
+                                <item>
+                                    <att>useSourceRendition</att>: whether to obey any rendition attribute which is present in the source document</item>
+                                <item>
+                                    <att>cssClass</att>: one or more CSS class names which should be added to the
+                                    resulting output element where applicable</item>
                                 <item>
                                     <gi>param</gi>: allows to pass parameters to @behaviour function; parameters available
                             depend on the behaviour in question; when parameters are not explicitly passed, default values
@@ -208,7 +213,7 @@
            expression given as value for the <att>predicate</att> attribute.
            Other element occurrences will use the second processing model. 
             Set of multiple <gi>model</gi> statements is regarded as an alternation and only the 
-            first model with @predicatematching current context is applied
+            first model with <att>predicate</att> matching current context is applied
 
 <!--
            					<pre>
@@ -284,7 +289,6 @@
                 based on commonly used terms such as 'inline', 'block', 'note' or 'link'.</p>
                         <p>Behaviour functions accept a range of parameters, depending on the function in question. Where these
                 parameters are left unspecified in the <gi>model</gi>, default values are used.</p>
-                        <p>MORE ON BEHAViours goes here</p>
                         <div>
                             <head>Available Behaviours</head>
                             <p>All behaviour functions take at least one parameter: <code>content</code>. It
@@ -510,13 +514,17 @@
 <p>It is strongly recommended that the W3C Cascading Stylesheet language (CSS2 or later) be used to express the required formatting information.</p>
 -->
                         <p>
-The intended rendering for a particular behaviour of a processing model may be documented in one or all of the three following ways. Firstly, the @CSSclass attribute may be used to specify the name of a CSS style in some associated CSS stylesheet which is to be applied to each occurrence of a specified element found (in a given context, for a specified output). Secondly, the attribute @useSourceRendition may be used to indicate that the rendition specified in the source document should be applied. Thirdly, the styling to be applied may be specified explicitly as content of a child <gi>outputRendition</gi> element.
+The intended rendering for a particular behaviour of a processing model may be documented in one or all of the three following ways. Firstly, the <att>cssClass</att> attribute may be used to specify the name of a CSS style in some associated CSS stylesheet which is to be applied to each occurrence of a specified element found (in a given context, for a specified output). Secondly, the attribute <att>useSourceRendition</att> may be used to indicate that the rendition specified in the source document should be applied. Thirdly, the styling to be applied may be specified explicitly as content of a child <gi>outputRendition</gi> element.
 </p>
                         <p>
 When more than one of these options is used, they are understood to be combined in accordance with the rules for multiple declaration of the styling language used.
 </p>
                         <p>
 It is strongly recommended that use <gi>outputRendition</gi> should be limited to strictly editorial decisions, such as 'conjectures are to be displayed in square brackets' and not as means to record all typesetting and layout specific design choices.</p>
+                        <p>The processing model library translates the CSS styles into the target media format. Restrictions 
+                            apply due to differences between the output formats. Not all CSS properties are supported for
+                        every format. Please refer to the section on <ref target="#output-media">Output media settings</ref>
+                        for further information.</p>
                     </div>
                     <div>
                         <head>Best Practice Recommendations</head>
@@ -534,8 +542,64 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                         </list>
                     </div>
                 </div>
-                <div>
-                    <head>Output Media</head>
+                <div xml:id="appgen">
+                    <head>Using the App Generator</head>
+                    <p>The App Generator takes an ODD file and generates a complete, standalone application
+                        out of it, including features like a simple search facility. Click on "App Generator"
+                        in the menu bar and fill out the form. The following form fields are important:</p>
+                    <list type="gloss">
+                        <label>Name</label>
+                        <item>This is the main identifier for you app and should be a globally unique URI. It does not
+                            need to correspond to any existing web site.</item>
+                        <label>Abbreviation</label>
+                        <item>The abbreviation will be used as the name of the root collection of your app. It should
+                        be unique within one database instance.</item>
+                        <label>Data Collection</label>
+                        <item>Only specify something here if you have existing data inside the database or if you want to
+                        ship the data set as part of a second, separate app. In all other cases, leave this field empty.</item>
+                        <label>User/Password</label>
+                        <item>The user account which will own all application files. For security reasons, it is advisable
+                            to create a new account for every app.</item>
+                    </list>
+                    <p>Once you created the new application, log into it using the account details you provided. You can then
+                    upload XML documents using the upload panel in the right sidebar.</p>
+                    <figure type="animated">
+                        <head>Create an App</head>
+                        <graphic url="CreateApp.gif"/>
+                    </figure>
+                    <div>
+                        <head>Modifying the App</head>
+                        <p>When you are logged in, the "Admin" menu in the top navbar provides various links to further
+                        extend your app:</p>
+                        <list type="gloss">
+                            <label>Recompile ODD</label>
+                            <item>After changing the application's ODD, click here to update the app.</item>
+                            <label>Update Document Metadata Index</label>
+                            <item>The application maintains a separate index of titles and authors, which is used
+                                to filter the list of documents shown on the landing page. This index is not
+                                refreshed automatically, so you need to click this menu entry once after uploading
+                                data.</item>
+                            <label>Edit ODD</label>
+                            <item>Opens the application's ODD in eXide for editing.</item>
+                            <label>Edit Styles</label>
+                            <item>Opens the main LESS stylesheet where you can change colors, fonts etc.</item>
+                        </list>
+                    </div>
+                    <div>
+                        <head>Troubleshooting</head>
+                        <p>Sometimes changes you make to the ODD might cause errors in the app, e.g. if a predicate expression
+                            is wrong. The recompile step tries to check this and if it reports an error, you should fix it
+                            immediately.</p>
+                        <p>If you still happen to reload the page, you might run into an error page. In this case, go to
+                            eXide and open the XQuery file <code>modules/regenerate.xql</code>. This is the XQuery which
+                            would be called by clicking on the "Recompile ODD" menu entry. Execute the query once by
+                            clicking the "Eval" button in eXide.</p>
+                        <p>The same applies if you updated the core TEI Processing Model Toolbox app: your application may
+                        suddenly fail with XQuery errors. Just follow the steps above to recover.</p>
+                    </div>
+                </div>
+                <div xml:id="output-media">
+                    <head>Output Media Settings</head>
                     <p>The library supports various output media formats and translates styles into the corresponding format. Currently the following output modes
                         are supported and can be used in the <code>@output</code> attribute:</p>
                     <list type="gloss">
@@ -551,7 +615,7 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                         <item>Similar to web concerning features, but targetted at epub documents</item>
                     </list>
                     <p>The quality of the generated output may vary a lot for the fo and latex modes, depending on the type of input document. The following
-                    section provides more details on the configuration of the FO output option:</p>
+                        section provides more details on the configuration of the FO output option:</p>
                     <div>
                         <head>FO Output</head>
                         <p>When generating XSL:FO output, the implementation tries to translate the CSS rules
@@ -614,12 +678,7 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                         <p>We're looking for contributors familiar with TeX to support more properties.</p>
                     </div>
                 </div>
-                <div xml:id="appgen">
-                    <head>Using the App Generator</head>
-                    <p>The App Generator takes an ODD file and generates a complete, standalone application
-                        out of it, including features like a simple search facility.</p>
-                </div>
-                <div>
+                <div xml:id="extension-modules">
                     <head>Extension Modules</head>
                     <p>Where possible, developers should stick to the standard processing model functions for
                     defining behaviours. However, there might be situations in which one has to generate 

@@ -124,9 +124,14 @@ a:focus {
 .content .tei-list2 dd {
   margin-left: 2em;
 }
+.content .tei-gi,
+.content .xml-attribute {
+  font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
+  font-size: 85%;
+}
 .content figure {
   text-align: center;
-  margin: 16px 0;
+  margin: 24px 0;
   padding: 16px 0;
   border-top: 1px solid #C0C0C0;
   border-bottom: 1px solid #C0C0C0;

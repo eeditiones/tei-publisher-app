@@ -64,6 +64,8 @@
 .tei-gap2:after { content: '..]'; }
 .tei-gap2 { color: grey; }
 .tei-gap3:before { content: '[...]'; }
+.tei-gi:before { content:"<"; }
+.tei-gi:after { content:">"; }
 .tei-head1 { font-style: italic; }
 .tei-head2 { font-style: italic; }
 .tei-head3 { font-style: italic; }
@@ -114,3 +116,4 @@
 .tei-titlePage { text-align: center; }
 .tei-trailer { color: green; }
 .tei-unclear:after { content: ' [?] '; }
+.tei-att:before { content: '@'; }

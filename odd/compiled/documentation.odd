@@ -253,7 +253,7 @@
                     <param name="title">head/node()</param>
                     <param name="content">*[not(self::head)]</param>
                 </model>
-                <model behaviour="block"/>
+                <model behaviour="figure"/>
             </elementSpec>
             <elementSpec mode="change" ident="floatingText">
                 <model behaviour="block">
@@ -297,6 +297,12 @@
                 </model>
                 <model behaviour="inline">
                     <outputRendition scope="before">content: '[...]';</outputRendition>
+                </model>
+            </elementSpec>
+            <elementSpec mode="change" ident="gi">
+                <model behaviour="inline">
+                    <outputRendition scope="before">content:"&lt;";</outputRendition>
+                    <outputRendition scope="after">content:"&gt;";</outputRendition>
                 </model>
             </elementSpec>
             <elementSpec mode="change" ident="graphic">
@@ -472,7 +478,14 @@
                     <param name="link">@target</param>
                 </model>
                 <model behaviour="link">
-                    <param name="link">@target</param>
+                    <param name="link">
+                            if (starts-with(@target, "#")) then
+                                request:get-parameter("doc", ()) ||
+                                "?odd=" || request:get-parameter("odd", ()) || "&amp;amp;view=" ||
+                                request:get-parameter("view", ()) || "&amp;amp;id=" || substring-after(@target, '#')
+                            else
+                                @target
+                        </param>
                 </model>
             </elementSpec>
             <elementSpec mode="change" ident="reg">
@@ -764,6 +777,11 @@
                 <model behaviour="inline" predicate="parent::cell|parent::p|parent::ab"/>
                 <model behaviour="code">
                     <param name="lang">@lang</param>
+                </model>
+            </elementSpec>
+            <elementSpec mode="add" ident="att">
+                <model behaviour="inline" cssClass="xml-attribute">
+                    <outputRendition scope="before">content: '@';</outputRendition>
                 </model>
             </elementSpec>
             <outputRendition xml:id="allcaps">text-transform: uppercase;</outputRendition>

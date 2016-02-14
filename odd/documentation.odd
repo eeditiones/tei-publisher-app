@@ -73,7 +73,7 @@
                         <param name="title">head/node()</param>
                         <param name="content">*[not(self::head)]</param>
                     </model>
-                    <model behaviour="block"/>
+                    <model behaviour="figure"/>
                 </elementSpec>
                 <elementSpec mode="change" ident="graphic">
                     <model behaviour="graphic" cssClass="img-responsive">
@@ -82,6 +82,28 @@
                         <param name="height">@height</param>
                         <param name="scale">@scale</param>
                         <param name="title">desc</param>
+                    </model>
+                </elementSpec>
+                <elementSpec mode="add" ident="att">
+                    <model behaviour="inline" cssClass="xml-attribute">
+                        <outputRendition scope="before">content: '@';</outputRendition>
+                    </model>
+                </elementSpec>
+                <elementSpec mode="change" ident="ref">
+                    <model behaviour="inline" predicate="not(@target)"/>
+                    <model predicate="not(text())" behaviour="link">
+                        <param name="content">@target</param>
+                        <param name="link">@target</param>
+                    </model>
+                    <model behaviour="link">
+                        <param name="link">
+                            if (starts-with(@target, "#")) then
+                                request:get-parameter("doc", ()) ||
+                                "?odd=" || request:get-parameter("odd", ()) || "&amp;amp;view=" ||
+                                request:get-parameter("view", ()) || "&amp;amp;id=" || substring-after(@target, '#')
+                            else
+                                @target
+                        </param>
                     </model>
                 </elementSpec>
                 <moduleRef key="tei"/>

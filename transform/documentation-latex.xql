@@ -200,7 +200,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (head) then
                             latex:figure($config, ., ("tei-figure2"), *[not(self::head)], head/node())
                         else
-                            latex:block($config, ., ("tei-figure3"), .)
+                            latex:figure($config, ., ("tei-figure3"), ., ())
                 case element(floatingText) return
                     latex:block($config, ., ("tei-floatingText"), .)
                 case element(foreign) return
@@ -230,6 +230,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                             latex:inline($config, ., ("tei-gap2"), @extent)
                         else
                             latex:inline($config, ., ("tei-gap3"), .)
+                case element(gi) return
+                    latex:inline($config, ., ("tei-gi"), .)
                 case element(graphic) return
                     latex:graphic($config, ., ("tei-graphic", "img-responsive"), ., @url, @width, @height, @scale, desc)
                 case element(group) return
@@ -339,7 +341,14 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (not(text())) then
                             latex:link($config, ., ("tei-ref2"), @target, @target)
                         else
-                            latex:link($config, ., ("tei-ref3"), ., @target)
+                            latex:link($config, ., ("tei-ref3"), ., 
+                            if (starts-with(@target, "#")) then
+                                request:get-parameter("doc", ())
+                                "?odd=" || request:get-parameter("odd", ()) || "&amp;view=" ||
+                                request:get-parameter("view", ()) || "&amp;id=" || substring-after(@target, '#')
+                            else
+                                @target
+                        )
                 case element(reg) return
                     latex:inline($config, ., ("tei-reg"), .)
                 case element(rhyme) return
@@ -531,6 +540,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:inline($config, ., ("tei-code1"), .)
                     else
                         ext-latex:code($config, ., ("tei-code2"), ., @lang)
+                case element(att) return
+                    latex:inline($config, ., ("tei-att", "xml-attribute"), .)
                 case text() | xs:anyAtomicType return
                     latex:escapeChars(.)
                 default return 

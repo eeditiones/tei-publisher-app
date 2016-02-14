@@ -200,7 +200,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (head) then
                             fo:figure($config, ., ("tei-figure2"), *[not(self::head)], head/node())
                         else
-                            fo:block($config, ., ("tei-figure3"), .)
+                            fo:figure($config, ., ("tei-figure3"), ., ())
                 case element(floatingText) return
                     fo:block($config, ., ("tei-floatingText"), .)
                 case element(foreign) return
@@ -230,6 +230,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                             fo:inline($config, ., ("tei-gap2"), @extent)
                         else
                             fo:inline($config, ., ("tei-gap3"), .)
+                case element(gi) return
+                    fo:inline($config, ., ("tei-gi"), .)
                 case element(graphic) return
                     fo:graphic($config, ., ("tei-graphic", "img-responsive"), ., @url, @width, @height, @scale, desc)
                 case element(group) return
@@ -339,7 +341,14 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (not(text())) then
                             fo:link($config, ., ("tei-ref2"), @target, @target)
                         else
-                            fo:link($config, ., ("tei-ref3"), ., @target)
+                            fo:link($config, ., ("tei-ref3"), ., 
+                            if (starts-with(@target, "#")) then
+                                request:get-parameter("doc", ())
+                                "?odd=" || request:get-parameter("odd", ()) || "&amp;view=" ||
+                                request:get-parameter("view", ()) || "&amp;id=" || substring-after(@target, '#')
+                            else
+                                @target
+                        )
                 case element(reg) return
                     fo:inline($config, ., ("tei-reg"), .)
                 case element(rhyme) return
@@ -530,6 +539,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:inline($config, ., ("tei-code1"), .)
                     else
                         ext-fo:code($config, ., ("tei-code2"), ., @lang)
+                case element(att) return
+                    fo:inline($config, ., ("tei-att", "xml-attribute"), .)
                 case text() | xs:anyAtomicType return
                     fo:escapeChars(.)
                 default return 
