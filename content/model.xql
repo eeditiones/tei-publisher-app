@@ -281,6 +281,7 @@ declare %private function pm:model($ident as xs:string, $model as element(tei:mo
                 (),
             let $signature := $fn?function[1]
             let $classes := pm:get-class($ident, $model)
+            let $spec := $model/ancestor::tei:elementSpec[1]
             return
                 try {
                     if ($model/tei:desc) then
@@ -354,7 +355,8 @@ declare %private function pm:lookup($modules as array(*), $task as xs:string, $a
     if (array:size($modules) > 0) then
         let $module := $modules?(array:size($modules))
         let $moduleDesc := $module?description
-        let $fn := $moduleDesc/function[@name = $moduleDesc/@prefix || ":" || $task]
+        let $name := $moduleDesc/@prefix || ":" || $task
+        let $fn := $moduleDesc/function[@name = $name]
         return
             if (exists($fn)) then
                 map { "function": $fn, "prefix": $module?prefix }
