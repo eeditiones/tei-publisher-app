@@ -631,6 +631,46 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                         </list>
                     </div>
                     <div>
+                        <head>Exporting the Finished App</head>
+                        <p>To save your finished application or exchange it with other people, you need to save it as an
+                            application archive. Application archives use a standardized format: the resulting .xar file
+                            can be uploaded to any eXist instance via the dashboard and the package manager will take
+                            care of the deployment.</p>
+                        <p>There are two ways to create a .xar file from your application:</p>
+                        <list type="ordered">
+                            <item>Use the "Application"/"Download App" menu entry in eXide to directly download a .xar</item>
+                            <item>Synchronize the application to a directory on disk via "Application"/"Synchronize" in 
+                                eXide</item>
+                        </list>
+                        <p>The second approach is the recommended one. It requires that
+                            you have access to the file system of the server running eXist though, so it's usually only
+                            an option if you run your own eXist. The synchronize steps in detail:</p>
+                        <list>
+                            <item>Prerequisite: you need to have the <ref target="http://ant.apache.org/">Apache Ant</ref>
+                            build tool installed.</item>
+                            <item>Open one resource belonging to your application in eXide. It doesn't matter which one.
+                            The only important thing is that the name of your app is displayed next to "Current app:" on
+                            the top right of the eXide window. If this is not the case, stop and check again!</item>
+                            <item>Click "Application"/"Synchronize" in the menu. It opens up a dialog with two fields:
+                                "Start time" and "Target directory". When you synchronize the first time, empty the "Start
+                                time" field. Enter a valid, absolute directory path on your server machine into "Target 
+                                directory".</item>
+                            <item>Click the "Synchronize" button. This may take a moment, but you should see a list of
+                            written files at the bottom of the dialog afterwards.</item>
+                            <item>Change to the directory you specified for synchronize.</item>
+                            <item>Calling "ant" inside the directory should create a fresh .xar file in the build/
+                                subdirectory.</item>
+                        </list>
+                        <p>Note: for security reasons, the password you entered when creating the app is not stored in
+                            the database, so it cannot be synced to disk. To restore a password for your app, you thus need
+                            to edit the <code>repo.xml</code> file in the directory and add a <att>password</att> attribute to 
+                            the <gi>permissions</gi> element.</p>
+                        <figure type="animated">
+                            <head>Export an App</head>
+                            <graphic url="Sync.gif"/>
+                        </figure>
+                    </div>
+                    <div>
                         <head>Troubleshooting</head>
                         <p>Sometimes changes you make to the ODD might cause errors in the app, e.g. if a predicate expression
                             is wrong. The recompile step tries to check this and if it reports an error, you should fix it
