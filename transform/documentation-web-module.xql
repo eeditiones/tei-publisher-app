@@ -8,7 +8,7 @@ import module namespace m='http://www.tei-c.org/tei-simple/models/documentation.
 declare function pml:transform($xml as node()*, $parameters as map(*)?) {
 
    let $options := map {
-       "styles": ["../generated/documentation.css"],
+       "styles": ["../transform/documentation.css"],
        "collection": "/db/apps/tei-simple/transform",
        "parameters": $parameters
    }

@@ -343,7 +343,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             fo:link($config, ., ("tei-ref3"), ., 
                             if (starts-with(@target, "#")) then
-                                request:get-parameter("doc", ())
+                                request:get-parameter("doc", ()) ||
                                 "?odd=" || request:get-parameter("odd", ()) || "&amp;view=" ||
                                 request:get-parameter("view", ()) || "&amp;id=" || substring-after(@target, '#')
                             else
