@@ -60,11 +60,22 @@ declare variable $pages:EXIDE :=
 declare
     %templates:wrap
     %templates:default("view", "div")
-function pages:load($node as node(), $model as map(*), $doc as xs:string, $root as xs:string?, $view as xs:string?) {
+function pages:load($node as node(), $model as map(*), $doc as xs:string, $root as xs:string?, $id as xs:string?, $view as xs:string?) {
     let $view := if ($view) then $view else $config:default-view
+    let $node :=
+        if ($id) then
+            let $node := doc($config:app-root || "/" || $doc)/id($id)
+            let $div := $node/ancestor-or-self::tei:div[1]
+            return
+                if (empty($div)) then
+                    $node/following-sibling::tei:div[1]
+                else
+                    $div
+        else
+            pages:load-xml($view, $root, $doc)
     return
         map {
-            "data": pages:load-xml($view, $root, $doc)
+            "data": $node
         }
 };
 
