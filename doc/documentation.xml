@@ -109,6 +109,51 @@
                             <graphic url="CreateODD.gif"/>
                         </figure>
                     </div>
+                    <div>
+                        <head>Modify the ODD</head>
+                        <p>Now we created a custom ODD, we can make a first modification. We'll use the 
+                            <title>Letter #6 from Robert Graves to William Graves</title> as an example.
+                            Rendered through the standard <code>teisimple.odd</code>, it is definitely missing
+                            some styling to look more like a letter. For example, we may want to move the
+                            <gi>dateline</gi> in the <gi>opener</gi> to the right and get rid of the <gi>pb</gi>
+                            label which currently sits there.
+                        </p>
+                        <p>We thus need to overwrite the processing model rules for <gi>dateline</gi> and <gi>opener</gi>.
+                        The easiest way to do this is to:</p>
+                        <list>
+                            <item>open the standard teisimple.odd and search for an existing <gi>elementSpec</gi>
+                                with <att>ident</att>=<val>"dateline"</val>.</item>
+                            <item>if there is an <gi>elementSpec</gi> already, just copy it</item>
+                            <item>paste the <gi>elementSpec</gi> into the new ODD and modify it</item>
+                        </list>
+                        <p>If there's no <gi>elementSpec</gi> for the element in <code>teisimple.odd</code>, you have to
+                        create a new <gi>elementSpec</gi> in your ODD, using <att>mode</att>=<val>"add"</val> instead of
+                            <att>mode</att>=<val>"change"</val>.</p>
+                        <p>The <gi>elementSpec</gi> copied from <code>teisimple.odd</code> looks like this:</p>
+                        <code lang="xml">&lt;elementSpec mode="change" ident="dateline"&gt;
+    &lt;model behaviour="block"/&gt;
+&lt;/elementSpec&gt;</code>
+                        <p>To make the text right-aligned, we add a <gi>outputRendition</gi>:</p>
+                        <code lang="xml">&lt;elementSpec mode="change" ident="dateline"&gt;
+    &lt;model behaviour="block"&gt;
+        &lt;outputRendition&gt;text-align: right;&lt;/outputRendition&gt;
+    &lt;/model&gt;
+&lt;/elementSpec&gt;</code>
+                        <p>We also want to hide the <gi>pb</gi> label, so we add another <gi>elementSpec</gi>:</p>
+                        <code lang="xml">&lt;elementSpec mode="change" ident="pb"&gt;
+    &lt;model behaviour="omit"/&gt;
+&lt;/elementSpec&gt;</code>
+                        <p>To test the changes, go back to the main page of the app, select the new ODD and click on
+                        "Regenerate", then browse to the letter and view the result. In fact, the "regenerate" step is
+                        not absolutely necessary as the library will usually recognize the change to the ODD when 
+                        you try to view the letter and regenerate automatically. However, if you made mistakes in the ODD,
+                        the regenerate will just fail silently. So during development, it is advisable to regenerate
+                        manually.</p>
+                        <figure type="animated">
+                            <head>Move dateline to right and hide pb</head>
+                            <graphic url="EditODD.gif"/>
+                        </figure>
+                    </div>
                 </div>
                 <div>
                     <head>Processing Model syntax</head>
