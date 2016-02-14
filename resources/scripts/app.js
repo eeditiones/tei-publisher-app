@@ -85,6 +85,47 @@ $(document).ready(function() {
       catch(e){ return false; }
     }
 
+    function eXide(ev) {
+        // try to retrieve existing eXide window
+        var exide = window.open("", "eXide");
+        if (exide && !exide.closed) {
+            var snip = $(this).data("exide-create");
+            var path = $(this).data("exide-open");
+            var line = $(this).data("exide-line");
+            
+            // check if eXide is really available or it's an empty page
+            var app = exide.eXide;
+            if (app) {
+                // eXide is there
+                if (snip) {
+                    exide.eXide.app.newDocument(snip, "xquery");
+                } else {
+                    exide.eXide.app.findDocument(path, line);
+                }
+                exide.focus();
+                setTimeout(function() {
+                    if ($.browser.msie ||
+                        (typeof exide.eXide.app.hasFocus == "function" && !exide.eXide.app.hasFocus())) {
+                        alert("Opened code in existing eXide window.");
+                    }
+                }, 200);
+            } else {
+                window.eXide_onload = function() {
+                    console.log("onloaed called");
+                    if (snip) {
+                        exide.eXide.app.newDocument(snip, "xquery");
+                    } else {
+                        exide.eXide.app.findDocument(path);
+                    }
+                };
+                // empty page
+                exide.location = this.href.substring(0, this.href.indexOf('?'));
+            }
+            return false;
+        }
+        return true;
+    }
+    
     resize();
     $(".page-nav,.toc-link").click(function(ev) {
         ev.preventDefault();
@@ -149,6 +190,22 @@ $(document).ready(function() {
         });
     }
 
+    $(".recompile").click(function(ev) {
+        ev.preventDefault();
+        $("#messageDialog .message").html("Processing ...");
+        $("#messageDialog").modal("show");
+        $.ajax({
+            url: "modules/regenerate.xql" + $(this).attr("href"),
+            dataType: "html",
+            success: function(data) {
+                $("#messageDialog .message").html(data).find(".eXide-open").click(eXide);
+            },
+            error: function(xhr, status) {
+                $("#messageDialog .message").html(xhr.responseXML);
+            }
+        });
+    });
+    
     $(".download-link").click(function(ev) {
         $("#pdf-info").modal("show");
         var token = $(this).attr("data-token");
@@ -162,6 +219,8 @@ $(document).ready(function() {
             }
         }, 100);
     });
+    
+    $(".eXide-open").click(eXide);
     
     initContent();
 });

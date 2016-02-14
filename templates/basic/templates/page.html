@@ -15,7 +15,6 @@
         <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
         <link rel="stylesheet" type="text/css" data-template="pages:styles"/>
         <script type="text/javascript" src="resources/scripts/jquery-1.11.3.min.js"/>
-        <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
         <script type="text/javascript" src="resources/scripts/bootstrap.min.js"/>
         <script type="text/javascript" src="resources/scripts/material.min.js"/>
         <script type="text/javascript" src="resources/scripts/ripples.min.js"/>
@@ -103,8 +102,10 @@
         <script type="text/javascript" src="$shared/resources/scripts/ace/theme-dawn.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/highlight.js"/>
         <script type="text/javascript">
-            $(".sourcecode").highlight();
-            $.material.init();
+            $(document).ready(function() {
+                $(".sourcecode").highlight();
+                $.material.init();
+            });
         </script>
     </body>
 </html>

@@ -153,8 +153,8 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
                             return
                                 templates:process(
                                     <div class="btn-group" role="group">
-                                        <a class="btn btn-default" title="Regenerate"
-                                            href="?action=refresh&amp;source={$name}.odd&amp;odd={$odd}">
+                                        <a class="btn btn-default recompile" title="Regenerate"
+                                            href="?source={$name}.odd&amp;odd={$odd}">
                                             <i class="material-icons">update</i>
                                             <span class="hidden-xs">Regenerate</span>
                                         </a>
@@ -205,6 +205,12 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
         })
 };
 
+declare %private function app:get-line($src, $line as xs:int) {
+    let $lines := tokenize($src, "\n")
+    return
+        $lines[$line]
+};
+
 declare function app:action($node as node(), $model as map(*), $source as xs:string?, $action as xs:string?, $new-odd as xs:string?) {
     switch ($action)
         case "refresh" return
@@ -220,8 +226,15 @@ declare function app:action($node as node(), $model as map(*), $source as xs:str
                             $module,
                             "../" || $config:output,
                             $config:module-config)?("module")
+                        let $src := util:binary-to-string(util:binary-doc($file))
+                        let $compiled := util:compile($src)
                         return
-                            <li class="list-group-item">{$file}</li>
+                            if ($compiled) then
+                                <li class="list-group-item list-group-item-danger">
+                                { $file }: { $compiled }
+                                </li>
+                            else
+                                <li class="list-group-item list-group-item-success">{$file}</li>
                     }
                     </ul>
                 </div>

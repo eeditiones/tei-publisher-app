@@ -3,15 +3,14 @@ $(document).ready(function() {
     var appRoot = $("html").data("app");
 
     function resize() {
-        // var wh = ($(window).height()) / 2;
-        // $(".page-nav").css("top", wh);
-        // if ($("#sidebar").is(":visible")) {
-        //     $(".nav-prev").css("left", $("#content-inner").offset().left);
-        // }
-        // var tw = $(".toc").width();
-        // $(".toc").css("max-width", tw);
+        $("#content-container").each(function() {
+            var wh = $(window).height();
+            var ot = $(this).offset().top;
+            $(this).height(wh - ot);
+            $("#image-container").height(wh - ot);
+        });
     }
-
+    
     function getFontSize() {
         var size = $("#content-inner").css("font-size");
         return parseInt(size.replace(/^(\d+)px/, "$1"));
@@ -20,9 +19,10 @@ $(document).ready(function() {
     function load(params, direction) {
         var animOut = direction == "nav-next" ? "fadeOutLeft" : (direction == "nav-prev" ? "fadeOutRight" : "fadeOut");
         var animIn = direction == "nav-next" ? "fadeInRight" : (direction == "nav-prev" ? "fadeInLeft" : "fadeIn");
-        var container = $("#content-container");
+        var container = $("#content-row");
         container.addClass("animated " + animOut)
             .one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
+            $("#image-container img").css("display", "none");
             $.ajax({
                 url: appRoot + "/modules/ajax.xql",
                 dataType: "json",
@@ -67,8 +67,20 @@ $(document).ready(function() {
             $(this).popover({
                 content: $(this).find(".altcontent").html(),
                 trigger: "hover",
-                html: true
+                html: true,
+                container: "#content-inner"
             });
+        });
+        $("#content-container img.facs").each(function(ev) {
+            $("#image-container .loading").show();
+            var downloadingImage = new Image();
+            $(downloadingImage).load(function() {
+                $("#facsimile").attr("src", downloadingImage.src);
+                $("#image-container .loading").hide();
+                $("#image-container img").css("display", "");
+            });
+            downloadingImage.src = $(this).attr("src");
+            $(this).remove();
         });
     }
 
@@ -77,7 +89,7 @@ $(document).ready(function() {
             window.scrollTo(0,0);
         }
         container.removeClass("animated " + animOut);
-        $("#content-container").addClass("animated " + animIn).one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
+        $("#content-row").addClass("animated " + animIn).one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
             $(this).removeClass("animated " + animIn);
             if (id) {
                 var target = document.getElementById(id.substring(1));
@@ -91,10 +103,50 @@ $(document).ready(function() {
       catch(e){ return false; }
     }
 
+    function eXide(ev) {
+        // try to retrieve existing eXide window
+        var exide = window.open("", "eXide");
+        if (exide && !exide.closed) {
+            var snip = $(this).data("exide-create");
+            var path = $(this).data("exide-open");
+            var line = $(this).data("exide-line");
+            
+            // check if eXide is really available or it's an empty page
+            var app = exide.eXide;
+            if (app) {
+                // eXide is there
+                if (snip) {
+                    exide.eXide.app.newDocument(snip, "xquery");
+                } else {
+                    exide.eXide.app.findDocument(path, line);
+                }
+                exide.focus();
+                setTimeout(function() {
+                    if ($.browser.msie ||
+                        (typeof exide.eXide.app.hasFocus == "function" && !exide.eXide.app.hasFocus())) {
+                        alert("Opened code in existing eXide window.");
+                    }
+                }, 200);
+            } else {
+                window.eXide_onload = function() {
+                    console.log("onloaed called");
+                    if (snip) {
+                        exide.eXide.app.newDocument(snip, "xquery");
+                    } else {
+                        exide.eXide.app.findDocument(path);
+                    }
+                };
+                // empty page
+                exide.location = this.href.substring(0, this.href.indexOf('?'));
+            }
+            return false;
+        }
+        return true;
+    }
+    
     resize();
     $(".page-nav,.toc-link").click(function(ev) {
         ev.preventDefault();
-
         var relPath = this.pathname.replace(/^.*\/([^\/]+)$/, "$1");
         var url = "doc=" + relPath + "&" + this.search.substring(1);
         if (historySupport) {
@@ -163,7 +215,7 @@ $(document).ready(function() {
             url: appRoot + "/modules/regenerate.xql",
             dataType: "html",
             success: function(data) {
-                $("#messageDialog .message").html(data);
+                $("#messageDialog .message").html(data).find(".eXide-open").click(eXide);
             },
             error: function(xhr, status) {
                 $("#messageDialog .message").html(xhr.responseXML);
@@ -225,6 +277,8 @@ $(document).ready(function() {
             }
         });
     });
+    
+    $(".eXide-open").click(eXide);
     
     initContent();
 });

@@ -74,7 +74,6 @@ a, a:hover, a:focus {
     }
     
     .alternate {
-        cursor: pointer;
         color: #7777FF;
     }
     
@@ -158,10 +157,24 @@ a, a:hover, a:focus {
     }
 }
 
+#content-row {
+    -webkit-animation-duration: 400ms;
+    -moz-animation-duration: 400ms;
+    animation-duration: 400ms;
+}
+
 #image-container {
     overflow: auto;
+    position: relative;
     img {
         width: 100%;
+    }
+    .loading {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 120%;
+        display: none;
     }
 }
 
@@ -249,12 +262,6 @@ a, a:hover, a:focus {
 .actions {
     margin-bottom: 10px;
     margin-top: 61px;
-    
-    @media (max-width: 769px) {
-        .btn {
-            padding: 8px 20px;
-        }
-    }
 }
 
 .btn-group .hidden-xs {
@@ -385,6 +392,14 @@ a, a:hover, a:focus {
     @keyframes blinker {
       from { opacity: 1; }
       to { opacity: 0; }
+    }
+}
+.errors {
+    .list-group {
+        margin: 10px 8px;
+    }
+    .list-group-item-success, .list-group-item-danger {
+        padding: 8px;
     }
 }
 

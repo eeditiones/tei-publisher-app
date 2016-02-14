@@ -39,31 +39,31 @@ declare function local:get-line($src, $line as xs:int) {
         replace($lines[$line], "^\s*(.*?)", "$1")
 };
 
+let $source := request:get-parameter("source", ())
 let $result :=
-    for $source in $config:odd
-        for $module in ("web", "print", "latex")
-        return
-            try {
-                for $file in pmu:process-odd(
-                    doc(odd:get-compiled($config:odd-root, $config:odd, $config:compiled-odd-root)),
-                    $config:output-root,
-                    $module,
-                    "../" || $config:output,
-                    $config:module-config)?("module")
-                let $src := util:binary-to-string(util:binary-doc($file))
-                let $compiled := util:compile-query($src, ())
-                return
-                    if ($compiled/error) then
-                        <div class="list-group-item-danger">
-                            <h5 class="list-group-item-heading">{local:load-source($file, $compiled/error/@line)}:</h5>
-                            <p class="list-group-item-text">{ $compiled/error/string() }</p>
-                            <pre class="list-group-item-text">{ local:get-line($src, $compiled/error/@line)}</pre>
-                        </div>
+    for $module in ("web", "print", "latex", "epub")
+    for $file in pmu:process-odd(
+        doc(odd:get-compiled($config:odd-root, $source, $config:compiled-odd-root)),
+        $config:output-root,
+        $module,
+        "../" || $config:output,
+        $config:module-config)?("module")
+    let $src := util:binary-to-string(util:binary-doc($file))
+    let $compiled := util:compile-query($src, ())
+    return
+        if ($compiled/error) then
+            <div class="list-group-item-danger">
+                <h5 class="list-group-item-heading">{local:load-source($file, $compiled/error/@line)}:</h5>
+                <p class="list-group-item-text">{ $compiled/error/string() }</p>
+                {
+                    if ($compiled/error/@line and $compiled/error/@line castable as xs:int) then
+                        <pre class="list-group-item-text">{local:get-line($src, $compiled/error/@line)}</pre>
                     else
-                        <div class="list-group-item-success">{$file}</div>
-            } catch * {
-                <li>Error for output mode {$module}: {$err:description}</li>
-            }
+                        ()
+                }
+            </div>
+        else
+            <div class="list-group-item-success">{$file}</div>
 return
     <div class="errors">
         <h4>Regenerated XQuery code from ODD files</h4>

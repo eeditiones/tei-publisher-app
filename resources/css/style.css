@@ -360,6 +360,13 @@ mark {
     opacity: 0;
   }
 }
+.errors .list-group {
+  margin: 10px 8px;
+}
+.errors .list-group-item-success,
+.errors .list-group-item-danger {
+  padding: 8px;
+}
 .odd-table {
   border-bottom: 1px solid #C5CAE9;
 }
