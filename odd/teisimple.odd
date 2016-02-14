@@ -140,7 +140,6 @@
                     <specGrpRef target="#simplechanges"/>
                     <specGrpRef target="#rendition"/>
                 </schemaSpec>
-                <include xmlns="http://www.w3.org/2001/XInclude" href="elementsummary.xml"/>
                 <div>
                     <head>The TEI infrastructure</head>
                     <specGrp xml:id="base">
@@ -153,13 +152,10 @@
                      <term>header</term> module. In addition, elements from other modules are
                   loaded, if they are tagged in the classification as being needed for the header
                   only.</p>
-                    <include xmlns="http://www.w3.org/2001/XInclude" href="headerelements.xml"/>
                     <specGrp xml:id="header2">
                         <p>Elements which are only intended to be used in the header are banned from the
                         <gi>text</gi>, using a Schematron rule.</p>
-                        <elementSpec ident="text" mode="change">
-                            <include xmlns="http://www.w3.org/2001/XInclude" href="headeronly.xml"/>
-                        </elementSpec>
+                        <elementSpec ident="text" mode="change"/>
                     </specGrp>
                 </div>
                 <div>
@@ -501,7 +497,6 @@
                 <div>
                     <head>Elements</head>
                     <p>The main part of Simple is the set of selected elements.</p>
-                    <include xmlns="http://www.w3.org/2001/XInclude" href="simpleelements.xml"/>
                     <specGrp xmlns:XSL="http://www.w3.org/1999/XSL/Transform" xml:id="simpleelementspm">
                         <elementSpec mode="change" ident="ab">
                             <model behaviour="paragraph"/>
