@@ -1,8 +1,10 @@
-# TEI Simple ODD Extensions for Processing Models in XQuery
+# TEI Processing Model Toolbox
 
-TEI Simple adds a [processing model](http://htmlpreview.github.io/?https://github.com/TEIC/TEI-Simple/blob/master/tei-pm.html) for TEI documents which can be expressed with the TEI vocabulary itself, and without requiring any knowledge about the specific target media.
+The TEI Processing Model (PM) extends the TEI ODD specification format with a processing model for documents. That way intended processing for all elements can be expressed within the TEI vocubulary itself. It aims at the XML-savvy editor who is familiar with TEI but is not necessarily a developer.
 
-The TEI Simple Processing Model library for eXist facilitates the integration of the TEI Simple processing model into existing applications, supporting a range of different output media without requiring advanced coding skills. Customising the appearance of the text is all done in TEI by mapping each TEI element to a limited set of well-defined behaviour functions, e.g. “paragraph”, “heading”, “note”, “alternate”, etc. TEI Simple includes a standard mapping, which can be extended by overwriting selected elements. Rendition styles are transparently translated into the different output media types like HTML, XSL-FO, LaTeX, or ePUB. Compared to traditional approaches with XSLT or XQuery, TEI Simple may thus easily save a few thousand lines of code for media specific stylesheets.
+The TEI Processing Model Toolbox for eXist facilitates the integration of the TEI processing model into existing applications, supporting a range of different output media without requiring advanced coding skills. Customising the appearance of the text is all done in TEI by mapping each TEI element to a limited set of well-defined behaviour functions, e.g. “paragraph”, “heading”, “note”, “alternate”, etc. The TEI Processing Model includes a standard mapping, which can be extended by overwriting selected elements. Rendition styles are transparently translated into the different output media types like HTML, XSL-FO, LaTeX, or ePUB. Compared to traditional approaches with XSLT or XQuery, TEI Simple may thus easily save a few thousand lines of code for media specific stylesheets.
+
+![Editing an ODD](doc/EditODD.gif)
 
 ## Demo
 
@@ -38,10 +40,7 @@ For PDF output, you need to enable the Apache FOP extension as follows:
 </module>
 ```
 
-tei-simple-pm ships as a .xar package which can be installed into any eXist instance using the dashboard. You may get the
-latest .xar here:
-
-https://github.com/wolfgangmm/tei-simple-pm/releases/tag/0.4
+tei-simple-pm ships as a .xar package which can be installed into any eXist instance using the dashboard.
 
 To build tei-simple-pm, clone the repository and call "ant" in the root directory. This will create a .xar inside the build directory.
 
