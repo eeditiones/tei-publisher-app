@@ -28,6 +28,15 @@ h2 { font-size: 1.953em; }
 h3 { font-size: 1.563em; }
 h4 { font-size: 1.25em; }
 
+.table-head {
+    text-align: left;
+}
+
+.sourcecode {
+    font-size: .85em;
+    white-space: pre-wrap;
+}
+
 .note {
   font-size: x-small;
   vertical-align: super;
