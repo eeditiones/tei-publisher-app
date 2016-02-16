@@ -61,6 +61,7 @@ declare variable $pages:EXIDE :=
 declare
     %templates:wrap
 function pages:load($node as node(), $model as map(*), $doc as xs:string, $root as xs:string?, $view as xs:string?) {
+    let $doc := xmldb:encode-uri($doc)
     let $view := if ($view) then $view else $config:default-view
     return
         map {
