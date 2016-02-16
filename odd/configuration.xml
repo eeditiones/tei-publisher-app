@@ -17,8 +17,8 @@
     <output mode="latex">
         <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latex" prefix="ext-latex" at="../modules/ext-latex.xql"><!-- directory from which images should be loaded -->
             <property name="image-dir">
-                (system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-0.6/test/",
-                system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-0.6/doc/")
+                (system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-1.0/test/",
+                system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-1.0/doc/")
             </property>
         </module>
     </output><!-- General fo extension functions -->
