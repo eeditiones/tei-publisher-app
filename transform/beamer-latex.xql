@@ -505,6 +505,11 @@ declare function model:apply($config as map(*), $input as node()*) {
                     latex:inline($config, ., ("tei-w"), .)
                 case element(code) return
                     ext-latex:code($config, ., ("tei-code"), ., @lang)
+                case element() return
+                    if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
+                        $config?apply($config, ./node())
+                    else
+                        .
                 case text() | xs:anyAtomicType return
                     latex:escapeChars(.)
                 default return 

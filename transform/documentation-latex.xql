@@ -537,11 +537,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:cell($config, ., ("tei-cell2"), ., ())
                 case element(code) return
                     if (parent::cell|parent::p|parent::ab) then
-                        latex:inline($config, ., ("tei-code1"), .)
+                        latex:inline($config, ., ("tei-code1", "code"), .)
                     else
-                        ext-latex:code($config, ., ("tei-code2"), ., @lang)
+                        latex:block($config, ., ("tei-code2", "code"), .)
                 case element(att) return
                     latex:inline($config, ., ("tei-att", "xml-attribute"), .)
+                case element() return
+                    if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
+                        $config?apply($config, ./node())
+                    else
+                        .
                 case text() | xs:anyAtomicType return
                     latex:escapeChars(.)
                 default return 

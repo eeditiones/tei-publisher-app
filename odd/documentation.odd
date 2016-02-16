@@ -53,10 +53,16 @@
         <body>
             <schemaSpec ident="docs" start="TEI teiCorpus" source="teisimple.odd">
                 <elementSpec mode="add" ident="code">
-                    <model behaviour="inline" predicate="parent::cell|parent::p|parent::ab"/>
-                    <model behaviour="code">
-                        <param name="lang">@lang</param>
-                    </model>
+                    <modelGrp output="print">
+                        <model behaviour="inline" predicate="parent::cell|parent::p|parent::ab" cssClass="code"/>
+                        <model behaviour="block" cssClass="code"/>
+                    </modelGrp>
+                    <modelGrp output="web">
+                        <model behaviour="inline" predicate="parent::cell|parent::p|parent::ab"/>
+                        <model behaviour="code">
+                            <param name="lang">@lang</param>
+                        </model>
+                    </modelGrp>
                 </elementSpec>
                 <elementSpec mode="change" ident="table">
                     <model behaviour="table" cssClass="table table-bordered"/>

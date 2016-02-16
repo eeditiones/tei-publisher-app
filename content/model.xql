@@ -139,6 +139,17 @@ return (
                                                 else
                                                     ()
                                             }
+                                            <case test="element()">
+                                                <if test="namespace-uri(.) = 'http://www.tei-c.org/ns/1.0'">
+                                                    <then>
+                                                        <function-call name="$config?apply">
+                                                            <param>$config</param>
+                                                            <param>./node()</param>
+                                                        </function-call>
+                                                    </then>
+                                                    <else>.</else>
+                                                </if>
+                                            </case>
                                             <case test="text() | xs:anyAtomicType">
                                                 <function-call name="{$modules?1?prefix}:escapeChars">
                                                     <param>.</param>
@@ -215,7 +226,7 @@ declare %private function pm:prepare-modules($modules as array(*)) {
 declare %private function pm:elementSpec($spec as element(tei:elementSpec), $modules as array(*), $output as xs:string+) {
     pm:process-models(
         $spec/@ident,
-        $spec/(tei:model[not(@output)]|tei:model[@output = $output]|tei:modelSequence[not(@output)]|tei:modelSequence[@output = $output]),
+        pm:get-model-elements($spec, $output),
         $modules,
         $output
     )
@@ -235,7 +246,9 @@ declare %private function pm:process-models($ident as xs:string, $models as elem
                         {
                             if ($models[not(@predicate)]) then
                                 if (count($models[not(@predicate)]) > 1 and not($models/parent::tei:modelSequence)) then
-                                    error($pm:ERR_TOO_MANY_MODELS, "More than one model without predicate found outside modelSequence")
+                                    error($pm:ERR_TOO_MANY_MODELS,
+                                        "More than one model without predicate found " ||
+                                        "outside modelSequence for ident '" || $ident || "'")
                                 else
                                     pm:model-or-sequence($ident, $models[not(@predicate)], $modules, $output)
                             else
@@ -249,7 +262,7 @@ declare %private function pm:process-models($ident as xs:string, $models as elem
             </if>
         })
     else if (count($models) > 1 and not($models/parent::tei:modelSequence)) then
-        error($pm:ERR_TOO_MANY_MODELS, "More than one model without predicate found outside modelSequence")
+        error($pm:ERR_TOO_MANY_MODELS, "More than one model without predicate found outside modelSequence for ident '" || $ident || "'")
     else
         $models ! pm:model-or-sequence($ident, ., $modules, $output)
 };
@@ -260,18 +273,26 @@ declare %private function pm:model-or-sequence($ident as xs:string, $models as e
     return
         typeswitch($model)
             case element(tei:model) return
-                pm:model($ident, $model, $modules)
+                pm:model($ident, $model, $modules, $output)
             case element(tei:modelSequence) return
                 pm:modelSequence($ident, $model, $modules, $output)
+            case element(tei:modelGrp) return
+                pm:process-models($ident, $model/*, $modules, $output)
             default return
                 ()
 };
 
-declare %private function pm:model($ident as xs:string, $model as element(tei:model), $modules as array(*)) {
+declare %private function pm:model($ident as xs:string, $model as element(tei:model), $modules as array(*), $output as xs:string+) {
     let $behaviour := $model/@behaviour
     let $task := normalize-space($model/@behaviour)
+    let $nested := pm:get-model-elements($model, $output)
+    let $content :=
+        if ($nested) then
+            pm:process-models($ident, $nested, $modules, $output)
+        else
+            "."
     let $params := $model/tei:param
-    let $params := if (empty($params[@name="content"])) then ($params, <tei:param name="content">.</tei:param>) else $params
+    let $params := if (empty($params[@name="content"])) then ($params, <tei:param name="content">{$content}</tei:param>) else $params
     let $fn := pm:lookup($modules, $task, count($params) + 3)
     return
         if (exists($fn)) then (
@@ -296,14 +317,14 @@ declare %private function pm:model($ident as xs:string, $model as element(tei:mo
                             if ($model/@useSourceRendition = "true") then
                                 <function-call name="css:get-rendition">
                                     <param>.</param>
-                                    <param>({string-join(for $class in $classes return '"' || $class || '"', ", ")})</param>
+                                    <param>({string-join(for $class in $classes return $class, ", ")})</param>
                                 </function-call>
                             else
-                                "(" || string-join(for $class in $classes return '"' || $class || '"', ", ") || ")"
+                                "(" || string-join(for $class in $classes return $class, ", ") || ")"
                         }
                         </param>
                         {
-                            pm:map-parameters($signature, $params)
+                            pm:map-parameters($signature, $params, $ident, $modules, $output)
                         }
                     </function-call>
                 } catch pm:not-found {
@@ -345,10 +366,12 @@ declare %private function pm:get-class($ident as xs:string, $model as element(te
     let $count := count($model/../tei:model)
     let $genClass := "tei-" || $ident || (if ($count > 1) then count($model/preceding-sibling::tei:model) + 1 else ())
     return
-        if ($model/@cssClass) then
-            ($genClass, $model/@cssClass/string())
+        if ($model/tei:cssClass) then
+            ('"' || $genClass ||'"', "(" || $model/tei:cssClass || ")")
+        else if ($model/@cssClass) then
+            ('"' || $genClass ||'"', '"' || $model/@cssClass/string() || '"')
         else
-            $genClass
+            '"' || $genClass ||'"'
 };
 
 declare %private function pm:lookup($modules as array(*), $task as xs:string, $arity as xs:int) as map(*)? {
@@ -366,14 +389,28 @@ declare %private function pm:lookup($modules as array(*), $task as xs:string, $a
         ()
 };
 
-declare function pm:map-parameters($signature as element(function), $params as element(tei:param)+) {
+declare function pm:map-parameters($signature as element(function), $params as element(tei:param)+, $ident as xs:string, $modules as array(*),
+    $output as xs:string+) {
     for $arg in subsequence($signature/argument, 4)
     let $mapped := $params[@name = $arg/@var]
     return
         if ($mapped) then
-            <param>{if ($mapped != "") then $mapped/string() else "()"}</param>
+            let $nested := pm:get-model-elements($mapped, $output)
+            return
+                if ($nested) then
+                    <param>{ pm:process-models($ident, $nested, $modules, $output) }</param>
+                else
+                    <param>{if ($mapped != "") then $mapped/node() else "()"}</param>
         else if ($arg/@cardinality = ("zero or one", "zero or more")) then
             <param>()</param>
         else
             error($pm:NOT_FOUND, "No matching parameter found for argument " || $arg/@var)
+};
+
+declare %private function pm:get-model-elements($context as element(), $output as xs:string+) {
+    $context/(
+        tei:model[not(@output)]|tei:model[@output = $output] |
+        tei:modelSequence[not(@output)]|tei:modelSequence[@output = $output] |
+        tei:modelGrp[not(@output)]|tei:modelGrp[@output = $output]
+    )
 };

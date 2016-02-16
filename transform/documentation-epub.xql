@@ -550,6 +550,11 @@ declare function model:apply($config as map(*), $input as node()*) {
                     html:inline($config, ., ("tei-att", "xml-attribute"), .)
                 case element(exist:match) return
                     html:match($config, ., .)
+                case element() return
+                    if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
+                        $config?apply($config, ./node())
+                    else
+                        .
                 case text() | xs:anyAtomicType return
                     html:escapeChars(.)
                 default return 

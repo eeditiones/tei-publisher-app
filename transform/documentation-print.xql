@@ -536,11 +536,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:cell($config, ., ("tei-cell2"), ., ())
                 case element(code) return
                     if (parent::cell|parent::p|parent::ab) then
-                        fo:inline($config, ., ("tei-code1"), .)
+                        fo:inline($config, ., ("tei-code1", "code"), .)
                     else
-                        ext-fo:code($config, ., ("tei-code2"), ., @lang)
+                        fo:block($config, ., ("tei-code2", "code"), .)
                 case element(att) return
                     fo:inline($config, ., ("tei-att", "xml-attribute"), .)
+                case element() return
+                    if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
+                        $config?apply($config, ./node())
+                    else
+                        .
                 case text() | xs:anyAtomicType return
                     fo:escapeChars(.)
                 default return 
