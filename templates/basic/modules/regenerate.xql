@@ -62,7 +62,10 @@ let $result :=
                     else
                         <div class="list-group-item-success">{$file}</div>
             } catch * {
-                <li>Error for output mode {$module}: {$err:description}</li>
+                <div class="list-group-item-danger">
+                    <h5 class="list-group-item-heading">Error for output mode {$module}</h5>
+                    <p class="list-group-item-text">{ $err:description }</p>
+                </div>
             }
 return
     <div class="errors">
