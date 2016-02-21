@@ -97,6 +97,7 @@ declare function pmf:paragraph($config as map(*), $node as element(), $class as 
 
 declare function pmf:heading($config as map(*), $node as element(), $class as xs:string+, $content) {
     let $level := if ($content instance of node()) then max((count($content/ancestor::tei:div), 1)) else 1
+    let $class := $class[not(starts-with(., "tei-head"))]
     let $defaultStyle := $config?default-styles("tei-head" || $level)
     return
         if ($content instance of node() and $content//text()) then (
@@ -123,6 +124,7 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
 };
 
 declare function pmf:list($config as map(*), $node as element(), $class as xs:string+, $content) {
+    comment { "list" || " (" || string-join($class, ", ") || ")"},
     let $label-length :=
         if ($node/tei:label) then
             max($node/tei:label ! string-length(.))
@@ -130,14 +132,20 @@ declare function pmf:list($config as map(*), $node as element(), $class as xs:st
             1
     return
         <fo:list-block provisional-distance-between-starts="{$label-length}em">
-            {$config?apply($config, $content)}
+        {
+            pmf:check-styles($config, $node, $class, ()),
+            $config?apply($config, $content)
+        }
         </fo:list-block>
 };
 
 declare function pmf:listItem($config as map(*), $node as element(), $class as xs:string+, $content) {
+    comment { "listItem" || " (" || string-join($class, ", ") || ")"},
     <fo:list-item>
+        { pmf:check-styles($config, $node, $class, ()) }
         <fo:list-item-label>
         {
+            pmf:check-styles($config, $node, "tei-listItem-label", ()),
             if ($node/preceding-sibling::tei:label) then
                 <fo:block>{$config?apply($config, $node/preceding-sibling::tei:label[1])}</fo:block>
             else
@@ -149,7 +157,11 @@ declare function pmf:listItem($config as map(*), $node as element(), $class as x
         }
         </fo:list-item-label>
         <fo:list-item-body start-indent="body-start()">
-            <fo:block>{$config?apply-children($config, $node, $content)}</fo:block>
+            <fo:block>
+            {
+                $config?apply-children($config, $node, $content)
+            }
+            </fo:block>
         </fo:list-item-body>
     </fo:list-item>
 };
@@ -382,29 +394,36 @@ declare function pmf:title($config as map(*), $node as element(), $class as xs:s
 };
 
 declare function pmf:table($config as map(*), $node as element(), $class as xs:string+, $content) {
+    comment { "table" || " (" || string-join($class, ", ") || ")"},
     <fo:table>
         { pmf:check-styles($config, $node, $class, ()) }
         <fo:table-body>
-        { $config?apply($config, $node/tei:row) }
+        {
+            pmf:check-styles($config, $node, "tei-table-body", ()),
+            $config?apply($config, $node/tei:row) 
+        }
         </fo:table-body>
     </fo:table>
 };
 
 declare function pmf:row($config as map(*), $node as element(), $class as xs:string+, $content) {
+    comment { "row" || " (" || string-join($class, ", ") || ")"},
     <fo:table-row>
     { $config?apply-children($config, $node, $content) }
     </fo:table-row>
 };
 
 declare function pmf:cell($config as map(*), $node as element(), $class as xs:string+, $content, $type) {
+    comment { "cell" || " (" || string-join($class, ", ") || ")"},
     <fo:table-cell>
         {
+            pmf:check-styles($config, $node, $class, ()),
             if ($node/@cols) then
-                attribute number-columns-spanned { $node/@cols - 1}
+                attribute number-columns-spanned { $node/@cols }
             else
                 (),
             if ($node/@rows) then
-                attribute number-rows-spanned { $node/@rows - 1}
+                attribute number-rows-spanned { $node/@rows }
             else
                 ()
         }
@@ -423,28 +442,28 @@ declare function pmf:omit($config as map(*), $node as element(), $class as xs:st
     ()
 };
 
-declare function pmf:get-before($config as map(*), $classes as xs:string+) {
+declare function pmf:get-before($config as map(*), $classes as xs:string*) {
     for $class in $classes
     let $before := $config?styles?($class || ":before")
     return
         if (exists($before)) then <fo:inline>{$before?content}</fo:inline> else ()
 };
 
-declare function pmf:get-after($config as map(*), $classes as xs:string+) {
+declare function pmf:get-after($config as map(*), $classes as xs:string*) {
     for $class in $classes
     let $after := $config?styles?($class || ":after")
     return
         if (exists($after)) then <fo:inline>{$after?content}</fo:inline> else ()
 };
 
-declare function pmf:check-styles($config as map(*), $node as element()?, $classes as xs:string+, $default as map(*)?) {
+declare function pmf:check-styles($config as map(*), $node as element()?, $classes as xs:string*, $default as map(*)?) {
     if ($node/@xml:id) then
         attribute id { $node/@xml:id }
     else
         (),
     let $defaultStyles :=
         if (exists($default)) then
-            $default
+            map:new(($default, $classes ! $config?default-styles(.)))
         else
             map:new($classes ! $config?default-styles(.))
     let $stylesForClass :=
