@@ -40,14 +40,17 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare function css:parse-css($css as xs:string) {
     map:new(
-        let $analyzed := analyze-string($css, "\.?(.*?)\s*\{\s*([^\}]*?)\s*\}", "m")
+        let $analyzed := analyze-string($css, "(.*?)\s*\{\s*([^\}]*?)\s*\}", "m")
         for $match in $analyzed/fn:match
-        let $selector := $match/fn:group[@nr = "1"]/string()
+        let $selectorString := $match/fn:group[@nr = "1"]/string()
+        let $selectors := tokenize($selectorString, "\s*,\s*")
         let $styles := map:new(
             for $match in analyze-string($match/fn:group[@nr = "2"], "\s*(.*?)\s*\:\s*['&quot;]?(.*?)['&quot;]?\;")/fn:match
             return
                 map:entry($match/fn:group[1]/string(), $match/fn:group[2]/string())
         )
+        for $selector in $selectors
+        let $selector := replace($selector, "^\.?(.*)$", "$1")
         return
             map:entry($selector, $styles)
     )
