@@ -23,7 +23,7 @@ declare variable $repoxml :=
 
 declare function local:generate-code($collection as xs:string) {
     for $source in xmldb:get-child-resources($collection || "/resources/odd")[ends-with(., ".odd")]
-    for $module in ("web", "print", "latex")
+    for $module in ("web", "print", "latex", "epub")
     for $file in pmu:process-odd(
         doc(odd:get-compiled($collection || "/resources/odd", $source, $collection || "/resources/odd/compiled")),
         $collection || "/transform",

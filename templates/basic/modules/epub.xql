@@ -213,7 +213,7 @@ declare function epub:body-xhtml-entries($doc, $config) {
     let $entries :=
         for $div in $doc//tei:text/tei:body/tei:div
         let $title := $div/tei:head/text()
-        let $body := $pm-config:web-transform($div, ())
+        let $body := $pm-config:epub-transform($div, ())
         let $body-xhtml:= epub:assemble-xhtml($title, epub:fix-namespaces($body))
         return
             <entry name="{concat('OEBPS/', epub:generate-id($div), '.html')}" type="xml">{$body-xhtml}</entry>

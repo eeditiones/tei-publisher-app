@@ -41,7 +41,7 @@ declare function local:get-line($src, $line as xs:int) {
 
 let $result :=
     for $source in $config:odd
-        for $module in ("web", "print", "latex")
+        for $module in ("web", "print", "latex", "epub")
         return
             try {
                 for $file in pmu:process-odd(

@@ -134,7 +134,7 @@ declare function pmu:process-odd($odd as document-node(), $output-root as xs:str
         if (empty($module)) then
             error($pmu:ERR_UNKNOWN_MODE, "output mode " || $mode || " is unknown")
         else
-            let $log := console:log("output mode is " || $module?output)
+            let $log := console:log("mode: " || $mode || ", output mode is " || string-join($module?output?*, ", "))
             let $generated := pm:parse($odd/*, pmu:fix-module-paths($module?modules), $module?output?*)
             let $xquery := xmldb:store($output-root, $name || "-" || $mode || ".xql", $generated?code, "application/xquery")
             let $style := pmu:extract-styles($odd, $name, $output-root)
