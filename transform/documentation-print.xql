@@ -411,7 +411,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 else
                                     fo:inline($config, ., ("tei-supplied5"), .)
                 case element(table) return
-                    fo:table($config, ., ("tei-table", "table table-bordered"), .)
+                    fo:table($config, ., ("tei-table", "table", "table-bordered"), .)
                 case element(profileDesc) return
                     fo:omit($config, ., ("tei-profileDesc"), .)
                 case element(revisionDesc) return

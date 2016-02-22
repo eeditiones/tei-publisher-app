@@ -164,7 +164,7 @@ declare function pmu:generate-module($name as xs:string, $uri as xs:string, $xqu
         pmu:properties($ext-modules) ||
         '       "styles": ["' || $relPath || "/" || $style || '"],&#10;' ||
         '       "collection": "' || $output-root || '",&#10;' ||
-        '       "parameters": $parameters&#10;' ||
+        '       "parameters": if (exists($parameters)) then $parameters else map {}&#10;' ||
         '   }&#10;' ||
         "   return m:transform($options, $xml)&#10;" ||
         "};"
@@ -183,7 +183,7 @@ declare function pmu:generate-main($name as xs:string, $uri as xs:string, $xquer
         pmu:properties($ext-modules) ||
         '    "styles": ["' || $relPath || "/" || $style || '"],&#10;' ||
         '    "collection": "' || $output-root || '",&#10;' ||
-        '    "parameters": $parameters&#10;' ||
+        '    "parameters": if (exists($parameters)) then $parameters else map {}&#10;' ||
         '}&#10;' ||
         "return m:transform($options, $xml)"
     return

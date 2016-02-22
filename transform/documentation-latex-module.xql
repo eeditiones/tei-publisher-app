@@ -11,7 +11,7 @@ declare function pml:transform($xml as node()*, $parameters as map(*)?) {
     "image-dir": (system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-1.0/test/", system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-1.0/doc/"),
        "styles": ["../transform/documentation.css"],
        "collection": "/db/apps/tei-simple/transform",
-       "parameters": $parameters
+       "parameters": if (exists($parameters)) then $parameters else map {}
    }
    return m:transform($options, $xml)
 };

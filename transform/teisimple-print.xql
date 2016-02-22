@@ -9,8 +9,6 @@ module namespace model="http://www.tei-c.org/tei-simple/models/teisimple.odd/fo"
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
-declare namespace tei='http://www.tei-c.org/ns/1.0';
-
 declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/content/css.xql";
@@ -227,6 +225,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                             fo:inline($config, ., ("tei-gap2"), @extent)
                         else
                             fo:inline($config, ., ("tei-gap3"), .)
+                case element(gi) return
+                    fo:inline($config, ., ("tei-gi"), .)
                 case element(graphic) return
                     fo:graphic($config, ., ("tei-graphic"), ., @url, @width, @height, @scale, desc)
                 case element(group) return

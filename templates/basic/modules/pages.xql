@@ -166,7 +166,10 @@ function pages:view($node as node(), $model as map(*), $view as xs:string?, $act
                 if ($model?data instance of element(tei:pb)) then
                     let $nextPage := $model?data/following::tei:pb[1]
                     return
-                        ($model?data/ancestor::* intersect $nextPage/ancestor::*)[last()]
+                        if ($nextPage) then
+                            ($model?data/ancestor::* intersect $nextPage/ancestor::*)[last()]
+                        else
+                            ($model?data/ancestor::tei:div, $model?data/ancestor::tei:body)[1]
                 else
                     $model?data
             let $expanded :=
@@ -178,7 +181,7 @@ function pages:view($node as node(), $model as map(*), $view as xs:string?, $act
                 )
             return
                 if ($model?data instance of element(tei:pb)) then
-                    $expanded//tei:pb[@n = $model?data/@n]
+                    $expanded//tei:pb[@exist:id = util:node-id($model?data)]
                 else
                     $expanded
         else
@@ -189,11 +192,11 @@ function pages:view($node as node(), $model as map(*), $view as xs:string?, $act
         else
             $model?data//*:body/*
     return
-        pages:process-content($xml)
+        pages:process-content($xml, $model?data)
 };
 
-declare function pages:process-content($xml as element()*) {
-	let $html := $pm-config:web-transform($xml, ())
+declare function pages:process-content($xml as element()*, $root as element()*) {
+	let $html := $pm-config:web-transform($xml, map { "root": $root })
     let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
     return
         <div class="content {$class}">
@@ -311,11 +314,9 @@ declare function pages:get-content($div as element()) {
         case element(tei:teiHeader) return
             $div
         case element(tei:pb) return (
-            console:log(("getting page ", $div, $div/following::tei:pb[1])),
             let $nextPage := $div/following::tei:pb[1]
-(:            let $log := console:log(($div/ancestor::tei:div|$nextPage/ancestor::tei:div)[last()]):)
-            let $chunk := 
-                pages:milestone-chunk($div, $nextPage, 
+            let $chunk :=
+                pages:milestone-chunk($div, $nextPage,
                     if ($nextPage) then
                         ($div/ancestor::* intersect $nextPage/ancestor::*)[last()]
                     else
@@ -331,13 +332,14 @@ declare function pages:get-content($div as element()) {
                     return
                         element { node-name($div) } {
                             $div/@*,
-                            $child/preceding-sibling::*,
-                            pages:get-content($child)
+                            attribute exist:id { util:node-id($div) },
+                            util:expand(($child/preceding-sibling::*, $child), "add-exist-id=all")
                         }
                 else
                     element { node-name($div) } {
                         $div/@*,
-                        $div/tei:div[1]/preceding-sibling::*
+                        attribute exist:id { util:node-id($div) },
+                        util:expand($div/tei:div[1]/preceding-sibling::*, "add-exist-id=all")
                     }
             else
                 $div
@@ -349,21 +351,21 @@ declare %private function pages:milestone-chunk($ms1 as element(), $ms2 as eleme
 {
     typeswitch ($node)
         case element() return
-            if ($node is $ms1) then 
-                $node
+            if ($node is $ms1) then
+                util:expand($node, "add-exist-id=all")
             else if ( some $n in $node/descendant::* satisfies ($n is $ms1 or $n is $ms2) ) then
-                element { node-name($node) } { 
+                element { node-name($node) } {
                     $node/@*,
                     for $i in ( $node/node() )
                     return pages:milestone-chunk($ms1, $ms2, $i)
                 }
-            else if ($node >> $ms1 and (empty($ms2) or $node << $ms2)) then 
-                $node
-            else 
+            else if ($node >> $ms1 and (empty($ms2) or $node << $ms2)) then
+                util:expand($node, "add-exist-id=all")
+            else
                 ()
-        case attribute() return 
+        case attribute() return
             $node (: will never match attributes outside non-returned elements :)
-        default return 
+        default return
             if ($node >> $ms1 and (empty($ms2) or $node << $ms2)) then $node
             else ()
 };

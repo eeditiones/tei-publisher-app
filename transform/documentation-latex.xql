@@ -411,7 +411,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 else
                                     latex:inline($config, ., ("tei-supplied5"), .)
                 case element(table) return
-                    latex:table($config, ., ("tei-table", "table table-bordered"), .)
+                    latex:table($config, ., ("tei-table", "table", "table-bordered"), .)
                 case element(profileDesc) return
                     latex:omit($config, ., ("tei-profileDesc"), .)
                 case element(revisionDesc) return

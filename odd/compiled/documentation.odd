@@ -333,9 +333,7 @@
                 <model predicate="parent::list" behaviour="block">
                     <outputRendition>font-weight: bold;</outputRendition>
                 </model>
-                <model predicate="parent::div" behaviour="heading">
-                    <param name="level">count(ancestor::div)</param>
-                </model>
+                <model predicate="parent::div" behaviour="heading"/>
                 <model behaviour="block"/>
             </elementSpec>
             <elementSpec mode="change" ident="hi">

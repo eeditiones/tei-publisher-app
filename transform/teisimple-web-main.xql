@@ -7,6 +7,6 @@ declare variable $parameters external;
 let $options := map {
     "styles": ["../transform/teisimple.css"],
     "collection": "/db/apps/tei-simple/transform",
-    "parameters": $parameters
+    "parameters": if (exists($parameters)) then $parameters else map {}
 }
 return m:transform($options, $xml)

@@ -204,16 +204,17 @@ declare function pages:view($node as node(), $model as map(*), $odd as xs:string
     let $view := if ($view) then $view else $config:default-view
     let $xml :=
         if ($view = ("div", "page")) then
-            pages:get-content($model("data"))
+            pages:get-content($model?data)
         else
             $model?data//*:body/*
     return
-        pages:process-content($odd, $xml)
+        pages:process-content($odd, $xml, $model?data)
 };
 
-declare function pages:process-content($odd as xs:string, $xml as element()*) {
+declare function pages:process-content($odd as xs:string, $xml as element()*, $root as element()*) {
 	let $html :=
-        pmu:process(odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root), $xml, $config:output-root, "web", "../generated", $config:module-config)
+        pmu:process(odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root), $xml, $config:output-root, "web", 
+            "../generated", $config:module-config, map { "root": $root })
     let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
     return
         <div class="content {$class}">
@@ -307,7 +308,7 @@ declare %private function pages:milestone-chunk($ms1 as element(), $ms2 as eleme
     typeswitch ($node)
         case element() return
             if ($node is $ms1) then
-                $node
+                util:expand($node, "add-exist-id=all")
             else if ( some $n in $node/descendant::* satisfies ($n is $ms1 or $n is $ms2) ) then
                 element { node-name($node) } {
                     $node/@*,
@@ -315,7 +316,7 @@ declare %private function pages:milestone-chunk($ms1 as element(), $ms2 as eleme
                     return pages:milestone-chunk($ms1, $ms2, $i)
                 }
             else if ($node >> $ms1 and (empty($ms2) or $node << $ms2)) then
-                $node
+                util:expand($node, "add-exist-id=all")
             else
                 ()
         case attribute() return
@@ -372,13 +373,14 @@ declare function pages:get-content($div as element()) {
                     return
                         element { node-name($div) } {
                             $div/@*,
-                            $child/preceding-sibling::*,
-                            pages:get-content($child)
+                            attribute exist:id { util:node-id($div) },
+                            util:expand(($child/preceding-sibling::*, $child), "add-exist-id=all")
                         }
                 else
                     element { node-name($div) } {
                         $div/@*,
-                        $div/tei:div[1]/preceding-sibling::*
+                        attribute exist:id { util:node-id($div) },
+                        util:expand($div/tei:div[1]/preceding-sibling::*, "add-exist-id=all")
                     }
             else
                 $div

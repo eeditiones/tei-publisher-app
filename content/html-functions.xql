@@ -64,7 +64,12 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
         if ($level) then
             $level
         else if ($content instance of element()) then
-            max((count($content/ancestor::tei:div), 1))
+            if ($config?parameters?root and $content/@exist:id) then
+                let $node := util:node-by-id($config?parameters?root, $content/@exist:id)
+                return
+                    max((count($node/ancestor::tei:div), 1))
+            else
+                max((count($content/ancestor::tei:div), 1))
         else
             4
     return

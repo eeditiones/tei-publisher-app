@@ -246,7 +246,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     html:block($config, ., ("tei-head4"), .)
                                 else
                                     if (parent::div) then
-                                        html:heading($config, ., ("tei-head5"), ., count(ancestor::div))
+                                        html:heading($config, ., ("tei-head5"), ., ())
                                     else
                                         html:block($config, ., ("tei-head6"), .)
                 case element(hi) return
@@ -405,7 +405,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 else
                                     html:inline($config, ., ("tei-supplied5"), .)
                 case element(table) return
-                    html:table($config, ., ("tei-table", "table table-bordered"), .)
+                    html:table($config, ., ("tei-table", "table", "table-bordered"), .)
                 case element(profileDesc) return
                     html:omit($config, ., ("tei-profileDesc"), .)
                 case element(revisionDesc) return

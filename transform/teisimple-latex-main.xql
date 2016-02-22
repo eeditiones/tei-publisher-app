@@ -8,6 +8,6 @@ let $options := map {
     "image-dir": (system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-1.0/test/", system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-1.0/doc/"),
     "styles": ["../transform/teisimple.css"],
     "collection": "/db/apps/tei-simple/transform",
-    "parameters": $parameters
+    "parameters": if (exists($parameters)) then $parameters else map {}
 }
 return m:transform($options, $xml)

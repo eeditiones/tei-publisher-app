@@ -80,7 +80,7 @@ return
                     $xml/following::tei:pb[1]
                 default return
                     pages:get-next($xml)
-        let $html := pages:process-content(pages:get-content($xml))
+        let $html := pages:process-content(pages:get-content($xml), $xml)
         let $doc := replace($doc, "^.*/([^/]+)$", "$1")
         return
             map {
