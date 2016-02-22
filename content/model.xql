@@ -120,11 +120,15 @@ return (
                                                 for $spec in $odd//tei:elementSpec[.//tei:model]
                                                 let $case := pm:elementSpec($spec, $moduleDesc, $output)
                                                 return
-                                                    if (exists($case)) then
+                                                    if (exists($case)) then (
+                                                        if ($spec/tei:desc) then
+                                                            <comment>{$spec/tei:desc/string()}</comment>
+                                                        else
+                                                            (),
                                                         <case test="element({$spec/@ident})">
                                                         {$case}
                                                         </case>
-                                                    else
+                                                    ) else
                                                         ()
                                             }
                                             {
@@ -369,7 +373,7 @@ declare %private function pm:get-class($ident as xs:string, $model as element(te
         if ($model/tei:cssClass) then
             ('"' || $genClass ||'"', "(" || $model/tei:cssClass || ")")
         else if ($model/@cssClass) then
-            ('"' || $genClass ||'"', '"' || $model/@cssClass/string() || '"')
+            ('"' || $genClass ||'"', (for $class in tokenize($model/@cssClass, "\s+") return '"' || $class || '"'))
         else
             '"' || $genClass ||'"'
 };

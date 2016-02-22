@@ -84,7 +84,7 @@ declare function xqgen:generate($nodes as node()*, $indent as xs:int) {
                 case element(typeswitch) return
                     xqgen:indent($indent) ||
                     'typeswitch(' || $node/@op || ')' || $xqgen:LF ||
-                    xqgen:generate($node/case, $indent + 1) ||
+                    xqgen:generate($node/(case|comment), $indent + 1) ||
                     xqgen:generate($node/default, $indent + 1)
                 case element(case) return
                     xqgen:indent($indent) ||
