@@ -19,9 +19,10 @@ $(document).ready(function() {
     function load(params, direction) {
         var animOut = direction == "nav-next" ? "fadeOutLeft" : (direction == "nav-prev" ? "fadeOutRight" : "fadeOut");
         var animIn = direction == "nav-next" ? "fadeInRight" : (direction == "nav-prev" ? "fadeInLeft" : "fadeIn");
-        var container = $("#content-row");
+        var container = $("#content-container");
         container.addClass("animated " + animOut)
             .one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
+            console.log("Loading %s", params);
             $("#image-container img").css("display", "none");
             $.ajax({
                 url: appRoot + "/modules/ajax.xql",
@@ -89,7 +90,7 @@ $(document).ready(function() {
             window.scrollTo(0,0);
         }
         container.removeClass("animated " + animOut);
-        $("#content-row").addClass("animated " + animIn).one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
+        $("#content-container").addClass("animated " + animIn).one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
             $(this).removeClass("animated " + animIn);
             if (id) {
                 var target = document.getElementById(id.substring(1));
