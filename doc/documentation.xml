@@ -71,11 +71,14 @@
                         The larger part of the toolbox deals with graphical user interface components, adding
                     pagination, navigation and search features.</p>
                 </div>
-                <div>
+                <div xml:id="quickstart">
                     <head>Getting Started</head>
                     <p>The toolbox is distributed as an eXist application package, making it easy to install
                     on any local or remote eXist database instance. Just go to the dashboard, open the package
                     manager and install the TEI processing model package from the public repository.</p>
+                    <p>
+                        <hi rendition="simple:bold">Note</hi>: You need at least <ref target="http://exist-db.org#download">eXist 3.0RC1</ref> or a nightly build. When using a nightly, download one before February 10 as newer builds currently have issues
+                        with font loading when generating PDFs.</p>
                     <p>Once installed, play around with the provided documents or upload your own via the file
                     upload panel in the right sidebar. You may modify any of the supplied ODD files and see how
                     the rendering changes.</p>
