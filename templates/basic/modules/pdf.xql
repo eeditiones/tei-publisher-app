@@ -42,8 +42,11 @@ declare function local:fop($id as xs:string, $fo as element()) {
         <!-- Strict FO validation -->
         <strict-validation>no</strict-validation>
 
+        <!-- Base URL for resolving relative URLs -->
+        <base>./</base>
+        
         <!-- Font Base URL for resolving relative font URLs -->
-        <font-base>{substring-before(request:get-url(), "/" || $appName)}/tei-simple/resources/fonts/</font-base>
+        <font-base>{substring-before(request:get-url(), "/" || $appName)}/{$appName/string()}/resources/fonts/</font-base>
         <renderers>
             <renderer mime="application/pdf">
                 <fonts>
