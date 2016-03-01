@@ -43,7 +43,17 @@ declare function odd:compile($inputCol as xs:string, $odd as xs:string) {
 };
 
 declare %private function odd:merge($parent as element(tei:TEI), $child as element(tei:TEI)) {
-    <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xml:lang="en">
+    <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
+        {
+            let $prefixesParent := in-scope-prefixes($parent)[not(. = ("", "xml", "xhtml", "css"))]
+            let $prefixesChild := in-scope-prefixes($child)[not(. = ("", "xml", "xhtml", "css"))]
+            let $prefixes := distinct-values(($prefixesParent, $prefixesChild))
+            let $namespaces := $prefixes ! (namespace-uri-for-prefix(., $child), namespace-uri-for-prefix(., $parent))[1]
+            return
+                for-each-pair($prefixes, $namespaces, function($prefix, $namespace) {
+                    namespace { $prefix } { $namespace }
+                })
+        }
         <teiHeader>
             <fileDesc>
                 <titleStmt>

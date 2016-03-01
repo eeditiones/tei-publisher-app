@@ -59,7 +59,7 @@ declare function pm:parse($odd as element(), $modules as array(*), $output as xs
     let $output := if (exists($output)) then $output else "web"
     let $uri := "http://www.tei-c.org/tei-simple/models/" || util:document-name($odd) || "/" || $output[1]
     let $root := $odd/ancestor-or-self::tei:TEI
-    let $prefixes := in-scope-prefixes($root)[not(. = ("", "xml"))]
+    let $prefixes := in-scope-prefixes($root)[not(. = ("", "xml", "xhtml", "css"))]
     let $namespaces := $prefixes ! namespace-uri-for-prefix(., $root)
     let $moduleDesc := pm:load-modules($modules)
     let $xqueryXML :=
@@ -74,12 +74,12 @@ declare function pm:parse($odd as element(), $modules as array(*), $output as xs
                 <declare-namespace prefix="xhtml" uri="http://www.w3.org/1999/xhtml"/>
                 <!--
                     Should dynamically generate namespace declarations for all namespaces defined
-                    on the root element of the odd. Doesn't work due to merge process though.
+                    on the root element of the odd. -->
                 {
                     for-each-pair($prefixes, $namespaces, function($prefix, $ns) {
                         <declare-namespace prefix="{$prefix}" uri="{$ns}"/>
                     })
-                } -->
+                }
                 <import-module prefix="css" uri="http://www.tei-c.org/tei-simple/xquery/css" at="{system:get-module-load-path()}/css.xql"/>
                 { pm:import-modules($modules) }
                 <comment type="xqdoc">
