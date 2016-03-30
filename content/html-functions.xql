@@ -1,27 +1,27 @@
-(: 
+(:
  : Copyright 2015, Wolfgang Meier
- : 
- : This software is dual-licensed: 
- : 
+ :
+ : This software is dual-licensed:
+ :
  : 1. Distributed under a Creative Commons Attribution-ShareAlike 3.0 Unported License
- : http://creativecommons.org/licenses/by-sa/3.0/ 
- : 
- : 2. http://www.opensource.org/licenses/BSD-2-Clause 
- : 
- : All rights reserved. Redistribution and use in source and binary forms, with or without 
- : modification, are permitted provided that the following conditions are met: 
- : 
- : * Redistributions of source code must retain the above copyright notice, this list of 
- : conditions and the following disclaimer. 
+ : http://creativecommons.org/licenses/by-sa/3.0/
+ :
+ : 2. http://www.opensource.org/licenses/BSD-2-Clause
+ :
+ : All rights reserved. Redistribution and use in source and binary forms, with or without
+ : modification, are permitted provided that the following conditions are met:
+ :
+ : * Redistributions of source code must retain the above copyright notice, this list of
+ : conditions and the following disclaimer.
  : * Redistributions in binary form must reproduce the above copyright
  : notice, this list of conditions and the following disclaimer in the documentation
- : and/or other materials provided with the distribution. 
- : 
- : This software is provided by the copyright holders and contributors "as is" and any 
- : express or implied warranties, including, but not limited to, the implied warranties 
- : of merchantability and fitness for a particular purpose are disclaimed. In no event 
- : shall the copyright holder or contributors be liable for any direct, indirect, 
- : incidental, special, exemplary, or consequential damages (including, but not limited to, 
+ : and/or other materials provided with the distribution.
+ :
+ : This software is provided by the copyright holders and contributors "as is" and any
+ : express or implied warranties, including, but not limited to, the implied warranties
+ : of merchantability and fitness for a particular purpose are disclaimed. In no event
+ : shall the copyright holder or contributors be liable for any direct, indirect,
+ : incidental, special, exemplary, or consequential damages (including, but not limited to,
  : procurement of substitute goods or services; loss of use, data, or profits; or business
  : interruption) however caused and on any theory of liability, whether in contract,
  : strict liability, or tort (including negligence or otherwise) arising in any way out
@@ -30,10 +30,10 @@
 xquery version "3.1";
 
 (:~
- : Function module to produce HTML output. The functions defined here are called 
+ : Function module to produce HTML output. The functions defined here are called
  : from the generated XQuery transformation module. Function names must match
  : those of the corresponding TEI Processing Model functions.
- : 
+ :
  : @author Wolfgang Meier
  :)
 module namespace pmf="http://www.tei-c.org/tei-simple/xquery/functions";
@@ -93,7 +93,11 @@ declare function pmf:list($config as map(*), $node as element(), $class as xs:st
 };
 
 declare function pmf:listItem($config as map(*), $node as element(), $class as xs:string+, $content) {
-    let $label := $node/preceding-sibling::*[1][self::tei:label]
+    let $label :=
+        if ($node/../tei:label) then
+            $node/preceding-sibling::*[1][self::tei:label]
+        else
+            ()
     return
         if ($label) then (
             <dt>{pmf:apply-children($config, $node, $label)}</dt>,
@@ -168,7 +172,7 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
                 { pmf:apply-children($config, $node, $content) }
                 </span>
         default return
-            <span class="label label-default note {$class}" data-toggle="popover" 
+            <span class="label label-default note {$class}" data-toggle="popover"
                 data-content="{serialize(<div>{$config?apply-children($config, $node, $content/node())}</div>)}">
                 {
                     if ($label) then
@@ -192,7 +196,11 @@ declare function pmf:text($config as map(*), $node as element(), $class as xs:st
 };
 
 declare function pmf:cit($config as map(*), $node as element(), $class as xs:string+, $content) {
-    pmf:inline($config, $node, $class, $content)
+    <span class="{$class}">
+    {
+        pmf:inline($config, $node, $class, $content)
+    }
+    </span>
 };
 
 declare function pmf:body($config as map(*), $node as element(), $class as xs:string+, $content) {
