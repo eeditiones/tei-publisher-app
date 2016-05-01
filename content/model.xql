@@ -249,11 +249,14 @@ declare %private function pm:process-models($ident as xs:string, $models as elem
                         <else>
                         {
                             if ($models[not(@predicate)]) then
-                                if (count($models[not(@predicate)]) > 1 and not($models/parent::tei:modelSequence)) then
-                                    error($pm:ERR_TOO_MANY_MODELS,
-                                        "More than one model without predicate found " ||
-                                        "outside modelSequence for ident '" || $ident || "'")
-                                else
+                                if (count($models[not(@predicate)]) > 1 and not($models/parent::tei:modelSequence)) then (
+                                    <comment>More than one model without predicate found for ident {$ident}. 
+                                    Choosing first one.</comment>,
+                                    $models[not(@predicate)][1]
+(:                                    error($pm:ERR_TOO_MANY_MODELS,:)
+(:                                        "More than one model without predicate found " ||:)
+(:                                        "outside modelSequence for ident '" || $ident || "'"):)
+                                ) else
                                     pm:model-or-sequence($ident, $models[not(@predicate)], $modules, $output)
                             else
                                 <function-call name="$config?apply">
@@ -265,9 +268,11 @@ declare %private function pm:process-models($ident as xs:string, $models as elem
                 }
             </if>
         })
-    else if (count($models) > 1 and not($models/parent::tei:modelSequence)) then
-        error($pm:ERR_TOO_MANY_MODELS, "More than one model without predicate found outside modelSequence for ident '" || $ident || "'")
-    else
+    else if (count($models) > 1 and not($models/parent::tei:modelSequence)) then (
+        <comment>More than one model without predicate found for ident {$ident}. 
+        Choosing first one.</comment>,
+        pm:model-or-sequence($ident, $models[1], $modules, $output)
+    ) else
         $models ! pm:model-or-sequence($ident, ., $modules, $output)
 };
 
