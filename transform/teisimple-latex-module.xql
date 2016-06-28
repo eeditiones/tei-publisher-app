@@ -8,6 +8,9 @@ import module namespace m='http://www.tei-c.org/tei-simple/models/teisimple.odd/
 declare function pml:transform($xml as node()*, $parameters as map(*)?) {
 
    let $options := map {
+    "class": "article",
+    "section-numbers": false(),
+    "font-size": "12pt",
     "image-dir": (system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-1.0/test/", system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-1.0/doc/"),
        "styles": ["../transform/teisimple.css"],
        "collection": "/db/apps/tei-simple/transform",
