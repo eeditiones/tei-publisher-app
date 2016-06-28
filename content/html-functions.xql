@@ -43,7 +43,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "css.xql";
 
 declare function pmf:prepare($config as map(*), $node as node()*) {
-    let $styles := css:rendition-styles-html($node)
+    let $styles := css:rendition-styles-html($config, $node)
     return
         if ($styles != "") then
             <style type="text/css">{ $styles }</style>

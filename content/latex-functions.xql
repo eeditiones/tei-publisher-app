@@ -18,8 +18,22 @@ import module namespace console="http://exist-db.org/xquery/console" at "java:or
 declare variable $pmf:WORKING_DIR := system:get-exist-home() || "/webapp";
 declare variable $pmf:IMAGE_DIR := $pmf:WORKING_DIR || "/WEB-INF/data/expathrepo/tei-simple-0.2/test/";
 
+declare variable $pmf:MACROS := "
+% set left and right margin
+\newenvironment{changemargin}[2]{%
+  \begin{list}{}{%
+    \setlength{\topsep}{0pt}%
+    \setlength{\leftmargin}{#1}%
+    \setlength{\rightmargin}{#2}%
+    \setlength{\listparindent}{\parindent}%
+    \setlength{\itemindent}{\parindent}%
+    \setlength{\parsep}{\parskip}%
+  }%
+  \item[]}{\end{list}}
+";
+    
 declare function pmf:init($config as map(*), $node as node()*) {
-    let $renditionStyles := string-join(css:rendition-styles-html($node))
+    let $renditionStyles := string-join(css:rendition-styles-html($config, $node))
     let $styles := if ($renditionStyles) then css:parse-css($renditionStyles) else map {}
     return
         map:new(($config, map:entry("rendition-styles", $styles)))
@@ -27,7 +41,10 @@ declare function pmf:init($config as map(*), $node as node()*) {
 
 declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string+, $content) {
     pmf:get-content($config, $node, $class, $content),
-    "&#10;&#10;"
+    if ($node/ancestor::tei:note) then
+        ()
+    else
+        "&#10;&#10;"
 };
 
 declare function pmf:heading($config as map(*), $node as element(), $class as xs:string+, $content) {
@@ -36,20 +53,22 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
         switch ($level)
             case 1 return
                 let $heading := normalize-space(pmf:get-content($config, $node, $class, $content))
+                let $configNoFn := map:merge(($config, map { "skip-footnotes": true() }))
+                let $headingNoFn := pmf:get-content($configNoFn, $node, $class, $content)
                 return
-                    "\chapter*{" || $heading || " \markboth{" || $heading || "}{" || $heading || "}}&#10;"
+                    "\chapter*{" || $heading || " \markboth{" || $headingNoFn || "}{" || $headingNoFn || "}}&#10;&#10;"
             case 2 return
-                "\section*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+                "\section*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;&#10;"
             case 3 return
-                "\subsection*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+                "\subsection*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;&#10;"
             case 4 return
-                "\subsubsection*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+                "\subsubsection*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;&#10;"
             case 5 return
-                "\paragraph*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+                "\paragraph*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;&#10;"
             case 6 return
-                "\subparagraph*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+                "\subparagraph*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;&#10;"
             default return
-                "\section*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;"
+                "\section*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;&#10;"
 };
 
 declare function pmf:list($config as map(*), $node as element(), $class as xs:string+, $content) {
@@ -159,9 +178,16 @@ declare function pmf:index($config as map(*), $node as element(), $class as xs:s
 declare function pmf:break($config as map(*), $node as element(), $class as xs:string+, $content, $type as xs:string, $label as item()*) {
     switch($type)
         case "page" return
-            ()
+            if ($node/ancestor::tei:head) then
+                ()
+            else if ($node/@ed) then
+                "\marginpar{" || $node/@ed || ": p." || $node/@n || "}"
+            else if ($node/@n) then
+                "\marginpar{p." || $node/@n || "}"
+            else
+                ()
         default return
-            "\\"
+            ()
 };
 
 declare function pmf:document($config as map(*), $node as element(), $class as xs:string+, $content) {
@@ -171,6 +197,7 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         "\documentclass[11pt]{book}&#10;",
 (:        "\usepackage[utf8]{inputenc}&#10;",:)
         "\usepackage[english]{babel}&#10;",
+        "\usepackage{ragged2e}&#10;",
         "\usepackage{colortbl}&#10;",
         "\usepackage{fancyhdr}&#10;",
         "\usepackage{xcolor}&#10;",
@@ -203,7 +230,8 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
             (),
         "\def\tableofcontents{\section*{\contentsname}\@starttoc{toc}}&#10;",
         "\thispagestyle{empty}&#10;",
-        "\begin{document}&#10;",
+        $config("latex-styles"),
+        "&#10;\begin{document}&#10;",
         "\mainmatter&#10;",
         "\fancyhead[EL,OR]{\thepage}&#10;",
         "\fancyhead[ER]{\leftmark}&#10;",
@@ -257,13 +285,22 @@ declare function pmf:alternate($config as map(*), $node as element(), $class as 
 };
 
 declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content as item()*, $place as xs:string?, $label as xs:string?) {
-    switch($place)
-        case "margin" return (
-            "\marginpar{\noindent\raggedleft\footnotesize " || pmf:get-content($config, $node, $class, $content) || "}"
-        )
-        default return (
-            "\footnote{" || pmf:get-content($config, $node, $class, $content) || "}"
-        )
+    if ($config?skip-footnotes) then
+        switch($place)
+            case "margin" return (
+                "\marginpar{\noindent\raggedleft\footnotesize " || pmf:get-content($config, $node, $class, $content) || "}"
+            )
+            default return (
+                string-join((
+                    if ($node/parent::tei:head) then
+                        "\protect"
+                    else
+                        (),
+                    "\footnote{" || pmf:get-content($config, $node, $class, $content) || "}"
+                ))
+            )
+    else
+        ()
 };
 
 declare function pmf:escapeChars($text as xs:string?) {
@@ -305,12 +342,94 @@ declare %private function pmf:get-after($config as map(*), $classes as xs:string
         if (exists($after)) then pmf:escapeChars($after?content) else ()
 };
 
-declare %private function pmf:check-styles($config as map(*), $classes as xs:string+, $content as item()*) {
-    let $styles := map:new(for $class in $classes return ($config?styles?($class), $config?rendition-styles?($class)))
+declare %private function pmf:macros($config as map(*)) as map(*) {
+    let $newStyles :=
+        for $class in $config?styles?*[not(ends-with(., ":after") or ends-with(., ":before"))]
+        let $code := (
+            pmf:get-before($config, $class) ||
+            pmf:define-styles($config, $class, "#1") ||
+            pmf:get-after($config, $class)
+        )
+        order by $class ascending
+        return
+            if ($code != "#1") then
+                map {
+                    $class: 
+                        "\newcommand{\" || pmf:macroName($class) || "}[1]{" ||
+                        $code ||
+                        "}&#10;"
+                }
+            else
+                ()
+    return
+        map:new(($config, map { "styles": map:new($newStyles)}))
+};
+
+declare %private function pmf:define-styles($config as map(*), $classes as xs:string+, $content as item()*) {
+    let $styles := map:new(for $class in $classes return $config?styles($class))
     let $text := string-join($content)
     return
         if (exists($styles)) then
-            pmf:style($styles?*, $styles, $text)
+            pmf:set-margins($styles, pmf:style($styles?*, $styles, $text))
+        else
+            $text
+};
+
+(:~
+ : Translate CSS class name into valid TeX macro name
+ :)
+declare %private function pmf:macroName($name as xs:string) {
+    let $tokens := tokenize($name, "[-_]+")
+    return
+        string-join(
+            for $token in $tokens
+            let $start := replace($token, "^(.*?)\d+$", "$1")
+            let $number := replace($token, "^.*?(\d+)$", "$1")
+            let $roman := if ($number != $start) then pmf:roman-numeral(xs:int($number)) else ()
+            return
+                upper-case(substring($start, 1, 1)) || substring($start, 2) || $roman
+        )
+};
+
+(:~ TeX does not allow numbers in macro names - replace with roman numeral :)
+declare %private function pmf:roman-numeral($n as xs:int) {
+    string-join(
+        if ($n >= 50) then
+            ("L", pmf:roman-numeral($n - 50))
+        else if ($n >= 40) then
+            ("XL", pmf:roman-numeral($n - 40))
+        else if ($n >= 10) then
+            ("X", pmf:roman-numeral($n - 10))
+        else if ($n >= 9) then
+            ("IX", pmf:roman-numeral($n - 9))
+        else if ($n >= 5) then
+            ("V", pmf:roman-numeral($n - 5))
+        else if ($n >= 4) then
+            ("IV", pmf:roman-numeral($n - 4))
+        else
+            for $i in 1 to $n return "I"
+    )
+};
+
+declare %private function pmf:check-styles($config as map(*), $classes as xs:string+, $content as item()*) {
+    let $text := string-join($content)
+    return
+        fold-left(reverse($classes), $text, function($zero, $class) {
+            let $style := ($config?styles($class))[1]
+            return
+                if (exists($style)) then
+                    "\" || pmf:macroName($class) || "{" || $zero || "}"
+                else
+                    $zero
+        })
+};
+
+declare %private function pmf:set-margins($styles as map(*), $text) {
+    let $marginRight := ($styles("margin-right"), "0mm")[1]
+    let $marginLeft := ($styles("margin-left"), "0mm")[1]
+    return
+        if ($marginRight != "0mm" or $marginLeft != "0mm") then
+            "\begin{changemargin}{" || $marginLeft || "}{" || $marginRight || "}"|| $text || "\end{changemargin}&#10;"
         else
             $text
 };
@@ -337,7 +456,7 @@ declare %private function pmf:style($names as xs:string*, $styles as map(*), $te
                             $text
                 case "font-variant" return
                     if ($value = "small-caps") then
-                        "\sc{"  || $text || "}"
+                        "\textsc{"  || $text || "}"
                     else
                         $text
                 case "font-size" return
@@ -374,11 +493,11 @@ declare %private function pmf:style($names as xs:string*, $styles as map(*), $te
                 case "text-align" return
                     switch ($value)
                         case "left" return
-                            "{\raggedleft " || $text || "}"
+                            "{\RaggedRight " || $text || "\par}"
                         case "right" return
-                            "{\raggedright " || $text || "}"
+                            "{\RaggedLeft " || $text || "\par}"
                         case "center" return
-                            "{\centering " || $text || "}"
+                            "{\Centering " || $text || "\par}"
                         default return
                             $text
                 case "text-indent" return
@@ -392,6 +511,15 @@ declare %private function pmf:style($names as xs:string*, $styles as map(*), $te
 declare function pmf:load-styles($config as map(*), $root as document-node()) {
     let $css := css:generate-css($root)
     let $styles := css:parse-css($css)
+    let $styles := map:new(($config?rendition-styles, $styles))
+    let $config := pmf:macros(map:new(($config, map { "styles": $styles })))
+    let $latexCode := (
+        $pmf:MACROS,
+        "% Styles&#10;",
+        map:for-each-entry($config?styles, function($class, $code) {
+            $code
+        })
+    )
     return
-        map:new(($config, map:entry("styles", $styles)))
+        map:new(($config, map {"latex-styles": $latexCode}))
 };

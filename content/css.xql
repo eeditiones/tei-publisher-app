@@ -45,7 +45,7 @@ declare function css:parse-css($css as xs:string) {
         let $selectorString := $match/fn:group[@nr = "1"]/string()
         let $selectors := tokenize($selectorString, "\s*,\s*")
         let $styles := map:new(
-            for $match in analyze-string($match/fn:group[@nr = "2"], "\s*(.*?)\s*\:\s*['&quot;]?(.*?)['&quot;]?\;")/fn:match
+            for $match in analyze-string($match/fn:group[@nr = "2"], "\s*(.*?)\s*\:\s*['&quot;]?(.*?)['&quot;]?(?:\;|$)")/fn:match
             return
                 map:entry($match/fn:group[1]/string(), $match/fn:group[2]/string())
         )
@@ -98,15 +98,16 @@ declare function css:get-rendition($node as node()*, $class as xs:string+) {
             $rend
 };
 
-declare function css:rendition-styles($node as node()*) as map(*)? {
+declare function css:rendition-styles($config as map(*), $node as node()*) as map(*)? {
     let $renditions := $node//@rendition[starts-with(., "#")]
     return
         if ($renditions) then
             map:new(
+                let $doc := ($config?parameters?root, root($node))[1]
                 for $renditionDef in $renditions
                 for $rendition in tokenize($renditionDef, "\s+")
                 let $id := substring-after($rendition, "#")
-                let $def := root($node)/id($id)
+                for $def in $doc/id($id)
                 return
                     map:entry("document_" || $id, $def/string())
             )
@@ -114,8 +115,8 @@ declare function css:rendition-styles($node as node()*) as map(*)? {
             ()
 };
 
-declare function css:rendition-styles-html($node as node()*) {
-    let $styles := css:rendition-styles($node)
+declare function css:rendition-styles-html($config as map(*), $node as node()*) {
+    let $styles := css:rendition-styles($config, $node)
     return
         if (exists($styles)) then
             map:for-each-entry($styles, function($key, $value) {

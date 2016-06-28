@@ -79,7 +79,7 @@ declare variable $pmf:CSS_PROPERTIES := (
 declare variable $pmf:NOTE_COUNTER_ID := "notes-" || util:uuid();
 
 declare function pmf:init($config as map(*), $node as node()*) {
-    let $renditionStyles := string-join(css:rendition-styles-html($node))
+    let $renditionStyles := string-join(css:rendition-styles-html($config, $node))
     let $styles := if ($renditionStyles) then css:parse-css($renditionStyles) else map {}
     return
         map:new(($config, map:entry("rendition-styles", $styles)))
