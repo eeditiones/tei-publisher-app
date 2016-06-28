@@ -16,7 +16,8 @@
     </output><!-- General latex extension functions -->
     <output mode="latex">
         <property name="class">"article"</property>
-        <property name="section-numbers">true()</property>
+        <property name="section-numbers">false()</property>
+        <property name="font-size">"12pt"</property>
         <property name="image-dir">
             (system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-1.0/test/",
             system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-1.0/doc/")

@@ -1,10 +1,10 @@
 xquery version "3.1";
 
 (:~
- : Function module to produce LaTeX output. The functions defined here are called 
+ : Function module to produce LaTeX output. The functions defined here are called
  : from the generated XQuery transformation module. Function names must match
  : those of the corresponding TEI Processing Model functions.
- : 
+ :
  : @author Wolfgang Meier
  :)
 module namespace pmf="http://www.tei-c.org/tei-simple/xquery/functions/latex";
@@ -53,12 +53,12 @@ declare function pmf:paragraph($config as map(*), $node as element(), $class as 
 
 declare function pmf:heading($config as map(*), $node as element(), $class as xs:string+, $content) {
     let $level := if ($content instance of node()) then max((count($content/ancestor::tei:div), 1)) else 1
-    let $headType := 
-        if (pmf:document-class($config) = ("book", "report")) then
+    let $headType :=
+        if (pmf:get-property($config, "class", "book") = ("book", "report")) then
             ($pmf:HEADINGS_BOOK?($level), "section")[1]
         else
             ($pmf:HEADINGS_OTHER?($level), "section")[1]
-    let $sectionNumbering := $config?section-numbers
+    let $sectionNumbering := pmf:get-property($config, "section-numbers", ())
     let $headType := if ($sectionNumbering) then $headType else ($headType || "*")
     return
         switch ($level)
@@ -73,7 +73,7 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
 };
 
 declare function pmf:list($config as map(*), $node as element(), $class as xs:string+, $content) {
-    if ($node/tei:label) then 
+    if ($node/tei:label) then
         let $max := max($node/tei:label ! string-length(.))
         let $longest := ($node/tei:label[string-length(.) = $max])[1]/string()
         return (
@@ -191,16 +191,17 @@ declare function pmf:break($config as map(*), $node as element(), $class as xs:s
             ()
 };
 
-declare function pmf:document-class($config as map(*)) {
-    ($config?class, "book")[1]
+declare function pmf:get-property($config as map(*), $key as xs:string, $default as xs:string?) {
+    ($config($key), $default)[1]
 };
 
 
 declare function pmf:document($config as map(*), $node as element(), $class as xs:string+, $content) {
     let $odd := doc($config?odd)
     let $config := pmf:load-styles($config, $odd)
+    let $fontSize := ($config?font-size, "11pt")[1]
     return (
-        "\documentclass[11pt]{" || pmf:document-class($config) || "}&#10;",
+        "\documentclass[" || $fontSize || "]{" || pmf:get-property($config, "class", "book") || "}&#10;",
 (:        "\usepackage[utf8]{inputenc}&#10;",:)
         "\usepackage[english]{babel}&#10;",
         "\usepackage{ragged2e}&#10;",
@@ -227,7 +228,7 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         "\def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}&#10;",
         "\hyperbaseurl{}&#10;",
         if (exists($config?image-dir)) then
-            "\graphicspath{" || 
+            "\graphicspath{" ||
             string-join(
                 for $dir in $config?image-dir return "{" || $dir || "}"
             ) ||
@@ -238,7 +239,7 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         "\thispagestyle{empty}&#10;",
         $config("latex-styles"),
         "&#10;\begin{document}&#10;",
-        if (pmf:document-class($config) = "book") then "\mainmatter&#10;" else (),
+        if (pmf:get-property($config, "class", "book") = "book") then "\mainmatter&#10;" else (),
         "\fancyhead[EL,OR]{\thepage}&#10;",
         "\fancyhead[ER]{\leftmark}&#10;",
         "\fancyhead[OL]{\leftmark}&#10;",
@@ -272,7 +273,7 @@ declare function pmf:table($config as map(*), $node as element(), $class as xs:s
 };
 
 declare function pmf:row($config as map(*), $node as element(), $class as xs:string+, $content) {
-    $config?apply-children($config, $node, $content), 
+    $config?apply-children($config, $node, $content),
     if ($node/@role = "label") then
         " \\&#10;\hline&#10;"
     else
@@ -360,7 +361,7 @@ declare %private function pmf:macros($config as map(*)) as map(*) {
         return
             if ($code != "#1") then
                 map {
-                    $class: 
+                    $class:
                         "\newcommand{\" || pmf:macroName($class) || "}[1]{" ||
                         $code ||
                         "}&#10;"
