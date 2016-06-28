@@ -31,7 +31,11 @@ declare variable $pmf:MACROS := "
   }%
   \item[]}{\end{list}}
 ";
-    
+
+declare variable $pmf:HEADINGS_BOOK := ["chapter", "section", "subsection", "subsubsection", "paragraph", "subparagraph"];
+
+declare variable $pmf:HEADINGS_OTHER := ["section", "subsection", "subsubsection", "paragraph", "subparagraph"];
+
 declare function pmf:init($config as map(*), $node as node()*) {
     let $renditionStyles := string-join(css:rendition-styles-html($config, $node))
     let $styles := if ($renditionStyles) then css:parse-css($renditionStyles) else map {}
@@ -49,6 +53,13 @@ declare function pmf:paragraph($config as map(*), $node as element(), $class as 
 
 declare function pmf:heading($config as map(*), $node as element(), $class as xs:string+, $content) {
     let $level := if ($content instance of node()) then max((count($content/ancestor::tei:div), 1)) else 1
+    let $headType := 
+        if (pmf:document-class($config) = ("book", "report")) then
+            ($pmf:HEADINGS_BOOK?($level), "section")[1]
+        else
+            ($pmf:HEADINGS_OTHER?($level), "section")[1]
+    let $sectionNumbering := $config?section-numbers
+    let $headType := if ($sectionNumbering) then $headType else ($headType || "*")
     return
         switch ($level)
             case 1 return
@@ -56,19 +67,9 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
                 let $configNoFn := map:merge(($config, map { "skip-footnotes": true() }))
                 let $headingNoFn := pmf:get-content($configNoFn, $node, $class, $content)
                 return
-                    "\chapter*{" || $heading || " \markboth{" || $headingNoFn || "}{" || $headingNoFn || "}}&#10;&#10;"
-            case 2 return
-                "\section*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;&#10;"
-            case 3 return
-                "\subsection*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;&#10;"
-            case 4 return
-                "\subsubsection*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;&#10;"
-            case 5 return
-                "\paragraph*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;&#10;"
-            case 6 return
-                "\subparagraph*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;&#10;"
+                    "\" || $headType || "{" || $heading || "}\markboth{" || $headingNoFn || "}{" || $headingNoFn || "}&#10;&#10;"
             default return
-                "\section*{" || pmf:get-content($config, $node, $class, $content) || "}&#10;&#10;"
+                "\" || $headType || "{" || pmf:get-content($config, $node, $class, $content) || "}&#10;&#10;"
 };
 
 declare function pmf:list($config as map(*), $node as element(), $class as xs:string+, $content) {
@@ -190,11 +191,16 @@ declare function pmf:break($config as map(*), $node as element(), $class as xs:s
             ()
 };
 
+declare function pmf:document-class($config as map(*)) {
+    ($config?class, "book")[1]
+};
+
+
 declare function pmf:document($config as map(*), $node as element(), $class as xs:string+, $content) {
     let $odd := doc($config?odd)
     let $config := pmf:load-styles($config, $odd)
     return (
-        "\documentclass[11pt]{book}&#10;",
+        "\documentclass[11pt]{" || pmf:document-class($config) || "}&#10;",
 (:        "\usepackage[utf8]{inputenc}&#10;",:)
         "\usepackage[english]{babel}&#10;",
         "\usepackage{ragged2e}&#10;",
@@ -232,7 +238,7 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         "\thispagestyle{empty}&#10;",
         $config("latex-styles"),
         "&#10;\begin{document}&#10;",
-        "\mainmatter&#10;",
+        if (pmf:document-class($config) = "book") then "\mainmatter&#10;" else (),
         "\fancyhead[EL,OR]{\thepage}&#10;",
         "\fancyhead[ER]{\leftmark}&#10;",
         "\fancyhead[OL]{\leftmark}&#10;",
