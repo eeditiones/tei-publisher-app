@@ -138,8 +138,8 @@ declare function pmu:process-odd($odd as document-node(), $output-root as xs:str
             let $generated := pm:parse($odd/*, pmu:fix-module-paths($module?modules), $module?output?*)
             let $xquery := xmldb:store($output-root, $name || "-" || $mode || ".xql", $generated?code, "application/xquery")
             let $style := pmu:extract-styles($odd, $name, $output-root)
-            let $main := pmu:generate-main($name, $generated?uri, $xquery, $ext-modules, $output-root, $mode, $relPath, $style)
-            let $module := pmu:generate-module($name, $generated?uri, $xquery, $ext-modules, $output-root, $mode, $relPath, $style)
+            let $main := pmu:generate-main($name, $generated?uri, $xquery, $ext-modules, $output-root, $mode, $relPath, $style, $config)
+            let $module := pmu:generate-module($name, $generated?uri, $xquery, $ext-modules, $output-root, $mode, $relPath, $style, $config)
             return
                 map {
                     "id": $name,
@@ -150,8 +150,10 @@ declare function pmu:process-odd($odd as document-node(), $output-root as xs:str
                 }
 };
 
-declare function pmu:generate-module($name as xs:string, $uri as xs:string, $xqueryFile as xs:string, $ext-modules as map(*)*, $output-root as xs:string,
-    $mode as xs:string, $relPath as xs:string?, $style as xs:string?) {
+declare function pmu:generate-module($name as xs:string, $uri as xs:string,
+    $xqueryFile as xs:string, $ext-modules as map(*)*, $output-root as xs:string,
+    $mode as xs:string, $relPath as xs:string?, $style as xs:string?,
+    $config as element(modules)?) {
     let $mainCode :=
         "module namespace pml='" || $uri || "/module" || "';&#10;&#10;" ||
         "import module namespace m='" || $uri ||
@@ -161,7 +163,7 @@ declare function pmu:generate-module($name as xs:string, $uri as xs:string, $xqu
         " :)&#10;" ||
         "declare function pml:transform($xml as node()*, $parameters as map(*)?) {&#10;&#10;" ||
         "   let $options := map {&#10;" ||
-        pmu:properties($ext-modules) ||
+        pmu:properties($name, $mode, $config) ||
         '       "styles": ["' || $relPath || "/" || $style || '"],&#10;' ||
         '       "collection": "' || $output-root || '",&#10;' ||
         '       "parameters": if (exists($parameters)) then $parameters else map {}&#10;' ||
@@ -172,15 +174,17 @@ declare function pmu:generate-module($name as xs:string, $uri as xs:string, $xqu
         xmldb:store($output-root, $name || "-" || $mode || "-module.xql", $mainCode, "application/xquery")
 };
 
-declare function pmu:generate-main($name as xs:string, $uri as xs:string, $xqueryFile as xs:string, $ext-modules as map(*)*, $output-root as xs:string,
-    $mode as xs:string, $relPath as xs:string?, $style as xs:string?) {
+declare function pmu:generate-main($name as xs:string, $uri as xs:string, $xqueryFile as xs:string,
+    $ext-modules as map(*)*, $output-root as xs:string,
+    $mode as xs:string, $relPath as xs:string?, $style as xs:string?,
+    $config as element(modules)?) {
     let $mainCode :=
         "import module namespace m='" || $uri ||
         "' at '" || $xqueryFile || "';&#10;&#10;" ||
         "declare variable $xml external;&#10;&#10;" ||
         "declare variable $parameters external;&#10;&#10;" ||
         "let $options := map {&#10;" ||
-        pmu:properties($ext-modules) ||
+        pmu:properties($name, $mode, $config) ||
         '    "styles": ["' || $relPath || "/" || $style || '"],&#10;' ||
         '    "collection": "' || $output-root || '",&#10;' ||
         '    "parameters": if (exists($parameters)) then $parameters else map {}&#10;' ||
@@ -212,10 +216,10 @@ declare %private function pmu:parse-config($odd as xs:string, $mode as xs:string
         ()
 };
 
-declare function pmu:properties($modules as map(*)*) {
+declare function pmu:properties($odd as xs:string, $mode as xs:string,
+    $config as element(modules)?) {
     let $properties :=
-        for $module in $modules
-        for $property in $module?properties
+        for $property in $config/output[@mode = $mode][not(@odd) or @odd = $odd]//property
         return
             '    "' || $property/@name || '": ' || normalize-space($property)
     return
