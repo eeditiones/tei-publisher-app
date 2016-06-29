@@ -142,7 +142,11 @@ declare function pmf:graphic($config as map(*), $node as element(), $class as xs
     let $w := if ($width and not(ends-with($width, "%"))) then "width=" || $width else ()
     let $h := if ($height and not(ends-with($height, "%"))) then "height=" || $height else ()
     let $s := if ($scale) then "scale=" || $scale else ()
-    let $options := string-join(($w, $h, $s), ",")
+    let $options := 
+        if ($w or $h or $s) then 
+            string-join(($w, $h, $s), ",")
+        else
+            "max size={\textwidth}{\textheight}"
     let $cmd :=
         if ($options) then
             "\includegraphics[" || $options || "]{" || $url || "}"
@@ -212,6 +216,7 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         "\usepackage{marginfix}&#10;",
         "\usepackage[a4paper, twoside, top=25mm, bottom=35mm, outer=40mm, inner=20mm, heightrounded, marginparwidth=25mm, marginparsep=5mm]{geometry}&#10;",
         "\usepackage{graphicx}&#10;",
+        "\usepackage[export]{adjustbox}&#10;",
         "\usepackage{hyperref}&#10;",
         "\usepackage{ifxetex}&#10;",
         "\usepackage{longtable}&#10;",
@@ -235,10 +240,11 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
             "}&#10;"
         else
             (),
-        "\def\tableofcontents{\section*{\contentsname}\@starttoc{toc}}&#10;",
+        "%\def\tableofcontents{\section*{\contentsname}\@starttoc{toc}}&#10;",
         "\thispagestyle{empty}&#10;",
         $config("latex-styles"),
         "&#10;\begin{document}&#10;",
+        "%\tableofcontents&#10;",
         if (pmf:get-property($config, "class", "book") = "book") then "\mainmatter&#10;" else (),
         "\fancyhead[EL,OR]{\thepage}&#10;",
         "\fancyhead[ER]{\leftmark}&#10;",
