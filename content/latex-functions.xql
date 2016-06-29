@@ -64,7 +64,7 @@ declare function pmf:heading($config as map(*), $node as element(), $class as xs
         switch ($level)
             case 1 return
                 let $heading := normalize-space(pmf:get-content($config, $node, $class, $content))
-                let $configNoFn := map:merge(($config, map { "skip-footnotes": true() }))
+                let $configNoFn := map:new(($config, map { "skip-footnotes": true() }))
                 let $headingNoFn := pmf:get-content($configNoFn, $node, $class, $content)
                 return
                     "\" || $headType || "{" || $heading || "}\markboth{" || $headingNoFn || "}{" || $headingNoFn || "}&#10;&#10;"
