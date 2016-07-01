@@ -155,9 +155,18 @@ return (
                                                 </if>
                                             </case>
                                             <case test="text() | xs:anyAtomicType">
-                                                <function-call name="{$modules?1?prefix}:escapeChars">
-                                                    <param>.</param>
-                                                </function-call>
+                                            {
+                                                let $charFn := pm:lookup($moduleDesc, "characters", 1)
+                                                return
+                                                    if (exists($charFn)) then
+                                                        <function-call name="{$charFn?prefix}:characters">
+                                                            <param>.</param>
+                                                        </function-call>
+                                                    else
+                                                        <function-call name="{$modules?1?prefix}:escapeChars">
+                                                            <param>.</param>
+                                                        </function-call>
+                                            }
                                             </case>
                                             <default>
                                                 <function-call name="$config?apply">
