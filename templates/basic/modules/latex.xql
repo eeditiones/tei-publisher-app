@@ -33,7 +33,7 @@ return (
     response:set-cookie("simple.token", $token),
     if ($id) then
         let $xml := doc($config:data-root || "/" || $id || ".xml")/tei:TEI
-        let $tex := string-join($pm-config:latex-transform($xml, ()))
+        let $tex := string-join($pm-config:latex-transform($xml, map { "image-dir": config:get-repo-dir() || "/" || $config:data-root || "/" }))
         let $file := 
             $id || format-dateTime(current-dateTime(), "-[Y0000][M00][D00]-[H00][m00]")
         return

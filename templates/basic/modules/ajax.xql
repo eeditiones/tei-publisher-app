@@ -69,6 +69,8 @@ return
             switch ($view)
                 case "page" return
                     $xml/preceding::tei:pb[1]
+                case "body" return
+                    ($xml/preceding-sibling::*, $xml/../preceding-sibling::*)[1]
                 default return
                     let $parent := $xml/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
                     let $prevDiv := $xml/preceding::tei:div[1]
@@ -78,6 +80,8 @@ return
             switch ($view)
                 case "page" return
                     $xml/following::tei:pb[1]
+                case "body" return
+                    ($xml/following-sibling::*, $xml/../following-sibling::*)[1]
                 default return
                     pages:get-next($xml)
         let $html := pages:process-content(pages:get-content($xml), $xml)

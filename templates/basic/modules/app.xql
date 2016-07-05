@@ -62,7 +62,7 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
         else if ($cached and $filter != "") then
             $cached
         else
-            collection($config:data-root)/tei:TEI
+            collection($config:data-root)/(tei:TEI|tei:teiCorpus)
     return (
         session:set-attribute("simple.works", $filtered),
         session:set-attribute("browse", $browse),
@@ -88,7 +88,7 @@ function app:browse($node as node(), $model as map(*), $start as xs:int, $per-pa
 declare
     %templates:wrap
 function app:short-header($node as node(), $model as map(*)) {
-    let $work := $model("work")/ancestor-or-self::tei:TEI
+    let $work := root($model("work"))/*
     let $id := util:document-name($work)
     return
         $pm-config:web-transform($work/tei:teiHeader, map { 

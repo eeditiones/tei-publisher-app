@@ -60,12 +60,45 @@ declare variable $pages:EXIDE :=
 
 declare
     %templates:wrap
-function pages:load($node as node(), $model as map(*), $doc as xs:string, $root as xs:string?, $view as xs:string?) {
-    let $doc := xmldb:encode-uri($doc)
+function pages:load($node as node(), $model as map(*), $doc as xs:string, $root as xs:string?, 
+    $id as xs:string?, $view as xs:string?) {
+    let $doc := xmldb:decode($doc)
     let $view := if ($view) then $view else $config:default-view
+    let $node := 
+        if ($id) then
+            let $node := doc($config:data-root || "/" || $doc)/id($id)
+            let $div := $node/ancestor-or-self::tei:div[1]
+            return
+                if (empty($div)) then
+                    $node/following-sibling::tei:div[1]
+                else
+                    $div
+        else
+            pages:load-xml($view, $root, $doc)
+    let $node :=
+        if ($node) then
+            $node
+        else
+            <TEI xmlns="http://www.tei-c.org/ns/1.0">
+                <teiHeader>
+                    <fileDesc>
+                        <titleStmt>
+                            <title>Not found</title>
+                        </titleStmt>
+                    </fileDesc>
+                </teiHeader>
+                <text>
+                    <body>
+                        <div>
+                            <head>Failed to load!</head>
+                            <p>Could not load document {$doc}. Maybe it is not valid TEI or not in the TEI namespace?</p>
+                        </div>
+                    </body>
+                </text>
+            </TEI>//tei:div
     return
         map {
-            "data": pages:load-xml($view, $root, $doc)
+            "data": $node
         }
 };
 
@@ -87,7 +120,12 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
                         if ($div) then
                             $div
                         else
-                            doc($config:data-root || "/" || $doc)/tei:TEI//tei:body
+                            let $group := doc($config:data-root || "/" || $doc)/tei:TEI/tei:text/tei:group/tei:text/(tei:front|tei:body|tei:back)
+                            return
+                                if ($group) then
+                                    $group[1]
+                                else
+                                    doc($config:data-root || "/" || $doc)/tei:TEI//tei:body
             case "page" return
                 if (matches($doc, "_\d+\.[\d\.]+\.xml$")) then
                     let $analyzed := analyze-string($doc, "^(.*)_(\d+\.[\d\.]+)\.xml$")
@@ -105,7 +143,10 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
                         else
                             doc($config:data-root || "/" || $doc)/tei:TEI//tei:body
             default return
-                doc($config:data-root || "/" || $doc)/tei:TEI/tei:text
+                if ($root) then
+                    util:node-by-id(doc($config:data-root || "/" || $doc), $root)
+                else
+                    doc($config:data-root || "/" || $doc)/tei:TEI/tei:text
 };
 
 declare function pages:back-link($node as node(), $model as map(*)) {
@@ -158,7 +199,7 @@ declare function pages:xml-link($node as node(), $model as map(*), $source as xs
 declare
     %templates:default("action", "browse")
 function pages:view($node as node(), $model as map(*), $view as xs:string?, $action as xs:string) {
-    let $view := if ($view) then $view else $config:default-view
+    let $view := pages:determine-view($view, $model?data)
     let $data :=
         if ($action = "search") then
             let $query := session:get-attribute("apps.simple.query")
@@ -187,7 +228,7 @@ function pages:view($node as node(), $model as map(*), $view as xs:string?, $act
         else
             $model?data
     let $xml :=
-        if ($view = ("div", "page")) then
+        if ($view = ("div", "page", "body")) then
             pages:get-content($data[1])
         else
             $model?data//*:body/*
@@ -211,7 +252,7 @@ function pages:table-of-contents($node as node(), $model as map(*), $view as xs:
 };
 
 declare %private function pages:toc-div($node, $view as xs:string?) {
-    let $view := if ($view) then $view else $config:default-view
+    let $view := pages:determine-view($view, $node)
     let $divs := $node//tei:div[tei:head] except $node//tei:div[tei:head]//tei:div
 (:    let $divs := $node//tei:div[empty(ancestor::tei:div) or ancestor::tei:div[1] is $node][tei:head]:)
     return
@@ -253,7 +294,7 @@ function pages:styles($node as node(), $model as map(*)) {
 declare
     %templates:wrap
 function pages:navigation($node as node(), $model as map(*), $view as xs:string?) {
-    let $view := if ($view) then $view else $config:default-view
+    let $view := pages:determine-view($view, $model?data)
     let $div := $model?data
     let $work := $div/ancestor-or-self::tei:TEI
     return
@@ -270,6 +311,13 @@ function pages:navigation($node as node(), $model as map(*), $view as xs:string?
                     "work": $work,
                     "div": $div
                 }
+                case "body" return
+                    map {
+                        "previous": ($div/preceding-sibling::*, $div/../preceding-sibling::*)[1],
+                        "next": ($div/following-sibling::*, $div/../following-sibling::*)[1],
+                        "work": $work,
+                        "div": $div
+                    }
             default return
                 let $parent := $div/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
                 let $prevDiv := $div/preceding::tei:div[1]
@@ -383,7 +431,7 @@ declare function pages:title($work as element()) {
 };
 
 declare function pages:navigation-link($node as node(), $model as map(*), $direction as xs:string, $view as xs:string?) {
-    let $view := if ($view) then $view else $config:default-view
+    let $view := pages:determine-view($view, $model?data)
     return
         if ($view = "single") then
             ()
@@ -415,8 +463,20 @@ function pages:app-root($node as node(), $model as map(*)) {
     }
 };
 
+declare function pages:determine-view($view as xs:string?, $node as node()) {
+    typeswitch ($node)
+        case element(tei:body) return
+            "body"
+        case element(tei:front) return
+            "body"
+        case element(tei:back) return
+            "body"
+        default return
+            if ($view) then $view else $config:default-view
+};
+
 declare function pages:switch-view($node as node(), $model as map(*), $root as xs:string?, $doc as xs:string, $view as xs:string?) {
-    let $view := if ($view) then $view else $config:default-view
+    let $view := pages:determine-view($view, $model?data)
     let $targetView := if ($view = "page") then "div" else "page"
     let $root := pages:switch-view-id($model?data, $view)
     return
@@ -440,7 +500,7 @@ declare function pages:switch-view($node as node(), $model as map(*), $root as x
 };
 
 declare function pages:has-pages($data as element()+) {
-    exists((root($data)//tei:div)[1]//tei:pb)
+    exists((root($data)//(tei:div|tei:body))[1]//tei:pb)
 };
 
 declare function pages:switch-view-id($data as element()+, $view as xs:string) {
