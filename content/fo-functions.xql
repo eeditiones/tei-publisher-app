@@ -1,27 +1,27 @@
-(: 
+(:
  : Copyright 2015, Wolfgang Meier
- : 
- : This software is dual-licensed: 
- : 
+ :
+ : This software is dual-licensed:
+ :
  : 1. Distributed under a Creative Commons Attribution-ShareAlike 3.0 Unported License
- : http://creativecommons.org/licenses/by-sa/3.0/ 
- : 
- : 2. http://www.opensource.org/licenses/BSD-2-Clause 
- : 
- : All rights reserved. Redistribution and use in source and binary forms, with or without 
- : modification, are permitted provided that the following conditions are met: 
- : 
- : * Redistributions of source code must retain the above copyright notice, this list of 
- : conditions and the following disclaimer. 
+ : http://creativecommons.org/licenses/by-sa/3.0/
+ :
+ : 2. http://www.opensource.org/licenses/BSD-2-Clause
+ :
+ : All rights reserved. Redistribution and use in source and binary forms, with or without
+ : modification, are permitted provided that the following conditions are met:
+ :
+ : * Redistributions of source code must retain the above copyright notice, this list of
+ : conditions and the following disclaimer.
  : * Redistributions in binary form must reproduce the above copyright
  : notice, this list of conditions and the following disclaimer in the documentation
- : and/or other materials provided with the distribution. 
- : 
- : This software is provided by the copyright holders and contributors "as is" and any 
- : express or implied warranties, including, but not limited to, the implied warranties 
- : of merchantability and fitness for a particular purpose are disclaimed. In no event 
- : shall the copyright holder or contributors be liable for any direct, indirect, 
- : incidental, special, exemplary, or consequential damages (including, but not limited to, 
+ : and/or other materials provided with the distribution.
+ :
+ : This software is provided by the copyright holders and contributors "as is" and any
+ : express or implied warranties, including, but not limited to, the implied warranties
+ : of merchantability and fitness for a particular purpose are disclaimed. In no event
+ : shall the copyright holder or contributors be liable for any direct, indirect,
+ : incidental, special, exemplary, or consequential damages (including, but not limited to,
  : procurement of substitute goods or services; loss of use, data, or profits; or business
  : interruption) however caused and on any theory of liability, whether in contract,
  : strict liability, or tort (including negligence or otherwise) arising in any way out
@@ -30,10 +30,10 @@
 xquery version "3.1";
 
 (:~
- : Function module to produce HTML output. The functions defined here are called 
+ : Function module to produce HTML output. The functions defined here are called
  : from the generated XQuery transformation module. Function names must match
  : those of the corresponding TEI Processing Model functions.
- : 
+ :
  : @author Wolfgang Meier
  :)
 module namespace pmf="http://www.tei-c.org/tei-simple/xquery/functions/fo";
@@ -47,7 +47,7 @@ import module namespace counter="http://exist-db.org/xquery/counter" at "java:or
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "css.xql";
 
 declare variable $pmf:CSS_PROPERTIES := (
-    "font-family", 
+    "font-family",
     "font-weight",
     "font-style",
     "font-size",
@@ -70,7 +70,7 @@ declare variable $pmf:CSS_PROPERTIES := (
     "margin-bottom",
     "margin-left",
     "margin-right",
-    "wrap-option", 
+    "wrap-option",
     "linefeed-treatment",
     "white-space-collapse",
     "white-space-treatment"
@@ -145,7 +145,7 @@ declare function pmf:listItem($config as map(*), $node as element(), $class as x
         { pmf:check-styles($config, $node, $class, ()) }
         <fo:list-item-label>
         {
-            pmf:check-styles($config, $node, "tei-listItem-label", ()),
+            pmf:check-styles($config, $node, "tei-listItem-label", (), false()),
             if ($node/preceding-sibling::tei:label) then
                 <fo:block>{$config?apply($config, $node/preceding-sibling::tei:label[1])}</fo:block>
             else
@@ -183,7 +183,7 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
         <fo:footnote>
             <fo:inline>
             {pmf:check-styles($config, $node, "tei-note", ())}
-            {$number} 
+            {$number}
             </fo:inline>
             <fo:footnote-body start-indent="0mm" end-indent="0mm" text-indent="0mm" white-space-treatment="ignore-if-surrounding-linefeed">
                 <fo:list-block>
@@ -207,7 +207,7 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
 declare function pmf:section($config as map(*), $node as element(), $class as xs:string+, $content) {
     comment { "section" || " (" || string-join($class, ", ") || ")"},
     <fo:block>
-    { 
+    {
         pmf:check-styles($config, $node, $class, ()),
         $config?apply-children($config, $node, $content)
     }
@@ -345,9 +345,9 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
             </fo:simple-page-master>
             <fo:page-sequence-master master-name="page-content">
                 <fo:repeatable-page-master-alternatives>
-                    <fo:conditional-page-master-reference 
+                    <fo:conditional-page-master-reference
                         master-reference="page-right" odd-or-even="odd"/>
-                    <fo:conditional-page-master-reference 
+                    <fo:conditional-page-master-reference
                         master-reference="page-left" odd-or-even="even"/>
                 </fo:repeatable-page-master-alternatives>
             </fo:page-sequence-master>
@@ -380,7 +380,7 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
             <fo:flow flow-name="xsl-region-body" hyphenate="true" language="en" xml:lang="en">
             {$config?apply-children($config, $node, $content)}
             {counter:destroy($pmf:NOTE_COUNTER_ID)[2]}
-            </fo:flow>                         
+            </fo:flow>
         </fo:page-sequence>
     </fo:root>
 };
@@ -399,8 +399,8 @@ declare function pmf:table($config as map(*), $node as element(), $class as xs:s
         { pmf:check-styles($config, $node, $class, ()) }
         <fo:table-body>
         {
-            pmf:check-styles($config, $node, "tei-table-body", ()),
-            $config?apply($config, $node/tei:row) 
+            pmf:check-styles($config, $node, "tei-table-body", (), false()),
+            $config?apply($config, $node/tei:row)
         }
         </fo:table-body>
     </fo:table>
@@ -457,7 +457,11 @@ declare function pmf:get-after($config as map(*), $classes as xs:string*) {
 };
 
 declare function pmf:check-styles($config as map(*), $node as element()?, $classes as xs:string*, $default as map(*)?) {
-    if ($node/@xml:id) then
+    pmf:check-styles($config, $node, $classes, $default, true())
+};
+
+declare function pmf:check-styles($config as map(*), $node as element()?, $classes as xs:string*, $default as map(*)?, $declareId as xs:boolean?) {
+    if ($declareId and $node/@xml:id) then
         attribute id { $node/@xml:id }
     else
         (),
@@ -474,7 +478,7 @@ declare function pmf:check-styles($config as map(*), $node as element()?, $class
                 pmf:filter-styles($config?rendition-styles?($class))
             )
         )
-    let $styles := 
+    let $styles :=
         if (exists($stylesForClass)) then
             pmf:merge-maps($stylesForClass, $defaultStyles)
         else
