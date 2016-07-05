@@ -133,12 +133,22 @@ declare function config:get-data-dir() as xs:string? {
     }
 };
 
-declare function config:get-fonts-dir() as xs:string? {
+declare function config:get-repo-dir() {
     let $dataDir := config:get-data-dir()
     let $pkgRoot := $config:expath-descriptor/@abbrev || "-" || $config:expath-descriptor/@version
     return
         if ($dataDir) then
-            $dataDir || "/expathrepo/" || $pkgRoot || "/resources/fonts"
+            $dataDir || "/expathrepo/" || $pkgRoot
+        else
+            ()
+};
+
+
+declare function config:get-fonts-dir() as xs:string? {
+    let $repoDir := config:get-repo-dir()
+    return
+        if ($repoDir) then
+            $repoDir || "/resources/fonts"
         else
             ()
 };

@@ -25,7 +25,7 @@ declare variable $local:WORKING_DIR := system:get-exist-home() || "/webapp";
 declare variable $local:OUTPUT_DIR := $local:WORKING_DIR || "/teisimple-temp";
 
 declare variable $local:TeX_COMMAND := function($file) {
-    ( "/opt/local/bin/pdflatex", "-interaction=nonstopmode", $file )
+    ( "/usr/local/texlive/2015/bin/x86_64-darwin/xelatex", "-interaction=nonstopmode", $file )
 };
 
 declare function local:create-output-dir() {
@@ -52,7 +52,12 @@ return
         let $xml := doc($config:app-root || "/" || $doc)
         let $tex :=
             string-join(
-                pmu:process(odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root), $xml, $config:output-root, "latex", "../" || $config:output, $config:module-config)
+                pmu:process(
+                    odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root), 
+                    $xml, $config:output-root, "latex", "../" || $config:output, 
+                    $config:module-config,
+                    map { "image-dir": config:get-repo-dir() || "/" || replace($doc, "^(.*?)/[^/]*$", "$1") || "/" }
+                )
             )
         let $file := 
             replace($doc, "^.*?([^/]+)\..*$", "$1-") ||

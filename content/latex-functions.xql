@@ -15,9 +15,6 @@ declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css" at "css.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
-declare variable $pmf:WORKING_DIR := system:get-exist-home() || "/webapp";
-declare variable $pmf:IMAGE_DIR := $pmf:WORKING_DIR || "/WEB-INF/data/expathrepo/tei-simple-0.2/test/";
-
 declare variable $pmf:MACROS := "
 % set left and right margin
 \newenvironment{changemargin}[2]{%
@@ -232,10 +229,10 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         "\def\theendnote{\@alph\c@endnote}&#10;",
         "\def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}&#10;",
         "\hyperbaseurl{}&#10;",
-        if (exists($config?image-dir)) then
+        if (exists($config?parameters?image-dir)) then
             "\graphicspath{" ||
             string-join(
-                for $dir in $config?image-dir return "{" || $dir || "}"
+                for $dir in $config?parameters?image-dir return "{" || $dir || "}"
             ) ||
             "}&#10;"
         else
