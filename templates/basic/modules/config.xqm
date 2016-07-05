@@ -6,10 +6,13 @@ xquery version "3.0";
  :)
 module namespace config="http://www.tei-c.org/tei-simple/config";
 
+import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
+
 declare namespace templates="http://exist-db.org/xquery/templates";
 
 declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace expath="http://expath.org/ns/pkg";
+declare namespace jmx="http://exist-db.org/jmx";
 
 declare variable $config:default-view := "$$default-view$$";
 
@@ -110,4 +113,29 @@ declare function config:app-info($node as node(), $model as map(*)) {
                 <td>{ request:get-attribute("$exist:controller") }</td>
             </tr>
         </table>
+};
+
+(: Try to dynamically determine data directory by calling JMX. :)
+declare function config:get-data-dir() as xs:string? {
+    try {
+        let $request := <http:request method="GET" href="http://localhost:{request:get-server-port()}/{request:get-context-path()}/status?c=disk"/>
+        let $response := http:send-request($request)
+        return
+            if ($response[1]/@status = "200") then
+                $response[2]//jmx:DataDirectory/string()
+            else
+                ()
+    } catch * {
+        ()
+    }
+};
+
+declare function config:get-fonts-dir() as xs:string? {
+    let $dataDir := config:get-data-dir()
+    let $pkgRoot := $config:expath-descriptor/@abbrev || "-" || $config:expath-descriptor/@version
+    return
+        if ($dataDir) then
+            $dataDir || "/expathrepo/" || $pkgRoot || "/resources/fonts"
+        else
+            ()
 };

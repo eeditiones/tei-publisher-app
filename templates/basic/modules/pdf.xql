@@ -1,5 +1,10 @@
 xquery version "3.0";
 
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
+import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
+import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
+import module namespace xslfo="http://exist-db.org/xquery/xslfo" at "java:org.exist.xquery.modules.xslfo.XSLFOModule";
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace fo="http://www.w3.org/1999/XSL/Format";
@@ -8,14 +13,6 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare option output:method "xml";
 declare option output:media-type "application/xml";
 declare option output:omit-xml-declaration "no";
-
-import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
-import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
-import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
-import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "/db/apps/tei-simple/content/util.xql";
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "/db/apps/tei-simple/content/odd2odd.xql";
-import module namespace xslfo="http://exist-db.org/xquery/xslfo" at "java:org.exist.xquery.modules.xslfo.XSLFOModule";
 
 declare variable $local:WORKING_DIR := system:get-exist-home() || "/webapp";
 (:  Set to 'ah' for AntennaHouse, 'fop' for Apache fop :)
@@ -32,44 +29,46 @@ declare function local:prepare-cache-collection() {
         (xmldb:create-collection($config:app-root, "cache"))[2]
 };
 
-declare function local:fop($id as xs:string, $fo as element()) {
-    let $appName := config:expath-descriptor()/@abbrev
-    let $config :=
+declare function local:fop($id as xs:string, $fontsDir as xs:string?, $fo as element()) {
+let $config :=
     <fop version="1.0">
         <!-- Strict user configuration -->
         <strict-configuration>true</strict-configuration>
 
         <!-- Strict FO validation -->
-        <strict-validation>no</strict-validation>
+        <strict-validation>false</strict-validation>
 
         <!-- Base URL for resolving relative URLs -->
         <base>./</base>
-        
-        <!-- Font Base URL for resolving relative font URLs -->
-        <font-base>{substring-before(request:get-url(), "/" || $appName)}/{$appName/string()}/resources/fonts/</font-base>
+
         <renderers>
             <renderer mime="application/pdf">
                 <fonts>
-                    <font kerning="yes"
-                        embed-url="Junicode.ttf"
-                        encoding-mode="single-byte">
-                        <font-triplet name="Junicode" style="normal" weight="normal"/>
-                    </font>
-                    <font kerning="yes"
-                        embed-url="Junicode-Bold.ttf"
-                        encoding-mode="single-byte">
-                        <font-triplet name="Junicode" style="normal" weight="700"/>
-                    </font>
-                    <font kerning="yes"
-                        embed-url="Junicode-Italic.ttf"
-                        encoding-mode="single-byte">
-                        <font-triplet name="Junicode" style="italic" weight="normal"/>
-                    </font>
-                    <font kerning="yes"
-                        embed-url="Junicode-BoldItalic.ttf"
-                        encoding-mode="single-byte">
-                        <font-triplet name="Junicode" style="italic" weight="700"/>
-                    </font>
+                {
+                    if ($fontsDir) then (
+                        <font kerning="yes"
+                            embed-url="file:{$fontsDir}/Junicode.ttf"
+                            encoding-mode="single-byte">
+                            <font-triplet name="Junicode" style="normal" weight="normal"/>
+                        </font>,
+                        <font kerning="yes"
+                            embed-url="file:{$fontsDir}/Junicode-Bold.ttf"
+                            encoding-mode="single-byte">
+                            <font-triplet name="Junicode" style="normal" weight="700"/>
+                        </font>,
+                        <font kerning="yes"
+                            embed-url="file:{$fontsDir}/Junicode-Italic.ttf"
+                            encoding-mode="single-byte">
+                            <font-triplet name="Junicode" style="italic" weight="normal"/>
+                        </font>,
+                        <font kerning="yes"
+                            embed-url="file:{$fontsDir}/Junicode-BoldItalic.ttf"
+                            encoding-mode="single-byte">
+                            <font-triplet name="Junicode" style="italic" weight="700"/>
+                        </font>
+                    ) else
+                        ()
+                }
                 </fonts>
             </renderer>
         </renderers>
@@ -160,7 +159,7 @@ return
                                 case "ah" return
                                     local:antenna-house($name, $fo)
                                 default return
-                                    local:fop($name, $fo)
+                                    local:fop($name, config:get-fonts-dir(), $fo)
                         return
                             typeswitch($output)
                                 case xs:base64Binary return (
