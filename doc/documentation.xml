@@ -575,6 +575,67 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                         for further information.</p>
                     </div>
                     <div>
+                        <head>Extensions to the Processing Model Specification</head>
+                        <div>
+                            <head>XQuery Instead of XPath</head>
+                            <p>The implementation directly translates processing model instructions into an XQuery 3.1 module by generating executable
+                                XQuery code. This is straightforward as the resulting XQuery will closely resemble the specification in the ODD, thus being easy
+                                to debug. It also leads to very efficient code, which is as fast or even faster as a hand-written, optimized transformation.</p>
+                            <p>As a welcome side effect, any valid XQuery expression might be used wherever the spec expects an XPath expression, e.g. in predicates
+                                or parameters. For example, one can define variables inside a parameter using a standard XQuery 
+                                <code>let $x := ... return ...</code>.</p>
+                        </div>
+                        <div>
+                            <head>External Parameters</head>
+                            <p>The script calling the processing model may pass external parameters into the ODD. They will be available in the 
+                                variable <ident>$parameters</ident>, which is an XQuery map. Access parameters using the XQuery lookup operator.</p>
+                            <p>For example, one can use this feature to control how specific parts of the document are output, without having to
+                                define a separate output mode, which would result in much more code. Below we display a short header for the document,
+                                but only if the parameter "header" is set to "short":</p>
+                            <code lang="xquery">&lt;elementSpec mode="change" ident="fileDesc"&gt;
+    &lt;modelSequence predicate="$parameters?header='short'"&gt;
+        &lt;model behaviour="block" cssClass="header-short"&gt;
+            &lt;param name="content"&gt;titleStmt&lt;/param&gt;
+        &lt;/model&gt;
+        &lt;model behaviour="block" cssClass="header-short"&gt;
+            &lt;param name="content"&gt;editionStmt&lt;/param&gt;
+        &lt;/model&gt;
+    &lt;/modelSequence&gt;
+    ...
+ &lt;/elementSpec&gt;</code>
+                        </div>
+                        <div>
+                            <head>Define Additional CSS Classes</head>
+                            <p>The processing model automatically generates class names for all elements. However, they just use the name of the TEI element
+                            suffixed with a number corresponding to the position of the generating <gi>model</gi> within the <gi>elementSpec</gi>. The
+                            class names are thus subject to change whenever one modifies the ODD. Also, in most projects, a web designer
+                            will create a design before the developer writes the ODD. He thus expects the class names generated from the ODD to correspond
+                            to those in a design template, not vice versa.</p>
+                            <p>Our implementation thus adds a possibility to explicitely specify class names inside the <gi>model</gi>. Those class names will
+                                be added to the automatically generated ones. There are two ways to define CSS classes:</p>
+                            <list type="gloss">
+                                <item>via the <att>cssClass</att> attribute: specifies a whitespace separated list of static class names to be appended to
+                                the output element</item>
+                                <item>via the <gi>cssClass</gi> child element of a <gi>model</gi>: the text content of this element is interpreted as an
+                                    XPath/XQuery expression. The evaluation result of this expression will be cast to a sequence of strings which will be added to
+                                    the the output element. This is useful if the css class depends on the dynamic context - which is often the case in css frameworks.</item>
+                            </list>
+                        </div>
+                        <div>
+                            <head>Nested Models</head>
+                            <p>According to the current specs, the processing model only allows to map one TEI input element to exactly one output element. Sometimes
+                                this is not sufficient as there might not be a direct one-to-one correspondence. For example, one may want to wrap a block around a sequence
+                                of elements or a link around a heading.</p>
+                            <p>The implementation thus supports nesting of <gi>model</gi>, <gi>modelSequence</gi> or <gi>modelGrp</gi> elements inside
+                                another <gi>model</gi>.  If no parameters are specified for the wrapping <gi>model</gi>, the nested elements may directly appear as 
+                                child elements and will be applied to the content of the outer behaviour before it is evaluated (replacing the <ident>$content</ident> 
+                                parameter). Otherwise, parameters in <gi>param</gi> elements may also contain nested elements, whose evaluation result will become the 
+                                value of the parameter.</p>
+                            <p>Note that the context node doesn't change for nested <gi>model</gi> and <gi>modelSequence</gi> elements. It will always contain the
+                                node processed by the outer <gi>model</gi>.</p>
+                        </div>
+                    </div>
+                    <div>
                         <head>Best Practice Recommendations</head>
                         <list>
                             <item>
