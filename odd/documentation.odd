@@ -112,6 +112,14 @@
                         </param>
                     </model>
                 </elementSpec>
+                <elementSpec mode="change" ident="p">
+                    <model predicate="preceding-sibling::*[1][self::head] or ancestor::item" behaviour="paragraph" cssClass="paragraph first">
+                        <outputRendition>text-align: justify;</outputRendition>
+                    </model>
+                    <model behaviour="paragraph" useSourceRendition="true" cssClass="paragraph">
+                        <outputRendition>text-align: justify;</outputRendition>
+                    </model>
+                </elementSpec>
                 <moduleRef key="tei"/>
                 <moduleRef key="header"/>
                 <moduleRef key="tagdocs"/>
