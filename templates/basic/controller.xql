@@ -56,7 +56,7 @@ else if (ends-with($exist:resource, ".xql")) then (
     let $html :=
         if ($exist:resource = "") then
             "index.html"
-        else if ($exist:resource = ("search.html", "toc.html")) then
+        else if ($exist:resource = ("search.html", "toc.html", "doc-table.html")) then
             $exist:resource
         else
             "view.html"

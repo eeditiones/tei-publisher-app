@@ -61,7 +61,6 @@ declare
     %templates:wrap
     %templates:default("view", "div")
 function pages:load($node as node(), $model as map(*), $doc as xs:string, $root as xs:string?, $id as xs:string?, $view as xs:string?) {
-    (: let $doc := xmldb:encode-uri($doc) :)
     let $doc := xmldb:decode($doc)
     let $log := console:log("Loading document " || $config:app-root || "/" ||  $doc)
     let $view := if ($view) then $view else $config:default-view
@@ -333,7 +332,6 @@ declare
     %templates:wrap
 function pages:navigation($node as node(), $model as map(*), $view as xs:string?) {
     let $view := pages:determine-view($view, $model?data)
-    let $log := console:log("view: " || $view)
     let $div := $model?data
     let $work := $div/ancestor-or-self::tei:TEI
     return
