@@ -55,6 +55,18 @@
     <text>
         <body>
             <schemaSpec ident="myteisimple" start="TEI teiCorpus" source="teisimple.odd">
+                <elementSpec mode="change" ident="div">
+                    <model predicate="@type='title_page'" behaviour="block">
+                        <outputRendition>border: 1px solid black; padding: 5px;</outputRendition>
+                    </model>
+                    <model behaviour="section" predicate="parent::body or parent::front or parent::back"/>
+                    <model behaviour="block" useSourceRendition="true"/>
+                </elementSpec>
+                <elementSpec mode="change" ident="p">
+                    <model behaviour="paragraph" useSourceRendition="true">
+                        <outputRendition>text-align: left;</outputRendition>
+                    </model>
+                </elementSpec>
                 <elementSpec mode="change" ident="head">
                     <model predicate="parent::figure" behaviour="block">
                         <outputRendition>font-style: italic;</outputRendition>

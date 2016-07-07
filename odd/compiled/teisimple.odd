@@ -869,17 +869,9 @@
                             <model behaviour="inline"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="note">
-                            <model predicate="@place" behaviour="note">
+                            <model behaviour="note">
                                 <param name="place">@place</param>
-                                <param name="label">@n</param>
-                            </model>
-                            <model predicate="parent::div and not(@place)" behaviour="block">
-                                <outputRendition>margin-left: 10px;margin-right: 10px; font-size:smaller;</outputRendition>
-                            </model>
-                            <model predicate="not(@place)" behaviour="inline">
-                                <outputRendition scope="before">content:" [";</outputRendition>
-                                <outputRendition scope="after">content:"] ";</outputRendition>
-                                <outputRendition>font-size:small;</outputRendition>
+                                <!--param name="label">@n</param-->
                             </model>
                         </elementSpec>
                         <elementSpec mode="change" ident="num">

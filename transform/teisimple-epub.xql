@@ -289,16 +289,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(name) return
                     html:inline($config, ., ("tei-name"), .)
                 case element(note) return
-                    if (@place) then
-                        epub:note($config, ., ("tei-note1"), ., @place, @n)
-                    else
-                        if (parent::div and not(@place)) then
-                            html:block($config, ., ("tei-note2"), .)
-                        else
-                            if (not(@place)) then
-                                html:inline($config, ., ("tei-note3"), .)
-                            else
-                                $config?apply($config, ./node())
+                    epub:note($config, ., ("tei-note"), ., @place, ())
                 case element(num) return
                     html:inline($config, ., ("tei-num"), .)
                 case element(opener) return

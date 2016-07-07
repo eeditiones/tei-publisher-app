@@ -297,16 +297,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(name) return
                     fo:inline($config, ., ("tei-name"), .)
                 case element(note) return
-                    if (@place) then
-                        fo:note($config, ., ("tei-note1"), ., @place, @n)
-                    else
-                        if (parent::div and not(@place)) then
-                            fo:block($config, ., ("tei-note2"), .)
-                        else
-                            if (not(@place)) then
-                                fo:inline($config, ., ("tei-note3"), .)
-                            else
-                                $config?apply($config, ./node())
+                    fo:note($config, ., ("tei-note"), ., @place, ())
                 case element(num) return
                     fo:inline($config, ., ("tei-num"), .)
                 case element(opener) return
@@ -314,7 +305,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(orig) return
                     fo:inline($config, ., ("tei-orig"), .)
                 case element(p) return
-                    fo:paragraph($config, ., css:get-rendition(., ("tei-p")), .)
+                    if (preceding-sibling::*[1][self::head] or ancestor::item) then
+                        fo:paragraph($config, ., ("tei-p1", "paragraph", "first"), .)
+                    else
+                        fo:paragraph($config, ., css:get-rendition(., ("tei-p2", "paragraph")), .)
                 case element(pb) return
                     fo:break($config, ., css:get-rendition(., ("tei-pb")), ., 'page', (concat(if(@n) then     concat(@n,' ') else '',if(@facs) then     concat('@',@facs) else '')))
                 case element(pc) return

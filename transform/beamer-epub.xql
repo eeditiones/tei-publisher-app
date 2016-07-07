@@ -197,10 +197,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(figDesc) return
                     html:inline($config, ., ("tei-figDesc"), .)
                 case element(figure) return
-                    if (head or @rendition='simple:display') then
-                        html:block($config, ., ("tei-figure1"), .)
+                    if (head) then
+                        html:figure($config, ., ("tei-figure1"), *[not(self::head)], head/node())
                     else
-                        html:inline($config, ., ("tei-figure2"), .)
+                        html:block($config, ., ("tei-figure2"), .)
                 case element(floatingText) return
                     html:block($config, ., ("tei-floatingText"), .)
                 case element(foreign) return
@@ -230,6 +230,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:inline($config, ., ("tei-gap2"), @extent)
                         else
                             html:inline($config, ., ("tei-gap3"), .)
+                case element(gi) return
+                    html:inline($config, ., ("tei-gi"), .)
                 case element(graphic) return
                     html:graphic($config, ., ("tei-graphic"), ., @url, @width, @height, @scale, desc)
                 case element(group) return
@@ -277,16 +279,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(name) return
                     html:inline($config, ., ("tei-name"), .)
                 case element(note) return
-                    if (@place) then
-                        epub:note($config, ., ("tei-note1"), ., @place, @n)
-                    else
-                        if (parent::div and not(@place)) then
-                            html:block($config, ., ("tei-note2"), .)
-                        else
-                            if (not(@place)) then
-                                html:inline($config, ., ("tei-note3"), .)
-                            else
-                                $config?apply($config, ./node())
+                    epub:note($config, ., ("tei-note"), ., @place, ())
                 case element(num) return
                     html:inline($config, ., ("tei-num"), .)
                 case element(opener) return

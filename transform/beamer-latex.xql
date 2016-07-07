@@ -199,10 +199,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(figDesc) return
                     latex:inline($config, ., ("tei-figDesc"), .)
                 case element(figure) return
-                    if (head or @rendition='simple:display') then
-                        latex:block($config, ., ("tei-figure1"), .)
+                    if (head) then
+                        latex:figure($config, ., ("tei-figure1"), *[not(self::head)], head/node())
                     else
-                        latex:inline($config, ., ("tei-figure2"), .)
+                        latex:block($config, ., ("tei-figure2"), .)
                 case element(floatingText) return
                     latex:block($config, ., ("tei-floatingText"), .)
                 case element(foreign) return
@@ -232,6 +232,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                             latex:inline($config, ., ("tei-gap2"), @extent)
                         else
                             latex:inline($config, ., ("tei-gap3"), .)
+                case element(gi) return
+                    latex:inline($config, ., ("tei-gi"), .)
                 case element(graphic) return
                     ext-beamer:graphic($config, ., ("tei-graphic"), ., @url, @width, @height, @scale, desc)
                 case element(group) return
@@ -277,16 +279,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(name) return
                     latex:inline($config, ., ("tei-name"), .)
                 case element(note) return
-                    if (@place) then
-                        latex:note($config, ., ("tei-note1"), ., @place, @n)
-                    else
-                        if (parent::div and not(@place)) then
-                            latex:block($config, ., ("tei-note2"), .)
-                        else
-                            if (not(@place)) then
-                                latex:inline($config, ., ("tei-note3"), .)
-                            else
-                                $config?apply($config, ./node())
+                    latex:note($config, ., ("tei-note"), ., @place, ())
                 case element(num) return
                     latex:inline($config, ., ("tei-num"), .)
                 case element(opener) return

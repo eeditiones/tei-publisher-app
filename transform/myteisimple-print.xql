@@ -158,7 +158,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (parent::body or parent::front or parent::back) then
                             fo:section($config, ., ("tei-div2"), .)
                         else
-                            fo:block($config, ., ("tei-div3"), .)
+                            fo:block($config, ., css:get-rendition(., ("tei-div3")), .)
                 case element(docAuthor) return
                     if (ancestor::teiHeader) then
                         (: Omit if located in teiHeader. :)
@@ -198,10 +198,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(figDesc) return
                     fo:inline($config, ., ("tei-figDesc"), .)
                 case element(figure) return
-                    if (head or @rendition='simple:display') then
-                        fo:block($config, ., ("tei-figure1"), .)
+                    if (head) then
+                        fo:figure($config, ., ("tei-figure1"), *[not(self::head)], head/node())
                     else
-                        fo:inline($config, ., ("tei-figure2"), .)
+                        fo:block($config, ., ("tei-figure2"), .)
                 case element(floatingText) return
                     fo:block($config, ., ("tei-floatingText"), .)
                 case element(foreign) return
@@ -231,6 +231,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                             fo:inline($config, ., ("tei-gap2"), @extent)
                         else
                             fo:inline($config, ., ("tei-gap3"), .)
+                case element(gi) return
+                    fo:inline($config, ., ("tei-gi"), .)
                 case element(graphic) return
                     fo:graphic($config, ., ("tei-graphic"), ., @url, @width, @height, @scale, desc)
                 case element(group) return
@@ -297,16 +299,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(name) return
                     fo:block($config, ., ("tei-name"), .)
                 case element(note) return
-                    if (@place) then
-                        fo:note($config, ., ("tei-note1"), ., @place, @n)
-                    else
-                        if (parent::div and not(@place)) then
-                            fo:block($config, ., ("tei-note2"), .)
-                        else
-                            if (not(@place)) then
-                                fo:inline($config, ., ("tei-note3"), .)
-                            else
-                                $config?apply($config, ./node())
+                    fo:note($config, ., ("tei-note"), ., @place, ())
                 case element(num) return
                     fo:inline($config, ., ("tei-num"), .)
                 case element(opener) return
