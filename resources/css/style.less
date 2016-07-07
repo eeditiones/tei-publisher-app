@@ -4,6 +4,22 @@
 @sansserifFont: Trebuchet, Verdana, "Helvetica", sans-serif;
 @monospaceFont: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
 
+// the application logo to be shown top left in the navigation bar
+.logo {
+    background-image: url('../images/icon.png');
+    background-position: 5px 5px;
+    background-repeat: no-repeat;
+    background-size: auto 50px;
+    
+    // width: 200px;
+
+    // color: transparent;
+    
+    span {
+        margin-left: 60px;
+    }
+}
+
 footer .poweredby { float: right; margin: 33px 10px 0 0;}
 footer .poweredby img { width: 120px; }
 
@@ -64,6 +80,10 @@ body {
 .navbar-default {
     margin-bottom: 0;
     background-color: #35424b !important;
+    
+    .navbar-brand, .navbar-brand:focus, .navbar-brand:hover {
+        .logo();
+    }
 }
 
 .top {
