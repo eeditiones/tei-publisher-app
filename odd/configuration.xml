@@ -18,10 +18,6 @@
         <property name="class">"article"</property>
         <property name="section-numbers">false()</property>
         <property name="font-size">"12pt"</property>
-        <property name="image-dir">
-            (system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-1.0/test/",
-            system:get-exist-home() || "/webapp/WEB-INF/data/expathrepo/tei-simple-1.0/doc/")
-        </property>
         <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latex" prefix="ext-latex" at="../modules/ext-latex.xql"/>
     </output><!-- General fo extension functions -->
     <output mode="print">

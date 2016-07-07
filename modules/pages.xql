@@ -19,7 +19,7 @@
  :
  : This software is provided by the copyright holders and contributors "as is" and any
  : express or implied warranties, including, but not limited to, the implied warranties
- : of merchantability and fitness for a particular purpose are disclaimed. In no event 
+ : of merchantability and fitness for a particular purpose are disclaimed. In no event
  : shall the copyright holder or contributors be liable for any direct, indirect,
  : incidental, special, exemplary, or consequential damages (including, but not limited to,
  : procurement of substitute goods or services; loss of use, data, or profits; or business
@@ -243,7 +243,7 @@ declare function pages:view($node as node(), $model as map(*), $odd as xs:string
 
 declare function pages:process-content($odd as xs:string, $xml as element()*, $root as element()*) {
 	let $html :=
-        pmu:process(odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root), $xml, $config:output-root, "web", 
+        pmu:process(odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root), $xml, $config:output-root, "web",
             "../generated", $config:module-config, map { "root": $root })
     let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
     let $body := pages:clean-footnotes($html)
@@ -292,11 +292,12 @@ declare function pages:clean-footnotes($nodes as node()*) {
 declare
     %templates:wrap
 function pages:table-of-contents($node as node(), $model as map(*), $odd as xs:string, $view as xs:string?) {
-    pages:toc-div(root($model?data), $odd, $view)
+    let $view := pages:determine-view($view, $node)
+    return
+        pages:toc-div(root($model?data), $odd, $view)
 };
 
 declare %private function pages:toc-div($node, $odd as xs:string, $view as xs:string?) {
-    let $view := pages:determine-view($view, $node)
 (:    let $divs := $node//tei:div[empty(ancestor::tei:div) or ancestor::tei:div[1] is $node][tei:head]:)
     let $divs := $node//tei:div[tei:head] except $node//tei:div[tei:head]//tei:div
     return

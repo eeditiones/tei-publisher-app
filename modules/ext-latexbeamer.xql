@@ -2,7 +2,7 @@ xquery version "3.0";
 
 (:~
  : Extension behaviour functions for generating presentations based on the LaTeX beamer package.
- : 
+ :
  : @author Wolfgang Meier
  :)
 module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-latexbeamer";
@@ -19,7 +19,7 @@ declare function pmf:frame($config as map(*), $node as element(), $class as xs:s
 };
 
 declare function pmf:beamer-block($config as map(*), $node as element(), $class as xs:string+, $type, $content, $heading) {
-    "\begin{", $type, "}{", 
+    "\begin{", $type, "}{",
     $config?apply-children($config, $node, $heading/node()),
     "}&#10;",
     latex:get-content($config, $node, $class, $content),
@@ -62,10 +62,10 @@ declare function pmf:document($config as map(*), $node as element(), $class as x
         "}&#10;",
         "\usetheme{Boadilla}&#10;",
         "\usecolortheme{seahorse}&#10;",
-        if (exists($config?image-dir)) then
-            "\graphicspath{" || 
+        if (exists($config?parameters("image-dir"))) then
+            "\graphicspath{" ||
             string-join(
-                for $dir in $config?image-dir return "{" || $dir || "}"
+                for $dir in $config?parameters("image-dir") return "{" || $dir || "}"
             ) ||
             "}&#10;"
         else
