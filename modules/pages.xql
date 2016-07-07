@@ -253,7 +253,14 @@ declare function pages:process-content($odd as xs:string, $xml as element()*, $r
             $body,
             if ($html//li[@class="footnote"]) then
                 <div class="footnotes">
-                    <ol>{$html//li[@class="footnote"]}</ol>
+                    <ol>
+                    {
+                        for $note in $html//li[@class="footnote"]
+                        order by number($note/@value)
+                        return
+                            $note
+                    }
+                    </ol>
                 </div>
             else
                 ()

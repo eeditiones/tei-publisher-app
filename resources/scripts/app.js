@@ -58,7 +58,18 @@ $(document).ready(function() {
     function initContent() {
         $(".content .note").popover({
             html: true,
-            trigger: "hover"
+            trigger: "hover",
+            placement: "auto bottom",
+            viewport: "#content-container",
+            content: function() {
+                var fn = document.getElementById(this.hash.substring(1));
+                return $(fn).find(".fn-content").html();
+            }
+        });
+        $("#content-container .note, .content .fn-back").click(function(ev) {
+            ev.preventDefault();
+            var fn = document.getElementById(this.hash.substring(1));
+            fn.scrollIntoView();
         });
         $(".content .sourcecode").highlight();
         $(".content .alternate").each(function() {

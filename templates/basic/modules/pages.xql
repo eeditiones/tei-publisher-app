@@ -239,10 +239,47 @@ function pages:view($node as node(), $model as map(*), $view as xs:string?, $act
 declare function pages:process-content($xml as element()*, $root as element()*) {
 	let $html := $pm-config:web-transform($xml, map { "root": $root })
     let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
+    let $body := pages:clean-footnotes($html)
     return
         <div class="content {$class}">
-        {$html}
+        {
+            $body,
+            if ($html//li[@class="footnote"]) then
+                <div class="footnotes">
+                    <ol>
+                    {
+                        for $note in $html//li[@class="footnote"]
+                        order by number($note/@value)
+                        return
+                            $note
+                    }
+                    </ol>
+                </div>
+            else
+                ()
+        }
         </div>
+};
+
+declare function pages:clean-footnotes($nodes as node()*) {
+    for $node in $nodes
+    return
+        typeswitch($node)
+            case element(li) return
+                if ($node/@class = "footnote") then
+                    ()
+                else
+                    element { node-name($node) } {
+                        $node/@*,
+                        pages:clean-footnotes($node/node())
+                    }
+            case element() return
+                element { node-name($node) } {
+                    $node/@*,
+                    pages:clean-footnotes($node/node())
+                }
+            default return
+                $node
 };
 
 declare

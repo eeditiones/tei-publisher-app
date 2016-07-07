@@ -169,18 +169,36 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
                 </span>
             ) else
                 <span class="margin-note">
-                { pmf:apply-children($config, $node, $content) }
+                { $config?apply-children($config, $node, $content) }
                 </span>
         default return
-            <span class="label label-default note {$class}" data-toggle="popover"
-                data-content="{serialize(<div>{$config?apply-children($config, $node, $content/node())}</div>)}">
-                {
-                    if ($label) then
-                        $label
-                    else
-                        count($node/preceding::tei:note) + 1
-                }
-            </span>
+            let $nodeId :=
+                if ($node/@exist:id) then
+                    $node/@exist:id
+                else
+                    util:node-id($node)
+            let $id := translate($nodeId, "-", "_")
+            let $nr :=
+                if ($label and ($label castable as xs:integer)) then
+                    xs:integer($label)
+                else
+                    let $origNode := util:node-by-id(root($config?parameters?root), $nodeId)
+                    return
+                        count($origNode/preceding::tei:note[not(@place = "margin")][ancestor::tei:text]) + 1
+            let $content := $config?apply-children($config, $node, $content/node())
+            return (
+                <span id="fnref:{$id}">
+                    <a class="note" rel="footnote" href="#fn:{$id}">
+                    { $nr }
+                    </a>
+                </span>,
+                <li class="footnote" id="fn:{$id}" value="{$nr}">
+                    <span class="fn-content">
+                        {$content}
+                    </span>
+                    <a class="fn-back" href="#fnref:{$id}">↩</a>
+                </li>
+            )
 };
 
 declare function pmf:inline($config as map(*), $node as element(), $class as xs:string+, $content) {
