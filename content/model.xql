@@ -418,7 +418,7 @@ declare function pm:map-parameters($signature as element(function), $params as e
                 if ($nested) then
                     <param>{ pm:process-models($ident, $nested, $modules, $output) }</param>
                 else
-                    <param>{if ($mapped != "") then $mapped/node() else "()"}</param>
+                    <param>{ ($mapped/@value/string(), $mapped/node(), "()")[1] }</param>
         else if ($arg/@cardinality = ("zero or one", "zero or more")) then
             <param>()</param>
         else
