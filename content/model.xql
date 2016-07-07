@@ -261,7 +261,7 @@ declare %private function pm:process-models($ident as xs:string, $models as elem
                                 if (count($models[not(@predicate)]) > 1 and not($models/parent::tei:modelSequence)) then (
                                     <comment>More than one model without predicate found for ident {$ident}. 
                                     Choosing first one.</comment>,
-                                    $models[not(@predicate)][1]
+                                    pm:model-or-sequence($ident, $models[not(@predicate)][1], $modules, $output)
 (:                                    error($pm:ERR_TOO_MANY_MODELS,:)
 (:                                        "More than one model without predicate found " ||:)
 (:                                        "outside modelSequence for ident '" || $ident || "'"):)
