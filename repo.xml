@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <meta xmlns="http://exist-db.org/xquery/repo">
-    <description>TEI Simple Processing Model</description>
-    <author/>
-    <website/>
-    <status>alpha</status>
+    <description>TEI Processing Model Toolbox</description>
+    <author>Wolfgang Meier</author>
+    <website>http://showcases.exist-db.org/exist/apps/tei-pm</website>
+    <status>stable</status>
     <license>GNU-LGPL</license>
     <copyright>true</copyright>
     <type>application</type>
