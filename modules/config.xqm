@@ -121,7 +121,7 @@ declare function config:app-info($node as node(), $model as map(*)) {
 (: Try to dynamically determine data directory by calling JMX. :)
 declare function config:get-data-dir() as xs:string? {
     try {
-        let $request := <http:request method="GET" href="http://localhost:{request:get-server-port()}/{request:get-context-path()}/status?c=disk"/>
+        let $request := <http:request method="GET" href="http://{request:get-server-name()}:{request:get-server-port()}/{request:get-context-path()}/status?c=disk"/>
         let $response := http:send-request($request)
         return
             if ($response[1]/@status = "200") then
