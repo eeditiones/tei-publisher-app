@@ -113,7 +113,7 @@ declare function pmf:anchor($config as map(*), $node as element(), $class as xs:
     "\label{" || $id || "}"
 };
 
-declare function pmf:link($config as map(*), $node as element(), $class as xs:string+, $content, $link as xs:anyURI?) {
+declare function pmf:link($config as map(*), $node as element(), $class as xs:string+, $content, $link) {
     if (starts-with($link, "#")) then
         ("\hyperlink{", pmf:escapeChars(substring-after($link, "#")), "}{", pmf:get-content($config, $node, $class, $content), "}")
     else
@@ -294,8 +294,8 @@ declare function pmf:alternate($config as map(*), $node as element(), $class as 
     "\footnote{", pmf:get-content($config, $node, $class, $alternate), "}"
 };
 
-declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content as item()*, $place as xs:string?, $label as xs:string?) {
-    if ($config?skip-footnotes) then
+declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content as item()*, $place as xs:string?, $label) {
+    if (not($config?skip-footnotes)) then
         switch($place)
             case "margin" return (
                 "\marginpar{\noindent\raggedleft\footnotesize " || pmf:get-content($config, $node, $class, $content) || "}"
@@ -340,14 +340,14 @@ declare function pmf:get-content($config as map(*), $node as element(), $class a
 
 declare %private function pmf:get-before($config as map(*), $classes as xs:string+) {
     for $class in $classes
-    let $before := $config?styles?($class || ":before")
+    let $before := $config?cssStyles?($class || ":before")
     return
         if (exists($before)) then pmf:escapeChars($before?content) else ()
 };
 
 declare %private function pmf:get-after($config as map(*), $classes as xs:string+) {
     for $class in $classes
-    let $after := $config?styles?($class || ":after")
+    let $after := $config?cssStyles?($class || ":after")
     return
         if (exists($after)) then pmf:escapeChars($after?content) else ()
 };
@@ -355,11 +355,7 @@ declare %private function pmf:get-after($config as map(*), $classes as xs:string
 declare %private function pmf:macros($config as map(*)) as map(*) {
     let $newStyles :=
         for $class in $config?styles?*[not(ends-with(., ":after") or ends-with(., ":before"))]
-        let $code := (
-            pmf:get-before($config, $class) ||
-            pmf:define-styles($config, $class, "#1") ||
-            pmf:get-after($config, $class)
-        )
+        let $code := pmf:define-styles($config, $class, "#1")
         order by $class ascending
         return
             if ($code != "#1") then
@@ -372,7 +368,7 @@ declare %private function pmf:macros($config as map(*)) as map(*) {
             else
                 ()
     return
-        map:new(($config, map { "styles": map:new($newStyles)}))
+        map:new(($config, map { "cssStyles": $config?styles, "styles": map:new($newStyles)}))
 };
 
 declare %private function pmf:define-styles($config as map(*), $classes as xs:string+, $content as item()*) {
