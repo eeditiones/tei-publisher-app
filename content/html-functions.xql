@@ -185,7 +185,7 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
                     let $origNode := util:node-by-id(root($config?parameters?root), $nodeId)
                     return
                         count($origNode/preceding::tei:note[not(@place = "margin")][ancestor::tei:text]) + 1
-            let $content := $config?apply-children($config, $node, $content/node())
+            let $content := $config?apply-children($config, $node, $content)
             return (
                 <span id="fnref:{$id}">
                     <a class="note" rel="footnote" href="#fn:{$id}">

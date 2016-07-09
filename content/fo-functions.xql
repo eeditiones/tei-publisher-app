@@ -176,7 +176,7 @@ declare function pmf:block($config as map(*), $node as element(), $class as xs:s
     </fo:block>
 };
 
-declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content as item()*, $place as xs:string?, $label as xs:string?) {
+declare function pmf:note($config as map(*), $node as element(), $class as xs:string+, $content as item()*, $place as xs:string?, $label) {
 (:    let $number := count($node/preceding::tei:note):)
     let $number := counter:next-value($pmf:NOTE_COUNTER_ID)
     return
@@ -196,7 +196,7 @@ declare function pmf:note($config as map(*), $node as element(), $class as xs:st
                         </fo:list-item-label>
                         <fo:list-item-body start-indent="body-start()">
                             {pmf:check-styles($config, (), "tei-note-body", ())}
-                            <fo:block>{$config?apply-children($config, $node, $content/node())}</fo:block>
+                            <fo:block>{$config?apply-children($config, $node, $content)}</fo:block>
                         </fo:list-item-body>
                     </fo:list-item>
                 </fo:list-block>
@@ -218,7 +218,7 @@ declare function pmf:anchor($config as map(*), $node as element(), $class as xs:
     <fo:inline id="{$id}"/>
 };
 
-declare function pmf:link($config as map(*), $node as element(), $class as xs:string+, $content, $link as xs:anyURI?) {
+declare function pmf:link($config as map(*), $node as element(), $class as xs:string+, $content, $link) {
     if (starts-with($link, "#")) then
         <fo:basic-link internal-destination="{substring-after($link, '#')}">
         {$config?apply-children($config, $node, $content)}
