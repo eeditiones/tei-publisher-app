@@ -45,13 +45,14 @@ function app:show-if-logged-in($node as node(), $model as map(*)) {
  :)
 declare
     %templates:wrap
-function app:list-works($node as node(), $model as map(*), $filter as xs:string?, $browse as xs:string?) {
+function app:list-works($node as node(), $model as map(*), $filter as xs:string?, $root as xs:string,
+    $browse as xs:string?) {
     let $cached := session:get-attribute("simple.works")
     let $filtered :=
         if ($filter) then
             let $ordered :=
                 for $item in
-                    ft:search($config:data-root, $browse || ":" || $filter, ("author", "title"))/search
+                    ft:search($config:data-root || "/" || $root, $browse || ":" || $filter, ("author", "title"))/search
                 let $author := $item/field[@name = "author"]
                 order by $author[1], $author[2], $author[3]
                 return
@@ -62,7 +63,7 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
         else if ($cached and $filter != "") then
             $cached
         else
-            collection($config:data-root)/(tei:TEI|tei:teiCorpus)
+            collection($config:data-root || "/" || $root)/tei:TEI
     return (
         session:set-attribute("simple.works", $filtered),
         session:set-attribute("browse", $browse),
@@ -88,12 +89,12 @@ function app:browse($node as node(), $model as map(*), $start as xs:int, $per-pa
 declare
     %templates:wrap
 function app:short-header($node as node(), $model as map(*)) {
-    let $work := root($model("work"))/*
-    let $id := util:document-name($work)
+    let $work := $model("work")/ancestor-or-self::tei:TEI
+    let $relPath := config:get-relpath($work)
     return
-        $pm-config:web-transform($work/tei:teiHeader, map { 
+        $pm-config:web-transform($work/tei:teiHeader, map {
             "header": "short",
-            "doc": $id
+            "doc": $relPath
         })
 };
 
@@ -337,7 +338,6 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
     let $parent := if ($parent) then $parent else $hit/ancestor-or-self::tei:teiHeader
     let $div := app:get-current($parent)
     let $parent-id := util:document-name($parent) || "_" || util:node-id($parent)
-    let $div-id := util:document-name($div) || "_" || util:node-id($div)
     (:if the nearest div does not have an xml:id, find the nearest element with an xml:id and use it:)
     (:is this necessary - can't we just use the nearest ancestor?:)
 (:    let $div-id := :)
@@ -372,9 +372,9 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
                 let $contextNode := util:node-by-id($div, $matchId)
                 let $page := $contextNode/preceding::tei:pb[1]
                 return
-                    util:document-name($work) || "_" || util:node-id($page)
+                    config:get-relpath($work) || "_" || util:node-id($page)
             else
-                $div-id
+                config:get-relpath($div) || "_" || util:node-id($div)
         let $config := <config width="60" table="yes" link="{$docLink}.xml?action=search&amp;view={$view}#{$matchId}"/>
         let $kwic := kwic:get-summary($expanded, $match, $config)
         return $kwic

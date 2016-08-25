@@ -65,7 +65,8 @@
             <div class="col-md-9 col-md-pull-3">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-12 list-works" data-template="app:list-works">
+                        <div class="col-md-12 list-works" data-template="app:list-works"
+                            data-template-root="">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Documents</h3>
@@ -160,11 +161,11 @@
     <script type="text/javascript">
     $(function () {
         'use strict';
-        
+
         function reloadDocTable() {
             $("#documents").load("doc-table.html");
         }
-        
+
         $('#fileupload').fileupload({
             url: "modules/upload.xql",
             dataType: 'json',

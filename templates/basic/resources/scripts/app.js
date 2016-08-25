@@ -3,14 +3,16 @@ $(document).ready(function() {
     var appRoot = $("html").data("app");
 
     function resize() {
-        $("#content-container").each(function() {
-            var wh = $(window).height();
-            var ot = $(this).offset().top;
-            $(this).height(wh - ot);
-            $("#image-container").height(wh - ot);
-        });
+        if (document.getElementById("image-container")) {
+            $("#content-container").each(function() {
+                var wh = $(window).height();
+                var ot = $(this).offset().top;
+                $(this).height(wh - ot);
+                $("#image-container").height(wh - ot);
+            });
+        }
     }
-    
+
     function getFontSize() {
         var size = $("#content-inner").css("font-size");
         return parseInt(size.replace(/^(\d+)px/, "$1"));
@@ -62,18 +64,7 @@ $(document).ready(function() {
     function initContent() {
         $(".content .note").popover({
             html: true,
-            trigger: "hover",
-            placement: "auto bottom",
-            viewport: "#content-container",
-            content: function() {
-                var fn = document.getElementById(this.hash.substring(1));
-                return $(fn).find(".fn-content").html();
-            }
-        });
-        $("#content-container .note, .content .fn-back").click(function(ev) {
-            ev.preventDefault();
-            var fn = document.getElementById(this.hash.substring(1));
-            fn.scrollIntoView();
+            trigger: "hover"
         });
         $(".content .alternate").each(function() {
             $(this).popover({
@@ -122,7 +113,7 @@ $(document).ready(function() {
             var snip = $(this).data("exide-create");
             var path = $(this).data("exide-open");
             var line = $(this).data("exide-line");
-            
+
             // check if eXide is really available or it's an empty page
             var app = exide.eXide;
             if (app) {
@@ -155,11 +146,11 @@ $(document).ready(function() {
         }
         return true;
     }
-    
+
     resize();
     $(".page-nav,.toc-link").click(function(ev) {
         ev.preventDefault();
-        var relPath = this.pathname.replace(/^.*\/([^\/]+)$/, "$1");
+        var relPath = this.pathname.replace(/^.*\/works\/(.+)$/, "$1");
         var url = "doc=" + relPath + "&" + this.search.substring(1);
         if (historySupport) {
             history.pushState(null, null, this.href);
@@ -249,7 +240,7 @@ $(document).ready(function() {
             }
         });
     });
-    
+
     $('.typeahead-meta').typeahead({
         items: 20,
         minLength: 4,
@@ -276,7 +267,7 @@ $(document).ready(function() {
             });
         }
     });
-    
+
     $(".download-link").click(function(ev) {
         $("#pdf-info").modal("show");
         var token = $(this).attr("data-token");
@@ -289,8 +280,8 @@ $(document).ready(function() {
             }
         });
     });
-    
+
     $(".eXide-open").click(eXide);
-    
+
     initContent();
 });

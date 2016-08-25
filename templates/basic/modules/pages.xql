@@ -60,11 +60,11 @@ declare variable $pages:EXIDE :=
 
 declare
     %templates:wrap
-function pages:load($node as node(), $model as map(*), $doc as xs:string, $root as xs:string?, 
+function pages:load($node as node(), $model as map(*), $doc as xs:string, $root as xs:string?,
     $id as xs:string?, $view as xs:string?) {
     let $doc := xmldb:decode($doc)
     let $view := if ($view) then $view else $config:default-view
-    let $node := 
+    let $node :=
         if ($id) then
             let $node := doc($config:data-root || "/" || $doc)/id($id)
             let $div := $node/ancestor-or-self::tei:div[1]
@@ -203,7 +203,7 @@ function pages:view($node as node(), $model as map(*), $view as xs:string?, $act
     let $data :=
         if ($action = "search") then
             let $query := session:get-attribute("apps.simple.query")
-            let $div := 
+            let $div :=
                 if ($model?data instance of element(tei:pb)) then
                     let $nextPage := $model?data/following::tei:pb[1]
                     return
@@ -468,18 +468,18 @@ declare function pages:title($work as element()) {
 };
 
 declare function pages:navigation-link($node as node(), $model as map(*), $direction as xs:string, $view as xs:string?) {
-    let $view := pages:determine-view($view, $model?data)
+    let $view := if ($view) then $view else $config:default-view
     return
         if ($view = "single") then
             ()
         else if ($model($direction)) then
-            <a data-doc="{util:document-name($model($direction))}"
+            <a data-doc="{config:get-relpath($model($direction))}"
                 data-root="{util:node-id($model($direction))}"
                 data-current="{util:node-id($model('div'))}"
                 data-odd="{$config:odd}">
             {
                 $node/@* except $node/@href,
-                let $id := util:document-name($model($direction)) || "?root=" || util:node-id($model($direction)) 
+                let $id := util:document-name($model($direction)) || "?root=" || util:node-id($model($direction))
                     || "&amp;odd=" || $config:odd || "&amp;view=" || $view
                 return
                     attribute href { $id },

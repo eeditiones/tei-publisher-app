@@ -51,6 +51,10 @@ declare variable $config:repo-descriptor := doc(concat($config:app-root, "/repo.
 
 declare variable $config:expath-descriptor := doc(concat($config:app-root, "/expath-pkg.xml"))/expath:package;
 
+declare function config:get-relpath($node as node()) {
+    substring-after(document-uri(root($node)), $config:data-root || "/")
+};
+
 (:~
  : Resolve the given path using the current application context.
  : If the app resides in the file system,
