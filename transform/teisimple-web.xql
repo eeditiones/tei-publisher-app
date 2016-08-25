@@ -447,8 +447,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(titleStmt) return
                     if ($parameters?header='short') then
                         (
-                            html:link($config, ., ("tei-titleStmt1"), title, $parameters?doc),
-                            html:block($config, ., ("tei-titleStmt2"), author)
+                            html:link($config, ., ("tei-titleStmt1"), title[1], $parameters?doc),
+                            html:block($config, ., ("tei-titleStmt2"), subsequence(title, 2)),
+                            html:block($config, ., ("tei-titleStmt3"), author)
                         )
 
                     else
