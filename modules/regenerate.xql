@@ -2,8 +2,8 @@ xquery version "3.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
-import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "/db/apps/tei-simple/content/util.xql";
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "/db/apps/tei-simple/content/odd2odd.xql";
+import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
+import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 
 declare namespace expath="http://expath.org/ns/pkg";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
@@ -11,14 +11,14 @@ declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "html5";
 declare option output:media-type "text/html";
 
-declare variable $local:EXIDE := 
+declare variable $local:EXIDE :=
     let $path := collection(repo:get-root())//expath:package[@name = "http://exist-db.org/apps/eXide"]
     return
         if ($path) then
             substring-after(util:collection-name($path), repo:get-root())
         else
             ();
-            
+
 declare function local:load-source($href as xs:string, $line as xs:int?) {
     let $link :=
         let $path := string-join(

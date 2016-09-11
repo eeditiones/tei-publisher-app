@@ -5,7 +5,7 @@ xquery version "3.1";
  :)
 module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-fo";
 
-import module namespace print="http://www.tei-c.org/tei-simple/xquery/functions/fo" at "../content/fo-functions.xql";
+import module namespace print="http://www.tei-c.org/tei-simple/xquery/functions/fo";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace fo="http://www.w3.org/1999/XSL/Format";

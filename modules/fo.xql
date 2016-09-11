@@ -9,8 +9,8 @@ xquery version "3.0";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "../content/odd2odd.xql";
-import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";
+import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
+import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 

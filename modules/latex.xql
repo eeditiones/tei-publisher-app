@@ -1,7 +1,7 @@
 (:~
  : Transform a given source into a standalone document using
  : the specified odd.
- : 
+ :
  : @author Wolfgang Meier
  :)
 xquery version "3.0";
@@ -9,8 +9,8 @@ xquery version "3.0";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "../content/odd2odd.xql";
+import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
+import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
@@ -53,13 +53,13 @@ return
         let $tex :=
             string-join(
                 pmu:process(
-                    odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root), 
-                    $xml, $config:output-root, "latex", "../" || $config:output, 
+                    odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root),
+                    $xml, $config:output-root, "latex", "../" || $config:output,
                     $config:module-config,
                     map { "image-dir": config:get-repo-dir() || "/" || replace($doc, "^(.*?)/[^/]*$", "$1") || "/" }
                 )
             )
-        let $file := 
+        let $file :=
             replace($doc, "^.*?([^/]+)\..*$", "$1-") ||
             substring(util:uuid(), 1, 8) ||
             format-dateTime(current-dateTime(), "-[Y0000][M00][D00]-[H00][m00][s00]")

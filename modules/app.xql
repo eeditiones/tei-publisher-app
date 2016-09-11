@@ -35,22 +35,22 @@ import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "../content/odd2odd.xql";
-import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";
+import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
+import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 import module namespace dbutil="http://exist-db.org/xquery/dbutil";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace expath="http://expath.org/ns/pkg";
 
-declare variable $app:EXIDE := 
+declare variable $app:EXIDE :=
     let $path := collection(repo:get-root())//expath:package[@name = "http://exist-db.org/apps/eXide"]
     return
         if ($path) then
             substring-after(util:collection-name($path), repo:get-root())
         else
             ();
-            
+
 declare
     %templates:wrap
 function app:doc-table($node as node(), $model as map(*), $odd as xs:string?) {

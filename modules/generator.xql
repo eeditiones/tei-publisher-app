@@ -31,8 +31,8 @@ xquery version "3.1";
 
 import module namespace tmpl="http://exist-db.org/xquery/template" at "tmpl.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "/db/apps/tei-simple/content/util.xql";
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "/db/apps/tei-simple/content/odd2odd.xql";
+import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
+import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 
 declare namespace deploy="http://www.tei-c.org/tei-simple/generator";
 declare namespace git="http://exist-db.org/eXide/git";

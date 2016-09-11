@@ -5,7 +5,7 @@ xquery version "3.1";
  :)
 module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-latex";
 
-import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex" at "../content/latex-functions.xql";
+import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 

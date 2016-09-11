@@ -1,43 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package xmlns="http://expath.org/ns/pkg" name="http://www.tei-c.org/tei-simple" abbrev="tei-pm" version="1.1.0" spec="1.0">
-    <title>TEI Processing Model Toolbox</title>
+<package xmlns="http://expath.org/ns/pkg" name="http://www.tei-c.org/tei-publisher" abbrev="tei-publisher" version="2.0.0" spec="1.0">
+    <title>TEI Publisher</title>
     <dependency processor="http://exist-db.org" semver-min="2.3.0"/>
-    <dependency package="http://exist-db.org/apps/shared"/>
-    <dependency package="http://exist-db.org/apps/monex"/>
-    <xquery>
-        <namespace>http://www.tei-c.org/tei-simple/xquery/functions</namespace>
-        <file>html-functions.xql</file>
-    </xquery>
-    <xquery>
-        <namespace>http://www.tei-c.org/tei-simple/xquery/functions/fo</namespace>
-        <file>fo-functions.xql</file>
-    </xquery>
-    <xquery>
-        <namespace>http://www.tei-c.org/tei-simple/xquery/functions/latex</namespace>
-        <file>latex-functions.xql</file>
-    </xquery>
-    <xquery>
-        <namespace>http://www.tei-c.org/tei-simple/xquery/functions/epub</namespace>
-        <file>ext-epub.xql</file>
-    </xquery>
-    <xquery>
-        <namespace>http://www.tei-c.org/tei-simple/xquery/model</namespace>
-        <file>model.xql</file>
-    </xquery>
-    <xquery>
-        <namespace>http://www.tei-c.org/tei-simple/xquery/util</namespace>
-        <file>util.xql</file>
-    </xquery>
-    <xquery>
-        <namespace>http://www.tei-c.org/tei-simple/xquery/xqgen</namespace>
-        <file>xqgen.xql</file>
-    </xquery>
-    <xquery>
-        <namespace>http://www.tei-c.org/tei-simple/xquery/css</namespace>
-        <file>css.xql</file>
-    </xquery>
-    <xquery>
-        <namespace>http://www.tei-c.org/tei-simple/odd2odd</namespace>
-        <file>odd2odd.xql</file>
-    </xquery>
+    <dependency package="http://existsolutions.com/apps/tei-publisher-lib"/>
 </package>

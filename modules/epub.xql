@@ -1,27 +1,27 @@
 (:~
     A module for generating an EPUB file out of a TEI document.
-    
+
     Largely based on code written by Joe Wicentowski.
-    
+
     @version 0.1
-    
+
     @see http://en.wikipedia.org/wiki/EPUB
     @see http://www.ibm.com/developerworks/edu/x-dw-x-epubtut.html
     @see http://code.google.com/p/epubcheck/
-:)  
+:)
 
 xquery version "3.1";
 
 module namespace epub = "http://exist-db.org/xquery/epub";
 
-import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "../content/odd2odd.xql";
+import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
+import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 (:~
-    Main function of the EPUB module for assembling EPUB files: 
-    Takes the elements required for an EPUB document (wrapped in <entry> elements), 
+    Main function of the EPUB module for assembling EPUB files:
+    Takes the elements required for an EPUB document (wrapped in <entry> elements),
     and uses the compression:zip() function to returns a complete EPUB document.
 
     @param $title the dc:title of the EPUB
@@ -31,7 +31,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
     @param $css css stylesheet text to embed
     @param $filename the name of the EPUB file, sans file extension
     @return serialized EPUB file
-    
+
     @see http://demo.exist-db.org/exist/functions/compression/zip
 :)
 declare function epub:generate-epub($config as map(*), $doc, $css, $filename) {
@@ -53,12 +53,12 @@ declare function epub:generate-epub($config as map(*), $doc, $css, $filename) {
         $entries
 };
 
-(:~ 
+(:~
     Helper function, returns the mimetype entry.
-    Note that the EPUB specification requires that the mimetype file be uncompressed.  
+    Note that the EPUB specification requires that the mimetype file be uncompressed.
     We can ensure the mimetype file is uncompressed by passing compression:zip() an entry element
     with a method attribute of "store".
-    
+
     @return the mimetype entry
 :)
 declare function epub:mimetype-entry() {
@@ -72,7 +72,7 @@ declare function epub:fonts-entry($config as map(*)) {
         <entry name="OEBPS/Fonts/{$name}" type="binary">{util:binary-doc($font)}</entry>
 };
 
-(:~ 
+(:~
     Helper function, returns the META-INF/container.xml entry.
 
     @return the META-INF/container.xml entry
@@ -88,7 +88,7 @@ declare function epub:container-entry() {
         <entry name="META-INF/container.xml" type="xml">{$container}</entry>
 };
 
-(:~ 
+(:~
     Helper function, returns the OEBPS/content.opf entry.
 
     @param $title the dc:title of the EPUB
@@ -97,7 +97,7 @@ declare function epub:container-entry() {
     @return the OEBPS/content.opf entry
 :)
 declare function epub:content-opf-entry($config as map(*), $text, $xhtml as element()*) {
-    let $content-opf := 
+    let $content-opf :=
         <package xmlns="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" unique-identifier="bookid">
             <metadata>
                 <dc:title>{$config?metadata?title}</dc:title>
@@ -113,7 +113,7 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
                 (: get all divs :)
                 for $div in $text//tei:text/tei:body/tei:div
                 let $id := epub:generate-id($div)
-                return 
+                return
                     <item id="{$id}" href="{$id}.html" media-type="application/xhtml+xml"/>
                 }
                 <item id="endnotes" href="endnotes.html" media-type="application/xhtml+xml"/>
@@ -121,7 +121,7 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
                 {
                 for $img in distinct-values($xhtml//*:img/@src)
                 let $suffix := replace($img, "^.*\.([^\.]+)$", "$1")
-                let $media-type := 
+                let $media-type :=
                     switch ($suffix)
                         case "jpg" return "image/jpeg"
                         case "tif" return "image/tiff"
@@ -142,7 +142,7 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
                 {
                 (: get just divs for TOC :)
                 for $div in $text//tei:body/tei:div
-                return 
+                return
                     <itemref idref="{epub:generate-id($div)}"/>
                 }
                 <itemref idref="endnotes"/>
@@ -154,14 +154,14 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
                 let $first-text-div := ($text//tei:text/tei:body/tei:div)[1]
                 let $id := epub:generate-id($first-text-div)
                 let $title := $first-text-div/tei:head
-                return 
+                return
                     <reference href="{$id}.html" type="text" title="{$title}"/>
                 }
                 {
                 (: index div :)
                 if ($text/id('index')) then
                     <reference href="index.html" type="index" title="Index"/>
-                else 
+                else
                     ()
                 }
             </guide>
@@ -181,7 +181,7 @@ declare function epub:images-entry($doc, $entries as element()*) {
             ()
 };
 
-(:~ 
+(:~
     Helper function, creates the OEBPS/title.html file.
 
     @param $volume the volume's ID
@@ -195,7 +195,7 @@ declare function epub:title-xhtml-entry($doc) {
         <entry name="OEBPS/title.html" type="xml">{$title-xhtml}</entry>
 };
 
-(:~ 
+(:~
     Helper function, creates the OEBPS/cover.html file.
 
     @param $volume the volume's ID
@@ -214,11 +214,11 @@ declare function epub:title-xhtml-body($fileDesc as element(tei:fileDesc)?) {
                 <li class="resp"><span class="respRole">{$resp/tei:resp/text()}</span>: {$resp/tei:name/text()}</li>
         }
         </ul>
-        
+
     </div>
 };
 
-(:~ 
+(:~
     Helper function, creates the XHTML files for the body of the EPUB.
 
     @param $text the tei:text element for the file, which contains the divs to be processed into the EPUB
@@ -262,7 +262,7 @@ declare function epub:endnotes-xhtml-entry($entries as element()*) {
     </entry>
 };
 
-(:~ 
+(:~
     Helper function, creates the CSS entry for the EPUB.
 
     @param $db-path-to-css the db path to the required static resources (cover.jpg, stylesheet.css)
@@ -272,15 +272,15 @@ declare function epub:stylesheet-entry($css as xs:string) {
     <entry name="OEBPS/stylesheet.css" type="binary">{util:string-to-binary($css)}</entry>
 };
 
-(:~ 
+(:~
     Helper function, creates the OEBPS/toc.ncx file.
 
     @param $urn the EPUB's urn
     @param $text the tei:text element for the file, which contains the divs to be processed into the EPUB
     @return the NCX element's entry
 :)
-declare function epub:toc-ncx-entry($urn, $title, $text) { 
-    let $toc-ncx := 
+declare function epub:toc-ncx-entry($urn, $title, $text) {
+    let $toc-ncx :=
         <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
             <head>
                 <meta name="dtb:uid" content="{$urn}"/>
@@ -311,7 +311,7 @@ declare function epub:toc-ncx-entry($urn, $title, $text) {
                 }
             </navMap>
         </ncx>
-    return 
+    return
         <entry name="OEBPS/toc.ncx" type="xml">{$toc-ncx}</entry>
 };
 
@@ -330,7 +330,7 @@ declare function epub:toc-ncx-div($root as element(), $start as xs:int) {
         </navPoint>
 };
 
-(:~ 
+(:~
     Helper function, creates the OEBPS/table-of-contents.html file.
 
     @param $title the page's title
@@ -338,7 +338,7 @@ declare function epub:toc-ncx-div($root as element(), $start as xs:int) {
     @return the entry for the OEBPS/table-of-contents.html file
 :)
 declare function epub:table-of-contents-xhtml-entry($title, $doc, $suppress-documents) {
-    let $body := 
+    let $body :=
         <div xmlns="http://www.w3.org/1999/xhtml" id="table-of-contents">
             <h2>Contents</h2>
             <ul>{
@@ -353,11 +353,11 @@ declare function epub:table-of-contents-xhtml-entry($title, $doc, $suppress-docu
             }</ul>
         </div>
     let $table-of-contents-xhtml := epub:assemble-xhtml($title, $body)
-    return 
+    return
         <entry name="OEBPS/table-of-contents.html" type="xml">{$table-of-contents-xhtml}</entry>
 };
 
-(:~ 
+(:~
     Helper function, contains the basic XHTML shell used by all XHTML files in the EPUB package.
 
     @param $title the page's title

@@ -40,8 +40,8 @@ declare namespace expath="http://expath.org/ns/pkg";
 
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "../content/odd2odd.xql";
-import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";
+import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
+import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
 declare variable $pages:app-root := request:get-context-path() || substring-after($config:app-root, "/db");

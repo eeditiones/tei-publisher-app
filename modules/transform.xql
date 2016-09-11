@@ -1,7 +1,7 @@
 (:~
  : Transform a given source into a standalone document using
  : the specified odd.
- : 
+ :
  : @author Wolfgang Meier
  :)
 xquery version "3.0";
@@ -9,8 +9,8 @@ xquery version "3.0";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "../content/util.xql";
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "../content/odd2odd.xql";
+import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
+import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 
 declare option output:method "html";
 declare option output:html-version "5.0";
