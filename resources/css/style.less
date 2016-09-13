@@ -6,17 +6,18 @@
 
 // the application logo to be shown top left in the navigation bar
 .logo {
-    background-image: url('../images/icon.png');
+    background-image: url('../images/tei-publisher-logo-contrast-color.svg');
     background-position: 5px 5px;
     background-repeat: no-repeat;
     background-size: auto 50px;
-    
+    padding-left: 210px;
     // width: 200px;
 
     // color: transparent;
-    
+
     span {
         margin-left: 60px;
+        display: none;
     }
 }
 
@@ -67,7 +68,7 @@ body {
     .toc ul {
         padding-left: 20px;
     }
-    
+
     .toc-toggle {
         position: fixed !important;
         left: 30px;
@@ -80,7 +81,7 @@ body {
 .navbar-default {
     margin-bottom: 0;
     background-color: #35424b !important;
-    
+
     .navbar-brand, .navbar-brand:focus, .navbar-brand:hover {
         .logo();
     }
@@ -142,28 +143,28 @@ a, a:hover, a:focus {
         font-family: @monospaceFont;
         font-size: 85%;
     }
-    
+
     .tei-list2 dd {
         margin-left: 2em;
     }
-    
+
     .tei-gi, .xml-attribute {
         font-family: @monospaceFont;
         font-size: 85%;
     }
-    
+
     figure {
         text-align: center;
         margin: 24px 0;
         padding: 16px 0;
         border-top: 1px solid #C0C0C0;
         border-bottom: 1px solid #C0C0C0;
-        
+
         img.img-responsive {
             margin: 0 auto;
         }
     }
-    
+
     figcaption {
         margin-top: .5em;
         text-align: right;
@@ -318,7 +319,7 @@ mark {
     .nav-prev {
         left: 30px;
     }
-    
+
     .nav-next {
         right: 30px;
     }
@@ -327,7 +328,7 @@ mark {
 .actions {
     margin-bottom: 10px;
     margin-top: 61px;
-    
+
     @media (max-width: 769px) {
         .btn {
             padding: 8px 20px;
