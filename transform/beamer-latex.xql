@@ -1,7 +1,7 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/tei-simple/odd/compiled/beamer.odd
+    ODD: /db/apps/tei-publisher/odd/compiled/beamer.odd
  :)
 xquery version "3.1";
 
@@ -17,9 +17,9 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
-import module namespace ext-beamer="http://www.tei-c.org/tei-simple/xquery/ext-latexbeamer" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/modules/../modules/ext-latexbeamer.xql";
+import module namespace ext-beamer="http://www.tei-c.org/tei-simple/xquery/ext-latexbeamer" at "xmldb:exist://embedded-eXist-server/db/apps/tei-publisher/modules/../modules/ext-latexbeamer.xql";
 
-import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/modules/../modules/ext-latex.xql";
+import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist://embedded-eXist-server/db/apps/tei-publisher/modules/../modules/ext-latex.xql";
 
 (:~
 
@@ -32,7 +32,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["latex","print"],
-                "odd": "/db/apps/tei-simple/odd/compiled/beamer.odd",
+                "odd": "/db/apps/tei-publisher/odd/compiled/beamer.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }

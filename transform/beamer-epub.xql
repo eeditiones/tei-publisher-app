@@ -1,7 +1,7 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/tei-simple/odd/compiled/beamer.odd
+    ODD: /db/apps/tei-publisher/odd/compiled/beamer.odd
  :)
 xquery version "3.1";
 
@@ -30,7 +30,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["epub","web"],
-                "odd": "/db/apps/tei-simple/odd/compiled/beamer.odd",
+                "odd": "/db/apps/tei-publisher/odd/compiled/beamer.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }

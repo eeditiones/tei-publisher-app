@@ -1,7 +1,7 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/tei-simple/odd/compiled/documentation.odd
+    ODD: /db/apps/tei-publisher/odd/compiled/documentation.odd
  :)
 xquery version "3.1";
 
@@ -19,7 +19,7 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
 import module namespace epub="http://www.tei-c.org/tei-simple/xquery/functions/epub";
 
-import module namespace ext-html="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/modules/../modules/ext-html.xql";
+import module namespace ext-html="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist://embedded-eXist-server/db/apps/tei-publisher/modules/../modules/ext-html.xql";
 
 (:~
 
@@ -32,7 +32,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["epub","web"],
-                "odd": "/db/apps/tei-simple/odd/compiled/documentation.odd",
+                "odd": "/db/apps/tei-publisher/odd/compiled/documentation.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }

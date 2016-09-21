@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/tei-simple/models/myteisimple.odd/latex' at '/db/apps/tei-simple/transform/myteisimple-latex.xql';
+import module namespace m='http://www.tei-c.org/tei-simple/models/myteisimple.odd/latex' at '/db/apps/tei-publisher/transform/myteisimple-latex.xql';
 
 declare variable $xml external;
 
@@ -9,7 +9,7 @@ let $options := map {
     "section-numbers": false(),
     "font-size": "12pt",
     "styles": ["../transform/myteisimple.css"],
-    "collection": "/db/apps/tei-simple/transform",
+    "collection": "/db/apps/tei-publisher/transform",
     "parameters": if (exists($parameters)) then $parameters else map {}
 }
 return m:transform($options, $xml)

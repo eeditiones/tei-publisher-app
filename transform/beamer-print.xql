@@ -1,7 +1,7 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/tei-simple/odd/compiled/beamer.odd
+    ODD: /db/apps/tei-publisher/odd/compiled/beamer.odd
  :)
 xquery version "3.1";
 
@@ -17,7 +17,7 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace fo="http://www.tei-c.org/tei-simple/xquery/functions/fo";
 
-import module namespace ext-fo="http://www.tei-c.org/tei-simple/xquery/ext-fo" at "xmldb:exist://embedded-eXist-server/db/apps/tei-simple/modules/../modules/ext-fo.xql";
+import module namespace ext-fo="http://www.tei-c.org/tei-simple/xquery/ext-fo" at "xmldb:exist://embedded-eXist-server/db/apps/tei-publisher/modules/../modules/ext-fo.xql";
 
 (:~
 
@@ -30,7 +30,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["fo","print"],
-                "odd": "/db/apps/tei-simple/odd/compiled/beamer.odd",
+                "odd": "/db/apps/tei-publisher/odd/compiled/beamer.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }
