@@ -310,3 +310,11 @@ function app:form-odd-select($node as node(), $model as map(*)) {
             ()
     })
 };
+
+declare function app:abs-link($node as node(), $model as map(*)) {
+    element { node-name($node) } {
+        $node/@* except $node/@href,
+        attribute href { $pages:app-root || "/" || $node/@href },
+        $node/node()
+    }
+};
