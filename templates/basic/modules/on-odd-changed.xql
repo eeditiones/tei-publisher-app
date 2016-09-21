@@ -2,7 +2,7 @@ xquery version "3.0";
 
 module namespace trigger="http://exist-db.org/xquery/trigger";
 
-import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "/db/apps/tei-simple/content/util.xql";
+import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 
 declare variable $local:odd external;

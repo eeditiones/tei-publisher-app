@@ -31,8 +31,6 @@ xquery version "3.1";
 
 import module namespace tmpl="http://exist-db.org/xquery/template" at "tmpl.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 
 declare namespace deploy="http://www.tei-c.org/tei-simple/generator";
 declare namespace git="http://exist-db.org/eXide/git";
@@ -91,7 +89,7 @@ declare function deploy:init-simple($collection as xs:string?, $userData as xs:s
     let $mkcol := deploy:mkcol($target, $userData, $permissions)
     return (
         deploy:xconf($collection, $odd, $userData, $permissions),
-        for $file in ("elementsummary.xml", "headerelements.xml", "headeronly.xml", "simpleelements.xml", "teisimple.odd", $odd, "configuration.xml")
+        for $file in ("elementsummary.xml", "headerelements.xml", "headeronly.xml", "simpleelements.xml", "teisimple.odd", $odd)
         return (
             xmldb:copy($config:odd-root, $target, $file),
             if (exists($userData)) then
@@ -104,6 +102,7 @@ declare function deploy:init-simple($collection as xs:string?, $userData as xs:s
             else
                 ()
         ),
+        deploy:create-configuration($target),
         deploy:mkcol($target || "/compiled", $userData, $permissions),
         (: xmldb:copy($config:compiled-odd-root, $target || "/compiled", "teisimple.odd"), :)
         deploy:mkcol($collection || "/data", $userData, $permissions),
@@ -112,6 +111,32 @@ declare function deploy:init-simple($collection as xs:string?, $userData as xs:s
         deploy:chmod-scripts($collection)
     )
 };
+
+declare function deploy:create-configuration($target as xs:string) {
+    xmldb:store($target, "configuration.xml",
+        document {
+            <!--
+                Defines extension modules to be loaded for a given output mode, optionally limited to a
+                specific odd file. Order is important: the first module function matching a given behaviour
+                will be used.
+
+                Every output element may list an arbitrary number of modules, though they should differ by
+                uri and prefix.
+
+                "mode" is the mode identification string passed to pmu:process.
+                The "odd" is defined by its name, without the .odd suffix.
+            -->,
+            <modules>
+                <output mode="latex">
+                    <property name="class">"article"</property>
+                    <property name="section-numbers">false()</property>
+                    <property name="font-size">"12pt"</property>
+                </output>
+            </modules>
+        }
+    )
+};
+
 
 declare function deploy:chmod-scripts($target as xs:string) {
     sm:chmod(xs:anyURI($target || "/modules/view.xql"), "rwsr-xr-x"),

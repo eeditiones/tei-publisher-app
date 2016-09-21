@@ -1,7 +1,7 @@
 xquery version "3.0";
 
-import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util" at "/db/apps/tei-simple/content/util.xql";
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd" at "/db/apps/tei-simple/content/odd2odd.xql";
+import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
+import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 
 declare namespace repo="http://exist-db.org/xquery/repo";
 
