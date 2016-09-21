@@ -7,14 +7,19 @@
 // the application logo to be shown top left in the navigation bar
 .logo {
     background-image: url('../images/tei-publisher-logo-contrast-color.svg');
-    background-position: 5px 5px;
     background-repeat: no-repeat;
-    background-size: auto 50px;
-    padding-left: 210px;
-    // width: 200px;
+    padding-left: 220px;
+    
+    @media (max-width: 1199px) {
+        background-position: 5px 5px;
+        background-size: auto 40px;
+    }
 
-    // color: transparent;
-
+    @media (min-width: 1200px) {
+        background-position: 7px 7px;
+        background-size: auto 46px;
+    }
+    
     span {
         margin-left: 60px;
         display: none;
