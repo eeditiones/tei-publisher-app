@@ -5,7 +5,7 @@
         <div class="row main">
             <div class="col-md-12">
                 <div class="page-header">
-                    <h1>TEI Simple Application Generator</h1>
+                    <h1>Application Generator</h1>
                 </div>
                 <p>Use this form to generate an application based on an ODD file and TEI data.
                 Please consult the <a href="doc/documentation.xml?odd=documentation.odd&amp;id=appgen">documentation</a> before generating your
@@ -64,6 +64,21 @@
                             <p class="help-block">Choose what is shown by default when browsing text: a single page
                                 or an entire division. Display by page requires that the TEI is properly marked up
                                 with &lt;tei:pb&gt; tags.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="app-view" class="col-sm-2 control-label">Default Full Text Index:</label>
+                        <div class="col-sm-10">
+                            <select name="index" id="app-index" class="form-control">
+                                <option value="tei:div">Create on division</option>
+                                <option value="tei:body">Create on body</option>
+                            </select>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"/>
+                            <p class="help-block">
+                                Define the smallest block on which a full text index is created. For documents
+                                organized into divisions, choosing tei:div is usually best. If there are no divisions,
+                                choose body.
                             </p>
                         </div>
                     </div>

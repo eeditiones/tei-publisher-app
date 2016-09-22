@@ -14,6 +14,7 @@ import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace app="http://www.tei-c.org/tei-simple/templates" at "app.xql";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
+import module namespace search="http://www.tei-c.org/tei-simple/search" at "search.xql";
 
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 

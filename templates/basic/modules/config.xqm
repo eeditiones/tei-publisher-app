@@ -16,6 +16,7 @@ declare namespace jmx="http://exist-db.org/jmx";
 
 declare variable $config:default-view := "$$default-view$$";
 
+declare variable $config:search-default := "$$default-search$$";
 (:
     Determine the application root collection from the current module load path.
 :)

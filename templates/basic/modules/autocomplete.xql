@@ -18,7 +18,7 @@ let $items :=
             case "file" return
                 distinct-values(ft:search($config:data-root, "file:" || $q || "*", "file")//field)
             case "tei-text" return
-                collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:div"), $q, 
+                collection($config:data-root)/util:index-keys-by-qname(xs:QName($config:search-default), $q, 
                     function($key, $count) {
                         $key
                     }, 30, "lucene-index")

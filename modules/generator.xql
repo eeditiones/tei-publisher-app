@@ -57,12 +57,13 @@ declare variable $deploy:ANT_FILE :=
     </project>;
 
 declare function deploy:xconf($collection as xs:string, $odd as xs:string, $userData as xs:string*, $permissions as xs:string?) {
+    let $mainIndex := request:get-parameter("index", "tei:div")
     let $xconf :=
         <collection xmlns="http://exist-db.org/collection-config/1.0">
             <index xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
                 <fulltext default="none" attributes="false"/>
                 <lucene>
-                    <text qname="tei:div"/>
+                    <text qname="{$mainIndex}"/>
                     <text qname="tei:head"/>
                     <text match="//tei:sourceDesc/tei:biblFull/tei:titleStmt/tei:title"/>
                     <text match="//tei:fileDesc/tei:titleStmt/tei:title"/>
@@ -384,6 +385,7 @@ declare function deploy:expand-xql($target as xs:string) {
     let $odd := request:get-parameter("odd", "teisimple.odd")
     let $defaultView := request:get-parameter("default-view", "div")
     let $data-param := request:get-parameter("data-collection", ())
+    let $mainIndex := request:get-parameter("index", "tei:div")
     let $data-param :=
         if (ends-with($data-param, "/")) then $data-param else $data-param || "/"
     let $data-root :=
@@ -401,6 +403,7 @@ declare function deploy:expand-xql($target as xs:string) {
             <param name="config-data" value="{$data-root}"/>
             <param name="config-odd" value="{$odd}"/>
             <param name="config-odd-name" value="{substring-before($odd, '.odd')}"/>
+            <param name="default-search" value="{$mainIndex}"/>
         </parameters>
     for $module in ("config.xqm", "pm-config.xql")
     return

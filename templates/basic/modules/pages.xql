@@ -41,6 +41,7 @@ declare namespace expath="http://expath.org/ns/pkg";
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
+import module namespace search="http://www.tei-c.org/tei-simple/search" at "search.xql";
 import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
@@ -216,7 +217,7 @@ function pages:view($node as node(), $model as map(*), $view as xs:string?, $act
             let $expanded :=
                 util:expand(
                     (
-                        $div[./descendant-or-self::tei:div[ft:query(., $query)]],
+                        search:query-default-view($div, $query),
                         $div[.//tei:head[ft:query(., $query)]]
                     ), "add-exist-id=all"
                 )
