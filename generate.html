@@ -112,13 +112,21 @@
                         </div>
                     </div>
                 </form>
-                <div id="msg" class="panel panel-primary" style="display: none">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Upload</h3>
-                    </div>
-                    <div class="panel-body">
-                        <p>A new application has been generated in <span id="msg-collection"/>.
-                        You can <a id="msg-link" href="#" target="_new">view the app here</a>.</p>
+                <div id="msg" class="modal fade" tabindex="-1" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">App Generated</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>A new application has been generated in <span id="msg-collection"/>.
+                                You can <a id="msg-link" href="#" target="_new">view the app here</a>.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -158,7 +166,7 @@
                     if (!data.error) {
                         $("#msg-collection").text(data.target);
                         $("#msg-link").attr("href", "../" + data.abbrev);
-                        $("#msg").show();
+                        $("#msg").modal("show");
                     } else {
                         $form.find("input[name='" + data.param + "']").each(function() {
                             console.log("invalidating %o", this);
