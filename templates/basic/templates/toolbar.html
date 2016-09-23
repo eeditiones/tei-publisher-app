@@ -1,0 +1,58 @@
+<div class="row actions-row">
+    <div class="col-md-11 col-md-offset-1">
+        <div class="btn-toolbar actions">
+            <div class="btn-group" role="group">
+                <a class="btn btn-default" data-template="pages:back-link" title="Back to index page">
+                    <i class="material-icons">home</i>
+                </a>
+                <div class="btn-group hidden-xs">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <i class="material-icons">print</i>
+                        <span class="hidden-xs">PDF</span>
+                        <span class="caret"/>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a class="download-link" data-template="app:download-link" data-template-type="pdf">PDF (FO Version)</a>
+                        </li>
+                        <li data-template="app:show-if-logged-in">
+                            <a target="_blank" data-template="app:download-link" data-template-type="pdf" data-template-source="true">
+                                FO Source
+                            </a>
+                        </li>
+                        <li>
+                            <a class="download-link" data-template="app:download-link" data-template-type="tex">PDF (LaTeX Version)</a>
+                        </li>
+                        <li data-template="app:show-if-logged-in">
+                            <a target="_blank" data-template="app:download-link" data-template-type="tex" data-template-source="true">
+                                TeX Source
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <a class="btn btn-default hidden-xs download-link" data-template="app:download-link" data-template-type="epub" title="Download as epub ebook">
+                    <i class="material-icons">book</i>
+                    <span class="hidden-xs">ePUB</span>
+                </a>
+                <a class="btn btn-default hidden-xs" data-template="pages:xml-link">
+                    <i class="material-icons">code</i>
+                    <span class="hidden-xs">XML</span>
+                </a><!--a target="_new" class="btn btn-default hidden-xs" data-template="pages:single-page-link" title="View plain HTML on a single page">
+                    <i class="material-icons">swap_vert</i>
+                    <span class="hidden-xs">Plain</span>
+                </a-->
+            </div>
+            <div class="btn-group" role="group">
+                <a class="btn btn-default" href="#" id="zoom-in">
+                    <i class="material-icons">zoom_in</i>
+                </a>
+                <a class="btn btn-default" href="#" id="zoom-out">
+                    <i class="material-icons">zoom_out</i>
+                </a>
+                <a class="btn btn-default" id="switch-view" data-template="pages:switch-view" title="Switch between page and division view">
+                    <i class="material-icons">import_contacts</i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
