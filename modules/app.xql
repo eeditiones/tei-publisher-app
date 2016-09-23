@@ -60,9 +60,11 @@ function app:doc-table($node as node(), $model as map(*), $odd as xs:string?) {
         return
             dbutil:find-by-mimetype(xs:anyURI($collection), "application/xml", function($resource) {
                 let $name := substring-after($resource, $config:app-root || "/")
+                let $doc := doc($resource)/*
+                where $doc
                 return
                     <li>
-                        <h5><a href="{$name}?odd={$odd}">{pages:title(doc($resource)/*)}</a></h5>
+                        <h5><a href="{$name}?odd={$odd}">{pages:title($doc)}</a></h5>
                         <div>
                         {
                             let $token := util:uuid()
