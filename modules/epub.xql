@@ -376,14 +376,16 @@ declare function epub:assemble-xhtml($title, $body) {
     </html>
 };
 
-declare function epub:fix-namespaces($node as node()) {
-    typeswitch ($node)
-        case element() return
-            element { QName("http://www.w3.org/1999/xhtml", local-name($node)) } {
-                $node/@*, for $child in $node/node() return epub:fix-namespaces($child)
-            }
-        default return
-            $node
+declare function epub:fix-namespaces($nodes as node()*) {
+    for $node in $nodes
+    return
+        typeswitch ($node)
+            case element() return
+                element { QName("http://www.w3.org/1999/xhtml", local-name($node)) } {
+                    $node/@*, for $child in $node/node() return epub:fix-namespaces($child)
+                }
+            default return
+                $node
 };
 
 declare function epub:generate-id($node as node()) {
