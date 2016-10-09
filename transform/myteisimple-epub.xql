@@ -123,7 +123,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(cit) return
                     if (child::quote and child::bibl) then
                         (: Insert citation :)
-                        html:cit($config, ., ("tei-cit"), .)
+                        html:cit($config, ., ("tei-cit"), ., ())
                     else
                         $config?apply($config, ./node())
                 case element(closer) return
@@ -445,9 +445,9 @@ declare function model:apply($config as map(*), $input as node()*) {
 
                     else
                         (
-                            html:block($config, ., ("tei-fileDesc1"), titleStmt),
-                            html:block($config, ., ("tei-fileDesc2"), seriesStmt),
-                            html:paragraph($config, ., ("tei-fileDesc3"), editionStmt),
+                            html:block($config, ., ("tei-fileDesc3"), titleStmt),
+                            html:block($config, ., ("tei-fileDesc4"), seriesStmt),
+                            html:paragraph($config, ., ("tei-fileDesc5"), editionStmt),
                             (: No function found for behavior: collapse :)
                             $config?apply($config, ./node())
                         )
@@ -455,12 +455,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(titleStmt) return
                     if ($parameters?header='short') then
                         (
-                            html:link($config, ., ("tei-titleStmt1"), title, $parameters?doc),
-                            html:block($config, ., ("tei-titleStmt2"), author)
+                            html:link($config, ., ("tei-titleStmt3"), title, $parameters?doc),
+                            html:block($config, ., ("tei-titleStmt4"), author)
                         )
 
                     else
-                        html:block($config, ., ("tei-titleStmt3"), .)
+                        html:block($config, ., ("tei-titleStmt5"), .)
                 case element(TEI) return
                     html:document($config, ., ("tei-TEI"), .)
                 case element(text) return
@@ -474,21 +474,21 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (parent::titleStmt/parent::fileDesc) then
                             (
                                 if (preceding-sibling::title) then
-                                    html:text($config, ., ("tei-title1"), ' — ')
+                                    html:text($config, ., ("tei-title2"), ' — ')
                                 else
                                     (),
-                                html:inline($config, ., ("tei-title2"), .)
+                                html:inline($config, ., ("tei-title3"), .)
                             )
 
                         else
                             if (not(@level) and parent::bibl) then
-                                html:inline($config, ., ("tei-title2"), .)
+                                html:inline($config, ., ("tei-title4"), .)
                             else
                                 if (@level='m' or not(@level)) then
                                     (
-                                        html:inline($config, ., ("tei-title1"), .),
+                                        html:inline($config, ., ("tei-title5"), .),
                                         if (ancestor::biblStruct or       ancestor::biblFull) then
-                                            html:text($config, ., ("tei-title2"), ', ')
+                                            html:text($config, ., ("tei-title6"), ', ')
                                         else
                                             ()
                                     )
@@ -496,9 +496,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 else
                                     if (@level='s' or @level='j') then
                                         (
-                                            html:inline($config, ., ("tei-title1"), .),
+                                            html:inline($config, ., ("tei-title7"), .),
                                             if (following-sibling::* and     (ancestor::biblStruct  or     ancestor::biblFull)) then
-                                                html:text($config, ., ("tei-title2"), ', ')
+                                                html:text($config, ., ("tei-title8"), ', ')
                                             else
                                                 ()
                                         )
@@ -506,15 +506,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     else
                                         if (@level='u' or @level='a') then
                                             (
-                                                html:inline($config, ., ("tei-title1"), .),
+                                                html:inline($config, ., ("tei-title9"), .),
                                                 if (following-sibling::* and     (ancestor::biblStruct  or     ancestor::biblFull)) then
-                                                    html:text($config, ., ("tei-title2"), '. ')
+                                                    html:text($config, ., ("tei-title10"), '. ')
                                                 else
                                                     ()
                                             )
 
                                         else
-                                            html:inline($config, ., ("tei-title3"), .)
+                                            html:inline($config, ., ("tei-title11"), .)
                 case element(titlePage) return
                     html:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                 case element(titlePart) return
