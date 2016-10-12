@@ -133,6 +133,12 @@ declare function deploy:create-configuration($target as xs:string) {
                     <property name="section-numbers">false()</property>
                     <property name="font-size">"12pt"</property>
                 </output>
+                <!-- Add custom module -->
+                <!--
+                <output mode="web" odd="teisimple">
+                    <module uri="http://my.com" prefix="ext-html" at="xmldb:exist:///db/apps/my-app/modules/ext-html.xql"/>
+                </output>
+                -->
             </modules>
         }
     )
@@ -152,7 +158,7 @@ declare function deploy:store-expath($collection as xs:string?, $userData as xs:
             version="{request:get-parameter('version', '0.1')}" spec="1.0">
             <title>{request:get-parameter("title", ())}</title>
             <dependency package="http://exist-db.org/apps/shared"/>
-            <dependency package="http://www.tei-c.org/tei-simple"/>
+            <dependency package="http://existsolutions.com/apps/tei-publisher-lib"/>
         </package>
     return (
         xmldb:store($collection, "expath-pkg.xml", $descriptor, "text/xml"),
