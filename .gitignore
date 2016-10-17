@@ -1,2 +1,7 @@
 build
 generated/
+.*
+!.gitignore
+!.existdb.json
+resources/css/style.css
+resources/css/style.css.map
