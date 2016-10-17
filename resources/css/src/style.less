@@ -1,42 +1,14 @@
-// out: style.css, sourcemap: true, compress: true
+// out: ../style.css, sourcemap: true, compress: true
 
-@serifFont: "Junicode", Georgia, "Times New Roman", serif;
-@sansserifFont: Trebuchet, Verdana, "Helvetica", sans-serif;
-@monospaceFont: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
-
-// the application logo to be shown top left in the navigation bar
-.logo {
-    background-image: url('../images/tei-publisher-logo-contrast-color.svg');
-    background-repeat: no-repeat;
-    padding-left: 220px;
-    
-    @media (max-width: 1199px) {
-        background-position: 5px 5px;
-        background-size: auto 40px;
-    }
-
-    @media (min-width: 1200px) {
-        background-position: 7px 7px;
-        background-size: auto 46px;
-    }
-    
-    span {
-        margin-left: 60px;
-        display: none;
-    }
-}
-
-footer .poweredby { float: right; margin: 33px 10px 0 0;}
-footer .poweredby img { width: 120px; }
-
-body {
-    font-size: 12pt;
-    background-color: #fff;
-}
-
-.bold {
-    font-weight: bolder;
-}
+@import "_variables.less";
+@import "_base.less";
+@import "_typography.less";
+@import "_utilities.less";
+@import "_navigation.less";
+@import "_theme.less";
+@import "_toc.less";
+@import "_buttons.less";
+@import "_footer.less";
 
 #main-container {
     max-width: 1200px;
@@ -54,48 +26,6 @@ body {
     }
 }
 
-@media (min-width: 768px) {
-    .toc {
-        position: fixed;
-        top: 61px;
-        bottom: 0;
-        left: 0;
-        z-index: 1000;
-        display: block;
-        padding: 0 20px 20px 20px;
-        overflow-x: hidden;
-        overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-        background: #fafafa url(../images/body-bg.png) top left repeat;
-        border-right: 1px solid #eee;
-        border-top: 1px solid #eee;
-    }
-
-    .toc ul {
-        padding-left: 20px;
-    }
-
-    .toc-toggle {
-        position: fixed !important;
-        left: 30px;
-        top: inherit;
-        background-color: #607D8B !important;
-        color: white;
-    }
-}
-
-.navbar-default {
-    margin-bottom: 0;
-    background-color: #35424b !important;
-
-    .navbar-brand, .navbar-brand:focus, .navbar-brand:hover {
-        .logo();
-    }
-}
-
-.top {
-    margin-top: 61px;
-}
-
 .panel.panel-primary>.panel-heading {
     background-color: #C5CAE9;
 }
@@ -103,9 +33,6 @@ body {
     background-color: #869baa;
 }
 
-a, a:hover, a:focus {
-    color: #303F9F;
-}
 .main {
     margin-top: 50px;
     margin-bottom: 20px;
@@ -178,11 +105,6 @@ a, a:hover, a:focus {
 
 mark {
     background-color: #FFEB3B;
-}
-
-.margin-right {
-    margin-right: 200px;
-    position: relative;
 }
 
 .alternate {
@@ -285,26 +207,6 @@ mark {
     min-height: 450px;
 }
 
-.navigation-top {
-    @media (min-width: 769px) {
-        margin-bottom: 1em;
-        border-bottom: 2px solid #CCC;
-    }
-
-    h5 {
-        text-align: center;
-        font-family: @serifFont;
-        font-size: 16px;
-        padding: 10px 10px 10px 0;
-    }
-
-    @media (max-width: 768px) {
-        .nav-next {
-            right: 10px;
-        }
-    }
-}
-
 .page-nav, .page-nav:link, .page-nav:active {
     background-color: #607D8B !important;
 
@@ -339,13 +241,6 @@ mark {
             padding: 8px 20px;
         }
     }
-}
-
-.btn-group .hidden-xs {
-    margin-left: .5em;
-}
-.btn-group .hidden-xs + span {
-    margin-left: .5em;
 }
 
 .documents {
