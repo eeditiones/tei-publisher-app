@@ -33,7 +33,6 @@ declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
-import module namespace app="http://www.tei-c.org/tei-simple/templates" at "app.xql";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
@@ -65,25 +64,8 @@ let $xml :=
         pages:load-xml($view, $root, $doc)
 return
     if ($xml) then
-        let $prev := 
-            switch ($view)
-                case "page" return
-                    $xml/preceding::tei:pb[1]
-                case "body" return
-                    ($xml/preceding-sibling::*, $xml/../preceding-sibling::*)[1]
-                default return
-                    let $parent := $xml/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
-                    let $prevDiv := $xml/preceding::tei:div[1]
-                    return
-                        pages:get-previous(if ($parent and (empty($prevDiv) or $xml/.. >> $prevDiv)) then $xml/.. else $prevDiv)
-        let $next :=
-            switch ($view)
-                case "page" return
-                    $xml/following::tei:pb[1]
-                case "body" return
-                    ($xml/following-sibling::*, $xml/../following-sibling::*)[1]
-                default return
-                    pages:get-next($xml)
+        let $prev := pages:get-previous($xml, $view)
+        let $next := pages:get-next($xml, $view)
         let $html := pages:process-content(pages:get-content($xml), $xml)
         let $doc := replace($doc, "^.*/([^/]+)$", "$1")
         return
@@ -102,7 +84,7 @@ return
                     let $root := pages:switch-view-id($xml, $view)
                     return
                         if ($root) then
-                            $doc || "?root=" || util:node-id($root) || 
+                            $doc || "?root=" || util:node-id($root) ||
                                 "&amp;view=" || (if ($view = "div") then "page" else "div")
                         else
                             (),

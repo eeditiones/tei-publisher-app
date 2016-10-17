@@ -14,9 +14,38 @@ declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace expath="http://expath.org/ns/pkg";
 declare namespace jmx="http://exist-db.org/jmx";
 
+(:
+ : The default to use for determining the amount of content to be shown
+ : on a single page. Possible values: 'div' for showing entire divs (see
+ : the parameters below for further configuration), or 'page' to browse
+ : a document by actual pages determined by TEI pb elements. 
+ :)
 declare variable $config:default-view := "$$default-view$$";
 
+(:
+ : The element to search by default, either 'tei:div' or 'tei:body'.
+ :)
 declare variable $config:search-default := "$$default-search$$";
+
+(: 
+ : Defines which nested divs will be displayed as single units on one
+ : page (using pagination by div). Divs which are nested
+ : deeper than $pagination-depth will always appear in their parent div.
+ : So if you have, for example, 4 levels of divs, but the divs on level 4 are
+ : just small sub-subsections with one paragraph each, you may want to limit
+ : $pagination-depth to 3 to not show the sub-subsections as separate pages.
+ : Setting $pagination-depth to 1 would show entire top-level divs on one page.
+ :)
+declare variable $config:pagination-depth := 10;
+
+(:
+ : If a div starts with less than $pagination-fill elements before the
+ : first nested div child, the pagination-by-div algorithm tries to fill
+ : up the page by pulling following divs in. When set to 0, it will never
+ : attempt to fill up the page.
+ :)
+declare variable $config:pagination-fill := 5;
+
 (:
     Determine the application root collection from the current module load path.
 :)
