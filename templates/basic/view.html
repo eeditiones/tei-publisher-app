@@ -27,6 +27,18 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $.material.init();
+                
+                // keyboard shortcuts: press "left" key for previous page, "right" for next
+                $(document).keydown(function(ev) {
+                    switch (ev.which) {
+                        case 37:
+                            $(".nav-prev").first().click();
+                            break;
+                        case 39:
+                            $(".nav-next").first().click();
+                            break;
+                    }
+                });
             });
         </script>
         <script type="text/javascript" src="resources/scripts/app.js"/>
@@ -48,14 +60,16 @@
                                     <a class="btn btn-primary btn-fab toc-toggle" data-toggle="offcanvas" data-target="#sidebar" data-canvas="#main-container">
                                         <i class="material-icons">view_list</i>
                                     </a>
-                                    <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab">
+                                    <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab"
+                                        title="Previous page [left arrow on keyboard]">
                                         <i class="material-icons">navigate_before</i>
                                     </a>
                                 </div>
                                 <div class="col-md-10 col-sm-12">
                                     <div class="navigation-top row">
                                         <div class="hidden-md hidden-lg btn-group-sm">
-                                            <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab">
+                                            <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab"
+                                                title="Previous page [left arrow on keyboard]">
                                                 <i class="material-icons">navigate_before</i>
                                             </a>
                                         </div>
@@ -63,7 +77,8 @@
                                             <h5 data-template="pages:navigation-title"/>
                                         </div>
                                         <div class="hidden-md hidden-lg btn-group-sm">
-                                            <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab">
+                                            <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab"
+                                                title="Next page [right arrow on keyboard]">
                                                 <i class="material-icons">navigate_next</i>
                                             </a>
                                         </div>
@@ -75,7 +90,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1 hidden-sm hidden-xs">
-                                    <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab">
+                                    <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab"
+                                        title="Next page [right arrow on keyboard]">
                                         <i class="material-icons">navigate_next</i>
                                     </a>
                                 </div>
