@@ -1,10 +1,16 @@
 // main: style.less
 
 body {
-  font-size: 12pt;
-  background-color: #fff;
+  font-family:      @font-sans-serif;
+  font-size:        @font-size-body-default;
+  background-color: @color-body-bg;
+  color:            @color-body-text-default;
 }
 
-a, a:hover, a:focus {
-  color: #303F9F;
+a {
+  color: @color-link;
+  &:hover,
+  &:focus {
+    color: @color-link-hover;
+  }
 }

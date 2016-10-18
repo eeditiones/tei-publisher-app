@@ -1,2 +1,109 @@
 // main: style.less
 
+.main {
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.dropdown-menu li>a:hover {
+  color: @color-link-hover !important;
+}
+
+.browse {
+  font-size: 1em !important;
+
+  td:nth-child(2), td:nth-child(3), td:nth-child(4) {
+    font-family: @font-serif;
+  }
+  td:nth-child(5) {
+    width: 180px;
+    text-align: right;
+  }
+}
+
+.label:not(.note) {
+  font-weight: bold;
+  font-size: inherit;
+  color: inherit;
+  padding: inherit;
+  margin: inherit;
+}
+
+.documents {
+  h5 {
+    font-family: @font-sans-serif;
+    font-size: 14px;
+  }
+  .toolbar {
+    float: right;
+    margin-top: 0;
+  }
+  >li {
+    list-style: none;
+    border-bottom: 1px solid @color-light-gray;
+    margin-bottom: 15px;
+  }
+}
+
+
+/*.documents td:nth-child(3) {
+    text-align: right;
+    width: 403px;
+}
+
+@media (max-width: 768px) {
+    .documents {
+        table-layout: fixed;
+    }
+
+    .documents td:nth-child(1) {
+        white-space: pre-line;
+        word-wrap: break-word;
+    }
+
+    .documents th:nth-child(3) {
+        width: 160px;
+    }
+}*/
+
+.odd-table {
+  border-bottom: 1px solid @color-primary-lightest;
+}
+
+#files {
+  margin-top: 20px;
+}
+
+#msg-progress {
+  display: none;
+  font-weight: bold;
+  margin-left: 2em;
+  animation: blinker 1.2s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+
+  @keyframes blinker {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+}
+
+// ODD override for navigation
+.tei-text {
+  .navbar {
+    font-family: Roboto,Helvetica,Arial,sans-serif !important;
+  }
+}
+
+mark {
+  background-color: @color-text-marker;
+}
+
+.actions {
+  margin-bottom: 10px;
+  margin-top: 61px;
+
+  @media (max-width: 769px) {
+    .btn {
+      padding: 8px 20px;
+    }
+  }
+}

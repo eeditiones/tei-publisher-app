@@ -22,31 +22,17 @@
   }
 }
 
-.navbar-default {
-  margin-bottom: 0;
-  background-color: #35424b !important;
-
-  .navbar-brand, .navbar-brand:focus, .navbar-brand:hover {
-    .logo();
+.navbar {
+  &.navbar-default {
+    background-color: @color-navigation-bg;
+    color: @color-navigation-text;
   }
 }
 
-.navigation-top {
-  @media (min-width: 769px) {
-    margin-bottom: 1em;
-    border-bottom: 2px solid #CCC;
-  }
+.navbar-default {
+  margin-bottom: 0;
 
-  h5 {
-    text-align: center;
-    font-family: @serifFont;
-    font-size: 16px;
-    padding: 10px 10px 10px 0;
-  }
-
-  @media (max-width: 768px) {
-    .nav-next {
-      right: 10px;
-    }
+  .navbar-brand, .navbar-brand:focus, .navbar-brand:hover {
+    .logo();
   }
 }
