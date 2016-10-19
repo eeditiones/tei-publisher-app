@@ -35,7 +35,24 @@
 .navbar-default {
   margin-bottom: 0;
 
+  .dropdown-menu li>a {
+    padding: 5px 15px 5px 25px !important;
+    font-weight: 300 !important;
+    line-height: 30px !important;
+  }
+
+  .dropdown-menu li > a:hover {
+    background-color: @color-navigation-hover !important;
+    color: @color-navigation-text !important;
+  }
+
   .navbar-brand, .navbar-brand:focus, .navbar-brand:hover {
     .logo();
+  }
+}
+
+.navbar-collapse {
+  .navbar-nav {
+    margin-bottom: 0;
   }
 }
