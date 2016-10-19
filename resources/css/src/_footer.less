@@ -5,7 +5,12 @@ footer {
   margin: 20px auto;
 
   .poweredby {
-    float: right;
+    text-align: center;
+    vertical-align: middle;
+    @media screen and (min-width: 600px) {
+      float: right;
+      width: auto;
+    }
 
     img {
       width: 120px;
