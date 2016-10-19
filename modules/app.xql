@@ -65,7 +65,7 @@ function app:doc-table($node as node(), $model as map(*), $odd as xs:string?) {
                 return
                     <li>
                         <h5><a href="{$name}?odd={$odd}">{pages:title($doc)}</a></h5>
-                        <div>
+                        <div>{$name}</div>
                         {
                             let $token := util:uuid()
                             return
@@ -112,9 +112,6 @@ function app:doc-table($node as node(), $model as map(*), $odd as xs:string?) {
                                     $model
                                 )
                         }
-                        <span>{$name}</span>
-                        <div class="clear"/>
-                        </div>
                     </li>
             })
     for $doc in $docs
