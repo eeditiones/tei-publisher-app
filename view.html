@@ -36,13 +36,13 @@
     <body>
         <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content" data-template-using="body">
             <div data-template="templates:include" data-template-path="templates/menu.html"/>
-            <div id="main-container" data-template="pages:load" class="container-fluid">
+            <main id="main-container" data-template="pages:load" class="container-fluid">
                 <div class="row">
                     <aside id="sidebar" class="col-md-3 hidden-xs toc offcanvas">
                         <h3>Contents</h3>
                         <div data-template="pages:table-of-contents"/>
                     </aside>
-                    <div id="right-panel" class="col-md-12 col-xs-12">
+                    <section id="right-panel" class="col-md-12 col-xs-12">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-11 col-md-offset-1">
@@ -145,9 +145,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
                 </div>
-            </div>
+            </main>
         </div>
         <div class="modal fade" id="pdf-info">
             <div class="modal-dialog">
