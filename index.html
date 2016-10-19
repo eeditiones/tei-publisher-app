@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <div data-template="templates:include" data-template-path="templates/menu.html"/>
-    <div class="container main">
+    <section data-template="templates:include" data-template-path="templates/menu.html"/>
+    <main class="container main">
         <div class="row">
             <div class="col-md-12">
                 <div class="page-header">
-                    <h1>TEI Publisher <small>The Instant Publishing Toolbox</small></h1>
+                    <h1 class="tp-title">TEI Publisher</h1>
+                    <h2 class="tp-subtitle">The Instant Publishing Toolbox</h2>
                 </div>
             </div>
         </div>
@@ -62,22 +63,18 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8">
-                <div class="row">
-                    <div data-template="app:action"/>
-                </div>
-                <div class="row">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Documents</h3>
-                        </div>
-                        <div class="panel-body" id="documents">
-                            <ul class="documents" data-template="app:doc-table"/>
-                        </div>
+            <div class="col-md-8 col-xs-12">
+                <div data-template="app:action"/>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Documents</h3>
+                    </div>
+                    <div class="panel-body" id="documents">
+                        <ul class="documents" data-template="app:doc-table"/>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 col-xs-12">
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <h3 class="panel-title">ODD Files</h3>
@@ -125,16 +122,10 @@
                 </div>
             </div>
         </div>
-        <div class="row"/>
-        <footer>
-            <a href="http://tei-c.org" class="poweredby">
-                <img src="resources/images/powered-by-TEI.png" alt="Powered by TEI"/>
-            </a>
-            <a href="http://exist-db.org" class="poweredby">
-                <img src="$shared/resources/images/powered-by.svg" alt="Powered by eXist-db" height="49"/>
-            </a>
-        </footer>
-    </div>
+    </main>
+
+    <section data-template="templates:include" data-template-path="templates/footer.html"/>
+
     <a href="https://github.com/wolfgangmm/tei-simple-pm" class="hidden-xs hidden-sm">
         <img style="position: absolute; top: 60px; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"/>
     </a>

@@ -9,9 +9,9 @@
   }
 
   h5 {
-    text-align: center;
+    text-align: @text-align-headline-inner;
     font-family: @font-family-headline-inner;
-    font-size: 16px;
+    font-size: @font-size-headline-inner;
     padding: 10px 10px 10px 0;
     direction: @direction-headline-inner;
   }
@@ -78,22 +78,22 @@
 .content h4,
 .content h5,
 .content h6 {
-  font-family: @font-serif;
+  font-family: @font-family-content-inner;
   line-height: 1.2;
 }
 
 .content {
   h1 {
-    font-size: 2.441em;
+    font-size: @font-size-h1-inner-content;
   }
   h2 {
-    font-size: 1.953em;
+    font-size: @font-size-h2-inner-content;
   }
   h3 {
-    font-size: 1.563em;
+    font-size: @font-size-h3-inner-content;
   }
   h4 {
-    font-size: 1.25em;
+    font-size: @font-size-h4-inner-content;
   }
 
   .tei-code1 {
@@ -218,3 +218,10 @@
 .pb:before {
   content: '[p. ' !important;
 }
+
+// ODD override for body width
+body.tei-text {
+  width: 100%;
+  max-width: 100%;
+}
+

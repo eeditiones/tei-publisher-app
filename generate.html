@@ -106,7 +106,7 @@
                     <hr/>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-default btn-block">
                                 <i id="icon-process" class="fa fa-cog"/> Create</button>
                             <span id="msg-progress">In progress ...</span>
                         </div>
@@ -131,15 +131,10 @@
                 </div>
             </div>
         </div>
-        <footer>
-            <a href="http://tei-c.org" class="poweredby">
-                <img src="resources/images/powered-by-TEI.png" alt="Powered by TEI"/>
-            </a>
-            <a href="http://exist-db.org" class="poweredby">
-                <img src="$shared/resources/images/powered-by.svg" alt="Powered by eXist-db" height="49"/>
-            </a>
-        </footer>
     </div>
+
+    <section data-template="templates:include" data-template-path="templates/footer.html"/>
+
     <script type="text/javascript">
     $(document).ready(function() {
 
