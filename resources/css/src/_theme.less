@@ -1,15 +1,22 @@
 // main: style.less
 
+// Main container
+@media screen and (min-width: 992px) {
+  .container {
+    width: 100%;
+  }
+}
+
 .main {
   padding-top: 60px;
 }
 
+// Dropdown menus
 .dropdown-menu li>a:hover {
   color: @color-link-hover !important;
 }
 
 // App headlines on front page
-
 .page-header {
   margin: 20px 0 20px;
 }
@@ -53,6 +60,7 @@
   margin: inherit;
 }
 
+// Panels on front page
 .documents {
   padding-left: 0;
   margin-bottom: 0;
@@ -83,7 +91,12 @@
 }
 
 .odd-table {
-  border-bottom: 1px solid @color-primary-lightest;
+  width: 100%;
+  @media screen and (min-width: 992px) and (max-width: 1100px) {
+    span.hidden-xs {
+        font-size: 12px;
+    }
+  }
 }
 
 #files {
@@ -113,6 +126,7 @@ mark {
   background-color: @color-text-marker;
 }
 
+// Icon menu in view template
 .actions {
   margin-bottom: 10px;
   margin-top: 61px;
