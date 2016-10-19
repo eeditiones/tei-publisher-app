@@ -1,0 +1,38 @@
+// main: style.less
+
+// the application logo to be shown top left in the navigation bar
+.logo {
+  background-image: url('../images/tei-publisher-logo-contrast-color.svg');
+  background-repeat: no-repeat;
+  padding-left: 220px;
+
+  @media (max-width: 1199px) {
+    background-position: 5px 5px;
+    background-size: auto 40px;
+  }
+
+  @media (min-width: 1200px) {
+    background-position: 7px 7px;
+    background-size: auto 46px;
+  }
+
+  span {
+    margin-left: 60px;
+    display: none;
+  }
+}
+
+.navbar {
+  &.navbar-default {
+    background-color: @color-navigation-bg;
+    color: @color-navigation-text;
+  }
+}
+
+.navbar-default {
+  margin-bottom: 0;
+
+  .navbar-brand, .navbar-brand:focus, .navbar-brand:hover {
+    .logo();
+  }
+}

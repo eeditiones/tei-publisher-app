@@ -1,0 +1,67 @@
+// main: style.less
+
+
+/********************* Colors ************************/
+
+@color-primary:                   #35424b;
+@color-primary-light:             #607D8B;
+@color-primary-lightest:          #d1dae0;
+
+@color-secondary:                 #f6a623;
+@color-secondary-darker:          #d6911f;
+
+@color-white:                     #ffffff;
+@color-light-gray:                rgba(153, 153, 153, 0.2);
+@color-dark-gray:                 #777777;
+
+// Body
+@color-body-bg:                   @color-white;
+@color-body-text-default:         #333333;
+
+// Links
+@color-link:                      #303F9F;
+@color-link-hover:                #1b2257;
+
+// Navigation
+@color-navigation-bg:             @color-primary;
+@color-navigation-text:           @color-white;
+
+// Sidebars and Panels
+@panel-default-heading-bg-color:  @color-primary-lightest;
+@panel-info-heading-bg-color:     @color-primary-light;
+@panel-primary-heading-bg-color:  #C5CAE9;
+
+// Off Canvas Navigation
+@color-side-navigation-bg:        #fafafa;
+
+@color-text-marker:               #FFEB3B;
+@color-text-highlight:            #7777FF;
+
+/********************* Fonts ************************/
+
+@font-serif:     "Junicode", Georgia, "Times New Roman", serif;
+@font-sans-serif: Trebuchet, Verdana, "Helvetica", sans-serif;
+@font-monospace: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
+
+// Body
+@font-size-body-default:  16px;
+@font-size-body-print:    12pt;
+
+@direction-left-to-right: ltr;  /* Left to Right */
+@direction-right-ro-left: rtl;  /* Right to Left */
+
+
+/*********** Styles for inner documents ************/
+
+// Headline for inner document
+@font-family-headline-inner:  @font-serif;
+@direction-headline-inner:    @direction-left-to-right;
+
+// Inner Document Text
+@font-family-content-inner:   @font-serif;
+@font-size-content-inner:     14pt;
+@direction-content-inner:     @direction-left-to-right;
+
+// Margins right and left
+@margin-right-content-inner:  200px; // Swap values for right to left direction of text
+@margin-left-content-inner:   0;

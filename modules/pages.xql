@@ -245,7 +245,7 @@ declare function pages:process-content($odd as xs:string, $xml as element()*, $r
 	let $html :=
         pmu:process(odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root), $xml, $config:output-root, "web",
             "../generated", $config:module-config, map { "root": $root })
-    let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
+    let $class := if ($html//*[@class = ('margin-note')]) then "page-margin" else ()
     let $body := pages:clean-footnotes($html)
     return
         <div class="content {$class}">
