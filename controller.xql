@@ -87,7 +87,12 @@ else if (contains($exist:path, "/resources/")) then
      <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/resources/{substring-after($exist:path, '/resources/')}"/>
     </dispatch>
-    
+
+else if (contains($exist:path, "/images/")) then
+     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/resources/images/{substring-after($exist:path, '/images/')}"/>
+    </dispatch>
+        
 else
     (: everything else is passed through :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
