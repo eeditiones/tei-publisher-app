@@ -108,47 +108,54 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
     return
         switch ($view)
     	    case "div" return
-        	    if (matches($doc, "_\d+\.[\d\.]+\.xml$")) then
-                    let $analyzed := analyze-string($doc, "^(.*)_(\d+\.[\d\.]+)\.xml$")
+        	    if (matches($doc, "_\d+\.?[\d\.]*\.xml$")) then
+                    let $analyzed := analyze-string($doc, "^(.*)_(\d+\.?[\d\.]*)\.xml$")
                     let $docName := $analyzed//fn:group[@nr = 1]/text()
                     return
-                        util:node-by-id(doc($config:data-root || "/" || $docName), $analyzed//fn:group[@nr = 2]/string())
+                        util:node-by-id(pages:get-document($docName), $analyzed//fn:group[@nr = 2]/string())
                 else if ($root) then
-                    util:node-by-id(doc($config:data-root || "/" || $doc), $root)
+                    util:node-by-id(pages:get-document($doc), $root)
                         /ancestor-or-self::tei:div[count(ancestor::tei:div) < $config:pagination-depth][1]
                 else
-                    let $div := (doc($config:data-root || "/" || $doc)//tei:div)[1]
+                    let $div := (pages:get-document($doc)//tei:div)[1]
                     return
                         if ($div) then
                             $div
                         else
-                            let $group := doc($config:data-root || "/" || $doc)/tei:TEI/tei:text/tei:group/tei:text/(tei:front|tei:body|tei:back)
+                            let $group := pages:get-document($doc)/tei:TEI/tei:text/tei:group/tei:text/(tei:front|tei:body|tei:back)
                             return
                                 if ($group) then
                                     $group[1]
                                 else
-                                    doc($config:data-root || "/" || $doc)/tei:TEI//tei:body
+                                    pages:get-document($doc)/tei:TEI//tei:body
             case "page" return
                 if (matches($doc, "_\d+\.[\d\.]+\.xml$")) then
                     let $analyzed := analyze-string($doc, "^(.*)_(\d+\.[\d\.]+)\.xml$")
                     let $docName := $analyzed//fn:group[@nr = 1]/text()
-                    let $targetNode := util:node-by-id(doc($config:data-root || "/" || $docName), $analyzed//fn:group[@nr = 2]/string())
+                    let $targetNode := util:node-by-id(pages:get-document($docName), $analyzed//fn:group[@nr = 2]/string())
                     return
                         $targetNode
                 else if ($root) then
-                    util:node-by-id(doc($config:data-root || "/" || $doc), $root)
+                    util:node-by-id(pages:get-document($doc), $root)
                 else
-                    let $div := (doc($config:data-root || "/" || $doc)//tei:pb)[1]
+                    let $div := (pages:get-document($doc)//tei:pb)[1]
                     return
                         if ($div) then
                             $div
                         else
-                            doc($config:data-root || "/" || $doc)/tei:TEI//tei:body
+                            pages:get-document($doc)/tei:TEI//tei:body
             default return
                 if ($root) then
-                    util:node-by-id(doc($config:data-root || "/" || $doc), $root)
+                    util:node-by-id(pages:get-document($doc), $root)
                 else
-                    doc($config:data-root || "/" || $doc)/tei:TEI/tei:text
+                    pages:get-document($doc)/tei:TEI/tei:text
+};
+
+declare function pages:get-document($idOrName as xs:string) {
+    if ($config:address-by-id) then
+        root(collection($config:data-root)/id($idOrName))
+    else
+        doc($config:data-root || "/" || $idOrName)
 };
 
 declare function pages:back-link($node as node(), $model as map(*)) {
@@ -428,13 +435,13 @@ declare function pages:get-content($div as element()) {
                     let $child := $div/tei:div[1]
                     return
                         element { node-name($div) } {
-                            $div/@*,
+                            $div/@* except $div/@exist:id,
                             attribute exist:id { util:node-id($div) },
                             util:expand(($child/preceding-sibling::*, $child), "add-exist-id=all")
                         }
                 else
                     element { node-name($div) } {
-                        $div/@*,
+                        $div/@* except $div/@exist:id,
                         attribute exist:id { util:node-id($div) },
                         util:expand($div/tei:div[1]/preceding-sibling::*, "add-exist-id=all")
                     }
@@ -485,19 +492,22 @@ declare function pages:navigation-link($node as node(), $model as map(*), $direc
         if ($view = "single") then
             ()
         else if ($model($direction)) then
-            <a data-doc="{config:get-relpath($model($direction))}"
-                data-root="{util:node-id($model($direction))}"
-                data-current="{util:node-id($model('div'))}"
-                data-odd="{$config:odd}">
-            {
-                $node/@* except $node/@href,
-                let $id := util:document-name($model($direction)) || "?root=" || util:node-id($model($direction))
-                    || "&amp;odd=" || $config:odd || "&amp;view=" || $view
-                return
-                    attribute href { $id },
-                $node/node()
-            }
-            </a>
+            let $doc :=
+                config:get-identifier($model($direction))
+            return
+                <a data-doc="{$doc}"
+                    data-root="{util:node-id($model($direction))}"
+                    data-current="{util:node-id($model('div'))}"
+                    data-odd="{$config:odd}">
+                {
+                    $node/@* except $node/@href,
+                    let $id := $doc || "?root=" || util:node-id($model($direction))
+                        || "&amp;odd=" || $config:odd || "&amp;view=" || $view
+                    return
+                        attribute href { $id },
+                    $node/node()
+                }
+                </a>
         else
             <a href="#" style="visibility: hidden;">{$node/@class, $node/node()}</a>
 };

@@ -14,6 +14,8 @@ declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace expath="http://expath.org/ns/pkg";
 declare namespace jmx="http://exist-db.org/jmx";
 
+declare variable $config:address-by-id := false();
+
 (:
  : The default to use for determining the amount of content to be shown
  : on a single page. Possible values: 'div' for showing entire divs (see
@@ -81,9 +83,28 @@ declare variable $config:repo-descriptor := doc(concat($config:app-root, "/repo.
 
 declare variable $config:expath-descriptor := doc(concat($config:app-root, "/expath-pkg.xml"))/expath:package;
 
+(:~
+ : Return an ID which may be used to look up a document. Change this if the xml:id
+ : which uniquely identifies a document is *not* attached to the root element.
+ :)
+declare function config:get-id($node as node()) {
+    root($node)/*/@xml:id
+};
+
+(:~
+ : Returns a path relative to $config:data-root used to locate a document in the database.
+ :)
 declare function config:get-relpath($node as node()) {
     substring-after(document-uri(root($node)), $config:data-root || "/")
 };
+
+declare function config:get-identifier($node as node()) {
+    if ($config:address-by-id) then
+        config:get-id($node)
+    else
+        config:get-relpath($node)
+};
+
 
 (:~
  : Resolve the given path using the current application context.

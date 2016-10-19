@@ -53,7 +53,7 @@ let $view := request:get-parameter("view", $config:default-view)
 let $xml :=
     if ($id) then (
         console:log("Loading by id " || $id),
-        let $node := doc($config:app-root || "/" || $doc)/id($id)
+        let $node := pages:get-document($doc)/id($id)
         let $div := $node/ancestor-or-self::tei:div[1]
         return
             if (empty($div)) then

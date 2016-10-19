@@ -2,6 +2,7 @@ xquery version "3.1";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace epub="http://exist-db.org/xquery/epub" at "epub.xql";
+import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
@@ -37,9 +38,9 @@ declare function local:work2epub($id as xs:string, $work as element()) {
         epub:generate-epub($config, $root, $css, $id)
 };
 
-let $id := request:get-parameter("id", ())
+let $id := replace(request:get-parameter("id", ""), "^(.*)\..*", "$1")
 let $token := request:get-parameter("token", ())
-let $work := doc($config:data-root || "/" || $id || ".xml")/tei:TEI
+let $work := pages:get-document($id)/tei:TEI
 let $entries := local:work2epub($id, $work)
 return
     (

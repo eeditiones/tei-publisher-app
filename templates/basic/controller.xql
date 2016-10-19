@@ -52,7 +52,8 @@ else if (ends-with($exist:resource, ".xql")) then (
 
 ) else if (starts-with($exist:path, "/works/")) then (
     login:set-user("org.exist.tei-simple", (), false()),
-    let $id := replace(xmldb:decode($exist:resource), "^(.*)\..*$", "$1")
+    (: let $id := replace(xmldb:decode($exist:resource), "^(.*)\..*$", "$1") :)
+    let $id := xmldb:decode($exist:resource)
     let $path := substring-before(substring-after($exist:path, "/works/"), $exist:resource)
     let $html :=
         if ($exist:resource = "") then
@@ -87,7 +88,7 @@ else if (ends-with($exist:resource, ".xql")) then (
         else if (ends-with($exist:resource, ".pdf")) then
             <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
                 <forward url="{$exist:controller}/modules/pdf.xql">
-                    <add-parameter name="doc" value="{$path}{$id}.xml"/>
+                    <add-parameter name="doc" value="{$path}{$id}"/>
                 </forward>
                 <error-handler>
                     <forward url="{$exist:controller}/error-page.html" method="get"/>
@@ -101,7 +102,7 @@ else if (ends-with($exist:resource, ".xql")) then (
                     <forward url="{$exist:controller}/modules/view.xql">
                     {
                         if ($exist:resource != "toc.html") then
-                            <add-parameter name="doc" value="{$path}{$id}.xml"/>
+                            <add-parameter name="doc" value="{$path}{$id}"/>
                         else
                             ()
                     }

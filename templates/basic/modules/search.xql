@@ -166,18 +166,19 @@ function search:show-hits($node as node()*, $model as map(*), $start as xs:integ
     let $work-title := app:work-title($work)
     (:the work always has xml:id.:)
     let $work-id := $work/@xml:id/string()
-    let $work-id := if ($work-id) then $work-id else util:document-name($work) || "_1"
+    let $work-id := if ($work-id) then $work-id else util:document-name($work) || "_1.xml"
 
     let $loc :=
         <tr class="reference">
             <td colspan="3">
                 <span class="number">{$start + $p - 1}</span>
                 <span class="headings">
-                    <a href="{$work-id}">{$work-title}</a>{if ($div-head) then ' / ' else ''}<a href="{$parent-id}.html?action=search">{$div-head}</a>
+                    <a href="{$work-id}">{$work-title}</a>{if ($div-head) then ' / ' else ''}<a href="{$parent-id}.xml?action=search">{$div-head}</a>
                 </span>
             </td>
         </tr>
     let $expanded := util:expand($hit, "add-exist-id=all")
+    let $docId := config:get-identifier($div)
     return (
         $loc,
         for $match in subsequence($expanded//exist:match, 1, 5)
@@ -187,9 +188,9 @@ function search:show-hits($node as node()*, $model as map(*), $start as xs:integ
                 let $contextNode := util:node-by-id($div, $matchId)
                 let $page := $contextNode/preceding::tei:pb[1]
                 return
-                    config:get-relpath($work) || "_" || util:node-id($page)
+                    $docId || "_" || util:node-id($page)
             else
-                config:get-relpath($div) || "_" || util:node-id($div)
+                $docId || "_" || util:node-id($div)
         let $config := <config width="60" table="yes" link="{$docLink}.xml?action=search&amp;view={$view}#{$matchId}"/>
         let $kwic := kwic:get-summary($expanded, $match, $config)
         return $kwic

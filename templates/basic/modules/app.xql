@@ -88,7 +88,7 @@ declare
     %templates:wrap
 function app:short-header($node as node(), $model as map(*)) {
     let $work := $model("work")/ancestor-or-self::tei:TEI
-    let $relPath := config:get-relpath($work)
+    let $relPath := config:get-identifier($work)
     return
         $pm-config:web-transform($work/tei:teiHeader, map {
             "header": "short",
@@ -196,9 +196,9 @@ declare function app:download-link($node as node(), $model as map(*), $type as x
     $source as xs:boolean?) {
     let $file :=
         if ($model?work) then
-            replace(util:document-name($model("work")), "^(.*?)\.[^\.]*$", "$1")
+            config:get-identifier($model?work)
         else
-            replace($doc, "^(.*)\..*$", "$1")
+            $doc
     let $uuid := util:uuid()
     return
         element { node-name($node) } {
