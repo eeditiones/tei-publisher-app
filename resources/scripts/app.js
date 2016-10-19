@@ -234,4 +234,18 @@ $(document).ready(function() {
     $(".eXide-open").click(eXide);
     
     initContent();
+    
+    if (document.getElementById("content-container")) {
+        // keyboard shortcuts: press "left" key for previous page, "right" for next
+        $(document).keydown(function(ev) {
+            switch (ev.which) {
+                case 37:
+                    $(".nav-prev").first().click();
+                    break;
+                case 39:
+                    $(".nav-next").first().click();
+                    break;
+            }
+        });
+    }
 });
