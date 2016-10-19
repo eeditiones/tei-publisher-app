@@ -45,8 +45,12 @@
 @font-serif-default:  "Oswald", Georgia, "Times New Roman", serif;
 
 // Body
-@font-size-body-default:  16px;
-@font-size-body-print:    12pt;
+@font-family-body-default:  @font-sans-serif;
+@font-size-body-default:    16px;
+@font-size-body-print:      12pt;
+
+// Headings
+@font-family-heading:       @font-serif-default;
 
 @direction-left-to-right: ltr;  /* Left to Right */
 @direction-right-ro-left: rtl;  /* Right to Left */
@@ -56,6 +60,8 @@
 
 // Headline for inner document
 @font-family-headline-inner:  @font-serif;
+@text-align-headline-inner:   center;
+@font-size-headline-inner:    16px;
 @direction-headline-inner:    @direction-left-to-right;
 
 // Inner Document Text
