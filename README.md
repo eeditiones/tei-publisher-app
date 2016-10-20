@@ -71,3 +71,8 @@ procurement of substitute goods or services; loss of use, data, or profits; or b
 interruption) however caused and on any theory of liability, whether in contract,
 strict liability, or tort (including negligence or otherwise) arising in any way out
 of the use of this software, even if advised of the possibility of such damage.
+
+## References
+
+* official TEI Spec - http://www.tei-c.org/release/doc/tei-p5-doc/en/html/TD.html#TDPM
+* Extensions to the Processing Model Specification - http://teipublisher.com/doc/documentation.xml?root=1.4.2.2.10.14&odd=documentation.odd&view=div and following
