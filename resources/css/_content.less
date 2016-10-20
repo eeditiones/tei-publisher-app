@@ -1,77 +1,9 @@
 // main: style.less
 
-/********************* Styles for the Generated Content ************************/
-
-.navigation-top {
-  @media (min-width: 769px) {
-    margin-bottom: 1em;
-    border-bottom: 2px solid @color-light-gray;
-  }
-
-  h5 {
-    text-align: @text-align-headline-inner;
-    font-family: @font-family-headline-inner;
-    font-size: @font-size-headline-inner;
-    padding: 10px 10px 10px 0;
-    direction: @direction-headline-inner;
-  }
-
-  @media (max-width: 768px) {
-    .nav-next {
-      right: 10px;
-    }
-  }
-}
-
-.page-nav,
-.page-nav:link,
-.page-nav:active {
-  background-color: @color-primary-light !important;
-
-  @media (min-width: 769px) {
-    position: fixed;
-    top:50%;
-  }
-
-  @media (max-width: 768px) {
-    position: fixed;
-    bottom: 20px;
-  }
-}
-
-@media (min-width: 769px) {
-  .nav-prev {
-    left: 30px;
-  }
-
-  .nav-next {
-    right: 30px;
-  }
-}
-
-#main-container {
-  max-width: 1200px;
-}
-
-/* Page by page navigation */
-#content-inner {
-  min-height: 450px;
-  font-family: @font-family-content-inner;
-  font-size: @font-size-content-inner;
-  direction: @direction-content-inner;
-}
-
-#content-container {
-  -webkit-animation-duration: 400ms;
-  -moz-animation-duration: 400ms;
-  animation-duration: 400ms;
-  overflow:auto;
-
-  @media (max-width: 768px) {
-    margin-bottom: 5em;
-  }
-}
-
+/********************* Styles for the Content ************************/
+/* All content styling should go here. Do not                        */
+/* modify other .less files except this one and _variables.less.     */
+/*********************************************************************/
 .content h1,
 .content h2,
 .content h3,
@@ -218,10 +150,3 @@
 .pb:before {
   content: '[p. ' !important;
 }
-
-// ODD override for body width
-body.tei-text {
-  width: 100%;
-  max-width: 100%;
-}
-

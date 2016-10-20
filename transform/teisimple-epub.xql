@@ -463,7 +463,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     html:inline($config, ., ("tei-time"), .)
                 case element(title) return
                     if ($parameters?header='short') then
-                        html:heading($config, ., ("tei-title1"), ., ())
+                        html:heading($config, ., ("tei-title1"), ., 5)
                     else
                         if (parent::titleStmt/parent::fileDesc) then
                             (

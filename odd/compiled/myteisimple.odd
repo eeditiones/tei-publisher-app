@@ -9,7 +9,7 @@
                 <p>Automatically generated, do not modify.</p>
             </publicationStmt>
             <sourceDesc>
-                <p>Generated from input ODD: /db/apps/tei-simple/odd/myteisimple.odd</p>
+                <p>Generated from input ODD: /db/apps/tei-publisher/odd/myteisimple.odd</p>
             </sourceDesc>
         </fileDesc>
     </teiHeader>
@@ -670,7 +670,7 @@
                                 <model behaviour="block">
                                     <param name="content">titleStmt</param>
                                 </model>
-                                <model behaviour="block">
+                                <model behaviour="block">short
                                     <param name="content">seriesStmt</param>
                                 </model>
                                 <model behaviour="paragraph">
@@ -692,8 +692,11 @@
                             <model output="fo" behaviour="heading"/>
                             <modelSequence output="web" predicate="$parameters?header='short'">
                                 <model behaviour="link">
-                                    <param name="content">title</param>
+                                    <param name="content">title[1]</param>
                                     <param name="link">$parameters?doc</param>
+                                </model>
+                                <model behaviour="block">
+                                    <param name="content">subsequence(title, 2)</param>
                                 </model>
                                 <model behaviour="block">
                                     <param name="content">author</param>
@@ -717,7 +720,9 @@
                             <model behaviour="inline"/>
                         </elementSpec>
             <elementSpec mode="change" ident="title">
-                            <model predicate="$parameters?header='short'" behaviour="heading"/>
+                            <model predicate="$parameters?header='short'" behaviour="heading">
+                                <param name="level" value="5"/>
+                            </model>
                             <modelSequence predicate="parent::titleStmt/parent::fileDesc">
                                 <model predicate="preceding-sibling::title" behaviour="text">
                                     <param name="content">' — '</param>
