@@ -1,0 +1,58 @@
+// main: style.less
+
+// the application logo to be shown top left in the navigation bar
+.logo {
+  background-image: url(@application-logo);
+  background-repeat: no-repeat;
+  padding-left: @application-logo-width;
+
+  @media (max-width: 1199px) {
+    background-position: 5px 5px;
+    background-size: auto 40px;
+  }
+
+  @media (min-width: 1200px) {
+    background-position: 7px 7px;
+    background-size: auto 46px;
+  }
+
+  span {
+    margin-left: 60px;
+    display: @application-title-display;
+  }
+}
+
+.navbar {
+  &.navbar-default {
+    background-color: @color-navigation-bg;
+    color: @color-navigation-text;
+  }
+  .navbar-nav>li>a:hover {
+    background-color: @color-navigation-hover;
+  }
+}
+
+.navbar-default {
+  margin-bottom: 0;
+
+  .dropdown-menu li>a {
+    padding: 5px 15px 5px 25px !important;
+    font-weight: 300 !important;
+    line-height: 30px !important;
+  }
+
+  .dropdown-menu li > a:hover {
+    background-color: @color-navigation-hover !important;
+    color: @color-navigation-text !important;
+  }
+
+  .navbar-brand, .navbar-brand:focus, .navbar-brand:hover {
+    .logo();
+  }
+}
+
+.navbar-collapse {
+  .navbar-nav {
+    margin-bottom: 0;
+  }
+}
