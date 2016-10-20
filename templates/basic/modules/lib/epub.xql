@@ -14,7 +14,7 @@ xquery version "3.1";
 
 module namespace epub = "http://exist-db.org/xquery/epub";
 
-import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 

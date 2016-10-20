@@ -34,7 +34,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
-import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 
 declare boundary-space strip;
 

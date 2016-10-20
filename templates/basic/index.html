@@ -37,7 +37,7 @@
                         </div>
                     </div>
                 </form>
-                <div class="panel panel-info" data-template="app:show-if-logged-in">
+                <div class="panel panel-info" data-template="browse:show-if-logged-in">
                     <div class="panel-heading">
                         <h3 class="panel-title">Upload</h3>
                     </div>
@@ -83,7 +83,7 @@
         }
 
         $('#fileupload').fileupload({
-            url: "modules/upload.xql",
+            url: "modules/lib/upload.xql",
             dataType: 'json',
             done: function (e, data) {
                 $.each(data.result.files, function (index, file) {

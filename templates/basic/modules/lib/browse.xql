@@ -3,8 +3,8 @@ xquery version "3.0";
 module namespace app="http://www.tei-c.org/tei-simple/templates";
 
 import module namespace templates="http://exist-db.org/xquery/templates";
-import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
 declare namespace expath="http://expath.org/ns/pkg";

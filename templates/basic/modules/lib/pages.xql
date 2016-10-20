@@ -39,8 +39,8 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace expath="http://expath.org/ns/pkg";
 
 import module namespace templates="http://exist-db.org/xquery/templates";
-import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace search="http://www.tei-c.org/tei-simple/search" at "search.xql";
 import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";

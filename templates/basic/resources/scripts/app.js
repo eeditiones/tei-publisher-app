@@ -27,7 +27,7 @@ $(document).ready(function() {
             console.log("Loading %s", params);
             $("#image-container img").css("display", "none");
             $.ajax({
-                url: appRoot + "/modules/ajax.xql",
+                url: appRoot + "/modules/lib/ajax.xql",
                 dataType: "json",
                 data: params,
                 error: function(xhr, status) {
@@ -226,7 +226,7 @@ $(document).ready(function() {
         $("#messageDialog .message").html("Processing ...");
         $("#messageDialog").modal("show");
         $.ajax({
-            url: appRoot + "/modules/regenerate.xql",
+            url: appRoot + "/modules/lib/regenerate.xql",
             dataType: "html",
             success: function(data) {
                 $("#messageDialog .message").html(data).find(".eXide-open").click(eXide);

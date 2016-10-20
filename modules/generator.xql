@@ -147,8 +147,8 @@ declare function deploy:create-configuration($target as xs:string) {
 
 declare function deploy:chmod-scripts($target as xs:string) {
     sm:chmod(xs:anyURI($target || "/modules/view.xql"), "rwsr-xr-x"),
-    sm:chmod(xs:anyURI($target || "/modules/ajax.xql"), "rwsr-xr-x"),
-    sm:chmod(xs:anyURI($target || "/modules/regenerate.xql"), "rwsr-xr-x")
+    sm:chmod(xs:anyURI($target || "/modules/lib/ajax.xql"), "rwsr-xr-x"),
+    sm:chmod(xs:anyURI($target || "/modules/lib/regenerate.xql"), "rwsr-xr-x")
 };
 
 declare function deploy:store-expath($collection as xs:string?, $userData as xs:string*, $permissions as xs:string?) {

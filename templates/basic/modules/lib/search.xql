@@ -39,8 +39,8 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace kwic="http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
-import module namespace app="http://www.tei-c.org/tei-simple/templates" at "app.xql";
-import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "browse.xql";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 
 (:~
 : Execute the query. The search results are not output immediately. Instead they
@@ -58,7 +58,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 : @param $query-scripts A sequence of the string "all" or of the values "sa-Latn" or "sa-Deva", indicating whether or not the user wishes to transliterate the query string.
 : @param $target-texts A sequence of the string "all" or of the xml:ids of the documents selected.
 
-: @return The function returns a map containing the $hits, the $query, and the $query-scope. The search results are output through the nested templates, app:hit-count, app:paginate, and app:show-hits.
+: @return The function returns a map containing the $hits, the $query, and the $query-scope. The search results are output through the nested templates, browse:hit-count, browse:paginate, and browse:show-hits.
 :)
 declare
     %templates:default("lucene-query-mode", "any")
@@ -163,7 +163,7 @@ function search:show-hits($node as node()*, $model as map(*), $start as xs:integ
     let $div-head := $parent/tei:head/text()
     (:TODO: what if the hit is in the header?:)
     let $work := $hit/ancestor::tei:TEI
-    let $work-title := app:work-title($work)
+    let $work-title := browse:work-title($work)
     (:the work always has xml:id.:)
     let $work-id := $work/@xml:id/string()
     let $work-id := if ($work-id) then $work-id else util:document-name($work) || "_1.xml"

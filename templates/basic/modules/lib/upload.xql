@@ -1,6 +1,6 @@
 xquery version "3.1";
 
-import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 
 declare namespace json="http://www.json.org";
 

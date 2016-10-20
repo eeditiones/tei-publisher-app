@@ -1,6 +1,6 @@
 xquery version "3.1";
 
-import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace epub="http://exist-db.org/xquery/epub" at "epub.xql";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 

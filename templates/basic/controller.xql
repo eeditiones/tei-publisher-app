@@ -40,7 +40,7 @@ else if (contains($exist:path, "/components")) then
 else if (ends-with($exist:resource, ".xql")) then (
     login:set-user("org.exist.tei-simple", (), false()),
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/modules/{$exist:resource}"/>
+        <forward url="{$exist:controller}/modules/{substring-after($exist:path, '/modules/')}"/>
         <cache-control cache="no"/>
     </dispatch>
 
@@ -67,7 +67,7 @@ else if (ends-with($exist:resource, ".xql")) then (
     return
         if (ends-with($exist:resource, ".epub")) then
             <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                <forward url="{$exist:controller}/modules/get-epub.xql">
+                <forward url="{$exist:controller}/modules/lib/get-epub.xql">
                     <add-parameter name="id" value="{$path}{$id}"/>
                 </forward>
                 <error-handler>
@@ -77,7 +77,7 @@ else if (ends-with($exist:resource, ".xql")) then (
             </dispatch>
         else if (ends-with($exist:resource, ".tex")) then
             <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                <forward url="{$exist:controller}/modules/latex.xql">
+                <forward url="{$exist:controller}/modules/lib/latex.xql">
                     <add-parameter name="id" value="{$path}{$id}"/>
                 </forward>
                 <error-handler>
@@ -87,7 +87,7 @@ else if (ends-with($exist:resource, ".xql")) then (
             </dispatch>
         else if (ends-with($exist:resource, ".pdf")) then
             <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                <forward url="{$exist:controller}/modules/pdf.xql">
+                <forward url="{$exist:controller}/modules/lib/pdf.xql">
                     <add-parameter name="doc" value="{$path}{$id}"/>
                 </forward>
                 <error-handler>

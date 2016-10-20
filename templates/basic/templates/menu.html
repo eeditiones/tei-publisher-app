@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="browse:fix-links">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
@@ -17,7 +17,7 @@
                 <li id="about">
                     <a href="$app/works/">Home</a>
                 </li>
-                <li class="dropdown" data-template="app:show-if-logged-in">
+                <li class="dropdown" data-template="browse:show-if-logged-in">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
                         <i class="material-icons md-dark">build</i> Admin
                         <span class="caret"/>
@@ -39,11 +39,11 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li data-template="app:check-login">
+                <li data-template="browse:check-login">
                     <a href="#loginDialog" data-toggle="modal">
                         <i class="material-icons">account_circle</i> Login</a>
                     <a href="?logout=true">
-                        <i class="material-icons">account_circle</i> Logout <span class="app:current-user"/>
+                        <i class="material-icons">account_circle</i> Logout <span class="browse:current-user"/>
                     </a>
                 </li>
             </ul>
