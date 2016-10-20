@@ -461,12 +461,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(titleStmt) return
                     if ($parameters?header='short') then
                         (
-                            html:link($config, ., ("tei-titleStmt3"), title, $parameters?doc),
-                            html:block($config, ., ("tei-titleStmt4"), author)
+                            html:link($config, ., ("tei-titleStmt3"), title[1], $parameters?doc),
+                            html:block($config, ., ("tei-titleStmt4"), subsequence(title, 2)),
+                            html:block($config, ., ("tei-titleStmt5"), author)
                         )
 
                     else
-                        html:block($config, ., ("tei-titleStmt5"), .)
+                        html:block($config, ., ("tei-titleStmt6"), .)
                 case element(TEI) return
                     html:document($config, ., ("tei-TEI"), .)
                 case element(text) return
@@ -475,7 +476,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     html:inline($config, ., ("tei-time"), .)
                 case element(title) return
                     if ($parameters?header='short') then
-                        html:heading($config, ., ("tei-title1"), ., ())
+                        html:heading($config, ., ("tei-title1"), ., 5)
                     else
                         if (parent::titleStmt/parent::fileDesc) then
                             (

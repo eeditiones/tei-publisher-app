@@ -1180,7 +1180,9 @@
                             <model behaviour="inline"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="title">
-                            <model predicate="$parameters?header='short'" behaviour="heading"/>
+                            <model predicate="$parameters?header='short'" behaviour="heading">
+                                <param name="level" value="5"/>
+                            </model>
                             <modelSequence predicate="parent::titleStmt/parent::fileDesc">
                                 <model predicate="preceding-sibling::title" behaviour="text">
                                     <param name="content">' — '</param>
