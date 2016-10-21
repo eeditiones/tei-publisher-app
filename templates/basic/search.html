@@ -2,6 +2,14 @@
 <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div data-template="templates:include" data-template-path="templates/menu.html"/>
     <div class="container-fluid">
+      <section class="row actions">
+          <div class="col-md-12">
+              <div class="page-header">
+                  <h1 data-template="config:app-title"/>
+              </div>
+          </div>
+      </section>
+
         <div class="row search">
             <div class="col-md-3 col-md-push-9">
                 <form action="search.html" class="form form-horizontal">
