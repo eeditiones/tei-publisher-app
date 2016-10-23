@@ -97,7 +97,6 @@
 .tei-edition:before { content: 'Edition: '; }
 .tei-publisher:before { content: 'Published by: ' }
 .tei-seriesStmt:before { content: 'Series: '; }
-.tei-text { max-width: 80%; margin: auto; font-family: Verdana, Tahoma, Geneva, Arial, Helvetica, sans-serif; }
 .tei-title3 { color: red; font-size: 2em; }
 .tei-title5 { font-style: italic; }
 .tei-title7 { font-style: italic; }

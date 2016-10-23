@@ -1165,13 +1165,7 @@
                             <model behaviour="document"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="text">
-                            <model behaviour="body">
-                                <outputRendition>
-            max-width: 80%;
-            margin: auto;
-            font-family: Verdana, Tahoma, Geneva, Arial, Helvetica, sans-serif;
-         </outputRendition>
-                            </model>
+                            <model behaviour="body"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="time">
                             <model behaviour="inline"/>
