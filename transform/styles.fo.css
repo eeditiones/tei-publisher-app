@@ -1,8 +1,6 @@
-.tei-front {
+.tei-text {
     font-family: "Junicode";
-}
-.tei-body2 {
-    font-family: "Junicode";
+    hyphenate: true;
 }
 .tei-floatingText {
     padding: 6pt;
