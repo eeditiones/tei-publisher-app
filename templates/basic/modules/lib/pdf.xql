@@ -149,7 +149,7 @@ return
                 response:stream-binary($cached, "media-type=application/pdf", $id || ".pdf")
             ) else
                 let $start := util:system-time()
-                let $fo := $pm-config:print-transform($doc, ())
+                let $fo := $pm-config:print-transform($doc, map { "root": $doc })
                 return (
                     console:log("Generated fo for " || $name || " in " || util:system-time() - $start),
                     if ($source) then

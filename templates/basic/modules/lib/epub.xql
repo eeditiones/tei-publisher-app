@@ -40,8 +40,8 @@ declare function epub:generate-epub($config as map(*), $doc, $css, $filename) {
             epub:mimetype-entry(),
             epub:container-entry(),
             epub:content-opf-entry($config, $doc, $xhtml),
-            epub:title-xhtml-entry($doc),
-            epub:table-of-contents-xhtml-entry($config?metadata?title, $doc, false()),
+            epub:title-xhtml-entry($config?metadata?language, $doc),
+            epub:table-of-contents-xhtml-entry($config?metadata?title, $config?metadata?language, $doc, false()),
             epub:images-entry($doc, $xhtml),
             epub:stylesheet-entry($css),
             epub:toc-ncx-entry($config?metadata?urn, $config?metadata?title, $doc),
@@ -186,10 +186,10 @@ declare function epub:images-entry($doc, $entries as element()*) {
     @param $volume the volume's ID
     @return the entry for the OEBPS/title.html file
 :)
-declare function epub:title-xhtml-entry($doc) {
+declare function epub:title-xhtml-entry($language, $doc) {
     let $title := 'Title page'
     let $body := epub:title-xhtml-body($doc/tei:teiHeader/tei:fileDesc)
-    let $title-xhtml := epub:assemble-xhtml($title, $body)
+    let $title-xhtml := epub:assemble-xhtml($title, $language, $body)
     return
         <entry name="OEBPS/title.html" type="xml">{$title-xhtml}</entry>
 };
@@ -227,18 +227,18 @@ declare function epub:body-xhtml-entries($doc, $config) {
     let $entries :=
         for $div in $doc//tei:text/tei:body/tei:div
         let $title := $div/tei:head/text()
-        let $body := $pm-config:epub-transform($div, ())
-        let $body-xhtml:= epub:assemble-xhtml($title, epub:fix-namespaces($body))
+        let $body := $pm-config:epub-transform($div, map { "root": $div })
+        let $body-xhtml:= epub:assemble-xhtml($title, $config?metadata?language, epub:fix-namespaces($body))
         return
             <entry name="{concat('OEBPS/', epub:generate-id($div), '.html')}" type="xml">{$body-xhtml}</entry>
     return
-        ($entries, epub:endnotes-xhtml-entry($entries))
+        ($entries, epub:endnotes-xhtml-entry($config?metadata?language, $entries))
 };
 
-declare function epub:endnotes-xhtml-entry($entries as element()*) {
+declare function epub:endnotes-xhtml-entry($language, $entries as element()*) {
     <entry name="OEBPS/endnotes.html" type="xml">
     {
-        epub:assemble-xhtml("Notes", epub:fix-namespaces(
+        epub:assemble-xhtml("Notes", $language, epub:fix-namespaces(
             <div xmlns="http://www.w3.org/1999/xhtml">
                 <h1>Notes</h1>
                 <table class="endnotes">
@@ -336,7 +336,7 @@ declare function epub:toc-ncx-div($root as element(), $start as xs:int) {
     @param $text the tei:text element for the file, which contains the divs to be processed into the EPUB
     @return the entry for the OEBPS/table-of-contents.html file
 :)
-declare function epub:table-of-contents-xhtml-entry($title, $doc, $suppress-documents) {
+declare function epub:table-of-contents-xhtml-entry($title, $language, $doc, $suppress-documents) {
     let $body :=
         <div xmlns="http://www.w3.org/1999/xhtml" id="table-of-contents">
             <h2>Contents</h2>
@@ -351,7 +351,7 @@ declare function epub:table-of-contents-xhtml-entry($title, $doc, $suppress-docu
                     </li>
             }</ul>
         </div>
-    let $table-of-contents-xhtml := epub:assemble-xhtml($title, $body)
+    let $table-of-contents-xhtml := epub:assemble-xhtml($title, $language, $body)
     return
         <entry name="OEBPS/table-of-contents.html" type="xml">{$table-of-contents-xhtml}</entry>
 };
@@ -363,8 +363,8 @@ declare function epub:table-of-contents-xhtml-entry($title, $doc, $suppress-docu
     @param $body the body content
     @return the serialized XHTML element
 :)
-declare function epub:assemble-xhtml($title, $body) {
-    <html xmlns="http://www.w3.org/1999/xhtml" lang="sa">
+declare function epub:assemble-xhtml($title, $language, $body) {
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="{$language}">
         <head>
             <title>{$title}</title>
             <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
