@@ -21,10 +21,10 @@ declare function local:work2epub($id as xs:string, $work as element(), $lang as 
         "odd": $config:odd,
         "output-root": $config:odd-root,
         "fonts": [ 
-            "/db/apps/tei-simple/resources/fonts/Junicode.ttf",
-            "/db/apps/tei-simple/resources/fonts/Junicode-Bold.ttf",
-            "/db/apps/tei-simple/resources/fonts/Junicode-BoldItalic.ttf",
-            "/db/apps/tei-simple/resources/fonts/Junicode-Italic.ttf"
+            $config:app-root || "/resources/fonts/Junicode.ttf",
+            $config:app-root || "/resources/fonts/Junicode-Bold.ttf",
+            $config:app-root || "/resources/fonts/Junicode-BoldItalic.ttf",
+            $config:app-root || "/resources/fonts/Junicode-Italic.ttf"
         ]
     }
     let $oddName := replace($config:odd, "^([^/\.]+).*$", "$1")
