@@ -64,8 +64,8 @@ let $xml :=
         pages:load-xml($view, $root, $doc)
 return
     if ($xml) then
-        let $prev := $config:next-page($xml, $view)
-        let $next := $config:previous-page($xml, $view)
+        let $prev := $config:previous-page($xml, $view)
+        let $next := $config:next-page($xml, $view)
         let $html := pages:process-content(pages:get-content($xml), $xml)
         let $doc := replace($doc, "^.*/([^/]+)$", "$1")
         return

@@ -114,8 +114,9 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
                     return
                         util:node-by-id(pages:get-document($docName), $analyzed//fn:group[@nr = 2]/string())
                 else if ($root) then
-                    util:node-by-id(pages:get-document($doc), $root)
-                        /ancestor-or-self::tei:div[count(ancestor::tei:div) < $config:pagination-depth][1]
+                    let $node := util:node-by-id(pages:get-document($doc), $root)
+                    return
+                        $node/ancestor-or-self::tei:div[count(ancestor::tei:div) < $config:pagination-depth][1]
                 else
                     let $div := (pages:get-document($doc)//tei:div)[1]
                     return
