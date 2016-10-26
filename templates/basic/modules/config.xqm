@@ -7,6 +7,7 @@ xquery version "3.0";
 module namespace config="http://www.tei-c.org/tei-simple/config";
 
 import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
+import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "lib/pages.xql";
 
 declare namespace templates="http://exist-db.org/xquery/templates";
 
@@ -47,6 +48,29 @@ declare variable $config:pagination-depth := 10;
  : attempt to fill up the page.
  :)
 declare variable $config:pagination-fill := 5;
+
+(:
+ : The function to be called to determine the next content chunk to display.
+ : It takes two parameters:
+ :
+ : * $elem as element(): the current element displayed
+ : * $view as xs:string: the view, either 'div', 'page' or 'body'
+ :)
+declare variable $config:next-page := pages:get-next#2;
+
+(:
+ : The function to be called to determine the previous content chunk to display.
+ : It takes two parameters:
+ :
+ : * $elem as element(): the current element displayed
+ : * $view as xs:string: the view, either 'div', 'page' or 'body'
+ :)
+declare variable $config:previous-page := pages:get-previous#2;
+
+(:
+ : The CSS class to declare on the main text content div.
+ :)
+declare variable $config:css-content-class := "content";
 
 (:
     Determine the application root collection from the current module load path.

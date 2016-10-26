@@ -250,7 +250,7 @@ declare function pages:process-content($xml as element()*, $root as element()*) 
     let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
     let $body := pages:clean-footnotes($html)
     return
-        <div class="content {$class}">
+        <div class="{$config:css-content-class} {$class}">
         {
             $body,
             if ($html//li[@class="footnote"]) then
@@ -352,8 +352,8 @@ function pages:navigation($node as node(), $model as map(*), $view as xs:string?
             $map
         else
             map:merge(($map, map {
-                "previous": pages:get-previous($div, $view),
-                "next": pages:get-next($div, $view)
+                "previous": $config:previous-page($div, $view),
+                "next": $config:next-page($div, $view)
             }))
 };
 
