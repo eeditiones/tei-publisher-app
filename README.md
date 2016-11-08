@@ -1,4 +1,4 @@
-# TEI Processing Model Toolbox
+# TEI Publisher
 
 The TEI Processing Model (PM) extends the TEI ODD specification format with a processing model for documents. That way intended processing for all elements can be expressed within the TEI vocubulary itself. It aims at the XML-savvy editor who is familiar with TEI but is not necessarily a developer.
 
@@ -10,11 +10,11 @@ The TEI Processing Model Toolbox for eXist facilitates the integration of the TE
 
 A demo of the app is available on
 
-http://showcases.exist-db.org/exist/apps/tei-simple/index.html
+https://teipublisher.com/
 
-The library modules are also used by the Early English Books demo which includes more than 30,000 documents:
+Some applications using TEI publisher can be found on
 
-http://showcases.exist-db.org/exist/apps/eebo/
+http://showcases.exist-db.org/
 
 ## Installation
 
@@ -24,7 +24,7 @@ A prebuilt version of the app can be installed from eXist's central app reposito
 
 ## Documentation
 
-For an overview of the app and library, please refer to my [presentation](http://showcases.exist-db.org/exist/apps/tei-simple/modules/latex.xql?odd=beamer.odd&doc=/doc/presentation.xml). There's also some preliminary [documentation](http://showcases.exist-db.org/exist/apps/tei-simple/doc/documentation.xml?odd=documentation.odd) available.
+For an overview of the app and library, please refer to my [presentation](http://showcases.exist-db.org/exist/apps/tei-simple/modules/latex.xql?odd=beamer.odd&doc=/doc/presentation.xml). There's also some [documentation](http://showcases.exist-db.org/exist/apps/tei-simple/doc/documentation.xml?odd=documentation.odd) available.
 
 ## Building
 
@@ -40,37 +40,11 @@ For PDF output, you need to enable the Apache FOP extension as follows:
 </module>
 ```
 
-tei-simple-pm ships as a .xar package which can be installed into any eXist instance using the dashboard.
-
-To build tei-simple-pm, clone the repository and call "ant" in the root directory. This will create a .xar inside the build directory.
+TEI publisher ships as a .xar package which can be installed into any eXist instance using the dashboard.
 
 ## License
 
-This software is dual-licensed:
-
-1. Distributed under a Creative Commons Attribution-ShareAlike 3.0 Unported License
-http://creativecommons.org/licenses/by-sa/3.0/
-
-2. http://www.opensource.org/licenses/BSD-2-Clause
-
-All rights reserved. Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-* Redistributions of source code must retain the above copyright notice, this list of
-conditions and the following disclaimer.
-* Redistributions in binary form must reproduce the above copyright
-notice, this list of conditions and the following disclaimer in the documentation
-and/or other materials provided with the distribution.
-
-This software is provided by the copyright holders and contributors "as is" and any
-express or implied warranties, including, but not limited to, the implied warranties
-of merchantability and fitness for a particular purpose are disclaimed. In no event
-shall the copyright holder or contributors be liable for any direct, indirect,
-incidental, special, exemplary, or consequential damages (including, but not limited to,
-procurement of substitute goods or services; loss of use, data, or profits; or business
-interruption) however caused and on any theory of liability, whether in contract,
-strict liability, or tort (including negligence or otherwise) arising in any way out
-of the use of this software, even if advised of the possibility of such damage.
+This software is licensed under the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) license. If you need a different license: please contact [us](mailto:mail@existsolutions.com) and we'll find an arrangement.
 
 ## References
 
