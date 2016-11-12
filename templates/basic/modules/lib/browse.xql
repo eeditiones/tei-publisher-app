@@ -29,8 +29,18 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare
     %templates:wrap
+function app:show-for-document($node as node(), $model as map(*), $doc as xs:string?, $query as xs:string?) {
+    if ($doc and not($query)) then
+        templates:process($node/*, $model)
+    else
+        ()
+};
+
+
+declare
+    %templates:wrap
 function app:check-login($node as node(), $model as map(*)) {
-    let $user := request:get-attribute("org.exist.tei-simple.user")
+    let $user := request:get-attribute($config:login-domain || ".user")
     return
         if ($user) then
             templates:process($node/*[2], $model)
@@ -41,13 +51,13 @@ function app:check-login($node as node(), $model as map(*)) {
 declare
     %templates:wrap
 function app:current-user($node as node(), $model as map(*)) {
-    request:get-attribute("org.exist.tei-simple.user")
+    request:get-attribute($config:login-domain || ".user")
 };
 
 declare
     %templates:wrap
 function app:show-if-logged-in($node as node(), $model as map(*)) {
-    let $user := request:get-attribute("org.exist.tei-simple.user")
+    let $user := request:get-attribute($config:login-domain || ".user")
     return
         if ($user) then
             templates:process($node/node(), $model)
@@ -84,7 +94,8 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
         session:set-attribute("browse", $browse),
         session:set-attribute("filter", $filter),
         map {
-            "all" : $filtered
+            "all" : $filtered,
+            "mode": "browse"
         }
     )
 };

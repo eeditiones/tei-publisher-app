@@ -15,6 +15,9 @@ declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace expath="http://expath.org/ns/pkg";
 declare namespace jmx="http://exist-db.org/jmx";
 
+(:~
+ : Should documents be located by xml:id or filename?
+ :)
 declare variable $config:address-by-id := false();
 
 (:
@@ -71,6 +74,13 @@ declare variable $config:previous-page := pages:get-previous#2;
  : The CSS class to declare on the main text content div.
  :)
 declare variable $config:css-content-class := "content";
+
+(:
+ : The domain to use for logged in users. Applications within the same
+ : domain will share their users, so a user logged into application A
+ : will be able to access application B.
+ :)
+declare variable $config:login-domain := "org.exist.tei-simple";
 
 (:
     Determine the application root collection from the current module load path.
