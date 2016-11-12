@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="browse:fix-links">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -16,6 +15,46 @@
             <ul class="nav navbar-nav">
                 <li id="about">
                     <a href="$app/works/">Home</a>
+                </li>
+                <li class="dropdown" data-template="browse:show-for-document">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                        Download
+                        <span class="caret"/>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a class="download-link" data-template="browse:download-link" data-template-type="pdf">
+                                <i class="material-icons">print</i> PDF (FO Version)
+                            </a>
+                        </li>
+                        <li data-template="browse:show-if-logged-in">
+                            <a target="_blank" data-template="browse:download-link" data-template-type="pdf" data-template-source="true">
+                                <i class="material-icons">code</i> FO Source
+                            </a>
+                        </li>
+                        <li>
+                            <a class="download-link" data-template="browse:download-link" data-template-type="tex">
+                                <i class="material-icons">print</i> PDF (LaTeX Version)
+                            </a>
+                        </li>
+                        <li data-template="browse:show-if-logged-in">
+                            <a target="_blank" data-template="browse:download-link" data-template-type="tex" data-template-source="true">
+                                <i class="material-icons">code</i> TeX Source
+                            </a>
+                        </li>
+                        <li>
+                            <a data-template="browse:download-link" data-template-type="epub" title="Download as epub ebook">
+                                <i class="material-icons">book</i>
+                                ePUB
+                            </a>
+                        </li>
+                        <li>
+                            <a data-template="pages:xml-link">
+                                <i class="material-icons">code</i>
+                                XML
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="dropdown" data-template="browse:show-if-logged-in">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
