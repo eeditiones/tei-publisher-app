@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <meta xmlns="http://exist-db.org/xquery/repo">
-    <description>TEI Processing Model Toolbox</description>
+    <description>TEI Publisher Application</description>
     <author>Wolfgang Meier</author>
-    <website>http://showcases.exist-db.org/exist/apps/tei-pm</website>
+    <website>https://teipublisher.com</website>
     <status>stable</status>
-    <license>GNU-LGPL</license>
+    <license>GPLv3</license>
     <copyright>true</copyright>
     <type>application</type>
     <target>tei-publisher</target>
