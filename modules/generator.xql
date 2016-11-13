@@ -97,6 +97,10 @@ declare function deploy:init-simple($collection as xs:string?, $userData as xs:s
         deploy:mkcol($collection || "/data", $userData, $permissions),
         deploy:mkcol($collection || "/transform", $userData, $permissions),
         xmldb:copy($config:output-root, $collection || "/transform", "teisimple.fo.css"),
+        for $file in ("master.fo.xml", "page-sequence.fo.xml")
+        let $template := repo:get-resource("http://existsolutions.com/apps/tei-publisher-lib", "content/" || $file)
+        return
+            xmldb:store($config:output-root, $file, $template, "text/xml"),
         deploy:chmod-scripts($collection)
     )
 };
