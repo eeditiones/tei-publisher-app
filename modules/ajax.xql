@@ -81,6 +81,7 @@ return
         return
             map {
                 "doc": $doc,
+                "root": $root,
                 "odd": $odd,
                 "next": 
                     if ($next) then 

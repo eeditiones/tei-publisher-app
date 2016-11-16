@@ -670,7 +670,7 @@
                                 <model behaviour="block">
                                     <param name="content">titleStmt</param>
                                 </model>
-                                <model behaviour="block">short
+                                <model behaviour="block">
                                     <param name="content">seriesStmt</param>
                                 </model>
                                 <model behaviour="paragraph">

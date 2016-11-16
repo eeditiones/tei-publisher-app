@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fo:page-sequence xmlns:fo="http://www.w3.org/1999/XSL/Format" master-reference="page-content">
+    <fo:static-content flow-name="head-left">
+        <fo:block margin-bottom="0.7mm" text-align-last="justify" font-size="10pt">
+            <fo:page-number/>
+            <fo:leader/>
+            <fo:retrieve-marker retrieve-class-name="heading"/>
+        </fo:block>
+    </fo:static-content>
+    <fo:static-content flow-name="head-right">
+        <fo:block margin-bottom="0.7mm" text-align-last="justify" font-size="10pt">
+            <fo:retrieve-marker retrieve-class-name="heading"/>
+            <fo:leader/>
+            <fo:page-number/>
+        </fo:block>
+    </fo:static-content>
+    <!--fo:static-content flow-name="xsl-footnote-separator">
+                <fo:block margin-top="4mm"/>
+            </fo:static-content-->
+    <fo:static-content flow-name="xsl-footnote-separator">
+        <fo:block text-align-last="justify" margin-top="4mm" space-after="2mm">
+            <fo:leader leader-length="40%" rule-thickness="2pt" leader-pattern="rule" color="grey"/>
+        </fo:block>
+    </fo:static-content>
+    <fo:flow flow-name="xsl-region-body" hyphenate="true"/>
+</fo:page-sequence>

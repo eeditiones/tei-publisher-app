@@ -233,22 +233,25 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(handShift) return
                     html:inline($config, ., ("tei-handShift"), .)
                 case element(head) return
-                    if (parent::figure) then
-                        html:block($config, ., ("tei-head1"), .)
+                    if ($parameters?header='short') then
+                        html:inline($config, ., ("tei-head1"), replace(string-join(.//text()[not(parent::ref)]), '^(.*?)[^\w]*$', '$1'))
                     else
-                        if (parent::table) then
+                        if (parent::figure) then
                             html:block($config, ., ("tei-head2"), .)
                         else
-                            if (parent::lg) then
+                            if (parent::table) then
                                 html:block($config, ., ("tei-head3"), .)
                             else
-                                if (parent::list) then
+                                if (parent::lg) then
                                     html:block($config, ., ("tei-head4"), .)
                                 else
-                                    if (parent::div) then
-                                        html:heading($config, ., ("tei-head5"), ., ())
+                                    if (parent::list) then
+                                        html:block($config, ., ("tei-head5"), .)
                                     else
-                                        html:block($config, ., ("tei-head6"), .)
+                                        if (parent::div) then
+                                            html:heading($config, ., ("tei-head6"), ., ())
+                                        else
+                                            html:block($config, ., ("tei-head7"), .)
                 case element(hi) return
                     if (@rendition) then
                         html:inline($config, ., css:get-rendition(., ("tei-hi1")), .)

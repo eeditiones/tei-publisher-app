@@ -59,6 +59,7 @@ return
         return
             map {
                 "doc": $doc,
+                "root": $root,
                 "odd": $config:odd,
                 "next":
                     if ($next) then

@@ -66,10 +66,10 @@
 .tei-gap3:before { content: '[...]'; }
 .tei-gi:before { content:"<"; }
 .tei-gi:after { content:">"; }
-.tei-head1 { font-style: italic; }
 .tei-head2 { font-style: italic; }
 .tei-head3 { font-style: italic; }
-.tei-head4 { font-weight: bold; }
+.tei-head4 { font-style: italic; }
+.tei-head5 { font-weight: bold; }
 .tei-hi1 { font-style: italic; }
 .tei-hi2 { font-style: italic; }
 .tei-l { margin-left: 1em; }

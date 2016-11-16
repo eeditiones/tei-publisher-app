@@ -17,7 +17,21 @@
   }
 
   .toc ul {
-    padding-left: 20px;
+    padding-left: 25px;
+    list-style: none;
+    position: relative;
+  }
+  
+  .toc li {
+      line-height: 1.5;
+  }
+  .toc a[data-toggle='collapse'] {
+      position: absolute;
+      left: 0;
+  }
+  
+  .toc .active {
+      font-weight: bold;
   }
 
   .toc-toggle {
@@ -27,4 +41,5 @@
     background-color: @color-primary-light !important;
     color: @color-white;
   }
+  
 }

@@ -283,23 +283,17 @@ declare function pages:clean-footnotes($nodes as node()*) {
 declare
     %templates:wrap
 function pages:table-of-contents($node as node(), $model as map(*), $view as xs:string?) {
-    pages:toc-div(root($model?data), $view)
+    pages:toc-div(root($model?data), $view, $model?data)
 };
 
-declare %private function pages:toc-div($node, $view as xs:string?) {
+declare %private function pages:toc-div($node, $view as xs:string?, $current as element()) {
     let $view := pages:determine-view($view, $node)
     let $divs := $node//tei:div[tei:head] except $node//tei:div[tei:head]//tei:div
-(:    let $divs := $node//tei:div[empty(ancestor::tei:div) or ancestor::tei:div[1] is $node][tei:head]:)
     return
         <ul>
         {
             for $div in $divs
-            let $html := for-each($div/tei:head//text(), function($node) {
-                if ($node/(ancestor::tei:note|ancestor::tei:reg|ancestor::tei:sic)) then
-                    ()
-                else
-                    $node
-            })
+            let $html := $pm-config:web-transform($div/tei:head, map { "header": "short", "root": $div })
             let $root := (
                 if ($view = "page") then
                     ($div/*[1][self::tei:pb], $div/preceding::tei:pb[1])[1]
@@ -307,10 +301,26 @@ declare %private function pages:toc-div($node, $view as xs:string?) {
                     (),
                 $div
             )[1]
+            let $id := "T" ||util:uuid()
+            let $hasDivs := exists($div//tei:div[tei:head] except $div//tei:div[tei:head]//tei:div)
+            let $isIn := if ($div/descendant::tei:div[. is $current]) then "in" else ()
+            let $isCurrent := if ($div is $current) then "active" else ()
+            let $icon := if ($isIn) then "arrow_drop_up" else "arrow_drop_down"
             return
                 <li>
-                    <a class="toc-link" href="{util:document-name($div)}?root={util:node-id($root)}&amp;odd={$config:odd}">{$html}</a>
-                    {pages:toc-div($div, $view)}
+                    {
+                        if ($hasDivs) then
+                            <a data-toggle="collapse" href="#{$id}"><span class="material-icons">{$icon}</span></a>
+                        else
+                            ()
+                    }
+                    <a data-div="{util:node-id($div)}" class="toc-link {$isCurrent}" href="{util:document-name($div)}?root={util:node-id($root)}&amp;odd={$config:odd}">{$html}</a>
+                    {
+                        if ($hasDivs) then
+                            <div id="{$id}" class="collapse {$isIn}">{pages:toc-div($div, $view, $current)}</div>
+                        else
+                            pages:toc-div($div, $view, $current)
+                    }
                 </li>
         }
         </ul>

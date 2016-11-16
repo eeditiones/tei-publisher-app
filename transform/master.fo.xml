@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fo:layout-master-set xmlns:fo="http://www.w3.org/1999/XSL/Format">
+    <fo:simple-page-master master-name="page-left" page-height="297mm" page-width="210mm" margin-bottom="10mm" margin-top="10mm" margin-left="36mm" margin-right="18mm">
+        <fo:region-body margin-bottom="10mm" margin-top="16mm"/>
+        <fo:region-before region-name="head-left" extent="10mm"/>
+    </fo:simple-page-master>
+    <fo:simple-page-master master-name="page-right" page-height="297mm" page-width="210mm" margin-bottom="10mm" margin-top="10mm" margin-left="18mm" margin-right="36mm">
+        <fo:region-body margin-bottom="10mm" margin-top="16mm"/>
+        <fo:region-before region-name="head-right" extent="10mm"/>
+    </fo:simple-page-master>
+    <fo:page-sequence-master master-name="page-content">
+        <fo:repeatable-page-master-alternatives>
+            <fo:conditional-page-master-reference master-reference="page-right" odd-or-even="odd"/>
+            <fo:conditional-page-master-reference master-reference="page-left" odd-or-even="even"/>
+        </fo:repeatable-page-master-alternatives>
+    </fo:page-sequence-master>
+</fo:layout-master-set>

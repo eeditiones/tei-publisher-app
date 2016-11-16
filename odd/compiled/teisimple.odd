@@ -799,6 +799,9 @@
                             <model behaviour="inline"/>
                         </elementSpec>
                         <elementSpec mode="change" ident="head">
+                            <model predicate="$parameters?header='short'" behaviour="inline">
+                                <param name="content" value="replace(string-join(.//text()[not(parent::ref)]), '^(.*?)[^\w]*$', '$1')"/>
+                            </model>
                             <model predicate="parent::figure" behaviour="block">
                                 <outputRendition>font-style: italic;</outputRendition>
                             </model>
@@ -1127,7 +1130,7 @@
                                 <model behaviour="block">
                                     <param name="content">titleStmt</param>
                                 </model>
-                                <model behaviour="block">short
+                                <model behaviour="block">
                                     <param name="content">seriesStmt</param>
                                 </model>
                                 <model behaviour="paragraph">

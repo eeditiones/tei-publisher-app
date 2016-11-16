@@ -49,6 +49,10 @@ $(document).ready(function() {
                     if (data.switchView) {
                         $("#switch-view").attr("href", data.switchView);
                     }
+                    if (data.root) {
+                        $(".toc .active").removeClass("active");
+                        $(".toc a[data-div='" + data.root + "']").toggleClass("active");
+                    }
                     showContent(container, animIn, animOut);
                 }
             });
@@ -151,7 +155,10 @@ $(document).ready(function() {
     $(".toc .toc-link").click(function(ev) {
         $(".toc").offcanvas('hide');
     });
-    
+    $(".toc a[data-toggle='collapse']").click(function(ev) {
+        var icon = $(this).find("span").text();
+        $(this).find("span").text(icon == "arrow_drop_down" ? "arrow_drop_up" : "arrow_drop_down");
+    });
     $("#zoom-in").click(function(ev) {
         ev.preventDefault();
         var size = getFontSize();
