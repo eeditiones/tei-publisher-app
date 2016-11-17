@@ -56,6 +56,7 @@ else if (ends-with($exist:resource, ".xql")) then (
     (: let $id := replace(xmldb:decode($exist:resource), "^(.*)\..*$", "$1") :)
     let $id := xmldb:decode($exist:resource)
     let $path := substring-before(substring-after($exist:path, "/works/"), $exist:resource)
+    let $mode := request:get-parameter("mode", ())
     let $html :=
         if ($exist:resource = "") then
             "index.html"
@@ -89,6 +90,16 @@ else if (ends-with($exist:resource, ".xql")) then (
         else if (ends-with($exist:resource, ".pdf")) then
             <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
                 <forward url="{$exist:controller}/modules/lib/pdf.xql">
+                    <add-parameter name="doc" value="{$path}{$id}"/>
+                </forward>
+                <error-handler>
+                    <forward url="{$exist:controller}/error-page.html" method="get"/>
+                    <forward url="{$exist:controller}/modules/view.xql"/>
+                </error-handler>
+            </dispatch>
+        else if ($mode = "plain") then
+            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+                <forward url="{$exist:controller}/modules/lib/transform.xql">
                     <add-parameter name="doc" value="{$path}{$id}"/>
                 </forward>
                 <error-handler>

@@ -221,7 +221,7 @@ declare function app:work-title($work as element(tei:TEI)?) {
 };
 
 declare function app:download-link($node as node(), $model as map(*), $type as xs:string, $doc as xs:string?,
-    $source as xs:boolean?) {
+    $source as xs:boolean?, $mode as xs:string?) {
     let $file :=
         if ($model?work) then
             config:get-identifier($model?work)
@@ -233,7 +233,7 @@ declare function app:download-link($node as node(), $model as map(*), $type as x
             $node/@*,
             attribute data-token { $uuid },
             attribute href { $node/@href || $file || "." || $type || "?token=" || $uuid || "&amp;cache=no"
-                || (if ($source) then "&amp;source=yes" else ())
+                || (if ($source) then "&amp;source=yes" else ()) || (if ($mode) then "&amp;mode=" || $mode else ())
             },
             $node/node()
         }
