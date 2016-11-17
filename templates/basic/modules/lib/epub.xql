@@ -14,6 +14,7 @@ xquery version "3.1";
 
 module namespace epub = "http://exist-db.org/xquery/epub";
 
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -172,7 +173,11 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
 declare function epub:images-entry($doc, $entries as element()*) {
     let $root := util:collection-name($doc)
     for $relPath in distinct-values($entries//*:img/@src)
-    let $path := $root || "/" || $relPath
+    let $path := 
+        if ($config:epub-images-path) then
+            $config:epub-images-path || $relPath
+        else
+            $root || "/" || $relPath
     return
         if (util:binary-doc-available($path)) then
             <entry name="OEBPS/{$relPath}" type="binary">{util:binary-doc($path)}</entry>

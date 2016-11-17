@@ -1,4 +1,4 @@
-xquery version "3.0";
+xquery version "3.1";
 
 (:~
  : A set of helper functions to access the application context from
@@ -14,6 +14,7 @@ declare namespace templates="http://exist-db.org/xquery/templates";
 declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace expath="http://expath.org/ns/pkg";
 declare namespace jmx="http://exist-db.org/jmx";
+declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 (:~
  : Should documents be located by xml:id or filename?
@@ -140,6 +141,35 @@ declare variable $config:fop-config :=
 declare variable $config:tex-command := function($file) {
     ( "/usr/local/bin/pdflatex", "-interaction=nonstopmode", $file )
 };
+
+(:~
+ : Configuration for epub files.
+ :)
+declare variable $config:epub-config := function($root as element(), $langParameter as xs:string?) {
+    map {
+        "metadata": map {
+            "title": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title/string(),
+            "creator": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:author/string(),
+            "urn": util:uuid(),
+            "language": ($langParameter, $root/@xml:lang, $root/tei:teiHeader/@xml:lang, "en")[1]
+        },
+        "odd": $config:odd,
+        "output-root": $config:odd-root,
+        "fonts": [ 
+            $config:app-root || "/resources/fonts/Junicode.ttf",
+            $config:app-root || "/resources/fonts/Junicode-Bold.ttf",
+            $config:app-root || "/resources/fonts/Junicode-BoldItalic.ttf",
+            $config:app-root || "/resources/fonts/Junicode-Italic.ttf"
+        ]
+    }
+};
+
+(:~
+ : Root path where images to be included in the epub can be found.
+ : Leave as empty sequence if images can be located within the data
+ : collection using relative path.
+ :)
+declare variable $config:epub-images-path := ();
 
 (:
     Determine the application root collection from the current module load path.

@@ -10,23 +10,7 @@ declare option exist:serialize "method=xml media-type=text/xml";
 
 declare function local:work2epub($id as xs:string, $work as element(), $lang as xs:string?) {
     let $root := $work/ancestor-or-self::tei:TEI
-    let $fileDesc := $root/tei:teiHeader/tei:fileDesc
-    let $config := map {
-        "metadata": map {
-            "title": $fileDesc/tei:titleStmt/tei:title/string(),
-            "creator": $fileDesc/tei:titleStmt/tei:author/string(),
-            "urn": util:uuid(),
-            "language": ($lang, $root/@xml:lang, $root/tei:teiHeader/@xml:lang, "en")[1]
-        },
-        "odd": $config:odd,
-        "output-root": $config:odd-root,
-        "fonts": [ 
-            $config:app-root || "/resources/fonts/Junicode.ttf",
-            $config:app-root || "/resources/fonts/Junicode-Bold.ttf",
-            $config:app-root || "/resources/fonts/Junicode-BoldItalic.ttf",
-            $config:app-root || "/resources/fonts/Junicode-Italic.ttf"
-        ]
-    }
+    let $config := $config:epub-config($root, $lang)
     let $oddName := replace($config:odd, "^([^/\.]+).*$", "$1")
     let $cssDefault := util:binary-to-string(util:binary-doc($config:output-root || "/" || $oddName || ".css"))
     let $cssEpub := util:binary-to-string(util:binary-doc($config:app-root || "/resources/css/epub.css"))
