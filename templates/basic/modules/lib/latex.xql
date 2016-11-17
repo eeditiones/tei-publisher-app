@@ -21,10 +21,6 @@ declare option output:media-type "text/text";
 
 declare variable $local:WORKING_DIR := system:get-exist-home() || "/webapp";
 
-declare variable $local:TeX_COMMAND := function($file) {
-    ( "/usr/local/bin/pdflatex", "-interaction=nonstopmode", $file )
-};
-
 let $id := request:get-parameter("id", ())
 let $token := request:get-parameter("token", ())
 let $source := request:get-parameter("source", ())
@@ -47,7 +43,7 @@ return (
                     </option>
                 let $output :=
                     process:execute(
-                        ( $local:TeX_COMMAND($file) ), $options
+                        ( $config:tex-command($file) ), $options
                     )
                 return
                     if ($output/@exitCode < 2) then

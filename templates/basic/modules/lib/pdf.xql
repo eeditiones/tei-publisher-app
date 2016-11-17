@@ -31,53 +31,9 @@ declare function local:prepare-cache-collection() {
 };
 
 declare function local:fop($id as xs:string, $fontsDir as xs:string?, $fo as element()) {
-let $config :=
-    <fop version="1.0">
-        <!-- Strict user configuration -->
-        <strict-configuration>true</strict-configuration>
-
-        <!-- Strict FO validation -->
-        <strict-validation>false</strict-validation>
-
-        <!-- Base URL for resolving relative URLs -->
-        <base>./</base>
-
-        <renderers>
-            <renderer mime="application/pdf">
-                <fonts>
-                {
-                    if ($fontsDir) then (
-                        <font kerning="yes"
-                            embed-url="file:{$fontsDir}/Junicode.ttf"
-                            encoding-mode="single-byte">
-                            <font-triplet name="Junicode" style="normal" weight="normal"/>
-                        </font>,
-                        <font kerning="yes"
-                            embed-url="file:{$fontsDir}/Junicode-Bold.ttf"
-                            encoding-mode="single-byte">
-                            <font-triplet name="Junicode" style="normal" weight="700"/>
-                        </font>,
-                        <font kerning="yes"
-                            embed-url="file:{$fontsDir}/Junicode-Italic.ttf"
-                            encoding-mode="single-byte">
-                            <font-triplet name="Junicode" style="italic" weight="normal"/>
-                        </font>,
-                        <font kerning="yes"
-                            embed-url="file:{$fontsDir}/Junicode-BoldItalic.ttf"
-                            encoding-mode="single-byte">
-                            <font-triplet name="Junicode" style="italic" weight="700"/>
-                        </font>
-                    ) else
-                        ()
-                }
-                </fonts>
-            </renderer>
-        </renderers>
-    </fop>
-let $log := console:log("Calling fop ...")
-let $pdf := xslfo:render($fo, "application/pdf", (), $config)
-return
-    $pdf
+    let $log := console:log("Calling fop ...")
+    return
+        xslfo:render($fo, "application/pdf", (), $config:fop-config)
 };
 
 declare function local:antenna-house($id as xs:string, $fo as element()) {

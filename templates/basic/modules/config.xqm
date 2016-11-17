@@ -82,6 +82,65 @@ declare variable $config:css-content-class := "content";
  :)
 declare variable $config:login-domain := "org.exist.tei-simple";
 
+(:~
+ : Configuration XML for Apache FOP used to render PDF. Important here
+ : are the font directories.
+ :)
+declare variable $config:fop-config :=
+    let $fontsDir := config:get-fonts-dir()
+    return
+        <fop version="1.0">
+            <!-- Strict user configuration -->
+            <strict-configuration>true</strict-configuration>
+
+            <!-- Strict FO validation -->
+            <strict-validation>false</strict-validation>
+
+            <!-- Base URL for resolving relative URLs -->
+            <base>./</base>
+
+            <renderers>
+                <renderer mime="application/pdf">
+                    <fonts>
+                    {
+                        if ($fontsDir) then (
+                            <font kerning="yes"
+                                embed-url="file:{$fontsDir}/Junicode.ttf"
+                                encoding-mode="single-byte">
+                                <font-triplet name="Junicode" style="normal" weight="normal"/>
+                            </font>,
+                            <font kerning="yes"
+                                embed-url="file:{$fontsDir}/Junicode-Bold.ttf"
+                                encoding-mode="single-byte">
+                                <font-triplet name="Junicode" style="normal" weight="700"/>
+                            </font>,
+                            <font kerning="yes"
+                                embed-url="file:{$fontsDir}/Junicode-Italic.ttf"
+                                encoding-mode="single-byte">
+                                <font-triplet name="Junicode" style="italic" weight="normal"/>
+                            </font>,
+                            <font kerning="yes"
+                                embed-url="file:{$fontsDir}/Junicode-BoldItalic.ttf"
+                                encoding-mode="single-byte">
+                                <font-triplet name="Junicode" style="italic" weight="700"/>
+                            </font>
+                        ) else
+                            ()
+                    }
+                    </fonts>
+                </renderer>
+            </renderers>
+        </fop>
+;
+
+(:~
+ : The command to run when generating PDF via LaTeX. Should be a sequence of
+ : arguments.
+ :)
+declare variable $config:tex-command := function($file) {
+    ( "/usr/local/bin/pdflatex", "-interaction=nonstopmode", $file )
+};
+
 (:
     Determine the application root collection from the current module load path.
 :)
