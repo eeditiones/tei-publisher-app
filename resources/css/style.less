@@ -4,7 +4,7 @@
 // Core --------------------------- //
 
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald');
-@import "_variables.less";
+//@import "_default-variables.less";
 @import "_base.less";
 @import "_utilities.less";
 
@@ -15,7 +15,7 @@
 
 // Components --------------------- //
 
-@import "_theme.less";
+@import "_default-theme.less";
 @import "_navigation.less";
 @import "_toc.less";
 @import "_sidebars.less";
@@ -25,4 +25,242 @@
 // Generated Content Pages -------- //
 
 @import "_inner-document.less";
-@import "_content.less";
+//@import "_default-content.less";
+
+/********************* Variables ************************/
+/* All general variable values should go here. Do not
+/* modify other .less files except this one    */
+/********************************************************/
+
+/********************* Logo **************************/
+@application-logo:          '../images/tei-publisher-logo-contrast-color.svg';
+@application-logo-width:    140px;
+@application-title-display: none;
+
+/********************* Colors ************************/
+
+@color-primary:                   #35424b;
+@color-primary-light:             #607D8B;
+@color-primary-lightest:          #d1dae0;
+
+@color-secondary:                 #f6a623;
+@color-secondary-darker:          #d6911f;
+
+@color-white:                     #ffffff;
+@color-light-gray:                rgba(153, 153, 153, 0.2);
+@color-dark-gray:                 #777777;
+
+// Body
+@color-body-bg:                   @color-white;
+@color-body-text-default:         #333333;
+
+// Links
+@color-link:                      #303F9F;
+@color-link-hover:                #1b2257;
+@color-link-hover-bg:             @color-light-gray;
+
+// Navigation
+@color-navigation-bg:             @color-primary;
+@color-navigation-text:           @color-white;
+@color-navigation-hover:          @color-primary-light;
+
+// Sidebars and Panels
+@panel-default-heading-bg-color:  @color-primary-lightest;
+@panel-info-heading-bg-color:     @color-primary-light;
+@panel-primary-heading-bg-color:  #C5CAE9;
+
+// Off Canvas Navigation
+@color-side-navigation-bg:        #fafafa;
+
+@color-text-marker:               #FFEB3B;
+@color-text-highlight:            #7777FF;
+
+/********************* Fonts ************************/
+
+@font-serif:                "Junicode", Georgia, "Times New Roman", serif;
+@font-sans-serif:           "Oswald", Verdana, "Helvetica", sans-serif;
+@font-sans-serif-default:   "Open Sans", Verdana, "Helvetica", sans-serif;
+@font-monospace:            "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
+
+// Body
+@font-family-body-default:  @font-sans-serif-default;
+@font-size-body-default:    16px;
+@font-size-body-print:      12pt;
+
+// Headings
+@font-family-heading:       @font-sans-serif;
+
+@direction-left-to-right:   ltr;  /* Left to Right */
+@direction-right-ro-left:   rtl;  /* Right to Left */
+
+
+/*********** Styles for inner documents ************/
+
+// Main title for inner document
+@font-family-headline-inner:  @font-serif;
+@text-align-headline-inner:   center;
+@font-size-headline-inner:    16px;
+@direction-headline-inner:    @direction-left-to-right;
+
+// Inner Document Text
+@font-family-content-inner:   @font-serif;
+@font-size-content-inner:     14pt;
+@direction-content-inner:     @direction-left-to-right;
+
+// Headlines for inner document
+@font-size-h1-inner-content:  2.441em;
+@font-size-h2-inner-content:  1.953em;
+@font-size-h3-inner-content:  1.563em;
+@font-size-h4-inner-content:  1.250em;
+
+  // Margins right and left
+@margin-right-content-inner:  200px; // Swap values for right to left direction of text
+@margin-left-content-inner:   0;
+
+/********************* Styles for the Content ************************/
+/* All content styling should go here. Do not                        */
+/* modify other .less files except this one    */
+/*********************************************************************/
+#content-inner {
+  .content h1,
+  .content h2,
+  .content h3,
+  .content h4,
+  .content h5,
+  .content h6 {
+    font-family: @font-family-content-inner;
+    line-height: 1.2;
+  }
+
+  .content {
+      hyphens: auto;
+      -webkit-hyphens: auto;
+
+    h1 {
+      font-size: @font-size-h1-inner-content;
+    }
+    h2 {
+      font-size: @font-size-h2-inner-content;
+    }
+    h3 {
+      font-size: @font-size-h3-inner-content;
+    }
+    h4 {
+      font-size: @font-size-h4-inner-content;
+    }
+
+    .tei-code1 {
+      font-family: @font-monospace;
+      font-size: 85%;
+    }
+
+    .tei-list2 dd {
+      margin-left: 2em;
+    }
+
+    .tei-gi, .xml-attribute {
+      font-family: @font-monospace;
+      font-size: 85%;
+    }
+
+    figure {
+      text-align: center;
+      margin: 24px 0;
+      padding: 16px 0;
+      border-top: 1px solid @color-light-gray;
+      border-bottom: 1px solid @color-light-gray;
+
+      img.img-responsive {
+        margin: 0 auto;
+      }
+    }
+
+    figcaption {
+      margin-top: .5em;
+      text-align: right;
+    }
+
+    &>*>section {
+      border-top: 1px solid @color-dark-gray;
+      margin: 2.5em 0;
+      padding-top: 2em;
+    }
+  }
+
+  .page-margin {
+    margin-right: @margin-right-content-inner;
+    margin-left: @margin-left-content-inner;
+    position: relative;
+  }
+
+  .margin-note-ref {
+    font-size: small;
+    vertical-align: super;
+    color: @color-dark-gray;
+    margin-right: 4px;
+  }
+
+  .margin-note {
+    background: @color-light-gray;
+    display: block;
+    font-size: small;
+    margin-right: -200px;
+    margin-bottom: 5px;
+    padding: 5px;
+    float: right;
+    clear: both;
+    width: 190px;
+
+    .n {
+      color: @color-dark-gray;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .margin-note {
+      display: none;
+    }
+
+    .page-margin {
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }
+
+  .alternate {
+    cursor: pointer;
+    color: @color-text-highlight;
+    .altcontent {
+      display: none;
+    }
+  }
+
+  .note,
+  .popover {
+    font-size: 13px;
+  }
+
+  .note {
+    vertical-align: super;
+    cursor: pointer;
+    margin-left: .25em;
+  }
+
+  .footnotes {
+    margin-top: 1em;
+    padding-top: 1em;
+    border-top: 1px solid @color-light-gray;
+  }
+
+  .pb, .pb2 {
+    font-size: small;
+    float: none !important;
+    display: inline !important;
+    margin: 0 !important;
+    color: @color-light-gray;
+  }
+
+  .pb:before {
+    content: '[p. ' !important;
+  }
+}
