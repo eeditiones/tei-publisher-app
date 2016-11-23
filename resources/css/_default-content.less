@@ -50,8 +50,8 @@
       text-align: center;
       margin: 24px 0;
       padding: 16px 0;
-      border-top: 1px solid @color-light-gray;
-      border-bottom: 1px solid @color-light-gray;
+      border-top: @default-border-style;
+      border-bottom: @default-border-style;
 
       img.img-responsive {
         margin: 0 auto;
@@ -64,7 +64,7 @@
     }
 
     &>*>section {
-      border-top: 1px solid @color-dark-gray;
+      border-top: @default-border-style;
       margin: 2.5em 0;
       padding-top: 2em;
     }
@@ -84,7 +84,7 @@
   }
 
   .margin-note {
-    background: @color-light-gray;
+    background: @color-gray-medium;
     display: block;
     font-size: small;
     margin-right: -200px;
@@ -132,7 +132,7 @@
   .footnotes {
     margin-top: 1em;
     padding-top: 1em;
-    border-top: 1px solid @color-light-gray;
+    border-top: @default-border-style;
   }
 
   .pb, .pb2 {

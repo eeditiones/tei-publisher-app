@@ -83,6 +83,9 @@
 @btn-primary-bg:                  @color-primary-light;
 @btn-primary-border:              @color-primary-light;
 
+// Borders
+@default-border-style:            1px solid @color-gray-lighter;
+
 /********************* Fonts ************************/
 
 @font-serif:                      "Junicode", Georgia, "Times New Roman", serif;
@@ -203,7 +206,7 @@
     }
 
     &>*>section {
-      border-top: 1px solid @color-dark-gray;
+      border-top: @default-border-style;
       margin: 2.5em 0;
       padding-top: 2em;
     }
@@ -271,7 +274,7 @@
   .footnotes {
     margin-top: 1em;
     padding-top: 1em;
-    border-top: 1px solid @color-light-gray;
+    border-top: @default-border-style;
   }
 
   .pb, .pb2 {
