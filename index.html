@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <section data-template="templates:include" data-template-path="templates/menu.html"/>
-    <main class="container main">
-        <div class="row">
+    <section class="container-fluid main">
+        <header class="row">
             <div class="col-md-12">
                 <div class="page-header">
                     <h1 class="tp-title">TEI Publisher</h1>
                     <h2 class="tp-subtitle">The Instant Publishing Toolbox</h2>
                 </div>
             </div>
-        </div>
-        <div class="row">
+        </header>
+        <main class="row">
             <div class="col-md-8 col-xs-12">
                 <p>
                     <span class="bold">Publish your data in various media formats without writing complex stylesheets</span>. Using the
@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
         <div class="row">
             <div class="col-md-8 col-xs-12">
                 <div data-template="app:action"/>
@@ -122,7 +122,7 @@
                 </div>
             </div>
         </div>
-    </main>
+    </section>
 
     <section data-template="templates:include" data-template-path="templates/footer.html"/>
 
