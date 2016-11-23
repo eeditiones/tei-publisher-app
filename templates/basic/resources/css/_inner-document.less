@@ -16,7 +16,7 @@
     direction: @direction-headline-inner;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: @screen-sm) {
     .nav-next {
       right: 10px;
     }
@@ -33,7 +33,7 @@
     top:50%;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: @screen-sm) {
     position: fixed;
     bottom: 20px;
   }
@@ -50,7 +50,7 @@
 }
 
 #main-container {
-  max-width: 1200px;
+  max-width: @screen-lg;
 }
 
 /* Page by page navigation */
@@ -67,7 +67,7 @@
   animation-duration: 400ms;
   overflow:auto;
 
-  @media (max-width: 768px) {
+  @media (max-width: @screen-sm) {
     margin-bottom: 5em;
   }
 }

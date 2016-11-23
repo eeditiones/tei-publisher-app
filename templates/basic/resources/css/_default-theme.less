@@ -1,0 +1,34 @@
+// main: style.less
+
+// Main container
+@media screen and (min-width: @screen-md-min) {
+  .container {
+    width: 100%;
+  }
+}
+
+.main {
+  padding-top: 60px;
+}
+
+// Dropdown menus
+.dropdown-menu li>a:hover {
+  color: @color-link-hover !important;
+  background-color: @color-link-hover-bg;
+}
+
+// App headlines on front page
+.page-header {
+  margin: 20px 0 20px;
+}
+
+@media screen and (min-width: @screen-sm) {
+  .tp-title,
+  .tp-subtitle {
+    display: inline-block;
+  }
+
+  .tp-title {
+    margin-right: 15px;
+  }
+}

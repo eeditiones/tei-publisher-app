@@ -1,5 +1,10 @@
 // main: style.less
 
+/********************* Variables ************************/
+/* Default TEI Publisher variables                      */
+/* Do not modify                                        */
+/********************************************************/
+
 /********************* Logo **************************/
 @application-logo:          '../images/tei-publisher-logo-contrast-color.svg';
 @application-logo-width:    140px;
@@ -58,9 +63,22 @@
 // Headings
 @font-family-heading:       @font-sans-serif;
 
-@direction-left-to-right: ltr;  /* Left to Right */
-@direction-right-ro-left: rtl;  /* Right to Left */
+@direction-left-to-right:   ltr;  /* Left to Right */
+@direction-right-ro-left:   rtl;  /* Right to Left */
 
+// Breakpoints
+@screen-xs:                 480px;
+@screen-xs-min:             481px;
+@screen-small:              601px;
+@screen-sm:                 768px;
+@screen-sm-min:             @screen-sm;
+@medium-screen:             841px;
+@screen-md-min:             992px;
+@screen-lg:                 1200px;
+@screen-lg-min:             @screen-lg;
+@screen-large:              1281px;
+@screen-xlarge:             1441px;
+@screen-xxlarge:            1601px;
 
 /*********** Styles for inner documents ************/
 
