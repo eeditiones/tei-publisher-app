@@ -9,7 +9,9 @@
 .logo {
   background-image: url(@application-logo);
   background-repeat: no-repeat;
-  padding-left: @application-logo-width;
+  //padding-left: @application-logo-width;
+  width: @application-logo-width;
+  margin-left: 0 !important;
 
   @media (max-width: 1199px) {
     background-position: 5px 5px;
@@ -27,6 +29,7 @@
   }
 }
 
+// General styles for navigation
 .navbar {
   &.navbar-default {
     background-color: @color-navigation-bg;
