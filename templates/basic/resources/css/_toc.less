@@ -1,9 +1,14 @@
 // main: style.less
 
-@media (min-width: 768px) {
+/********************* Table of Content Styles ***********************/
+/* Default TEI Publisher theme                                       */
+/* Do not modify                                                     */
+/*********************************************************************/
+
+@media (min-width: @screen-sm) {
   .toc {
     position: fixed;
-    top: 61px;
+    top: 60px;
     bottom: 0;
     left: 0;
     z-index: 1000;
@@ -12,8 +17,8 @@
     overflow-x: hidden;
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
     background: @color-side-navigation-bg url(../../images/body-bg.png) top left repeat;
-    border-right: 1px solid @color-light-gray;
-    border-top: 1px solid @color-light-gray;
+    border-right: @default-border-style;
+    border-top: @default-border-style;
   }
 
   .toc ul {
@@ -37,7 +42,7 @@
   .toc-toggle {
     position: fixed !important;
     left: 30px;
-    top: inherit;
+    top: 115px;
     background-color: @color-primary-light !important;
     color: @color-white;
   }

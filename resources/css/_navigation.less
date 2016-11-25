@@ -1,17 +1,24 @@
 // main: style.less
 
+/********************* Navigation Styles *****************************/
+/* Default TEI Publisher theme                                       */
+/* Do not modify                                                     */
+/*********************************************************************/
+
 // the application logo to be shown top left in the navigation bar
 .logo {
   background-image: url(@application-logo);
   background-repeat: no-repeat;
-  padding-left: @application-logo-width;
+  //padding-left: @application-logo-width;
+  width: @application-logo-width;
+  margin-left: 0 !important;
 
   @media (max-width: 1199px) {
     background-position: 5px 5px;
     background-size: auto 40px;
   }
 
-  @media (min-width: 1200px) {
+  @media (min-width: @screen-lg-min) {
     background-position: 7px 7px;
     background-size: auto 46px;
   }
@@ -22,6 +29,7 @@
   }
 }
 
+// General styles for navigation
 .navbar {
   &.navbar-default {
     background-color: @color-navigation-bg;

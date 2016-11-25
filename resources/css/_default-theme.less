@@ -1,0 +1,217 @@
+// main: style.less
+
+// Make space for fixed top-navigation
+nav + * {
+  margin-top: 50px;
+  @media (min-width: @screen-lg-min) {
+    margin-top: 60px;
+  }
+}
+
+// Header with headline
+header {
+  margin-bottom: 10px;
+  &:not(.service-icon-bar) {
+    @media screen and (min-width: @screen-sm-min) {
+      padding-top: 30px;
+    }
+  }
+}
+
+// Toolbar
+.service-icon-bar {
+  background-color: @color-toolbar-bg;
+  padding: 4px 63px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  z-index: 10;
+  margin-top: 50px;
+  @media screen and (min-width: @screen-md-min) {
+    padding: 4px 0;
+  }
+  @media (min-width: @screen-lg-min) {
+    margin-top: 60px;
+  }
+
+  .btn-group {
+    margin: 0;
+  }
+}
+
+// Main container
+@media screen and (min-width: @screen-md-min) {
+  .container {
+    width: 100%;
+  }
+}
+
+// App headlines on front page
+.page-header {
+  margin: 20px 0 20px;
+}
+
+@media screen and (min-width: @screen-sm) {
+  .tp-title,
+  .tp-subtitle {
+    display: inline-block;
+  }
+
+  .tp-title {
+    margin-right: 15px;
+  }
+}
+
+.tp-subtitle {
+  font-weight: 400;
+  line-height: 1.3;
+  color: @color-gray-light;
+  font-size: 26px;
+  margin-top: 12px;
+}
+
+// Dropdown menus
+
+.btn-group > div > ul > li {
+  > a {
+    font-family: @font-sans-serif-default !important;
+    &:hover {
+      color: @color-link-hover !important;
+      background-color: @color-link-hover-bg;
+    }
+  }
+}
+
+.browse {
+  font-size: 1em !important;
+
+  td:nth-child(2), td:nth-child(3), td:nth-child(4) {
+    font-family: @font-serif;
+  }
+  td:nth-child(5) {
+    width: 180px;
+    text-align: right;
+  }
+}
+
+.label:not(.note) {
+  font-weight: bold;
+  font-size: inherit;
+  color: inherit;
+  padding: inherit;
+  margin: inherit;
+}
+
+// Panels on front page
+.documents {
+  padding-left: 0;
+  margin-bottom: 0;
+
+  h5 {
+    font-family: @font-sans-serif-default;
+    font-size: 14px;
+  }
+
+  .header-short {
+    &:extend(.h5);
+  }
+
+  .toolbar {
+    width: 100%;
+    .btn-group,
+    .btn-default {
+      width: 33%;
+      border: none;
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  >li {
+    list-style: none;
+    &:not(:last-of-type) {
+      border-bottom: 1px solid @color-gray-medium;
+      margin-bottom: 15px;
+    }
+  }
+}
+
+.odd-table {
+  width: 100%;
+  @media screen and (min-width: @screen-md-min) and (max-width: 1100px) {
+    span.hidden-xs {
+        font-size: 12px;
+    }
+  }
+}
+
+#files {
+  margin-top: 20px;
+}
+
+#msg-progress {
+  display: none;
+  font-weight: bold;
+  margin-left: 2em;
+  animation: blinker 1.2s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+
+  @keyframes blinker {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+}
+
+// ODD override for navigation
+.tei-text {
+  .navbar {
+    font-family: Roboto,Helvetica,Arial,sans-serif !important;
+  }
+}
+
+mark {
+  background-color: @color-text-marker;
+}
+
+// Color for search icon button and message for found results
+.input-group-btn .btn:not(.btn-raised).btn-primary,
+.text-success {
+  color: @btn-primary-bg;
+}
+
+// File upload button
+.fileinput-button {
+  color: @color-gray-light;
+  border: @default-border-style;
+}
+
+// Icon menu in view template
+.actions {
+  @media screen and (max-width: 769px) {
+    .btn {
+      padding: 8px 20px;
+    }
+  }
+}
+
+// Pagination
+.pagination > .active > a,
+.pagination > .active > a:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span,
+.pagination > .active > span:hover,
+.pagination > .active > span:focus {
+  background-color: @btn-primary-bg;
+  border-color: @btn-primary-border;
+  color: @btn-primary-color;
+}
+
+.pagination > li > a,
+.pagination > li > span {
+  color: @btn-primary-bg;
+}
+
+.well {
+  box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12) !important;
+}

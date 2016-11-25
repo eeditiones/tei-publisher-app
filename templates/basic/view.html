@@ -45,60 +45,70 @@
     </head>
     <body>
         <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content" data-template-using="body">
+            <!-- Navigation -->
             <div data-template="templates:include" data-template-path="templates/menu.html"/>
-            <div id="main-container" data-template="pages:load" class="container-fluid">
-                <div class="row">
-                    <aside id="sidebar" class="hidden-xs col-md-3 toc offcanvas">
-                        <h3>Contents</h3>
-                        <div data-template="pages:table-of-contents"/>
-                    </aside>
-                    <div id="right-panel" class="col-md-12 col-xs-12">
-                        <div class="container-fluid">
-                            <div data-template="templates:include" data-template-path="templates/toolbar.html"/>
-                            <div class="row" data-template="pages:navigation">
-                                <div class="col-md-1 hidden-sm hidden-xs">
-                                    <a class="btn btn-primary btn-fab toc-toggle" data-toggle="offcanvas" data-target="#sidebar" data-canvas="#main-container">
-                                        <i class="material-icons">view_list</i>
-                                    </a>
-                                    <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab"
-                                        title="Previous page [left arrow on keyboard]">
-                                        <i class="material-icons">navigate_before</i>
-                                    </a>
-                                </div>
-                                <div class="col-md-10 col-sm-12">
-                                    <div class="navigation-top row">
-                                        <div class="hidden-md hidden-lg btn-group-sm">
-                                            <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab"
-                                                title="Previous page [left arrow on keyboard]">
-                                                <i class="material-icons">navigate_before</i>
-                                            </a>
+            <div data-template="pages:load">
+
+                <!-- Toolbar -->
+                <div data-template="templates:include" data-template-path="templates/toolbar.html"/>
+
+                <!-- Content wrapper -->
+                <main id="main-container" class="container-fluid">
+                    <div class="row">
+                        <!-- Table of contents -->
+                        <aside id="sidebar" class="hidden-xs col-md-3 toc offcanvas">
+                            <h3>Contents</h3>
+                            <div data-template="pages:table-of-contents"/>
+                        </aside>
+                        <section id="right-panel" class="col-md-12 col-xs-12">
+                            <div class="container-fluid">
+                                <section class="row" data-template="pages:navigation">
+                                    <div class="col-md-1 hidden-xs hidden-sm">
+                                        <a class="btn btn-primary btn-fab toc-toggle" data-toggle="offcanvas" data-target="#sidebar" data-canvas="#main-container">
+                                            <i class="material-icons">view_list</i>
+                                        </a>
+                                        <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab"
+                                            title="Previous page [left arrow on keyboard]">
+                                            <i class="material-icons">navigate_before</i>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-10 col-sm-12">
+                                        <div class="navigation-top row">
+                                            <div class="hidden-md hidden-lg btn-group-sm">
+                                                <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab"
+                                                    title="Previous page [left arrow on keyboard]">
+                                                    <i class="material-icons">navigate_before</i>
+                                                </a>
+                                            </div>
+                                            <!-- Document title -->
+                                            <div class="hidden-xs hidden-sm col-md-12 col-lg-12 col-title">
+                                                <h5 data-template="pages:navigation-title"/>
+                                            </div>
+                                            <div class="hidden-md hidden-lg btn-group-sm">
+                                                <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab"
+                                                    title="Next page [right arrow on keyboard]">
+                                                    <i class="material-icons">navigate_next</i>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div class="hidden-xs hidden-sm col-md-12 col-lg-12 col-title">
-                                            <h5 data-template="pages:navigation-title"/>
-                                        </div>
-                                        <div class="hidden-md hidden-lg btn-group-sm">
-                                            <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab"
-                                                title="Next page [right arrow on keyboard]">
-                                                <i class="material-icons">navigate_next</i>
-                                            </a>
+                                        <!-- Document pane -->
+                                        <div id="content-inner">
+                                            <div id="content-container">
+                                                <div data-template="pages:view" class="content"/>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div id="content-inner">
-                                        <div id="content-container">
-                                            <div data-template="pages:view" class="content"/>
-                                        </div>
+                                    <div class="col-md-1 hidden-xs hidden-sm">
+                                        <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab"
+                                            title="Next page [right arrow on keyboard]">
+                                            <i class="material-icons">navigate_next</i>
+                                        </a>
                                     </div>
-                                </div>
-                                <div class="col-md-1 hidden-sm hidden-xs">
-                                    <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab"
-                                        title="Next page [right arrow on keyboard]">
-                                        <i class="material-icons">navigate_next</i>
-                                    </a>
-                                </div>
+                                </section>
                             </div>
-                        </div>
+                        </section>
                     </div>
-                </div>
+                </main>
             </div>
         </div>
         <div class="modal fade" id="pdf-info">

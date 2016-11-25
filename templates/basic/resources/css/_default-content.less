@@ -1,0 +1,149 @@
+// main: style.less
+
+/********************* Styles for the Content ************************/
+/* Default TEI Publisher theme for the content of document           */
+/* Do not modify                                                     */
+/*********************************************************************/
+#content-inner {
+  .content h1,
+  .content h2,
+  .content h3,
+  .content h4,
+  .content h5,
+  .content h6 {
+    font-family: @font-family-content-inner;
+    line-height: 1.2;
+  }
+
+  .content {
+      hyphens: auto;
+      -webkit-hyphens: auto;
+
+    h1 {
+      font-size: @font-size-h1-inner-content;
+    }
+    h2 {
+      font-size: @font-size-h2-inner-content;
+    }
+    h3 {
+      font-size: @font-size-h3-inner-content;
+    }
+    h4 {
+      font-size: @font-size-h4-inner-content;
+    }
+
+    .tei-code1 {
+      font-family: @font-monospace;
+      font-size: 85%;
+    }
+
+    .tei-list2 dd {
+      margin-left: 2em;
+    }
+
+    .tei-gi, .xml-attribute {
+      font-family: @font-monospace;
+      font-size: 85%;
+    }
+
+    figure {
+      text-align: center;
+      margin: 24px 0;
+      padding: 16px 0;
+      border-top: @default-border-style;
+      border-bottom: @default-border-style;
+
+      img.img-responsive {
+        margin: 0 auto;
+      }
+    }
+
+    figcaption {
+      margin-top: .5em;
+      text-align: right;
+    }
+
+    &>*>section {
+      border-top: @default-border-style;
+      margin: 2.5em 0;
+      padding-top: 2em;
+    }
+  }
+
+  .page-margin {
+    margin-right: @margin-right-content-inner;
+    margin-left: @margin-left-content-inner;
+    position: relative;
+  }
+
+  .margin-note-ref {
+    font-size: small;
+    vertical-align: super;
+    color: @color-gray-light;
+    margin-right: 4px;
+  }
+
+  .margin-note {
+    background: @color-gray-medium;
+    display: block;
+    font-size: small;
+    margin-right: -200px;
+    margin-bottom: 5px;
+    padding: 5px;
+    float: right;
+    clear: both;
+    width: 190px;
+
+    .n {
+      color: @color-gray-light;
+    }
+  }
+
+  @media (max-width: @screen-sm) {
+    .margin-note {
+      display: none;
+    }
+
+    .page-margin {
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }
+
+  .alternate {
+    cursor: pointer;
+    color: @color-text-highlight;
+    .altcontent {
+      display: none;
+    }
+  }
+
+  .note,
+  .popover {
+    font-size: 13px;
+  }
+
+  .note {
+    vertical-align: super;
+    cursor: pointer;
+    margin-left: .25em;
+  }
+
+  .footnotes {
+    margin-top: 1em;
+    padding-top: 1em;
+    border-top: @default-border-style;
+  }
+
+  .pb, .pb2 {
+    font-size: small;
+    float: none !important;
+    display: inline !important;
+    margin: 0 !important;
+    color: @color-gray-medium;
+  }
+
+  .pb:before {
+    content: '[p. ' !important;
+  }
+}

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div data-template="templates:include" data-template-path="templates/menu.html"/>
-    <div class="container-fluid">
-        <div class="row actions">
+    <section class="container-fluid">
+        <header class="row actions">
             <div class="col-md-12">
                 <div class="page-header">
                     <h1 data-template="config:app-title"/>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3 col-md-push-9">
+        </header>
+        <main class="row">
+            <section class="col-md-3 col-md-push-9">
                 <form action="search.html" class="form form-horizontal">
                     <div class="well well-sm">
                         <div class="form-group">
@@ -61,16 +61,16 @@
                         </table>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-9 col-md-pull-3">
+            </section>
+            <section class="col-md-9 col-md-pull-3">
                 <div>
                     <div class="row">
                         <div data-template="templates:include" data-template-path="templates/doc-table.html"/>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </section>
+        </main>
+    </section>
     <script type="text/javascript" src="resources/scripts/jquery.ui.widget.js"/>
     <script type="text/javascript" src="resources/scripts/jquery.iframe-transport.js"/>
     <script type="text/javascript" src="resources/scripts/jquery.fileupload.js"/>
