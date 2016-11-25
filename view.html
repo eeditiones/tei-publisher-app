@@ -35,119 +35,67 @@
     </head>
     <body>
         <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content" data-template-using="body">
+            <!-- Navigation -->
             <div data-template="templates:include" data-template-path="templates/menu.html"/>
-            <main id="main-container" data-template="pages:load" class="container-fluid">
-                <div class="row">
-                    <aside id="sidebar" class="col-md-3 hidden-xs toc offcanvas">
-                        <h3>Contents</h3>
-                        <div data-template="pages:table-of-contents"/>
-                    </aside>
-                    <section id="right-panel" class="col-md-12 col-xs-12">
-                        <div class="container-fluid">
-                            <header class="row">
-                                <div class="col-md-11 col-md-offset-1">
-                                    <div class="btn-toolbar service-icon-bar">
-                                        <div class="btn-group tp-zoom-icons" role="group">
-                                            <a class="btn btn-default" data-template="pages:back-link" title="Back to index page">
-                                                <i class="material-icons">home</i>
-                                            </a>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                    <i class="material-icons">print</i>
-                                                    <span class="hidden-xs">PDF</span>
-                                                    <span class="caret"/>
-                                                </button>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <li>
-                                                        <a class="download-link" data-template="pages:pdf-link">
-                                                        PDF via FO
-                                                    </a>
-                                                    </li>
-                                                    <li>
-                                                        <a target="_new" data-template="pages:pdf-link" data-template-source="true">
-                                                        FO Source
-                                                    </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="download-link" data-template="pages:latex-link">
-                                                        PDF via LaTeX
-                                                    </a>
-                                                    </li>
-                                                    <li>
-                                                        <a target="_new" data-template="pages:latex-link" data-template-source="true">
-                                                        LaTeX Source
-                                                    </a>
-                                                    </li>
-                                                </ul>
+            <div data-template="pages:load">
+
+                <!-- Toolbar -->
+                <div data-template="templates:include" data-template-path="templates/toolbar.html"/>
+
+                <!-- Content wrapper -->
+                <main id="main-container" class="container-fluid">
+                    <div class="row">
+                        <!-- Table of contents -->
+                        <aside id="sidebar" class="col-md-3 hidden-xs toc offcanvas">
+                            <h3>Contents</h3>
+                            <div data-template="pages:table-of-contents"/>
+                        </aside>
+                        <section id="right-panel" class="col-md-12 col-xs-12">
+                            <div class="container-fluid">
+                                <section class="row" data-template="pages:navigation">
+                                    <div class="col-md-1 hidden-xs">
+                                        <a class="btn btn-primary btn-fab toc-toggle" data-toggle="offcanvas" data-target="#sidebar" data-canvas="#main-container" title="Previous page [left arrow on keyboard]">
+                                            <i class="material-icons">view_list</i>
+                                        </a>
+                                        <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab">
+                                            <i class="material-icons">navigate_before</i>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-10 col-sm-12">
+                                        <div class="navigation-top row">
+                                            <div class="hidden-md hidden-lg btn-group-sm">
+                                                <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab" title="Previous page [left arrow on keyboard]">
+                                                    <i class="material-icons">navigate_before</i>
+                                                </a>
                                             </div>
-                                            <a class="btn btn-default download-link" data-template="pages:epub-link" title="Download as epub ebook">
-                                                <i class="material-icons">book</i>
-                                                <span class="hidden-xs">ePUB</span>
-                                            </a>
-                                            <a class="btn btn-default" data-template="pages:xml-link" title="View XML Source">
-                                                <i class="material-icons">code</i>
-                                                <span class="hidden-xs">XML</span>
-                                            </a>
-                                            <a target="_new" class="btn btn-default" data-template="pages:single-page-link" title="View plain HTML on a single page">
-                                                <i class="material-icons">swap_vert</i>
-                                                <span class="hidden-xs">Plain</span>
-                                            </a>
+                                            <!-- Document title -->
+                                            <div class="hidden-xs col-md-12 col-lg-12 col-title">
+                                                <h5 data-template="pages:navigation-title"/>
+                                            </div>
+                                            <div class="hidden-md hidden-lg btn-group-sm">
+                                                <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab" title="Next page [right arrow on keyboard]">
+                                                    <i class="material-icons">navigate_next</i>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div class="btn-group" role="group">
-                                            <a class="btn btn-default" href="#" id="zoom-in">
-                                                <i class="material-icons">zoom_in</i>
-                                            </a>
-                                            <a class="btn btn-default" href="#" id="zoom-out">
-                                                <i class="material-icons">zoom_out</i>
-                                            </a>
-                                            <a class="btn btn-default" id="switch-view" data-template="pages:switch-view" title="Switch between page and division view">
-                                                <i class="material-icons">import_contacts</i>
-                                            </a>
+                                        <!-- Document pane -->
+                                        <div id="content-inner">
+                                            <div id="content-container">
+                                                <div data-template="pages:view" class="content"/>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </header>
-                            <section class="row" data-template="pages:navigation">
-                                <div class="col-md-1 hidden-xs">
-                                    <a class="btn btn-primary btn-fab toc-toggle" data-toggle="offcanvas" data-target="#sidebar" data-canvas="#main-container">
-                                        <i class="material-icons">view_list</i>
-                                    </a>
-                                    <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab">
-                                        <i class="material-icons">navigate_before</i>
-                                    </a>
-                                </div>
-                                <div class="col-md-10 col-sm-12">
-                                    <div class="navigation-top row">
-                                        <div class="hidden-md hidden-lg btn-group-sm">
-                                            <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab">
-                                                <i class="material-icons">navigate_before</i>
-                                            </a>
-                                        </div>
-                                        <div class="hidden-xs col-md-12 col-lg-12 col-title">
-                                            <h5 data-template="pages:navigation-title"/>
-                                        </div>
-                                        <div class="hidden-md hidden-lg btn-group-sm">
-                                            <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab">
-                                                <i class="material-icons">navigate_next</i>
-                                            </a>
-                                        </div>
+                                    <div class="col-md-1 hidden-xs">
+                                        <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab" title="Next page [right arrow on keyboard]">
+                                            <i class="material-icons">navigate_next</i>
+                                        </a>
                                     </div>
-                                    <div id="content-inner">
-                                        <div id="content-container">
-                                            <div data-template="pages:view" class="content"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-1 hidden-xs">
-                                    <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab">
-                                        <i class="material-icons">navigate_next</i>
-                                    </a>
-                                </div>
-                            </section>
-                        </div>
-                    </section>
-                </div>
-            </main>
+                                </section>
+                            </div>
+                        </section>
+                    </div>
+                </main>
+            </div>
         </div>
         <div class="modal fade" id="pdf-info">
             <div class="modal-dialog">
