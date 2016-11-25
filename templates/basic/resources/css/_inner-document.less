@@ -6,7 +6,7 @@
 /*********************************************************************/
 
 .navigation-top {
-  @media (min-width: 769px) {
+  @media (min-width: @screen-sm) {
     margin-bottom: 1em;
     border-bottom: 2px solid @color-gray-medium;
   }
@@ -19,7 +19,7 @@
     direction: @direction-headline-inner;
   }
 
-  @media (max-width: @screen-sm) {
+  @media (max-width: @screen-sm -1px) {
     .nav-next {
       right: 10px;
     }
@@ -30,15 +30,12 @@
 .page-nav:link,
 .page-nav:active {
   background-color: @color-primary-light !important;
+  position: fixed;
+  z-index: 11;
+  top: 52px;
 
-  @media (min-width: 769px) {
-    position: fixed;
-    top:50%;
-  }
-
-  @media (max-width: @screen-sm) {
-    position: fixed;
-    bottom: 20px;
+  @media (min-width: @screen-md-min) {
+    top: 50%;
   }
 }
 
@@ -52,8 +49,13 @@
   }
 }
 
+// Wrapper for content in view.html
 #main-container {
   max-width: @screen-lg;
+  margin-top: 100px;
+  @media (min-width: @screen-lg-min) {
+    margin-top: 110px;
+  }
 }
 
 /* Page by page navigation */
@@ -68,9 +70,9 @@
   -webkit-animation-duration: 400ms;
   -moz-animation-duration: 400ms;
   animation-duration: 400ms;
-  overflow:auto;
+  overflow-wrap: break-word;
 
-  @media (max-width: @screen-sm) {
+  @media (max-width: @screen-sm -1px) {
     margin-bottom: 5em;
   }
 }
@@ -80,4 +82,3 @@ body.tei-text {
   width: 100%;
   max-width: 100%;
 }
-

@@ -21,6 +21,23 @@ header {
 // Toolbar
 .service-icon-bar {
   background-color: @color-toolbar-bg;
+  padding: 4px 63px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  z-index: 10;
+  margin-top: 50px;
+  @media screen and (min-width: @screen-md-min) {
+    padding: 4px 0;
+  }
+  @media (min-width: @screen-lg-min) {
+    margin-top: 60px;
+  }
+
+  .btn-group {
+    margin: 0;
+  }
 }
 
 // Main container

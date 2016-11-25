@@ -27,22 +27,30 @@
     .btn.btn-default {
       border: none !important;
       border-radius: 0 !important;
-      padding: 8px 9vw;
-
+      padding: 8px 6.5vw;
+      // 481px
       @media screen and (min-width: @screen-xs-min) {
-        padding: 8px 2.8vw;
+        padding: 8px 9vw;
       }
-      @media screen and (min-width: @screen-sm) and (max-width: @screen-medium -1px) {
+      // 601px - 767px
+      @media screen and (min-width: @screen-small) {
+        padding: 8px 3vw;
+      }
+      // 768px
+      @media screen and (min-width: @screen-sm-min) {
+        padding: 8px 2.3vw;
+      }
+      // 841px;
+      @media screen and (min-width: @screen-medium) {
         padding: 8px 2.6vw;
       }
-      @media screen and (min-width: @screen-medium) {
-        padding: 8px 3vw;
-      }
+      // 992px
       @media screen and (min-width: @screen-md-min) {
-        padding: 8px 2.7vw;
+        padding: 8px 3.7vw;
       }
+      // 1200px
       @media screen and (min-width: @screen-lg-min) {
-        padding: 8px 3vw;
+        padding: 8px 4vw;
       }
 
       background-color: transparent;
@@ -55,6 +63,9 @@
       @media screen and (min-width: @screen-xs-min) {
         font-size: 20px;
       }
+      @media screen and (min-width: @screen-small) {
+        font-size: 20px;
+      }
       @media screen and (min-width: @screen-md-min) {
         font-size: 24px;
       }
@@ -63,7 +74,7 @@
 }
 
 .tp-zoom-icons {
-  @media screen and (max-width: @screen-xs) {
+  @media screen and (max-width: @screen-small) {
     display: none;
   }
 }

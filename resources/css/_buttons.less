@@ -27,22 +27,22 @@
     .btn.btn-default {
       border: none !important;
       border-radius: 0 !important;
-      padding: 8px 12vw;
+      padding: 8px 6.5vw;
       // 481px
       @media screen and (min-width: @screen-xs-min) {
-        padding: 8px 3.3vw;
+        padding: 8px 9vw;
       }
       // 601px - 767px
       @media screen and (min-width: @screen-small) {
-        padding: 8px 3.8vw;
+        padding: 8px 3vw;
       }
       // 768px
       @media screen and (min-width: @screen-sm-min) {
-        padding: 8px 3vw;
+        padding: 8px 2.3vw;
       }
       // 841px;
       @media screen and (min-width: @screen-medium) {
-        padding: 8px 3.35vw;
+        padding: 8px 2.6vw;
       }
       // 992px
       @media screen and (min-width: @screen-md-min) {
@@ -62,7 +62,10 @@
       font-size: 24px;
       // 768px
       @media screen and (min-width: @screen-sm-min) {
-        font-size: 22px;
+        font-size: 20px;
+      }
+      @media screen and (min-width: @screen-small) {
+        font-size: 20px;
       }
       // 992px
       @media screen and (min-width: @screen-md-min) {
@@ -73,7 +76,7 @@
 }
 
 .tp-zoom-icons {
-  @media screen and (max-width: @screen-xs) {
+  @media screen and (max-width: @screen-small) {
     display: none;
   }
 }
