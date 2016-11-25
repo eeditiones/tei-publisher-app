@@ -39,13 +39,18 @@
   }
 }
 
-@media (min-width: 769px) {
-  .nav-prev {
-    left: 30px;
+.nav {
+  &-prev {
+    left: 15px;
+    @media (min-width: @screen-md-min) {
+      left: 30px;
+    }
   }
-
-  .nav-next {
-    right: 30px;
+  &-next {
+    right: 15px;
+    @media (min-width: @screen-md-min) {
+      right: 30px;
+    }
   }
 }
 
