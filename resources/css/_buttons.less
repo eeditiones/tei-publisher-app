@@ -22,40 +22,52 @@
 }
 
 // Buttons for download, zoom and home in document view
-.btn-toolbar.service-icon-bar {
-  .btn.btn-default {
-    border: none !important;
-    border-radius: 0 !important;
-    padding: 8px 9vw;
+.service-icon-bar {
+  .btn-toolbar {
+    .btn.btn-default {
+      border: none !important;
+      border-radius: 0 !important;
+      padding: 8px 12vw;
+      // 481px
+      @media screen and (min-width: @screen-xs-min) {
+        padding: 8px 3.3vw;
+      }
+      // 601px - 767px
+      @media screen and (min-width: @screen-small) {
+        padding: 8px 3.8vw;
+      }
+      // 768px
+      @media screen and (min-width: @screen-sm-min) {
+        padding: 8px 3vw;
+      }
+      // 841px;
+      @media screen and (min-width: @screen-medium) {
+        padding: 8px 3.35vw;
+      }
+      // 992px
+      @media screen and (min-width: @screen-md-min) {
+        padding: 8px 3.7vw;
+      }
+      // 1200px
+      @media screen and (min-width: @screen-lg-min) {
+        padding: 8px 4vw;
+      }
 
-    @media screen and (min-width: @screen-xs-min) {
-      padding: 8px 2.8vw;
+      background-color: transparent;
+      &:hover {
+        background-color: rgba(153,153,153,.2)
+      }
     }
-    @media screen and (min-width: @screen-sm) and (max-width: @screen-medium -1px) {
-      padding: 8px 2.6vw;
-    }
-    @media screen and (min-width: @screen-medium) {
-      padding: 8px 3vw;
-    }
-    @media screen and (min-width: @screen-md-min) {
-      padding: 8px 2.7vw;
-    }
-    @media screen and (min-width: @screen-lg-min) {
-      padding: 8px 3vw;
-    }
-
-    background-color: transparent;
-    &:hover {
-      background-color: rgba(153,153,153,.2)
-    }
-  }
-  i.material-icons {
-    font-size: 24px;
-    @media screen and (min-width: @screen-xs-min) {
-      font-size: 20px;
-    }
-    @media screen and (min-width: @screen-md-min) {
+    i.material-icons {
       font-size: 24px;
+      // 768px
+      @media screen and (min-width: @screen-sm-min) {
+        font-size: 22px;
+      }
+      // 992px
+      @media screen and (min-width: @screen-md-min) {
+        font-size: 24px;
+      }
     }
   }
 }

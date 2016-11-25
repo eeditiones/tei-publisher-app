@@ -1,20 +1,26 @@
 // main: style.less
 
 // Make space for fixed top-navigation
-#main-container,
-.main {
+nav + * {
   margin-top: 50px;
   @media (min-width: @screen-lg-min) {
     margin-top: 60px;
   }
 }
-// Header with headline in main container
-.main {
-  @media screen and (min-width: @screen-sm-min) {
-    header {
-      margin-top: 30px;
+
+// Header with headline
+header {
+  margin-bottom: 10px;
+  &:not(.service-icon-bar) {
+    @media screen and (min-width: @screen-sm-min) {
+      padding-top: 30px;
     }
   }
+}
+
+// Toolbar
+.service-icon-bar {
+  background-color: @color-toolbar-bg;
 }
 
 // Main container
