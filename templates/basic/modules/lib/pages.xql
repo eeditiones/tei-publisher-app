@@ -429,8 +429,8 @@ declare function pages:get-content($div as element()) {
                 $chunk
         )
         case element(tei:div) return
-            if ($div/tei:div and count($div/ancestor::tei:div) < $config:pagination-depth - 1) then
-                if ($config:pagination-fill > 0 and count(($div/tei:div[1])/preceding-sibling::*) < $config:pagination-fill) then
+            if ($config:pagination-fill > 0 and $div/tei:div and count($div/ancestor::tei:div) < $config:pagination-depth - 1) then
+                if (count(($div/tei:div[1])/preceding-sibling::*) < $config:pagination-fill) then
                     let $child := $div/tei:div[1]
                     return
                         element { node-name($div) } {
