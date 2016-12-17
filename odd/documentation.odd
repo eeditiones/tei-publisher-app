@@ -51,7 +51,7 @@
     </teiHeader>
     <text>
         <body>
-            <schemaSpec ident="docs" start="TEI teiCorpus" source="teisimple.odd">
+            <schemaSpec ident="docs" start="TEI teiCorpus" source="teipublisher.odd">
                 <elementSpec mode="add" ident="code">
                     <modelGrp output="print">
                         <model behaviour="inline" predicate="parent::cell|parent::p|parent::ab" cssClass="code"/>
@@ -120,21 +120,6 @@
                         <outputRendition>text-align: justify;</outputRendition>
                     </model>
                 </elementSpec>
-                <moduleRef key="tei"/>
-                <moduleRef key="header"/>
-                <moduleRef key="tagdocs"/>
-                <moduleRef key="core"/>
-                <moduleRef key="gaiji"/>
-                <moduleRef key="namesdates"/>
-                <moduleRef key="msdescription"/>
-                <moduleRef key="corpus"/>
-                <moduleRef key="transcr"/>
-                <moduleRef key="analysis"/>
-                <moduleRef key="linking"/>
-                <moduleRef key="drama"/>
-                <moduleRef key="textstructure"/>
-                <moduleRef key="figures"/>
-                <moduleRef key="verse"/>
             </schemaSpec>
         </body>
     </text>

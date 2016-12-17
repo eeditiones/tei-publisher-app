@@ -1,5 +1,5 @@
 (:
- :  
+ :
  :  Copyright (C) 2015 Wolfgang Meier
  :
  :  This program is free software: you can redistribute it and/or modify
@@ -74,12 +74,12 @@ declare function deploy:xconf($collection as xs:string, $odd as xs:string, $user
 
 declare function deploy:init-simple($collection as xs:string?, $userData as xs:string*, $permissions as xs:string?) {
     let $target := $collection || "/resources/odd"
-    let $odd := request:get-parameter("odd", "teisimple.odd")
+    let $odd := request:get-parameter("odd", "teipublisher.odd")
     let $oddName := replace($odd, "^([^/\.]+)\.?.*$", "$1")
     let $mkcol := deploy:mkcol($target, $userData, $permissions)
     return (
         deploy:xconf($collection, $odd, $userData, $permissions),
-        for $file in ("elementsummary.xml", "headerelements.xml", "headeronly.xml", "simpleelements.xml", "teisimple.odd", $odd)
+        for $file in ("tei_simplePrint.odd", "teipublisher.odd", $odd)
         return (
             xmldb:copy($config:odd-root, $target, $file),
             if (exists($userData)) then
@@ -388,7 +388,7 @@ declare function deploy:expand($collection as xs:string, $resource as xs:string,
 
 declare function deploy:expand-xql($target as xs:string) {
     let $name := request:get-parameter("uri", ())
-    let $odd := request:get-parameter("odd", "teisimple.odd")
+    let $odd := request:get-parameter("odd", "teipublisher.odd")
     let $defaultView := request:get-parameter("default-view", "div")
     let $data-param := request:get-parameter("data-collection", ())
     let $mainIndex := request:get-parameter("index", "tei:div")

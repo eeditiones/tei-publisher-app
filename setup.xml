@@ -6,5 +6,5 @@
         <path>doc</path>
     </collections>
     <!-- the ODD to use by default if no other is specified in a request -->
-    <default-odd>teisimple.odd</default-odd>
+    <default-odd>teipublisher.odd</default-odd>
 </setup>

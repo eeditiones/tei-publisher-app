@@ -23,29 +23,29 @@
                     <p>The TEI Processing Model (PM) extends the TEI ODD specification format with a processing model for
                     documents. That way intended processing for all elements can be expressed within the TEI vocubulary itself.
                     It aims at the
-                    XML-savvy editor who is familiar with TEI but is not necessarily a developer. The editor knows the logical 
+                    XML-savvy editor who is familiar with TEI but is not necessarily a developer. The editor knows the logical
                     structure of the text and maps it to a small set of abstract transformation functions, called
                     "behaviours". Predefined behaviours are, for example, "paragraph", "heading" or "note".</p>
                     <p>Basic styling features can be set directly within the ODD using CSS. The processing model
-                    is media-agnostic: rendition styles are transparently translated into the different output media 
+                    is media-agnostic: rendition styles are transparently translated into the different output media
                     types like HTML, XSL-FO, LaTeX, or ePUB.</p>
                     <p>At the same time, the processing model implements a clean separation of concerns to improve
-                    the workflow between editors, designers and developers. The editor defines how elements are 
-                    mapped to behavior functions and specifies basic styling rules, the designer controls the 
-                    overall presentation of the material, and the developer concentrates on the general application 
-                    framework and—if necessary—supports the editor by providing custom behavior functions as 
+                    the workflow between editors, designers and developers. The editor defines how elements are
+                    mapped to behavior functions and specifies basic styling rules, the designer controls the
+                    overall presentation of the material, and the developer concentrates on the general application
+                    framework and—if necessary—supports the editor by providing custom behavior functions as
                     <ref target="#extension-modules">extension modules</ref>.</p>
                     <figure>
                         <graphic url="rahtzrationale.png"/>
                     </figure>
                     <p>A word of warning though: while the processing model was developed as part of the
-                TEI Simple initiative, it is not necessarily trivial to comprehend nor "simple" regarding 
+                TEI Simple initiative, it is not necessarily trivial to comprehend nor "simple" regarding
                 the knowledge and skill it requires.
-                The goal rather was to improve workflows and interoperability by providing a 
+                The goal rather was to improve workflows and interoperability by providing a
                 minimal abstraction for the processing rules applied to a document. Using the processing model
                 definitely simplifies the life of the developer, who often has to write a few thousand lines of code
-                just to render a particular TEI document into HTML, only to repeat the same tedious process for PDF output. 
-                Last but not least the processing model empowers the scholary editor to create high-quality prototype 
+                just to render a particular TEI document into HTML, only to repeat the same tedious process for PDF output.
+                Last but not least the processing model empowers the scholary editor to create high-quality prototype
                 websites from a given data set without even relying on a developer.</p>
                 </div>
                 <div>
@@ -54,7 +54,7 @@
                     of the following components:</p>
                     <list type="ordered">
                         <item>
-                            A set of library modules to render a TEI document into various output formats, 
+                            A set of library modules to render a TEI document into various output formats,
                             which can be imported into other applications.
                         </item>
                         <item>
@@ -62,12 +62,12 @@
                             model instances.
                         </item>
                         <item>
-                            An application generator, which takes a processing model instance and creates 
+                            An application generator, which takes a processing model instance and creates
                             a user interface around it, resulting in a standalone web application for a
                             certain corpus of documents.
                         </item>
                     </list>
-                    <p>In a strict sense, only the first component implements the processing model specification. 
+                    <p>In a strict sense, only the first component implements the processing model specification.
                         The larger part of the toolbox deals with graphical user interface components, adding
                     pagination, navigation and search features.</p>
                 </div>
@@ -82,7 +82,7 @@
                     <p>Once installed, play around with the provided documents or upload your own via the file
                     upload panel in the right sidebar. You may modify any of the supplied ODD files and see how
                     the rendering changes.</p>
-                    <p>To create your own custom ODD, tailored to the data set you are working on, the general 
+                    <p>To create your own custom ODD, tailored to the data set you are working on, the general
                         procedure is as follows:</p>
                     <list>
                         <item>Create a new customization</item>
@@ -93,17 +93,17 @@
                     <p>The steps will be described in detail in the following sections.</p>
                     <div>
                         <head>Create a new customization</head>
-                        <p>Create a new customization by entering a name and clicking "Create" at the bottom 
+                        <p>Create a new customization by entering a name and clicking "Create" at the bottom
                             of the right sidebar panel listing the available ODDs. Reload the page to see
                             the new ODD appear in the list.</p>
                         <p>Open the created ODD using the "source" button. This will create a new browser tab
-                        showing the editor which is part of eXist, called "eXide". The ODD will be loaded into 
+                        showing the editor which is part of eXist, called "eXide". The ODD will be loaded into
                         it.</p>
                         <p>As you can see, the ODD is nearly empty, containing just boilerplate code. However,
-                        it imports the standard <code>teisimple.odd</code> within the <code>schemaSpec</code>
+                        it imports the standard <code>teipublisher.odd</code> within the <code>schemaSpec</code>
                         element:</p>
-                        <code lang="xml">&lt;schemaSpec ident="myteisimple" start="TEI teiCorpus" source="teisimple.odd"&gt;</code>
-                        <p>This means your new ODD extends the standard <code>teisimple.odd</code>, which 
+                        <code lang="xml">&lt;schemaSpec ident="myteisimple" start="TEI teiCorpus" source="teipublisher.odd"&gt;</code>
+                        <p>This means your new ODD extends the standard <code>teipublisher.odd</code>, which
                         provides useful defaults for the TEI core elements. In general, most of those defaults
                         should be ok and you only need to overwrite a hand full of selected mappings within your
                         own ODD.</p>
@@ -114,9 +114,9 @@
                     </div>
                     <div>
                         <head>Modify the ODD</head>
-                        <p>Now we created a custom ODD, we can make a first modification. We'll use the 
+                        <p>Now we created a custom ODD, we can make a first modification. We'll use the
                             <title>Letter #6 from Robert Graves to William Graves</title> as an example.
-                            Rendered through the standard <code>teisimple.odd</code>, it is definitely missing
+                            Rendered through the standard <code>teipublisher.odd</code>, it is definitely missing
                             some styling to look more like a letter. For example, we may want to move the
                             <gi>dateline</gi> in the <gi>opener</gi> to the right and get rid of the <gi>pb</gi>
                             label which currently sits there.
@@ -124,15 +124,15 @@
                         <p>We thus need to overwrite the processing model rules for <gi>dateline</gi> and <gi>opener</gi>.
                         The easiest way to do this is to:</p>
                         <list>
-                            <item>open the standard teisimple.odd and search for an existing <gi>elementSpec</gi>
+                            <item>open the standard teipublisher.odd and search for an existing <gi>elementSpec</gi>
                                 with <att>ident</att>=<val>"dateline"</val>.</item>
                             <item>if there is an <gi>elementSpec</gi> already, just copy it</item>
                             <item>paste the <gi>elementSpec</gi> into the new ODD and modify it</item>
                         </list>
-                        <p>If there's no <gi>elementSpec</gi> for the element in <code>teisimple.odd</code>, you have to
+                        <p>If there's no <gi>elementSpec</gi> for the element in <code>teipublisher.odd</code>, you have to
                         create a new <gi>elementSpec</gi> in your ODD, using <att>mode</att>=<val>"add"</val> instead of
                             <att>mode</att>=<val>"change"</val>.</p>
-                        <p>The <gi>elementSpec</gi> copied from <code>teisimple.odd</code> looks like this:</p>
+                        <p>The <gi>elementSpec</gi> copied from <code>teipublisher.odd</code> looks like this:</p>
                         <code lang="xml">&lt;elementSpec mode="change" ident="dateline"&gt;
     &lt;model behaviour="block"/&gt;
 &lt;/elementSpec&gt;</code>
@@ -148,7 +148,7 @@
 &lt;/elementSpec&gt;</code>
                         <p>To test the changes, go back to the main page of the app, select the new ODD and click on
                         "Regenerate", then browse to the letter and view the result. In fact, the "regenerate" step is
-                        not absolutely necessary as the library will usually recognize the change to the ODD when 
+                        not absolutely necessary as the library will usually recognize the change to the ODD when
                         you try to view the letter and regenerate automatically. However, if you made mistakes in the ODD,
                         the regenerate will just fail silently. So during development, it is advisable to regenerate
                         manually.</p>
@@ -167,15 +167,15 @@
                             <gi>model</gi> element is primarily used to document intended processing for a given element.
                     One or more of these elements may appear directly within an <gi>elementSpec</gi> element specification to
                     define the processing anticipated for that element. Where multiple <gi>model</gi> elements appear, they are
-                    understood to document mutually exclusive processing scenarios, possibly for different outputs or 
-                    applicable in different contexts. 
+                    understood to document mutually exclusive processing scenarios, possibly for different outputs or
+                    applicable in different contexts.
                     </p>
                         <p>A processing model defines on an abstract level how a given element may be transformed to produce
                     one or more outputs.
                     The model is expressed in terms of <term>behaviours</term> and their <term>parameters</term>, using high-level
                     formatting concepts, such as <soCalled>block</soCalled>, <soCalled>inline</soCalled>, <soCalled>note</soCalled>
                     or <soCalled>heading</soCalled>. A processing model is thus a template description, used to generate the code
-                    needed by the publishing application to process the source document into required output. 
+                    needed by the publishing application to process the source document into required output.
                     </p>
                         <p>
                     Example below depicts a situation where a single model is defined for <gi>app</gi> element. As no @predicate
@@ -241,9 +241,9 @@
 &lt;/elementSpec&gt;</code>
                             </pre>
                         </p>
-                        <p>Sometimes different processing models are required for the same element in different contexts. 
+                        <p>Sometimes different processing models are required for the same element in different contexts.
                     For example, we may wish to process the <gi>quote</gi> element as an inline italic element when it
-                    appears inside a <gi>p</gi> element, but as an indented block when it appears elsewhere. 
+                    appears inside a <gi>p</gi> element, but as an indented block when it appears elsewhere.
                     To achieve this, we need to change the specification for the <gi>quote</gi> element to include
                     two <gi>model</gi> elements as follows:
 					<pre>
@@ -259,8 +259,8 @@
                             </pre>
            The first processing model will be used only for <gi>quote</gi> elements which match the XPath
            expression given as value for the <att>predicate</att> attribute.
-           Other element occurrences will use the second processing model. 
-            Set of multiple <gi>model</gi> statements is regarded as an alternation and only the 
+           Other element occurrences will use the second processing model.
+            Set of multiple <gi>model</gi> statements is regarded as an alternation and only the
             first model with <att>predicate</att> matching current context is applied
 
 <!--
@@ -313,8 +313,8 @@
                         </p>
                         <p>
                     The
-                    <gi>modelGrp</gi> element may be used to group alternative <gi>model</gi> elements intended for 
-                    a single kind of output. The <gi>modelSequence</gi> element is provided for the case where a sequence 
+                    <gi>modelGrp</gi> element may be used to group alternative <gi>model</gi> elements intended for
+                    a single kind of output. The <gi>modelSequence</gi> element is provided for the case where a sequence
                     of models is to be processed, functioning as a single unit. Common use case would be to use modelSequence to
                     generate table of contents along with the reading text as shown in the example below:
 					<pre>
@@ -333,7 +333,7 @@
                     <div>
                         <head>Behaviours</head>
                         <p>Most of the processing complexity is hidden behind behaviour functions which were designed
-                to cover majority of commonly occurring processing tasks. Function names are wherever possible 
+                to cover majority of commonly occurring processing tasks. Function names are wherever possible
                 based on commonly used terms such as 'inline', 'block', 'note' or 'link'.</p>
                         <p>Behaviour functions accept a range of parameters, depending on the function in question. Where these
                 parameters are left unspecified in the <gi>model</gi>, default values are used.</p>
@@ -348,7 +348,7 @@
                             <list type="gloss">
                                 <label>alternate</label>
                                 <item>
-                                    <p>Display alternating elements for displaying the preferred version and an 
+                                    <p>Display alternating elements for displaying the preferred version and an
                                         alternative, both at once or by some method of toggling between the two.
                                         The concrete implementation depends on the output format.</p>
                                     <table>
@@ -569,7 +569,7 @@ When more than one of these options is used, they are understood to be combined 
 </p>
                         <p>
 It is strongly recommended that use <gi>outputRendition</gi> should be limited to strictly editorial decisions, such as 'conjectures are to be displayed in square brackets' and not as means to record all typesetting and layout specific design choices.</p>
-                        <p>The processing model library translates the CSS styles into the target media format. Restrictions 
+                        <p>The processing model library translates the CSS styles into the target media format. Restrictions
                             apply due to differences between the output formats. Not all CSS properties are supported for
                         every format. Please refer to the section on <ref target="#output-media">Output media settings</ref>
                         for further information.</p>
@@ -582,12 +582,12 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                                 XQuery code. This is straightforward as the resulting XQuery will closely resemble the specification in the ODD, thus being easy
                                 to debug. It also leads to very efficient code, which is as fast or even faster as a hand-written, optimized transformation.</p>
                             <p>As a welcome side effect, any valid XQuery expression might be used wherever the spec expects an XPath expression, e.g. in predicates
-                                or parameters. For example, one can define variables inside a parameter using a standard XQuery 
+                                or parameters. For example, one can define variables inside a parameter using a standard XQuery
                                 <code>let $x := ... return ...</code>.</p>
                         </div>
                         <div>
                             <head>External Parameters</head>
-                            <p>The script calling the processing model may pass external parameters into the ODD. They will be available in the 
+                            <p>The script calling the processing model may pass external parameters into the ODD. They will be available in the
                                 variable <ident>$parameters</ident>, which is an XQuery map. Access parameters using the XQuery lookup operator.</p>
                             <p>For example, one can use this feature to control how specific parts of the document are output, without having to
                                 define a separate output mode, which would result in much more code. Below we display a short header for the document,
@@ -627,9 +627,9 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                                 this is not sufficient as there might not be a direct one-to-one correspondence. For example, one may want to wrap a block around a sequence
                                 of elements or a link around a heading.</p>
                             <p>The implementation thus supports nesting of <gi>model</gi>, <gi>modelSequence</gi> or <gi>modelGrp</gi> elements inside
-                                another <gi>model</gi>.  If no parameters are specified for the wrapping <gi>model</gi>, the nested elements may directly appear as 
-                                child elements and will be applied to the content of the outer behaviour before it is evaluated (replacing the <ident>$content</ident> 
-                                parameter). Otherwise, parameters in <gi>param</gi> elements may also contain nested elements, whose evaluation result will become the 
+                                another <gi>model</gi>.  If no parameters are specified for the wrapping <gi>model</gi>, the nested elements may directly appear as
+                                child elements and will be applied to the content of the outer behaviour before it is evaluated (replacing the <ident>$content</ident>
+                                parameter). Otherwise, parameters in <gi>param</gi> elements may also contain nested elements, whose evaluation result will become the
                                 value of the parameter.</p>
                             <p>Note that the context node doesn't change for nested <gi>model</gi> and <gi>modelSequence</gi> elements. It will always contain the
                                 node processed by the outer <gi>model</gi>.</p>
@@ -639,11 +639,11 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                         <head>Best Practice Recommendations</head>
                         <list>
                             <item>
-                                <p>While the ODD may describe the rendition of an element using CSS, this 
+                                <p>While the ODD may describe the rendition of an element using CSS, this
                                 should be used with care: styling imposed by the ODD should be generic
                             and not interfere with application-specific design choices.</p>
                                 <p>For example, defining a font family for a certain element in the ODD
-                                makes it difficult for web designers to set the font via an external 
+                                makes it difficult for web designers to set the font via an external
                                 stylesheet.</p>
                                 <p>The HTML as well as the FO output function libraries provide ways to
                                 customize the styling through additional, user-supplied CSS.</p>
@@ -703,7 +703,7 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                         <p>There are two ways to create a .xar file from your application:</p>
                         <list type="ordered">
                             <item>Use the "Application"/"Download App" menu entry in eXide to directly download a .xar</item>
-                            <item>Synchronize the application to a directory on disk via "Application"/"Synchronize" in 
+                            <item>Synchronize the application to a directory on disk via "Application"/"Synchronize" in
                                 eXide</item>
                         </list>
                         <p>The second approach is the recommended one. It requires that
@@ -717,7 +717,7 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                             the top right of the eXide window. If this is not the case, stop and check again!</item>
                             <item>Click "Application"/"Synchronize" in the menu. It opens up a dialog with two fields:
                                 "Start time" and "Target directory". When you synchronize the first time, empty the "Start
-                                time" field. Enter a valid, absolute directory path on your server machine into "Target 
+                                time" field. Enter a valid, absolute directory path on your server machine into "Target
                                 directory".</item>
                             <item>Click the "Synchronize" button. This may take a moment, but you should see a list of
                             written files at the bottom of the dialog afterwards.</item>
@@ -727,7 +727,7 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                         </list>
                         <p>Note: for security reasons, the password you entered when creating the app is not stored in
                             the database, so it cannot be synced to disk. To restore a password for your app, you thus need
-                            to edit the <code>repo.xml</code> file in the directory and add a <att>password</att> attribute to 
+                            to edit the <code>repo.xml</code> file in the directory and add a <att>password</att> attribute to
                             the <gi>permissions</gi> element.</p>
                         <figure type="animated">
                             <head>Export an App</head>
@@ -769,21 +769,21 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                         <head>FO Output</head>
                         <p>When generating XSL:FO output, the implementation tries to translate the CSS rules
                             specified for renditions into the corresponding XSL:FO formatting properties.
-                            Not all CSS properties are recognized or can be mapped to FO properties. Unknown properties defined in a rendition 
+                            Not all CSS properties are recognized or can be mapped to FO properties. Unknown properties defined in a rendition
                             will be ignored.</p>
                         <p>The default rendering for headings, paragraphs and the like is defined by a separate
                             CSS file. The implementation merges those defaults with the custom renditions given
                             in the ODD.</p>
-                        <p>The library searches for default CSS styles in a file named 
+                        <p>The library searches for default CSS styles in a file named
                             <code>&lt;odd-name&gt;.fo.css</code> inside the specified output collection
                             (in which the generated XQuery files are stored). The style definitions are copied literally into attributes on
-                            the output XSL:FO elements, so any property which is a valid attribute for the corresponding element 
+                            the output XSL:FO elements, so any property which is a valid attribute for the corresponding element
                             may be used.</p>
                         <p>
                             The default styles file can also used to set general properties like the page
                             size or the appearance of the page header:</p>
                         <code lang="css">@page:left {
-    page-height: 297mm; 
+    page-height: 297mm;
     page-width: 210mm;
     margin-bottom: 10mm;
     margin-top: 10mm;
@@ -791,7 +791,7 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
     margin-right: 16mm;
 }
 @page:right {
-    page-height: 297mm; 
+    page-height: 297mm;
     page-width: 210mm;
     margin-bottom: 10mm;
     margin-top: 10mm;
@@ -830,7 +830,7 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                 <div xml:id="extension-modules">
                     <head>Extension Modules</head>
                     <p>Where possible, developers should stick to the standard processing model functions for
-                    defining behaviours. However, there might be situations in which one has to generate 
+                    defining behaviours. However, there might be situations in which one has to generate
                     a specific type of output, which is not handled by the default function module. To facilitate this,
                     the implementation allows additional extension modules to be configured:</p>
                     <p>Configuration is done via an XML file which should reside in the same collection as the source ODD files.
@@ -849,15 +849,15 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
 &lt;/modules&gt;</code>
                     <p>Whenever the library tries to locate a processing model function
                     for a given behaviour, it will <hi rendition="simple:bold">first</hi> check any extension
-                    module it knows to see if it contains a matching function. One can thus 
+                    module it knows to see if it contains a matching function. One can thus
                         <hi rendition="simple:bold">overwrite</hi> the default
                     functions as well as define new ones.</p>
                     <p>To be recognized by the library, an extension function needs to accept at least
-                    4 default arguments, plus any number of custom parameters (to be passed in the 
+                    4 default arguments, plus any number of custom parameters (to be passed in the
                     behaviour attribute). The processing model implementation tries to fill each custom parameter
                     with a corresponding value by looking through the <tag>param</tag> tags in the ODD to find
                         one with a name matching the variable name. If no matching parameter can be found, the
-                        function argument will be set to the empty sequence<note place="bottom">You should not enforce a type 
+                        function argument will be set to the empty sequence<note place="bottom">You should not enforce a type
                         or cardinality for any of the custom parameters as this may lead to unexpected errors. The parameters
                         may always be empty or contain more than one item.</note>. The default <code>$content</code>
                         will always be filled, except for empty elements.</p>
@@ -871,7 +871,7 @@ module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-html";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-declare function pmf:code($config as map(*), $node as element(), 
+declare function pmf:code($config as map(*), $node as element(),
     $class as xs:string, $content as node()*, $lang as item()?) {
     &lt;pre class="sourcecode" data-language="{if ($lang) then $lang else 'xquery'}"&gt;
     {$config?apply($config, $content/node())}

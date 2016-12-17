@@ -51,7 +51,7 @@
     </teiHeader>
     <text>
         <body>
-            <schemaSpec ident="docs" start="TEI teiCorpus" source="teisimple.odd">
+            <schemaSpec ident="docs" start="TEI teiCorpus" source="teipublisher.odd">
                 <elementSpec mode="change" ident="div">
                     <model predicate="@type='block'" behaviour="beamer-block">
                         <param name="type">"block"</param>
@@ -78,21 +78,6 @@
                 <elementSpec mode="change" ident="hi">
                     <model behaviour="alert"/>
                 </elementSpec>
-                <moduleRef key="tei"/>
-                <moduleRef key="header"/>
-                <moduleRef key="tagdocs"/>
-                <moduleRef key="core"/>
-                <moduleRef key="gaiji"/>
-                <moduleRef key="namesdates"/>
-                <moduleRef key="msdescription"/>
-                <moduleRef key="corpus"/>
-                <moduleRef key="transcr"/>
-                <moduleRef key="analysis"/>
-                <moduleRef key="linking"/>
-                <moduleRef key="drama"/>
-                <moduleRef key="textstructure"/>
-                <moduleRef key="figures"/>
-                <moduleRef key="verse"/>
             </schemaSpec>
         </body>
     </text>
