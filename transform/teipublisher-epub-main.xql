@@ -1,11 +1,11 @@
-import module namespace m='http://www.tei-c.org/tei-simple/models/teisimple.odd/fo' at '/db/apps/tei-publisher/transform/teisimple-print.xql';
+import module namespace m='http://www.tei-c.org/pm/models/teipublisher/epub' at '/db/apps/tei-publisher/transform/teipublisher-epub.xql';
 
 declare variable $xml external;
 
 declare variable $parameters external;
 
 let $options := map {
-    "styles": ["../transform/teisimple.css"],
+    "styles": ["../transform/teipublisher.css"],
     "collection": "/db/apps/tei-publisher/transform",
     "parameters": if (exists($parameters)) then $parameters else map {}
 }

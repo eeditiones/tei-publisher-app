@@ -1,6 +1,6 @@
-module namespace pml='http://www.tei-c.org/tei-simple/models/beamer.odd/fo/module';
+module namespace pml='http://www.tei-c.org/pm/models/beamer/fo/module';
 
-import module namespace m='http://www.tei-c.org/tei-simple/models/beamer.odd/fo' at '/db/apps/tei-publisher/transform/beamer-print.xql';
+import module namespace m='http://www.tei-c.org/pm/models/beamer/fo' at '/db/apps/tei-publisher/transform/beamer-print.xql';
 
 (: Generated library module to be directly imported into code which
  : needs to transform TEI nodes using the ODD this module is based on.

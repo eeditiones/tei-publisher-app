@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/tei-simple/models/documentation.odd/latex' at '/db/apps/tei-publisher/transform/documentation-latex.xql';
+import module namespace m='http://www.tei-c.org/pm/models/documentation/latex' at '/db/apps/tei-publisher/transform/documentation-latex.xql';
 
 declare variable $xml external;
 

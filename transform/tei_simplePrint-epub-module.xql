@@ -1,6 +1,6 @@
-module namespace pml='http://www.tei-c.org/tei-simple/models/teisimple.odd/web/module';
+module namespace pml='http://www.tei-c.org/pm/models/tei_simplePrint/epub/module';
 
-import module namespace m='http://www.tei-c.org/tei-simple/models/teisimple.odd/web' at '/db/apps/tei-publisher/transform/teisimple-web.xql';
+import module namespace m='http://www.tei-c.org/pm/models/tei_simplePrint/epub' at '/db/apps/tei-publisher/transform/tei_simplePrint-epub.xql';
 
 (: Generated library module to be directly imported into code which
  : needs to transform TEI nodes using the ODD this module is based on.
@@ -8,7 +8,7 @@ import module namespace m='http://www.tei-c.org/tei-simple/models/teisimple.odd/
 declare function pml:transform($xml as node()*, $parameters as map(*)?) {
 
    let $options := map {
-       "styles": ["../transform/teisimple.css"],
+       "styles": ["../transform/tei_simplePrint.css"],
        "collection": "/db/apps/tei-publisher/transform",
        "parameters": if (exists($parameters)) then $parameters else map {}
    }

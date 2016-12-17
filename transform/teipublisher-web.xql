@@ -1,19 +1,17 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/tei-publisher/odd/beamer.odd
+    ODD: /db/apps/tei-publisher/odd/teipublisher.odd
  :)
 xquery version "3.1";
 
-module namespace model="http://www.tei-c.org/pm/models/beamer/web";
+module namespace model="http://www.tei-c.org/pm/models/teipublisher/web";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
 declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
 declare namespace xi='http://www.w3.org/2001/XInclude';
-
-declare namespace skos='http://www.w3.org/2004/02/skos/core#';
 
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
@@ -154,19 +152,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(desc) return
                     html:inline($config, ., ("tei-desc"), .)
                 case element(div) return
-                    if (@type='block') then
-                        (: No function found for behavior: beamer-block :)
-                        $config?apply($config, ./node())
+                    if (@type='title_page') then
+                        html:block($config, ., ("tei-div1"), .)
                     else
-                        if (@type='alert') then
-                            (: No function found for behavior: beamer-block :)
-                            $config?apply($config, ./node())
+                        if (parent::body or parent::front or parent::back) then
+                            html:section($config, ., ("tei-div2"), .)
                         else
-                            if (@type='frame') then
-                                (: No function found for behavior: frame :)
-                                $config?apply($config, ./node())
-                            else
-                                html:section($config, ., ("tei-div4"), .)
+                            html:block($config, ., ("tei-div3"), .)
                 case element(docAuthor) return
                     html:inline($config, ., ("tei-docAuthor"), .)
                 case element(docDate) return
@@ -231,14 +223,33 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(group) return
                     html:block($config, ., ("tei-group"), .)
                 case element(head) return
-                    if (parent::div[@type='frame']) then
-                        (: No function found for behavior: frametitle :)
-                        $config?apply($config, ./node())
+                    if ($parameters?header='short') then
+                        html:inline($config, ., ("tei-head1"), replace(string-join(.//text()[not(parent::ref)]), '^(.*?)[^\w]*$', '$1'))
                     else
-                        html:heading($config, ., ("tei-head2"), ., ())
+                        if (parent::figure) then
+                            html:block($config, ., ("tei-head2"), .)
+                        else
+                            if (parent::table) then
+                                html:block($config, ., ("tei-head3"), .)
+                            else
+                                if (parent::lg) then
+                                    html:block($config, ., ("tei-head4"), .)
+                                else
+                                    if (parent::list) then
+                                        html:block($config, ., ("tei-head5"), .)
+                                    else
+                                        if (parent::div) then
+                                            html:heading($config, ., ("tei-head6"), ., count(ancestor::div))
+                                        else
+                                            html:block($config, ., ("tei-head7"), .)
                 case element(hi) return
-                    (: No function found for behavior: alert :)
-                    $config?apply($config, ./node())
+                    if (@rendition) then
+                        html:inline($config, ., css:get-rendition(., ("tei-hi1")), .)
+                    else
+                        if (not(@rendition)) then
+                            html:inline($config, ., ("tei-hi2"), .)
+                        else
+                            $config?apply($config, ./node())
                 case element(imprimatur) return
                     html:block($config, ., ("tei-imprimatur"), .)
                 case element(item) return

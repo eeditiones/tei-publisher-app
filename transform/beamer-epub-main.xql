@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/tei-simple/models/beamer.odd/epub' at '/db/apps/tei-publisher/transform/beamer-epub.xql';
+import module namespace m='http://www.tei-c.org/pm/models/beamer/epub' at '/db/apps/tei-publisher/transform/beamer-epub.xql';
 
 declare variable $xml external;
 

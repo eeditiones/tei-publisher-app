@@ -1,6 +1,6 @@
-module namespace pml='http://www.tei-c.org/tei-simple/models/documentation.odd/latex/module';
+module namespace pml='http://www.tei-c.org/pm/models/documentation/latex/module';
 
-import module namespace m='http://www.tei-c.org/tei-simple/models/documentation.odd/latex' at '/db/apps/tei-publisher/transform/documentation-latex.xql';
+import module namespace m='http://www.tei-c.org/pm/models/documentation/latex' at '/db/apps/tei-publisher/transform/documentation-latex.xql';
 
 (: Generated library module to be directly imported into code which
  : needs to transform TEI nodes using the ODD this module is based on.

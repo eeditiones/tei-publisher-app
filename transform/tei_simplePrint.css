@@ -1,16 +1,15 @@
 /* Generated stylesheet. Do not edit. */
-/* Generated from  */
+/* Generated from /db/apps/tei-publisher/odd/tei_simplePrint.odd */
 
 /* Global styles */
 
 
 /* Model rendition styles */
 
-.tei-add { color: red; text-decoration: underline; }
+.tei-add { color: green; text-decoration: underline; }
 .tei-address { margin-top: 2em; margin-left: 2em; margin-right: 2em; margin-bottom: 2em; }
 .tei-addrLine { white-space: nowrap; }
 .tei-argument { margin-bottom: 0.5em; }
-.tei-author1:before { content: 'By '; }
 .tei-castList { list-style: ordered; }
 .tei-closer { margin-top: 1em; margin-left: 1em; margin-left: 1em; }
 .tei-code { font-family:monospace }
@@ -31,20 +30,18 @@
 .tei-gap2:after { content: '..]'; }
 .tei-gap2 { color: grey; }
 .tei-gap3:before { content: '[...]'; }
+.tei-head1 { font-style: italic; }
 .tei-head2 { font-style: italic; }
 .tei-head3 { font-style: italic; }
-.tei-head4 { font-style: italic; }
-.tei-head5 { font-weight: bold; }
-.tei-head6 { color: #983722; border-bottom: 1px solid #983722; margin-bottom: .5em; padding-bottom: .25em; }
+.tei-head4 { font-weight: bold; }
 .tei-hi1 { font-style: italic; }
 .tei-hi2 { font-style: italic; }
 .tei-l { margin-left: 1em; }
-.tei-name { color: blue; }
 .tei-note2 { margin-left: 10px;margin-right: 10px; font-size:smaller; }
 .tei-note3:before { content:" ["; }
 .tei-note3:after { content:"] "; }
 .tei-note3 { font-size:small; }
-.tei-p { text-align: left; }
+.tei-p { text-align: justify; }
 .tei-pb { display: block; margin-left: 4pt; color: grey; float: right; }
 .tei-pb:before { content: '[Page '; }
 .tei-pb:after { content: ']'; }
@@ -71,12 +68,12 @@
 .tei-supplied5:before { content:"{"; }
 .tei-supplied5:after { content:"}"; }
 .tei-table { font-size: smaller; background-color: #F0F0F0; }
-.tei-title3 { color: red; font-size: 2em; }
-.tei-title5 { font-style: italic; }
-.tei-title7 { font-style: italic; }
-.tei-title9 { font-style: italic; }
-.tei-title11 { font-style: italic; }
+.tei-text { max-width: 80%; margin: auto; font-family: Verdana, Tahoma, Geneva, Arial, Helvetica, sans-serif; }
+.tei-title2 { color: red; font-size: 2em; }
+.tei-title4 { font-style: italic; }
+.tei-title6 { font-style: italic; }
+.tei-title8 { font-style: italic; }
+.tei-title10 { font-style: italic; }
 .tei-titlePage { text-align: center; }
 .tei-trailer { color: green; }
 .tei-unclear:after { content: ' [?] '; }
-.tei-edition:before { content: 'Edition: '; }
