@@ -194,7 +194,6 @@ declare variable $config:data-root := $$config-data$$;
 declare variable $config:odd := "$$config-odd$$";
 
 declare variable $config:odd-root := $config:app-root || "/resources/odd";
-declare variable $config:compiled-odd-root := $config:odd-root || "/compiled";
 
 declare variable $config:output := "transform";
 

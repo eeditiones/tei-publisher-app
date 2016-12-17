@@ -45,7 +45,7 @@ let $result :=
         return
             try {
                 for $file in pmu:process-odd(
-                    doc(odd:get-compiled($config:odd-root, $config:odd, $config:compiled-odd-root)),
+                    odd:get-compiled($config:odd-root, $config:odd),
                     $config:output-root,
                     $module,
                     "../" || $config:output,

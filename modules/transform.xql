@@ -42,7 +42,7 @@ let $doc := request:get-parameter("doc", ())
 let $odd := request:get-parameter("odd", $config:default-odd)
 return
     if ($doc) then
-        let $odd := odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root)
+        let $odd := odd:get-compiled($config:odd-root, $odd)
         let $xml := doc($config:app-root || "/" || $doc)
         let $out :=
             pmu:process($odd, $xml, $config:output-root, "web",

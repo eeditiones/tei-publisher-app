@@ -25,7 +25,7 @@ declare function local:generate-code($collection as xs:string) {
     for $source in xmldb:get-child-resources($collection || "/resources/odd")[ends-with(., ".odd")]
     for $module in ("web", "print", "latex", "epub")
     for $file in pmu:process-odd(
-        doc(odd:get-compiled($collection || "/resources/odd", $source, $collection || "/resources/odd/compiled")),
+        odd:get-compiled($collection || "/resources/odd", $source),
         $collection || "/transform",
         $module,
         "../transform",
@@ -36,12 +36,6 @@ declare function local:generate-code($collection as xs:string) {
     return (
         for $file in xmldb:get-child-resources($collection || "/transform")
         let $path := xs:anyURI($collection || "/transform/" || $file)
-        return (
-            sm:chown($path, $permissions/@user),
-            sm:chgrp($path, $permissions/@group)
-        ),
-        for $file in xmldb:get-child-resources($collection || "/resources/odd/compiled")
-        let $path := xs:anyURI($collection || "/resources/odd/compiled/" || $file)
         return (
             sm:chown($path, $permissions/@user),
             sm:chgrp($path, $permissions/@group)

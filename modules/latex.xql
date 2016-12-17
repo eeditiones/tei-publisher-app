@@ -53,7 +53,7 @@ return
         let $tex :=
             string-join(
                 pmu:process(
-                    odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root),
+                    odd:get-compiled($config:odd-root, $odd),
                     $xml, $config:output-root, "latex", "../" || $config:output,
                     $config:module-config,
                     map { "image-dir": config:get-repo-dir() || "/" || replace($doc, "^(.*?)/[^/]*$", "$1") || "/" }

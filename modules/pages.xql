@@ -231,7 +231,7 @@ declare function pages:view($node as node(), $model as map(*), $odd as xs:string
 
 declare function pages:process-content($odd as xs:string, $xml as element()*, $root as element()*) {
 	let $html :=
-        pmu:process(odd:get-compiled($config:odd-root, $odd, $config:compiled-odd-root), $xml, $config:output-root, "web",
+        pmu:process(odd:get-compiled($config:odd-root, $odd), $xml, $config:output-root, "web",
             "../generated", $config:module-config, map { "root": $root })
     let $class := if ($html//*[@class = ('margin-note')]) then "page-margin" else ()
     let $body := pages:clean-footnotes($html)

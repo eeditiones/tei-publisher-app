@@ -19,7 +19,6 @@ declare function local:work2epub($id as xs:string, $work as element(), $odd as x
         },
         "odd": $odd,
         "odd-root": $config:odd-root,
-        "compiled-odd-root": $config:compiled-odd-root,
         "output-root": $config:output-root,
         "fonts": [ 
             $config:app-root || "/resources/fonts/Junicode.ttf",

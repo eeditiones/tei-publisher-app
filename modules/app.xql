@@ -208,7 +208,7 @@ declare function app:action($node as node(), $model as map(*), $source as xs:str
                     {
                         for $module in ("web", "print", "latex", "epub")
                         for $file in pmu:process-odd(
-                            doc(odd:get-compiled($config:odd-root, $source, $config:compiled-odd-root)),
+                            odd:get-compiled($config:odd-root, $source),
                             $config:output-root,
                             $module,
                             "../" || $config:output,

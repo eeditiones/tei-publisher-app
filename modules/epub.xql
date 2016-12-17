@@ -228,7 +228,7 @@ declare function epub:body-xhtml-entries($doc, $config) {
     let $entries :=
         for $div in $doc//tei:text/tei:body/tei:div
         let $title := $div/tei:head/text()
-        let $body := pmu:process(odd:get-compiled($config?odd-root, $config?odd, $config?compiled-odd-root), $div, $config?output-root, "epub", "../resources/odd", $config?modules)
+        let $body := pmu:process(odd:get-compiled($config?odd-root, $config?odd), $div, $config?output-root, "epub", "../resources/odd", $config?modules)
         let $body-xhtml:= epub:assemble-xhtml($title, epub:fix-namespaces($body))
         return
             <entry name="{concat('OEBPS/', epub:generate-id($div), '.html')}" type="xml">{$body-xhtml}</entry>

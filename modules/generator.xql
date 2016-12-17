@@ -93,8 +93,6 @@ declare function deploy:init-simple($collection as xs:string?, $userData as xs:s
                 ()
         ),
         deploy:create-configuration($target),
-        deploy:mkcol($target || "/compiled", $userData, $permissions),
-        (: xmldb:copy($config:compiled-odd-root, $target || "/compiled", "teisimple.odd"), :)
         deploy:mkcol($collection || "/data", $userData, $permissions),
         deploy:mkcol($collection || "/transform", $userData, $permissions),
         xmldb:copy($config:output-root, $collection || "/transform", "teisimple.fo.css"),
