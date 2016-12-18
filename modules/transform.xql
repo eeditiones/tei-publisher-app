@@ -39,16 +39,16 @@ declare function local:postprocess($nodes as node()*, $styles as element()?, $od
 };
 
 let $doc := request:get-parameter("doc", ())
-let $odd := request:get-parameter("odd", $config:default-odd)
+let $oddName := request:get-parameter("odd", $config:default-odd)
 return
     if ($doc) then
-        let $odd := odd:get-compiled($config:odd-root, $odd)
+        let $odd := odd:get-compiled($config:odd-root, $oddName)
         let $xml := doc($config:app-root || "/" || $doc)
         let $out :=
             pmu:process($odd, $xml, $config:output-root, "web",
                 "../" || $config:output, $config:module-config, map { "root": $xml })
         let $styles := if (count($out) > 1) then $out[1] else ()
         return
-            local:postprocess(($out[2], $out[1])[1], $styles, $odd)
+            local:postprocess(($out[2], $out[1])[1], $styles, $oddName)
     else
         <p>No document specified</p>
