@@ -95,8 +95,8 @@ declare function deploy:init-simple($collection as xs:string?, $userData as xs:s
         deploy:create-configuration($target),
         deploy:mkcol($collection || "/data", $userData, $permissions),
         deploy:mkcol($collection || "/transform", $userData, $permissions),
-        xmldb:copy($config:output-root, $collection || "/transform", "teisimple.fo.css"),
-        xmldb:copy($config:output-root, $collection || "/transform", "teisimple-print.css"),
+        xmldb:copy($config:output-root, $collection || "/transform", "teipublisher.fo.css"),
+        xmldb:copy($config:output-root, $collection || "/transform", "teipublisher-print.css"),
         if (util:binary-doc-available($config:output-root || "/" || $oddName || "-print.css")) then
             xmldb:copy($config:output-root, $collection || "/transform", $oddName || "-print.css")
         else

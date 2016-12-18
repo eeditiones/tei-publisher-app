@@ -1,0 +1,80 @@
+@media print {
+    * {
+        widows: 2;
+        orphans: 2;
+        hyphens: auto;
+        prince-hyphenate-lines: 2;
+    }
+    @page {
+        size: A4;
+        margin-top: 20mm;
+        margin-bottom: 20mm;
+        padding-top: 5mm;
+        border-top: thin #CCC solid;
+    }
+    @page:left {
+        margin-left: 36mm;
+        margin-right: 18mm;
+
+        @top-left {
+            content: string(chapter);
+            vertical-align: bottom;
+        }
+
+        @bottom-left {
+            content: counter(page);
+        }
+    }
+    @page:right {
+        margin-right: 36mm;
+        margin-left: 18mm;
+
+        @top-right {
+            content: string(chapter);
+            vertical-align: bottom;
+        }
+
+        @bottom-right {
+            content: counter(page);
+        }
+    }
+
+    h1 {
+        font-size: 2.441em;
+        line-height: 1.2;
+        margin-top: 2em;
+        margin-bottom: .5em;
+        page-break-after: avoid;
+        page-break-inside: avoid;
+        string-set: chapter content();
+    }
+    h2 {
+        font-size: 1.953em;
+        line-height: 1.2;
+        margin-top: 1.5em;
+        page-break-after: avoid;
+        page-break-inside: avoid;
+    }
+    h3 {
+        font-size: 1.563em;
+        line-height: 1.2;
+        font-weight: bold;
+        margin-top: 1em;
+        page-break-after: avoid;
+        page-break-inside: avoid;
+    }
+    h4 {
+        font-size: 1.25em;
+        line-height: 1.2;
+        font-weight: bold;
+        margin-top: 1em;
+        page-break-after: avoid;
+        page-break-inside: avoid;
+    }
+    p {
+        margin-top: .5em;
+        margin-bottom: .5em;
+        text-indent: 1.5em;
+        text-align: justify;
+    }
+}
