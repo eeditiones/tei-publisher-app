@@ -22,32 +22,32 @@
         <script type="text/javascript" src="resources/scripts/jquery.fs.macaroon.min.js"/>
         <script type="text/javascript" src="resources/scripts/app.js"/>
     </head>
-    <body id="body">
+    <body xmlns:i18n="http://exist-db.org/xquery/i18n" id="body" data-template="i18n:translate" data-catalogues="resources/i18n">
         <div id="content"/>
         <div id="loginDialog" class="modal fade" tabindex="-1" style="display: none;">
             <div class="modal-dialog" style="z-index: 1080;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title">Login</h4>
+                        <h4 class="modal-title"><i18n:text key="login"/></h4>
                     </div>
                     <form class="form form-horizontal" action="" method="POST">
                         <div class="modal-body">
                             <div class="form-group">
-                                <label class="control-label col-sm-2">User:</label>
+                                <label class="control-label col-sm-2"><i18n:text key="user"/>:</label>
                                 <div class="col-sm-10">
                                     <input type="text" name="user" class="form-control"/>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-2">Password:</label>
+                                <label class="control-label col-sm-2"><i18n:text key="password"/>:</label>
                                 <div class="col-sm-10">
                                     <input type="password" name="password" class="form-control"/>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Login</button>
+                            <button type="submit" class="btn btn-primary"><i18n:text key="login"/></button>
                         </div>
                         <input type="hidden" name="duration" value="P7D"/>
                     </form>
@@ -65,7 +65,7 @@
                         <div class="message"/>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" data-dismiss="modal"><i18n:text key="close"/></button>
                     </div>
                 </div>
             </div>
@@ -76,17 +76,16 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">
                             <span class="fa fa-times" aria-hidden="true"/>
-                            <span class="sr-only">Close</span>
+                            <span class="sr-only"><i18n:text key="close"/></span>
                         </button>
-                        <h4 class="modal-title">Generating File...</h4>
+                        <h4 class="modal-title"><i18n:text key="generating-file"/></h4>
                     </div>
                     <div class="modal-body">
-                        <p>Generating a file for download may take up to a few minutes. Please wait.</p>
-                        <p>This dialog should close automatically when the download has completed.</p>
+                        <p><i18n:text key="download-message"/></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">
-                            <i class="glyphicon glyphicon-remove"/> Close</button>
+                            <i class="glyphicon glyphicon-remove"/> <i18n:text key="close"/></button>
                     </div>
                 </div>
             </div>

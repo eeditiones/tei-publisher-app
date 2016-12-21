@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="browse:fix-links">
-    <div class="container-fluid">
+    <div xmlns:i18n="http://exist-db.org/xquery/i18n" class="container-fluid" data-template="i18n:translate" data-catalogues="resources/i18n">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
@@ -15,48 +15,49 @@
         <div class="navbar-collapse collapse" id="navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li id="about">
-                    <a href="$app/works/">Home</a>
+                    <a href="$app/works/">
+                        <i18n:text key="home"/>
+                    </a>
                 </li>
                 <li class="dropdown" data-template="browse:show-for-document">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-                        Download
+                        <i18n:text key="download"/>
                         <span class="caret"/>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <a class="download-link" data-template="browse:download-link" data-template-type="pdf">
-                                <i class="material-icons">print</i> PDF (FO Version)
+                            <a class="download-link" data-template="browse:download-link" data-template-type="pdf" title="i18n(pdf-download)">
+                                <i class="material-icons">print</i> <i18n:text key="pdf-fo"/>
                             </a>
                         </li>
                         <li data-template="browse:show-if-logged-in">
                             <a target="_blank" data-template="browse:download-link" data-template-type="pdf" data-template-source="true">
-                                <i class="material-icons">code</i> FO Source
+                                <i class="material-icons">code</i> <i18n:text key="fo-source"/>
                             </a>
                         </li>
                         <li>
-                            <a class="download-link" data-template="browse:download-link" data-template-type="tex">
-                                <i class="material-icons">print</i> PDF (LaTeX Version)
+                            <a class="download-link" data-template="browse:download-link" data-template-type="tex" title="i18n(pdf-download)">
+                                <i class="material-icons">print</i> <i18n:text key="pdf-latex"/>
                             </a>
                         </li>
                         <li data-template="browse:show-if-logged-in">
                             <a target="_blank" data-template="browse:download-link" data-template-type="tex" data-template-source="true">
-                                <i class="material-icons">code</i> TeX Source
+                                <i class="material-icons">code</i> <i18n:text key="latex-source"/>
                             </a>
                         </li>
                         <li>
-                            <a class="download-link" data-template="browse:download-link" data-template-type="" 
-                                data-template-mode="plain">
-                                <i class="material-icons">web</i> Single Page
+                            <a class="download-link" data-template="browse:download-link" data-template-type="" data-template-mode="plain">
+                                <i class="material-icons">web</i> <i18n:text key="single-page"/>
                             </a>
                         </li>
                         <li>
-                            <a data-template="browse:download-link" data-template-type="epub" title="Download as epub ebook">
+                            <a data-template="browse:download-link" data-template-type="epub" title="i18n(epub-download)">
                                 <i class="material-icons">book</i>
                                 ePUB
                             </a>
                         </li>
                         <li>
-                            <a data-template="pages:xml-link">
+                            <a data-template="pages:xml-link" title="i18n(view-tei)">
                                 <i class="material-icons">code</i>
                                 XML
                             </a>
@@ -65,21 +66,29 @@
                 </li>
                 <li class="dropdown" data-template="browse:show-if-logged-in">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-                        <i class="material-icons md-dark">build</i> Admin
+                        <i class="material-icons md-dark">build</i> <i18n:text key="admin"/>
                         <span class="caret"/>
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         <li>
-                            <a id="recompile" href="#">Recompile ODD</a>
+                            <a id="recompile" href="#">
+                                <i18n:text key="recompile"/>
+                            </a>
                         </li>
                         <li>
-                            <a id="reindex" href="#">Update Document Metadata Index</a>
+                            <a id="reindex" href="#">
+                                <i18n:text key="metadata-update"/>
+                            </a>
                         </li>
                         <li>
-                            <a href="#" data-template="pages:xml-link" data-template-source="odd">Edit ODD</a>
+                            <a href="#" data-template="pages:xml-link" data-template-source="odd">
+                                <i18n:text key="edit-odd"/>
+                            </a>
                         </li>
                         <li>
-                            <a href="#" data-template="pages:xml-link" data-template-source="resources/css/style.less">Edit Styles</a>
+                            <a href="#" data-template="pages:xml-link" data-template-source="resources/css/style.less">
+                                <i18n:text key="edit-styles"/>
+                            </a>
                         </li>
                     </ul>
                 </li>
@@ -87,9 +96,10 @@
             <ul class="nav navbar-nav navbar-right">
                 <li data-template="browse:check-login">
                     <a href="#loginDialog" data-toggle="modal">
-                        <i class="material-icons">account_circle</i> Login</a>
+                        <i class="material-icons">account_circle</i> <i18n:text key="login"/>
+                    </a>
                     <a href="?logout=true">
-                        <i class="material-icons">account_circle</i> Logout <span class="browse:current-user"/>
+                        <i class="material-icons">account_circle</i> <i18n:text key="logout"/> <span class="browse:current-user"/>
                     </a>
                 </li>
             </ul>

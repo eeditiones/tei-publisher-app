@@ -10,7 +10,7 @@
           </div>
       </header>
 
-        <main class="row search">
+        <main xmlns:i18n="http://exist-db.org/xquery/i18n" class="row search">
             <div class="col-md-3 col-md-push-9">
                 <form action="search.html" class="form form-horizontal">
                     <div class="well well-sm">
@@ -27,12 +27,15 @@
                                 <input type="hidden" name="field" value="text"/>
                             </div>
                         </div>
-                        <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Which Document Part?">
+                        <div class="form-group" data-toggle="tooltip" data-placement="left" title="i18n(search-part)">
                             <div class="col-md-12 col-xs-12">
                                 <select name="tei-target" class="form-control" data-template="templates:form-control">
-                                    <option value="tei-text" selected="selected">Search
-                                    Sections</option>
-                                    <option value="tei-head">Search Headings</option>
+                                    <option value="tei-text" selected="selected">
+                                        <i18n:text key="search-sections"/>
+                                    </option>
+                                    <option value="tei-head">
+                                        <i18n:text key="search-headings"/>
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -42,11 +45,14 @@
             <div class="col-md-9 col-md-pull-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Search Results</h3>
+                        <h3 class="panel-title">
+                            <i18n:text key="search-results">Search Results</i18n:text>
+                        </h3>
                     </div>
                     <div class="panel-body">
                         <div class="search:query">
-                            <p class="main-content">Found: <span id="hit-count" data-template="browse:hit-count"/>
+                            <p class="main-content">
+                                <i18n:text key="found">Found</i18n:text>: <span id="hit-count" data-template="browse:hit-count"/>
                             </p><!-- pagination for small device -->
                             <div class="hidden-md hidden-lg hidden-sm">
                                 <ul class="pagination" data-template="browse:paginate" data-template-per-page="20" data-template-max-pages="5" data-template-min-hits="21"/>

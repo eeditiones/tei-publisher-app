@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+<div xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div data-template="templates:include" data-template-path="templates/menu.html"/>
     <section class="container-fluid">
         <header class="row actions">
@@ -16,7 +16,7 @@
                         <div class="form-group">
                             <div class="col-md-12 col-xs-12">
                                 <span class="input-group">
-                                    <input name="query" type="search" class="templates:form-control form-control typeahead-search" placeholder="Search For What?" autocomplete="off"/>
+                                    <input name="query" type="search" class="templates:form-control form-control typeahead-search" placeholder="i18n(search-query-attr)" autocomplete="off"/>
                                     <span class="input-group-btn">
                                         <button id="f-btn-search" type="submit" class="btn btn-primary">
                                             <span class="material-icons">search</span>
@@ -26,12 +26,15 @@
                                 <input type="hidden" name="field" value="text"/>
                             </div>
                         </div>
-                        <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Which Document Part?">
+                        <div class="form-group" data-toggle="tooltip" data-placement="left" title="i18n(search-part)">
                             <div class="col-md-12 col-xs-12">
                                 <select name="tei-target" class="form-control" data-template="templates:form-control">
-                                    <option value="tei-text" selected="selected">Search
-                                    Sections</option>
-                                    <option value="tei-head">Search Headings</option>
+                                    <option value="tei-text" selected="selected">
+                                        <i18n:text key="search-sections"/>
+                                    </option>
+                                    <option value="tei-head">
+                                        <i18n:text key="search-headings"/>
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -39,15 +42,19 @@
                 </form>
                 <div class="panel panel-info" data-template="browse:show-if-logged-in">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Upload</h3>
+                        <h3 class="panel-title">
+                            <i18n:text key="upload"/>
+                        </h3>
                     </div>
                     <div class="panel-body">
-                        <p>Upload TEI XML or ODD files into the test document set. Click on the button below or
-                            drag&amp;drop files on it.
+                        <p>
+                            <i18n:text key="upload-files"/>
                         </p>
                         <span class="btn btn-success btn-block fileinput-button">
                             <i class="material-icons">file_upload</i>
-                            <span>Select files...</span>
+                            <span>
+                                <i18n:text key="select-files"/>
+                            </span>
                             <input id="fileupload" type="file" name="files[]" multiple="multiple"/>
                         </span><!-- The global progress bar -->
                         <div id="progress" class="progress">
@@ -55,7 +62,9 @@
                         </div><!-- The container for the uploaded files -->
                         <table id="files-table" class="files table table-striped">
                             <thead>
-                                <th>Uploaded Files</th>
+                                <th>
+                                    <i18n:text key="uploaded-files"/>
+                                </th>
                             </thead>
                             <tbody id="files"/>
                         </table>

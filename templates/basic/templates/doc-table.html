@@ -1,17 +1,17 @@
-<div id="documents-panel" class="col-md-12 list-works" data-template="browse:list-works"
-    data-template-root="">
-    <div class="panel panel-default">
+<?xml version="1.0" encoding="UTF-8"?>
+<div id="documents-panel" class="col-md-12 list-works" data-template="browse:list-works" data-template-root="">
+    <div class="panel panel-default" xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="i18n:translate" data-catalogues="../resources/i18n">
         <div class="panel-heading">
-            <h3 class="panel-title">Documents</h3>
+            <h3 class="panel-title"><i18n:text key="documents">Documents</i18n:text></h3>
         </div>
         <div class="panel-body">
             <div class="row">
                 <form action="" class="form-inline col-md-12">
                     <div class="form-group">
                         <select name="browse" class="form-control" data-template="templates:form-control">
-                            <option value="author">Author</option>
-                            <option value="title">Title</option>
-                            <option value="file">Filename</option>
+                            <option value="author"><i18n:text key="browse-author">Author</i18n:text></option>
+                            <option value="title"><i18n:text key="browse-title">Title</i18n:text></option>
+                            <option value="file"><i18n:text key="browse-filename">Filename</i18n:text></option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -31,8 +31,8 @@
                     <ul class="pagination" data-template="browse:paginate" data-template-per-page="20" data-template-max-pages="5" data-template-min-hits="21" data-template-key="all"/>
                 </div>
                 <div class="col-md-6">
-                    <h5 class="pull-right">Browsing <span class="result-count text-success">
-                            <span id="hit-count" data-template="browse:hit-count" data-template-key="all"/> documents.</span>
+                    <h5 class="pull-right"><i18n:text key="browsing"/> <span class="result-count text-success">
+                            <span id="hit-count" data-template="browse:hit-count" data-template-key="all"/> <i18n:text key="documents"/>.</span>
                     </h5>
                 </div>
             </div>
@@ -50,33 +50,33 @@
                                     </button>
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <a class="download-link" data-template="browse:download-link" data-template-type="pdf" title="Download as PDF">PDF (FO Version)</a>
+                                            <a class="download-link" data-template="browse:download-link" data-template-type="pdf" title="i18n(pdf-download)"><i18n:text key="pdf-fo"/></a>
                                         </li>
                                         <li data-template="browse:show-if-logged-in">
                                             <a target="_blank" data-template="browse:download-link" data-template-type="pdf" data-template-source="true">
-                                                FO Source
+                                                <i18n:text key="fo-source"/>
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="download-link" data-template="browse:download-link" data-template-type="tex" title="Download as PDF">PDF (LaTeX Version)</a>
+                                            <a class="download-link" data-template="browse:download-link" data-template-type="tex" title="i18n(pdf-download)"><i18n:text key="pdf-latex"/></a>
                                         </li>
                                         <li data-template="browse:show-if-logged-in">
                                             <a target="_blank" data-template="browse:download-link" data-template-type="tex" data-template-source="true">
-                                                TeX Source
+                                                <i18n:text key="latex-source"/>
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
-                                <a class="btn btn-default download-link" data-template="browse:download-link" data-template-type="epub" title="Download as epub ebook">
+                                <a class="btn btn-default download-link" data-template="browse:download-link" data-template-type="epub" title="i18n(epub-download)">
                                     <i class="material-icons">book</i>
                                 </a>
-                                <a class="btn btn-default" data-template="pages:xml-link" title="View TEI XML">
+                                <a class="btn btn-default" data-template="pages:xml-link" title="i18n(view-tei)">
                                     <i class="material-icons">code</i>
                                 </a>
                             </div>
                             <br class="clear"/>
                         </li>
-                        <li class="empty">Please login to upload some documents!</li>
+                        <li class="empty"><i18n:text key="login-message">Please login to upload some documents!</i18n:text></li>
                     </ul>
                 </div>
             </div>
