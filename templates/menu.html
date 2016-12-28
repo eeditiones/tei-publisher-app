@@ -1,39 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"/>
-            <span class="icon-bar"/>
-            <span class="icon-bar"/>
-        </button>
-        <a class="navbar-brand" date-template="app:abs-link" href="index.html">
-            <span>TEI Processing Model Toolbox</span>
-        </a>
-    </div>
-    <div class="navbar-collapse collapse" id="navbar-collapse-1">
-        <ul class="nav navbar-nav">
-            <li>
-                <a data-template="app:abs-link" href="index.html">Home</a>
-            </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-                    Documentation
-                    <span class="caret"/>
-                </a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                    <li>
-                        <a data-template="app:abs-link"
-                            href="doc/documentation.xml?odd=documentation.odd">Documentation</a>
-                    </li>
-                    <li>
-                        <a href="modules/latex.xql?odd=beamer.odd&amp;doc=/doc/presentation.xml">Presentation</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a data-template="app:abs-link" href="generate.html">App Generator</a>
-            </li>
-        </ul>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="browse:fix-links">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"/>
+                <span class="icon-bar"/>
+                <span class="icon-bar"/>
+            </button>
+            <a class="navbar-brand" href="$app/works/">
+                <span data-template="config:app-title">App Title</span>
+            </a>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li id="about">
+                    <a href="$app/index.html">Home</a>
+                </li>
+                <li class="dropdown" data-template="browse:show-for-document">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                        Download
+                        <span class="caret"/>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a class="download-link" data-template="browse:download-link" data-template-type="pdf">
+                                <i class="material-icons">print</i> PDF (FO Version)
+                            </a>
+                        </li>
+                        <li data-template="browse:show-if-logged-in">
+                            <a target="_blank" data-template="browse:download-link" data-template-type="pdf" data-template-source="true">
+                                <i class="material-icons">code</i> FO Source
+                            </a>
+                        </li>
+                        <li>
+                            <a class="download-link" data-template="browse:download-link" data-template-type="tex">
+                                <i class="material-icons">print</i> PDF (LaTeX Version)
+                            </a>
+                        </li>
+                        <li data-template="browse:show-if-logged-in">
+                            <a target="_blank" data-template="browse:download-link" data-template-type="tex" data-template-source="true">
+                                <i class="material-icons">code</i> TeX Source
+                            </a>
+                        </li>
+                        <li>
+                            <a class="download-link" data-template="browse:download-link" data-template-type="" data-template-mode="plain">
+                                <i class="material-icons">web</i> Single Page
+                            </a>
+                        </li>
+                        <li>
+                            <a data-template="browse:download-link" data-template-type="epub" title="Download as epub ebook">
+                                <i class="material-icons">book</i>
+                                ePUB
+                            </a>
+                        </li>
+                        <li>
+                            <a data-template="pages:xml-link">
+                                <i class="material-icons">code</i>
+                                XML
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                        Documentation
+                        <span class="caret"/>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li>
+                            <a href="$app/doc/documentation.xml?odd=documentation.odd">Documentation</a>
+                        </li>
+                        <li>
+                            <a href="$app/modules/latex.xql?odd=beamer.odd&amp;doc=/doc/presentation.xml">Presentation</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="$app/generate.html">App Generator</a>
+                </li>
+                <li class="dropdown" data-template="browse:show-if-logged-in">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                        <i class="material-icons md-dark">build</i> Admin
+                        <span class="caret"/>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li>
+                            <a class="recompile" href="#">Recompile ODD</a>
+                        </li>
+                        <li>
+                            <a id="reindex" href="#">Update Document Metadata Index</a>
+                        </li>
+                        <li>
+                            <a href="#" data-template="pages:xml-link" data-template-source="odd">Edit ODD</a>
+                        </li>
+                        <li>
+                            <a href="#" data-template="pages:xml-link" data-template-source="resources/css/style.less">Edit Styles</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li data-template="browse:check-login">
+                    <a href="#loginDialog" data-toggle="modal">
+                        <i class="material-icons">account_circle</i> Login</a>
+                    <a href="?logout=true">
+                        <i class="material-icons">account_circle</i> Logout <span class="browse:current-user"/>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>

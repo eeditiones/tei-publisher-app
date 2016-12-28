@@ -1,7 +1,8 @@
-<header class="service-icon-bar">
+<?xml version="1.0" encoding="UTF-8"?>
+<header class="service-icon-bar" data-template="browse:fix-links">
     <div class="btn-toolbar">
         <div class="btn-group tp-zoom-icons" role="group">
-            <a class="btn btn-default" data-template="pages:back-link" title="Back to index page">
+            <a class="btn btn-default" title="Back to index page" href="$app/index.html">
                 <i class="material-icons">home</i>
             </a>
             <div class="btn-group">
@@ -12,28 +13,28 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li>
-                        <a class="download-link" data-template="pages:pdf-link">
+                        <a class="download-link" data-template="browse:download-link" data-template-type="pdf">
                             PDF via FO
                         </a>
                     </li>
                     <li>
-                        <a target="_new" data-template="pages:pdf-link" data-template-source="true">
+                        <a target="_new" data-template="browse:download-link" data-template-type="pdf" data-template-source="true">
                             FO Source
                         </a>
                     </li>
                     <li>
-                        <a class="download-link" data-template="pages:latex-link">
+                        <a class="download-link" data-template="browse:download-link" data-template-type="tex">
                             PDF via LaTeX
                         </a>
                     </li>
                     <li>
-                        <a target="_new" data-template="pages:latex-link" data-template-source="true">
+                        <a target="_new" data-template="browse:download-link" data-template-type="tex" data-template-source="true">
                             LaTeX Source
                         </a>
                     </li>
                 </ul>
             </div>
-            <a class="btn btn-default download-link" data-template="pages:epub-link" title="Download as epub ebook">
+            <a class="btn btn-default download-link" data-template="browse:download-link" data-template-type="epub" title="Download as epub ebook">
                 <i class="material-icons">book</i>
                 <span class="hidden-xs">ePUB</span>
             </a>
@@ -41,7 +42,7 @@
                 <i class="material-icons">code</i>
                 <span class="hidden-xs">XML</span>
             </a>
-            <a target="_new" class="btn btn-default" data-template="pages:single-page-link" title="View plain HTML on a single page">
+            <a target="_new" class="btn btn-default" data-template="browse:download-link" data-template-type="" data-template-mode="plain" title="View plain HTML on a single page">
                 <i class="material-icons">swap_vert</i>
                 <span class="hidden-xs">Plain</span>
             </a>

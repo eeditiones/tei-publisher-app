@@ -1,31 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <section data-template="templates:include" data-template-path="templates/menu.html"/>
-    <section class="container-fluid main">
+    <div data-template="templates:include" data-template-path="templates/menu.html"/>
+    <section class="container-fluid">
         <header class="row">
-            <div class="col-md-12">
-                <div class="page-header">
-                    <h1 class="tp-title">TEI Publisher</h1>
-                    <h2 class="tp-subtitle">The Instant Publishing Toolbox</h2>
-                </div>
+            <div class="page-header col-md-12">
+                <h1 class="tp-title">TEI Publisher</h1>
+                <h2 class="tp-subtitle">The Instant Publishing Toolbox</h2>
             </div>
         </header>
-        <main class="row">
-            <div class="col-md-8 col-xs-12">
-                <p>
-                    <span class="bold">Publish your data in various media formats without writing complex stylesheets</span>. Using the
-                <a href="http://htmlpreview.github.io/?https://github.com/TEIC/TEI-Simple/blob/master/tei-pm.html">TEI Processing Model</a>,
-                customising the appearance of the text is all done in TEI ODD by mapping each TEI element to a limited set of
-                well-defined behaviour functions, e.g. “paragraph” or “heading”.</p>
-                <p> The specification
-                includes a standard mapping, which can be tweaked by overwriting selected elements. Rendition styles are
-                transparently translated into different output media types like HTML, XSL-FO, LaTeX, or ePUB. This approach
-                may easily save a few thousand lines of code for media specific stylesheets.</p>
-                <p>Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD,
-                then generate your own, standalone app (using the <a href="generate.html">App Generator</a>) covering all core
-                features like browsing, search and PDF generation. Check the "App Examples" box for examples of real apps built with App Generator.</p>
-            </div>
-            <div class="col-md-4 col-xs-12">
+        <div class="row">
+            <section class="col-md-4 col-md-push-8">
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <h3 class="panel-title">App Examples</h3>
@@ -34,7 +18,7 @@
                         <div class="media">
                             <div class="media-left media-top">
                                 <a href="http://showcases.exist-db.org/exist/apps/eebo/">
-                                    <img class="media-object" src="http://showcases.exist-db.org/exist/apps/eebo/icon.png" alt="Early English Books Online" style="width: 80px;"/>
+                                    <img class="media-object" src="resources/images/eebo.png" alt="Early English Books Online" style="width: 80px;"/>
                                 </a>
                             </div>
                             <div class="media-body">
@@ -47,7 +31,7 @@
                         <div class="media">
                             <div class="media-left media-top">
                                 <a href="http://showcases.exist-db.org/exist/apps/shakespeare-pm/">
-                                    <img class="media-object" src="http://showcases.exist-db.org/exist/apps/shakespeare-pm/icon.png" alt="Shakespeare's Plays" style="height: 99px"/>
+                                    <img class="media-object" src="resources/images/shakespeare-pm.png" alt="Shakespeare's Plays" style="height: 99px"/>
                                 </a>
                             </div>
                             <div class="media-body">
@@ -60,21 +44,50 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
-        <div class="row">
-            <div class="col-md-8 col-xs-12">
-                <div data-template="app:action"/>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Documents</h3>
+            </section>
+            <section class="col-md-8 col-md-pull-4">
+                <p>
+                    <span class="bold">Publish your data in various media formats without writing complex stylesheets</span>. Using the
+                <a href="http://htmlpreview.github.io/?https://github.com/TEIC/TEI-Simple/blob/master/tei-pm.html">TEI Processing Model</a>,
+                customising the appearance of the text is all done in TEI ODD by mapping each TEI element to a limited set of
+                well-defined behaviour functions, e.g. “paragraph” or “heading”.</p>
+                <p> The specification
+                includes a standard mapping, which can be tweaked by overwriting selected elements. Rendition styles are
+                transparently translated into different output media types like HTML, XSL-FO, LaTeX, or ePUB. This approach
+                may easily save a few thousand lines of code for media specific stylesheets.</p>
+                <p>Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD,
+                then generate your own, standalone app (using the <a href="generate.html">App Generator</a>) covering all core
+                features like browsing, search and PDF generation. Check the "App Examples" box for examples of real apps built with App Generator.</p>
+            </section>
+        </div>
+        <main class="row">
+            <section class="col-md-4 col-md-push-8">
+                <!--form action="search.html" class="form form-horizontal">
+                    <div class="well well-sm">
+                        <div class="form-group">
+                            <div class="col-md-12 col-xs-12">
+                                <span class="input-group">
+                                    <input name="query" type="search" class="templates:form-control form-control typeahead-search" placeholder="Search For What?" autocomplete="off"/>
+                                    <span class="input-group-btn">
+                                        <button id="f-btn-search" type="submit" class="btn btn-primary">
+                                            <span class="material-icons">search</span>
+                                        </button>
+                                    </span>
+                                </span>
+                                <input type="hidden" name="field" value="text"/>
+                            </div>
+                        </div>
+                        <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Which Document Part?">
+                            <div class="col-md-12 col-xs-12">
+                                <select name="tei-target" class="form-control" data-template="templates:form-control">
+                                    <option value="tei-text" selected="selected">Search
+                                    Sections</option>
+                                    <option value="tei-head">Search Headings</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div class="panel-body" id="documents">
-                        <ul class="documents" data-template="app:doc-table"/>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-xs-12">
+                </form-->
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <h3 class="panel-title">ODD Files</h3>
@@ -96,7 +109,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-info">
+                <div class="panel panel-info" data-template="browse:show-if-logged-in">
                     <div class="panel-heading">
                         <h3 class="panel-title">Upload</h3>
                     </div>
@@ -120,15 +133,16 @@
                         </table>
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
+            <section class="col-md-8 col-md-pull-4">
+                <div>
+                    <div class="row">
+                        <div data-template="templates:include" data-template-path="templates/doc-table.html"/>
+                    </div>
+                </div>
+            </section>
+        </main>
     </section>
-
-    <section data-template="templates:include" data-template-path="templates/footer.html"/>
-
-    <span id="forkongithub">
-        <a href="http://gitlab.exist-db.org/tei-publisher/">Fork me on GitLab</a>
-    </span>
     <script type="text/javascript" src="resources/scripts/jquery.ui.widget.js"/>
     <script type="text/javascript" src="resources/scripts/jquery.iframe-transport.js"/>
     <script type="text/javascript" src="resources/scripts/jquery.fileupload.js"/>
@@ -137,11 +151,11 @@
         'use strict';
 
         function reloadDocTable() {
-            $("#documents").load("doc-table.html");
+            $("#documents-panel").load("doc-table.html");
         }
 
         $('#fileupload').fileupload({
-            url: "modules/upload.xql",
+            url: "modules/lib/upload.xql",
             dataType: 'json',
             done: function (e, data) {
                 $.each(data.result.files, function (index, file) {
@@ -164,60 +178,4 @@
             .parent().addClass($.support.fileInput ? undefined : 'disabled');
     });
     </script>
-    <style>
-    #forkongithub a{
-        background:#000;
-        color:#fff;
-        text-decoration:none;
-        font-family:arial,sans-serif;
-        text-align:center;
-        font-weight:bold;
-        padding:5px 40px;
-        font-size:1.2rem;
-        line-height:2rem;
-        position:relative;
-        transition:0.5s;
-    }
-    #forkongithub a:hover{
-        background:#c11;
-        color:#fff;
-    }
-    #forkongithub a::before,#forkongithub a::after{
-        content:"";
-        width:100%;
-        display:block;
-        position:absolute;
-        top:1px;left:0;
-        height:1px;
-        background:#fff;
-    }
-    #forkongithub a::after{
-        bottom:1px;
-        top:auto;
-    }
-    @media screen and (min-width:800px){
-        #forkongithub{
-            position:absolute;
-            display:block;
-            top: 0px;
-            right:0;
-            width:250px;
-            overflow:hidden;
-            height:200px;
-            z-index: 9999;
-        }
-        #forkongithub a{
-            width:250px;
-            position:absolute;
-            top:60px;
-            right:-60px;
-            transform:rotate(45deg);
-            -webkit-transform:rotate(45deg);
-            -ms-transform:rotate(45deg);
-            -moz-transform:rotate(45deg);
-            -o-transform:rotate(45deg);
-            box-shadow:4px 4px 10px rgba(0,0,0,0.8);
-        }
-    }
-    </style>
 </div>

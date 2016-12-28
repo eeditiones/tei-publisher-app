@@ -52,7 +52,7 @@
     <text>
         <body>
             <schemaSpec ident="docs" start="TEI teiCorpus" source="teipublisher.odd">
-                <elementSpec mode="add" ident="code">
+                <elementSpec mode="change" ident="code">
                     <modelGrp output="print">
                         <model behaviour="inline" predicate="parent::cell|parent::p|parent::ab" cssClass="code"/>
                         <model behaviour="block" cssClass="code"/>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <index xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+        <fulltext default="none" attributes="false"/>
+        <lucene>
+            <text qname="tei:div"/>
+            <text qname="tei:head"/>
+            <text match="//tei:sourceDesc/tei:biblFull/tei:titleStmt/tei:title"/><!--text match="//tei:sourceDesc/tei:biblFull/tei:titleStmt/tei:author"/-->
+        </lucene>
+    </index>
+</collection>

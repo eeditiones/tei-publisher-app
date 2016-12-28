@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div id="documents-panel" class="col-md-12 list-works" data-template="browse:list-works" data-template-root="">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Documents</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <form action="" class="form-inline col-md-12">
+                    <div class="form-group">
+                        <select name="browse" class="form-control" data-template="templates:form-control">
+                            <option value="author">Author</option>
+                            <option value="title">Title</option>
+                            <option value="file">Filename</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-group">
+                            <input type="text" name="filter" class="form-control typeahead-meta" data-template="templates:form-control" autocomplete="off" placeholder="filter by"/>
+                            <span class="input-group-btn">
+                                <button id="f-btn-search" type="submit" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-search"/>
+                                </button>
+                            </span>
+                        </span>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="pagination" data-template="browse:paginate" data-template-per-page="20" data-template-max-pages="5" data-template-min-hits="21" data-template-key="all"/>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="pull-right">Browsing <span class="result-count text-success">
+                            <span id="hit-count" data-template="browse:hit-count" data-template-key="all"/> documents.</span>
+                    </h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" id="documents">
+                    <ul class="documents" data-template="browse:browse" data-template-per-page="20">
+                        <li>
+                            <div data-template="browse:short-header"/>
+                            <div class="btn-group toolbar">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        <i class="material-icons">print</i>
+                                        <span class="hidden-xs">PDF</span>
+                                        <span class="caret"/>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li>
+                                            <a class="download-link" data-template="browse:download-link" data-template-type="pdf" title="Download as PDF">PDF (FO Version)</a>
+                                        </li>
+                                        <li data-template="browse:show-if-logged-in">
+                                            <a target="_blank" data-template="browse:download-link" data-template-type="pdf" data-template-source="true">
+                                                FO Source
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="download-link" data-template="browse:download-link" data-template-type="tex" title="Download as PDF">PDF (LaTeX Version)</a>
+                                        </li>
+                                        <li data-template="browse:show-if-logged-in">
+                                            <a target="_blank" data-template="browse:download-link" data-template-type="tex" data-template-source="true">
+                                                TeX Source
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <a class="btn btn-default download-link" data-template="browse:download-link" data-template-type="epub" title="Download as epub ebook">
+                                    <i class="material-icons">book</i>
+                                </a>
+                                <a class="btn btn-default" data-template="pages:xml-link" title="View TEI XML">
+                                    <i class="material-icons">code</i>
+                                </a>
+                            </div>
+                            <br class="clear"/>
+                        </li>
+                        <li class="empty">Please login to upload some documents!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

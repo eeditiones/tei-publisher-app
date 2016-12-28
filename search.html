@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <div data-template="templates:include" data-template-path="templates/menu.html"/>
+    <section class="container-fluid">
+      <header class="row actions">
+          <div class="col-md-12">
+              <div class="page-header">
+                  <h1 data-template="config:app-title"/>
+              </div>
+          </div>
+      </header>
+
+        <main class="row search">
+            <div class="col-md-3 col-md-push-9">
+                <form action="search.html" class="form form-horizontal">
+                    <div class="well well-sm">
+                        <div class="form-group">
+                            <div class="col-md-12 col-xs-12">
+                                <span class="input-group">
+                                    <input name="query" type="search" class="templates:form-control form-control typeahead-search" placeholder="Search For What?" autocomplete="off"/>
+                                    <span class="input-group-btn">
+                                        <button id="f-btn-search" type="submit" class="btn btn-primary">
+                                            <span class="material-icons">search</span>
+                                        </button>
+                                    </span>
+                                </span>
+                                <input type="hidden" name="field" value="text"/>
+                            </div>
+                        </div>
+                        <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Which Document Part?">
+                            <div class="col-md-12 col-xs-12">
+                                <select name="tei-target" class="form-control" data-template="templates:form-control">
+                                    <option value="tei-text" selected="selected">Search
+                                    Sections</option>
+                                    <option value="tei-head">Search Headings</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-9 col-md-pull-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Search Results</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="search:query">
+                            <p class="main-content">Found: <span id="hit-count" data-template="browse:hit-count"/>
+                            </p><!-- pagination for small device -->
+                            <div class="hidden-md hidden-lg hidden-sm">
+                                <ul class="pagination" data-template="browse:paginate" data-template-per-page="20" data-template-max-pages="5" data-template-min-hits="21"/>
+                            </div><!-- pagination for larger device -->
+                            <div class="hidden-xs">
+                                <ul class="pagination" data-template="browse:paginate" data-template-per-page="20" data-template-max-pages="9" data-template-min-hits="21"/>
+                            </div><!-- query results -->
+                            <table id="results" class="col-md-12 table">
+                                <colgroup>
+                                    <col class="previous"/>
+                                    <col class="hi"/>
+                                    <col class="next"/>
+                                </colgroup>
+                                <tbody data-template="search:show-hits" data-template-per-page="20"/>
+                            </table><!-- bottom pagination for small device -->
+                            <div class="hidden-md hidden-lg hidden-sm">
+                                <ul class="pagination" data-template="browse:paginate" data-template-per-page="20" data-template-max-pages="5" data-template-min-hits="21"/>
+                            </div><!-- bottom pagination for larger device -->
+                            <div class="hidden-xs">
+                                <ul class="pagination" data-template="browse:paginate" data-template-per-page="20" data-template-max-pages="9" data-template-min-hits="21"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </section>
+</div>
