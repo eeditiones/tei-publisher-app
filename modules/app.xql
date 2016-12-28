@@ -6,6 +6,7 @@ import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace dbutil="http://exist-db.org/xquery/dbutil";
 
+declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace expath="http://expath.org/ns/pkg";
 
 declare variable $app:EXIDE :=
@@ -132,4 +133,46 @@ declare function app:load-source($node as node(), $model as map(*)) as node()* {
             $node/@* except ($node/@href, $node/@class),
             $node/node()
         }
+};
+
+declare 
+    %templates:wrap
+function app:action($node as node(), $model as map(*), $source as xs:string?, $action as xs:string?, $new-odd as xs:string?) {
+    switch ($action)
+        case "create-odd" return
+            <div class="panel panel-primary" role="alert">
+                <div class="panel-heading"><h3 class="panel-title">Generated Files</h3></div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                    {
+                        let $template := doc($config:odd-root || "/template.odd.xml")
+                        return
+                            xmldb:store($config:odd-root, $new-odd || ".odd", document { app:parse-template($template, $new-odd) }, "text/xml")
+                    }
+                    </ul>
+                </div>
+            </div>
+        default return
+            ()
+};
+
+declare %private function app:parse-template($nodes as node()*, $odd as xs:string) {
+    for $node in $nodes
+    return
+        typeswitch ($node)
+        case document-node() return
+            app:parse-template($node/node(), $odd)
+        case element(tei:schemaSpec) return
+            element { node-name($node) } {
+                $node/@*,
+                attribute ident { $odd },
+                app:parse-template($node/node(), $odd)
+            }
+        case element() return
+            element { node-name($node) } {
+                $node/@*,
+                app:parse-template($node/node(), $odd)
+            }
+        default return
+            $node
 };
