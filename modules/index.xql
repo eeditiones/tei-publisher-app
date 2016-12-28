@@ -5,7 +5,8 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare function local:index() {
-    for $doc in collection($config:data-root)/tei:TEI
+    for $root in $config:data-root
+    for $doc in collection($root)/tei:TEI
     let $titleStmt := (
         $doc//tei:sourceDesc/tei:biblFull/tei:titleStmt,
         $doc//tei:fileDesc/tei:titleStmt
@@ -19,7 +20,7 @@ declare function local:index() {
             }
             {
                 for $author in $titleStmt/tei:author
-                let $normalized := replace($author/text(), "^([^,]*,[^,]*),?.*$", "$1")
+                let $normalized := replace($author/string(), "^([^,]*,[^,]*),?.*$", "$1")
                 return
                     <field name="author" store="yes">{$normalized}</field>
             }
@@ -31,7 +32,8 @@ declare function local:index() {
 };
 
 declare function local:clear() {
-    for $doc in collection($config:data-root)/tei:TEI
+    for $root in $config:data-root
+    for $doc in collection($root)/tei:TEI
     return
         ft:remove-index(document-uri(root($doc)))
 };

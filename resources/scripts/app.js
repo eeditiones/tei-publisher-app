@@ -264,7 +264,7 @@ $(document).ready(function() {
         minLength: 4,
         source: function(query, callback) {
             var type = $("select[name='browse']").val();
-            $.getJSON("../modules/autocomplete.xql?q=" + query + "&type=" + type, function(data) {
+            $.getJSON("modules/autocomplete.xql?q=" + query + "&type=" + type, function(data) {
                 callback(data || []);
             });
         },
@@ -280,7 +280,7 @@ $(document).ready(function() {
         minLength: 4,
         source: function(query, callback) {
             var type = $("select[name='tei-target']").val();
-            $.getJSON("../modules/autocomplete.xql?q=" + query + "&type=" + type, function(data) {
+            $.getJSON("modules/autocomplete.xql?q=" + query + "&type=" + type, function(data) {
                 callback(data || []);
             });
         }

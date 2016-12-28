@@ -76,8 +76,9 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
     let $filtered :=
         if ($filter) then
             let $ordered :=
+                for $rootCol in $config:data-root
                 for $item in
-                    ft:search($config:data-root || "/" || $root, $browse || ":" || $filter, ("author", "title"))/search
+                    ft:search($rootCol || "/" || $root, $browse || ":" || $filter, ("author", "title"))/search
                 let $author := $item/field[@name = "author"]
                 order by $author[1], $author[2], $author[3]
                 return

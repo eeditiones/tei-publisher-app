@@ -12,7 +12,7 @@ declare function local:upload($paths, $payloads) {
             if (ends-with($path, ".odd")) then
                 xmldb:store($config:odd-root, $path, $data)
             else
-                xmldb:store($config:data-root, $path, $data)
+                xmldb:store($config:data-root[1], $path, $data)
         })
     return
         map {
