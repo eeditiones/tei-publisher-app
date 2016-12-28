@@ -438,6 +438,12 @@ declare function deploy:store-templates($target as xs:string, $userData as xs:st
 };
 
 declare function deploy:store-libs($target as xs:string, $userData as xs:string+, $permissions as xs:string) {
+    let $path := system:get-module-load-path()
+    for $lib in ("autocomplete.xql", "index.xql", "view.xql")
+    return (
+        xmldb:copy($path, $target || "/modules", $lib),
+        deploy:chmod($target || "/modules", $userData, $permissions)
+    ),
     let $target := $target || "/modules/lib"
     let $source := system:get-module-load-path() || "/lib"
     return
@@ -462,8 +468,8 @@ declare function deploy:store($collection as xs:string?, $target as xs:string, $
                 deploy:store-expath($collection, $userData, $permissions),
                 deploy:store-repo($repoConf, $collection, $userData, $permissions),
                 if (empty($expathConf)) then (
-                    deploy:store-libs($collection, $userData, $permissions),
                     deploy:store-templates($collection, $userData, $permissions),
+                    deploy:store-libs($collection, $userData, $permissions),
                     deploy:store-ant($collection, $permissions),
                     deploy:expand-xql($collection)
                 ) else
