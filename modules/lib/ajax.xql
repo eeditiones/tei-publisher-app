@@ -43,18 +43,24 @@ let $xml :=
         console:log("Loading by id " || $id),
         let $node := pages:get-document($doc)/id($id)
         let $div := $node/ancestor-or-self::tei:div[1]
+        let $config := pages:parse-pi(root($node), $view)
         return
-            if (empty($div)) then
-                $node/following-sibling::tei:div[1]
-            else
-                $div
+            map {
+                "odd": $config?odd,
+                "view": $config?view,
+                "data":
+                    if (empty($div)) then
+                        $node/following-sibling::tei:div[1]
+                    else
+                        $div
+            }
     ) else
         pages:load-xml($view, $root, $doc)
 return
-    if ($xml) then
-        let $prev := $config:previous-page($xml, $view)
-        let $next := $config:next-page($xml, $view)
-        let $html := pages:process-content(pages:get-content($xml), $xml)
+    if ($xml?data) then
+        let $prev := $config:previous-page($xml?data, $view)
+        let $next := $config:next-page($xml?data, $view)
+        let $html := pages:process-content(pages:get-content($xml?data), $xml?data, $xml?config?odd)
         let $doc := replace($doc, "^.*/([^/]+)$", "$1")
         return
             map {
@@ -70,7 +76,7 @@ return
                         $doc || "?root=" || util:node-id($prev) || "&amp;odd=" || $config:odd || "&amp;view=" || $view
                     else (),
                 "switchView":
-                    let $root := pages:switch-view-id($xml, $view)
+                    let $root := pages:switch-view-id($xml?data, $view)
                     return
                         if ($root) then
                             $doc || "?root=" || util:node-id($root) ||

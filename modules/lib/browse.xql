@@ -21,6 +21,7 @@ module namespace app="http://www.tei-c.org/tei-simple/templates";
 
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
+import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
@@ -110,20 +111,24 @@ function app:browse($node as node(), $model as map(*), $start as xs:int, $per-pa
         templates:process($node/*[@class="empty"], $model)
     else
         subsequence($model?all, $start, $per-page) !
-            templates:process($node/*[not(@class="empty")], map:new(($model, map { "work": . })))
+            templates:process($node/*[not(@class="empty")], map:new(
+                ($model, map { 
+                    "work": .,
+                    "config": pages:parse-pi(root(.), ())
+                }))
+            )
 };
 
 declare
     %templates:wrap
-function app:short-header($node as node(), $model as map(*), $odd as xs:string?) {
-    let $odd := ($odd, $config:odd)[1]
+function app:short-header($node as node(), $model as map(*)) {
     let $work := $model("work")/ancestor-or-self::tei:TEI
     let $relPath := config:get-identifier($work)
     return
         $pm-config:web-transform($work/tei:teiHeader, map {
             "header": "short",
-            "doc": $relPath || "?odd=" || $odd
-        })
+            "doc": $relPath || "?odd=" || $model?config?odd
+        }, $model?config?odd)
 };
 
 (:~
@@ -224,7 +229,6 @@ declare function app:work-title($work as element(tei:TEI)?) {
 
 declare function app:download-link($node as node(), $model as map(*), $type as xs:string,
     $doc as xs:string?, $source as xs:boolean?, $mode as xs:string?, $odd as xs:string?) {
-    let $odd := ($odd, $config:odd)[1]
     let $file :=
         if ($model?work) then
             config:get-identifier($model?work)
@@ -236,7 +240,7 @@ declare function app:download-link($node as node(), $model as map(*), $type as x
             $node/@*,
             attribute data-token { $uuid },
             attribute href { $node/@href || $file || "." || $type || "?token=" || $uuid || "&amp;cache=no"
-                || "&amp;odd=" || $odd
+                || "&amp;odd=" || $model?config?odd
                 || (if ($source) then "&amp;source=yes" else ()) || (if ($mode) then "&amp;mode=" || $mode else ())
             },
             $node/node()

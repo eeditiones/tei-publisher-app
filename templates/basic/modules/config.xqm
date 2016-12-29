@@ -145,24 +145,26 @@ declare variable $config:tex-command := function($file) {
 (:~
  : Configuration for epub files.
  :)
-declare variable $config:epub-config := function($root as element(), $langParameter as xs:string?) {
-    map {
-        "metadata": map {
-            "title": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title/string(),
-            "creator": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:author/string(),
-            "urn": util:uuid(),
-            "language": ($langParameter, $root/@xml:lang, $root/tei:teiHeader/@xml:lang, "en")[1]
-        },
-        "odd": $config:odd,
-        "output-root": $config:odd-root,
-        "fonts": [ 
-            $config:app-root || "/resources/fonts/Junicode.ttf",
-            $config:app-root || "/resources/fonts/Junicode-Bold.ttf",
-            $config:app-root || "/resources/fonts/Junicode-BoldItalic.ttf",
-            $config:app-root || "/resources/fonts/Junicode-Italic.ttf"
-        ]
-    }
-};
+ declare variable $config:epub-config := function($root as element(), $langParameter as xs:string?) {
+     let $properties := pages:parse-pi(root($root), ())
+     return
+         map {
+             "metadata": map {
+                 "title": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title/string(),
+                 "creator": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:author/string(),
+                 "urn": util:uuid(),
+                 "language": ($langParameter, $root/@xml:lang, $root/tei:teiHeader/@xml:lang, "en")[1]
+             },
+             "odd": $properties?odd,
+             "output-root": $config:odd-root,
+             "fonts": [
+                 $config:app-root || "/resources/fonts/Junicode.ttf",
+                 $config:app-root || "/resources/fonts/Junicode-Bold.ttf",
+                 $config:app-root || "/resources/fonts/Junicode-BoldItalic.ttf",
+                 $config:app-root || "/resources/fonts/Junicode-Italic.ttf"
+             ]
+         }
+ };
 
 (:~
  : Root path where images to be included in the epub can be found.

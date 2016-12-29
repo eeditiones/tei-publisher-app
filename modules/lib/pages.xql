@@ -52,21 +52,25 @@ declare
 function pages:load($node as node(), $model as map(*), $doc as xs:string, $root as xs:string?,
     $id as xs:string?, $view as xs:string?) {
     let $doc := xmldb:decode($doc)
-    let $view := if ($view) then $view else $config:default-view
-    let $node :=
+    let $data :=
         if ($id) then
             let $node := $config:data-root ! doc(. || "/" || $doc)/id($id)
             let $div := $node/ancestor-or-self::tei:div[1]
+            let $config := pages:parse-pi(root($node), $view)
             return
-                if (empty($div)) then
-                    $node/following-sibling::tei:div[1]
-                else
-                    $div
+                map {
+                    "config": $config,
+                    "data":
+                        if (empty($div)) then
+                            $node/following-sibling::tei:div[1]
+                        else
+                            $div
+                }
         else
             pages:load-xml($view, $root, $doc)
     let $node :=
-        if ($node) then
-            $node
+        if ($data?data) then
+            $data?data
         else
             <TEI xmlns="http://www.tei-c.org/ns/1.0">
                 <teiHeader>
@@ -87,57 +91,68 @@ function pages:load($node as node(), $model as map(*), $doc as xs:string, $root 
             </TEI>//tei:div
     return
         map {
+            "config": $data?config,
             "data": $node
         }
 };
 
 declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc as xs:string) {
-    let $view := if ($view) then $view else $config:default-view
+    let $docName :=
+        if (matches($doc, "_\d+\.?[\d\.]*\.xml$")) then
+            let $analyzed := analyze-string($doc, "^(.*)_(\d+\.?[\d\.]*)\.xml$")
+            return
+                $analyzed//fn:group[@nr = 1]/text() || ".xml"
+        else
+            $doc
+    let $data := pages:get-document($docName)
+    let $config := pages:parse-pi(root($data), $view)
     return
-        switch ($view)
-    	    case "div" return
-        	    if (matches($doc, "_\d+\.?[\d\.]*\.xml$")) then
-                    let $analyzed := analyze-string($doc, "^(.*)_(\d+\.?[\d\.]*)\.xml$")
-                    let $docName := $analyzed//fn:group[@nr = 1]/text()
-                    return
-                        util:node-by-id(pages:get-document($docName), $analyzed//fn:group[@nr = 2]/string())
-                else if ($root) then
-                    let $node := util:node-by-id(pages:get-document($doc), $root)
-                    return
-                        $node/ancestor-or-self::tei:div[count(ancestor::tei:div) < $config:pagination-depth][1]
-                else
-                    let $div := (pages:get-document($doc)//tei:div)[1]
-                    return
-                        if ($div) then
-                            $div
-                        else
-                            let $group := pages:get-document($doc)/tei:TEI/tei:text/tei:group/tei:text/(tei:front|tei:body|tei:back)
+        map {
+            "config": $config,
+            "data":
+                switch ($config?view)
+            	    case "div" return
+                	    if (matches($doc, "_\d+\.?[\d\.]+\.xml$")) then
+                            let $analyzed := analyze-string($doc, "^(.*)_(\d+\.?[\d\.]+)\.xml$")
                             return
-                                if ($group) then
-                                    $group[1]
-                                else
-                                    pages:get-document($doc)/tei:TEI//tei:body
-            case "page" return
-                if (matches($doc, "_\d+\.[\d\.]+\.xml$")) then
-                    let $analyzed := analyze-string($doc, "^(.*)_(\d+\.[\d\.]+)\.xml$")
-                    let $docName := $analyzed//fn:group[@nr = 1]/text()
-                    let $targetNode := util:node-by-id(pages:get-document($docName), $analyzed//fn:group[@nr = 2]/string())
-                    return
-                        $targetNode
-                else if ($root) then
-                    util:node-by-id(pages:get-document($doc), $root)
-                else
-                    let $div := (pages:get-document($doc)//tei:pb)[1]
-                    return
-                        if ($div) then
-                            $div
+                                util:node-by-id($data, $analyzed//fn:group[@nr = 2]/string())
+                        else if ($root) then
+                            let $node := util:node-by-id($data, $root)
+                            return
+                                $node/ancestor-or-self::tei:div[count(ancestor::tei:div) < $config:pagination-depth][1]
                         else
-                            pages:get-document($doc)/tei:TEI//tei:body
-            default return
-                if ($root) then
-                    util:node-by-id(pages:get-document($doc), $root)
-                else
-                    pages:get-document($doc)/tei:TEI/tei:text
+                            let $div := ($data//tei:div)[1]
+                            return
+                                if ($div) then
+                                    $div
+                                else
+                                    let $group := $data/tei:TEI/tei:text/tei:group/tei:text/(tei:front|tei:body|tei:back)
+                                    return
+                                        if ($group) then
+                                            $group[1]
+                                        else
+                                            $data/tei:TEI//tei:body
+                    case "page" return
+                        if (matches($doc, "_\d+\.[\d\.]+\.xml$")) then
+                            let $analyzed := analyze-string($doc, "^(.*)_(\d+\.[\d\.]+)\.xml$")
+                            let $targetNode := util:node-by-id($data, $analyzed//fn:group[@nr = 2]/string())
+                            return
+                                $targetNode
+                        else if ($root) then
+                            util:node-by-id($data, $root)
+                        else
+                            let $div := ($data//tei:pb)[1]
+                            return
+                                if ($div) then
+                                    $div
+                                else
+                                    $data/tei:TEI//tei:body
+                    default return
+                        if ($root) then
+                            util:node-by-id($data, $root)
+                        else
+                            $data/tei:TEI/tei:text
+        }
 };
 
 declare function pages:get-document($idOrName as xs:string) {
@@ -196,8 +211,8 @@ declare function pages:xml-link($node as node(), $model as map(*), $source as xs
 
 declare
     %templates:default("action", "browse")
-function pages:view($node as node(), $model as map(*), $view as xs:string?, $action as xs:string) {
-    let $view := pages:determine-view($view, $model?data)
+function pages:view($node as node(), $model as map(*), $action as xs:string) {
+    let $view := pages:determine-view($model?config?view, $model?data)
     let $data :=
         if ($action = "search") then
             let $query := session:get-attribute("apps.simple.query")
@@ -231,11 +246,11 @@ function pages:view($node as node(), $model as map(*), $view as xs:string?, $act
         else
             $model?data//*:body/*
     return
-        pages:process-content($xml, $model?data)
+        pages:process-content($xml, $model?data, $model?config?odd)
 };
 
-declare function pages:process-content($xml as element()*, $root as element()*) {
-	let $html := $pm-config:web-transform($xml, map { "root": $root })
+declare function pages:process-content($xml as element()*, $root as element()*, $odd as xs:string) {
+	let $html := $pm-config:web-transform($xml, map { "root": $root }, $odd)
     let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
     let $body := pages:clean-footnotes($html)
     return
@@ -282,11 +297,11 @@ declare function pages:clean-footnotes($nodes as node()*) {
 
 declare
     %templates:wrap
-function pages:table-of-contents($node as node(), $model as map(*), $view as xs:string?) {
-    pages:toc-div(root($model?data), $view, $model?data)
+function pages:table-of-contents($node as node(), $model as map(*)) {
+    pages:toc-div(root($model?data), $model?config?view, $model?data, $model?config?odd)
 };
 
-declare %private function pages:toc-div($node, $view as xs:string?, $current as element()) {
+declare %private function pages:toc-div($node, $view as xs:string?, $current as element(), $odd as xs:string) {
     let $view := pages:determine-view($view, $node)
     let $divs := $node//tei:div[tei:head] except $node//tei:div[tei:head]//tei:div
     return
@@ -295,7 +310,7 @@ declare %private function pages:toc-div($node, $view as xs:string?, $current as 
             for $div in $divs
             let $html :=
                 if ($div/tei:head/*) then
-                    $pm-config:web-transform($div/tei:head, map { "header": "short", "root": $div })
+                    $pm-config:web-transform($div/tei:head, map { "header": "short", "root": $div }, $odd)
                 else
                     $div/tei:head/text()
             let $root := (
@@ -318,12 +333,13 @@ declare %private function pages:toc-div($node, $view as xs:string?, $current as 
                         else
                             ()
                     }
-                    <a data-div="{util:node-id($div)}" class="toc-link {$isCurrent}" href="{util:document-name($div)}?root={util:node-id($root)}&amp;odd={$config:odd}">{$html}</a>
+                    <a data-div="{util:node-id($div)}" class="toc-link {$isCurrent}" 
+                        href="{util:document-name($div)}?root={util:node-id($root)}&amp;odd={$odd}&amp;view={$view}">{$html}</a>
                     {
                         if ($hasDivs) then
-                            <div id="{$id}" class="collapse {$isIn}">{pages:toc-div($div, $view, $current)}</div>
+                            <div id="{$id}" class="collapse {$isIn}">{pages:toc-div($div, $view, $current, $odd)}</div>
                         else
-                            pages:toc-div($div, $view, $current)
+                            pages:toc-div($div, $view, $current, $odd)
                     }
                 </li>
         }
@@ -489,10 +505,8 @@ declare function pages:title($work as element()) {
         if ($main-title) then $main-title else $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/text()
 };
 
-declare function pages:navigation-link($node as node(), $model as map(*), $direction as xs:string, $view as xs:string?) {
-    let $view := if ($view) then $view else $config:default-view
-    return
-        if ($view = "single") then
+declare function pages:navigation-link($node as node(), $model as map(*), $direction as xs:string) {
+        if ($model?config?view = "single") then
             ()
         else if ($model($direction)) then
             let $doc :=
@@ -505,7 +519,7 @@ declare function pages:navigation-link($node as node(), $model as map(*), $direc
                 {
                     $node/@* except $node/@href,
                     let $id := replace($doc, "^.*?/?([^/]+)$", "$1") || "?root=" || util:node-id($model($direction))
-                        || "&amp;odd=" || $config:odd || "&amp;view=" || $view
+                        || "&amp;odd=" || $config:odd || "&amp;view=" || $model?config?view
                     return
                         attribute href { $id },
                     $node/node()
@@ -573,4 +587,21 @@ declare function pages:switch-view-id($data as element()+, $view as xs:string) {
             $data/ancestor::tei:div[1]
     return
         $root
+};
+
+declare function pages:parse-pi($doc as document-node(), $view as xs:string?) {
+    let $default := map {
+        "view": ($view, $config:default-view)[1],
+        "odd": $config:odd
+    }
+    let $pis :=
+        map:new(
+            for $pi in $doc/processing-instruction("teipublisher")
+            let $analyzed := analyze-string($pi, '([^\s]+)\s*=\s*"(.*?)"')
+            for $match in $analyzed/fn:match
+            return
+                map:entry($match/fn:group[@nr="1"], $match/fn:group[@nr="2"])
+        )
+    return
+        map:new(($default, $pis))
 };
