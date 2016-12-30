@@ -34,7 +34,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["latex","print"],
-                "odd": "",
+                "odd": "/db/apps/tei-publisher/odd/beamer.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }
@@ -54,6 +54,7 @@ declare function model:apply($config as map(*), $input as node()*) {
     $input !         (
             typeswitch(.)
                 case element(text) return
+                    (: tei_simplePrint.odd sets a font and margin on the text body. We don't want that. :)
                     latex:body($config, ., ("tei-text"), .)
                 case element(ab) return
                     latex:paragraph($config, ., ("tei-ab"), .)
@@ -200,6 +201,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     if (head or @rendition='simple:display') then
                         latex:block($config, ., ("tei-figure1"), .)
                     else
+                        (: Changed to not show a blue border around the figure :)
                         latex:inline($config, ., ("tei-figure2"), .)
                 case element(floatingText) return
                     latex:block($config, ., ("tei-floatingText"), .)
@@ -399,11 +401,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                     if ($parameters?header='short') then
                         (
                             latex:block($config, ., ("tei-fileDesc1", "header-short"), titleStmt),
-                            latex:block($config, ., ("tei-fileDesc2", "header-short"), editionStmt)
+                            latex:block($config, ., ("tei-fileDesc2", "header-short"), editionStmt),
+                            latex:block($config, ., ("tei-fileDesc3", "header-short"), publicationStmt)
                         )
 
                     else
-                        latex:title($config, ., ("tei-fileDesc3"), titleStmt)
+                        latex:title($config, ., ("tei-fileDesc4"), titleStmt)
                 case element(profileDesc) return
                     latex:omit($config, ., ("tei-profileDesc"), .)
                 case element(revisionDesc) return
@@ -415,6 +418,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(TEI) return
                     ext-beamer:document($config, ., ("tei-TEI"), .)
                 case element(text) return
+                    (: tei_simplePrint.odd sets a font and margin on the text body. We don't want that. :)
                     latex:body($config, ., ("tei-text"), .)
                 case element(time) return
                     latex:inline($config, ., ("tei-time"), .)
@@ -479,6 +483,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(titleStmt) return
                     (: No function found for behavior: meta :)
                     $config?apply($config, ./node())
+                case element(publicationStmt) return
+                    latex:omit($config, ., ("tei-publicationStmt2"), .)
+                case element(licence) return
+                    latex:omit($config, ., ("tei-licence2"), .)
                 case element(edition) return
                     if (ancestor::teiHeader) then
                         latex:block($config, ., ("tei-edition"), .)

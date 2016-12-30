@@ -25,7 +25,10 @@ let $id := request:get-parameter("id", ())
 let $token := request:get-parameter("token", ())
 let $source := request:get-parameter("source", ())
 return (
-    response:set-cookie("simple.token", $token),
+    if ($token) then
+        response:set-cookie("simple.token", $token)
+    else
+        (),
     if ($id) then
         let $id := replace($id, "^(.*)\..*", "$1")
         let $xml := pages:get-document($id)/tei:TEI

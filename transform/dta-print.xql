@@ -1,11 +1,11 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/tei-publisher/odd/teipublisher.odd
+    ODD: /db/apps/tei-publisher/odd/dta.odd
  :)
 xquery version "3.1";
 
-module namespace model="http://www.tei-c.org/pm/models/teipublisher/fo";
+module namespace model="http://www.tei-c.org/pm/models/dta/fo";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
@@ -30,7 +30,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["fo","print"],
-                "odd": "/db/apps/tei-publisher/odd/teipublisher.odd",
+                "odd": "/db/apps/tei-publisher/odd/dta.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }
@@ -208,10 +208,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(front) return
                     fo:block($config, ., ("tei-front"), .)
                 case element(fw) return
-                    if (ancestor::p or ancestor::ab) then
-                        fo:inline($config, ., ("tei-fw1"), .)
-                    else
-                        fo:block($config, ., ("tei-fw2"), .)
+                    fo:omit($config, ., ("tei-fw5"), .)
                 case element(g) return
                     if (not(text())) then
                         fo:glyph($config, ., ("tei-g1"), .)
@@ -308,7 +305,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(p) return
                     fo:paragraph($config, ., css:get-rendition(., ("tei-p")), .)
                 case element(pb) return
-                    fo:break($config, ., css:get-rendition(., ("tei-pb")), ., 'page', (concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else '')))
+                    if (preceding-sibling::*[1][self::pb]) then
+                        fo:inline($config, ., ("tei-pb1"), '[Empty page]')
+                    else
+                        fo:omit($config, ., ("tei-pb2"), .)
                 case element(pc) return
                     fo:inline($config, ., ("tei-pc"), .)
                 case element(postscript) return

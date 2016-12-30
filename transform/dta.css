@@ -13,6 +13,7 @@
 .tei-author1:before { content: 'By '; }
 .tei-castList { list-style: ordered; }
 .tei-closer { margin-top: 1em; margin-left: 1em; margin-left: 1em; }
+.tei-code { font-family:monospace }
 .tei-corr2:before { content: '['; }
 .tei-corr2:after { content: ']'; }
 .tei-del { text-decoration: line-through; }
@@ -24,6 +25,9 @@
 .tei-figDesc { color: grey;font-style:italic; }
 .tei-floatingText { margin: 6pt; border: solid black 1pt; }
 .tei-foreign { font-style:italic; }
+.tei-fw1 { color: #CCC; }
+.tei-fw2 { margin-left: 10em; margin-top: 1em; color: #CCC; }
+.tei-fw4 { margin-left: 10em; }
 .tei-gap1 { color: grey; }
 .tei-gap2:before { content: '[..'; }
 .tei-gap2:after { content: '..]'; }
@@ -40,11 +44,7 @@
 .tei-note3:before { content:" ["; }
 .tei-note3:after { content:"] "; }
 .tei-note3 { font-size:small; }
-.tei-p1 { text-align: justify; }
-.tei-p2 { text-align: justify; }
-.tei-pb { display: block; margin-left: 4pt; color: grey; float: right; }
-.tei-pb:before { content: '[Page '; }
-.tei-pb:after { content: ']'; }
+.tei-p { text-align: justify; }
 .tei-q1 { margin-left: 10px; margin-right: 10px; }
 .tei-q2:before { content: '‘'; }
 .tei-q2:after { content: '’'; }
@@ -67,6 +67,7 @@
 .tei-supplied4:after { content:")"; }
 .tei-supplied5:before { content:"{"; }
 .tei-supplied5:after { content:"}"; }
+.tei-table { font-size: smaller; background-color: #F0F0F0; }
 .tei-title3 { color: red; font-size: 2em; }
 .tei-title5 { font-style: italic; }
 .tei-title7 { font-style: italic; }
@@ -76,4 +77,3 @@
 .tei-trailer { color: green; }
 .tei-unclear:after { content: ' [?] '; }
 .tei-edition:before { content: 'Edition: '; }
-.tei-att:before { content: '@'; }

@@ -22,7 +22,6 @@
 .tei-figDesc:before { content: '[..'; }
 .tei-figDesc:after { content: '..]'; }
 .tei-figDesc { color: grey;font-style:italic; }
-.tei-figure2 { display: block; border-top: solid 1pt blue; border-bottom: solid 1pt blue; }
 .tei-floatingText { margin: 6pt; border: solid black 1pt; }
 .tei-foreign { font-style:italic; }
 .tei-gap1 { color: grey; }

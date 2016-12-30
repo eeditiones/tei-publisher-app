@@ -1,11 +1,11 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/tei-publisher/odd/documentation.odd
+    ODD: /db/apps/tei-publisher/odd/dta.odd
  :)
 xquery version "3.1";
 
-module namespace model="http://www.tei-c.org/pm/models/documentation/epub";
+module namespace model="http://www.tei-c.org/pm/models/dta/epub";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
@@ -13,15 +13,11 @@ declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
 declare namespace xi='http://www.w3.org/2001/XInclude';
 
-declare namespace skos='http://www.w3.org/2004/02/skos/core#';
-
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
 import module namespace epub="http://www.tei-c.org/tei-simple/xquery/functions/epub";
-
-import module namespace ext-html="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist://embedded-eXist-server/db/apps/tei-publisher/modules/../modules/ext-html.xql";
 
 (:~
 
@@ -34,7 +30,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["epub","web"],
-                "odd": "/db/apps/tei-publisher/odd/documentation.odd",
+                "odd": "/db/apps/tei-publisher/odd/dta.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }
@@ -115,10 +111,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(cb) return
                     epub:break($config, ., ("tei-cb"), ., 'column', @n)
                 case element(cell) return
-                    if (parent::row[@role='label']) then
-                        html:cell($config, ., ("tei-cell1", "table-head"), ., 'head')
-                    else
-                        html:cell($config, ., ("tei-cell2"), ., ())
+                    (: Insert table cell. :)
+                    html:cell($config, ., ("tei-cell"), ., ())
                 case element(choice) return
                     if (sic and corr) then
                         html:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
@@ -139,10 +133,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(closer) return
                     html:block($config, ., ("tei-closer"), .)
                 case element(code) return
-                    if (parent::cell|parent::p|parent::ab) then
-                        html:inline($config, ., ("tei-code3"), .)
-                    else
-                        ext-html:code($config, ., ("tei-code4"), ., @lang)
+                    html:inline($config, ., ("tei-code"), .)
                 case element(corr) return
                     if (parent::choice and count(parent::*/*) gt 1) then
                         (: simple inline, if in parent choice. :)
@@ -197,10 +188,11 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(figDesc) return
                     html:inline($config, ., ("tei-figDesc"), .)
                 case element(figure) return
-                    if (head) then
-                        html:figure($config, ., ("tei-figure2"), *[not(self::head)], head/node())
+                    if (head or @rendition='simple:display') then
+                        html:block($config, ., ("tei-figure1"), .)
                     else
-                        html:figure($config, ., ("tei-figure3"), ., ())
+                        (: Changed to not show a blue border around the figure :)
+                        html:inline($config, ., ("tei-figure2"), .)
                 case element(floatingText) return
                     html:block($config, ., ("tei-floatingText"), .)
                 case element(foreign) return
@@ -213,10 +205,17 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(front) return
                     html:block($config, ., ("tei-front"), .)
                 case element(fw) return
-                    if (ancestor::p or ancestor::ab) then
-                        html:inline($config, ., ("tei-fw1"), .)
+                    if (@place='top') then
+                        html:block($config, ., ("tei-fw1"), .)
                     else
-                        html:block($config, ., ("tei-fw2"), .)
+                        if (@type='sig') then
+                            html:block($config, ., ("tei-fw2"), (
+    html:inline($config, ., ("tei-fw3"), node()),
+    html:inline($config, ., ("tei-fw4"), following-sibling::fw[@type='catch']/node())
+)
+)
+                        else
+                            html:omit($config, ., ("tei-fw5"), .)
                 case element(g) return
                     if (not(text())) then
                         html:glyph($config, ., ("tei-g1"), .)
@@ -231,7 +230,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             html:inline($config, ., ("tei-gap3"), .)
                 case element(graphic) return
-                    html:graphic($config, ., ("tei-graphic", "img-responsive"), ., @url, @width, @height, @scale, desc)
+                    html:graphic($config, ., ("tei-graphic"), ., @url, @width, @height, @scale, desc)
                 case element(group) return
                     html:block($config, ., ("tei-group"), .)
                 case element(head) return
@@ -311,12 +310,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(orig) return
                     html:inline($config, ., ("tei-orig"), .)
                 case element(p) return
-                    if (preceding-sibling::*[1][self::head] or ancestor::item) then
-                        html:paragraph($config, ., ("tei-p1", "paragraph", "first"), .)
-                    else
-                        html:paragraph($config, ., css:get-rendition(., ("tei-p2", "paragraph")), .)
+                    html:paragraph($config, ., css:get-rendition(., ("tei-p")), .)
                 case element(pb) return
-                    epub:break($config, ., css:get-rendition(., ("tei-pb")), ., 'page', (concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else '')))
+                    if (preceding-sibling::*[1][self::pb]) then
+                        html:inline($config, ., ("tei-pb1"), '[Empty page]')
+                    else
+                        html:omit($config, ., ("tei-pb2"), .)
                 case element(pc) return
                     html:inline($config, ., ("tei-pc"), .)
                 case element(postscript) return
@@ -353,16 +352,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:inline($config, ., ("tei-ref1"), .)
                     else
                         if (not(text())) then
-                            html:link($config, ., ("tei-ref2"), @target, @target)
+                            html:link($config, ., ("tei-ref2"), @target, ())
                         else
-                            html:link($config, ., ("tei-ref3"), ., 
-                            if (starts-with(@target, "#")) then
-                                request:get-parameter("doc", ()) ||
-                                "?odd=" || request:get-parameter("odd", ()) || "&amp;view=" ||
-                                request:get-parameter("view", ()) || "&amp;id=" || substring-after(@target, '#')
-                            else
-                                @target
-                        )
+                            html:link($config, ., ("tei-ref3"), ., ())
                 case element(reg) return
                     html:inline($config, ., ("tei-reg"), .)
                 case element(relatedItem) return
@@ -425,7 +417,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 else
                                     html:inline($config, ., ("tei-supplied5"), .)
                 case element(table) return
-                    html:table($config, ., ("tei-table", "table", "table-bordered"), .)
+                    html:table($config, ., ("tei-table"), .)
                 case element(fileDesc) return
                     if ($parameters?header='short') then
                         (
@@ -535,8 +527,6 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:block($config, ., ("tei-edition"), .)
                     else
                         $config?apply($config, ./node())
-                case element(att) return
-                    html:inline($config, ., ("tei-att", "xml-attribute"), .)
                 case element(exist:match) return
                     html:match($config, ., .)
                 case element() return
