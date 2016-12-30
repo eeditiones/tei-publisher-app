@@ -45,4 +45,8 @@
     <msg key="search-results">Suchergebnis</msg>
     <msg key="found">Gefundene Treffer</msg>
     <msg key="view-switch">Zwischen Seiten- und Kapitelansicht wechseln</msg>
+    <msg key="documentation">Dokumentation</msg>
+    <msg key="app-generator">Anwendungsgenerator</msg>
+    <msg key="presentation">Präsentation</msg>
+    <msg key="examples">Anwendungsbeispiele</msg>
 </catalogue>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+<div xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div data-template="templates:include" data-template-path="templates/menu.html"/>
-    <section class="container-fluid">
+    <section class="container-fluid" data-template="i18n:translate" data-catalogues="resources/i18n">
         <header class="row">
             <div class="page-header col-md-12">
                 <h1 class="tp-title">TEI Publisher</h1>
@@ -12,7 +12,9 @@
             <section class="col-md-4 col-md-push-8">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title">App Examples</h3>
+                        <h3 class="panel-title">
+                            <i18n:text key="examples"/>
+                        </h3>
                     </div>
                     <div class="panel-body">
                         <div class="media">
@@ -91,7 +93,7 @@
                 </form-->
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title">ODD Files</h3>
+                        <h3 class="panel-title">ODD Dateien</h3>
                     </div>
                     <div class="panel-body">
                         <table class="odd-table">
@@ -112,15 +114,19 @@
                 </div>
                 <div class="panel panel-info" data-template="browse:show-if-logged-in">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Upload</h3>
+                        <h3 class="panel-title">
+                            <i18n:text key="upload"/>
+                        </h3>
                     </div>
                     <div class="panel-body">
-                        <p>Upload TEI XML or ODD files into the test document set. Click on the button below or
-                            drag&amp;drop files on it.
+                        <p>
+                            <i18n:text key="upload-files"/>
                         </p>
                         <span class="btn btn-success btn-block fileinput-button">
                             <i class="material-icons">file_upload</i>
-                            <span>Select files...</span>
+                            <span>
+                                <i18n:text key="select-files"/>
+                            </span>
                             <input id="fileupload" type="file" name="files[]" multiple="multiple"/>
                         </span><!-- The global progress bar -->
                         <div id="progress" class="progress">
@@ -128,7 +134,9 @@
                         </div><!-- The container for the uploaded files -->
                         <table id="files-table" class="files table table-striped">
                             <thead>
-                                <th>Uploaded Files</th>
+                                <th>
+                                    <i18n:text key="uploaded-files"/>
+                                </th>
                             </thead>
                             <tbody id="files"/>
                         </table>

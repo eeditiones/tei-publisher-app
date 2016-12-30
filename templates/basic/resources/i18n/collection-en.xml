@@ -44,4 +44,8 @@
     <msg key="search-results">Search Results</msg>
     <msg key="found">Found</msg>
     <msg key="view-switch">Switch between page and division view</msg>
+    <msg key="documentation">Documentation</msg>
+    <msg key="app-generator">App Generator</msg>
+    <msg key="presentation">Presentation</msg>
+    <msg key="examples">Examples</msg>
 </catalogue>
