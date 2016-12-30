@@ -140,7 +140,7 @@ function search:show-hits($node as node()*, $model as map(*), $start as xs:integ
     let $parent := ($hit/self::tei:body, $hit/ancestor-or-self::tei:div)[1]
     let $parent := if ($parent) then $parent else $hit/ancestor-or-self::tei:teiHeader
     let $div := search:get-current($parent)
-    let $parent-id := util:document-name($parent) || "_" || util:node-id($parent)
+    let $parent-id := config:get-identifier($parent)
     (:if the nearest div does not have an xml:id, find the nearest element with an xml:id and use it:)
     (:is this necessary - can't we just use the nearest ancestor?:)
 (:    let $div-id := :)
@@ -153,15 +153,13 @@ function search:show-hits($node as node()*, $model as map(*), $start as xs:integ
     let $work := $hit/ancestor::tei:TEI
     let $work-title := browse:work-title($work)
     (:the work always has xml:id.:)
-    let $work-id := $work/@xml:id/string()
-    let $work-id := if ($work-id) then $work-id else util:document-name($work) || "_1.xml"
 
     let $loc :=
         <tr class="reference">
             <td colspan="3">
                 <span class="number">{$start + $p - 1}</span>
                 <span class="headings">
-                    <a href="{$work-id}">{$work-title}</a>{if ($div-head) then ' / ' else ''}<a href="{$parent-id}.xml?action=search">{$div-head}</a>
+                    <a href="{$parent-id}">{$work-title}</a>{if ($div-head) then ' / ' else ''}<a href="{$parent-id}?action=search&amp;root={util:node-id($parent)}">{$div-head}</a>
                 </span>
             </td>
         </tr>
@@ -176,10 +174,10 @@ function search:show-hits($node as node()*, $model as map(*), $start as xs:integ
                 let $contextNode := util:node-by-id($div, $matchId)
                 let $page := $contextNode/preceding::tei:pb[1]
                 return
-                    $docId || "_" || util:node-id($page)
+                    util:node-id($page)
             else
-                $docId || "_" || util:node-id($div)
-        let $config := <config width="60" table="yes" link="{$docLink}.xml?action=search&amp;view={$view}#{$matchId}"/>
+                util:node-id($div)
+        let $config := <config width="60" table="yes" link="{$docId}?root={$docLink}&amp;action=search&amp;view={$view}#{$matchId}"/>
         let $kwic := kwic:get-summary($expanded, $match, $config)
         return $kwic
     )
