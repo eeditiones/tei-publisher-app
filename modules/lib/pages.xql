@@ -184,12 +184,14 @@ declare function pages:xml-link($node as node(), $model as map(*), $source as xs
     let $doc-path :=
         if ($source = "odd") then
             $config:odd-root || "/" || $config:odd
+        else if ($source) then
+            $config:app-root || "/" || $source
         else if ($model?work) then
             document-uri(root($model?work))
         else if ($model?data) then
             document-uri(root($model?data))
         else
-            $config:app-root || "/" || $source
+            ()
     let $eXide-link := $pages:EXIDE || "?open=" || $doc-path
     let $rest-link := '/exist/rest' || $doc-path
     return
@@ -333,7 +335,7 @@ declare %private function pages:toc-div($node, $view as xs:string?, $current as 
                         else
                             ()
                     }
-                    <a data-div="{util:node-id($div)}" class="toc-link {$isCurrent}" 
+                    <a data-div="{util:node-id($div)}" class="toc-link {$isCurrent}"
                         href="{util:document-name($div)}?root={util:node-id($root)}&amp;odd={$odd}&amp;view={$view}">{$html}</a>
                     {
                         if ($hasDivs) then
