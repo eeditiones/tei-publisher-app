@@ -60,6 +60,7 @@
                 <p>Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD,
                 then generate your own, standalone app (using the <a href="generate.html">App Generator</a>) covering all core
                 features like browsing, search and PDF generation. Check the "App Examples" box for examples of real apps built with App Generator.</p>
+                <p class="well well-sm"><span class="bold"><a href="#loginDialog" data-toggle="modal">Log in</a> to upload files or see administrative functions (default user: "tei", password: "simple")</span>.</p>
                 <div data-template="app:action"/>
             </section>
         </div>
@@ -99,7 +100,7 @@
                         <table class="odd-table">
                             <tbody data-template="app:odd-table"/>
                         </table>
-                        <div class="col-md-12">
+                        <div class="col-md-12" data-template="browse:show-if-logged-in">
                             <form class="form" action="" method="POST" data-toggle="validator">
                                 <div class="form-group">
                                     <input type="text" name="new-odd" class="form-control" placeholder="Name of new customization" required="required" pattern="[a-zA-Z0-9-_]+"/>

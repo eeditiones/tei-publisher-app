@@ -198,11 +198,11 @@ declare function deploy:repo-descriptor($target as xs:string) {
             let $owner := request:get-parameter("owner", ())
             return
                 if ($owner and $owner != "") then
-                    let $group := request:get-parameter("group", $owner)
+                    let $group := request:get-parameter("group", "tei")
                     return
                         <permissions user="{$owner}"
                             password="{request:get-parameter('password', ())}"
-                            group="{if ($group != '') then $group else 'dba'}"
+                            group="{$group}"
                             mode="rw-rw-r--"/>
                 else
                     ()

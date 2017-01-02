@@ -82,7 +82,7 @@
                         </li>
                     </ul>
                 </li>
-                <li>
+                <li data-template="browse:show-if-logged-in">
                     <a href="$app/generate.html">
                         <i18n:text key="app-generator"/>
                     </a>
@@ -94,7 +94,7 @@
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         <li>
-                            <a id="recompile" href="#">
+                            <a class="recompile" data-template="browse:recompile-link">
                                 <i18n:text key="recompile"/>
                             </a>
                         </li>
@@ -106,11 +106,6 @@
                         <li>
                             <a href="#" data-template="pages:xml-link" data-template-source="odd">
                                 <i18n:text key="edit-odd"/>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" data-template="pages:xml-link" data-template-source="resources/css/style.less">
-                                <i18n:text key="edit-styles"/>
                             </a>
                         </li>
                     </ul>

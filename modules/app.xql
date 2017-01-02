@@ -21,6 +21,7 @@ declare
     %templates:wrap
 function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
     let $odd := ($odd, $config:odd)[1]
+    let $user := request:get-attribute($config:login-domain || ".user")
     return
         dbutil:scan-resources(xs:anyURI($config:odd-root), function($resource) {
             if (ends-with($resource, ".odd")) then
@@ -47,52 +48,55 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
                             let $xqlFoAvail := util:binary-doc-available($outputPath || "-print.xql")
                             let $cssAvail := util:binary-doc-available($outputPath || ".css")
                             return
-                                templates:process(
-                                    <div class="btn-group" role="group">
-                                        <a class="btn btn-default recompile" title="Regenerate"
-                                            href="?source={$name}.odd&amp;odd={$odd}">
-                                            <i class="material-icons">update</i>
-                                            <span class="hidden-xs">Regenerate</span>
-                                        </a>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                <i class="material-icons">code</i> <span class="hidden-xs">Source</span> <span class="caret"/>
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a data-template="app:load-source"
-                                                        href="{substring-after($resource, $config:app-root)}">
-                                                        <i class="material-icons">edit</i> ODD</a>
-                                                </li>
-                                                <li>
-                                                    <a data-template="app:load-source"
-                                                        href="{substring-after($config:output-root, $config:app-root)}/{$name}-web.xql">
-                                                        { if ($xqlWebAvail) then () else attribute disabled { "disabled" } }
-                                                        <i class="material-icons">edit</i> Web XQL</a>
-                                                </li>
-                                                <li>
-                                                    <a data-template="app:load-source"
-                                                        href="{substring-after($config:output-root, $config:app-root)}/{$name}-print.xql">
-                                                        { if ($xqlFoAvail) then () else attribute disabled { "disabled" } }
-                                                        <i class="material-icons">edit</i> FO XQL</a>
-                                                </li>
-                                                <li>
-                                                    <a data-template="app:load-source"
-                                                        href="{substring-after($config:output-root, $config:app-root)}/{$name}-latex.xql">
-                                                        { if ($xqlFoAvail) then () else attribute disabled { "disabled" } }
-                                                        <i class="material-icons">edit</i> LaTeX XQL</a>
-                                                </li>
-                                                <li>
-                                                    <a data-template="app:load-source"
-                                                        href="{substring-after($config:output-root, $config:app-root)}/{$name}.css">
-                                                        { if ($cssAvail) then () else attribute disabled { "disabled" } }
-                                                        <i class="material-icons">edit</i> CSS</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>,
-                                    $model
-                                )
+                                if ($user) then
+                                    templates:process(
+                                        <div class="btn-group" role="group">
+                                            <a class="btn btn-default recompile" title="Regenerate"
+                                                href="?source={$name}.odd&amp;odd={$odd}">
+                                                <i class="material-icons">update</i>
+                                                <span class="hidden-xs">Regenerate</span>
+                                            </a>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    <i class="material-icons">code</i> <span class="hidden-xs">Source</span> <span class="caret"/>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li>
+                                                        <a data-template="app:load-source"
+                                                            href="{substring-after($resource, $config:app-root)}">
+                                                            <i class="material-icons">edit</i> ODD</a>
+                                                    </li>
+                                                    <li>
+                                                        <a data-template="app:load-source"
+                                                            href="{substring-after($config:output-root, $config:app-root)}/{$name}-web.xql">
+                                                            { if ($xqlWebAvail) then () else attribute disabled { "disabled" } }
+                                                            <i class="material-icons">edit</i> Web XQL</a>
+                                                    </li>
+                                                    <li>
+                                                        <a data-template="app:load-source"
+                                                            href="{substring-after($config:output-root, $config:app-root)}/{$name}-print.xql">
+                                                            { if ($xqlFoAvail) then () else attribute disabled { "disabled" } }
+                                                            <i class="material-icons">edit</i> FO XQL</a>
+                                                    </li>
+                                                    <li>
+                                                        <a data-template="app:load-source"
+                                                            href="{substring-after($config:output-root, $config:app-root)}/{$name}-latex.xql">
+                                                            { if ($xqlFoAvail) then () else attribute disabled { "disabled" } }
+                                                            <i class="material-icons">edit</i> LaTeX XQL</a>
+                                                    </li>
+                                                    <li>
+                                                        <a data-template="app:load-source"
+                                                            href="{substring-after($config:output-root, $config:app-root)}/{$name}.css">
+                                                            { if ($cssAvail) then () else attribute disabled { "disabled" } }
+                                                            <i class="material-icons">edit</i> CSS</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>,
+                                        $model
+                                    )
+                                else
+                                    ()
                         }
                         </td>
                     </tr>
@@ -135,7 +139,7 @@ declare function app:load-source($node as node(), $model as map(*)) as node()* {
         }
 };
 
-declare 
+declare
     %templates:wrap
 function app:action($node as node(), $model as map(*), $source as xs:string?, $action as xs:string?, $new-odd as xs:string?) {
     switch ($action)

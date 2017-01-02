@@ -30,8 +30,8 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare
     %templates:wrap
-function app:show-for-document($node as node(), $model as map(*), $doc as xs:string?, $query as xs:string?) {
-    if ($doc and not($query)) then
+function app:show-for-document($node as node(), $model as map(*), $doc as xs:string?, $query as xs:string?, $start as xs:string?) {
+    if ($doc and empty($query) and empty($start)) then
         templates:process($node/*, $model)
     else
         ()
@@ -112,7 +112,7 @@ function app:browse($node as node(), $model as map(*), $start as xs:int, $per-pa
     else
         subsequence($model?all, $start, $per-page) !
             templates:process($node/*[not(@class="empty")], map:new(
-                ($model, map { 
+                ($model, map {
                     "work": .,
                     "config": pages:parse-pi(root(.), ())
                 }))
@@ -240,9 +240,23 @@ declare function app:download-link($node as node(), $model as map(*), $type as x
             $node/@*,
             attribute data-token { $uuid },
             attribute href { $node/@href || $file || "." || $type || "?token=" || $uuid || "&amp;cache=no"
-                || "&amp;odd=" || $model?config?odd
+                || "&amp;odd=" || ($model?config?odd, $config:odd)[1]
                 || (if ($source) then "&amp;source=yes" else ()) || (if ($mode) then "&amp;mode=" || $mode else ())
             },
+            $node/node()
+        }
+};
+
+declare function app:recompile-link($node as node(), $model as map(*)) {
+    let $odd :=
+        if ($model?work) then
+            ($model?config?odd, $config:odd)[1]
+        else
+            $config:odd
+    return
+        element { node-name($node) } {
+            $node/@*,
+            attribute href { "?source=" || $odd },
             $node/node()
         }
 };
