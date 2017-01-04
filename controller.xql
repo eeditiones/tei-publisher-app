@@ -58,11 +58,17 @@ else if (ends-with($exist:resource, ".xql")) then (
         <redirect url="{replace(request:get-uri(), "^(.*)\?", "$1")}"/>
     </dispatch>
 
-    ) else if (ends-with($exist:resource, ".html")) then (
-        login:set-user($config:login-domain, (), false()),
+) else if (ends-with($exist:resource, ".html")) then (
+    login:set-user($config:login-domain, (), false()),
+    let $resource :=
+        if (contains($exist:path, "/templates/")) then
+            "templates/" || $exist:resource
+        else
+            $exist:resource
+    return
         (: the html page is run through view.xql to expand templates :)
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-            <forward url="{$exist:controller}/{$exist:resource}"/>
+            <forward url="{$exist:controller}/{$resource}"/>
             <view>
                 <forward url="{$exist:controller}/modules/view.xql"/>
             </view>

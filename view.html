@@ -30,7 +30,7 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $.material.init();
-                
+
                 // keyboard shortcuts: press "left" key for previous page, "right" for next
                 $(document).keydown(function(ev) {
                     switch (ev.which) {
@@ -60,7 +60,9 @@
                         <!-- Table of contents -->
                         <aside id="sidebar" class="col-md-3 hidden-xs toc offcanvas">
                             <h3>Contents</h3>
-                            <div data-template="pages:table-of-contents"/>
+                            <div id="toc">
+                                <span id="toc-loading">Loading ...</span>
+                            </div>
                         </aside>
                         <section id="right-panel" class="col-md-12 col-xs-12">
                             <div class="container-fluid">

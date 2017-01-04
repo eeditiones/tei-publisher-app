@@ -326,7 +326,7 @@ declare %private function pages:toc-div($node, $view as xs:string?, $current as 
             let $hasDivs := exists($div//tei:div[tei:head] except $div//tei:div[tei:head]//tei:div)
             let $isIn := if ($div/descendant::tei:div[. is $current]) then "in" else ()
             let $isCurrent := if ($div is $current) then "active" else ()
-            let $icon := if ($isIn) then "arrow_drop_up" else "arrow_drop_down"
+            let $icon := if ($isIn) then "expand_less" else "expand_more"
             return
                 <li>
                     {
