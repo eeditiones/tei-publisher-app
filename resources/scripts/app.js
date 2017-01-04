@@ -163,8 +163,7 @@ $(document).ready(function() {
         return true;
     }
 
-    resize();
-    $(".page-nav,.toc-link").click(function(ev) {
+    function initLinks(ev) {
         ev.preventDefault();
         var relPath = this.pathname.replace(/^.*?\/([^\/]+)$/, "$1");
         var url = "doc=" + relPath + "&" + this.search.substring(1);
@@ -172,14 +171,22 @@ $(document).ready(function() {
             history.pushState(null, null, this.href);
         }
         load(url, this.className.split(" ")[0]);
-    });
-    $(".toc .toc-link").click(function(ev) {
-        $(".toc").offcanvas('hide');
-    });
-    $(".toc a[data-toggle='collapse']").click(function(ev) {
-        var icon = $(this).find("span").text();
-        $(this).find("span").text(icon == "arrow_drop_down" ? "arrow_drop_up" : "arrow_drop_down");
-    });
+    }
+    
+    function tocLoaded() {
+        $("#toc .toc-link").click(function(ev) {
+            $("#sidebar").offcanvas('hide');
+        });
+        $("#toc a[data-toggle='collapse']").click(function(ev) {
+            var icon = $(this).find("span").text();
+            $(this).find("span").text(icon == "expand_less" ? "expand_more" : "expand_less");
+        });
+        $(".toc-link").click(initLinks);
+    }
+    
+    resize();
+    $(".page-nav").click(initLinks);
+    
     $("#zoom-in").click(function(ev) {
         ev.preventDefault();
         var size = getFontSize();
@@ -202,7 +209,8 @@ $(document).ready(function() {
         $("#toc-loading").each(function() {
             console.log("Loading toc...");
             $("#toc").load("templates/toc.html?doc=" +
-                window.location.pathname.replace(/^.*\/([^\/]+)$/, "$1")
+                window.location.pathname.replace(/^.*\/([^\/]+)$/, "$1"),
+                tocLoaded
             );
         });
     });
