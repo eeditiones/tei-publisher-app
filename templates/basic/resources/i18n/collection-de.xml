@@ -15,7 +15,8 @@
     <msg key="recompile">ODD neu kompilieren</msg>
     <msg key="metadata-update">Metadatenindex neu erzeugen</msg>
     <msg key="edit-odd">ODD Editieren</msg>
-    <msg key="edit-styles">Styles Editieren</msg>
+    <msg key="edit-styles">Styles editieren</msg>
+    <msg key="edit-config">Konfiguration editieren</msg>
     <msg key="login">Login</msg>
     <msg key="logout">Logout</msg>
     <msg key="user">Benutzer</msg>

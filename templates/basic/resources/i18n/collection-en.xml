@@ -16,6 +16,7 @@
     <msg key="metadata-update">Update Document Metadata Index</msg>
     <msg key="edit-odd">Edit ODD</msg>
     <msg key="edit-styles">Edit Styles</msg>
+    <msg key="edit-config">Edit Configuration</msg>
     <msg key="login">Login</msg>
     <msg key="logout">Logout</msg>
     <msg key="user">User</msg>
