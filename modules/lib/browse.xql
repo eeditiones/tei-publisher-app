@@ -1,5 +1,5 @@
 (:
- :  
+ :
  :  Copyright (C) 2015 Wolfgang Meier
  :
  :  This program is free software: you can redistribute it and/or modify
@@ -21,6 +21,7 @@ module namespace app="http://www.tei-c.org/tei-simple/templates";
 
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
+import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
@@ -29,8 +30,8 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare
     %templates:wrap
-function app:show-for-document($node as node(), $model as map(*), $doc as xs:string?, $query as xs:string?) {
-    if ($doc and not($query)) then
+function app:show-for-document($node as node(), $model as map(*), $doc as xs:string?, $query as xs:string?, $start as xs:string?) {
+    if ($doc and empty($query) and empty($start)) then
         templates:process($node/*, $model)
     else
         ()
@@ -76,8 +77,9 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
     let $filtered :=
         if ($filter) then
             let $ordered :=
+                for $rootCol in $config:data-root
                 for $item in
-                    ft:search($config:data-root || "/" || $root, $browse || ":" || $filter, ("author", "title"))/search
+                    ft:search($rootCol || "/" || $root, $browse || ":" || $filter, ("author", "title"))/search
                 let $author := $item/field[@name = "author"]
                 order by $author[1], $author[2], $author[3]
                 return
@@ -88,7 +90,7 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
         else if ($cached and $filter != "") then
             $cached
         else
-            collection($config:data-root || "/" || $root)/tei:TEI
+            $config:data-root ! collection(. || "/" || $root)/tei:TEI
     return (
         session:set-attribute("simple.works", $filtered),
         session:set-attribute("browse", $browse),
@@ -109,7 +111,12 @@ function app:browse($node as node(), $model as map(*), $start as xs:int, $per-pa
         templates:process($node/*[@class="empty"], $model)
     else
         subsequence($model?all, $start, $per-page) !
-            templates:process($node/*[not(@class="empty")], map:new(($model, map { "work": . })))
+            templates:process($node/*[not(@class="empty")], map:new(
+                ($model, map {
+                    "work": .,
+                    "config": pages:parse-pi(root(.), ())
+                }))
+            )
 };
 
 declare
@@ -120,8 +127,8 @@ function app:short-header($node as node(), $model as map(*)) {
     return
         $pm-config:web-transform($work/tei:teiHeader, map {
             "header": "short",
-            "doc": $relPath
-        })
+            "doc": $relPath || "?odd=" || $model?config?odd
+        }, $model?config?odd)
 };
 
 (:~
@@ -220,8 +227,8 @@ declare function app:work-title($work as element(tei:TEI)?) {
         $main-title
 };
 
-declare function app:download-link($node as node(), $model as map(*), $type as xs:string, $doc as xs:string?,
-    $source as xs:boolean?, $mode as xs:string?) {
+declare function app:download-link($node as node(), $model as map(*), $type as xs:string,
+    $doc as xs:string?, $source as xs:boolean?, $mode as xs:string?, $odd as xs:string?) {
     let $file :=
         if ($model?work) then
             config:get-identifier($model?work)
@@ -233,8 +240,23 @@ declare function app:download-link($node as node(), $model as map(*), $type as x
             $node/@*,
             attribute data-token { $uuid },
             attribute href { $node/@href || $file || "." || $type || "?token=" || $uuid || "&amp;cache=no"
+                || "&amp;odd=" || ($model?config?odd, $config:odd)[1]
                 || (if ($source) then "&amp;source=yes" else ()) || (if ($mode) then "&amp;mode=" || $mode else ())
             },
+            $node/node()
+        }
+};
+
+declare function app:recompile-link($node as node(), $model as map(*)) {
+    let $odd :=
+        if ($model?work) then
+            ($model?config?odd, $config:odd)[1]
+        else
+            $config:odd
+    return
+        element { node-name($node) } {
+            $node/@*,
+            attribute href { "?source=" || $odd },
             $node/node()
         }
 };
@@ -271,5 +293,3 @@ declare function app:fix-links($nodes as node()*) {
             default return
                 $node
 };
-
-

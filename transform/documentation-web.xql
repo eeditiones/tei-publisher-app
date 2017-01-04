@@ -32,7 +32,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["web"],
-                "odd": "",
+                "odd": "/db/apps/tei-publisher/odd/documentation.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }
@@ -52,6 +52,7 @@ declare function model:apply($config as map(*), $input as node()*) {
     $input !         (
             typeswitch(.)
                 case element(text) return
+                    (: tei_simplePrint.odd sets a font and margin on the text body. We don't want that. :)
                     html:body($config, ., ("tei-text"), .)
                 case element(ab) return
                     html:paragraph($config, ., ("tei-ab"), .)
@@ -136,7 +137,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(closer) return
                     html:block($config, ., ("tei-closer"), .)
                 case element(code) return
-                    html:inline($config, ., ("tei-code"), .)
+                    if (parent::cell|parent::p|parent::ab) then
+                        html:inline($config, ., ("tei-code3"), .)
+                    else
+                        ext-html:code($config, ., ("tei-code4"), ., @lang)
                 case element(corr) return
                     if (parent::choice and count(parent::*/*) gt 1) then
                         (: simple inline, if in parent choice. :)
@@ -424,11 +428,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                     if ($parameters?header='short') then
                         (
                             html:block($config, ., ("tei-fileDesc1", "header-short"), titleStmt),
-                            html:block($config, ., ("tei-fileDesc2", "header-short"), editionStmt)
+                            html:block($config, ., ("tei-fileDesc2", "header-short"), editionStmt),
+                            html:block($config, ., ("tei-fileDesc3", "header-short"), publicationStmt)
                         )
 
                     else
-                        html:title($config, ., ("tei-fileDesc3"), titleStmt)
+                        html:title($config, ., ("tei-fileDesc4"), titleStmt)
                 case element(profileDesc) return
                     html:omit($config, ., ("tei-profileDesc"), .)
                 case element(revisionDesc) return
@@ -443,6 +448,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(TEI) return
                     html:document($config, ., ("tei-TEI"), .)
                 case element(text) return
+                    (: tei_simplePrint.odd sets a font and margin on the text body. We don't want that. :)
                     html:body($config, ., ("tei-text"), .)
                 case element(time) return
                     html:inline($config, ., ("tei-time"), .)
@@ -514,6 +520,14 @@ declare function model:apply($config as map(*), $input as node()*) {
 
                     else
                         html:block($config, ., ("tei-titleStmt6"), .)
+                case element(publicationStmt) return
+                    (: More than one model without predicate found for ident publicationStmt. Choosing first one. :)
+                    html:block($config, ., ("tei-publicationStmt1"), availability/licence)
+                case element(licence) return
+                    if (@target) then
+                        html:link($config, ., ("tei-licence1", "licence"), 'Licence', @target)
+                    else
+                        html:omit($config, ., ("tei-licence2"), .)
                 case element(edition) return
                     if (ancestor::teiHeader) then
                         html:block($config, ., ("tei-edition"), .)

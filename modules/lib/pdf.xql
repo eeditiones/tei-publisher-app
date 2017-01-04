@@ -93,7 +93,8 @@ let $source := request:get-parameter("source", ())
 let $useCache := request:get-parameter("cache", "yes")
 let $id := replace($path, "^(.*)\..*", "$1")
 let $doc := pages:get-document($id)/tei:TEI
-let $log := console:log("Generating PDF for " || $config:data-root || "/" || $path)
+let $config := pages:parse-pi(root($doc), ())
+let $log := console:log("Generating PDF for " || $path)
 let $name := util:document-name($doc)
 return
     if ($doc) then
@@ -105,7 +106,7 @@ return
                 response:stream-binary($cached, "media-type=application/pdf", $id || ".pdf")
             ) else
                 let $start := util:system-time()
-                let $fo := $pm-config:print-transform($doc, map { "root": $doc })
+                let $fo := $pm-config:print-transform($doc, map { "root": $doc }, $config?odd)
                 return (
                     console:log("Generated fo for " || $name || " in " || util:system-time() - $start),
                     if ($source) then

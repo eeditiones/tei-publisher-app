@@ -22,9 +22,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
-
-import module namespace app="http://www.tei-c.org/tei-simple/templates" at "app.xql";
-import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 
 declare boundary-space strip;
 
@@ -32,70 +30,56 @@ declare option output:method "json";
 declare option output:media-type "application/json";
 
 
-(: 
+(:
  : This module is called from Javascript when the user wants to navigate to the next/previous
  : page.
  :)
 let $doc := request:get-parameter("doc", ())
 let $root := request:get-parameter("root", ())
-let $odd := request:get-parameter("odd", ())
 let $id := request:get-parameter("id", ())
 let $view := request:get-parameter("view", $config:default-view)
-let $xml := 
+let $xml :=
     if ($id) then (
         console:log("Loading by id " || $id),
-        let $node := doc($config:app-root || "/" || $doc)/id($id)
+        let $node := pages:get-document($doc)/id($id)
         let $div := $node/ancestor-or-self::tei:div[1]
+        let $config := pages:parse-pi(root($node), $view)
         return
-            if (empty($div)) then
-                $node/following-sibling::tei:div[1]
-            else
-                $div
+            map {
+                "odd": $config?odd,
+                "view": $config?view,
+                "data":
+                    if (empty($div)) then
+                        $node/following-sibling::tei:div[1]
+                    else
+                        $div
+            }
     ) else
-        pages:load-xml("div", $root, $doc)
+        pages:load-xml($view, $root, $doc)
 return
-    if ($xml) then
-        let $parent := $xml/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
-        let $prevDiv := $xml/preceding::tei:div[1]
-        let $prev := 
-            switch ($view)
-                case "page" return
-                    $xml/preceding::tei:pb[1]
-                case "body" return
-                    ($xml/preceding-sibling::*, $xml/../preceding-sibling::*)[1]
-                default return
-                    let $parent := $xml/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
-                    let $prevDiv := $xml/preceding::tei:div[1]
-                    return
-                        pages:get-previous(if ($parent and (empty($prevDiv) or $xml/.. >> $prevDiv)) then $xml/.. else $prevDiv)
-        let $next :=
-            switch ($view)
-                case "page" return
-                    $xml/following::tei:pb[1]
-                case "body" return
-                    ($xml/following-sibling::*, $xml/../following-sibling::*)[1]
-                default return
-                    pages:get-next($xml)
-        let $html := pages:process-content($odd, pages:get-content($xml), $xml)
+    if ($xml?data) then
+        let $prev := $config:previous-page($xml?data, $view)
+        let $next := $config:next-page($xml?data, $view)
+        let $html := pages:process-content(pages:get-content($xml?data), $xml?data, $xml?config?odd)
         let $doc := replace($doc, "^.*/([^/]+)$", "$1")
         return
             map {
                 "doc": $doc,
                 "root": $root,
-                "odd": $odd,
-                "next": 
-                    if ($next) then 
-                        $doc || "?root=" || util:node-id($next) || "&amp;odd=" || $odd || "&amp;view=" || $view
+                "odd": $config:odd,
+                "next":
+                    if ($next) then
+                        $doc || "?root=" || util:node-id($next) || "&amp;odd=" || $config:odd || "&amp;view=" || $view
                     else (),
-                "previous": 
-                    if ($prev) then 
-                        $doc || "?root=" || util:node-id($prev) || "&amp;odd=" || $odd || "&amp;view=" || $view
+                "previous":
+                    if ($prev) then
+                        $doc || "?root=" || util:node-id($prev) || "&amp;odd=" || $config:odd || "&amp;view=" || $view
                     else (),
-                "switchView": 
-                    let $root := pages:switch-view-id($xml, $view)
+                "switchView":
+                    let $root := pages:switch-view-id($xml?data, $view)
                     return
                         if ($root) then
-                            $doc || "?root=" || util:node-id($root) || "&amp;odd=" || $odd || 
+                            $doc || "?root=" || util:node-id($root) ||
                                 "&amp;view=" || (if ($view = "div") then "page" else "div")
                         else
                             (),

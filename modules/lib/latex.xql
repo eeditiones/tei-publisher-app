@@ -25,11 +25,15 @@ let $id := request:get-parameter("id", ())
 let $token := request:get-parameter("token", ())
 let $source := request:get-parameter("source", ())
 return (
-    response:set-cookie("simple.token", $token),
+    if ($token) then
+        response:set-cookie("simple.token", $token)
+    else
+        (),
     if ($id) then
         let $id := replace($id, "^(.*)\..*", "$1")
         let $xml := pages:get-document($id)/tei:TEI
-        let $tex := string-join($pm-config:latex-transform($xml, map { "image-dir": config:get-repo-dir() || "/" || $config:data-root || "/" }))
+        let $config := pages:parse-pi(root($xml), ())
+        let $tex := string-join($pm-config:latex-transform($xml, map { "image-dir": config:get-repo-dir() || "/" || $config:data-root[1] || "/" }, $config?odd))
         let $file :=
             $id || format-dateTime(current-dateTime(), "-[Y0000][M00][D00]-[H00][m00]")
         return

@@ -44,7 +44,8 @@ return
     if ($doc) then
         let $id := replace($doc, "^(.*)\..*", "$1")
         let $xml := pages:get-document($id)/*
-        let $out := $pm-config:web-transform($xml, map { "root": $xml })
+        let $config := pages:parse-pi(root($xml), ())
+        let $out := $pm-config:web-transform($xml, map { "root": $xml }, $config?odd)
         let $styles := if (count($out) > 1) then $out[1] else ()
         return
             local:postprocess(($out[2], $out[1])[1], $styles, $odd)

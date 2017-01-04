@@ -1,39 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"/>
-            <span class="icon-bar"/>
-            <span class="icon-bar"/>
-        </button>
-        <a class="navbar-brand" date-template="app:abs-link" href="index.html">
-            <span>TEI Processing Model Toolbox</span>
-        </a>
-    </div>
-    <div class="navbar-collapse collapse" id="navbar-collapse-1">
-        <ul class="nav navbar-nav">
-            <li>
-                <a data-template="app:abs-link" href="index.html">Home</a>
-            </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-                    Documentation
-                    <span class="caret"/>
-                </a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                    <li>
-                        <a data-template="app:abs-link"
-                            href="doc/documentation.xml?odd=documentation.odd">Documentation</a>
-                    </li>
-                    <li>
-                        <a href="modules/latex.xql?odd=beamer.odd&amp;doc=/doc/presentation.xml">Presentation</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a data-template="app:abs-link" href="generate.html">App Generator</a>
-            </li>
-        </ul>
+<nav xmlns:i18n="http://exist-db.org/xquery/i18n" class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="i18n:translate" data-catalogues="resources/i18n">
+    <div class="container-fluid" data-template="browse:fix-links">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"/>
+                <span class="icon-bar"/>
+                <span class="icon-bar"/>
+            </button>
+            <a class="navbar-brand" href="$app/index.html">
+                <span data-template="config:app-title">App Title</span>
+            </a>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li id="about">
+                    <a href="$app/index.html">
+                        <i18n:text key="home"/>
+                    </a>
+                </li>
+                <li class="dropdown" data-template="browse:show-for-document">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                        <i18n:text key="download"/>
+                        <span class="caret"/>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a class="download-link" data-template="browse:download-link" data-template-type="pdf" title="i18n(pdf-download)">
+                                <i class="material-icons">print</i> <i18n:text key="pdf-fo"/>
+                            </a>
+                        </li>
+                        <li data-template="browse:show-if-logged-in">
+                            <a target="_blank" data-template="browse:download-link" data-template-type="pdf" data-template-source="true">
+                                <i class="material-icons">code</i> <i18n:text key="fo-source"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="download-link" data-template="browse:download-link" data-template-type="tex" title="i18n(pdf-download)">
+                                <i class="material-icons">print</i> <i18n:text key="pdf-latex"/>
+                            </a>
+                        </li>
+                        <li data-template="browse:show-if-logged-in">
+                            <a target="_blank" data-template="browse:download-link" data-template-type="tex" data-template-source="true">
+                                <i class="material-icons">code</i> <i18n:text key="latex-source"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="download-link" data-template="browse:download-link" data-template-type="" data-template-mode="plain">
+                                <i class="material-icons">web</i> <i18n:text key="single-page"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-template="browse:download-link" data-template-type="epub" title="i18n(epub-download)">
+                                <i class="material-icons">book</i>
+                                ePUB
+                            </a>
+                        </li>
+                        <li>
+                            <a data-template="pages:xml-link" title="i18n(view-tei)">
+                                <i class="material-icons">code</i>
+                                XML
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                        <i18n:text key="documentation"/>
+                        <span class="caret"/>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li>
+                            <a href="$app/doc/documentation.xml">
+                                <i18n:text key="documentation"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="$app/doc/presentation.xml.tex?odd=beamer.odd">
+                                <i18n:text key="presentation"/>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li data-template="browse:show-if-logged-in">
+                    <a href="$app/generate.html">
+                        <i18n:text key="app-generator"/>
+                    </a>
+                </li>
+                <li class="dropdown" data-template="browse:show-if-logged-in">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                        <i class="material-icons md-dark">build</i> <i18n:text key="admin"/>
+                        <span class="caret"/>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li>
+                            <a class="recompile" data-template="browse:recompile-link">
+                                <i18n:text key="recompile"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="reindex" href="#">
+                                <i18n:text key="metadata-update"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-template="pages:xml-link" data-template-source="odd">
+                                <i18n:text key="edit-odd"/>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <!-- Search input -->
+                <li>
+                     <form id="searchPageForm" class="navbar-form" role="search" action="search.html">
+                        <div class="input-group">
+                            <i class="glyphicon glyphicon-search" onclick="$(&#34;#searchPageForm&#34;).submit()"/>
+                            <input type="search" class="form-control search-input templates:form-control typeahead-search" autocomplete="off" placeholder="Search..." name="query"/>
+                        </div>
+                    </form>
+                </li>
+                <li data-template="browse:check-login">
+                    <a href="#loginDialog" data-toggle="modal">
+                        <i class="material-icons">account_circle</i> <i18n:text key="login"/>
+                    </a>
+                    <a href="?logout=true">
+                        <i class="material-icons">account_circle</i> <i18n:text key="logout"/> <span class="browse:current-user"/>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>

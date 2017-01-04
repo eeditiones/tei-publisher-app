@@ -1,0 +1,10 @@
+.tei-text {
+    font-family: "Junicode";
+    hyphenate: true;
+}
+.tei-floatingText {
+    padding: 6pt;
+}
+.tei-p {
+    text-align: justify;
+}

@@ -16,6 +16,7 @@
     <msg key="metadata-update">Update Document Metadata Index</msg>
     <msg key="edit-odd">Edit ODD</msg>
     <msg key="edit-styles">Edit Styles</msg>
+    <msg key="edit-config">Edit Configuration</msg>
     <msg key="login">Login</msg>
     <msg key="logout">Logout</msg>
     <msg key="user">User</msg>
@@ -44,4 +45,8 @@
     <msg key="search-results">Search Results</msg>
     <msg key="found">Found</msg>
     <msg key="view-switch">Switch between page and division view</msg>
+    <msg key="documentation">Documentation</msg>
+    <msg key="app-generator">App Generator</msg>
+    <msg key="presentation">Presentation</msg>
+    <msg key="examples">Examples</msg>
 </catalogue>

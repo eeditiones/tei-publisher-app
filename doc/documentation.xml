@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?teipublisher odd="documentation.odd"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>TEI Processing Model Toolbox</title>
+                <title>TEI Publisher</title>
                 <author>Wolfgang Meier</author>
             </titleStmt>
             <publicationStmt>
@@ -17,7 +18,7 @@
     <text>
         <body>
             <div>
-                <head>TEI Processing Model Toolbox</head>
+                <head>TEI Publisher</head>
                 <div>
                     <head>Introduction</head>
                     <p>The TEI Processing Model (PM) extends the TEI ODD specification format with a processing model for
@@ -49,8 +50,8 @@
                 websites from a given data set without even relying on a developer.</p>
                 </div>
                 <div>
-                    <head>The Toolbox</head>
-                    <p>The toolbox does a lot more than just implement the TEI processing model. It consists
+                    <head>TEI Publisher</head>
+                    <p>TEI Publisher does a lot more than just implement the TEI processing model. It consists
                     of the following components:</p>
                     <list type="ordered">
                         <item>
@@ -73,9 +74,10 @@
                 </div>
                 <div xml:id="quickstart">
                     <head>Getting Started</head>
-                    <p>The toolbox is distributed as an eXist application package, making it easy to install
+                    <p>TEI Publisher is distributed as two eXist application packages, making it easy to install
                     on any local or remote eXist database instance. Just go to the dashboard, open the package
-                    manager and install the TEI processing model package from the public repository.</p>
+                    manager and install the TEI Publisher application package from the public repository. The 
+                    TEI Publisher library package will be installed automatically as a dependency.</p>
                     <p>
                         <hi rendition="simple:bold">Note</hi>: You need at least <ref target="http://exist-db.org#download">eXist 3.0RC1</ref> or a nightly build. When using a nightly, download one before February 10 as newer builds currently have issues
                         with font loading when generating PDFs.</p>
@@ -651,6 +653,15 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                         </list>
                     </div>
                 </div>
+                <div>
+                    <head>Configure the ODD via processing instructions</head>
+                    <p>Sometimes you want to use a different ODD for a specific TEI document. Before displaying
+                        a document, TEI publisher will check if a processing instruction exists at the start of the document,
+                        telling it which ODD to use (along with other configuration parameters). For example, the following
+                        processing instruction associates the document with the <code>dta.odd</code> ODD and switches
+                        to a page-by-page display (along TEI page break boundaries):</p>
+                    <code lang="xml">&lt;?teipublisher view="page" odd="dta.odd"?&gt;</code>
+                </div>
                 <div xml:id="appgen">
                     <head>Using the App Generator</head>
                     <p>The App Generator takes an ODD file and generates a complete, standalone application
@@ -690,6 +701,9 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                                 data.</item>
                             <label>Edit ODD</label>
                             <item>Opens the application's ODD in eXide for editing.</item>
+                            <label>Edit Configuration</label>
+                            <item>Edit the main configuration parameters of the app. Configuration is done via a set of variables
+                            in an XQuery module.</item>
                             <label>Edit Styles</label>
                             <item>Opens the main LESS stylesheet where you can change colors, fonts etc.</item>
                         </list>

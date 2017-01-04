@@ -1,5 +1,5 @@
 (:
- :  
+ :
  :  Copyright (C) 2015 Wolfgang Meier
  :
  :  This program is free software: you can redistribute it and/or modify
@@ -135,34 +135,31 @@ declare
     %templates:default("start", 1)
     %templates:default("per-page", 10)
 function search:show-hits($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer, $view as xs:string?) {
-    let $view := if ($view) then $view else $config:default-view
     for $hit at $p in subsequence($model("hits"), $start, $per-page)
-    let $parent := ($hit/self::tei:body, $hit/ancestor-or-self::tei:div)[1]
+    let $parent := ($hit/self::tei:body, $hit/ancestor-or-self::tei:div[1])[1]
     let $parent := if ($parent) then $parent else $hit/ancestor-or-self::tei:teiHeader
     let $div := search:get-current($parent)
-    let $parent-id := util:document-name($parent) || "_" || util:node-id($parent)
-    (:if the nearest div does not have an xml:id, find the nearest element with an xml:id and use it:)
-    (:is this necessary - can't we just use the nearest ancestor?:)
-(:    let $div-id := :)
-(:        if ($div-id) :)
-(:        then $div-id :)
-(:        else ($hit/ancestor-or-self::*[@xml:id]/@xml:id)[1]/string():)
-    (:if it is not a div, it will not have a head:)
-    let $div-head := $parent/tei:head/text()
-    (:TODO: what if the hit is in the header?:)
+    let $parent-id := config:get-identifier($parent)
     let $work := $hit/ancestor::tei:TEI
     let $work-title := browse:work-title($work)
-    (:the work always has xml:id.:)
-    let $work-id := $work/@xml:id/string()
-    let $work-id := if ($work-id) then $work-id else util:document-name($work) || "_1.xml"
-
+    let $config := pages:parse-pi(root($work), $view)
     let $loc :=
         <tr class="reference">
             <td colspan="3">
                 <span class="number">{$start + $p - 1}</span>
-                <span class="headings">
-                    <a href="{$work-id}">{$work-title}</a>{if ($div-head) then ' / ' else ''}<a href="{$parent-id}.xml?action=search">{$div-head}</a>
-                </span>
+                <ol class="headings breadcrumb">
+                    <li><a href="{$parent-id}">{$work-title}</a></li>
+                    {
+                        for $parentDiv in $hit/ancestor-or-self::tei:div[tei:head]
+                        let $id := util:node-id(
+                            if ($config?view = "page") then $parentDiv/preceding::tei:pb[1] else $parentDiv
+                        )
+                        return
+                            <li>
+                                <a href="{$parent-id}?action=search&amp;root={$id}&amp;view={$config?view}&amp;odd={$config?odd}">{$parentDiv/tei:head//text()}</a>
+                            </li>
+                    }
+                </ol>
             </td>
         </tr>
     let $expanded := util:expand($hit, "add-exist-id=all")
@@ -172,16 +169,16 @@ function search:show-hits($node as node()*, $model as map(*), $start as xs:integ
         for $match in subsequence($expanded//exist:match, 1, 5)
         let $matchId := $match/../@exist:id
         let $docLink :=
-            if ($view = "page") then
+            if ($config?view = "page") then
                 let $contextNode := util:node-by-id($div, $matchId)
                 let $page := $contextNode/preceding::tei:pb[1]
                 return
-                    $docId || "_" || util:node-id($page)
+                    util:node-id($page)
             else
-                $docId || "_" || util:node-id($div)
-        let $config := <config width="60" table="yes" link="{$docLink}.xml?action=search&amp;view={$view}#{$matchId}"/>
-        let $kwic := kwic:get-summary($expanded, $match, $config)
-        return $kwic
+                util:node-id($div)
+        let $config := <config width="60" table="yes" link="{$docId}?root={$docLink}&amp;action=search&amp;view={$config?view}&amp;odd={$config?odd}#{$matchId}"/>
+        return
+            kwic:get-summary($expanded, $match, $config)
     )
 };
 

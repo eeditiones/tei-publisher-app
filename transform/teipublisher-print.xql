@@ -30,7 +30,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["fo","print"],
-                "odd": "",
+                "odd": "/db/apps/tei-publisher/odd/teipublisher.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }
@@ -50,6 +50,7 @@ declare function model:apply($config as map(*), $input as node()*) {
     $input !         (
             typeswitch(.)
                 case element(text) return
+                    (: tei_simplePrint.odd sets a font and margin on the text body. We don't want that. :)
                     fo:body($config, ., ("tei-text"), .)
                 case element(ab) return
                     fo:paragraph($config, ., ("tei-ab"), .)
@@ -193,6 +194,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     if (head or @rendition='simple:display') then
                         fo:block($config, ., ("tei-figure1"), .)
                     else
+                        (: Changed to not show a blue border around the figure :)
                         fo:inline($config, ., ("tei-figure2"), .)
                 case element(floatingText) return
                     fo:block($config, ., ("tei-floatingText"), .)
@@ -413,11 +415,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                     if ($parameters?header='short') then
                         (
                             fo:block($config, ., ("tei-fileDesc1", "header-short"), titleStmt),
-                            fo:block($config, ., ("tei-fileDesc2", "header-short"), editionStmt)
+                            fo:block($config, ., ("tei-fileDesc2", "header-short"), editionStmt),
+                            fo:block($config, ., ("tei-fileDesc3", "header-short"), publicationStmt)
                         )
 
                     else
-                        fo:title($config, ., ("tei-fileDesc3"), titleStmt)
+                        fo:title($config, ., ("tei-fileDesc4"), titleStmt)
                 case element(profileDesc) return
                     fo:omit($config, ., ("tei-profileDesc"), .)
                 case element(revisionDesc) return
@@ -429,6 +432,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(TEI) return
                     fo:document($config, ., ("tei-TEI"), .)
                 case element(text) return
+                    (: tei_simplePrint.odd sets a font and margin on the text body. We don't want that. :)
                     fo:body($config, ., ("tei-text"), .)
                 case element(time) return
                     fo:inline($config, ., ("tei-time"), .)
@@ -492,6 +496,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                     fo:inline($config, ., ("tei-w"), .)
                 case element(titleStmt) return
                     fo:heading($config, ., ("tei-titleStmt2"), .)
+                case element(publicationStmt) return
+                    fo:omit($config, ., ("tei-publicationStmt2"), .)
+                case element(licence) return
+                    fo:omit($config, ., ("tei-licence2"), .)
                 case element(edition) return
                     if (ancestor::teiHeader) then
                         fo:block($config, ., ("tei-edition"), .)

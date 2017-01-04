@@ -80,8 +80,9 @@ declare function deploy:init-simple($collection as xs:string?, $userData as xs:s
     return (
         deploy:xconf($collection, $odd, $userData, $permissions),
         for $file in ("tei_simplePrint.odd", "teipublisher.odd", $odd)
+        let $source := doc($config:odd-root || "/" || $file)
         return (
-            xmldb:copy($config:odd-root, $target, $file),
+            xmldb:store($target, $file, $source, "application/xml"),
             if (exists($userData)) then
                 let $stored := xs:anyURI($target || "/" || $file)
                 return (
@@ -197,11 +198,11 @@ declare function deploy:repo-descriptor($target as xs:string) {
             let $owner := request:get-parameter("owner", ())
             return
                 if ($owner and $owner != "") then
-                    let $group := request:get-parameter("group", $owner)
+                    let $group := request:get-parameter("group", "tei")
                     return
                         <permissions user="{$owner}"
                             password="{request:get-parameter('password', ())}"
-                            group="{if ($group != '') then $group else 'dba'}"
+                            group="{$group}"
                             mode="rw-rw-r--"/>
                 else
                     ()
@@ -436,6 +437,19 @@ declare function deploy:store-templates($target as xs:string, $userData as xs:st
     )
 };
 
+declare function deploy:store-libs($target as xs:string, $userData as xs:string+, $permissions as xs:string) {
+    let $path := system:get-module-load-path()
+    for $lib in ("autocomplete.xql", "index.xql", "view.xql")
+    return (
+        xmldb:copy($path, $target || "/modules", $lib),
+        deploy:chmod($target || "/modules", $userData, $permissions)
+    ),
+    let $target := $target || "/modules/lib"
+    let $source := system:get-module-load-path() || "/lib"
+    return
+        deploy:copy-templates($target, $source, $userData, $permissions)
+};
+
 declare function deploy:store($collection as xs:string?, $target as xs:string, $expathConf as element()?) {
     let $collection :=
         if (starts-with($collection, "/")) then
@@ -455,6 +469,7 @@ declare function deploy:store($collection as xs:string?, $target as xs:string, $
                 deploy:store-repo($repoConf, $collection, $userData, $permissions),
                 if (empty($expathConf)) then (
                     deploy:store-templates($collection, $userData, $permissions),
+                    deploy:store-libs($collection, $userData, $permissions),
                     deploy:store-ant($collection, $permissions),
                     deploy:expand-xql($collection)
                 ) else

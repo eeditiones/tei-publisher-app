@@ -20,7 +20,16 @@
         <body>
             <schemaSpec start="TEI teiCorpus" source="tei_simplePrint.odd" ident="teipublisher">
                 <elementSpec ident="text" mode="change">
-                    <model behaviour="body"/>
+                    <model behaviour="body">
+                        <desc>tei_simplePrint.odd sets a font and margin on the text body. We
+                            don't want that.</desc>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="figure" mode="change">
+                    <model predicate="head or @rendition='simple:display'" behaviour="block"/>
+                    <model behaviour="inline">
+                        <desc>Changed to not show a blue border around the figure</desc>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="head" mode="change">
                     <model predicate="$parameters?header='short'" behaviour="inline">
@@ -57,6 +66,9 @@
                         <model behaviour="block" cssClass="header-short">
                             <param name="content" value="editionStmt"/>
                         </model>
+                        <model behaviour="block" cssClass="header-short">
+                            <param name="content" value="publicationStmt"/>
+                        </model>
                     </modelSequence>
                     <model behaviour="title">
                         <param name="content" value="titleStmt"/>
@@ -80,6 +92,19 @@
                         </model>
                     </modelSequence>
                     <model output="web" behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="publicationStmt" mode="add">
+                    <model output="web" behaviour="block">
+                        <param name="content" value="availability/licence"/>
+                    </model>
+                    <model behaviour="omit"/>
+                </elementSpec>
+                <elementSpec ident="licence" mode="add">
+                    <model output="web" behaviour="link" predicate="@target" cssClass="licence">
+                        <param name="content" value="'Licence'"/>
+                        <param name="link" value="@target"/>
+                    </model>
+                    <model behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="title" mode="change">
                     <model predicate="$parameters?header='short'" behaviour="heading">
@@ -106,8 +131,7 @@
                         <model behaviour="inline">
                             <outputRendition>font-style: italic;</outputRendition>
                         </model>
-                        <model predicate="following-sibling::* and     (  ancestor::biblFull)"
-                            behaviour="text">
+                        <model predicate="following-sibling::* and     (  ancestor::biblFull)" behaviour="text">
                             <param name="content" value="', '"/>
                         </model>
                     </modelSequence>
@@ -115,8 +139,7 @@
                         <model behaviour="inline">
                             <outputRendition>font-style: italic;</outputRendition>
                         </model>
-                        <model predicate="following-sibling::* and     (    ancestor::biblFull)"
-                            behaviour="text">
+                        <model predicate="following-sibling::* and     (    ancestor::biblFull)" behaviour="text">
                             <param name="content" value="'. '"/>
                         </model>
                     </modelSequence>

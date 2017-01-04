@@ -13,7 +13,6 @@
 .tei-author1:before { content: 'By '; }
 .tei-castList { list-style: ordered; }
 .tei-closer { margin-top: 1em; margin-left: 1em; margin-left: 1em; }
-.tei-code { font-family:monospace }
 .tei-corr2:before { content: '['; }
 .tei-corr2:after { content: ']'; }
 .tei-del { text-decoration: line-through; }

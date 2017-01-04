@@ -7,7 +7,15 @@ import module namespace pm-print="http://www.tei-c.org/pm/models/$$config-odd-na
 import module namespace pm-latex="http://www.tei-c.org/pm/models/$$config-odd-name$$/latex/module" at "../transform/$$config-odd-name$$-latex-module.xql";
 import module namespace pm-epub="http://www.tei-c.org/pm/models/$$config-odd-name$$/epub/module" at "../transform/$$config-odd-name$$-epub-module.xql";
 
-declare variable $pm-config:web-transform := pm-web:transform#2;
-declare variable $pm-config:print-transform := pm-print:transform#2;
-declare variable $pm-config:latex-transform := pm-latex:transform#2;
-declare variable $pm-config:epub-transform := pm-epub:transform#2;
+declare variable $pm-config:web-transform := function($xml as node()*, $parameters as map(*)?, $odd as xs:string?) {
+    pm-web:transform($xml, $parameters)
+};
+declare variable $pm-config:print-transform := function($xml as node()*, $parameters as map(*)?, $odd as xs:string?) {
+    pm-print:transform($xml, $parameters)
+};
+declare variable $pm-config:latex-transform := function($xml as node()*, $parameters as map(*)?, $odd as xs:string?) {
+    pm-latex:transform($xml, $parameters)
+};
+declare variable $pm-config:epub-transform := function($xml as node()*, $parameters as map(*)?, $odd as xs:string?) {
+    pm-epub:transform($xml, $parameters)
+};

@@ -64,3 +64,29 @@
     margin-bottom: 0;
   }
 }
+
+#searchPageForm {
+  font-size: @small-font-size !important;
+
+  @media screen and (min-width: @screen-xs-min) {
+    margin: 11px 0;
+    font-size: @font-size-body-default !important;
+  }
+  @media screen and (min-width: @screen-lg-min) {
+    margin: 15px 0 14px 0;
+  }
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+
+  input {
+    width: 28vw;
+  }
+
+  i.glyphicon-search {
+    top: 5px;
+    padding-right: 10px;
+    cursor: pointer;
+  }
+}
