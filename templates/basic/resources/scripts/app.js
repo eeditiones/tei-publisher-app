@@ -186,7 +186,8 @@ $(document).ready(function() {
         $("#toc-loading").each(function() {
             console.log("Loading toc...");
             $("#toc").load("templates/toc.html?doc=" +
-                window.location.pathname.replace(/^.*\/([^\/]+)$/, "$1"),
+                window.location.pathname.replace(/^.*\/([^\/]+)$/, "$1")
+                + "&" + window.location.search.substring(1),
                 tocLoaded
             );
         });
