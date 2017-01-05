@@ -55,10 +55,6 @@ $(document).ready(function() {
                     if (data.switchView) {
                         $("#switch-view").attr("href", data.switchView);
                     }
-                    if (data.root) {
-                        $(".toc .active").removeClass("active");
-                        $(".toc a[data-div='" + data.root + "']").toggleClass("active");
-                    }
                     showContent(container, animIn, animOut);
                 }
             });
@@ -162,23 +158,40 @@ $(document).ready(function() {
         return true;
     }
 
-    resize();
-    $(".page-nav,.toc-link").click(function(ev) {
+    function initLinks(ev) {
         ev.preventDefault();
+        $("#sidebar").offcanvas('hide');
+        $("#toc .active").removeClass("active");
+        $(this).toggleClass("active");
         var relPath = this.pathname.replace(/^.*\/works\/(.+)$/, "$1");
         var url = "doc=" + relPath + "&" + this.search.substring(1);
         if (historySupport) {
             history.pushState(null, null, this.href);
         }
         load(url, this.className.split(" ")[0]);
+    }
+    
+    function tocLoaded() {
+        $("#toc a[data-toggle='collapse']").click(function(ev) {
+            var icon = $(this).find("span").text();
+            $(this).find("span").text(icon == "expand_less" ? "expand_more" : "expand_less");
+        });
+        $(".toc-link").click(initLinks);
+    }
+    
+    resize();
+    $(".page-nav").click(initLinks);
+    
+    $(".toc-toggle").click( function(ev) {
+        $("#toc-loading").each(function() {
+            console.log("Loading toc...");
+            $("#toc").load("templates/toc.html?doc=" +
+                window.location.pathname.replace(/^.*\/([^\/]+)$/, "$1"),
+                tocLoaded
+            );
+        });
     });
-    $(".toc .toc-link").click(function(ev) {
-        $(".toc").offcanvas('hide');
-    });
-    $(".toc a[data-toggle='collapse']").click(function(ev) {
-        var icon = $(this).find("span").text();
-        $(this).find("span").text(icon == "arrow_drop_down" ? "arrow_drop_up" : "arrow_drop_down");
-    });
+    
     $("#zoom-in").click(function(ev) {
         ev.preventDefault();
         var size = getFontSize();

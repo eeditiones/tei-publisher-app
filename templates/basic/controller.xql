@@ -51,6 +51,26 @@ else if (ends-with($exist:resource, ".xql")) then (
         <redirect url="{replace(request:get-uri(), "^(.*)\?", "$1")}"/>
     </dispatch>
 
+) else if (ends-with($exist:resource, ".html")) then (
+    login:set-user($config:login-domain, (), false()),
+    let $resource :=
+        if (contains($exist:path, "/templates/")) then
+            "templates/" || $exist:resource
+        else
+            $exist:resource
+    return
+        (: the html page is run through view.xql to expand templates :)
+        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+            <forward url="{$exist:controller}/{$resource}"/>
+            <view>
+                <forward url="{$exist:controller}/modules/view.xql"/>
+            </view>
+    		<error-handler>
+    			<forward url="{$exist:controller}/error-page.html" method="get"/>
+    			<forward url="{$exist:controller}/modules/view.xql"/>
+    		</error-handler>
+        </dispatch>
+
 ) else if (starts-with($exist:path, "/works/")) then (
     login:set-user($config:login-domain, (), false()),
     (: let $id := replace(xmldb:decode($exist:resource), "^(.*)\..*$", "$1") :)
@@ -126,18 +146,6 @@ else if (ends-with($exist:resource, ".xql")) then (
                     <forward url="{$exist:controller}/modules/view.xql"/>
                 </error-handler>
             </dispatch>
-) else if (ends-with($exist:resource, ".html")) then (
-    login:set-user($config:login-domain, (), false()),
-    (: the html page is run through view.xql to expand templates :)
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <view>
-            <forward url="{$exist:controller}/modules/view.xql"/>
-        </view>
-		<error-handler>
-			<forward url="{$exist:controller}/error-page.html" method="get"/>
-			<forward url="{$exist:controller}/modules/view.xql"/>
-		</error-handler>
-    </dispatch>
 
 ) else
     (: everything else is passed through :)
