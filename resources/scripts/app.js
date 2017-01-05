@@ -56,10 +56,10 @@ $(document).ready(function() {
                     if (data.switchView) {
                         $("#switch-view").attr("href", data.switchView);
                     }
-                    if (data.root) {
-                        $(".toc .active").removeClass("active");
-                        $(".toc a[data-div='" + data.root + "']").toggleClass("active");
-                    }
+                    // if (data.root) {
+                    //     $("#toc .active").removeClass("active");
+                    //     $("#toc a[data-div='" + data.root + "']").toggleClass("active");
+                    // }
                     showContent(container, animIn, animOut);
                 }
             });
@@ -165,6 +165,9 @@ $(document).ready(function() {
 
     function initLinks(ev) {
         ev.preventDefault();
+        $("#sidebar").offcanvas('hide');
+        $("#toc .active").removeClass("active");
+        $(this).toggleClass("active");
         var relPath = this.pathname.replace(/^.*?\/([^\/]+)$/, "$1");
         var url = "doc=" + relPath + "&" + this.search.substring(1);
         if (historySupport) {
@@ -174,9 +177,6 @@ $(document).ready(function() {
     }
     
     function tocLoaded() {
-        $("#toc .toc-link").click(function(ev) {
-            $("#sidebar").offcanvas('hide');
-        });
         $("#toc a[data-toggle='collapse']").click(function(ev) {
             var icon = $(this).find("span").text();
             $(this).find("span").text(icon == "expand_less" ? "expand_more" : "expand_less");
@@ -209,7 +209,8 @@ $(document).ready(function() {
         $("#toc-loading").each(function() {
             console.log("Loading toc...");
             $("#toc").load("templates/toc.html?doc=" +
-                window.location.pathname.replace(/^.*\/([^\/]+)$/, "$1"),
+                window.location.pathname.replace(/^.*\/([^\/]+)$/, "$1")
+                + "&" + window.location.search.substring(1),
                 tocLoaded
             );
         });

@@ -300,7 +300,7 @@ declare function pages:clean-footnotes($nodes as node()*) {
 declare
     %templates:wrap
 function pages:table-of-contents($node as node(), $model as map(*)) {
-    pages:toc-div(root($model?data), $model?config?view, $model?data, $model?config?odd)
+    pages:toc-div(root($model?data), $model?config?view, $model?data/following::tei:div[1], $model?config?odd)
 };
 
 declare %private function pages:toc-div($node, $view as xs:string?, $current as element(), $odd as xs:string) {
