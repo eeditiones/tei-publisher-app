@@ -61,11 +61,17 @@ return
         let $prev := $config:previous-page($xml?data, $view)
         let $next := $config:next-page($xml?data, $view)
         let $html := pages:process-content(pages:get-content($xml?data), $xml?data, $xml?config?odd)
+        let $div :=
+            if ($view = "page") then
+                ($xml?data/ancestor-or-self::tei:div[1], $xml?data/following::tei:div[1])[1]
+            else
+                $xml?data
         let $doc := replace($doc, "^.*/([^/]+)$", "$1")
         return
             map {
                 "doc": $doc,
                 "root": $root,
+                "div": if ($div) then util:node-id($div) else (),
                 "odd": $config:odd,
                 "next":
                     if ($next) then
