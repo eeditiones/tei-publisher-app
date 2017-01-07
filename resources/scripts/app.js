@@ -84,6 +84,7 @@ $(document).ready(function() {
             var fn = document.getElementById(this.hash.substring(1));
             fn.scrollIntoView();
         });
+        $(".content .sourcecode").highlight();
         $(".content .alternate").each(function() {
             $(this).popover({
                 content: $(this).find(".altcontent").html(),

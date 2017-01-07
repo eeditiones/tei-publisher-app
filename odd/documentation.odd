@@ -58,7 +58,7 @@
                         <model behaviour="block" cssClass="code"/>
                     </modelGrp>
                     <modelGrp output="web">
-                        <model behaviour="inline" predicate="parent::cell|parent::p|parent::ab"/>
+                        <model behaviour="inline" predicate="parent::cell|parent::p|parent::ab" cssClass="code"/>
                         <model behaviour="code">
                             <param name="lang">@lang</param>
                         </model>
@@ -93,6 +93,12 @@
                 <elementSpec mode="add" ident="att">
                     <model behaviour="inline" cssClass="xml-attribute">
                         <outputRendition scope="before">content: '@';</outputRendition>
+                    </model>
+                </elementSpec>
+                <elementSpec mode="add" ident="tag">
+                    <model behaviour="inline" cssClass="xml-tag">
+                        <outputRendition scope="before">content: '&lt;';</outputRendition>
+                        <outputRendition scope="after">content: '&gt;';</outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec mode="change" ident="ref">

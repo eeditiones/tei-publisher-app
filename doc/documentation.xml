@@ -56,16 +56,18 @@
                     <list type="ordered">
                         <item>
                             A set of library modules to render a TEI document into various output formats,
-                            which can be imported into other applications.
+                            which can be imported into other applications. This corresponds to the TEI Publisher
+                            library package.
                         </item>
                         <item>
                             The core application to work and experiment with various source documents and processing
-                            model instances.
+                            model instances. This is the main TEI Publisher app.
                         </item>
                         <item>
                             An application generator, which takes a processing model instance and creates
                             a user interface around it, resulting in a standalone web application for a
-                            certain corpus of documents.
+                            certain corpus of documents. The generated application shares most of its XQuery code
+                            and interface with the main TEI Publisher app, but can be customized to meet your needs.
                         </item>
                     </list>
                     <p>In a strict sense, only the first component implements the processing model specification.
@@ -707,6 +709,45 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                             <label>Edit Styles</label>
                             <item>Opens the main LESS stylesheet where you can change colors, fonts etc.</item>
                         </list>
+                        <div>
+                            <head>Generated Code Overview</head>
+                            
+                            <div>
+                                <head>XQuery Code</head>
+                                <p>The generated app shares most of its XQuery libraries with the main TEI Publisher app. A copy of those is included
+                                    in the <code>lib/</code> collection of the generated app and should not be modified! This way you can later update
+                                    the libraries to a newer TEI Publisher release without breaking your app.</p>
+                                <p>Including the libraries in the generated app creates some redundancy, but we chose to accept this trade off to make
+                                    it easier to view and modify everything relevant to the app.</p>
+                                <p>The following core XQuery modules in every app are safe to be modified:</p>
+                                <list type="gloss">
+                                    <label>config.xqm</label>
+                                    <item>The main configuration file for the app. It contains a number of parameters which control things like:
+                                        how should the TEI content be split into viewable chunks?</item>
+                                    <label>pm-config.xql</label>
+                                    <item>This file defines the functions to be called for rendering TEI content via the processing model.
+                                        It imports the modules generated from your ODD and assigns them to variables as function pointers. 
+                                        This approach is much more efficient than the dynamic lookups done by the main TEI Publisher app. It has been
+                                        production tested on large web sites. The downside is that the connection to the ODD is hard-coded.
+                                        If you need to switch between different ODDs, you would need to change pm-config.xql and insert
+                                        a proper switch there depending on external parameters.</item>
+                                    <label>index.xql</label>
+                                    <item>Is used to generate indexes on document metadata like author, title etc. It is called when you click
+                                        "Update Metadata Index" in the admin menu.</item>
+                                    <label>autocomplete.xql</label>
+                                    <item>Contains the queries used to provide autocomplete suggestions when the user types into a search box.
+                                        If you need different indexes for your app, you may also have to modify those queries.</item>
+                                    <label>app.xql</label>
+                                    <item>Add your own HTML templating functions here. This is basically where the application logic of your app should go.</item>
+                                </list>
+                            </div>
+                            <div>
+                                <head>Styling</head>
+                                <p>All of the app styling is done via a set of modularized less stylesheets, residing in <code>resources/css</code>. The main
+                                file is <code>style.less</code>, which defines a number of core parameters. Ideally this should be the only file you ever need
+                                to modify. Limiting yourself to <code>style.less</code> will make later updates much easier.</p>
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <head>Exporting the Finished App</head>
@@ -757,7 +798,7 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                             eXide and open the XQuery file <code>modules/regenerate.xql</code>. This is the XQuery which
                             would be called by clicking on the "Recompile ODD" menu entry. Execute the query once by
                             clicking the "Eval" button in eXide.</p>
-                        <p>The same applies if you updated the core TEI Processing Model Toolbox app: your application may
+                        <p>The same applies if you updated the core TEI Publisher library package: your application may
                         suddenly fail with XQuery errors. Just follow the steps above to recover.</p>
                     </div>
                 </div>
@@ -792,37 +833,26 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                             <code>&lt;odd-name&gt;.fo.css</code> inside the specified output collection
                             (in which the generated XQuery files are stored). The style definitions are copied literally into attributes on
                             the output XSL:FO elements, so any property which is a valid attribute for the corresponding element
-                            may be used.</p>
-                        <p>
-                            The default styles file can also used to set general properties like the page
-                            size or the appearance of the page header:</p>
-                        <code lang="css">@page:left {
-    page-height: 297mm;
-    page-width: 210mm;
-    margin-bottom: 10mm;
-    margin-top: 10mm;
-    margin-left: 28mm;
-    margin-right: 16mm;
-}
-@page:right {
-    page-height: 297mm;
-    page-width: 210mm;
-    margin-bottom: 10mm;
-    margin-top: 10mm;
-    margin-left: 16mm;
-    margin-right: 28mm;
-}
-@page:right-body {
-    column-count: 2;
-    column-gap: 6mm;
-}
-@page:left-body {
-    column-count: 2;
-    column-gap: 6mm;
-}
-@page:head {
+                            may be used. For example, <code>teipublisher.fo.css</code> contains:</p>
+                        <code lang="css">.tei-text {
     font-family: "Junicode";
+    hyphenate: true;
+}
+.tei-floatingText {
+    padding: 6pt;
+}
+.tei-p {
+    text-align: justify;
 }</code>
+                        <p>Every XSL:FO document needs a master layout and a page sequence definition. Because those tend to be rather verbose as they
+                        include things like page margins etc., they are read from two XML files:</p>
+                        <list type="gloss">
+                            <label>master.fo.xml</label>
+                            <item>Contains the layout master set</item>
+                            <label>page-sequence.fo.xml</label>
+                            <item>Defines the main page sequence</item>
+                        </list>
+                        <p>The mechanisms for configuring FO output are still very much under development and we welcome suggestions by users.</p>
                     </div>
                     <div>
                         <head>LaTeX Output</head>
