@@ -185,7 +185,8 @@ declare function i18n:getLanguageCollection($node as node()*, $selectedLang as x
         collection($cataloguePath)//catalogue[@xml:lang eq $defaultLang]
     else if(exists($tmpNode/@i18n:default-lang)) then  
         collection($cataloguePath)//catalogue[@xml:lang eq $tmpNode/@i18n:default-lang]
-    else ()      
+    else
+        collection($cataloguePath)//catalogue[@xml:lang eq "en"]
 
 };
 
