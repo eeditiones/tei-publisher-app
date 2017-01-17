@@ -1,0 +1,21 @@
+{
+  "name": "tei-publisher-test",
+  "version": "1.0.0",
+  "description": "Web testing for TEI Publisher",
+  "main": "wdio.conf.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "chai": "^3.5.0",
+    "wdio-mocha-framework": "^0.5.8"
+  },
+  "devDependencies": {
+    "webdriverio": "^4.6.1"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -21,7 +21,8 @@
             <exclude name=".git*"/>
             <exclude name="*.tmpl"/>
             <exclude name="*.properties"/>
-	    <exclude name="cache/**"/>
+            <exclude name="webtest/**"/>
+	        <exclude name="cache/**"/>
         </zip>
     </target>
     <target name="upload">

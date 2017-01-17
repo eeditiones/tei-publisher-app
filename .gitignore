@@ -5,3 +5,6 @@ generated/
 !.existdb.json
 resources/css/style.css
 resources/css/style.css.map
+webtest/errorShots
+webtest/node_modules
+webtest/npm-debug.log
