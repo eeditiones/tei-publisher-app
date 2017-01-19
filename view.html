@@ -46,7 +46,7 @@
         </script>
         <script type="text/javascript" src="resources/scripts/app.js"/>
     </head>
-    <body>
+    <body xmlns:i18n="http://exist-db.org/xquery/i18n">
         <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content" data-template-using="body">
             <div data-template="pages:load">
                 <!-- Navigation -->
@@ -59,7 +59,7 @@
                     <div class="row">
                         <!-- Table of contents -->
                         <aside id="sidebar" class="col-md-3 hidden-xs toc offcanvas">
-                            <h3>Contents</h3>
+                            <h3><i18n:text key="contents">Contents</i18n:text></h3>
                             <div id="toc">
                                 <span id="toc-loading">Loading ...</span>
                             </div>
@@ -68,7 +68,7 @@
                             <div class="container-fluid">
                                 <section class="row" data-template="pages:navigation">
                                     <div class="col-md-1 hidden-xs hidden-sm">
-                                        <a class="btn btn-primary btn-fab toc-toggle" data-toggle="offcanvas" data-target="#sidebar" data-canvas="#main-container" title="Previous page [left arrow on keyboard]">
+                                        <a class="btn btn-primary btn-fab toc-toggle" data-toggle="offcanvas" data-target="#sidebar" data-canvas="#main-container" title="i18n(previous-page)">
                                             <i class="material-icons">view_list</i>
                                         </a>
                                         <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab">
@@ -78,7 +78,7 @@
                                     <div class="col-md-10 col-sm-12">
                                         <div class="navigation-top row">
                                             <div class="hidden-md hidden-lg btn-group-sm">
-                                                <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab" title="Previous page [left arrow on keyboard]">
+                                                <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab" title="i18n(previous-page)">
                                                     <i class="material-icons">navigate_before</i>
                                                 </a>
                                             </div>
@@ -87,7 +87,7 @@
                                                 <h5 data-template="pages:navigation-title"/>
                                             </div>
                                             <div class="hidden-md hidden-lg btn-group-sm">
-                                                <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab" title="Next page [right arrow on keyboard]">
+                                                <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab" title="i18n(next-page)">
                                                     <i class="material-icons">navigate_next</i>
                                                 </a>
                                             </div>
@@ -100,7 +100,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-1 hidden-xs hidden-sm">
-                                        <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab" title="Next page [right arrow on keyboard]">
+                                        <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab" title="i18n(next-page)">
                                             <i class="material-icons">navigate_next</i>
                                         </a>
                                     </div>
@@ -117,17 +117,23 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">
                             <span class="fa fa-times" aria-hidden="true"/>
-                            <span class="sr-only">Close</span>
+                            <span class="sr-only">
+                                <i18n:text key="close">Close</i18n:text>
+                            </span>
                         </button>
-                        <h4 class="modal-title">Generating File...</h4>
+                        <h4 class="modal-title">
+                            <i18n:text key="generating-file">Generating File...</i18n:text>
+                        </h4>
                     </div>
                     <div class="modal-body">
-                        <p>Generating a file for download may take up to a few minutes. Please wait.</p>
-                        <p>This dialog should close automatically when the download has completed.</p>
+                        <p>
+                            <i18n:text key="download-message"/>
+                        </p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">
-                            <i class="glyphicon glyphicon-remove"/> Close</button>
+                            <i class="glyphicon glyphicon-remove"/> <i18n:text key="close">Close</i18n:text>
+                        </button>
                     </div>
                 </div>
             </div>
