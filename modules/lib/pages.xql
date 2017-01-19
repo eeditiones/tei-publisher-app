@@ -342,7 +342,7 @@ declare %private function pages:toc-div($node, $view as xs:string?, $current as 
                         else
                             ()
                     }
-                    <a data-div="{util:node-id($div)}" class="toc-link {$isCurrent}"
+                    <a data-doc="{config:get-identifier($div)}" data-div="{util:node-id($div)}" class="toc-link {$isCurrent}"
                         href="{util:document-name($div)}?root={util:node-id($root)}&amp;odd={$odd}&amp;view={$view}">{$html}</a>
                     {
                         if ($hasDivs) then
