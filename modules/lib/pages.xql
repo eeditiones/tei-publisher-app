@@ -244,7 +244,7 @@ function pages:view($node as node(), $model as map(*), $action as xs:string) {
             $model?data
     let $xml :=
         if ($view = ("div", "page", "body")) then
-            pages:get-content($data[1])
+            pages:get-content($model?config, $data[1])
         else
             $model?data//*:body/*
     return
@@ -380,68 +380,69 @@ function pages:navigation($node as node(), $model as map(*), $view as xs:string?
             $map
         else
             map:merge(($map, map {
-                "previous": $config:previous-page($div, $view),
-                "next": $config:next-page($div, $view)
+                "previous": $config:previous-page($model?config, $div, $view),
+                "next": $config:next-page($model?config, $div, $view)
             }))
 };
 
-declare function pages:get-next($div as element(), $view as xs:string) {
+declare function pages:get-next($config as map(*), $div as element(), $view as xs:string) {
     switch ($view)
         case "page" return
             $div/following::tei:pb[1]
         case "body" return
             ($div/following-sibling::*, $div/../following-sibling::*)[1]
         default return
-            pages:get-next($div)
+            pages:get-next($config, $div)
 };
 
 
-declare function pages:get-next($div as element()) {
-    if ($div/tei:div[count(ancestor::tei:div) < $config:pagination-depth]) then
-        if ($config:pagination-fill > 0 and count(($div/tei:div[1])/preceding-sibling::*) < $config:pagination-fill) then
-            pages:get-next($div/tei:div[1])
+declare function pages:get-next($config as map(*), $div as element()) {
+    if ($div/tei:div[count(ancestor::tei:div) < $config?depth]) then
+        if ($config?fill > 0 and count(($div/tei:div[1])/preceding-sibling::*//*) < $config?fill) then
+            pages:get-next($config, $div/tei:div[1])
         else
             $div/tei:div[1]
     else
-        $div/following::tei:div[1][count(ancestor::tei:div) < $config:pagination-depth]
+        $div/following::tei:div[1][count(ancestor::tei:div) < $config?depth]
 };
 
-declare function pages:get-previous($div as element(), $view as xs:string) {
+declare function pages:get-previous($config as map(*), $div as element(), $view as xs:string) {
     switch ($view)
         case "page" return
             $div/preceding::tei:pb[1]
         case "body" return
             ($div/preceding-sibling::*, $div/../preceding-sibling::*)[1]
         default return
-            pages:get-previous($div)
+            pages:get-previous-div($config, $div)
 };
 
 
-declare function pages:get-previous($div as element()) {
+declare function pages:get-previous-div($config as map(*), $div as element()) {
     let $parent := $div/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
-    let $prevDiv := $div/preceding::tei:div[count(ancestor::tei:div) < $config:pagination-depth][1]
+    let $prevDiv := $div/preceding::tei:div[count(ancestor::tei:div) < $config?depth][1]
     return
         pages:get-previous-recursive(
+            $config,
             if ($parent and (empty($prevDiv) or $div/.. >> $prevDiv)) then $div/.. else $prevDiv
         )
 };
 
-declare function pages:get-previous-recursive($div as element(tei:div)?) {
+declare %private function pages:get-previous-recursive($config as map(*), $div as element(tei:div)?) {
     if (empty($div)) then
         ()
     else
         if (
             empty($div/preceding-sibling::tei:div)  (: first div in section :)
-            and $config:pagination-fill > 0
-            and count($div/preceding-sibling::*) < $config:pagination-fill (: less than 5 elements before div :)
+            and $config?fill > 0
+            and count($div/preceding-sibling::*//*) < $config?fill (: less than 5 elements before div :)
             and $div/.. instance of element(tei:div) (: parent is a div :)
         ) then
-            pages:get-previous-recursive($div/ancestor::tei:div[count(ancestor::tei:div) < $config:pagination-depth][1])
+            pages:get-previous-recursive($config, $div/ancestor::tei:div[count(ancestor::tei:div) < $config?depth][1])
         else
             $div
 };
 
-declare function pages:get-content($div as element()) {
+declare function pages:get-content($config as map(*), $div as element()) {
     typeswitch ($div)
         case element(tei:teiHeader) return
             $div
@@ -458,8 +459,9 @@ declare function pages:get-content($div as element()) {
                 $chunk
         )
         case element(tei:div) return
-            if ($config:pagination-fill > 0 and $div/tei:div and count($div/ancestor::tei:div) < $config:pagination-depth - 1) then
-                if (count(($div/tei:div[1])/preceding-sibling::*) < $config:pagination-fill) then
+            if ($div/tei:div and count($div/ancestor::tei:div) < $config?depth - 1) then
+                if ($config?fill > 0 and 
+                    count(($div/tei:div[1])/preceding-sibling::*//*) < $config?fill) then
                     let $child := $div/tei:div[1]
                     return
                         element { node-name($div) } {
@@ -471,6 +473,7 @@ declare function pages:get-content($div as element()) {
                     element { node-name($div) } {
                         $div/@* except $div/@exist:id,
                         attribute exist:id { util:node-id($div) },
+                        console:log("showing preceding siblings of next div child"),
                         util:expand($div/tei:div[1]/preceding-sibling::*, "add-exist-id=all")
                     }
             else
@@ -601,7 +604,9 @@ declare function pages:switch-view-id($data as element()+, $view as xs:string) {
 declare function pages:parse-pi($doc as document-node(), $view as xs:string?) {
     let $default := map {
         "view": ($view, $config:default-view)[1],
-        "odd": $config:odd
+        "odd": $config:odd,
+        "depth": $config:pagination-depth,
+        "fill": $config:pagination-fill
     }
     let $pis :=
         map:new(

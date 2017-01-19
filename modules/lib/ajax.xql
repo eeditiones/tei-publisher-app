@@ -58,9 +58,9 @@ let $xml :=
         pages:load-xml($view, $root, $doc)
 return
     if ($xml?data) then
-        let $prev := $config:previous-page($xml?data, $view)
-        let $next := $config:next-page($xml?data, $view)
-        let $html := pages:process-content(pages:get-content($xml?data), $xml?data, $xml?config?odd)
+        let $prev := $config:previous-page($xml?config, $xml?data, $view)
+        let $next := $config:next-page($xml?config, $xml?data, $view)
+        let $html := pages:process-content(pages:get-content($xml?config, $xml?data), $xml?data, $xml?config?odd)
         let $div :=
             if ($view = "page") then
                 ($xml?data/ancestor-or-self::tei:div[1], $xml?data/following::tei:div[1])[1]

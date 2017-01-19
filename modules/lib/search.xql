@@ -138,7 +138,7 @@ function search:show-hits($node as node()*, $model as map(*), $start as xs:integ
     for $hit at $p in subsequence($model("hits"), $start, $per-page)
     let $parent := ($hit/self::tei:body, $hit/ancestor-or-self::tei:div[1])[1]
     let $parent := if ($parent) then $parent else $hit/ancestor-or-self::tei:teiHeader
-    let $div := search:get-current($parent)
+    let $div := search:get-current($model?config, $parent)
     let $parent-id := config:get-identifier($parent)
     let $work := $hit/ancestor::tei:TEI
     let $work-title := browse:work-title($work)
@@ -182,7 +182,7 @@ function search:show-hits($node as node()*, $model as map(*), $start as xs:integ
     )
 };
 
-declare %private function search:get-current($div as element()?) {
+declare %private function search:get-current($model as map(*), $div as element()?) {
     if (empty($div)) then
         ()
     else
@@ -194,7 +194,7 @@ declare %private function search:get-current($div as element()?) {
                 and count($div/preceding-sibling::*) < 5 (: less than 5 elements before div :)
                 and $div/.. instance of element(tei:div) (: parent is a div :)
             ) then
-                pages:get-previous($div/..)
+                pages:get-previous-div($model?config, $div/..)
             else
                 $div
 };
