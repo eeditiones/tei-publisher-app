@@ -43,8 +43,20 @@ describe('browsing text', function() {
         assert.equal(browser.getText(".content h1"), "Einleitung.");
     });
     
+    it("next page", function() {
+        browser.click(".hidden-xs .nav-next").pause(400);
+        browser.waitForExist(".content .tei-corr1");
+        assert.equal(browser.getText(".content .tei-corr1"), "Erkentniſſe");
+    });
+    
+    it("reload", function() {
+        browser.refresh();
+        
+        assert.equal(browser.getText(".content .tei-corr1"), "Erkentniſſe");
+    });
+    
     it("search", function() {
-        browser.setValue("#searchPageForm input", "urtheile");
+        browser.setValue("#searchPageForm input[name='query']", "urtheile");
         browser.submitForm("#searchPageForm");
         
         var hits = browser.getText("#hit-count");

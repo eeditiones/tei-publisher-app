@@ -14,7 +14,7 @@
     "webdriverio": "^4.6.1"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "./node_modules/.bin/wdio wdio.conf.js"
   },
   "author": "",
   "license": "ISC"
