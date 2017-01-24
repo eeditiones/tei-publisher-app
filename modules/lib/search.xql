@@ -29,6 +29,7 @@ import module namespace kwic="http://exist-db.org/xquery/kwic" at "resource:org/
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "browse.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
+import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
 (:~
 : Execute the query. The search results are not output immediately. Instead they
@@ -54,8 +55,7 @@ declare
     %templates:default("query-scope", "narrow")
     %templates:default("work-authors", "all")
     %templates:default("query-scripts", "all")
-    %templates:default("target-texts", "all")
-function search:query($node as node()*, $model as map(*), $query as xs:string?, $lucene-query-mode as xs:string, $tei-target as xs:string+, $query-scope as xs:string, $work-authors as xs:string+, $query-scripts as xs:string, $target-texts as xs:string+) as map(*) {
+function search:query($node as node()*, $model as map(*), $query as xs:string?, $lucene-query-mode as xs:string, $tei-target as xs:string+, $query-scope as xs:string, $work-authors as xs:string+, $query-scripts as xs:string, $doc as xs:string+) as map(*) {
         (:If there is no query string, fill up the map with existing values:)
         if (empty($query))
         then
@@ -75,16 +75,16 @@ function search:query($node as node()*, $model as map(*), $query as xs:string?, 
                         (:If both tei-text and tei-header is queried.:)
                         if (count($tei-target) eq 2)
                         then
-                            search:query-default($query) |
-                            collection($config:data-root)//tei:head[ft:query(., $query)]
+                            search:query-default($query, $doc) |
+                            search:query-headings($query, $doc)
                         else
                             if ($tei-target = 'tei-text')
                             then
-                                search:query-default($query)
+                                search:query-default($query, $doc)
                             else
                                 if ($tei-target = 'tei-head')
                                 then
-                                    collection($config:data-root)//tei:head[ft:query(., $query)]
+                                    search:query-headings($query, $doc)
                                 else ()
                     order by ft:score($hit) descending
                     return $hit
@@ -96,7 +96,7 @@ function search:query($node as node()*, $model as map(*), $query as xs:string?, 
                 session:set-attribute("apps.simple.hitCount", $hitCount),
                 session:set-attribute("apps.simple.query", $query),
                 session:set-attribute("apps.simple.scope", $query-scope)
-                )
+            )
             return
                 (: The hits are not returned directly, but processed by the nested templates :)
                 map {
@@ -106,15 +106,39 @@ function search:query($node as node()*, $model as map(*), $query as xs:string?, 
                 }
 };
 
-declare function search:query-default($query as xs:string) {
+declare function search:query-default($query as xs:string, $target-texts as xs:string*) {
     switch ($config:search-default)
         case "tei:div" return
-            collection($config:data-root)//tei:div[ft:query(., $query)][not(tei:div)]
+            if ($target-texts) then
+                for $text in $target-texts
+                return
+                    $config:data-root ! doc(. || "/" || $text)//tei:div[ft:query(., $query)][not(tei:div)]
+            else
+                collection($config:data-root)//tei:div[ft:query(., $query)][not(tei:div)]
         case "tei:body" return
-            collection($config:data-root)//tei:body[ft:query(., $query)]
+            if ($target-texts) then
+                for $text in $target-texts
+                return
+                    $config:data-root !
+                        doc(. || "/" || $text)//tei:body[ft:query(., $query)]
+            else
+                collection($config:data-root)//tei:body[ft:query(., $query)]
         default return
-            util:eval("collection($config:data-root)//" || $config:search-default || "[ft:query(., $query)]")
+            if ($target-texts) then
+                util:eval("for $text in $target-texts return $config:data-root ! doc(. || '/' || $text)//tei:body[ft:query(., $query)]")
+            else
+                util:eval("collection($config:data-root)//" || $config:search-default || "[ft:query(., $query)]")
 };
+
+declare function search:query-headings($query as xs:string, $target-texts as xs:string*) {
+    if ($target-texts) then
+        for $text in $target-texts
+        return
+            $config:data-root ! doc(. || "/" || $text)//tei:head[ft:query(., $query)]
+    else
+        collection($config:data-root)//tei:head[ft:query(., $query)]
+};
+
 
 declare function search:query-default-view($context as element()*, $query as xs:string) {
     switch ($config:search-default)
@@ -126,6 +150,9 @@ declare function search:query-default-view($context as element()*, $query as xs:
             util:eval("$context[./descendant-or-self::" || $config:search-default || "[ft:query(., $query)]]")
 };
 
+declare function search:form-current-doc($node as node(), $model as map(*), $doc as xs:string?) {
+    <input type="hidden" name="doc" value="{$doc}"/>
+};
 
 (:~
     Output the actual search result as a div, using the kwic module to summarize full text matches.
@@ -134,11 +161,13 @@ declare
     %templates:wrap
     %templates:default("start", 1)
     %templates:default("per-page", 10)
-function search:show-hits($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer, $view as xs:string?) {
+function search:show-hits($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer, $view as xs:string?, $doc as xs:string*) {
     for $hit at $p in subsequence($model("hits"), $start, $per-page)
     let $parent := ($hit/self::tei:body, $hit/ancestor-or-self::tei:div[1])[1]
-    let $parent := if ($parent) then $parent else $hit/ancestor-or-self::tei:teiHeader
+    let $parent := ($parent, $hit/ancestor-or-self::tei:teiHeader, $hit)[1]
     let $parent-id := config:get-identifier($parent)
+    let $parent-id :=
+        if ($doc) then replace($parent-id, "^.*?([^/]*)$", "$1") else $parent-id
     let $work := $hit/ancestor::tei:TEI
     let $work-title := browse:work-title($work)
     let $config := pages:parse-pi(root($work), $view)
@@ -164,6 +193,11 @@ function search:show-hits($node as node()*, $model as map(*), $start as xs:integ
         </tr>
     let $expanded := util:expand($hit, "add-exist-id=all")
     let $docId := config:get-identifier($div)
+    let $docId :=
+        if ($doc) then
+            replace($docId, "^.*?([^/]*)$", "$1")
+        else
+            $docId
     return (
         $loc,
         for $match in subsequence($expanded//exist:match, 1, 5)

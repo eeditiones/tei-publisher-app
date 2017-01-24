@@ -193,7 +193,7 @@ declare variable $config:app-root :=
         substring-before($modulePath, "/modules")
 ;
 
-declare variable $config:data-root := ($config:app-root || "/test", $config:app-root || "/doc");
+declare variable $config:data-root := $config:app-root || "/data";
 
 declare variable $config:odd := request:get-parameter("odd", "teipublisher.odd");
 
@@ -223,7 +223,7 @@ declare function config:get-id($node as node()) {
  : Returns a path relative to $config:data-root used to locate a document in the database.
  :)
 declare function config:get-relpath($node as node()) {
-    substring-after(document-uri(root($node)), $config:app-root || "/")
+    substring-after(document-uri(root($node)), $config:data-root || "/")
 };
 
 declare function config:get-identifier($node as node()) {

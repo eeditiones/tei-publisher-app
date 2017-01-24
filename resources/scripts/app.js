@@ -168,10 +168,11 @@ $(document).ready(function() {
 
     function initLinks(ev) {
         ev.preventDefault();
-        var relPath = this.pathname.replace(/^.*?\/([^\/]+)$/, "$1");
+        // var relPath = this.pathname.replace(/^.*?\/([^\/]+)$/, "$1");
+        var relPath = $(this).attr("data-doc");
         var url = "doc=" + relPath + "&" + this.search.substring(1);
         if (historySupport) {
-            history.pushState(null, null, this.href);
+            history.pushState(null, null, this.href.replace(/^.*?\/([^\/]+)$/, "$1"));
         }
         load(url, this.className.split(" ")[0]);
     }
@@ -202,7 +203,8 @@ $(document).ready(function() {
     });
 
     $(window).on("popstate", function(ev) {
-        var url = "doc=" + window.location.pathname.replace(/^.*\/([^\/]+)$/, "$1") + "&" + window.location.search.substring(1) +
+        var doc = $(".nav-next").attr("data-doc") || $(".nav-prev").attr("data-doc");
+        var url = "doc=" + doc + "&" + window.location.search.substring(1) +
             "&id=" + window.location.hash.substring(1);
         console.log("popstate: %s", url);
         load(url);
@@ -211,9 +213,9 @@ $(document).ready(function() {
     $(".toc-toggle").click( function(ev) {
         $("#toc-loading").each(function() {
             console.log("Loading toc...");
+            var doc = $(".nav-next").attr("data-doc") || $(".nav-prev").attr("data-doc");
             $("#toc").load("templates/toc.html?doc=" +
-                window.location.pathname.replace(/^.*\/([^\/]+)$/, "$1")
-                + "&" + window.location.search.substring(1),
+                doc + "&" + window.location.search.substring(1),
                 tocLoaded
             );
         });
@@ -292,7 +294,9 @@ $(document).ready(function() {
         minLength: 4,
         source: function(query, callback) {
             var type = $("select[name='tei-target']").val() || "tei-text";
-            $.getJSON("modules/autocomplete.xql?q=" + query + "&type=" + type, function(data) {
+            var doc = $("#searchPageForm input[name='doc']").val();
+            $.getJSON("modules/autocomplete.xql?q=" + query + "&type=" + type +
+                "&doc=" + encodeURIComponent(doc), function(data) {
                 callback(data || []);
             });
         }

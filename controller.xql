@@ -58,7 +58,12 @@ else if (ends-with($exist:resource, ".xql")) then (
         <redirect url="{replace(request:get-uri(), "^(.*)\?", "$1")}"/>
     </dispatch>
 
-) else if (ends-with($exist:resource, ".html")) then (
+) else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|pdf|txt)$", "s")) then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+       <forward url="{$exist:controller}/data/{$exist:path}"/>
+   </dispatch>
+
+else if (ends-with($exist:resource, ".html")) then (
     login:set-user($config:login-domain, (), false()),
     let $resource :=
         if (contains($exist:path, "/templates/")) then
@@ -82,7 +87,8 @@ else if (ends-with($exist:resource, ".xql")) then (
     login:set-user($config:login-domain, (), false()),
     (: let $id := replace(xmldb:decode($exist:resource), "^(.*)\..*$", "$1") :)
     let $id := xmldb:decode($exist:resource)
-    let $path := substring-before(substring-after($exist:path, "/works/"), $exist:resource)
+    let $path := replace($exist:path, "^/(.*?)[^/]*$", "$1")
+    (: let $path := substring-before(substring-after($exist:path, "/works/"), $exist:resource) :)
     let $mode := request:get-parameter("mode", ())
     let $html :=
         if ($exist:resource = "") then

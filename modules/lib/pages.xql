@@ -54,7 +54,7 @@ function pages:load($node as node(), $model as map(*), $doc as xs:string, $root 
     let $doc := xmldb:decode($doc)
     let $data :=
         if ($id) then
-            let $node := $config:data-root ! doc(. || "/" || $doc)/id($id)
+            let $node := doc($config:data-root || "/" || $doc)/id($id)
             let $div := $node/ancestor-or-self::tei:div[1]
             let $config := pages:parse-pi(root($node), $view)
             return
@@ -157,9 +157,9 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
 
 declare function pages:get-document($idOrName as xs:string) {
     if ($config:address-by-id) then
-        $config:data-root ! root(collection(.)/id($idOrName))
+        root(collection($config:data-root)/id($idOrName))
     else
-        $config:data-root ! doc(. || "/" || $idOrName)
+        doc($config:data-root || "/" || $idOrName)
 };
 
 declare function pages:back-link($node as node(), $model as map(*)) {
@@ -530,7 +530,7 @@ declare function pages:navigation-link($node as node(), $model as map(*), $direc
                     data-odd="{$config:odd}">
                 {
                     $node/@* except $node/@href,
-                    let $id := replace($doc, "^.*?/?([^/]+)$", "$1") || "?root=" || util:node-id($model($direction))
+                    let $id := $doc || "?root=" || util:node-id($model($direction))
                         || "&amp;odd=" || $config:odd || "&amp;view=" || $model?config?view
                     return
                         attribute href { $id },
@@ -538,7 +538,11 @@ declare function pages:navigation-link($node as node(), $model as map(*), $direc
                 }
                 </a>
         else
-            <a href="#" style="visibility: hidden;">{$node/@class, $node/node()}</a>
+            let $doc :=
+                config:get-identifier($model?data)
+            return
+                <a href="#" style="visibility: hidden;"
+                    data-doc="{$doc}">{$node/@class, $node/node()}</a>
 };
 
 declare

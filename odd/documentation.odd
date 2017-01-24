@@ -110,7 +110,6 @@
                     <model behaviour="link">
                         <param name="link">
                             if (starts-with(@target, "#")) then
-                                request:get-parameter("doc", ()) ||
                                 "?odd=" || request:get-parameter("odd", ()) || "&amp;amp;view=" ||
                                 request:get-parameter("view", ()) || "&amp;amp;id=" || substring-after(@target, '#')
                             else

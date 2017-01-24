@@ -71,7 +71,7 @@
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         <li>
-                            <a id="recompile" href="#">
+                            <a class="recompile" href="#">
                                 <i18n:text key="recompile"/>
                             </a>
                         </li>
@@ -105,6 +105,7 @@
                         <div class="input-group">
                             <i class="glyphicon glyphicon-search" onclick="$(&#34;#searchPageForm&#34;).submit()"/>
                             <input type="search" class="form-control search-input templates:form-control typeahead-search" autocomplete="off" placeholder="Search..." name="query"/>
+                            <input type="hidden" name="doc" data-template="search:form-current-doc"/>
                         </div>
                     </form>
                 </li>

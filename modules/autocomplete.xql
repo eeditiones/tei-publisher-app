@@ -10,6 +10,7 @@ declare option output:media-type "application/json";
 
 let $q := request:get-parameter("q", ())
 let $type := request:get-parameter("type", "title")
+let $doc := request:get-parameter("doc", ())
 let $items :=
     if ($q) then
         switch ($type)
@@ -18,15 +19,27 @@ let $items :=
             case "file" return
                 distinct-values(ft:search($config:data-root, "file:" || $q || "*", "file")//field)
             case "tei-text" return
-                collection($config:data-root)/util:index-keys-by-qname(xs:QName($config:search-default), $q, 
-                    function($key, $count) {
-                        $key
-                    }, 30, "lucene-index")
+                if ($doc) then
+                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName($config:search-default), $q, 
+                        function($key, $count) {
+                            $key
+                        }, 30, "lucene-index")
+                else
+                    collection($config:data-root)/util:index-keys-by-qname(xs:QName($config:search-default), $q, 
+                        function($key, $count) {
+                            $key
+                        }, 30, "lucene-index")
             case "tei-head" return
-                collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:head"), $q, 
-                    function($key, $count) {
-                        $key
-                    }, 30, "lucene-index")
+                if ($doc) then
+                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:head"), $q, 
+                        function($key, $count) {
+                            $key
+                        }, 30, "lucene-index")
+                else
+                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:head"), $q, 
+                        function($key, $count) {
+                            $key
+                        }, 30, "lucene-index")
             default return
                 collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:title"), $q, 
                     function($key, $count) {

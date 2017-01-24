@@ -234,6 +234,11 @@ declare function app:download-link($node as node(), $model as map(*), $type as x
             config:get-identifier($model?work)
         else
             $doc
+    let $file := 
+        if ($doc) then
+            replace($file, "^.*?([^/]*)$", "$1")
+        else
+            $file
     let $uuid := util:uuid()
     return
         element { node-name($node) } {
