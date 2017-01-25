@@ -12,6 +12,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../c
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
@@ -32,10 +33,10 @@ return (
     if ($id) then
         let $id := replace($id, "^(.*)\..*", "$1")
         let $xml := pages:get-document($id)/tei:TEI
-        let $config := pages:parse-pi(root($xml), ())
+        let $config := tpu:parse-pi(root($xml), ())
         let $tex := string-join($pm-config:latex-transform($xml, map { "image-dir": config:get-repo-dir() || "/" || $config:data-root[1] || "/" }, $config?odd))
         let $file :=
-            $id || format-dateTime(current-dateTime(), "-[Y0000][M00][D00]-[H00][m00]")
+            replace($id, "^.*?([^/]+)$", "$1") || format-dateTime(current-dateTime(), "-[Y0000][M00][D00]-[H00][m00]")
         return
             if ($source) then
                 $tex

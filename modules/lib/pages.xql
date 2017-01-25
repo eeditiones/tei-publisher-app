@@ -29,6 +29,7 @@ declare namespace expath="http://expath.org/ns/pkg";
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace search="http://www.tei-c.org/tei-simple/search" at "search.xql";
 import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
@@ -56,7 +57,7 @@ function pages:load($node as node(), $model as map(*), $doc as xs:string, $root 
         if ($id) then
             let $node := doc($config:data-root || "/" || $doc)/id($id)
             let $div := $node/ancestor-or-self::tei:div[1]
-            let $config := pages:parse-pi(root($node), $view)
+            let $config := tpu:parse-pi(root($node), $view)
             return
                 map {
                     "config": $config,
@@ -105,7 +106,7 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
         else
             $doc
     let $data := pages:get-document($docName)
-    let $config := pages:parse-pi(root($data), $view)
+    let $config := tpu:parse-pi(root($data), $view)
     return
         map {
             "config": $config,
@@ -385,63 +386,6 @@ function pages:navigation($node as node(), $model as map(*), $view as xs:string?
             }))
 };
 
-declare function pages:get-next($config as map(*), $div as element(), $view as xs:string) {
-    switch ($view)
-        case "page" return
-            $div/following::tei:pb[1]
-        case "body" return
-            ($div/following-sibling::*, $div/../following-sibling::*)[1]
-        default return
-            pages:get-next($config, $div)
-};
-
-
-declare function pages:get-next($config as map(*), $div as element()) {
-    if ($div/tei:div[count(ancestor::tei:div) < $config?depth]) then
-        if ($config?fill > 0 and count(($div/tei:div[1])/preceding-sibling::*//*) < $config?fill) then
-            pages:get-next($config, $div/tei:div[1])
-        else
-            $div/tei:div[1]
-    else
-        $div/following::tei:div[1][count(ancestor::tei:div) < $config?depth]
-};
-
-declare function pages:get-previous($config as map(*), $div as element(), $view as xs:string) {
-    switch ($view)
-        case "page" return
-            $div/preceding::tei:pb[1]
-        case "body" return
-            ($div/preceding-sibling::*, $div/../preceding-sibling::*)[1]
-        default return
-            pages:get-previous-div($config, $div)
-};
-
-
-declare function pages:get-previous-div($config as map(*), $div as element()) {
-    let $parent := $div/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
-    let $prevDiv := $div/preceding::tei:div[count(ancestor::tei:div) < $config?depth][1]
-    return
-        pages:get-previous-recursive(
-            $config,
-            if ($parent and (empty($prevDiv) or $div/.. >> $prevDiv)) then $div/.. else $prevDiv
-        )
-};
-
-declare %private function pages:get-previous-recursive($config as map(*), $div as element(tei:div)?) {
-    if (empty($div)) then
-        ()
-    else
-        if (
-            empty($div/preceding-sibling::tei:div)  (: first div in section :)
-            and $config?fill > 0
-            and count($div/preceding-sibling::*//*) < $config?fill (: less than 5 elements before div :)
-            and $div/.. instance of element(tei:div) (: parent is a div :)
-        ) then
-            pages:get-previous-recursive($config, $div/ancestor::tei:div[count(ancestor::tei:div) < $config?depth][1])
-        else
-            $div
-};
-
 declare function pages:get-content($config as map(*), $div as element()) {
     typeswitch ($div)
         case element(tei:teiHeader) return
@@ -460,7 +404,7 @@ declare function pages:get-content($config as map(*), $div as element()) {
         )
         case element(tei:div) return
             if ($div/tei:div and count($div/ancestor::tei:div) < $config?depth - 1) then
-                if ($config?fill > 0 and 
+                if ($config?fill > 0 and
                     count(($div/tei:div[1])/preceding-sibling::*//*) < $config?fill) then
                     let $child := $div/tei:div[1]
                     return
@@ -603,23 +547,4 @@ declare function pages:switch-view-id($data as element()+, $view as xs:string) {
             $data/ancestor::tei:div[1]
     return
         $root
-};
-
-declare function pages:parse-pi($doc as document-node(), $view as xs:string?) {
-    let $default := map {
-        "view": ($view, $config:default-view)[1],
-        "odd": $config:odd,
-        "depth": $config:pagination-depth,
-        "fill": $config:pagination-fill
-    }
-    let $pis :=
-        map:new(
-            for $pi in $doc/processing-instruction("teipublisher")
-            let $analyzed := analyze-string($pi, '([^\s]+)\s*=\s*"(.*?)"')
-            for $match in $analyzed/fn:match
-            return
-                map:entry($match/fn:group[@nr="1"], $match/fn:group[@nr="2"])
-        )
-    return
-        map:new(($default, $pis))
 };

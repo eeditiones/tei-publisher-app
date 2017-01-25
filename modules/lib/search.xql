@@ -27,6 +27,8 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace kwic="http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "browse.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
@@ -170,7 +172,7 @@ function search:show-hits($node as node()*, $model as map(*), $start as xs:integ
         if ($doc) then replace($parent-id, "^.*?([^/]*)$", "$1") else $parent-id
     let $work := $hit/ancestor::tei:TEI
     let $work-title := browse:work-title($work)
-    let $config := pages:parse-pi(root($work), $view)
+    let $config := tpu:parse-pi(root($work), $view)
     let $div := search:get-current($config, $parent)
     let $loc :=
         <tr class="reference">
@@ -228,7 +230,7 @@ declare %private function search:get-current($config as map(*), $div as element(
                 and count($div/preceding-sibling::*) < 5 (: less than 5 elements before div :)
                 and $div/.. instance of element(tei:div) (: parent is a div :)
             ) then
-                pages:get-previous-div($config, $div/..)
+                nav:get-previous-div($config, $div/..)
             else
                 $div
 };

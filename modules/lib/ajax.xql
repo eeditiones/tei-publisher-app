@@ -1,5 +1,5 @@
 (:
- :  
+ :
  :  Copyright (C) 2015 Wolfgang Meier
  :
  :  This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 
 declare boundary-space strip;
 
@@ -43,7 +44,7 @@ let $xml :=
         console:log("Loading by id " || $id),
         let $node := pages:get-document($doc)/id($id)
         let $div := $node/ancestor-or-self::tei:div[1]
-        let $config := pages:parse-pi(root($node), $view)
+        let $config := tpu:parse-pi(root($node), $view)
         return
             map {
                 "odd": $config?odd,
@@ -60,7 +61,8 @@ return
     if ($xml?data) then
         let $prev := $config:previous-page($xml?config, $xml?data, $view)
         let $next := $config:next-page($xml?config, $xml?data, $view)
-        let $html := pages:process-content(pages:get-content($xml?config, $xml?data), $xml?data, $xml?config?odd)
+        let $content := pages:get-content($xml?config, $xml?data)
+        let $html := pages:process-content($content, $xml?data, $xml?config?odd)
         let $div :=
             if ($view = "page") then
                 ($xml?data/ancestor-or-self::tei:div[1], $xml?data/following::tei:div[1])[1]

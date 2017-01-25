@@ -7,7 +7,8 @@ xquery version "3.1";
 module namespace config="http://www.tei-c.org/tei-simple/config";
 
 import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
-import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "lib/pages.xql";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 
 declare namespace templates="http://exist-db.org/xquery/templates";
 
@@ -61,7 +62,7 @@ declare variable $config:pagination-fill := 5;
  : * $elem as element(): the current element displayed
  : * $view as xs:string: the view, either 'div', 'page' or 'body'
  :)
-declare variable $config:next-page := pages:get-next#3;
+declare variable $config:next-page := nav:get-next#3;
 
 (:
  : The function to be called to determine the previous content chunk to display.
@@ -71,7 +72,7 @@ declare variable $config:next-page := pages:get-next#3;
  : * $elem as element(): the current element displayed
  : * $view as xs:string: the view, either 'div', 'page' or 'body'
  :)
-declare variable $config:previous-page := pages:get-previous#3;
+declare variable $config:previous-page := nav:get-previous#3;
 
 (:
  : The CSS class to declare on the main text content div.
@@ -148,7 +149,7 @@ declare variable $config:tex-command := function($file) {
  : Configuration for epub files.
  :)
 declare variable $config:epub-config := function($root as element(), $langParameter as xs:string?) {
-    let $properties := pages:parse-pi(root($root), ())
+    let $properties := tpu:parse-pi(root($root), ())
     return
         map {
             "metadata": map {

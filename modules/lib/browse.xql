@@ -22,6 +22,7 @@ module namespace app="http://www.tei-c.org/tei-simple/templates";
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
@@ -114,7 +115,7 @@ function app:browse($node as node(), $model as map(*), $start as xs:int, $per-pa
             templates:process($node/*[not(@class="empty")], map:new(
                 ($model, map {
                     "work": .,
-                    "config": pages:parse-pi(root(.), ())
+                    "config": tpu:parse-pi(root(.), ())
                 }))
             )
 };
@@ -234,7 +235,7 @@ declare function app:download-link($node as node(), $model as map(*), $type as x
             config:get-identifier($model?work)
         else
             $doc
-    let $file := 
+    let $file :=
         if ($doc) then
             replace($file, "^.*?([^/]*)$", "$1")
         else

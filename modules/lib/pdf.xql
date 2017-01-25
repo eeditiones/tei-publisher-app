@@ -6,6 +6,7 @@ import module namespace console="http://exist-db.org/xquery/console" at "java:or
 import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
 import module namespace xslfo="http://exist-db.org/xquery/xslfo" at "java:org.exist.xquery.modules.xslfo.XSLFOModule";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace fo="http://www.w3.org/1999/XSL/Format";
@@ -93,7 +94,7 @@ let $source := request:get-parameter("source", ())
 let $useCache := request:get-parameter("cache", "yes")
 let $id := replace($path, "^(.*)\..*", "$1")
 let $doc := pages:get-document($id)/tei:TEI
-let $config := pages:parse-pi(root($doc), ())
+let $config := tpu:parse-pi(root($doc), ())
 let $log := console:log("Generating PDF for " || $path)
 let $name := util:document-name($doc)
 return

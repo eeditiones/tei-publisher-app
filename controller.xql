@@ -58,7 +58,7 @@ else if (ends-with($exist:resource, ".xql")) then (
         <redirect url="{replace(request:get-uri(), "^(.*)\?", "$1")}"/>
     </dispatch>
 
-) else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|pdf|txt)$", "s")) then
+) else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt)$", "s")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
        <forward url="{$exist:controller}/data/{$exist:path}"/>
    </dispatch>

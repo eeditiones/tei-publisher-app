@@ -439,7 +439,7 @@ declare function deploy:store-templates($target as xs:string, $userData as xs:st
 
 declare function deploy:store-libs($target as xs:string, $userData as xs:string+, $permissions as xs:string) {
     let $path := system:get-module-load-path()
-    for $lib in ("autocomplete.xql", "index.xql", "view.xql")
+    for $lib in ("autocomplete.xql", "index.xql", "view.xql", "navigation.xql")
     return (
         xmldb:copy($path, $target || "/modules", $lib),
         deploy:chmod($target || "/modules", $userData, $permissions)
