@@ -120,6 +120,7 @@
         $('#fileupload').fileupload({
             url: "modules/lib/upload.xql",
             dataType: 'json',
+            formData: { "root": "test" },
             done: function (e, data) {
                 $.each(data.result.files, function (index, file) {
                     var tr = document.createElement("tr");
