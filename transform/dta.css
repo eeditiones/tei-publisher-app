@@ -45,6 +45,7 @@
 .tei-note3:after { content:"] "; }
 .tei-note3 { font-size:small; }
 .tei-p { text-align: justify; }
+.tei-pb1 { color: #CCC; }
 .tei-q1 { margin-left: 10px; margin-right: 10px; }
 .tei-q2:before { content: '‘'; }
 .tei-q2:after { content: '’'; }

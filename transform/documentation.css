@@ -45,7 +45,6 @@
 .tei-pb { display: block; margin-left: 4pt; color: grey; float: right; }
 .tei-pb:before { content: '[Page '; }
 .tei-pb:after { content: ']'; }
-.tei-publisher1:before { content: 'Published by '; }
 .tei-q1 { margin-left: 10px; margin-right: 10px; }
 .tei-q2:before { content: '‘'; }
 .tei-q2:after { content: '’'; }
@@ -68,11 +67,11 @@
 .tei-supplied4:after { content:")"; }
 .tei-supplied5:before { content:"{"; }
 .tei-supplied5:after { content:"}"; }
-.tei-title4 { color: red; font-size: 2em; }
-.tei-title6 { font-style: italic; }
-.tei-title8 { font-style: italic; }
-.tei-title10 { font-style: italic; }
-.tei-title12 { font-style: italic; }
+.tei-title3 { color: red; font-size: 2em; }
+.tei-title5 { font-style: italic; }
+.tei-title7 { font-style: italic; }
+.tei-title9 { font-style: italic; }
+.tei-title11 { font-style: italic; }
 .tei-titlePage { text-align: center; }
 .tei-trailer { color: green; }
 .tei-unclear:after { content: ' [?] '; }

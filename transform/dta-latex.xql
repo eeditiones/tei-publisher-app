@@ -17,7 +17,7 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
-import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist://embedded-eXist-server/db/apps/tei-publisher/modules/../modules/ext-latex.xql";
+import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist://embedded-eXist-server/db/apps/tei-publisher/modules/lib/../ext-latex.xql";
 
 (:~
 
@@ -305,8 +305,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(p) return
                     latex:paragraph($config, ., css:get-rendition(., ("tei-p")), .)
                 case element(pb) return
-                    if (preceding-sibling::*[1][self::pb]) then
-                        latex:inline($config, ., ("tei-pb1"), '[Empty page]')
+                    if (count(../*) = 1 and count(ancestor::*) = 1) then
+                        latex:inline($config, ., css:get-rendition(., ("tei-pb1")), '[Empty page]')
                     else
                         latex:omit($config, ., ("tei-pb2"), .)
                 case element(pc) return

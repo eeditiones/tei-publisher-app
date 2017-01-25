@@ -19,7 +19,7 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
-import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist://embedded-eXist-server/db/apps/tei-publisher/modules/../modules/ext-latex.xql";
+import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist://embedded-eXist-server/db/apps/tei-publisher/modules/lib/../ext-latex.xql";
 
 (:~
 
@@ -361,7 +361,6 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             latex:link($config, ., ("tei-ref3"), ., 
                             if (starts-with(@target, "#")) then
-                                request:get-parameter("doc", ()) ||
                                 "?odd=" || request:get-parameter("odd", ()) || "&amp;view=" ||
                                 request:get-parameter("view", ()) || "&amp;id=" || substring-after(@target, '#')
                             else
@@ -527,6 +526,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                         $config?apply($config, ./node())
                 case element(att) return
                     latex:inline($config, ., ("tei-att", "xml-attribute"), .)
+                case element(tag) return
+                    latex:inline($config, ., ("tei-tag", "xml-tag"), .)
                 case element() return
                     if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                         $config?apply($config, ./node())

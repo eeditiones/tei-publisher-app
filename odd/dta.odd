@@ -19,8 +19,11 @@
         <body>
             <schemaSpec start="TEI teiCorpus" source="teipublisher.odd" ident="dta">
                 <elementSpec ident="pb" mode="change">
-                    <model predicate="preceding-sibling::*[1][self::pb]" behaviour="inline">
+                    <model predicate="count(../*) = 1 and count(ancestor::*) = 1" behaviour="inline" useSourceRendition="true">
                         <param name="content" value="'[Empty page]'"/>
+                        <outputRendition>
+                            color: #CCC;
+                        </outputRendition>
                     </model>
                     <model behaviour="omit"/>
                 </elementSpec>

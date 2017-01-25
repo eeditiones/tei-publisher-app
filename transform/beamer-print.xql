@@ -19,7 +19,7 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace fo="http://www.tei-c.org/tei-simple/xquery/functions/fo";
 
-import module namespace ext-fo="http://www.tei-c.org/tei-simple/xquery/ext-fo" at "xmldb:exist://embedded-eXist-server/db/apps/tei-publisher/modules/../modules/ext-fo.xql";
+import module namespace ext-fo="http://www.tei-c.org/tei-simple/xquery/ext-fo" at "xmldb:exist://embedded-eXist-server/db/apps/tei-publisher/modules/lib/../ext-fo.xql";
 
 (:~
 

@@ -13,24 +13,24 @@
 <modules>
     <!-- Special latex configuration for presentations -->
     <output mode="latex" odd="beamer">
-        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latexbeamer" prefix="ext-beamer" at="../modules/ext-latexbeamer.xql"/>
+        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latexbeamer" prefix="ext-beamer" at="../ext-latexbeamer.xql"/>
     </output>
     <!-- General latex extension functions -->
     <output mode="latex">
         <property name="class">"article"</property>
         <property name="section-numbers">false()</property>
         <property name="font-size">"12pt"</property>
-        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latex" prefix="ext-latex" at="../modules/ext-latex.xql"/>
+        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latex" prefix="ext-latex" at="../ext-latex.xql"/>
     </output>
     <!-- General fo extension functions -->
     <output mode="print">
-        <module mode="print" uri="http://www.tei-c.org/tei-simple/xquery/ext-fo" prefix="ext-fo" at="../modules/ext-fo.xql"/>
+        <module mode="print" uri="http://www.tei-c.org/tei-simple/xquery/ext-fo" prefix="ext-fo" at="../ext-fo.xql"/>
     </output>
     <!-- Special web configuration for the documentation (to handle <code>) -->
     <output mode="web" odd="documentation">
-        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="../modules/ext-html.xql"/>
+        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="../ext-html.xql"/>
     </output>
     <output mode="epub" odd="documentation">
-        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="../modules/ext-html.xql"/>
+        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="../ext-html.xql"/>
     </output>
 </modules>

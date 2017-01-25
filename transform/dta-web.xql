@@ -310,8 +310,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(p) return
                     html:paragraph($config, ., css:get-rendition(., ("tei-p")), .)
                 case element(pb) return
-                    if (preceding-sibling::*[1][self::pb]) then
-                        html:inline($config, ., ("tei-pb1"), '[Empty page]')
+                    if (count(../*) = 1 and count(ancestor::*) = 1) then
+                        html:inline($config, ., css:get-rendition(., ("tei-pb1")), '[Empty page]')
                     else
                         html:omit($config, ., ("tei-pb2"), .)
                 case element(pc) return

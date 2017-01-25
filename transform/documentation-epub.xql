@@ -21,7 +21,7 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
 import module namespace epub="http://www.tei-c.org/tei-simple/xquery/functions/epub";
 
-import module namespace ext-html="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist://embedded-eXist-server/db/apps/tei-publisher/modules/../modules/ext-html.xql";
+import module namespace ext-html="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist://embedded-eXist-server/db/apps/tei-publisher/modules/lib/../ext-html.xql";
 
 (:~
 
@@ -140,7 +140,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     html:block($config, ., ("tei-closer"), .)
                 case element(code) return
                     if (parent::cell|parent::p|parent::ab) then
-                        html:inline($config, ., ("tei-code3"), .)
+                        html:inline($config, ., ("tei-code3", "code"), .)
                     else
                         ext-html:code($config, ., ("tei-code4"), ., @lang)
                 case element(corr) return
@@ -357,7 +357,6 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             html:link($config, ., ("tei-ref3"), ., 
                             if (starts-with(@target, "#")) then
-                                request:get-parameter("doc", ()) ||
                                 "?odd=" || request:get-parameter("odd", ()) || "&amp;view=" ||
                                 request:get-parameter("view", ()) || "&amp;id=" || substring-after(@target, '#')
                             else
@@ -537,6 +536,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                         $config?apply($config, ./node())
                 case element(att) return
                     html:inline($config, ., ("tei-att", "xml-attribute"), .)
+                case element(tag) return
+                    html:inline($config, ., ("tei-tag", "xml-tag"), .)
                 case element(exist:match) return
                     html:match($config, ., .)
                 case element() return
