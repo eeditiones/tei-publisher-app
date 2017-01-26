@@ -57,15 +57,16 @@ declare
     %templates:default("query-scope", "narrow")
     %templates:default("work-authors", "all")
     %templates:default("query-scripts", "all")
-function search:query($node as node()*, $model as map(*), $query as xs:string?, $lucene-query-mode as xs:string, $tei-target as xs:string+, $query-scope as xs:string, $work-authors as xs:string+, $query-scripts as xs:string, $doc as xs:string+) as map(*) {
+function search:query($node as node()*, $model as map(*), $query as xs:string?, $lucene-query-mode as xs:string, $tei-target as xs:string+, $query-scope as xs:string, $work-authors as xs:string+, $query-scripts as xs:string, $doc as xs:string*) as map(*) {
         (:If there is no query string, fill up the map with existing values:)
         if (empty($query))
         then
             map {
-                "hits" := session:get-attribute("apps.simple"),
-                "hitCount" := session:get-attribute("apps.simple.hitCount"),
-                "query" := session:get-attribute("apps.simple.query"),
-                "scope" := $query-scope (:NB: what about the other arguments?:)
+                "hits" : session:get-attribute("apps.simple"),
+                "hitCount" : session:get-attribute("apps.simple.hitCount"),
+                "query" : session:get-attribute("apps.simple.query"),
+                "scope" : $query-scope,
+                "docs" : session:get-attribute("apps.simple.docs")
             }
         else
             (:Otherwise, perform the query.:)
@@ -97,14 +98,16 @@ function search:query($node as node()*, $model as map(*), $query as xs:string?, 
                 session:set-attribute("apps.simple", $hits),
                 session:set-attribute("apps.simple.hitCount", $hitCount),
                 session:set-attribute("apps.simple.query", $query),
-                session:set-attribute("apps.simple.scope", $query-scope)
+                session:set-attribute("apps.simple.scope", $query-scope),
+                session:set-attribute("apps.simple.docs", $doc)
             )
             return
                 (: The hits are not returned directly, but processed by the nested templates :)
                 map {
-                    "hits" := $hits,
-                    "hitCount" := $hitCount,
-                    "query" := $query
+                    "hits" : $hits,
+                    "hitCount" : $hitCount,
+                    "query" : $query,
+                    "docs": $doc
                 }
 };
 
@@ -163,13 +166,14 @@ declare
     %templates:wrap
     %templates:default("start", 1)
     %templates:default("per-page", 10)
-function search:show-hits($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer, $view as xs:string?, $doc as xs:string*) {
+function search:show-hits($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer, $view as xs:string?) {
+    console:log("docs: " || count($model?docs)),
     for $hit at $p in subsequence($model("hits"), $start, $per-page)
     let $parent := ($hit/self::tei:body, $hit/ancestor-or-self::tei:div[1])[1]
     let $parent := ($parent, $hit/ancestor-or-self::tei:teiHeader, $hit)[1]
     let $parent-id := config:get-identifier($parent)
     let $parent-id :=
-        if ($doc) then replace($parent-id, "^.*?([^/]*)$", "$1") else $parent-id
+        if ($model?docs) then replace($parent-id, "^.*?([^/]*)$", "$1") else $parent-id
     let $work := $hit/ancestor::tei:TEI
     let $work-title := browse:work-title($work)
     let $config := tpu:parse-pi(root($work), $view)
@@ -196,7 +200,7 @@ function search:show-hits($node as node()*, $model as map(*), $start as xs:integ
     let $expanded := util:expand($hit, "add-exist-id=all")
     let $docId := config:get-identifier($div)
     let $docId :=
-        if ($doc) then
+        if ($model?docs) then
             replace($docId, "^.*?([^/]*)$", "$1")
         else
             $docId
