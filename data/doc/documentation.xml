@@ -111,7 +111,7 @@
                         provides useful defaults for the TEI core elements. In general, most of those defaults
                         should be ok and you only need to overwrite a hand full of selected mappings within your
                         own ODD.</p>
-                        <figure type="animated">
+                        <figure xml:id="create-odd" type="animated">
                             <head>Create a custom ODD</head>
                             <graphic url="CreateODD.gif"/>
                         </figure>
@@ -156,7 +156,7 @@
                         you try to view the letter and regenerate automatically. However, if you made mistakes in the ODD,
                         the regenerate will just fail silently. So during development, it is advisable to regenerate
                         manually.</p>
-                        <figure type="animated">
+                        <figure xml:id="edit-odd" type="animated">
                             <head>Move dateline to right and hide pb</head>
                             <graphic url="EditODD.gif"/>
                         </figure>
@@ -663,6 +663,26 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                         processing instruction associates the document with the <code>dta.odd</code> ODD and switches
                         to a page-by-page display (along TEI page break boundaries):</p>
                     <code lang="xml">&lt;?teipublisher view="page" odd="dta.odd"?&gt;</code>
+                    <p>If your document does not have page breaks or you want to display entire divisions instead, there are
+                        two additional settings which control the amount of content displayed at a time:</p>
+                    <code lang="xml">&lt;?teipublisher depth="2" fill="6" odd="dta.odd"&gt;</code>
+                    <list type="gloss">
+                        <label>odd</label>
+                        <item>The ODD file to use for rendering the document</item>
+                        <label>view</label>
+                        <item>Default view to show when browsing the document. Supported values are
+                            <gi>div</gi> or <gi>page</gi>.</item>
+                        <label>depth</label>
+                        <item>When viewing entire divisions, the software tries to determine if it should
+                        show child divisions in separate pages or include them with the current div. <gi>depth</gi> indicates the
+                        nesting level up to which divisions should be shown separately. So setting it to "2" will result in
+                        divisions on level 3 or greater to be shown together with their enclosing div.</item>
+                        <label>fill</label>
+                        <item>If child divisions appear on separate pages, it may happen that the enclosing div contains just a heading
+                        or a single line of text. In this case, the algorithm will try to fill the page by showing the first child
+                        division as well. The <gi>fill</gi> paramter defines the number of elements which should at least be present
+                        on a page. If not, the software tries to fill it up.</item>
+                    </list>
                 </div>
                 <div xml:id="appgen">
                     <head>Using the App Generator</head>
@@ -685,7 +705,7 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                     </list>
                     <p>Once you created the new application, log into it using the account details you provided. You can then
                     upload XML documents using the upload panel in the right sidebar.</p>
-                    <figure type="animated">
+                    <figure xml:id="create-app" type="animated">
                         <head>Create an App</head>
                         <graphic url="CreateApp.gif"/>
                     </figure>
@@ -784,7 +804,7 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                             the database, so it cannot be synced to disk. To restore a password for your app, you thus need
                             to edit the <code>repo.xml</code> file in the directory and add a <att>password</att> attribute to
                             the <gi>permissions</gi> element.</p>
-                        <figure type="animated">
+                        <figure xml:id="sync" type="animated">
                             <head>Export an App</head>
                             <graphic url="Sync.gif"/>
                         </figure>
