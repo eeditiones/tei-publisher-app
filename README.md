@@ -2,19 +2,15 @@
 
 The TEI Processing Model (PM) extends the TEI ODD specification format with a processing model for documents. That way intended processing for all elements can be expressed within the TEI vocubulary itself. It aims at the XML-savvy editor who is familiar with TEI but is not necessarily a developer.
 
-The TEI Processing Model Toolbox for eXist facilitates the integration of the TEI processing model into existing applications, supporting a range of different output media without requiring advanced coding skills. Customising the appearance of the text is all done in TEI by mapping each TEI element to a limited set of well-defined behaviour functions, e.g. “paragraph”, “heading”, “note”, “alternate”, etc. The TEI Processing Model includes a standard mapping, which can be extended by overwriting selected elements. Rendition styles are transparently translated into the different output media types like HTML, XSL-FO, LaTeX, or ePUB. Compared to traditional approaches with XSLT or XQuery, TEI Simple may thus easily save a few thousand lines of code for media specific stylesheets.
+TEI Publisher for eXist facilitates the integration of the TEI processing model into existing applications, supporting a range of different output media without requiring advanced coding skills. Customising the appearance of the text is all done in TEI by mapping each TEI element to a limited set of well-defined behaviour functions, e.g. “paragraph”, “heading”, “note”, “alternate”, etc. The TEI Processing Model includes a standard mapping, which can be extended by overwriting selected elements. Rendition styles are transparently translated into the different output media types like HTML, XSL-FO, LaTeX, or ePUB. Compared to traditional approaches with XSLT or XQuery, TEI Publisher may thus easily save a few thousand lines of code for media specific stylesheets.
 
-![Editing an ODD](doc/EditODD.gif)
+![Editing an ODD](data/doc/EditODD.gif)
 
 ## Demo
 
 A demo of the app is available on
 
 https://teipublisher.com/
-
-Some applications using TEI publisher can be found on
-
-http://showcases.exist-db.org/
 
 ## Installation
 
@@ -24,23 +20,12 @@ A prebuilt version of the app can be installed from eXist's central app reposito
 
 ## Documentation
 
-For an overview of the app and library, please refer to my [presentation](http://showcases.exist-db.org/exist/apps/tei-simple/modules/latex.xql?odd=beamer.odd&doc=/doc/presentation.xml). There's also some [documentation](http://showcases.exist-db.org/exist/apps/tei-simple/doc/documentation.xml?odd=documentation.odd) available.
+For an overview of the app and library, please refer to the [documentation](http://teipublisher.com/exist/apps/tei-publisher/doc/documentation.xml) available.
 
 ## Building
 
-For PDF output, you need to enable the Apache FOP extension as follows:
-
-* in extensions/build.properties, set "include.module.xslfo = true"
-* rebuild eXist to install the Apache FOP libraries
-* edit conf.xml and uncomment the fo module:
-
-```xml
-<module uri="http://exist-db.org/xquery/xslfo" class="org.exist.xquery.modules.xslfo.XSLFOModule">
-    <parameter name="processorAdapter" value="org.exist.xquery.modules.xslfo.ApacheFopProcessorAdapter"/>
-</module>
-```
-
-TEI publisher ships as a .xar package which can be installed into any eXist instance using the dashboard.
+Run Apache ant in the cloned directory to get a .xar file in build/, which can be uploaded
+via the dashboard.
 
 ## License
 
