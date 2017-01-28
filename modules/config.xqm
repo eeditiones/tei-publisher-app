@@ -303,7 +303,13 @@ declare function config:get-data-dir() as xs:string? {
         let $response := http:send-request($request)
         return
             if ($response[1]/@status = "200") then
-                $response[2]//jmx:DataDirectory/string()
+                let $dir := $response[2]//jmx:DataDirectory/string()
+                return
+                    if (matches($dir, "^\w\:")) then
+                        (: windows path? :)
+                        "/" || translate($dir, "\", "/")
+                    else
+                        $dir
             else
                 ()
     } catch * {
