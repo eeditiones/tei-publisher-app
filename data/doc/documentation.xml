@@ -81,8 +81,7 @@
                     manager and install the TEI Publisher application package from the public repository. The 
                     TEI Publisher library package will be installed automatically as a dependency.</p>
                     <p>
-                        <hi rendition="simple:bold">Note</hi>: You need at least <ref target="http://exist-db.org#download">eXist 3.0RC1</ref> or a nightly build. When using a nightly, download one before February 10 as newer builds currently have issues
-                        with font loading when generating PDFs.</p>
+                        <hi rendition="simple:bold">Note</hi>: You need at least <ref target="http://exist-db.org#download">eXist 3.0</ref> or a nightly build.</p>
                     <p>Once installed, play around with the provided documents or upload your own via the file
                     upload panel in the right sidebar. You may modify any of the supplied ODD files and see how
                     the rendering changes.</p>
