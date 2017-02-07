@@ -305,7 +305,7 @@ declare function config:get-data-dir() as xs:string? {
             if ($response[1]/@status = "200") then
                 let $dir := $response[2]//jmx:DataDirectory/string()
                 return
-                    if (matches($dir, "^\w\:")) then
+                    if (matches($dir, "^\w:")) then
                         (: windows path? :)
                         "/" || translate($dir, "\", "/")
                     else
