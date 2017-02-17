@@ -98,14 +98,7 @@ function pages:load($node as node(), $model as map(*), $doc as xs:string, $root 
 };
 
 declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc as xs:string) {
-    let $docName :=
-        if (matches($doc, "_\d+\.?[\d\.]*\.xml$")) then
-            let $analyzed := analyze-string($doc, "^(.*)_(\d+\.?[\d\.]*)\.xml$")
-            return
-                $analyzed//fn:group[@nr = 1]/text() || ".xml"
-        else
-            $doc
-    let $data := pages:get-document($docName)
+    let $data := pages:get-document($doc)
     let $config := tpu:parse-pi(root($data), $view)
     return
         map {
@@ -113,11 +106,7 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
             "data":
                 switch ($config?view)
             	    case "div" return
-                	    if (matches($doc, "_\d+\.?[\d\.]+\.xml$")) then
-                            let $analyzed := analyze-string($doc, "^(.*)_(\d+\.?[\d\.]+)\.xml$")
-                            return
-                                util:node-by-id($data, $analyzed//fn:group[@nr = 2]/string())
-                        else if ($root) then
+                        if ($root) then
                             let $node := util:node-by-id($data, $root)
                             return
                                 $node/ancestor-or-self::tei:div[count(ancestor::tei:div) < $config:pagination-depth][1]
@@ -134,12 +123,7 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
                                         else
                                             $data/tei:TEI//tei:body
                     case "page" return
-                        if (matches($doc, "_\d+\.[\d\.]+\.xml$")) then
-                            let $analyzed := analyze-string($doc, "^(.*)_(\d+\.[\d\.]+)\.xml$")
-                            let $targetNode := util:node-by-id($data, $analyzed//fn:group[@nr = 2]/string())
-                            return
-                                $targetNode
-                        else if ($root) then
+                        if ($root) then
                             util:node-by-id($data, $root)
                         else
                             let $div := ($data//tei:pb)[1]
