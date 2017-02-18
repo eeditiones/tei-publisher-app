@@ -1,5 +1,9 @@
+process.env.WDIO_PROTOCOL = process.env.WDIO_PROTOCOL || 'http'
+process.env.WDIO_SERVER = process.env.WDIO_SERVER || 'localhost'
+process.env.WDIO_PORT = process.env.WDIO_PORT || '8080'
+
 exports.config = {
-    
+
     //
     // ==================
     // Specify Test Files
@@ -38,14 +42,17 @@ exports.config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
-    capabilities: [{
-        // maxInstances can get overwritten per capability. So if you have an in-house Selenium
-        // grid with only 5 firefox instances available you can make sure that not more than
-        // 5 instances get started at a time.
-        maxInstances: 5,
-        //
-        browserName: 'chrome'
-    }],
+    capabilities: [
+        {
+            maxInstances: 5,
+            //
+            browserName: 'chrome'
+        }
+        // {
+        //      browserName: 'phantomjs',
+        //      "phantomjs.cli.args" : ["--ignore-ssl-errors=yes"]
+        // }
+    ],
     //
     // ===================
     // Test Configurations
@@ -119,7 +126,12 @@ exports.config = {
     // The only one supported by default is 'dot'
     // see also: http://webdriver.io/guide/testrunner/reporters.html
     // reporters: ['dot'],
-    //
+    reporters: ['spec', 'junit'],
+    reporterOptions: {
+        junit: {
+            outputDir: './reports/'
+        }
+    },
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
     mochaOpts: {
@@ -146,8 +158,12 @@ exports.config = {
     //
     // Gets executed before test execution begins. At this point you can access all global
     // variables, such as `browser`. It is the perfect place to define custom commands.
-    // before: function (capabilities, specs) {
-    // },
+    before: function() {
+        var chai = require('chai');
+        // Then either:
+        // global.expect = chai.expect;
+        global.assert = chai.assert;
+    }
     //
     // Hook that gets executed before the suite starts
     // beforeSuite: function (suite) {
