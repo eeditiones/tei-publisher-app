@@ -13,7 +13,9 @@
                 <p>Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD,
                 then generate your own, standalone app (using the <a href="generate.html">App Generator</a>) covering all core
                 features like browsing, search and PDF generation.</p>
-                <p class="well well-sm"><span class="bold"><a href="#loginDialog" data-toggle="modal">Log in</a> to upload files or see administrative functions (default user: "tei", password: "simple")</span>.</p>
+                <p class="well well-sm">
+                    <span class="bold">
+                        <a href="#loginDialog" data-toggle="modal">Log in</a> to upload files or see administrative functions (default user: "tei", password: "simple")</span>.</p>
                 <div data-template="app:action"/>
             </section>
         </div>
@@ -54,7 +56,9 @@
                 </form-->
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title">ODD Dateien</h3>
+                        <h3 class="panel-title">
+                            <i18n:text key="odd-data"/>
+                        </h3>
                     </div>
                     <div class="panel-body">
                         <table class="odd-table">
@@ -66,7 +70,9 @@
                                     <input type="text" name="new-odd" class="form-control" placeholder="Name of new customization" required="required" pattern="[a-zA-Z0-9-_]+"/>
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-default btn-block" type="submit">Create</button>
+                                    <button class="btn btn-default btn-block" type="submit">
+                                        <i18n:text key="create"/>
+                                    </button>
                                 </div>
                                 <input type="hidden" name="action" value="create-odd"/>
                             </form>

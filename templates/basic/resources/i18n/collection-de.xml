@@ -50,4 +50,6 @@
     <msg key="app-generator">Anwendungsgenerator</msg>
     <msg key="presentation">Präsentation</msg>
     <msg key="examples">Anwendungsbeispiele</msg>
+    <msg key="odd-data">ODD Dateien</msg>
+    <msg key="create">Erstellen</msg>
 </catalogue>

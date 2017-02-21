@@ -49,4 +49,6 @@
     <msg key="app-generator">App Generator</msg>
     <msg key="presentation">Presentation</msg>
     <msg key="examples">Examples</msg>
+    <msg key="odd-data">ODD Files</msg>
+    <msg key="create">Create</msg>
 </catalogue>

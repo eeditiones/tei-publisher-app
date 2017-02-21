@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <catalogue xml:lang="fr">
     <msg key="home">Accueil</msg>
     <msg key="download">Télécharger</msg>
@@ -48,4 +48,6 @@
     <msg key="app-generator">Générateur d'applications</msg>
     <msg key="presentation">Présentation</msg>
     <msg key="examples">Exemples</msg>
+    <msg key="odd-data">Fichiers ODD</msg>
+    <msg key="create">Créer</msg>
 </catalogue>
