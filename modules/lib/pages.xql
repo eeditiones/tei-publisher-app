@@ -201,7 +201,7 @@ declare
 function pages:view($node as node(), $model as map(*), $action as xs:string) {
     let $view := pages:determine-view($model?config?view, $model?data)
     let $data :=
-        if ($action = "search") then
+        if ($action = "search" and exists(session:get-attribute("apps.simple.query"))) then
             let $query := session:get-attribute("apps.simple.query")
             let $div :=
                 if ($model?data instance of element(tei:pb)) then
