@@ -55,7 +55,7 @@ else if (ends-with($exist:resource, ".xql")) then (
 ) else if ($logout or $login) then (
     login:set-user($config:login-domain, (), false()),
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <redirect url="{replace(request:get-uri(), "^(.*)\?", "$1")}"/>
+        <redirect url="{request:get-uri()}?{replace(request:get-query-string(), 'user=[^&amp;]+|password=[^&amp;]+|logout=[^&amp;]+', '')}"/>
     </dispatch>
 
 ) else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt)$", "s")) then
