@@ -6,19 +6,28 @@
   "directories": {
     "test": "test"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.exist-db.org:tei-publisher/tei-publisher-app.git"
+  },
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
+    "gulp": "^3.9.1",
+    "gulp-exist": "^1.4.1",
+    "gulp-webdriver": "^2.0.3",
     "pdfjs-dist": "^1.6.459",
+    "phantomjs-prebuilt": "^2.1.14",
     "wdio-dot-reporter": "0.0.7",
     "wdio-junit-reporter": "^0.2.0",
     "wdio-mocha-framework": "^0.5.8",
+    "wdio-sauce-service": "^0.3.1",
     "wdio-spec-reporter": "0.0.5",
     "webdriverio": "^4.6.1"
   },
   "scripts": {
     "test": "./node_modules/.bin/wdio wdio.conf.js"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Wolfgang Meier",
+  "license": "GPL-3.0"
 }

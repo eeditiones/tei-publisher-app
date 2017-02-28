@@ -3,9 +3,10 @@ var assert = require('assert');
 var path = require('path');
 
 describe('admin functions', function() {
+    browser.windowHandleSize({width: 1024, height: 1366});
+    
     it('should open index page', function() {
-        browser.url(process.env.WDIO_PROTOCOL + "://" + process.env.WDIO_SERVER + ":" +
-            process.env.WDIO_PORT + "/exist/apps/tei-publisher/index.html");
+        browser.url("/exist/apps/tei-publisher/index.html");
         browser.login();
     });
     it("should show upload panel and admin menu", function() {
@@ -28,7 +29,7 @@ describe('admin functions', function() {
     it('uploads a document', function() {
         var toUpload = path.join('test', 'hegel_phaenomenologie_1807.TEI-P5.xml');
         browser.chooseFile('#fileupload', toUpload);
-
+    
         browser.elements("#files").waitForExist("td*='hegel_phaenomenologie_1807.TEI-P5.xml'");
         browser.waitForVisible("a[href*='hegel_phaenomenologie_1807.TEI-P5.xml']");
         browser.click("a[href*='hegel_phaenomenologie_1807.TEI-P5.xml']")
@@ -43,7 +44,7 @@ describe('admin functions', function() {
 
         browser.waitForVisible("#messageDialog .message");
         browser.click("#messageDialog button[type='submit']");
-        browser.pause(300);
+        browser.pause(500);
     });
     it("should filter by author", function() {
         browser.setValue("input[name='filter']", "hegel");

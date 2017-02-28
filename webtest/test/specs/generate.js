@@ -4,8 +4,7 @@ var path = require('path');
 
 describe('generate app', function() {
     it('should open generate page', function() {
-        browser.url(process.env.WDIO_PROTOCOL + "://" + process.env.WDIO_SERVER + ":" +
-            process.env.WDIO_PORT + "/exist/apps/tei-publisher/index.html");
+        browser.url("/exist/apps/tei-publisher/index.html");
         browser.login();
 
         browser.click("*=Admin");
@@ -23,14 +22,13 @@ describe('generate app', function() {
         browser.setValue("#app-password", "test");
 
         browser.click("#form-generate button[type='submit']");
-        browser.waitForVisible("#msg-link");
+        browser.waitForVisible("#msg-link", 60000);
 
         assert.equal(browser.getText("#msg-collection"), "/db/apps/foo");
     });
 
     it('opens generated app', function() {
-        browser.url(process.env.WDIO_PROTOCOL + "://" + process.env.WDIO_SERVER + ":" +
-            process.env.WDIO_PORT + "/exist/apps/foo");
+        browser.url("/exist/apps/foo");
 
         assert(browser.isExisting("#documents-panel"));
     });
@@ -53,34 +51,33 @@ describe('generate app', function() {
             .waitForVisible("a[data-div='3.4.4.8.7']");
         browser.click("a[data-div='3.4.4.8.7']")
             .pause(200);
-        browser.waitForExist(".content h1");
+        browser.waitForText(".content h1");
 
         assert.equal(browser.getText(".content h1"), "Einleitung.");
     });
 
     it("next page", function() {
-        browser.click(".hidden-xs .nav-next").pause(400);
-        browser.waitForExist(".content .tei-corr1");
+        browser.click(".hidden-xs .nav-next").pause(200);
+        browser.waitForText(".content .tei-corr1");
         assert.equal(browser.getText(".content .tei-corr1"), "Erkentniſſe");
     });
 
     it("previous page", function() {
-        browser.click(".hidden-xs .nav-prev").pause(400);
+        browser.click(".hidden-xs .nav-prev").pause(200);
 
-        browser.waitForExist(".content h1");
-
-        assert.equal(browser.getText(".content h1"), "Einleitung.");
+        browser.waitForText(".content .tei-fw4");
+        assert.equal(browser.getText(".content .tei-fw4"), "wird");
     });
 
     it("reload", function() {
         browser.refresh();
 
-        assert.equal(browser.getText(".content h1"), "Einleitung.");
+        assert.equal(browser.getText(".content .tei-fw4"), "wird");
     });
 
     it("next page", function() {
-        browser.click(".hidden-xs .nav-next").pause(400);
-        browser.waitForExist(".content .tei-corr1");
+        browser.click(".hidden-xs .nav-next").pause(200);
+        browser.waitForText(".content .tei-corr1");
         assert.equal(browser.getText(".content .tei-corr1"), "Erkentniſſe");
     });
 
@@ -112,22 +109,18 @@ describe('generate app', function() {
     });
 
     it("removes package", function() {
-        browser.url(process.env.WDIO_PROTOCOL + "://" + process.env.WDIO_SERVER + ":" +
-            process.env.WDIO_PORT + "/exist/apps/dashboard");
-        browser.pause(500);
+        browser.url("/exist/apps/dashboard").pause(500);
         browser.click("#user_label").waitForVisible("input[name='user']");
         browser.setValue("input[name='user']", "admin");
         browser.click("#login-dialog-form .dijitButtonNode")
             .waitForVisible("button[title='Package Manager']");
-        browser.click("button[title='Package Manager']")
-            .waitForVisible("#inlineApp .packageManager");
-        browser.pause(2000);
+        browser.click("button[title='Package Manager']").pause(500);
+        browser.waitForExist("#packageList li");
         browser.moveToObject("li[data-name='http://exist-db.org/apps/foo']")
             .waitForVisible(".deleteApp");
         browser.click("li[data-name='http://exist-db.org/apps/foo'] .deleteApp");
         browser.waitForVisible(".dijitDialogPaneContent div span:nth-child(1)");
         browser.click(".dijitDialogPaneContent div span:nth-child(1)");
-        browser.pause(2000);
-
+        browser.pause(500);
     });
 });

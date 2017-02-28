@@ -4,6 +4,9 @@ process.env.WDIO_PORT = process.env.WDIO_PORT || '8080'
 
 exports.config = {
 
+    // user: "wolfgangmm",
+    // key: process.env.SAUCE_KEY,
+    // sauceConnect: true,
     //
     // ==================
     // Specify Test Files
@@ -45,12 +48,17 @@ exports.config = {
     capabilities: [
         {
             maxInstances: 5,
-            //
-            browserName: 'chrome'
-        }
+            browserName: 'chrome',
+            screenResolution: "1280x1024"
+        },
+        // {browserName: 'chrome', platform: 'Windows 10', version: "56.0", screenResolution: "1280x1024"}
+        // {browserName: 'MicrosoftEdge', platform: 'Windows 10', version: "14.14393", screenResolution: "1280x1024"}
+        // {browserName: 'firefox', platform: 'Linux', version: "45.0", screenResolution: "1024x768"}
         // {
         //      browserName: 'phantomjs',
-        //      "phantomjs.cli.args" : ["--ignore-ssl-errors=yes"]
+        //      "phantomjs.binary.path": require('phantomjs-prebuilt').path,
+        //      "phantomjs.cli.args" : ["--ignore-ssl-errors=yes"],
+        //      javascriptEnabled: true
         // }
     ],
     //
@@ -65,7 +73,7 @@ exports.config = {
     sync: true,
     //
     // Level of logging verbosity: silent | verbose | command | data | result | error
-    logLevel: 'silent',
+    logLevel: 'error',
     //
     // Enables colors for log output.
     coloredLogs: true,
@@ -79,7 +87,7 @@ exports.config = {
     //
     // Set a base URL in order to shorten url command calls. If your url parameter starts
     // with "/", then the base url gets prepended.
-    baseUrl: 'http://localhost:8080',
+    baseUrl: process.env.WDIO_PROTOCOL + '://' + process.env.WDIO_SERVER + ':' + process.env.WDIO_PORT,
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
@@ -113,7 +121,7 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    // services: [],//
+    // services: ["sauce"],
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
     // see also: http://webdriver.io/guide/testrunner/frameworks.html
