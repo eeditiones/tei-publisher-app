@@ -3,8 +3,6 @@ var assert = require('assert');
 var path = require('path');
 
 describe('admin functions', function() {
-    browser.windowHandleSize({width: 1024, height: 1366});
-    
     it('should open index page', function() {
         browser.url("/exist/apps/tei-publisher/index.html");
         browser.login();
@@ -15,7 +13,7 @@ describe('admin functions', function() {
     });
     it("should recompile odd", function() {
         assert(browser.isExisting("a.recompile"));
-        browser.click("a[href*='source=dta.odd']");
+        browser.click("a[href*='source=letter.odd']");
 
         browser.waitForExist("#messageDialog .errors");
         var errors = browser.elements("#messageDialog .errors .list-group-item-danger");

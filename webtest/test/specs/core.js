@@ -4,8 +4,6 @@ var path = require('path');
 
 describe('browsing text', function() {
 
-    browser.windowHandleSize({width: 1024, height: 1366});
-
     it('open document', function() {
         browser.url("/exist/apps/tei-publisher/index.html");
 
