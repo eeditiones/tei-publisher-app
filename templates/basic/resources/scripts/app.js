@@ -210,6 +210,11 @@ $(document).ready(function() {
         load(url);
     }).on("resize", resize);
 
+    $("#logout").on("click", function(ev) {
+        ev.preventDefault();
+        window.location.search = window.location.search + "&logout=true";
+    });
+    
     $(".toc-toggle").click( function(ev) {
         $("#toc-loading").each(function() {
             console.log("Loading toc...");
