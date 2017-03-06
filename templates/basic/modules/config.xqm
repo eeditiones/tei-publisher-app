@@ -219,9 +219,11 @@ declare function config:get-id($node as node()) {
 (:~
  : Returns a path relative to $config:data-root used to locate a document in the database.
  :)
-declare function config:get-relpath($node as node()) {
-    substring-after(document-uri(root($node)), $config:data-root || "/")
-};
+ declare function config:get-relpath($node as node()) {
+     let $root := if (ends-with($config:data-root, "/")) then $config:data-root else $config:data-root || "/"
+     return
+         substring-after(document-uri(root($node)), $root)
+ };
 
 declare function config:get-identifier($node as node()) {
     if ($config:address-by-id) then
