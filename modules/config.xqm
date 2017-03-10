@@ -156,7 +156,7 @@ declare variable $config:epub-config := function($root as element(), $langParame
                 "title": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title/string(),
                 "creator": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:author/string(),
                 "urn": util:uuid(),
-                "language": ($langParameter, $root/@xml:lang, $root/tei:teiHeader/@xml:lang, "en")[1]
+                "language": ($langParameter, $root/@xml:lang/string(), $root/tei:teiHeader/@xml:lang/string(), "en")[1]
             },
             "odd": $properties?odd,
             "output-root": $config:odd-root,

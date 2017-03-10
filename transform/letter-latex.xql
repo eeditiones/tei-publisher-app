@@ -17,7 +17,7 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
-import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist://embedded-eXist-server/db/apps/tei-publisher/modules/lib/../ext-latex.xql";
+import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-latex.xql";
 
 (:~
 
@@ -295,13 +295,11 @@ declare function model:apply($config as map(*), $input as node()*) {
 
                     else
                         if (@type='place') then
-                            latex:link($config, ., ("tei-name3"), ., 
-                            let $ref := substring-after(./@ref, '#') 
-                            return 
-                                "http://maps.google.com/maps?q=" || translate(root(.)/id($ref)/location/geo, " ", ",")
-                        )
+                            (: Transform geographical coordinates into a google maps link :)
+                            latex:link($config, ., ("tei-name3"), .,                              let $ref := substring-after(./@ref, '#')                              return                                  'http://maps.google.com/maps?q=' || translate(root(.)/id($ref)/location/geo, ' ', ','))
                         else
                             latex:inline($config, ., ("tei-name4"), .)
+                (: Ignore notes appearing in person or we get a footnote in a footnote :)
                 case element(note) return
                     if (ancestor::person) then
                         latex:inline($config, ., ("tei-note1"), .)
