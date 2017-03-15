@@ -87,7 +87,11 @@ else if (ends-with($exist:resource, ".xql")) then (
         else
             "view.html"
     return
-        if (ends-with($exist:resource, ".epub")) then
+        if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt)$", "s")) then
+            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+               <forward url="{$exist:controller}/data/{$path}{$id}"/>
+           </dispatch>
+        else if (ends-with($exist:resource, ".epub")) then
             <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
                 <forward url="{$exist:controller}/modules/lib/get-epub.xql">
                     <add-parameter name="id" value="{$path}{$id}"/>
