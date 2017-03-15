@@ -17,6 +17,7 @@
     "gulp-exist": "^1.4.1",
     "gulp-webdriver": "^2.0.3",
     "pdfjs-dist": "^1.6.459",
+    "image-size": "^0.5.1",
     "phantomjs-prebuilt": "^2.1.14",
     "wdio-dot-reporter": "0.0.7",
     "wdio-junit-reporter": "^0.2.0",
