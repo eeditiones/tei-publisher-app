@@ -1,0 +1,63 @@
+<project basedir="." name="TeiPublisherTest" default="run-jmeter-tests" xmlns:xdb="http://exist-db.org/ant">
+	<property file="build.properties" />
+	
+	<!-- project directories -->
+	
+	<property name="binaries" value="${basedir}/bin" />
+	<property name="test" value="${basedir}/test"/>
+	<property name="test.jmeter" value="${basedir}/test/jmeter"/>
+	<property name="reports" value="${basedir}/reports"/>
+	
+	<available file="${binaries}/${jmeter.anttask.dist}" property="jmeter.anttask.available" />
+	<available file="${binaries}/${jmeter.dist}.zip" property="jmeter.available" />
+
+	<!-- Install tools and dependecies -->
+
+	<target name="prepare">
+		<mkdir dir="${binaries}" />
+	</target>
+
+	<target name="setup" description="Download all required tools" depends="prepare,jmeter.anttask.setup,jmeter.setup">
+	</target>
+	
+	<target name="jmeter.anttask.setup" description="Download the jmeter anttask" unless="jmeter.anttask.available">
+		<get src="${jmeter.anttask.url}${jmeter.anttask.dist}" dest="${binaries}" />
+	</target>
+
+	<target name="jmeter.setup" description="Download the jmeter anttask" unless="jmeter.available">
+		<get src="${jmeter.url}" dest="${binaries}" />
+		<unzip dest="${binaries}" src="${binaries}/${jmeter.dist}.zip" overwrite="true" />
+	</target>
+
+	<target name="run-jmeter-tests" description="run jmeter tests" depends="prepare,jmeter.anttask.setup, jmeter.setup">
+		<taskdef name="jmeter" classname="org.programmerplanet.ant.taskdefs.jmeter.JMeterTask" classpath="${binaries}/${jmeter.anttask.dist}" />
+
+		<!-- clean up -->
+		<delete file="${reports}/stresstest.jtl" />
+
+		<jmeter jmeterhome="${binaries}/${jmeter.dist}" resultlog="${reports}/stresstest.jtl">
+			<!--
+            <jvmarg value="-Xincgc"/>
+            <jvmarg value="-Xmx128m"/>
+            -->
+			<!-- SAVE results as xml -->
+			<property name="jmeter.save.saveservice.output_format" value="xml" />
+			<property name="jmeter.save.saveservice.assertion_results" value="all" />
+			<property name="loops" value="${jmeter.loop}"/>
+			<property name="threads" value="${jmeter.threads}"/>
+			<property name="http.server" value="${jmeter.host}"/>
+			<property name="http.port" value="${jmeter.port}"/>
+			<property name="http.path" value="${jmeter.path}"/>
+			<testplans dir="${test}/jmeter" includes="${jmeter.jmx}"/>
+		</jmeter>
+		<xslt in="${reports}/stresstest.jtl" out="${reports}/stresstest.html" style="${binaries}/${jmeter.dist}/extras/jmeter-results-report_21.xsl" />
+	</target>
+
+	<target name="test" depends="run-jmeter-tests"
+		description="Default target. Runs all existing tests. Does not generate or regenerate tests; use generate-frus-tests to do it." />
+
+	<target name="clean">
+		<delete dir="${reports}"/>
+		<delete dir="errorShots"/>
+	</target>
+</project>
