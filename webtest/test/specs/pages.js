@@ -3,10 +3,11 @@ var assert = require('assert');
 var path = require('path');
 
 describe('browsing text', function() {
-
+    
     it('open document', function() {
         browser.url("/exist/apps/tei-publisher/doc/documentation.xml");
 
+        browser.waitForText(".col-title h5");
         assert.equal(browser.getText(".col-title h5"), "TEI Publisher");
     });
     

@@ -46,20 +46,20 @@ exports.config = {
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
     capabilities: [
-        {
-            maxInstances: 5,
-            browserName: 'chrome',
-            screenResolution: "1280x1024"
-        },
+        // {
+        //     maxInstances: 5,
+        //     browserName: 'chrome',
+        //     screenResolution: "1280x1024"
+        // }
         // {browserName: 'chrome', platform: 'Windows 10', version: "56.0", screenResolution: "1280x1024"}
         // {browserName: 'MicrosoftEdge', platform: 'Windows 10', version: "14.14393", screenResolution: "1280x1024"}
         // {browserName: 'firefox', platform: 'Linux', version: "45.0", screenResolution: "1024x768"}
-        // {
-        //      browserName: 'phantomjs',
-        //      "phantomjs.binary.path": require('phantomjs-prebuilt').path,
-        //      "phantomjs.cli.args" : ["--ignore-ssl-errors=yes"],
-        //      javascriptEnabled: true
-        // }
+        {
+             browserName: 'phantomjs',
+             "phantomjs.binary.path": require('phantomjs-prebuilt').path,
+             "phantomjs.cli.args" : ["--ignore-ssl-errors=yes"],
+             javascriptEnabled: true
+        }
     ],
     //
     // ===================
@@ -122,6 +122,7 @@ exports.config = {
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
     // services: ["sauce"],
+    services: ["phantomjs"], // comment out if not using phantomjs as browser
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
     // see also: http://webdriver.io/guide/testrunner/frameworks.html
@@ -171,11 +172,16 @@ exports.config = {
         // Then either:
         // global.expect = chai.expect;
         global.assert = chai.assert;
-    }
+    },
     //
     // Hook that gets executed before the suite starts
-    // beforeSuite: function (suite) {
-    // },
+    // NOTE: comment out if you're not using phantomjs
+    beforeSuite: function (suite) {
+        browser.setViewportSize({
+            width: 1280,
+            height: 1024
+        });
+    },
     //
     // Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
     // beforeEach in Mocha)

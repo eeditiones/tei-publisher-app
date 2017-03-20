@@ -24,23 +24,30 @@ describe('admin functions', function() {
         browser.click("#messageDialog button[type='submit']");
         browser.pause(300);
     });
-    it('uploads a document', function() {
-        var toUpload = path.join('test', 'hegel_phaenomenologie_1807.TEI-P5.xml');
-        browser.chooseFile('#fileupload', toUpload);
     
-        browser.elements("#files").waitForExist("td*='hegel_phaenomenologie_1807.TEI-P5.xml'");
+    it('uploads a document', function() {
+        return browser.upload(
+            path.join('test', 'hegel_phaenomenologie_1807.TEI-P5.xml'),
+            "/exist/rest/db/apps/tei-publisher/data/test/hegel_phaenomenologie_1807.TEI-P5.xml"
+        );
+    });
+    
+    it('should have uploaded', function() {
+        browser.refresh();
+        
         browser.waitForVisible("a[href*='hegel_phaenomenologie_1807.TEI-P5.xml']");
         browser.click("a[href*='hegel_phaenomenologie_1807.TEI-P5.xml']")
             .waitForVisible(".col-title h5");
         assert.equal(browser.getText(".col-title h5"), "Die Phänomenologie des Geistes");
         browser.back();
     });
+    
     it("should regenerate metadata index", function() {
         browser.click("*=Admin");
         browser.waitForVisible("#reindex");
         browser.click("#reindex");
 
-        browser.waitForVisible("#messageDialog .message");
+        browser.waitForVisible("#messageDialog .message", 20000);
         browser.click("#messageDialog button[type='submit']");
         browser.pause(500);
     });

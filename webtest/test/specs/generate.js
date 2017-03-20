@@ -1,8 +1,11 @@
 require("../util.js");
 var assert = require('assert');
 var path = require('path');
+var fs = require('fs');
+var request = require('request');
 
 describe('generate app', function() {
+
     it('should open generate page', function() {
         browser.url("/exist/apps/tei-publisher/index.html");
         browser.login();
@@ -10,40 +13,48 @@ describe('generate app', function() {
         browser.click("*=Admin");
         browser.waitForVisible("a[href*='generate.html']");
         browser.click("a[href*='generate.html']");
+        browser.waitForExist("#form-generate");
     });
 
     it('should fill out form', function() {
-        browser.waitForExist("#form-generate");
         browser.selectByValue("#app-odd", "dta.odd");
         browser.setValue("#app-name", "http://exist-db.org/apps/foo");
         browser.setValue("#app-abbrev", "foo");
         browser.setValue("#app-title", "Foo App");
         browser.setValue("#app-owner", "test");
         browser.setValue("#app-password", "test");
-
-        browser.click("#form-generate button[type='submit']");
-        browser.waitForVisible("#msg-link", 60000);
-
+    
+        browser.click("#form-generate button");
+        browser.waitForText("#msg-collection", 60000);
+        
         assert.equal(browser.getText("#msg-collection"), "/db/apps/foo");
     });
-
+    
     it('opens generated app', function() {
         browser.url("/exist/apps/foo");
-
+    
         assert(browser.isExisting("#documents-panel"));
     });
+});
 
-    it('uploads a document', function() {
-        var toUpload = path.join('..', 'data', 'test', 'kant_rvernunft_1781.TEI-P5.xml');
-        browser.chooseFile('#fileupload', toUpload);
+describe('upload data and test', function() {
+    before(function() {
+        return browser.upload(
+            path.join('..', 'data', 'test', 'kant_rvernunft_1781.TEI-P5.xml'),
+            "/exist/rest/db/apps/foo/data/kant_rvernunft_1781.TEI-P5.xml"
+        )
+    });
 
+    it('check uploaded file', function() {
+        browser.pause(800);
+        browser.refresh();
         browser.waitForExist("a[href*='kant_rvernunft_1781.TEI-P5.xml']");
         browser.click("a[href*='kant_rvernunft_1781.TEI-P5.xml']")
             .waitForVisible(".col-title h5");
         assert.equal(browser.getText(".col-title h5"), "Critik der reinen Vernunft");
     });
-
-    it("table of contents", function() {
+    
+    it("table of contents", function() {        
         browser.click(".toc-toggle")
             .waitForExist("#toc ul li");
 
@@ -107,20 +118,8 @@ describe('generate app', function() {
         browser.click("#about a");
         assert(browser.isExisting("a[href*='kant_rvernunft_1781.TEI-P5.xml']"));
     });
-
-    it("removes package", function() {
-        browser.url("/exist/apps/dashboard").pause(500);
-        browser.click("#user_label").waitForVisible("input[name='user']");
-        browser.setValue("input[name='user']", "admin");
-        browser.click("#login-dialog-form .dijitButtonNode")
-            .waitForVisible("button[title='Package Manager']");
-        browser.click("button[title='Package Manager']").pause(500);
-        browser.waitForExist("#packageList li");
-        browser.moveToObject("li[data-name='http://exist-db.org/apps/foo']")
-            .waitForVisible(".deleteApp");
-        browser.click("li[data-name='http://exist-db.org/apps/foo'] .deleteApp");
-        browser.waitForVisible(".dijitDialogPaneContent div span:nth-child(1)");
-        browser.click(".dijitDialogPaneContent div span:nth-child(1)");
-        browser.pause(500);
+    
+    after(function() {
+        return browser.uninstall("http://exist-db.org/apps/foo");
     });
 });
