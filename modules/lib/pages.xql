@@ -473,9 +473,7 @@ declare function pages:navigation-link($node as node(), $model as map(*), $direc
                     data-doc="{$doc}">{$node/@class, $node/node()}</a>
 };
 
-declare
-    %templates:wrap
-function pages:app-root($node as node(), $model as map(*)) {
+declare function pages:app-root($node as node(), $model as map(*)) {
     element { node-name($node) } {
         $node/@*,
         attribute data-app { request:get-context-path() || substring-after($config:app-root, "/db") },
