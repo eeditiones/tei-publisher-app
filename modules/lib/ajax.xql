@@ -47,6 +47,7 @@ let $xml :=
         let $config := tpu:parse-pi(root($node), $view)
         return
             map {
+                "config": $config,
                 "odd": $config?odd,
                 "view": $config?view,
                 "data":
