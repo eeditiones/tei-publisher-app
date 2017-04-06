@@ -306,7 +306,7 @@ declare %private function pages:toc-div($node, $view as xs:string?, $current as 
                 if ($div/tei:head/*) then
                     $pm-config:web-transform($div/tei:head, map { "header": "short", "root": $div }, $odd)
                 else
-                    $div/tei:head/text()
+                    $div/tei:head/string()
             let $root := (
                 if ($view = "page") then
                     ($div/*[1][self::tei:pb], $div/preceding::tei:pb[1])[1]
@@ -440,9 +440,9 @@ function pages:navigation-title($node as node(), $model as map(*)) {
 };
 
 declare function pages:title($work as element()) {
-    let $main-title := $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'main']/text()
+    let $main-title := $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'main']/string()
     return
-        if ($main-title) then $main-title else $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/text()
+        if ($main-title) then $main-title else $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/string()
 };
 
 declare function pages:navigation-link($node as node(), $model as map(*), $direction as xs:string) {
