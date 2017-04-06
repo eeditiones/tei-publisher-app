@@ -191,7 +191,7 @@ function search:show-hits($node as node()*, $model as map(*), $start as xs:integ
                         )
                         return
                             <li>
-                                <a href="{$parent-id}?action=search&amp;root={$id}&amp;view={$config?view}&amp;odd={$config?odd}">{$parentDiv/tei:head//text()}</a>
+                                <a href="{$parent-id}?action=search&amp;root={$id}&amp;view={$config?view}&amp;odd={$config?odd}">{$parentDiv/tei:head/string()}</a>
                             </li>
                     }
                 </ol>
