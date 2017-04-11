@@ -17,12 +17,6 @@ if ($exist:path eq '') then
         <redirect url="{request:get-uri()}/"/>
     </dispatch>
 
-else if ($exist:path eq "/") then
-    (: forward root path to index.xql :)
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <redirect url="works/"/>
-    </dispatch>
-
 else if (contains($exist:path, "/$shared/")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="/shared-resources/{substring-after($exist:path, '/$shared/')}"/>
@@ -71,11 +65,11 @@ else if (ends-with($exist:resource, ".xql")) then (
     		</error-handler>
         </dispatch>
 
-) else if (starts-with($exist:path, "/works/")) then (
+) else (
     login:set-user($config:login-domain, (), false()),
     (: let $id := replace(xmldb:decode($exist:resource), "^(.*)\..*$", "$1") :)
     let $id := xmldb:decode($exist:resource)
-    let $path := substring-before(substring-after($exist:path, "/works/"), $exist:resource)
+    let $path := substring-before($exist:path, $exist:resource)
     let $mode := request:get-parameter("mode", ())
     let $html :=
         if ($exist:resource = "") then
@@ -151,8 +145,4 @@ else if (ends-with($exist:resource, ".xql")) then (
                 </error-handler>
             </dispatch>
 
-) else
-    (: everything else is passed through :)
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <cache-control cache="yes"/>
-    </dispatch>
+)
