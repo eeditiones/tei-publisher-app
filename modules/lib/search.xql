@@ -112,27 +112,29 @@ function search:query($node as node()*, $model as map(*), $query as xs:string?, 
 };
 
 declare function search:query-default($query as xs:string, $target-texts as xs:string*) {
-    switch ($config:search-default)
-        case "tei:div" return
-            if ($target-texts) then
-                for $text in $target-texts
-                return
-                    $config:data-root ! doc(. || "/" || $text)//tei:div[ft:query(., $query)][not(tei:div)]
-            else
-                collection($config:data-root)//tei:div[ft:query(., $query)][not(tei:div)]
-        case "tei:body" return
-            if ($target-texts) then
-                for $text in $target-texts
-                return
-                    $config:data-root !
-                        doc(. || "/" || $text)//tei:body[ft:query(., $query)]
-            else
-                collection($config:data-root)//tei:body[ft:query(., $query)]
-        default return
-            if ($target-texts) then
-                util:eval("for $text in $target-texts return $config:data-root ! doc(. || '/' || $text)//tei:body[ft:query(., $query)]")
-            else
-                util:eval("collection($config:data-root)//" || $config:search-default || "[ft:query(., $query)]")
+    if(string($query)) then
+        switch ($config:search-default)
+            case "tei:div" return
+                if ($target-texts) then
+                    for $text in $target-texts
+                    return
+                        $config:data-root ! doc(. || "/" || $text)//tei:div[ft:query(., $query)][not(tei:div)]
+                else
+                    collection($config:data-root)//tei:div[ft:query(., $query)][not(tei:div)]
+            case "tei:body" return
+                if ($target-texts) then
+                    for $text in $target-texts
+                    return
+                        $config:data-root !
+                            doc(. || "/" || $text)//tei:body[ft:query(., $query)]
+                else
+                    collection($config:data-root)//tei:body[ft:query(., $query)]
+            default return
+                if ($target-texts) then
+                    util:eval("for $text in $target-texts return $config:data-root ! doc(. || '/' || $text)//tei:body[ft:query(., $query)]")
+                else
+                    util:eval("collection($config:data-root)//" || $config:search-default || "[ft:query(., $query)]")
+    else ()
 };
 
 declare function search:query-headings($query as xs:string, $target-texts as xs:string*) {
