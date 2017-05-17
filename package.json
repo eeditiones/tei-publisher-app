@@ -7,8 +7,7 @@
     "test": "webtest"
   },
   "scripts": {
-    "test": "./node_modules/.bin/wdio wdio.conf.js",
-    "ci-test": "./node_modules/.bin/wdio wdio.ci.conf.js",
+    "test": "webtest/node_modules/.bin/wdio wdio.conf.js",
     "update": "npm update && bower update && gulp",
     "start": "npm install --quiet && bower install --quiet && gulp",
     "gulp": "gulp default"
