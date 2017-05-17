@@ -35,3 +35,31 @@ This software is licensed under the [GPLv3](https://www.gnu.org/licenses/gpl-3.0
 
 * official TEI Spec - http://www.tei-c.org/release/doc/tei-p5-doc/en/html/TD.html#TDPM
 * Extensions to the Processing Model Specification - http://teipublisher.com/doc/documentation.xml?root=1.4.2.2.10.14&odd=documentation.odd&view=div and following
+
+
+## Editing Resources
+
+All resources can either be edited live via eXistdb's XML editor eXide or via local development having `node` and `ant`installed.
+
+## Development
+
+### Prerequisites
+* Install npm: [https://www.npmjs.com/get-npm](https://www.npmjs.com/get-npm)
+
+
+### Install global node packages for the front-end and automation tasks
+
+Install node modules by running
+
+    npm install -g gulp
+
+
+### Build
+
+`gulp build` builds the styles by processing less into minified css with sourcemaps.
+
+`gulp deploy` sends files (and built styles) to the local existDB
+
+`gulp watch` will upload files to the local existDB whenever a source file changes.
+
+**NOTE:** For the deploy and watch task you may have to edit the DB credentials in `gulpfile.js`.
