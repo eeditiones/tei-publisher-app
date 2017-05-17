@@ -6,3 +6,5 @@ generated/
 webtest/errorShots
 webtest/node_modules
 webtest/npm-debug.log
+/node_modules/
+/resources/css/style.css
