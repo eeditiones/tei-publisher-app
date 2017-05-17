@@ -22,7 +22,10 @@
             <exclude name="*.tmpl"/>
             <exclude name="*.properties"/>
             <exclude name="webtest/**"/>
-	        <exclude name="cache/**"/>
+            <exclude name="cache/**"/>
+            <exclude name=".idea/"/>
+            <exclude name=".editorconfig"/>
+            <exclude name="node_modules/**"/>
         </zip>
     </target>
     <target name="upload">
