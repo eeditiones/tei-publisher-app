@@ -267,5 +267,5 @@ gulp.task('deploy', ['build:styles'], function () {
         .pipe(exClient.dest(targetConfiguration))
 });
 
-// Default task (which is called by 'npm start' task)
+// Default task (which is called by 'npm gulp' task)
 gulp.task('default', ['watch']);

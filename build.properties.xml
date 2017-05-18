@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <app>
+        <name>tei-publisher</name>
+        <description>Tei-Publisher App</description>
+        <version>2.0.5</version>
+        <website>http://tei-publisher.com</website>
+    </app>
+    <!-- Path to executables: Don't directly modify this file. Instead, edit local.build.properties-->
+    <npm>/usr/local/bin/npm</npm>
+    <gulp>/usr/local/bin/gulp</gulp>
+</root>

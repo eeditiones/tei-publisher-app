@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "webtest/node_modules/.bin/wdio wdio.conf.js",
-    "update": "npm update && bower update && gulp",
-    "start": "npm install --quiet && bower install --quiet && gulp",
+    "update": "npm update && gulp",
+    "start": "npm install --quiet && gulp",
     "gulp": "gulp default"
   },
   "repository": {
