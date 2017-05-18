@@ -248,7 +248,7 @@ var oddPath =           'resources/odd/**/*',
 
 
 // Deploy all files to existDB
-gulp.task('deploy', ['build:styles'], function () {
+gulp.task('deploy', ['deploy:styles'], function () {
     console.log('deploying all files to local existDB"');
     return gulp.src([
              oddPath
