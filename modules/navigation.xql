@@ -21,61 +21,50 @@ module namespace nav="http://www.tei-c.org/tei-simple/navigation";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-declare function nav:get-next($config as map(*), $div as element(), $view as xs:string) {
-    switch ($view)
-        case "page" return
-            $div/following::tei:pb[1]
-        case "body" return
-            ($div/following-sibling::*, $div/../following-sibling::*)[1]
-        default return
-            nav:get-next($config, $div)
+import module namespace tei-nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xql";
+import module namespace jats-nav="http://www.tei-c.org/tei-simple/navigation/jats" at "navigation-jats.xql";
+
+declare function nav:get-header($node as element()) {
+    tei-nav:get-header($node),
+    jats-nav:get-header($node)
 };
 
+declare function nav:get-section-for-node($config as map(*), $node as element()) {
+    tei-nav:get-section-for-node($config, $node),
+    jats-nav:get-section-for-node($config, $node)
+};
 
-declare function nav:get-next($config as map(*), $div as element()) {
-    if ($div/tei:div[count(ancestor::tei:div) < $config?depth]) then
-        if ($config?fill > 0 and count(($div/tei:div[1])/preceding-sibling::*//*) < $config?fill) then
-            nav:get-next($config, $div/tei:div[1])
-        else
-            $div/tei:div[1]
-    else
-        $div/following::tei:div[1][count(ancestor::tei:div) < $config?depth]
+declare function nav:get-section($doc) {
+    tei-nav:get-section($doc),
+    jats-nav:get-section($doc)
+};
+
+declare function nav:get-document-title($root as element()) {
+    tei-nav:get-document-title($root),
+    jats-nav:get-document-title($root)
+};
+
+declare function nav:get-content($config as map(*), $div as element()) {
+    switch (namespace-uri($div))
+        case "http://www.tei-c.org/ns/1.0" return
+            tei-nav:get-content($config, $div)
+        default return
+            jats-nav:get-content($config, $div)
+};
+
+declare function nav:get-next($config as map(*), $div as element(), $view as xs:string) {
+    tei-nav:get-next($config, $div, $view),
+    jats-nav:get-next($config, $div, $view)
 };
 
 declare function nav:get-previous($config as map(*), $div as element(), $view as xs:string) {
-    switch ($view)
-        case "page" return
-            $div/preceding::tei:pb[1]
-        case "body" return
-            ($div/preceding-sibling::*, $div/../preceding-sibling::*)[1]
-        default return
-            nav:get-previous-div($config, $div)
+    tei-nav:get-previous($config, $div, $view),
+    jats-nav:get-previous($config, $div, $view)
 };
-
 
 declare function nav:get-previous-div($config as map(*), $div as element()) {
-    let $parent := $div/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
-    let $prevDiv := $div/preceding::tei:div[count(ancestor::tei:div) < $config?depth][1]
-    return
-        nav:get-previous-recursive(
-            $config,
-            if ($parent and (empty($prevDiv) or $div/.. >> $prevDiv)) then $div/.. else $prevDiv
-        )
-};
-
-declare %private function nav:get-previous-recursive($config as map(*), $div as element(tei:div)?) {
-    if (empty($div)) then
-        ()
-    else
-        if (
-            empty($div/preceding-sibling::tei:div)  (: first div in section :)
-            and $config?fill > 0
-            and count($div/preceding-sibling::*//*) < $config?fill (: less than 5 elements before div :)
-            and $div/.. instance of element(tei:div) (: parent is a div :)
-        ) then
-            nav:get-previous-recursive($config, $div/ancestor::tei:div[count(ancestor::tei:div) < $config?depth][1])
-        else
-            $div
+    tei-nav:get-previous-div($config, $div),
+    jats-nav:get-previous-div($config, $div)
 };
 
 declare function nav:output-footnotes($footnotes as element()*) {

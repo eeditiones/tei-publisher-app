@@ -26,6 +26,7 @@ module namespace pages="http://www.tei-c.org/tei-simple/pages";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace expath="http://expath.org/ns/pkg";
 
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
@@ -108,19 +109,9 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
                         if ($root) then
                             let $node := util:node-by-id($data, $root)
                             return
-                                $node/ancestor-or-self::tei:div[count(ancestor::tei:div) < $config:pagination-depth][1]
+                                nav:get-section-for-node($config, $node)
                         else
-                            let $div := ($data//tei:div)[1]
-                            return
-                                if ($div) then
-                                    $div
-                                else
-                                    let $group := $data/tei:TEI/tei:text/tei:group/tei:text/(tei:front|tei:body|tei:back)
-                                    return
-                                        if ($group) then
-                                            $group[1]
-                                        else
-                                            $data/tei:TEI//tei:body
+                            nav:get-section($data)
                     case "page" return
                         if ($root) then
                             util:node-by-id($data, $root)
@@ -253,7 +244,6 @@ declare function pages:clean-footnotes($nodes as node()*) {
 declare
     %templates:wrap
 function pages:table-of-contents($node as node(), $model as map(*)) {
-    console:log($model?data/preceding::tei:div[last()]/tei:head),
     let $current :=
         if ($model?config?view = "page") then
             ($model?data/ancestor-or-self::tei:div[1], $model?data/following::tei:div[1])[1]
@@ -323,7 +313,7 @@ declare
 function pages:navigation($node as node(), $model as map(*), $view as xs:string?) {
     let $view := pages:determine-view($view, $model?data)
     let $div := $model?data
-    let $work := $div/ancestor-or-self::tei:TEI
+    let $work := root($div)/*
     let $map := map {
         "div" : $div,
         "work" : $work
@@ -339,66 +329,7 @@ function pages:navigation($node as node(), $model as map(*), $view as xs:string?
 };
 
 declare function pages:get-content($config as map(*), $div as element()) {
-    typeswitch ($div)
-        case element(tei:teiHeader) return
-            $div
-        case element(tei:pb) return (
-            let $nextPage := $div/following::tei:pb[1]
-            let $chunk :=
-                pages:milestone-chunk($div, $nextPage,
-                    if ($nextPage) then
-                        ($div/ancestor::* intersect $nextPage/ancestor::*)[last()]
-                    else
-                        ($div/ancestor::tei:div, $div/ancestor::tei:body)[1]
-                )
-            return
-                $chunk
-        )
-        case element(tei:div) return
-            if ($div/tei:div and count($div/ancestor::tei:div) < $config?depth - 1) then
-                if ($config?fill > 0 and
-                    count(($div/tei:div[1])/preceding-sibling::*//*) < $config?fill) then
-                    let $child := $div/tei:div[1]
-                    return
-                        element { node-name($div) } {
-                            $div/@* except $div/@exist:id,
-                            attribute exist:id { util:node-id($div) },
-                            util:expand(($child/preceding-sibling::*, $child), "add-exist-id=all")
-                        }
-                else
-                    element { node-name($div) } {
-                        $div/@* except $div/@exist:id,
-                        attribute exist:id { util:node-id($div) },
-                        console:log("showing preceding siblings of next div child"),
-                        util:expand($div/tei:div[1]/preceding-sibling::*, "add-exist-id=all")
-                    }
-            else
-                $div
-        default return
-            $div
-};
-
-declare %private function pages:milestone-chunk($ms1 as element(), $ms2 as element()?, $node as node()*) as node()*
-{
-    typeswitch ($node)
-        case element() return
-            if ($node is $ms1) then
-                util:expand($node, "add-exist-id=all")
-            else if ( some $n in $node/descendant::* satisfies ($n is $ms1 or $n is $ms2) ) then
-                element { node-name($node) } {
-                    $node/@*,
-                    for $i in ( $node/node() )
-                    return pages:milestone-chunk($ms1, $ms2, $i)
-                }
-            else if ($node >> $ms1 and (empty($ms2) or $node << $ms2)) then
-                util:expand($node, "add-exist-id=all")
-            else
-                ()
-        case attribute() return
-            $node (: will never match attributes outside non-returned elements :)
-        default return
-            if ($node >> $ms1 and (empty($ms2) or $node << $ms2)) then $node
-            else ()
+    nav:get-content($config, $div)
 };
 
 declare function pages:breadcrumbs($node as node(), $model as map(*)) {
@@ -430,13 +361,11 @@ declare function pages:breadcrumbs($node as node(), $model as map(*)) {
 declare
     %templates:wrap
 function pages:navigation-title($node as node(), $model as map(*)) {
-    pages:title($model('data')/ancestor-or-self::tei:TEI)
+    pages:title(root($model('data'))/*)
 };
 
 declare function pages:title($work as element()) {
-    let $main-title := $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'main']/string()
-    return
-        if ($main-title) then $main-title else $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/string()
+    nav:get-document-title($work)
 };
 
 declare function pages:navigation-link($node as node(), $model as map(*), $direction as xs:string) {
