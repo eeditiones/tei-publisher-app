@@ -1,49 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html data-template="pages:app-root">
-    <head>
-        <title data-template="config:app-title">App Title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <meta data-template="config:app-meta"/>
-        <link rel="shortcut icon" href="$shared/resources/images/exist_icon_16x16.ico"/>
-        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css"/>
-        <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-        <link rel="stylesheet" type="text/css" href="resources/css/vendor/bootstrap.min.css"/>
-        <link rel="stylesheet" type="text/css" href="resources/css/vendor/bootstrap-material-design.min.css"/>
-        <link rel="stylesheet" type="text/css" href="resources/css/vendor/ripples.min.css"/>
-        <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
-        <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
-        <link rel="stylesheet" type="text/css" href="resources/css/vendor/animate.min.css"/>
-        <link rel="stylesheet" type="text/css" href="resources/css/vendor/jasny-bootstrap.min.css"/>
-        <link rel="stylesheet" type="text/css" data-template="pages:styles"/>
-        <script type="text/javascript" src="resources/scripts/jquery-1.11.3.min.js"/>
-        <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
-        <script type="text/javascript" src="resources/scripts/bootstrap.min.js"/>
-        <script type="text/javascript" src="resources/scripts/material.min.js"/>
-        <script type="text/javascript" src="resources/scripts/ripples.min.js"/>
-        <script type="text/javascript" src="resources/scripts/jquery.touchSwipe.min.js"/>
-        <script type="text/javascript" src="resources/scripts/bootstrap3-typeahead.min.js"/>
-        <script type="text/javascript" src="resources/scripts/jquery.fs.macaroon.min.js"/>
-        <script type="text/javascript" src="resources/scripts/jasny-bootstrap.min.js"/>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $.material.init();
-                
-                // keyboard shortcuts: press "left" key for previous page, "right" for next
-                $(document).keydown(function(ev) {
-                    switch (ev.which) {
-                        case 37:
-                            $(".nav-prev").first().click();
-                            break;
-                        case 39:
-                            $(".nav-next").first().click();
-                            break;
-                    }
-                });
-            });
-        </script>
-        <script type="text/javascript" src="resources/scripts/app.js"/>
-    </head>
-    <body xmlns:i18n="http://exist-db.org/xquery/i18n">
+<head data-template="templates:include" data-template-path="templates/head.html"/>
         <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content" data-template-using="body">
             <div data-template="pages:load">
                 <!-- Navigation -->
