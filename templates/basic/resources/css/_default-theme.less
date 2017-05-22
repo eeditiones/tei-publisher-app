@@ -1,38 +1,33 @@
 // main: style.less
 
+/******************* Default Theme **********************/
+/* Default TEI Publisher variables                      */
+/* Do not modify                                        */
+/********************************************************/
+
+
 // Make space for fixed top-navigation
 nav + * {
-  margin-top: 50px;
+  margin-top: @navbar-height-small;
   @media (min-width: @screen-lg-min) {
-    margin-top: 60px;
+    margin-top: @navbar-height-large;
   }
 }
-
-// Header with headline
-header {
-  margin-bottom: 10px;
-  &:not(.service-icon-bar) {
-    @media screen and (min-width: @screen-sm-min) {
-      padding-top: 30px;
-    }
-  }
-}
-
 // Toolbar
 .service-icon-bar {
   background-color: @color-toolbar-bg;
-  padding: 4px 63px;
+  //padding: 4px 63px;
   position: fixed;
   top: 0;
   right: 0;
   width: 100%;
   z-index: 10;
-  margin-top: 50px;
+  margin-top: @navbar-height-small;
   @media screen and (min-width: @screen-md-min) {
-    padding: 4px 0;
+    //padding: 4px 0;
   }
   @media (min-width: @screen-lg-min) {
-    margin-top: 60px;
+    margin-top: @navbar-height-large;
   }
 
   .btn-group {
@@ -41,15 +36,58 @@ header {
 }
 
 // Main container
-@media screen and (min-width: @screen-md-min) {
-  .container {
+.container {
+  @media screen and (min-width: @screen-sm-min) and (max-width: @screen-lg) {
+    width: 85%;
+  }
+  @media screen and (min-width: @screen-lg-min) {
     width: 100%;
+  }
+}
+
+// Main container layout
+.tp-main {
+  @media screen and (max-width: @screen-lg) {
+    background-color: @color-white;
+  }
+}
+
+.tp-main-inner {
+  @media screen {
+    min-height: 90vh;
+    margin-bottom: 0 !important;
+  }
+  border-top: none !important;
+  @media screen and (min-width: @screen-lg-min) {
+    margin-bottom: @margin-horizontal-base;
+    background-color: @color-white;
+  }
+}
+.tp-main-content {
+  padding-bottom: 0 !important;
+}
+
+
+// Dropdown menus
+
+.btn-group > div > ul > li {
+  > a {
+    font-family: @font-sans-serif-default !important;
+    &:hover {
+      color: @color-link-hover !important;
+      background-color: @color-link-hover-bg;
+    }
   }
 }
 
 // App headlines on front page
 .page-header {
-  margin: 20px 0 20px;
+  border: none;
+  padding-bottom: 0;
+  margin: 2rem 0 1rem;
+  @media (min-width: @screen-sm-min) {
+    margin: 2rem 0 2rem;
+  }
 }
 
 @media screen and (min-width: @screen-sm) {
@@ -70,26 +108,6 @@ header {
   font-size: 26px;
   margin-top: 12px;
 }
-
-// Dropdown menus
-
-.btn-group > div > ul > li {
-  > a {
-    font-family: @font-sans-serif-default !important;
-    &:hover {
-      color: @color-link-hover !important;
-      background-color: @color-link-hover-bg;
-    }
-  }
-}
-
-// Dropdown menus
-/*
-.dropdown-menu li>a:hover {
-  color: @color-link-hover !important;
-  background-color: @color-link-hover-bg;
-}
-*/
 
 .browse {
   font-size: 1em !important;
@@ -172,38 +190,14 @@ header {
 }
 
 // ODD override for navigation
-.tei-text {
-  .navbar {
-    font-family: Roboto,Helvetica,Arial,sans-serif !important;
-  }
-}
+//.tei-text {
+//  .navbar {
+//    font-family: Roboto,Helvetica,Arial,sans-serif !important;
+//  }
+//}
 
 mark {
   background-color: @color-text-marker;
-}
-
-// Color for search icon button and message for found results
-.input-group-btn .btn:not(.btn-raised).btn-primary,
-.text-success {
-  color: @btn-primary-bg;
-}
-
-// File upload button
-.fileinput-button {
-  color: @color-gray-light;
-  border: @default-border-style;
-}
-
-// Icon menu in view template
-.actions {
-  margin-bottom: 10px;
-  margin-top: 61px;
-
-  @media screen and (max-width: 769px) {
-    .btn {
-      padding: 8px 20px;
-    }
-  }
 }
 
 // Pagination
@@ -223,6 +217,73 @@ mark {
   color: @btn-primary-bg;
 }
 
-.well {
-  box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12) !important;
+// File upload button
+.fileinput-button {
+  color: @color-gray-dark;
+  border: @default-border-style;
+}
+
+// Color for search icon button and message for found results
+.input-group-btn .btn:not(.btn-raised).btn-primary,
+.text-success {
+  color: @color-primary-light;
+}
+
+.form-group.is-focused label, .form-group.is-focused label.control-label {
+  color: @color-primary-light;
+}
+
+.modal-dialog {
+  z-index: 1050 !important;
+}
+
+.disabled {
+  color: @color-disabled;
+}
+
+// Hide elements
+.offscreen {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.license {
+  display: block;
+  margin-top: 1em;
+}
+
+// PDF and ePub Icons toolbar on start page
+#documents .toolbar {
+  @media screen and (min-width: @screen-md-min) {
+    width: 50vw;
+  }
+}
+
+// Colors for input's underline when focused
+#searchPageForm {
+  .is-focused .form-control {
+    background-image: -webkit-gradient(linear,left top,left bottom,from(@color-toolbar-bg),to(@color-toolbar-bg)),-webkit-gradient(linear,left top,left bottom,from(@color-gray-lightest),to(@color-gray-lightest));
+    background-image: -webkit-linear-gradient(@color-toolbar-bg,@color-toolbar-bg),-webkit-linear-gradient(@color-gray-lightest,@color-gray-lightest);
+    background-image: -o-linear-gradient(@color-toolbar-bg,@color-toolbar-bg),-o-linear-gradient(@color-gray-lightest,@color-gray-lightest);
+    background-image: linear-gradient(@color-toolbar-bg,@color-toolbar-bg),linear-gradient(@color-gray-lightest,@color-gray-lightest);
+  }
+}
+
+.form-group.is-focused {
+  .form-control {
+    background-image: -webkit-gradient(linear,left top,left bottom,from(@color-primary),to(@color-primary)),-webkit-gradient(linear,left top,left bottom,from(@color-body-bg),to(@color-body-bg));
+    background-image: -webkit-linear-gradient(@color-primary,@color-primary),-webkit-linear-gradient(@color-body-bg,@color-body-bg);
+    background-image: -o-linear-gradient(@color-primary,@color-primary),-o-linear-gradient(@color-body-bg,@color-body-bg);
+    background-image: linear-gradient(@color-primary,@color-primary),linear-gradient(@color-body-bg,@color-body-bg);
+  }
+}
+
+.odd-table i.material-icons {
+  color: @color-primary-light;
 }

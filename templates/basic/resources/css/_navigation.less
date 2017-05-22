@@ -38,6 +38,24 @@
   .navbar-nav>li>a:hover {
     background-color: @color-navigation-hover;
   }
+  padding: 0;
+  margin-bottom: 0;
+  min-height: 37px;
+  border-radius: 0;
+  border: none;
+  height: @navbar-height-small;
+  a {
+    max-height: @navbar-height-small;
+  }
+  li, span {
+    margin-bottom: 0;
+  }
+  @media (min-width: @screen-lg-min) {
+    height: @navbar-height-large;
+    a {
+      max-height: @navbar-height-large;
+    }
+  }
 }
 
 .navbar-default {
@@ -59,14 +77,21 @@
   }
 }
 
+// Sub-subnavigation in collapsed navigation
 .navbar-collapse {
+  max-height: 90vh !important;
+  // List of menu items in dropdown menu
   .navbar-nav {
+    margin-top: 0;
     margin-bottom: 0;
+  }
+  @media (max-width: 767px) {
+    background-color: @dropdown-link-hover-bg;
   }
 }
 
 #searchPageForm {
-  font-size: @small-font-size !important;
+  font-size: @font-size-small !important;
 
   @media screen and (min-width: @screen-xs-min) {
     margin: 11px 0;
@@ -81,7 +106,7 @@
   }
 
   input {
-    width: 22vw;
+    width: 20vw;
   }
 
   i.glyphicon-search {
