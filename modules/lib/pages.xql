@@ -144,13 +144,13 @@ declare function pages:get-document($idOrName as xs:string) {
     if ($config:address-by-id) then
         root(collection($config:data-root)/id($idOrName))
     else
-        doc($config:data-root || "/" || $idOrName)
+        doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
 };
 
 declare function pages:back-link($node as node(), $model as map(*)) {
     element { node-name($node) } {
         attribute href {
-            $pages:app-root || "/works/"
+            $pages:app-root || "/"
         },
         $node/@*,
         $node/node()
