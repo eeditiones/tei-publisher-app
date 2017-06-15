@@ -202,29 +202,7 @@ function pages:view($node as node(), $model as map(*), $action as xs:string) {
     let $view := pages:determine-view($model?config?view, $model?data)
     let $data :=
         if ($action = "search" and exists(session:get-attribute("apps.simple.query"))) then
-            let $query := session:get-attribute("apps.simple.query")
-            let $div :=
-                if ($model?data instance of element(tei:pb)) then
-                    let $nextPage := $model?data/following::tei:pb[1]
-                    return
-                        if ($nextPage) then
-                            ($model?data/ancestor::* intersect $nextPage/ancestor::*)[last()]
-                        else
-                            ($model?data/ancestor::tei:div, $model?data/ancestor::tei:body)[1]
-                else
-                    $model?data
-            let $expanded :=
-                util:expand(
-                    (
-                        search:query-default-view($div, $query),
-                        $div[.//tei:head[ft:query(., $query)]]
-                    ), "add-exist-id=all"
-                )
-            return
-                if ($model?data instance of element(tei:pb)) then
-                    $expanded//tei:pb[@exist:id = util:node-id($model?data)]
-                else
-                    $expanded
+            search:expand($model?data)
         else
             $model?data
     let $xml :=
