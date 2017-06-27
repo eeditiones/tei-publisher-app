@@ -31,9 +31,8 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../c
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace search="http://www.tei-c.org/tei-simple/search" at "search.xql";
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
-import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 
 declare variable $pages:app-root := request:get-context-path() || substring-after($config:app-root, "/db");
 
@@ -223,16 +222,7 @@ declare function pages:process-content($xml as element()*, $root as element()*, 
         {
             $body,
             if ($html//li[@class="footnote"]) then
-                <div class="footnotes">
-                    <ol>
-                    {
-                        for $note in $html//li[@class="footnote"]
-                        order by number($note/@value)
-                        return
-                            $note
-                    }
-                    </ol>
-                </div>
+                nav:output-footnotes($html//li[@class = "footnote"])
             else
                 ()
         }
