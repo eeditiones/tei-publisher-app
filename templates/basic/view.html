@@ -32,10 +32,14 @@
                 $(document).keydown(function(ev) {
                     switch (ev.which) {
                         case 37:
-                            $(".nav-prev").first().click();
+                            if ($(".nav-prev").first().css("visibility") !== "hidden") {
+                                $(".nav-prev").first().click();
+                            }
                             break;
                         case 39:
-                            $(".nav-next").first().click();
+                            if ($(".nav-next").first().css("visibility") !== "hidden") {
+                                $(".nav-next").first().click();
+                            }
                             break;
                     }
                 });
