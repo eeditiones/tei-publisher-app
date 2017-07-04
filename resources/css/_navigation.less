@@ -121,3 +121,47 @@
     cursor: pointer;
   }
 }
+
+/********************* Page Navigation Styles ************************/
+/* Default TEI Publisher theme                                       */
+/* Do not modify                                                     */
+/*********************************************************************/
+
+// Navigation buttons for browsing document pages
+.page-nav {
+  position: fixed !important;
+  bottom: 0;
+  background-color: @color-primary-light !important;
+  display: inline-block;
+  position: inherit;
+  margin-top: 1.5em;
+  border-radius: 50% !important;
+
+  @media (min-width: @screen-md-min) {
+    bottom: 50%;
+    visibility: visible;
+  }
+
+  &.nav-prev {
+    left: 2%;
+  }
+  &.nav-next {
+    right: 2%
+  }
+}
+
+.nav {
+  &-prev {
+    left: 15px;
+    @media (min-width: @screen-md-min) {
+      left: 30px;
+    }
+  }
+  &-next {
+    right: 15px;
+    @media (min-width: @screen-md-min) {
+      right: 30px;
+    }
+  }
+}
+

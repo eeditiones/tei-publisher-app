@@ -91,3 +91,57 @@
     padding-right: 6px;
   }
 }
+
+.page-nav {
+  width: @footer-height;
+  height: @footer-height;
+  z-index: 1000;
+  text-decoration: none;
+  color: @btn-primary-color !important;
+  background-color: @color-gray-light;
+  padding: 0;
+  overflow: hidden;
+  line-height: normal;
+  border-radius: 50%;
+  border-color: transparent;
+  margin: 0 0 2px 0;
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: @btn-primary-color !important;
+    background-color: @color-gray-lighter !important;
+    border-color: transparent;
+  }
+  @media (min-width: @screen-md-min) {
+    font-size: 24px;
+    height: 56px;
+    margin: auto;
+    min-width: 56px;
+    width: 56px;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+  }
+
+  // Arrows inside the buttons
+  i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 40px;
+    width: 40px;
+    -webkit-transform: translate(-20px,-20px);
+    -ms-transform: translate(-20px,-20px);
+    -o-transform: translate(-20px,-20px);
+    transform: translate(-20px,-20px);
+    color: @btn-primary-color !important;
+
+    @media (min-width: @screen-md-min) {
+      font-size: 40px;
+      line-height: 40px;
+      width: 40px;
+      transform: translate(-19px, -19px);
+    }
+  }
+}
