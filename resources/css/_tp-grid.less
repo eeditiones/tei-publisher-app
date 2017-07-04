@@ -1,0 +1,23 @@
+// main: ../style.less
+
+.tp-container {
+  @media (min-width: @screen-lg-min) {
+    width: @container-md;
+  }
+}
+
+// Bootstrap 'container' extended with tp styles
+.container {
+  &:extend(.tp-container);
+  @media screen and (min-width: @screen-md-min) {
+    width: 100%;
+  }
+}
+
+.tp-grid {
+  @media screen and (min-width: @screen-lg-min) {
+    width: @container-md;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}

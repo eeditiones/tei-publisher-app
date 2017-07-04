@@ -9,61 +9,54 @@
                 <!-- Toolbar -->
                 <div data-template="templates:include" data-template-path="templates/toolbar.html"/>
 
-                <!-- Content wrapper -->
-                <main id="main-container" class="container-fluid">
-                    <div class="row">
-                        <!-- Table of contents -->
-                        <aside id="sidebar" class="col-md-3 hidden-xs toc offcanvas">
-                            <h3><i18n:text key="contents">Contents</i18n:text></h3>
-                            <div id="toc">
-                                <span id="toc-loading">Loading ...</span>
-                            </div>
-                        </aside>
-                        <section id="right-panel" class="col-md-12 col-xs-12">
-                            <div class="container-fluid">
-                                <section class="row" data-template="pages:navigation">
-                                    <div class="col-md-1 hidden-xs hidden-sm">
-                                        <a class="btn btn-primary btn-fab toc-toggle" data-toggle="offcanvas" data-target="#sidebar" data-canvas="#main-container" title="i18n(previous-page)">
-                                            <i class="material-icons">view_list</i>
-                                        </a>
-                                        <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab">
-                                            <i class="material-icons">navigate_before</i>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10 col-sm-12">
-                                        <div class="navigation-top row">
-                                            <div class="hidden-md hidden-lg btn-group-sm">
-                                                <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab" title="i18n(previous-page)">
-                                                    <i class="material-icons">navigate_before</i>
-                                                </a>
+                <section id="content-wrapper">
+                    <!-- Table of contents -->
+                    <nav id="sidebar" class="col-md-3 toc offcanvas">
+                        <h3><i18n:text key="contents">Contents</i18n:text></h3>
+                        <div id="toc">
+                            <span id="toc-loading">Loading ...</span>
+                        </div>
+                    </nav>
+                    <main id="main-container" class="container-fluid">
+                        <div class="row">
+                            <section id="right-panel" class="col-md-12 col-xs-12">
+                                <div class="container-fluid">
+                                    <section class="row" data-template="pages:navigation">
+                                        <div class="col-md-10 col-sm-12">
+                                            <div class="navigation-top row">
+                                                <div class="hidden-md hidden-lg btn-group-sm">
+                                                    <a data-template="pages:navigation-link" data-template-direction="previous" class="nav-prev page-nav btn btn-primary btn-fab" title="i18n(previous-page)">
+                                                        <i class="material-icons">navigate_before</i>
+                                                    </a>
+                                                </div>
+                                                <!-- Document title -->
+                                                <div class="hidden-xs col-md-12 col-lg-12 col-title">
+                                                    <h5 data-template="pages:navigation-title"/>
+                                                </div>
+                                                <div class="hidden-md hidden-lg btn-group-sm">
+                                                    <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab" title="i18n(next-page)">
+                                                        <i class="material-icons">navigate_next</i>
+                                                    </a>
+                                                </div>
                                             </div>
-                                            <!-- Document title -->
-                                            <div class="hidden-xs col-md-12 col-lg-12 col-title">
-                                                <h5 data-template="pages:navigation-title"/>
-                                            </div>
-                                            <div class="hidden-md hidden-lg btn-group-sm">
-                                                <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab" title="i18n(next-page)">
-                                                    <i class="material-icons">navigate_next</i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <!-- Document pane -->
-                                        <div id="content-inner">
-                                            <div id="content-container">
-                                                <div data-template="pages:view" class="content"/>
+                                            <!-- Document pane -->
+                                            <div id="content-inner">
+                                                <div id="content-container">
+                                                    <div data-template="pages:view" class="content"/>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-1 hidden-xs hidden-sm">
-                                        <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab" title="i18n(next-page)">
-                                            <i class="material-icons">navigate_next</i>
-                                        </a>
-                                    </div>
-                                </section>
-                            </div>
-                        </section>
-                    </div>
-                </main>
+                                        <div class="col-md-1 hidden-xs hidden-sm">
+                                            <a data-template="pages:navigation-link" data-template-direction="next" class="nav-next page-nav btn btn-primary btn-fab" title="i18n(next-page)">
+                                                <i class="material-icons">navigate_next</i>
+                                            </a>
+                                        </div>
+                                    </section>
+                                </div>
+                            </section>
+                        </div>
+                    </main>
+                </section>
             </div>
         </div>
         <div class="modal fade" id="pdf-info">
