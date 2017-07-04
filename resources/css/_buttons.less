@@ -26,62 +26,6 @@
   .btn-group.open>.dropdown-toggle.btn.btn-default {
     background-color: lighten(@color-navigation-hover, 30%);
   }
-  .btn-toolbar {
-    .btn.btn-default {
-      border: none !important;
-      border-radius: 0 !important;
-      padding: 8px 6.5vw;
-      // 481px
-      @media screen and (min-width: @screen-xs-min) {
-        padding: 8px 9vw;
-      }
-      // 601px - 767px
-      @media screen and (min-width: @screen-small) {
-        padding: 8px 3vw;
-      }
-      // 768px
-      @media screen and (min-width: @screen-sm-min) {
-        padding: 8px 2.3vw;
-      }
-      // 841px;
-      @media screen and (min-width: @screen-medium) {
-        padding: 8px 2.6vw;
-      }
-      // 992px
-      @media screen and (min-width: @screen-md-min) {
-        padding: 8px 3.7vw;
-      }
-      // 1200px
-      @media screen and (min-width: @screen-lg-min) {
-        padding: 8px 4vw;
-      }
-
-      background-color: transparent;
-      &:hover {
-        background-color: lighten(@color-navigation-hover, 30%);
-      }
-    }
-    i.material-icons {
-      font-size: 24px;
-      // 768px
-      @media screen and (min-width: @screen-sm-min) {
-        font-size: 20px;
-      }
-      @media screen and (min-width: @screen-small) {
-        font-size: 20px;
-      }
-      // 992px
-      @media screen and (min-width: @screen-md-min) {
-        font-size: 24px;
-      }
-    }
-  }
-}
-
-.tp-zoom-icons {
-  @media screen and (max-width: @screen-small) {
-    display: none;
-  }
 }
 
 .btn {
@@ -89,59 +33,5 @@
   .glyphicon-search {
     top: 3px;
     padding-right: 6px;
-  }
-}
-
-.page-nav {
-  width: @footer-height;
-  height: @footer-height;
-  z-index: 1000;
-  text-decoration: none;
-  color: @btn-primary-color !important;
-  background-color: @color-gray-light;
-  padding: 0;
-  overflow: hidden;
-  line-height: normal;
-  border-radius: 50%;
-  border-color: transparent;
-  margin: 0 0 2px 0;
-
-  &:hover,
-  &:active,
-  &:focus {
-    color: @btn-primary-color !important;
-    background-color: @color-gray-lighter !important;
-    border-color: transparent;
-  }
-  @media (min-width: @screen-md-min) {
-    font-size: 24px;
-    height: 56px;
-    margin: auto;
-    min-width: 56px;
-    width: 56px;
-    justify-content: center;
-    align-content: center;
-    text-align: center;
-  }
-
-  // Arrows inside the buttons
-  i {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    font-size: 40px;
-    width: 40px;
-    -webkit-transform: translate(-20px,-20px);
-    -ms-transform: translate(-20px,-20px);
-    -o-transform: translate(-20px,-20px);
-    transform: translate(-20px,-20px);
-    color: @btn-primary-color !important;
-
-    @media (min-width: @screen-md-min) {
-      font-size: 40px;
-      line-height: 40px;
-      width: 40px;
-      transform: translate(-19px, -19px);
-    }
   }
 }
