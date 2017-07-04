@@ -1,0 +1,61 @@
+// Toolbar
+.tp-toolbar {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: baseline;
+  background-color: @color-toolbar-bg;
+  //padding: 4px 63px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  z-index: 10;
+  margin-top: @navbar-height-small;
+  @media (min-width: @screen-lg-min) {
+    margin-top: @navbar-height-large;
+  }
+
+  a,
+  .btn,
+  .tp-dropdown-wrapper {
+    flex: 0 auto;
+  }
+
+  a,
+  .btn {
+    margin: 8px 0; // top-bottom: (@toolbarheight - 24px iconfonts) / 2
+    padding: 0 !important;
+  }
+
+  .btn-group {
+    margin: 0;
+  }
+
+  .dropdown-menu {
+    margin-top: 0;
+    @media (min-width: @screen-lg-min) {
+      margin-top: @navbar-height-large - @navbar-height-small;
+    }
+    border: none;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-radius: 0;
+    li {
+      margin-bottom: 0;
+      a {
+        padding: 3px 30px !important;
+        line-height: 3rem;
+        &:hover {
+          color: @color-navigation-text;
+          background: @color-navigation-hover;
+        }
+      }
+    }
+  }
+}
+
+.tp-dropdown-wrapper {
+  display: inline;
+  position: relative;
+}
