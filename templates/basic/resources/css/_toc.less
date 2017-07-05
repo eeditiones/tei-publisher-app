@@ -19,7 +19,6 @@
   padding: 0 20px 20px 20px;
   overflow: auto; /* Scrollable contents if viewport is shorter than content. */
   background-color: @color-side-navigation-bg;
-  height: 100%;
   width: 20em;
   z-index: 2000;
   transition: right 0.3s ease-in-out 0s;
@@ -33,13 +32,14 @@
 
   ul {
     list-style-type: none;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
   }
 
   ul,
   ul ul,
   ul ul ul {
     padding-left: 24px;
+    pading-top: 2px;
   }
 
   // Hotfix: Hide empty generated lists
