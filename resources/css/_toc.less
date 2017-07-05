@@ -8,6 +8,9 @@
 .toc {
   position: fixed;
   top: @toolbar-height + @navbar-height-small;
+  border-right: @default-border-style;
+  font-family: @font-serif;
+
   @media (min-width: @screen-lg-min) {
     top: @toolbar-height + @navbar-height-large;
   }
@@ -29,7 +32,6 @@
   }
 
   ul {
-    padding-top: 10px;
     list-style-type: none;
     margin-bottom: 1rem;
   }
@@ -46,10 +48,13 @@
   }
 
   li {
-    margin-bottom: 1.6rem;
+    margin-bottom: .7rem;
 
     .material-icons { // caret icons
       margin-left: -24px;
     }
+  }
+  h3 {
+    margin-bottom: 20px;
   }
 }
