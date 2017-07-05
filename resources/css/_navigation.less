@@ -127,7 +127,8 @@
 /* Do not modify                                                     */
 /*********************************************************************/
 
-// Navigation buttons for browsing document pages
+// Navigation buttons for browsing document pages appearing in footer navigation
+// and on the left and right to the document
 .page-nav {
   position: fixed !important;
   bottom: 0;
@@ -148,13 +149,14 @@
   align-content: center;
   text-align: center;
 
+  // Buttons for larger screens next to document
   @media (min-width: @screen-md-min) {
     background-color: @color-gray-lightest !important;
     font-size: 24px;
-    height: 50px;
+    height: 45px;
+    min-width: 45px;
+    width: 45px;
     margin: auto;
-    min-width: 50px;
-    width: 50px;
     bottom: 50%;
     visibility: visible;
   }
@@ -163,7 +165,6 @@
   &:active,
   &:focus {
     color: @color-primary-light !important;
-    //background-color: darken(@color-footer-bg, 8%) !important;
     border-color: transparent;
     @media (min-width: @screen-md-min) {
       background-color: darken(@color-gray-lightest, 3%) !important;
@@ -183,20 +184,20 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    font-size: 40px;
-    width: 40px;
-    -webkit-transform: translate(-20px,-20px);
-    -ms-transform: translate(-20px,-20px);
-    -o-transform: translate(-20px,-20px);
-    transform: translate(-20px,-20px);
+    font-size: @footer-height; // values are depending on footer height for small devices
+    width: @footer-height;
+    -webkit-transform: translate(-(@footer-height/2), -(@footer-height/2));
+    -ms-transform: translate(-(@footer-height/2), -(@footer-height/2));
+    -o-transform: translate(-(@footer-height/2), -(@footer-height/2));
+    transform: translate(-(@footer-height/2), -(@footer-height/2));
     color: @color-primary-light !important;
 
     @media (min-width: @screen-md-min) {
       color: @color-primary-light !important;
-      font-size: 40px;
-      line-height: 40px;
-      width: 40px;
-      transform: translate(-19px, -19px);
+      font-size: @footer-height;
+      line-height: @footer-height;
+      width: @footer-height;
+      transform: translate(-(@footer-height/2), -(@footer-height/2));
     }
 
     &:hover,
