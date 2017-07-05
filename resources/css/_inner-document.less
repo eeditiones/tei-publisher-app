@@ -7,6 +7,7 @@
 
 // Document headline
 .tp-document-title-wrapper {
+  border-bottom: 1px solid @color-gray-medium;
   @media (min-width: @screen-sm) {
     border-bottom: 2px solid @color-gray-medium;
   }
@@ -15,8 +16,11 @@
     text-align: @text-align-headline-inner;
     font-family: @font-family-headline-inner;
     font-size: @font-size-headline-inner;
-    padding: 10px 10px 10px 0;
+    padding: 5px 5px 5px 0;
     direction: @direction-headline-inner;
+    @media (min-width: @screen-sm) {
+      padding: 10px 10px 10px 0;
+    }
   }
 
   @media (max-width: @screen-sm -1px) {
