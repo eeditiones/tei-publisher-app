@@ -15,20 +15,20 @@
         <div class="navbar-collapse collapse" id="navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li id="about">
-                    <a href="$app/index.html" title="i18n(home)">
-                        <div class="hidden-sm">
+                    <a href="$app/index.html" class="tp-menu-item" title="i18n(home)">
+                        <div>
                             <i18n:text key="home"/>
                         </div>
-                        <i class="material-icons visible-sm">home</i>
+                        <!--<i class="material-icons">home</i>-->
                     </a>
                 </li>
                 <li class="dropdown" data-template="browse:show-for-document">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false" title="i18n(download)">
-                        <div class="hidden-sm">
+                    <a href="#" class="dropdown-toggle tp-menu-item" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false" title="i18n(download)">
+                        <div>
                             <i18n:text key="download"/>
                             <span class="caret"/>
                         </div>
-                        <i class="material-icons visible-sm">file_download</i>
+                        <!--<i class="material-icons">file_download</i>-->
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
@@ -71,12 +71,12 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false" title="i18n(documentation)">
-                        <div class="hidden-sm">
+                    <a href="#" class="dropdown-toggle tp-menu-item" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false" title="i18n(documentation)">
+                        <div>
                             <i18n:text key="documentation"/>
                             <span class="caret"/>
                         </div>
-                        <i class="material-icons visible-sm">description</i>
+                        <!--<i class="material-icons">description</i>-->
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         <li>
@@ -92,12 +92,13 @@
                     </ul>
                 </li>
                 <li class="dropdown" data-template="browse:show-if-logged-in">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false" title="i18n(admin)">
-                        <div class="hidden-sm">
-                            <i class="material-icons md-dark">build</i><i18n:text key="admin"/>
+                    <a href="#" class="dropdown-toggle tp-menu-item" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false" title="i18n(admin)">
+                        <div>
+                            <!--<i class="material-icons md-dark">build</i>-->
+                            <i18n:text key="admin"/>
                             <span class="caret"/>
                         </div>
-                        <i class="material-icons visible-sm">create</i>
+                        <!--<i class="material-icons">create</i>-->
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         <li>

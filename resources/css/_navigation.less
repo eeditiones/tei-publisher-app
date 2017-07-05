@@ -35,6 +35,12 @@
     background-color: @color-navigation-bg;
     color: @color-navigation-text;
   }
+  @media (min-width: 991px) and (max-width: 1200px) {
+    .navbar-nav>li {
+      font-size: 14px;
+    }
+  }
+
   .navbar-nav>li>a:hover {
     background-color: @color-navigation-hover;
   }
@@ -88,7 +94,7 @@
     margin-top: 0;
     margin-bottom: 0;
   }
-  @media (max-width: 767px) {
+  @media (max-width: 991px) {
     background-color: @dropdown-link-hover-bg;
   }
   .glyphicon.visible-sm {
@@ -107,12 +113,15 @@
     margin: 15px 0 14px 0;
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 991px) {
     display: none;
   }
 
   input {
-    width: 20vw;
+    width: 16vw;
+    @media (min-width: 1200px) {
+      width: 20vw;
+    }
   }
 
   i.glyphicon-search {
@@ -167,7 +176,7 @@
     color: @color-primary-light !important;
     border-color: transparent;
     @media (min-width: @screen-md-min) {
-      background-color: darken(@color-gray-lightest, 2%) !important;
+      background-color: darken(@color-gray-lightest, 3%) !important;
       color: @color-primary-light !important;
     }
   }
@@ -220,5 +229,45 @@
     @media (min-width: @screen-md-min) {
       right: 30px;
     }
+  }
+}
+
+// Override Bootstrap breakpoint to collapse navigation
+@media (max-width: 991px) {
+  .navbar-header {
+    float: none;
+  }
+  .navbar-left,.navbar-right {
+    float: none !important;
+  }
+  .navbar-toggle {
+    display: block;
+  }
+  .navbar-collapse {
+    border-top: 1px solid transparent;
+  }
+  .navbar-fixed-top {
+    top: 0;
+    //border-width: 0 0 1px;
+  }
+  .navbar-collapse.collapse {
+    display: none!important;
+  }
+  .navbar-nav {
+    float: none!important;
+    //margin-top: 7.5px;
+  }
+  .navbar-nav>li {
+    float: none;
+  }
+  .collapse.in{
+    display: block !important;
+  }
+  .container-fluid>.navbar-collapse,
+  .container-fluid>.navbar-header,
+  .container>.navbar-collapse,
+  .container>.navbar-header {
+    margin-right: -15px;
+    margin-left: -15px;
   }
 }
