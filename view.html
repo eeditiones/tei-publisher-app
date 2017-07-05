@@ -11,25 +11,21 @@
 
                 <section id="tp-canvas">
                     <!-- Table of contents -->
-                    <nav id="sidebar" class="col-md-3 toc offcanvas">
+                    <nav id="sidebar" class="toc offcanvas">
                         <h3><i18n:text key="contents">Contents</i18n:text></h3>
                         <div id="toc">
                             <span id="toc-loading">Loading ...</span>
                         </div>
                     </nav>
-                    <main id="main-wrapper" class="container">
-                        <section class="row" data-template="pages:navigation">
-                            <div class="tp-document-title-wrapper row">
-                                <!-- Document title -->
-                                <div class="col-title">
-                                    <h5 data-template="pages:navigation-title"/>
-                                </div>
-                            </div>
-                            <div id="document-wrapper" class="row">
-                                <!-- Document pane -->
-                                <div id="document-pane">
-                                    <div data-template="pages:view" class="content"/>
-                                </div>
+                    <main id="main-wrapper" data-template="pages:navigation">
+                        <section class="tp-document-title-wrapper tp-row">
+                            <!-- Document title -->
+                            <h5 class="tp-column" data-template="pages:navigation-title"/>
+                        </section>
+                        <section id="document-wrapper" class="tp-row">
+                            <!-- Document pane -->
+                            <div id="document-pane" class="tp-column">
+                                <div data-template="pages:view" class="content"/>
                             </div>
                         </section>
                     </main>
