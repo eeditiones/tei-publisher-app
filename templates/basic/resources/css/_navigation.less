@@ -60,16 +60,19 @@
 
 .navbar-default {
   margin-bottom: 0;
+  .dropdown-menu {
+    padding-top: 0;
+    padding-bottom: 0;
 
-  .dropdown-menu li>a {
-    padding: 5px 15px 5px 25px !important;
-    font-weight: 300 !important;
-    line-height: 30px !important;
-  }
-
-  .dropdown-menu li > a:hover {
-    background-color: @color-navigation-hover !important;
-    color: @color-navigation-text !important;
+    li>a {
+      padding: 5px 15px 5px 25px !important;
+      font-weight: 300 !important;
+      line-height: 30px !important;
+    }
+    li > a:hover {
+      background-color: @color-navigation-hover !important;
+      color: @color-navigation-text !important;
+    }
   }
 
   .navbar-brand, .navbar-brand:focus, .navbar-brand:hover {
@@ -87,6 +90,9 @@
   }
   @media (max-width: 767px) {
     background-color: @dropdown-link-hover-bg;
+  }
+  .glyphicon.visible-sm {
+    font-size: 20px;
   }
 }
 
@@ -113,5 +119,106 @@
     top: 5px;
     padding-right: 10px;
     cursor: pointer;
+  }
+}
+
+/********************* Page Navigation Styles ************************/
+/* Default TEI Publisher theme                                       */
+/* Do not modify                                                     */
+/*********************************************************************/
+
+// Navigation buttons for browsing document pages appearing in footer navigation
+// and on the left and right to the document
+.page-nav {
+  position: fixed !important;
+  bottom: 0;
+  background-color: @color-footer-bg !important;
+  color: @color-primary-light !important;
+  display: inline-block;
+  border-radius: 50% !important;
+  margin: 0;
+  width: @footer-height; // in footer depending on footer hight/width
+  height: @footer-height;
+  z-index: 1000;
+  text-decoration: none;
+  padding: 0;
+  overflow: hidden;
+  line-height: normal;
+  border-color: transparent;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+
+  // Buttons for larger screens next to document
+  @media (min-width: @screen-md-min) {
+    background-color: @color-gray-lightest !important;
+    font-size: 24px;
+    height: 45px;
+    min-width: 45px;
+    width: 45px;
+    margin: auto;
+    bottom: 50%;
+    visibility: visible;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: @color-primary-light !important;
+    border-color: transparent;
+    @media (min-width: @screen-md-min) {
+      background-color: darken(@color-gray-lightest, 2%) !important;
+      color: @color-primary-light !important;
+    }
+  }
+
+  &.nav-prev {
+    left: 2%;
+  }
+  &.nav-next {
+    right: 2%
+  }
+
+  // Arrows inside the buttons
+  i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: @footer-height; // values are depending on footer height for small devices
+    width: @footer-height;
+    -webkit-transform: translate(-(@footer-height/2), -(@footer-height/2));
+    -ms-transform: translate(-(@footer-height/2), -(@footer-height/2));
+    -o-transform: translate(-(@footer-height/2), -(@footer-height/2));
+    transform: translate(-(@footer-height/2), -(@footer-height/2));
+    color: @color-primary-light !important;
+
+    @media (min-width: @screen-md-min) {
+      color: @color-primary-light !important;
+      font-size: @footer-height;
+      line-height: @footer-height;
+      width: @footer-height;
+      transform: translate(-(@footer-height/2), -(@footer-height/2));
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: darken(@color-primary-light, 30%) !important;
+    }
+  }
+}
+
+.nav {
+  &-prev {
+    left: 15px;
+    @media (min-width: @screen-md-min) {
+      left: 30px;
+    }
+  }
+  &-next {
+    right: 15px;
+    @media (min-width: @screen-md-min) {
+      right: 30px;
+    }
   }
 }

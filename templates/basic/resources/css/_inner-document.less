@@ -1,13 +1,14 @@
 // main: style.less
 
-/********************* Page Navigation Styles ************************/
+/********************* Inner Document Styles ************************/
 /* Default TEI Publisher theme                                       */
 /* Do not modify                                                     */
 /*********************************************************************/
 
-.navigation-top {
+// Document headline
+.tp-document-title-wrapper {
+  border-bottom: 1px solid @color-gray-medium;
   @media (min-width: @screen-sm) {
-    margin-bottom: 1em;
     border-bottom: 2px solid @color-gray-medium;
   }
 
@@ -15,8 +16,11 @@
     text-align: @text-align-headline-inner;
     font-family: @font-family-headline-inner;
     font-size: @font-size-headline-inner;
-    padding: 10px 10px 10px 0;
+    padding: 5px 5px 5px 0;
     direction: @direction-headline-inner;
+    @media (min-width: @screen-sm) {
+      padding: 10px 10px 10px 0;
+    }
   }
 
   @media (max-width: @screen-sm -1px) {
@@ -26,52 +30,24 @@
   }
 }
 
-.page-nav,
-.page-nav:link,
-.page-nav:active {
-  background-color: @color-primary-light !important;
-  position: fixed;
-  z-index: 11;
-  top: 52px;
-
-  @media (min-width: @screen-md-min) {
-    top: 50%;
-  }
-}
-
-.nav {
-  &-prev {
-    left: 15px;
-    @media (min-width: @screen-md-min) {
-      left: 30px;
-    }
-  }
-  &-next {
-    right: 15px;
-    @media (min-width: @screen-md-min) {
-      right: 30px;
-    }
-  }
-}
 
 // Wrapper for content in view.html
-#main-container {
-  max-width: @screen-lg;
-  margin-top: 100px;
+#main-wrapper {
+  margin-top: @navbar-offset-small;
   @media (min-width: @screen-lg-min) {
-    margin-top: 110px;
+    margin-top: @navbar-offset-large;
   }
 }
 
 /* Page by page navigation */
-#content-inner {
+#document-wrapper {
   min-height: 450px;
   font-family: @font-family-content-inner;
   font-size: @font-size-content-inner;
   direction: @direction-content-inner;
 }
 
-#content-container {
+#document-pane {
   -webkit-animation-duration: 400ms;
   -moz-animation-duration: 400ms;
   animation-duration: 400ms;

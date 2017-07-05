@@ -7,7 +7,7 @@
 //@import "_default-variables.less";
 @import "_base.less";
 @import "_utilities.less";
-//@import "_tp-grid.less";
+@import "_tp-grid.less";
 
 // Elements ----------------------- //
 
@@ -18,6 +18,7 @@
 
 @import "_default-theme.less";
 @import "_navigation.less";
+@import "_toolbar.less";
 @import "_toc.less";
 @import "_sidebars.less";
 @import "_search.less";
@@ -78,7 +79,7 @@
 @panel-primary-heading-bg-color:  #C5CAE9;
 
 // Off Canvas Navigation
-@color-side-navigation-bg:        @color-gray-lightest;
+@color-side-navigation-bg:        @color-white;
 
 @color-text-marker:               #FFEB3B;
 @color-text-highlight:            #7777FF;
@@ -202,13 +203,15 @@
 @navbar-offset-small:                 @toolbar-height + @navbar-height-small; //  90px
 @navbar-offset-large:                 @toolbar-height + @navbar-height-large; // 100px
 
+@footer-height:                       35px;
+@color-footer-bg:                     @color-gray-lightest;
 
 /********************* Styles for the Content ************************/
 /* All content styling should go here.                               */
 /* Do not modify other .less files except this one                   */
 /*********************************************************************/
 
-#content-inner {
+#document-wrapper {
   .content h1,
   .content h2,
   .content h3,

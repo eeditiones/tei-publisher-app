@@ -8,45 +8,51 @@
                 <span class="icon-bar"/>
                 <span class="icon-bar"/>
             </button>
-            <a class="navbar-brand" href="$app/">
+            <a class="navbar-brand" href="http://tei-publisher.com/">
                 <span data-template="config:app-title">App Title</span>
             </a>
         </div>
         <div class="navbar-collapse collapse" id="navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li id="about">
-                    <a href="$app/">
-                        <i18n:text key="home"/>
+                    <a href="$app/index.html" title="i18n(home)">
+                        <div class="hidden-sm">
+                            <i18n:text key="home"/>
+                        </div>
+                        <i class="material-icons visible-sm">home</i>
                     </a>
                 </li>
                 <li class="dropdown" data-template="browse:show-for-document">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-                        <i18n:text key="download"/>
-                        <span class="caret"/>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false" title="i18n(download)">
+                        <div class="hidden-sm">
+                            <i18n:text key="download"/>
+                            <span class="caret"/>
+                        </div>
+                        <i class="material-icons visible-sm">file_download</i>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <a class="download-link" data-template="browse:download-link" data-template-type="pdf" title="i18n(pdf-download)">
+                            <a class="download-link" data-template="browse:download-link" data-template-type="pdf" title="i18n(pdf-fo)">
                                 <i class="material-icons">print</i> <i18n:text key="pdf-fo"/>
                             </a>
                         </li>
                         <li data-template="browse:show-if-logged-in">
-                            <a target="_blank" data-template="browse:download-link" data-template-type="pdf" data-template-source="true">
+                            <a target="_blank" data-template="browse:download-link" data-template-type="pdf" data-template-source="true" title="i18n(fo-source)">
                                 <i class="material-icons">code</i> <i18n:text key="fo-source"/>
                             </a>
                         </li>
                         <li>
-                            <a class="download-link" data-template="browse:download-link" data-template-type="tex" title="i18n(pdf-download)">
+                            <a class="download-link" data-template="browse:download-link" data-template-type="tex" title="i18n(pdf-latex)">
                                 <i class="material-icons">print</i> <i18n:text key="pdf-latex"/>
                             </a>
                         </li>
                         <li data-template="browse:show-if-logged-in">
-                            <a target="_blank" data-template="browse:download-link" data-template-type="tex" data-template-source="true">
+                            <a target="_blank" data-template="browse:download-link" data-template-type="tex" data-template-source="true" title="i18n(latex-source)">
                                 <i class="material-icons">code</i> <i18n:text key="latex-source"/>
                             </a>
                         </li>
                         <li>
-                            <a class="download-link" data-template="browse:download-link" data-template-type="" data-template-mode="plain">
+                            <a class="download-link" data-template="browse:download-link" data-template-type="" data-template-mode="plain" title="i18n(single-page)">
                                 <i class="material-icons">web</i> <i18n:text key="single-page"/>
                             </a>
                         </li>
@@ -64,14 +70,38 @@
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown" data-template="browse:show-if-logged-in">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-                        <i class="material-icons md-dark">build</i> <i18n:text key="admin"/>
-                        <span class="caret"/>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false" title="i18n(documentation)">
+                        <div class="hidden-sm">
+                            <i18n:text key="documentation"/>
+                            <span class="caret"/>
+                        </div>
+                        <i class="material-icons visible-sm">description</i>
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         <li>
-                            <a class="recompile" href="#">
+                            <a href="$app/doc/documentation.xml?odd=documentation.odd">
+                                <i18n:text key="documentation"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="$app/doc/presentation.xml.tex?odd=beamer.odd">
+                                <i18n:text key="presentation"/>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown" data-template="browse:show-if-logged-in">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false" title="i18n(admin)">
+                        <div class="hidden-sm">
+                            <i class="material-icons md-dark">build</i><i18n:text key="admin"/>
+                            <span class="caret"/>
+                        </div>
+                        <i class="material-icons visible-sm">create</i>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li>
+                            <a class="recompile" data-template="browse:recompile-link">
                                 <i18n:text key="recompile"/>
                             </a>
                         </li>
@@ -86,16 +116,16 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" data-template="pages:xml-link" data-template-source="modules/config.xqm">
-                                <i18n:text key="edit-config"/>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" data-template="pages:xml-link" data-template-source="resources/css/style.less">
-                                <i18n:text key="edit-styles"/>
+                            <a href="$app/generate.html">
+                                <i18n:text key="app-generator"/>
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li id="code">
+                    <a href="http://gitlab.exist-db.org/tei-publisher/"  title="View code on Gitlab">
+                        <img src="resources/images/wm_no_bg.svg" height="20"/>
+                    </a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -105,15 +135,15 @@
                         <div class="input-group">
                             <i class="glyphicon glyphicon-search" onclick="$(&#34;#searchPageForm&#34;).submit()"/>
                             <input type="search" class="form-control search-input templates:form-control typeahead-search" autocomplete="off" placeholder="Search..." name="query"/>
-                            <input type="hidden" name="doc" data-template="search:form-current-doc"/>
                         </div>
+                        <input type="hidden" name="doc" data-template="search:form-current-doc"/>
                     </form>
                 </li>
                 <li data-template="browse:check-login">
-                    <a href="#loginDialog" data-toggle="modal">
+                    <a href="#loginDialog" data-toggle="modal" title="i18n(login)">
                         <i class="material-icons">account_circle</i> <i18n:text key="login"/>
                     </a>
-                    <a id="logout" href="#">
+                    <a id="logout" href="#" title="i18n(logout)">
                         <i class="material-icons">account_circle</i> <i18n:text key="logout"/> <span class="browse:current-user"/>
                     </a>
                 </li>
