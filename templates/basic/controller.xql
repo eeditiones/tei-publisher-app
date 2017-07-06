@@ -27,6 +27,11 @@ else if (contains($exist:path, "/resources")) then
         <forward url="{$exist:controller}/resources/{substring-after($exist:path, '/resources/')}"/>
     </dispatch>
 
+else if (contains($exist:path, "/transform")) then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/transform/{substring-after($exist:path, '/transform/')}"/>
+    </dispatch>
+
 else if (contains($exist:path, "/components")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/components/{substring-after($exist:path, '/components/')}"/>
@@ -41,9 +46,18 @@ else if (ends-with($exist:resource, ".xql")) then (
 
 ) else if ($logout or $login) then (
     login:set-user($config:login-domain, (), false()),
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <redirect url="{replace(request:get-uri(), "^(.*)\?", "$1")}"/>
-    </dispatch>
+    (: redirect successful login attempts to the original page, but prevent redirection to non-local websites:)
+    let $referer := request:get-header("Referer")
+    let $this-servers-scheme-and-domain := request:get-scheme() || "://" || request:get-server-name()
+    return
+        if (starts-with($referer, $this-servers-scheme-and-domain)) then
+            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+                <redirect url="{request:get-header("Referer")}"/>
+            </dispatch>
+        else
+            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+                <redirect url="{replace(request:get-uri(), "^(.*)\?", "$1")}"/>
+            </dispatch>
 
 ) else if (ends-with($exist:resource, ".html")) then (
     login:set-user($config:login-domain, (), false()),

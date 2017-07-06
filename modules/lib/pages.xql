@@ -31,9 +31,8 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../c
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace search="http://www.tei-c.org/tei-simple/search" at "search.xql";
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
-import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 
 declare variable $pages:app-root := request:get-context-path() || substring-after($config:app-root, "/db");
 
@@ -144,13 +143,13 @@ declare function pages:get-document($idOrName as xs:string) {
     if ($config:address-by-id) then
         root(collection($config:data-root)/id($idOrName))
     else
-        doc($config:data-root || "/" || $idOrName)
+        doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
 };
 
 declare function pages:back-link($node as node(), $model as map(*)) {
     element { node-name($node) } {
         attribute href {
-            $pages:app-root || "/works/"
+            $pages:app-root || "/"
         },
         $node/@*,
         $node/node()
@@ -202,29 +201,7 @@ function pages:view($node as node(), $model as map(*), $action as xs:string) {
     let $view := pages:determine-view($model?config?view, $model?data)
     let $data :=
         if ($action = "search" and exists(session:get-attribute("apps.simple.query"))) then
-            let $query := session:get-attribute("apps.simple.query")
-            let $div :=
-                if ($model?data instance of element(tei:pb)) then
-                    let $nextPage := $model?data/following::tei:pb[1]
-                    return
-                        if ($nextPage) then
-                            ($model?data/ancestor::* intersect $nextPage/ancestor::*)[last()]
-                        else
-                            ($model?data/ancestor::tei:div, $model?data/ancestor::tei:body)[1]
-                else
-                    $model?data
-            let $expanded :=
-                util:expand(
-                    (
-                        search:query-default-view($div, $query),
-                        $div[.//tei:head[ft:query(., $query)]]
-                    ), "add-exist-id=all"
-                )
-            return
-                if ($model?data instance of element(tei:pb)) then
-                    $expanded//tei:pb[@exist:id = util:node-id($model?data)]
-                else
-                    $expanded
+            search:expand($model?data)
         else
             $model?data
     let $xml :=
@@ -245,16 +222,7 @@ declare function pages:process-content($xml as element()*, $root as element()*, 
         {
             $body,
             if ($html//li[@class="footnote"]) then
-                <div class="footnotes">
-                    <ol>
-                    {
-                        for $note in $html//li[@class="footnote"]
-                        order by number($note/@value)
-                        return
-                            $note
-                    }
-                    </ol>
-                </div>
+                nav:output-footnotes($html//li[@class = "footnote"])
             else
                 ()
         }
@@ -499,9 +467,7 @@ declare function pages:navigation-link($node as node(), $model as map(*), $direc
                     data-doc="{$doc}">{$node/@class, $node/node()}</a>
 };
 
-declare
-    %templates:wrap
-function pages:app-root($node as node(), $model as map(*)) {
+declare function pages:app-root($node as node(), $model as map(*)) {
     element { node-name($node) } {
         $node/@*,
         attribute data-app { request:get-context-path() || substring-after($config:app-root, "/db") },

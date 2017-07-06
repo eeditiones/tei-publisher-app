@@ -146,6 +146,39 @@ declare function search:query-headings($query as xs:string, $target-texts as xs:
         collection($config:data-root)//tei:head[ft:query(., $query)]
 };
 
+(:~
+ : Expand the given element and highlight query matches by re-running the query
+ : on it.
+ :)
+declare function search:expand($data as element()) {
+    let $query := session:get-attribute("apps.simple.query")
+    let $div :=
+        if ($data instance of element(tei:pb)) then
+            let $nextPage := $data/following::tei:pb[1]
+            return
+                if ($nextPage) then
+                    if ($config:search-default = "tei:div") then
+                        ($data/ancestor::tei:div intersect $nextPage/ancestor::tei:div)[last()]
+                    else
+                        $data/ancestor::tei:body
+                else
+                    ($data/ancestor::tei:div, $data/ancestor::tei:body)[1]
+        else
+            $data
+    let $expanded :=
+        util:expand(
+            (
+                search:query-default-view($div, $query),
+                $div[.//tei:head[ft:query(., $query)]]
+            ), "add-exist-id=all"
+        )
+    return
+        if ($data instance of element(tei:pb)) then
+            $expanded//tei:pb[@exist:id = util:node-id($data)]
+        else
+            $expanded
+};
+
 
 declare function search:query-default-view($context as element()*, $query as xs:string) {
     switch ($config:search-default)
