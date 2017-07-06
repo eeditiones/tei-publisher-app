@@ -13,7 +13,6 @@ var fs =                    require('fs'),
     LessPluginCleanCSS =    require('less-plugin-clean-css'),
     cleanCSSPlugin =        new LessPluginCleanCSS({advanced: true}),
 
-
     input = {
         'styles':               'resources/css/style.less',
         'vendor_styles':        'resources/css/vendor/*',
@@ -26,7 +25,11 @@ var fs =                    require('fs'),
         'odd':                  'odd/!*',
         'transform':            'transform/*',
         'modules':              'modules/**/*',
-        'other':                '*{.xpr,.xqr,.xql,.xml,.xconf}'
+        'other':                '*{.xpr,.xqr,.xql,.xml,.xconf}',
+        'gen_app_styles':       'resources/css/**/*',
+        'gen_app_scripts':      'resources/scripts/**/*',
+        'gen_app_templates':    'templates/*.html',
+        'gen_app_pages':        '*.html'
     },
     output  = {
         'styles':               'resources/css',
@@ -39,10 +42,14 @@ var fs =                    require('fs'),
         'templates':            'templates',
         'odd':                  'resources/odd',
         'transform':            'transform/*',
-        'modules':              'modules/**/*'
+        'modules':              'modules/**/*',
+        'gen_app_styles':       'templates/basic/resources/css',
+        'gen_app_scripts':      'templates/basic/resources/scripts',
+        'gen_app_templates':    'templates/basic/templates',
+        'gen_app_pages':        'templates/basic'
+
     }
 ;
-
 
 // *************  existDB configuration *************** //
 
@@ -80,13 +87,12 @@ var targetConfiguration = {
 // ****************  Styles ****************** //
 
 gulp.task('build:styles', function(){
-    return gulp.src('resources/css/style.less')
+    return gulp.src(input.styles)
         .pipe(sourcemaps.init())
         .pipe(less({ plugins: [cleanCSSPlugin, autoprefix] }))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('resources/css'))
+        .pipe(gulp.dest(output.styles))
 });
-
 
 gulp.task('deploy:vendor_styles', function () {
     console.log('deploying less and css files');
@@ -104,7 +110,7 @@ gulp.task('deploy:styles', ['build:styles', 'deploy:vendor_styles'], function ()
 
 gulp.task('watch:styles', function () {
     console.log('watching less files');
-    gulp.watch(input.styles, ['deploy:styles'])
+    gulp.watch('resources/css/**/*.less', ['deploy:styles'])
 });
 
 // *************  Scripts *************** //
@@ -202,6 +208,33 @@ gulp.task('watch:other', function () {
     gulp.watch(input.other, ['deploy:other'])
 });
 
+// *************  Copy resources to generated app folder *************** //
+
+gulp.task('copy:styles', ['build:styles'], function () {
+    console.log('copying styles to generated app folder "templates/basic/resources/css"');
+    return gulp.src(input.gen_app_styles)
+        .pipe(gulp.dest(output.gen_app_styles))
+});
+
+gulp.task('copy:scripts', function () {
+    console.log('copying scripts to generated app folder "templates/basic/resources/scripts"');
+    return gulp.src(input.gen_app_scripts)
+        .pipe(gulp.dest(output.gen_app_scripts))
+});
+
+gulp.task('copy:templates', function () {
+    console.log('copying templates to generated app folder "templates/basic/templates"');
+    return gulp.src(input.gen_app_templates)
+        .pipe(gulp.dest(output.gen_app_templates))
+});
+
+gulp.task('copy:pages', function () {
+    console.log('copying pages to generated app folder "templates/basic"');
+    return gulp.src(input.gen_app_pages)
+        .pipe(gulp.dest(output.gen_app_pages))
+});
+
+gulp.task('copy', ['copy:styles', 'copy:scripts', 'copy:templates', 'copy:pages']);
 
 // *************  General Tasks *************** //
 
