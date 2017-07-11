@@ -1,0 +1,64 @@
+// main: ../style.less
+
+.tp-container {
+  @media (min-width: @screen-lg-min) {
+    width: @container-md;
+  }
+}
+
+// Bootstrap 'container' extended with tp styles
+.container {
+  &:extend(.tp-container);
+  @media screen and (min-width: @screen-md-min) {
+    width: 100%;
+  }
+}
+
+.tp-grid {
+  @media screen and (min-width: @screen-lg-min) {
+    width: @container-md;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+// Columns
+
+.tp-column, .tp-columns {
+  position: relative;
+  padding-left: 1.3rem;
+  padding-right: 1.3rem;
+
+  @media only screen and (min-width: @screen-md-min) {
+    min-height: 1px;
+  }
+}
+
+// Rows
+
+.tp-row {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  max-width: 95vw;
+  @media screen and (min-width: @screen-xs-min) {
+    max-width: 80vw;
+  }
+}
+
+.tp-row:before, .tp-row:after {
+  content: " ";
+  display: table;
+}
+
+.tp-row:after {
+  clear: both;
+}
+
+.tp-column-fullwidth {
+  &:extend(.small-12);
+  &:extend(.tp-columns);
+  &:extend(.tp-column);
+}

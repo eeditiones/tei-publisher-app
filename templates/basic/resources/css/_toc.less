@@ -5,47 +5,56 @@
 /* Do not modify                                                     */
 /*********************************************************************/
 
-@media (min-width: @screen-sm) {
-  .toc {
-    position: fixed;
-    top: 60px;
-    bottom: 0;
+.toc {
+  position: fixed;
+  top: @toolbar-height + @navbar-height-small;
+  border-right: @default-border-style;
+  font-family: @font-serif;
+
+  @media (min-width: @screen-lg-min) {
+    top: @toolbar-height + @navbar-height-large;
+  }
+  bottom: 0;
+  display: block;
+  padding: 0 20px 20px 20px;
+  overflow: auto; /* Scrollable contents if viewport is shorter than content. */
+  background-color: @color-side-navigation-bg;
+  width: 20em;
+  z-index: 2000;
+  transition: right 0.3s ease-in-out 0s;
+  -webkit-transition: right 0.3s ease-in-out 0s;
+  -moz-transition: right 0.3s ease-in-out 0s;
+  -o-transition: right 0.3s ease-in-out 0s;
+
+  &.expanded {
     left: 0;
-    z-index: 1000;
-    display: block;
-    padding: 0 20px 20px 20px;
-    overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-    background: @color-side-navigation-bg url(../images/body-bg.png) top left repeat;
-    border-right: @default-border-style;
-    border-top: @default-border-style;
   }
 
-  .toc ul {
-      font-family: @font-serif;
-      padding-left: 25px;
-      list-style: none;
-      position: relative;
+  ul {
+    list-style-type: none;
+    margin-bottom: 1.5rem;
   }
 
-  .toc li {
-      line-height: 1.5;
-  }
-  .toc a[data-toggle='collapse'] {
-      position: absolute;
-      left: 0;
-  }
-
-  .toc .active {
-      font-weight: bold;
+  ul,
+  ul ul,
+  ul ul ul {
+    padding-left: 24px;
+    pading-top: 2px;
   }
 
-  .toc-toggle {
-    position: fixed !important;
-    left: 30px;
-    top: 115px;
-    background-color: @color-primary-light !important;
-    color: @color-white;
+  // Hotfix: Hide empty generated lists
+  a ~ ul {
+    display: none !important;
   }
 
+  li {
+    margin-bottom: .7rem;
+
+    .material-icons { // caret icons
+      margin-left: -24px;
+    }
+  }
+  h3 {
+    margin-bottom: 20px;
+  }
 }

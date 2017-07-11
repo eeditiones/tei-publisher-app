@@ -1,64 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<header xmlns:i18n="http://exist-db.org/xquery/i18n" class="service-icon-bar" data-template="i18n:translate" data-catalogues="resources/i18n">
-    <div class="btn-toolbar" data-template="browse:fix-links">
-        <div class="btn-group tp-zoom-icons" role="group">
-            <a class="btn btn-default" title="Back to index page" href="$app/index.html">
-                <i class="material-icons">home</i>
-            </a>
-            <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <i class="material-icons">print</i>
-                    <span class="hidden-xs">PDF</span>
-                    <span class="caret"/>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li>
-                        <a class="download-link" data-template="browse:download-link" data-template-type="pdf">
-                            <i18n:text key="pdf-fo"/>
-                        </a>
-                    </li>
-                    <li>
-                        <a target="_new" data-template="browse:download-link" data-template-type="pdf" data-template-source="true">
-                            <i18n:text key="fo-source"/>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="download-link" data-template="browse:download-link" data-template-type="tex">
-                            <i18n:text key="pdf-latex"/>
-                        </a>
-                    </li>
-                    <li>
-                        <a target="_new" data-template="browse:download-link" data-template-type="tex" data-template-source="true">
-                            <i18n:text key="latex-source"/>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <a class="btn btn-default download-link" data-template="browse:download-link" data-template-type="epub" title="i18n(epub-download)">
-                <i class="material-icons">book</i>
-                <span class="hidden-xs">ePUB</span>
-            </a>
-            <a class="btn btn-default" data-template="pages:xml-link" title="View XML Source">
-                <i class="material-icons">code</i>
-                <span class="hidden-xs">XML</span>
-            </a>
-            <a target="_new" class="btn btn-default" data-template="browse:download-link" data-template-type="" data-template-mode="plain" title="i18n(single-page)">
-                <i class="material-icons">web</i>
-                <span class="hidden-xs">
-                    <i18n:text key="plain"/>
-                </span>
-            </a>
-        </div>
-        <div class="btn-group" role="group">
-            <a class="btn btn-default" href="#" id="zoom-in">
-                <i class="material-icons">zoom_in</i>
-            </a>
-            <a class="btn btn-default" href="#" id="zoom-out">
-                <i class="material-icons">zoom_out</i>
-            </a>
-            <a class="btn btn-default" id="switch-view" data-template="pages:switch-view" title="i18n(view-switch)">
-                <i class="material-icons">import_contacts</i>
-            </a>
-        </div>
+<section xmlns:i18n="http://exist-db.org/xquery/i18n" class="tp-toolbar" data-template="i18n:translate" data-catalogues="resources/i18n">
+    <a class="btn btn-default toc-toggle" data-toggle="offcanvas" data-target="#sidebar" data-canvas="#tp-canvas" title="i18n(contents)">
+        <i class="material-icons">view_list</i>
+        <div class="ripple-container"></div>
+    </a>
+    <div class="tp-dropdown-wrapper">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <i class="material-icons">print</i>
+            <span class="hidden-xs">PDF</span>
+            <span class="caret"/>
+        </button>
+        <!-- Download options -->
+        <ul class="dropdown-menu" role="menu">
+            <li>
+                <a class="download-link" data-template="browse:download-link" data-template-type="pdf">
+                    <i18n:text key="pdf-fo"/>
+                </a>
+            </li>
+            <li>
+                <a target="_new" data-template="browse:download-link" data-template-type="pdf" data-template-source="true">
+                    <i18n:text key="fo-source"/>
+                </a>
+            </li>
+            <li>
+                <a class="download-link" data-template="browse:download-link" data-template-type="tex">
+                    <i18n:text key="pdf-latex"/>
+                </a>
+            </li>
+            <li>
+                <a target="_new" data-template="browse:download-link" data-template-type="tex" data-template-source="true">
+                    <i18n:text key="latex-source"/>
+                </a>
+            </li>
+        </ul>
     </div>
-</header>
+    <a class="btn btn-default download-link" data-template="browse:download-link" data-template-type="epub" title="i18n(epub-download)">
+        <i class="material-icons">book</i>
+        <span class="hidden-xs">ePUB</span>
+    </a>
+    <a class="btn btn-default" data-template="pages:xml-link" title="View XML Source">
+        <i class="material-icons">code</i>
+        <span class="hidden-xs">XML</span>
+    </a>
+    <a target="_new" class="btn btn-default" data-template="browse:download-link" data-template-type="" data-template-mode="plain" title="i18n(single-page)">
+        <i class="material-icons">pageview</i>
+        <span class="hidden-xs">
+            <i18n:text key="plain"/>
+        </span>
+    </a>
+    <a class="btn btn-default" href="#" id="zoom-in">
+        <i class="material-icons">zoom_in</i>
+    </a>
+    <a class="btn btn-default" href="#" id="zoom-out">
+        <i class="material-icons">zoom_out</i>
+    </a>
+    <a class="btn btn-default" id="switch-view" data-template="pages:switch-view" title="i18n(view-switch)">
+        <i class="material-icons">import_contacts</i>
+    </a>
+</section>

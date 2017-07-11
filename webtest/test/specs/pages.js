@@ -3,29 +3,29 @@ var assert = require('assert');
 var path = require('path');
 
 describe('browsing text', function() {
-    
+
     it('open document', function() {
         browser.url("/exist/apps/tei-publisher/doc/documentation.xml");
 
-        browser.waitForText(".col-title h5");
-        assert.equal(browser.getText(".col-title h5"), "TEI Publisher");
+        browser.waitForText(".tp-document-title-wrapper h5");
+        assert.equal(browser.getText(".tp-document-title-wrapper h5"), "TEI Publisher");
     });
-    
+
     it('navigates forward', function() {
-        while (browser.isVisible(".hidden-xs .nav-next")) {
-            var next = browser.getAttribute(".hidden-xs .nav-next", "data-root");
+        while (browser.isVisible(".nav-next")) {
+            var next = browser.getAttribute(".nav-next", "data-root");
             browser.url("/exist/apps/tei-publisher/doc/documentation.xml?odd=documentation.odd&view=div&root=" + next);
-            browser.waitForVisible(".col-title h5");
-            assert.equal(browser.getText(".col-title h5"), "TEI Publisher");
+            browser.waitForVisible(".tp-document-title-wrapper h5");
+            assert.equal(browser.getText(".tp-document-title-wrapper h5"), "TEI Publisher");
         }
     });
-    
+
     it('navigates backward', function() {
-        while (browser.isVisible(".hidden-xs .nav-prev")) {
-            var next = browser.getAttribute(".hidden-xs .nav-prev", "data-root");
+        while (browser.isVisible(".nav-prev")) {
+            var next = browser.getAttribute(".nav-prev", "data-root");
             browser.url("/exist/apps/tei-publisher/doc/documentation.xml?odd=documentation.odd&view=div&root=" + next);
-            browser.waitForVisible(".col-title h5");
-            assert.equal(browser.getText(".col-title h5"), "TEI Publisher");
+            browser.waitForVisible(".tp-document-title-wrapper h5");
+            assert.equal(browser.getText(".tp-document-title-wrapper h5"), "TEI Publisher");
         }
     });
 });

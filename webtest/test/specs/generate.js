@@ -23,16 +23,16 @@ describe('generate app', function() {
         browser.setValue("#app-title", "Foo App");
         browser.setValue("#app-owner", "test");
         browser.setValue("#app-password", "test");
-    
+
         browser.click("#form-generate button");
         browser.waitForText("#msg-collection", 60000);
-        
+
         assert.equal(browser.getText("#msg-collection"), "/db/apps/foo");
     });
-    
+
     it('opens generated app', function() {
         browser.url("/exist/apps/foo");
-    
+
         assert(browser.isExisting("#documents-panel"));
     });
 });
@@ -50,15 +50,15 @@ describe('upload data and test', function() {
         browser.refresh();
         browser.waitForExist("a[href*='kant_rvernunft_1781.TEI-P5.xml']");
         browser.click("a[href*='kant_rvernunft_1781.TEI-P5.xml']")
-            .waitForVisible(".col-title h5");
-        assert.equal(browser.getText(".col-title h5"), "Critik der reinen Vernunft");
+            .waitForVisible(".tp-document-title-wrapper h5");
+        assert.equal(browser.getText(".tp-document-title-wrapper h5"), "Critik der reinen Vernunft");
     });
-    
-    it("table of contents", function() {        
-        browser.click(".toc-toggle")
-            .waitForExist("#toc ul li");
 
-        browser.click("#toc li:nth-child(3) a")
+    it("table of contents", function() {
+        browser.click(".toc-toggle")
+            .waitForExist("#toc li:nth-child(3)");
+
+        browser.click("#toc li:nth-child(3) a[data-toggle='collapse'] span")
             .waitForVisible("a[data-div='3.4.4.8.7']");
         browser.click("a[data-div='3.4.4.8.7']")
             .pause(200);
@@ -68,13 +68,13 @@ describe('upload data and test', function() {
     });
 
     it("next page", function() {
-        browser.click(".hidden-xs .nav-next").pause(200);
+        browser.click(".nav-next").pause(200);
         browser.waitForText(".content .tei-corr1");
         assert.equal(browser.getText(".content .tei-corr1"), "Erkentniſſe");
     });
 
     it("previous page", function() {
-        browser.click(".hidden-xs .nav-prev").pause(200);
+        browser.click(".nav-prev").pause(200);
 
         browser.waitForText(".content .tei-fw4");
         assert.equal(browser.getText(".content .tei-fw4"), "wird");
@@ -87,7 +87,7 @@ describe('upload data and test', function() {
     });
 
     it("next page", function() {
-        browser.click(".hidden-xs .nav-next").pause(200);
+        browser.click(".nav-next").pause(200);
         browser.waitForText(".content .tei-corr1");
         assert.equal(browser.getText(".content .tei-corr1"), "Erkentniſſe");
     });
@@ -118,7 +118,7 @@ describe('upload data and test', function() {
         browser.click("#about a");
         assert(browser.isExisting("a[href*='kant_rvernunft_1781.TEI-P5.xml']"));
     });
-    
+
     after(function() {
         return browser.uninstall("http://exist-db.org/apps/foo");
     });

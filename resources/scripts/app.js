@@ -5,7 +5,7 @@ $(document).ready(function() {
 
     function resize() {
         if (document.getElementById("image-container")) {
-            $("#content-container").each(function() {
+            $("#document-pane").each(function() {
                 var wh = $(window).height();
                 var ot = $(this).offset().top;
                 $(this).height(wh - ot);
@@ -15,14 +15,14 @@ $(document).ready(function() {
     }
 
     function getFontSize() {
-        var size = $("#content-inner").css("font-size");
+        var size = $("#document-wrapper").css("font-size");
         return parseInt(size.replace(/^(\d+)px/, "$1"));
     }
 
     function load(params, direction) {
         var animOut = direction == "nav-next" ? "fadeOutLeft" : (direction == "nav-prev" ? "fadeOutRight" : "fadeOut");
         var animIn = direction == "nav-next" ? "fadeInRight" : (direction == "nav-prev" ? "fadeInLeft" : "fadeIn");
-        var container = $("#content-container");
+        var container = $("#document-pane");
         container.addClass("animated " + animOut)
             .one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
             console.log("Loading %s", params);
@@ -73,13 +73,13 @@ $(document).ready(function() {
             html: true,
             trigger: "hover",
             placement: "auto bottom",
-            viewport: "#content-container",
+            viewport: "#document-pane",
             content: function() {
                 var fn = document.getElementById(this.hash.substring(1));
                 return $(fn).find(".fn-content").html();
             }
         });
-        $("#content-container .note, .content .fn-back").click(function(ev) {
+        $("#document-pane .note, .content .fn-back").click(function(ev) {
             ev.preventDefault();
             var fn = document.getElementById(this.hash.substring(1));
             fn.scrollIntoView();
@@ -90,10 +90,10 @@ $(document).ready(function() {
                 content: $(this).find(".altcontent").html(),
                 trigger: "hover",
                 html: true,
-                container: "#content-inner"
+                container: "#document-wrapper"
             });
         });
-        $("#content-container img.facs").each(function(ev) {
+        $("#document-pane img.facs").each(function(ev) {
             $("#image-container .loading").show();
             var downloadingImage = new Image();
             $(downloadingImage).load(function() {
@@ -111,7 +111,7 @@ $(document).ready(function() {
             window.scrollTo(0,0);
         }
         container.removeClass("animated " + animOut);
-        $("#content-container").addClass("animated " + animIn).one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
+        $("#document-pane").addClass("animated " + animIn).one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
             $(this).removeClass("animated " + animIn);
             if (id) {
                 var target = document.getElementById(id.substring(1));
@@ -195,12 +195,12 @@ $(document).ready(function() {
     $("#zoom-in").click(function(ev) {
         ev.preventDefault();
         var size = getFontSize();
-        $("#content-inner").css("font-size", (size + 1) + "px");
+        $("#document-wrapper").css("font-size", (size + 1) + "px");
     });
     $("#zoom-out").click(function(ev) {
         ev.preventDefault();
         var size = getFontSize();
-        $("#content-inner").css("font-size", (size - 1) + "px");
+        $("#document-wrapper").css("font-size", (size - 1) + "px");
     });
 
     $(window).on("popstate", function(ev) {
@@ -228,7 +228,7 @@ $(document).ready(function() {
     });
 
     if (isMobile()) {
-        $("#content-container").swipe({
+        $("#document-pane").swipe({
             swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
                 var nav;
                 if (direction === "left") {

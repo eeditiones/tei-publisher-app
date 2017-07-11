@@ -6,6 +6,7 @@
 /********************************************************/
 
 /********************* Logo **************************/
+
 @application-logo:          '../images/tei-publisher-logo-contrast-color.svg';
 @application-logo-width:    140px;
 @application-title-display: none;
@@ -20,6 +21,7 @@
 @color-secondary-darker:          #d6911f;
 
 @color-white:                     #ffffff;
+@color-gray-lightest:             #f1f1f1;
 @color-gray-lighter:              #d6d7d9;
 @color-gray-light:                #777777;
 @color-gray-medium:               rgba(153, 153, 153, 0.2);
@@ -48,7 +50,7 @@
 @panel-primary-heading-bg-color:  #C5CAE9;
 
 // Off Canvas Navigation
-@color-side-navigation-bg:        #fafafa;
+@color-side-navigation-bg:        @color-gray-lightest;
 
 @color-text-marker:               #FFEB3B;
 @color-text-highlight:            #7777FF;
@@ -58,57 +60,117 @@
 @btn-primary-bg:                  @color-primary-light;
 @btn-primary-border:              @color-primary-light;
 
+// Borders
+@default-border-style:            1px solid @color-gray-lighter;
+
+// Special state colors
+@color-disabled:                  @color-gray-lighter;
+
+
 /********************* Fonts ************************/
 
-@font-serif:                "Junicode", Georgia, "Times New Roman", serif;
-@font-sans-serif:           "Oswald", Verdana, "Helvetica", sans-serif;
-@font-sans-serif-default:   "Open Sans", Verdana, "Helvetica", sans-serif;
-@font-monospace:            "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
+@font-serif:                      "Junicode", Georgia, "Times New Roman", serif;
+@font-sans-serif:                 "Oswald", Verdana, "Helvetica", sans-serif;
+@font-sans-serif-default:         "Open Sans", Verdana, "Helvetica", sans-serif;
+@font-monospace:                  "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
 
 // Body
-@font-family-body-default:  @font-sans-serif-default;
-@font-size-body-default:    16px;
-@font-size-body-print:      12pt;
+@font-family-body-default:        @font-sans-serif-default;
+@font-size-body-default:          16px;
+@font-size-body-print:            12pt;
+@font-size-large:                 1.7rem;
+@font-size-small:                 1.3rem;
 
 // Headings
-@font-family-heading:       @font-sans-serif;
+@font-family-heading:             @font-sans-serif;
 
-@direction-left-to-right:   ltr;  /* Left to Right */
-@direction-right-ro-left:   rtl;  /* Right to Left */
+@direction-left-to-right:         ltr;  /* Left to Right */
+@direction-right-ro-left:         rtl;  /* Right to Left */
 
-// Breakpoints
-@screen-xs:                 480px;
-@screen-xs-min:             481px;
-@screen-small:              601px;
-@screen-sm:                 768px;
-@screen-sm-min:             @screen-sm;
-@screen-medium:             841px;
-@screen-md-min:             992px;
-@screen-lg:                 1200px;
-@screen-lg-min:             @screen-lg;
-@screen-large:              1281px;
-@screen-xlarge:             1441px;
-@screen-xxlarge:            1601px;
+/****************** Breakpoints **********************/
 
-/*********** Styles for inner documents ************/
+@screen-xs:                       480px;
+@screen-xs-min:                   481px;
+@screen-small:                    601px;
+@screen-sm:                       768px;
+@screen-sm-min:                   @screen-sm;
+@screen-medium:                   841px;
+@screen-md:                       992px;
+@screen-md-min:                   992px;
+@screen-lg:                       1200px;
+@screen-lg-min:                   @screen-lg;
+@screen-large:                    1281px;
+@screen-xlarge:                   1441px;
+@screen-xxlarge:                  1601px;
+
+/*********************** Grid *************************/
+@container-md:                    @screen-md;
+
+/*********** Variables for inner documents ************/
 
 // Main title for inner document
-@font-family-headline-inner:  @font-serif;
-@text-align-headline-inner:   center;
-@font-size-headline-inner:    16px;
-@direction-headline-inner:    @direction-left-to-right;
+@font-family-headline-inner:      @font-serif;
+@text-align-headline-inner:       center;
+@font-size-headline-inner:        16px;
+@direction-headline-inner:        @direction-left-to-right;
 
 // Inner Document Text
-@font-family-content-inner:   @font-serif;
-@font-size-content-inner:     14pt;
-@direction-content-inner:     @direction-left-to-right;
+@font-family-content-inner:       @font-serif;
+@font-size-content-inner:         14pt;
+@direction-content-inner:         @direction-left-to-right;
 
 // Headlines for inner document
-@font-size-h1-inner-content:  2.441em;
-@font-size-h2-inner-content:  1.953em;
-@font-size-h3-inner-content:  1.563em;
-@font-size-h4-inner-content:  1.250em;
+@font-size-h1-inner-content:      2.441em;
+@font-size-h2-inner-content:      1.953em;
+@font-size-h3-inner-content:      1.563em;
+@font-size-h4-inner-content:      1.250em;
 
-  // Margins right and left
-@margin-right-content-inner:  200px; // Swap values for right to left direction of text
-@margin-left-content-inner:   0;
+// Margins
+@margin-vertical-base:            .53em;
+@margin-horizontal-base:          1.5rem;
+@padding-horizontal-base:         1.5rem;
+@padding-large-horizontal:        1.6rem;
+@padding-large-vertical:          1.0rem;
+
+// Margins right and left
+@margin-right-content-inner:      200px; // Swap values for right to left direction of text
+@margin-left-content-inner:       0;
+
+// Toolbar under top navigation displayed in documents
+@toolbar-height:                  40px;
+
+// Bootstrap Variable Overrides
+@btn-primary-color:                   @color-white;
+//@btn-primary-bg:                      @color-primary-darker;
+//@btn-primary-border:                  @color-primary-darker;
+
+@navbar-default-color:                @color-white !important;
+@navbar-default-bg:                   @color-navigation-bg;
+@navbar-default-border:               @color-navigation-bg;
+
+@navbar-default-link-color:           @color-white;
+@navbar-default-link-hover-color:     @color-white;
+//@navbar-default-link-hover-bg:        @color-cool-blue-light;
+@navbar-default-link-active-color:    @color-white;
+//@navbar-default-link-active-bg:       @color-primary-darkest;
+//@navbar-default-link-disabled-color:  @color-gray-warm-dark;
+
+@navbar-default-toggle-border-color:  @color-white;
+//@navbar-default-toggle-hover-bg:      @color-primary-darkest;
+@navbar-default-toggle-icon-bar-bg:   @color-white;
+
+@navbar-height-small:                 50px;
+@navbar-height-large:                 60px;
+
+@dropdown-bg:                         @color-white;
+@dropdown-link-color:                 @color-body-text-default;
+@dropdown-link-hover-bg:              @color-navigation-bg;
+@dropdown-link-active-bg:             @color-navigation-bg;
+//@dropdown-link-disabled-color:        @color-gray-warm-dark;
+//
+//@panel-default-border:                @color-gray-lighter;
+//@panel-default-heading-bg:            @color-gray-lightest;
+//
+@navbar-offset-small:                 @toolbar-height + @navbar-height-small; //  90px
+@navbar-offset-large:                 @toolbar-height + @navbar-height-large; // 100px
+

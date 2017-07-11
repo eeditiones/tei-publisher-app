@@ -5,7 +5,7 @@
 /* Do not modify                                                     */
 /*********************************************************************/
 
-footer {
+footer.container {
   padding: 3% 0;
   margin: 20px auto;
 
@@ -20,5 +20,19 @@ footer {
     img {
       width: 120px;
     }
+  }
+}
+
+footer.tp-footer-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: @footer-height;
+  background-color: @color-footer-bg;
+  visibility: visible;
+
+  @media (min-width: @screen-md-min) {
+    visibility: hidden;
   }
 }

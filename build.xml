@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="all" name="TEI Processing Model Toolbox">
+<project default="all" name="TEI-Publisher">
+    <xmlproperty file="build.properties.xml" semanticAttributes="true" keepRoot="false"/>
     <property file="local.build.properties"/>
-    <property file="build.properties"/>
     <property name="project.app" value="tei-publisher"/>
-    <property name="project.version" value="2.0.5"/>
+    <property name="project.version" value="2.1.1"/>
     <property name="server.url" value="http://demo.exist-db.org/exist/apps/public-repo/public/"/>
     <property name="build" value="build"/>
+
     <condition property="git.commit" value="${git.commit}" else="">
         <isset property="git.commit"/>
     </condition>
+
     <target name="all" depends="xar"/>
+
     <target name="rebuild" depends="clean,all"/>
+
     <target name="clean">
         <delete dir="${build}"/>
     </target>
+
     <target name="xar">
         <mkdir dir="${build}"/>
         <zip basedir="." destfile="${build}/${project.app}-${project.version}${git.commit}.xar">
@@ -22,9 +27,13 @@
             <exclude name="*.tmpl"/>
             <exclude name="*.properties"/>
             <exclude name="webtest/**"/>
-	        <exclude name="cache/**"/>
+            <exclude name="cache/**"/>
+            <exclude name=".idea/"/>
+            <exclude name=".editorconfig"/>
+            <exclude name="node_modules/**"/>
         </zip>
     </target>
+
     <target name="upload">
         <input message="Enter password:" addproperty="server.pass" defaultvalue="">
             <handler type="secure"/>
@@ -34,4 +43,34 @@
             <arg line="-T ${build}/${xar} -u admin:${server.pass} ${server.url}/${xar}"/>
         </exec>
     </target>
+
+    <!-- Update all packages and start gulp automation -->
+    <target name="update" description="Update all packages and start gulp automation">
+        <echo message="Calling npm update..."/>
+        <exec executable="${npm}" outputproperty="npm.output">
+            <arg line="run-script"/>
+            <arg line="update"/>
+        </exec>
+        <echo message="${npm.output}"/>
+    </target>
+
+    <!-- Check packages and start gulp automation -->
+    <target name="start" description="Check packages and start gulp automation">
+        <echo message="Calling npm start..."/>
+        <exec executable="${npm}" outputproperty="npm.output">
+            <arg line="start"/>
+        </exec>
+        <echo message="${npm.output}"/>
+    </target>
+
+    <!-- Start gulp build automation -->
+    <target name="gulp" description="Generate output files, deploy files to local existDB and start watcher">
+        <echo message="Calling npm gulp ..."/>
+        <exec executable="${npm}" outputproperty="npm.output">
+            <arg line="run-script"/>
+            <arg line="gulp"/>
+        </exec>
+        <echo message="${npm.output}"/>
+    </target>
+
 </project>
