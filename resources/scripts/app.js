@@ -239,11 +239,6 @@ $(document).ready(function() {
                     return;
                 }
                 initLinks.apply(nav);
-                // var url = "doc=" + nav.pathname.replace(/^.*\/([^\/]+)$/, "$1") + "&" + nav.search.substring(1);
-                // if (historySupport) {
-                //     history.pushState(null, null, nav.href);
-                // }
-                // load(url, nav.className.split(" ")[0]);
             },
             allowPageScroll: "vertical"
         });
