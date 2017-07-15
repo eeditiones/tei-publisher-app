@@ -3,6 +3,8 @@ generated/
 .*
 !.gitignore
 !.existdb.json
+webtest/bin
+webtest/reports
 webtest/errorShots
 webtest/node_modules
 webtest/npm-debug.log
