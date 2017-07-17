@@ -119,6 +119,15 @@ describe('upload data and test', function() {
         assert(browser.isExisting("a[href*='kant_rvernunft_1781.TEI-P5.xml']"));
     });
 
+    it("should delete document", function() {
+        browser.click("li[data-doc*='kant_rvernunft_1781.TEI-P5.xml'] .delete").
+            waitForVisible("#confirm");
+        browser.click("#confirm-delete");
+        browser.pause(300);
+        var docs = browser.elements("li[data-doc*='kant_rvernunft_1781.TEI-P5.xml']");
+        assert.equal(docs.value.length, 0);
+    });
+
     after(function() {
         return browser.uninstall("http://exist-db.org/apps/foo");
     });

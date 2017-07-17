@@ -51,4 +51,8 @@
     <msg key="examples">Examples</msg>
     <msg key="odd-data">ODD Files</msg>
     <msg key="create">Create</msg>
+    <msg key="delete">Delete</msg>
+    <msg key="delete-confirmation">Are you sure you would like to delete <span id="docs-to-delete"/> resources?</msg>
+    <msg key="yes">Yes</msg>
+    <msg key="no">No</msg>
 </catalogue>

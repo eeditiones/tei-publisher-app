@@ -126,16 +126,30 @@ nav + * {
     width: 100%;
     .btn-group,
     .btn-default {
-      width: 33%;
+      width: 25%;
       border: none;
       button {
         width: 100%;
       }
     }
   }
-
+  >li.active {
+      background-color: @color-gray-lightest;
+  }
   >li {
+      display: table;
+      width: 100%;
     list-style: none;
+    input {
+        margin: 10px 0 0 10px;
+    }
+    .document-select {
+        display: table-cell;
+        width: 50px;
+    }
+    .document-info {
+        display: table-cell;
+    }
     &:not(:last-of-type) {
       border-bottom: 1px solid @color-gray-medium;
       margin-bottom: 15px;

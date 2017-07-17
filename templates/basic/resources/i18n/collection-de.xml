@@ -52,4 +52,8 @@
     <msg key="examples">Anwendungsbeispiele</msg>
     <msg key="odd-data">ODD Dateien</msg>
     <msg key="create">Erzeugen</msg>
+    <msg key="delete-confirmation">Sind Sie sicher, dass Sie <span id="docs-to-delete"/> Dokument(e) löschen möchten?</msg>
+    <msg key="delete">Löschen</msg>
+    <msg key="yes">Ja</msg>
+    <msg key="no">Nein</msg>
 </catalogue>

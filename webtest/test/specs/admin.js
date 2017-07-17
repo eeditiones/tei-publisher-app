@@ -55,7 +55,14 @@ describe('admin functions', function() {
         browser.setValue("input[name='filter']", "hegel");
         browser.click("#f-btn-search");
         browser.pause(300);
-        var docs = browser.elements("#document ul li");
         assert.equal(browser.getText("#hit-count"), 1);
+    });
+    it("should delete document", function() {
+        browser.click("li[data-doc*='hegel_phaenomenologie_1807.TEI-P5.xml'] .delete").
+            waitForVisible("#confirm");
+        browser.click("#confirm-delete");
+        browser.pause(300);
+        var docs = browser.elements("li[data-doc*='hegel_phaenomenologie_1807.TEI-P5.xml']");
+        assert.equal(docs.value.length, 0);
     });
 });

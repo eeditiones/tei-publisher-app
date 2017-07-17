@@ -50,4 +50,8 @@
     <msg key="examples">Παραδείγματα</msg>
     <msg key="odd-data">ODD αρχεία </msg>
     <msg key="create">Δημιουργία</msg>
+    <msg key="delete">Delete</msg>
+    <msg key="delete-confirmation">Are you sure you would like to delete <span id="docs-to-delete"/> resources?</msg>
+    <msg key="yes">Yes</msg>
+    <msg key="no">No</msg>
 </catalogue>

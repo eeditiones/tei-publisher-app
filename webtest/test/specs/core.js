@@ -79,45 +79,45 @@ describe('browsing text', function() {
     });
 });
 
-// describe('view image on page', function() {
-//     var image;
-//     var requestOptions = {
-//       hostname: process.env.WDIO_SERVER,
-//       port: process.env.WDIO_PORT,
-//       path: '/exist/apps/tei-publisher/test/portrait.jpg'
-//     };
-//     if (process.env.WDIO_PROTOCOL === 'https') {
-//         requestOptions.rejectUnauthorized = false;
-//     }
-//
-//     function getImage (cb) {
-//       return new Promise(function(resolve, reject) {
-//         client.get(requestOptions, function(response) {
-//           var data = new Buffer([]);
-//           response.on('data', function addChunk(chunk) {
-//              data = Buffer.concat([data, chunk]);
-//           });
-//           response.on('end', function end() {
-//             try {
-//               resolve(data);
-//             }
-//             catch (e) {
-//               reject(e)
-//             }
-//           });
-//         });
-//       });
-//     }
-//
-//     before(function () {
-//       image = browser.call(getImage);
-//     });
-//
-//     it("should exist", function() {
-//         assert.equal(typeof image, 'object');
-//     });
-//
-//     it("should have width", function() {
-//         assert.equal(sizeOf(image).width, 300)
-//     });
-// });
+describe('view image on page', function() {
+    var image;
+    var requestOptions = {
+      hostname: process.env.WDIO_SERVER,
+      port: process.env.WDIO_PORT,
+      path: '/exist/apps/tei-publisher/test/portrait.jpg'
+    };
+    if (process.env.WDIO_PROTOCOL === 'https') {
+        requestOptions.rejectUnauthorized = false;
+    }
+
+    function getImage (cb) {
+      return new Promise(function(resolve, reject) {
+        client.get(requestOptions, function(response) {
+          var data = new Buffer([]);
+          response.on('data', function addChunk(chunk) {
+             data = Buffer.concat([data, chunk]);
+          });
+          response.on('end', function end() {
+            try {
+              resolve(data);
+            }
+            catch (e) {
+              reject(e)
+            }
+          });
+        });
+      });
+    }
+
+    before(function () {
+      image = browser.call(getImage);
+    });
+
+    it("should exist", function() {
+        assert.equal(typeof image, 'object');
+    });
+
+    it("should have width", function() {
+        assert.equal(sizeOf(image).width, 300)
+    });
+});

@@ -50,4 +50,8 @@
     <msg key="examples">Przykłady</msg>
     <msg key="odd-data">Pliki ODD</msg>
     <msg key="create">Utwórz</msg>
+    <msg key="delete">Delete</msg>
+    <msg key="delete-confirmation">Are you sure you would like to delete <span id="docs-to-delete"/> resources?</msg>
+    <msg key="yes">Tak</msg>
+    <msg key="no">Nie</msg>
 </catalogue>
