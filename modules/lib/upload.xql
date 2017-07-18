@@ -21,6 +21,7 @@ declare function local:upload($root, $paths, $payloads) {
                 return
                     map {
                         "name": $path,
+                        "path": substring-after($path, $config:data-root || "/"),
                         "type": xmldb:get-mime-type($path),
                         "size": 93928
                     }

@@ -101,7 +101,7 @@
                         </div><!-- The container for the uploaded files -->
                         <table id="files-table" class="files table table-striped">
                             <thead>
-                                <th>
+                                <th colspan="2">
                                     <i18n:text key="uploaded-files"/>
                                 </th>
                             </thead>
@@ -131,8 +131,20 @@
                 $.each(data.result.files, function (index, file) {
                     var tr = document.createElement("tr");
                     var td = document.createElement("td");
-                    td.appendChild(document.createTextNode(file.name));
+                    var link = document.createElement("a");
+                    link.href = file.path;
+                    link.target = "_blank";
+                    var icon = document.createElement("span");
+                    icon.className = "material-icons";
+                    icon.appendChild(document.createTextNode("open_in_new"));
+                    link.appendChild(icon);
+                    td.appendChild(link);
                     tr.appendChild(td);
+
+                    td = document.createElement("td");
+                    td.appendChild(document.createTextNode(file.path));
+                    tr.appendChild(td);
+
                     $("#files").append(tr);
                 });
                 reloadDocTable();
