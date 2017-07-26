@@ -56,13 +56,14 @@ function app:current-user($node as node(), $model as map(*)) {
     request:get-attribute($config:login-domain || ".user")
 };
 
-declare
-    %templates:wrap
-function app:show-if-logged-in($node as node(), $model as map(*)) {
+declare function app:show-if-logged-in($node as node(), $model as map(*)) {
     let $user := request:get-attribute($config:login-domain || ".user")
     return
         if ($user) then
-            templates:process($node/node(), $model)
+            element { node-name($node) } {
+                $node/@*,
+                templates:process($node/node(), $model)
+            }
         else
             ()
 };
