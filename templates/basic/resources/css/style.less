@@ -215,7 +215,7 @@
     .margin-right {
         margin-right: 200px;
     }
-    
+
   .content h1,
   .content h2,
   .content h3,
@@ -332,6 +332,22 @@
   .note,
   .popover {
     font-size: 13px;
+  }
+
+  .popover {
+      background-color: @color-gray-light;
+      font-variant: normal;
+
+      h3.popover-title {
+          color: @color-gray-dark;
+          font-size: 1em;
+      }
+
+      .popover-content {
+          color: @color-body-text-default;
+          background-color: @color-body-bg;
+          line-height: 1.42857143;
+      }
   }
 
   .note {
