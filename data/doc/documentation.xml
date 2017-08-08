@@ -78,7 +78,7 @@
                     <head>Getting Started</head>
                     <p>TEI Publisher is distributed as two eXist application packages, making it easy to install
                     on any local or remote eXist database instance. Just go to the dashboard, open the package
-                    manager and install the TEI Publisher application package from the public repository. The 
+                    manager and install the TEI Publisher application package from the public repository. The
                     TEI Publisher library package will be installed automatically as a dependency.</p>
                     <p>
                         <hi rendition="simple:bold">Note</hi>: You need at least <ref target="http://exist-db.org#download">eXist 3.0</ref> or a nightly build.</p>
@@ -589,6 +589,22 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                                 <code>let $x := ... return ...</code>.</p>
                         </div>
                         <div>
+                            <head>Default Processing Model Rules</head>
+                            <p>It is possible to define a default elementSpec to be applied to
+                                any element which is not already matched by another elementSpec.
+                                For example, by default the text content of
+                                elements not processed by another elementSpec is output. To change
+                                this behaviour and omit content of unknown elements, you may want
+                                to define a default elementSpec as shown below:</p>
+                            <code lang="xml"><![CDATA[<elementSpec ident="*">
+    <model behaviour="omit"/>
+</elementSpec>]]></code>
+                            <p>You can also define an elementSpec to be applied to all text nodes, e.g. if you need to normalize certain nodes:</p>
+                            <code lang="xml"><![CDATA[<elementSpec ident="text()">
+    <model behaviour="text"/>
+</elementSpec>]]></code>
+                        </div>
+                        <div>
                             <head>External Parameters</head>
                             <p>The script calling the processing model may pass external parameters into the ODD. They will be available in the
                                 variable <ident>$parameters</ident>, which is an XQuery map. Access parameters using the XQuery lookup operator.</p>
@@ -730,7 +746,7 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                         </list>
                         <div>
                             <head>Generated Code Overview</head>
-                            
+
                             <div>
                                 <head>XQuery Code</head>
                                 <p>The generated app shares most of its XQuery libraries with the main TEI Publisher app. A copy of those is included
@@ -745,7 +761,7 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                                         how should the TEI content be split into viewable chunks?</item>
                                     <label>pm-config.xql</label>
                                     <item>This file defines the functions to be called for rendering TEI content via the processing model.
-                                        It imports the modules generated from your ODD and assigns them to variables as function pointers. 
+                                        It imports the modules generated from your ODD and assigns them to variables as function pointers.
                                         This approach is much more efficient than the dynamic lookups done by the main TEI Publisher app. It has been
                                         production tested on large web sites. The downside is that the connection to the ODD is hard-coded.
                                         If you need to switch between different ODDs, you would need to change pm-config.xql and insert
