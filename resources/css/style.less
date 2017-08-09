@@ -212,10 +212,12 @@
 /*********************************************************************/
 
 #document-wrapper {
-    .margin-right {
-        margin-right: 200px;
+    @media (min-width: @screen-sm-min) {
+        .margin-right {
+            margin-right: 200px;
+        }
     }
-
+    
   .content h1,
   .content h2,
   .content h3,
@@ -281,43 +283,43 @@
     }
   }
 
-  .page-margin {
-    margin-right: @margin-right-content-inner;
-    margin-left: @margin-left-content-inner;
-    position: relative;
-  }
-
-  .margin-note-ref {
-    font-size: small;
-    vertical-align: super;
-    color: @color-gray-light;
-    margin-right: 4px;
-  }
-
   .margin-note {
-    background: @color-gray-medium;
-    display: block;
-    font-size: small;
-    margin-right: -200px;
-    margin-bottom: 5px;
-    padding: 5px;
-    float: right;
-    clear: both;
-    width: 190px;
-
-    .n {
-      color: @color-gray-light;
-    }
-  }
-
-  @media (max-width: @screen-sm) {
-    .margin-note {
-      display: none;
-    }
-
+    display: none;
+    
     .page-margin {
       margin-right: 0;
       margin-left: 0;
+    }
+  }
+
+  @media (min-width: @screen-sm-min) {
+    .margin-note {
+        background: @color-gray-medium;
+        display: block;
+        font-size: small;
+        margin-right: -200px;
+        margin-bottom: 5px;
+        padding: 5px;
+        float: right;
+        clear: both;
+        width: 190px;
+
+        .n {
+          color: @color-gray-light;
+        }
+    }
+    
+    .page-margin {
+      margin-right: @margin-right-content-inner;
+      margin-left: @margin-left-content-inner;
+      position: relative;
+    }
+
+    .margin-note-ref {
+      font-size: small;
+      vertical-align: super;
+      color: @color-gray-light;
+      margin-right: 4px;
     }
   }
 
