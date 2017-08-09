@@ -10,5 +10,17 @@
     <target>tei-publisher</target>
     <prepare>pre-install.xql</prepare>
     <finish>post-install.xql</finish>
+    <changelog>
+        <change version="2.2.0">
+            <ul xmlns="http://www.w3.org/1999/xhtml">
+                <li>Improved responsiveness: navigation and toc work on mobile viewer</li>
+                <li>Drop /works prefix from document paths to simplify URLs</li>
+                <li>Renditions defined in tei header were no longer applied</li>
+                <li>Fix image resolving for generated apps</li>
+                <li>Allow documents to be deleted via UI</li>
+                <li>Include direct link to uploaded document</li>
+            </ul>
+        </change>
+    </changelog>
     <permissions xmlns:repo="http://exist-db.org/xquery/repo" password="simple" user="tei" group="tei" mode="rwxrwxr-x"/>
 </meta>
