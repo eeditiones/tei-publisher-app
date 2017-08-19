@@ -10,6 +10,8 @@
     <target>tei-publisher</target>
     <prepare>pre-install.xql</prepare>
     <finish>post-install.xql</finish>
+    <note>Generated apps may fail after updating. Run .../myapp/modules/lib/regenerate.xql in browser or eXide once
+        to update your ODDs.</note>
     <changelog>
         <change version="2.2.0">
             <ul xmlns="http://www.w3.org/1999/xhtml">

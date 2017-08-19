@@ -4,5 +4,5 @@
     <dependency processor="http://exist-db.org" semver-min="3.0.3"/>
     <dependency package="http://exist-db.org/apps/shared"/>
     <dependency package="http://exist-db.org/apps/monex"/>
-    <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver-min="2.0.3"/>
+    <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver-min="2.1.0"/>
 </package>
