@@ -3,6 +3,43 @@
 
 /* Global styles */
 
+.simple_allcaps { text-transform: uppercase; }
+.simple_blackletter { font-family: fantasy; }
+.simple_bold { font-weight: bold; }
+.simple_bottombraced { padding-bottom: 2pt; border-bottom: dashed gray 2pt; }
+.simple_block { display:block; }
+.simple_boxed { padding: 2pt; border: solid black 1pt; }
+.simple_centre { text-align: center; }
+.simple_cursive { font-family: cursive; }
+.simple_doublestrikethrough { text-decoration: line-through; color: red; }
+.simple_doubleunderline { text-decoration: underline; color: red; }
+.simple_dropcap { font-size : 6em; font-family: cursive; font-weight : bold; vertical-align: top; height: 1em; line-height: 1em; float : left; width : 1em; color : #c00; margin: 0em; padding: 0px; }
+.simple_float { float:right; display: block; font-size: smaller; clear: right; padding: 4pt; width: 15%; }
+.simple_hyphen {  }
+.simple_inline { display:inline; }
+.simple_italic { font-style: italic; }
+.simple_justify { text-align: justify; }
+.simple_larger { font-size: larger; }
+.simple_left { text-align: left; }
+.simple_leftbraced { padding-left: 2pt; border-left: dotted gray 2pt; }
+.simple_letterspace { letter-spacing: 0.5em; }
+.simple_literal { font-family:monospace; white-space:pre; }
+.simple_normalstyle { font-style:roman; }
+.simple_normalweight { font-weight:normal; }
+.simple_right { text-align: right; }
+.simple_rightbraced { padding-right: 2pt; border-right: dotted gray 2pt; }
+.simple_rotateleft { -webkit-transform: rotate(90deg); transform: rotate(90deg); }
+.simple_rotateright { -webkit-transform: rotate(-90deg); transform: rotate(-90deg); }
+.simple_rules { border: 1px solid black; padding: 2px;border-collapse:collapse;border-spacing:0; }
+.simple_smallcaps { font-variant: small-caps; }
+.simple_smaller { font-size: smaller; }
+.simple_strikethrough { text-decoration: line-through; }
+.simple_subscript { vertical-align: bottom; font-size: smaller; }
+.simple_superscript { vertical-align: super; font-size: smaller; }
+.simple_topbraced { padding-top: 2pt; border-top: dotted gray 2pt; }
+.simple_typewriter { font-family:monospace; }
+.simple_underline { text-decoration: underline; }
+.simple_wavyunderline { text-decoration: underline; text-decoration-style: wavy; }
 
 /* Model rendition styles */
 
