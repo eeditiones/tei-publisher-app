@@ -84,7 +84,14 @@ else if (ends-with($exist:resource, ".html")) then (
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
             <forward url="{$exist:controller}/{$resource}"/>
             <view>
-                <forward url="{$exist:controller}/modules/view.xql"/>
+                <forward url="{$exist:controller}/modules/view.xql">
+                {
+                    if ($exist:resource = "search.html") then
+                        <set-header name="Cache-Control" value="no-cache"/>
+                    else
+                        ()
+                }
+                </forward>
             </view>
     		<error-handler>
     			<forward url="{$exist:controller}/error-page.html" method="get"/>
