@@ -29,4 +29,4 @@ declare function local:mkcol($collection, $path) {
 
 (: store the collection configuration :)
 local:mkcol("/db/system/config", $target),
-xdb:store-files-from-pattern(concat("/system/config", $target), $dir, "*.xconf")
+xdb:store-files-from-pattern(concat("/db/system/config", $target), $dir, "*.xconf")
