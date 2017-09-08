@@ -111,8 +111,28 @@ function app:form-odd-select($node as node(), $model as map(*)) {
     dbutil:scan-resources(xs:anyURI($config:odd-root), function($resource) {
         if (ends-with($resource, ".odd")) then
             let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
+            let $displayname := 
+                for $display in $name
+                let $rev-date := data(doc($resource)//tei:revisionDesc/tei:change/@when)[1]
+                return 
+                    switch ($display)
+                        case 'tei_simplePrint' 
+                            return "simple Print [" || $rev-date || "]"
+                        case 'teipublisher' 
+                            return "TEI Publisher [" || $rev-date || "]"
+                        case 'myteisimple' 
+                            return "my TEI simple [" || $rev-date || "]"
+                        case 'letter' 
+                            return "letter [" || $rev-date || "]"
+                        case 'dta' 
+                            return "Deutsches Textarchiv (dta) [" || $rev-date || "]"
+                        case 'documentation' 
+                            return "documentation [" || $rev-date || "]"
+                        case 'beamer' 
+                            return "beamer [" || $rev-date || "]"    
+                    default return $display               
             return
-                <option value="{replace($resource, "^.*/([^/]+)$", "$1")}">{$name}</option>
+                <option value="{replace($resource, "^.*/([^/]+)$", "$1")}">{$displayname}</option>
         else
             ()
     })
