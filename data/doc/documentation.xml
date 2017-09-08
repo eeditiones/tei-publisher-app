@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <?teipublisher odd="documentation.odd"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
     <teiHeader>
@@ -703,7 +702,69 @@ It is strongly recommended that use <gi>outputRendition</gi> should be limited t
                     <head>Using the App Generator</head>
                     <p>The App Generator takes an ODD file and generates a complete, standalone application
                         out of it, including features like a simple search facility. Click on "App Generator"
-                        in the menu bar and fill out the form. The following form fields are important:</p>
+                        in the menu bar and fill out the form.</p>
+                    <p>Most templates extend the teipublisher.odd, which is itself and extension of simplePrint.
+                        You can see the relation of the different ODDs here:</p>                    
+                        <table xml:id="odd-choice">
+                            <head>Custom ODD Choices</head>
+                            <row role="label">
+                                <cell>filename</cell>
+                                <cell>title</cell>                            
+                                <cell>last revision</cell>
+                                <cell>base file</cell>
+                                <cell>publisher</cell>
+                            </row>
+                            <row>
+                                <cell>teipublisher</cell>
+                                <cell>TEI Publisher (Default Custom ODD)</cell>
+                                <cell>2017-09-08</cell>
+                                <cell>tei_simplePrint</cell>
+                                <cell>eXistSolutions GmbH</cell>
+                            </row>
+                            <row>
+                                <cell>tei_simplePrint</cell>
+                                <cell>An Introduction to TEI simplePrint</cell>
+                                <cell>2016-11-17</cell>
+                                <cell/>
+                                <cell/>
+                            </row>
+                            <row>
+                                <cell>myteisimple</cell>
+                                <cell>my TEI Simple (Custom ODD)</cell>
+                                <cell>2017-09-08</cell>
+                                <cell>teipublisher</cell>
+                                <cell>eXistSolutions GmbH</cell>
+                            </row>
+                            <row>
+                                <cell>letter</cell>
+                                <cell>Letter (Custom ODD)</cell>
+                                <cell>2017-09-08</cell>
+                                <cell>teipublisher</cell>
+                                <cell>eXistSolutions GmbH</cell>
+                            </row>
+                            <row>
+                                <cell>dta</cell>
+                                <cell>Deutsches Textarchiv (dta) (Custom ODD)</cell>
+                                <cell>2017-09-08</cell>
+                                <cell>teipublisher</cell>
+                                <cell>eXistSolutions GmbH</cell>
+                            </row>
+                            <row>
+                                <cell>documentation</cell>
+                                <cell>TEI Simple customization for the documentation</cell>
+                                <cell>2017-09-08</cell>
+                                <cell>teipublisher</cell>
+                                <cell>TEI Consortium</cell>
+                            </row>
+                            <row>
+                                <cell>beamer</cell>
+                                <cell>TEI Simple customization for LaTeX beamer presentations</cell>
+                                <cell>2017-09-08</cell>
+                                <cell>teipublisher</cell>
+                                <cell>TEI Consortium</cell>
+                            </row>
+                        </table>                                         
+                    <p>The following form fields are important:</p>
                     <list type="gloss">
                         <label>Name</label>
                         <item>This is the main identifier for you app and should be a globally unique URI. It does not
