@@ -14,12 +14,12 @@
             </sourceDesc>
         </fileDesc>
         <revisionDesc>
-            <change when="2017-09-08">first revision</change>
+            <change when="$$datetime$$">Initial version</change>
         </revisionDesc>
     </teiHeader>
     <text>
         <body>
-            <schemaSpec start="TEI teiCorpus" source="teipublisher.odd"> </schemaSpec>
+            <schemaSpec ident="$$name$$" start="TEI teiCorpus" source="teipublisher.odd"> </schemaSpec>
         </body>
     </text>
 </TEI>

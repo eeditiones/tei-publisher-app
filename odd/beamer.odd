@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="tei-pm.nvdl"
-  type="application/xml"
+<?xml-model type="application/xml"
   schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xml:lang="en">
     <teiHeader>
@@ -60,14 +59,14 @@
             <schemaSpec ident="docs" start="TEI teiCorpus" source="teipublisher.odd">
                 <elementSpec mode="change" ident="div">
                     <model predicate="@type='block'" behaviour="beamer-block">
-                        <param name="type">"block"</param>
-                        <param name="content">*[not(self::head)]</param>
-                        <param name="heading">head</param>
+                        <param name="type" value="'block'"/>
+                        <param name="content" value="*[not(self::head)]"/>
+                        <param name="heading" value="head"/>
                     </model>
                     <model predicate="@type='alert'" behaviour="beamer-block">
-                        <param name="type">"alertblock"</param>
-                        <param name="content">*[not(self::head)]</param>
-                        <param name="heading">head</param>
+                        <param name="type" value="'alertblock'"/>
+                        <param name="content" value="*[not(self::head)]"/>
+                        <param name="heading" value="head"/>
                     </model>
                     <model predicate="@type='frame'" behaviour="frame"/>
                     <model behaviour="section"/>
@@ -78,7 +77,7 @@
                 </elementSpec>
                 <elementSpec mode="add" ident="code">
                     <model behaviour="code">
-                        <param name="lang">@lang</param>
+                        <param name="lang" value="@lang"/>
                     </model>
                 </elementSpec>
                 <elementSpec mode="change" ident="hi">

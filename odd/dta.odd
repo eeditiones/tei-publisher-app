@@ -36,7 +36,14 @@
                             color: #CCC;
                         </outputRendition>
                     </model>
-                    <model output="web" predicate="@type='sig'" behaviour="block">
+                    <modelGrp output="web">
+                    <model predicate="@type='sig'" behaviour="block">                        
+                        <outputRendition>
+                            margin-left: 10em;
+                            margin-top: 1em;
+                            color: #CCC;
+                        </outputRendition>
+                    </model>
                         <modelSequence>
                             <model behaviour="inline">
                                 <param name="content" value="node()"/>
@@ -46,12 +53,7 @@
                                 <outputRendition>margin-left: 10em;</outputRendition>
                             </model>
                         </modelSequence>
-                        <outputRendition>
-                            margin-left: 10em;
-                            margin-top: 1em;
-                            color: #CCC;
-                        </outputRendition>
-                    </model>
+                    </modelGrp>    
                     <model behaviour="omit"/>
                 </elementSpec>
             </schemaSpec>
