@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
+   <title>ISO Schematron rules</title>
+   <!-- This file generated 1970-01-01 by 'extract-isosch.xsl'. -->
+
+   <!-- ********************* -->
+   <!-- namespaces, declared: -->
+   <!-- ********************* -->
+   <ns prefix="tei" uri="http://www.tei-c.org/ns/1.0"/>
+   <ns prefix="xs" uri="http://www.w3.org/2001/XMLSchema"/>
+   <ns prefix="rng" uri="http://relaxng.org/ns/structure/1.0"/>
+   <ns prefix="s" uri="http://www.ascc.net/xml/schematron"/>
+   <ns prefix="sch" uri="http://purl.oclc.org/dsdl/schematron"/>
+   <ns prefix="sch" uri="http://purl.oclc.org/dsdl/schematron"/>
+   <ns prefix="teix" uri="http://www.tei-c.org/ns/Examples"/>
+
+   <!-- ********************* -->
+   <!-- namespaces, implicit: -->
+   <!-- ********************* -->
+   <ns prefix="dcr" uri="http://www.isocat.org/ns/dcr"/>
+   <ns prefix="tei" uri="http://www.tei-c.org/ns/1.0"/>
+   <ns prefix="teix" uri="http://www.tei-c.org/ns/Examples"/>
+
+   <!-- ************ -->
+   <!-- constraints: -->
+   <!-- ************ -->
+   <pattern id="teipm-att.datable-calendar-constraint-calendar-1">
+          <rule context="tei:*[@calendar]">
+            <assert test="string-length(.) gt 0">
+@calendar indicates the system or calendar to which the date represented by the content of this element
+belongs, but this <name/> element has no textual content.</assert>
+          </rule>
+        </pattern>
+   <pattern id="teipm-att.typed-constraint-subtypeTyped-2">
+      <rule context="*[@subtype]">
+        <assert test="@type">The <name/> element should not be categorized in detail with @subtype
+ unless also categorized in general with @type</assert>
+      </rule>
+    </pattern>
+   <pattern id="teipm-att.pointing-targetLang-constraint-targetLang-3">
+          <rule context="tei:*[not(self::tei:schemaSpec)][@targetLang]">
+            <assert test="@target">@targetLang should only be used on <name/> if @target is specified.</assert>
+          </rule>
+        </pattern>
+   <pattern id="teipm-att.spanning-spanTo-constraint-spanTo-2-4">
+          <rule context="tei:*[@spanTo]">
+            <assert test="id(substring(@spanTo,2)) and following::*[@xml:id=substring(current()/@spanTo,2)]">
+The element indicated by @spanTo (<value-of select="@spanTo"/>) must follow the current element <name/>
+                  </assert>
+          </rule>
+        </pattern>
+   <pattern id="teipm-att.styleDef-schemeVersion-constraint-schemeVersionRequiresScheme-5">
+          <rule context="tei:*[@schemeVersion]">
+            <assert test="@scheme and not(@scheme = 'free')">
+              @schemeVersion can only be used if @scheme is specified.
+            </assert>
+          </rule>
+        </pattern>
+   <pattern id="teipm-p-constraint-abstractModel-p-6">
+      <rule context="tei:p">
+         <report test="(ancestor::tei:p or ancestor::tei:ab)          and not(parent::tei:exemplum                |parent::tei:item                |parent::tei:note                |parent::tei:q                |parent::tei:quote                |parent::tei:remarks                |parent::tei:said                |parent::tei:sp                |parent::tei:stage                |parent::tei:cell                |parent::tei:figure)">
+        Abstract model violation: Paragraphs may not contain other paragraphs or ab elements.
+      </report>
+      </rule>
+   </pattern>
+   <pattern id="teipm-p-constraint-abstractModel-structure-l-7">
+      <rule context="tei:p">
+         <report test="ancestor::tei:l[not(.//tei:note//tei:p[. = current()])]">
+        Abstract model violation: Lines may not contain higher-level structural elements such as div, p, or ab.
+      </report>
+      </rule>
+   </pattern>
+   <pattern id="teipm-ptr-constraint-ptrAtts-8">
+      <rule context="tei:ptr">
+         <report test="@target and @cRef">Only one of the
+attributes @target and @cRef may be supplied on <name/>.</report>
+      </rule>
+   </pattern>
+   <pattern id="teipm-ref-constraint-refAtts-9">
+      <rule context="tei:ref">
+         <report test="@target and @cRef">Only one of the
+	attributes @target' and @cRef' may be supplied on <name/>
+         </report>
+      </rule>
+   </pattern>
+   <pattern id="teipm-list-constraint-gloss-list-must-have-labels-10">
+      <rule context="tei:list[@type='gloss']">
+	        <assert test="tei:label">The content of a "gloss" list should include a sequence of one or more pairs of a label element followed by an item element</assert>
+      </rule>
+    </pattern>
+   <pattern id="teipm-biblStruct-constraint-deprecate-altIdentifier-child-11">
+      <rule context="tei:biblStruct">
+         <report test="child::tei:idno" role="nonfatal">WARNING: use of deprecated method — the use of the idno element as a direct child of the biblStruct element will be removed from the TEI on 2016-09-18</report>
+      </rule>
+   </pattern>
+   <pattern id="teipm-relatedItem-constraint-targetorcontent1-12">
+      <rule context="tei:relatedItem">
+         <report test="@target and count( child::* ) &gt; 0">
+If the @target attribute on <name/> is used, the
+relatedItem element must be empty</report>
+         <assert test="@target or child::*">A relatedItem element should have either a 'target' attribute
+        or a child element to indicate the related bibliographic item</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-l-constraint-abstractModel-structure-l-13">
+      <rule context="tei:l">
+         <report test="ancestor::tei:l[not(.//tei:note//tei:l[. = current()])]">
+        Abstract model violation: Lines may not contain lines or lg elements.
+      </report>
+      </rule>
+   </pattern>
+   <pattern id="teipm-lg-constraint-atleast1oflggapl-14">
+      <rule context="tei:lg">
+         <assert test="count(descendant::tei:lg|descendant::tei:l|descendant::tei:gap) &gt; 0">An lg element
+        must contain at least one child l, lg or gap element.</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-lg-constraint-abstractModel-structure-l-15">
+      <rule context="tei:lg">
+         <report test="ancestor::tei:l[not(.//tei:note//tei:lg[. = current()])]">
+        Abstract model violation: Lines may not contain line groups.
+      </report>
+      </rule>
+   </pattern>
+   <pattern id="teipm-quotation-constraint-quotationContents-16">
+      <rule context="tei:quotation">
+         <report test="not(@marks) and not (tei:p)">
+On <name/>, either the @marks attribute should be used, or a paragraph of description provided</report>
+      </rule>
+   </pattern>
+   <pattern id="teipm-div-constraint-abstractModel-structure-l-19">
+      <rule context="tei:div">
+         <report test="ancestor::tei:l">
+        Abstract model violation: Lines may not contain higher-level structural elements such as div.
+      </report>
+      </rule>
+   </pattern>
+   <pattern id="teipm-div-constraint-abstractModel-structure-p-20">
+      <rule context="tei:div">
+         <report test="ancestor::tei:p or ancestor::tei:ab and not(ancestor::tei:floatingText)">
+        Abstract model violation: p and ab may not contain higher-level structural elements such as div.
+      </report>
+      </rule>
+   </pattern>
+   <pattern id="teipm-att.identified-constraint-spec-in-module-21">
+      <rule context="tei:elementSpec[@module]|tei:classSpec[@module]|tei:macroSpec[@module]">
+        <assert test="         (not(ancestor::tei:schemaSpec | ancestor::tei:TEI | ancestor::tei:teiCorpus)) or         (not(@module) or          (not(//tei:moduleSpec) and not(//tei:moduleRef))  or         (//tei:moduleSpec[@ident = current()/@module]) or          (//tei:moduleRef[@key = current()/@module]))         ">
+        Specification <value-of select="@ident"/>: the value of the module attribute ("<value-of select="@module"/>") 
+should correspond to an existing module, via a moduleSpec or
+      moduleRef</assert>
+      </rule>
+    </pattern>
+   <pattern id="teipm-att.deprecated-validUntil-constraint-deprecated-22">
+          <rule context="tei:*[@validUntil]">
+            <assert test="@validUntil cast as xs:date ge          current-date()">
+            <value-of select="if          (@ident) then concat('The ',@ident) else          concat('This ',local-name(.),' of          ',ancestor::tei:*[@ident][1]/@ident)"/>
+	    construct is outdated (as of <value-of select="@validUntil"/>); ODD processors may ignore it, and its use is no longer supported</assert>
+            <assert role="nonfatal"
+                 test="@validUntil cast as xs:date ge          (current-date() + (60*xs:dayTimeDuration('P1D')))">
+            <value-of select="if (@ident) then concat('The ',@ident) else concat('This ',local-name(.),' of ',ancestor::tei:*[@ident][1]/@ident)"/>  construct becomes outdated on <value-of select="@validUntil"/>
+         </assert>
+          </rule>
+        </pattern>
+   <pattern id="teipm-moduleRef-constraint-modref-23">
+      <rule context="tei:moduleRef">
+        <report test="* and @key">
+Child elements of <name/> are only allowed when an external module is being loaded
+        </report>
+      </rule>
+    </pattern>
+   <pattern id="teipm-moduleRef-prefix-constraint-not-same-prefix-24">
+          <rule context="tei:moduleRef">
+            <report test="//*[ not( generate-id(.) eq generate-id(      current() ) ) ]/@prefix = @prefix">The prefix attribute
+	    of <name/> should not match that of any other
+	    element (it would defeat the purpose)</report>
+          </rule>
+        </pattern>
+   <pattern id="teipm-sequence-constraint-sequencechilden-25">
+      <rule context="tei:sequence">
+         <assert test="count(*)&gt;1">The sequence element must have at least two child elements</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-alternate-constraint-alternatechilden-26">
+      <rule context="tei:alternate">
+         <assert test="count(*)&gt;1">The alternate element must have at least two child elements</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-constraintSpec-constraint-sch-27">
+      <rule context="tei:constraintSpec">
+      
+         <report test="tei:constraint/s:*  and  @scheme ne 'schematron'">Rules in the Schematron 1.* language must be inside a constraintSpec with a value of 'schematron' on the scheme attribute</report>
+      </rule>
+   </pattern>
+   <pattern id="teipm-constraintSpec-constraint-isosch-28">
+      <rule context="tei:constraintSpec">
+      
+         <report test="tei:constraint/sch:*  and  @scheme ne 'isoschematron'">Rules in the ISO Schematron language must be inside a constraintSpec with a value of 'isoschematron' on the scheme attribute</report>
+      </rule>
+   </pattern>
+   <pattern id="teipm-constraintSpec-constraint-xslt-29">
+      <rule context="tei:constraintSpec">
+      
+         <report test="tei:constraint/xsl:*  and  @scheme ne 'XSLT'">Rules in XSLT must be inside a constraintSpec with a value of 'isoschematron' on the scheme attribute</report>
+      </rule>
+   </pattern>
+   <pattern id="teipm-constraintSpec-constraint-needrules-30">
+      
+      <rule context="tei:macroSpec/tei:constraintSpec[@scheme='isoschematron']/tei:constraint">
+	        <report test="sch:assert|sch:report">An ISO Schematron constraint specification for a macro should not have an 'assert' or 'report' element without a parent 'rule' element</report>
+      </rule>
+    </pattern>
+   <pattern id="teipm-attDef-constraint-attDefContents-31">
+      <rule context="tei:attDef">
+      
+         <assert test="ancestor::teix:egXML[@valid='feasible'] or @mode eq 'change' or @mode eq 'delete' or tei:datatype or tei:valList[@type='closed']">Attribute: the definition of the @<value-of select="@ident"/> attribute in the <value-of select="ancestor::*[@ident][1]/@ident"/>
+            <value-of select="' '"/>
+            <value-of select="local-name(ancestor::*[@ident][1])"/> should have a closed valList or a datatype</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-attDef-constraint-noDefault4Required-32">
+      <rule context="tei:attDef[@usage eq 'req']">
+	        <report test="tei:defaultVal">It does not make sense to make "<value-of select="normalize-space(tei:defaultVal)"/>" the default value of @<value-of select="@ident"/>, because that attribute is required.</report>
+      </rule>
+    </pattern>
+   <pattern id="teipm-attDef-constraint-defaultIsInClosedList-twoOrMore-33">
+      <rule context="tei:attDef[   tei:defaultVal   and   tei:valList[@type eq 'closed']   and   tei:datatype[    @maxOccurs &gt; 1    or    @minOccurs &gt; 1    or    @maxOccurs = 'unbounded'    ]   ]">
+	        <assert test="     tokenize(normalize-space(tei:defaultVal),' ')     =     tei:valList/tei:valItem/@ident">In the <value-of select="local-name(ancestor::*[@ident][1])"/> defining
+	<value-of select="ancestor::*[@ident][1]/@ident"/> the default value of the
+	@<value-of select="@ident"/> attribute is not among the closed list of possible
+	values</assert>
+      </rule>
+    </pattern>
+   <pattern id="teipm-attDef-constraint-defaultIsInClosedList-one-34">
+      <rule context="tei:attDef[   tei:defaultVal   and   tei:valList[@type eq 'closed']   and   tei:datatype[    not(@maxOccurs)    or (    if ( @maxOccurs castable as xs:integer )     then ( @maxOccurs cast as xs:integer eq 1 )     else false()    )]   ]">
+	        <assert test="string(tei:defaultVal)      =      tei:valList/tei:valItem/@ident">In the <value-of select="local-name(ancestor::*[@ident][1])"/> defining
+	<value-of select="ancestor::*[@ident][1]/@ident"/> the default value of the
+	@<value-of select="@ident"/> attribute is not among the closed list of possible
+	values</assert>
+      </rule>
+    </pattern>
+   <pattern id="teipm-link-constraint-linkTargets3-35">
+      <rule context="tei:link">
+         <assert test="contains(normalize-space(@target),' ')">You must supply at least two values for @target or  on <name/>
+         </assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-ab-constraint-abstractModel-structure-p-36">
+      <rule context="tei:ab">
+         <report test="(ancestor::tei:p or ancestor::tei:ab)          and not(parent::tei:exemplum         |parent::tei:item         |parent::tei:note         |parent::tei:q         |parent::tei:quote         |parent::tei:remarks         |parent::tei:said         |parent::tei:sp         |parent::tei:stage         |parent::tei:cell         |parent::tei:figure)">
+        Abstract model violation: ab may not contain paragraphs or other ab elements.
+      </report>
+      </rule>
+   </pattern>
+   <pattern id="teipm-ab-constraint-abstractModel-structure-l-37">
+      <rule context="tei:ab">
+         <report test="ancestor::tei:l or ancestor::tei:lg">
+        Abstract model violation: Lines may not contain higher-level divisions such as p or ab.
+      </report>
+      </rule>
+   </pattern>
+   <pattern id="teipm-join-constraint-joinTargets3-38">
+      <rule context="tei:join">
+         <assert test="contains(@target,' ')">
+You must supply at least two values for @target on <name/>
+         </assert>
+      </rule>
+   </pattern>
+
+   <!-- *********** -->
+   <!-- deprecated: -->
+   <!-- *********** -->
+   <pattern>
+      <rule context="tei:teiHeader">
+         <report test="@type" role="nonfatal">WARNING: use of deprecated attribute — @type of the teiHeader element will be removed from the TEI on 2016-11-18.
+                </report>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-1">
+      <rule context="tei:param[parent::tei:model/@behaviour='alternate']">
+         <assert role="error" test="@name='default'   or  @name='alternate'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: default, alternate</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-2">
+      <rule context="tei:param[parent::tei:model/@behaviour='anchor']">
+         <assert role="error" test="@name='id'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: id</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-3">
+      <rule context="tei:param[parent::tei:model/@behaviour='block']">
+         <assert role="error" test="@name='content'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-4">
+      <rule context="tei:param[parent::tei:model/@behaviour='body']">
+         <assert role="error" test="@name='content'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-5">
+      <rule context="tei:param[parent::tei:model/@behaviour='break']">
+         <assert role="error" test="@name='type'   or  @name='label'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: type, label</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-6">
+      <rule context="tei:param[parent::tei:model/@behaviour='cell']">
+         <assert role="error" test="@name='content'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-7">
+      <rule context="tei:param[parent::tei:model/@behaviour='cit']">
+         <assert role="error" test="@name='content'   or  @name='source'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content, source</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-8">
+      <rule context="tei:param[parent::tei:model/@behaviour='document']">
+         <assert role="error" test="@name='content'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-9">
+      <rule context="tei:param[parent::tei:model/@behaviour='figure']">
+         <assert role="error" test="@name='title'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: title</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-10">
+      <rule context="tei:param[parent::tei:model/@behaviour='glyph']">
+         <assert role="error" test="@name='uri'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: uri</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-11">
+      <rule context="tei:param[parent::tei:model/@behaviour='graphic']">
+         <assert role="error"
+                 test="@name='url'   or  @name='width'   or  @name='height'   or  @name='scale'   or  @name='title'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: url, width, height, scale, title</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-12">
+      <rule context="tei:param[parent::tei:model/@behaviour='heading']">
+         <assert role="error" test="@name='content'   or  @name='level'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content, level</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-13">
+      <rule context="tei:param[parent::tei:model/@behaviour='index']">
+         <assert role="error" test="@name='type'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: type</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-14">
+      <rule context="tei:param[parent::tei:model/@behaviour='inline']">
+         <assert role="error" test="@name='content'   or  @name='label'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content, label</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-15">
+      <rule context="tei:param[parent::tei:model/@behaviour='link']">
+         <assert role="error" test="@name='content'   or  @name='link'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content, link</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-16">
+      <rule context="tei:param[parent::tei:model/@behaviour='list']">
+         <assert role="error" test="@name='content'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-17">
+      <rule context="tei:param[parent::tei:model/@behaviour='listItem']">
+         <assert role="error" test="@name='content'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-18">
+      <rule context="tei:param[parent::tei:model/@behaviour='metadata']">
+         <assert role="error" test="@name='content'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-19">
+      <rule context="tei:param[parent::tei:model/@behaviour='note']">
+         <assert role="error"
+                 test="@name='content'   or  @name='place'   or  @name='label'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content, place, label</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-20">
+      <rule context="tei:param[parent::tei:model/@behaviour='paragraph']">
+         <assert role="error" test="@name='content'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-21">
+      <rule context="tei:param[parent::tei:model/@behaviour='row']">
+         <assert role="error" test="@name='content'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-22">
+      <rule context="tei:param[parent::tei:model/@behaviour='section']">
+         <assert role="error" test="@name='content'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-23">
+      <rule context="tei:param[parent::tei:model/@behaviour='table']">
+         <assert role="error" test="@name='content'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-24">
+      <rule context="tei:param[parent::tei:model/@behaviour='text']">
+         <assert role="error" test="@name='content'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content</assert>
+      </rule>
+   </pattern>
+   <pattern id="teipm-model-paramList-25">
+      <rule context="tei:param[parent::tei:model/@behaviour='title']">
+         <assert role="error" test="@name='content'">
+	      Parameter name '<value-of select="@name"/>'  (on <value-of select="ancestor::tei:elementSpec/@ident"/>) not allowed.
+	      Must  be  drawn from the list: content</assert>
+      </rule>
+   </pattern>
+</schema>
