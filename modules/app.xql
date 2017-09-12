@@ -26,6 +26,16 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
         dbutil:scan-resources(xs:anyURI($config:odd-root), function($resource) {
             if (ends-with($resource, ".odd")) then
                 let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
+                let $displayName := switch ($name)
+                        case 'tei_simplePrint' 
+                            return "simple Print"
+                        case 'teipublisher' 
+                            return "TEI Publisher"
+                        case 'myteisimple' 
+                            return "my TEI simple"                        
+                        case 'dta' 
+                            return "Deutsche Textarchiv (dta)"                           
+                    default return $name 
                 return
                     <tr>
                         <td>
@@ -40,7 +50,7 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
                                 </a>
                         }
                         </td>
-                        <td>{$name}</td>
+                        <td>{$displayName}</td>
                         <td>
                         {
                             let $outputPath := $config:output-root || "/" || $name
@@ -125,7 +135,7 @@ function app:form-odd-select($node as node(), $model as map(*)) {
                         case 'letter' 
                             return "letter [" || $rev-date || "]"
                         case 'dta' 
-                            return "Deutsches Textarchiv (dta) [" || $rev-date || "]"
+                            return "Deutsche Textarchiv (dta) [" || $rev-date || "]"
                         case 'documentation' 
                             return "documentation [" || $rev-date || "]"
                         case 'beamer' 
