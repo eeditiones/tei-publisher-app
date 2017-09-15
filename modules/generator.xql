@@ -78,9 +78,9 @@ declare function deploy:init-simple($collection as xs:string?, $userData as xs:s
     let $oddName := replace($odd, "^([^/\.]+)\.?.*$", "$1")
     let $mkcol := deploy:mkcol($target, $userData, $permissions)
     return (
-    (:  Create collection for generated app  :)    
+    (:  Create collection for generated app  :)
         deploy:xconf($collection, $odd, $userData, $permissions),
-        
+
     (:  Copy the selected ODD and its dependencies  :)
         for $file in ("tei_simplePrint.odd", "teipublisher.odd", $odd)
         let $source := doc($config:odd-root || "/" || $file)
@@ -100,32 +100,19 @@ declare function deploy:init-simple($collection as xs:string?, $userData as xs:s
         deploy:create-configuration($target),
         deploy:mkcol($collection || "/data", $userData, $permissions),
         deploy:mkcol($collection || "/transform", $userData, $permissions),
-    (:   TODO: Do these two always have to be added?     :)
-        xmldb:copy($config:output-root, $collection || "/transform", "teipublisher.fo.css"),
-        xmldb:copy($config:output-root, $collection || "/transform", "teipublisher-print.css"),
-        
+
         let $transformFile := xmldb:get-child-resources ($config:output-root)
-        
+
         for $file in $transformFile
 
         return
-        
+
             if (contains($file, $oddName))
             then
                 (xmldb:copy($config:output-root, $collection || '/transform' , $file))
             else
                 (),
-        
-        (: TODO: cleanup
-        
-        if (util:binary-doc-available($config:output-root || "/" || $oddName || "-print.css")) then
-            xmldb:copy($config:output-root, $collection || "/transform", $oddName || "-print.css")
-        else
-            (),
-        if (util:binary-doc-available($config:output-root || "/" || $oddName || ".fo.css")) then
-            xmldb:copy($config:output-root, $collection || "/transform", $oddName || ".fo.css")
-        else
-            (),:)
+                
         for $file in ("master.fo.xml", "page-sequence.fo.xml")
         let $template := repo:get-resource("http://existsolutions.com/apps/tei-publisher-lib", "content/" || $file)
         return
