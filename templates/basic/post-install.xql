@@ -14,6 +14,7 @@ declare variable $dir external;
 (: the target collection into which the app is deployed :)
 declare variable $target external;
 
+
 declare variable $repoxml :=
     let $uri := doc($target || "/expath-pkg.xml")/*/@name
     let $repo := util:binary-to-string(repo:get-resource($uri, "repo.xml"))
@@ -22,13 +23,29 @@ declare variable $repoxml :=
 ;
 
 declare function local:generate-code($collection as xs:string) {
-    for $source in xmldb:get-child-resources($collection || "/resources/odd")[ends-with(., ".odd")]
+    let $odd := xmldb:get-child-resources($collection || "/resources/odd")[ends-with(., ".odd")]
+    let $count := count($odd)
+    let $oddName := 
+        switch ($count)
+            case 2 return distinct-values($odd[not(.=("tei_simplePrint.odd"))])            
+            case 1 return $odd
+        default return  distinct-values($odd[not(.=("teipublisher.odd", "tei_simplePrint.odd"))])
+    
+(: TODO: cleanup   
+   for $source in $collection || "/resources/odd" || $oddName
+   for $source in xmldb:get-child-resources($collection || "/resources/odd")[ends-with(., ".odd")]:)
+   
     for $module in ("web", "print", "latex", "epub")
-    for $file in pmu:process-odd(
-        odd:get-compiled($collection || "/resources/odd", $source),
+    for $file in pmu:process-odd (
+        (:    $odd as document-node():)
+        odd:get-compiled($collection || "/resources/odd" , $oddName),
+        (:    $output-root as xs:string    :)
         $collection || "/transform",
+        (:    $mode as xs:string    :)
         $module,
+        (:    $relPath as xs:string    :)
         "../transform",
+        (:    $config as element(modules)?    :)
         doc($collection || "/resources/odd/configuration.xml")/*)?("module")
     return 
         (),

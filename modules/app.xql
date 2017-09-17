@@ -26,6 +26,11 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
         dbutil:scan-resources(xs:anyURI($config:odd-root), function($resource) {
             if (ends-with($resource, ".odd")) then
                 let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
+                let $displayName := (
+                    doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type="short"],
+                    doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title,
+                    $name
+                )[1]/string()
                 return
                     <tr>
                         <td>
@@ -40,7 +45,7 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
                                 </a>
                         }
                         </td>
-                        <td>{$name}</td>
+                        <td>{$displayName}</td>
                         <td>
                         {
                             let $outputPath := $config:output-root || "/" || $name
@@ -111,10 +116,46 @@ function app:form-odd-select($node as node(), $model as map(*)) {
     dbutil:scan-resources(xs:anyURI($config:odd-root), function($resource) {
         if (ends-with($resource, ".odd")) then
             let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
+            let $displayname :=
+                for $display in $name
+                let $rev-date := data(doc($resource)//tei:revisionDesc/tei:change/@when)[1]
+                let $title := (
+                    doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type="short"],
+                    doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title,
+                    $name
+                )[1]/string()
+                return
+                    $title || " [" || $rev-date || "]"
             return
-                <option value="{replace($resource, "^.*/([^/]+)$", "$1")}">{$name}</option>
+                <option value="{replace($resource, "^.*/([^/]+)$", "$1")}">{$displayname}</option>
         else
             ()
+    })
+};
+
+declare function app:odd-documentation($node as node()) as node()* {
+
+(:~ creates data rows for documenting different odd choices,
+:  located in: doc('/data/doc/documentation.xml')//tei:table[@xml:id='odd-choice']
+:)
+dbutil:scan-resources(xs:anyURI($config:odd-root), function ($resource) {
+
+    let $file := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
+    let $title := doc($resource)//tei:titleStmt/tei:title/string()
+    let $last-rev := data(doc($resource)//tei:revisionDesc/tei:change/@when)[1]
+    let $src := substring-before(data(doc($resource)//tei:schemaSpec/@source), '.odd')
+    let $publisher := doc($resource)//tei:publicationStmt/tei:publisher/string()
+
+    return
+        if (ends-with($resource, ".odd"))
+        then (<row>
+                    <cell>{$file}</cell>
+                    <cell>{$title}</cell>
+                    <cell>{$last-rev}</cell>
+                    <cell>{$src}</cell>
+                    <cell>{$publisher}</cell>
+                </row>)
+        else ()
     })
 };
 

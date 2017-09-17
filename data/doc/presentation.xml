@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tei-c.org/ns/1.0 file:/Users/wolf/Source/TEI-Simple/teisimple.xsd">
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -119,8 +118,7 @@
                 <table>
                     <row>
                         <cell>teisimple-web.xql</cell>
-                        <cell>The module generated for output mode <code>web</code>
-                        </cell>
+                        <cell>The module generated for output <formula>web</formula> </cell>
                     </row>
                     <row>
                         <cell>teisimple-web-main.xql</cell>
@@ -131,7 +129,7 @@
                         <cell>CSS styles generated from the ODD</cell>
                     </row>
                 </table>
-                <p>Files are by default stored into <code>generated</code>. They start with the name
+                <p>Files are by default stored into <formula>generated</formula>. They start with the name
                     of the odd and the output mode they belong to.</p>
             </div>
             <div type="frame">
@@ -144,11 +142,11 @@
             </div>
             <div type="frame">
                 <head>Customize the ODD</head>
-                <p>You can customize <code>teisimple.odd</code> in two ways:</p>
+                <p>You can customize <formula>teisimple.odd</formula> in two ways:</p>
                 <list type="ordered">
                     <item>Copy the entire odd and modify it (dirty!)</item>
-                    <item>Create a new odd which extends <code>teisimple.odd</code> and overwrites
-                        one or more <code>elementSpec</code>
+                    <item>Create a new odd which extends <formula>teisimple.odd</formula> and overwrites
+                        one or more <formula>elementSpec</formula>
                     </item>
                 </list>
                 <p>Using method 2), the new odd needs to be passed through a <hi>compile step</hi>
@@ -182,7 +180,7 @@
                     <item>For each output mode, there's a standard module of behaviour
                         functions</item>
                     <item>Additional extension modules can be plugged in via
-                            <code>configuration.xml</code>
+                            <formula>configuration.xml</formula>
                     </item>
                     <item>Code generation searches all modules and uses the first matching behaviour
                         function it finds</item>
@@ -204,14 +202,19 @@
                     <item>the remaining parameters match those in the behaviour</item>
                     <item>thus: arity of the function = behaviour parameter count + 3</item>
                 </list>
-                <code lang="xquery">declare function pmf:paragraph($config as map(*), 
-    $node as element(), $class as xs:string+, $content)</code>
+                <figure>
+                    <head>XQuery code:</head>
+                    <p>
+                <formula notation="xquery">declare function pmf:paragraph($config as map(*),
+                    $node as element(), $class as xs:string+, $content)</formula>
+                    </p>
+                </figure>
             </div>
             <div type="frame">
                 <head>Default Parameters</head>
                 <list type="gloss">
                     <tei:label xmlns:tei="http://www.tei-c.org/ns/1.0">$config</tei:label>
-                    <item>configuration map as passed in from <code>teisimple-main.xql</code>
+                    <item>configuration map as passed in from <formula>teisimple-main.xql</formula>
                     </item>
                     <tei:label xmlns:tei="http://www.tei-c.org/ns/1.0">$node</tei:label>
                     <item>currently process TEI element</item>
