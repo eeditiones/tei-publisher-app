@@ -5,7 +5,8 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>TEI Simple customization for the documentation</title>
+                <title type="short">Documentation</title>
+                <title>Custom ODD for TEI Publisher documentation</title>
             </titleStmt>
             <publicationStmt>
                 <publisher>TEI Consortium</publisher>

@@ -2,7 +2,8 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Letter (Custom ODD)</title>
+                <title type="short">Letters</title>
+                <title>Custom ODD for Correspondences</title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>

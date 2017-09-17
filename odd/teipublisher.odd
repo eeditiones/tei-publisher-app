@@ -2,7 +2,8 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>TEI Publisher (Default Custom ODD)</title>
+                <title type="short">TEI Publisher Base</title>
+                <title>TEI Publisher ODD (base ODD for TEI Publisher generated apps)</title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>                
@@ -83,7 +84,7 @@
                     <modelSequence output="web" predicate="$parameters?header='short'">
                         <model behaviour="link">
                             <param name="content" value="title[1]"/>
-                            <param name="uri" value="$parameters?doc"/>
+                            <param name="link" value="$parameters?doc"/>
                         </model>
                         <model behaviour="block">
                             <param name="content" value="subsequence(title, 2)"/>
@@ -103,7 +104,7 @@
                 <elementSpec ident="licence" mode="add">
                     <model output="web" behaviour="link" predicate="@target" cssClass="licence">
                         <param name="content" value="'Licence'"/>
-                        <param name="uri" value="@target"/>
+                        <param name="link" value="@target"/>
                     </model>
                     <model behaviour="omit"/>
                 </elementSpec>

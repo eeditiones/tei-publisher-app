@@ -2,6 +2,7 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
+                <title type="short">Deutsches Textarchiv</title>
                 <title>Deutsches Textarchiv (dta) (Custom ODD)</title>
             </titleStmt>
             <publicationStmt>

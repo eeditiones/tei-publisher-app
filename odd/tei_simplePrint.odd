@@ -2,7 +2,8 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>An Introduction to TEI simplePrint</title>
+        <title type="short">Standard Default</title>
+        <title>Standard ODD for the Simple Subset of TEI</title>
       </titleStmt>
       <publicationStmt>
         <p>For distribution from TEI </p>

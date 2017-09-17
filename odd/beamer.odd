@@ -5,7 +5,8 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>TEI Simple customization for LaTeX beamer presentations</title>
+                <title type="short">Presentations</title>
+                <title>ODD for LaTeX beamer presentations</title>
             </titleStmt>
             <publicationStmt>
                 <publisher>TEI Consortium</publisher>
