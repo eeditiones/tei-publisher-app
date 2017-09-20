@@ -6,11 +6,19 @@ TEI Publisher for eXist facilitates the integration of the TEI processing model 
 
 ![Editing an ODD](data/doc/EditODD.gif)
 
-## Demo
+## Website and Support
 
-A demo of the app is available on
+A demo and further documentation is available on:
 
 https://teipublisher.com/
+
+For general questions and discussions, please use our public hipchat room:
+
+<a href="https://www.hipchat.com/gROkvVTMA">
+<img src="https://www.hipchat.com/img/design_align/hipchat-logo-small.svg" width="128"/>
+</a>
+
+If you need professional support or consulting, feel free to send your inquiry to [eXist Solutions](mailto:mail@existsolutions.com).
 
 ## Installation
 
@@ -31,11 +39,7 @@ via the dashboard.
 
 This software is licensed under the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) license. If you need a different license: please contact [us](mailto:mail@existsolutions.com) and we'll find an arrangement.
 
-## References
-
-* official TEI Spec - http://www.tei-c.org/release/doc/tei-p5-doc/en/html/TD.html#TDPM
-* Extensions to the Processing Model Specification - http://teipublisher.com/doc/documentation.xml?root=1.4.2.2.10.14&odd=documentation.odd&view=div and following
-
+TEI Publisher is brought to you by <a href="existsolutions.com"><img src="http://teipublisher.com/img/existsolutions.svg" width="128"/></a> with contributions from other users. It's development was supported by a wide range of privately and publicly funded projects.
 
 ## Editing Resources
 
