@@ -311,7 +311,7 @@
                                 <att>predicate</att> matching current context is applied
                             <!--
            			<eg>
-					<code><elementSpec mode="change" ident="choice">
+					<code lang="xml"><elementSpec mode="change" ident="choice">
 	<model output="plain" predicate="sic and corr"  behaviour="inline">
 		<param name="content" value="corr[1]"/>
 	</model>
