@@ -1,8 +1,8 @@
 # TEI Publisher
 
-The TEI Processing Model (PM) extends the TEI ODD specification format with a processing model for documents. That way intended processing for all elements can be expressed within the TEI vocubulary itself. It aims at the XML-savvy editor who is familiar with TEI but is not necessarily a developer.
+TEI Publisher facilitates the integration of the TEI Processing Model into exist-db applications. The TEI Processing Model (PM) extends the TEI ODD specification format with a processing model for documents. That way intended processing for all elements can be expressed within the TEI vocabulary itself. It aims at the XML-savvy editor who is familiar with TEI but is not necessarily a developer.
 
-TEI Publisher for eXist facilitates the integration of the TEI processing model into existing applications, supporting a range of different output media without requiring advanced coding skills. Customising the appearance of the text is all done in TEI by mapping each TEI element to a limited set of well-defined behaviour functions, e.g. “paragraph”, “heading”, “note”, “alternate”, etc. The TEI Processing Model includes a standard mapping, which can be extended by overwriting selected elements. Rendition styles are transparently translated into the different output media types like HTML, XSL-FO, LaTeX, or ePUB. Compared to traditional approaches with XSLT or XQuery, TEI Publisher may thus easily save a few thousand lines of code for media specific stylesheets.
+TEI Publisher supports a range of different output media without requiring advanced coding skills. Customising the appearance of the text is all done in TEI by mapping each TEI element to a limited set of well-defined behaviour functions, e.g. “paragraph”, “heading”, “note”, “alternate”, etc. The TEI Processing Model includes a standard mapping, which can be extended by overwriting selected elements. Rendition styles are transparently translated into the different output media types like HTML, XSL-FO, LaTeX, or ePUB. Compared to traditional approaches with XSLT or XQuery, TEI Publisher may thus easily save a few thousand lines of code for media specific stylesheets.
 
 ![Editing an ODD](data/doc/EditODD.gif)
 
@@ -10,7 +10,7 @@ TEI Publisher for eXist facilitates the integration of the TEI processing model 
 
 A demo and further documentation is available on:
 
-https://teipublisher.com/
+[https://teipublisher.com/](https://teipublisher.com/)
 
 For general questions and discussions, please use our public hipchat room:
 
@@ -22,9 +22,9 @@ If you need professional support or consulting, feel free to send your inquiry t
 
 ## Installation
 
-A prebuilt version of the app can be installed from eXist's central app repository. On your eXist installation, open the package manager in the dashboard and select "TEI Simple Processing Model" for installation. Dependencies should be installed automatically.
+A prebuilt version of the app can be installed from exist-db's central app repository. On your exist-db installation, open the package manager in the dashboard and select "TEI Publisher" for installation. This should automatically install dependencies such as the "TEI Publisher: Processing Model Libraries."
 
-**Important**: Due to a bug in the 2.2 release, the tei-simple module requires [eXistdb 3.0RC1](https://bintray.com/existdb/releases/exist/3.0.RC1/view/files) or later.
+**Important**: Due to a bug in the 2.2 release, the tei-simple module requires [eXist-db 3.0RC1](https://bintray.com/existdb/releases/exist/3.0.RC1/view/files) or later.
 
 ## Documentation
 
@@ -43,12 +43,12 @@ TEI Publisher is brought to you by <a href="http://existsolutions.com"><img src=
 
 ## Editing Resources
 
-All resources can either be edited live via eXistdb's XML editor eXide or via local development having `node` and `ant`installed.
+All resources can either be edited live via eXist-db's XML editor eXide or via local development having `node` and `ant`installed.
 
 ## Development
 
 ### Prerequisites
-* Install npm: [https://www.npmjs.com/get-npm](https://www.npmjs.com/get-npm)
+*   Install npm: [https://www.npmjs.com/get-npm](https://www.npmjs.com/get-npm)
 
 
 ### Install global node packages for the front-end and automation tasks
@@ -62,8 +62,13 @@ Install node modules by running
 
 `gulp build` builds the styles by processing less into minified css with sourcemaps.
 
-`gulp deploy` sends files (and built styles) to the local existDB
+`gulp deploy` sends files (and built styles) to the local exist-db
 
-`gulp watch` will upload files to the local existDB whenever a source file changes.
+`gulp watch` will upload files to the local exist-db instance whenever a source file changes.
 
 **NOTE:** For the deploy and watch task you may have to edit the DB credentials in `gulpfile.js`.
+
+### Testing
+`gulp test` currently contains just a placeholder message, while integrating the test suite is work in progress.
+
+Please follow these instructions [here](http://gitlab.exist-db.org/tei-publisher/tei-publisher-app/tree/master/webtest), for running the test-suite.

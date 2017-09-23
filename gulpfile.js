@@ -300,5 +300,11 @@ gulp.task('deploy', ['deploy:styles'], function () {
         .pipe(exClient.dest(targetConfiguration))
 });
 
+
+// TODO add test to gulp
+gulp.task('test', () => {
+  console.log('I will be a test one day, for now please see the documentation for how to run tests');
+});
+
 // Default task (which is called by 'npm gulp' task)
 gulp.task('default', ['watch']);

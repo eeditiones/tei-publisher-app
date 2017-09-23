@@ -154,7 +154,7 @@
                             like this:</p>
                         <eg>
                             <code lang="xml"><![CDATA[
-<elementSpec mode="change" ident="dateline"> 
+<elementSpec mode="change" ident="dateline">
     <model behaviour="block"/>
 </elementSpec>]]></code>
                         </eg>
@@ -162,7 +162,7 @@
                         <eg>
                             <code lang="xml"><![CDATA[
 <elementSpec mode="change" ident="dateline">
-    <model behaviour="block"> 
+    <model behaviour="block">
         <outputRendition>text-align: right;</outputRendition>
     </model>
 </elementSpec>]]></code>
@@ -221,7 +221,7 @@
                                     <![CDATA[
 <elementSpec mode="change" ident="app">
     <model behaviour="inline">
-        <param name="content">lem</param>
+        <param name="content" value="lem"/>
     </model>
 </elementSpec>]]></code>
                             </eg>
@@ -270,7 +270,7 @@
                                 <code lang="xml"><![CDATA[
 <elementSpec mode="change" ident="app">
     <model behaviour="inline">
-        <param name="content">lem</param>
+        <param name="content" value="lem"/>
     </model>
 </elementSpec>]]></code>
                             </eg>
@@ -299,7 +299,7 @@
     <model predicate="ancestor::p" behaviour="inline">
         <outputRendition>font-style: italic;</outputRendition>
     </model>
-    <model behaviour="block"> 
+    <model behaviour="block">
         <outputRendition>left-margin: 2em;</outputRendition>
     </model>
 </elementSpec>]]></code>
@@ -310,28 +310,28 @@
                             is regarded as an alternation and only the first model with
                                 <att>predicate</att> matching current context is applied
                             <!--
-           			<eg>		
-					<code><elementSpec mode="change" ident="choice">
+           			<eg>
+					<code lang="xml"><elementSpec mode="change" ident="choice">
 	<model output="plain" predicate="sic and corr"  behaviour="inline">
-		<param name="content">corr[1]</param>
+		<param name="content" value="corr[1]"/>
 	</model>
 	<model output="plain" predicate="abbr and expan" behaviour="inline">
-		<param name="content">expan[1]</param>
+		<param name="content" value="expan[1]"/>
 	</model>
 	<model output="plain" predicate="orig and reg" behaviour="inline">
-		<param name="content">reg[1]</param>
+		<param name="content" value="reg[1]"/>
 	</model>
 	<model predicate="sic and corr" behaviour="alternate">
-		<param name="default">corr[1]</param>
-		<param name="alternate">sic[1]</param>
+		<param name="default" value="corr[1]">
+		<param name="alternate" value="sic[1]"/>
 	</model>
 	<model predicate="abbr and expan" behaviour="alternate">
-		<param name="default">expan[1]</param>
-		<param name="alternate">abbr[1]</param>
+		<param name="default" value="expan[1]"/>
+		<param name="alternate" value="abbr[1]"/>
 	</model>
 	<model predicate="orig and reg" behaviour="alternate">
-		<param name="default">reg[1]</param>
-		<param name="alternate">orig[1]</param>
+		<param name="default" value="reg[1]"/>
+		<param name="alternate" value="orig[1]"/>
 	</model>
 </elementSpec></code></eg>
 -->
@@ -366,7 +366,7 @@
 <elementSpec mode="change" ident="body">
     <modelSequence>
         <model behaviour="index">
-            <param name="type">'toc'</param>
+            <param name="type" value="'toc'"/>
         </model>
         <model behaviour="block"/>
     </modelSequence>
@@ -699,10 +699,10 @@
 <elementSpec mode="change" ident="fileDesc">
     <modelSequence predicate="$parameters?header='short'">
         <model behaviour="block" cssClass="header-short">
-        <param name="content">titleStmt</param>
+        <param name="content" value="titleStmt"/>
         </model>
         <model behaviour="block" cssClass="header-short">
-            <param name="content">editionStmt</param>
+            <param name="content" value="editionStmt"/>
         </model>
     </modelSequence> ...
 </elementSpec>]]></code>
@@ -1089,7 +1089,7 @@
                         <eg>
                             <code lang="css">
 .tei-text { font-family: "Junicode"; hyphenate: true; }
-.tei-floatingText { padding: 6pt; } 
+.tei-floatingText { padding: 6pt; }
 .tei-p { text-align: justify; }</code>
                         </eg>
                         <p>Every XSL:FO document needs a master layout and a page sequence
@@ -1141,8 +1141,8 @@
 <modules>
 <!-- General fo extension functions -->
     <output mode="print">
-        <module mode="print" 
-                 uri="http://www.tei-c.org/tei-simple/xquery/ext-fo" 
+        <module mode="print"
+                 uri="http://www.tei-c.org/tei-simple/xquery/ext-fo"
                  prefix="ext-fo"
                  at="../modules/ext-fo.xql"/>
     </output>
@@ -1176,17 +1176,17 @@
                         follows:</p>
                     <eg>
                         <code lang="xquery"><![CDATA[
-xquery version "3.1"; 
-(:~ 
+xquery version "3.1";
+(:~
 : Non-standard extension functions, mainly used for the documentation.
 :)
 
-module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-html"; 
-declare namespace tei="http://www.tei-c.org/ns/1.0"; 
+module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-html";
+declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-declare function pmf:code($config as map(*), $node as element(), $class as xs:string, $content as node()*, $lang as item()?) { 
-    <pre class="sourcecode" data-language="{ if ($lang) then $lang 
-    else 'xquery'}"> 
+declare function pmf:code($config as map(*), $node as element(), $class as xs:string, $content as node()*, $lang as item()?) {
+    <pre class="sourcecode" data-language="{ if ($lang) then $lang
+    else 'xquery'}">
         {$config?apply($config, $content/node())} </pre>
 };]]></code>
                     </eg>
@@ -1195,7 +1195,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
                     <eg>
                         <code lang="xml"><![CDATA[
 <model behaviour="code">
-    <param name="lang">@lang</param>
+    <param name="lang" value="@lang"/>
 </model>]]></code>
                     </eg>
                 </div>
