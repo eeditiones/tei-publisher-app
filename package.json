@@ -1,7 +1,7 @@
 {
   "name": "tei-publisher-app",
   "version": "2.0.5",
-  "description": "",
+  "description": "TEI Publisher facilitates the integration of the TEI Processing Model into exist-db applications",
   "main": "gulpfile.js",
   "directories": {
     "test": "webtest"
