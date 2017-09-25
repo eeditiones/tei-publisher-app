@@ -87,7 +87,7 @@ else if (ends-with($exist:resource, ".html")) then (
                 <forward url="{$exist:controller}/modules/view.xql">
                 {
                     if ($exist:resource = "search.html") then
-                        <set-header name="Cache-Control" value="no-cache"/>
+                        response:set-header("Cache-Control", "no-cache")
                     else
                         ()
                 }
