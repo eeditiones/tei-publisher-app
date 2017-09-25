@@ -248,7 +248,10 @@ function search:show-hits($node as node()*, $model as map(*), $start as xs:integ
                 let $contextNode := util:node-by-id($div, $matchId)
                 let $page := $contextNode/preceding::tei:pb[1]
                 return
-                    util:node-id($page)
+                    if ($page) then
+                        util:node-id($page)
+                    else
+                        util:node-id($div)
             else
                 util:node-id($div)
         let $config := <config width="60" table="yes" link="{$docId}?root={$docLink}&amp;action=search&amp;view={$config?view}&amp;odd={$config?odd}#{$matchId}"/>
