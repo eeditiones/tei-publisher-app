@@ -6,7 +6,7 @@ xquery version "3.1";
  :)
 module namespace config="http://www.tei-c.org/tei-simple/config";
 
-import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
+import module namespace http="http://expath.org/ns/http-client";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 
