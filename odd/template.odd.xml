@@ -16,7 +16,7 @@
                     <p>This program is distributed in the hope that it will be useful,
                         but WITHOUT ANY WARRANTY; without even the implied warranty of
                         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                        GNU General Public License for more details.</p>                    
+                        GNU General Public License for more details.</p>
                 </availability>
             </publicationStmt>
             <sourceDesc>
@@ -31,7 +31,7 @@
     </teiHeader>
     <text>
         <body>
-            <schemaSpec ident="$$name$$" start="TEI teiCorpus" source="teipublisher.odd"> </schemaSpec>
+            <schemaSpec start="TEI teiCorpus" source="teipublisher.odd"> </schemaSpec>
         </body>
     </text>
 </TEI>
