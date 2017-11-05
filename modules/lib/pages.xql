@@ -33,7 +33,6 @@ import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace search="http://www.tei-c.org/tei-simple/search" at "search.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
-import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 
 declare variable $pages:app-root := request:get-context-path() || substring-after($config:app-root, "/db");
 
@@ -56,8 +55,8 @@ function pages:load($node as node(), $model as map(*), $doc as xs:string, $root 
     let $data :=
         if ($id) then
             let $node := doc($config:data-root || "/" || $doc)/id($id)
-            let $div := $node/ancestor-or-self::tei:div[1]
             let $config := tpu:parse-pi(root($node), $view)
+            let $div := nav:get-section-for-node($config, $node)
             return
                 map {
                     "config": $config,

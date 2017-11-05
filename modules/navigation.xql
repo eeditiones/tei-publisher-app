@@ -23,48 +23,59 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace tei-nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xql";
 import module namespace jats-nav="http://www.tei-c.org/tei-simple/navigation/jats" at "navigation-jats.xql";
+import module namespace dbk-nav="http://www.tei-c.org/tei-simple/navigation/docbook" at "navigation-dbk.xql";
+
 
 declare function nav:get-header($node as element()) {
     tei-nav:get-header($node),
-    jats-nav:get-header($node)
+    jats-nav:get-header($node),
+    dbk-nav:get-header($node)
 };
 
 declare function nav:get-section-for-node($config as map(*), $node as element()) {
     tei-nav:get-section-for-node($config, $node),
-    jats-nav:get-section-for-node($config, $node)
+    jats-nav:get-section-for-node($config, $node),
+    dbk-nav:get-section-for-node($config, $node)
 };
 
 declare function nav:get-section($doc) {
     tei-nav:get-section($doc),
-    jats-nav:get-section($doc)
+    jats-nav:get-section($doc),
+    dbk-nav:get-section($doc)
 };
 
 declare function nav:get-document-title($root as element()) {
     tei-nav:get-document-title($root),
-    jats-nav:get-document-title($root)
+    jats-nav:get-document-title($root),
+    dbk-nav:get-document-title($root)
 };
 
 declare function nav:get-content($config as map(*), $div as element()) {
     switch (namespace-uri($div))
         case "http://www.tei-c.org/ns/1.0" return
             tei-nav:get-content($config, $div)
+        case "http://docbook.org/ns/docbook" return
+            dbk-nav:get-content($config, $div)
         default return
             jats-nav:get-content($config, $div)
 };
 
 declare function nav:get-next($config as map(*), $div as element(), $view as xs:string) {
     tei-nav:get-next($config, $div, $view),
-    jats-nav:get-next($config, $div, $view)
+    jats-nav:get-next($config, $div, $view),
+    dbk-nav:get-next($config, $div, $view)
 };
 
 declare function nav:get-previous($config as map(*), $div as element(), $view as xs:string) {
     tei-nav:get-previous($config, $div, $view),
-    jats-nav:get-previous($config, $div, $view)
+    jats-nav:get-previous($config, $div, $view),
+    dbk-nav:get-previous($config, $div, $view)
 };
 
 declare function nav:get-previous-div($config as map(*), $div as element()) {
     tei-nav:get-previous-div($config, $div),
-    jats-nav:get-previous-div($config, $div)
+    jats-nav:get-previous-div($config, $div),
+    dbk-nav:get-previous-div($config, $div)
 };
 
 declare function nav:output-footnotes($footnotes as element()*) {

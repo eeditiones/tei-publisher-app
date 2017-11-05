@@ -32,4 +32,7 @@
     <output mode="epub" odd="documentation">
         <module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql"/>
     </output>
+    <output mode="web" odd="docbook">
+        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql"/>
+    </output>
 </modules>
