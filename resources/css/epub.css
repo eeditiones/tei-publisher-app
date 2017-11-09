@@ -70,7 +70,7 @@ h4 { font-size: 1.25em; }
 }
 
 /* Code */
-.sourcecode {
+.code {
     font-size: .85em;
     white-space: pre-wrap;
 }
