@@ -67,7 +67,7 @@
                     <model predicate="parent::info and $parameters?header='short'" behaviour="link">
                         <param name="link" value="$parameters?doc"/>
                     </model>
-                    <model behaviour="heading">
+                    <model behaviour="heading" cssClass="title">
                         <param name="level" value="count(ancestor::section)"/>
                     </model>
                 </elementSpec>
@@ -88,18 +88,18 @@
                     <model behaviour="inline" cssClass="code"/>
                 </elementSpec>
                 <elementSpec ident="figure">
-                    <model predicate="title" behaviour="figure">
+                    <model predicate="title" behaviour="figure" cssClass="figure">
                         <param name="title" value="title/node()"/>
                         <param name="content" value="*[not(self::title)]"/>
                     </model>
                     <model behaviour="figure"/>
                 </elementSpec>
                 <elementSpec ident="informalfigure">
-                    <model predicate="caption" behaviour="figure">
+                    <model predicate="caption" behaviour="figure" cssClass="figure">
                         <param name="title" value="caption/node()"/>
                         <param name="content" value="*[not(self::caption)]"/>
                     </model>
-                    <model behaviour="figure"/>
+                    <model behaviour="figure" cssClass="figure"/>
                 </elementSpec>
                 <elementSpec ident="imagedata">
                     <model behaviour="graphic" cssClass="img-responsive">
@@ -127,10 +127,10 @@
                 </elementSpec>
                 <elementSpec ident="varlistentry">
                     <modelSequence>
-                        <model behaviour="definitionTerm">
+                        <model behaviour="definitionTerm" cssClass="term">
                             <param name="content" value="term/node()"/>
                         </model>
-                        <model behaviour="definitionDef">
+                        <model behaviour="definitionDef" cssClass="varlistentry">
                             <param name="content" value="listitem/node()"/>
                         </model>
                     </modelSequence>
@@ -184,6 +184,12 @@
                     <model behaviour="inline" cssClass="code"/>
                 </elementSpec>
                 <elementSpec ident="command">
+                    <model behaviour="inline" cssClass="code"/>
+                </elementSpec>
+                <elementSpec ident="parameter">
+                    <model behaviour="inline" cssClass="code"/>
+                </elementSpec>
+                <elementSpec ident="filename">
                     <model behaviour="inline" cssClass="code"/>
                 </elementSpec>
                 <elementSpec ident="tag">
