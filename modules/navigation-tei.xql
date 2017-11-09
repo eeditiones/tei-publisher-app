@@ -23,7 +23,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
-declare function nav:get-header($node as element()) {
+declare function nav:get-header($config as map(*), $node as element()) {
     $node/tei:teiHeader
 };
 
@@ -31,7 +31,7 @@ declare function nav:get-section-for-node($config as map(*), $node as element())
     $node/ancestor-or-self::tei:div[count(ancestor::tei:div) < $config?depth][1]
 };
 
-declare function nav:get-section($doc) {
+declare function nav:get-section($config as map(*), $doc) {
     let $div := ($doc//tei:div)[1]
     return
         if ($div) then
@@ -45,7 +45,7 @@ declare function nav:get-section($doc) {
                     $doc/tei:TEI//tei:body
 };
 
-declare function nav:get-document-title($root as element()) {
+declare function nav:get-document-title($config as map(*), $root as element()) {
     let $main-title := $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'main']/string()
     return
         if ($main-title) then $main-title else $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/string()
@@ -89,6 +89,14 @@ declare function nav:get-content($config as map(*), $div as element()) {
                 $div
         default return
             $div
+};
+
+declare function nav:get-subsections($config as map(*), $root as node()) {
+    $root//tei:div[tei:head] except $root//tei:div[tei:head]//tei:div
+};
+
+declare function nav:get-section-heading($config as map(*), $section as node()) {
+    $section/tei:head
 };
 
 declare function nav:get-next($config as map(*), $div as element(), $view as xs:string) {

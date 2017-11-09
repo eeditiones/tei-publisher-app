@@ -10,7 +10,6 @@ import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/ut
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace fo="http://www.w3.org/1999/XSL/Format";
-declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare option output:method "xml";
 declare option output:media-type "application/xml";
@@ -73,7 +72,7 @@ declare function local:cache($id as xs:string, $output as xs:base64Binary) {
     xmldb:store($local:CACHE_COLLECTION, $id || ".pdf", $output, "application/pdf")
 };
 
-declare function local:get-cached($id as xs:string, $doc as element(tei:TEI)) {
+declare function local:get-cached($id as xs:string, $doc as element()) {
     let $path := $local:CACHE_COLLECTION || "/" ||  $id || ".pdf"
     return
         if ($local:CACHE and util:binary-doc-available($path)) then
@@ -93,7 +92,7 @@ let $token := request:get-parameter("token", "none")
 let $source := request:get-parameter("source", ())
 let $useCache := request:get-parameter("cache", "yes")
 let $id := replace($path, "^(.*)\..*", "$1")
-let $doc := pages:get-document($id)/tei:TEI
+let $doc := root(pages:get-document($id))
 let $config := tpu:parse-pi(root($doc), ())
 let $log := console:log("Generating PDF for " || $path)
 let $name := util:document-name($doc)

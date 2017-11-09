@@ -23,59 +23,66 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace tei-nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xql";
 import module namespace jats-nav="http://www.tei-c.org/tei-simple/navigation/jats" at "navigation-jats.xql";
-import module namespace dbk-nav="http://www.tei-c.org/tei-simple/navigation/docbook" at "navigation-dbk.xql";
+import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/docbook" at "navigation-dbk.xql";
+
+declare function nav:document-type($div as element()) {
+    switch (namespace-uri($div))
+        case "http://www.tei-c.org/ns/1.0" return
+            "tei"
+        case "http://docbook.org/ns/docbook" return
+            "docbook"
+        default return
+            "jats"
+};
+
+declare function nav:dispatch($config as map(*), $function as xs:string, $args as array(*)) {
+    let $fn := function-lookup(xs:QName($config?type || "-nav:" || $function), array:size($args))
+    return
+        if (exists($fn)) then
+            apply($fn, $args)
+        else
+            error(xs:QName("nav:not-found"))
+};
 
 
-declare function nav:get-header($node as element()) {
-    tei-nav:get-header($node),
-    jats-nav:get-header($node),
-    dbk-nav:get-header($node)
+declare function nav:get-header($config as map(*), $node as element()) {
+    nav:dispatch($config, "get-header", [$config, $node])
 };
 
 declare function nav:get-section-for-node($config as map(*), $node as element()) {
-    tei-nav:get-section-for-node($config, $node),
-    jats-nav:get-section-for-node($config, $node),
-    dbk-nav:get-section-for-node($config, $node)
+    nav:dispatch($config, "get-section-for-node", [$config, $node])
 };
 
-declare function nav:get-section($doc) {
-    tei-nav:get-section($doc),
-    jats-nav:get-section($doc),
-    dbk-nav:get-section($doc)
+declare function nav:get-section($config as map(*), $doc as document-node()) {
+    nav:dispatch($config, "get-section", [$config, $doc])
 };
 
-declare function nav:get-document-title($root as element()) {
-    tei-nav:get-document-title($root),
-    jats-nav:get-document-title($root),
-    dbk-nav:get-document-title($root)
+declare function nav:get-document-title($config as map(*), $root as element()) {
+    nav:dispatch($config, "get-document-title", [$config, $root])
+};
+
+declare function nav:get-subsections($config as map(*), $root as node()) {
+    nav:dispatch($config, "get-subsections", [$config, $root])
+};
+
+declare function nav:get-section-heading($config as map(*), $section as node()) {
+    nav:dispatch($config, "get-section-heading", [$config, $section])
 };
 
 declare function nav:get-content($config as map(*), $div as element()) {
-    switch (namespace-uri($div))
-        case "http://www.tei-c.org/ns/1.0" return
-            tei-nav:get-content($config, $div)
-        case "http://docbook.org/ns/docbook" return
-            dbk-nav:get-content($config, $div)
-        default return
-            jats-nav:get-content($config, $div)
+    nav:dispatch($config, "get-content", [$config, $div])
 };
 
 declare function nav:get-next($config as map(*), $div as element(), $view as xs:string) {
-    tei-nav:get-next($config, $div, $view),
-    jats-nav:get-next($config, $div, $view),
-    dbk-nav:get-next($config, $div, $view)
+    nav:dispatch($config, "get-next", [$config, $div, $view])
 };
 
 declare function nav:get-previous($config as map(*), $div as element(), $view as xs:string) {
-    tei-nav:get-previous($config, $div, $view),
-    jats-nav:get-previous($config, $div, $view),
-    dbk-nav:get-previous($config, $div, $view)
+    nav:dispatch($config, "get-previous", [$config, $div, $view])
 };
 
 declare function nav:get-previous-div($config as map(*), $div as element()) {
-    tei-nav:get-previous-div($config, $div),
-    jats-nav:get-previous-div($config, $div),
-    dbk-nav:get-previous-div($config, $div)
+    nav:dispatch($config, "get-previous-div", [$config, $div])
 };
 
 declare function nav:output-footnotes($footnotes as element()*) {

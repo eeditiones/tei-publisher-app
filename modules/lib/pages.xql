@@ -110,7 +110,7 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
                             return
                                 nav:get-section-for-node($config, $node)
                         else
-                            nav:get-section($data)
+                            nav:get-section($config, $data)
                     case "page" return
                         if ($root) then
                             util:node-by-id($data, $root)
@@ -249,21 +249,22 @@ function pages:table-of-contents($node as node(), $model as map(*)) {
         else
             $model?data
     return
-        pages:toc-div(root($model?data), $model?config?view, $current, $model?config?odd)
+        pages:toc-div(root($model?data), $model, $current)
 };
 
-declare %private function pages:toc-div($node, $view as xs:string?, $current as element(), $odd as xs:string) {
-    let $view := pages:determine-view($view, $node)
-    let $divs := $node//tei:div[tei:head] except $node//tei:div[tei:head]//tei:div
+declare %private function pages:toc-div($node, $model as map(*), $current as element()) {
+    let $view := $model?config?view
+    let $divs := nav:get-subsections($model?config, $node)
     return
         <ul>
         {
             for $div in $divs
+            let $headings := nav:get-section-heading($model?config, $div)
             let $html :=
-                if ($div/tei:head/*) then
-                    $pm-config:web-transform($div/tei:head, map { "header": "short", "root": $div }, $odd)
+                if ($headings/*) then
+                    $pm-config:web-transform($headings, map { "header": "short", "root": $div }, $model?config?odd)
                 else
-                    $div/tei:head/string()
+                    $headings/string()
             let $root := (
                 if ($view = "page") then
                     ($div/*[1][self::tei:pb], $div/preceding::tei:pb[1])[1]
@@ -272,8 +273,8 @@ declare %private function pages:toc-div($node, $view as xs:string?, $current as 
                 $div
             )[1]
             let $id := "T" ||util:uuid()
-            let $hasDivs := exists($div//tei:div[tei:head] except $div//tei:div[tei:head]//tei:div)
-            let $isIn := if ($div/descendant::tei:div[. is $current]) then "in" else ()
+            let $hasDivs := exists(nav:get-subsections($model?config, $div))
+            let $isIn := if ($div/descendant::*[. is $current]) then "in" else ()
             let $isCurrent := if ($div is $current) then "active" else ()
             let $icon := if ($isIn) then "expand_less" else "expand_more"
             return
@@ -285,12 +286,12 @@ declare %private function pages:toc-div($node, $view as xs:string?, $current as 
                             ()
                     }
                     <a data-doc="{config:get-identifier($div)}" data-div="{util:node-id($div)}" class="toc-link {$isCurrent}"
-                        href="{util:document-name($div)}?root={util:node-id($root)}&amp;odd={$odd}&amp;view={$view}">{$html}</a>
+                        href="{util:document-name($div)}?root={util:node-id($root)}&amp;odd={$model?config?odd}&amp;view={$view}">{$html}</a>
                     {
                         if ($hasDivs) then
-                            <div id="{$id}" class="collapse {$isIn}">{pages:toc-div($div, $view, $current, $odd)}</div>
+                            <div id="{$id}" class="collapse {$isIn}">{pages:toc-div($div, $model, $current)}</div>
                         else
-                            pages:toc-div($div, $view, $current, $odd)
+                            pages:toc-div($div, $model, $current)
                     }
                 </li>
         }
@@ -343,7 +344,7 @@ declare function pages:breadcrumbs($node as node(), $model as map(*)) {
 
     return
         <ol class="headings breadcrumb">
-            <li><a href="{$parent-id}">{pages:title($model('data')/ancestor-or-self::tei:TEI)}</a></li>
+            <li><a href="{$parent-id}">{nav:get-document-title($model?config, $model('data')/ancestor-or-self::tei:TEI)}</a></li>
                 {
                     for $parentDiv in       $model?data/ancestor-or-self::tei:div[tei:head]
                         let $id := util:node-id(
@@ -360,11 +361,7 @@ declare function pages:breadcrumbs($node as node(), $model as map(*)) {
 declare
     %templates:wrap
 function pages:navigation-title($node as node(), $model as map(*)) {
-    pages:title(root($model('data'))/*)
-};
-
-declare function pages:title($work as element()) {
-    nav:get-document-title($work)
+    nav:get-document-title($model?config, root($model('data'))/*)
 };
 
 declare function pages:navigation-link($node as node(), $model as map(*), $direction as xs:string) {

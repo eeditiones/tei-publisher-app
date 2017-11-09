@@ -21,7 +21,7 @@ module namespace nav="http://www.tei-c.org/tei-simple/navigation/jats";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
-declare function nav:get-header($node as element()) {
+declare function nav:get-header($config as map(*), $node as element()) {
     $node/front/article-meta
 };
 
@@ -29,11 +29,11 @@ declare function nav:get-section-for-node($config as map(*), $node as element())
     $node/ancestor-or-self::sec[count(ancestor::sec) < $config?depth][1]
 };
 
-declare function nav:get-section($doc) {
+declare function nav:get-section($config as map(*), $doc) {
     ($doc//sec)[1]
 };
 
-declare function nav:get-document-title($root as element()) {
+declare function nav:get-document-title($config as map(*), $root as element()) {
     $root/front/article-meta/title-group/article-title/string()
 };
 
@@ -60,6 +60,14 @@ declare function nav:get-content($config as map(*), $div as element()) {
                 $div
         default return
             $div
+};
+
+declare function nav:get-subsections($config as map(*), $root as node()) {
+    $root//sec[title] except $root//sec[title]//sec
+};
+
+declare function nav:get-section-heading($config as map(*), $section as node()) {
+    $section/title
 };
 
 declare function nav:get-next($config as map(*), $div as element(), $view as xs:string) {

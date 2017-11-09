@@ -23,7 +23,7 @@ declare namespace dbk="http://docbook.org/ns/docbook";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
-declare function nav:get-header($node as element()) {
+declare function nav:get-header($config as map(*), $node as element()) {
     $node/dbk:info
 };
 
@@ -31,11 +31,11 @@ declare function nav:get-section-for-node($config as map(*), $node as element())
     $node/ancestor-or-self::dbk:section[count(ancestor::dbk:section) < $config?depth][1]
 };
 
-declare function nav:get-section($doc) {
+declare function nav:get-section($config as map(*), $doc) {
     ($doc//dbk:section)[1]
 };
 
-declare function nav:get-document-title($root as element()) {
+declare function nav:get-document-title($config as map(*), $root as element()) {
     $root/dbk:info/dbk:title/string()
 };
 
@@ -62,6 +62,14 @@ declare function nav:get-content($config as map(*), $div as element()) {
                 $div
         default return
             $div
+};
+
+declare function nav:get-subsections($config as map(*), $root as node()) {
+    $root//dbk:section[dbk:title] except $root//dbk:section[dbk:title]//dbk:section
+};
+
+declare function nav:get-section-heading($config as map(*), $section as node()) {
+    $section/dbk:title
 };
 
 declare function nav:get-next($config as map(*), $div as element(), $view as xs:string) {
