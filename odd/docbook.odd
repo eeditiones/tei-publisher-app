@@ -34,19 +34,37 @@
                     <model behaviour="document"/>
                 </elementSpec>
                 <elementSpec ident="info">
+                    <model output="epub" behaviour="block">
+                        <param name="content" value="(title, author)"/>
+                    </model>
                     <modelSequence predicate="$parameters?header='short'">
-                        <model behaviour="heading" cssClass="header-short">
+                        <model behaviour="heading">
                             <param name="content" value="title"/>
                             <param name="level" value="5"/>
                         </model>
-                        <model behaviour="block" cssClass="header-short">
+                        <model behaviour="block">
                             <param name="content" value="author"/>
                         </model>
                     </modelSequence>
                     <model behaviour="metadata"/>
                 </elementSpec>
+                <elementSpec ident="author">
+                    <model behaviour="inline">
+                        <param name="content" value="(personname, affiliation)"/>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="personname">
+                    <model behaviour="inline">
+                        <param name="content" value="('By ', firstname, ' ', surname)"/>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="affiliation">
+                    <model behaviour="inline">
+                        <param name="content" value="(', ', .)"/>
+                    </model>
+                </elementSpec>
                 <elementSpec ident="title">
-                    <model predicate="parent::info" behaviour="link">
+                    <model predicate="parent::info and $parameters?header='short'" behaviour="link">
                         <param name="link" value="$parameters?doc"/>
                     </model>
                     <model behaviour="heading">

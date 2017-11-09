@@ -19,6 +19,7 @@ import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
@@ -38,13 +39,14 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
     @see http://demo.exist-db.org/exist/functions/compression/zip
 :)
 declare function epub:generate-epub($config as map(*), $doc, $css, $filename) {
-    let $xhtml := epub:body-xhtml-entries($doc, $config)
+    let $config := map:merge(($config, map { "docConfig": tpu:parse-pi(root($doc), "div") }))
+    let $xhtml := epub:body-xhtml-entries(root($doc), $config)
     let $entries :=
         (
             epub:mimetype-entry(),
             epub:container-entry(),
             epub:content-opf-entry($config, $doc, $xhtml),
-            epub:title-xhtml-entry($config?metadata?language, $doc),
+            epub:title-xhtml-entry($config?metadata?language, $doc, $config),
             epub:table-of-contents-xhtml-entry($config, $doc, false()),
             epub:images-entry($doc, $xhtml),
             epub:stylesheet-entry($css),
@@ -156,7 +158,8 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
                 <reference href="table-of-contents.html" type="toc" title="Table of Contents"/>
                 {
                 (: first text div :)
-                let $first-text-div := (($text//tei:text//tei:div)[1], ($text/tei:text/*)[1])[1]
+                let $doc := root($text)
+                let $first-text-div := nav:get-section($config?docConfig, $doc)
                 let $id := epub:generate-id($first-text-div)
                 let $title := $first-text-div/tei:head
                 return
@@ -196,9 +199,9 @@ declare function epub:images-entry($doc, $entries as element()*) {
     @param $volume the volume's ID
     @return the entry for the OEBPS/title.html file
 :)
-declare function epub:title-xhtml-entry($language, $doc) {
+declare function epub:title-xhtml-entry($language, $doc, $config) {
     let $title := 'Title page'
-    let $body := epub:title-xhtml-body($doc/tei:teiHeader/tei:fileDesc)
+    let $body := epub:title-xhtml-body(nav:get-header($config?docConfig, $doc), $config)
     let $title-xhtml := epub:assemble-xhtml($title, $language, $body)
     return
         <entry name="OEBPS/title.html" type="xml">{$title-xhtml}</entry>
@@ -210,20 +213,9 @@ declare function epub:title-xhtml-entry($language, $doc) {
     @param $volume the volume's ID
     @return the entry for the OEBPS/cover.html file
 :)
-declare function epub:title-xhtml-body($fileDesc as element(tei:fileDesc)?) {
+declare function epub:title-xhtml-body($fileDesc as element()?, $config) {
     <div xmlns="http://www.w3.org/1999/xhtml" id="title">
-        <h2 class="author">{ $fileDesc/tei:titleStmt/tei:author/string() }</h2>
-        <h1>
-            { $fileDesc/tei:titleStmt/tei:title/string()}
-        </h1>
-        <ul>
-        {
-            for $resp in $fileDesc/tei:titleStmt/tei:respStmt
-            return
-                <li class="resp"><span class="respRole">{$resp/tei:resp/text()}</span>: {$resp/tei:name/text()}</li>
-        }
-        </ul>
-
+        { $pm-config:epub-transform($fileDesc, map { "root": $fileDesc }, $config?odd) }
     </div>
 };
 
@@ -233,18 +225,17 @@ declare function epub:title-xhtml-body($fileDesc as element(tei:fileDesc)?) {
     @param $text the tei:text element for the file, which contains the divs to be processed into the EPUB
     @return the serialized XHTML page, wrapped in an entry element
 :)
-declare function epub:body-xhtml-entries($doc, $config) {
-    let $div := (($doc//tei:text//tei:div)[1], ($doc/tei:text/*)[1])[1]
+declare function epub:body-xhtml-entries($doc as document-node(), $config) {
+    let $div := nav:get-section($config?docConfig, $doc)
     let $entries := epub:body-xhtml($div, $config)
     return
         ($entries, epub:endnotes-xhtml-entry($config?metadata?language, $entries))
 };
 
 declare function epub:body-xhtml($node, $config) {
-    let $docConfig := tpu:parse-pi(root($node), "div")
-    let $next := $config:next-page($docConfig, $node, "div")
-    let $content := pages:get-content($docConfig, $node)
-    let $title := $content/tei:head/text()
+    let $next := $config:next-page($config?docConfig, $node, "div")
+    let $content := pages:get-content($config?docConfig, $node)
+    let $title := nav:get-section-heading($config?docConfig, $content)
     let $body := $pm-config:epub-transform($content, map { "root": $node }, $config?odd)
     let $body-xhtml:= epub:assemble-xhtml($title, $config?metadata?language, epub:fix-namespaces($body))
     return (
