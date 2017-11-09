@@ -86,12 +86,12 @@
                 <elementSpec ident="imagedata">
                     <model behaviour="graphic" cssClass="img-responsive">
                         <param name="url" value="@fileref"/>
-                        <param name="width" value="@width"/>
-                        <param name="scale" value="@scale"/>
                     </model>
                 </elementSpec>
                 <elementSpec ident="itemizedlist">
-                    <model behaviour="list"/>
+                    <model behaviour="list">
+                        <param name="content" value="listitem"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="listitem">
                     <model behaviour="listItem"/>
@@ -99,18 +99,18 @@
                 <elementSpec ident="orderedlist">
                     <model behaviour="list">
                         <param name="type" value="'ordered'"/>
+                        <param name="content" value="listitem"/>
                     </model>
                 </elementSpec>
-                <elementSpec ident="listitem">
-                    <model behaviour="listItem"/>
-                </elementSpec>
                 <elementSpec ident="variablelist">
-                    <model behaviour="definitionList"/>
+                    <model behaviour="definitionList">
+                        <param name="content" value="varlistentry"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="varlistentry">
                     <modelSequence>
                         <model behaviour="definitionTerm">
-                            <param name="content" value="term"/>
+                            <param name="content" value="term/node()"/>
                         </model>
                         <model behaviour="definitionDef">
                             <param name="content" value="listitem/node()"/>
@@ -118,10 +118,22 @@
                     </modelSequence>
                 </elementSpec>
                 <elementSpec ident="table" mode="add">
-                    <model behaviour="table" cssClass="table"/>
+                    <modelSequence predicate="title">
+                        <model behaviour="heading">
+                            <param name="content" value="title"/>
+                        </model>
+                        <model behaviour="table">
+                            <param name="content" value=".//tr"/>
+                        </model>
+                    </modelSequence>
+                    <model behaviour="table" cssClass="table">
+                        <param name="content" value=".//tr"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="informaltable" mode="add">
-                    <model behaviour="table" cssClass="table"/>
+                    <model behaviour="table" cssClass="table">
+                        <param name="content" value=".//tr"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="tr">
                     <model behaviour="row"/>
@@ -142,6 +154,7 @@
                             <param name="lang" value="@language"/>
                         </model>
                     </modelGrp>
+                    <model behaviour="block" cssClass="programlisting"/>
                 </elementSpec>
                 <elementSpec ident="synopsis">
                     <model behaviour="code">

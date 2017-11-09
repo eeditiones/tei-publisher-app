@@ -171,15 +171,13 @@
     &lt;model behaviour="block"&gt;
         &lt;outputRendition&gt;text-align: right;&lt;/outputRendition&gt;
     &lt;/model&gt;
-&lt;/elementSpec&gt;
-                        </programlisting>
+&lt;/elementSpec&gt;</programlisting>
                 <para>We also want to hide the <tag>pb</tag> label, so we add another
                         <tag>elementSpec</tag>:</para>
                 <programlisting language="xml">
 &lt;elementSpec mode="change" ident="pb"&gt;
     &lt;model behaviour="omit"/&gt;
-&lt;/elementSpec&gt;
-                        </programlisting>
+&lt;/elementSpec&gt;</programlisting>
                 <para>To test the changes, go back to the main page of the app, select the new ODD
                     and click on "Regenerate", then browse to the letter and view the result. In
                     fact, the "regenerate" step is not absolutely necessary as the library will
@@ -760,18 +758,14 @@
                         default the text content of elements not processed by another elementSpec is
                         output. To change this behaviour and omit content of unknown elements, you
                         may want to define a default elementSpec as shown below:</para>
-                    <programlisting>
-                                <literal role="">&lt;elementSpec ident="*"&gt;
+                    <programlisting>&lt;elementSpec ident="*"&gt;
     &lt;model behaviour="omit"/&gt;
-&lt;/elementSpec&gt;</literal>
-                            </programlisting>
+&lt;/elementSpec&gt;</programlisting>
                     <para>You can also define an elementSpec to be applied to all text nodes, e.g.
                         if you need to normalize certain nodes:</para>
-                    <programlisting>
-                                <literal role="">&lt;elementSpec ident="text()"&gt;
+                    <programlisting>&lt;elementSpec ident="text()"&gt;
     &lt;model behaviour="text"/&gt;
-&lt;/elementSpec&gt;</literal>
-                            </programlisting>
+&lt;/elementSpec&gt;</programlisting>
                 </section>
                 <section>
                     <title>External Parameters</title>
@@ -793,8 +787,7 @@
             &lt;param name="content" value="editionStmt"/&gt;
         &lt;/model&gt;
     &lt;/modelSequence&gt; ...
-&lt;/elementSpec&gt;
-                            </programlisting>
+&lt;/elementSpec&gt;</programlisting>
                 </section>
                 <section>
                     <title>Define Additional CSS Classes</title>
@@ -1418,8 +1411,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
             <programlisting language="xml">
 &lt;model behaviour="code"&gt;
     &lt;param name="lang" value="@lang"/&gt;
-&lt;/model&gt;
-                    </programlisting>
+&lt;/model&gt;</programlisting>
         </section>
     </section>
     <section xml:id="faq">

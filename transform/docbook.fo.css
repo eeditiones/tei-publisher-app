@@ -1,0 +1,20 @@
+.tei-text {
+    font-family: "Helvetica";
+    hyphenate: true;
+}
+.tei-para {
+    space-after: .25em;
+    text-align: justify;
+}
+.programlisting {
+    space-before: .25em;
+    space-after: .25em;
+    margin-left: 1em;
+    margin-right: 1em;
+    font-family: monospace;
+    font-size: .85em;
+    white-space: pre;
+}
+.img-responsive {
+    width: 100%;
+}

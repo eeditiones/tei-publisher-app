@@ -18,3 +18,26 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     }
     </fo:block>
 };
+
+declare function pmf:definitionList($config as map(*), $node as element(), $class as xs:string+, $content as node()*) {
+    <fo:list-block provisional-distance-between-starts="5em">
+    {
+        print:check-styles($config, $node, $class, ()),
+        for $child in $content
+        return
+            <fo:list-item>{ $config?apply($config, $child) }</fo:list-item>
+    }
+    </fo:list-block>
+};
+
+declare function pmf:definitionTerm($config as map(*), $node as element(), $class as xs:string+, $content as node()*) {
+    <fo:list-item-label>
+        <fo:block>{ $config?apply-children($config, $node, $content) }</fo:block>
+    </fo:list-item-label>
+};
+
+declare function pmf:definitionDef($config as map(*), $node as element(), $class as xs:string+, $content as node()*) {
+    <fo:list-item-body start-indent="body-start()">
+        <fo:block>{ $config?apply-children($config, $node, $content) }</fo:block>
+    </fo:list-item-body>
+};
