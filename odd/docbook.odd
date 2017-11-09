@@ -175,6 +175,7 @@
                     <model behaviour="block" cssClass="programlisting"/>
                 </elementSpec>
                 <elementSpec ident="synopsis">
+                    <model output="print" behaviour="block" cssClass="programlisting"/>
                     <model behaviour="code">
                         <param name="lang" value="@language"/>
                     </model>
