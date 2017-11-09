@@ -138,13 +138,16 @@ declare
 function app:short-header($node as node(), $model as map(*)) {
     let $work := root($model("work"))/*
     let $relPath := config:get-identifier($work)
-    return (
+    let $header :=
         $pm-config:web-transform(nav:get-header($model?config, $work), map {
             "header": "short",
             "doc": $relPath || "?odd=" || $model?config?odd
-        }, $model?config?odd),
-        util:document-name($work)
-    )[1]
+        }, $model?config?odd)
+    return
+        if ($header) then
+            $header
+        else
+            util:document-name($work)
 };
 
 (:~

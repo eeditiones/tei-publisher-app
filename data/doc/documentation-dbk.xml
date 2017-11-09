@@ -8,6 +8,9 @@
                 <firstname>Wolfgang</firstname>
                 <surname>Meier</surname>
             </personname>
+            <affiliation>
+                <orgname>eXist Solutions GmbH</orgname>
+            </affiliation>
         </author>
     </info>
     <section>
