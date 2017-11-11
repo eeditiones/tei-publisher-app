@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?teipublisher odd="docbook.odd"?>
 <article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
@@ -7,6 +7,10 @@
             <personname>
                 <firstname>Wolfgang</firstname>
                 <surname>Meier</surname>
+            </personname>
+            <personname>
+                <firstname>Magdalena</firstname>
+                <surname>Turska</surname>
             </personname>
             <affiliation>
                 <orgname>eXist Solutions GmbH</orgname>
@@ -32,8 +36,7 @@
                 defines how elements are mapped to behavior functions and specifies basic styling
                 rules, the designer controls the overall presentation of the material, and the
                 developer concentrates on the general application framework and—if
-                necessary—supports the editor by providing custom behavior functions as <link
-                    linkend="extension-modules">extension modules</link>.</para>
+                necessary—supports the editor by providing custom behavior functions as <link linkend="extension-modules">extension modules</link>.</para>
             <informalfigure>
                 <mediaobject>
                     <imageobject>
@@ -75,7 +78,7 @@
                 </listitem>
             </itemizedlist>
             <para>In a strict sense, only the first component implements the processing model
-                specification. The larger part of the toolbox deals with graphical user interface
+                specification. The larger part of the application deals with graphical user interface
                 components, adding pagination, navigation and search features.</para>
         </section>
         <section xml:id="quickstart">
@@ -119,8 +122,8 @@
                     within the <tag>schemaSpec</tag> element:</para>
                 <synopsis language="xml">&lt;schemaSpec ident="myteisimple" start="TEI teiCorpus" source="teipublisher.odd"&gt;</synopsis>
                 <para>This means your new ODD extends the standard <filename>teipublisher.odd</filename>, which provides useful defaults for the TEI core
-                    elements. In general, most of those defaults should be ok and you only need to
-                    overwrite a hand full of selected mappings within your own ODD.</para>
+                    elements. In general, most of those defaults should not require any adjustments and you only need to
+                    overwrite a handful of selected mappings within your own ODD.</para>
                 <figure xml:id="create-odd">
                     <title>Create a custom ODD</title>
                     <mediaobject>
@@ -217,7 +220,7 @@
                 <para> Example below depicts a situation where a single model is defined for
                         <tag>app</tag> element. As no @predicate or @output are specified,
                     this model applies for all contexts in which <tag>app</tag> may appear
-                    and all possible outputs. Thus for all <tag>app</tag> elements they will
+                    and all possible outputs. Thus all <tag>app</tag> elements will
                     be transformed into inline chunks of text containing only contents of
                         <tag>app</tag>'s <tag>lem</tag> child and omitting any
                     possible <tag>rdg</tag> children.</para>
@@ -747,15 +750,15 @@
                 </section>
                 <section>
                     <title>Default Processing Model Rules</title>
-                    <para>It is possible to define a default elementSpec to be applied to any
-                        element which is not already matched by another elementSpec. For example, by
-                        default the text content of elements not processed by another elementSpec is
-                        output. To change this behaviour and omit content of unknown elements, you
-                        may want to define a default elementSpec as shown below:</para>
+                    <para>It is possible to define a default elementSpec to be applied to all elements
+                        which are not already matched by another elementSpec. For example, if no 
+                        elementSpec is present for an element, its text content is
+                        output. To change this behaviour and omit content elements without specification,
+                        you may want to define a default elementSpec as shown below:</para>
                     <programlisting>&lt;elementSpec ident="*"&gt;
     &lt;model behaviour="omit"/&gt;
 &lt;/elementSpec&gt;</programlisting>
-                    <para>You can also define an elementSpec to be applied to all text nodes, e.g.
+                    <para>You can also define models to be applied to all text nodes, e.g.
                         if you need to normalize certain nodes:</para>
                     <programlisting>&lt;elementSpec ident="text()"&gt;
     &lt;model behaviour="text"/&gt;
@@ -769,13 +772,13 @@
                         parameters using the XQuery lookup operator.</para>
                     <para>For example, one can use this feature to control how specific parts of the
                         document are output, without having to define a separate output mode, which
-                        would result in much more code. Below we display a short header for the
-                        document, but only if the parameter "header" is set to "short":</para>
+                        would result in much more code. Below we display a shortened header for the
+                        document, containing simply its title, but only if the parameter "header" is set to "short":</para>
                     <programlisting language="xquery">
 &lt;elementSpec mode="change" ident="fileDesc"&gt;
     &lt;modelSequence predicate="$parameters?header='short'"&gt;
         &lt;model behaviour="block" cssClass="header-short"&gt;
-        &lt;param name="content" value="titleStmt"/&gt;
+            &lt;param name="content" value="titleStmt"/&gt;
         &lt;/model&gt;
         &lt;model behaviour="block" cssClass="header-short"&gt;
             &lt;param name="content" value="editionStmt"/&gt;
@@ -790,8 +793,8 @@
                         corresponding to the position of the generating <tag>model</tag>
                         within the <tag>elementSpec</tag>. The class names are thus subject
                         to change whenever one modifies the ODD. Also, in most projects, a web
-                        designer will create a design before the developer writes the ODD. He thus
-                        expects the class names generated from the ODD to correspond to those in a
+                        designer will create a design before the developer writes the ODD. Thus
+                        the class names generated from the ODD need to correspond to those in a
                         design template, not vice versa.</para>
                     <para>Our implementation thus adds a possibility to explicitely specify class
                         names inside the <tag>model</tag>. Those class names will be added
@@ -816,7 +819,7 @@
                 </section>
                 <section>
                     <title>Nested Models</title>
-                    <para>According to the current specs, the processing model only allows to map
+                    <para>According to the current TEI Guidelines, the processing model only allows to map
                         one TEI input element to exactly one output element. Sometimes this is not
                         sufficient as there might not be a direct one-to-one correspondence. For
                         example, one may want to wrap a block around a sequence of elements or a
@@ -906,13 +909,18 @@
             </variablelist>
         </section>
         <section xml:id="appgen">
-            <title>Using the App Generator</title>
+            <title>Creating apps with the App Generator</title>
             <para>The App Generator takes an ODD file and generates a complete, standalone
                 application out of it, including features like a simple search facility. Click on
                 "App Generator" in the menu bar and fill out the form.</para>
-            <para>Most templates extend the <filename>teipublisher.odd</filename>, which is itself and extension of
+                <para>First choice is the name of the ODD customization that app will use for transformations.
+                Most templates extend the <filename>teipublisher.odd</filename>, which is itself an extension of
                 <filename>tei_simplePrint.odd</filename>. The latter contains default models for all TEI elements in the
-                <emphasis>simple print</emphasis> subset of TEI. You can see the relation of the different ODDs here:</para>
+                <emphasis>simple print</emphasis> subset of TEI. Thanks to this chaining mechanism for ODDs you can only
+                specify processing models for elements you want to be treated differently than in the base ODD. 
+                Only the default specification for a particular XML vocabulary will not be chained to a base file 
+                (cf. tei_simplePrint and docbook entries below). You can see the relation of the different ODDs in the
+                following table:</para>
             <table>
                 <caption>Custom ODD Choices</caption>
                 <thead>
@@ -978,13 +986,19 @@
                         <td>docbook</td>
                         <td>Processing Model for Docbook v5.0</td>
                         <td>2017-11-05</td>
-                        <td></td>
+                        <td/>
                         <td>eXistSolutions GmbH</td>
                     </tr>
                 </tbody>
             </table>
             <para>The following form fields are important:</para>
             <variablelist>
+                <varlistentry>
+                    <term>ODD</term>
+                    <listitem>
+                        <para>Name of the ODD (discussed above) to be used for transformations.</para>
+                    </listitem>
+                </varlistentry>
                 <varlistentry>
                     <term>Name</term>
                     <listitem>
@@ -1028,120 +1042,228 @@
                 </mediaobject>
             </figure>
             <section>
-                <title>Modifying the App</title>
-                <para>When you are logged in, the "Admin" menu in the top navbar provides various
-                    links to further extend your app:</para>
-                <variablelist>
-                    <varlistentry>
-                        <term>Recompile ODD</term>
-                        <listitem>
-                            <para>After changing the application's ODD, click here to update the
-                                app.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term>Update Document Metadata Index</term>
-                        <listitem>
-                            <para>The application maintains a separate index of titles and authors,
-                                which is used to filter the list of documents shown on the landing
-                                page. This index is not refreshed automatically, so you need to
-                                click this menu entry once after uploading data.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term>Edit ODD</term>
-                        <listitem>
-                            <para>Opens the application's ODD in eXide for editing.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term>Edit Configuration</term>
-                        <listitem>
-                            <para>Edit the main configuration parameters of the app. Configuration
-                                is done via a set of variables in an XQuery module.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term>Edit Styles</term>
-                        <listitem>
-                            <para>Opens the main LESS stylesheet where you can change colors, fonts
-                                etc.</para>
-                        </listitem>
-                    </varlistentry>
-                </variablelist>
+                <title>Generated Code Overview</title>
                 <section>
-                    <title>Generated Code Overview</title>
+                    <title>XQuery Code</title>
+                    <para>Collection structure of the generated app follows customary design of many eXist apps. 
+                        Best practices for modifying the app are discussed in further sections of this document.</para>
+                    <variablelist>
+                        <varlistentry>
+                            <term>modules</term>
+                            <listitem>
+                                <para>Contains XQuery modules used by the app, including the copied
+                                    TEI Publisher libraries in <filename>modules/lib</filename> subcollection.
+                                    </para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>resources</term>
+                            <listitem>
+                                <para>Contains a number of subcollections for various resources
+                                    used by the app, such as images, fonts or JavaScript libraries.
+                                    Of particular interest is the <filename>resources/odd</filename> subcollection
+                                    where app's own ODD files are stored.</para>
+                                <para>All of the app styling is done via a set of modularized less
+                                stylesheets, residing in <filename>resources/css</filename>. The
+                                main file is <filename>style.less</filename>, which defines a
+                                number of core parameters. Ideally this should be the only file you ever
+                                need to modify.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>templates</term>
+                            <listitem>
+                                <para>Html templates for templating framework. Contain page templates as well 
+                                as smaller components such as menu or login pane.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>transform</term>
+                            <listitem>
+                                <para>This collections contains XQuery modules governing the transformations
+                                    and styles generated from app's ODD. Its content will be overwritten with
+                                    each ODD recompilation, thus there's no point modifying it.
+                                    It's worth consulting though to gain better understanding
+                                    and troubleshoot the transformations with TEI Processing Model.
+                                    In case of an issue, it may help to know the files:
+                                </para>
+                                <para>
+                                    <filename>teisimple-web.xql</filename> The module generated for output mode web</para>
+                                <para>
+                                    <filename>teisimple-web-main.xql</filename> Main query to be called to run a transformation</para>
+                                <para>
+                                    <filename>teisimple.css</filename> CSS styles generated from the ODD</para>
+                                <para>Files start with the name of the odd and the output 
+                                mode they belong to.</para>
+                            </listitem>
+                        </varlistentry>
+                    </variablelist>
+                </section>
+            </section>
+            <section>
+                <title>Modifying the App</title>
+                <section>
+                    <title>Basic customization options</title>
+                    <para>When you are logged in, the "Admin" menu in the top navbar provides various
+                        links for ease of customization of your app:</para>
+                    <variablelist>
+                        <varlistentry>
+                            <term>Recompile ODD</term>
+                            <listitem>
+                                <para>After changing the application's ODD, click here to update the
+                                    app.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>Update Document Metadata Index</term>
+                            <listitem>
+                                <para>The application maintains a separate index of titles and authors,
+                                    which is used to filter the list of documents shown on the landing
+                                    page. This index is not refreshed automatically, so you need to
+                                    click this menu entry once after uploading data.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>Edit ODD</term>
+                            <listitem>
+                                <para>Opens the application's ODD in eXide for editing.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>Edit Configuration</term>
+                            <listitem>
+                                <para>Edit the main configuration parameters of the app. Configuration
+                                    is done via a set of variables in an XQuery module.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>Edit Styles</term>
+                            <listitem>
+                                <para>Opens the main LESS stylesheet where you can change colors, fonts
+                                    etc.</para>
+                            </listitem>
+                        </varlistentry>
+                    </variablelist>
+                </section>
+                <section>
+                    <title>Customizing behaviours</title>
+                    <para>Sometimes you may need a completely new behaviour or overwrite
+                        one of existing behaviours</para>
+                    <para>
+                    For each output mode, there’s a standard module of behaviour
+                    functions in <filename>modules/ext-{output}.xql</filename>. Additional 
+                    extension modules can be plugged in via <filename>resources/odd/configuration.xml</filename>
+                    </para>
+                    <para>
+                    Code generation searches all modules and uses the first matching
+                    behaviour function it finds.
+                    </para>
+                    <para>For a function to be chosen, the following conditions have to hold:</para>
+                    <itemizedlist>
+<listitem>local name of the function matches name of behaviour</listitem>
+<listitem>takes at least 3 default parameters</listitem>
+<listitem>the remaining parameters match those in the behaviour</listitem>
+</itemizedlist>
+<para>thus: arity of the function = behaviour parameter count + 3</para>
+<synopsis>
+declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string+, $content)</synopsis>
 
-                    <section>
-                        <title>XQuery Code</title>
-                        <para>The generated app shares most of its XQuery libraries with the main
-                            TEI Publisher app. A copy of those is included in the <filename>lib/</filename> collection of the generated app and should not be
-                            modified! This way you can later update the libraries to a newer TEI
-                            Publisher release without breaking your app.</para>
-                        <para>Including the libraries in the generated app creates some redundancy,
-                            but we chose to accept this trade off to make it easier to view and
-                            modify everything relevant to the app.</para>
-                        <para>The following core XQuery modules in every app are safe to be
-                            modified:</para>
-                        <variablelist>
-                            <varlistentry>
-                                <term>config.xqm</term>
-                                <listitem>
-                                    <para>The main configuration file for the app. It contains a
-                                        number of parameters which control things like: how should
-                                        the TEI content be split into viewable chunks?</para>
-                                </listitem>
-                            </varlistentry>
-                            <varlistentry>
-                                <term>pm-config.xql</term>
-                                <listitem>
-                                    <para>This file defines the functions to be called for rendering
-                                        TEI content via the processing model. It imports the modules
-                                        generated from your ODD and assigns them to variables as
-                                        function pointers. This approach is much more efficient than
-                                        the dynamic lookups done by the main TEI Publisher app. It
-                                        has been production tested on large web sites. The downside
-                                        is that the connection to the ODD is hard-coded. If you need
-                                        to switch between different ODDs, you would need to change
-                                        pm-config.xql and insert a proper switch there depending on
-                                        external parameters.</para>
-                                </listitem>
-                            </varlistentry>
-                            <varlistentry>
-                                <term>index.xql</term>
-                                <listitem>
-                                    <para>Is used to generate indexes on document metadata like
-                                        author, title etc. It is called when you click "Update
-                                        Metadata Index" in the admin menu.</para>
-                                </listitem>
-                            </varlistentry>
-                            <varlistentry>
-                                <term>autocomplete.xql</term>
-                                <listitem>
-                                    <para>Contains the queries used to provide autocomplete
-                                        suggestions when the user types into a search box. If you
-                                        need different indexes for your app, you may also have to
-                                        modify those queries.</para>
-                                </listitem>
-                            </varlistentry>
-                            <varlistentry>
-                                <term>app.xql</term>
-                                <listitem>
-                                    <para>Add your own HTML templating functions here. This is
-                                        basically where the application logic of your app should
-                                        go.</para>
-                                </listitem>
-                            </varlistentry>
-                        </variablelist>
-                    </section>
-                    <section>
-                        <title>Styling</title>
-                        <para>All of the app styling is done via a set of modularized less
-                            stylesheets, residing in <filename>resources/css</filename>. The
-                            main file is <filename>style.less</filename>, which defines a
-                            number of core parameters. Ideally this should be the only file you ever
-                            need to modify. Limiting yourself to <filename>style.less</filename> will make later updates much easier.</para>
-                    </section>
+                    <variablelist>
+                        <varlistentry>
+                            <term>config</term>
+                            <listitem>
+                                <para>configuration map as passed in from <filename>{ODD-name}-main.xql</filename>
+                                </para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>node</term>
+                            <listitem>
+                                <para>currently processed element</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>class</term>
+                            <listitem>
+                                <para>generated class name for CSS styles etc</para>
+                            </listitem>
+                        </varlistentry>
+                    </variablelist>
+            
+
+                </section>
+                <section>
+                    <title>Further modifications</title>
+                    <para>In case you'd wish to further customize the generated app it's worth to keep the changes as much separated from the generated code as possible to allow for future alignment with newer versions of the TEI Publisher.
+                    </para>
+                    <para>Website layout changes require updating corresponding html templates located in <filename>templates</filename>.</para>
+                    <para>If customizing the app styling, ideally you should only
+                        modify <filename>resources/css/style.less</filename> which defines a number of core 
+                        parameters and/or possibly importing some new modularized less stylesheets, following
+                        the existing pattern.</para>
+                    <para>The generated app shares most of its XQuery libraries with the main
+                        TEI Publisher app. A copy of those is included in the <filename>lib/</filename> 
+                        collection of the generated app and should not be
+                        modified! This way you can later update the libraries to a newer TEI
+                        Publisher release without breaking your app.
+                        Including the libraries in the generated app creates some redundancy,
+                        but we chose to accept this trade-off to make it easier to view and
+                        modify everything relevant to the app.</para>
+                    <para>If you find that modifications of <filename>lib/</filename> modules are necessary,
+                        please consider if your change would be generally beneficial for TEI Publisher and
+                        create PR for the TEI Publisher if so.</para>
+                    <para>The following core XQuery modules in every app are safe to be
+                        modified (all are stored in <filename>modules</filename> subcollection:</para>
+                            <variablelist>
+                                    <varlistentry>
+                                        <term>config.xqm</term>
+                                        <listitem>
+                                            <para>The main configuration file for the app. It contains a
+                                                number of parameters which control things like: how should
+                                                the TEI content be split into viewable chunks?</para>
+                                        </listitem>
+                                    </varlistentry>
+                                    <varlistentry>
+                                        <term>pm-config.xql</term>
+                                        <listitem>
+                                            <para>This file defines the functions to be called for rendering
+                                                TEI content via the processing model. It imports the modules
+                                                generated from your ODD and assigns them to variables as
+                                                function pointers. This approach is much more efficient than
+                                                the dynamic lookups done by the main TEI Publisher app. It
+                                                has been production tested on large web sites. The downside
+                                                is that the connection to the ODD is hard-coded. If you need
+                                                to switch between different ODDs, you would need to change
+                                                pm-config.xql and insert a proper switch there depending on
+                                                external parameters.</para>
+                                        </listitem>
+                                    </varlistentry>
+                                    <varlistentry>
+                                        <term>index.xql</term>
+                                        <listitem>
+                                            <para>Is used to generate indexes on document metadata like
+                                                author, title etc. It is called when you click "Update
+                                                Metadata Index" in the admin menu.</para>
+                                        </listitem>
+                                    </varlistentry>
+                                    <varlistentry>
+                                        <term>autocomplete.xql</term>
+                                        <listitem>
+                                            <para>Contains the queries used to provide autocomplete
+                                                suggestions when the user types into a search box. If you
+                                                need different indexes for your app, you may also have to
+                                                modify those queries.</para>
+                                        </listitem>
+                                    </varlistentry>
+                                    <varlistentry>
+                                        <term>app.xql</term>
+                                        <listitem>
+                                            <para>Add your own HTML templating functions here. This is
+                                                basically where the application logic of your app should
+                                                go.</para>
+                                        </listitem>
+                                    </varlistentry>
+                                </variablelist>
                 </section>
             </section>
             <section>
@@ -1368,8 +1490,7 @@
 &lt;/modules&gt;</programlisting>
             <para>Whenever the library tries to locate a processing model function for a given
                 behaviour, it will <emphasis role="bold">first</emphasis> check any extension module
-                it knows to see if it contains a matching function. One can thus <emphasis
-                    role="bold">overwrite</emphasis> the default functions as well as define new
+                it knows to see if it contains a matching function. One can thus <emphasis role="bold">overwrite</emphasis> the default functions as well as define new
                 ones.</para>
             <para>To be recognized by the library, an extension function needs to accept at least 4
                 default arguments, plus any number of custom parameters (to be passed in the
