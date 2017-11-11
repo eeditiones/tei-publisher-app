@@ -295,6 +295,17 @@ declare function app:fix-links($nodes as node()*) {
     for $node in $nodes
     return
         typeswitch($node)
+            case element(form) return
+                let $action :=
+                    replace(
+                        $node/@action,
+                        "\$app",
+                        (request:get-context-path() || substring-after($config:app-root, "/db"))
+                    )
+                return
+                    element { node-name($node) } {
+                        attribute action {$action}, $node/@* except $node/@action, app:fix-links($node/node())
+                    }
             case element(a) | element(link) return
                 (: skip links with @data-template attributes; otherwise we can run into duplicate @href errors :)
                 if ($node/@data-template) then

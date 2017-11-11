@@ -19,8 +19,6 @@ xquery version "3.1";
 
 module namespace nav="http://www.tei-c.org/tei-simple/navigation";
 
-declare namespace tei="http://www.tei-c.org/ns/1.0";
-
 import module namespace tei-nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xql";
 import module namespace jats-nav="http://www.tei-c.org/tei-simple/navigation/jats" at "navigation-jats.xql";
 import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/docbook" at "navigation-dbk.xql";
@@ -35,15 +33,14 @@ declare function nav:document-type($div as element()) {
             "jats"
 };
 
-declare function nav:dispatch($config as map(*), $function as xs:string, $args as array(*)) {
+declare %private function nav:dispatch($config as map(*), $function as xs:string, $args as array(*)) {
     let $fn := function-lookup(xs:QName($config?type || "-nav:" || $function), array:size($args))
     return
         if (exists($fn)) then
             apply($fn, $args)
         else
-            error(xs:QName("nav:not-found"))
+            ()
 };
-
 
 declare function nav:get-header($config as map(*), $node as element()) {
     nav:dispatch($config, "get-header", [$config, $node])

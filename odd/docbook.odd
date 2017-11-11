@@ -34,7 +34,7 @@
                     <model behaviour="document"/>
                 </elementSpec>
                 <elementSpec ident="info">
-                    <model predicate="count(ancestor::*) > 1" behaviour="block"/>
+                    <model predicate="not(parent::article|parent::book)" behaviour="block"/>
                     <model output="epub" behaviour="block">
                         <param name="content" value="(title, author)"/>
                     </model>

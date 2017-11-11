@@ -27,6 +27,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace expath="http://expath.org/ns/pkg";
 
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
+import module namespace query="http://www.tei-c.org/tei-simple/query" at "../query.xql";
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
@@ -191,7 +192,7 @@ function pages:view($node as node(), $model as map(*), $action as xs:string) {
     let $view := pages:determine-view($model?config?view, $model?data)
     let $data :=
         if ($action = "search" and exists(session:get-attribute("apps.simple.query"))) then
-            search:expand($model?data)
+            query:expand($model?config, $model?data)
         else
             $model?data
     let $xml :=
