@@ -34,6 +34,7 @@
                     <model behaviour="document"/>
                 </elementSpec>
                 <elementSpec ident="info">
+                    <model predicate="count(ancestor::*) > 1" behaviour="block"/>
                     <model output="epub" behaviour="block">
                         <param name="content" value="(title, author)"/>
                     </model>
@@ -42,20 +43,23 @@
                             <param name="content" value="title"/>
                             <param name="level" value="5"/>
                         </model>
-                        <model behaviour="block">
+                        <model predicate="author" behaviour="block">
                             <param name="content" value="author"/>
                         </model>
                     </modelSequence>
                     <model behaviour="metadata"/>
                 </elementSpec>
                 <elementSpec ident="author">
+                    <model predicate="preceding-sibling::author" behaviour="inline">
+                        <param name="content" value="(', ', personname, affiliation)"/>
+                    </model>
                     <model behaviour="inline">
                         <param name="content" value="(personname, affiliation)"/>
                     </model>
                 </elementSpec>
                 <elementSpec ident="personname">
                     <model behaviour="inline">
-                        <param name="content" value="('By ', firstname, ' ', surname)"/>
+                        <param name="content" value="(firstname, ' ', surname)"/>
                     </model>
                 </elementSpec>
                 <elementSpec ident="affiliation">
@@ -78,6 +82,11 @@
                     <model behaviour="paragraph"/>
                 </elementSpec>
                 <elementSpec ident="emphasis">
+                    <model predicate="@role='bold'" behaviour="inline">
+                        <outputRendition>
+                            font-weight: bold;
+                        </outputRendition>
+                    </model>
                     <model behaviour="inline">
                         <outputRendition>
                             font-style: italic;
@@ -88,9 +97,9 @@
                     <model behaviour="inline" cssClass="code"/>
                 </elementSpec>
                 <elementSpec ident="figure">
-                    <model predicate="title" behaviour="figure" cssClass="figure">
-                        <param name="title" value="title/node()"/>
-                        <param name="content" value="*[not(self::title)]"/>
+                    <model predicate="title|info/title" behaviour="figure" cssClass="figure">
+                        <param name="title" value="title/node()|info/title/node()"/>
+                        <param name="content" value="*[not(self::title|self::info)]"/>
                     </model>
                     <model behaviour="figure"/>
                 </elementSpec>
@@ -119,6 +128,15 @@
                         <param name="type" value="'ordered'"/>
                         <param name="content" value="listitem"/>
                     </model>
+                </elementSpec>
+                <elementSpec ident="procedure">
+                    <model behaviour="list">
+                        <param name="type" value="'ordered'"/>
+                        <param name="content" value="step"/>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="step">
+                    <model behaviour="listItem"/>
                 </elementSpec>
                 <elementSpec ident="variablelist">
                     <model behaviour="definitionList">
@@ -180,6 +198,12 @@
                         <param name="lang" value="@language"/>
                     </model>
                 </elementSpec>
+                <elementSpec ident="example">
+                    <model behaviour="figure">
+                        <param name="title" value="info/title/node()|title/node()"/>
+                        <param name="content" value="*[not(self::title|self::info)]"/>
+                    </model>
+                </elementSpec>
                 <elementSpec ident="function">
                     <model behaviour="inline" cssClass="code"/>
                 </elementSpec>
@@ -191,6 +215,9 @@
                 </elementSpec>
                 <elementSpec ident="filename">
                     <model behaviour="inline" cssClass="code"/>
+                </elementSpec>
+                <elementSpec ident="note">
+                    <model behaviour="block" cssClass="alert alert-info"/>
                 </elementSpec>
                 <elementSpec ident="tag">
                     <model behaviour="inline" cssClass="code">
