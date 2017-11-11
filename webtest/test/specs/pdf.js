@@ -3,7 +3,7 @@ var client = require(process.env.WDIO_PROTOCOL);
 // adds global PDFJS to scope
 require('pdfjs-dist');
 
-var pdfPath = '/exist/apps/tei-publisher/doc/documentation.xml.pdf';
+var pdfPath = '/exist/apps/tei-publisher/doc/documentation.xml.pdf?odd=docbook.odd&cache=no';
 var requestOptions = {
   hostname: process.env.WDIO_SERVER,
   port: process.env.WDIO_PORT,
@@ -46,6 +46,6 @@ describe('PDF', function() {
   });
 
   it('should have a certain number of pages', function (done) {
-    assert.equal(document.numPages, 17);
+    assert.equal(document.numPages, 18);
   });
 });
