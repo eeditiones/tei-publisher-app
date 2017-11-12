@@ -112,7 +112,16 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
 
 declare
     %templates:wrap
-function app:form-odd-select($node as node(), $model as map(*)) {
+    %templates:default("odd", "teipublisher.odd")
+function app:editor-init($node as node(), $model as map(*), $odd as xs:string) {
+    "var TeiPublisher = { 'config': { 'odd': '" || $odd || "' } }"
+};
+
+
+declare
+    %templates:wrap
+    %templates:default("odd", "teipublisher.odd")
+function app:form-odd-select($node as node(), $model as map(*), $odd as xs:string) {
     dbutil:scan-resources(xs:anyURI($config:odd-root), function($resource) {
         if (ends-with($resource, ".odd")) then
             let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
@@ -126,8 +135,17 @@ function app:form-odd-select($node as node(), $model as map(*)) {
                 )[1]/string()
                 return
                     $title || " [" || $rev-date || "]"
+            let $file := replace($resource, "^.*/([^/]+)$", "$1")
             return
-                <option value="{replace($resource, "^.*/([^/]+)$", "$1")}">{$displayname}</option>
+                <option value="{$file}">
+                {
+                    if ($odd and $file = $odd) then
+                        attribute selected { "selected" }
+                    else
+                        (),
+                    $displayname
+                }
+                </option>
         else
             ()
     })
