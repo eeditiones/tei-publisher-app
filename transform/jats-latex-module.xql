@@ -1,6 +1,6 @@
-module namespace pml='http://www.tei-c.org/pm/models/documentation/epub/module';
+module namespace pml='http://www.tei-c.org/pm/models/jats/latex/module';
 
-import module namespace m='http://www.tei-c.org/pm/models/documentation/epub' at '/db/apps/tei-publisher/transform/documentation-epub.xql';
+import module namespace m='http://www.tei-c.org/pm/models/jats/latex' at '/db/apps/tei-publisher/transform/jats-latex.xql';
 
 (: Generated library module to be directly imported into code which
  : needs to transform TEI nodes using the ODD this module is based on.
@@ -8,7 +8,10 @@ import module namespace m='http://www.tei-c.org/pm/models/documentation/epub' at
 declare function pml:transform($xml as node()*, $parameters as map(*)?) {
 
    let $options := map {
-       "styles": ["../transform/documentation.css"],
+    "class": "article",
+    "section-numbers": false(),
+    "font-size": "12pt",
+       "styles": ["../transform/jats.css"],
        "collection": "/db/apps/tei-publisher/transform",
        "parameters": if (exists($parameters)) then $parameters else map {}
    }

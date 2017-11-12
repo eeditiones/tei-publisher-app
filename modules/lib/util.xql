@@ -19,14 +19,17 @@ xquery version "3.1";
 
 module namespace tpu="http://www.tei-c.org/tei-publisher/util";
 
+
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 
 declare function tpu:parse-pi($doc as document-node(), $view as xs:string?) {
     let $default := map {
         "view": ($view, $config:default-view)[1],
         "odd": $config:odd,
         "depth": $config:pagination-depth,
-        "fill": $config:pagination-fill
+        "fill": $config:pagination-fill,
+        "type": nav:document-type($doc/*)
     }
     let $pis :=
         map:new(

@@ -19,63 +19,67 @@ xquery version "3.1";
 
 module namespace nav="http://www.tei-c.org/tei-simple/navigation";
 
-declare namespace tei="http://www.tei-c.org/ns/1.0";
+import module namespace tei-nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xql";
+import module namespace jats-nav="http://www.tei-c.org/tei-simple/navigation/jats" at "navigation-jats.xql";
+import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/docbook" at "navigation-dbk.xql";
 
-declare function nav:get-next($config as map(*), $div as element(), $view as xs:string) {
-    switch ($view)
-        case "page" return
-            $div/following::tei:pb[1]
-        case "body" return
-            ($div/following-sibling::*, $div/../following-sibling::*)[1]
+declare function nav:document-type($div as element()) {
+    switch (namespace-uri($div))
+        case "http://www.tei-c.org/ns/1.0" return
+            "tei"
+        case "http://docbook.org/ns/docbook" return
+            "docbook"
         default return
-            nav:get-next($config, $div)
+            "jats"
 };
 
-
-declare function nav:get-next($config as map(*), $div as element()) {
-    if ($div/tei:div[count(ancestor::tei:div) < $config?depth]) then
-        if ($config?fill > 0 and count(($div/tei:div[1])/preceding-sibling::*//*) < $config?fill) then
-            nav:get-next($config, $div/tei:div[1])
+declare %private function nav:dispatch($config as map(*), $function as xs:string, $args as array(*)) {
+    let $fn := function-lookup(xs:QName($config?type || "-nav:" || $function), array:size($args))
+    return
+        if (exists($fn)) then
+            apply($fn, $args)
         else
-            $div/tei:div[1]
-    else
-        $div/following::tei:div[1][count(ancestor::tei:div) < $config?depth]
+            ()
+};
+
+declare function nav:get-header($config as map(*), $node as element()) {
+    nav:dispatch($config, "get-header", [$config, $node])
+};
+
+declare function nav:get-section-for-node($config as map(*), $node as element()) {
+    nav:dispatch($config, "get-section-for-node", [$config, $node])
+};
+
+declare function nav:get-section($config as map(*), $doc as document-node()) {
+    nav:dispatch($config, "get-section", [$config, $doc])
+};
+
+declare function nav:get-document-title($config as map(*), $root as element()) {
+    nav:dispatch($config, "get-document-title", [$config, $root])
+};
+
+declare function nav:get-subsections($config as map(*), $root as node()) {
+    nav:dispatch($config, "get-subsections", [$config, $root])
+};
+
+declare function nav:get-section-heading($config as map(*), $section as node()) {
+    nav:dispatch($config, "get-section-heading", [$config, $section])
+};
+
+declare function nav:get-content($config as map(*), $div as element()) {
+    nav:dispatch($config, "get-content", [$config, $div])
+};
+
+declare function nav:get-next($config as map(*), $div as element(), $view as xs:string) {
+    nav:dispatch($config, "get-next", [$config, $div, $view])
 };
 
 declare function nav:get-previous($config as map(*), $div as element(), $view as xs:string) {
-    switch ($view)
-        case "page" return
-            $div/preceding::tei:pb[1]
-        case "body" return
-            ($div/preceding-sibling::*, $div/../preceding-sibling::*)[1]
-        default return
-            nav:get-previous-div($config, $div)
+    nav:dispatch($config, "get-previous", [$config, $div, $view])
 };
-
 
 declare function nav:get-previous-div($config as map(*), $div as element()) {
-    let $parent := $div/ancestor::tei:div[not(*[1] instance of element(tei:div))][1]
-    let $prevDiv := $div/preceding::tei:div[count(ancestor::tei:div) < $config?depth][1]
-    return
-        nav:get-previous-recursive(
-            $config,
-            if ($parent and (empty($prevDiv) or $div/.. >> $prevDiv)) then $div/.. else $prevDiv
-        )
-};
-
-declare %private function nav:get-previous-recursive($config as map(*), $div as element(tei:div)?) {
-    if (empty($div)) then
-        ()
-    else
-        if (
-            empty($div/preceding-sibling::tei:div)  (: first div in section :)
-            and $config?fill > 0
-            and count($div/preceding-sibling::*//*) < $config?fill (: less than 5 elements before div :)
-            and $div/.. instance of element(tei:div) (: parent is a div :)
-        ) then
-            nav:get-previous-recursive($config, $div/ancestor::tei:div[count(ancestor::tei:div) < $config?depth][1])
-        else
-            $div
+    nav:dispatch($config, "get-previous-div", [$config, $div])
 };
 
 declare function nav:output-footnotes($footnotes as element()*) {

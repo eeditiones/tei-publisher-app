@@ -112,7 +112,7 @@ declare function deploy:init-simple($collection as xs:string?, $userData as xs:s
                 (xmldb:copy($config:output-root, $collection || '/transform' , $file))
             else
                 (),
-                
+
         for $file in ("master.fo.xml", "page-sequence.fo.xml")
         let $template := repo:get-resource("http://existsolutions.com/apps/tei-publisher-lib", "content/" || $file)
         return
@@ -446,7 +446,8 @@ declare function deploy:store-templates($target as xs:string, $userData as xs:st
 
 declare function deploy:store-libs($target as xs:string, $userData as xs:string+, $permissions as xs:string) {
     let $path := system:get-module-load-path()
-    for $lib in ("autocomplete.xql", "index.xql", "view.xql", "navigation.xql")
+    for $lib in ("autocomplete.xql", "index.xql", "view.xql", xmldb:get-child-resources($path)[starts-with(., "navigation")],
+        xmldb:get-child-resources($path)[ends-with(., "query.xql")])
     return (
         xmldb:copy($path, $target || "/modules", $lib),
         deploy:chmod($target || "/modules", $userData, $permissions)

@@ -217,7 +217,7 @@
             margin-right: 200px;
         }
     }
-    
+
   .content h1,
   .content h2,
   .content h3,
@@ -243,6 +243,19 @@
     }
     h4 {
       font-size: @font-size-h4-inner-content;
+    }
+
+    dd {
+        margin-left: 2em;
+    }
+
+    .table {
+        width: auto;
+        max-width: 75%;
+
+        td:first-child {
+            min-width: 8em;
+        }
     }
 
     .code {
@@ -285,7 +298,7 @@
 
   .margin-note {
     display: none;
-    
+
     .page-margin {
       margin-right: 0;
       margin-left: 0;
@@ -308,7 +321,7 @@
           color: @color-gray-light;
         }
     }
-    
+
     .page-margin {
       margin-right: @margin-right-content-inner;
       margin-left: @margin-left-content-inner;

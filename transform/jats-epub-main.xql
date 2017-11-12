@@ -1,11 +1,11 @@
-import module namespace m='http://www.tei-c.org/pm/models/documentation/web' at '/db/apps/tei-publisher/transform/documentation-web.xql';
+import module namespace m='http://www.tei-c.org/pm/models/jats/epub' at '/db/apps/tei-publisher/transform/jats-epub.xql';
 
 declare variable $xml external;
 
 declare variable $parameters external;
 
 let $options := map {
-    "styles": ["../transform/documentation.css"],
+    "styles": ["../transform/jats.css"],
     "collection": "/db/apps/tei-publisher/transform",
     "parameters": if (exists($parameters)) then $parameters else map {}
 }

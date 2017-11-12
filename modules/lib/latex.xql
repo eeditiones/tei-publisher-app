@@ -14,8 +14,6 @@ import module namespace process="http://exist-db.org/xquery/process" at "java:or
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 
-declare namespace tei="http://www.tei-c.org/ns/1.0";
-
 declare option output:method "text";
 declare option output:html-version "5.0";
 declare option output:media-type "text/text";
@@ -32,7 +30,7 @@ return (
         (),
     if ($id) then
         let $id := replace($id, "^(.*)\..*", "$1")
-        let $xml := pages:get-document($id)/tei:TEI
+        let $xml := pages:get-document($id)/*
         let $config := tpu:parse-pi(root($xml), ())
         let $tex := string-join($pm-config:latex-transform($xml, map { "image-dir": config:get-repo-dir() || "/" || $config:data-root[1] || "/" }, $config?odd))
         let $file :=

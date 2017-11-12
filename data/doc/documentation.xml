@@ -1,1182 +1,1510 @@
-<?teipublisher odd="documentation.odd"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0">
-    <teiHeader>
-        <fileDesc>
-            <titleStmt>
-                <title>TEI Publisher</title>
-                <author>Wolfgang Meier</author>
-            </titleStmt>
-            <publicationStmt>
-                <publisher>eXistSolutions GmbH</publisher>
-            </publicationStmt>
-            <sourceDesc>
-                <p>App documentation</p>
-            </sourceDesc>
-        </fileDesc>
-    </teiHeader>
-    <text>
-        <body>
-            <div>
-                <head>TEI Publisher</head>
-                <div>
-                    <head>Introduction</head>
-                    <p>The TEI Processing Model (PM) extends the TEI ODD specification format with a
-                        processing model for documents. That way intended processing for all
-                        elements can be expressed within the TEI vocubulary itself. It aims at the
-                        XML-savvy editor who is familiar with TEI but is not necessarily a
-                        developer. The editor knows the logical structure of the text and maps it to
-                        a small set of abstract transformation functions, called "behaviours".
-                        Predefined behaviours are, for example, "paragraph", "heading" or
-                        "note".</p>
-                    <p>Basic styling features can be set directly within the ODD using CSS. The
-                        processing model is media-agnostic: rendition styles are transparently
-                        translated into the different output media types like HTML, XSL-FO, LaTeX,
-                        or ePUB.</p>
-                    <p>At the same time, the processing model implements a clean separation of
-                        concerns to improve the workflow between editors, designers and developers.
-                        The editor defines how elements are mapped to behavior functions and
-                        specifies basic styling rules, the designer controls the overall
-                        presentation of the material, and the developer concentrates on the general
-                        application framework and—if necessary—supports the editor by providing
-                        custom behavior functions as <ref target="#extension-modules">extension
-                            modules</ref>.</p>
-                    <figure>
-                        <graphic url="rahtzrationale.png"/>
-                    </figure>
-                    <p>A word of warning though: while the processing model was developed as part of
-                        the TEI Simple initiative, it is not necessarily trivial to comprehend nor
-                        "simple" regarding the knowledge and skill it requires. The goal rather was
-                        to improve workflows and interoperability by providing a minimal abstraction
-                        for the processing rules applied to a document. Using the processing model
-                        definitely simplifies the life of the developer, who often has to write a
-                        few thousand lines of code just to render a particular TEI document into
-                        HTML, only to repeat the same tedious process for PDF output. Last but not
-                        least the processing model empowers the scholary editor to create
-                        high-quality prototype websites from a given data set without even relying
-                        on a developer.</p>
-                </div>
-                <div>
-                    <head>TEI Publisher</head>
-                    <p>TEI Publisher does a lot more than just implement the TEI processing model.
-                        It consists of the following components:</p>
-                    <list type="ordered">
-                        <item> A set of library modules to render a TEI document into various output
-                            formats, which can be imported into other applications. This corresponds
-                            to the TEI Publisher library package. </item>
-                        <item> The core application to work and experiment with various source
-                            documents and processing model instances. This is the main TEI Publisher
-                            app. </item>
-                        <item> An application generator, which takes a processing model instance and
-                            creates a user interface around it, resulting in a standalone web
-                            application for a certain corpus of documents. The generated application
-                            shares most of its XQuery code and interface with the main TEI Publisher
-                            app, but can be customized to meet your needs. </item>
-                    </list>
-                    <p>In a strict sense, only the first component implements the processing model
-                        specification. The larger part of the toolbox deals with graphical user
-                        interface components, adding pagination, navigation and search features.</p>
-                </div>
-                <div xml:id="quickstart">
-                    <head>Getting Started</head>
-                    <p>TEI Publisher is distributed as two eXist application packages, making it
-                        easy to install on any local or remote eXist database instance. Just go to
-                        the dashboard, open the package manager and install the TEI Publisher
-                        application package from the public repository. The TEI Publisher library
-                        package will be installed automatically as a dependency.</p>
-                    <p>
-                        <hi rendition="simple:bold">Note</hi>: You need at least <ref target="http://exist-db.org#download">eXist 3.0</ref> or a nightly
-                        build.</p>
-                    <p>Once installed, play around with the provided documents or upload your own
-                        via the file upload panel in the right sidebar. You may modify any of the
-                        supplied ODD files and see how the rendering changes.</p>
-                    <p>To create your own custom ODD, tailored to the data set you are working on,
-                        the general procedure is as follows:</p>
-                    <list>
-                        <item>Create a new customization</item>
-                        <item>Overwrite the standard processing model rules for selected TEI
-                            elements or add model rules for elements not handled by the standard
-                            ODD.</item>
-                        <item>Test your modifications by applying the ODD and rendering a few
-                            documents.</item>
-                    </list>
-                    <p>The steps will be described in detail in the following sections.</p>
-                    <div>
-                        <head>Create a new customization</head>
-                        <p>Create a new customization by entering a name and clicking "Create" at
-                            the bottom of the right sidebar panel listing the available ODDs. Reload
-                            the page to see the new ODD appear in the list.</p>
-                        <p>Open the created ODD using the "source" button. This will create a new
-                            browser tab showing the editor which is part of eXist, called "eXide".
-                            The ODD will be loaded into it.</p>
-                        <p>As you can see, the ODD is nearly empty, containing just boilerplate
-                            code. However, it imports the standard <code>teipublisher.odd</code>
-                            within the <code>schemaSpec</code> element:</p>
-                        <p>
-                            <code lang="xml">&lt;schemaSpec ident="myteisimple" start="TEI
-                                teiCorpus" source="teipublisher.odd"&gt;</code>
-                        </p>
-                        <p>This means your new ODD extends the standard
-                                <code>teipublisher.odd</code>, which provides useful defaults for
-                            the TEI core elements. In general, most of those defaults should be ok
-                            and you only need to overwrite a hand full of selected mappings within
-                            your own ODD.</p>
-                        <figure xml:id="create-odd" type="animated">
-                            <head>Create a custom ODD</head>
-                            <graphic url="CreateODD.gif"/>
-                        </figure>
-                    </div>
-                    <div>
-                        <head>Modify the ODD</head>
-                        <p>Now we created a custom ODD, we can make a first modification. We'll use
-                            the <title>Letter #6 from Robert Graves to William Graves</title> as an
-                            example. Rendered through the standard <code>teipublisher.odd</code>, it
-                            is definitely missing some styling to look more like a letter. For
-                            example, we may want to move the <gi>dateline</gi> in the
-                                <gi>opener</gi> to the right and get rid of the <gi>pb</gi> label
-                            which currently sits there. </p>
-                        <p>We thus need to overwrite the processing model rules for
-                                <gi>dateline</gi> and <gi>opener</gi>. The easiest way to do this is
-                            to:</p>
-                        <list>
-                            <item>open the standard teipublisher.odd and search for an existing
-                                    <gi>elementSpec</gi> with
-                                <att>ident</att>=<val>"dateline"</val>.</item>
-                            <item>if there is an <gi>elementSpec</gi> already, just copy it</item>
-                            <item>paste the <gi>elementSpec</gi> into the new ODD and modify
-                                it</item>
-                        </list>
-                        <p>If there's no <gi>elementSpec</gi> for the element in
-                                <code>teipublisher.odd</code>, you have to create a new
-                                <gi>elementSpec</gi> in your ODD, using
-                                <att>mode</att>=<val>"add"</val> instead of
-                                <att>mode</att>=<val>"change"</val>.</p>
-                        <p>The <gi>elementSpec</gi> copied from <code>teipublisher.odd</code> looks
-                            like this:</p>
-                        <eg>
-                            <code lang="xml"><![CDATA[
-<elementSpec mode="change" ident="dateline">
-    <model behaviour="block"/>
-</elementSpec>]]></code>
-                        </eg>
-                        <p>To make the text right-aligned, we add a <gi>outputRendition</gi>:</p>
-                        <eg>
-                            <code lang="xml"><![CDATA[
-<elementSpec mode="change" ident="dateline">
-    <model behaviour="block">
-        <outputRendition>text-align: right;</outputRendition>
-    </model>
-</elementSpec>]]></code>
-                        </eg>
-                        <p>We also want to hide the <gi>pb</gi> label, so we add another
-                                <gi>elementSpec</gi>:</p>
-                        <eg>
-                            <code lang="xml"><![CDATA[
-<elementSpec mode="change" ident="pb">
-    <model behaviour="omit"/>
-</elementSpec>]]></code>
-                        </eg>
-                        <p>To test the changes, go back to the main page of the app, select the new
-                            ODD and click on "Regenerate", then browse to the letter and view the
-                            result. In fact, the "regenerate" step is not absolutely necessary as
-                            the library will usually recognize the change to the ODD when you try to
-                            view the letter and regenerate automatically. However, if you made
-                            mistakes in the ODD, the regenerate will just fail silently. So during
-                            development, it is advisable to regenerate manually.</p>
-                        <figure xml:id="edit-odd" type="animated">
-                            <head>Move dateline to right and hide pb</head>
-                            <graphic url="EditODD.gif"/>
-                        </figure>
-                    </div>
-                </div>
-                <div>
-                    <head>Processing Model syntax</head>
-                    <div>
-                        <head>
-                            <gi>model</gi> element</head>
-                        <p>
-                            <gi>model</gi> element is primarily used to document intended processing
-                            for a given element. One or more of these elements may appear directly
-                            within an <gi>elementSpec</gi> element specification to define the
-                            processing anticipated for that element. Where multiple <gi>model</gi>
-                            elements appear, they are understood to document mutually exclusive
-                            processing scenarios, possibly for different outputs or applicable in
-                            different contexts. </p>
-                        <p>A processing model defines on an abstract level how a given element may
-                            be transformed to produce one or more outputs. The model is expressed in
-                            terms of <term>behaviours</term> and their <term>parameters</term>,
-                            using high-level formatting concepts, such as
-                            <soCalled>block</soCalled>, <soCalled>inline</soCalled>,
-                                <soCalled>note</soCalled> or <soCalled>heading</soCalled>. A
-                            processing model is thus a template description, used to generate the
-                            code needed by the publishing application to process the source document
-                            into required output. </p>
-                        <p> Example below depicts a situation where a single model is defined for
-                                <gi>app</gi> element. As no @predicate or @output are specified,
-                            this model applies for all contexts in which <gi>app</gi> may appear and
-                            all possible outputs. Thus for all <gi>app</gi> elements they will be
-                            transformed into inline chunks of text containing only contents of
-                                <gi>app</gi>'s <gi>lem</gi> child and omitting any possible
-                                <gi>rdg</gi> children. <eg>
-                                <code lang="xml">
-                                    <![CDATA[
-<elementSpec mode="change" ident="app">
-    <model behaviour="inline">
-        <param name="content" value="lem"/>
-    </model>
-</elementSpec>]]></code>
-                            </eg>
-                        </p>
-                    </div>
-                    <div>
-                        <head>
-                            <gi>model</gi> children and attributes:</head>
-                        <p>
-                            <list>
-                                <item>
-                                    <att>predicate</att>: the condition under which this model
-                                    applies, given as an XPath Predicate Expression</item>
-                                <item>
-                                    <att>behaviour</att>: names the function which this processing
-                                    model uses in order to produce output; possible values include:
-                                    alternate, block, figure, heading, inline, link, list, note,
-                                    paragraph</item>
-                                <item>
-                                    <att>output</att>: identifier of the intended output for which
-                                    this model applies; applies to all output if no @output is
-                                    present on a <gi>model</gi>
-                                </item>
-                                <item>
-                                    <att>useSourceRendition</att>: whether to obey any rendition
-                                    attribute which is present in the source document</item>
-                                <item>
-                                    <att>cssClass</att>: one or more CSS class names which should be
-                                    added to the resulting output element where applicable</item>
-                                <item>
-                                    <gi>param</gi>: allows to pass parameters to @behaviour
-                                    function; parameters available depend on the behaviour in
-                                    question; when parameters are not explicitly passed, default
-                                    values for those are assumed; all behaviour functions use
-                                    current element as default content</item>
-                                <item>
-                                    <gi>outputRendition</gi>: supplies information about the desired
-                                    output rendition in CSS; its attribute @scope provides a way of
-                                    defining ‘pseudo-elements’ eg: first-line, first-letter, before,
-                                    after </item>
-                            </list>
-                        </p>
-                        <p> Simple model explicitly specifying content parameter: for <gi>app</gi>
-                            entries only content of its <gi>lem</gi> child is to be displayed (as an
-                            inline chunk of text) <eg>
-                                <code lang="xml"><![CDATA[
-<elementSpec mode="change" ident="app">
-    <model behaviour="inline">
-        <param name="content" value="lem"/>
-    </model>
-</elementSpec>]]></code>
-                            </eg>
-                        </p>
-                        <p> Model specifying output rendition: contents of <gi>ex</gi> elements are
-                            to be displayed in italic and wrapped in parentheses <eg>
-                                <code lang="xml"><![CDATA[
-<elementSpec mode="change" ident="ex">
-    <model behaviour="inline">
-        <outputRendition>font-style: italic;</outputRendition>
-        <outputRendition scope="before">content:"(";</outputRendition>
-        <outputRendition scope="after">content:")";</outputRendition>
-    </model>
-</elementSpec>]]></code>
-                            </eg>
-                        </p>
-                        <p>Sometimes different processing models are required for the same element
-                            in different contexts. For example, we may wish to process the
-                                <gi>quote</gi> element as an inline italic element when it appears
-                            inside a <gi>p</gi> element, but as an indented block when it appears
-                            elsewhere. To achieve this, we need to change the specification for the
-                                <gi>quote</gi> element to include two <gi>model</gi> elements as
-                            follows: <eg>
-                                <code lang="xml"><![CDATA[
-<elementSpec mode="change" ident="quote">
-    <model predicate="ancestor::p" behaviour="inline">
-        <outputRendition>font-style: italic;</outputRendition>
-    </model>
-    <model behaviour="block">
-        <outputRendition>left-margin: 2em;</outputRendition>
-    </model>
-</elementSpec>]]></code>
-                            </eg> The first processing model will be used only for <gi>quote</gi>
-                            elements which match the XPath expression given as value for the
-                                <att>predicate</att> attribute. Other element occurrences will use
-                            the second processing model. Set of multiple <gi>model</gi> statements
-                            is regarded as an alternation and only the first model with
-                                <att>predicate</att> matching current context is applied
-                            <!--
-           			<eg>
-					<code lang="xml"><elementSpec mode="change" ident="choice">
-	<model output="plain" predicate="sic and corr"  behaviour="inline">
-		<param name="content" value="corr[1]"/>
-	</model>
-	<model output="plain" predicate="abbr and expan" behaviour="inline">
-		<param name="content" value="expan[1]"/>
-	</model>
-	<model output="plain" predicate="orig and reg" behaviour="inline">
-		<param name="content" value="reg[1]"/>
-	</model>
-	<model predicate="sic and corr" behaviour="alternate">
-		<param name="default" value="corr[1]">
-		<param name="alternate" value="sic[1]"/>
-	</model>
-	<model predicate="abbr and expan" behaviour="alternate">
-		<param name="default" value="expan[1]"/>
-		<param name="alternate" value="abbr[1]"/>
-	</model>
-	<model predicate="orig and reg" behaviour="alternate">
-		<param name="default" value="reg[1]"/>
-		<param name="alternate" value="orig[1]"/>
-	</model>
-</elementSpec></code></eg>
--->
-                        </p>
-                    </div>
-                    <div>
-                        <head>
-                            <gi>modelSequence</gi> and <gi>modelGrp</gi>
-                        </head>
-                        <p> Summary of elements that can be used to document one or more processing
-                            models for a given element: <list>
-                                <item>
-                                    <gi>model</gi> describes the processing intended for a specific
-                                    context </item>
-                                <item>
-                                    <gi>modelSequence</gi> (sequence of processing models) a group
-                                    of model elements documenting intended processing models for
-                                    this element, to be acted upon in sequence </item>
-                                <item>
-                                    <gi>modelGrp</gi> (processing model group) a group of model
-                                    elements documenting intended processing models for this element
-                                </item>
-                            </list>
-                        </p>
-                        <p> The <gi>modelGrp</gi> element may be used to group alternative
-                                <gi>model</gi> elements intended for a single kind of output. The
-                                <gi>modelSequence</gi> element is provided for the case where a
-                            sequence of models is to be processed, functioning as a single unit.
-                            Common use case would be to use modelSequence to generate table of
-                            contents along with the reading text as shown in the example below: <eg>
-                                <code lang="xml"><![CDATA[
-<elementSpec mode="change" ident="body">
-    <modelSequence>
-        <model behaviour="index">
-            <param name="type" value="'toc'"/>
-        </model>
-        <model behaviour="block"/>
-    </modelSequence>
-</elementSpec>]]></code>
-                            </eg>
-                        </p>
-                    </div>
-                    <div>
-                        <head>Behaviours</head>
-                        <p>Most of the processing complexity is hidden behind behaviour functions
-                            which were designed to cover majority of commonly occurring processing
-                            tasks. Function names are wherever possible based on commonly used terms
-                            such as 'inline', 'block', 'note' or 'link'.</p>
-                        <p>Behaviour functions accept a range of parameters, depending on the
-                            function in question. Where these parameters are left unspecified in the
-                                <gi>model</gi>, default values are used.</p>
-                        <div>
-                            <head>Available Behaviours</head>
-                            <p>All behaviour functions take at least one parameter:
-                                    <code>content</code>. It will be added by default unless
-                                specified and contains the content of the currently processed node.
-                                You may change this by explicitely setting a <code>content</code>
-                                parameter inside the model.</p>
-                            <p>In the parameter lists below we skip the <code>content</code>
-                                parameter as it is available for every behaviour.</p>
-                            <list type="gloss">
-                                <label>alternate</label>
-                                <item>
-                                    <p>Display alternating elements for displaying the preferred
-                                        version and an alternative, both at once or by some method
-                                        of toggling between the two. The concrete implementation
-                                        depends on the output format.</p>
-                                    <table>
-                                        <row role="label">
-                                            <cell>Parameter</cell>
-                                            <cell>Description</cell>
-                                        </row>
-                                        <row>
-                                            <cell>default</cell>
-                                            <cell>the content to display by default</cell>
-                                        </row>
-                                        <row>
-                                            <cell>alternate</cell>
-                                            <cell>alternate content</cell>
-                                        </row>
-                                    </table>
-                                </item>
-                                <label>anchor</label>
-                                <item>
-                                    <p>Create an anchor to which you can link, identified by the
-                                        given id.</p>
-                                    <table>
-                                        <row role="label">
-                                            <cell>Parameter</cell>
-                                            <cell>Description</cell>
-                                        </row>
-                                        <row>
-                                            <cell>id</cell>
-                                            <cell>the id</cell>
-                                        </row>
-                                    </table>
-                                </item>
-                                <label>block</label>
-                                <item>
-                                    <p>Create a block structure, usually a div in HTML or fo:block
-                                        in fo.</p>
-                                </item>
-                                <label>body</label>
-                                <item>
-                                    <p>Create the body of a document. In HTML this will result in a
-                                        &lt;body&gt; tag.</p>
-                                </item>
-                                <label>break</label>
-                                <item>
-                                    <p>Create a line, column, or page break according to type.</p>
-                                    <table>
-                                        <row role="label">
-                                            <cell>Parameter</cell>
-                                            <cell>Description</cell>
-                                        </row>
-                                        <row>
-                                            <cell>type</cell>
-                                            <cell>e.g. "page", "column", "line"</cell>
-                                        </row>
-                                    </table>
-                                </item>
-                                <label>cell</label>
-                                <item>
-                                    <p>Create a table cell. If the @cols or @rows attribute is
-                                        specified, the cell may span several columns/rows.</p>
-                                </item>
-                                <label>cit</label>
-                                <item>
-                                    <p>Show a citation, with an indication of the source.</p>
-                                    <table>
-                                        <row role="label">
-                                            <cell>Parameter</cell>
-                                            <cell>Description</cell>
-                                        </row>
-                                        <row>
-                                            <cell>source</cell>
-                                            <cell>the citation source</cell>
-                                        </row>
-                                    </table>
-                                </item>
-                                <label>document</label>
-                                <item>
-                                    <p>Start a new output document.</p>
-                                </item>
-                                <label>figure</label>
-                                <item>
-                                    <p>Make a figure with provided title argument as caption</p>
-                                    <table>
-                                        <row role="label">
-                                            <cell>Parameter</cell>
-                                            <cell>Description</cell>
-                                        </row>
-                                        <row>
-                                            <cell>title</cell>
-                                            <cell>a caption</cell>
-                                        </row>
-                                    </table>
-                                </item>
-                                <label>graphic</label>
-                                <item>
-                                    <p>Display the graphic retrieved from the given url.</p>
-                                    <table>
-                                        <row role="label">
-                                            <cell>Parameter</cell>
-                                            <cell>Description</cell>
-                                        </row>
-                                        <row>
-                                            <cell>url</cell>
-                                            <cell>the url to load the graphic from</cell>
-                                        </row>
-                                        <row>
-                                            <cell>width</cell>
-                                            <cell>the width of the graphic, e.g. "300px", "50%"
-                                                ...</cell>
-                                        </row>
-                                        <row>
-                                            <cell>height</cell>
-                                            <cell>the height of the graphic, e.g. "300px", "50%"
-                                                ...</cell>
-                                        </row>
-                                        <row>
-                                            <cell>scale</cell>
-                                            <cell>a scaling factor to apply. If specified, width and
+<?xml version="1.0" encoding="UTF-8"?>
+<?teipublisher odd="docbook.odd"?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>TEI Publisher</title>
+        <author>
+            <personname>
+                <firstname>Wolfgang</firstname>
+                <surname>Meier</surname>
+            </personname>
+            <personname>
+                <firstname>Magdalena</firstname>
+                <surname>Turska</surname>
+            </personname>
+            <affiliation>
+                <orgname>eXist Solutions GmbH</orgname>
+            </affiliation>
+        </author>
+    </info>
+    <section>
+        <title>TEI Publisher</title>
+        <section>
+            <title>Introduction</title>
+            <para>The TEI Processing Model (PM) extends the TEI ODD specification format with a
+                processing model for documents. That way intended processing for all elements can be
+                expressed within the TEI vocubulary itself. It aims at the XML-savvy editor who is
+                familiar with TEI but is not necessarily a developer. The editor knows the logical
+                structure of the text and maps it to a small set of abstract transformation
+                functions, called <emphasis>behaviours</emphasis>. Predefined behaviours are, for example, <code>paragraph</code>,
+                <code>heading</code> or <code>note</code>.</para>
+            <para>Basic styling features can be set directly within the ODD using CSS. The
+                processing model is media-agnostic: rendition styles are transparently translated
+                into the different output media types like HTML, XSL-FO, LaTeX, or ePUB.</para>
+            <para>At the same time, the processing model implements a clean separation of concerns
+                to improve the workflow between editors, designers and developers. The editor
+                defines how elements are mapped to behavior functions and specifies basic styling
+                rules, the designer controls the overall presentation of the material, and the
+                developer concentrates on the general application framework and—if
+                necessary—supports the editor by providing custom behavior functions as <link linkend="extension-modules">extension modules</link>.</para>
+            <informalfigure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="rahtzrationale.png"/>
+                    </imageobject>
+                </mediaobject>
+            </informalfigure>
+            <para>A word of warning though: while the processing model was developed as part of the
+                TEI Simple initiative, it is not necessarily trivial to comprehend nor "simple"
+                regarding the knowledge and skill it requires. The goal rather was to improve
+                workflows and interoperability by providing a minimal abstraction for the processing
+                rules applied to a document. Using the processing model definitely simplifies the
+                life of the developer, who often has to write a few thousand lines of code just to
+                render a particular TEI document into HTML, only to repeat the same tedious process
+                for PDF output. Last but not least the processing model empowers the scholary editor
+                to create high-quality prototype websites from a given data set without even relying
+                on a developer.</para>
+        </section>
+        <section>
+            <title>TEI Publisher</title>
+            <para>TEI Publisher does a lot more than just implement the TEI processing model. It
+                consists of the following components:</para>
+            <itemizedlist>
+                <listitem>
+                    <para> A set of library modules to render a TEI document into various output
+                        formats, which can be imported into other applications. This corresponds to
+                        the TEI Publisher library package. </para>
+                </listitem>
+                <listitem>
+                    <para> The core application to work and experiment with various source documents
+                        and processing model instances. This is the main TEI Publisher app. </para>
+                </listitem>
+                <listitem>
+                    <para> An application generator, which takes a processing model instance and
+                        creates a user interface around it, resulting in a standalone web
+                        application for a certain corpus of documents. The generated application
+                        shares most of its XQuery code and interface with the main TEI Publisher
+                        app, but can be customized to meet your needs. </para>
+                </listitem>
+            </itemizedlist>
+            <para>In a strict sense, only the first component implements the processing model
+                specification. The larger part of the application deals with graphical user interface
+                components, adding pagination, navigation and search features.</para>
+        </section>
+        <section xml:id="quickstart">
+            <title>Getting Started</title>
+            <para>TEI Publisher is distributed as two eXist application packages, making it easy to
+                install on any local or remote eXist database instance. Just go to the dashboard,
+                open the package manager and install the TEI Publisher application package from the
+                public repository. The TEI Publisher library package will be installed automatically
+                as a dependency.</para>
+            <para>
+                <emphasis role="bold">Note</emphasis>: You need at least <link xlink:href="http://exist-db.org">eXist 3.0</link> or a nightly build.</para>
+            <para>Once installed, play around with the provided documents or upload your own via the
+                file upload panel in the right sidebar. You may modify any of the supplied ODD files
+                and see how the rendering changes.</para>
+            <para>To create your own custom ODD, tailored to the data set you are working on, the
+                general procedure is as follows:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Create a new customization</para>
+                </listitem>
+                <listitem>
+                    <para>Overwrite the standard processing model rules for selected TEI elements or
+                        add model rules for elements not handled by the standard ODD.</para>
+                </listitem>
+                <listitem>
+                    <para>Test your modifications by applying the ODD and rendering a few
+                        documents.</para>
+                </listitem>
+            </itemizedlist>
+            <para>The steps will be described in detail in the following sections.</para>
+            <section>
+                <title>Create a new customization</title>
+                <para>Create a new customization by entering a name and clicking "Create" at the
+                    bottom of the right sidebar panel listing the available ODDs. Reload the page to
+                    see the new ODD appear in the list.</para>
+                <para>Open the created ODD using the "source" button. This will create a new browser
+                    tab showing the editor which is part of eXist, called "eXide". The ODD will be
+                    loaded into it.</para>
+                <para>As you can see, the ODD is nearly empty, containing just boilerplate code.
+                    However, it imports the standard <filename>teipublisher.odd</filename>
+                    within the <tag>schemaSpec</tag> element:</para>
+                <synopsis language="xml">&lt;schemaSpec ident="myteisimple" start="TEI teiCorpus" source="teipublisher.odd"&gt;</synopsis>
+                <para>This means your new ODD extends the standard <filename>teipublisher.odd</filename>, which provides useful defaults for the TEI core
+                    elements. In general, most of those defaults should not require any adjustments and you only need to
+                    overwrite a handful of selected mappings within your own ODD.</para>
+                <figure xml:id="create-odd">
+                    <title>Create a custom ODD</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="CreateODD.gif"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+            <section>
+                <title>Modify the ODD</title>
+                <para>Now we created a custom ODD, we can make a first modification. We'll use the
+                        <citetitle>Letter #6 from Robert Graves to William Graves</citetitle> as an
+                    example. Rendered through the standard <filename>teipublisher.odd</filename>, it is definitely missing some styling to look
+                    more like a letter. For example, we may want to move the
+                        <tag>dateline</tag> in the <tag>opener</tag> to the right
+                    and get rid of the <tag>pb</tag> label which currently sits there. </para>
+                <para>We thus need to overwrite the processing model rules for
+                        <tag>dateline</tag> and <tag>opener</tag>. The easiest way
+                    to do this is to:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>open the standard teipublisher.odd and search for an existing
+                                <tag>elementSpec</tag> with
+                            <varname>@ident</varname>="dateline".</para>
+                    </listitem>
+                    <listitem>
+                        <para>if there is an <tag>elementSpec</tag> already, just copy
+                            it</para>
+                    </listitem>
+                    <listitem>
+                        <para>paste the <tag>elementSpec</tag> into the new ODD and modify
+                            it</para>
+                    </listitem>
+                </itemizedlist>
+                <para>If there's no <tag>elementSpec</tag> for the element in <filename>teipublisher.odd</filename>, you have to create a new
+                        <tag>elementSpec</tag> in your ODD, using
+                    <varname>@mode</varname>="add" instead of
+                    <varname>@mode</varname>="change".</para>
+                <para>The <tag>elementSpec</tag> copied from <filename>teipublisher.odd</filename> looks like this:</para>
+                <programlisting language="xml">&lt;elementSpec mode="change" ident="dateline"&gt;
+    &lt;model behaviour="block"/&gt;
+&lt;/elementSpec&gt;</programlisting>
+                <para>To make the text right-aligned, we add a
+                    <tag>outputRendition</tag>:</para>
+                <programlisting language="xml">&lt;elementSpec mode="change" ident="dateline"&gt;
+    &lt;model behaviour="block"&gt;
+        &lt;outputRendition&gt;text-align: right;&lt;/outputRendition&gt;
+    &lt;/model&gt;
+&lt;/elementSpec&gt;</programlisting>
+                <para>We also want to hide the <tag>pb</tag> label, so we add another
+                        <tag>elementSpec</tag>:</para>
+                <programlisting language="xml">&lt;elementSpec mode="change" ident="pb"&gt;
+    &lt;model behaviour="omit"/&gt;
+&lt;/elementSpec&gt;</programlisting>
+                <para>To test the changes, go back to the main page of the app, select the new ODD
+                    and click on "Regenerate", then browse to the letter and view the result. In
+                    fact, the "regenerate" step is not absolutely necessary as the library will
+                    usually recognize the change to the ODD when you try to view the letter and
+                    regenerate automatically. However, if you made mistakes in the ODD, the
+                    regenerate will just fail silently. So during development, it is advisable to
+                    regenerate manually.</para>
+                <figure xml:id="edit-odd">
+                    <title>Move dateline to right and hide pb</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="EditODD.gif"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+        </section>
+        <section>
+            <title>Processing Model syntax</title>
+            <section>
+                <title>
+                    <tag>model</tag> element</title>
+                <para>
+                    <tag>model</tag> element is primarily used to document intended
+                    processing for a given element. One or more of these elements may appear
+                    directly within an <tag>elementSpec</tag> element specification to
+                    define the processing anticipated for that element. Where multiple
+                        <tag>model</tag> elements appear, they are understood to document
+                    mutually exclusive processing scenarios, possibly for different outputs or
+                    applicable in different contexts. </para>
+                <para>A processing model defines on an abstract level how a given element may be
+                    transformed to produce one or more outputs. The model is expressed in terms of
+                        <emphasis>behaviours</emphasis> and their parameters, using
+                    high-level formatting concepts, such as <command>block</command>,
+                        <command>inline</command>, <command>note</command> or <command>heading</command>. A
+                    processing model is thus a template description, used to generate the code
+                    needed by the publishing application to process the source document into
+                    required output. </para>
+                <para> Example below depicts a situation where a single model is defined for
+                        <tag>app</tag> element. As no @predicate or @output are specified,
+                    this model applies for all contexts in which <tag>app</tag> may appear
+                    and all possible outputs. Thus all <tag>app</tag> elements will
+                    be transformed into inline chunks of text containing only contents of
+                        <tag>app</tag>'s <tag>lem</tag> child and omitting any
+                    possible <tag>rdg</tag> children.</para>
+                    <programlisting language="xml">&lt;elementSpec mode="change" ident="app"&gt;
+    &lt;model behaviour="inline"&gt;
+        &lt;param name="content" value="lem"/&gt;
+    &lt;/model&gt;
+&lt;/elementSpec&gt;</programlisting>
+            </section>
+            <section>
+                <title>
+                    <tag>model</tag> children and attributes:</title>
+                <para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>
+                                <varname>@predicate</varname>: the condition under which this model
+                                applies, given as an XPath Predicate Expression</para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <varname>@behaviour</varname>: names the function which this
+                                processing model uses in order to produce output; possible values
+                                include: alternate, block, figure, heading, inline, link, list,
+                                note, paragraph</para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <varname>@output</varname>: identifier of the intended output for
+                                which this model applies; applies to all output if no @output is
+                                present on a <tag>model</tag>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <varname>@useSourceRendition</varname>: whether to obey any
+                                rendition attribute which is present in the source document</para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <varname>@cssClass</varname>: one or more CSS class names which
+                                should be added to the resulting output element where
+                                applicable</para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <tag>param</tag>: allows to pass parameters to @behaviour
+                                function; parameters available depend on the behaviour in question;
+                                when parameters are not explicitly passed, default values for those
+                                are assumed; all behaviour functions use current element as default
+                                content</para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <tag>outputRendition</tag>: supplies information about the
+                                desired output rendition in CSS; its attribute @scope provides a way
+                                of defining ‘pseudo-elements’ eg: first-line, first-letter, before,
+                                after </para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+                <para>Simple model explicitly specifying content parameter: for
+                        <tag>app</tag> entries only content of its <tag>lem</tag>
+                    child is to be displayed (as an inline chunk of text):</para>
+                    <programlisting language="xml">&lt;elementSpec mode="change" ident="app"&gt;
+    &lt;model behaviour="inline"&gt;
+        &lt;param name="content" value="lem"/&gt;
+    &lt;/model&gt;
+&lt;/elementSpec&gt;</programlisting>
+                <para>Model specifying output rendition: contents of <tag>ex</tag> elements
+                    are to be displayed in italic and wrapped in parentheses:</para>
+                    <programlisting language="xml">&lt;elementSpec mode="change" ident="ex"&gt;
+    &lt;model behaviour="inline"&gt;
+        &lt;outputRendition&gt;font-style: italic;&lt;/outputRendition&gt;
+        &lt;outputRendition scope="before"&gt;content:"(";&lt;/outputRendition&gt;
+        &lt;outputRendition scope="after"&gt;content:")";&lt;/outputRendition&gt;
+    &lt;/model&gt;
+&lt;/elementSpec&gt;</programlisting>
+                <para>Sometimes different processing models are required for the same element in
+                    different contexts. For example, we may wish to process the
+                        <tag>quote</tag> element as an inline italic element when it appears
+                    inside a <tag>p</tag> element, but as an indented block when it appears
+                    elsewhere. To achieve this, we need to change the specification for the
+                        <tag>quote</tag> element to include two <tag>model</tag>
+                    elements as follows:</para>
+                    <programlisting language="xml">&lt;elementSpec mode="change" ident="quote"&gt;
+    &lt;model predicate="ancestor::p" behaviour="inline"&gt;
+        &lt;outputRendition&gt;font-style: italic;&lt;/outputRendition&gt;
+    &lt;/model&gt;
+    &lt;model behaviour="block"&gt;
+        &lt;outputRendition&gt;left-margin: 2em;&lt;/outputRendition&gt;
+    &lt;/model&gt;
+&lt;/elementSpec&gt;</programlisting>
+                    <para>The first processing model will be used only for <tag>quote</tag>
+                    elements which match the XPath expression given as value for the
+                        <varname>@predicate</varname> attribute. Other element occurrences will use
+                    the second processing model. Set of multiple <tag>model</tag> statements
+                    is regarded as an alternation and only the first model with
+                        <varname>@predicate</varname> matching current context is applied
+                    
+                </para>
+            </section>
+            <section>
+                <title>
+                    <tag>modelSequence</tag> and <tag>modelGrp</tag>
+                </title>
+                <para> Summary of elements that can be used to document one or more processing
+                    models for a given element: <itemizedlist>
+                        <listitem>
+                            <para>
+                                <tag>model</tag> describes the processing intended for a
+                                specific context </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <tag>modelSequence</tag> (sequence of processing models) a
+                                group of model elements documenting intended processing models for
+                                this element, to be acted upon in sequence </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <tag>modelGrp</tag> (processing model group) a group of
+                                model elements documenting intended processing models for this
+                                element </para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+                <para> The <tag>modelGrp</tag> element may be used to group alternative
+                        <tag>model</tag> elements intended for a single kind of output. The
+                        <tag>modelSequence</tag> element is provided for the case where a
+                    sequence of models is to be processed, functioning as a single unit. Common use
+                    case would be to use modelSequence to generate table of contents along with the
+                    reading text as shown in the example below:</para>
+                    <programlisting language="xml">&lt;elementSpec mode="change" ident="body"&gt;
+    &lt;modelSequence&gt;
+        &lt;model behaviour="index"&gt;
+            &lt;param name="type" value="'toc'"/&gt;
+        &lt;/model&gt;
+        &lt;model behaviour="block"/&gt;
+    &lt;/modelSequence&gt;
+&lt;/elementSpec&gt;</programlisting>
+            </section>
+            <section>
+                <title>Behaviours</title>
+                <para>Most of the processing complexity is hidden behind behaviour functions which
+                    were designed to cover majority of commonly occurring processing tasks. Function
+                    names are wherever possible based on commonly used terms such as 'inline',
+                    'block', 'note' or 'link'.</para>
+                <para>Behaviour functions accept a range of parameters, depending on the function in
+                    question. Where these parameters are left unspecified in the
+                        <tag>model</tag>, default values are used.</para>
+                <section>
+                    <title>Available Behaviours</title>
+                    <para>All behaviour functions take at least one parameter: <parameter>content</parameter>. It will be added by default unless specified and
+                        contains the content of the currently processed node. You may change this by
+                        explicitely setting a <parameter>content</parameter> parameter inside
+                        the model.</para>
+                    <para>In the parameter lists below we skip the <parameter>content</parameter> parameter as it is available for every
+                        behaviour.</para>
+                    <variablelist>
+                        <varlistentry>
+                            <term>alternate</term>
+                            <listitem>
+                                <para>Display alternating elements for displaying the preferred
+                                    version and an alternative, both at once or by some method of
+                                    toggling between the two. The concrete implementation depends on
+                                    the output format.</para>
+                                <informaltable>
+                                    <thead>
+                                        <tr>
+                                            <td>Parameter</td>
+                                            <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>default</td>
+                                            <td>the content to display by default</td>
+                                        </tr>
+                                        <tr>
+                                            <td>alternate</td>
+                                            <td>alternate content</td>
+                                        </tr>
+                                    </tbody>
+                                </informaltable>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>anchor</term>
+                            <listitem>
+                                <para>Create an anchor to which you can link, identified by the
+                                    given id.</para>
+                                <informaltable>
+                                    <thead>
+                                        <tr>
+                                            <td>Parameter</td>
+                                            <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>id</td>
+                                            <td>the id</td>
+                                        </tr>
+                                    </tbody>
+                                </informaltable>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>block</term>
+                            <listitem>
+                                <para>Create a block structure, usually a div in HTML or fo:block in
+                                    fo.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>body</term>
+                            <listitem>
+                                <para>Create the body of a document. In HTML this will result in a
+                                    &lt;body&gt; tag.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>break</term>
+                            <listitem>
+                                <para>Create a line, column, or page break according to type.</para>
+                                <informaltable>
+                                    <thead>
+                                        <tr>
+                                            <td>Parameter</td>
+                                            <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>type</td>
+                                            <td>e.g. "page", "column", "line"</td>
+                                        </tr>
+                                    </tbody>
+                                </informaltable>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>cell</term>
+                            <listitem>
+                                <para>Create a table cell. If the @cols or @rows attribute is
+                                    specified, the cell may span several columns/rows.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>cit</term>
+                            <listitem>
+                                <para>Show a citation, with an indication of the source.</para>
+                                <informaltable>
+                                    <thead>
+                                        <tr>
+                                            <td>Parameter</td>
+                                            <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>source</td>
+                                            <td>the citation source</td>
+                                        </tr>
+                                    </tbody>
+                                </informaltable>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>document</term>
+                            <listitem>
+                                <para>Start a new output document.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>figure</term>
+                            <listitem>
+                                <para>Make a figure with provided title argument as caption</para>
+                                <informaltable>
+                                    <thead>
+                                        <tr>
+                                            <td>Parameter</td>
+                                            <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>title</td>
+                                            <td>a caption</td>
+                                        </tr>
+                                    </tbody>
+                                </informaltable>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>graphic</term>
+                            <listitem>
+                                <para>Display the graphic retrieved from the given url.</para>
+                                <informaltable>
+                                    <thead>
+                                        <tr>
+                                            <td>Parameter</td>
+                                            <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>url</td>
+                                            <td>the url to load the graphic from</td>
+                                        </tr>
+                                        <tr>
+                                            <td>width</td>
+                                            <td>the width of the graphic, e.g. "300px", "50%"
+                                                ...</td>
+                                        </tr>
+                                        <tr>
+                                            <td>height</td>
+                                            <td>the height of the graphic, e.g. "300px", "50%"
+                                                ...</td>
+                                        </tr>
+                                        <tr>
+                                            <td>scale</td>
+                                            <td>a scaling factor to apply. If specified, width and
                                                 height will be output as percentage based on the
                                                 scaling factor, which should be a number between 0
-                                                and 1.</cell>
-                                        </row>
-                                        <row>
-                                            <cell>title</cell>
-                                            <cell>a title for the graphics element. Usually not
-                                                shown directly.</cell>
-                                        </row>
-                                    </table>
-                                </item>
-                                <label>heading</label>
-                                <item>
-                                    <p>Creates a heading.</p>
-                                    <table>
-                                        <row role="label">
-                                            <cell>Parameter</cell>
-                                            <cell>Description</cell>
-                                        </row>
-                                        <row>
-                                            <cell>level</cell>
-                                            <cell>the structural level of this heading. In HTML
-                                                mode, this translates to &lt;h1&gt;, &lt;h2&gt;
-                                                etc.</cell>
-                                        </row>
-                                    </table>
-                                </item>
-                                <label>inline</label>
-                                <item>
-                                    <p>Outputs an inline element.</p>
-                                </item>
-                                <label>link</label>
-                                <item>
-                                    <p>Create a hyperlink.</p>
-                                    <table>
-                                        <row role="label">
-                                            <cell>Parameter</cell>
-                                            <cell>Description</cell>
-                                        </row>
-                                        <row>
-                                            <cell>uri</cell>
-                                            <cell>the link url</cell>
-                                        </row>
-                                    </table>
-                                </item>
-                                <label>list</label>
-                                <item>
-                                    <p>Creates an ordered or unordered list, depending on the type
-                                        attribute (e.g. <code>type="ordered"</code>). If a label is
-                                        present before each item, a description list is output
-                                        instead, using the label as definition term.</p>
-                                </item>
-                                <label>listItem</label>
-                                <item>
-                                    <p>Outputs an item in a list.</p>
-                                </item>
-                                <label>metadata</label>
-                                <item>
-                                    <p>Outputs a metadata section, e.g. a &lt;head&gt; in HTML.</p>
-                                </item>
-                                <label>note</label>
-                                <item>
-                                    <p>create a note, often out of line, depending on the value of
-                                            <term>place</term>; could be "margin", "footnote",
-                                        "endnote", "inline"</p>
-                                    <table>
-                                        <row role="label">
-                                            <cell>Parameter</cell>
-                                            <cell>Description</cell>
-                                        </row>
-                                        <row>
-                                            <cell>place</cell>
-                                            <cell>defines the placement of the note, e.g. "margin",
-                                                "footnote" ...</cell>
-                                        </row>
-                                        <row>
-                                            <cell>label</cell>
-                                            <cell>the label to use for the footnote reference,
-                                                usually a number.</cell>
-                                        </row>
-                                    </table>
-                                </item>
-                                <label>omit</label>
-                                <item> Do nothing, skip this element, do not process children </item>
-                                <label>paragraph</label>
-                                <item> Create a paragraph. </item>
-                                <label>row</label>
-                                <item> Create a table row. </item>
-                                <label>section</label>
-                                <item>Create a new section in the output document. In HTML mode,
+                                                and 1.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>title</td>
+                                            <td>a title for the graphics element. Usually not shown
+                                                directly.</td>
+                                        </tr>
+                                    </tbody>
+                                </informaltable>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>heading</term>
+                            <listitem>
+                                <para>Creates a heading.</para>
+                                <informaltable>
+                                    <thead>
+                                        <tr>
+                                            <td>Parameter</td>
+                                            <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>level</td>
+                                            <td>the structural level of this heading. In HTML mode,
+                                                this translates to &lt;h1&gt;, &lt;h2&gt; etc.</td>
+                                        </tr>
+                                    </tbody>
+                                </informaltable>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>inline</term>
+                            <listitem>
+                                <para>Outputs an inline element.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>link</term>
+                            <listitem>
+                                <para>Create a hyperlink.</para>
+                                <informaltable>
+                                    <thead>
+                                        <tr>
+                                            <td>Parameter</td>
+                                            <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>uri</td>
+                                            <td>the link url</td>
+                                        </tr>
+                                    </tbody>
+                                </informaltable>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>list</term>
+                            <listitem>
+                                <para>Creates an ordered or unordered list, depending on the type
+                                    attribute (e.g. <parameter>type="ordered"</parameter>). If a
+                                    label is present before each item, a description list is output
+                                    instead, using the label as definition term.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>listItem</term>
+                            <listitem>
+                                <para>Outputs an item in a list.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>metadata</term>
+                            <listitem>
+                                <para>Outputs a metadata section, e.g. a &lt;head&gt; in
+                                    HTML.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>note</term>
+                            <listitem>
+                                <para>create a note, often out of line, depending on the value of
+                                        <code>place</code>; could be "margin", "footnote",
+                                    "endnote", "inline"</para>
+                                <informaltable>
+                                    <thead>
+                                        <tr>
+                                            <td>Parameter</td>
+                                            <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>place</td>
+                                            <td>defines the placement of the note, e.g. "margin",
+                                                "footnote" ...</td>
+                                        </tr>
+                                        <tr>
+                                            <td>label</td>
+                                            <td>the label to use for the footnote reference, usually
+                                                a number.</td>
+                                        </tr>
+                                    </tbody>
+                                </informaltable>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>omit</term>
+                            <listitem>
+                                <para> Do nothing, skip this element, do not process children
+                                </para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>paragraph</term>
+                            <listitem>
+                                <para> Create a paragraph. </para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>row</term>
+                            <listitem>
+                                <para> Create a table row. </para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>section</term>
+                            <listitem>
+                                <para>Create a new section in the output document. In HTML mode,
                                     this translates to a &lt;section&gt; element being
-                                    output.</item>
-                                <label>table</label>
-                                <item>Create a table.</item>
-                                <label>text</label>
-                                <item>Output literal text.</item>
-                                <label>title</label>
-                                <item>Output the document title. In HTML mode, this creates a
+                                    output.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>table</term>
+                            <listitem>
+                                <para>Create a table.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>text</term>
+                            <listitem>
+                                <para>Output literal text.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>title</term>
+                            <listitem>
+                                <para>Output the document title. In HTML mode, this creates a
                                     &lt;title&gt; element. In LaTeX, it adds the title to the
-                                    document metadata.</item>
-                            </list>
-                        </div>
-                    </div>
-                    <div>
-                        <head>Output formatting options</head>
-                        <!--
+                                    document metadata.</para>
+                            </listitem>
+                        </varlistentry>
+                    </variablelist>
+                </section>
+            </section>
+            <section>
+                <title>Output formatting options</title>
+                <!--
 <p>This component of an element specification describes the rendering or appearance intended for all occurrences of the element in a specified context for a specified type of output. The <gi>rendition</gi> element, by contrast, describes the actual rendering or appearance of all occurrences of the specified element in a source document. The <att>useSourceRendition</att> attribute may however be used to indicate that formatting information provided by a <gi>rendition</gi> element is to be  combined with any provided by an <gi>outputRendition</gi> element.</p>
 <p>It is strongly recommended that the W3C Cascading Stylesheet language (CSS2 or later) be used to express the required formatting information.</p>
 -->
-                        <p> The intended rendering for a particular behaviour of a processing model
-                            may be documented in one or all of the three following ways. Firstly,
-                            the <att>cssClass</att> attribute may be used to specify the name of a
-                            CSS style in some associated CSS stylesheet which is to be applied to
-                            each occurrence of a specified element found (in a given context, for a
-                            specified output). Secondly, the attribute <att>useSourceRendition</att>
-                            may be used to indicate that the rendition specified in the source
-                            document should be applied. Thirdly, the styling to be applied may be
-                            specified explicitly as content of a child <gi>outputRendition</gi>
-                            element. </p>
-                        <p> When more than one of these options is used, they are understood to be
-                            combined in accordance with the rules for multiple declaration of the
-                            styling language used. </p>
-                        <p> It is strongly recommended that use <gi>outputRendition</gi> should be
-                            limited to strictly editorial decisions, such as 'conjectures are to be
-                            displayed in square brackets' and not as means to record all typesetting
-                            and layout specific design choices.</p>
-                        <p>The processing model library translates the CSS styles into the target
-                            media format. Restrictions apply due to differences between the output
-                            formats. Not all CSS properties are supported for every format. Please
-                            refer to the section on <ref target="#output-media">Output media
-                                settings</ref> for further information.</p>
-                    </div>
-                    <div>
-                        <head>Extensions to the Processing Model Specification</head>
-                        <div>
-                            <head>XQuery Instead of XPath</head>
-                            <p>The implementation directly translates processing model instructions
-                                into an XQuery 3.1 module by generating executable XQuery code. This
-                                is straightforward as the resulting XQuery will closely resemble the
-                                specification in the ODD, thus being easy to debug. It also leads to
-                                very efficient code, which is as fast or even faster as a
-                                hand-written, optimized transformation.</p>
-                            <p>As a welcome side effect, any valid XQuery expression might be used
-                                wherever the spec expects an XPath expression, e.g. in predicates or
-                                parameters. For example, one can define variables inside a parameter
-                                using a standard XQuery <code>let $x := ... return ...</code>.</p>
-                        </div>
-                        <div>
-                            <head>Default Processing Model Rules</head>
-                            <p>It is possible to define a default elementSpec to be applied to any
-                                element which is not already matched by another elementSpec. For
-                                example, by default the text content of elements not processed by
-                                another elementSpec is output. To change this behaviour and omit
-                                content of unknown elements, you may want to define a default
-                                elementSpec as shown below:</p>
-                            <eg>
-                                <code lang="xml">&lt;elementSpec ident="*"&gt;
+                <para> The intended rendering for a particular behaviour of a processing model may
+                    be documented in one or all of the three following ways. Firstly, the
+                        <varname>@cssClass</varname> attribute may be used to specify the name of a
+                    CSS style in some associated CSS stylesheet which is to be applied to each
+                    occurrence of a specified element found (in a given context, for a specified
+                    output). Secondly, the attribute <varname>@useSourceRendition</varname> may be
+                    used to indicate that the rendition specified in the source document should be
+                    applied. Thirdly, the styling to be applied may be specified explicitly as
+                    content of a child <tag>outputRendition</tag> element. </para>
+                <para> When more than one of these options is used, they are understood to be
+                    combined in accordance with the rules for multiple declaration of the styling
+                    language used. </para>
+                <para> It is strongly recommended that use <tag>outputRendition</tag> should
+                    be limited to strictly editorial decisions, such as 'conjectures are to be
+                    displayed in square brackets' and not as means to record all typesetting and
+                    layout specific design choices.</para>
+                <para>The processing model library translates the CSS styles into the target media
+                    format. Restrictions apply due to differences between the output formats. Not
+                    all CSS properties are supported for every format. Please refer to the section
+                    on <link linkend="output-media">Output media settings</link> for further
+                    information.</para>
+            </section>
+            <section>
+                <title>Extensions to the Processing Model Specification</title>
+                <section>
+                    <title>XQuery Instead of XPath</title>
+                    <para>The implementation directly translates processing model instructions into
+                        an XQuery 3.1 module by generating executable XQuery code. This is
+                        straightforward as the resulting XQuery will closely resemble the
+                        specification in the ODD, thus being easy to debug. It also leads to very
+                        efficient code, which is as fast or even faster as a hand-written, optimized
+                        transformation.</para>
+                    <para>As a welcome side effect, any valid XQuery expression might be used
+                        wherever the spec expects an XPath expression, e.g. in predicates or
+                        parameters. For example, one can define variables inside a parameter using a
+                        standard XQuery <code language="xquery">let $x := ... return ...</code>.</para>
+                </section>
+                <section>
+                    <title>Default Processing Model Rules</title>
+                    <para>It is possible to define a default elementSpec to be applied to all elements
+                        which are not already matched by another elementSpec. For example, if no 
+                        elementSpec is present for an element, its text content is
+                        output. To change this behaviour and omit content elements without specification,
+                        you may want to define a default elementSpec as shown below:</para>
+                    <programlisting>&lt;elementSpec ident="*"&gt;
     &lt;model behaviour="omit"/&gt;
-&lt;/elementSpec&gt;</code>
-                            </eg>
-                            <p>You can also define an elementSpec to be applied to all text nodes,
-                                e.g. if you need to normalize certain nodes:</p>
-                            <eg>
-                                <code lang="xml">&lt;elementSpec ident="text()"&gt;
+&lt;/elementSpec&gt;</programlisting>
+                    <para>You can also define models to be applied to all text nodes, e.g.
+                        if you need to normalize certain nodes:</para>
+                    <programlisting>&lt;elementSpec ident="text()"&gt;
     &lt;model behaviour="text"/&gt;
-&lt;/elementSpec&gt;</code>
-                            </eg>
-                        </div>
-                        <div>
-                            <head>External Parameters</head>
-                            <p>The script calling the processing model may pass external parameters
-                                into the ODD. They will be available in the variable
-                                    <ident>$parameters</ident>, which is an XQuery map. Access
-                                parameters using the XQuery lookup operator.</p>
-                            <p>For example, one can use this feature to control how specific parts
-                                of the document are output, without having to define a separate
-                                output mode, which would result in much more code. Below we display
-                                a short header for the document, but only if the parameter "header"
-                                is set to "short":</p>
-                            <eg>
-                                <code lang="xquery"><![CDATA[
-<elementSpec mode="change" ident="fileDesc">
-    <modelSequence predicate="$parameters?header='short'">
-        <model behaviour="block" cssClass="header-short">
-        <param name="content" value="titleStmt"/>
-        </model>
-        <model behaviour="block" cssClass="header-short">
-            <param name="content" value="editionStmt"/>
-        </model>
-    </modelSequence> ...
-</elementSpec>]]></code>
-                            </eg>
-                        </div>
-                        <div>
-                            <head>Define Additional CSS Classes</head>
-                            <p>The processing model automatically generates class names for all
-                                elements. However, they just use the name of the TEI element
-                                suffixed with a number corresponding to the position of the
-                                generating <gi>model</gi> within the <gi>elementSpec</gi>. The class
-                                names are thus subject to change whenever one modifies the ODD.
-                                Also, in most projects, a web designer will create a design before
-                                the developer writes the ODD. He thus expects the class names
-                                generated from the ODD to correspond to those in a design template,
-                                not vice versa.</p>
-                            <p>Our implementation thus adds a possibility to explicitely specify
-                                class names inside the <gi>model</gi>. Those class names will be
-                                added to the automatically generated ones. There are two ways to
-                                define CSS classes:</p>
-                            <list type="gloss">
-                                <item>via the <att>cssClass</att> attribute: specifies a whitespace
-                                    separated list of static class names to be appended to the
-                                    output element</item>
-                                <item>via the <gi>cssClass</gi> child element of a <gi>model</gi>:
-                                    the text content of this element is interpreted as an
-                                    XPath/XQuery expression. The evaluation result of this
-                                    expression will be cast to a sequence of strings which will be
-                                    added to the the output element. This is useful if the css class
-                                    depends on the dynamic context - which is often the case in css
-                                    frameworks.</item>
-                            </list>
-                        </div>
-                        <div>
-                            <head>Nested Models</head>
-                            <p>According to the current specs, the processing model only allows to
-                                map one TEI input element to exactly one output element. Sometimes
-                                this is not sufficient as there might not be a direct one-to-one
-                                correspondence. For example, one may want to wrap a block around a
-                                sequence of elements or a link around a heading.</p>
-                            <p>The implementation thus supports nesting of <gi>model</gi>,
-                                    <gi>modelSequence</gi> or <gi>modelGrp</gi> elements inside
-                                another <gi>model</gi>. If no parameters are specified for the
-                                wrapping <gi>model</gi>, the nested elements may directly appear as
-                                child elements and will be applied to the content of the outer
-                                behaviour before it is evaluated (replacing the
-                                    <ident>$content</ident> parameter). Otherwise, parameters in
-                                    <gi>param</gi> elements may also contain nested elements, whose
-                                evaluation result will become the value of the parameter.</p>
-                            <p>Note that the context node doesn't change for nested <gi>model</gi>
-                                and <gi>modelSequence</gi> elements. It will always contain the node
-                                processed by the outer <gi>model</gi>.</p>
-                        </div>
-                    </div>
-                    <div>
-                        <head>Best Practice Recommendations</head>
-                        <list>
-                            <item>
-                                <p>While the ODD may describe the rendition of an element using CSS,
-                                    this should be used with care: styling imposed by the ODD should
-                                    be generic and not interfere with application-specific design
-                                    choices.</p>
-                                <p>For example, defining a font family for a certain element in the
-                                    ODD makes it difficult for web designers to set the font via an
-                                    external stylesheet.</p>
-                                <p>The HTML as well as the FO output function libraries provide ways
-                                    to customize the styling through additional, user-supplied
-                                    CSS.</p>
-                            </item>
-                        </list>
-                    </div>
-                </div>
-                <div>
-                    <head>Configure the ODD via processing instructions</head>
-                    <p>Sometimes you want to use a different ODD for a specific TEI document. Before
-                        displaying a document, TEI publisher will check if a processing instruction
-                        exists at the start of the document, telling it which ODD to use (along with
-                        other configuration parameters). For example, the following processing
-                        instruction associates the document with the <code>dta.odd</code> ODD and
-                        switches to a page-by-page display (along TEI page break boundaries):</p>
-                    <p>
-                        <code lang="xml">&lt;?teipublisher view="page" odd="dta.odd"?&gt;</code>
-                    </p>
-                    <p>If your document does not have page breaks or you want to display entire
-                        divisions instead, there are two additional settings which control the
-                        amount of content displayed at a time:</p>
-                    <p>
-                        <code lang="xml">&lt;?teipublisher depth="2" fill="6"
-                            odd="dta.odd"&gt;</code>
-                    </p>
-                    <list type="gloss">
-                        <label>odd</label>
-                        <item>The ODD file to use for rendering the document</item>
-                        <label>view</label>
-                        <item>Default view to show when browsing the document. Supported values are
-                                <gi>div</gi> or <gi>page</gi>.</item>
-                        <label>depth</label>
-                        <item>When viewing entire divisions, the software tries to determine if it
+&lt;/elementSpec&gt;</programlisting>
+                </section>
+                <section>
+                    <title>External Parameters</title>
+                    <para>The script calling the processing model may pass external parameters into
+                        the ODD. They will be available in the variable
+                            <varname>$parameters</varname>, which is an XQuery map. Access
+                        parameters using the XQuery lookup operator.</para>
+                    <para>For example, one can use this feature to control how specific parts of the
+                        document are output, without having to define a separate output mode, which
+                        would result in much more code. Below we display a shortened header for the
+                        document, containing simply its title, but only if the parameter "header" is set to "short":</para>
+                    <programlisting language="xquery">
+&lt;elementSpec mode="change" ident="fileDesc"&gt;
+    &lt;modelSequence predicate="$parameters?header='short'"&gt;
+        &lt;model behaviour="block" cssClass="header-short"&gt;
+            &lt;param name="content" value="titleStmt"/&gt;
+        &lt;/model&gt;
+        &lt;model behaviour="block" cssClass="header-short"&gt;
+            &lt;param name="content" value="editionStmt"/&gt;
+        &lt;/model&gt;
+    &lt;/modelSequence&gt; ...
+&lt;/elementSpec&gt;</programlisting>
+                </section>
+                <section>
+                    <title>Define Additional CSS Classes</title>
+                    <para>The processing model automatically generates class names for all elements.
+                        However, they just use the name of the TEI element suffixed with a number
+                        corresponding to the position of the generating <tag>model</tag>
+                        within the <tag>elementSpec</tag>. The class names are thus subject
+                        to change whenever one modifies the ODD. Also, in most projects, a web
+                        designer will create a design before the developer writes the ODD. Thus
+                        the class names generated from the ODD need to correspond to those in a
+                        design template, not vice versa.</para>
+                    <para>Our implementation thus adds a possibility to explicitely specify class
+                        names inside the <tag>model</tag>. Those class names will be added
+                        to the automatically generated ones. There are two ways to define CSS
+                        classes:</para>
+                    <orderedlist>
+                        <listitem>
+                            <para>via the <code>@cssClass</code> attribute: specifies a whitespace
+                                separated list of static class names to be appended to the
+                                output element</para>
+                        </listitem>
+                        <listitem>
+                            <para>via the <tag>cssClass</tag> child element of a <tag>model</tag>:
+                                the text content of this element is interpreted as an
+                                XPath/XQuery expression. The evaluation result of this
+                                expression will be cast to a sequence of strings which will be
+                                added to the the output element. This is useful if the css class
+                                depends on the dynamic context - which is often the case in css
+                                frameworks.</para>
+                        </listitem>
+                    </orderedlist>
+                </section>
+                <section>
+                    <title>Nested Models</title>
+                    <para>According to the current TEI Guidelines, the processing model only allows to map
+                        one TEI input element to exactly one output element. Sometimes this is not
+                        sufficient as there might not be a direct one-to-one correspondence. For
+                        example, one may want to wrap a block around a sequence of elements or a
+                        link around a heading.</para>
+                    <para>The implementation thus supports nesting of <tag>model</tag>,
+                            <tag>modelSequence</tag> or <tag>modelGrp</tag> elements
+                        inside another <tag>model</tag>. If no parameters are specified for
+                        the wrapping <tag>model</tag>, the nested elements may directly
+                        appear as child elements and will be applied to the content of the outer
+                        behaviour before it is evaluated (replacing the <varname>$content</varname>
+                        parameter). Otherwise, parameters in <tag>param</tag> elements may
+                        also contain nested elements, whose evaluation result will become the value
+                        of the parameter.</para>
+                    <para>Note that the context node doesn't change for nested
+                            <tag>model</tag> and <tag>modelSequence</tag> elements.
+                        It will always contain the node processed by the outer
+                            <tag>model</tag>.</para>
+                </section>
+            </section>
+            <section>
+                <title>Best Practice Recommendations</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>While the ODD may describe the rendition of an element using CSS, this
+                            should be used with care: styling imposed by the ODD should be generic
+                            and not interfere with application-specific design choices.</para>
+                        <para>For example, defining a font family for a certain element in the ODD
+                            makes it difficult for web designers to set the font via an external
+                            stylesheet.</para>
+                        <para>The HTML as well as the FO output function libraries provide ways to
+                            customize the styling through additional, user-supplied CSS.</para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+        </section>
+        <section>
+            <title>Configure the ODD via processing instructions</title>
+            <para>Sometimes you want to use a different ODD for a specific TEI document. Before
+                displaying a document, TEI publisher will check if a processing instruction exists
+                at the start of the document, telling it which ODD to use (along with other
+                configuration parameters). For example, the following processing instruction
+                associates the document with the <filename>dta.odd</filename> ODD and switches
+                to a page-by-page display (along TEI page break boundaries):</para>
+                
+            <synopsis language="xml">&lt;?teipublisher view="page" odd="dta.odd"?&gt;</synopsis>
+            
+            <para>If your document does not have page breaks or you want to display entire divisions
+                instead, there are two additional settings which control the amount of content
+                displayed at a time:</para>
+            <synopsis>&lt;?teipublisher depth="2" fill="6" odd="dta.odd"&gt;</synopsis>
+            <variablelist>
+                <varlistentry>
+                    <term>odd</term>
+                    <listitem>
+                        <para>The ODD file to use for rendering the document</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>view</term>
+                    <listitem>
+                        <para>Default view to show when browsing the document. Supported values are
+                                <tag>div</tag> or <tag>page</tag>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>depth</term>
+                    <listitem>
+                        <para>When viewing entire divisions, the software tries to determine if it
                             should show child divisions in separate pages or include them with the
-                            current div. <gi>depth</gi> indicates the nesting level up to which
-                            divisions should be shown separately. So setting it to "2" will result
-                            in divisions on level 3 or greater to be shown together with their
-                            enclosing div.</item>
-                        <label>fill</label>
-                        <item>If child divisions appear on separate pages, it may happen that the
+                            current div. <tag>depth</tag> indicates the nesting level up to
+                            which divisions should be shown separately. So setting it to "2" will
+                            result in divisions on level 3 or greater to be shown together with
+                            their enclosing div.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>fill</term>
+                    <listitem>
+                        <para>If child divisions appear on separate pages, it may happen that the
                             enclosing div contains just a heading or a single line of text. In this
                             case, the algorithm will try to fill the page by showing the first child
-                            division as well. The <gi>fill</gi> paramter defines the number of
-                            elements which should at least be present on a page. If not, the
-                            software tries to fill it up.</item>
-                    </list>
-                </div>
-                <div xml:id="appgen">
-                    <head>Using the App Generator</head>
-                    <p>The App Generator takes an ODD file and generates a complete, standalone
-                        application out of it, including features like a simple search facility.
-                        Click on "App Generator" in the menu bar and fill out the form.</p>
-                    <p>Most templates extend the teipublisher.odd, which is itself and extension of
-                        simplePrint. You can see the relation of the different ODDs here:</p>
-                    <table xml:id="odd-choice">
-                        <head>Custom ODD Choices</head>
-                        <row role="label">
-                            <cell>filename</cell>
-                            <cell>title</cell>
-                            <cell>last revision</cell>
-                            <cell>base file</cell>
-                            <cell>publisher</cell>
-                        </row>
-                        <row>
-                            <cell>teipublisher</cell>
-                            <cell>TEI Publisher (Default Custom ODD)</cell>
-                            <cell>2017-09-08</cell>
-                            <cell>tei_simplePrint</cell>
-                            <cell>eXistSolutions GmbH</cell>
-                        </row>
-                        <row>
-                            <cell>tei_simplePrint</cell>
-                            <cell>An Introduction to TEI simplePrint</cell>
-                            <cell>2016-11-17</cell>
-                            <cell/>
-                            <cell/>
-                        </row>
-                        <row>
-                            <cell>myteisimple</cell>
-                            <cell>my TEI Simple (Custom ODD)</cell>
-                            <cell>2017-09-08</cell>
-                            <cell>teipublisher</cell>
-                            <cell>eXistSolutions GmbH</cell>
-                        </row>
-                        <row>
-                            <cell>letter</cell>
-                            <cell>Letter (Custom ODD)</cell>
-                            <cell>2017-09-08</cell>
-                            <cell>teipublisher</cell>
-                            <cell>eXistSolutions GmbH</cell>
-                        </row>
-                        <row>
-                            <cell>dta</cell>
-                            <cell>Deutsches Textarchiv (dta) (Custom ODD)</cell>
-                            <cell>2017-09-08</cell>
-                            <cell>teipublisher</cell>
-                            <cell>eXistSolutions GmbH</cell>
-                        </row>
-                        <row>
-                            <cell>documentation</cell>
-                            <cell>TEI Simple customization for the documentation</cell>
-                            <cell>2017-09-08</cell>
-                            <cell>teipublisher</cell>
-                            <cell>TEI Consortium</cell>
-                        </row>
-                        <row>
-                            <cell>beamer</cell>
-                            <cell>TEI Simple customization for LaTeX beamer presentations</cell>
-                            <cell>2017-09-08</cell>
-                            <cell>teipublisher</cell>
-                            <cell>TEI Consortium</cell>
-                        </row>
-                    </table>
-                    <p>The following form fields are important:</p>
-                    <list type="gloss">
-                        <label>Name</label>
-                        <item>This is the main identifier for you app and should be a globally
+                            division as well. The <tag>fill</tag> paramter defines the
+                            number of elements which should at least be present on a page. If not,
+                            the software tries to fill it up.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </section>
+        <section xml:id="appgen">
+            <title>Creating apps with the App Generator</title>
+            <para>The App Generator takes an ODD file and generates a complete, standalone
+                application out of it, including features like a simple search facility. Click on
+                "App Generator" in the menu bar and fill out the form.</para>
+                <para>First choice is the name of the ODD customization that app will use for transformations.
+                Most templates extend the <filename>teipublisher.odd</filename>, which is itself an extension of
+                <filename>tei_simplePrint.odd</filename>. The latter contains default models for all TEI elements in the
+                <emphasis>simple print</emphasis> subset of TEI. Thanks to this chaining mechanism for ODDs you can only
+                specify processing models for elements you want to be treated differently than in the base ODD. 
+                Only the default specification for a particular XML vocabulary will not be chained to a base file 
+                (cf. tei_simplePrint and docbook entries below). You can see the relation of the different ODDs in the
+                following table:</para>
+            <table>
+                <caption>Custom ODD Choices</caption>
+                <thead>
+                    <tr>
+                        <td>filename</td>
+                        <td>title</td>
+                        <td>last revision</td>
+                        <td>base file</td>
+                        <td>publisher</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>tei_simplePrint</td>
+                        <td>ODD for the Simple Print TEI Subset</td>
+                        <td>2016-11-17</td>
+                        <td/>
+                        <td>TEI Consortium</td>
+                    </tr>
+                    <tr>
+                        <td>teipublisher</td>
+                        <td>TEI Publisher (Default Custom ODD)</td>
+                        <td>2017-09-08</td>
+                        <td>tei_simplePrint</td>
+                        <td>eXistSolutions GmbH</td>
+                    </tr>
+                    <tr>
+                        <td>myteisimple</td>
+                        <td>Example Customization</td>
+                        <td>2017-09-08</td>
+                        <td>teipublisher</td>
+                        <td>eXistSolutions GmbH</td>
+                    </tr>
+                    <tr>
+                        <td>letter</td>
+                        <td>Letter (Custom ODD)</td>
+                        <td>2017-09-08</td>
+                        <td>teipublisher</td>
+                        <td>eXistSolutions GmbH</td>
+                    </tr>
+                    <tr>
+                        <td>dta</td>
+                        <td>Deutsches Textarchiv (dta) (Custom ODD)</td>
+                        <td>2017-09-08</td>
+                        <td>teipublisher</td>
+                        <td>eXistSolutions GmbH</td>
+                    </tr>
+                    <tr>
+                        <td>documentation</td>
+                        <td>Customization for Documentation in TEI</td>
+                        <td>2017-09-08</td>
+                        <td>teipublisher</td>
+                        <td>eXistSolutions GmbH</td>
+                    </tr>
+                    <tr>
+                        <td>beamer</td>
+                        <td>TEI Simple customization for LaTeX beamer presentations</td>
+                        <td>2017-09-08</td>
+                        <td>teipublisher</td>
+                        <td>eXistSolutions GmbH</td>
+                    </tr>
+                    <tr>
+                        <td>docbook</td>
+                        <td>Processing Model for Docbook v5.0</td>
+                        <td>2017-11-05</td>
+                        <td/>
+                        <td>eXistSolutions GmbH</td>
+                    </tr>
+                </tbody>
+            </table>
+            <para>The following form fields are important:</para>
+            <variablelist>
+                <varlistentry>
+                    <term>ODD</term>
+                    <listitem>
+                        <para>Name of the ODD (discussed above) to be used for transformations.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Name</term>
+                    <listitem>
+                        <para>This is the main identifier for you app and should be a globally
                             unique URI. It does not need to correspond to any existing web
-                            site.</item>
-                        <label>Abbreviation</label>
-                        <item>The abbreviation will be used as the name of the root collection of
-                            your app. It should be unique within one database instance.</item>
-                        <label>Data Collection</label>
-                        <item>Only specify something here if you have existing data inside the
+                            site.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Abbreviation</term>
+                    <listitem>
+                        <para>The abbreviation will be used as the name of the root collection of
+                            your app. It should be unique within one database instance.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Data Collection</term>
+                    <listitem>
+                        <para>Only specify something here if you have existing data inside the
                             database or if you want to ship the data set as part of a second,
-                            separate app. In all other cases, leave this field empty.</item>
-                        <label>User/Password</label>
-                        <item>The user account which will own all application files. For security
-                            reasons, it is advisable to create a new account for every app.</item>
-                    </list>
-                    <p>Once you created the new application, log into it using the account details
-                        you provided. You can then upload XML documents using the upload panel in
-                        the right sidebar.</p>
-                    <figure xml:id="create-app" type="animated">
-                        <head>Create an App</head>
-                        <graphic url="CreateApp.gif"/>
-                    </figure>
-                    <div>
-                        <head>Modifying the App</head>
-                        <p>When you are logged in, the "Admin" menu in the top navbar provides
-                            various links to further extend your app:</p>
-                        <list type="gloss">
-                            <label>Recompile ODD</label>
-                            <item>After changing the application's ODD, click here to update the
-                                app.</item>
-                            <label>Update Document Metadata Index</label>
-                            <item>The application maintains a separate index of titles and authors,
-                                which is used to filter the list of documents shown on the landing
-                                page. This index is not refreshed automatically, so you need to
-                                click this menu entry once after uploading data.</item>
-                            <label>Edit ODD</label>
-                            <item>Opens the application's ODD in eXide for editing.</item>
-                            <label>Edit Configuration</label>
-                            <item>Edit the main configuration parameters of the app. Configuration
-                                is done via a set of variables in an XQuery module.</item>
-                            <label>Edit Styles</label>
-                            <item>Opens the main LESS stylesheet where you can change colors, fonts
-                                etc.</item>
-                        </list>
-                        <div>
-                            <head>Generated Code Overview</head>
+                            separate app. In all other cases, leave this field empty.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>User/Password</term>
+                    <listitem>
+                        <para>The user account which will own all application files. For security
+                            reasons, it is advisable to create a new account for every app.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>Once you created the new application, log into it using the account details you
+                provided. You can then upload XML documents using the upload panel in the right
+                sidebar.</para>
+            <figure xml:id="create-app">
+                <title>Create an App</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="CreateApp.gif"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <section>
+                <title>Generated Code Overview</title>
+                <section>
+                    <title>XQuery Code</title>
+                    <para>Collection structure of the generated app follows customary design of many eXist apps. 
+                        Best practices for modifying the app are discussed in further sections of this document.</para>
+                    <variablelist>
+                        <varlistentry>
+                            <term>modules</term>
+                            <listitem>
+                                <para>Contains XQuery modules used by the app, including the copied
+                                    TEI Publisher libraries in <filename>modules/lib</filename> subcollection.
+                                    </para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>resources</term>
+                            <listitem>
+                                <para>Contains a number of subcollections for various resources
+                                    used by the app, such as images, fonts or JavaScript libraries.
+                                    Of particular interest is the <filename>resources/odd</filename> subcollection
+                                    where app's own ODD files are stored.</para>
+                                <para>All of the app styling is done via a set of modularized less
+                                stylesheets, residing in <filename>resources/css</filename>. The
+                                main file is <filename>style.less</filename>, which defines a
+                                number of core parameters. Ideally this should be the only file you ever
+                                need to modify.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>templates</term>
+                            <listitem>
+                                <para>Html templates for templating framework. Contain page templates as well 
+                                as smaller components such as menu or login pane.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>transform</term>
+                            <listitem>
+                                <para>This collections contains XQuery modules governing the transformations
+                                    and styles generated from app's ODD. Its content will be overwritten with
+                                    each ODD recompilation, thus there's no point modifying it.
+                                    It's worth consulting though to gain better understanding
+                                    and troubleshoot the transformations with TEI Processing Model.
+                                    In case of an issue, it may help to know the files:
+                                </para>
+                                <para>
+                                    <filename>teisimple-web.xql</filename> The module generated for output mode web</para>
+                                <para>
+                                    <filename>teisimple-web-main.xql</filename> Main query to be called to run a transformation</para>
+                                <para>
+                                    <filename>teisimple.css</filename> CSS styles generated from the ODD</para>
+                                <para>Files start with the name of the odd and the output 
+                                mode they belong to.</para>
+                            </listitem>
+                        </varlistentry>
+                    </variablelist>
+                </section>
+            </section>
+            <section>
+                <title>Modifying the App</title>
+                <section>
+                    <title>Basic customization options</title>
+                    <para>When you are logged in, the "Admin" menu in the top navbar provides various
+                        links for ease of customization of your app:</para>
+                    <variablelist>
+                        <varlistentry>
+                            <term>Recompile ODD</term>
+                            <listitem>
+                                <para>After changing the application's ODD, click here to update the
+                                    app.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>Update Document Metadata Index</term>
+                            <listitem>
+                                <para>The application maintains a separate index of titles and authors,
+                                    which is used to filter the list of documents shown on the landing
+                                    page. This index is not refreshed automatically, so you need to
+                                    click this menu entry once after uploading data.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>Edit ODD</term>
+                            <listitem>
+                                <para>Opens the application's ODD in eXide for editing.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>Edit Configuration</term>
+                            <listitem>
+                                <para>Edit the main configuration parameters of the app. Configuration
+                                    is done via a set of variables in an XQuery module.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>Edit Styles</term>
+                            <listitem>
+                                <para>Opens the main LESS stylesheet where you can change colors, fonts
+                                    etc.</para>
+                            </listitem>
+                        </varlistentry>
+                    </variablelist>
+                </section>
+                <section>
+                    <title>Customizing behaviours</title>
+                    <para>Sometimes you may need a completely new behaviour or overwrite
+                        one of existing behaviours</para>
+                    <para>
+                    For each output mode, there’s a standard module of behaviour
+                    functions in <filename>modules/ext-{output}.xql</filename>. Additional 
+                    extension modules can be plugged in via <filename>resources/odd/configuration.xml</filename>
+                    </para>
+                    <para>
+                    Code generation searches all modules and uses the first matching
+                    behaviour function it finds.
+                    </para>
+                    <para>For a function to be chosen, the following conditions have to hold:</para>
+                    <itemizedlist>
+<listitem>local name of the function matches name of behaviour</listitem>
+<listitem>takes at least 3 default parameters</listitem>
+<listitem>the remaining parameters match those in the behaviour</listitem>
+</itemizedlist>
+<para>thus: arity of the function = behaviour parameter count + 3</para>
+<synopsis>
+declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string+, $content)</synopsis>
 
-                            <div>
-                                <head>XQuery Code</head>
-                                <p>The generated app shares most of its XQuery libraries with the
-                                    main TEI Publisher app. A copy of those is included in the
-                                        <code>lib/</code> collection of the generated app and should
-                                    not be modified! This way you can later update the libraries to
-                                    a newer TEI Publisher release without breaking your app.</p>
-                                <p>Including the libraries in the generated app creates some
-                                    redundancy, but we chose to accept this trade off to make it
-                                    easier to view and modify everything relevant to the app.</p>
-                                <p>The following core XQuery modules in every app are safe to be
-                                    modified:</p>
-                                <list type="gloss">
-                                    <label>config.xqm</label>
-                                    <item>The main configuration file for the app. It contains a
-                                        number of parameters which control things like: how should
-                                        the TEI content be split into viewable chunks?</item>
-                                    <label>pm-config.xql</label>
-                                    <item>This file defines the functions to be called for rendering
-                                        TEI content via the processing model. It imports the modules
-                                        generated from your ODD and assigns them to variables as
-                                        function pointers. This approach is much more efficient than
-                                        the dynamic lookups done by the main TEI Publisher app. It
-                                        has been production tested on large web sites. The downside
-                                        is that the connection to the ODD is hard-coded. If you need
-                                        to switch between different ODDs, you would need to change
-                                        pm-config.xql and insert a proper switch there depending on
-                                        external parameters.</item>
-                                    <label>index.xql</label>
-                                    <item>Is used to generate indexes on document metadata like
-                                        author, title etc. It is called when you click "Update
-                                        Metadata Index" in the admin menu.</item>
-                                    <label>autocomplete.xql</label>
-                                    <item>Contains the queries used to provide autocomplete
-                                        suggestions when the user types into a search box. If you
-                                        need different indexes for your app, you may also have to
-                                        modify those queries.</item>
-                                    <label>app.xql</label>
-                                    <item>Add your own HTML templating functions here. This is
-                                        basically where the application logic of your app should
-                                        go.</item>
-                                </list>
-                            </div>
-                            <div>
-                                <head>Styling</head>
-                                <p>All of the app styling is done via a set of modularized less
-                                    stylesheets, residing in <code>resources/css</code>. The main
-                                    file is <code>style.less</code>, which defines a number of core
-                                    parameters. Ideally this should be the only file you ever need
-                                    to modify. Limiting yourself to <code>style.less</code> will
-                                    make later updates much easier.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <head>Exporting the Finished App</head>
-                        <p>To save your finished application or exchange it with other people, you
-                            need to save it as an application archive. Application archives use a
-                            standardized format: the resulting .xar file can be uploaded to any
-                            eXist instance via the dashboard and the package manager will take care
-                            of the deployment.</p>
-                        <p>There are two ways to create a .xar file from your application:</p>
-                        <list type="ordered">
-                            <item>Use the "Application"/"Download App" menu entry in eXide to
-                                directly download a .xar</item>
-                            <item>Synchronize the application to a directory on disk via
-                                "Application"/"Synchronize" in eXide</item>
-                        </list>
-                        <p>The second approach is the recommended one. It requires that you have
-                            access to the file system of the server running eXist though, so it's
-                            usually only an option if you run your own eXist. The synchronize steps
-                            in detail:</p>
-                        <list>
-                            <item>Prerequisite: you need to have the <ref target="http://ant.apache.org/">Apache Ant</ref> build tool
-                                installed.</item>
-                            <item>Open one resource belonging to your application in eXide. It
-                                doesn't matter which one. The only important thing is that the name
-                                of your app is displayed next to "Current app:" on the top right of
-                                the eXide window. If this is not the case, stop and check
-                                again!</item>
-                            <item>Click "Application"/"Synchronize" in the menu. It opens up a
-                                dialog with two fields: "Start time" and "Target directory". When
-                                you synchronize the first time, empty the "Start time" field. Enter
-                                a valid, absolute directory path on your server machine into "Target
-                                directory".</item>
-                            <item>Click the "Synchronize" button. This may take a moment, but you
-                                should see a list of written files at the bottom of the dialog
-                                afterwards.</item>
-                            <item>Change to the directory you specified for synchronize.</item>
-                            <item>Calling "ant" inside the directory should create a fresh .xar file
-                                in the build/ subdirectory.</item>
-                        </list>
-                        <p>Note: for security reasons, the password you entered when creating the
-                            app is not stored in the database, so it cannot be synced to disk. To
-                            restore a password for your app, you thus need to edit the
-                                <code>repo.xml</code> file in the directory and add a
-                                <att>password</att> attribute to the <gi>permissions</gi>
-                            element.</p>
-                        <figure xml:id="sync" type="animated">
-                            <head>Export an App</head>
-                            <graphic url="Sync.gif"/>
-                        </figure>
-                    </div>
-                    <div>
-                        <head>Troubleshooting</head>
-                        <p>Sometimes changes you make to the ODD might cause errors in the app, e.g.
-                            if a predicate expression is wrong. The recompile step tries to check
-                            this and if it reports an error, you should fix it immediately.</p>
-                        <p>If you still happen to reload the page, you might run into an error page.
-                            In this case, go to eXide and open the XQuery file
-                                <code>modules/regenerate.xql</code>. This is the XQuery which would
-                            be called by clicking on the "Recompile ODD" menu entry. Execute the
-                            query once by clicking the "Eval" button in eXide.</p>
-                        <p>The same applies if you updated the core TEI Publisher library package:
-                            your application may suddenly fail with XQuery errors. Just follow the
-                            steps above to recover.</p>
-                    </div>
-                </div>
-                <div xml:id="output-media">
-                    <head>Output Media Settings</head>
-                    <p>The library supports various output media formats and translates styles into
-                        the corresponding format. Currently the following output modes are supported
-                        and can be used in the <code>@output</code> attribute:</p>
-                    <list type="gloss">
-                        <label>web</label>
-                        <item>Produces HTML output</item>
-                        <label>fo</label>
-                        <item>Generates a PDF via XSL:FO</item>
-                        <label>latex</label>
-                        <item>Creates a PDF via LaTeX</item>
-                        <label>print</label>
-                        <item>An alias which applies to both: fo and latex modes.</item>
-                        <label>epub</label>
-                        <item>Similar to web concerning features, but targetted at epub
-                            documents</item>
-                    </list>
-                    <p>The quality of the generated output may vary a lot for the fo and latex
-                        modes, depending on the type of input document. The following section
-                        provides more details on the configuration of the FO output option:</p>
-                    <div>
-                        <head>FO Output</head>
-                        <p>When generating XSL:FO output, the implementation tries to translate the
-                            CSS rules specified for renditions into the corresponding XSL:FO
-                            formatting properties. Not all CSS properties are recognized or can be
-                            mapped to FO properties. Unknown properties defined in a rendition will
-                            be ignored.</p>
-                        <p>The default rendering for headings, paragraphs and the like is defined by
-                            a separate CSS file. The implementation merges those defaults with the
-                            custom renditions given in the ODD.</p>
-                        <p>The library searches for default CSS styles in a file named
-                                <code>&lt;odd-name&gt;.fo.css</code> inside the specified output
-                            collection (in which the generated XQuery files are stored). The style
-                            definitions are copied literally into attributes on the output XSL:FO
-                            elements, so any property which is a valid attribute for the
-                            corresponding element may be used. For example,
-                                <code>teipublisher.fo.css</code> contains:</p>
-                        <eg>
-                            <code lang="css">
+                    <variablelist>
+                        <varlistentry>
+                            <term>config</term>
+                            <listitem>
+                                <para>configuration map as passed in from <filename>{ODD-name}-main.xql</filename>
+                                </para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>node</term>
+                            <listitem>
+                                <para>currently processed element</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>class</term>
+                            <listitem>
+                                <para>generated class name for CSS styles etc</para>
+                            </listitem>
+                        </varlistentry>
+                    </variablelist>
+            
+
+                </section>
+                <section>
+                    <title>Further modifications</title>
+                    <para>In case you'd wish to further customize the generated app it's worth to keep the changes as much separated from the generated code as possible to allow for future alignment with newer versions of the TEI Publisher.
+                    </para>
+                    <para>Website layout changes require updating corresponding html templates located in <filename>templates</filename>.</para>
+                    <para>If customizing the app styling, ideally you should only
+                        modify <filename>resources/css/style.less</filename> which defines a number of core 
+                        parameters and/or possibly importing some new modularized less stylesheets, following
+                        the existing pattern.</para>
+                    <para>The generated app shares most of its XQuery libraries with the main
+                        TEI Publisher app. A copy of those is included in the <filename>lib/</filename> 
+                        collection of the generated app and should not be
+                        modified! This way you can later update the libraries to a newer TEI
+                        Publisher release without breaking your app.
+                        Including the libraries in the generated app creates some redundancy,
+                        but we chose to accept this trade-off to make it easier to view and
+                        modify everything relevant to the app.</para>
+                    <para>If you find that modifications of <filename>lib/</filename> modules are necessary,
+                        please consider if your change would be generally beneficial for TEI Publisher and
+                        create PR for the TEI Publisher if so.</para>
+                    <para>The following core XQuery modules in every app are safe to be
+                        modified (all are stored in <filename>modules</filename> subcollection:</para>
+                            <variablelist>
+                                    <varlistentry>
+                                        <term>config.xqm</term>
+                                        <listitem>
+                                            <para>The main configuration file for the app. It contains a
+                                                number of parameters which control things like: how should
+                                                the TEI content be split into viewable chunks?</para>
+                                        </listitem>
+                                    </varlistentry>
+                                    <varlistentry>
+                                        <term>pm-config.xql</term>
+                                        <listitem>
+                                            <para>This file defines the functions to be called for rendering
+                                                TEI content via the processing model. It imports the modules
+                                                generated from your ODD and assigns them to variables as
+                                                function pointers. This approach is much more efficient than
+                                                the dynamic lookups done by the main TEI Publisher app. It
+                                                has been production tested on large web sites. The downside
+                                                is that the connection to the ODD is hard-coded. If you need
+                                                to switch between different ODDs, you would need to change
+                                                pm-config.xql and insert a proper switch there depending on
+                                                external parameters.</para>
+                                        </listitem>
+                                    </varlistentry>
+                                    <varlistentry>
+                                        <term>index.xql</term>
+                                        <listitem>
+                                            <para>Is used to generate indexes on document metadata like
+                                                author, title etc. It is called when you click "Update
+                                                Metadata Index" in the admin menu.</para>
+                                        </listitem>
+                                    </varlistentry>
+                                    <varlistentry>
+                                        <term>autocomplete.xql</term>
+                                        <listitem>
+                                            <para>Contains the queries used to provide autocomplete
+                                                suggestions when the user types into a search box. If you
+                                                need different indexes for your app, you may also have to
+                                                modify those queries.</para>
+                                        </listitem>
+                                    </varlistentry>
+                                    <varlistentry>
+                                        <term>app.xql</term>
+                                        <listitem>
+                                            <para>Add your own HTML templating functions here. This is
+                                                basically where the application logic of your app should
+                                                go.</para>
+                                        </listitem>
+                                    </varlistentry>
+                                </variablelist>
+                </section>
+            </section>
+            <section>
+                <title>Exporting the Finished App</title>
+                <para>To save your finished application or exchange it with other people, you need
+                    to save it as an application archive. Application archives use a standardized
+                    format: the resulting .xar file can be uploaded to any eXist instance via the
+                    dashboard and the package manager will take care of the deployment.</para>
+                <para>There are two ways to create a .xar file from your application:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Use the "Application"/"Download App" menu entry in eXide to directly
+                            download a .xar</para>
+                    </listitem>
+                    <listitem>
+                        <para>Synchronize the application to a directory on disk via
+                            "Application"/"Synchronize" in eXide</para>
+                    </listitem>
+                </itemizedlist>
+                <para>The second approach is the recommended one. It requires that you have access
+                    to the file system of the server running eXist though, so it's usually only an
+                    option if you run your own eXist. The synchronize steps in detail:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Prerequisite: you need to have the <link xlink:href="http://ant.apache.org/">Apache Ant</link>
+                            build tool installed.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Open one resource belonging to your application in eXide. It doesn't
+                            matter which one. The only important thing is that the name of your app
+                            is displayed next to "Current app:" on the top right of the eXide
+                            window. If this is not the case, stop and check again!</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click "Application"/"Synchronize" in the menu. It opens up a dialog
+                            with two fields: "Start time" and "Target directory". When you
+                            synchronize the first time, empty the "Start time" field. Enter a valid,
+                            absolute directory path on your server machine into "Target
+                            directory".</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click the "Synchronize" button. This may take a moment, but you should
+                            see a list of written files at the bottom of the dialog
+                            afterwards.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Change to the directory you specified for synchronize.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Calling "ant" inside the directory should create a fresh .xar file in
+                            the build/ subdirectory.</para>
+                    </listitem>
+                </itemizedlist>
+                <para>Note: for security reasons, the password you entered when creating the app is
+                    not stored in the database, so it cannot be synced to disk. To restore a
+                    password for your app, you thus need to edit the <filename>repo.xml</filename> file in the directory and add a
+                        <varname>@password</varname> attribute to the <tag>permissions</tag>
+                    element.</para>
+                <figure xml:id="sync">
+                    <title>Export an App</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="Sync.gif"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+            <section>
+                <title>Troubleshooting</title>
+                <para>Sometimes changes you make to the ODD might cause errors in the app, e.g. if a
+                    predicate expression is wrong. The recompile step tries to check this and if it
+                    reports an error, you should fix it immediately.</para>
+                <para>If you still happen to reload the page, you might run into an error page. In
+                    this case, go to eXide and open the XQuery file <filename>modules/regenerate.xql</filename>. This is the XQuery which would be called
+                    by clicking on the "Recompile ODD" menu entry. Execute the query once by
+                    clicking the "Eval" button in eXide.</para>
+                <para>The same applies if you updated the core TEI Publisher library package: your
+                    application may suddenly fail with XQuery errors. Just follow the steps above to
+                    recover.</para>
+            </section>
+        </section>
+        <section xml:id="output-media">
+            <title>Output Media Settings</title>
+            <para>The library supports various output media formats and translates styles into the
+                corresponding format. Currently the following output modes are supported and can be
+                used in the <parameter>@output</parameter> attribute:</para>
+            <variablelist>
+                <varlistentry>
+                    <term>web</term>
+                    <listitem>
+                        <para>Produces HTML output</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>fo</term>
+                    <listitem>
+                        <para>Generates a PDF via XSL:FO</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>latex</term>
+                    <listitem>
+                        <para>Creates a PDF via LaTeX</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>print</term>
+                    <listitem>
+                        <para>An alias which applies to both: fo and latex modes.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>epub</term>
+                    <listitem>
+                        <para>Similar to web concerning features, but targetted at epub
+                            documents</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>The quality of the generated output may vary a lot for the fo and latex modes,
+                depending on the type of input document. The following section provides more details
+                on the configuration of the FO output option:</para>
+            <section>
+                <title>FO Output</title>
+                <para>When generating XSL:FO output, the implementation tries to translate the CSS
+                    rules specified for renditions into the corresponding XSL:FO formatting
+                    properties. Not all CSS properties are recognized or can be mapped to FO
+                    properties. Unknown properties defined in a rendition will be ignored.</para>
+                <para>The default rendering for headings, paragraphs and the like is defined by a
+                    separate CSS file. The implementation merges those defaults with the custom
+                    renditions given in the ODD.</para>
+                <para>The library searches for default CSS styles in a file named <filename>&lt;odd-name&gt;.fo.css</filename> inside the specified output collection
+                    (in which the generated XQuery files are stored). The style definitions are
+                    copied literally into attributes on the output XSL:FO elements, so any property
+                    which is a valid attribute for the corresponding element may be used. For
+                    example, <filename>teipublisher.fo.css</filename> contains:</para>
+                <programlisting language="css">
 .tei-text { font-family: "Junicode"; hyphenate: true; }
 .tei-floatingText { padding: 6pt; }
-.tei-p { text-align: justify; }</code>
-                        </eg>
-                        <p>Every XSL:FO document needs a master layout and a page sequence
-                            definition. Because those tend to be rather verbose as they include
-                            things like page margins etc., they are read from two XML files:</p>
-                        <list type="gloss">
-                            <label>master.fo.xml</label>
-                            <item>Contains the layout master set</item>
-                            <label>page-sequence.fo.xml</label>
-                            <item>Defines the main page sequence</item>
-                        </list>
-                        <p>The mechanisms for configuring FO output are still very much under
-                            development and we welcome suggestions by users.</p>
-                    </div>
-                    <div>
-                        <head>LaTeX Output</head>
-                        <p>The latex output mode produces good results for longer texts which fit
-                            well into the pre-defined LaTeX environments. The number of supported
-                            CSS properties is limited though:</p>
-                        <list>
-                            <item>font-weight</item>
-                            <item>font-style</item>
-                            <item>font-variant</item>
-                            <item>font-size</item>
-                            <item>color</item>
-                            <item>text-decoration</item>
-                            <item>text-align</item>
-                            <item>text-indent</item>
-                        </list>
-                        <p>We're looking for contributors familiar with TeX to support more
-                            properties.</p>
-                    </div>
-                </div>
-                <div xml:id="extension-modules">
-                    <head>Extension Modules</head>
-                    <p>Where possible, developers should stick to the standard processing model
-                        functions for defining behaviours. However, there might be situations in
-                        which one has to generate a specific type of output, which is not handled by
-                        the default function module. To facilitate this, the implementation allows
-                        additional extension modules to be configured:</p>
-                    <p>Configuration is done via an XML file which should reside in the same
-                        collection as the source ODD files. It contains a series of
-                            <tag>output</tag> elements, each listing the extension modules to be
-                        loaded for the given output mode. Each definition may optionally be limited
-                        to a specific ODD, whose name is specified in the <att>odd</att>
-                        attribute.</p>
-                    <eg>
-                        <code lang="xml"><![CDATA[
-<modules>
-<!-- General fo extension functions -->
-    <output mode="print">
-        <module mode="print"
+.tei-p { text-align: justify; }
+                        </programlisting>
+                <para>Every XSL:FO document needs a master layout and a page sequence definition.
+                    Because those tend to be rather verbose as they include things like page margins
+                    etc., they are read from two XML files:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term>master.fo.xml</term>
+                        <listitem>
+                            <para>Contains the layout master set</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>page-sequence.fo.xml</term>
+                        <listitem>
+                            <para>Defines the main page sequence</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+                <para>The mechanisms for configuring FO output are still very much under development
+                    and we welcome suggestions by users.</para>
+            </section>
+            <section>
+                <title>LaTeX Output</title>
+                <para>The latex output mode produces good results for longer texts which fit well
+                    into the pre-defined LaTeX environments. The number of supported CSS properties
+                    is limited though:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>font-weight</para>
+                    </listitem>
+                    <listitem>
+                        <para>font-style</para>
+                    </listitem>
+                    <listitem>
+                        <para>font-variant</para>
+                    </listitem>
+                    <listitem>
+                        <para>font-size</para>
+                    </listitem>
+                    <listitem>
+                        <para>color</para>
+                    </listitem>
+                    <listitem>
+                        <para>text-decoration</para>
+                    </listitem>
+                    <listitem>
+                        <para>text-align</para>
+                    </listitem>
+                    <listitem>
+                        <para>text-indent</para>
+                    </listitem>
+                </itemizedlist>
+                <para>We're looking for contributors familiar with TeX to support more
+                    properties.</para>
+            </section>
+        </section>
+        <section xml:id="extension-modules">
+            <title>Extension Modules</title>
+            <para>Where possible, developers should stick to the standard processing model functions
+                for defining behaviours. However, there might be situations in which one has to
+                generate a specific type of output, which is not handled by the default function
+                module. To facilitate this, the implementation allows additional extension modules
+                to be configured:</para>
+            <para>Configuration is done via an XML file which should reside in the same collection
+                as the source ODD files. It contains a series of output elements, each listing the
+                extension modules to be loaded for the given output mode. Each definition may
+                optionally be limited to a specific ODD, whose name is specified in the
+                    <varname>@odd</varname> attribute.</para>
+            <programlisting language="xml">&lt;modules&gt;
+&lt;!-- General fo extension functions --&gt;
+    &lt;output mode="print"&gt;
+        &lt;module mode="print"
                  uri="http://www.tei-c.org/tei-simple/xquery/ext-fo"
                  prefix="ext-fo"
-                 at="../modules/ext-fo.xql"/>
-    </output>
-<!-- Special web configuration for the documentation (to handle <code>) -->
-    <output mode="web" odd="documentation">
-        <module mode="html"
+                 at="../modules/ext-fo.xql"/&gt;
+    &lt;/output&gt;
+&lt;!-- Special web configuration for the documentation (to handle &lt;code&gt;) --&gt;
+    &lt;output mode="web" odd="documentation"&gt;
+        &lt;module mode="html"
                  uri="http://www.tei-c.org/tei-simple/xquery/ext-html"
                  prefix="ext-html"
-                 at="../modules/ext-html.xql"/>
-    </output>
-</modules>]]></code>
-                    </eg>
-                    <p>Whenever the library tries to locate a processing model function for a given
-                        behaviour, it will <hi rendition="simple:bold">first</hi> check any
-                        extension module it knows to see if it contains a matching function. One can
-                        thus <hi rendition="simple:bold">overwrite</hi> the default functions as
-                        well as define new ones.</p>
-                    <p>To be recognized by the library, an extension function needs to accept at
-                        least 4 default arguments, plus any number of custom parameters (to be
-                        passed in the behaviour attribute). The processing model implementation
-                        tries to fill each custom parameter with a corresponding value by looking
-                        through the <tag>param</tag> tags in the ODD to find one with a name
-                        matching the variable name. If no matching parameter can be found, the
-                        function argument will be set to the empty sequence<note place="bottom">You
-                            should not enforce a type or cardinality for any of the custom
-                            parameters as this may lead to unexpected errors. The parameters may
-                            always be empty or contain more than one item.</note>. The default
-                            <code>$content</code> will always be filled, except for empty
-                        elements.</p>
-                    <p>For example, our extension module <code>ext-html.xql</code> may look as
-                        follows:</p>
-                    <eg>
-                        <code lang="xquery"><![CDATA[
-xquery version "3.1";
+                 at="../modules/ext-html.xql"/&gt;
+    &lt;/output&gt;
+&lt;/modules&gt;</programlisting>
+            <para>Whenever the library tries to locate a processing model function for a given
+                behaviour, it will <emphasis role="bold">first</emphasis> check any extension module
+                it knows to see if it contains a matching function. One can thus <emphasis role="bold">overwrite</emphasis> the default functions as well as define new
+                ones.</para>
+            <para>To be recognized by the library, an extension function needs to accept at least 4
+                default arguments, plus any number of custom parameters (to be passed in the
+                behaviour attribute). The processing model implementation tries to fill each custom
+                parameter with a corresponding value by looking through the param tags in the ODD to
+                find one with a name matching the variable name. If no matching parameter can be
+                found, the function argument will be set to the empty sequenceYou should not enforce
+                a type or cardinality for any of the custom parameters as this may lead to
+                unexpected errors. The parameters may always be empty or contain more than one
+                item.. The default <varname>$content</varname> will always be filled, except
+                for empty elements.</para>
+            <para>For example, our extension module <filename>ext-html.xql</filename> may look
+                as follows:</para>
+            <programlisting language="xquery">xquery version "3.1";
 (:~
 : Non-standard extension functions, mainly used for the documentation.
 :)
@@ -1185,58 +1513,70 @@ module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-html";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare function pmf:code($config as map(*), $node as element(), $class as xs:string, $content as node()*, $lang as item()?) {
-    <pre class="sourcecode" data-language="{ if ($lang) then $lang
-    else 'xquery'}">
-        {$config?apply($config, $content/node())} </pre>
-};]]></code>
-                    </eg>
-                    <p>It defines one function, <code>pmf:code</code>, which can be called from the
-                        ODD as follows:</p>
-                    <eg>
-                        <code lang="xml"><![CDATA[
-<model behaviour="code">
-    <param name="lang" value="@lang"/>
-</model>]]></code>
-                    </eg>
-                </div>
-            </div>
-            <div xml:id="faq">
-                <head>Frequently Asked Questions</head>
-                <div>
-                    <head>How can I include elements located elsewhere (in the same or another document)?</head>
-                    <p>For example, it is common practice to keep notes in the back of the document and reference them using <tag>ref</tag>. When processing the <tag>ref</tag>, you want to include the note's content into the <code>note</code> behaviour:</p>
-                    <eg>
-                    <code lang="xml"><![CDATA[<elementSpec mode="change" ident="ref">
-  <model behaviour="note">
-    <param name="place" value="'margin'"/>
-    <!-- Look up the note by xml:id -->
-    <param name="content" value="id(substring-after(@target, '#'), root($parameters?root))/node()"/>
-  </model>
-</elementSpec>
-]]></code>
-                    </eg>
-                    <p>Here we use the <code>fn:id</code> XPath function to look up the element whose ID is given in the <att>target</att> attribute. It will usually start with an '#', so we have to strip this out. The second parameter to <code>fn:id</code> specifies the document-node to search for the id. Note that we're using <code>$parameters?root</code> here and not just <code>root(.)</code>. See next topic below for an explanation.</p>
-                </div>
-                <div>
-                    <head>How do I navigate to the root of the document in XPath?</head>
-                    <p>Normally you would get to the document-node of the current document by calling <code>root(.)</code> in an XPath within the ODD. This works, but there is a caveat:</p>
-                    <p>TEI Publisher will not always pass the entire document to the ODD! For example, if documents are viewed page by page, TEI Publisher will first construct a virtual TEI document containing only the relevant content of the page. This is necessary to make sure the content is well-formed XML. Calling <code>root(.)</code> may thus not return the original document-node but just the constructed root.</p>
-                    <p>To compensate for this, TEI Publisher always passes in an external parameter pointing to the original document-node. It can be accessed via the variable <code>$parameters?root</code>.</p>
-                </div>
-                <div>
-                    <head>Why does my added <tag>model</tag> not have an effect?</head>
-                    <p>You added another <tag>model</tag> rule to an <tag>elementSpec</tag> but it does not seem to have any effect. This might be due to the rules for selecting a model:</p>
-                    <p>The processor walks through all models in sequence and stops at the first one which either has a matching <att>predicate</att> and/or <att>output</att> or neither of both. <hi rendition="simple:bold">Order is important</hi>! If your default model (the one without predicate or output) is placed in front of your more specific models, it will always match:</p>
-                    <eg>
-                        <code><![CDATA[<elementSpec mode="change" ident="hi">
-  <model behaviour="inline"/>
-  <model predicate="@rend='bold'" behaviour="inline">
-    <outputRendition>font-weight: bold;</outputRendition>
-  </model>
-</elementSpec>]]></code>
-                    </eg>
-                </div>
-            </div>
-        </body>
-    </text>
-</TEI>
+    &lt;pre class="sourcecode" data-language="{ if ($lang) then $lang
+    else 'xquery'}"&gt;
+        {$config?apply($config, $content/node())} &lt;/pre&gt;
+};</programlisting>
+            <para>It defines one function, <function>pmf:code</function>, which can be called
+                from the ODD as follows:</para>
+            <programlisting language="xml">
+&lt;model behaviour="code"&gt;
+    &lt;param name="lang" value="@lang"/&gt;
+&lt;/model&gt;</programlisting>
+        </section>
+    </section>
+    <section xml:id="faq">
+        <title>Frequently Asked Questions</title>
+        <section>
+            <title>How can I include elements located elsewhere (in the same or another
+                document)?</title>
+            <para>For example, it is common practice to keep notes in the back of the document and
+                reference them using ref. When processing the ref, you want to include the note's
+                content into the <function>note</function> behaviour:</para>
+            <programlisting language="xml">&lt;elementSpec mode="change" ident="ref"&gt;
+  &lt;model behaviour="note"&gt;
+    &lt;param name="place" value="'margin'"/&gt;
+    &lt;!-- Look up the note by xml:id --&gt;
+    &lt;param name="content" value="id(substring-after(@target, '#'), root($parameters?root))/node()"/&gt;
+  &lt;/model&gt;
+&lt;/elementSpec&gt;</programlisting>
+            <para>Here we use the <function>fn:id</function> XPath function to look up the
+                element whose ID is given in the <varname>@target</varname> attribute. It will
+                usually start with an '#', so we have to strip this out. The second parameter to
+                    <function>fn:id</function> specifies the document-node to search for the
+                id. Note that we're using <parameter>$parameters?root</parameter> here and not
+                just <function>root(.)</function>. See next topic below for an
+                explanation.</para>
+        </section>
+        <section>
+            <title>How do I navigate to the root of the document in XPath?</title>
+            <para>Normally you would get to the document-node of the current document by calling
+                    <function>root(.)</function> in an XPath within the ODD. This works, but
+                there is a caveat:</para>
+            <para>TEI Publisher will not always pass the entire document to the ODD! For example, if
+                documents are viewed page by page, TEI Publisher will first construct a virtual TEI
+                document containing only the relevant content of the page. This is necessary to make
+                sure the content is well-formed XML. Calling <function>root(.)</function> may
+                thus not return the original document-node but just the constructed root.</para>
+            <para>To compensate for this, TEI Publisher always passes in an external parameter
+                pointing to the original document-node. It can be accessed via the variable <parameter>$parameters?root</parameter>.</para>
+        </section>
+        <section>
+            <title>Why does my added model not have an effect?</title>
+            <para>You added another model rule to an elementSpec but it does not seem to have any
+                effect. This might be due to the rules for selecting a model:</para>
+            <para>The processor walks through all models in sequence and stops at the first one
+                which either has a matching <varname>@predicate</varname> and/or
+                    <varname>@output</varname> or neither of both. <emphasis role="bold">Order is
+                    important</emphasis>! If your default model (the one without predicate or
+                output) is placed in front of your more specific models, it will always
+                match:</para>
+            <programlisting>&lt;elementSpec mode="change" ident="hi"&gt;
+  &lt;model behaviour="inline"/&gt;
+  &lt;model predicate="@rend='bold'" behaviour="inline"&gt;
+    &lt;outputRendition&gt;font-weight: bold;&lt;/outputRendition&gt;
+  &lt;/model&gt;
+&lt;/elementSpec&gt;</programlisting>
+        </section>
+    </section>
+</article>

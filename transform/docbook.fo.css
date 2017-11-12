@@ -1,0 +1,51 @@
+.tei-section {
+    font-family: "Times New Roman, serif";
+    hyphenate: true;
+    font-size: 10pt;
+    line-height: 14pt;
+}
+.title {
+    font-family: "Helvetica, sans-serif";
+    space-after: .75em;
+}
+.tei-para {
+    space-after: .25em;
+    text-align: justify;
+}
+.figure {
+    keep-together.within-page: always;
+}
+.term {
+    font-weight: bold;
+}
+.varlistentry {
+    margin-left: 1em;
+    space-after: 1em;
+}
+.code {
+    font-family: monospace;
+    font-size: .85em;
+}
+.programlisting {
+    space-before: .5em;
+    space-after: .5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: .5em;
+    padding-bottom: .5em;
+    background-color: #F0F0F0;
+    border: solid 2pt;
+    border-color: #A0A0A0;
+    font-family: monospace;
+    font-size: .85em;
+    line-height: 1.2em;
+    white-space: pre;
+    hyphenate: false;
+    wrap-option: wrap;
+}
+.img-responsive {
+    width: 100%;
+}
+.tei-itemizedlist {
+    margin-left: 1em;
+}

@@ -8,24 +8,22 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare option exist:serialize "method=xml media-type=text/xml";
 
-declare function local:work2epub($id as xs:string, $work as element(), $lang as xs:string?) {
-    let $root := $work/ancestor-or-self::tei:TEI
-    let $config := $config:epub-config($root, $lang)
+declare function local:work2epub($id as xs:string, $work as document-node(), $lang as xs:string?) {
+    let $config := $config:epub-config($work, $lang)
     let $oddName := replace($config:odd, "^([^/\.]+).*$", "$1")
     let $cssDefault := util:binary-to-string(util:binary-doc($config:output-root || "/" || $oddName || ".css"))
     let $cssEpub := util:binary-to-string(util:binary-doc($config:app-root || "/resources/css/epub.css"))
     let $css := $cssDefault || 
         "&#10;/* styles imported from epub.css */&#10;" || 
         $cssEpub
-    let $text := $root/tei:text/tei:body
     return
-        epub:generate-epub($config, $root, $css, $id)
+        epub:generate-epub($config, $work/*, $css, $id)
 };
 
 let $id := replace(request:get-parameter("id", ""), "^(.*)\..*", "$1")
 let $token := request:get-parameter("token", ())
 let $lang := request:get-parameter("lang", ())
-let $work := pages:get-document($id)/tei:TEI
+let $work := pages:get-document($id)
 let $entries := local:work2epub($id, $work, $lang)
 return
     (

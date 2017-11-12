@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/documentation/latex' at '/db/apps/tei-publisher/transform/documentation-latex.xql';
+import module namespace m='http://www.tei-c.org/pm/models/jats/latex' at '/db/apps/tei-publisher/transform/jats-latex.xql';
 
 declare variable $xml external;
 
@@ -8,7 +8,7 @@ let $options := map {
     "class": "article",
     "section-numbers": false(),
     "font-size": "12pt",
-    "styles": ["../transform/documentation.css"],
+    "styles": ["../transform/jats.css"],
     "collection": "/db/apps/tei-publisher/transform",
     "parameters": if (exists($parameters)) then $parameters else map {}
 }

@@ -18,3 +18,31 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     }
     </fo:block>
 };
+
+declare function pmf:definitionList($config as map(*), $node as element(), $class as xs:string+, $content as node()*) {
+    comment { "definitionList" || " (" || string-join($class, ", ") || ")"},
+    <fo:block>
+    {
+        print:check-styles($config, $node, $class, ()),
+        $config?apply-children($config, $node, $content)
+    }
+    </fo:block>
+};
+
+declare function pmf:definitionTerm($config as map(*), $node as element(), $class as xs:string+, $content as node()*) {
+    comment { "definitionTerm" || " (" || string-join($class, ", ") || ")"},
+    <fo:block>
+    {
+        print:check-styles($config, $node, $class, ()),
+        $config?apply-children($config, $node, $content)
+    }
+    </fo:block>
+};
+
+declare function pmf:definitionDef($config as map(*), $node as element(), $class as xs:string+, $content as node()*) {
+    comment { "definitionDef" || " (" || string-join($class, ", ") || ")"},
+    <fo:block>
+        { print:check-styles($config, $node, $class, ()),
+        $config?apply-children($config, $node, $content) }
+    </fo:block>
+};

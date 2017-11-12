@@ -24,6 +24,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../c
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
 declare namespace expath="http://expath.org/ns/pkg";
@@ -88,11 +89,11 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
                     $item
             for $doc in $ordered
             return
-                doc($doc/@uri)/tei:TEI
+                doc($doc/@uri)/*
         else if ($cached and $filter != "") then
             $cached
         else
-            $config:data-root ! collection(. || "/" || $root)/tei:TEI
+            $config:data-root ! collection(. || "/" || $root)/*
     return (
         session:set-attribute("simple.works", $filtered),
         session:set-attribute("browse", $browse),
@@ -135,13 +136,18 @@ declare function app:add-identifier($node as node(), $model as map(*)) {
 declare
     %templates:wrap
 function app:short-header($node as node(), $model as map(*)) {
-    let $work := $model("work")/ancestor-or-self::tei:TEI
+    let $work := root($model("work"))/*
     let $relPath := config:get-identifier($work)
-    return
-        $pm-config:web-transform($work/tei:teiHeader, map {
+    let $header :=
+        $pm-config:web-transform(nav:get-header($model?config, $work), map {
             "header": "short",
             "doc": $relPath || "?odd=" || $model?config?odd
         }, $model?config?odd)
+    return
+        if ($header) then
+            $header
+        else
+            util:document-name($work)
 };
 
 (:~
@@ -289,6 +295,17 @@ declare function app:fix-links($nodes as node()*) {
     for $node in $nodes
     return
         typeswitch($node)
+            case element(form) return
+                let $action :=
+                    replace(
+                        $node/@action,
+                        "\$app",
+                        (request:get-context-path() || substring-after($config:app-root, "/db"))
+                    )
+                return
+                    element { node-name($node) } {
+                        attribute action {$action}, $node/@* except $node/@action, app:fix-links($node/node())
+                    }
             case element(a) | element(link) return
                 (: skip links with @data-template attributes; otherwise we can run into duplicate @href errors :)
                 if ($node/@data-template) then

@@ -91,19 +91,13 @@
                 </div>
             </div>
         </div>
-        <script type="text/javascript" src="$shared/resources/scripts/ace/ace.js"/>
-        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-javascript.js"/>
-        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-text.js"/>
-        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-xquery.js"/>
-        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-java.js"/>
-        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-css.js"/>
-        <script type="text/javascript" src="$shared/resources/scripts/ace/mode-xml.js"/>
-        <script type="text/javascript" src="$shared/resources/scripts/ace/theme-tomorrow_night.js"/>
-        <script type="text/javascript" src="$shared/resources/scripts/ace/theme-dawn.js"/>
-        <script type="text/javascript" src="$shared/resources/scripts/highlight.js"/>
         <script type="text/javascript">
             $(document).ready(function() {
-                $(".sourcecode").highlight();
+                $(document).ready(function() {
+                  $('pre.code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                  });
+                });
                 $.material.init();
             });
         </script>

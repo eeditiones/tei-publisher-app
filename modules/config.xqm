@@ -148,8 +148,9 @@ declare variable $config:tex-command := function($file) {
 (:~
  : Configuration for epub files.
  :)
-declare variable $config:epub-config := function($root as element(), $langParameter as xs:string?) {
-    let $properties := tpu:parse-pi(root($root), ())
+declare variable $config:epub-config := function($doc as document-node(), $langParameter as xs:string?) {
+    let $root := $doc/*
+    let $properties := tpu:parse-pi($doc, ())
     return
         map {
             "metadata": map {
