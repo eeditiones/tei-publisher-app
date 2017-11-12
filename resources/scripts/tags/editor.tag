@@ -103,6 +103,8 @@
         }
         specs.push('</schemaSpec>');
 
+        this.refs.dialog.show("Saving ...");
+
         var self = this;
         $.ajax({
             method: "post",
@@ -114,7 +116,7 @@
                 data: specs.join('')
             },
             success: function(data) {
-                self.refs.dialog.show("Saved", data.report);
+                self.refs.dialog.set("Saved", data.report);
             },
             error: function(xhr, status) {
                 alert(status);

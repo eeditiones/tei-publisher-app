@@ -19,8 +19,13 @@
     <script>
         show(title, message) {
             $(this.refs.title).html(title);
-            $(this.refs.message).html(message);
+            message && $(this.refs.message).html(message);
             $(this.refs.modal).modal("show");
+        }
+
+        set(title, message) {
+            $(this.refs.title).html(title);
+            $(this.refs.message).html(message);
         }
 
         this.on("mount", function() {
