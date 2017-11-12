@@ -2,7 +2,7 @@
     <div class="col-md-3">
         <div class="panel panel-info">
             <div class="panel-heading">
-                Edit ODD
+                Visual ODD Editor
             </div>
             <div class="panel-body">
                 <yield/>
@@ -32,6 +32,7 @@
     <message ref="dialog"></message>
 
     <script>
+    this.mixin('utils');
     this.odd = opts.odd;
     this.elementSpecs = [];
 
@@ -50,10 +51,33 @@
 
     addElementSpec(ev) {
         var ident = this.refs.identNew.value;
-        this.elementSpecs.push({
-            ident: ident,
-            mode: "change",
-            models: []
+        if (!ident || ident.length == 0) {
+            return;
+        }
+        var self = this;
+        $.getJSON("modules/editor.xql", {
+            action: "find",
+            odd: self.odd,
+            ident: ident
+        }, function(data) {
+            var mode;
+            var models = [];
+            if (data.status === 'not-found') {
+                mode = 'add';
+            } else {
+                mode = 'change';
+                models = data.models;
+            }
+
+            self.elementSpecs = self.updateTag('element-spec');
+            var newSpec = {
+                ident: ident,
+                mode: mode,
+                models: models
+            };
+            self.elementSpecs.push(newSpec);
+            console.log(self.elementSpecs);
+            self.update();
         });
     }
 
@@ -67,6 +91,7 @@
     save(ev) {
         ev.preventUpdate = true;
 
+        this.elementSpecs = this.updateTag('element-spec');
         var specs = ['<schemaSpec xmlns="http://www.tei-c.org/ns/1.0">\n'];
         var tags = this.tags['element-spec'];
         if (tags.length) {

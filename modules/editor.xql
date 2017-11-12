@@ -63,6 +63,28 @@ declare function local:load($oddPath as xs:string) {
     }
 };
 
+declare function local:find-spec($oddPath as xs:string, $ident as xs:string) {
+    let $odd := doc($config:odd-root || "/" || $oddPath)
+    let $spec := $odd//tei:elementSpec[@ident = $ident]
+    return
+        if ($spec) then
+            map {
+                "status": "found",
+                "odd": $oddPath,
+                "models": local:models($spec)
+            }
+        else
+            let $source := $odd//tei:schemaSpec/@source
+            return
+                if ($source) then
+                    local:find-spec($source, $ident)
+                else
+                    map {
+                        "status": "not-found"
+                    }
+};
+
+
 declare function local:get-line($src, $line as xs:int) {
     let $lines := tokenize($src, "\n")
     return
@@ -143,9 +165,12 @@ declare function local:update($nodes as node()*, $data as document-node()) {
 let $action := request:get-parameter("action", "load")
 let $oddPath := request:get-parameter("odd", ())
 let $data := request:get-parameter("data", ())
+let $ident := request:get-parameter("ident", ())
 return
     switch ($action)
         case "save" return
             local:save($oddPath, $data)
+        case "find" return
+            local:find-spec($oddPath, $ident)
         default return
             local:load($oddPath)

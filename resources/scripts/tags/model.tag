@@ -47,9 +47,9 @@
             <div class="btn-group">
                 <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="material-icons">add</i></button>
                 <ul class="dropdown-menu">
-                    <li><a href="#" onclick="{ addModel }">model</a></li>
-                    <li><a href="#" onclick="{ addModel }">modelSequence</a></li>
-                    <li><a href="#" onclick="{ addModel }">modelGrp</a></li>
+                    <li><a href="#" onclick="{ addNested }">model</a></li>
+                    <li><a href="#" onclick="{ addNested }">modelSequence</a></li>
+                    <li><a href="#" onclick="{ addNested }">modelGrp</a></li>
                 </ul>
             </div>
         </h5>
@@ -63,10 +63,11 @@
         this.outputs = [
             "",
             "web",
-            "pdf",
+            "print",
             "epub",
             "fo",
-            "latex"
+            "latex",
+            "plain"
         ];
         this.behaviours = [
             "",
@@ -113,6 +114,13 @@
             this.parent.removeModel(e.item);
         }
 
+        removeModel(item) {
+            var index = this.models.indexOf(item)
+            this.models.splice(index, 1)
+
+            this.update();
+        }
+
         moveDown(e) {
             e.preventDefault();
             this.parent.moveModelDown(e.item);
@@ -124,7 +132,7 @@
         }
 
         addParameter(e) {
-            this.parameters = this.updateTag('parameter');
+            this.updateTags();
             this.parameters.push({
                 name: "",
                 value: ""
@@ -132,15 +140,14 @@
         }
 
         removeParameter(item) {
-            this.parameters = this.parameters.filter(function(param) {
-                return param.name !== item.name;
-            });
+            var index = this.parameters.indexOf(item);
+            this.parameters.splice(index, 1);
+
             this.update();
         }
 
         addRendition(ev) {
-            this.renditions = this.updateTag('rendition');
-
+            this.updateTags();
             this.renditions.push({
                 scope: null,
                 css: ''
@@ -149,7 +156,7 @@
 
         addNested(ev) {
             var type = $(ev.target).text();
-            this.models = this.updateTag('model');
+            this.updateTags();
             this.models.unshift({
                 behaviour: 'inline',
                 predicate: null,
@@ -162,15 +169,22 @@
         }
 
         getData() {
+            this.updateTags();
             return {
                 behaviour: this.behaviour,
                 predicate: this.predicate,
                 type: this.type,
                 output: this.output,
-                models: this.updateTag('model'),
-                parameters: this.updateTag('parameter'),
-                renditions: this.updateTag('rendition')
+                models: this.models,
+                parameters: this.parameters,
+                renditions: this.renditions
             };
+        }
+
+        updateTags() {
+            this.parameters = this.updateTag('parameter');
+            this.renditions = this.updateTag('rendition');
+            this.models = this.updateTag('model');
         }
 
         serialize(indent) {

@@ -30,7 +30,7 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
                     doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type="short"],
                     doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title,
                     $name
-                )[1]/string()
+                )[1]
                 return
                     <tr>
                         <td>
@@ -45,7 +45,7 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
                                 </a>
                         }
                         </td>
-                        <td>{$displayName}</td>
+                        <td><a href="odd-editor.html?odd={$name}.odd" target="_new">{string($displayName)}</a></td>
                         <td>
                         {
                             let $outputPath := $config:output-root || "/" || $name
@@ -132,7 +132,7 @@ function app:form-odd-select($node as node(), $model as map(*), $odd as xs:strin
                     doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type="short"],
                     doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title,
                     $name
-                )[1]/string()
+                )[1]
                 return
                     $title || " [" || $rev-date || "]"
             let $file := replace($resource, "^.*/([^/]+)$", "$1")
@@ -143,7 +143,7 @@ function app:form-odd-select($node as node(), $model as map(*), $odd as xs:strin
                         attribute selected { "selected" }
                     else
                         (),
-                    $displayname
+                    string($displayname)
                 }
                 </option>
         else

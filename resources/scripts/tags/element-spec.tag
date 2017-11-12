@@ -60,6 +60,14 @@
             this.parent.removeElementSpec(ev.item);
         }
 
+        getData() {
+            return {
+                ident: this.ident,
+                mode: this.mode,
+                models: this.updateTag('model')
+            };
+        }
+        
         serialize() {
             var xml = '<elementSpec ident="' + this.ident + '"';
             if (this.mode) {
