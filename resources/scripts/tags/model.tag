@@ -1,62 +1,61 @@
 <model behaviour="{ behaviour }" predicate="{ predicate }" type="{ type }" output="{ output }">
-    <h4>
-        { type }
-        <div class="btn-group">
-            <button type="button" class="btn btn-default" onclick="{ moveDown }"><i class="material-icons">arrow_downward</i></button>
-            <button type="button" class="btn btn-default" onclick="{ moveUp }"><i class="material-icons">arrow_upward</i></button>
-            <button type="button" class="btn btn-default" onclick="{ remove }"><i class="material-icons">delete</i></button>
-        </div>
-    </h4>
-    <table>
-        <tr if="{ type === 'model' }">
-            <td>Behaviour:</td>
-            <td>
-                <select class="form-control" onchange="{ updateBehaviour }">
-                    <option each="{ b in behaviours }" selected="{ b === behaviour }">{ b }</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>Predicate:</td>
-            <td>
-                <input class="inline-edit" type="text" value="{ predicate }" onchange="{ updatePredicate }"/>
-            </td>
-        </tr>
-        <tr>
-            <td>Output:</td>
-            <td>
-            <select class="form-control" onchange="{ updateOutput }">
-                <option each="{ o in outputs }" selected="{ o === output }">{ o }</option>
-            </select>
-            </td>
-        </tr>
-    </table>
-
-    <div class="parameters" if="{type == 'model'}">
-        <h5>Parameters <button type="button" class="btn" onclick="{ addParameter }"><i class="material-icons">add</i></button></h5>
-        <parameter each="{ parameters }" name="{ this.name }" value="{ this.value }"/>
-    </div>
-
-    <div class="renditions" if="{type == 'model'}">
-        <h5>Renditions <button type="button" class="btn" onclick="{ addRendition }"><i class="material-icons">add</i></button></h5>
-        <rendition each="{ renditions }" scope="{ this.scope }" css="{ this.css }"/>
-    </div>
-
-    <div class="models" if="{type == 'modelSequence'}">
-        <h5>Nested Models
+    <form class="form-inline">
+        <h4>
+            { type }
             <div class="btn-group">
-                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="material-icons">add</i></button>
-                <ul class="dropdown-menu">
-                    <li><a href="#" onclick="{ addNested }">model</a></li>
-                    <li><a href="#" onclick="{ addNested }">modelSequence</a></li>
-                    <li><a href="#" onclick="{ addNested }">modelGrp</a></li>
-                </ul>
+                <button type="button" class="btn btn-default" onclick="{ moveDown }"><i class="material-icons">arrow_downward</i></button>
+                <button type="button" class="btn btn-default" onclick="{ moveUp }"><i class="material-icons">arrow_upward</i></button>
+                <button type="button" class="btn btn-default" onclick="{ remove }"><i class="material-icons">delete</i></button>
             </div>
-        </h5>
-        <model each="{ models }" behaviour="{ this.behaviour }" predicate="{ this.predicate }"
-            type="{ this.type }" output="{ this.output }"/>
-    </div>
+        </h4>
+        <table>
+            <tr if="{ type === 'model' }">
+                <td>Behaviour:</td>
+                <td>
+                    <combobox ref="behaviour" current="{ behaviour }" source="{ getBehaviours }" onchange="{ updateBehaviour }"/>
+                </td>
+            </tr>
+            <tr class="predicate">
+                <td>Predicate:</td>
+                <td>
+                    <input type="text" class="form-control" value="{ predicate }" onchange="{ updatePredicate }"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Output:</td>
+                <td>
+                <select class="form-control" onchange="{ updateOutput }">
+                    <option each="{ o in outputs }" selected="{ o === output }">{ o }</option>
+                </select>
+                </td>
+            </tr>
+        </table>
 
+        <div class="parameters" if="{type == 'model'}">
+            <div class="group">Parameters <button type="button" class="btn" onclick="{ addParameter }"><i class="material-icons">add</i></button></div>
+            <parameter each="{ parameters }" name="{ this.name }" value="{ this.value }"/>
+        </div>
+
+        <div class="renditions" if="{type == 'model'}">
+            <div class="group">Renditions <button type="button" class="btn" onclick="{ addRendition }"><i class="material-icons">add</i></button></div>
+            <rendition each="{ renditions }" scope="{ this.scope }" css="{ this.css }"/>
+        </div>
+
+        <div class="models" if="{type == 'modelSequence' || type == 'modelGrp'}">
+            <div class="group">Nested Models
+                <div class="btn-group">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="material-icons">add</i></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="{ addNested }">model</a></li>
+                        <li><a href="#" onclick="{ addNested }">modelSequence</a></li>
+                        <li><a href="#" onclick="{ addNested }">modelGrp</a></li>
+                    </ul>
+                </div>
+            </div>
+            <model each="{ models }" behaviour="{ this.behaviour }" predicate="{ this.predicate }"
+                type="{ this.type }" output="{ this.output }"/>
+        </div>
+    </form>
     <script>
         this.mixin('utils');
 
@@ -96,6 +95,10 @@
             "text",
             "title"
         ];
+
+        getBehaviours() {
+            return this.behaviours;
+        }
 
         updateBehaviour(e) {
             this.behaviour = $(e.target).val();
@@ -154,6 +157,13 @@
             });
         }
 
+        removeRendition(item) {
+            var index = this.renditions.indexOf(item);
+            this.renditions.splice(index, 1);
+
+            this.update();
+        }
+
         addNested(ev) {
             var type = $(ev.target).text();
             this.updateTags();
@@ -185,6 +195,7 @@
             this.parameters = this.updateTag('parameter');
             this.renditions = this.updateTag('rendition');
             this.models = this.updateTag('model');
+            this.predicate = this.refs.predicate.getValue();
         }
 
         serialize(indent) {
@@ -213,9 +224,11 @@
             padding: 4px 8px;
             background-color: #d1dae0;
         }
-        h5 {
+        .group {
             margin: 0;
             font-size: 16px;
+            font-weight: bold;
+            text-decoration: underline;
         }
         table {
             width: 100%;
@@ -233,6 +246,9 @@
         }
         .parameters {
             display: table;
+            width: 100%;
+        }
+        .predicate .form-control {
             width: 100%;
         }
     </style>

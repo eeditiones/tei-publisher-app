@@ -1,9 +1,9 @@
 <element-spec ident="{ ident }" mode="{ mode }">
     <h3>
         <a href="#elem-{ ident }" data-toggle="collapse"><span ref="toggle" class="material-icons">expand_more</span></a>
-        <input type="text" class="inline-edit" value="{ ident }"/>
+        { ident }
         <div class="btn-group">
-            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="material-icons">add</i></button>
+            <button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown"><i class="material-icons">add</i></button>
             <ul class="dropdown-menu">
                 <li><a href="#" onclick="{ addModel }">model</a></li>
                 <li><a href="#" onclick="{ addModel }">modelSequence</a></li>
@@ -67,7 +67,7 @@
                 models: this.updateTag('model')
             };
         }
-        
+
         serialize() {
             var xml = '<elementSpec ident="' + this.ident + '"';
             if (this.mode) {

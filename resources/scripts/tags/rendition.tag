@@ -5,6 +5,7 @@
             <select class="form-control" onchange="{ updateScope }">
                 <option each="{ s in scopes }" selected="{ s === scope }">{ s }</option>
             </select>
+            <button type="button" class="btn btn-default" onclick="{ remove }"><i class="material-icons">delete</i></button>
         </div>
     </form>
     <textarea rows="3" onchange="{ updateCSS }">{ css }</textarea>
@@ -24,13 +25,17 @@
         this.css = $(ev.target).val();
     }
 
+    remove(ev) {
+        this.parent.removeRendition(ev.item);
+    }
+
     getData() {
         return {
             scope: this.scope,
             css: this.css
         };
     }
-    
+
     serialize(indent) {
         var xml = indent + '<outputRendition';
         if (this.scope) {
