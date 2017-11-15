@@ -1,6 +1,8 @@
 <parameter name="{ name }" value="{ value }">
     <combobox ref="combo" class="name" current="{ name }" source="{ updateList }" onchange="{ updateName }"/>
-    <textarea class="value form-control" rows="3" value="{ value }" onchange="{ updateValue }"/>
+    <span class="value">
+        <textarea class="form-control" rows="3" value="{ value }" onchange="{ updateValue }"/>
+    </span>
     <span class="actions">
         <button type="button" class="btn btn-default" onclick="{ delete }"><i class="material-icons">delete</i></button>
     </span>
@@ -9,7 +11,6 @@
     var self = this;
 
     updateList() {
-        console.log(this.parent.behaviour);
         return parameters[this.parent.behaviour] || [];
     }
 
@@ -68,7 +69,8 @@
     input { display: table-cell; margin-right: 10px; }
     .actions { display: table-cell; width: 10%; }
     .btn { margin: 0; }
-    .value { width: 70% !important; padding-left: 10px; }
+    .value { display: table-cell; width: 70% !important; padding-left: 10px; }
+    textarea { width: 100% !important; }
     combobox { display: table-cell; width: 20% !important; font-weight: bold; vertical-align: bottom; }
     </style>
 </parameter>

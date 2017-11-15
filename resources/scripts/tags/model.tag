@@ -195,7 +195,6 @@
             this.parameters = this.updateTag('parameter');
             this.renditions = this.updateTag('rendition');
             this.models = this.updateTag('model');
-            this.predicate = this.refs.predicate.getValue();
         }
 
         serialize(indent) {
