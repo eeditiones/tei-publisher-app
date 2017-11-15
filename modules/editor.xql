@@ -1,7 +1,8 @@
 xquery version "3.1";
 
-declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
+
+declare default element namespace "http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "/db/apps/tei-publisher/modules/config.xqm";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
@@ -13,7 +14,7 @@ declare option output:media-type "application/json";
 
 declare function local:models($spec as element()) {
     array {
-        for $model in $spec/(tei:model|tei:modelGrp|tei:modelSequence)
+        for $model in $spec/(model|modelGrp|modelSequence)
         return
             map {
                 "type": local-name($model),
@@ -29,7 +30,7 @@ declare function local:models($spec as element()) {
 
 declare function local:parameters($model as element()) {
     array {
-        for $param in $model/tei:param
+        for $param in $model/param
         return
             map {
                 "name": $param/@name/string(),
@@ -41,7 +42,7 @@ declare function local:parameters($model as element()) {
 
 declare function local:renditions($model as element()) {
     array {
-        for $rendition in $model/tei:outputRendition
+        for $rendition in $model/outputRendition
         return
             map {
                 "scope": $rendition/@scope/string(),
@@ -52,8 +53,8 @@ declare function local:renditions($model as element()) {
 
 declare function local:load($oddPath as xs:string) {
     array {
-        let $odd := doc($config:odd-root || "/" || $oddPath)/tei:TEI
-        for $spec in $odd//tei:elementSpec
+        let $odd := doc($config:odd-root || "/" || $oddPath)/TEI
+        for $spec in $odd//elementSpec
         return
             map {
                 "ident": $spec/@ident/string(),
@@ -65,7 +66,7 @@ declare function local:load($oddPath as xs:string) {
 
 declare function local:find-spec($oddPath as xs:string, $ident as xs:string) {
     let $odd := doc($config:odd-root || "/" || $oddPath)
-    let $spec := $odd//tei:elementSpec[@ident = $ident]
+    let $spec := $odd//elementSpec[@ident = $ident]
     return
         if ($spec) then
             map {
@@ -74,7 +75,7 @@ declare function local:find-spec($oddPath as xs:string, $ident as xs:string) {
                 "models": local:models($spec)
             }
         else
-            let $source := $odd//tei:schemaSpec/@source
+            let $source := $odd//schemaSpec/@source
             return
                 if ($source) then
                     local:find-spec($source, $ident)
@@ -148,10 +149,10 @@ declare function local:update($nodes as node()*, $data as document-node()) {
                 document {
                     local:update($node/node(), $data)
                 }
-            case element(tei:schemaSpec) return
+            case element(schemaSpec) return
                 element { node-name($node) } {
                     $node/@*,
-                    $data/*
+                    $data/schemaSpec/*
                 }
             case element() return
                 element { node-name($node) } {
