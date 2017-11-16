@@ -21,6 +21,7 @@ declare function local:models($spec as element()) {
                 "output": $model/@output/string(),
                 "behaviour": $model/@behaviour/string(),
                 "predicate": $model/@predicate/string(),
+                "class": $model/@cssClass/string(),
                 "renditions": local:renditions($model),
                 "parameters": local:parameters($model),
                 "models": local:models($model)
@@ -89,7 +90,8 @@ declare function local:find-spec($oddPath as xs:string, $ident as xs:string) {
 declare function local:get-line($src, $line as xs:int) {
     let $lines := tokenize($src, "\n")
     return
-        replace($lines[$line], "^\s*(.*?)", "$1")
+        subsequence($lines, $line - 1, 3) !
+            replace(., "^\s*(.*?)", "$1&#10;")
 };
 
 declare function local:recompile($source as xs:string) {
@@ -106,19 +108,22 @@ declare function local:recompile($source as xs:string) {
             let $src := util:binary-to-string(util:binary-doc($file))
             let $compiled := util:compile-query($src, ())
             return
-                if ($compiled/error) then
-                    <div class="list-group-item-danger">
-                        <h5 class="list-group-item-heading">Compilation error on line {$compiled/error/@line}:</h5>
-                        <p class="list-group-item-text">{ $compiled/error/string() }</p>
-                        <pre class="list-group-item-text">{ local:get-line($src, $compiled/error/@line)}</pre>
-                    </div>
+                if ($compiled/*:error) then
+                    map {
+                        "file": $file,
+                        "error": $compiled/*:error/string(),
+                        "line": $compiled/*:error/@line,
+                        "message": local:get-line($src, $compiled/*:error/@line)
+                    }
                 else
-                    <div class="list-group-item-success">{$file}</div>
+                    map {
+                        "file": $file
+                    }
         } catch * {
-            <div class="list-group-item-danger">
-                <h5 class="list-group-item-heading">Error for output mode {$module}</h5>
-                <p class="list-group-item-text">{ $err:description }</p>
-            </div>
+            map {
+                "error": "Error for output mode " || $module,
+                "message": $err:description
+            }
         }
 };
 
@@ -129,11 +134,9 @@ declare function local:save($oddPath as xs:string, $data as xs:string) {
     let $serialized := serialize($updated, map { "indent": true(), "omit-xml-declaration": false() })
     let $stored := xmldb:store($config:odd-root, $oddPath, $serialized)
     let $report :=
-        <div class="list-group">
-        {
+        array {
             local:recompile($oddPath)
         }
-        </div>
     return
         map {
             "odd": $oddPath,

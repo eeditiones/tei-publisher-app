@@ -94,12 +94,14 @@
         this.elementSpecs = this.updateTag('element-spec');
         var specs = ['<schemaSpec xmlns="http://www.tei-c.org/ns/1.0">\n'];
         var tags = this.tags['element-spec'];
-        if (tags.length) {
-            tags.forEach(function(tag) {
-                specs.push(tag.serialize());
-            });
-        } else {
-            specs.push(tags.serialize());
+        if (tags) {
+            if (tags.length) {
+                tags.forEach(function(tag) {
+                    specs.push(tag.serialize());
+                });
+            } else {
+                specs.push(tags.serialize());
+            }
         }
         specs.push('</schemaSpec>');
 
@@ -116,7 +118,22 @@
                 data: specs.join('')
             },
             success: function(data) {
-                self.refs.dialog.set("Saved", data.report);
+                var msg = '<div class="list-group">';
+                data.report.forEach(function(report) {
+                    if (report.error) {
+                        msg += '<div class="list-group-item-danger">';
+                        msg += '<h4 class="list-group-item-heading">' + report.file + '</h4>';
+                        msg += '<h5 class="list-group-item-heading">Compilation error on line ' + report.line + ':</h5>'
+                        msg += '<pre class="list-group-item-text">' + report.message + '</pre>';
+                        msg += '</div>';
+                    } else {
+                        msg += '<div class="list-group-item-success">';
+                        msg += '<p class="list-group-item-text">Generated '+ report.file + '</p>';
+                        msg += '</div>';
+                    }
+                });
+                msg += '</div>';
+                self.refs.dialog.set("Saved", msg);
             },
             error: function(xhr, status) {
                 alert(status);

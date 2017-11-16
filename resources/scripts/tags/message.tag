@@ -18,8 +18,9 @@
 
     <script>
         show(title, message) {
+            message = message || '';
             $(this.refs.title).html(title);
-            message && $(this.refs.message).html(message);
+            $(this.refs.message).html(message);
             $(this.refs.modal).modal("show");
         }
 
