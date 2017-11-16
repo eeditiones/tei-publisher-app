@@ -200,7 +200,8 @@ declare function app:load-source($node as node(), $model as map(*)) as node()* {
 
 declare
     %templates:wrap
-function app:action($node as node(), $model as map(*), $source as xs:string?, $action as xs:string?, $new-odd as xs:string?) {
+function app:action($node as node(), $model as map(*), $source as xs:string?, $action as xs:string?, $new-odd as xs:string?,
+    $title as xs:string?) {
     switch ($action)
         case "create-odd" return
             <div class="panel panel-primary" role="alert">
@@ -209,8 +210,9 @@ function app:action($node as node(), $model as map(*), $source as xs:string?, $a
                     <ul class="list-group">
                     {
                         let $template := doc($config:odd-root || "/template.odd.xml")
+                        let $parsed := document { app:parse-template($template, $new-odd, $title) }
                         return
-                            xmldb:store($config:odd-root, $new-odd || ".odd", document { app:parse-template($template, $new-odd) }, "text/xml")
+                            xmldb:store($config:odd-root, $new-odd || ".odd", $parsed, "text/xml")
                     }
                     </ul>
                 </div>
@@ -219,22 +221,32 @@ function app:action($node as node(), $model as map(*), $source as xs:string?, $a
             ()
 };
 
-declare %private function app:parse-template($nodes as node()*, $odd as xs:string) {
+declare %private function app:parse-template($nodes as node()*, $odd as xs:string, $title as xs:string?) {
     for $node in $nodes
     return
         typeswitch ($node)
         case document-node() return
-            app:parse-template($node/node(), $odd)
+            app:parse-template($node/node(), $odd, $title)
         case element(tei:schemaSpec) return
             element { node-name($node) } {
                 $node/@*,
                 attribute ident { $odd },
-                app:parse-template($node/node(), $odd)
+                app:parse-template($node/node(), $odd, $title)
+            }
+        case element(tei:title) return
+            element { node-name($node) } {
+                $node/@*,
+                $title
+            }
+        case element(tei:change) return
+            element { node-name($node) } {
+                attribute when { current-date() },
+                "Initial version"
             }
         case element() return
             element { node-name($node) } {
                 $node/@*,
-                app:parse-template($node/node(), $odd)
+                app:parse-template($node/node(), $odd, $title)
             }
         default return
             $node
