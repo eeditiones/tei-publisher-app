@@ -1,6 +1,6 @@
 <editor>
     <div class="col-md-3">
-        <div class="panel panel-info">
+        <div ref="panel" class="panel panel-info" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
             <div class="panel-heading">
                 Visual ODD Editor
             </div>
@@ -37,15 +37,26 @@
     <message ref="dialog"></message>
 
     <script>
+    var self = this;
     this.mixin('utils');
 
     this.odd = opts.odd;
     this.elementSpecs = [];
 
+    this.on('mount', function() {
+        $(self.refs.panel).on('affix.bs.affix', function() {
+            var width = $(self.refs.panel).width();
+            self.refs.panel.style.width = width + 'px';
+        });
+        $(self.refs.panel).on('affixed-top.bs.affix', function() {
+            self.refs.panel.style.width = 'auto';
+        });
+    });
+
     load() {
         var self = this;
         this.refs.editSource.setPath(TeiPublisher.config.root + '/' + this.odd);
-        $.getJSON("modules/editor.xql?odd=" + this.odd, function(data) {
+        $.getJSON("modules/editor.xql?odd=" + this.odd + '&root=' + TeiPublisher.config.root, function(data) {
             self.elementSpecs = data;
             self.update();
         });
