@@ -8,31 +8,24 @@ function Mixin() {
     }
 
     this.forEachTag = function(name, callback) {
-        if (this.tags[name]) {
+        if (this.tags && this.tags[name]) {
             if (this.tags[name].length) {
                 this.tags[name].forEach(function(tag) {
                     callback(tag);
                 });
             } else {
-                callback(this.tags);
+                callback(this.tags[name]);
             }
         }
     }
 
     this.serializeTag = function(name, indent) {
         indent = indent || '';
-        if (this.tags[name]) {
-            if (this.tags[name].length) {
-                var xml = "";
-                this.tags[name].forEach(function(tag) {
-                    xml += tag.serialize(indent + "    ");
-                });
-                return xml;
-            } else {
-                return this.tags[name].serialize(indent + "    ");
-            }
-        }
-        return "";
+        var xml = "";
+        this.forEachTag(name, function(tag) {
+            xml += tag.serialize(indent + "    ");
+        });
+        return xml;
     }
 
     this.moveModelDown = function(item) {

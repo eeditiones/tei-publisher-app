@@ -8,11 +8,16 @@
                 <yield/>
                 <h3>{ odd }</h3>
 
-                <div class="btn-group">
-                    <button class="btn btn-default" onclick="{ load }"><i class="material-icons">replay</i> Reload</button>
-                    <button class="btn btn-default" onclick="{ save }"><i class="material-icons">done_all</i> Save</button>
+                <div  class="toolbar">
+                    <div class="btn-group">
+                        <button class="btn btn-default" onclick="{ load }"><i class="material-icons">replay</i> Reload</button>
+                        <button class="btn btn-default" onclick="{ save }"><i class="material-icons">done_all</i> Save</button>
+                    </div>
                 </div>
 
+                <div class="btn-group">
+                    <edit-source ref="editSource"><i class="material-icons">code</i> ODD Source</edit-source>
+                </div>
                 <div class="input-group">
                     <input ref="identNew" type="text" class="form-control" placeholder="Element Name">
                     <span class="input-group-btn">
@@ -33,11 +38,13 @@
 
     <script>
     this.mixin('utils');
+
     this.odd = opts.odd;
     this.elementSpecs = [];
 
     load() {
         var self = this;
+        this.refs.editSource.setPath(TeiPublisher.config.root + '/' + this.odd);
         $.getJSON("modules/editor.xql?odd=" + this.odd, function(data) {
             self.elementSpecs = data;
             self.update();
@@ -69,14 +76,14 @@
                 models = data.models;
             }
 
-            self.elementSpecs = self.updateTag('element-spec');
+            var specs = self.updateTag('element-spec');
             var newSpec = {
                 ident: ident,
                 mode: mode,
                 models: models
             };
-            self.elementSpecs.push(newSpec);
-            console.log(self.elementSpecs);
+            specs.push(newSpec);
+            self.elementSpecs = specs;
             self.update();
         });
     }
@@ -91,19 +98,10 @@
     save(ev) {
         ev.preventUpdate = true;
 
+        var specs = '<schemaSpec xmlns="http://www.tei-c.org/ns/1.0">\n';
         this.elementSpecs = this.updateTag('element-spec');
-        var specs = ['<schemaSpec xmlns="http://www.tei-c.org/ns/1.0">\n'];
-        var tags = this.tags['element-spec'];
-        if (tags) {
-            if (tags.length) {
-                tags.forEach(function(tag) {
-                    specs.push(tag.serialize());
-                });
-            } else {
-                specs.push(tags.serialize());
-            }
-        }
-        specs.push('</schemaSpec>');
+        specs += this.serializeTag('element-spec');
+        specs += '</schemaSpec>';
 
         this.refs.dialog.show("Saving ...");
 
@@ -115,7 +113,7 @@
             data: {
                 action: "save",
                 odd: this.odd,
-                data: specs.join('')
+                data: specs
             },
             success: function(data) {
                 var msg = '<div class="list-group">';

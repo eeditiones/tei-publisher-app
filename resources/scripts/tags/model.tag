@@ -1,6 +1,12 @@
-<model behaviour="{ behaviour }" predicate="{ predicate }" type="{ type }" output="{ output }">
+<model behaviour="{ behaviour }" predicate="{ predicate }" type="{ type }" output="{ output }" class="{ class }">
     <form class="form-inline">
         <h4>
+            <div class="pull-right">
+                <label>Output:</label>
+                <select ref="output" class="form-control">
+                    <option each="{ o in outputs }" selected="{ o === output }">{ o }</option>
+                </select>
+            </div>
             { type }
             <div class="btn-group">
                 <button type="button" class="btn btn-default" onclick="{ moveDown }"><i class="material-icons">arrow_downward</i></button>
@@ -12,21 +18,19 @@
             <tr if="{ type === 'model' }">
                 <td>Behaviour:</td>
                 <td>
-                    <combobox ref="behaviour" current="{ behaviour }" source="{ getBehaviours }" onchange="{ updateBehaviour }"/>
+                    <combobox ref="behaviour" current="{ behaviour }" source="{ getBehaviours }"/>
                 </td>
             </tr>
             <tr class="predicate">
                 <td>Predicate:</td>
                 <td>
-                    <input type="text" class="form-control" value="{ predicate }" onchange="{ updatePredicate }"/>
+                    <input ref="predicate" type="text" class="form-control" value="{ predicate }"/>
                 </td>
             </tr>
-            <tr>
-                <td>Output:</td>
+            <tr class="predicate">
+                <td>CSS Class:</td>
                 <td>
-                <select class="form-control" onchange="{ updateOutput }">
-                    <option each="{ o in outputs }" selected="{ o === output }">{ o }</option>
-                </select>
+                    <input ref="class" type="text" class="form-control" value="{ class }"/>
                 </td>
             </tr>
         </table>
@@ -69,7 +73,6 @@
             "plain"
         ];
         this.behaviours = [
-            "",
             "alternate",
             "anchor",
             "block",
@@ -100,16 +103,10 @@
             return this.behaviours;
         }
 
-        updateBehaviour(e) {
-            this.behaviour = $(e.target).val();
-        }
-
-        updateOutput(e) {
-            this.output = $(e.target).val();
-        }
-
-        updatePredicate(e) {
-            this.predicate = $(e.target).val();
+        getBehaviour() {
+            if (this.refs.behaviour) {
+                return this.refs.behaviour.getData();
+            }
         }
 
         remove(e) {
@@ -118,8 +115,9 @@
         }
 
         removeModel(item) {
-            var index = this.models.indexOf(item)
-            this.models.splice(index, 1)
+            var index = this.models.indexOf(item);
+            this.updateModel();
+            this.models.splice(index, 1);
 
             this.update();
         }
@@ -135,7 +133,7 @@
         }
 
         addParameter(e) {
-            this.updateTags();
+            this.updateModel();
             this.parameters.push({
                 name: "",
                 value: ""
@@ -144,13 +142,14 @@
 
         removeParameter(item) {
             var index = this.parameters.indexOf(item);
+            this.updateModel();
             this.parameters.splice(index, 1);
 
             this.update();
         }
 
         addRendition(ev) {
-            this.updateTags();
+            this.updateModel();
             this.renditions.push({
                 scope: null,
                 css: ''
@@ -159,6 +158,7 @@
 
         removeRendition(item) {
             var index = this.renditions.indexOf(item);
+            this.updateModel();
             this.renditions.splice(index, 1);
 
             this.update();
@@ -166,7 +166,7 @@
 
         addNested(ev) {
             var type = $(ev.target).text();
-            this.updateTags();
+            this.updateModel();
             this.models.unshift({
                 behaviour: 'inline',
                 predicate: null,
@@ -179,10 +179,11 @@
         }
 
         getData() {
-            this.updateTags();
+            this.updateModel();
             return {
                 behaviour: this.behaviour,
                 predicate: this.predicate,
+                class: this.class,
                 type: this.type,
                 output: this.output,
                 models: this.models,
@@ -191,13 +192,20 @@
             };
         }
 
-        updateTags() {
+        updateModel() {
+            if (this.refs.behaviour) {
+                this.behaviour = this.refs.behaviour.getData();
+            }
+            this.output = this.refs.output.options[this.refs.output.selectedIndex].value;
+            this.class = this.refs.class.value;
+            this.predicate = this.refs.predicate.value;
             this.parameters = this.updateTag('parameter');
             this.renditions = this.updateTag('rendition');
             this.models = this.updateTag('model');
         }
 
         serialize(indent) {
+            this.updateModel();
             var xml = indent + '<' + this.type;
             if (this.behaviour) {
                 xml += ' behaviour="'+ this.behaviour + '"';
@@ -207,6 +215,9 @@
             }
             if (this.output) {
                 xml += ' output="' + this.output + '"';
+            }
+            if (this.class) {
+                xml += ' cssClass="' + this.class + '"';
             }
             xml += '>\n';
 

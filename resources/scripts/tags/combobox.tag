@@ -13,14 +13,18 @@
         this.options = this.source();
 
         getData() {
-            return this.current;
+            return this.refs.value.value;
         }
 
         filter(ev) {
             var val = ev.target.value;
-            this.options = this.source().filter(function(option) {
-                return option.indexOf(val) > -1;
-            });
+            if (val) {
+                this.options = this.source().filter(function(option) {
+                    return option.indexOf(val) > -1;
+                });
+            } else {
+                this.options = this.source();
+            }
         }
 
         selected(ev) {

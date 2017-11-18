@@ -8,6 +8,7 @@ import module namespace dbutil="http://exist-db.org/xquery/dbutil";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace expath="http://expath.org/ns/pkg";
+declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
 declare variable $app:EXIDE :=
     let $path := collection(repo:get-root())//expath:package[@name = "http://exist-db.org/apps/eXide"]
@@ -113,8 +114,16 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
 declare
     %templates:wrap
     %templates:default("odd", "teipublisher.odd")
-function app:editor-init($node as node(), $model as map(*), $odd as xs:string) {
-    "var TeiPublisher = { 'config': { 'odd': '" || $odd || "' } }"
+function app:editor-init($node as node(), $model as map(*), $odd as xs:string, $root as xs:string?) {
+    let $config := map {
+        "config": map {
+            "odd": $odd,
+            "root": ($root, $config:odd-root)[1]
+        }
+    }
+    return
+    "var TeiPublisher = " || serialize($config,
+        <output:serialization-parameters><output:method>json</output:method></output:serialization-parameters>)
 };
 
 

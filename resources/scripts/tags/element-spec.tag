@@ -15,7 +15,7 @@
 
     <div ref="models" id="elem-{ ident }" class="collapse models">
         <model each="{ models }" behaviour="{ this.behaviour }" predicate="{ this.predicate }"
-            type="{ this.type }" output="{ this.output }" models="{ this.models }"
+            type="{ this.type }" output="{ this.output }" class="{ this.class }" models="{ this.models }"
             parameters="{ this.parameters }"/>
     </div>
 
@@ -50,7 +50,8 @@
         }
 
         removeModel(item) {
-            var index = this.models.indexOf(item)
+            var index = this.models.indexOf(item);
+            this.models = this.updateTag('model');
             this.models.splice(index, 1)
 
             this.update();

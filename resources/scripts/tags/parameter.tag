@@ -1,25 +1,15 @@
 <parameter name="{ name }" value="{ value }">
-    <combobox ref="combo" class="name" current="{ name }" source="{ updateList }" onchange="{ updateName }"/>
+    <combobox ref="combo" class="name" current="{ name }" source="{ updateList }"/>
     <span class="value">
-        <textarea class="form-control" rows="3" value="{ value }" onchange="{ updateValue }"/>
+        <textarea ref="value" class="form-control" rows="3" value="{ value }"/>
     </span>
     <span class="actions">
         <button type="button" class="btn btn-default" onclick="{ delete }"><i class="material-icons">delete</i></button>
     </span>
 
     <script>
-    var self = this;
-
     updateList() {
-        return parameters[this.parent.behaviour] || [];
-    }
-
-    updateName(ev) {
-        this.name = $(ev.target).val();
-    }
-
-    updateValue(ev) {
-        this.value = $(ev.target).val();
+        return parameters[this.parent.getBehaviour()] || [];
     }
 
     delete(ev) {
@@ -29,13 +19,13 @@
 
     getData() {
         return {
-            name: this.name,
-            value: this.value
+            name: this.refs.combo.getData(),
+            value: this.refs.value.value
         };
     }
 
     serialize(indent) {
-        return indent + '<param name="' + this.name + '" value="' + this.value + '"/>\n';
+        return indent + '<param name="' + this.refs.combo.getData() + '" value="' + this.refs.value.value + '"/>\n';
     }
 
     var parameters = {
