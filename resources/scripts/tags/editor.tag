@@ -2,7 +2,7 @@
     <div class="col-md-3">
         <div ref="panel" class="panel panel-info" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
             <div class="panel-heading">
-                Visual ODD Editor
+                Visual ODD Editor <span class="label label-warning pull-right">Beta</span>
             </div>
             <div class="panel-body">
                 <yield/>
