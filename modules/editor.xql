@@ -134,7 +134,11 @@ declare function local:save($oddPath as xs:string, $root as xs:string, $data as 
     let $odd := doc($root || "/" || $oddPath)
     let $parsed := parse-xml($data)
     let $updated := local:update($odd, $parsed)
-    let $serialized := serialize($updated, map { "indent": true(), "omit-xml-declaration": false() })
+    let $serialized := serialize($updated,
+        <output:serialization-parameters>
+            <output:indent>true</output:indent>
+            <output:omit-xml-declaration>false</output:omit-xml-declaration>
+        </output:serialization-parameters>)
     let $stored := xmldb:store($root, $oddPath, $serialized)
     let $report :=
         array {
