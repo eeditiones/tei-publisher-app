@@ -1,4 +1,6 @@
-function Mixin() {
+function Mixin(app) {
+    this.app = app;
+    
     this.updateTag = function(name) {
         var data = [];
         this.forEachTag(name, function(tag) {

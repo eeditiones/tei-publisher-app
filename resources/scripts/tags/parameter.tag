@@ -1,13 +1,15 @@
 <parameter name="{ name }" value="{ value }">
     <combobox ref="combo" class="name" current="{ name }" source="{ updateList }"/>
     <span class="value">
-        <textarea ref="value" class="form-control" rows="3" value="{ value }"/>
+        <code-editor ref="value" mode="xquery" code="{ value }"></code-editor>
     </span>
     <span class="actions">
         <button type="button" class="btn btn-default" onclick="{ delete }"><i class="material-icons">delete</i></button>
     </span>
 
     <script>
+    this.mixin('utils');
+    
     updateList() {
         return parameters[this.parent.getBehaviour()] || [];
     }
@@ -20,12 +22,12 @@
     getData() {
         return {
             name: this.refs.combo.getData(),
-            value: this.refs.value.value
+            value: this.refs.value.get()
         };
     }
 
     serialize(indent) {
-        return indent + '<param name="' + this.refs.combo.getData() + '" value="' + this.refs.value.value + '"/>\n';
+        return indent + '<param name="' + this.refs.combo.getData() + '" value="' + this.refs.value.get() + '"/>\n';
     }
 
     var parameters = {

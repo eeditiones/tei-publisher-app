@@ -57,6 +57,7 @@
     }
 
     addElementSpec(ev) {
+        ev.preventUpdate = true;
         var ident = this.refs.identNew.value;
         if (!ident || ident.length == 0) {
             return;

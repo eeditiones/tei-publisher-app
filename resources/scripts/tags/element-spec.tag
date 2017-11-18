@@ -27,6 +27,9 @@
             $(this.refs.models).on("show.bs.collapse", function() {
                 $(self.refs.toggle).text("expand_less");
             });
+            $(this.refs.models).on("shown.bs.collapse", function() {
+                self.app.trigger('show');
+            });
             $(this.refs.models).on("hide.bs.collapse", function() {
                 $(self.refs.toggle).text("expand_more");
             });

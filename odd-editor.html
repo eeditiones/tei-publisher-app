@@ -11,10 +11,11 @@
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
         <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css"/>
         <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/vendor/codemirror.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/vendor/ttcn.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/vendor/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/vendor/bootstrap-material-design.min.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/vendor/ripples.min.css"/>
-        <link rel="stylesheet" type="text/css" href="resources/css/vendor/atom-one-light.css"/>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
         <style type="text/css">
@@ -36,44 +37,22 @@
             .renditions {
                 margin-top: 10px;
             }
-            /* Make an input blend into its parent */
-            input.inline-edit{
-              /* Eliminate borders and padding */
-              border: none;
-              padding: 0;
-              margin: 0;
-
-              /* Inherit the parent element's typography */
-              font: inherit;
-              color: inherit;
-              line-height: inherit;
-              font-size: inherit;
-              text-align: inherit;
-
-              /* Seems to help alignment in headers */
-              vertical-align: middle;
-            }
-
-            /* Add interaction cues on hover and focus */
-            input.inline-edit:hover,
-            input.inline-edit:focus{
-              /* Change the background to a light yellow */
-              background-color: #FFD;
-
-              /* A subtle transition never hurts */
-              -webkit-transition: background-color 0.5s;
-                 -moz-transition: background-color 0.5s;
-                  -ie-transition: background-color 0.5s;
-                      transition: background-color 0.5s;
+            .CodeMirror {
+                height: auto;
+                padding-bottom: 7px;
+                margin-bottom: 7px;
+                border-bottom: 1px solid #E0E0E0;
             }
         </style>
         <script type="text/javascript" src="resources/scripts/vendor/jquery-1.11.3.min.js"/>
+        <script type="text/javascript" src="resources/scripts/vendor/codemirror/codemirror.js"/>
+        <script type="text/javascript" src="resources/scripts/vendor/codemirror/css.js"/>
+        <script type="text/javascript" src="resources/scripts/vendor/codemirror/xquery.js"/>
         <script type="text/javascript" src="resources/scripts/vendor/bootstrap.min.js"/>
         <script type="text/javascript" src="resources/scripts/vendor/material.min.js"/>
         <script type="text/javascript" src="resources/scripts/vendor/ripples.min.js"/>
         <script type="text/javascript" src="resources/scripts/vendor/bootstrap3-typeahead.min.js"/>
         <script type="text/javascript" src="resources/scripts/vendor/jquery.fs.macaroon.min.js"/>
-        <script type="text/javascript" src="resources/scripts/vendor/highlight.pack.js"/>
     </head>
     <body xmlns:i18n="http://exist-db.org/xquery/i18n">
         <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content" data-template-using="body">
@@ -86,6 +65,7 @@
                         <odd-select data-template="app:form-odd-select"></odd-select>
                     </editor>
                     <script src="resources/scripts/tags/mixins.js" type="text/javascript"></script>
+                    <script src="resources/scripts/tags/code-editor.tag" type="riot/tag"></script>
                     <script src="resources/scripts/tags/combobox.tag" type="riot/tag"></script>
                     <script src="resources/scripts/tags/message.tag" type="riot/tag"></script>
                     <script src="resources/scripts/tags/odd-select.tag" type="riot/tag"></script>
@@ -98,9 +78,10 @@
                     <script src="resources/scripts/vendor/riot+compiler.min.js"></script>
                     <script data-template="app:editor-init"></script>
                     <script>
-                        var observable = riot.observable();
-                        riot.mixin('utils', new Mixin());
-                        riot.mount('editor', { "observable": observable });
+                        var app = riot.observable();
+                        var mixin = new Mixin(app);
+                        riot.mixin('utils', mixin);
+                        riot.mount('editor');
                     </script>
                 </main>
             </section>

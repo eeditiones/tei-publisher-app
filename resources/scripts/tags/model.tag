@@ -24,7 +24,7 @@
             <tr class="predicate">
                 <td>Predicate:</td>
                 <td>
-                    <input ref="predicate" type="text" class="form-control" value="{ predicate }"/>
+                    <code-editor ref="predicate" mode="xquery" code="{ predicate || '' }"/>
                 </td>
             </tr>
             <tr class="predicate">
@@ -42,7 +42,7 @@
 
         <div class="renditions" if="{type == 'model'}">
             <div class="group">Renditions <button type="button" class="btn" onclick="{ addRendition }"><i class="material-icons">add</i></button></div>
-            <rendition each="{ renditions }" scope="{ this.scope }" css="{ this.css }"/>
+            <rendition each="{ renditions }" scope="{ this.scope }" css="{ this.css }" events="{ events }"/>
         </div>
 
         <div class="models" if="{type == 'modelSequence' || type == 'modelGrp'}">
@@ -198,7 +198,7 @@
             }
             this.output = this.refs.output.options[this.refs.output.selectedIndex].value;
             this.class = this.refs.class.value;
-            this.predicate = this.refs.predicate.value;
+            this.predicate = this.refs.predicate.get();
             this.parameters = this.updateTag('parameter');
             this.renditions = this.updateTag('rendition');
             this.models = this.updateTag('model');

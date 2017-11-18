@@ -8,9 +8,13 @@
             <button type="button" class="btn btn-default" onclick="{ remove }"><i class="material-icons">delete</i></button>
         </div>
     </form>
-    <textarea ref="css" rows="3">{ css }</textarea>
+    <code-editor ref="css" mode="css" code="{ this.css }"></code-editor>
 
     <script>
+    this.mixin('utils');
+    
+    var self = this;
+
     this.scopes = ["", "before", "after"];
 
     remove(ev) {
@@ -20,7 +24,7 @@
     getData() {
         return {
             scope: $(this.refs.scope).val(),
-            css: this.refs.css.value
+            css: this.refs.css.get()
         };
     }
 
@@ -31,7 +35,7 @@
             xml += ' scope="' + scope + '"';
         }
         xml += '>\n';
-        xml += this.refs.css.value;
+        xml += this.refs.css.get();
         xml += '\n' + indent + '</outputRendition>\n';
         return xml;
     }
