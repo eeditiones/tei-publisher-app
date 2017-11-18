@@ -15,6 +15,10 @@
             </div>
         </h4>
         <table>
+            <tr class="predicate">
+                <td>Description:</td>
+                <td><input ref="desc" type="text" class="form-control" value="{ desc }"/></td>
+            </tr>
             <tr if="{ type === 'model' }">
                 <td>Behaviour:</td>
                 <td>
@@ -57,7 +61,7 @@
                 </div>
             </div>
             <model each="{ models }" behaviour="{ this.behaviour }" predicate="{ this.predicate }"
-                type="{ this.type }" output="{ this.output }"/>
+                type="{ this.type }" output="{ this.output }" desc="{ this.desc }"/>
         </div>
     </form>
     <script>
@@ -183,6 +187,7 @@
             return {
                 behaviour: this.behaviour,
                 predicate: this.predicate,
+                desc: this.desc,
                 class: this.class,
                 type: this.type,
                 output: this.output,
@@ -199,6 +204,7 @@
             this.output = this.refs.output.options[this.refs.output.selectedIndex].value;
             this.class = this.refs.class.value;
             this.predicate = this.refs.predicate.get();
+            this.desc = this.refs.desc.value;
             this.parameters = this.updateTag('parameter');
             this.renditions = this.updateTag('rendition');
             this.models = this.updateTag('model');
@@ -220,7 +226,9 @@
                 xml += ' cssClass="' + this.class + '"';
             }
             xml += '>\n';
-
+            if (this.desc) {
+                xml += indent + "    " + '<desc>' + this.desc + '</desc>\n';
+            }
             xml += this.serializeTag('model', indent);
             xml += this.serializeTag('parameter', indent);
             xml += this.serializeTag('rendition', indent);

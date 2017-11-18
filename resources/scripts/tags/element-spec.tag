@@ -16,7 +16,7 @@
     <div ref="models" id="elem-{ ident }" class="collapse models">
         <model each="{ models }" behaviour="{ this.behaviour }" predicate="{ this.predicate }"
             type="{ this.type }" output="{ this.output }" class="{ this.class }" models="{ this.models }"
-            parameters="{ this.parameters }"/>
+            parameters="{ this.parameters }" desc="{ this.desc }"/>
     </div>
 
     <script>
