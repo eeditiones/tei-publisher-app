@@ -114,11 +114,14 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
 declare
     %templates:wrap
     %templates:default("odd", "teipublisher.odd")
-function app:editor-init($node as node(), $model as map(*), $odd as xs:string, $root as xs:string?) {
+function app:editor-init($node as node(), $model as map(*), $odd as xs:string, $root as xs:string?, $output-root as xs:string?,
+    $output-prefix as xs:string?) {
     let $config := map {
         "config": map {
             "odd": $odd,
-            "root": ($root, $config:odd-root)[1]
+            "root": ($root, $config:odd-root)[1],
+            "outputRoot": ($output-root, $config:output-root)[1],
+            "outputPrefix": ($output-prefix, $config:output)[1]
         }
     }
     return

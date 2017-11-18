@@ -95,17 +95,19 @@ declare function local:get-line($src, $line as xs:int) {
             replace(., "^\s*(.*?)", "$1&#10;")
 };
 
-declare function local:recompile($source as xs:string) {
-    console:log("Recompiling " || $source),
+declare function local:recompile($source as xs:string, $root as xs:string) {
+    let $outputRoot := request:get-parameter("output-root", $config:output-root)
+    let $outputPrefix := request:get-parameter("output-prefix", $config:output)
+    let $config := doc($root || "/configuration.xml")/*
     for $module in ("web", "print", "latex", "epub")
     return
         try {
             for $file in pmu:process-odd(
-                odd:get-compiled($config:odd-root, $source),
-                $config:output-root,
+                odd:get-compiled($root, $source),
+                $outputRoot,
                 $module,
-                "../" || $config:output,
-                $config:module-config)?("module")
+                "../" || $outputPrefix,
+                $config)?("module")
             let $src := util:binary-to-string(util:binary-doc($file))
             let $compiled := util:compile-query($src, ())
             return
@@ -133,10 +135,10 @@ declare function local:save($oddPath as xs:string, $root as xs:string, $data as 
     let $parsed := parse-xml($data)
     let $updated := local:update($odd, $parsed)
     let $serialized := serialize($updated, map { "indent": true(), "omit-xml-declaration": false() })
-    let $stored := xmldb:store($config:odd-root, $oddPath, $serialized)
+    let $stored := xmldb:store($root, $oddPath, $serialized)
     let $report :=
         array {
-            local:recompile($oddPath)
+            local:recompile($oddPath, $root)
         }
     return
         map {

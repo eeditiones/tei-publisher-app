@@ -124,6 +124,9 @@
             url: "modules/editor.xql",
             data: {
                 action: "save",
+                root: TeiPublisher.config.root,
+                "output-prefix": TeiPublisher.config.outputPrefix,
+                "output-root": TeiPublisher.config.outputRoot,
                 odd: this.odd,
                 data: specs
             },

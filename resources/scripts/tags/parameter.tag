@@ -9,7 +9,7 @@
 
     <script>
     this.mixin('utils');
-    
+
     updateList() {
         return parameters[this.parent.getBehaviour()] || [];
     }
@@ -27,7 +27,7 @@
     }
 
     serialize(indent) {
-        return indent + '<param name="' + this.refs.combo.getData() + '" value="' + this.refs.value.get() + '"/>\n';
+        return indent + '<param name="' + this.refs.combo.getData() + '" value="' + this.escapeXPath(this.refs.value.get()) + '"/>\n';
     }
 
     var parameters = {

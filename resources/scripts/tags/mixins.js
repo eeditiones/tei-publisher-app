@@ -1,6 +1,10 @@
 function Mixin(app) {
     this.app = app;
-    
+
+    this.escapeXPath = function(code) {
+        return code.replace(/"/g, '&#34;');
+    }
+
     this.updateTag = function(name) {
         var data = [];
         this.forEachTag(name, function(tag) {
