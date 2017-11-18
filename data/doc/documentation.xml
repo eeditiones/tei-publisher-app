@@ -8,6 +8,11 @@
                 <firstname>Wolfgang</firstname>
                 <surname>Meier</surname>
             </personname>
+            <affiliation>
+                <orgname>eXist Solutions GmbH</orgname>
+            </affiliation>
+        </author>
+        <author>
             <personname>
                 <firstname>Magdalena</firstname>
                 <surname>Turska</surname>

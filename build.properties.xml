@@ -3,7 +3,7 @@
     <app>
         <name>tei-publisher</name>
         <description>Tei-Publisher App</description>
-        <version>2.2.0</version>
+        <version>3.0.0</version>
         <website>http://tei-publisher.com</website>
     </app>
     <!-- Path to executables: Don't directly modify this file. Instead, edit local.build.properties-->

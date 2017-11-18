@@ -3,7 +3,7 @@
     <xmlproperty file="build.properties.xml" semanticAttributes="true" keepRoot="false"/>
     <property file="local.build.properties"/>
     <property name="project.app" value="tei-publisher"/>
-    <property name="project.version" value="2.2.0"/>
+    <property name="project.version" value="3.0.0"/>
     <property name="server.url" value="http://demo.exist-db.org/exist/apps/public-repo/public/"/>
     <property name="build" value="build"/>
 
