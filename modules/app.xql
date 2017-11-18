@@ -130,34 +130,36 @@ function app:editor-init($node as node(), $model as map(*), $odd as xs:string, $
 declare
     %templates:wrap
     %templates:default("odd", "teipublisher.odd")
-function app:form-odd-select($node as node(), $model as map(*), $odd as xs:string) {
-    dbutil:scan-resources(xs:anyURI($config:odd-root), function($resource) {
-        if (ends-with($resource, ".odd")) then
-            let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
-            let $displayname :=
-                for $display in $name
-                let $rev-date := data(doc($resource)//tei:revisionDesc/tei:change/@when)[1]
-                let $title := (
-                    doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type="short"],
-                    doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title,
-                    $name
-                )[1]
+function app:form-odd-select($node as node(), $model as map(*), $odd as xs:string, $root as xs:string?) {
+    let $oddRoot := ($root, $config:odd-root)[1]
+    return
+        dbutil:scan-resources(xs:anyURI($oddRoot), function($resource) {
+            if (ends-with($resource, ".odd")) then
+                let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
+                let $displayname :=
+                    for $display in $name
+                    let $rev-date := data(doc($resource)//tei:revisionDesc/tei:change/@when)[1]
+                    let $title := (
+                        doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type="short"],
+                        doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title,
+                        $name
+                    )[1]
+                    return
+                        $title || " [" || $rev-date || "]"
+                let $file := replace($resource, "^.*/([^/]+)$", "$1")
                 return
-                    $title || " [" || $rev-date || "]"
-            let $file := replace($resource, "^.*/([^/]+)$", "$1")
-            return
-                <option value="{$file}">
-                {
-                    if ($odd and $file = $odd) then
-                        attribute selected { "selected" }
-                    else
-                        (),
-                    string($displayname)
-                }
-                </option>
-        else
-            ()
-    })
+                    <option value="{$file}">
+                    {
+                        if ($odd and $file = $odd) then
+                            attribute selected { "selected" }
+                        else
+                            (),
+                        string($displayname)
+                    }
+                    </option>
+            else
+                ()
+        })
 };
 
 declare function app:odd-documentation($node as node()) as node()* {

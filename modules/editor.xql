@@ -18,6 +18,7 @@ declare function local:models($spec as element()) {
         return
             map {
                 "type": local-name($model),
+                "desc": $model/desc/string(),
                 "output": $model/@output/string(),
                 "behaviour": $model/@behaviour/string(),
                 "predicate": $model/@predicate/string(),
@@ -52,9 +53,9 @@ declare function local:renditions($model as element()) {
     }
 };
 
-declare function local:load($oddPath as xs:string) {
+declare function local:load($oddPath as xs:string, $root as xs:string) {
     array {
-        let $odd := doc($config:odd-root || "/" || $oddPath)/TEI
+        let $odd := doc($root || "/" || $oddPath)/TEI
         for $spec in $odd//elementSpec
         return
             map {
@@ -65,8 +66,8 @@ declare function local:load($oddPath as xs:string) {
     }
 };
 
-declare function local:find-spec($oddPath as xs:string, $ident as xs:string) {
-    let $odd := doc($config:odd-root || "/" || $oddPath)
+declare function local:find-spec($oddPath as xs:string, $root as xs:string, $ident as xs:string) {
+    let $odd := doc($root || "/" || $oddPath)
     let $spec := $odd//elementSpec[@ident = $ident]
     return
         if ($spec) then
@@ -79,7 +80,7 @@ declare function local:find-spec($oddPath as xs:string, $ident as xs:string) {
             let $source := $odd//schemaSpec/@source
             return
                 if ($source) then
-                    local:find-spec($source, $ident)
+                    local:find-spec($source, $root, $ident)
                 else
                     map {
                         "status": "not-found"
@@ -127,8 +128,8 @@ declare function local:recompile($source as xs:string) {
         }
 };
 
-declare function local:save($oddPath as xs:string, $data as xs:string) {
-    let $odd := doc($config:odd-root || "/" || $oddPath)
+declare function local:save($oddPath as xs:string, $root as xs:string, $data as xs:string) {
+    let $odd := doc($root || "/" || $oddPath)
     let $parsed := parse-xml($data)
     let $updated := local:update($odd, $parsed)
     let $serialized := serialize($updated, map { "indent": true(), "omit-xml-declaration": false() })
@@ -168,13 +169,14 @@ declare function local:update($nodes as node()*, $data as document-node()) {
 
 let $action := request:get-parameter("action", "load")
 let $oddPath := request:get-parameter("odd", ())
+let $root := request:get-parameter("root", $config:odd-root)
 let $data := request:get-parameter("data", ())
 let $ident := request:get-parameter("ident", ())
 return
     switch ($action)
         case "save" return
-            local:save($oddPath, $data)
+            local:save($oddPath, $root, $data)
         case "find" return
-            local:find-spec($oddPath, $ident)
+            local:find-spec($oddPath, $root, $ident)
         default return
-            local:load($oddPath)
+            local:load($oddPath, $root)
