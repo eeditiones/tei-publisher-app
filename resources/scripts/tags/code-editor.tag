@@ -7,6 +7,7 @@
 
     this.code = opts.code;
     this.mode = opts.mode;
+    this.placeholder = opts.placeholder;
 
     this.app.on('show', function() {
         self.initCodeEditor();
@@ -29,7 +30,9 @@
             lineNumbers: false,
             lineWrapping: true,
             autofocus: false,
-            theme: "ttcn"
+            theme: "ttcn",
+            matchBrackets: true,
+            placeholder: self.placeholder || '[Empty]'
         });
     }
 
