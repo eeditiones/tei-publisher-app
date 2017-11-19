@@ -159,6 +159,16 @@ declare function local:update($nodes as node()*, $data as document-node()) {
                 document {
                     local:update($node/node(), $data)
                 }
+            case element(TEI) return
+                    element { node-name($node) } {
+                        for $prefix in in-scope-prefixes($node)[. != "http://www.tei-c.org/ns/1.0"][. != ""]
+                        let $namespace := namespace-uri-for-prefix($prefix, $node)
+                        return
+                            namespace { $prefix } { $namespace }
+                        ,
+                        $node/@*,
+                        local:update($node/node(), $data)
+                    }
             case element(schemaSpec) return
                 element { node-name($node) } {
                     $node/@*,
