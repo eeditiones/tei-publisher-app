@@ -1,6 +1,6 @@
 <editor>
     <div class="col-md-3">
-        <div ref="panel" class="panel panel-info" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
+        <div ref="panel" class="panel panel-info">
             <div class="panel-heading">
                 Visual ODD Editor <span class="label label-warning pull-right">Beta</span>
             </div>
@@ -44,6 +44,7 @@
     this.elementSpecs = [];
 
     this.on('mount', function() {
+        $(self.refs.panel).affix({ top: 60 });
         $(self.refs.panel).on('affix.bs.affix', function() {
             var width = $(self.refs.panel).width();
             self.refs.panel.style.width = width + 'px';
