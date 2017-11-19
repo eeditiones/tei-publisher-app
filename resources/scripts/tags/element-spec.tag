@@ -1,6 +1,7 @@
 <element-spec ident="{ ident }" mode="{ mode }">
     <h3>
-        <a href="#elem-{ ident }" data-toggle="collapse"><span ref="toggle" class="material-icons">expand_more</span></a>
+        <a href="#elem-{ ident }" data-toggle="collapse"><span ref="toggle" class="material-icons"
+            if="{ models.length > 0 }">expand_more</span></a>
         { ident }
         <div class="btn-group">
             <button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown"><i class="material-icons">add</i></button>
