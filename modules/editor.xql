@@ -89,11 +89,14 @@ declare function local:find-spec($oddPath as xs:string, $root as xs:string, $ide
 };
 
 
-declare function local:get-line($src, $line as xs:int) {
-    let $lines := tokenize($src, "\n")
-    return
-        subsequence($lines, $line - 1, 3) !
-            replace(., "^\s*(.*?)", "$1&#10;")
+declare function local:get-line($src, $line as xs:int?) {
+    if ($line) then
+        let $lines := tokenize($src, "\n")
+        return
+            subsequence($lines, $line - 1, 3) !
+                replace(., "^\s*(.*?)", "$1&#10;")
+    else
+        ()
 };
 
 declare function local:recompile($source as xs:string, $root as xs:string) {
@@ -134,7 +137,7 @@ declare function local:recompile($source as xs:string, $root as xs:string) {
 declare function local:save($oddPath as xs:string, $root as xs:string, $data as xs:string) {
     let $odd := doc($root || "/" || $oddPath)
     let $parsed := parse-xml($data)
-    let $updated := local:update($odd, $parsed)
+    let $updated := local:update($odd, $parsed, $odd)
     let $serialized := serialize($updated,
         <output:serialization-parameters>
             <output:indent>true</output:indent>
@@ -152,13 +155,13 @@ declare function local:save($oddPath as xs:string, $root as xs:string, $data as 
         }
 };
 
-declare function local:update($nodes as node()*, $data as document-node()) {
+declare function local:update($nodes as node()*, $data as document-node(), $orig as document-node()) {
     for $node in $nodes
     return
         typeswitch($node)
             case document-node() return
                 document {
-                    local:update($node/node(), $data)
+                    local:update($node/node(), $data, $orig)
                 }
             case element(TEI) return
                     element { node-name($node) } {
@@ -168,17 +171,30 @@ declare function local:update($nodes as node()*, $data as document-node()) {
                             namespace { $prefix } { $namespace }
                         ,
                         $node/@*,
-                        local:update($node/node(), $data)
+                        local:update($node/node(), $data, $orig)
                     }
             case element(schemaSpec) return
                 element { node-name($node) } {
                     $node/@*,
-                    $data/schemaSpec/*
+                    local:update($node/node(), $data, $orig),
+                    for $spec in $data//elementSpec
+                    where empty($orig//elementSpec[@ident = $spec/@ident])
+                    return
+                        $spec
+                    (: $data/schemaSpec/* :)
                 }
+            case element(elementSpec) return
+                let $newSpec := $data//elementSpec[@ident=$node/@ident]
+                return
+                    element { node-name($node) } {
+                        $node/@*,
+                        $node/* except ($node/model, $node/modelGrp, $node/modelSequence),
+                        $newSpec/*
+                    }
             case element() return
                 element { node-name($node) } {
                     $node/@*,
-                    local:update($node/node(), $data)
+                    local:update($node/node(), $data, $orig)
                 }
             default return
                 $node
