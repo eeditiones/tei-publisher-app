@@ -72,16 +72,16 @@
             };
         }
 
-        serialize() {
-            var xml = '<elementSpec ident="' + this.ident + '"';
+        serialize(indent) {
+            var xml = indent + '<elementSpec ident="' + this.ident + '"';
             if (this.mode) {
                 xml += ' mode="' + this.mode + '"';
             }
             xml += '>\n';
 
-            xml += this.serializeTag('model');
+            xml += this.serializeTag('model', indent + this.indentString);
 
-            xml += '</elementSpec>\n';
+            xml += indent + '</elementSpec>\n';
             return xml;
         }
     </script>

@@ -226,12 +226,13 @@
                 xml += ' cssClass="' + this.class + '"';
             }
             xml += '>\n';
+            var nestedIndent = indent + this.indentString;
             if (this.desc) {
-                xml += indent + "    " + '<desc>' + this.desc + '</desc>\n';
+                xml += nestedIndent + '<desc>' + this.desc + '</desc>\n';
             }
-            xml += this.serializeTag('model', indent);
-            xml += this.serializeTag('parameter', indent);
-            xml += this.serializeTag('rendition', indent);
+            xml += this.serializeTag('model', nestedIndent);
+            xml += this.serializeTag('parameter', nestedIndent);
+            xml += this.serializeTag('rendition', nestedIndent);
 
             xml += indent + '</' + this.type + '>\n';
             return xml;

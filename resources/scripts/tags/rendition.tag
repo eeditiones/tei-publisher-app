@@ -12,7 +12,7 @@
 
     <script>
     this.mixin('utils');
-    
+
     var self = this;
 
     this.scopes = ["", "before", "after"];
@@ -35,7 +35,7 @@
             xml += ' scope="' + scope + '"';
         }
         xml += '>\n';
-        xml += this.refs.css.get();
+        xml += indent + this.indentString + this.refs.css.get();
         xml += '\n' + indent + '</outputRendition>\n';
         return xml;
     }

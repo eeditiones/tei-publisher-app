@@ -113,7 +113,7 @@
 
         var specs = '<schemaSpec xmlns="http://www.tei-c.org/ns/1.0">\n';
         this.elementSpecs = this.updateTag('element-spec');
-        specs += this.serializeTag('element-spec');
+        specs += this.serializeTag('element-spec', this.indentString.repeat(4));
         specs += '</schemaSpec>';
 
         this.refs.dialog.show("Saving ...");
@@ -138,6 +138,7 @@
                         msg += '<div class="list-group-item-danger">';
                         msg += '<h4 class="list-group-item-heading">' + report.file + '</h4>';
                         msg += '<h5 class="list-group-item-heading">Compilation error on line ' + report.line + ':</h5>'
+                        msg += '<pre class="list-group-item-text">' + report.error + '</pre>';
                         msg += '<pre class="list-group-item-text">' + report.message + '</pre>';
                         msg += '</div>';
                     } else {

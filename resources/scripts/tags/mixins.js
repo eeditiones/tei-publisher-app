@@ -1,6 +1,8 @@
 function Mixin(app) {
     this.app = app;
 
+    this.indentString = '    ';
+    
     this.escapeXPath = function(code) {
         return code.replace(/"/g, '&#34;');
     }
@@ -29,7 +31,7 @@ function Mixin(app) {
         indent = indent || '';
         var xml = "";
         this.forEachTag(name, function(tag) {
-            xml += tag.serialize(indent + "    ");
+            xml += tag.serialize(indent);
         });
         return xml;
     }
