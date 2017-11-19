@@ -2,7 +2,9 @@ function Mixin(app) {
     this.app = app;
 
     this.indentString = '    ';
-    
+
+    CodeMirror.registerHelper("lint", "xquery", lintXQuery);
+
     this.escapeXPath = function(code) {
         return code.replace(/"/g, '&#34;');
     }
@@ -73,5 +75,28 @@ function Mixin(app) {
         }
         this.models = m;
         this.update();
+    }
+
+    function lintXQuery(text) {
+        if (!text) {
+            return [];
+        }
+        return new Promise(function(resolve, reject) {
+            $.getJSON("modules/editor.xql", {
+                action: "lint",
+                code: text
+            }, function(data) {
+                if (data.status === 'fail') {
+                    resolve([{
+                        message: data.message,
+                        severity: "error",
+                        from: CodeMirror.Pos(data.line - 1, data.column),
+                        to: CodeMirror.Pos(data.line - 1, data.column + 1)
+                    }]);
+                } else {
+                    resolve([]);
+                }
+            });
+        });
     }
 }

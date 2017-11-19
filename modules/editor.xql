@@ -184,6 +184,50 @@ declare function local:update($nodes as node()*, $data as document-node()) {
                 $node
 };
 
+declare function local:lint() {
+    let $code := request:get-parameter("code", ())
+    let $prolog := (
+        "declare variable $parameters := map {};",
+        "declare variable $node := ();"
+    )
+    let $query := string-join($prolog) || "&#10;" || $code
+    let $r := util:compile-query($query, ())
+    let $error := $r/*:error
+    return
+        if ($r/@result = 'fail') then
+            let $msg := $error/string()
+            let $analyzed := analyze-string($msg, ".*line:?\s(\d+).*?column\s(\d+)")
+            let $analyzed :=
+                if ($analyzed//fn:group) then
+                    $analyzed
+                else
+                    analyze-string($msg, "line\s(\d+):(\d+)")
+            let $parsedLine := $analyzed//fn:group[1]
+            let $parsedColumn := $analyzed//fn:group[2]
+            let $line :=
+                if ($parsedLine) then
+                    number($parsedLine)
+                else
+                    number($error/@line)
+            let $column :=
+                if ($parsedColumn) then
+                    number($parsedColumn)
+                else
+                    number($error/@column)
+            return
+                map {
+                    "status": "fail",
+                    "line": $line - 1,
+                    "column": $column,
+                    "message": $error/string()
+                }
+        else
+            map {
+                "status": "pass"
+            }
+};
+
+
 let $action := request:get-parameter("action", "load")
 let $oddPath := request:get-parameter("odd", ())
 let $root := request:get-parameter("root", $config:odd-root)
@@ -195,5 +239,7 @@ return
             local:save($oddPath, $root, $data)
         case "find" return
             local:find-spec($oddPath, $root, $ident)
+        case "lint" return
+            local:lint()
         default return
             local:load($oddPath, $root)

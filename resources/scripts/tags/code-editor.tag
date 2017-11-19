@@ -32,7 +32,9 @@
             autofocus: false,
             theme: "ttcn",
             matchBrackets: true,
-            placeholder: self.placeholder || '[Empty]'
+            placeholder: self.placeholder || '[Empty]',
+            gutters: ["CodeMirror-lint-markers"],
+            lint: true
         });
     }
 
