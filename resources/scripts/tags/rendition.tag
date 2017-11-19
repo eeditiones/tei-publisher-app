@@ -8,7 +8,7 @@
             <button type="button" class="btn btn-default" onclick="{ remove }"><i class="material-icons">delete</i></button>
         </div>
     </form>
-    <code-editor ref="css" mode="css" code="{ this.css }"></code-editor>
+    <code-editor ref="css" mode="css" code="{ this.css }" placeholder="[CSS to apply]"></code-editor>
 
     <script>
     this.mixin('utils');
@@ -29,13 +29,17 @@
     }
 
     serialize(indent) {
+        var css = this.refs.css.get();
+        if (!css) {
+            return '';
+        }
         var scope = $(this.refs.scope).val();
         var xml = indent + '<outputRendition';
         if (scope) {
             xml += ' scope="' + scope + '"';
         }
         xml += '>\n';
-        xml += indent + this.indentString + this.refs.css.get();
+        xml += indent + this.indentString + css;
         xml += '\n' + indent + '</outputRendition>\n';
         return xml;
     }

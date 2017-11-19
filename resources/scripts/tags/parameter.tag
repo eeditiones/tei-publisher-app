@@ -1,7 +1,7 @@
 <parameter name="{ name }" value="{ value }">
-    <combobox ref="combo" class="name" current="{ name }" source="{ updateList }"/>
+    <combobox ref="combo" class="name" current="{ name }" source="{ updateList }" placeholder="[Param name]"/>
     <span class="value">
-        <code-editor ref="value" mode="xquery" code="{ value }"></code-editor>
+        <code-editor ref="value" mode="xquery" code="{ value }" placeholder="[XPath to define param value]"></code-editor>
     </span>
     <span class="actions">
         <button type="button" class="btn btn-default" onclick="{ delete }"><i class="material-icons">delete</i></button>
@@ -27,7 +27,11 @@
     }
 
     serialize(indent) {
-        return indent + '<param name="' + this.refs.combo.getData() + '" value="' + this.escapeXPath(this.refs.value.get()) + '"/>\n';
+        var name = this.refs.combo.getData();
+        if (!name) {
+            return '';
+        }
+        return indent + '<param name="' + name + '" value="' + this.escapeXPath(this.refs.value.get()) + '"/>\n';
     }
 
     var parameters = {

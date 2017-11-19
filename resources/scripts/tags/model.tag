@@ -17,7 +17,7 @@
         <table>
             <tr class="predicate">
                 <td>Description:</td>
-                <td><input ref="desc" type="text" class="form-control" value="{ desc }"/></td>
+                <td><input ref="desc" type="text" class="form-control" value="{ desc }" placeholder="[Document the model]"/></td>
             </tr>
             <tr if="{ type === 'model' }">
                 <td>Behaviour:</td>
@@ -28,13 +28,15 @@
             <tr class="predicate">
                 <td>Predicate:</td>
                 <td>
-                    <code-editor ref="predicate" mode="xquery" code="{ predicate || '' }"/>
+                    <code-editor ref="predicate" mode="xquery" code="{ predicate || '' }"
+                        placeholder="[XPath condition: model applies only if matched]"/>
                 </td>
             </tr>
             <tr class="predicate">
                 <td>CSS Class:</td>
                 <td>
-                    <input ref="class" type="text" class="form-control" value="{ class }"/>
+                    <input ref="class" type="text" class="form-control" value="{ class }"
+                        placeholder="[Define CSS class name (for external CSS)]"/>
                 </td>
             </tr>
         </table>
@@ -212,6 +214,9 @@
 
         serialize(indent) {
             this.updateModel();
+            if (this.type === 'model' && !this.behaviour) {
+                return '';
+            }
             var xml = indent + '<' + this.type;
             if (this.behaviour) {
                 xml += ' behaviour="'+ this.behaviour + '"';
@@ -226,6 +231,7 @@
                 xml += ' cssClass="' + this.class + '"';
             }
             xml += '>\n';
+
             var nestedIndent = indent + this.indentString;
             if (this.desc) {
                 xml += nestedIndent + '<desc>' + this.desc + '</desc>\n';

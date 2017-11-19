@@ -1,7 +1,7 @@
 <combobox>
     <div class="dropdown">
         <input ref="value" class="form-control" type="text" value="{ current }" data-toggle="dropdown"
-            onkeyup="{ filter }" onfocus="{ filter }"/>
+            onkeyup="{ filter }" onfocus="{ filter }" placeholder="{ opts.placeholder }"/>
         <ul class="dropdown-menu">
             <li each="{ o in this.options }" onclick="{ selected }">{ o }</li>
         </ul>
