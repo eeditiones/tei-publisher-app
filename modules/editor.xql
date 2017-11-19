@@ -57,6 +57,7 @@ declare function local:load($oddPath as xs:string, $root as xs:string) {
     array {
         let $odd := doc($root || "/" || $oddPath)/TEI
         for $spec in $odd//elementSpec
+        order by $spec/@ident
         return
             map {
                 "ident": $spec/@ident/string(),
