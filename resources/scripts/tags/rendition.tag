@@ -33,6 +33,8 @@
         if (!css) {
             return '';
         }
+        css = this.escape(css);
+        
         var scope = $(this.refs.scope).val();
         var xml = indent + '<outputRendition';
         if (scope) {

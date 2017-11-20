@@ -31,7 +31,7 @@
         if (!name) {
             return '';
         }
-        return indent + '<param name="' + name + '" value="' + this.escapeXPath(this.refs.value.get()) + '"/>\n';
+        return indent + '<param name="' + name + '" value="' + this.escape(this.refs.value.get()) + '"/>\n';
     }
 
     var parameters = {

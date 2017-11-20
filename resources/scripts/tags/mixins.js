@@ -3,12 +3,22 @@ function Mixin(app) {
 
     this.indentString = '    ';
 
+    var replaceChars = {
+        '"': '&quot;',
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;'
+    };
+    
     CodeMirror.registerHelper("lint", "xquery", lintXQuery);
 
-    this.escapeXPath = function(code) {
-        return code.replace(/"/g, '&#34;');
+    this.escape = function(code) {
+        var regex = new RegExp(Object.keys(replaceChars).join("|"), "g"); 
+        return code.replace(regex, function(match) {
+            return replaceChars[match];
+        });
     }
-
+    
     this.updateTag = function(name) {
         var data = [];
         this.forEachTag(name, function(tag) {

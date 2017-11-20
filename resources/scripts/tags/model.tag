@@ -222,7 +222,7 @@
                 xml += ' behaviour="'+ this.behaviour + '"';
             }
             if (this.predicate) {
-                xml += ' predicate="' + this.predicate + '"';
+                xml += ' predicate="' + this.escape(this.predicate) + '"';
             }
             if (this.output) {
                 xml += ' output="' + this.output + '"';
@@ -230,17 +230,22 @@
             if (this.class) {
                 xml += ' cssClass="' + this.class + '"';
             }
-            xml += '>\n';
 
             var nestedIndent = indent + this.indentString;
+            var innerXML = "";
             if (this.desc) {
-                xml += nestedIndent + '<desc>' + this.desc + '</desc>\n';
+                innerXML += nestedIndent + '<desc>' + this.desc + '</desc>\n';
             }
-            xml += this.serializeTag('model', nestedIndent);
-            xml += this.serializeTag('parameter', nestedIndent);
-            xml += this.serializeTag('rendition', nestedIndent);
+            innerXML += this.serializeTag('model', nestedIndent);
+            innerXML += this.serializeTag('parameter', nestedIndent);
+            innerXML += this.serializeTag('rendition', nestedIndent);
 
-            xml += indent + '</' + this.type + '>\n';
+            if (innerXML.length == 0) {
+                xml += '/>\n';
+            } else {
+                xml += '>\n' + innerXML;
+                xml += indent + '</' + this.type + '>\n';
+            }
             return xml;
         }
     </script>
