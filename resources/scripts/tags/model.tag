@@ -42,12 +42,15 @@
         </table>
 
         <div class="parameters" if="{type == 'model'}">
-            <div class="group">Parameters <button type="button" class="btn" onclick="{ addParameter }"><i class="material-icons">add</i></button></div>
+            <div class="group"><span class="title">Parameters</span> <button type="button" class="btn" onclick="{ addParameter }"><i class="material-icons">add</i></button></div>
             <parameter each="{ parameters }" name="{ this.name }" value="{ this.value }"/>
         </div>
 
         <div class="renditions" if="{type == 'model'}">
-            <div class="group">Renditions <button type="button" class="btn" onclick="{ addRendition }"><i class="material-icons">add</i></button></div>
+            <div class="group"><span class="title">Renditions</span>
+                <button type="button" class="btn" onclick="{ addRendition }"><i class="material-icons">add</i></button>
+                <span class="source"><input type="checkbox" checked="{ sourcerend }" ref="sourcerend"/> Use source rendition</span>
+            </div>
             <rendition each="{ renditions }" scope="{ this.scope }" css="{ this.css }" events="{ events }"/>
         </div>
 
@@ -63,7 +66,8 @@
                 </div>
             </div>
             <model each="{ models }" behaviour="{ this.behaviour }" predicate="{ this.predicate }"
-                type="{ this.type }" output="{ this.output }" desc="{ this.desc }"/>
+                type="{ this.type }" output="{ this.output }" desc="{ this.desc }" 
+                sourcerend="{ this.sourcerend }"/>
         </div>
     </form>
     <script>
@@ -178,6 +182,7 @@
                 predicate: null,
                 type: type,
                 output: null,
+                sourcerend: false,
                 models: [],
                 parameters: [],
                 renditions: []
@@ -191,6 +196,7 @@
                 predicate: this.predicate,
                 desc: this.desc,
                 class: this.class,
+                sourcerend: this.sourcerend,
                 type: this.type,
                 output: this.output,
                 models: this.models,
@@ -208,6 +214,7 @@
             this.predicate = this.refs.predicate.get();
             this.desc = this.refs.desc.value;
             this.parameters = this.updateTag('parameter');
+            this.sourcerend = $(this.refs.sourcerend).is(":checked");
             this.renditions = this.updateTag('rendition');
             this.models = this.updateTag('model');
         }
@@ -218,19 +225,21 @@
                 return '';
             }
             var xml = indent + '<' + this.type;
-            if (this.behaviour) {
-                xml += ' behaviour="'+ this.behaviour + '"';
+            if (this.output) {
+                xml += ' output="' + this.output + '"';
             }
             if (this.predicate) {
                 xml += ' predicate="' + this.escape(this.predicate) + '"';
             }
-            if (this.output) {
-                xml += ' output="' + this.output + '"';
+            if (this.behaviour) {
+                xml += ' behaviour="'+ this.behaviour + '"';
             }
             if (this.class) {
                 xml += ' cssClass="' + this.class + '"';
             }
-
+            if (this.sourcerend) {
+                xml += ' useSourceRendition="true"';
+            }
             var nestedIndent = indent + this.indentString;
             var innerXML = "";
             if (this.desc) {
@@ -258,8 +267,11 @@
             margin: 0;
             font-size: 16px;
             font-weight: bold;
+        }
+        .group .title {
             text-decoration: underline;
         }
+        
         table {
             width: 100%;
         }
@@ -280,6 +292,14 @@
         }
         .predicate .form-control {
             width: 100%;
+        }
+        
+        .source {
+            text-decoration: none;
+        }
+        .source input {
+            margin-bottom: 8px;
+            margin-right: 1em;
         }
     </style>
 </model>

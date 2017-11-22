@@ -17,7 +17,8 @@
     <div ref="models" id="elem-{ ident }" class="collapse models">
         <model each="{ models }" behaviour="{ this.behaviour }" predicate="{ this.predicate }"
             type="{ this.type }" output="{ this.output }" class="{ this.class }" models="{ this.models }"
-            parameters="{ this.parameters }" desc="{ this.desc }"/>
+            parameters="{ this.parameters }" desc="{ this.desc }" 
+            sourcerend="{ this.sourcerend }"/>
     </div>
 
     <script>
@@ -49,7 +50,8 @@
                 output: null,
                 models: [],
                 parameters: [],
-                renditions: []
+                renditions: [],
+                sourcerend: false
             });
         }
 

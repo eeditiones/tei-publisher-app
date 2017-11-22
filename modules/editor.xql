@@ -23,6 +23,7 @@ declare function local:models($spec as element()) {
                 "behaviour": $model/@behaviour/string(),
                 "predicate": $model/@predicate/string(),
                 "class": $model/@cssClass/string(),
+                "sourcerend": $model/@useSourceRendition = 'true',
                 "renditions": local:renditions($model),
                 "parameters": local:parameters($model),
                 "models": local:models($model)
