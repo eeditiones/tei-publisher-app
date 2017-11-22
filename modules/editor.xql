@@ -182,16 +182,19 @@ declare function local:update($nodes as node()*, $data as document-node(), $orig
                     where empty($orig//elementSpec[@ident = $spec/@ident])
                     return
                         $spec
-                    (: $data/schemaSpec/* :)
                 }
             case element(elementSpec) return
                 let $newSpec := $data//elementSpec[@ident=$node/@ident]
                 return
-                    element { node-name($node) } {
-                        $node/@*,
-                        $node/* except ($node/model, $node/modelGrp, $node/modelSequence),
-                        $newSpec/*
-                    }
+                    if ($newSpec) then
+                        element { node-name($node) } {
+                            $node/@ident,
+                            $node/@mode,
+                            $node/* except ($node/model, $node/modelGrp, $node/modelSequence),
+                            $newSpec/*
+                        }
+                    else
+                        ()
             case element() return
                 element { node-name($node) } {
                     $node/@*,
