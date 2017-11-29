@@ -259,6 +259,10 @@
         }
     </script>
     <style>
+        .btn, .btn-group {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
         h4 {
             padding: 4px 8px;
             background-color: #d1dae0;
@@ -267,9 +271,10 @@
             margin: 0;
             font-size: 16px;
             font-weight: bold;
+            border-bottom: 1px solid #e0e0e0;
         }
         .group .title {
-            text-decoration: underline;
+            /*text-decoration: underline;*/
         }
         
         table {
