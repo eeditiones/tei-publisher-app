@@ -46,6 +46,6 @@ describe('PDF', function() {
   });
 
   it('should have a certain number of pages', function (done) {
-    assert.equal(document.numPages, 18);
+    assert.equal(document.numPages, 21);
   });
 });

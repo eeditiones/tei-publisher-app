@@ -16,14 +16,13 @@ describe('browsing text', function() {
 
     it("table of contents", function() {
         browser.click(".toc-toggle")
-            .waitForVisible("#toc li:nth-child(3)");
+            .waitForVisible("#toc a[data-div='3.4.4.8']");
 
         browser.click("#toc li:nth-child(3) a[data-toggle='collapse'] span")
             .waitForVisible("a[data-div='3.4.4.8.7']");
         browser.click("a[data-div='3.4.4.8.7']");
-        browser.waitForText(".content .tei-fw4");
-
-        assert.equal(browser.getText(".content .tei-fw4"), "wird");
+        browser.waitForText(".content h1");
+        assert.equal(browser.getText(".content h1"), 'Einleitung.');
     });
 
     it("next page", function() {
@@ -35,14 +34,14 @@ describe('browsing text', function() {
     it("previous page", function() {
         browser.click(".nav-prev").pause(200);
 
-        browser.waitForText(".content .tei-fw4");
-        assert.equal(browser.getText(".content .tei-fw4"), "wird");
+        browser.waitForText(".content h1");
+        assert.equal(browser.getText(".content h1"), 'Einleitung.');
     });
 
     it("reload", function() {
         browser.refresh();
 
-        assert.equal(browser.getText(".content .tei-fw4"), "wird");
+        assert.equal(browser.getText(".content h1"), 'Einleitung.');
     });
 
     it("next page", function() {
