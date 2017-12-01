@@ -20,7 +20,8 @@
             parameters="{ this.parameters }" desc="{ this.desc }" 
             sourcerend="{ this.sourcerend }"/>
     </div>
-
+    <message ref="dialog" type="confirm"></message>
+    
     <script>
         this.mixin('utils');
 
@@ -56,11 +57,15 @@
         }
 
         removeModel(item) {
-            var index = this.models.indexOf(item);
-            this.models = this.updateTag('model');
-            this.models.splice(index, 1)
+            this.refs.dialog.confirm('Delete?', 'Are you sure to delete the model?')
+                .then(function() {
+                    var index = this.models.indexOf(item);
+                    this.models = this.updateTag('model');
+                    this.models.splice(index, 1)
 
-            this.update();
+                    this.update();
+                }.bind(this)
+            );
         }
 
         remove(ev) {

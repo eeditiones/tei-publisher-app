@@ -271,10 +271,14 @@
             margin: 0;
             font-size: 16px;
             font-weight: bold;
-            border-bottom: 1px solid #e0e0e0;
         }
         .group .title {
             /*text-decoration: underline;*/
+        }
+        
+        .renditions, .parameters {
+            padding-left: 16px;
+            border-left: 3px solid #e0e0e0;
         }
         
         table {

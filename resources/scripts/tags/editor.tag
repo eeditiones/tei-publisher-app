@@ -10,15 +10,15 @@
 
                 <div  class="toolbar">
                     <div class="btn-group">
-                        <button class="btn btn-default" onclick="{ load }"><i class="material-icons">replay</i> Reload</button>
-                        <button class="btn btn-default" onclick="{ save }"><i class="material-icons">done_all</i> Save</button>
+                        <button class="btn btn-default" onclick="{ reload }"><i class="material-icons">replay</i> Reload</button>
+                        <button id="save" class="btn btn-default" onclick="{ save }"><i class="material-icons">done_all</i> Save</button>
                     </div>
                 </div>
 
                 <div class="btn-group">
                     <edit-source ref="editSource"><i class="material-icons">code</i> ODD Source</edit-source>
                 </div>
-                <div class="input-group">
+                <div id="new-element" class="input-group">
                     <input ref="identNew" type="text" class="form-control" placeholder="Element Name">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button" onclick="{ addElementSpec }">
@@ -34,7 +34,7 @@
             model="{ this.models }"></element-spec>
     </div>
 
-    <message ref="dialog"></message>
+    <message id="main-modal" ref="dialog"></message>
 
     <script>
     var self = this;
@@ -55,14 +55,19 @@
     });
 
     load() {
-        var self = this;
         this.refs.editSource.setPath(TeiPublisher.config.root + '/' + this.odd);
         $.getJSON("modules/editor.xql?odd=" + this.odd + '&root=' + TeiPublisher.config.root, function(data) {
-            self.elementSpecs = data;
+            self.elementSpecs = data.elementSpec;
             self.update();
         });
     }
 
+    reload(ev) {
+        ev.preventUpdate = true;
+        this.refs.dialog.confirm('Reload?', 'Are you sure to discard changes and reload?')
+            .then(self.load);
+    }
+    
     setODD(odd) {
         this.odd = odd;
         this.load();
@@ -74,7 +79,6 @@
         if (!ident || ident.length == 0) {
             return;
         }
-        var self = this;
         $.getJSON("modules/editor.xql", {
             action: "find",
             odd: self.odd,
@@ -102,10 +106,13 @@
     }
 
     removeElementSpec(item) {
-        var index = this.elementSpecs.indexOf(item);
-        this.elementSpecs.splice(index, 1);
+        this.refs.dialog.confirm('Delete?', 'Are you sure you would like to delete the spec for element "' + item.ident + '"')
+            .then(function() {
+                var index = self.elementSpecs.indexOf(item);
+                self.elementSpecs.splice(index, 1);
 
-        this.update();
+                self.update();
+        });
     }
 
     save(ev) {
@@ -118,7 +125,6 @@
 
         this.refs.dialog.show("Saving ...");
 
-        var self = this;
         $.ajax({
             method: "post",
             dataType: "json",

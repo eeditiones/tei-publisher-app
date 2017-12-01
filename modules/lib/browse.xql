@@ -343,6 +343,18 @@ declare function app:dispatch-action($node as node(), $model as map(*), $action 
                             xmldb:remove(util:collection-name($doc), util:document-name($doc))
                     }
                 </div>
+        case "delete-odd" return
+            let $docs := request:get-parameter("docs[]", ())
+            return
+                <div id="action-alert" class="alert alert-success">
+                    <p>Removed {count($docs)} documents.</p>
+                    {
+                        for $path in $docs
+                        let $doc := doc($config:odd-root || "/" || $path)
+                        return
+                            xmldb:remove(util:collection-name($doc), util:document-name($doc))
+                    }
+                </div>
         default return
             ()
 };
