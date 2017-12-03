@@ -29,7 +29,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-9 element-specs">
         <element-spec each="{ elementSpecs }" ident="{ this.ident }" mode="{ this.mode }"
             model="{ this.models }"></element-spec>
     </div>

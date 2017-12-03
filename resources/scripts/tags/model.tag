@@ -7,7 +7,7 @@
                     <option each="{ o in outputs }" selected="{ o === output }">{ o }</option>
                 </select>
             </div>
-            { type }
+            { type } <span class="behaviour" if="{ type === 'model'}">{ behaviour }</span>
             <div class="btn-group">
                 <button type="button" class="btn btn-default" onclick="{ moveDown }"><i class="material-icons">arrow_downward</i></button>
                 <button type="button" class="btn btn-default" onclick="{ moveUp }"><i class="material-icons">arrow_upward</i></button>
@@ -22,7 +22,8 @@
             <tr if="{ type === 'model' }">
                 <td>Behaviour:</td>
                 <td>
-                    <combobox ref="behaviour" current="{ behaviour }" source="{ getBehaviours }"/>
+                    <combobox ref="behaviour" current="{ behaviour }" source="{ getBehaviours }" callback="{ refresh }"
+                        placeholder="[behaviour]"/>
                 </td>
             </tr>
             <tr class="predicate">
@@ -219,6 +220,11 @@
             this.models = this.updateTag('model');
         }
 
+        refresh() {
+            this.updateModel();
+            this.update();
+        }
+        
         serialize(indent) {
             this.updateModel();
             if (this.type === 'model' && !this.behaviour) {
@@ -266,6 +272,15 @@
         h4 {
             padding: 4px 8px;
             background-color: #d1dae0;
+        }
+        .behaviour {
+            color: #ff5722;
+        }
+        .behaviour:before {
+            content: ' [';
+        }
+        .behaviour:after {
+            content: ']';
         }
         .group {
             margin: 0;

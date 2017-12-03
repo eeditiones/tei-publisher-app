@@ -39,6 +39,7 @@
         });
 
         addModel(ev) {
+            ev.preventDefault();
             var type = $(ev.target).text();
 
             this.models = this.updateTag('model');
