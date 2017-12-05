@@ -35,7 +35,9 @@ describe('edit odd', function() {
 
     it("should edit new element spec", function() {
         var spec = $("element-spec[ident='name']");
-        spec.click("a[data-toggle='collapse']");
+        // spec.click("a[data-toggle='collapse']");
+        // spec.waitForVisible("header h4 a[data-toggle='collapse']");
+        spec.click("header h4 a[data-toggle='collapse']");
         spec.waitForVisible(".renditions");
 
         assert.equal(spec.$$('model').length, 1);
@@ -92,10 +94,13 @@ describe('edit odd', function() {
 
     it("should open element spec for pb", function() {
         var spec = browser.element("element-spec[ident='pb']");
-        spec.click("a[data-toggle='collapse']");
-        spec.waitForVisible(".models");
+        // spec.click("a[data-toggle='collapse']");
+        // spec.waitForVisible(".models");
 
         var model = spec.$('model');
+        model.click("header h4 a[data-toggle='collapse']");
+        model.waitForVisible(".parameters");
+
         model.setValue("combobox[ref='behaviour'] input", "omit");
     });
 
