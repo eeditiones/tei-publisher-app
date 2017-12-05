@@ -14,14 +14,13 @@
         <button type="button" class="btn" onclick="{ remove }"><i class="material-icons">remove</i></button>
     </h3>
 
-    <div ref="models" id="elem-{ ident }" class="collapse models">
+    <div ref="models" id="elem-{ ident }" class="collapse models {show ? 'in' : ''}">
         <model each="{ models }" behaviour="{ this.behaviour }" predicate="{ this.predicate }"
             type="{ this.type }" output="{ this.output }" class="{ this.class }" models="{ this.models }"
-            parameters="{ this.parameters }" desc="{ this.desc }" 
+            parameters="{ this.parameters }" desc="{ this.desc }"
             sourcerend="{ this.sourcerend }"/>
     </div>
-    <message ref="dialog" type="confirm"></message>
-    
+
     <script>
         this.mixin('utils');
 
@@ -53,16 +52,17 @@
                 models: [],
                 parameters: [],
                 renditions: [],
-                sourcerend: false
+                sourcerend: false,
+                show: true
             });
         }
 
         removeModel(item) {
-            this.refs.dialog.confirm('Delete?', 'Are you sure to delete the model?')
+            this.parent.refs.dialog.confirm('Delete?', 'Are you sure to delete the model?')
                 .then(function() {
                     var index = this.models.indexOf(item);
                     this.models = this.updateTag('model');
-                    this.models.splice(index, 1)
+                    this.models.splice(index, 1);
 
                     this.update();
                 }.bind(this)

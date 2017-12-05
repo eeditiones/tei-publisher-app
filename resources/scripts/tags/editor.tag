@@ -67,7 +67,7 @@
         this.refs.dialog.confirm('Reload?', 'Are you sure to discard changes and reload?')
             .then(self.load);
     }
-    
+
     setODD(odd) {
         this.odd = odd;
         this.load();
@@ -97,7 +97,8 @@
             var newSpec = {
                 ident: ident,
                 mode: mode,
-                models: models
+                models: models,
+                show: true
             };
             specs.push(newSpec);
             self.elementSpecs = specs;

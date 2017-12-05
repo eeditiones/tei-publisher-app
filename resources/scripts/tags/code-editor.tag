@@ -8,6 +8,7 @@
     this.code = opts.code;
     this.mode = opts.mode;
     this.placeholder = opts.placeholder;
+    this.callback = opts.callback;
 
     this.app.on('show', function() {
         self.initCodeEditor();
@@ -36,6 +37,9 @@
             gutters: ["CodeMirror-lint-markers"],
             lint: true
         });
+        if (this.callback) {
+            this.codemirror.on('change', this.callback);
+        }
     }
 
     get() {

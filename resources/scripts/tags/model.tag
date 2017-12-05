@@ -1,78 +1,86 @@
 <model behaviour="{ behaviour }" predicate="{ predicate }" type="{ type }" output="{ output }" class="{ class }">
     <form class="form-inline">
-        <h4>
-            <div class="pull-right">
-                <label>Output:</label>
-                <select ref="output" class="form-control">
-                    <option each="{ o in outputs }" selected="{ o === output }">{ o }</option>
-                </select>
-            </div>
-            { type } <span class="behaviour" if="{ type === 'model'}">{ behaviour }</span>
-            <div class="btn-group">
-                <button type="button" class="btn btn-default" onclick="{ moveDown }"><i class="material-icons">arrow_downward</i></button>
-                <button type="button" class="btn btn-default" onclick="{ moveUp }"><i class="material-icons">arrow_upward</i></button>
-                <button type="button" class="btn btn-default" onclick="{ remove }"><i class="material-icons">delete</i></button>
-            </div>
-        </h4>
-        <table>
-            <tr class="predicate">
-                <td>Description:</td>
-                <td><input ref="desc" type="text" class="form-control" value="{ desc }" placeholder="[Document the model]"/></td>
-            </tr>
-            <tr if="{ type === 'model' }">
-                <td>Behaviour:</td>
-                <td>
-                    <combobox ref="behaviour" current="{ behaviour }" source="{ getBehaviours }" callback="{ refresh }"
-                        placeholder="[behaviour]"/>
-                </td>
-            </tr>
-            <tr class="predicate">
-                <td>Predicate:</td>
-                <td>
-                    <code-editor ref="predicate" mode="xquery" code="{ predicate || '' }"
-                        placeholder="[XPath condition: model applies only if matched]"/>
-                </td>
-            </tr>
-            <tr class="predicate">
-                <td>CSS Class:</td>
-                <td>
-                    <input ref="class" type="text" class="form-control" value="{ class }"
-                        placeholder="[Define CSS class name (for external CSS)]"/>
-                </td>
-            </tr>
-        </table>
+        <header>
+            <h4>
+                <div class="pull-right">
+                    <label>Output:</label>
+                    <select ref="output" class="form-control">
+                        <option each="{ o in outputs }" selected="{ o === output }">{ o }</option>
+                    </select>
+                </div>
+                <a data-toggle="collapse" data-target="#{ id }" class="model-collapse">
+                    <i class="material-icons" ref="collapseToggle">expand_more</i>
+                    { type } <span class="behaviour" if="{ type === 'model'}">{ behaviour }</span>
+                </a>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" onclick="{ moveDown }"><i class="material-icons">arrow_downward</i></button>
+                    <button type="button" class="btn btn-default" onclick="{ moveUp }"><i class="material-icons">arrow_upward</i></button>
+                    <button type="button" class="btn btn-default" onclick="{ remove }"><i class="material-icons">delete</i></button>
+                    <div class="btn-group" if="{type == 'modelSequence' || type == 'modelGrp'}">
+                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="material-icons">add</i></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" onclick="{ addNested }">model</a></li>
+                            <li><a href="#" onclick="{ addNested }">modelSequence</a></li>
+                            <li><a href="#" onclick="{ addNested }">modelGrp</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </h4>
+            <p>{ desc } <span class="predicate" if="{ predicate }">{ predicate }</span></p>
+        </header>
+        <div class="collapse details { show ? 'in' : '' }" id="{ id }" ref="details">
+            <table>
+                <tr class="predicate">
+                    <td>Description:</td>
+                    <td><input ref="desc" type="text" class="form-control" value="{ desc }" placeholder="[Document the model]" onchange="{ refresh }"/></td>
+                </tr>
+                <tr if="{ type === 'model' }">
+                    <td>Behaviour:</td>
+                    <td>
+                        <combobox ref="behaviour" current="{ behaviour }" source="{ getBehaviours }" callback="{ refresh }"
+                            placeholder="[behaviour]"/>
+                    </td>
+                </tr>
+                <tr class="predicate">
+                    <td>Predicate:</td>
+                    <td>
+                        <code-editor ref="predicate" mode="xquery" code="{ predicate || '' }" callback="{ refresh }"
+                            placeholder="[XPath condition: model applies only if matched]"/>
+                    </td>
+                </tr>
+                <tr class="predicate">
+                    <td>CSS Class:</td>
+                    <td>
+                        <input ref="class" type="text" class="form-control" value="{ class }"
+                            placeholder="[Define CSS class name (for external CSS)]"/>
+                    </td>
+                </tr>
+            </table>
 
-        <div class="parameters" if="{type == 'model'}">
-            <div class="group"><span class="title">Parameters</span> <button type="button" class="btn" onclick="{ addParameter }"><i class="material-icons">add</i></button></div>
-            <parameter each="{ parameters }" name="{ this.name }" value="{ this.value }"/>
-        </div>
-
-        <div class="renditions" if="{type == 'model'}">
-            <div class="group"><span class="title">Renditions</span>
-                <button type="button" class="btn" onclick="{ addRendition }"><i class="material-icons">add</i></button>
-                <span class="source"><input type="checkbox" checked="{ sourcerend }" ref="sourcerend"/> Use source rendition</span>
+            <div class="parameters" if="{type == 'model'}">
+                <div class="group"><span class="title">Parameters</span> <button type="button" class="btn" onclick="{ addParameter }"><i class="material-icons">add</i></button></div>
+                <parameter each="{ parameters }" name="{ this.name }" value="{ this.value }"/>
             </div>
-            <rendition each="{ renditions }" scope="{ this.scope }" css="{ this.css }" events="{ events }"/>
+
+            <div class="renditions" if="{type == 'model'}">
+                <div class="group"><span class="title">Renditions</span>
+                    <button type="button" class="btn" onclick="{ addRendition }"><i class="material-icons">add</i></button>
+                    <span class="source"><input type="checkbox" checked="{ sourcerend }" ref="sourcerend"/> Use source rendition</span>
+                </div>
+                <rendition each="{ renditions }" scope="{ this.scope }" css="{ this.css }" events="{ events }"/>
+            </div>
         </div>
 
         <div class="models" if="{type == 'modelSequence' || type == 'modelGrp'}">
-            <div class="group">Nested Models
-                <div class="btn-group">
-                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="material-icons">add</i></button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" onclick="{ addNested }">model</a></li>
-                        <li><a href="#" onclick="{ addNested }">modelSequence</a></li>
-                        <li><a href="#" onclick="{ addNested }">modelGrp</a></li>
-                    </ul>
-                </div>
-            </div>
             <model each="{ models }" behaviour="{ this.behaviour }" predicate="{ this.predicate }"
-                type="{ this.type }" output="{ this.output }" desc="{ this.desc }" 
+                type="{ this.type }" output="{ this.output }" desc="{ this.desc }"
                 sourcerend="{ this.sourcerend }"/>
         </div>
     </form>
     <script>
         this.mixin('utils');
+
+        this.id = '_' + Math.random().toString(36).substr(2, 9);
 
         this.outputs = [
             "",
@@ -109,6 +117,18 @@
             "text",
             "title"
         ];
+
+        this.on("mount", function() {
+            var self = this;
+            $(this.refs.details).on("show.bs.collapse", function() {
+                $('.details').collapse('hide');
+                $(self.refs.collapseToggle).text("expand_less");
+            });
+            $(this.refs.details).on("hide.bs.collapse", function() {
+                $(self.refs.collapseToggle).text("expand_more");
+            });
+
+        });
 
         getBehaviours() {
             return this.behaviours;
@@ -186,7 +206,8 @@
                 sourcerend: false,
                 models: [],
                 parameters: [],
-                renditions: []
+                renditions: [],
+                show: true
             });
         }
 
@@ -224,7 +245,7 @@
             this.updateModel();
             this.update();
         }
-        
+
         serialize(indent) {
             this.updateModel();
             if (this.type === 'model' && !this.behaviour) {
@@ -265,13 +286,43 @@
         }
     </script>
     <style>
+        form {
+            margin-bottom: 8px;
+        }
+        .models {
+            margin-top: 8px;
+        }
         .btn, .btn-group {
             margin-top: 0;
             margin-bottom: 0;
         }
-        h4 {
-            padding: 4px 8px;
+        header {
             background-color: #d1dae0;
+        }
+        header h4 {
+            padding: 4px 8px;
+            margin: 0;
+        }
+        header p {
+            padding: 0 16px 4px;
+            margin: 0;
+            font-size: 85%;
+        }
+        header .predicate {
+            color: #ff5722;
+        }
+        header .predicate:before {
+            content: ' [';
+        }
+        header .predicate:after {
+            content: ']';
+        }
+        .model-collapse {
+            color: #000000;
+            cursor: pointer;
+        }
+        .model-collapse:hover {
+            text-decoration: none;
         }
         .behaviour {
             color: #ff5722;
@@ -290,12 +341,12 @@
         .group .title {
             /*text-decoration: underline;*/
         }
-        
+
         .renditions, .parameters {
             padding-left: 16px;
             border-left: 3px solid #e0e0e0;
         }
-        
+
         table {
             width: 100%;
         }
@@ -317,7 +368,7 @@
         .predicate .form-control {
             width: 100%;
         }
-        
+
         .source {
             text-decoration: none;
         }
