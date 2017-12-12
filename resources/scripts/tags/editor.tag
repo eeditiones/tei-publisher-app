@@ -57,7 +57,7 @@
     load() {
         this.refs.editSource.setPath(TeiPublisher.config.root + '/' + this.odd);
         $.getJSON("modules/editor.xql?odd=" + this.odd + '&root=' + TeiPublisher.config.root, function(data) {
-            self.elementSpecs = data.elementSpec;
+            self.elementSpecs = data;
             self.update();
         });
     }
