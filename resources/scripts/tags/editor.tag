@@ -30,8 +30,60 @@
         </div>
     </div>
     <div class="col-md-9 element-specs">
-        <element-spec each="{ elementSpecs }" ident="{ this.ident }" mode="{ this.mode }"
-            model="{ this.models }"></element-spec>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" href="#collapseSettings" aria-expanded="true" aria-controls="collapseSettings">
+                        { title || titleShort || odd }
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseSettings" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Title:</label>
+                                <div class="col-sm-9">
+                                    <input ref="title" type="text" name="title" value="{ title }" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Short Title:</label>
+                                <div class="col-sm-9">
+                                    <input ref="titleShort" type="text" name="short-title" value="{ titleShort }" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Source:</label>
+                                <div class="col-sm-9">
+                                    <input ref="source" type="text" name="source" value="{ source }" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Namespace:</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <input ref="useNamespace" type="checkbox" aria-label="..." title="Check for using a different namespace than TEI"/>
+                                        </span>
+                                        <input ref="namespace" type="text" class="form-control" name="namespace" value="{ namespace }" disabled
+                                            placeholder="Default namespace URI (if not TEI)"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <element-spec each="{ elementSpecs }" ident="{ this.ident }" mode="{ this.mode }"
+                    model="{ this.models }"></element-spec>
+            </div>
+        </div>
     </div>
 
     <message id="main-modal" ref="dialog"></message>
@@ -42,6 +94,10 @@
 
     this.odd = opts.odd;
     this.elementSpecs = [];
+    this.namespace = null;
+    this.source = null;
+    this.title = null;
+    this.titleShort = null;
 
     this.on('mount', function() {
         $(self.refs.panel).affix({ top: 60 });
@@ -52,12 +108,26 @@
         $(self.refs.panel).on('affixed-top.bs.affix', function() {
             self.refs.panel.style.width = 'auto';
         });
+        $(self.refs.useNamespace).change(function() {
+            $(self.refs.namespace).prop("disabled", !this.checked);
+        });
     });
 
     load() {
         this.refs.editSource.setPath(TeiPublisher.config.root + '/' + this.odd);
         $.getJSON("modules/editor.xql?odd=" + this.odd + '&root=' + TeiPublisher.config.root, function(data) {
-            self.elementSpecs = data;
+            self.elementSpecs = data.elementSpecs;
+            self.namespace = data.namespace;
+            self.source = data.source;
+            self.title = data.title;
+            self.titleShort = data.titleShort;
+            if (self.namespace == null) {
+                $(self.refs.useNamespace).prop("checked", false);
+                $(self.refs.namespace).prop("disabled", true);
+            } else {
+                $(self.refs.useNamespace).prop("checked", true);
+                $(self.refs.namespace).prop("disabled", false);
+            }
             self.update();
         });
     }
@@ -119,7 +189,26 @@
     save(ev) {
         ev.preventUpdate = true;
 
-        var specs = '<schemaSpec xmlns="http://www.tei-c.org/ns/1.0">\n';
+        var useNamespace = this.refs.useNamespace.checked;
+        if (useNamespace) {
+            this.namespace = this.refs.namespace.value;
+        }
+        this.source = this.refs.source.value;
+        this.title = this.refs.title.value;
+        this.titleShort = this.refs.titleShort.value;
+
+        var specs = '<schemaSpec xmlns="http://www.tei-c.org/ns/1.0"';
+        if (useNamespace) {
+            specs += ' ns="' + this.namespace + '"';
+        }
+        if (this.source) {
+            specs += ' source="' + this.source + '"';
+        }
+        specs += '>\n';
+
+        specs += '<title>' + this.title + '</title>\n';
+        specs += '<title type="short">' + this.titleShort + '</title>\n';
+
         this.elementSpecs = this.updateTag('element-spec');
         specs += this.serializeTag('element-spec', this.indentString.repeat(4));
         specs += '</schemaSpec>';

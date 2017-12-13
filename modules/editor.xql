@@ -55,17 +55,27 @@ declare function local:renditions($model as element()) {
 };
 
 declare function local:load($oddPath as xs:string, $root as xs:string) {
-    array {
-        let $odd := doc($root || "/" || $oddPath)/TEI
-        for $spec in $odd//elementSpec
-        order by $spec/@ident
-        return
-            map {
-                "ident": $spec/@ident/string(),
-                "mode": $spec/@mode/string(),
-                "models": local:models($spec)
-            }
-    }
+    let $odd := doc($root || "/" || $oddPath)/TEI
+    let $schemaSpec := $odd//schemaSpec
+    return
+        map {
+            "elementSpecs":
+                array {
+
+                    for $spec in $odd//elementSpec
+                    order by $spec/@ident
+                    return
+                        map {
+                            "ident": $spec/@ident/string(),
+                            "mode": $spec/@mode/string(),
+                            "models": local:models($spec)
+                        }
+                },
+            "namespace": $schemaSpec/@ns/string(),
+            "source": $schemaSpec/@source/string(),
+            "title": $odd//teiHeader/fileDesc/titleStmt/title[not(@type)]/string(),
+            "titleShort": $odd//teiHeader/fileDesc/titleStmt/title[@type = 'short']/string()
+        }
 };
 
 declare function local:find-spec($oddPath as xs:string, $root as xs:string, $ident as xs:string) {
@@ -174,9 +184,21 @@ declare function local:update($nodes as node()*, $data as document-node(), $orig
                         $node/@*,
                         local:update($node/node(), $data, $orig)
                     }
-            case element(schemaSpec) return
+            case element(titleStmt) return
                 element { node-name($node) } {
                     $node/@*,
+                    $data/schemaSpec/title,
+                    $node/* except $node/title
+                }
+            case element(schemaSpec) return
+                element { node-name($node) } {
+                    $node/@* except ($node/@ns, $node/@source),
+                    (: Save namespace attribute if specified :)
+                    if ($data/schemaSpec/@ns) then
+                        $data/schemaSpec/@ns
+                    else
+                        (),
+                    $data/schemaSpec/@source,
                     local:update($node/node(), $data, $orig),
                     for $spec in $data//elementSpec
                     where empty($orig//elementSpec[@ident = $spec/@ident])
