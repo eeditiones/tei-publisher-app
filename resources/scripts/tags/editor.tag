@@ -177,6 +177,10 @@
             specs.push(newSpec);
             self.elementSpecs = specs;
             self.update();
+            
+            var target = document.getElementById('es_' + ident);
+            var top = $(target).position().top;
+            window.scrollTo(0, top + 60);
         });
     }
 
