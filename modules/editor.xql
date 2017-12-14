@@ -187,7 +187,7 @@ declare function local:update($nodes as node()*, $data as document-node(), $orig
             case element(titleStmt) return
                 element { node-name($node) } {
                     $node/@*,
-                    $data/schemaSpec/title,
+                    $data/schemaSpec/title[text()],
                     $node/* except $node/title
                 }
             case element(schemaSpec) return
