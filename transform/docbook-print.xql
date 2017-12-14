@@ -57,43 +57,58 @@ let $node :=
                     case element(article) return
                         fo:document($config, ., ("tei-article"), .)
                     case element(info) return
-                        if ($parameters?header='short') then
-                            (
-                                fo:heading($config, ., ("tei-info2"), title),
-                                fo:block($config, ., ("tei-info3"), author)
-                            )
-
+                        if (not(parent::article|parent::book)) then
+                            fo:block($config, ., ("tei-info1"), .)
                         else
-                            fo:metadata($config, ., ("tei-info4"), .)
+                            if ($parameters?header='short') then
+                                (
+                                    fo:heading($config, ., ("tei-info3"), title),
+                                    if (author) then
+                                        fo:block($config, ., ("tei-info4"), author)
+                                    else
+                                        ()
+                                )
+
+                            else
+                                fo:metadata($config, ., ("tei-info5"), .)
                     case element(author) return
-                        fo:inline($config, ., ("tei-author"), (personname, affiliation))
+                        if (preceding-sibling::author) then
+                            fo:inline($config, ., ("tei-author1"), (', ', personname, affiliation))
+                        else
+                            fo:inline($config, ., ("tei-author2"), (personname, affiliation))
                     case element(personname) return
-                        fo:inline($config, ., ("tei-personname"), ('By ', firstname, ' ', surname))
+                        fo:inline($config, ., ("tei-personname"), (firstname, ' ', surname))
                     case element(affiliation) return
                         fo:inline($config, ., ("tei-affiliation"), (', ', .))
                     case element(title) return
-                        if (parent::info and $parameters?header='short') then
-                            fo:link($config, ., ("tei-title1"), ., $parameters?doc)
+                        if (parent::note) then
+                            fo:inline($config, ., ("tei-title1"), .)
                         else
-                            fo:heading($config, ., ("tei-title2"), .)
+                            if (parent::info and $parameters?header='short') then
+                                fo:link($config, ., ("tei-title2"), ., $parameters?doc)
+                            else
+                                fo:heading($config, ., ("tei-title3", "title"), .)
                     case element(section) return
                         fo:block($config, ., ("tei-section"), .)
                     case element(para) return
                         fo:paragraph($config, ., ("tei-para"), .)
                     case element(emphasis) return
-                        fo:inline($config, ., ("tei-emphasis"), .)
+                        if (@role='bold') then
+                            fo:inline($config, ., ("tei-emphasis1"), .)
+                        else
+                            fo:inline($config, ., ("tei-emphasis2"), .)
                     case element(code) return
                         fo:inline($config, ., ("tei-code", "code"), .)
                     case element(figure) return
-                        if (title) then
-                            fo:figure($config, ., ("tei-figure1"), *[not(self::title)], title/node())
+                        if (title|info/title) then
+                            fo:figure($config, ., ("tei-figure1", "figure"), *[not(self::title|self::info)], title/node()|info/title/node())
                         else
                             fo:figure($config, ., ("tei-figure2"), ., ())
                     case element(informalfigure) return
                         if (caption) then
-                            fo:figure($config, ., ("tei-informalfigure1"), *[not(self::caption)], caption/node())
+                            fo:figure($config, ., ("tei-informalfigure1", "figure"), *[not(self::caption)], caption/node())
                         else
-                            fo:figure($config, ., ("tei-informalfigure2"), ., ())
+                            fo:figure($config, ., ("tei-informalfigure2", "figure"), ., ())
                     case element(imagedata) return
                         fo:graphic($config, ., ("tei-imagedata", "img-responsive"), ., @fileref, (), (), (), ())
                     case element(itemizedlist) return
@@ -102,12 +117,16 @@ let $node :=
                         fo:listItem($config, ., ("tei-listitem"), .)
                     case element(orderedlist) return
                         fo:list($config, ., ("tei-orderedlist"), listitem)
+                    case element(procedure) return
+                        fo:list($config, ., ("tei-procedure"), step)
+                    case element(step) return
+                        fo:listItem($config, ., ("tei-step"), .)
                     case element(variablelist) return
                         ext-fo:definitionList($config, ., ("tei-variablelist"), varlistentry)
                     case element(varlistentry) return
                         (
-                            ext-fo:definitionTerm($config, ., ("tei-varlistentry1"), term/node()),
-                            ext-fo:definitionDef($config, ., ("tei-varlistentry2"), listitem/node())
+                            ext-fo:definitionTerm($config, ., ("tei-varlistentry1", "term"), term/node()),
+                            ext-fo:definitionDef($config, ., ("tei-varlistentry2", "varlistentry"), listitem/node())
                         )
 
                     case element(table) return
@@ -131,11 +150,21 @@ let $node :=
                     case element(programlisting) return
                         fo:block($config, ., ("tei-programlisting3", "programlisting"), .)
                     case element(synopsis) return
-                        ext-fo:code($config, ., ("tei-synopsis"), ., @language)
+                        (: More than one model without predicate found for ident synopsis. Choosing first one. :)
+                        fo:block($config, ., ("tei-synopsis1", "programlisting"), .)
+                    case element(example) return
+                        fo:figure($config, ., ("tei-example"), *[not(self::title|self::info)], info/title/node()|title/node())
                     case element(function) return
                         fo:inline($config, ., ("tei-function", "code"), .)
                     case element(command) return
                         fo:inline($config, ., ("tei-command", "code"), .)
+                    case element(parameter) return
+                        fo:inline($config, ., ("tei-parameter", "code"), .)
+                    case element(filename) return
+                        fo:inline($config, ., ("tei-filename", "code"), .)
+                    case element(note) return
+                        (: No function found for behavior: panel :)
+                        $config?apply($config, ./node())
                     case element(tag) return
                         fo:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return
@@ -143,6 +172,10 @@ let $node :=
                             fo:link($config, ., ("tei-link1"), ., concat('?odd=', request:get-parameter('odd', ()), '&amp;view=',                             request:get-parameter('view', ()), '&amp;id=', @linkend))
                         else
                             fo:link($config, ., ("tei-link2"), ., @xlink:href)
+                    case element(guibutton) return
+                        fo:inline($config, ., ("tei-guibutton"), .)
+                    case element(guilabel) return
+                        fo:inline($config, ., ("tei-guilabel"), .)
                     case element() return
                         fo:inline($config, ., ("tei--element"), .)
                     case text() | xs:anyAtomicType return

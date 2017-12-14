@@ -1,8 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Docbook v5</title>
+                <title>Processing Model for Docbook v5</title>
+                <title type="short">Docbook v5</title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>
@@ -68,6 +70,7 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="title">
+                    <model predicate="parent::note" behaviour="inline"/>
                     <model predicate="parent::info and $parameters?header='short'" behaviour="link">
                         <param name="link" value="$parameters?doc"/>
                     </model>
@@ -175,17 +178,21 @@
                     <model behaviour="row"/>
                 </elementSpec>
                 <elementSpec ident="td">
-                    <model behaviour="cell" predicate="parent::tr/parent::thead">
+                    <model predicate="parent::tr/parent::thead" behaviour="cell">
                         <outputRendition>
+                            
+                            
                             font-weight: bold;
                             text-align: left;
+                        
+                        
                         </outputRendition>
                     </model>
                     <model behaviour="cell"/>
                 </elementSpec>
                 <elementSpec ident="programlisting">
                     <modelGrp output="web">
-                        <model behaviour="inline" predicate="parent::cell|parent::para|parent::ab" cssClass="code"/>
+                        <model predicate="parent::cell|parent::para|parent::ab" behaviour="inline" cssClass="code"/>
                         <model behaviour="code">
                             <param name="lang" value="@language"/>
                         </model>
@@ -217,7 +224,10 @@
                     <model behaviour="inline" cssClass="code"/>
                 </elementSpec>
                 <elementSpec ident="note">
-                    <model behaviour="block" cssClass="alert alert-info"/>
+                    <model behaviour="panel" cssClass="panel-default">
+                        <param name="title" value="title"/>
+                        <param name="content" value="*[not(self::title)]"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="tag">
                     <model behaviour="inline" cssClass="code">
@@ -230,9 +240,8 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="link">
-                    <model behaviour="link" predicate="@linkend">
-                        <param name="link" value="concat('?odd=', request:get-parameter('odd', ()), '&amp;amp;view=',
-                            request:get-parameter('view', ()), '&amp;amp;id=', @linkend)"/>
+                    <model predicate="@linkend" behaviour="link">
+                        <param name="link" value="concat('?odd=', request:get-parameter('odd', ()), '&amp;amp;view=',                             request:get-parameter('view', ()), '&amp;amp;id=', @linkend)"/>
                     </model>
                     <model behaviour="link">
                         <param name="link" value="@xlink:href"/>
@@ -240,6 +249,26 @@
                 </elementSpec>
                 <elementSpec ident="*">
                     <model behaviour="inline"/>
+                </elementSpec>
+            <elementSpec ident="guibutton" mode="add">
+                    <model behaviour="inline">
+                        <outputRendition>
+                            
+                            color: #fff;
+background-color: #909090;
+padding-left: 4px;
+padding-right: 4px;
+border: 1px solid #707070;
+                        
+                        </outputRendition>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="guilabel" mode="add">
+                    <model behaviour="inline">
+                        <outputRendition>
+                            font-style: italic;
+                        </outputRendition>
+                    </model>
                 </elementSpec>
             </schemaSpec>
         </body>

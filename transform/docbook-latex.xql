@@ -57,43 +57,58 @@ let $node :=
                     case element(article) return
                         latex:document($config, ., ("tei-article"), .)
                     case element(info) return
-                        if ($parameters?header='short') then
-                            (
-                                latex:heading($config, ., ("tei-info2"), title),
-                                latex:block($config, ., ("tei-info3"), author)
-                            )
-
+                        if (not(parent::article|parent::book)) then
+                            latex:block($config, ., ("tei-info1"), .)
                         else
-                            latex:metadata($config, ., ("tei-info4"), .)
+                            if ($parameters?header='short') then
+                                (
+                                    latex:heading($config, ., ("tei-info3"), title),
+                                    if (author) then
+                                        latex:block($config, ., ("tei-info4"), author)
+                                    else
+                                        ()
+                                )
+
+                            else
+                                latex:metadata($config, ., ("tei-info5"), .)
                     case element(author) return
-                        latex:inline($config, ., ("tei-author"), (personname, affiliation))
+                        if (preceding-sibling::author) then
+                            latex:inline($config, ., ("tei-author1"), (', ', personname, affiliation))
+                        else
+                            latex:inline($config, ., ("tei-author2"), (personname, affiliation))
                     case element(personname) return
-                        latex:inline($config, ., ("tei-personname"), ('By ', firstname, ' ', surname))
+                        latex:inline($config, ., ("tei-personname"), (firstname, ' ', surname))
                     case element(affiliation) return
                         latex:inline($config, ., ("tei-affiliation"), (', ', .))
                     case element(title) return
-                        if (parent::info and $parameters?header='short') then
-                            latex:link($config, ., ("tei-title1"), ., $parameters?doc)
+                        if (parent::note) then
+                            latex:inline($config, ., ("tei-title1"), .)
                         else
-                            latex:heading($config, ., ("tei-title2"), .)
+                            if (parent::info and $parameters?header='short') then
+                                latex:link($config, ., ("tei-title2"), ., $parameters?doc)
+                            else
+                                latex:heading($config, ., ("tei-title3", "title"), .)
                     case element(section) return
                         latex:block($config, ., ("tei-section"), .)
                     case element(para) return
                         latex:paragraph($config, ., ("tei-para"), .)
                     case element(emphasis) return
-                        latex:inline($config, ., ("tei-emphasis"), .)
+                        if (@role='bold') then
+                            latex:inline($config, ., ("tei-emphasis1"), .)
+                        else
+                            latex:inline($config, ., ("tei-emphasis2"), .)
                     case element(code) return
                         latex:inline($config, ., ("tei-code", "code"), .)
                     case element(figure) return
-                        if (title) then
-                            latex:figure($config, ., ("tei-figure1"), *[not(self::title)], title/node())
+                        if (title|info/title) then
+                            latex:figure($config, ., ("tei-figure1", "figure"), *[not(self::title|self::info)], title/node()|info/title/node())
                         else
                             latex:figure($config, ., ("tei-figure2"), ., ())
                     case element(informalfigure) return
                         if (caption) then
-                            latex:figure($config, ., ("tei-informalfigure1"), *[not(self::caption)], caption/node())
+                            latex:figure($config, ., ("tei-informalfigure1", "figure"), *[not(self::caption)], caption/node())
                         else
-                            latex:figure($config, ., ("tei-informalfigure2"), ., ())
+                            latex:figure($config, ., ("tei-informalfigure2", "figure"), ., ())
                     case element(imagedata) return
                         latex:graphic($config, ., ("tei-imagedata", "img-responsive"), ., @fileref, (), (), (), ())
                     case element(itemizedlist) return
@@ -102,6 +117,10 @@ let $node :=
                         latex:listItem($config, ., ("tei-listitem"), .)
                     case element(orderedlist) return
                         latex:list($config, ., ("tei-orderedlist"), listitem)
+                    case element(procedure) return
+                        latex:list($config, ., ("tei-procedure"), step)
+                    case element(step) return
+                        latex:listItem($config, ., ("tei-step"), .)
                     case element(variablelist) return
                         (: No function found for behavior: definitionList :)
                         $config?apply($config, ./node())
@@ -134,11 +153,21 @@ let $node :=
                     case element(programlisting) return
                         latex:block($config, ., ("tei-programlisting3", "programlisting"), .)
                     case element(synopsis) return
-                        ext-latex:code($config, ., ("tei-synopsis"), ., @language)
+                        (: More than one model without predicate found for ident synopsis. Choosing first one. :)
+                        latex:block($config, ., ("tei-synopsis1", "programlisting"), .)
+                    case element(example) return
+                        latex:figure($config, ., ("tei-example"), *[not(self::title|self::info)], info/title/node()|title/node())
                     case element(function) return
                         latex:inline($config, ., ("tei-function", "code"), .)
                     case element(command) return
                         latex:inline($config, ., ("tei-command", "code"), .)
+                    case element(parameter) return
+                        latex:inline($config, ., ("tei-parameter", "code"), .)
+                    case element(filename) return
+                        latex:inline($config, ., ("tei-filename", "code"), .)
+                    case element(note) return
+                        (: No function found for behavior: panel :)
+                        $config?apply($config, ./node())
                     case element(tag) return
                         latex:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return
@@ -146,6 +175,10 @@ let $node :=
                             latex:link($config, ., ("tei-link1"), ., concat('?odd=', request:get-parameter('odd', ()), '&amp;view=',                             request:get-parameter('view', ()), '&amp;id=', @linkend))
                         else
                             latex:link($config, ., ("tei-link2"), ., @xlink:href)
+                    case element(guibutton) return
+                        latex:inline($config, ., ("tei-guibutton"), .)
+                    case element(guilabel) return
+                        latex:inline($config, ., ("tei-guilabel"), .)
                     case element() return
                         latex:inline($config, ., ("tei--element"), .)
                     case text() | xs:anyAtomicType return

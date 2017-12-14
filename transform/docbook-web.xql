@@ -57,43 +57,58 @@ let $node :=
                     case element(article) return
                         html:document($config, ., ("tei-article"), .)
                     case element(info) return
-                        if ($parameters?header='short') then
-                            (
-                                html:heading($config, ., ("tei-info2"), title, 5),
-                                html:block($config, ., ("tei-info3"), author)
-                            )
-
+                        if (not(parent::article|parent::book)) then
+                            html:block($config, ., ("tei-info1"), .)
                         else
-                            html:metadata($config, ., ("tei-info4"), .)
+                            if ($parameters?header='short') then
+                                (
+                                    html:heading($config, ., ("tei-info3"), title, 5),
+                                    if (author) then
+                                        html:block($config, ., ("tei-info4"), author)
+                                    else
+                                        ()
+                                )
+
+                            else
+                                html:metadata($config, ., ("tei-info5"), .)
                     case element(author) return
-                        html:inline($config, ., ("tei-author"), (personname, affiliation))
+                        if (preceding-sibling::author) then
+                            html:inline($config, ., ("tei-author1"), (', ', personname, affiliation))
+                        else
+                            html:inline($config, ., ("tei-author2"), (personname, affiliation))
                     case element(personname) return
-                        html:inline($config, ., ("tei-personname"), ('By ', firstname, ' ', surname))
+                        html:inline($config, ., ("tei-personname"), (firstname, ' ', surname))
                     case element(affiliation) return
                         html:inline($config, ., ("tei-affiliation"), (', ', .))
                     case element(title) return
-                        if (parent::info and $parameters?header='short') then
-                            html:link($config, ., ("tei-title1"), ., $parameters?doc)
+                        if (parent::note) then
+                            html:inline($config, ., ("tei-title1"), .)
                         else
-                            html:heading($config, ., ("tei-title2"), ., count(ancestor::section))
+                            if (parent::info and $parameters?header='short') then
+                                html:link($config, ., ("tei-title2"), ., $parameters?doc)
+                            else
+                                html:heading($config, ., ("tei-title3", "title"), ., count(ancestor::section))
                     case element(section) return
                         html:block($config, ., ("tei-section"), .)
                     case element(para) return
                         html:paragraph($config, ., ("tei-para"), .)
                     case element(emphasis) return
-                        html:inline($config, ., ("tei-emphasis"), .)
+                        if (@role='bold') then
+                            html:inline($config, ., ("tei-emphasis1"), .)
+                        else
+                            html:inline($config, ., ("tei-emphasis2"), .)
                     case element(code) return
                         html:inline($config, ., ("tei-code", "code"), .)
                     case element(figure) return
-                        if (title) then
-                            html:figure($config, ., ("tei-figure1"), *[not(self::title)], title/node())
+                        if (title|info/title) then
+                            html:figure($config, ., ("tei-figure1", "figure"), *[not(self::title|self::info)], title/node()|info/title/node())
                         else
                             html:figure($config, ., ("tei-figure2"), ., ())
                     case element(informalfigure) return
                         if (caption) then
-                            html:figure($config, ., ("tei-informalfigure1"), *[not(self::caption)], caption/node())
+                            html:figure($config, ., ("tei-informalfigure1", "figure"), *[not(self::caption)], caption/node())
                         else
-                            html:figure($config, ., ("tei-informalfigure2"), ., ())
+                            html:figure($config, ., ("tei-informalfigure2", "figure"), ., ())
                     case element(imagedata) return
                         html:graphic($config, ., ("tei-imagedata", "img-responsive"), ., @fileref, (), (), (), ())
                     case element(itemizedlist) return
@@ -102,12 +117,16 @@ let $node :=
                         html:listItem($config, ., ("tei-listitem"), ., ())
                     case element(orderedlist) return
                         html:list($config, ., ("tei-orderedlist"), listitem, 'ordered')
+                    case element(procedure) return
+                        html:list($config, ., ("tei-procedure"), step, 'ordered')
+                    case element(step) return
+                        html:listItem($config, ., ("tei-step"), ., ())
                     case element(variablelist) return
                         ext-html:definitionList($config, ., ("tei-variablelist"), varlistentry)
                     case element(varlistentry) return
                         (
-                            ext-html:definitionTerm($config, ., ("tei-varlistentry1"), term/node()),
-                            ext-html:definitionDef($config, ., ("tei-varlistentry2"), listitem/node())
+                            ext-html:definitionTerm($config, ., ("tei-varlistentry1", "term"), term/node()),
+                            ext-html:definitionDef($config, ., ("tei-varlistentry2", "varlistentry"), listitem/node())
                         )
 
                     case element(table) return
@@ -135,11 +154,19 @@ let $node :=
                         else
                             ext-html:code($config, ., ("tei-programlisting2"), ., @language)
                     case element(synopsis) return
-                        ext-html:code($config, ., ("tei-synopsis"), ., @language)
+                        ext-html:code($config, ., ("tei-synopsis2"), ., @language)
+                    case element(example) return
+                        html:figure($config, ., ("tei-example"), *[not(self::title|self::info)], info/title/node()|title/node())
                     case element(function) return
                         html:inline($config, ., ("tei-function", "code"), .)
                     case element(command) return
                         html:inline($config, ., ("tei-command", "code"), .)
+                    case element(parameter) return
+                        html:inline($config, ., ("tei-parameter", "code"), .)
+                    case element(filename) return
+                        html:inline($config, ., ("tei-filename", "code"), .)
+                    case element(note) return
+                        ext-html:panel($config, ., ("tei-note", "panel-default"), *[not(self::title)], title)
                     case element(tag) return
                         html:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return
@@ -147,6 +174,10 @@ let $node :=
                             html:link($config, ., ("tei-link1"), ., concat('?odd=', request:get-parameter('odd', ()), '&amp;view=',                             request:get-parameter('view', ()), '&amp;id=', @linkend))
                         else
                             html:link($config, ., ("tei-link2"), ., @xlink:href)
+                    case element(guibutton) return
+                        html:inline($config, ., ("tei-guibutton"), .)
+                    case element(guilabel) return
+                        html:inline($config, ., ("tei-guilabel"), .)
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return
