@@ -75,7 +75,8 @@ declare function app:show-if-logged-in($node as node(), $model as map(*)) {
 declare
     %templates:wrap
 function app:list-works($node as node(), $model as map(*), $filter as xs:string?, $root as xs:string,
-    $browse as xs:string?) {
+    $browse as xs:string?, $odd as xs:string?) {
+    let $odd := ($odd, session:get-attribute("odd"), $config:odd)[1]
     let $cached := session:get-attribute("simple.works")
     let $filtered :=
         if ($filter) then
@@ -98,6 +99,7 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
         session:set-attribute("simple.works", $filtered),
         session:set-attribute("browse", $browse),
         session:set-attribute("filter", $filter),
+        session:set-attribute("odd", $odd),
         map {
             "all" : $filtered,
             "mode": "browse"
@@ -319,7 +321,9 @@ declare function app:fix-links($nodes as node()*) {
                         )
                     return
                         element { node-name($node) } {
-                            attribute href {$href}, $node/@* except $node/@href, app:fix-links($node/node())
+                            attribute href { app:parse-href($href) },
+                            $node/@* except $node/@href,
+                            app:fix-links($node/node())
                         }
             case element() return
                 element { node-name($node) } {
@@ -328,6 +332,27 @@ declare function app:fix-links($nodes as node()*) {
             default return
                 $node
 };
+
+declare %private function app:parse-href($href as xs:string) {
+    if (matches($href, "\$\{[^\}]+\}")) then
+        string-join(
+            let $parsed := analyze-string($href, "\$\{([^\}]+?)(?::([^\}]+))?\}")
+            for $token in $parsed/node()
+            return
+                typeswitch($token)
+                    case element(fn:non-match) return $token/string()
+                    case element(fn:match) return
+                        let $paramName := $token/fn:group[1]
+                        let $default := $token/fn:group[2]
+                        return
+                            request:get-parameter($paramName, $default)
+                    default return $token
+        )
+    else
+        $href
+};
+
+
 
 declare function app:dispatch-action($node as node(), $model as map(*), $action as xs:string?) {
     switch ($action)

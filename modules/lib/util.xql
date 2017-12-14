@@ -26,7 +26,7 @@ import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../
 declare function tpu:parse-pi($doc as document-node(), $view as xs:string?) {
     let $default := map {
         "view": ($view, $config:default-view)[1],
-        "odd": $config:odd,
+        "odd": (session:get-attribute("odd"), $config:odd)[1],
         "depth": $config:pagination-depth,
         "fill": $config:pagination-fill,
         "type": nav:document-type($doc/*)
