@@ -1,5 +1,5 @@
 <combobox>
-    <div class="dropdown">
+    <div ref="dropdown" class="dropdown">
         <input ref="value" class="form-control" type="text" value="{ current }" data-toggle="dropdown"
             onkeyup="{ filter }" onfocus="{ filter }" placeholder="{ opts.placeholder }" onchange="{ changed }"/>
         <ul class="dropdown-menu">
@@ -17,6 +17,11 @@
             return this.refs.value.value;
         }
 
+        clear() {
+            this.current = "";
+            this.refs.value.value = "";
+        }
+        
         filter(ev) {
             var val = ev.target.value;
             if (val) {
@@ -37,6 +42,7 @@
         }
         
         changed(ev) {
+            $(this.refs.dropdown).removeClass("open");
             if (this.callback) {
                 this.callback();
             }
@@ -50,6 +56,10 @@
         li:hover {
             cursor: pointer;
             background-color: #C0C0C0;
+        }
+        .dropdown-menu {
+            max-height: 400px;
+            overflow: auto;
         }
     </style>
 </combobox>

@@ -22,9 +22,13 @@
                     <input ref="identNew" type="text" class="form-control" placeholder="Element Name">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button" onclick="{ addElementSpec }">
-                            <i class="material-icons">add</i> New Element
+                            <i class="material-icons">add</i> New
                         </button>
                     </span>
+                </div>
+
+                <div id="jump-to">
+                    <combobox ref="jumpTo" source="{ getElementSpecs }" placeholder="Jump to ..." callback="{ jumpTo }"/>
                 </div>
             </div>
         </div>
@@ -80,7 +84,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <element-spec each="{ elementSpecs }" ident="{ this.ident }" mode="{ this.mode }"
+                <element-spec id="es_{ this.ident }" each="{ elementSpecs }" ident="{ this.ident }" mode="{ this.mode }"
                     model="{ this.models }"></element-spec>
             </div>
         </div>
@@ -184,6 +188,23 @@
 
                 self.update();
         });
+    }
+
+    getElementSpecs() {
+        return this.elementSpecs.map(function(spec) {
+            return spec.ident;
+        });
+    }
+
+    jumpTo() {
+        var ident = this.refs.jumpTo.getData();
+        var target = document.getElementById('es_' + ident);
+        $(".models.collapse").collapse('hide');
+
+        $(target).find('.models.collapse').collapse('show');
+        var top = $(target).position().top;
+        window.scrollTo(0, top + 60);
+        this.refs.jumpTo.clear();
     }
 
     save(ev) {
