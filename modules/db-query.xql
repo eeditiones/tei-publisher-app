@@ -25,6 +25,12 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation/docbook" at "navigation-dbk.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
+declare variable $dbs:QUERY_OPTIONS :=
+    <options>
+        <leading-wildcard>yes</leading-wildcard>
+        <filter-rewrite>yes</filter-rewrite>
+    </options>;
+
 declare function dbs:query-default($fields as xs:string, $query as xs:string, $target-texts as xs:string*) {
     if(string($query)) then
         for $field in $fields
@@ -34,31 +40,31 @@ declare function dbs:query-default($fields as xs:string, $query as xs:string, $t
                     if ($target-texts) then
                         for $text in $target-texts
                         return
-                            $config:data-root ! doc(. || "/" || $text)//db:title[ft:query(., $query)]
+                            $config:data-root ! doc(. || "/" || $text)//db:title[ft:query(., $query, $dbs:QUERY_OPTIONS)]
                     else
-                        collection($config:data-root)//db:title[ft:query(., $query)]
+                        collection($config:data-root)//db:title[ft:query(., $query, $dbs:QUERY_OPTIONS)]
                 default return
                     switch ($config:search-default)
                         case "tei:div" return
                             if ($target-texts) then
                                 for $text in $target-texts
                                 return
-                                    $config:data-root ! doc(. || "/" || $text)//db:section[ft:query(., $query)][not(db:section)]
+                                    $config:data-root ! doc(. || "/" || $text)//db:section[ft:query(., $query, $dbs:QUERY_OPTIONS)][not(db:section)]
                             else
-                                collection($config:data-root)//db:section[ft:query(., $query)][not(db:section)]
+                                collection($config:data-root)//db:section[ft:query(., $query, $dbs:QUERY_OPTIONS)][not(db:section)]
                         case "tei:body" return
                             if ($target-texts) then
                                 for $text in $target-texts
                                 return
                                     $config:data-root !
-                                        doc(. || "/" || $text)//db:article[ft:query(., $query)]
+                                        doc(. || "/" || $text)//db:article[ft:query(., $query, $dbs:QUERY_OPTIONS)]
                             else
-                                collection($config:data-root)//db:article[ft:query(., $query)]
+                                collection($config:data-root)//db:article[ft:query(., $query, $dbs:QUERY_OPTIONS)]
                         default return
                             if ($target-texts) then
-                                util:eval("for $text in $target-texts return $config:data-root ! doc(. || '/' || $text)//db:article[ft:query(., $query)]")
+                                util:eval("for $text in $target-texts return $config:data-root ! doc(. || '/' || $text)//db:article[ft:query(., $query, $dbs:QUERY_OPTIONS)]")
                             else
-                                util:eval("collection($config:data-root)//" || $config:search-default || "[ft:query(., $query)]")
+                                util:eval("collection($config:data-root)//" || $config:search-default || "[ft:query(., $query, $dbs:QUERY_OPTIONS)]")
     else ()
 };
 
@@ -94,7 +100,7 @@ declare function dbs:expand($data as element()) {
         util:expand(
             (
                 dbs:query-default-view($div, $query),
-                $div[.//db:title[ft:query(., $query)]]
+                $div[.//db:title[ft:query(., $query, $dbs:QUERY_OPTIONS)]]
             ), "add-exist-id=all"
         )
     return
@@ -105,11 +111,11 @@ declare function dbs:expand($data as element()) {
 declare %private function dbs:query-default-view($context as element()*, $query as xs:string) {
     switch ($config:search-default)
         case "tei:div" return
-            $context[./descendant-or-self::db:section[ft:query(., $query)]]
+            $context[./descendant-or-self::db:section[ft:query(., $query, $dbs:QUERY_OPTIONS)]]
         case "tei:body" return
-            $context[./descendant-or-self::db:article[ft:query(., $query)]]
+            $context[./descendant-or-self::db:article[ft:query(., $query, $dbs:QUERY_OPTIONS)]]
         default return
-            util:eval("$context[./descendant-or-self::" || $config:search-default || "[ft:query(., $query)]]")
+            util:eval("$context[./descendant-or-self::" || $config:search-default || "[ft:query(., $query, $dbs:QUERY_OPTIONS)]]")
 };
 
 declare function dbs:get-current($config as map(*), $div as element()?) {
