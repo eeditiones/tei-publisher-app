@@ -142,7 +142,7 @@ describe('modify odd', function() {
 
     it("should remove pb element spec", function() {
         var spec = $("element-spec[ident='pb']");
-        spec.click("button=remove");
+        spec.click("button=delete");
 
         browser.waitForVisible("#main-modal button[ref='confirm']");
         browser.click("#main-modal button[ref='confirm']");
