@@ -11,12 +11,12 @@
                 <li><a href="#" onclick="{ addModel }">modelGrp</a></li>
             </ul>
         </div>
-        <button type="button" class="btn" onclick="{ remove }"><i class="material-icons">remove</i></button>
+        <button type="button" class="btn" onclick="{ remove }"><i class="material-icons">delete</i></button>
     </h3>
 
     <div ref="models" id="elem-{ ident }" class="collapse models {show ? 'in' : ''}">
         <model each="{ models }" behaviour="{ this.behaviour }" predicate="{ this.predicate }"
-            type="{ this.type }" output="{ this.output }" class="{ this.class }" models="{ this.models }"
+            type="{ this.type }" output="{ this.output }" css="{ this.css }" models="{ this.models }"
             parameters="{ this.parameters }" desc="{ this.desc }"
             sourcerend="{ this.sourcerend }"/>
     </div>

@@ -1,4 +1,4 @@
-<model behaviour="{ behaviour }" predicate="{ predicate }" type="{ type }" output="{ output }" class="{ class }">
+<model behaviour="{ behaviour }" predicate="{ predicate }" type="{ type }" output="{ output }" css="{ css }">
     <form class="form-inline">
         <header>
             <h4>
@@ -51,7 +51,7 @@
                 <tr class="predicate">
                     <td>CSS Class:</td>
                     <td>
-                        <input ref="class" type="text" class="form-control" value="{ class }"
+                        <input ref="css" type="text" class="form-control" value="{ css }"
                             placeholder="[Define CSS class name (for external CSS)]"/>
                     </td>
                 </tr>
@@ -217,7 +217,7 @@
                 behaviour: this.behaviour,
                 predicate: this.predicate,
                 desc: this.desc,
-                class: this.class,
+                css: this.css,
                 sourcerend: this.sourcerend,
                 type: this.type,
                 output: this.output,
@@ -232,7 +232,7 @@
                 this.behaviour = this.refs.behaviour.getData();
             }
             this.output = this.refs.output.options[this.refs.output.selectedIndex].value;
-            this.class = this.refs.class.value;
+            this.css = this.refs.css.value;
             this.predicate = this.refs.predicate.get();
             this.desc = this.refs.desc.value;
             this.parameters = this.updateTag('parameter');
@@ -261,8 +261,8 @@
             if (this.behaviour) {
                 xml += ' behaviour="'+ this.behaviour + '"';
             }
-            if (this.class) {
-                xml += ' cssClass="' + this.class + '"';
+            if (this.css) {
+                xml += ' cssClass="' + this.css + '"';
             }
             if (this.sourcerend) {
                 xml += ' useSourceRendition="true"';
