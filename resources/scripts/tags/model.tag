@@ -196,6 +196,7 @@
         }
 
         addNested(ev) {
+            ev.preventDefault();
             var type = $(ev.target).text();
             this.updateModel();
             this.models.unshift({
