@@ -6,7 +6,10 @@
 
 /* Model rendition styles */
 
-.tei-emphasis { font-style: italic; }
+.tei-emphasis1 { font-weight: bold; }
+.tei-emphasis2 { font-style: italic; }
 .tei-td1 { font-weight: bold; text-align: left; }
 .tei-tag:before { content: '<'; }
 .tei-tag:after { content: '>'; }
+.tei-guibutton { color: #fff; background-color: #909090; padding-left: 4px; padding-right: 4px; border: 1px solid #707070; }
+.tei-guilabel { font-style: italic; }

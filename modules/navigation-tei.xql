@@ -141,7 +141,7 @@ declare function nav:get-previous-div($config as map(*), $div as element()) {
         )
 };
 
-declare %private function nav:get-previous-recursive($config as map(*), $div as element(tei:div)?) {
+declare %private function nav:get-previous-recursive($config as map(*), $div as element()?) {
     if (empty($div)) then
         ()
     else

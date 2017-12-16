@@ -8,6 +8,11 @@
                 <firstname>Wolfgang</firstname>
                 <surname>Meier</surname>
             </personname>
+            <affiliation>
+                <orgname>eXist Solutions GmbH</orgname>
+            </affiliation>
+        </author>
+        <author>
             <personname>
                 <firstname>Magdalena</firstname>
                 <surname>Turska</surname>
@@ -28,6 +33,11 @@
                 structure of the text and maps it to a small set of abstract transformation
                 functions, called <emphasis>behaviours</emphasis>. Predefined behaviours are, for example, <code>paragraph</code>,
                 <code>heading</code> or <code>note</code>.</para>
+            <note>
+                <title>New</title>
+                <para>Starting with TEI Publisher 3.0, the processing model can also be used to transform non-TEI documents!
+                    For example, this documentation is written in <emphasis>docbook</emphasis>.</para>
+            </note>
             <para>Basic styling features can be set directly within the ODD using CSS. The
                 processing model is media-agnostic: rendition styles are transparently translated
                 into the different output media types like HTML, XSL-FO, LaTeX, or ePUB.</para>
@@ -88,8 +98,11 @@
                 open the package manager and install the TEI Publisher application package from the
                 public repository. The TEI Publisher library package will be installed automatically
                 as a dependency.</para>
-            <para>
-                <emphasis role="bold">Note</emphasis>: You need at least <link xlink:href="http://exist-db.org">eXist 3.0</link> or a nightly build.</para>
+            <note>
+                <title>Note</title>
+                <para>You need at least <link xlink:href="http://exist-db.org">eXist 3.0.3</link> to run TEI Publisher. eXist's
+                package manager will not show you the newest version of TEI Publisher unless your eXist version meets the requirements.</para>
+            </note>
             <para>Once installed, play around with the provided documents or upload your own via the
                 file upload panel in the right sidebar. You may modify any of the supplied ODD files
                 and see how the rendering changes.</para>
@@ -136,64 +149,103 @@
             <section>
                 <title>Modify the ODD</title>
                 <para>Now we created a custom ODD, we can make a first modification. We'll use the
-                        <citetitle>Letter #6 from Robert Graves to William Graves</citetitle> as an
+                    <citetitle>Letter #6 from Robert Graves to William Graves</citetitle> as an
                     example. Rendered through the standard <filename>teipublisher.odd</filename>, it is definitely missing some styling to look
                     more like a letter. For example, we may want to move the
-                        <tag>dateline</tag> in the <tag>opener</tag> to the right
+                    <tag>dateline</tag> in the <tag>opener</tag> to the right
                     and get rid of the <tag>pb</tag> label which currently sits there. </para>
-                <para>We thus need to overwrite the processing model rules for
-                        <tag>dateline</tag> and <tag>opener</tag>. The easiest way
-                    to do this is to:</para>
-                <itemizedlist>
-                    <listitem>
-                        <para>open the standard teipublisher.odd and search for an existing
-                                <tag>elementSpec</tag> with
-                            <varname>@ident</varname>="dateline".</para>
-                    </listitem>
-                    <listitem>
-                        <para>if there is an <tag>elementSpec</tag> already, just copy
-                            it</para>
-                    </listitem>
-                    <listitem>
-                        <para>paste the <tag>elementSpec</tag> into the new ODD and modify
-                            it</para>
-                    </listitem>
-                </itemizedlist>
-                <para>If there's no <tag>elementSpec</tag> for the element in <filename>teipublisher.odd</filename>, you have to create a new
-                        <tag>elementSpec</tag> in your ODD, using
-                    <varname>@mode</varname>="add" instead of
-                    <varname>@mode</varname>="change".</para>
-                <para>The <tag>elementSpec</tag> copied from <filename>teipublisher.odd</filename> looks like this:</para>
-                <programlisting language="xml">&lt;elementSpec mode="change" ident="dateline"&gt;
-    &lt;model behaviour="block"/&gt;
-&lt;/elementSpec&gt;</programlisting>
-                <para>To make the text right-aligned, we add a
-                    <tag>outputRendition</tag>:</para>
-                <programlisting language="xml">&lt;elementSpec mode="change" ident="dateline"&gt;
-    &lt;model behaviour="block"&gt;
-        &lt;outputRendition&gt;text-align: right;&lt;/outputRendition&gt;
-    &lt;/model&gt;
-&lt;/elementSpec&gt;</programlisting>
-                <para>We also want to hide the <tag>pb</tag> label, so we add another
-                        <tag>elementSpec</tag>:</para>
-                <programlisting language="xml">&lt;elementSpec mode="change" ident="pb"&gt;
-    &lt;model behaviour="omit"/&gt;
-&lt;/elementSpec&gt;</programlisting>
-                <para>To test the changes, go back to the main page of the app, select the new ODD
-                    and click on "Regenerate", then browse to the letter and view the result. In
-                    fact, the "regenerate" step is not absolutely necessary as the library will
-                    usually recognize the change to the ODD when you try to view the letter and
-                    regenerate automatically. However, if you made mistakes in the ODD, the
-                    regenerate will just fail silently. So during development, it is advisable to
-                    regenerate manually.</para>
-                <figure xml:id="edit-odd">
-                    <title>Move dateline to right and hide pb</title>
+                
+                <para>Beginning with version 3.0 of TEI Publisher, you have the choice between writing the ODD by hand or using
+                a visual editor. The visual editor should be considered <emphasis>beta</emphasis>: it does work but may have some bugs.</para>
+                
+                <section>
+                    <title>Edit the ODD XML</title>
+                    <para>We need to overwrite the processing model rule for
+                            <tag>dateline</tag>. The easiest way
+                        to do this is to:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>open the standard teipublisher.odd and search for an existing
+                                    <tag>elementSpec</tag> with
+                                <varname>@ident</varname>="dateline".</para>
+                        </listitem>
+                        <listitem>
+                            <para>if there is an <tag>elementSpec</tag> already, just copy
+                                it</para>
+                        </listitem>
+                        <listitem>
+                            <para>paste the <tag>elementSpec</tag> into the new ODD and modify
+                                it</para>
+                        </listitem>
+                    </itemizedlist>
+                    <para>If there's no <tag>elementSpec</tag> for the element in <filename>teipublisher.odd</filename>, you have to create a new
+                            <tag>elementSpec</tag> in your ODD, using
+                        <varname>@mode</varname>="add" instead of
+                        <varname>@mode</varname>="change".</para>
+                    <para>The <tag>elementSpec</tag> copied from <filename>teipublisher.odd</filename> looks like this:</para>
+                    <programlisting language="xml">&lt;elementSpec mode="change" ident="dateline"&gt;
+        &lt;model behaviour="block"/&gt;
+    &lt;/elementSpec&gt;</programlisting>
+                    <para>To make the text right-aligned, we add a
+                        <tag>outputRendition</tag>:</para>
+                    <programlisting language="xml">&lt;elementSpec mode="change" ident="dateline"&gt;
+        &lt;model behaviour="block"&gt;
+            &lt;outputRendition&gt;text-align: right;&lt;/outputRendition&gt;
+        &lt;/model&gt;
+    &lt;/elementSpec&gt;</programlisting>
+                    <para>We also want to hide the <tag>pb</tag> label, so we add another
+                            <tag>elementSpec</tag>:</para>
+                    <programlisting language="xml">&lt;elementSpec mode="change" ident="pb"&gt;
+        &lt;model behaviour="omit"/&gt;
+    &lt;/elementSpec&gt;</programlisting>
+                    <para>To test the changes, go back to the main page of the app, select the new ODD
+                        and click on "Regenerate", then browse to the letter and view the result. In
+                        fact, the "regenerate" step is not absolutely necessary as the library will
+                        usually recognize the change to the ODD when you try to view the letter and
+                        regenerate automatically. However, if you made mistakes in the ODD, the
+                        regenerate will just fail silently. So during development, it is advisable to
+                        regenerate manually.</para>
+                    <figure xml:id="edit-odd">
+                        <title>Move dateline to right and hide pb</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="EditODD.gif"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </section>
+            </section>
+            <section>
+                <title>Use the Visual ODD Editor</title>
+                <para>Open the visual ODD editor by clicking on your newly created ODD on the start page. A new tab opens, showing an
+                action panel to the left, and the title of your ODD to the right.</para>
+                <para>We need to overwrite the processing model rules for
+                    <tag>dateline</tag>. Enter "dateline" into the input box next to the <guibutton>New</guibutton> button in the left
+                panel and click the button. This will insert a processing model rule for <tag>dateline</tag> into the right panel.
+                Because <tag>dateline</tag> does exist in the base ODD, <filename>tei_simplePrint.odd</filename>, you'll already see
+                a single model which was copied from the base ODD.</para>
+                <figure>
+                    <title>Screen after adding <tag>dateline</tag></title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="EditODD.gif"/>
+                            <imagedata fileref="editor-screen1.png"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
+                <para>Expand the model by clicking on the arrow to the left of the grey box. A form appears, allowing you to change
+                    all relevant settings on this model. We would like to add an <tag>outputRendition</tag>, so click on the
+                    <guibutton>+</guibutton> button next to <guilabel>Renditions</guilabel>. In the form input being inserted below, enter your
+                    css.</para>
+                <figure>
+                    <title>Add a rendition for <tag>dateline</tag></title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="editor-screen2.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>To test your change, click on <guibutton>Save</guibutton> in the left panel and wait a second until a popup appears.
+                    In your other tab, select the letter (make sure the correct ODD is selected) and view it.</para>
             </section>
         </section>
         <section>

@@ -48,6 +48,17 @@ declare variable $pages:EXIDE :=
     return
         replace($path, "/+", "/");
 
+declare variable $pages:EDIT_ODD_LINK :=
+    let $pkg := collection(repo:get-root())//expath:package[@name = "http://existsolutions.com/apps/tei-publisher"]
+    let $appLink :=
+        if ($pkg) then
+            substring-after(util:collection-name($pkg), repo:get-root())
+        else
+            ()
+    let $path := string-join((request:get-context-path(), request:get-attribute("$exist:prefix"), $appLink, "odd-editor.html"), "/")
+    return
+        replace($path, "/+", "/");
+
 declare
     %templates:wrap
 function pages:load($node as node(), $model as map(*), $doc as xs:string, $root as xs:string?,
@@ -155,6 +166,16 @@ declare function pages:single-page-link($node as node(), $model as map(*), $doc 
     }
 };
 
+declare function pages:edit-odd-link($node as node(), $model as map(*)) {
+    element { node-name($node) } {
+        $node/@* except $node/@href,
+        attribute href { $pages:EDIT_ODD_LINK || "?odd=" || $config:odd || "&amp;root=" || $config:odd-root ||
+            "&amp;output-root=" || $config:output-root || "&amp;output=" || $config:output },
+        $node/node()
+    }
+};
+
+
 declare function pages:xml-link($node as node(), $model as map(*), $source as xs:string?) {
     let $doc-path :=
         if ($source = "odd") then
@@ -201,11 +222,15 @@ function pages:view($node as node(), $model as map(*), $action as xs:string) {
         else
             $model?data//*:body/*
     return
-        pages:process-content($xml, $model?data, $model?config?odd)
+        pages:process-content($xml, $model?data, $model?config)
 };
 
-declare function pages:process-content($xml as element()*, $root as element()*, $odd as xs:string) {
-	let $html := $pm-config:web-transform($xml, map { "root": $root }, $odd)
+declare function pages:process-content($xml as element()*, $root as element()*, $config as map(*)) {
+    let $params := map {
+        "root": $root,
+        "view": $config?view
+    }
+	let $html := $pm-config:web-transform($xml, $params, $config?odd)
     let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
     let $body := pages:clean-footnotes($html)
     return
@@ -420,9 +445,11 @@ declare function pages:switch-view($node as node(), $model as map(*), $root as x
     return
         element { node-name($node) } {
             $node/@* except $node/@class,
-            if (pages:has-pages($model?data) and $root) then (
+            if (pages:has-pages($model?data)) then (
                 attribute href {
-                    "?root=" || util:node-id($root) || "&amp;odd=" || $config:odd || "&amp;view=" || $targetView
+                    "?root=" ||
+                    (if (empty($root) or $root instance of element(tei:body) or $root instance of element(tei:front)) then () else util:node-id($root)) ||
+                    "&amp;odd=" || $model?config?odd || "&amp;view=" || $targetView
                 },
                 if ($view = "page") then (
                     attribute aria-pressed { "true" },
@@ -438,7 +465,7 @@ declare function pages:switch-view($node as node(), $model as map(*), $root as x
 };
 
 declare function pages:has-pages($data as element()+) {
-    exists((root($data)//(tei:div|tei:body))[1]//tei:pb)
+    exists(root($data)//tei:pb)
 };
 
 declare function pages:switch-view-id($data as element()+, $view as xs:string) {
@@ -446,7 +473,7 @@ declare function pages:switch-view-id($data as element()+, $view as xs:string) {
         if ($view = "div") then
             ($data/*[1][self::tei:pb], $data/preceding::tei:pb[1])[1]
         else
-            $data/ancestor::tei:div[1]
+            ($data/ancestor::tei:div, $data/following::tei:div, $data/ancestor::tei:body, $data/ancestor::tei:front)[1]
     return
         $root
 };

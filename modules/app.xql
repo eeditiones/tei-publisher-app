@@ -8,6 +8,7 @@ import module namespace dbutil="http://exist-db.org/xquery/dbutil";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace expath="http://expath.org/ns/pkg";
+declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
 declare variable $app:EXIDE :=
     let $path := collection(repo:get-root())//expath:package[@name = "http://exist-db.org/apps/eXide"]
@@ -20,7 +21,7 @@ declare variable $app:EXIDE :=
 declare
     %templates:wrap
 function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
-    let $odd := ($odd, $config:odd)[1]
+    let $odd := ($odd, session:get-attribute("odd"), $config:odd)[1]
     let $user := request:get-attribute($config:login-domain || ".user")
     return
         dbutil:scan-resources(xs:anyURI($config:odd-root), function($resource) {
@@ -30,7 +31,7 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
                     doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type="short"],
                     doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title,
                     $name
-                )[1]/string()
+                )[1]
                 return
                     <tr>
                         <td>
@@ -45,7 +46,7 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
                                 </a>
                         }
                         </td>
-                        <td>{$displayName}</td>
+                        <td><a href="odd-editor.html?odd={$name}.odd" target="_new">{string($displayName)}</a></td>
                         <td>
                         {
                             let $outputPath := $config:output-root || "/" || $name
@@ -112,25 +113,56 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
 
 declare
     %templates:wrap
-function app:form-odd-select($node as node(), $model as map(*)) {
-    dbutil:scan-resources(xs:anyURI($config:odd-root), function($resource) {
-        if (ends-with($resource, ".odd")) then
-            let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
-            let $displayname :=
-                for $display in $name
-                let $rev-date := data(doc($resource)//tei:revisionDesc/tei:change/@when)[1]
-                let $title := (
-                    doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type="short"],
-                    doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title,
-                    $name
-                )[1]/string()
+    %templates:default("odd", "teipublisher.odd")
+function app:editor-init($node as node(), $model as map(*), $odd as xs:string, $root as xs:string?, $output-root as xs:string?,
+    $output-prefix as xs:string?) {
+    let $config := map {
+        "config": map {
+            "odd": $odd,
+            "root": ($root, $config:odd-root)[1],
+            "outputRoot": ($output-root, $config:output-root)[1],
+            "outputPrefix": ($output-prefix, $config:output)[1]
+        }
+    }
+    return
+    "var TeiPublisher = " || serialize($config,
+        <output:serialization-parameters><output:method>json</output:method></output:serialization-parameters>)
+};
+
+
+declare
+    %templates:wrap
+    %templates:default("odd", "teipublisher.odd")
+function app:form-odd-select($node as node(), $model as map(*), $odd as xs:string, $root as xs:string?) {
+    let $oddRoot := ($root, $config:odd-root)[1]
+    return
+        dbutil:scan-resources(xs:anyURI($oddRoot), function($resource) {
+            if (ends-with($resource, ".odd")) then
+                let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
+                let $displayname :=
+                    for $display in $name
+                    let $rev-date := data(doc($resource)//tei:revisionDesc/tei:change/@when)[1]
+                    let $title := (
+                        doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type="short"],
+                        doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title,
+                        $name
+                    )[1]
+                    return
+                        $title || " [" || $rev-date || "]"
+                let $file := replace($resource, "^.*/([^/]+)$", "$1")
                 return
-                    $title || " [" || $rev-date || "]"
-            return
-                <option value="{replace($resource, "^.*/([^/]+)$", "$1")}">{$displayname}</option>
-        else
-            ()
-    })
+                    <option value="{$file}">
+                    {
+                        if ($odd and $file = $odd) then
+                            attribute selected { "selected" }
+                        else
+                            (),
+                        string($displayname)
+                    }
+                    </option>
+            else
+                ()
+        })
 };
 
 declare function app:odd-documentation($node as node()) as node()* {
@@ -182,7 +214,8 @@ declare function app:load-source($node as node(), $model as map(*)) as node()* {
 
 declare
     %templates:wrap
-function app:action($node as node(), $model as map(*), $source as xs:string?, $action as xs:string?, $new-odd as xs:string?) {
+function app:action($node as node(), $model as map(*), $source as xs:string?, $action as xs:string?, $new-odd as xs:string?,
+    $title as xs:string?) {
     switch ($action)
         case "create-odd" return
             <div class="panel panel-primary" role="alert">
@@ -191,8 +224,9 @@ function app:action($node as node(), $model as map(*), $source as xs:string?, $a
                     <ul class="list-group">
                     {
                         let $template := doc($config:odd-root || "/template.odd.xml")
+                        let $parsed := document { app:parse-template($template, $new-odd, $title) }
                         return
-                            xmldb:store($config:odd-root, $new-odd || ".odd", document { app:parse-template($template, $new-odd) }, "text/xml")
+                            xmldb:store($config:odd-root, $new-odd || ".odd", $parsed, "text/xml")
                     }
                     </ul>
                 </div>
@@ -201,22 +235,32 @@ function app:action($node as node(), $model as map(*), $source as xs:string?, $a
             ()
 };
 
-declare %private function app:parse-template($nodes as node()*, $odd as xs:string) {
+declare %private function app:parse-template($nodes as node()*, $odd as xs:string, $title as xs:string?) {
     for $node in $nodes
     return
         typeswitch ($node)
         case document-node() return
-            app:parse-template($node/node(), $odd)
+            app:parse-template($node/node(), $odd, $title)
         case element(tei:schemaSpec) return
             element { node-name($node) } {
                 $node/@*,
                 attribute ident { $odd },
-                app:parse-template($node/node(), $odd)
+                app:parse-template($node/node(), $odd, $title)
+            }
+        case element(tei:title) return
+            element { node-name($node) } {
+                $node/@*,
+                $title
+            }
+        case element(tei:change) return
+            element { node-name($node) } {
+                attribute when { current-date() },
+                "Initial version"
             }
         case element() return
             element { node-name($node) } {
                 $node/@*,
-                app:parse-template($node/node(), $odd)
+                app:parse-template($node/node(), $odd, $title)
             }
         default return
             $node

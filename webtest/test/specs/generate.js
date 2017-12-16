@@ -76,14 +76,14 @@ describe('upload data and test', function() {
     it("previous page", function() {
         browser.click(".nav-prev").pause(200);
 
-        browser.waitForText(".content .tei-fw4");
-        assert.equal(browser.getText(".content .tei-fw4"), "wird");
+        browser.waitForText(".content h1");
+        assert.equal(browser.getText(".content h1"), "Einleitung.");
     });
 
     it("reload", function() {
         browser.refresh();
 
-        assert.equal(browser.getText(".content .tei-fw4"), "wird");
+        assert.equal(browser.getText(".content h1"), "Einleitung.");
     });
 
     it("next page", function() {

@@ -63,7 +63,7 @@ return
         let $prev := $config:previous-page($xml?config, $xml?data, $view)
         let $next := $config:next-page($xml?config, $xml?data, $view)
         let $content := pages:get-content($xml?config, $xml?data)
-        let $html := pages:process-content($content, $xml?data, $xml?config?odd)
+        let $html := pages:process-content($content, $xml?data, $xml?config)
         let $div :=
             if ($view = "page") then
                 ($xml?data/ancestor-or-self::tei:div[1], $xml?data/following::tei:div[1])[1]

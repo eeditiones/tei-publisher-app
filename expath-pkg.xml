@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package xmlns="http://expath.org/ns/pkg" name="http://existsolutions.com/apps/tei-publisher" abbrev="tei-publisher" version="2.2.0" spec="1.0">
+<package xmlns="http://expath.org/ns/pkg" name="http://existsolutions.com/apps/tei-publisher" abbrev="tei-publisher" version="3.0.0" spec="1.0">
     <title>TEI Publisher</title>
     <dependency processor="http://exist-db.org" semver-min="3.0.3"/>
     <dependency package="http://exist-db.org/apps/shared"/>

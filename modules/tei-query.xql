@@ -25,6 +25,12 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
+declare variable $teis:QUERY_OPTIONS :=
+    <options>
+        <leading-wildcard>yes</leading-wildcard>
+        <filter-rewrite>yes</filter-rewrite>
+    </options>;
+
 declare function teis:query-default($fields as xs:string, $query as xs:string, $target-texts as xs:string*) {
     if(string($query)) then
         for $field in $fields
@@ -34,26 +40,26 @@ declare function teis:query-default($fields as xs:string, $query as xs:string, $
                     if ($target-texts) then
                         for $text in $target-texts
                         return
-                            $config:data-root ! doc(. || "/" || $text)//tei:head[ft:query(., $query)]
+                            $config:data-root ! doc(. || "/" || $text)//tei:head[ft:query(., $query, $teis:QUERY_OPTIONS)]
                     else
-                        collection($config:data-root)//tei:head[ft:query(., $query)]
+                        collection($config:data-root)//tei:head[ft:query(., $query, $teis:QUERY_OPTIONS)]
                 default return
                     switch ($config:search-default)
                         case "tei:div" return
                             if ($target-texts) then
                                 for $text in $target-texts
                                 return
-                                    $config:data-root ! doc(. || "/" || $text)//tei:div[ft:query(., $query)][not(tei:div)]
+                                    $config:data-root ! doc(. || "/" || $text)//tei:div[ft:query(., $query, $teis:QUERY_OPTIONS)][not(tei:div)]
                             else
-                                collection($config:data-root)//tei:div[ft:query(., $query)][not(tei:div)]
+                                collection($config:data-root)//tei:div[ft:query(., $query, $teis:QUERY_OPTIONS)][not(tei:div)]
                         case "tei:body" return
                             if ($target-texts) then
                                 for $text in $target-texts
                                 return
                                     $config:data-root !
-                                        doc(. || "/" || $text)//tei:body[ft:query(., $query)]
+                                        doc(. || "/" || $text)//tei:body[ft:query(., $query, $teis:QUERY_OPTIONS)]
                             else
-                                collection($config:data-root)//tei:body[ft:query(., $query)]
+                                collection($config:data-root)//tei:body[ft:query(., $query, $teis:QUERY_OPTIONS)]
                         default return
                             if ($target-texts) then
                                 util:eval("for $text in $target-texts return $config:data-root ! doc(. || '/' || $text)//tei:body[ft:query(., $query)]")
@@ -111,7 +117,7 @@ declare function teis:expand($data as element()) {
         util:expand(
             (
                 teis:query-default-view($div, $query),
-                $div[.//tei:head[ft:query(., $query)]]
+                $div[.//tei:head[ft:query(., $query, $teis:QUERY_OPTIONS)]]
             ), "add-exist-id=all"
         )
     return
@@ -125,11 +131,11 @@ declare function teis:expand($data as element()) {
 declare %private function teis:query-default-view($context as element()*, $query as xs:string) {
     switch ($config:search-default)
         case "tei:div" return
-            $context[./descendant-or-self::tei:div[ft:query(., $query)]]
+            $context[./descendant-or-self::tei:div[ft:query(., $query, $teis:QUERY_OPTIONS)]]
         case "tei:body" return
-            $context[./descendant-or-self::tei:body[ft:query(., $query)]]
+            $context[./descendant-or-self::tei:body[ft:query(., $query, $teis:QUERY_OPTIONS)]]
         default return
-            util:eval("$context[./descendant-or-self::" || $config:search-default || "[ft:query(., $query)]]")
+            util:eval("$context[./descendant-or-self::" || $config:search-default || "[ft:query(., $query, $teis:QUERY_OPTIONS)]]")
 };
 
 declare function teis:get-current($config as map(*), $div as element()?) {

@@ -15,6 +15,13 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     </pre>
 };
 
+declare function pmf:panel($config as map(*), $node as element(), $class as xs:string+, $content as item()*, $title as item()?) {
+    <div class="panel {$class}">
+        <div class="panel-heading">{ html:apply-children($config, $node, $title) }</div>
+        <div class="panel-body">{ html:apply-children($config, $node, $content) }</div>
+    </div>
+};
+
 declare function pmf:definitionList($config as map(*), $node as element(), $class as xs:string+, $content as node()*) {
     <dl>{ html:apply-children($config, $node, $content) }</dl>
 };

@@ -24,9 +24,13 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../c
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 
 declare function tpu:parse-pi($doc as document-node(), $view as xs:string?) {
+    tpu:parse-pi($doc, $view, ())
+};
+
+declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd as xs:string?) {
     let $default := map {
         "view": ($view, $config:default-view)[1],
-        "odd": $config:odd,
+        "odd": ($odd, $config:odd)[1],
         "depth": $config:pagination-depth,
         "fill": $config:pagination-fill,
         "type": nav:document-type($doc/*)
@@ -36,8 +40,13 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?) {
             for $pi in $doc/processing-instruction("teipublisher")
             let $analyzed := analyze-string($pi, '([^\s]+)\s*=\s*"(.*?)"')
             for $match in $analyzed/fn:match
+            let $key := $match/fn:group[@nr="1"]/string()
+            let $value := $match/fn:group[@nr="2"]/string()
             return
-                map:entry($match/fn:group[@nr="1"], $match/fn:group[@nr="2"])
+                if ($key = "view" and $value != $view) then
+                    ()
+                else
+                    map:entry($key, $value)
         )
     return
         map:new(($default, $pis))
