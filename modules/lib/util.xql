@@ -40,8 +40,13 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd
             for $pi in $doc/processing-instruction("teipublisher")
             let $analyzed := analyze-string($pi, '([^\s]+)\s*=\s*"(.*?)"')
             for $match in $analyzed/fn:match
+            let $key := $match/fn:group[@nr="1"]/string()
+            let $value := $match/fn:group[@nr="2"]/string()
             return
-                map:entry($match/fn:group[@nr="1"], $match/fn:group[@nr="2"])
+                if ($key = "view" and $value != $view) then
+                    ()
+                else
+                    map:entry($key, $value)
         )
     return
         map:new(($default, $pis))

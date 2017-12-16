@@ -222,11 +222,15 @@ function pages:view($node as node(), $model as map(*), $action as xs:string) {
         else
             $model?data//*:body/*
     return
-        pages:process-content($xml, $model?data, $model?config?odd)
+        pages:process-content($xml, $model?data, $model?config)
 };
 
-declare function pages:process-content($xml as element()*, $root as element()*, $odd as xs:string) {
-	let $html := $pm-config:web-transform($xml, map { "root": $root }, $odd)
+declare function pages:process-content($xml as element()*, $root as element()*, $config as map(*)) {
+    let $params := map {
+        "root": $root,
+        "view": $config?view
+    }
+	let $html := $pm-config:web-transform($xml, $params, $config?odd)
     let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
     let $body := pages:clean-footnotes($html)
     return
@@ -441,9 +445,11 @@ declare function pages:switch-view($node as node(), $model as map(*), $root as x
     return
         element { node-name($node) } {
             $node/@* except $node/@class,
-            if (pages:has-pages($model?data) and $root) then (
+            if (pages:has-pages($model?data)) then (
                 attribute href {
-                    "?root=" || util:node-id($root) || "&amp;odd=" || $config:odd || "&amp;view=" || $targetView
+                    "?root=" ||
+                    (if (empty($root) or $root instance of element(tei:body) or $root instance of element(tei:front)) then () else util:node-id($root)) ||
+                    "&amp;odd=" || $model?config?odd || "&amp;view=" || $targetView
                 },
                 if ($view = "page") then (
                     attribute aria-pressed { "true" },
@@ -459,7 +465,7 @@ declare function pages:switch-view($node as node(), $model as map(*), $root as x
 };
 
 declare function pages:has-pages($data as element()+) {
-    exists((root($data)//(tei:div|tei:body))[1]//tei:pb)
+    exists(root($data)//tei:pb)
 };
 
 declare function pages:switch-view-id($data as element()+, $view as xs:string) {
@@ -467,7 +473,7 @@ declare function pages:switch-view-id($data as element()+, $view as xs:string) {
         if ($view = "div") then
             ($data/*[1][self::tei:pb], $data/preceding::tei:pb[1])[1]
         else
-            $data/ancestor::tei:div[1]
+            ($data/ancestor::tei:div, $data/following::tei:div, $data/ancestor::tei:body, $data/ancestor::tei:front)[1]
     return
         $root
 };
