@@ -197,7 +197,9 @@ declare variable $config:app-root :=
 
 declare variable $config:data-root := $config:app-root || "/data";
 
-declare variable $config:odd := request:get-parameter("odd", "teipublisher.odd");
+declare variable $config:default-odd := "teipublisher.odd";
+
+declare variable $config:odd := request:get-parameter("odd", $config:default-odd);
 
 declare variable $config:odd-root := $config:app-root || "/odd";
 

@@ -76,7 +76,9 @@ declare
     %templates:wrap
 function app:list-works($node as node(), $model as map(*), $filter as xs:string?, $root as xs:string,
     $browse as xs:string?, $odd as xs:string?) {
-    let $odd := ($odd, session:get-attribute("odd"), $config:odd)[1]
+    let $odd := ($odd, session:get-attribute("odd"))[1]
+    let $oddAvailable := $odd and doc-available($config:odd-root || "/" || $odd)
+    let $odd := if ($oddAvailable) then $odd else "teipublisher.odd"
     let $cached := session:get-attribute("simple.works")
     let $filtered :=
         if ($filter) then

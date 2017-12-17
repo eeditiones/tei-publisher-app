@@ -121,7 +121,7 @@ function app:editor-init($node as node(), $model as map(*), $odd as xs:string, $
         "config": map {
             "odd": $odd,
             "root": $root,
-            "outputRoot": ($output-root, $root || "/transform")[1],
+            "outputRoot": ($output-root, $config:app-root || "/transform")[1],
             "outputPrefix": ($output-prefix, "transform")[1]
         }
     }

@@ -28,9 +28,12 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?) {
 };
 
 declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd as xs:string?) {
+    let $odd := ($odd, $config:odd)[1]
+    let $oddAvailable := doc-available($config:odd-root || "/" || $odd)
+    let $odd := if ($oddAvailable) then $odd else "teipublisher.odd"
     let $default := map {
         "view": ($view, $config:default-view)[1],
-        "odd": ($odd, $config:odd)[1],
+        "odd": $odd,
         "depth": $config:pagination-depth,
         "fill": $config:pagination-fill,
         "type": nav:document-type($doc/*)
