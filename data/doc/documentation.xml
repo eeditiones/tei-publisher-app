@@ -156,17 +156,70 @@
                     and get rid of the <tag>pb</tag> label which currently sits there. </para>
                 
                 <para>Beginning with version 3.0 of TEI Publisher, you have the choice between writing the ODD by hand or using
-                a visual editor. The visual editor should be considered <emphasis>beta</emphasis>: it does work but may have some bugs.</para>
-                
+                    a <link linkend="visualodd">visual editor</link>. The visual editor should be considered <emphasis>beta</emphasis>: 
+                    it does work but may have some bugs.</para>
+                <para>The visual editor saves the ODD in a non-destructive way, preserving any information not related to the processing model. 
+                    It is thus be save to switch between hand-editing the ODD and using the visual editor.</para>
+                    
+            <section xml:id="visualodd">
+                <title>Use the Visual ODD Editor</title>
+                <para>Open the visual ODD editor by clicking on your newly created ODD on the start page. A new tab opens, showing an
+                action panel to the left, and the title of your ODD to the right.</para>
+                <note>
+                    <title>Hint</title>
+                    <para>You can also use the visual editor to modify an ODD stored in a generated app outside TEI Publisher. Just pass
+                    an additional parameter <parameter>root</parameter> containing the path to the eXist collection in which your ODDs are
+                    stored:</para>
+                    <synopsis>odd-editor.html?root=/db/apps/ssrq/resources/odd</synopsis>
+                </note>
+                <para>We need to overwrite the processing model rules for
+                    <tag>dateline</tag>. Enter "dateline" into the input box next to the <guibutton>New</guibutton> button in the left
+                panel and click the button. This will insert a processing model rule for <tag>dateline</tag> into the right panel.
+                Because <tag>dateline</tag> does exist in the base ODD, <filename>tei_simplePrint.odd</filename>, you'll already see
+                a single model which was copied from the base ODD.</para>
+                <figure>
+                    <title>Screen after adding <tag>dateline</tag>
+                        </title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="editor-screen1.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>Expand the model by clicking on the arrow to the left of the grey box. A form appears, allowing you to change
+                    all relevant settings on this model. We would like to add an <tag>outputRendition</tag>, so click on the
+                    <guibutton>+</guibutton> button next to <guilabel>Renditions</guilabel>. In the form input being inserted below, enter your
+                    css.</para>
+                <figure>
+                    <title>Add a rendition for <tag>dateline</tag>
+                        </title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="editor-screen2.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>To test your change, click on <guibutton>Save</guibutton> in the left panel and wait a second until a popup appears.
+                    In your other tab, select the letter (make sure the correct ODD is selected) and view it.</para>
+                <para>The screencast below provides further information:</para>
+                <figure xml:id="edit-odd">
+                    <title>Screencast</title>
+                    <mediaobject>
+                        <videoobject>
+                            <videodata fileref="https://www.youtube.com/embed/6H6UeOpWUSQ?rel=0" width="853" depth="480"/>
+                        </videoobject>
+                    </mediaobject>
+                </figure>
+            </section>
                 <section>
                     <title>Edit the ODD XML</title>
                     <para>We need to overwrite the processing model rule for
-                            <tag>dateline</tag>. The easiest way
+                        <tag>dateline</tag>. The easiest way
                         to do this is to:</para>
                     <itemizedlist>
                         <listitem>
                             <para>open the standard teipublisher.odd and search for an existing
-                                    <tag>elementSpec</tag> with
+                                <tag>elementSpec</tag> with
                                 <varname>@ident</varname>="dateline".</para>
                         </listitem>
                         <listitem>
@@ -179,7 +232,7 @@
                         </listitem>
                     </itemizedlist>
                     <para>If there's no <tag>elementSpec</tag> for the element in <filename>teipublisher.odd</filename>, you have to create a new
-                            <tag>elementSpec</tag> in your ODD, using
+                        <tag>elementSpec</tag> in your ODD, using
                         <varname>@mode</varname>="add" instead of
                         <varname>@mode</varname>="change".</para>
                     <para>The <tag>elementSpec</tag> copied from <filename>teipublisher.odd</filename> looks like this:</para>
@@ -194,7 +247,7 @@
         &lt;/model&gt;
     &lt;/elementSpec&gt;</programlisting>
                     <para>We also want to hide the <tag>pb</tag> label, so we add another
-                            <tag>elementSpec</tag>:</para>
+                        <tag>elementSpec</tag>:</para>
                     <programlisting language="xml">&lt;elementSpec mode="change" ident="pb"&gt;
         &lt;model behaviour="omit"/&gt;
     &lt;/elementSpec&gt;</programlisting>
@@ -205,47 +258,7 @@
                         regenerate automatically. However, if you made mistakes in the ODD, the
                         regenerate will just fail silently. So during development, it is advisable to
                         regenerate manually.</para>
-                    <figure xml:id="edit-odd">
-                        <title>Move dateline to right and hide pb</title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="EditODD.gif"/>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
                 </section>
-            </section>
-            <section>
-                <title>Use the Visual ODD Editor</title>
-                <para>Open the visual ODD editor by clicking on your newly created ODD on the start page. A new tab opens, showing an
-                action panel to the left, and the title of your ODD to the right.</para>
-                <para>We need to overwrite the processing model rules for
-                    <tag>dateline</tag>. Enter "dateline" into the input box next to the <guibutton>New</guibutton> button in the left
-                panel and click the button. This will insert a processing model rule for <tag>dateline</tag> into the right panel.
-                Because <tag>dateline</tag> does exist in the base ODD, <filename>tei_simplePrint.odd</filename>, you'll already see
-                a single model which was copied from the base ODD.</para>
-                <figure>
-                    <title>Screen after adding <tag>dateline</tag></title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="editor-screen1.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>Expand the model by clicking on the arrow to the left of the grey box. A form appears, allowing you to change
-                    all relevant settings on this model. We would like to add an <tag>outputRendition</tag>, so click on the
-                    <guibutton>+</guibutton> button next to <guilabel>Renditions</guilabel>. In the form input being inserted below, enter your
-                    css.</para>
-                <figure>
-                    <title>Add a rendition for <tag>dateline</tag></title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="editor-screen2.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>To test your change, click on <guibutton>Save</guibutton> in the left panel and wait a second until a popup appears.
-                    In your other tab, select the letter (make sure the correct ODD is selected) and view it.</para>
             </section>
         </section>
         <section>

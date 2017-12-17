@@ -22,6 +22,23 @@ declare function pmf:panel($config as map(*), $node as element(), $class as xs:s
     </div>
 };
 
+declare function pmf:iframe($config as map(*), $node as element(), $class as xs:string+, $content as item()*, $src, $width, $height) {
+    <iframe src="{$src}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen">
+    {
+        if ($width) then
+            attribute width { $width }
+        else
+            (),
+        if ($height) then
+            attribute height { $height }
+        else
+            ()
+    }
+    </iframe>
+};
+
+
+
 declare function pmf:definitionList($config as map(*), $node as element(), $class as xs:string+, $content as node()*) {
     <dl>{ html:apply-children($config, $node, $content) }</dl>
 };

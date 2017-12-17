@@ -176,6 +176,9 @@ let $node :=
                         fo:inline($config, ., ("tei-guibutton"), .)
                     case element(guilabel) return
                         fo:inline($config, ., ("tei-guilabel"), .)
+                    case element(videodata) return
+                        (: No function found for behavior: iframe :)
+                        $config?apply($config, ./node())
                     case element() return
                         fo:inline($config, ., ("tei--element"), .)
                     case text() | xs:anyAtomicType return

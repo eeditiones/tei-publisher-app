@@ -116,12 +116,13 @@ declare
     %templates:default("odd", "teipublisher.odd")
 function app:editor-init($node as node(), $model as map(*), $odd as xs:string, $root as xs:string?, $output-root as xs:string?,
     $output-prefix as xs:string?) {
+    let $root := ($root, $config:odd-root)[1]
     let $config := map {
         "config": map {
             "odd": $odd,
-            "root": ($root, $config:odd-root)[1],
-            "outputRoot": ($output-root, $config:output-root)[1],
-            "outputPrefix": ($output-prefix, $config:output)[1]
+            "root": $root,
+            "outputRoot": ($output-root, $root || "/transform")[1],
+            "outputPrefix": ($output-prefix, "transform")[1]
         }
     }
     return

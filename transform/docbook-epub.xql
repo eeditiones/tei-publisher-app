@@ -185,6 +185,9 @@ let $node :=
                         html:inline($config, ., ("tei-guibutton"), .)
                     case element(guilabel) return
                         html:inline($config, ., ("tei-guilabel"), .)
+                    case element(videodata) return
+                        (: No function found for behavior: iframe :)
+                        $config?apply($config, ./node())
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return

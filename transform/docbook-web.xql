@@ -178,6 +178,8 @@ let $node :=
                         html:inline($config, ., ("tei-guibutton"), .)
                     case element(guilabel) return
                         html:inline($config, ., ("tei-guilabel"), .)
+                    case element(videodata) return
+                        ext-html:iframe($config, ., ("tei-videodata"), ., @fileref, @width, @depth)
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return
