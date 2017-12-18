@@ -62,9 +62,9 @@
 .tei-figDesc { color: grey;font-style:italic; }
 .tei-floatingText { margin: 6pt; border: solid black 1pt; }
 .tei-foreign { font-style:italic; }
-.tei-fw1 { color: #CCC; }
-.tei-fw2 { margin-left: 10em; margin-top: 1em; color: #CCC; }
-.tei-fw4 { margin-left: 10em; }
+.tei-fw1 { display: inline-block; margin-top: .5em; margin-bottom: 1em; color: #CCC; }
+.tei-fw2 { margin-top: 1em; color: #A0A0A0; text-align: left; }
+.tei-fw3 { margin-left: 20em; color: #A0A0A0; }
 .tei-gap1 { color: grey; }
 .tei-gap2:before { content: '[..'; }
 .tei-gap2:after { content: '..]'; }
