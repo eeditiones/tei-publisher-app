@@ -88,7 +88,7 @@ return
                     let $root := pages:switch-view-id($xml?data, $view)
                     return
                         if ($root) then
-                            $doc || "?root=" || util:node-id($root) ||
+                            $doc || "?root=" || util:node-id($root) || "&amp;odd=" || $config:odd ||
                                 "&amp;view=" || (if ($view = "div") then "page" else "div")
                         else
                             (),
