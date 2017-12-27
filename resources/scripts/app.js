@@ -322,4 +322,21 @@ $(document).ready(function() {
     $(".eXide-open").click(eXide);
 
     initContent();
+
+    $('#lang-select').on('change', function(ev) {
+        var loc = window.location;
+        var lang = $(this).val();
+        var search;
+        if (loc.search) {
+            search = loc.search.replace(/\&?lang=[\w]+/, '');
+            if (search == '?') {
+                search = search + 'lang=' + lang;
+            } else {
+                search = search + '&lang=' + lang;
+            }
+        } else {
+            search = '?lang=' + lang;
+        }
+        loc.replace(loc.protocol + '//' + loc.hostname + ':' + loc.port + loc.pathname + search + loc.hash);
+    });
 });
