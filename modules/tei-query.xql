@@ -49,9 +49,9 @@ declare function teis:query-default($fields as xs:string, $query as xs:string, $
                             if ($target-texts) then
                                 for $text in $target-texts
                                 return
-                                    $config:data-root ! doc(. || "/" || $text)//tei:div[ft:query(., $query, $teis:QUERY_OPTIONS)][not(tei:div)]
+                                    $config:data-root ! doc(. || "/" || $text)//tei:div[ft:query(., $query, $teis:QUERY_OPTIONS)]
                             else
-                                collection($config:data-root)//tei:div[ft:query(., $query, $teis:QUERY_OPTIONS)][not(tei:div)]
+                                collection($config:data-root)//tei:div[ft:query(., $query, $teis:QUERY_OPTIONS)]
                         case "tei:body" return
                             if ($target-texts) then
                                 for $text in $target-texts
