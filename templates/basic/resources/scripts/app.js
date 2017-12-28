@@ -172,7 +172,9 @@ $(document).ready(function() {
         var relPath = $(this).attr("data-doc");
         var url = "doc=" + relPath + "&" + this.search.substring(1);
         if (historySupport) {
-            history.pushState(null, null, this.href.replace(/^.*?\/([^\/]+)$/, "$1"));
+            history.pushState({
+                path: relPath
+            }, "Navigate page", this.href.replace(/^.*?\/([^\/]+)$/, "$1"));
         }
         load(url, this.className.split(" ")[0]);
     }
@@ -203,11 +205,15 @@ $(document).ready(function() {
     });
 
     $(window).on("popstate", function(ev) {
-        var doc = $(".nav-next").attr("data-doc") || $(".nav-prev").attr("data-doc");
-        var url = "doc=" + doc + "&" + window.location.search.substring(1) +
-            "&id=" + window.location.hash.substring(1);
-        console.log("popstate: %s", url);
-        load(url);
+        var state = ev.originalEvent.state;
+        if (state) {
+            var doc = state.path;
+            var url = "doc=" + doc + "&" + window.location.search.substring(1) +
+                window.location.hash;
+            load(url);
+        } else {
+            window.location.reload();
+        }
     }).on("resize", resize);
 
     $("#logout").on("click", function(ev) {
