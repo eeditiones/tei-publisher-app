@@ -340,3 +340,21 @@ $(document).ready(function() {
         loc.replace(loc.protocol + '//' + loc.hostname + ':' + loc.port + loc.pathname + search + loc.hash);
     });
 });
+
+$(window).load(function () {
+    if ($("#main-wrapper").length == 0) {
+        return;
+    }
+    /*
+     * Scroll the window to move anchor targets with hash under the topnav bar
+     * https://github.com/twitter/bootstrap/issues/1768
+     */
+    var offset = $("#main-wrapper").offset().top;
+    var shiftWindow = function() {
+        scrollBy(0, -offset)
+    };
+    if (location.hash) {
+        setTimeout(shiftWindow, 1);
+    }
+    window.addEventListener("hashchange", shiftWindow);
+});
