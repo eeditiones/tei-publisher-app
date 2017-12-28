@@ -121,13 +121,21 @@ function search:show-hits($node as node()*, $model as map(*), $start as xs:integ
         let $matchId := $match/../@exist:id
         let $docLink :=
             if ($config?view = "page") then
-                let $contextNode := util:node-by-id($div, $matchId)
-                let $page := $contextNode/preceding::tei:pb[1]
+                (: first check if there's a pb in the expanded section before the match :)
+                let $pbBefore := $match/preceding::tei:pb[1]
                 return
-                    if ($page) then
-                        util:node-id($page)
+                    if ($pbBefore) then
+                        $pbBefore/@exist:id
                     else
-                        util:node-id($div)
+                        (: no: locate the element containing the match in the source document :)
+                        let $contextNode := util:node-by-id($hit, $matchId)
+                        (: and get the pb preceding it :)
+                        let $page := $contextNode/preceding::tei:pb[1]
+                        return
+                            if ($page) then
+                                util:node-id($page)
+                            else
+                                util:node-id($div)
             else
                 util:node-id($div)
         let $config := <config width="60" table="yes" link="{$docId}?root={$docLink}&amp;action=search&amp;view={$config?view}&amp;odd={$config?odd}#{$matchId}"/>
