@@ -151,7 +151,7 @@ declare function teis:get-current($config as map(*), $div as element()?) {
                 and $div/.. instance of element(tei:div) (: parent is a div :)
                 and count($div/preceding::tei:div) > 1
             ) then
-                nav:get-previous-div($config, $div/..)
+                nav:get-previous-div($config, $div)
             else
                 $div
 };
