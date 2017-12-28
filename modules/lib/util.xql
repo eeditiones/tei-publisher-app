@@ -48,6 +48,8 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd
             return
                 if ($key = "view" and $value != $view) then
                     ()
+                else if ($key = ('depth', 'fill')) then
+                    map:entry($key, number($value))
                 else
                     map:entry($key, $value)
         )
