@@ -4,14 +4,17 @@
             if="{ models.length > 0 }">expand_more</span></a>
         { ident }
         <div class="btn-group">
-            <button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown"><i class="material-icons">add</i></button>
+            <button type="button" class="btn btn-xs dropdown-toggle" data-toggle="dropdown"><i class="material-icons">add</i></button>
             <ul class="dropdown-menu">
                 <li><a href="#" onclick="{ addModel }">model</a></li>
                 <li><a href="#" onclick="{ addModel }">modelSequence</a></li>
                 <li><a href="#" onclick="{ addModel }">modelGrp</a></li>
             </ul>
         </div>
-        <button type="button" class="btn" onclick="{ remove }"><i class="material-icons">delete</i></button>
+        <button type="button" class="btn btn-xs" onclick="{ remove }"><i class="material-icons">delete</i></button>
+        <button type="button" class="btn btn-default btn-xs" onclick="{ paste }">
+            <i class="material-icons">content_paste</i>
+        </button>
     </h3>
 
     <div ref="models" id="elem-{ ident }" class="collapse models {show ? 'in' : ''}">
@@ -71,6 +74,15 @@
 
         remove(ev) {
             this.parent.removeElementSpec(ev.item);
+        }
+
+        paste(ev) {
+            var data = this.clipboard.paste();
+            if (data) {
+                this.models = this.updateTag('model');
+                $(this.refs.models).collapse("show");
+                this.models.unshift(data);
+            }
         }
 
         getData() {

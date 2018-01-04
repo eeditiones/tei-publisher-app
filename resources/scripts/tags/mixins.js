@@ -1,7 +1,22 @@
+function Clipboard() {
+    this.data = null;
+
+    this.copy = function(model) {
+        console.log("Copied to clipboard: %o", model);
+        this.data = model;
+    }
+
+    this.paste = function() {
+        console.log("Paste from clipboard: %o", this.data);
+        return this.data;
+    }
+}
 function Mixin(app) {
     this.app = app;
 
     this.indentString = '    ';
+
+    this.clipboard = new Clipboard();
 
     var replaceChars = {
         '"': '&quot;',
@@ -9,16 +24,16 @@ function Mixin(app) {
         '<': '&lt;',
         '>': '&gt;'
     };
-    
+
     CodeMirror.registerHelper("lint", "xquery", lintXQuery);
 
     this.escape = function(code) {
-        var regex = new RegExp(Object.keys(replaceChars).join("|"), "g"); 
+        var regex = new RegExp(Object.keys(replaceChars).join("|"), "g");
         return code.replace(regex, function(match) {
             return replaceChars[match];
         });
     }
-    
+
     this.updateTag = function(name) {
         var data = [];
         this.forEachTag(name, function(tag) {

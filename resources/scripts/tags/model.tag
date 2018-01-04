@@ -13,11 +13,15 @@
                     { type } <span class="behaviour" if="{ type === 'model'}">{ behaviour }</span>
                 </a>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default" onclick="{ moveDown }"><i class="material-icons">arrow_downward</i></button>
-                    <button type="button" class="btn btn-default" onclick="{ moveUp }"><i class="material-icons">arrow_upward</i></button>
-                    <button type="button" class="btn btn-default" onclick="{ remove }"><i class="material-icons">delete</i></button>
+                    <button type="button" class="btn btn-default btn-xs" onclick="{ moveDown }"><i class="material-icons">arrow_downward</i></button>
+                    <button type="button" class="btn btn-default btn-xs" onclick="{ moveUp }"><i class="material-icons">arrow_upward</i></button>
+                    <button type="button" class="btn btn-default btn-xs" onclick="{ remove }"><i class="material-icons">delete</i></button>
+                    <button type="button" class="btn btn-default btn-xs" onclick="{ copy }"><i class="material-icons">content_copy</i></button>
+                    <button type="button" class="btn btn-default btn-xs" onclick="{ paste }" if="{type == 'modelSequence' || type == 'modelGrp'}">
+                        <i class="material-icons">content_paste</i>
+                    </button>
                     <div class="btn-group" if="{type == 'modelSequence' || type == 'modelGrp'}">
-                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="material-icons">add</i></button>
+                        <button type="button" class="btn dropdown-toggle btn-xs" data-toggle="dropdown"><i class="material-icons">add</i></button>
                         <ul class="dropdown-menu">
                             <li><a href="#" onclick="{ addNested }">model</a></li>
                             <li><a href="#" onclick="{ addNested }">modelSequence</a></li>
@@ -193,6 +197,19 @@
             this.renditions.splice(index, 1);
 
             this.update();
+        }
+
+        copy(ev) {
+            ev.preventDefault();
+            this.clipboard.copy(this.getData());
+        }
+
+        paste(ev) {
+            var data = this.clipboard.paste();
+            if (data) {
+                this.updateModel();
+                this.models.unshift(data);
+            }
         }
 
         addNested(ev) {
