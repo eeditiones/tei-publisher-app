@@ -51,10 +51,14 @@ declare function deploy:xconf($collection as xs:string, $odd as xs:string, $user
             <index xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
                 <fulltext default="none" attributes="false"/>
                 <lucene>
-                    <text qname="{$mainIndex}"/>
+                    <text qname="{$mainIndex}">
+                        <ignore qname="{$mainIndex}"/>
+                    </text>
                     <text qname="tei:head"/>
                     <text match="//tei:sourceDesc/tei:biblFull/tei:titleStmt/tei:title"/>
                     <text match="//tei:fileDesc/tei:titleStmt/tei:title"/>
+                    <text qname="dbk:section"/>
+                    <text qname="dbk:title"/>
                 </lucene>
             </index>
             <!--triggers>
