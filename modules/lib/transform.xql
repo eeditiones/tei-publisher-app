@@ -27,8 +27,8 @@ declare function local:postprocess($nodes as node()*, $styles as element()?, $od
                 element { node-name($node) } {
                     $node/@*,
                     $node/node(),
-                    $styles,
-                    <link type="text/css" href="../transform/{replace($oddName, "^(.*)\.odd$", "$1")}-print.css"/>
+                    <link rel="stylesheet" type="text/css" href="../transform/{replace($oddName, "^(.*)\.odd$", "$1")}-print.css" media="print"/>,
+                    $styles
                 }
             case element() return
                 element { node-name($node) } {
