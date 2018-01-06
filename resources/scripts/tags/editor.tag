@@ -40,7 +40,7 @@
                 <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title">
                         <a role="button" data-toggle="collapse" href="#collapseSettings" aria-expanded="true" aria-controls="collapseSettings">
-                        { title || titleShort || odd }
+                        { title || titleShort || odd || 'Loading ...' }
                         </a>
                     </h4>
                 </div>
@@ -156,6 +156,7 @@
         $.getJSON("modules/editor.xql", {
             action: "find",
             odd: self.odd,
+            root: TeiPublisher.config.root,
             ident: ident
         }, function(data) {
             var mode;
@@ -177,7 +178,7 @@
             specs.push(newSpec);
             self.elementSpecs = specs;
             self.update();
-            
+
             var target = document.getElementById('es_' + ident);
             var top = $(target).position().top;
             window.scrollTo(0, top + 60);

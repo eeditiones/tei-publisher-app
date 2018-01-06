@@ -10,23 +10,26 @@
     <script>
         var self = this;
         var historySupport = !!(window.history && window.history.pushState);
-        
+
         selected(ev) {
             var odd = $(this.refs.select).val();
             if (historySupport) {
-                history.pushState(null, null, window.location.pathname + '?odd=' + odd);
+                var state = TeiPublisher.config;
+                state.odd = odd;
+                var url = window.location.pathname + '?' + $.param(state);
+                history.pushState(state, null, url);
             }
             this.parent.setODD(odd);
         }
-        
+
         this.on("mount", function() {
             this.selected();
-            
+
             $(window).on("popstate", function(ev) {
-                var odd = window.location.search.replace(/^.*odd=([^&]+)/, "$1");
-                console.log("popstate: %s", odd);
-                $(self.refs.select).val(odd);
-                self.parent.setODD(odd);
+                var state = ev.originalEvent.state;
+                console.log("popstate: %s", state.odd);
+                $(self.refs.select).val(state.odd);
+                self.parent.setODD(state.odd);
             });
         });
     </script>
