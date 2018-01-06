@@ -61,7 +61,7 @@ describe('browsing text', function() {
         browser.click("#searchPageForm .glyphicon-search");
 
         var hits = browser.getText("#hit-count");
-        assert.equal(hits, 26);
+        assert.equal(hits, 34);
 
         browser.click("#results tr:nth-child(2) .hi a");
         assert(browser.isExisting("mark"));
