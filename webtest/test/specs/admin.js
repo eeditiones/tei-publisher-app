@@ -62,6 +62,7 @@ describe('admin functions', function() {
             waitForVisible("#confirm");
         browser.click("#confirm-delete");
         browser.pause(300);
+        browser.refresh();
         var docs = browser.elements("li[data-doc*='hegel_phaenomenologie_1807.TEI-P5.xml']");
         assert.equal(docs.value.length, 0);
     });
