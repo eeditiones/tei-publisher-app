@@ -13,6 +13,23 @@
     <note>Generated apps may fail after updating. Run .../myapp/modules/lib/regenerate.xql in browser or eXide once
         to update your ODDs.</note>
     <changelog>
+        <change version="3.0.1">
+            <ul xmlns="http://www.w3.org/1999/xhtml">
+                <li>add language selector</li>
+                <li>exclude nested divs in search to get more correct search results</li>
+                <li>fix wrong page displayed when viewing search results in paged view</li>
+                <li>fix error when navigating back in browser history after search</li>
+                <li>fix parsing of processing instruction: depth and fill should be numbers</li>
+                <li>correct offset when scrolling to highlighted search result</li>
+                <li>support copy&amp;paste in odd editor</li>
+            </ul>
+        </change>
+        <change version="3.0.0">
+            <ul xmlns="http://www.w3.org/1999/xhtml">
+                <li>adds a visual editor for processing models</li>
+                <li>support for formatting non-TEI documents (see the documentation, which is now in docbook)</li>
+            </ul>
+        </change>
         <change version="2.2.0">
             <ul xmlns="http://www.w3.org/1999/xhtml">
                 <li>Improved responsiveness: navigation and toc work on mobile viewer</li>
