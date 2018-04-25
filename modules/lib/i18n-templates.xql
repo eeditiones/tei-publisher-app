@@ -33,12 +33,12 @@ declare function intl:translate($node as node(), $model as map(*), $lang as xs:s
                             return
                                 replace($lang[1], "^([^-;]+).*$", "$1")
                         else
-                            "de"
+                            $config:default-language
                     let $lang :=
                         if ($headerLang = ('de', 'fr', 'it')) then
                             $headerLang
                         else
-                            "de"
+                            $config:default-language
                     return (
                         session:set-attribute("lang", $lang),
                         $lang
