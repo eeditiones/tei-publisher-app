@@ -414,6 +414,7 @@ valList
           <teiHeader>
             <fileDesc>
               <titleStmt>
+                <title type="short"><xsl:value-of select="$schema"/></title>
                 <title>ODD by Example customization</title>
               </titleStmt>
               <publicationStmt>

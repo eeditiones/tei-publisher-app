@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tei:TEI xml:lang="en" xmlns="http://www.tei-c.org/ns/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0">
+<TEI xml:lang="en" xmlns="http://www.tei-c.org/ns/1.0">
     <teiHeader>
         <fileDesc>
             <titleStmt>
+                <title type="short">graves6-generated_all</title>
                 <title>ODD by Example customization</title>
             </titleStmt>
             <publicationStmt>
                 <p>Unpublished first draft </p>
             </publicationStmt>
             <sourceDesc>
-                <p>Derived from an analysis of 10 files from .</p>
+                <p>Derived from an analysis of 8 files from
+                    /Users/HALmob/Documents/eXistapps/tei-publisher-app/data/test</p>
             </sourceDesc>
         </fileDesc>
     </teiHeader>
@@ -42,7 +44,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="when" mode="delete"/>
                         <attDef ident="notBefore" mode="delete"/>
                         <attDef ident="notAfter" mode="delete"/>
@@ -60,7 +61,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="when" mode="delete"/>
                         <attDef ident="notBefore" mode="delete"/>
                         <attDef ident="notAfter" mode="delete"/>
@@ -79,7 +79,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="full" mode="delete"/>
                         <attDef ident="role" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
@@ -99,7 +98,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="full" mode="delete"/>
                         <attDef ident="role" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
@@ -119,7 +117,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="full" mode="delete"/>
                         <attDef ident="role" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
@@ -139,7 +136,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="full" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="abb"/>
@@ -157,7 +153,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="role" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
@@ -175,7 +170,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="role" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
@@ -194,7 +188,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="role" mode="delete"/>
                         <attDef ident="type" mode="change">
                             <valList mode="add" type="closed">
@@ -221,7 +214,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="role" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
@@ -240,7 +232,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="role" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
@@ -258,7 +249,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="notBefore" mode="delete"/>
                         <attDef ident="notAfter" mode="delete"/>
                         <attDef ident="from" mode="delete"/>
@@ -287,7 +277,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="role" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
@@ -301,7 +290,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="listPerson" mode="change">
@@ -312,7 +300,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                         <attDef ident="default" mode="delete"/>
                     </attList>
@@ -325,7 +312,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                         <attDef ident="default" mode="delete"/>
                     </attList>
@@ -338,7 +324,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="geopolitic"/>
@@ -364,7 +349,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="when" mode="delete"/>
                         <attDef ident="notBefore" mode="delete"/>
                         <attDef ident="notAfter" mode="delete"/>
@@ -384,7 +368,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="place" mode="change">
@@ -395,7 +378,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -408,7 +390,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="when" mode="delete"/>
                         <attDef ident="notBefore" mode="delete"/>
                         <attDef ident="notAfter" mode="delete"/>
@@ -442,25 +423,10 @@
                 <classRef key="att.combinable"/>
                 <classRef key="att.identified"/>
                 <classRef key="model.contentPart"/>
-                <moduleRef include="gi schemaSpec" key="tagdocs"/>
+                <moduleRef include="gi" key="tagdocs"/>
                 <elementSpec ident="gi" mode="change">
                     <attList>
                         <attDef ident="scheme" mode="delete"/>
-                        <attDef ident="corresp" mode="delete"/>
-                        <attDef ident="next" mode="delete"/>
-                        <attDef ident="prev" mode="delete"/>
-                        <attDef ident="ana" mode="delete"/>
-                        <attDef ident="facs" mode="delete"/>
-                        <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
-                    </attList>
-                </elementSpec>
-                <elementSpec ident="schemaSpec" mode="change">
-                    <attList>
-                        <attDef ident="prefix" mode="delete"/>
-                        <attDef ident="targetLang" mode="delete"/>
-                        <attDef ident="docLang" mode="delete"/>
-                        <attDef ident="defaultExceptions" mode="delete"/>
                         <attDef ident="corresp" mode="delete"/>
                         <attDef ident="next" mode="delete"/>
                         <attDef ident="prev" mode="delete"/>
@@ -572,7 +538,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="part" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -584,7 +549,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="emph" mode="change">
@@ -595,7 +559,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="hi" mode="change">
@@ -606,7 +569,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="quote" mode="change">
@@ -617,9 +579,7 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
-                        <attDef ident="notation" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="q" mode="change">
@@ -636,7 +596,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="cit" mode="change">
@@ -647,7 +606,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -659,7 +617,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -671,7 +628,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="target" mode="delete"/>
                         <attDef ident="type" mode="change">
                             <valList mode="add" type="closed">
@@ -691,7 +647,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="corr" mode="change">
@@ -702,7 +657,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -714,7 +668,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="reg" mode="change">
@@ -725,7 +678,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -737,7 +689,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="gap" mode="change">
@@ -748,7 +699,6 @@
                         <attDef ident="prev" mode="delete"/>
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="add" mode="change">
@@ -759,7 +709,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="place" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                         <attDef ident="unit" mode="delete"/>
@@ -775,7 +724,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                         <attDef ident="unit" mode="delete"/>
                         <attDef ident="quantity" mode="delete"/>
@@ -792,7 +740,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="unit" mode="delete"/>
                         <attDef ident="quantity" mode="delete"/>
                         <attDef ident="extent" mode="delete"/>
@@ -806,7 +753,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="full" mode="delete"/>
                         <attDef ident="role" mode="delete"/>
                         <attDef ident="when" mode="delete"/>
@@ -830,7 +776,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="role" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
@@ -844,7 +789,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="address" mode="change">
@@ -855,7 +799,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="addrLine" mode="change">
@@ -866,7 +809,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="num" mode="change">
@@ -879,7 +821,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="measure" mode="change">
@@ -899,7 +840,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="date" mode="change">
@@ -910,7 +850,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="notBefore" mode="delete"/>
                         <attDef ident="from" mode="delete"/>
                         <attDef ident="to" mode="delete"/>
@@ -932,7 +871,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="when" mode="delete"/>
                         <attDef ident="notBefore" mode="delete"/>
                         <attDef ident="notAfter" mode="delete"/>
@@ -953,7 +891,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -965,7 +902,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="ptr" mode="change">
@@ -976,7 +912,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -988,7 +923,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -1008,7 +942,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="gloss"/>
@@ -1026,7 +959,6 @@
                         <attDef ident="prev" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="label" mode="change">
@@ -1037,7 +969,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                         <attDef ident="place" mode="delete"/>
                     </attList>
@@ -1049,7 +980,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="sub"/>
@@ -1064,7 +994,6 @@
                         <attDef ident="corresp" mode="delete"/>
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="remarkResponsibility"/>
@@ -1080,7 +1009,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="milestone" mode="change">
@@ -1091,7 +1019,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="tcpmilestone"/>
@@ -1107,7 +1034,6 @@
                         <attDef ident="prev" mode="delete"/>
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                         <attDef ident="break" mode="delete"/>
                     </attList>
@@ -1120,7 +1046,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="inWord"/>
@@ -1136,7 +1061,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                         <attDef ident="break" mode="delete"/>
                     </attList>
@@ -1149,7 +1073,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="role" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
                     </attList>
@@ -1161,7 +1084,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -1173,7 +1095,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -1185,7 +1106,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
                         <attDef ident="when" mode="delete"/>
                         <attDef ident="notBefore" mode="delete"/>
@@ -1204,7 +1124,6 @@
                         <attDef ident="type" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="main"/>
-                                <valItem ident="sub"/>
                                 <valItem ident="title_page"/>
                             </valList>
                         </attDef>
@@ -1214,12 +1133,10 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
                         <attDef ident="type" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="main"/>
-                                <valItem ident="sub"/>
                                 <valItem ident="title_page"/>
                             </valList>
                         </attDef>
@@ -1238,7 +1155,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="pubPlace" mode="change">
@@ -1249,7 +1165,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="role" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
                     </attList>
@@ -1262,7 +1177,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="default" mode="delete"/>
                         <attDef ident="type" mode="change">
                             <valList mode="add" type="closed">
@@ -1279,7 +1193,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="older"/>
@@ -1295,7 +1208,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="part" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="N"/>
@@ -1311,7 +1223,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="org" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="uniform"/>
@@ -1344,7 +1255,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="speaker" mode="change">
@@ -1355,7 +1265,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="stage" mode="change">
@@ -1367,7 +1276,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="place" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -1384,7 +1292,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="fileDesc" mode="change">
@@ -1395,7 +1302,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="titleStmt" mode="change">
@@ -1406,7 +1312,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="editionStmt" mode="change">
@@ -1417,7 +1322,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="edition" mode="change">
@@ -1428,7 +1332,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="extent" mode="change">
@@ -1439,7 +1342,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="publicationStmt" mode="change">
@@ -1450,7 +1352,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="distributor" mode="change">
@@ -1461,7 +1362,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="idno" mode="change">
@@ -1495,7 +1395,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="when" mode="delete"/>
                         <attDef ident="notBefore" mode="delete"/>
                         <attDef ident="notAfter" mode="delete"/>
@@ -1540,7 +1439,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="default" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -1552,7 +1450,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="when" mode="delete"/>
                         <attDef ident="notAfter" mode="delete"/>
                         <attDef ident="from" mode="delete"/>
@@ -1567,7 +1464,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="notesStmt" mode="change">
@@ -1578,7 +1474,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="sourceDesc" mode="change">
@@ -1589,7 +1484,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="default" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="false"/>
@@ -1605,7 +1499,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="default" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="false"/>
@@ -1621,7 +1514,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="projectDesc" mode="change">
@@ -1632,7 +1524,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="default" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="false"/>
@@ -1648,7 +1539,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="default" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="false"/>
@@ -1665,7 +1555,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="rendition" mode="change">
@@ -1677,7 +1566,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="scheme" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="css"/>
@@ -1693,7 +1581,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="listPrefixDef" mode="change">
@@ -1704,7 +1591,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="classDecl" mode="change">
@@ -1715,7 +1601,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="taxonomy" mode="change">
@@ -1726,7 +1611,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="profileDesc" mode="change">
@@ -1737,7 +1621,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="creation" mode="change">
@@ -1748,7 +1631,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="when" mode="delete"/>
                         <attDef ident="notBefore" mode="delete"/>
                         <attDef ident="notAfter" mode="delete"/>
@@ -1764,7 +1646,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="default" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -1777,7 +1658,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="textClass" mode="change">
@@ -1788,7 +1668,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="default" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -1800,7 +1679,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="classCode" mode="change">
@@ -1811,7 +1689,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="correspDesc" mode="change">
@@ -1824,7 +1701,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -1842,7 +1718,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="receiving"/>
@@ -1859,7 +1734,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="change" mode="change">
@@ -1875,7 +1749,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -1890,7 +1763,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -1905,7 +1777,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -1917,7 +1788,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="repository" mode="change">
@@ -1928,7 +1798,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="role" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
                     </attList>
@@ -1941,7 +1810,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="typeDesc" mode="change">
@@ -1952,7 +1820,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <!--Checking module transcr-->
@@ -1966,7 +1833,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="unit" mode="delete"/>
                         <attDef ident="quantity" mode="delete"/>
                         <attDef ident="extent" mode="delete"/>
@@ -1987,7 +1853,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="am" mode="change">
@@ -1998,7 +1863,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -2012,7 +1876,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                         <attDef ident="extent" mode="delete"/>
                     </attList>
@@ -2026,7 +1889,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="unit" mode="delete"/>
                         <attDef ident="quantity" mode="delete"/>
                         <attDef ident="extent" mode="delete"/>
@@ -2043,7 +1905,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                         <attDef ident="part" mode="delete"/>
                     </attList>
@@ -2056,7 +1917,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -2068,7 +1928,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="part" mode="delete"/>
                         <attDef ident="type" mode="change">
                             <valList mode="add" type="closed">
@@ -2078,7 +1937,6 @@
                                 <valItem ident="term"/>
                             </valList>
                         </attDef>
-                        <attDef ident="notation" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <classSpec ident="att.global.linking" mode="change" type="atts">
@@ -2101,10 +1959,8 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="part" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
-                        <attDef ident="notation" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="w" mode="change">
@@ -2115,10 +1971,8 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="part" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
-                        <attDef ident="notation" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="c" mode="change">
@@ -2129,10 +1983,8 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="part" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
-                        <attDef ident="notation" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="pc" mode="change">
@@ -2146,7 +1998,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="part" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
@@ -2164,7 +2015,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -2176,7 +2026,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -2188,7 +2037,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="floatingText" mode="change">
@@ -2199,7 +2047,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -2209,7 +2056,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="org" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="uniform"/>
@@ -2228,7 +2074,6 @@
                         <attDef ident="type" mode="change">
                             <valList mode="add" type="closed">
                                 <valItem ident="bibliography"/>
-                                <valItem ident="block"/>
                                 <valItem ident="book"/>
                                 <valItem ident="chapter"/>
                                 <valItem ident="contents"/>
@@ -2239,7 +2084,6 @@
                                 <valItem ident="editor_note"/>
                                 <valItem ident="encomia"/>
                                 <valItem ident="encomium"/>
-                                <valItem ident="frame"/>
                                 <valItem ident="halftitlenote"/>
                                 <valItem ident="index"/>
                                 <valItem ident="introduction"/>
@@ -2267,7 +2111,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -2279,7 +2122,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="dateline" mode="change">
@@ -2290,7 +2132,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="argument" mode="change">
@@ -2301,7 +2142,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="opener" mode="change">
@@ -2312,7 +2152,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="closer" mode="change">
@@ -2323,7 +2162,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="salute" mode="change">
@@ -2334,7 +2172,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="signed" mode="change">
@@ -2345,7 +2182,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="titlePage" mode="change">
@@ -2361,7 +2197,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="docTitle" mode="change">
@@ -2372,7 +2207,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -2389,7 +2223,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="docAuthor" mode="change">
@@ -2400,7 +2233,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="ref" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -2412,7 +2244,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="docDate" mode="change">
@@ -2424,7 +2255,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="front" mode="change">
@@ -2435,7 +2265,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="back" mode="change">
@@ -2446,7 +2275,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <!--Checking module gaiji-->
@@ -2459,7 +2287,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -2471,7 +2298,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -2483,7 +2309,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="glyph" mode="change">
@@ -2494,7 +2319,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="glyphName" mode="change">
@@ -2505,7 +2329,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="localName" mode="change">
@@ -2516,7 +2339,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="value" mode="change">
@@ -2527,7 +2349,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <!--Checking module figures-->
@@ -2540,7 +2361,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -2552,7 +2372,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="rows" mode="delete"/>
                         <attDef ident="cols" mode="delete"/>
                     </attList>
@@ -2565,7 +2384,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="formula" mode="change">
@@ -2576,7 +2394,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                     </attList>
                 </elementSpec>
                 <elementSpec ident="figure" mode="change">
@@ -2587,7 +2404,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="place" mode="delete"/>
                         <attDef ident="type" mode="delete"/>
                     </attList>
@@ -2602,7 +2418,6 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="default" mode="delete"/>
                     </attList>
                 </elementSpec>
@@ -2614,11 +2429,10 @@
                         <attDef ident="ana" mode="delete"/>
                         <attDef ident="facs" mode="delete"/>
                         <attDef ident="resp" mode="delete"/>
-                        <attDef ident="source" mode="delete"/>
                         <attDef ident="default" mode="delete"/>
                     </attList>
                 </elementSpec>
             </schemaSpec>
         </body>
     </text>
-</tei:TEI>
+</TEI>
