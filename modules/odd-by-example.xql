@@ -7,13 +7,19 @@ xquery version "3.1";
  : distributed by the tei consortium at https:github.com/TEIC/Stylesheets
  :
  : @author Duncan Paterson
- : @version 0.1
+ : @version 0.9.0
  : @see http://teic.github.io/TCW/howtoGenerate.html
  : @see https://github.com/TEIC/Stylesheets/blob/dev/tools/oddbyexample.xsl
  :
  : @return someGenerated.odd:)
 
-declare namespace obe="teipublisher.com/obe";
+ (: TODO:
+  : *   include validation of odd2odd output?
+  : *   compile teipublisher
+  : *   add tests !?!
+  :)
+
+module namespace obe="http://exist-db.org/apps/teipublisher/obe";
 declare namespace xsl="http://www.w3.org/1999/XSL/Transform";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
@@ -104,8 +110,3 @@ let $serialize := "method=xml media-type=text/xml omit-xml-declaration=no indent
 return
    xmldb:store($config:odd-root, $output, transform:transform($example, $xsl, $parameters, $attributes, $serialize))
 };
-
-  (: obe:compile-odd(doc('../odd/tei_simplePrint.odd'), 'tei_simplePrint') :)
-  obe:process-example($obe:test, 'a_simple_test', 'simple')
-
-(: exists('db/apps/tei-publisher/odd/tei_simplePrintSubset.xml') :)

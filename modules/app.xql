@@ -5,6 +5,7 @@ module namespace app="teipublisher.com/app";
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace dbutil="http://exist-db.org/xquery/dbutil";
+import module namespace obe="http://exist-db.org/apps/teipublisher/obe" at "odd-by-example.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace expath="http://expath.org/ns/pkg";
@@ -265,4 +266,21 @@ declare %private function app:parse-template($nodes as node()*, $odd as xs:strin
             }
         default return
             $node
+};
+
+(:~
+ : executes the odd-by-example function from index.html
+ : TODO: add templates:form-control
+ : reuse input form Name of New Customization
+ : add try-catch 
+ :)
+declare function app:build-examples($node as node(), $model as map(*), $input as xs:string, $base as xs:string) {
+
+(: select any tei document from the default collection to create corpus :)
+let $doc := for $files in collection($config:odd-root || '/test/')
+  return
+    $files[1]
+
+return
+  obe:process-example($doc, $input, $base)
 };
