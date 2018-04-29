@@ -13,12 +13,6 @@ xquery version "3.1";
  :
  : @return someGenerated.odd:)
 
- (: TODO:
-  : *   include validation of odd2odd output?
-  : *   compile teipublisher
-  : *   add tests !?!
-  :)
-
 module namespace obe="http://exist-db.org/apps/teipublisher/obe";
 declare namespace xsl="http://www.w3.org/1999/XSL/Transform";
 
@@ -55,7 +49,7 @@ return
  :
  : @return a custom odd file in the odd collection of tei-publisher
  :)
-declare function obe:process-example ($example as item()?, $name-prefix as xs:string, $odd-base as xs:string?) as item()* {
+declare function obe:process-example ($examples as item()?, $name-prefix as xs:string, $odd-base as xs:string?) as item()* {
 let $xsl := doc('oddbyexample.xsl')
 let $output := $name-prefix || 'Generated.odd'
 let $base := switch ($odd-base)
@@ -108,5 +102,5 @@ let $attributes :=
 let $serialize := "method=xml media-type=text/xml omit-xml-declaration=no indent=yes"
 
 return
-   xmldb:store($config:odd-root, $output, transform:transform($example, $xsl, $parameters, $attributes, $serialize))
+   xmldb:store($config:odd-root, $output, transform:transform($examples, $xsl, $parameters, $attributes, $serialize))
 };

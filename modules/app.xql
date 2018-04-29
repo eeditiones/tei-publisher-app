@@ -270,17 +270,17 @@ declare %private function app:parse-template($nodes as node()*, $odd as xs:strin
 
 (:~
  : executes the odd-by-example function from index.html
- : TODO: add templates:form-control
- : reuse input form Name of New Customization
- : add try-catch 
+ : @param $odd-base from radio button
+ : @param $input from new-odd
+ :
  :)
-declare function app:build-examples($node as node(), $model as map(*), $input as xs:string, $base as xs:string) {
+declare function app:build-examples($node as node(), $model as map(*), $input as xs:string, $odd-base as xs:string) {
 
 (: select any tei document from the default collection to create corpus :)
-let $doc := for $files in collection($config:odd-root || '/test/')
-  return
-    $files[1]
+let $path := collection($config:data-root || '/test/')
+let $file-name := util:document-name(($path//tei:TEI[1])[1])
+let $doc := doc($config:data-root || '/test/' || $file-name)
 
 return
-  obe:process-example($doc, $input, $base)
+  obe:process-example($doc, $input, $odd-base)
 };

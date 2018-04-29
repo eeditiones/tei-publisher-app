@@ -56,19 +56,19 @@
                   </button>
                 </div>
                 <input type="hidden" name="action" value="create-odd"/>
-              </form>
-              <hr />
-              <div class="btn-group btn-block">
-                <button class="btn btn-default btn-block" title="build" data-template="browse:show-if-logged-in">
-                  <i class="material-icons">build</i>
-                  Build from TEI Examples</button>
-                  <div class="radio-inline">
-                    <label><input type="radio" name="optradio"/> tei_all</label>
-                  </div>
-                  <div class="radio-inline">
-                    <label><input type="radio" name="optradio" checked="checked"/> simplePrint</label>
-                  </div>
-              </div>
+                <hr />
+                <div class="form-group">
+                  <button class="btn btn-default btn-block" title="build" type="submit">
+                    <i class="material-icons">build</i>
+                    Build from TEI Examples</button>
+                </div>
+                <div class="radio-inline">
+                  <label><input type="radio" name="odd-base" id="odd-base-1" checked="checked" data-template="templates:form-control" class="form-control"/> tei_all</label>
+                </div>
+                <div class="radio-inline">
+                  <label><input type="radio" name="odd-base" id="odd-base-2" data-template="templates:form-control" class="form-control"/> simplePrint</label>
+                </div>
+              </form>              
             </div>
           </div>
         </div>
