@@ -216,8 +216,10 @@ declare function app:load-source($node as node(), $model as map(*)) as node()* {
 
 declare
     %templates:wrap
-function app:action($node as node(), $model as map(*), $source as xs:string?, $action as xs:string?, $new-odd as xs:string?,
-    $title as xs:string?) {
+function app:action($node as node(), $model as map(*), $source as xs:string?, $action as xs:string?, $new-odd as xs:string?, $title as xs:string?, $build as xs:string?, $odd_base as xs:string?) {
+
+if ($build) then (app:build-examples($new-odd, $odd_base))
+else (
     switch ($action)
         case "create-odd" return
             <div class="panel panel-primary" role="alert">
@@ -235,6 +237,7 @@ function app:action($node as node(), $model as map(*), $source as xs:string?, $a
             </div>
         default return
             ()
+          )
 };
 
 declare %private function app:parse-template($nodes as node()*, $odd as xs:string, $title as xs:string?) {
@@ -270,11 +273,16 @@ declare %private function app:parse-template($nodes as node()*, $odd as xs:strin
 
 (:~
  : executes the odd-by-example function from index.html
+ :
+ : TODO: add progress bar
+ :
  : @param $odd-base from radio button
- : @param $input from new-odd
+ : @param $new-odd from input form
+ :
+ : @see app:action
  :
  :)
-declare function app:build-examples($node as node(), $model as map(*), $input as xs:string, $odd-base as xs:string) {
+declare function app:build-examples($new-odd as xs:string, $odd_base as xs:string) {
 
 (: select any tei document from the default collection to create corpus :)
 let $path := collection($config:data-root || '/test/')
@@ -282,5 +290,5 @@ let $file-name := util:document-name(($path//tei:TEI[1])[1])
 let $doc := doc($config:data-root || '/test/' || $file-name)
 
 return
-  obe:process-example($doc, $input, $odd-base)
+  obe:process-example($doc, $new-odd, $odd_base)
 };

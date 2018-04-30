@@ -51,24 +51,24 @@
                   <input type="text" name="title" class="form-control" placeholder="Title for display" required="required"/>
                 </div>
                 <div class="form-group">
-                  <button class="btn btn-default btn-block" type="submit">
+                  <button class="btn btn-default btn-block" type="submit" name="create">
                     <i class="material-icons">create</i><i18n:text key="create"/>
                   </button>
                 </div>
-                <input type="hidden" name="action" value="create-odd"/>
                 <hr />
                 <div class="form-group">
-                  <button class="btn btn-default btn-block" title="build" type="submit">
+                  <button class="btn btn-default btn-block" type="submit" name="build" value='build'>
                     <i class="material-icons">build</i>
                     Build from TEI Examples</button>
                 </div>
                 <div class="radio-inline">
-                  <label><input type="radio" name="odd-base" id="odd-base-1" checked="checked" data-template="templates:form-control" class="form-control"/> tei_all</label>
+                  <label><input type="radio" name="odd_base" value="P5" checked="checked" class="form-control"/> tei_all</label>
                 </div>
                 <div class="radio-inline">
-                  <label><input type="radio" name="odd-base" id="odd-base-2" data-template="templates:form-control" class="form-control"/> simplePrint</label>
+                  <label><input type="radio" name="odd_base" value="simple" class="form-control"/> simplePrint</label>
                 </div>
-              </form>              
+                <input type="hidden" name="action" value="create-odd"/>
+              </form>
             </div>
           </div>
         </div>
