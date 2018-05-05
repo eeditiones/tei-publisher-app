@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.exist-db.org:tei-publisher/tei-publisher-app.git"
+    "url": "git@gitlab.existsolutions.com:tei-publisher/tei-publisher-app.git"
   },
   "license": "GPL-3.0",
   "devDependencies": {},
