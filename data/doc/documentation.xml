@@ -110,7 +110,12 @@
       <section>
         <title>Building a Sample-Based ODD</title>
         <para>If you do not want to start a customized ODD from a blank template, you can alternatively generate one that covers the classes and elements of the corpus of TEI files stored in tei-publisher's default data collection. Simply enter a name (the title for display will be automatically generated) and click on <guibutton>Build from TEI examples</guibutton>. Reload the page to see the new ODD appear in the list. Note that if you haven't removed the default examples TEI files that shipped with tei-publisher their markup will be included in the constructed ODD as well.</para>
-        <para>This method uses the <filename>oddbyexample.xsl</filename> stylesheet that is part of the TEI consortium's <link xlink:href="https://github.com/TEIC/Stylesheets">stylesheets</link>. Users with a corpus one or more TEI files can generated a custom odd that contains explicit additions and deletions for all possible TEI modules, as well as, <tag>valList</tag> for attribute values in the input corpus.</para>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="BuildODD.gif"/>
+          </imageobject>
+        </mediaobject>
+        <para>This method uses the <filename>oddbyexample.xsl</filename> stylesheet that is part of the TEI consortium's <link xlink:href="https://github.com/TEIC/Stylesheets">stylesheets</link>. Users with a corpus of one or more TEI files can generated a custom odd that contains explicit additions and deletions for all possible TEI modules, as well as, <tag>valList</tag> for attribute values in the input corpus.</para>
         <para>By default the basis of the comparison for which elements have been modified in the examples is the full <filename>tei_all.odd</filename>. You can select to change the basis of the comparison to <filename>tei_simplePrint.odd</filename> by ticking the respective box. This could be handy for tei files previously used with tei-publisher.</para>
         <para>To further tweak the building process you can call the functions of the <filename>odd-by-example.xql</filename> module from your own XQuery code. If you wish to generate your own basis for the comparison you can call the following function to store a compiled ODD in the default odd location of tei-pubisher:</para>
         <programlisting language="XQuery">obe:compile-odd(doc('../odd/my-file.odd'), 'my-file-name')</programlisting>
