@@ -1,24 +1,24 @@
 xquery version "3.1";
 (:~
- : odd-by-example includes functions for construcing customized ODD files
+ : odd-by-example includes functions for constructing customized ODD files
  : using uploaded TEI files as input for use with tei-publisher.
  :
  : It uses the familar xsl stylesheet transformations
  : distributed by the tei consortium at https:github.com/TEIC/Stylesheets
  :
  : @author Duncan Paterson
- : @version 0.9.0
+ : @version 1.0.0
  : @see http://teic.github.io/TCW/howtoGenerate.html
  : @see https://github.com/TEIC/Stylesheets/blob/dev/tools/oddbyexample.xsl
  :
  : @return someGenerated.odd:)
 
-module namespace obe="http://exist-db.org/apps/teipublisher/obe";
-declare namespace xsl="http://www.w3.org/1999/XSL/Transform";
+module namespace obe = "http://exist-db.org/apps/teipublisher/obe";
+declare namespace xsl = "http://www.w3.org/1999/XSL/Transform";
+declare namespace tei = "http://www.tei-c.org/ns/1.0";
 
-import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+import module namespace config = "http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
-declare variable $obe:test := doc($config:data-root || '/test/' || 'graves6.xml');
 
 (:~
  : odd-by-example requires a compiled version of the base odd, which we need to
@@ -31,50 +31,73 @@ declare variable $obe:test := doc($config:data-root || '/test/' || 'graves6.xml'
  :
  : @return someSubset.xml
  :)
-declare function obe:compile-odd ($path as item(), $out-prefix as xs:string) as item() {
-let $xsl := doc('odd2odd.xsl')
-let $file-name := $out-prefix || 'Subset.xml'
-let $parameter := ()
-return
-  xmldb:store($config:odd-root, $file-name, transform:transform($path, $xsl, $parameter))
+declare function obe:compile-odd($path as item(), $out-prefix as xs:string) as item() {
+    let $xsl := doc('odd2odd.xsl')
+    let $file-name := $out-prefix || 'Subset.xml'
+    let $parameter := ()
+    return
+        xmldb:store($config:odd-root, $file-name, transform:transform($path, $xsl, $parameter))
+};
+
+declare function obe:make-catalog($col as item()*) as item() {
+    <collection stable="true" xml:base="xmldb:exist://">
+        {
+            for $doc in collection($col)//tei:TEI
+            return
+                <doc href="{document-uri(root($doc))}"/>
+        }
+    </collection>
 };
 
 (:~
  : obe:process-example takes all TEI files in a given collection and stores
  : a customized odd.
  :
- : @param $example a document within the collectino to process
+ : @param $sample-path the xpath to the collection containing the example TEI files as xs:string
  : @param $name-prefix for output file, e.g. "my" for "myGenerated.odd"
- : @param $odd-base the URI of the defaultSource paramater
+ : @param $odd_base the URI of the defaultSource paramater
  :
  : @return a custom odd file in the odd collection of tei-publisher
  :)
-declare function obe:process-example ($examples as item()?, $name-prefix as xs:string, $odd-base as xs:string?) as item()* {
-let $xsl := doc('oddbyexample.xsl')
-let $output := $name-prefix || 'Generated.odd'
-let $base := switch ($odd-base)
-  case ('simplePrint') case ('simple')
-    return xs:anyURI('xmldb:exist:///db/apps/tei-publisher/odd/tei_simplePrintSubset.xml')
-  case ('publisher')
-    return xs:anyURI('xmldb:exist:///db/apps/tei-publisher/odd/teipublisherSubset.xml')
-  case ('all') case ('P5')
-    return 'http://www.tei-c.org/Vault/P5/current/xml/tei/odd/p5subset.xml'
-  default return 'http://www.tei-c.org/Vault/P5/current/xml/tei/odd/p5subset.xml'
+declare function obe:process-example($sample-path as xs:string, $name-prefix as xs:string, $odd_base as xs:string?) as item()* {
+    
+    (: we need to create this file on the fs for the xsl transform to work it will immediately removed to avoid permission collisions:)
+    let $catalog := xmldb:store($sample-path, 'catalog.xml', obe:make-catalog($sample-path))    
+    let $sax-cat := 'xmldb:exist://' || document-uri(collection($sample-path)//root(collection))
+
+    let $xsl := doc('oddbyexample.xsl')
+    let $output := $name-prefix || 'Generated.odd'
+    let $base := switch ($odd_base)
+        case ('simplePrint')
+        case ('simple')
+            return
+                xs:anyURI('xmldb:exist:///db/apps/tei-publisher/odd/tei_simplePrintSubset.xml')
+        case ('publisher')
+            return
+                xs:anyURI('xmldb:exist:///db/apps/tei-publisher/odd/teipublisherSubset.xml')
+        case ('all')
+        case ('P5')
+            return
+                'http://www.tei-c.org/Vault/P5/current/xml/tei/odd/p5subset.xml'
+        default return
+            'http://www.tei-c.org/Vault/P5/current/xml/tei/odd/p5subset.xml'
 
 let $parameters :=
-  <parameters>
-    <!-- the document corpus -->
-    <param name="corpus" value="."/>
+<parameters>
     <!-- name of odd -->
     <param name="schema" value="{substring-before($output, '.odd')}"/>
-    <!-- the source of the TEI (just needs *Spec)-->
-    <param name="defaultSource" value="{$base}"/>
-    <!-- should we make valList for @rend and @rendition -->
-    <param name="enumerateRend" value="false"/>
     <!-- whether to do all the global attributes -->
     <param name="keepGlobals" value="true"/>
+    <!-- the document corpus -->
+    <param name="corpus" value="{$sax-cat}"/>
+    <!-- file names starting with what prefix? -->
+    <param name="prefix" value=""/>
+    <!-- the source of the TEI (just needs *Spec)-->
+    <param name="defaultSource" value="{$base}"/>
     <!-- should elements in teiHeader be included?-->
     <param name="includeHeader" value="true"/>
+    <!-- should we make valList for @rend and @rendition -->
+    <param name="enumerateRend" value="false"/>
     <!-- should we make valList for @type -->
     <param name="enumerateType" value="true"/>
     <!-- should we deal with non-TEI namespaces -->
@@ -92,15 +115,16 @@ let $parameters :=
     <param name="processP4" value="false"/>
     <!-- should P5 files be considered? -->
     <param name="processP5" value="true"/>
-  </parameters>
+</parameters>
 
 let $attributes :=
-  <attributes>
+<attributes>
     <attr name="http://saxon.sf.net/feature/initialTemplate" value="main"/>
-  </attributes>
+</attributes>
 
 let $serialize := "method=xml media-type=text/xml omit-xml-declaration=no indent=yes"
 
 return
-   xmldb:store($config:odd-root, $output, transform:transform($examples, $xsl, $parameters, $attributes, $serialize))
+    (xmldb:store($config:odd-root, $output, transform:transform(doc($sax-cat), $xsl, $parameters, $attributes, $serialize)),
+    xmldb:remove($sample-path, 'catalog.xml'))
 };
