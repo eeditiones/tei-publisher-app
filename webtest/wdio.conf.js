@@ -4,6 +4,21 @@ process.env.WDIO_PORT = process.env.WDIO_PORT || '8080'
 
 exports.config = {
 
+    // =====================
+   // Server Configurations
+   // =====================
+   // Host address of the running Selenium server. This information is usually obsolete as
+   // WebdriverIO automatically connects to localhost. Also if you are using one of the
+   // supported cloud services like Sauce Labs, Browserstack or Testing Bot you also don't
+   // need to define host and port information because WebdriverIO can figure that out
+   // according to your user and key information. However if you are using a private Selenium
+   // backend you should define the host address, port, and path here.
+   //
+   host: '0.0.0.0',
+   port: 9515,
+   path: '/',
+   services: ['chromedriver'],
+
     // user: "wolfgangmm",
     // key: process.env.SAUCE_KEY,
     // sauceConnect: true,
@@ -46,20 +61,18 @@ exports.config = {
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
     capabilities: [
-        // {
-        //     maxInstances: 5,
-        //     browserName: 'chrome',
-        //     screenResolution: "1280x1024"
-        // }
+        {
+            maxInstances: 10,
+            browserName: 'chrome',
+            screenResolution: "1280x1024"
+            //chromeOptions: {
+            //    args: ['--headless', '--disable-gpu', '--window-size=1280,1024'],
+            //    binary: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+            //}
+        }
         // {browserName: 'chrome', platform: 'Windows 10', version: "56.0", screenResolution: "1280x1024"}
         // {browserName: 'MicrosoftEdge', platform: 'Windows 10', version: "14.14393", screenResolution: "1280x1024"}
         // {browserName: 'firefox', platform: 'Linux', version: "45.0", screenResolution: "1024x768"}
-        {
-             browserName: 'phantomjs',
-             "phantomjs.binary.path": require('phantomjs-prebuilt').path,
-             "phantomjs.cli.args" : ["--ignore-ssl-errors=yes"],
-             javascriptEnabled: true
-        }
     ],
     //
     // ===================
@@ -122,7 +135,7 @@ exports.config = {
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
     // services: ["sauce"],
-    services: ["phantomjs"], // comment out if not using phantomjs as browser
+    // services: ["phantomjs"], // comment out if not using phantomjs as browser
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
     // see also: http://webdriver.io/guide/testrunner/frameworks.html
@@ -172,16 +185,16 @@ exports.config = {
         // Then either:
         // global.expect = chai.expect;
         global.assert = chai.assert;
-    },
+    }
     //
     // Hook that gets executed before the suite starts
     // NOTE: comment out if you're not using phantomjs
-    beforeSuite: function (suite) {
-        browser.setViewportSize({
-            width: 1280,
-            height: 1024
-        });
-    },
+    // beforeSuite: function (suite) {
+    //     browser.setViewportSize({
+    //         width: 1280,
+    //         height: 1024
+    //     });
+    // },
     //
     // Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
     // beforeEach in Mocha)

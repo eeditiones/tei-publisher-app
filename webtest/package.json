@@ -24,6 +24,9 @@
     "wdio-phantomjs-service": "^0.2.2",
     "wdio-sauce-service": "^0.3.1",
     "wdio-spec-reporter": "0.0.5",
+    "chromedriver": "^2.36.0",
+    "wdio-chromedriver-service": "^0.1.2",
+    "webpack": "^3.6.0",
     "webdriverio": "^4.9.11"
   },
   "scripts": {
