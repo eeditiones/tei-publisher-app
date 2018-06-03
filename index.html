@@ -1,166 +1,210 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <div data-template="templates:include" data-template-path="templates/menu.html"/>
-    <section class="container-fluid" data-template="i18n:translate" data-catalogues="resources/i18n">
-        <header class="row">
-            <div class="page-header col-md-12">
-                <h1 class="tp-title">TEI Publisher</h1>
-                <h2 class="tp-subtitle">The Instant Publishing Toolbox</h2>
-            </div>
-        </header>
-        <div class="row">
-            <section class="col-md-12">
-                <p>Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD,
-                then generate your own, standalone app (using the <a href="generate.html">App Generator</a>) covering all core
-                features like browsing, search and PDF generation.</p>
-                <p class="well well-sm">
-                    <span class="bold">
-                        <a href="#loginDialog" data-toggle="modal">Log in</a> to upload files or see administrative functions (default user: "tei", password: "simple")</span>.</p>
-                <div data-template="app:action"/>
-            </section>
+  <div data-template="templates:include" data-template-path="templates/menu.html"/>
+  <section class="container-fluid" data-template="i18n:translate" data-catalogues="resources/i18n">
+    <header class="row">
+      <div class="page-header col-md-12">
+        <h1 class="tp-title">TEI Publisher</h1>
+        <h2 class="tp-subtitle">The Instant Publishing Toolbox</h2>
+      </div>
+    </header>
+    <div class="row">
+      <section class="col-md-12">
+        <p>Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD, then generate your own, standalone app (using the
+          <a href="generate.html">App Generator</a>) covering all core features like browsing, search and PDF generation.</p>
+        <p class="well well-sm">
+          <span class="bold">
+            <a href="#loginDialog" data-toggle="modal">Log in</a>
+            to upload files or see administrative functions (default user: "tei", password: "simple")</span>.</p>
+        <div data-template="app:action"/>
+      </section>
+    </div>
+    <main class="row">
+      <section class="col-md-8">
+        <div>
+          <div class="row">
+            <div data-template="templates:include" data-template-path="templates/doc-table.html"/>
+          </div>
         </div>
-        <main class="row">
-            <section class="col-md-8">
-                <div>
-                    <div class="row">
-                        <div data-template="templates:include" data-template-path="templates/doc-table.html"/>
-                    </div>
+      </section>
+      <section class="col-md-4">
+        <!--form action="search.html" class="form form-horizontal"> <div class="well well-sm"> <div class="form-group"> <div class="col-md-12 col-xs-12"> <span class="input-group"> <input name="query" type="search" class="templates:form-control form-control
+        typeahead-search" placeholder="Search For What?" autocomplete="off"/> <span class="input-group-btn"> <button id="f-btn-search" type="submit" class="btn btn-primary"> <span class="material-icons">search</span> </button> </span> </span> <input
+        type="hidden" name="field" value="text"/> </div> </div> <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Which Document Part?"> <div class="col-md-12 col-xs-12"> <select name="tei-target" class="form-control"
+        data-template="templates:form-control"> <option value="tei-text" selected="selected">Search Sections</option> <option value="tei-head">Search Headings</option> </select> </div> </div> </div> </form-->
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <i18n:text key="odd-data"/>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <table class="odd-table">
+              <tbody data-template="app:odd-table"/>
+            </table>
+            <div class="col-md-12" data-template="browse:show-if-logged-in">
+              <form id="odds" class="form" action="" method="POST" data-toggle="validator">
+                <div class="form-group">
+                  <input type="text" name="new_odd" class="form-control" placeholder="i18n(new-odd-name)" required="required" pattern="[a-zA-Z0-9-_]+"/>
                 </div>
-            </section>
-            <section class="col-md-4">
-                <!--form action="search.html" class="form form-horizontal">
-                    <div class="well well-sm">
-                        <div class="form-group">
-                            <div class="col-md-12 col-xs-12">
-                                <span class="input-group">
-                                    <input name="query" type="search" class="templates:form-control form-control typeahead-search" placeholder="Search For What?" autocomplete="off"/>
-                                    <span class="input-group-btn">
-                                        <button id="f-btn-search" type="submit" class="btn btn-primary">
-                                            <span class="material-icons">search</span>
-                                        </button>
-                                    </span>
-                                </span>
-                                <input type="hidden" name="field" value="text"/>
-                            </div>
-                        </div>
-                        <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Which Document Part?">
-                            <div class="col-md-12 col-xs-12">
-                                <select name="tei-target" class="form-control" data-template="templates:form-control">
-                                    <option value="tei-text" selected="selected">Search
-                                    Sections</option>
-                                    <option value="tei-head">Search Headings</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </form-->
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            <i18n:text key="odd-data"/>
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <table class="odd-table">
-                            <tbody data-template="app:odd-table"/>
-                        </table>
-                        <div class="col-md-12" data-template="browse:show-if-logged-in">
-                            <form id="odds" class="form" action="" method="POST" data-toggle="validator">
-                                <div class="form-group">
-                                    <input type="text" name="new-odd" class="form-control" placeholder="Name of new customization" required="required" pattern="[a-zA-Z0-9-_]+"/>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="title" class="form-control" placeholder="Title for display" required="required"/>
-                                </div>
-                                <div class="form-group">
-                                    <button class="btn btn-default btn-block" type="submit">
-                                        <i18n:text key="create"/>
-                                    </button>
-                                </div>
-                                <input type="hidden" name="action" value="create-odd"/>
-                            </form>
-                        </div>
-                    </div>
+                <div class="form-group">
+                  <input type="text" name="title" class="form-control" placeholder="i18n(new-odd-title)" required="required"/>
                 </div>
-                <div id="upload-panel" class="panel panel-info" data-template="browse:show-if-logged-in">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            <i18n:text key="upload"/>
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <p>
-                            <i18n:text key="upload-files"/>
-                        </p>
-                        <span class="btn btn-success btn-block fileinput-button">
-                            <i class="material-icons">file_upload</i>
-                            <span>
-                                <i18n:text key="select-files"/>
-                            </span>
-                            <input id="fileupload" type="file" name="files[]" multiple="multiple"/>
-                        </span><!-- The global progress bar -->
-                        <div id="progress" class="progress">
-                            <div class="progress-bar progress-bar-success"/>
-                        </div><!-- The container for the uploaded files -->
-                        <table id="files-table" class="files table table-striped">
-                            <thead>
-                                <th colspan="2">
-                                    <i18n:text key="uploaded-files"/>
-                                </th>
-                            </thead>
-                            <tbody id="files"/>
-                        </table>
-                    </div>
+                <div class="form-group">
+                  <button class="btn btn-default btn-block" type="submit" name="create">
+                    <i class="material-icons">create</i><i18n:text key="create"/>
+                  </button>
                 </div>
-            </section>
-        </main>
-    </section>
-    <script type="text/javascript" src="resources/scripts/vendor/jquery.ui.widget.js"/>
-    <script type="text/javascript" src="resources/scripts/vendor/jquery.iframe-transport.js"/>
-    <script type="text/javascript" src="resources/scripts/vendor/jquery.fileupload.js"/>
-    <script type="text/javascript">
+                <hr />
+                <div class="form-group">
+                  <button class="btn btn-default btn-block" type="submit" name="build" value='build' title="i18n(odd-build-title)">
+                    <i class="material-icons">build</i>
+                    <i18n:text key="odd-build"/></button>
+                </div>
+                <input type="hidden" name="odd_base" value="all"/>
+                <input type="hidden" name="action" value="create-odd"/>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div id="upload-panel" class="panel panel-info" data-template="browse:show-if-logged-in">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <i18n:text key="upload"/>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <p>
+              <i18n:text key="upload-files"/>
+            </p>
+            <span class="btn btn-success btn-block fileinput-button">
+              <i class="material-icons">file_upload</i>
+              <span>
+                <i18n:text key="select-files"/>
+              </span>
+              <input id="fileupload" type="file" name="files[]" multiple="multiple"/>
+            </span>
+            <!-- The global progress bar -->
+            <div id="progress" class="progress">
+              <div class="progress-bar progress-bar-success"/>
+            </div>
+            <!-- The container for the uploaded files -->
+            <table id="files-table" class="files table table-striped">
+              <thead>
+                <th colspan="2">
+                  <i18n:text key="uploaded-files"/>
+                </th>
+              </thead>
+              <tbody id="files"/>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div id="confirm-odd" class="modal fade" tabindex="-1" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title"><i18n:text key="delete"/>?</h4>
+                </div>
+                <div class="modal-body">
+                    <p><i18n:text key="odd-delete-confirmation"/></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="confirm-odd-delete"><i18n:text key="yes"/></button>
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal"><i18n:text key="no"/></button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>
+  <script type="text/javascript" src="resources/scripts/vendor/jquery.ui.widget.js"/>
+  <script type="text/javascript" src="resources/scripts/vendor/jquery.iframe-transport.js"/>
+  <script type="text/javascript" src="resources/scripts/vendor/jquery.fileupload.js"/>
+  <script type="text/javascript">
     $(function () {
-        'use strict';
+      'use strict';
 
-        function reloadDocTable() {
-            $("#documents-panel").load("templates/doc-table.html");
+      setTimeout(function() { $(".alert-message").hide(); }, 2000);
+
+      function reloadDocTable() {
+        $("#documents-panel").load("templates/doc-table.html");
+      }
+
+      $('button[name=build]').click(function(ev) {
+          ev.preventDefault();
+          var selected = [];
+          var checked = $("#documents input:checked").parents(".document");
+          var params = {
+              odd_base: $("input[name=odd_base]:checked").val(),
+              new_odd: $("input[name=new_odd]").val(),
+              title: $("input[name=title]").val(),
+              action: 'build-odd'
+          };
+          if (checked.length > 0) {
+              var docs = [];
+              checked.each(function() {
+                  docs.push($(this).attr('data-doc'));
+              });
+              params['docs'] = docs;
+          }
+          window.location.search = '?' + $.param(params);
+      });
+
+      $('#fileupload').fileupload({
+        url: "modules/lib/upload.xql",
+        dataType: 'json',
+        formData: {
+          "root": "test"
+        },
+        done: function (e, data) {
+          $.each(data.result.files, function (index, file) {
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var link = document.createElement("a");
+            link.href = file.path;
+            link.target = "_blank";
+            var icon = document.createElement("span");
+            icon.className = "material-icons";
+            icon.appendChild(document.createTextNode("open_in_new"));
+            link.appendChild(icon);
+            td.appendChild(link);
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            td.appendChild(document.createTextNode(file.path));
+            tr.appendChild(td);
+
+            $("#files").append(tr);
+          });
+          reloadDocTable();
+        },
+        progressall: function (e, data) {
+          var progress = parseInt(data.loaded / data.total * 100, 10);
+          $('#progress .progress-bar').css('width', progress + '%');
         }
+      }).prop('disabled', !$.support.fileInput).parent().addClass(
+        $.support.fileInput
+          ? undefined
+          : 'disabled'
+      );
 
-        $('#fileupload').fileupload({
-            url: "modules/lib/upload.xql",
-            dataType: 'json',
-            formData: { "root": "test" },
-            done: function (e, data) {
-                $.each(data.result.files, function (index, file) {
-                    var tr = document.createElement("tr");
-                    var td = document.createElement("td");
-                    var link = document.createElement("a");
-                    link.href = file.path;
-                    link.target = "_blank";
-                    var icon = document.createElement("span");
-                    icon.className = "material-icons";
-                    icon.appendChild(document.createTextNode("open_in_new"));
-                    link.appendChild(icon);
-                    td.appendChild(link);
-                    tr.appendChild(td);
-
-                    td = document.createElement("td");
-                    td.appendChild(document.createTextNode(file.path));
-                    tr.appendChild(td);
-
-                    $("#files").append(tr);
-                });
-                reloadDocTable();
-            },
-            progressall: function (e, data) {
-                var progress = parseInt(data.loaded / data.total * 100, 10);
-                $('#progress .progress-bar').css(
-                    'width',
-                    progress + '%'
-                );
-            }
-        }).prop('disabled', !$.support.fileInput)
-            .parent().addClass($.support.fileInput ? undefined : 'disabled');
+      var toDelete;
+      $('.delete-odd').click(function(ev) {
+          ev.preventDefault();
+          toDelete = $(this).attr('href');
+          $("#odd-to-delete").text(toDelete);
+          $("#confirm-odd").modal("show");
+      });
+      $("#confirm-odd-delete").on("click", function(ev) {
+          $("#confirm").modal("hide");
+          var params = {
+              action: 'delete-odd',
+              docs: [toDelete]
+          };
+          window.location.search = '?' + $.param(params);
+      });
     });
-    </script>
+  </script>
 </div>

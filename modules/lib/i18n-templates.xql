@@ -33,12 +33,12 @@ declare function intl:translate($node as node(), $model as map(*), $lang as xs:s
                             return
                                 replace($lang[1], "^([^-;]+).*$", "$1")
                         else
-                            "de"
+                            $config:default-language
                     let $lang :=
                         if ($headerLang = ('de', 'fr', 'it')) then
                             $headerLang
                         else
-                            "de"
+                            $config:default-language
                     return (
                         session:set-attribute("lang", $lang),
                         $lang
@@ -49,11 +49,12 @@ declare function intl:translate($node as node(), $model as map(*), $lang as xs:s
             $catalogues
         else
             concat($config:app-root, "/", $catalogues)
+    let $processed := templates:process($node/*, $model)
     let $translated :=
-        i18n:process($node/*, $lang, $cpath, ())
+        i18n:process($processed, $lang, $cpath, ())
     return
         element { node-name($node) } {
             $node/@*,
-            templates:process($translated, $model)
+            $translated
         }
 };

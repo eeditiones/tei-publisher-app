@@ -4,23 +4,28 @@ xquery version "3.1";
  : A set of helper functions to access the application context from
  : within a module.
  :)
-module namespace config="http://www.tei-c.org/tei-simple/config";
+module namespace config = "http://www.tei-c.org/tei-simple/config";
 
-import module namespace http="http://expath.org/ns/http-client";
-import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
+import module namespace http = "http://expath.org/ns/http-client";
+import module namespace nav = "http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
+import module namespace tpu = "http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 
-declare namespace templates="http://exist-db.org/xquery/templates";
+declare namespace templates = "http://exist-db.org/xquery/templates";
 
-declare namespace repo="http://exist-db.org/xquery/repo";
-declare namespace expath="http://expath.org/ns/pkg";
-declare namespace jmx="http://exist-db.org/jmx";
-declare namespace tei="http://www.tei-c.org/ns/1.0";
+declare namespace repo = "http://exist-db.org/xquery/repo";
+declare namespace expath = "http://expath.org/ns/pkg";
+declare namespace jmx = "http://exist-db.org/jmx";
+declare namespace tei = "http://www.tei-c.org/ns/1.0";
 
 (:~
  : Should documents be located by xml:id or filename?
  :)
 declare variable $config:address-by-id := false();
+
+(:~
+ : Set default language for publisher app i18n
+ :)
+declare variable $config:default-language := "en";
 
 (:
  : The default to use for determining the amount of content to be shown
@@ -91,23 +96,24 @@ declare variable $config:login-domain := "org.exist.tei-simple";
  : are the font directories.
  :)
 declare variable $config:fop-config :=
-    let $fontsDir := config:get-fonts-dir()
-    return
-        <fop version="1.0">
-            <!-- Strict user configuration -->
-            <strict-configuration>true</strict-configuration>
-
-            <!-- Strict FO validation -->
-            <strict-validation>false</strict-validation>
-
-            <!-- Base URL for resolving relative URLs -->
-            <base>./</base>
-
-            <renderers>
-                <renderer mime="application/pdf">
-                    <fonts>
+let $fontsDir := config:get-fonts-dir()
+return
+    <fop version="1.0">
+        <!-- Strict user configuration -->
+        <strict-configuration>true</strict-configuration>
+        
+        <!-- Strict FO validation -->
+        <strict-validation>false</strict-validation>
+        
+        <!-- Base URL for resolving relative URLs -->
+        <base>./</base>
+        
+        <renderers>
+            <renderer mime="application/pdf">
+                <fonts>
                     {
-                        if ($fontsDir) then (
+                        if ($fontsDir) then
+                            (
                             <font kerning="yes"
                                 embed-url="file:{$fontsDir}/Junicode.ttf"
                                 encoding-mode="single-byte">
@@ -128,27 +134,28 @@ declare variable $config:fop-config :=
                                 encoding-mode="single-byte">
                                 <font-triplet name="Junicode" style="italic" weight="700"/>
                             </font>
-                        ) else
+                            )
+                        else
                             ()
                     }
-                    </fonts>
-                </renderer>
-            </renderers>
-        </fop>
+                </fonts>
+            </renderer>
+        </renderers>
+    </fop>
 ;
 
 (:~
  : The command to run when generating PDF via LaTeX. Should be a sequence of
  : arguments.
  :)
-declare variable $config:tex-command := function($file) {
-    ( "/usr/local/bin/pdflatex", "-interaction=nonstopmode", $file )
+declare variable $config:tex-command := function ($file) {
+    ("/usr/local/bin/pdflatex", "-interaction=nonstopmode", $file)
 };
 
 (:~
  : Configuration for epub files.
  :)
-declare variable $config:epub-config := function($doc as document-node(), $langParameter as xs:string?) {
+declare variable $config:epub-config := function ($doc as document-node(), $langParameter as xs:string?) {
     let $root := $doc/*
     let $properties := tpu:parse-pi($doc, ())
     return
@@ -181,21 +188,23 @@ declare variable $config:epub-images-path := ();
     Determine the application root collection from the current module load path.
 :)
 declare variable $config:app-root :=
-    let $rawPath := system:get-module-load-path()
-    let $modulePath :=
-        (: strip the xmldb: part :)
-        if (starts-with($rawPath, "xmldb:exist://")) then
-            if (starts-with($rawPath, "xmldb:exist://embedded-eXist-server")) then
-                substring($rawPath, 36)
-            else
-                substring($rawPath, 15)
-        else
-            $rawPath
-    return
-        substring-before($modulePath, "/modules")
+let $rawPath := system:get-module-load-path()
+let $modulePath :=
+(: strip the xmldb: part :)
+if (starts-with($rawPath, "xmldb:exist://")) then
+    if (starts-with($rawPath, "xmldb:exist://embedded-eXist-server")) then
+        substring($rawPath, 36)
+    else
+        substring($rawPath, 15)
+else
+    $rawPath
+return
+    substring-before($modulePath, "/modules")
 ;
 
 declare variable $config:data-root := $config:app-root || "/data";
+
+declare variable $config:data-default := $config:data-root || "/test";
 
 declare variable $config:default-odd := "teipublisher.odd";
 
@@ -226,11 +235,14 @@ declare function config:get-id($node as node()) {
 (:~
  : Returns a path relative to $config:data-root used to locate a document in the database.
  :)
- declare function config:get-relpath($node as node()) {
-     let $root := if (ends-with($config:data-root, "/")) then $config:data-root else $config:data-root || "/"
-     return
-         substring-after(document-uri(root($node)), $root)
- };
+declare function config:get-relpath($node as node()) {
+    let $root := if (ends-with($config:data-root, "/")) then
+        $config:data-root
+    else
+        $config:data-root || "/"
+    return
+        substring-after(document-uri(root($node)), $root)
+};
 
 declare function config:get-identifier($node as node()) {
     config:get-relpath($node)
@@ -296,7 +308,7 @@ declare function config:app-info($node as node(), $model as map(*)) {
             }
             <tr>
                 <td>Controller:</td>
-                <td>{ request:get-attribute("$exist:controller") }</td>
+                <td>{request:get-attribute("$exist:controller")}</td>
             </tr>
         </table>
 };

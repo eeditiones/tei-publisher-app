@@ -3,6 +3,7 @@ generated/
 .*
 !.gitignore
 !.existdb.json
+query-results
 webtest/bin
 webtest/reports
 webtest/errorShots

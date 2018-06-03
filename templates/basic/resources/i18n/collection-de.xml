@@ -53,7 +53,12 @@
     <msg key="odd-data">ODD Dateien</msg>
     <msg key="create">Erzeugen</msg>
     <msg key="delete-confirmation">Sind Sie sicher, dass Sie <span id="docs-to-delete"/> Dokument(e) löschen möchten?</msg>
+    <msg key="odd-delete-confirmation">Sind Sie sicher, dass Sie das ODD <span id="odd-to-delete"/> löschen möchten?</msg>
     <msg key="delete">Löschen</msg>
     <msg key="yes">Ja</msg>
     <msg key="no">Nein</msg>
+    <msg key="odd-build">Aus Beispielen erstellen</msg>
+    <msg key="odd-build-title">ODD aus ausgewählten Beispielen oder gesamtem Bestand erstellen</msg>
+    <msg key="new-odd-name">Dateiname des ODD</msg>
+    <msg key="new-odd-title">Titel zur Anzeige</msg>
 </catalogue>

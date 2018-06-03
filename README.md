@@ -71,4 +71,4 @@ Install node modules by running
 ### Testing
 `gulp test` currently contains just a placeholder message, while integrating the test suite is work in progress.
 
-Please follow these instructions [here](http://gitlab.exist-db.org/tei-publisher/tei-publisher-app/tree/master/webtest), for running the test-suite.
+Please follow these instructions [here](http://gitlab.existsolutions.com/tei-publisher/tei-publisher-app/tree/master/webtest), for running the test-suite.

@@ -129,15 +129,15 @@
         assume some knowledge of XML (the encoding language used by the TEI), and of the way it is
         used by the TEI. Further information on both these topics are available from many places,
         not least the TEI's own web site at <ptr target="http://www.tei-c.org"/>.</p>
-      <p>The TEI simplePrint schema was first elaborated as a part of the TEI Simple project funded by the 
-        <ref target="https://mellon.org/">Andrew W. Mellon Foundation</ref> (2012-2014). The project sought 
-        to define a new <soCalled>highly-constrained and prescriptive subset</soCalled> of the Text Encoding 
-        Initiative (TEI) Guidelines suited to the representation of early modern print materials, a 
-        formally-defined set of processing rules which permit modern web applications to easily present 
-        and analyze the encoded texts, mapping to other ontologies, and processes to describe the encoding 
-        status and richness of a TEI digital text. Its choice of elements reflected the practices followed 
-        in the encoding of large-scale literary archives, notably those produced by the Text Creation 
-        Partnership. Practice of other comparable archives such as the German Text Archive was also taken 
+      <p>The TEI simplePrint schema was first elaborated as a part of the TEI Simple project funded by the
+        <ref target="https://mellon.org/">Andrew W. Mellon Foundation</ref> (2012-2014). The project sought
+        to define a new <soCalled>highly-constrained and prescriptive subset</soCalled> of the Text Encoding
+        Initiative (TEI) Guidelines suited to the representation of early modern print materials, a
+        formally-defined set of processing rules which permit modern web applications to easily present
+        and analyze the encoded texts, mapping to other ontologies, and processes to describe the encoding
+        status and richness of a TEI digital text. Its choice of elements reflected the practices followed
+        in the encoding of large-scale literary archives, notably those produced by the Text Creation
+        Partnership. Practice of other comparable archives such as the German Text Archive was also taken
         into account.</p>
       <p>The most distinctive feature of TEI simplePrint is its use of the TEI Processing Model, which
         provides explicit and recommended options for the display or processing of every textual
@@ -3534,7 +3534,7 @@ live without God in the world, and only mind earthly things.
 
             <moduleRef key="corpus" include="particDesc settingDesc"/>
 
-           
+
           </specGrp>
 
           <specGrp xml:id="header2">
@@ -3543,10 +3543,10 @@ live without God in the world, and only mind earthly things.
                 <constraint>
                   <!-- <rule xmlns="http://purl.oclc.org/dsdl/schematron"
                     context="tei:att | tei:biblFull | tei:biblStruct | tei:change | tei:charDecl | tei:charProp | tei:editor
-                    | tei:editorialDecl | tei:email | tei:encodingDesc | tei:extent | tei:fileDesc | tei:gi | tei:glyph | tei:glyphName | 
-                    tei:idno | tei:imprint | tei:keywords | tei:licence | tei:listChange | tei:listPerson | tei:localName | tei:monogr | 
-                    tei:msDesc | tei:msIdentifier | tei:person | tei:physDesc | tei:profileDesc | tei:publicationStmt | tei:relatedItem | 
-                    tei:repository | tei:resp | tei:respStmt | tei:sourceDesc | tei:tag | tei:teiHeader | tei:term | tei:textClass | tei:textDesc 
+                    | tei:editorialDecl | tei:email | tei:encodingDesc | tei:extent | tei:fileDesc | tei:gi | tei:glyph | tei:glyphName |
+                    tei:idno | tei:imprint | tei:keywords | tei:licence | tei:listChange | tei:listPerson | tei:localName | tei:monogr |
+                    tei:msDesc | tei:msIdentifier | tei:person | tei:physDesc | tei:profileDesc | tei:publicationStmt | tei:relatedItem |
+                    tei:repository | tei:resp | tei:respStmt | tei:sourceDesc | tei:tag | tei:teiHeader | tei:term | tei:textClass | tei:textDesc
                     | tei:titleStmt | tei:typeDesc | tei:val | tei:value">-->
                   <rule xmlns="http://purl.oclc.org/dsdl/schematron" context="tei:term | tei:biblFull ">
                     <report test="ancestor::tei:text">Error: The element <name/> is not permitted
@@ -3918,7 +3918,7 @@ live without God in the world, and only mind earthly things.
             <classSpec type="model" ident="model.certLike" mode="delete"/>
             <classSpec type="model" ident="model.glossLike" mode="delete"/>
           </specGrp>
-          <!-- 
+          <!--
             These are the 113 textual elements selected for use in TEI simplePrint texts-->
           <specGrp xmlns:XSL="http://www.w3.org/1999/XSL/Transform" xml:id="simpleelements">
             <elementRef key="ab"/>
@@ -4114,7 +4114,7 @@ live without God in the world, and only mind earthly things.
             <elementSpec ident="back" mode="change">
               <model behaviour="block"/>
             </elementSpec>
-            
+
             <elementSpec ident="bibl" mode="change">
               <constraintSpec mode="add" ident="noEmptyBibl" scheme="isoschematron">
                 <constraint>
@@ -4136,7 +4136,7 @@ live without God in the world, and only mind earthly things.
                 </egXML>
               </exemplum>
             </elementSpec>
-            
+
             <elementSpec ident="biblFull" mode="change">
               <exemplum xml:lang="en" versionDate="2016-11-18">
                 <!-- EEBO-TCP: B02347 -->
@@ -4166,9 +4166,9 @@ live without God in the world, and only mind earthly things.
                   </sourceDesc>
                 </egXML>
               </exemplum>
-              
+
             </elementSpec>
-            
+
             <elementSpec ident="biblScope" mode="change">
               <model behaviour="inline"/>
             </elementSpec>
@@ -4341,7 +4341,7 @@ live without God in the world, and only mind earthly things.
               <model predicate="ancestor::teiHeader" behaviour="omit"/>
               <model behaviour="inline"/>
             </elementSpec>
-            
+
             <elementSpec ident="editorialDecl" mode="change">
               <exemplum xml:lang="en" versionDate="2016-11-18">
                 <!-- Duplicate text in EEBO TCP Files -->
@@ -4397,8 +4397,8 @@ live without God in the world, and only mind earthly things.
                  </egXML>
                </exemplum>
             </elementSpec>
-            
-            
+
+
             <elementSpec ident="email" mode="change">
               <model behaviour="inline">
                 <outputRendition>font-family:monospace</outputRendition>
@@ -4542,7 +4542,7 @@ live without God in the world, and only mind earthly things.
             <elementSpec ident="item" mode="change">
               <model behaviour="listItem"/>
             </elementSpec>
-            
+
             <elementSpec ident="l" mode="change">
               <model behaviour="block" useSourceRendition="true">
                 <outputRendition> margin-left: 1em; </outputRendition>
@@ -4561,7 +4561,7 @@ live without God in the world, and only mind earthly things.
                  </egXML>
               </exemplum>
             </elementSpec>
-            
+
             <elementSpec ident="label" mode="change">
               <model behaviour="inline"/>
             </elementSpec>
@@ -4741,7 +4741,7 @@ live without God in the world, and only mind earthly things.
                         </place>
                     </egXML>
                 </exemplum>
-            </elementSpec>  
+            </elementSpec>
             <elementSpec ident="postscript" mode="change">
               <model behaviour="block"/>
             </elementSpec>
@@ -4769,7 +4769,7 @@ live without God in the world, and only mind earthly things.
                     </egXML>
                 </exemplum>
                 <remarks xml:lang="en" versionDate="2016-11-15">
-                    <p>Although the content model permits it, it is rarely meaningful to supply multiple 
+                    <p>Although the content model permits it, it is rarely meaningful to supply multiple
                         occurrences for any of the child elements of  <gi>profileDesc</gi> unless these are documenting multiple texts.</p>
                 </remarks>
             </elementSpec>
@@ -4912,7 +4912,7 @@ live without God in the world, and only mind earthly things.
                     <p>This element should not be used outside the front or back matter; for similar contextual descriptions
                     within the body of the text, use the <gi>stage</gi> element.</p>
                 </remarks>
-            </elementSpec>  
+            </elementSpec>
             <elementSpec ident="sic" mode="change">
               <model predicate="parent::choice and count(parent::*/*) gt 1" behaviour="inline"/>
               <model behaviour="inline">
@@ -5074,7 +5074,7 @@ live without God in the world, and only mind earthly things.
                         </lg>
                     </egXML>
                 </exemplum>
-            </elementSpec>  
+            </elementSpec>
             <elementSpec ident="fileDesc" mode="change">
               <model behaviour="title">
                 <param name="content" value="titleStmt"/>
@@ -5187,7 +5187,7 @@ live without God in the world, and only mind earthly things.
                           </revisionDesc>
                       </teiHeader>
                   </egXML>
-              </exemplum>  
+              </exemplum>
             </elementSpec>
             <elementSpec ident="TEI" mode="change">
               <attList>
