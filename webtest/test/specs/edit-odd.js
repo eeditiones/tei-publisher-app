@@ -16,7 +16,7 @@ describe('edit odd', function() {
     });
 
     it("should create odd", function() {
-        browser.setValue("#odds input[name='new-odd']", "testodd");
+        browser.setValue("#odds input[name='new_odd']", "testodd");
         browser.setValue("#odds input[name='title']", "Test ODD");
         browser.click("#odds button[type='submit']");
     });

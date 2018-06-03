@@ -1,6 +1,6 @@
 {
   "name": "tei-publisher-app",
-  "version": "2.0.5",
+  "version": "3.1.0",
   "description": "TEI Publisher facilitates the integration of the TEI Processing Model into exist-db applications",
   "main": "gulpfile.js",
   "directories": {
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.exist-db.org:tei-publisher/tei-publisher-app.git"
+    "url": "git@gitlab.existsolutions.com:tei-publisher/tei-publisher-app.git"
   },
   "license": "GPL-3.0",
   "devDependencies": {},

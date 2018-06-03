@@ -61,8 +61,7 @@ declare function local:load($oddPath as xs:string, $root as xs:string) {
         map {
             "elementSpecs":
                 array {
-
-                    for $spec in $odd//elementSpec
+                    for $spec in $odd//elementSpec[model|modelGrp|modelSequence]
                     order by $spec/@ident
                     return
                         map {
@@ -80,7 +79,7 @@ declare function local:load($oddPath as xs:string, $root as xs:string) {
 
 declare function local:find-spec($oddPath as xs:string, $root as xs:string, $ident as xs:string) {
     let $odd := doc($root || "/" || $oddPath)
-    let $spec := $odd//elementSpec[@ident = $ident]
+    let $spec := $odd//elementSpec[@ident = $ident][model|modelGrp|modelSequence]
     return
         if ($spec) then
             map {
@@ -208,15 +207,12 @@ declare function local:update($nodes as node()*, $data as document-node(), $orig
             case element(elementSpec) return
                 let $newSpec := $data//elementSpec[@ident=$node/@ident]
                 return
-                    if ($newSpec) then
-                        element { node-name($node) } {
-                            $node/@ident,
-                            $node/@mode,
-                            $node/* except ($node/model, $node/modelGrp, $node/modelSequence),
-                            $newSpec/*
-                        }
-                    else
-                        ()
+                    element { node-name($node) } {
+                        $node/@ident,
+                        $node/@mode,
+                        $node/* except ($node/model, $node/modelGrp, $node/modelSequence),
+                        $newSpec/*
+                    }
             case element() return
                 element { node-name($node) } {
                     $node/@*,

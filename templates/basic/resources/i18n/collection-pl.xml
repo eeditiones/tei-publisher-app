@@ -54,4 +54,8 @@
     <msg key="delete-confirmation">Are you sure you would like to delete <span id="docs-to-delete"/> resources?</msg>
     <msg key="yes">Tak</msg>
     <msg key="no">Nie</msg>
+    <msg key="odd-build">Build from examples</msg>
+    <msg key="odd-build-title">Create an ODD from the selected sample TEI documents or entire collection</msg>
+    <msg key="new-odd-name">Name of new customization</msg>
+    <msg key="new-odd-title">Title for display</msg>
 </catalogue>

@@ -22,6 +22,11 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
  :)
 declare variable $config:address-by-id := false();
 
+(:~
+ : Set default language for publisher app i18n
+ :)
+declare variable $config:default-language := "en";
+
 (:
  : The default to use for determining the amount of content to be shown
  : on a single page. Possible values: 'div' for showing entire divs (see

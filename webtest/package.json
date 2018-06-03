@@ -35,6 +35,7 @@
   "author": "Wolfgang Meier",
   "license": "GPL-3.0",
   "dependencies": {
+    "npm": "^6.0.0",
     "webpack": "^3.6.0"
   }
 }
