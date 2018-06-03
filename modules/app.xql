@@ -57,16 +57,18 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
                                 return
                                     if ($user) then
                                         templates:process(
-                                        <div class="btn-group" role="group">
+                                        <div class="btn-group btn-group-sm" role="group">
                                             <a class="btn btn-default recompile" title="Regenerate"
                                                 href="?source={$name}.odd&amp;odd={$odd}">
                                                 <i class="material-icons">update</i>
-                                                <span class="hidden-xs">Regenerate</span>
+                                            </a>
+                                            <a class="btn btn-default delete-odd" title="Delete"
+                                                href="{$name}.odd">
+                                                <i class="material-icons">delete</i>
                                             </a>
                                             <div class="btn-group">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                                     <i class="material-icons">code</i>
-                                                    <span class="hidden-xs">Source</span>
                                                     <span class="caret"/>
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
@@ -240,31 +242,35 @@ declare function app:load-source($node as node(), $model as map(*)) as node()* {
 
 declare
 %templates:wrap
-function app:action($node as node(), $model as map(*), $source as xs:string?, $action as xs:string?, $new-odd as xs:string?, $title as xs:string?, $build as xs:string?, $odd_base as xs:string?) {
-    
-    if ($build) then
-        (app:build-examples($new-odd, $odd_base))
-    else
-        (
+function app:action($node as node(), $model as map(*), $delete as xs:string?, $action as xs:string?, $new_odd as xs:string?, $title as xs:string?, $build as xs:string?, 
+    $odd_base as xs:string?) {
         switch ($action)
+            case "build-odd" return
+                let $docs := request:get-parameter("docs[]", ())
+                return
+                    <div class="panel panel-primary alert-message" role="alert">
+                        <div class="panel-heading"><h3 class="panel-title">Generated ODD from Example</h3></div>
+                        <div class="panel-body">
+                        { obe:process-example($config:data-default, $new_odd, $odd_base, $docs) }
+                        </div>
+                    </div>
             case "create-odd"
                 return
-                    <div class="panel panel-primary" role="alert">
+                    <div class="panel panel-primary alert-message" role="alert">
                         <div class="panel-heading"><h3 class="panel-title">Generated Files</h3></div>
                         <div class="panel-body">
                             <ul class="list-group">
                                 {
                                     let $template := doc($config:odd-root || "/template.odd.xml")
-                                    let $parsed := document {app:parse-template($template, $new-odd, $title)}
+                                    let $parsed := document {app:parse-template($template, $new_odd, $title)}
                                     return
-                                        xmldb:store($config:odd-root, $new-odd || ".odd", $parsed, "text/xml")
+                                        xmldb:store($config:odd-root, $new_odd || ".odd", $parsed, "text/xml")
                                 }
                             </ul>
                         </div>
                     </div>
             default return
                 ()
-    )
 };
 
 declare %private function app:parse-template($nodes as node()*, $odd as xs:string, $title as xs:string?) {
@@ -302,20 +308,4 @@ declare %private function app:parse-template($nodes as node()*, $odd as xs:strin
             default
                 return
                     $node
-};
-
-(:~
- : executes the odd-by-example function from index.html on the default user data collection.
- :
- : TODO: add progress bar
- :
- : @param $odd_base from radio button
- : @param $new-odd from input form
- :
- : @see app:action
- :
- :)
-declare function app:build-examples($new-odd as xs:string, $odd_base as xs:string) {
-    
-    obe:process-example($config:data-default, $new-odd, $odd_base)
 };

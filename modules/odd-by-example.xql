@@ -39,12 +39,17 @@ declare function obe:compile-odd($path as item(), $out-prefix as xs:string) as i
         xmldb:store($config:odd-root, $file-name, transform:transform($path, $xsl, $parameter))
 };
 
-declare function obe:make-catalog($col as item()*) as item() {
+declare function obe:make-catalog($col as item()*, $docs as xs:string*) as item() {
     <collection stable="true" xml:base="xmldb:exist://">
         {
-            for $doc in collection($col)//tei:TEI
-            return
-                <doc href="{document-uri(root($doc))}"/>
+            if (exists($docs)) then
+                for $doc in $docs
+                return
+                    <doc href="{$config:data-root || "/" || $doc}"/>
+            else
+                for $doc in collection($col)//tei:TEI
+                return
+                    <doc href="{document-uri(root($doc))}"/>
         }
     </collection>
 };
@@ -59,14 +64,15 @@ declare function obe:make-catalog($col as item()*) as item() {
  :
  : @return a custom odd file in the odd collection of tei-publisher
  :)
-declare function obe:process-example($sample-path as xs:string, $name-prefix as xs:string, $odd_base as xs:string?) as item()* {
+declare function obe:process-example($sample-path as xs:string, $name-prefix as xs:string, $odd_base as xs:string?,
+    $docs as xs:string*) as item()* {
     
     (: we need to create this file on the fs for the xsl transform to work it will immediately removed to avoid permission collisions:)
-    let $catalog := xmldb:store($sample-path, 'catalog.xml', obe:make-catalog($sample-path))    
+    let $catalog := xmldb:store($sample-path, 'catalog.xml', obe:make-catalog($sample-path, $docs))    
     let $sax-cat := 'xmldb:exist://' || document-uri(collection($sample-path)//root(collection))
 
     let $xsl := doc('oddbyexample.xsl')
-    let $output := $name-prefix || 'Generated.odd'
+    let $output := $name-prefix || '.odd'
     let $base := switch ($odd_base)
         case ('simplePrint')
         case ('simple')
@@ -81,7 +87,13 @@ declare function obe:process-example($sample-path as xs:string, $name-prefix as 
                 'http://www.tei-c.org/Vault/P5/current/xml/tei/odd/p5subset.xml'
         default return
             'http://www.tei-c.org/Vault/P5/current/xml/tei/odd/p5subset.xml'
-
+    let $source :=
+        switch ($odd_base)
+            case 'simplePrint'
+            case 'simple' return
+                'tei_simplePrint.odd'
+            default return
+                'teipublisher.odd'
 let $parameters :=
 <parameters>
     <!-- name of odd -->
@@ -123,8 +135,32 @@ let $attributes :=
 </attributes>
 
 let $serialize := "method=xml media-type=text/xml omit-xml-declaration=no indent=yes"
-
+let $transformed := obe:add-source(transform:transform(doc($sax-cat), $xsl, $parameters, $attributes, $serialize), $source)
 return
-    (xmldb:store($config:odd-root, $output, transform:transform(doc($sax-cat), $xsl, $parameters, $attributes, $serialize)),
+    (xmldb:store($config:odd-root, $output, $transformed),
     xmldb:remove($sample-path, 'catalog.xml'))
 };
+
+declare function obe:add-source($nodes as node()*, $base as xs:string) {
+    for $node in $nodes
+    return
+        typeswitch($node)
+            case document-node() return
+                document {
+                    obe:add-source($node/node(), $base)
+                }
+            case element(tei:schemaSpec) return
+                element { node-name($node) } {
+                    $node/@* except $node/@source,
+                    attribute source { $base },
+                    $node/node()
+                }
+            case element() return
+                element { node-name($node) } {
+                    $node/@*,
+                    obe:add-source($node/node(), $base)
+                }
+            default return $node
+};
+
+
