@@ -58,5 +58,7 @@
     <msg key="yes">Ja</msg>
     <msg key="no">Nein</msg>
     <msg key="odd-build">Aus Beispielen erstellen</msg>
-    <msg key="odd-build-title">Create an ODD from the selected sample TEI documents or entire collection</msg>
+    <msg key="odd-build-title">ODD aus ausgewählten Beispielen oder gesamtem Bestand erstellen</msg>
+    <msg key="new-odd-name">Dateiname des ODD</msg>
+    <msg key="new-odd-title">Titel zur Anzeige</msg>
 </catalogue>

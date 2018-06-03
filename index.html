@@ -45,10 +45,10 @@
             <div class="col-md-12" data-template="browse:show-if-logged-in">
               <form id="odds" class="form" action="" method="POST" data-toggle="validator">
                 <div class="form-group">
-                  <input type="text" name="new_odd" class="form-control" placeholder="Name of new customization" required="required" pattern="[a-zA-Z0-9-_]+"/>
+                  <input type="text" name="new_odd" class="form-control" placeholder="i18n(new-odd-name)" required="required" pattern="[a-zA-Z0-9-_]+"/>
                 </div>
                 <div class="form-group">
-                  <input type="text" name="title" class="form-control" placeholder="Title for display" required="required"/>
+                  <input type="text" name="title" class="form-control" placeholder="i18n(new-odd-title)" required="required"/>
                 </div>
                 <div class="form-group">
                   <button class="btn btn-default btn-block" type="submit" name="create">
@@ -62,10 +62,10 @@
                     <i18n:text key="odd-build"/></button>
                 </div>
                 <div class="radio-inline">
-                  <label><input type="radio" name="odd_base" value="P5" class="form-control"/> tei_all</label>
+                  <label><input type="radio" name="odd_base" value="all" checked="checked" class="form-control"/> P5</label>
                 </div>
                 <div class="radio-inline">
-                  <label><input type="radio" name="odd_base" value="publisher" checked="checked" class="form-control"/> publisher</label>
+                  <label><input type="radio" name="odd_base" value="publisher" class="form-control"/> publisher</label>
                 </div>
                 <input type="hidden" name="action" value="create-odd"/>
               </form>
@@ -132,17 +132,17 @@
       'use strict';
 
       setTimeout(function() { $(".alert-message").hide(); }, 2000);
-      
+
       function reloadDocTable() {
         $("#documents-panel").load("templates/doc-table.html");
       }
-      
+
       $('button[name=build]').click(function(ev) {
           ev.preventDefault();
           var selected = [];
           var checked = $("#documents input:checked").parents(".document");
           var params = {
-              odd_base: $("input[name=odd_base]").val(),
+              odd_base: $("input[name=odd_base]:checked").val(),
               new_odd: $("input[name=new_odd]").val(),
               title: $("input[name=title]").val(),
               action: 'build-odd'
@@ -156,7 +156,7 @@
           }
           window.location.search = '?' + $.param(params);
       });
-      
+
       $('#fileupload').fileupload({
         url: "modules/lib/upload.xql",
         dataType: 'json',
@@ -194,7 +194,7 @@
           ? undefined
           : 'disabled'
       );
-      
+
       var toDelete;
       $('.delete-odd').click(function(ev) {
           ev.preventDefault();
