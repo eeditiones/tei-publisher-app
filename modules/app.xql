@@ -192,18 +192,18 @@ function app:form-odd-select($node as node(), $model as map(*), $odd as xs:strin
 };
 
 declare function app:odd-documentation($node as node()) as node()* {
-    
+
     (:~ creates data rows for documenting different odd choices,
 :  located in: doc('/data/doc/documentation.xml')//tei:table[@xml:id='odd-choice']
 :)
     dbutil:scan-resources(xs:anyURI($config:odd-root), function ($resource) {
-        
+
         let $file := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
         let $title := doc($resource)//tei:titleStmt/tei:title/string()
         let $last-rev := data(doc($resource)//tei:revisionDesc/tei:change/@when)[1]
         let $src := substring-before(data(doc($resource)//tei:schemaSpec/@source), '.odd')
         let $publisher := doc($resource)//tei:publicationStmt/tei:publisher/string()
-        
+
         return
             if (ends-with($resource, ".odd"))
             then
@@ -242,7 +242,7 @@ declare function app:load-source($node as node(), $model as map(*)) as node()* {
 
 declare
 %templates:wrap
-function app:action($node as node(), $model as map(*), $delete as xs:string?, $action as xs:string?, $new_odd as xs:string?, $title as xs:string?, $build as xs:string?, 
+function app:action($node as node(), $model as map(*), $delete as xs:string?, $action as xs:string?, $new_odd as xs:string?, $title as xs:string?, $build as xs:string?,
     $odd_base as xs:string?) {
         switch ($action)
             case "build-odd" return
@@ -251,7 +251,8 @@ function app:action($node as node(), $model as map(*), $delete as xs:string?, $a
                     <div class="panel panel-primary alert-message" role="alert">
                         <div class="panel-heading"><h3 class="panel-title">Generated ODD from Example</h3></div>
                         <div class="panel-body">
-                        { obe:process-example($config:data-default, $new_odd, $odd_base, $docs) }
+                            <p>Generated: { obe:process-example($config:data-default, $new_odd, $odd_base, $docs, $title) }</p>
+                            <p>using base ODD: {$odd_base}</p>
                         </div>
                     </div>
             case "create-odd"

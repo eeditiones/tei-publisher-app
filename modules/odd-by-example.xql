@@ -18,7 +18,7 @@ declare namespace xsl = "http://www.w3.org/1999/XSL/Transform";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 
 import module namespace config = "http://www.tei-c.org/tei-simple/config" at "config.xqm";
-
+import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 
 (:~
  : odd-by-example requires a compiled version of the base odd, which we need to
@@ -65,10 +65,10 @@ declare function obe:make-catalog($col as item()*, $docs as xs:string*) as item(
  : @return a custom odd file in the odd collection of tei-publisher
  :)
 declare function obe:process-example($sample-path as xs:string, $name-prefix as xs:string, $odd_base as xs:string?,
-    $docs as xs:string*) as item()* {
-    
+    $docs as xs:string*, $title as xs:string?) as item()* {
+
     (: we need to create this file on the fs for the xsl transform to work it will immediately removed to avoid permission collisions:)
-    let $catalog := xmldb:store($sample-path, 'catalog.xml', obe:make-catalog($sample-path, $docs))    
+    let $catalog := xmldb:store($sample-path, 'catalog.xml', obe:make-catalog($sample-path, $docs))
     let $sax-cat := 'xmldb:exist://' || document-uri(collection($sample-path)//root(collection))
 
     let $xsl := doc('oddbyexample.xsl')
@@ -109,7 +109,7 @@ let $parameters :=
     <!-- should elements in teiHeader be included?-->
     <param name="includeHeader" value="true"/>
     <!-- should we make valList for @rend and @rendition -->
-    <param name="enumerateRend" value="false"/>
+    <param name="enumerateRend" value="true"/>
     <!-- should we make valList for @type -->
     <param name="enumerateType" value="true"/>
     <!-- should we deal with non-TEI namespaces -->
@@ -135,32 +135,44 @@ let $attributes :=
 </attributes>
 
 let $serialize := "method=xml media-type=text/xml omit-xml-declaration=no indent=yes"
-let $transformed := obe:add-source(transform:transform(doc($sax-cat), $xsl, $parameters, $attributes, $serialize), $source)
+let $publisherODD := odd:compile($config:odd-root, "teipublisher.odd")
+let $transformed := obe:merge(transform:transform(doc($sax-cat), $xsl, $parameters, $attributes, $serialize), $source, $title, $publisherODD)
 return
     (xmldb:store($config:odd-root, $output, $transformed),
     xmldb:remove($sample-path, 'catalog.xml'))
 };
 
-declare function obe:add-source($nodes as node()*, $base as xs:string) {
+declare function obe:merge($nodes as node()*, $base as xs:string, $title as xs:string?, $publisherODD as node()) {
     for $node in $nodes
     return
         typeswitch($node)
             case document-node() return
                 document {
-                    obe:add-source($node/node(), $base)
+                    obe:merge($node/node(), $base, $title, $publisherODD)
                 }
-            case element(tei:schemaSpec) return
-                element { node-name($node) } {
-                    $node/@* except $node/@source,
-                    attribute source { $base },
-                    $node/node()
-                }
+            case element(tei:title) return
+                if ($node/@type = 'short') then
+                    $node
+                else
+                    element { node-name($node) } {
+                        $title
+                    }
+            case element(tei:elementSpec) return
+                let $publisherModels := $publisherODD//tei:elementSpec[@ident = $node/@ident]/(tei:model|tei:modelGrp|tei:modelSequence)
+                return
+                    if ($publisherModels) then
+                        element { node-name($node) } {
+                            $node/@*,
+                            $node/* except ($node/tei:exemplum|$node/tei:remarks|$node/tei:listRef),
+                            $publisherModels,
+                            ($node/tei:exemplum,$node/tei:remarks,$node/tei:listRef)
+                        }
+                    else
+                        $node
             case element() return
                 element { node-name($node) } {
                     $node/@*,
-                    obe:add-source($node/node(), $base)
+                    obe:merge($node/node(), $base, $title, $publisherODD)
                 }
             default return $node
 };
-
-
