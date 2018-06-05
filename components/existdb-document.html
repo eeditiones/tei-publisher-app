@@ -1,0 +1,36 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="existdb-document">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    /**
+     * `existdb-document`
+     * 
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class ExistdbDocument extends Polymer.Element {
+      static get is() { return 'existdb-document'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'existdb-document'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(ExistdbDocument.is, ExistdbDocument);
+  </script>
+</dom-module>
