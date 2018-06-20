@@ -1,0 +1,70 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/polymer/lib/elements/custom-style.html">
+<link rel="import" href="bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="bower_components/paper-styles/color.html">
+
+<dom-module id="pb-document">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <iron-ajax id="loadDocument"
+                   verbose with-credentials
+                   method="get"
+                   handle-as="json"
+                   on-response="_handleDocument"
+                   url="/exist/apps/"
+                   params="{{params}}"
+                   on-error="_handleError"></iron-ajax>
+
+        <slot></slot>
+    </template>
+
+    <script>
+        /**
+         * `pb-document`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbDocument extends Polymer.Element {
+            static get is() {
+                return 'pb-document';
+            }
+
+            static get properties() {
+                return {
+                    /* url pointing to document resource */
+                    url:{
+                        type: String,
+                        reflectToAttribute:true
+                    },
+                    /* params prop holds the url params for iron-ajax */
+                    params:{
+                        type: Array,
+                        value:[]
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            _handleDocument() {
+
+            }
+
+            _handleError(){
+
+            }
+
+        }
+
+        window.customElements.define(PbDocument.is, PbDocument);
+    </script>
+</dom-module>
