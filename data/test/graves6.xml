@@ -4,7 +4,8 @@
         <fileDesc>
             <titleStmt>
                 <title>Letter #6 from Robert Graves to William Graves (at Oundle School)
-                    <date>November 15, 1957</date> </title>
+                        <date>November 15, 1957</date>
+                </title>
             </titleStmt>
             <publicationStmt>
                 <publisher>Digital Humanities at Oxford Summer School</publisher>
@@ -12,28 +13,34 @@
                 <date when="2015-07">July 2015</date>
                 <availability>
                     <licence notBefore="2015-07-11"
-                        target="http://creativecommons.org/licenses/by-nc-sa/4.0/"> <p>The original
-                        copyrighted material belongs to The Robert Graves Copyright Trust and is
-                        reproduced here with permission.</p> <p>This work is licensed under a
-                        Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
-                        License.</p> <p> You are free to: <list>
-                        <item> Share — copy and redistribute the material in any medium or
-                            format</item>
-                        <item> Adapt — remix, transform, and build upon the material</item>
-                        </list> </p> <p> Under the following terms: <list>
-                        <item> Attribution — You must give appropriate credit, provide a link to the
-                            license, and indicate if changes were made. You may do so in any
-                            reasonable manner, but not in any way that suggests the licensor
-                            endorses you or your use.</item>
-                        <item> NonCommercial — You may not use the material for commercial
-                            purposes.</item>
-                        <item> ShareAlike — If you remix, transform, or build upon the material, you
-                            must distribute your contributions under the same license as the
-                            original.</item>
-                        <item> No additional restrictions — You may not apply legal terms or
-                            technological measures that legally restrict others from doing anything
-                            the license permits.</item>
-                        </list> </p> <p>The licence was added on July 11, 2015.</p> </licence>
+                        target="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+                        <p>The original copyrighted material belongs to The Robert Graves Copyright
+                            Trust and is reproduced here with permission.</p>
+                        <p>This work is licensed under a Creative Commons
+                            Attribution-NonCommercial-ShareAlike 4.0 International License.</p>
+                        <p> You are free to: <list>
+                                <item> Share — copy and redistribute the material in any medium or
+                                    format</item>
+                                <item> Adapt — remix, transform, and build upon the material</item>
+                            </list>
+                        </p>
+                        <p> Under the following terms: <list>
+                                <item> Attribution — You must give appropriate credit, provide a
+                                    link to the license, and indicate if changes were made. You may
+                                    do so in any reasonable manner, but not in any way that suggests
+                                    the licensor endorses you or your use.</item>
+                                <item> NonCommercial — You may not use the material for commercial
+                                    purposes.</item>
+                                <item> ShareAlike — If you remix, transform, or build upon the
+                                    material, you must distribute your contributions under the same
+                                    license as the original.</item>
+                                <item> No additional restrictions — You may not apply legal terms or
+                                    technological measures that legally restrict others from doing
+                                    anything the license permits.</item>
+                            </list>
+                        </p>
+                        <p>The licence was added on July 11, 2015.</p>
+                    </licence>
                 </availability>
             </publicationStmt>
             <sourceDesc>
@@ -48,7 +55,10 @@
             <particDesc>
                 <listPerson>
                     <person xml:id="GravesWilliam">
-                        <persName> <forename>William</forename> <surname>Graves</surname> </persName>
+                        <persName>
+                            <forename>William</forename>
+                            <surname>Graves</surname>
+                        </persName>
                         <birth when="1940">1940</birth>
                         <sex value="M">male</sex>
                         <note>Robert Graves' eldest son by Beryl</note>
@@ -58,19 +68,23 @@
                         <!-- to be completed by the students -->
                         <note>Robert Graves (1895-1985) was a poet, novelist, mythographer, critic
                             and historian. Probably best known as the author of
-                            <title>I,Claudius</title>, and <title>Claudius the God</title> and as a
-                            survivor and poet of the Great War, he is one of the great figures of
-                            20th Century English Poetry and Literature.</note>
+                                <title>I,Claudius</title>, and <title>Claudius the God</title> and
+                            as a survivor and poet of the Great War, he is one of the great figures
+                            of 20th Century English Poetry and Literature.</note>
                     </person>
                     <person xml:id="GravesBeryl">
-                        <persName> <forename>Beryl</forename> <surname>Pritchard</surname> <surname
-                            type="married">Hodge</surname> <surname type="married">Graves</surname> </persName>
+                        <persName>
+                            <forename>Beryl</forename>
+                            <surname>Pritchard</surname>
+                            <surname type="married">Hodge</surname>
+                            <surname type="married">Graves</surname>
+                        </persName>
                         <idno type="VIAF">22304002</idno>
                         <idno type="LC-Name-Authority-File">nr96004407</idno>
-                        <birth when="1915-02-22"> <placeName ref="#London">London</placeName>, 22
-                            February 1915</birth>
-                        <death when="2003-10-27"> <placeName ref="#Palma">Palma</placeName>, 27
-                            October 2003</death>
+                        <birth when="1915-02-22">
+                            <placeName ref="#London">London</placeName>, 22 February 1915</birth>
+                        <death when="2003-10-27">
+                            <placeName ref="#Palma">Palma</placeName>, 27 October 2003</death>
                         <sex value="F">female</sex>
                         <note>Robert Graves's second wife. PPE at St Anne's College, Oxford. Married
                             Alan Hodge 1938. Changed her name by deed poll from Hodge to Graves in
@@ -78,16 +92,23 @@
                             Nancy Nicholson earlier that year.</note>
                     </person>
                     <person xml:id="GoldschmidtKarl">
-                        <persName> <forename>Karl</forename> <surname>Goldschmidt</surname>
-                            <addName> <forename type="first">Kenneth</forename> <forename
-                            type="middle">Charles</forename> <surname>Gay</surname> </addName> </persName>
-                        <birth when="1912-02-12"> <placeName>Elbefeld</placeName>12 February
-                            1912</birth>
-                        <death when="1995-03-26"> <placeName ref="#Palma">Palma</placeName>26 March
-                            1995</death>
+                        <persName>
+                            <forename>Karl</forename>
+                            <surname>Goldschmidt</surname>
+                            <addName>
+                                <forename type="first">Kenneth</forename>
+                                <forename type="middle">Charles</forename>
+                                <surname>Gay</surname>
+                            </addName>
+                        </persName>
+                        <birth when="1912-02-12">
+                            <placeName>Elbefeld</placeName>12 February 1912</birth>
+                        <death when="1995-03-26">
+                            <placeName ref="#Palma">Palma</placeName>26 March 1995</death>
                         <sex value="M">male</sex>
                         <occupation>Secretary, friend and collaborator of <name ref="#RG"
-                            type="person">Robert Graves</name> </occupation>
+                                type="person">Robert Graves</name>
+                        </occupation>
                         <occupation from="1965" to="1978">Librarian at University Libraries of the
                             State University of New York at Buffalo</occupation>
                         <occupation from="1968" to="1978">Curator of the Poetry Collection at
@@ -111,20 +132,26 @@
                             British citizenship.</note>
                     </person>
                     <person xml:id="ReidAlastair">
-                        <persName> <forename>Alastair</forename> <surname>Reid</surname> </persName>
+                        <persName>
+                            <forename>Alastair</forename>
+                            <surname>Reid</surname>
+                        </persName>
                         <idno type="VIAF">15102127</idno>
                         <idno type="LC-Name-Authority-File">n79085083</idno>
-                        <birth when="1926-03-22"> <placeName>Whithorn</placeName>, 22 march
-                            1926</birth>
-                        <death when="2014-09-21"> <placeName>Manhattan</placeName>, 21 September
-                            2014</death>
+                        <birth when="1926-03-22">
+                            <placeName>Whithorn</placeName>, 22 march 1926</birth>
+                        <death when="2014-09-21">
+                            <placeName>Manhattan</placeName>, 21 September 2014</death>
                         <sex value="M">male</sex>
                         <occupation>Writer</occupation>
                         <note>Scottish poet, writer, translator. On staff of "The New Yorker".
                             Graves's friend and confidant. Quarelled in 1961.</note>
                     </person>
                     <person xml:id="JepsonSelwin">
-                        <persName> <forename>Selwyn</forename> <surname>Jepson</surname> </persName>
+                        <persName>
+                            <forename>Selwyn</forename>
+                            <surname>Jepson</surname>
+                        </persName>
                         <idno type="VIAF">118242376</idno>
                         <idno type="LC-Name-Authority-File">n89633547</idno>
                         <birth when="1899">1899</birth>
@@ -133,11 +160,14 @@
                         <occupation>Writer</occupation>
                     </person>
                     <person xml:id="GravesTomas">
-                        <persName> <forename>Tomás</forename> <surname>Graves</surname> </persName>
+                        <persName>
+                            <forename>Tomás</forename>
+                            <surname>Graves</surname>
+                        </persName>
                         <idno type="VIAF">60874780</idno>
                         <idno type="LC-Name-Authority-File">n99034882</idno>
-                        <birth when="1953-01-27"> <placeName>Palma</placeName>, 27 January
-                            1953</birth>
+                        <birth when="1953-01-27">
+                            <placeName>Palma</placeName>, 27 January 1953</birth>
                         <sex value="M">male</sex>
                         <occupation>Writer and musician</occupation>
                         <note>Robert Graves' third son by Beryl</note>
@@ -191,37 +221,52 @@
                             Graves's sister.</note>
                     </person>
                     <person xml:id="Claudius">
-                        <persName> <forename>Tiberius</forename> <surname>Claudius</surname>
-                            <addName>Caesar Augustus Germanicus</addName> </persName>
-                        <birth when="-0010-08-01"> <placeName ref="#Lyon">Lugdunum</placeName> 1
-                            August 10 BC</birth>
-                        <death when="0054-10-13"> <placeName ref="#Rome">Rome</placeName>13 October
-                            AD 54</death>
+                        <persName>
+                            <forename>Tiberius</forename>
+                            <surname>Claudius</surname>
+                            <addName>Caesar Augustus Germanicus</addName>
+                        </persName>
+                        <birth when="-0010-08-01">
+                            <placeName ref="#Lyon">Lugdunum</placeName> 1 August 10 BC</birth>
+                        <death when="0054-10-13">
+                            <placeName ref="#Rome">Rome</placeName>13 October AD 54</death>
                         <sex value="M">male</sex>
                         <note> Claudius was emperor of Rome from AD 41-54. He married four times,
                             and was succeeded by the emperor Nero. </note>
                     </person>
                     <person xml:id="CallasMargot">
-                        <persName> <forename>Margot</forename> <surname>Callas</surname> </persName>
+                        <persName>
+                            <forename>Margot</forename>
+                            <surname>Callas</surname>
+                        </persName>
                         <sex value="F">female</sex>
                     </person>
                     <person xml:id="WattWilliam">
-                        <persName> <forename>William</forename> <surname>Watt</surname> </persName>
+                        <persName>
+                            <forename>William</forename>
+                            <surname>Watt</surname>
+                        </persName>
                         <note>Son and partner of A.S.Watt, Director of A.P.Watt &amp; Son, in 1940s
                             (British Literary agency that represented Robert Graves as from the late
                             1930's).</note>
                     </person>
                     <person xml:id="CrotonAntonia">
-                        <persName> <forename>Antonia</forename> <surname type="birth"
-                            >Dalton</surname> <surname type="married">Croton</surname> </persName>
+                        <persName>
+                            <forename>Antonia</forename>
+                            <surname type="birth">Dalton</surname>
+                            <surname type="married">Croton</surname>
+                        </persName>
                         <birth when="1945"> 1945 </birth>
                         <sex value="F">Female</sex>
                         <note>Graves's granddaughter (Catherine Nicholson's daughter)</note>
                     </person>
                     <person xml:id="CameronIsla">
-                        <persName> <forename>Isla</forename> <surname>Cameron</surname> </persName>
-                        <birth when="1930-03-05"> <placeName>Scotland</placeName>March 5
-                            1930</birth>
+                        <persName>
+                            <forename>Isla</forename>
+                            <surname>Cameron</surname>
+                        </persName>
+                        <birth when="1930-03-05">
+                            <placeName>Scotland</placeName>March 5 1930</birth>
                         <death when="1980-05">May 1980</death>
                         <sex value="F">female</sex>
                         <occupation>Actress and Folk Singer</occupation>
@@ -229,12 +274,18 @@
                             Maggie Smith.</note>
                     </person>
                     <person xml:id="PortagaEleni">
-                        <persName> <forename>Eleni</forename> <surname>Portaga Stratu</surname> </persName>
+                        <persName>
+                            <forename>Eleni</forename>
+                            <surname>Portaga Stratu</surname>
+                        </persName>
                         <sex value="F">female</sex>
                         <occupation>Greek Sculpturess</occupation>
                     </person>
                     <person xml:id="ScottRonnie">
-                        <persName> <forename>Ronnie</forename> <surname>Scott</surname> </persName>
+                        <persName>
+                            <forename>Ronnie</forename>
+                            <surname>Scott</surname>
+                        </persName>
                         <birth when="1927-01-28">28th January 1927</birth>
                         <death when="1966-12-23">23rd December 1966</death>
                         <sex value="M">male</sex>
@@ -320,7 +371,7 @@
                         <location>
                             <geo>41.385064 2.173403</geo>
                         </location>
-                        <location type="geopolitica">
+                        <location type="geopolitical">
                             <settlement>Barcelona</settlement>
                             <region>Catalonia</region>
                             <country>Spain</country>
@@ -333,7 +384,7 @@
                         <location>
                             <geo>39.569600 2.650160</geo>
                         </location>
-                        <location type="geopolitic">
+                        <location type="geopolitical">
                             <settlement>Palma</settlement>
                             <region>Majorca</region>
                             <region>Balearic Islands</region>
@@ -364,7 +415,7 @@
                         <location>
                             <geo>51.507351 -0.127758</geo>
                         </location>
-                        <location type="geopolitica">
+                        <location type="geopolitical">
                             <settlement>London</settlement>
                             <region>London</region>
                             <country>England</country>
@@ -412,7 +463,7 @@
                         <location>
                             <geo>39.767069 2.715787</geo>
                         </location>
-                        <location type="geopolitica">
+                        <location type="geopolitical">
                             <settlement>Soller</settlement>
                             <region>Majorca</region>
                             <region>Balearic Islands</region>
@@ -424,7 +475,7 @@
                         <location>
                             <geo>46.818188 8.227512</geo>
                         </location>
-                        <location type="geopolitica">
+                        <location type="geopolitical">
                             <country>Switzerland</country>
                         </location>
                     </place>
@@ -433,7 +484,7 @@
                         <location>
                             <geo>52.355518 -1.174320</geo>
                         </location>
-                        <location type="geopolitica">
+                        <location type="geopolitical">
                             <country>England</country>
                         </location>
                     </place>
@@ -448,7 +499,10 @@
                         </location>
                     </place>
                     <place xml:id="Vercors">
-                        <placeName> <geogName>Vercors</geogName> <geogFeat>Massif</geogFeat> </placeName>
+                        <placeName>
+                            <geogName>Vercors</geogName>
+                            <geogFeat>Massif</geogFeat>
+                        </placeName>
                         <location>
                             <geo>44.969985 5.419979</geo>
                         </location>
@@ -519,9 +573,11 @@
                     </place>
                     <place xml:id="Geneva">
                         <placeName>Geneva</placeName>
-                        <country>Switzerland</country>
                         <location>
                             <geo>46.198392 6.142296</geo>
+                        </location>
+                        <location type="geopolitical">
+                            <country>Switzerland</country>
                         </location>
                     </place>
                     <place xml:id="BakerStreet">
@@ -553,34 +609,40 @@
     <text>
         <body>
             <pb facs="WG.57.11.15.a.jpg"/>
-            <opener> <dateline> <date when="1957-11-15">November 15, 1957</date> </dateline>
-                <salute> Dearest <name ref="#GravesWilliam" type="person"> <abbr>Wm</abbr> </name>:
-                </salute> </opener>
+            <opener>
+                <dateline>
+                    <date when="1957-11-15">November 15, 1957</date>
+                </dateline>
+                <salute> Dearest <name ref="#GravesWilliam" type="person">
+                        <abbr>Wm</abbr>
+                    </name>: </salute>
+            </opener>
             <p> Good luck in your interview. If you are wholly at your ease - and why not? - all
                 will go well. But try to raise some sort of enthusiasm for your proposed career:
                 dont-care-ism doesn't go down well. </p>
             <p> There's never been so wet a <date>November</date> since - since last time - but we
                 have had about three sunny days, and I even bathed three days ago at <name
-                ref="#CanFloque" type="place">Can Floque</name>. The best news is getting 3 bottles
-                of butagaz smuggled from <name ref="#France" type="place">France</name>, which means
-                no more dirty carbon in the kitchen until the supply gives out. </p>
+                    ref="#CanFloque" type="place">Can Floque</name>. The best news is getting 3
+                bottles of butagaz smuggled from <name ref="#France" type="place">France</name>,
+                which means no more dirty carbon in the kitchen until the supply gives out. </p>
             <p> We hope to spend a few days in <name ref="#Austria" type="place">Austria</name> with
-                <name ref="#NicholsonJenny" type="person">Jenny</name> on the way to <name
-                ref="#Yugoslavia" type="place">Jugland</name>, but she is all snarled up with the
-                <name ref="#BevanAneurin" type="person">Bevan</name> libel case (on November 21st)
-                &amp; doesn't answer letters. She was very nice to <name ref="#GravesLucia"
-                type="person">Lucia</name> and <name ref="#GravesJuan" type="person">Juan</name> on
-                the way through. </p>
+                    <name ref="#NicholsonJenny" type="person">Jenny</name> on the way to <name
+                    ref="#Yugoslavia" type="place">Jugland</name>, but she is all snarled up with
+                the <name ref="#BevanAneurin" type="person">Bevan</name> libel case (on November
+                21st) &amp; doesn't answer letters. She was very nice to <name ref="#GravesLucia"
+                    type="person">Lucia</name> and <name ref="#GravesJuan" type="person">Juan</name>
+                on the way through. </p>
             <p> I expect my <title>Goodbye To All That</title> will create a stir again as it did in
-                <date>1929</date> when it first came out - <name ref="#Canellun" type="place"
-                >Canellun</name> was built on the spoils. The <pb facs="WG.57.11.15.b.jpg"/>
+                    <date>1929</date> when it first came out - <name ref="#Canellun" type="place"
+                    >Canellun</name> was built on the spoils. The <pb facs="WG.57.11.15.b.jpg"/>
                 <title>Sunday Express</title> reviewer cabled could he fly out &amp; interview me. I
                 cabled "yes: but you'll have to come out to <name ref="#Deia" type="place"
-                >Deya</name>", &amp; that's the last I've heard. The pups are eating raw meat now
-                &amp; are very large &amp; fat &amp; active; <name ref="#GravesBeryl" type="person"
-                >Mother</name> spends most of her time trying to make them make little puddles on
-                the <name ref="#Baleares" type="place">Baleares</name>. </p>
-            <p> <name type="person">Castor</name> is trimming the trees in the garden; the oranges
+                    >Deya</name>", &amp; that's the last I've heard. The pups are eating raw meat
+                now &amp; are very large &amp; fat &amp; active; <name ref="#GravesBeryl"
+                    type="person">Mother</name> spends most of her time trying to make them make
+                little puddles on the <name ref="#Baleares" type="place">Baleares</name>. </p>
+            <p>
+                <name type="person">Castor</name> is trimming the trees in the garden; the oranges
                 nearly ripe. The stupid lilac thinks it is spring &amp; is flowering like the pear
                 tree. Did you hear about <name ref="#Ann" type="person">Ann</name>'s dream when she
                 was (in real life not dream) crippled with a slipped disk and in agony, &amp; the
@@ -589,33 +651,43 @@
                 out of bed, fell downstairs, &amp; somehow in her fall slipped the disk back. Now
                 she's as right as rain. <name ref="#ReidAlastair" type="person">Alastair</name>'s
                 address is: <name ref="#BellRockHouse" type="place">Bell Rock House St Andrews
-                Fife</name>. He's writing a novel there. </p>
-            <p> <name ref="#GravesTomas" type="person">Tomas</name> is learning to read much faster
+                    Fife</name>. He's writing a novel there. </p>
+            <p>
+                <name ref="#GravesTomas" type="person">Tomas</name> is learning to read much faster
                 than any of you: good Old Lob! The cats resent the puppies &amp; constantly sneak in
                 to wet the sofa. <name type="person">Emilia</name> &amp; <name type="person"
-                >Jaime</name> &amp; family and <name ref="#PomeroyMarnie" type="person"
-                >Marnie</name> are coming this week end. </p>
+                    >Jaime</name> &amp; family and <name ref="#PomeroyMarnie" type="person"
+                    >Marnie</name> are coming this week end. </p>
             <p> Hope to God the weather mends. </p>
-            <closer> <salute>Love</salute> <name ref="#GravesRobert" type="person">Father</name> </closer>
-            <note place="margin" resp="#GravesBeryl"> <p>Please get 2 photos (passport x4cm large)
-                and send them to <name ref="#PritchardEnid" type="person">Enid</name> for your <name
-                ref="#Yugoslavia" type="place">Yug</name> visa. Better get some extra copies as you
-                never know. Love, <name ref="#GravesBeryl" type="person">Mother</name>. BG: An
-                Aviaco plane from <name ref="#Barcelona" type="place">Barcelona</name>-<name
-                ref="#Palma" type="place">Palma</name> crashed <date>Friday night</date> at <name
-                ref="#Puigpunent" type="place">Puigpunent</name>. Only two passengers aboard.</p> </note>
-            <note place="margin" resp="#GravesBeryl"> <p>STOP PRESS. Have changed our plans due to a
-                letter from <name ref="#NicholsonJenny" type="person">Jenny</name> who begs us to
-                spend Christmas with her in <name ref="#Rome" type="place">Rome</name>. So get the
-                photos but bring them with you. We can get <name ref="#Yugoslavia" type="place"
-                >Yug</name> visas in <name ref="#Rome" type="place">Rome</name>. Will get you a
-                ticket from <name ref="#London" type="place">London</name> to <name ref="#Rome"
-                type="place">Rome</name> leaving on the <date when="1957-12-20">20th</date>. Is that
-                right? And a couchette. Or is it the <date when="1957-12-19">19th</date>? Can't you
-                arrange the driving test when you get back? Just let me know as soon as possible if
-                you want to leave the <date when="1957-12-19">19th</date> or <date when="1957-12-20"
-                >20th</date>. Hope you like this idea as much as we do. Love, <name
-                ref="#GravesBeryl" type="person">Mother</name>. </p> </note>
+            <closer>
+                <salute>Love</salute>
+                <name ref="#GravesRobert" type="person">Father</name>
+            </closer>
+            <note place="margin" resp="#GravesBeryl">
+                <p>Please get 2 photos (passport x4cm large) and send them to <name
+                        ref="#PritchardEnid" type="person">Enid</name> for your <name
+                        ref="#Yugoslavia" type="place">Yug</name> visa. Better get some extra copies
+                    as you never know. Love, <name ref="#GravesBeryl" type="person">Mother</name>.
+                    BG: An Aviaco plane from <name ref="#Barcelona" type="place"
+                        >Barcelona</name>-<name ref="#Palma" type="place">Palma</name> crashed
+                        <date>Friday night</date> at <name ref="#Puigpunent" type="place"
+                        >Puigpunent</name>. Only two passengers aboard.</p>
+            </note>
+            <note place="margin" resp="#GravesBeryl">
+                <p>STOP PRESS. Have changed our plans due to a letter from <name
+                        ref="#NicholsonJenny" type="person">Jenny</name> who begs us to spend
+                    Christmas with her in <name ref="#Rome" type="place">Rome</name>. So get the
+                    photos but bring them with you. We can get <name ref="#Yugoslavia" type="place"
+                        >Yug</name> visas in <name ref="#Rome" type="place">Rome</name>. Will get
+                    you a ticket from <name ref="#London" type="place">London</name> to <name
+                        ref="#Rome" type="place">Rome</name> leaving on the <date when="1957-12-20"
+                        >20th</date>. Is that right? And a couchette. Or is it the <date
+                        when="1957-12-19">19th</date>? Can't you arrange the driving test when you
+                    get back? Just let me know as soon as possible if you want to leave the <date
+                        when="1957-12-19">19th</date> or <date when="1957-12-20">20th</date>. Hope
+                    you like this idea as much as we do. Love, <name ref="#GravesBeryl"
+                        type="person">Mother</name>. </p>
+            </note>
         </body>
     </text>
 </TEI>
