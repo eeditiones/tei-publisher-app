@@ -1,0 +1,107 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/polymer/lib/elements/custom-style.html">
+<!--<link rel="import" href="bower_components/shadycss/apply-shim.html">-->
+<link rel="import" href="bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="bower_components/paper-styles/color.html">
+<link rel="import" href="bower_components/paper-button/paper-button.html">
+
+
+<dom-module id="existdb-grid">
+  <template>
+    <style>
+      :host{
+        width: 100%;
+        display: block;
+        padding: 0;
+        margin: 0;
+      }
+
+      div.app-grid{
+        background: var(--paper-blue-500);
+        display: grid;
+        grid-template-columns: var(--app-column-widths);
+        padding: 0;
+        margin:0;
+      }
+      paper-button{
+        color:black;
+      }
+    </style>
+
+    <paper-button on-click="_collapse" raised>collapse</paper-button>
+
+    <div class="app-grid">
+
+      <template is="dom-repeat" items="{{columns}}">
+        <!--<div class="item">-->
+          <slot name="col[[index]]" class="slot"></slot>
+        <!--</div>-->
+      </template>
+
+    </div>
+
+  </template>
+
+  <script>
+    /**
+     * `existdb-grid`
+     * a simple column-based grid layout container
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class ExistdbGrid extends Polymer.Element {
+        static get is() {
+            return 'existdb-grid';
+        }
+
+        static get properties() {
+            return {
+                columns: {
+                    type: Array,
+                    value:[]
+                },
+                columnWidths: {
+                    type:String,
+                    notify:true,
+                    reflectToAttribute:true,
+                    observer:'_handleColumnChange'
+                }
+            };
+        }
+
+        connectedCallback() {
+            super.connectedCallback();
+            this._initGrid();
+
+        }
+
+        _initGrid(){
+            this.columns = Array.from(this.querySelectorAll('div'));
+            var cnt = this.columns.length
+            console.log('existdb-grid columns: ', cnt);
+
+
+            for (var i = 0, len = this.columns.length; i < len; i++) {
+              this.columns[i].setAttribute('slot','col' + i);
+            }
+
+            this.updateStyles({'--app-column-widths': this.columnWidths});
+        }
+
+        _handleColumnChange(){
+            this.updateStyles({'--app-column-widths': this.columnWidths});
+        }
+
+        _collapse(e){
+            var collapse = this.querySelector('[collapsible]');
+            console.log("_collapse ", collapse);
+            this.updateStyles({'--app-column-widths': '0px auto auto'})
+
+        }
+    }
+
+    window.customElements.define(ExistdbGrid.is, ExistdbGrid);
+  </script>
+</dom-module>
