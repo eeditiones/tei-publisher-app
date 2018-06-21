@@ -39,6 +39,7 @@ let $doc := request:get-parameter("doc", ())
 let $root := request:get-parameter("root", ())
 let $id := request:get-parameter("id", ())
 let $view := request:get-parameter("view", $config:default-view)
+let $xpath := request:get-parameter("xpath", ())
 let $xml :=
     if ($id) then (
         console:log("Loading by id " || $id),
@@ -56,7 +57,17 @@ let $xml :=
                     else
                         $div
             }
-    ) else
+    ) else if ($xpath) then
+        let $document := pages:get-document($doc)
+        let $config := tpu:parse-pi($document, $view)
+        return
+            map {
+                "config": $config,
+                "odd": $config?odd,
+                "view": $config?view,
+                "data": util:eval("declare default element namespace 'http://www.tei-c.org/ns/1.0'; $document" || $xpath)
+            }
+    else
         pages:load-xml($view, $root, $doc)
 return
     if ($xml?data) then

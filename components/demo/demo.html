@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+
+    <title>existdb-document demo</title>
+    <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"> </script>
+    <link rel="import" href="../bower_components/existdb-layout/dependencies.html"/>
+    <link rel="import" href="../bower_components/app-layout/app-layout.html">
+    <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html"/>
+    <link rel="import" href="../pb-document.html"/>
+    <link rel="import" href="../pb-view.html"/>
+    <link rel="import" href="../pb-navigation.html"/>
+
+    <style>
+        [slot="header"]{
+            background: lightsteelblue;
+        }
+
+        #one{
+            margin: 0 20px;
+        }
+        #two{
+            margin: 0 20px;
+        }
+        #three{
+            background:yellow;
+        }
+        #four{
+            background: yellowgreen;
+        }
+        #five{
+            background: lightyellow;
+        }
+
+    </style>
+</head>
+
+<body>
+    <pb-document id="document1" path="test/kant_rvernunft_1781.TEI-P5.xml"></pb-document>
+    <pb-document id="document2" path="doc/documentation.xml"></pb-document>
+    
+    <existdb-column-layout column-widths="50% 50%">
+        <!-- use header slot -->
+        <div slot="header">
+            <h1>The Heading</h1>
+        </div>
+
+        <div id="one">
+            <app-toolbar>
+                <pb-navigation target="view1" direction="backward" unit="page" icon="icons:chevron-left"></pb-navigation>
+                <pb-navigation target="view1" direction="forward" unit="page" icon="icons:chevron-right"></pb-navigation>
+            </app-toolbar>
+            <h3 main-title><pb-view src="document1" odd="dta" xpath="//teiHeader/fileDesc/titleStmt/title"></pb-view></h3>
+            <h4 bottom-item><pb-view src="document1" odd="dta" xpath="//teiHeader/fileDesc/titleStmt/author"></pb-view></h4>
+            <pb-view id="view1" src="document1" odd="dta" view="page" start="3.4.4.16.13"></pb-view>
+        </div>
+
+        <div id="two">
+            <app-toolbar>
+                <pb-navigation target="view2" direction="backward" unit="page" icon="icons:chevron-left"></pb-navigation>
+                <pb-navigation target="view2" direction="forward" unit="page" icon="icons:chevron-right"></pb-navigation>
+            </app-toolbar>
+            <pb-view id="view2" src="document2" odd="docbook"></pb-view>
+        </div>
+    </existdb-column-layout>
+</body>
+</html>

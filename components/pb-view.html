@@ -9,7 +9,9 @@
             }
         </style>
 
-        <div id="content"></div>
+        <div id="view">
+            <div id="content"></div>
+        </div>
 
         <iron-ajax
             id="loadContent"
@@ -40,7 +42,17 @@
                     },
                     odd: {
                         type: String,
-                        value: 'teipublisher.odd'
+                        value: 'teipublisher'
+                    },
+                    view: {
+                        type: String,
+                        value: 'div'
+                    },
+                    start: {
+                        type: String
+                    },
+                    xpath: {
+                        type: String
                     },
                     content: {
                         type: String
@@ -63,7 +75,15 @@
                 super.ready();
                 this.content = "ready";
                 this.$.loadContent.url = this.importPath + '../modules/lib/components.xql';
-                this._load();
+
+                var link = document.createElement('link');
+                link.setAttribute('rel', 'stylesheet');
+                link.setAttribute('type', 'text/css');
+                link.setAttribute('href', this.importPath + '../transform/' + this.odd + '.css' );
+
+                this.$.view.appendChild(link);
+
+                this._load(this.start);
             }
 
             _load(root) {
@@ -72,10 +92,14 @@
 
                 let params = {
                     "doc": path,
-                    "odd": this.odd
+                    "odd": this.odd + '.odd',
+                    "view": this.view
                 };
                 if (root) {
                     params.root = root;
+                }
+                if (this.xpath) {
+                    params.xpath = this.xpath;
                 }
                 this.$.loadContent.params = params;
                 this.$.loadContent.generateRequest();
@@ -83,7 +107,6 @@
 
             _handleContent() {
                 const resp = this.$.loadContent.lastResponse;
-                console.log(resp);
                 this.$.content.innerHTML = resp.content;
                 this.next = resp.next;
                 this.previous = resp.previous;
