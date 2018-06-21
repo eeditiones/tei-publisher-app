@@ -59,7 +59,10 @@ let $xml :=
             }
     ) else if ($xpath) then
         let $document := pages:get-document($doc)
-        let $data := util:eval("declare default element namespace 'http://www.tei-c.org/ns/1.0'; $document" || $xpath)
+        let $namespace := namespace-uri-from-QName(node-name($document/*))
+        let $xquery := "declare default element namespace '" || $namespace || "'; $document" || $xpath
+        let $log := console:log($xquery)
+        let $data := util:eval($xquery)
         return
             pages:load-xml($data, $view, $root, $doc)
     else

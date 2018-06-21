@@ -8,6 +8,7 @@
     <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"> </script>
     <link rel="import" href="../bower_components/existdb-layout/dependencies.html"/>
     <link rel="import" href="../bower_components/app-layout/app-layout.html">
+    <link rel="import" href="../bower_components/paper-card/paper-card.html">
     <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html"/>
     <link rel="import" href="../pb-document.html"/>
     <link rel="import" href="../pb-view.html"/>
@@ -18,20 +19,9 @@
             background: lightsteelblue;
         }
 
-        #one{
-            margin: 0 20px;
-        }
-        #two{
-            margin: 0 20px;
-        }
-        #three{
-            background:yellow;
-        }
-        #four{
-            background: yellowgreen;
-        }
-        #five{
-            background: lightyellow;
+        paper-card {
+            padding: 0 20px;
+            margin: 0 10px;
         }
 
     </style>
@@ -47,7 +37,7 @@
             <h1>The Heading</h1>
         </div>
 
-        <div id="one">
+        <paper-card id="one">
             <app-toolbar>
                 <div main-title>
                     <pb-view src="document1" odd="dta" xpath="//teiHeader/fileDesc/titleStmt/title">
@@ -58,15 +48,19 @@
                 <pb-navigation target="view1" direction="forward" unit="page" icon="icons:chevron-right"></pb-navigation>
             </app-toolbar>
             <pb-view id="view1" src="document1" odd="dta" view="page" xpath="//text/body"></pb-view>
-        </div>
+        </paper-card>
 
-        <div id="two">
+        <paper-card id="two">
             <app-toolbar>
+                <div main-title>
+                    <pb-view src="document2" odd="docbook" xpath="/*/info/title">
+                    </pb-view>
+                </div>
                 <pb-navigation target="view2" direction="backward" unit="page" icon="icons:chevron-left"></pb-navigation>
                 <pb-navigation target="view2" direction="forward" unit="page" icon="icons:chevron-right"></pb-navigation>
             </app-toolbar>
             <pb-view id="view2" src="document2" odd="docbook" view="div"></pb-view>
-        </div>
+        </paper-card>
     </existdb-column-layout>
 </body>
 </html>
