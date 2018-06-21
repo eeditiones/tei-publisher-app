@@ -46,7 +46,7 @@
                     },
                     view: {
                         type: String,
-                        value: 'div'
+                        value: 'single'
                     },
                     start: {
                         type: String
@@ -101,6 +101,7 @@
                 if (this.xpath) {
                     params.xpath = this.xpath;
                 }
+                this._getParameters(params);
                 this.$.loadContent.params = params;
                 this.$.loadContent.generateRequest();
             }
@@ -112,6 +113,13 @@
                 this.previous = resp.previous;
             }
 
+            _getParameters(params) {
+                this.querySelectorAll('pb-param').forEach(function(param) {
+                    params['user.' + param.getAttribute('name')] = param.getAttribute('value');
+                });
+                return params;
+            }
+            
             navigate(direction) {
                 console.log('navigate %s: %s', direction, this.next);
                 this._load(this.next);

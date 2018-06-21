@@ -49,12 +49,15 @@
 
         <div id="one">
             <app-toolbar>
+                <div main-title>
+                    <pb-view src="document1" odd="dta" xpath="//teiHeader/fileDesc/titleStmt/title">
+                        <pb-param name="header" value="short"/>
+                    </pb-view>
+                </div>
                 <pb-navigation target="view1" direction="backward" unit="page" icon="icons:chevron-left"></pb-navigation>
                 <pb-navigation target="view1" direction="forward" unit="page" icon="icons:chevron-right"></pb-navigation>
             </app-toolbar>
-            <h3 main-title><pb-view src="document1" odd="dta" xpath="//teiHeader/fileDesc/titleStmt/title"></pb-view></h3>
-            <h4 bottom-item><pb-view src="document1" odd="dta" xpath="//teiHeader/fileDesc/titleStmt/author"></pb-view></h4>
-            <pb-view id="view1" src="document1" odd="dta" view="page" start="3.4.4.16.13"></pb-view>
+            <pb-view id="view1" src="document1" odd="dta" view="page" xpath="//text/body"></pb-view>
         </div>
 
         <div id="two">
@@ -62,7 +65,7 @@
                 <pb-navigation target="view2" direction="backward" unit="page" icon="icons:chevron-left"></pb-navigation>
                 <pb-navigation target="view2" direction="forward" unit="page" icon="icons:chevron-right"></pb-navigation>
             </app-toolbar>
-            <pb-view id="view2" src="document2" odd="docbook"></pb-view>
+            <pb-view id="view2" src="document2" odd="docbook" view="div"></pb-view>
         </div>
     </existdb-column-layout>
 </body>

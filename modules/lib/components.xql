@@ -59,14 +59,9 @@ let $xml :=
             }
     ) else if ($xpath) then
         let $document := pages:get-document($doc)
-        let $config := tpu:parse-pi($document, $view)
+        let $data := util:eval("declare default element namespace 'http://www.tei-c.org/ns/1.0'; $document" || $xpath)
         return
-            map {
-                "config": $config,
-                "odd": $config?odd,
-                "view": $config?view,
-                "data": util:eval("declare default element namespace 'http://www.tei-c.org/ns/1.0'; $document" || $xpath)
-            }
+            pages:load-xml($data, $view, $root, $doc)
     else
         pages:load-xml($view, $root, $doc)
 return
@@ -74,7 +69,11 @@ return
         let $prev := $config:previous-page($xml?config, $xml?data, $view)
         let $next := $config:next-page($xml?config, $xml?data, $view)
         let $content := pages:get-content($xml?config, $xml?data)
-        let $html := pages:process-content($content, $xml?data, $xml?config)
+        let $userParams :=
+            map:merge(
+                request:get-parameter-names()[starts-with(., 'user')] ! map { substring-after(., 'user.'): request:get-parameter(., ()) }
+            )
+        let $html := pages:process-content($content, $xml?data, $xml?config, $userParams)
         let $div :=
             if ($view = "page") then
                 ($xml?data/ancestor-or-self::tei:div[1], $xml?data/following::tei:div[1])[1]

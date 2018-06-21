@@ -110,6 +110,11 @@ function pages:load($node as node(), $model as map(*), $doc as xs:string, $root 
 
 declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc as xs:string) {
     let $data := pages:get-document($doc)
+    return
+        pages:load-xml($data, $view, $root, $doc)
+};
+
+declare function pages:load-xml($data as node()*, $view as xs:string?, $root as xs:string?, $doc as xs:string) {
     let $config := tpu:parse-pi(root($data), $view)
     return
         map {
@@ -133,6 +138,11 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
                                     $div
                                 else
                                     $data/tei:TEI//tei:body
+                    case "single" return
+                        if ($root) then
+                            util:node-by-id($data, $root)
+                        else
+                            $data
                     default return
                         if ($root) then
                             util:node-by-id($data, $root)
@@ -226,10 +236,16 @@ function pages:view($node as node(), $model as map(*), $action as xs:string) {
 };
 
 declare function pages:process-content($xml as element()*, $root as element()*, $config as map(*)) {
-    let $params := map {
-        "root": $root,
-        "view": $config?view
-    }
+    pages:process-content($xml, $root, $config, ())
+};
+
+declare function pages:process-content($xml as element()*, $root as element()*, $config as map(*), $userParams as map(*)?) {
+    let $params := map:merge((
+            map {
+                "root": $root,
+                "view": $config?view
+            },
+            $userParams))
 	let $html := $pm-config:web-transform($xml, $params, $config?odd)
     let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
     let $body := pages:clean-footnotes($html)
