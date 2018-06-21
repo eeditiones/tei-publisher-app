@@ -124,6 +124,17 @@
                 console.log('navigate %s: %s', direction, this.next);
                 this._load(this.next);
             }
+            
+            zoom(direction) {
+                const fontSize = window.getComputedStyle(this.$.content).getPropertyValue('font-size');
+                const size = parseInt(fontSize.replace(/^(\d+)px/, "$1"));
+                
+                if (direction === 'in') {
+                    this.$.content.style.fontSize = (size + 1) + 'px';
+                } else {
+                    this.$.content.style.fontSize = (size - 1) + 'px';
+                }
+            }
         }
 
         window.customElements.define(PbView.is, PbView);

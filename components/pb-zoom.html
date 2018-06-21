@@ -1,38 +1,42 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
-<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="bower_components/iron-icons/iron-icons.html">
 
-<dom-module id="pb-navigation">
+<dom-module id="pb-zoom">
     <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
         <paper-icon-button icon="{{icon}}" on-click="_handleClick"></paper-icon-button>
     </template>
 
     <script>
         /**
-         * `seed-element`
+         * `pb-zoom`
          *
          *
          * @customElement
          * @polymer
          * @demo demo/index.html
          */
-        class PbNavigation extends Polymer.Element {
+        class PbZoom extends Polymer.Element {
             static get is() {
-                return 'pb-navigation';
+                return 'pb-zoom';
             }
 
             static get properties() {
                 return {
+                    icon:{
+                        type: String,
+                        value: "icons:zoom-in"
+                    },
                     target: {
                         type: String
                     },
                     direction: {
                         type: String,
                         value: 'next'
-                    },
-                    icon: {
-                        type: String,
-                        value: 'icons:chevron-right'
                     }
                 };
             }
@@ -47,11 +51,11 @@
 
             _handleClick() {
                 document.querySelectorAll(this.target).forEach(function(elem) {
-                    elem.navigate(this.direction);
+                    elem.zoom(this.direction);
                 }.bind(this));
             }
         }
 
-        window.customElements.define(PbNavigation.is, PbNavigation);
+        window.customElements.define(PbZoom.is, PbZoom);
     </script>
 </dom-module>
