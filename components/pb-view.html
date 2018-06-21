@@ -1,0 +1,100 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="pb-view">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <div id="content"></div>
+
+        <iron-ajax
+            id="loadContent"
+            verbose
+            handle-as="json"
+            method="get"
+            on-response="_handleContent"></iron-ajax>
+    </template>
+
+    <script>
+        /**
+         * `pb-view`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbView extends Polymer.Element {
+            static get is() {
+                return 'pb-view';
+            }
+
+            static get properties() {
+                return {
+                    src: {
+                        type: String
+                    },
+                    odd: {
+                        type: String,
+                        value: 'teipublisher.odd'
+                    },
+                    content: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                const self = this;
+                const srcComponent = document.getElementById(this.src);
+
+                srcComponent.addEventListener('update', function(e) {
+                    console.log('update %o', e.detail.path);
+                    this._load();
+                });
+            }
+
+            ready(){
+                super.ready();
+                this.content = "ready";
+                this.$.loadContent.url = this.importPath + '../modules/lib/components.xql';
+                this._load();
+            }
+
+            _load(root) {
+                const srcComponent = document.getElementById(this.src);
+                const path = srcComponent.path;
+
+                let params = {
+                    "doc": path,
+                    "odd": this.odd
+                };
+                if (root) {
+                    params.root = root;
+                }
+                this.$.loadContent.params = params;
+                this.$.loadContent.generateRequest();
+            }
+
+            _handleContent() {
+                const resp = this.$.loadContent.lastResponse;
+                console.log(resp);
+                this.$.content.innerHTML = resp.content;
+                this.next = resp.next;
+                this.previous = resp.previous;
+            }
+
+            navigate(direction) {
+                console.log('navigate %s: %s', direction, this.next);
+                this._load(this.next);
+            }
+        }
+
+        window.customElements.define(PbView.is, PbView);
+    </script>
+</dom-module>

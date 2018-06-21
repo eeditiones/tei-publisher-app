@@ -1,0 +1,41 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-document">
+  <script>
+    /**
+     * `pb-document`
+     *
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class PbDocument extends Polymer.Element {
+      static get is() { return 'pb-document'; }
+      static get properties() {
+        return {
+          id: {
+            type: String,
+            value: ''
+          },
+          path: {
+              type: String,
+              value: '',
+              notify: true,
+              observer: '_update'
+          }
+        };
+      }
+
+      connectedCallback() {
+          super.connectedCallback();
+      }
+
+      _update() {
+          this.dispatchEvent(new CustomEvent('update', {detail: {path: this.path}}));
+      }
+    }
+
+    window.customElements.define(PbDocument.is, PbDocument);
+  </script>
+</dom-module>

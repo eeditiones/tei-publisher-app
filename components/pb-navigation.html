@@ -1,0 +1,58 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+
+<dom-module id="pb-navigation">
+    <template>
+        <div>
+            <paper-icon-button icon="{{icon}}" on-click="_handleClick"></paper-icon-button>
+        </div>
+    </template>
+
+    <script>
+        /**
+         * `seed-element`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbNavigation extends Polymer.Element {
+            static get is() {
+                return 'pb-navigation';
+            }
+
+            static get properties() {
+                return {
+                    target: {
+                        type: String
+                    },
+                    direction: {
+                        type: String,
+                        value: 'next'
+                    },
+                    icon: {
+                        type: String,
+                        value: 'icons:chevron-right'
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready(){
+                super.ready();
+            }
+
+            _handleClick() {
+                const targetElem = document.getElementById(this.target);
+                targetElem.navigate(this.direction);
+            }
+        }
+
+        window.customElements.define(PbNavigation.is, PbNavigation);
+    </script>
+</dom-module>

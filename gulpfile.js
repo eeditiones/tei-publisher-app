@@ -26,6 +26,7 @@ var fs =                    require('fs'),
         'transform':            'transform/*',
         'modules':              'modules/**/*',
         'other':                '*{.xpr,.xqr,.xql,.xml,.xconf}',
+        'components':           'components/**/*',
         'gen_app_styles':       'resources/css/**/*',
         'gen_app_scripts':      'resources/scripts/**/*',
         'gen_app_templates':    'templates/*.html',
@@ -208,6 +209,17 @@ gulp.task('watch:other', function () {
     gulp.watch(input.other, ['deploy:other'])
 });
 
+// *************  Components ***************************//
+gulp.task('deploy:components', function () {
+    return gulp.src(input.components, {base: './'})
+        .pipe(exClient.newer(targetConfiguration))
+        .pipe(exClient.dest(targetConfiguration))
+});
+
+gulp.task('watch:components', function () {
+    gulp.watch(input.components, ['deploy:components'])
+});
+
 // *************  Copy resources to generated app folder *************** //
 
 gulp.task('copy:styles', ['build:styles'], function () {
@@ -262,7 +274,8 @@ gulp.task('watch', [
     'watch:scripts',
     'watch:html',
     'watch:odd',
-    'watch:other'
+    'watch:other',
+    'watch:components'
 ]);
 
 // Deployment paths

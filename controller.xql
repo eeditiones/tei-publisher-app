@@ -35,11 +35,6 @@ else if (contains($exist:path, "/resources")) then
         <forward url="{$exist:controller}/resources/{substring-after($exist:path, '/resources/')}"/>
     </dispatch>
 
-else if (contains($exist:path, "/components")) then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/components/{substring-after($exist:path, '/components/')}"/>
-    </dispatch>
-
 else if (contains($exist:path, "/images/")) then
      <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/resources/images/{substring-after($exist:path, '/images/')}"/>
@@ -52,7 +47,11 @@ else if (ends-with($exist:resource, ".xql")) then (
         <cache-control cache="no"/>
     </dispatch>
 
-) else if ($logout or $login) then (
+) else if (contains($exist:path, "/components")) then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/components/{substring-after($exist:path, '/components/')}"/>
+    </dispatch>
+else if ($logout or $login) then (
     login:set-user($config:login-domain, (), false()),
     (: redirect successful login attempts to the original page, but prevent redirection to non-local websites:)
     let $referer := request:get-header("Referer")
