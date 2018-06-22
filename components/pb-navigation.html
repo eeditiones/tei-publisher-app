@@ -4,7 +4,7 @@
 
 <dom-module id="pb-navigation">
     <template>
-        <paper-icon-button icon="{{icon}}" on-click="_handleClick"></paper-icon-button>
+        <paper-icon-button id="button" icon="{{icon}}" on-click="_handleClick"></paper-icon-button>
     </template>
 
     <script>
@@ -43,12 +43,25 @@
 
             ready(){
                 super.ready();
+
+                document.querySelectorAll(this.target).forEach(function(elem) {
+                    elem.addEventListener('update', this._update.bind(this));
+                }.bind(this));
             }
 
             _handleClick() {
                 document.querySelectorAll(this.target).forEach(function(elem) {
                     elem.navigate(this.direction);
                 }.bind(this));
+            }
+
+            _update(ev) {
+                console.log(ev.detail.data.next);
+                if (this.direction === 'forward') {
+                    this.$.button.disabled = !ev.detail.data.next;
+                } else {
+                    this.$.button.disabled = !ev.detail.data.previous;
+                }
             }
         }
 

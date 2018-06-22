@@ -131,6 +131,8 @@
                 this.$.content.innerHTML = resp.content;
                 this.next = resp.next;
                 this.previous = resp.previous;
+
+                this.dispatchEvent(new CustomEvent('update', {detail: {data: resp}}));
             }
 
             _getParameters(params) {
