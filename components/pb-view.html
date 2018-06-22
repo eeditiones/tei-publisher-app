@@ -15,6 +15,7 @@
 
         <iron-ajax
             id="loadContent"
+            url="../modules/lib/components.xql"
             verbose
             handle-as="json"
             method="get"
@@ -53,36 +54,42 @@
                     },
                     xpath: {
                         type: String
-                    },
-                    content: {
-                        type: String
                     }
                 };
             }
 
+            static get observers() {
+              return [
+                '_changed(src,odd,view,start,xpath)'
+              ]
+            }
+
+            constructor() {
+                super();
+            }
+
             connectedCallback() {
                 super.connectedCallback();
-                const self = this;
-                const srcComponent = document.getElementById(this.src);
 
+                const srcComponent = document.getElementById(this.src);
                 srcComponent.addEventListener('update', function(e) {
                     console.log('update %o', e.detail.path);
-                    this._load();
+                    this._refresh();
                 });
             }
 
-            ready(){
+            ready() {
                 super.ready();
-                this.content = "ready";
-                this.$.loadContent.url = this.importPath + '../modules/lib/components.xql';
+            }
 
-                var link = document.createElement('link');
-                link.setAttribute('rel', 'stylesheet');
-                link.setAttribute('type', 'text/css');
-                link.setAttribute('href', this.importPath + '../transform/' + this.odd + '.css' );
+            _changed(src, odd, view, start, xpath) {
+                console.log("Changed: %o %s %s %s %s %s", this, src, odd, view, start, xpath);
+                this._refresh();
+            }
 
-                this.$.view.appendChild(link);
-
+            _refresh() {
+                console.log("Refresh ...");
+                this._updateStyles();
                 this._load(this.start);
             }
 
@@ -106,6 +113,19 @@
                 this.$.loadContent.generateRequest();
             }
 
+            _updateStyles() {
+                const oldLink = this.$.view.querySelector("link");
+                if (oldLink) {
+                    oldLink.parentNode.removeChild(oldLink);
+                }
+                const link = document.createElement('link');
+                link.setAttribute('rel', 'stylesheet');
+                link.setAttribute('type', 'text/css');
+                link.setAttribute('href', this.importPath + '../transform/' + this.odd + '.css' );
+
+                this.$.view.appendChild(link);
+            }
+
             _handleContent() {
                 const resp = this.$.loadContent.lastResponse;
                 this.$.content.innerHTML = resp.content;
@@ -119,16 +139,16 @@
                 });
                 return params;
             }
-            
+
             navigate(direction) {
                 console.log('navigate %s: %s', direction, this.next);
                 this._load(this.next);
             }
-            
+
             zoom(direction) {
                 const fontSize = window.getComputedStyle(this.$.content).getPropertyValue('font-size');
                 const size = parseInt(fontSize.replace(/^(\d+)px/, "$1"));
-                
+
                 if (direction === 'in') {
                     this.$.content.style.fontSize = (size + 1) + 'px';
                 } else {
