@@ -141,8 +141,11 @@
             }
 
             navigate(direction) {
-                console.log('navigate %s: %s', direction, this.next);
-                this._load(this.next);
+                if (direction === 'backward') {
+                    this._load(this.previous);
+                } else {
+                    this._load(this.next);
+                }
             }
 
             zoom(direction) {
