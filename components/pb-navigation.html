@@ -4,12 +4,12 @@
 
 <dom-module id="pb-navigation">
     <template>
-        <paper-icon-button id="button" icon="{{icon}}" on-click="_handleClick"></paper-icon-button>
+        <a id="button" on-click="_handleClick"><slot></slot></a>
     </template>
 
     <script>
         /**
-         * `seed-element`
+         * `pb-navigation`
          *
          *
          * @customElement
@@ -29,10 +29,6 @@
                     direction: {
                         type: String,
                         value: 'next'
-                    },
-                    icon: {
-                        type: String,
-                        value: 'icons:chevron-right'
                     }
                 };
             }

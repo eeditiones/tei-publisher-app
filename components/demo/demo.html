@@ -17,6 +17,8 @@
     <link rel="import" href="../pb-navigation.html"/>
     <link rel="import" href="../pb-zoom.html"/>
     <link rel="import" href="../pb-view-type.html"/>
+    <link rel="import" href="../pb-edit-xml.html"/>
+    <link rel="import" href="../pb-progress.html"/>
 
     <style>
         [slot="header"]{
@@ -73,10 +75,18 @@
                         </pb-view>
                     </div>
                     <pb-view-type target="#view1">Page View</pb-view-type>
+                    <pb-edit-xml src="document1" href="/exist/apps/eXide/">
+                        <paper-icon-button icon="icons:code" alt="Edit source"></paper-icon-button>
+                    </pb-edit-xml>
                     <pb-zoom target="#view1" direction="in" icon="icons:zoom-in"></pb-zoom>
                     <pb-zoom target="#view1" direction="out" icon="icons:zoom-out"></pb-zoom>
-                    <pb-navigation target="#view1" direction="backward" unit="page" icon="icons:chevron-left"></pb-navigation>
-                    <pb-navigation target="#view1" direction="forward" unit="page" icon="icons:chevron-right"></pb-navigation>
+                    <pb-navigation target="#view1" direction="backward" unit="page">
+                        <paper-icon-button icon="icons:chevron-left"></paper-icon-button>
+                    </pb-navigation>
+                    <pb-navigation target="#view1" direction="forward" unit="page">
+                        <paper-icon-button icon="icons:chevron-right"></paper-icon-button>
+                    </pb-navigation>
+                    <pb-progress target="#view1" indeterminate="indeterminate" bottom-item="bottom-item"/>
                 </app-toolbar>
                 <pb-view id="view1" src="document1" odd="dta" view="page" xpath="//text/body" class="content-view"></pb-view>
             </paper-card>
@@ -89,8 +99,13 @@
                     </div>
                     <pb-zoom target="#view2" direction="in" icon="icons:zoom-in"></pb-zoom>
                     <pb-zoom target="#view2" direction="out" icon="icons:zoom-out"></pb-zoom>
-                    <pb-navigation target="#view2" direction="backward" unit="page" icon="icons:chevron-left"></pb-navigation>
-                    <pb-navigation target="#view2" direction="forward" unit="page" icon="icons:chevron-right"></pb-navigation>
+                    <pb-navigation target="#view2" direction="backward" unit="page">
+                        <paper-icon-button icon="icons:chevron-left"></paper-icon-button>
+                    </pb-navigation>
+                    <pb-navigation target="#view2" direction="forward" unit="page">
+                        <paper-icon-button icon="icons:chevron-right"></paper-icon-button>
+                    </pb-navigation>
+                    <pb-progress target="#view2" indeterminate="indeterminate" bottom-item="bottom-item"/>
                 </app-toolbar>
                 <pb-view id="view2" src="document2" odd="docbook" view="div" class="content-view"></pb-view>
             </paper-card>

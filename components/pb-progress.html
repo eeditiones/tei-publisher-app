@@ -1,0 +1,63 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/paper-progress/paper-progress.html">
+
+<dom-module id="pb-progress">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            
+            paper-progress {
+                width: 100%;
+            }
+        </style>
+
+        <paper-progress id="progress" indeterminate></paper-progress>
+    </template>
+
+    <script>
+        /**
+         * `pb-progress`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbProgress extends Polymer.Element {
+            static get is() {
+                return 'pb-progress';
+            }
+
+            static get properties() {
+                return {
+                    target: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                this.$.progress.disabled = true;
+            }
+
+            ready() {
+                super.ready();
+                document.querySelectorAll(this.target).forEach((elem) => elem.addEventListener('startUpdate', this._startUpdate.bind(this)));
+                document.querySelectorAll(this.target).forEach((elem) => elem.addEventListener('update', this._endUpdate.bind(this)));
+            }
+
+            _startUpdate() {
+                this.$.progress.disabled = false;
+            }
+            
+            _endUpdate() {
+                this.$.progress.disabled = true;
+            }
+        }
+
+        window.customElements.define(PbProgress.is, PbProgress);
+    </script>
+</dom-module>

@@ -48,12 +48,16 @@
             
             _update(ev) {
                 this.isActive = ev.detail.data.view === 'page';
+                this.root = ev.detail.data.switchView;
             }
             
             _toggle(newVal, oldVal) {
                 if (typeof oldVal != 'undefined' && oldVal != newVal) {
                     document.querySelectorAll(this.target).forEach((elem) =>
-                        elem.view = this.isActive ? 'page' : 'div'
+                        elem.setProperties({
+                            'view': this.isActive ? 'page' : 'div',
+                            'position': this.root
+                        })
                     );
                 }
             }

@@ -59,6 +59,16 @@ declare variable $pages:EDIT_ODD_LINK :=
     return
         replace($path, "/+", "/");
 
+declare function pages:pb-document($node as node(), $model as map(*), $doc as xs:string, $root as xs:string?,
+    $id as xs:string?, $view as xs:string?) {
+    let $data := pages:get-document($doc)
+    let $config := tpu:parse-pi(root($data), $view)
+    return
+        <pb-document path="{$doc}" root="{$config:data-root}" view="{$config?view}" odd="{replace($config?odd, '^(.*)\.odd', '$1')}">
+        { $node/@id }
+        </pb-document>
+};
+
 declare
     %templates:wrap
 function pages:load($node as node(), $model as map(*), $doc as xs:string, $root as xs:string?,

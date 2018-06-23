@@ -43,17 +43,20 @@
                     },
                     odd: {
                         type: String,
-                        value: 'teipublisher'
+                        reflectToAttribute: true
                     },
                     view: {
                         type: String,
-                        value: 'single'
+                        value: 'single',
+                        reflectToAttribute: true
                     },
-                    start: {
-                        type: String
+                    position: {
+                        type: String,
+                        reflectToAttribute: true
                     },
                     xpath: {
-                        type: String
+                        type: String,
+                        reflectToAttribute: true
                     }
                 };
             }
@@ -71,8 +74,7 @@
             connectedCallback() {
                 super.connectedCallback();
 
-                const srcComponent = document.getElementById(this.src);
-                srcComponent.addEventListener('update', function(e) {
+                this.getDocument().addEventListener('update', function(e) {
                     console.log('update %o', e.detail.path);
                     this._refresh();
                 });
@@ -82,23 +84,36 @@
                 super.ready();
             }
 
+            getDocument() {
+                return document.getElementById(this.src);
+            }
+            
+            getOdd() {
+                return this.odd || this.getDocument().odd || "teipublisher";
+            }
+            
+            getView() {
+                return this.view || this.getDocument().view || "single";
+            }
+            
             _changed(src, odd, view, start, xpath) {
                 this._refresh();
             }
 
             _refresh() {
                 this._updateStyles();
-                this._load(this.start);
+                this._load(this.position);
             }
 
             _load(root) {
-                const srcComponent = document.getElementById(this.src);
-                const path = srcComponent.path;
+                this.dispatchEvent(new CustomEvent('startUpdate'));
+                
+                const path = this.getDocument().path;
 
                 let params = {
                     "doc": path,
-                    "odd": this.odd + '.odd',
-                    "view": this.view
+                    "odd": this.getOdd() + '.odd',
+                    "view": this.getView()
                 };
                 if (root) {
                     params.root = root;
@@ -119,7 +134,7 @@
                 const link = document.createElement('link');
                 link.setAttribute('rel', 'stylesheet');
                 link.setAttribute('type', 'text/css');
-                link.setAttribute('href', this.importPath + '../transform/' + this.odd + '.css' );
+                link.setAttribute('href', 'transform/' + this.getOdd() + '.css' );
 
                 this.$.view.appendChild(link);
             }
@@ -129,6 +144,7 @@
                 this.$.content.innerHTML = resp.content;
                 this.next = resp.next;
                 this.previous = resp.previous;
+                this.position = resp.root;
 
                 this.dispatchEvent(new CustomEvent('update', {detail: {data: resp}}));
             }

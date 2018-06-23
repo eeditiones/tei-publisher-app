@@ -23,6 +23,20 @@
               value: '',
               notify: true,
               observer: '_update'
+          },
+          root: {
+              type: String,
+              value: ''
+          },
+          fullPath: {
+              type: String,
+              computed: '_computeFullPath(path, root)'
+          },
+          odd: {
+              type: String
+          },
+          view: {
+              type: String
           }
         };
       }
@@ -31,6 +45,10 @@
           super.connectedCallback();
       }
 
+      _computeFullPath(path, root) {
+          root + '/' + path;
+      }
+      
       _update() {
           this.dispatchEvent(new CustomEvent('update', {detail: {path: this.path}}));
       }

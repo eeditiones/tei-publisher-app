@@ -30,10 +30,12 @@ else if (contains($exist:path, "/$shared/")) then
         <forward url="/shared-resources/{substring-after($exist:path, '/$shared/')}"/>
     </dispatch>
 
-else if (contains($exist:path, "/resources")) then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/resources/{substring-after($exist:path, '/resources/')}"/>
-    </dispatch>
+else if (matches($exist:path, "^.*/(resources|transform)/.*$")) then
+    let $dir := replace($exist:path, "^.*/(resources|transform)/.*$", "$1")
+    return
+        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+            <forward url="{$exist:controller}/{$dir}/{substring-after($exist:path, '/' || $dir || '/')}"/>
+        </dispatch>
 
 else if (contains($exist:path, "/images/")) then
      <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
@@ -113,7 +115,7 @@ else if (ends-with($exist:resource, ".html")) then (
         else if ($exist:resource = ("search.html", "toc.html")) then
             $exist:resource
         else
-            "view.html"
+            "view-one.html"
     return
         if (ends-with($exist:resource, ".epub")) then
             <dispatch xmlns="http://exist.sourceforge.net/NS/exist">

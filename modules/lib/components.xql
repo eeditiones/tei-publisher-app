@@ -97,6 +97,13 @@ return
                     if ($prev) then
                         util:node-id($prev)
                     else (),
+                "switchView":
+                    let $node := pages:switch-view-id($xml?data, $view)
+                    return
+                        if ($node) then
+                            util:node-id($node)
+                        else
+                            (),
                 "content": serialize($html,
                     <output:serialization-parameters xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
                       <output:indent>no</output:indent>

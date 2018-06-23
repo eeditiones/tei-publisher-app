@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html data-template="pages:app-root">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+    
+        <title>existdb-document demo</title>
+        <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
+        <link rel="import" href="components/bower_components/existdb-layout/dependencies.html"/>
+        <link rel="import" href="components/bower_components/app-layout/app-layout.html"/>
+        <link rel="import" href="components/bower_components/paper-card/paper-card.html"/>
+        <link rel="import" href="components/bower_components/app-layout/app-toolbar/app-toolbar.html"/>
+        <link rel="import" href="components/bower_components/app-layout/app-header-layout/app-header-layout.html"/>
+        <link rel="import" href="components/bower_components/app-layout/app-header/app-header.html"/>
+        <link rel="import" href="components/bower_components/paper-progress/paper-progress.html"/>
+        <link rel="import" href="components/pb-document.html"/>
+        <link rel="import" href="components/pb-view.html"/>
+        <link rel="import" href="components/pb-navigation.html"/>
+        <link rel="import" href="components/pb-zoom.html"/>
+        <link rel="import" href="components/pb-view-type.html"/>
+        <link rel="import" href="components/pb-edit-xml.html"/>
+        <link rel="import" href="components/pb-progress.html"/>
+    
+        <style>
+            [slot="header"]{
+                background: lightsteelblue;
+            }
+    
+            paper-card {
+                margin: 0 10px;
+            }
+    
+            .menubar {
+                background-color: #35424b;
+                color: white;
+            }
+            
+            .toolbar {
+                background-color: #d1dae0;
+            }
+            
+            .content-view {
+                margin: 8px 16px;
+            }
+            
+            [main-title] {
+                display: inline-block;
+            }
+            
+            .logo {
+                width: 140px;
+                height: 60px;
+                background-size: 100% 100%;
+                cursor: pointer;
+            }
+            
+            pb-view-type {
+                font-size: .75em;
+            }
+            
+            pb-progress {
+                width: 100%;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <div data-template="pages:load">
+            <pb-document id="document1" data-template="pages:pb-document"/>
+            
+            <app-header-layout>
+                <app-header slot="header" fixed="fixed" condenses="condenses" reveals="reveals" effects="material" data-template="browse:fix-links">
+                    <app-toolbar class="menubar">
+                        <a href="$app/index.html" main-title="main-title">
+                            <img src="../resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
+                        </a>
+                    </app-toolbar>
+                    <app-toolbar class="toolbar" sticky="sticky">
+                        <pb-view-type target="#view1">Page View</pb-view-type>
+                        <pb-edit-xml data-template="pages:xml-link" src="document1">
+                            <paper-icon-button icon="icons:code" alt="Edit source"/>
+                        </pb-edit-xml>
+                        <pb-zoom target="#view1" direction="in" icon="icons:zoom-in"/>
+                        <pb-zoom target="#view1" direction="out" icon="icons:zoom-out"/>
+                        <pb-navigation target="#view1" direction="backward" unit="page">
+                            <paper-icon-button icon="icons:chevron-left"/>
+                        </pb-navigation>
+                        <pb-navigation target="#view1" direction="forward" unit="page">
+                            <paper-icon-button icon="icons:chevron-right"/>
+                        </pb-navigation>
+                        <pb-progress target="#view1" indeterminate="indeterminate" bottom-item="bottom-item"/>
+                    </app-toolbar>
+                </app-header>
+                <pb-view id="view1" src="document1" view="page" class="content-view"/>
+            </app-header-layout>
+        </div>
+    </body>
+</html>

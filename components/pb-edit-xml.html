@@ -1,0 +1,98 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-edit-xml">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
+        </style>
+
+        <a href="{{href}}" target="eXide" on-click="_handleClick"><slot></slot></a>
+    </template>
+
+    <script>
+        /**
+         * `pb-edit-xml`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbEditXml extends Polymer.Element {
+            static get is() {
+                return 'pb-edit-xml';
+            }
+
+            static get properties() {
+                return {
+                    dataExideOpen: {
+                        type: String
+                    },
+                    href: {
+                        type: String
+                    },
+                    src: {
+                        type: String
+                    },
+                    icon: {
+                        type: String,
+                        value: 'icons:chevron-right'
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready(){
+                super.ready();
+            }
+
+            open() {
+                let path;
+                // if (this.src) {
+                //     const srcComponent = document.getElementById(this.src);
+                //     path = srcComponent.fullPath;
+                // } else {
+                    path = this.dataExideOpen;
+                // }
+                // try to retrieve existing eXide window
+                const exide = window.open("", "eXide");
+                console.log(exide);
+                if (exide && !exide.closed) {
+                    // check if eXide is really available or it's an empty page
+                    const app = exide.eXide;
+                    if (app) {
+                        console.log("found eXide");
+                        // eXide is there
+                        exide.eXide.app.findDocument(path);
+                        exide.focus();
+                    } else {
+                        console.log("opening new eXide");
+                        window.eXide_onload = function() {
+                            exide.eXide.app.findDocument(path);
+                        };
+                        // empty page
+                        exide.location = this.href;
+                    }
+                }
+            }
+            
+            _handleClick(ev) {
+                console.log("click");
+                ev.preventDefault();
+                this.open();
+            }
+        }
+
+        window.customElements.define(PbEditXml.is, PbEditXml);
+    </script>
+</dom-module>
