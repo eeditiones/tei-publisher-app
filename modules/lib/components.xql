@@ -85,9 +85,9 @@ return
         let $doc := replace($doc, "^.*/([^/]+)$", "$1")
         return
             map {
+                "view": $view,
                 "doc": $doc,
                 "root": $root,
-                "div": if ($div) then util:node-id($div) else (),
                 "odd": $config:odd,
                 "next":
                     if ($next) then
@@ -97,14 +97,6 @@ return
                     if ($prev) then
                         util:node-id($prev)
                     else (),
-                "switchView":
-                    let $root := pages:switch-view-id($xml?data, $view)
-                    return
-                        if ($root) then
-                            $doc || "?root=" || util:node-id($root) || "&amp;odd=" || $config:odd ||
-                                "&amp;view=" || (if ($view = "div") then "page" else "div")
-                        else
-                            (),
                 "content": serialize($html,
                     <output:serialization-parameters xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
                       <output:indent>no</output:indent>

@@ -1,0 +1,64 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+
+<dom-module id="pb-view-type">
+    <template>
+        <paper-checkbox id="button" checked="{{isActive}}"><slot></slot></paper-checkbox>
+    </template>
+
+    <script>
+        /**
+         * `pb-view-type`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbViewType extends Polymer.Element {
+            static get is() {
+                return 'pb-view-type';
+            }
+
+            static get properties() {
+                return {
+                    target: {
+                        type: String
+                    },
+                    isActive: {
+                        type: Boolean,
+                        value: false,
+                        observer: '_toggle'
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready(){
+                super.ready();
+                
+                document.querySelectorAll(this.target).forEach(function(elem) {
+                    elem.addEventListener('update', this._update.bind(this));
+                }.bind(this));
+            }
+            
+            _update(ev) {
+                this.isActive = ev.detail.data.view === 'page';
+            }
+            
+            _toggle(newVal, oldVal) {
+                if (typeof oldVal != 'undefined' && oldVal != newVal) {
+                    document.querySelectorAll(this.target).forEach((elem) =>
+                        elem.view = this.isActive ? 'page' : 'div'
+                    );
+                }
+            }
+        }
+
+        window.customElements.define(PbViewType.is, PbViewType);
+    </script>
+</dom-module>

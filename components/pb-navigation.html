@@ -56,7 +56,6 @@
             }
 
             _update(ev) {
-                console.log(ev.detail.data.next);
                 if (this.direction === 'forward') {
                     this.$.button.disabled = !ev.detail.data.next;
                 } else {

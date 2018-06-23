@@ -15,7 +15,7 @@
 
         <iron-ajax
             id="loadContent"
-            url="../modules/lib/components.xql"
+            url="modules/lib/components.xql"
             verbose
             handle-as="json"
             method="get"
@@ -83,12 +83,10 @@
             }
 
             _changed(src, odd, view, start, xpath) {
-                console.log("Changed: %o %s %s %s %s %s", this, src, odd, view, start, xpath);
                 this._refresh();
             }
 
             _refresh() {
-                console.log("Refresh ...");
                 this._updateStyles();
                 this._load(this.start);
             }

@@ -16,6 +16,7 @@
     <link rel="import" href="../pb-view.html"/>
     <link rel="import" href="../pb-navigation.html"/>
     <link rel="import" href="../pb-zoom.html"/>
+    <link rel="import" href="../pb-view-type.html"/>
 
     <style>
         [slot="header"]{
@@ -44,6 +45,10 @@
             height: 40px;
             background-size: 100% 100%;
         }
+        
+        pb-view-type {
+            font-size: .75em;
+        }
     </style>
 </head>
 
@@ -67,6 +72,7 @@
                             <pb-param name="header" value="short"/>
                         </pb-view>
                     </div>
+                    <pb-view-type target="#view1">Page View</pb-view-type>
                     <pb-zoom target="#view1" direction="in" icon="icons:zoom-in"></pb-zoom>
                     <pb-zoom target="#view1" direction="out" icon="icons:zoom-out"></pb-zoom>
                     <pb-navigation target="#view1" direction="backward" unit="page" icon="icons:chevron-left"></pb-navigation>

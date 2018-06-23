@@ -37,12 +37,12 @@ declare function nav:get-section($config as map(*), $doc) {
         if ($div) then
             $div
         else
-            let $group := $doc/tei:TEI/tei:text/tei:group/tei:text/(tei:front|tei:body|tei:back)
+            let $group := root($doc)/tei:TEI/tei:text/tei:group/tei:text/(tei:front|tei:body|tei:back)
             return
                 if ($group) then
                     $group[1]
                 else
-                    $doc/tei:TEI//tei:body
+                    root($doc)/tei:TEI//tei:body
 };
 
 declare function nav:get-document-title($config as map(*), $root as element()) {
