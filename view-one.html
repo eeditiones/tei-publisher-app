@@ -6,6 +6,7 @@
     
         <title>existdb-document demo</title>
         <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
+        <link rel="import" href="components/bower_components/neon-animation/web-animations.html"/>
         <link rel="import" href="components/bower_components/existdb-layout/dependencies.html"/>
         <link rel="import" href="components/bower_components/app-layout/app-layout.html"/>
         <link rel="import" href="components/bower_components/paper-card/paper-card.html"/>
@@ -13,6 +14,9 @@
         <link rel="import" href="components/bower_components/app-layout/app-header-layout/app-header-layout.html"/>
         <link rel="import" href="components/bower_components/app-layout/app-header/app-header.html"/>
         <link rel="import" href="components/bower_components/paper-progress/paper-progress.html"/>
+        <link rel="import" href="components/bower_components/paper-menu-button/paper-menu-button.html"/>
+        <link rel="import" href="components/bower_components/paper-listbox/paper-listbox.html"/>
+        <link rel="import" href="components/bower_components/paper-item/paper-item.html"/>
         <link rel="import" href="components/pb-document.html"/>
         <link rel="import" href="components/pb-view.html"/>
         <link rel="import" href="components/pb-navigation.html"/>
@@ -22,17 +26,33 @@
         <link rel="import" href="components/pb-progress.html"/>
     
         <style>
-            [slot="header"]{
-                background: lightsteelblue;
-            }
+            @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald');
     
+            body {
+                font-family: "Open Sans", Verdana, "Helvetica", sans-serif;
+                font-size: 16px;
+            }
+            
             paper-card {
                 margin: 0 10px;
             }
     
+            app-toolbar {
+                --app-toolbar-font-size: 16px;
+            }
+            
             .menubar {
                 background-color: #35424b;
                 color: white;
+            }
+            
+            .menubar a {
+                color: white;
+                text-decoration: none;
+            }
+            
+            .menubar paper-item a {
+                color: black;
             }
             
             .toolbar {
@@ -74,6 +94,21 @@
                         <a href="$app/index.html" main-title="main-title">
                             <img src="../resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
                         </a>
+                        <a href="$app/index.html">Start</a>
+                        <paper-menu-button>
+                            <a href="#" slot="dropdown-trigger">Documentation</a>
+                            <paper-listbox slot="dropdown-content">
+                                <paper-item>
+                                    <a href="$app/doc/documentation.xml?odd=docbook.odd">Documentation</a>
+                                </paper-item>
+                                <paper-item>
+                                    <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
+                                </paper-item>
+                            </paper-listbox>
+                        </paper-menu-button>
+                        <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
+                            <img src="resources/images/wm_no_bg.svg" height="20"/>
+                        </a>
                     </app-toolbar>
                     <app-toolbar class="toolbar" sticky="sticky">
                         <pb-view-type target="#view1">Page View</pb-view-type>
@@ -91,7 +126,7 @@
                         <pb-progress target="#view1" indeterminate="indeterminate" bottom-item="bottom-item"/>
                     </app-toolbar>
                 </app-header>
-                <pb-view id="view1" src="document1" view="page" class="content-view"/>
+                <pb-view id="view1" src="document1" class="content-view"/>
             </app-header-layout>
         </div>
     </body>
