@@ -490,7 +490,7 @@
                     </place>
                     <place xml:id="USA">
                         <placeName>United States of America</placeName>
-                        <placeName full="abb">USA</placeName>
+                        <placeName>USA</placeName>
                         <location>
                             <geo>37.090240 -95.712891</geo>
                         </location>
