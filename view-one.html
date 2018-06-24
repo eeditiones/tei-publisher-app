@@ -13,6 +13,8 @@
         <link rel="import" href="components/bower_components/app-layout/app-toolbar/app-toolbar.html"/>
         <link rel="import" href="components/bower_components/app-layout/app-header-layout/app-header-layout.html"/>
         <link rel="import" href="components/bower_components/app-layout/app-header/app-header.html"/>
+        <link rel="import" href="components/bower_components/app-layout/app-drawer-layout/app-drawer-layout.html"/>
+        <link rel="import" href="components/bower_components/app-layout/app-drawer/app-drawer.html"/>
         <link rel="import" href="components/bower_components/paper-progress/paper-progress.html"/>
         <link rel="import" href="components/bower_components/paper-menu-button/paper-menu-button.html"/>
         <link rel="import" href="components/bower_components/paper-listbox/paper-listbox.html"/>
@@ -24,6 +26,7 @@
         <link rel="import" href="components/pb-view-type.html"/>
         <link rel="import" href="components/pb-edit-xml.html"/>
         <link rel="import" href="components/pb-progress.html"/>
+        <link rel="import" href="components/pb-load.html"/>
     
         <style>
             @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald');
@@ -31,6 +34,7 @@
             body {
                 font-family: "Open Sans", Verdana, "Helvetica", sans-serif;
                 font-size: 16px;
+                margin: 0;
             }
             
             paper-card {
@@ -85,11 +89,17 @@
     </head>
     
     <body>
-        <div data-template="pages:load">
-            <pb-document id="document1" data-template="pages:pb-document"/>
-            
+        <app-drawer-layout force-narrow="force-narrow">
+            <app-drawer slot="drawer" id="drawer">
+                <div style="height: 100%; overflow: auto;">
+                    <h3>
+                        Contents
+                    </h3>
+                    <pb-load id="toc" url="templates/toc.html" target="#view1">Loading ...</pb-load>
+                </div>
+            </app-drawer>
             <app-header-layout>
-                <app-header slot="header" fixed="fixed" condenses="condenses" reveals="reveals" effects="material" data-template="browse:fix-links">
+                <app-header slot="header" condenses="condenses" reveals="reveals" effects="material" data-template="browse:fix-links">
                     <app-toolbar class="menubar">
                         <a href="$app/index.html" main-title="main-title">
                             <img src="../resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
@@ -111,6 +121,7 @@
                         </a>
                     </app-toolbar>
                     <app-toolbar class="toolbar" sticky="sticky">
+                        <paper-icon-button icon="icons:view-list" drawer-toggle="drawer-toggle"/>
                         <pb-view-type target="#view1">Page View</pb-view-type>
                         <pb-edit-xml data-template="pages:xml-link" src="document1">
                             <paper-icon-button icon="icons:code" alt="Edit source"/>
@@ -128,6 +139,14 @@
                 </app-header>
                 <pb-view id="view1" src="document1" class="content-view"/>
             </app-header-layout>
-        </div>
+        </app-drawer-layout>
+        <pb-document id="document1" data-template="pages:pb-document"/>
+        
+        <script type="text/javascript">
+            var drawer = document.getElementById('drawer');
+            drawer.addEventListener('opened-changed', function(ev) {
+                document.getElementById('toc').load();
+            });
+        </script>
     </body>
 </html>

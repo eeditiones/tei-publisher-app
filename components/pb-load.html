@@ -1,0 +1,87 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-load">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <div id="content"><slot></slot></div>
+        
+        <iron-ajax
+            id="loadContent"
+            verbose
+            handle-as="text"
+            method="get"
+            on-response="_handleContent"></iron-ajax>
+    </template>
+
+    <script>
+        /**
+         * `pb-load`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbLoad extends Polymer.Element {
+            static get is() {
+                return 'pb-load';
+            }
+
+            static get properties() {
+                return {
+                    url: {
+                        type: String
+                    },
+                    target: {
+                        type: String
+                    }
+                };
+            }
+
+            constructor() {
+                super();
+                this.loaded = false;
+            }
+            
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready(){
+                super.ready();
+            }
+
+            load() {
+                if (this.loaded) {
+                    return;
+                }
+                const appRoot = document.documentElement.getAttribute('data-app');
+                const url = [appRoot, this.url].join('/');
+                
+                const params = {};
+                const view = document.querySelector(this.target);
+                params.odd = view.getOdd();
+                params.doc = view.getDocument().path;
+                params.view = view.getView();
+
+                this.$.loadContent.params = params;
+                this.$.loadContent.url = url;
+                this.$.loadContent.generateRequest();
+                
+                this.loaded = true;
+            }
+            
+            _handleContent() {
+                const resp = this.$.loadContent.lastResponse;
+                this.$.content.innerHTML = resp;
+            }
+        }
+
+        window.customElements.define(PbLoad.is, PbLoad);
+    </script>
+</dom-module>
