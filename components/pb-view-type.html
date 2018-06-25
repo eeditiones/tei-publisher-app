@@ -52,7 +52,9 @@
             }
             
             _toggle(newVal, oldVal) {
-                if (typeof oldVal != 'undefined' && oldVal != newVal) {
+                console.log("view-type: old: %s, new: %s", oldVal, newVal);
+                if (typeof oldVal !== 'undefined' && oldVal !== newVal) {
+                    console.log("updating view...");
                     document.querySelectorAll(this.target).forEach((elem) => {
                         elem.setProperties({
                             'view': this.isActive ? 'page' : 'div',
@@ -61,6 +63,7 @@
                         elem.update();
                     });
                 }
+                this.loaded = false;
             }
         }
 

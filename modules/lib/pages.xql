@@ -64,7 +64,8 @@ declare function pages:pb-document($node as node(), $model as map(*), $doc as xs
     let $data := pages:get-document($doc)
     let $config := tpu:parse-pi(root($data), $view)
     return
-        <pb-document path="{$doc}" root="{$config:data-root}" view="{$config?view}" odd="{replace($config?odd, '^(.*)\.odd', '$1')}">
+        <pb-document path="{$doc}" root="{$config:data-root}" view="{$config?view}" odd="{replace($config?odd, '^(.*)\.odd', '$1')}"
+            source-view="{$pages:EXIDE}">
         { $node/@id }
         </pb-document>
 };

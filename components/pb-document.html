@@ -28,14 +28,13 @@
               type: String,
               value: ''
           },
-          fullPath: {
-              type: String,
-              computed: '_computeFullPath(path, root)'
-          },
           odd: {
               type: String
           },
           view: {
+              type: String
+          },
+          sourceView: {
               type: String
           }
         };
@@ -44,13 +43,21 @@
       connectedCallback() {
           super.connectedCallback();
       }
-
-      _computeFullPath(path, root) {
-          root + '/' + path;
+      
+      ready() {
+          super.ready();
       }
       
       _update() {
           this.dispatchEvent(new CustomEvent('update', {detail: {path: this.path}}));
+      }
+      
+      getFileName() {
+          return this.path.replace(/^.*?([^\/]+)$/, '$1');
+      }
+      
+      getFullPath() {
+          return this.root + '/' + this.path;
       }
     }
 

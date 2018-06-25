@@ -15,7 +15,9 @@
     "paper-menu-button": "PolymerElements/paper-menu-button#^2.1.1",
     "paper-listbox": "PolymerElements/paper-listbox#^2.1.1",
     "paper-item": "PolymerElements/paper-item#^2.1.1",
-    "web-animations-js": "^2.3.1"
+    "web-animations-js": "^2.3.1",
+    "paper-dialog": "PolymerElements/paper-dialog#^2.1.1",
+    "paper-dialog-scrollable": "PolymerElements/paper-dialog-scrollable#^2.2.1"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",

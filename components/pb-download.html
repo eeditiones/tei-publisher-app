@@ -1,0 +1,71 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-download">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <a id="button" on-click="_handleClick" title="[[title]]"><slot></slot></a>
+    </template>
+
+    <script>
+        /**
+         * `pb-download`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbDownload extends Polymer.Element {
+            static get is() {
+                return 'pb-download';
+            }
+
+            static get properties() {
+                return {
+                    src: {
+                        type: String
+                    },
+                    type: {
+                        type: String
+                    },
+                    dialog: {
+                        type: String
+                    },
+                    title: {
+                        type: String
+                    }
+                };
+            }
+
+            _handleClick(ev) {
+                ev.preventDefault();
+                const token = new Date().getTime() * 797;
+                const doc = document.getElementById(this.src);
+                const file = doc.getFileName();
+                const url = file + '.' + this.type + '?odd=' + doc.odd + '&cache=no&token=' + token;
+
+                console.log("Downloading %s", url);
+                const dialog = document.getElementById(this.dialog);
+                
+                dialog.open();
+                
+                const downloadCheck = window.setInterval(() => {
+                    const cookieValue = Cookies.get("simple.token");
+                    if (cookieValue == token) {
+                        window.clearInterval(downloadCheck);
+                        Cookies.remove("simple.token");
+                        dialog.close();
+                    }
+                });
+
+                window.location = url;
+            }
+        }
+
+        window.customElements.define(PbDownload.is, PbDownload);
+    </script>
+</dom-module>

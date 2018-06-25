@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html data-template="pages:app-root">
+<html xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="pages:app-root">
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
     
         <title>existdb-document demo</title>
         <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"/>
+        <link rel="import" href="components/bower_components/app-layout/app-scroll-effects/effects/material.html"/>
         <link rel="import" href="components/bower_components/neon-animation/web-animations.html"/>
+        <link rel="import" href="components/bower_components/iron-flex-layout/iron-flex-layout.html"/>
         <link rel="import" href="components/bower_components/existdb-layout/dependencies.html"/>
         <link rel="import" href="components/bower_components/app-layout/app-layout.html"/>
         <link rel="import" href="components/bower_components/paper-card/paper-card.html"/>
@@ -19,6 +22,9 @@
         <link rel="import" href="components/bower_components/paper-menu-button/paper-menu-button.html"/>
         <link rel="import" href="components/bower_components/paper-listbox/paper-listbox.html"/>
         <link rel="import" href="components/bower_components/paper-item/paper-item.html"/>
+        <link rel="import" href="components/bower_components/paper-dialog/paper-dialog.html"/>
+        <link rel="import" href="components/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html"/>
+        <link rel="import" href="components/bower_components/paper-button/paper-button.html"/>
         <link rel="import" href="components/pb-document.html"/>
         <link rel="import" href="components/pb-view.html"/>
         <link rel="import" href="components/pb-navigation.html"/>
@@ -27,6 +33,7 @@
         <link rel="import" href="components/pb-edit-xml.html"/>
         <link rel="import" href="components/pb-progress.html"/>
         <link rel="import" href="components/pb-load.html"/>
+        <link rel="import" href="components/pb-download.html"/>
     
         <style>
             @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald');
@@ -63,7 +70,7 @@
                 background-color: #d1dae0;
             }
             
-            .content-view {
+            pb-view {
                 margin: 8px 16px;
             }
             
@@ -85,15 +92,28 @@
             pb-progress {
                 width: 100%;
             }
+            
+            @media (max-width: 768px) {
+                #downloadDialog {
+                    width: 100%;
+                }
+            }
+            
+            @media (min-width: 769px) {
+                #downloadDialog {
+                    width: 50%;
+                }
+            }
         </style>
     </head>
     
-    <body>
+    <body data-template="i18n:translate" data-catalogues="resources/i18n">
+        <pb-document id="document1" data-template="pages:pb-document"/>
         <app-drawer-layout force-narrow="force-narrow">
             <app-drawer slot="drawer" id="drawer">
                 <div style="height: 100%; overflow: auto;">
                     <h3>
-                        Contents
+                        <i18n:text key="contents">Contents</i18n:text>
                     </h3>
                     <pb-load id="toc" url="templates/toc.html" target="#view1">Loading ...</pb-load>
                 </div>
@@ -106,10 +126,41 @@
                         </a>
                         <a href="$app/index.html">Start</a>
                         <paper-menu-button>
-                            <a href="#" slot="dropdown-trigger">Documentation</a>
+                            <a href="#" slot="dropdown-trigger" title="i18n(download)">
+                                <i18n:text key="download"/>
+                            </a>
                             <paper-listbox slot="dropdown-content">
                                 <paper-item>
-                                    <a href="$app/doc/documentation.xml?odd=docbook.odd">Documentation</a>
+                                    <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)">
+                                        <i18n:text key="pdf-fo"/>
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-download type="tex" src="document1" dialog="downloadDialog" title="i18n(pdf-latex)">
+                                        <i18n:text key="pdf-latex"/>
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-download type="epub" src="document1" dialog="downloadDialog">
+                                        ePUB
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-edit-xml src="document1" title="i18n(view-tei)">
+                                        XML
+                                    </pb-edit-xml>
+                                </paper-item>
+                            </paper-listbox>
+                        </paper-menu-button>
+                        <paper-menu-button>
+                            <a href="#" slot="dropdown-trigger">
+                                <i18n:text key="documentation"/>
+                            </a>
+                            <paper-listbox slot="dropdown-content">
+                                <paper-item>
+                                    <a href="$app/doc/documentation.xml?odd=docbook.odd">
+                                        <i18n:text key="documentation"/>
+                                    </a>
                                 </paper-item>
                                 <paper-item>
                                     <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
@@ -123,7 +174,7 @@
                     <app-toolbar class="toolbar" sticky="sticky">
                         <paper-icon-button icon="icons:view-list" drawer-toggle="drawer-toggle"/>
                         <pb-view-type target="#view1">Page View</pb-view-type>
-                        <pb-edit-xml data-template="pages:xml-link" src="document1">
+                        <pb-edit-xml src="document1">
                             <paper-icon-button icon="icons:code" alt="Edit source"/>
                         </pb-edit-xml>
                         <pb-zoom target="#view1" direction="in" icon="icons:zoom-in"/>
@@ -137,11 +188,23 @@
                         <pb-progress target="#view1" indeterminate="indeterminate" bottom-item="bottom-item"/>
                     </app-toolbar>
                 </app-header>
-                <pb-view id="view1" src="document1" class="content-view"/>
+                <pb-view id="view1" src="document1"/>
             </app-header-layout>
         </app-drawer-layout>
-        <pb-document id="document1" data-template="pages:pb-document"/>
         
+        <paper-dialog id="downloadDialog">
+            <h2>
+                <i18n:text key="generating-file">Generating File...</i18n:text>
+            </h2>
+            <paper-dialog-scrollable>
+                <i18n:text key="download-message"/>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                    <i18n:text key="close">Close</i18n:text>
+                </paper-button>
+            </div>
+        </paper-dialog>
         <script type="text/javascript">
             var drawer = document.getElementById('drawer');
             drawer.addEventListener('opened-changed', function(ev) {
