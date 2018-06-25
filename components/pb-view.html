@@ -60,11 +60,11 @@
                 };
             }
 
-            static get observers() {
-              return [
-                '_changed(src,odd,view,nodeId,xpath)'
-              ]
-            }
+            // static get observers() {
+            //   return [
+            //     '_changed(src,odd,view,xpath)'
+            //   ]
+            // }
 
             constructor() {
                 super();
@@ -81,6 +81,7 @@
 
             ready() {
                 super.ready();
+                this._refresh();
             }
 
             getDocument() {
@@ -95,10 +96,14 @@
                 return this.view || this.getDocument().view || "single";
             }
             
-            _changed(src, odd, view, nodeId, xpath) {
-                this._refresh();
-            }
+            // _changed() {
+            //     this._refresh();
+            // }
 
+            update() {
+                this._load(this.nodeId);
+            }
+            
             _refresh() {
                 this._updateStyles();
                 this._load(this.nodeId);
@@ -121,6 +126,7 @@
                     params.xpath = this.xpath;
                 }
                 this._getParameters(params);
+                console.log("Loading view with params %o", params);
                 this.$.loadContent.params = params;
                 this.$.loadContent.generateRequest();
             }

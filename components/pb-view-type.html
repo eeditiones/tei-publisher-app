@@ -53,12 +53,13 @@
             
             _toggle(newVal, oldVal) {
                 if (typeof oldVal != 'undefined' && oldVal != newVal) {
-                    document.querySelectorAll(this.target).forEach((elem) =>
+                    document.querySelectorAll(this.target).forEach((elem) => {
                         elem.setProperties({
                             'view': this.isActive ? 'page' : 'div',
                             'position': this.root
-                        })
-                    );
+                        });
+                        elem.update();
+                    });
                 }
             }
         }
