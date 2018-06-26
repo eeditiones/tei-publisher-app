@@ -66,8 +66,24 @@ declare function pages:pb-document($node as node(), $model as map(*), $doc as xs
     return
         <pb-document path="{$doc}" root="{$config:data-root}" view="{$config?view}" odd="{replace($config?odd, '^(.*)\.odd', '$1')}"
             source-view="{$pages:EXIDE}">
-        { $node/@id }
+            { $node/@id }
         </pb-document>
+};
+
+declare function pages:pb-view($node as node(), $model as map(*), $root as xs:string?) {
+    <pb-view node-id="{$root}">
+    { $node/@* }
+    </pb-view>
+};
+
+declare function pages:current-language($node as node(), $model as map(*), $lang as xs:string?) {
+    let $selected := count($node/*[. = $lang]/preceding-sibling::*)
+    return
+        element { node-name($node) } {
+            $node/@*,
+            attribute selected { $selected },
+            $node/*
+        }
 };
 
 declare

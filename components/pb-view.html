@@ -89,10 +89,6 @@
             getView() {
                 return this.view || this.getDocument().view || "single";
             }
-            
-            // _changed() {
-            //     this._refresh();
-            // }
 
             update() {
                 this._load(this.nodeId);
@@ -104,9 +100,11 @@
             }
 
             _load(pos) {
+                console.log("pos: %s", pos);
                 this.dispatchEvent(new CustomEvent('startUpdate'));
                 
-                const path = this.getDocument().path;
+                const doc = this.getDocument();
+                const path = doc.path;
 
                 let params = {
                     "doc": path,
@@ -120,6 +118,13 @@
                     params.xpath = this.xpath;
                 }
                 this._getParameters(params);
+                
+                let url = doc.getFileName() + '?odd=' + params.odd + '&view=' + params.view;
+                if (params.root) {
+                    url += '&root=' + params.root;
+                }
+                history.pushState(params, "Navigate page", url);
+                
                 console.log("Loading view with params %o", params);
                 this.$.loadContent.params = params;
                 this.$.loadContent.generateRequest();
@@ -144,7 +149,7 @@
                 this.next = resp.next;
                 this.previous = resp.previous;
                 this.nodeId = resp.root;
-
+                
                 this.dispatchEvent(new CustomEvent('update', {detail: {data: resp}}));
             }
 

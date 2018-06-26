@@ -1,0 +1,79 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-lang">
+    <template>
+        <style>
+            :host {
+                display: block;
+                
+                --paper-dropdown-menu {
+                    color: var(--pb-lang-item-color);
+                }
+            }
+        </style>
+
+        <paper-dropdown-menu id="menu" label="[[label]]">
+            <paper-listbox slot="dropdown-content" class="dropdown-content" selected="{{selected}}">
+                <slot/>
+            </paper-listbox>
+        </paper-dropdown-menu>
+    </template>
+
+    <script>
+        /**
+         * `pb-lang`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbLang extends Polymer.Element {
+            static get is() {
+                return 'pb-lang';
+            }
+
+            static get properties() {
+                return {
+                    label: {
+                        type: String,
+                        value: 'Language'
+                    },
+                    selected: {
+                        type: String,
+                        observer: '_changed'
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready(){
+                super.ready();
+            }
+
+            _changed(newVal, oldVal) {
+                if (typeof oldVal !== 'undefined' && newVal !== oldVal) {
+                    const loc = window.location;
+                    const lang = this.$.menu.selectedItemLabel;
+                    let search;
+                    if (loc.search) {
+                        search = loc.search.replace(/\&?lang=[\w]+/, '');
+                        if (search == '?') {
+                            search = search + 'lang=' + lang;
+                        } else {
+                            search = search + '&lang=' + lang;
+                        }
+                    } else {
+                        search = '?lang=' + lang;
+                    }
+                    loc.replace(loc.protocol + '//' + loc.hostname + ':' + loc.port + loc.pathname + search + loc.hash);
+                }
+            }
+        }
+
+        window.customElements.define(PbLang.is, PbLang);
+    </script>
+</dom-module>

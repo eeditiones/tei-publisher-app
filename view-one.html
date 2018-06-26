@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
     
         <title>existdb-document demo</title>
+        <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"/>
         <link rel="import" href="components/bower_components/app-layout/app-scroll-effects/effects/material.html"/>
@@ -21,6 +22,7 @@
         <link rel="import" href="components/bower_components/paper-progress/paper-progress.html"/>
         <link rel="import" href="components/bower_components/paper-menu-button/paper-menu-button.html"/>
         <link rel="import" href="components/bower_components/paper-listbox/paper-listbox.html"/>
+        <link rel="import" href="components/bower_components/paper-dropdown-menu/paper-dropdown-menu.html"/>
         <link rel="import" href="components/bower_components/paper-item/paper-item.html"/>
         <link rel="import" href="components/bower_components/paper-dialog/paper-dialog.html"/>
         <link rel="import" href="components/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html"/>
@@ -34,14 +36,22 @@
         <link rel="import" href="components/pb-progress.html"/>
         <link rel="import" href="components/pb-load.html"/>
         <link rel="import" href="components/pb-download.html"/>
+        <link rel="import" href="components/pb-lang.html"/>
     
-        <style>
+        <style type="text/css">
             @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald');
     
             body {
                 font-family: "Open Sans", Verdana, "Helvetica", sans-serif;
                 font-size: 16px;
                 margin: 0;
+            }
+            
+            #view1 {
+                font-family: "Junicode",Georgia,"Times New Roman",serif;
+                font-size: 14pt;
+                line-height: 1.42857143;
+                max-width: 992px;
             }
             
             paper-card {
@@ -57,9 +67,17 @@
                 color: white;
             }
             
-            .menubar a {
+            .menubar a, .menubar paper-menu-button {
+                margin: 0 8px;
+                display: block;
                 color: white;
                 text-decoration: none;
+            }
+            
+            .menubar pb-lang {
+                text-align: right;
+                flex: 1 0;
+                --pb-lang-item-color: white;
             }
             
             .menubar paper-item a {
@@ -67,6 +85,7 @@
             }
             
             .toolbar {
+                justify-content: space-between;
                 background-color: #d1dae0;
             }
             
@@ -104,6 +123,40 @@
                     width: 50%;
                 }
             }
+            
+            main {
+                display: flex;
+                justify-content: center;
+            }
+            
+            .margin-right {
+                margin-right: 0;
+            }
+            .margin-note {
+                display: none;
+            }
+            
+            @media (min-width: 769px) {
+                .margin-right {
+                    margin-right: 200px;
+                }
+                
+                .margin-note {
+                    background: rgba(153, 153, 153, 0.2);
+                    display: block;
+                    font-size: small;
+                    margin-right: -200px;
+                    margin-bottom: 5px;
+                    padding: 5px;
+                    float: right;
+                    clear: both;
+                    width: 190px;
+            
+                    .n {
+                      color: #777777;
+                    }
+                }
+            }
         </style>
     </head>
     
@@ -121,7 +174,7 @@
             <app-header-layout>
                 <app-header slot="header" condenses="condenses" reveals="reveals" effects="material" data-template="browse:fix-links">
                     <app-toolbar class="menubar">
-                        <a href="$app/index.html" main-title="main-title">
+                        <a href="$app/index.html">
                             <img src="../resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
                         </a>
                         <a href="$app/index.html">Start</a>
@@ -170,9 +223,16 @@
                         <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
                             <img src="resources/images/wm_no_bg.svg" height="20"/>
                         </a>
+                        <pb-lang name="lang" label="Language" data-template="pages:current-language">
+                            <paper-item>en</paper-item>
+                            <paper-item>de</paper-item>
+                            <paper-item>fr</paper-item>
+                            <paper-item>gr</paper-item>
+                            <paper-item>pl</paper-item>
+                        </pb-lang>
                     </app-toolbar>
                     <app-toolbar class="toolbar" sticky="sticky">
-                        <paper-icon-button icon="icons:view-list" drawer-toggle="drawer-toggle"/>
+                        <paper-icon-button class="toc-toggle" icon="icons:view-list" drawer-toggle="drawer-toggle"/>
                         <pb-view-type target="#view1">Page View</pb-view-type>
                         <pb-edit-xml src="document1">
                             <paper-icon-button icon="icons:code" alt="Edit source"/>
@@ -188,7 +248,9 @@
                         <pb-progress target="#view1" indeterminate="indeterminate" bottom-item="bottom-item"/>
                     </app-toolbar>
                 </app-header>
-                <pb-view id="view1" src="document1"/>
+                <main>
+                    <pb-view id="view1" src="document1" data-template="pages:pb-view"/>
+                </main>
             </app-header-layout>
         </app-drawer-layout>
         
