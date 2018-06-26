@@ -3,8 +3,13 @@
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+        <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
     
-        <title>existdb-document demo</title>
+        <title data-template="config:app-title"/>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"/>
@@ -37,6 +42,7 @@
         <link rel="import" href="components/pb-load.html"/>
         <link rel="import" href="components/pb-download.html"/>
         <link rel="import" href="components/pb-lang.html"/>
+        <link rel="import" href="components/pb-ajax.html"/>
     
         <style type="text/css">
             @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald');
@@ -129,34 +135,11 @@
                 justify-content: center;
             }
             
-            .margin-right {
-                margin-right: 0;
-            }
             .margin-note {
                 display: none;
             }
             
-            @media (min-width: 769px) {
-                .margin-right {
-                    margin-right: 200px;
-                }
-                
-                .margin-note {
-                    background: rgba(153, 153, 153, 0.2);
-                    display: block;
-                    font-size: small;
-                    margin-right: -200px;
-                    margin-bottom: 5px;
-                    padding: 5px;
-                    float: right;
-                    clear: both;
-                    width: 190px;
             
-                    .n {
-                      color: #777777;
-                    }
-                }
-            }
         </style>
     </head>
     
@@ -172,7 +155,7 @@
                 </div>
             </app-drawer>
             <app-header-layout>
-                <app-header slot="header" condenses="condenses" reveals="reveals" effects="material" data-template="browse:fix-links">
+                <app-header slot="header" condenses="condenses" reveals="reveals" data-template="browse:fix-links">
                     <app-toolbar class="menubar">
                         <a href="$app/index.html">
                             <img src="../resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
@@ -220,6 +203,33 @@
                                 </paper-item>
                             </paper-listbox>
                         </paper-menu-button>
+                        <paper-menu-button data-template="browse:show-if-logged-in">
+                            <a href="#" slot="dropdown-trigger">
+                                <i18n:text key="admin"/>
+                            </a>
+                            <paper-listbox slot="dropdown-content">
+                                <paper-item>
+                                    <pb-ajax target="#view1" url="$app/modules/lib/regenerate.xql" dialog="messageDialog">
+                                        <i18n:text key="recompile"/>
+                                    </pb-ajax>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-ajax target="#view1" url="$app/modules/index.xql" dialog="messageDialog">
+                                        <i18n:text key="metadata-update"/>
+                                    </pb-ajax>
+                                </paper-item>
+                                <paper-item>
+                                    <a href="#" data-template="pages:edit-odd-link" target="_new">
+                                        <i18n:text key="edit-odd"/>
+                                    </a>
+                                </paper-item>
+                                <paper-item>
+                                    <a href="$app/generate.html">
+                                        <i18n:text key="app-generator"/>
+                                    </a>
+                                </paper-item>
+                            </paper-listbox>
+                        </paper-menu-button>
                         <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
                             <img src="resources/images/wm_no_bg.svg" height="20"/>
                         </a>
@@ -261,6 +271,15 @@
             <paper-dialog-scrollable>
                 <i18n:text key="download-message"/>
             </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                    <i18n:text key="close">Close</i18n:text>
+                </paper-button>
+            </div>
+        </paper-dialog>
+        <paper-dialog id="messageDialog" modal="modal">
+            <h2>Action</h2>
+            <paper-dialog-scrollable/>
             <div class="buttons">
                 <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
                     <i18n:text key="close">Close</i18n:text>

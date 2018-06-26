@@ -7,6 +7,32 @@
             :host {
                 display: block;
             }
+            
+            .margin-note {
+                display: none;
+            }
+            
+            @media (min-width: 769px) {
+                .content.margin-right {
+                    margin-right: 200px;
+                }
+                
+                .margin-note {
+                    background: rgba(153, 153, 153, 0.2);
+                    display: block;
+                    font-size: small;
+                    margin-right: -200px;
+                    margin-bottom: 5px;
+                    padding: 5px 0;
+                    float: right;
+                    clear: both;
+                    width: 180px;
+                }
+                
+                .margin-note .n {
+                  color: #777777;
+                }
+            }
         </style>
 
         <div id="view">
@@ -104,10 +130,9 @@
                 this.dispatchEvent(new CustomEvent('startUpdate'));
                 
                 const doc = this.getDocument();
-                const path = doc.path;
 
                 let params = {
-                    "doc": path,
+                    "doc": doc.path,
                     "odd": this.getOdd() + '.odd',
                     "view": this.getView()
                 };
@@ -151,6 +176,7 @@
                 this.nodeId = resp.root;
                 
                 this.dispatchEvent(new CustomEvent('update', {detail: {data: resp}}));
+                this.dispatchEvent(new CustomEvent('endUpdate'));
             }
 
             _getParameters(params) {
@@ -160,6 +186,24 @@
                 return params;
             }
 
+            getParameters() {
+                const doc = this.getDocument();
+
+                let params = {
+                    "doc": doc.path,
+                    "odd": this.getOdd() + '.odd',
+                    "view": this.getView()
+                };
+                if (this.nodeId) {
+                    params['root'] = this.nodeId;
+                }
+                if (this.xpath) {
+                    params.xpath = this.xpath;
+                }
+                this._getParameters(params);
+                return params;
+            }
+            
             navigate(direction) {
                 if (direction === 'backward') {
                     this._load(this.previous);
@@ -177,6 +221,10 @@
                 } else {
                     this.$.content.style.fontSize = (size - 1) + 'px';
                 }
+            }
+            
+            triggerEvent(type) {
+                this.dispatchEvent(new CustomEvent(type));
             }
         }
 

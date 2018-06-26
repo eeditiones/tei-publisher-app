@@ -39,7 +39,7 @@ declare function local:get-line($src, $line as xs:int) {
         replace($lines[$line], "^\s*(.*?)", "$1")
 };
 
-let $odd := request:get-parameter("source", ())
+let $odd := request:get-parameter("odd", ())
 let $odd :=
     if ($odd) then
         $odd
