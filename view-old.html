@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html data-template="pages:app-root">
+<head data-template="templates:include" data-template-path="templates/head.html"/>
+    <body xmlns:i18n="http://exist-db.org/xquery/i18n">
+        <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content" data-template-using="body">
+            <div data-template="pages:load">
+                <!-- Navigation -->
+                <div data-template="templates:include" data-template-path="templates/menu.html"/>
+                <!-- Toolbar -->
+                <div data-template="templates:include" data-template-path="templates/toolbar.html"/>
+
+                <section id="tp-canvas">
+                    <!-- Table of contents -->
+                    <nav id="sidebar" class="toc offcanvas">
+                        <h3>
+                            <i18n:text key="contents">Contents</i18n:text>
+                        </h3>
+                        <div id="toc">
+                            <span id="toc-loading">Loading ...</span>
+                        </div>
+                    </nav>
+                    <main id="main-wrapper" data-template="pages:navigation">
+                        <section class="tp-document-title-wrapper tp-row">
+                            <!-- Document title -->
+                            <h5 class="tp-column" data-template="pages:navigation-title"/>
+                        </section>
+                        <section id="document-wrapper" class="tp-row">
+                            <!-- Document pane -->
+                            <div id="document-pane" class="tp-column">
+                                <div data-template="pages:view" class="content"/>
+                            </div>
+                        </section>
+                    </main>
+                </section>
+                <div data-template="templates:include" data-template-path="templates/footer-navigation.html"/>
+            </div>
+        </div>
+        <div class="modal fade" id="pdf-info">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span class="fa fa-times" aria-hidden="true"/>
+                            <span class="sr-only">
+                                <i18n:text key="close">Close</i18n:text>
+                            </span>
+                        </button>
+                        <h4 class="modal-title">
+                            <i18n:text key="generating-file">Generating File...</i18n:text>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            <i18n:text key="download-message"/>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <i class="glyphicon glyphicon-remove"/> <i18n:text key="close">Close</i18n:text>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

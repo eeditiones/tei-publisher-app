@@ -1,64 +1,277 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html data-template="pages:app-root">
-<head data-template="templates:include" data-template-path="templates/head.html"/>
-    <body xmlns:i18n="http://exist-db.org/xquery/i18n">
-        <div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content" data-template-using="body">
-            <div data-template="pages:load">
-                <!-- Navigation -->
-                <div data-template="templates:include" data-template-path="templates/menu.html"/>
-                <!-- Toolbar -->
-                <div data-template="templates:include" data-template-path="templates/toolbar.html"/>
-
-                <section id="tp-canvas">
-                    <!-- Table of contents -->
-                    <nav id="sidebar" class="toc offcanvas">
-                        <h3><i18n:text key="contents">Contents</i18n:text></h3>
-                        <div id="toc">
-                            <span id="toc-loading">Loading ...</span>
-                        </div>
-                    </nav>
-                    <main id="main-wrapper" data-template="pages:navigation">
-                        <section class="tp-document-title-wrapper tp-row">
-                            <!-- Document title -->
-                            <h5 class="tp-column" data-template="pages:navigation-title"/>
-                        </section>
-                        <section id="document-wrapper" class="tp-row">
-                            <!-- Document pane -->
-                            <div id="document-pane" class="tp-column">
-                                <div data-template="pages:view" class="content"/>
-                            </div>
-                        </section>
-                    </main>
-                </section>
-                <div data-template="templates:include" data-template-path="templates/footer-navigation.html"/>
-            </div>
-        </div>
-        <div class="modal fade" id="pdf-info">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">
-                            <span class="fa fa-times" aria-hidden="true"/>
-                            <span class="sr-only">
-                                <i18n:text key="close">Close</i18n:text>
-                            </span>
-                        </button>
-                        <h4 class="modal-title">
-                            <i18n:text key="generating-file">Generating File...</i18n:text>
-                        </h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>
-                            <i18n:text key="download-message"/>
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            <i class="glyphicon glyphicon-remove"/> <i18n:text key="close">Close</i18n:text>
-                        </button>
-                    </div>
+<html xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="pages:app-root">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+    
+        <title>existdb-document demo</title>
+        <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
+        <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"/>
+        <link rel="import" href="components/bower_components/app-layout/app-scroll-effects/effects/material.html"/>
+        <link rel="import" href="components/bower_components/neon-animation/web-animations.html"/>
+        <link rel="import" href="components/bower_components/iron-flex-layout/iron-flex-layout.html"/>
+        <link rel="import" href="components/bower_components/existdb-layout/dependencies.html"/>
+        <link rel="import" href="components/bower_components/app-layout/app-layout.html"/>
+        <link rel="import" href="components/bower_components/paper-card/paper-card.html"/>
+        <link rel="import" href="components/bower_components/app-layout/app-toolbar/app-toolbar.html"/>
+        <link rel="import" href="components/bower_components/app-layout/app-header-layout/app-header-layout.html"/>
+        <link rel="import" href="components/bower_components/app-layout/app-header/app-header.html"/>
+        <link rel="import" href="components/bower_components/app-layout/app-drawer-layout/app-drawer-layout.html"/>
+        <link rel="import" href="components/bower_components/app-layout/app-drawer/app-drawer.html"/>
+        <link rel="import" href="components/bower_components/paper-progress/paper-progress.html"/>
+        <link rel="import" href="components/bower_components/paper-menu-button/paper-menu-button.html"/>
+        <link rel="import" href="components/bower_components/paper-listbox/paper-listbox.html"/>
+        <link rel="import" href="components/bower_components/paper-dropdown-menu/paper-dropdown-menu.html"/>
+        <link rel="import" href="components/bower_components/paper-item/paper-item.html"/>
+        <link rel="import" href="components/bower_components/paper-dialog/paper-dialog.html"/>
+        <link rel="import" href="components/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html"/>
+        <link rel="import" href="components/bower_components/paper-button/paper-button.html"/>
+        <link rel="import" href="components/pb-document.html"/>
+        <link rel="import" href="components/pb-view.html"/>
+        <link rel="import" href="components/pb-navigation.html"/>
+        <link rel="import" href="components/pb-zoom.html"/>
+        <link rel="import" href="components/pb-view-type.html"/>
+        <link rel="import" href="components/pb-edit-xml.html"/>
+        <link rel="import" href="components/pb-progress.html"/>
+        <link rel="import" href="components/pb-load.html"/>
+        <link rel="import" href="components/pb-download.html"/>
+        <link rel="import" href="components/pb-lang.html"/>
+    
+        <style type="text/css">
+            @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald');
+    
+            body {
+                font-family: "Open Sans", Verdana, "Helvetica", sans-serif;
+                font-size: 16px;
+                margin: 0;
+            }
+            
+            #view1 {
+                font-family: "Junicode",Georgia,"Times New Roman",serif;
+                font-size: 14pt;
+                line-height: 1.42857143;
+                max-width: 992px;
+            }
+            
+            paper-card {
+                margin: 0 10px;
+            }
+    
+            app-toolbar {
+                --app-toolbar-font-size: 16px;
+            }
+            
+            .menubar {
+                background-color: #35424b;
+                color: white;
+            }
+            
+            .menubar a, .menubar paper-menu-button {
+                margin: 0 8px;
+                display: block;
+                color: white;
+                text-decoration: none;
+            }
+            
+            .menubar pb-lang {
+                text-align: right;
+                flex: 1 0;
+                --pb-lang-item-color: white;
+            }
+            
+            .menubar paper-item a {
+                color: black;
+            }
+            
+            .toolbar {
+                justify-content: space-between;
+                background-color: #d1dae0;
+            }
+            
+            pb-view {
+                margin: 8px 16px;
+            }
+            
+            [main-title] {
+                display: inline-block;
+            }
+            
+            .logo {
+                width: 140px;
+                height: 60px;
+                background-size: 100% 100%;
+                cursor: pointer;
+            }
+            
+            pb-view-type {
+                font-size: .75em;
+            }
+            
+            pb-progress {
+                width: 100%;
+            }
+            
+            @media (max-width: 768px) {
+                #downloadDialog {
+                    width: 100%;
+                }
+            }
+            
+            @media (min-width: 769px) {
+                #downloadDialog {
+                    width: 50%;
+                }
+            }
+            
+            main {
+                display: flex;
+                justify-content: center;
+            }
+            
+            .margin-right {
+                margin-right: 0;
+            }
+            .margin-note {
+                display: none;
+            }
+            
+            @media (min-width: 769px) {
+                .margin-right {
+                    margin-right: 200px;
+                }
+                
+                .margin-note {
+                    background: rgba(153, 153, 153, 0.2);
+                    display: block;
+                    font-size: small;
+                    margin-right: -200px;
+                    margin-bottom: 5px;
+                    padding: 5px;
+                    float: right;
+                    clear: both;
+                    width: 190px;
+            
+                    .n {
+                      color: #777777;
+                    }
+                }
+            }
+        </style>
+    </head>
+    
+    <body data-template="i18n:translate" data-catalogues="resources/i18n">
+        <pb-document id="document1" data-template="pages:pb-document"/>
+        <app-drawer-layout force-narrow="force-narrow">
+            <app-drawer slot="drawer" id="drawer">
+                <div style="height: 100%; overflow: auto;">
+                    <h3>
+                        <i18n:text key="contents">Contents</i18n:text>
+                    </h3>
+                    <pb-load id="toc" url="templates/toc.html" target="#view1">Loading ...</pb-load>
                 </div>
+            </app-drawer>
+            <app-header-layout>
+                <app-header slot="header" condenses="condenses" reveals="reveals" effects="material" data-template="browse:fix-links">
+                    <app-toolbar class="menubar">
+                        <a href="$app/index.html">
+                            <img src="../resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
+                        </a>
+                        <a href="$app/index.html">Start</a>
+                        <paper-menu-button>
+                            <a href="#" slot="dropdown-trigger" title="i18n(download)">
+                                <i18n:text key="download"/>
+                            </a>
+                            <paper-listbox slot="dropdown-content">
+                                <paper-item>
+                                    <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)">
+                                        <i18n:text key="pdf-fo"/>
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-download type="tex" src="document1" dialog="downloadDialog" title="i18n(pdf-latex)">
+                                        <i18n:text key="pdf-latex"/>
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-download type="epub" src="document1" dialog="downloadDialog">
+                                        ePUB
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-edit-xml src="document1" title="i18n(view-tei)">
+                                        XML
+                                    </pb-edit-xml>
+                                </paper-item>
+                            </paper-listbox>
+                        </paper-menu-button>
+                        <paper-menu-button>
+                            <a href="#" slot="dropdown-trigger">
+                                <i18n:text key="documentation"/>
+                            </a>
+                            <paper-listbox slot="dropdown-content">
+                                <paper-item>
+                                    <a href="$app/doc/documentation.xml?odd=docbook.odd">
+                                        <i18n:text key="documentation"/>
+                                    </a>
+                                </paper-item>
+                                <paper-item>
+                                    <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
+                                </paper-item>
+                            </paper-listbox>
+                        </paper-menu-button>
+                        <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
+                            <img src="resources/images/wm_no_bg.svg" height="20"/>
+                        </a>
+                        <pb-lang name="lang" label="Language" data-template="pages:current-language">
+                            <paper-item>en</paper-item>
+                            <paper-item>de</paper-item>
+                            <paper-item>fr</paper-item>
+                            <paper-item>gr</paper-item>
+                            <paper-item>pl</paper-item>
+                        </pb-lang>
+                    </app-toolbar>
+                    <app-toolbar class="toolbar" sticky="sticky">
+                        <paper-icon-button class="toc-toggle" icon="icons:view-list" drawer-toggle="drawer-toggle"/>
+                        <pb-view-type target="#view1">Page View</pb-view-type>
+                        <pb-edit-xml src="document1">
+                            <paper-icon-button icon="icons:code" alt="Edit source"/>
+                        </pb-edit-xml>
+                        <pb-zoom target="#view1" direction="in" icon="icons:zoom-in"/>
+                        <pb-zoom target="#view1" direction="out" icon="icons:zoom-out"/>
+                        <pb-navigation target="#view1" direction="backward" unit="page">
+                            <paper-icon-button icon="icons:chevron-left"/>
+                        </pb-navigation>
+                        <pb-navigation target="#view1" direction="forward" unit="page">
+                            <paper-icon-button icon="icons:chevron-right"/>
+                        </pb-navigation>
+                        <pb-progress target="#view1" indeterminate="indeterminate" bottom-item="bottom-item"/>
+                    </app-toolbar>
+                </app-header>
+                <main>
+                    <pb-view id="view1" src="document1" data-template="pages:pb-view"/>
+                </main>
+            </app-header-layout>
+        </app-drawer-layout>
+        
+        <paper-dialog id="downloadDialog">
+            <h2>
+                <i18n:text key="generating-file">Generating File...</i18n:text>
+            </h2>
+            <paper-dialog-scrollable>
+                <i18n:text key="download-message"/>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                    <i18n:text key="close">Close</i18n:text>
+                </paper-button>
             </div>
-        </div>
+        </paper-dialog>
+        <script type="text/javascript">
+            var drawer = document.getElementById('drawer');
+            drawer.addEventListener('opened-changed', function(ev) {
+                document.getElementById('toc').load();
+            });
+        </script>
     </body>
 </html>

@@ -115,7 +115,7 @@ else if (ends-with($exist:resource, ".html")) then (
         else if ($exist:resource = ("search.html", "toc.html")) then
             $exist:resource
         else
-            "view-one.html"
+            "view.html"
     return
         if (ends-with($exist:resource, ".epub")) then
             <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
