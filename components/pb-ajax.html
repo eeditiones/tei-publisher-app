@@ -1,0 +1,91 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/paper-dialog/paper-dialog.html"/>
+<link rel="import" href="bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html"/>
+<link rel="import" href="bower_components/paper-button/paper-button.html"/>
+
+<dom-module id="pb-ajax">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            
+            paper-dialog {
+                position: static;
+                z-index: 1000;
+            }
+        </style>
+
+        <a id="button" on-click="_handleClick" title="[[title]]"><slot></slot></a>
+        
+        <iron-ajax
+            id="loadContent"
+            url="[[url]]"
+            verbose
+            handle-as="text"
+            method="get"
+            on-response="_handleResponse"></iron-ajax>
+    </template>
+
+    <script>
+        /**
+         * `pb-ajax`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbAjax extends Polymer.Element {
+            static get is() {
+                return 'pb-ajax';
+            }
+
+            static get properties() {
+                return {
+                    target: {
+                        type: String
+                    },
+                    url: {
+                        type: String
+                    },
+                    title: {
+                        type: String
+                    },
+                    dialog: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready() {
+                super.ready();
+            }
+
+            _handleClick(ev) {
+                ev.preventDefault();
+                
+                const view = document.querySelector(this.target);
+                view.triggerEvent('startUpdate');
+                this.$.loadContent.params = view.getParameters();
+                this.$.loadContent.generateRequest();
+            }
+            
+            _handleResponse() {
+                const view = document.querySelector(this.target);
+                view.triggerEvent('endUpdate');
+                const resp = this.$.loadContent.lastResponse;
+                const dialog = document.getElementById(this.dialog);
+                const body = dialog.querySelector("paper-dialog-scrollable");
+                body.innerHTML = resp;
+                dialog.open();
+            }
+        }
+
+        window.customElements.define(PbAjax.is, PbAjax);
+    </script>
+</dom-module>
