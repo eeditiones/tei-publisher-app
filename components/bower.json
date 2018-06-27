@@ -18,7 +18,10 @@
     "web-animations-js": "^2.3.1",
     "paper-dialog": "PolymerElements/paper-dialog#^2.1.1",
     "paper-dialog-scrollable": "PolymerElements/paper-dialog-scrollable#^2.2.1",
-    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^2.1.0"
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^2.1.0",
+    "openseadragon": "^2.3.1",
+    "openseadragon-annotations": "^1.0.5",
+    "img-pan-zoom": "^2.0.0"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",

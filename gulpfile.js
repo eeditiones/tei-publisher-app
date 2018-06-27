@@ -84,6 +84,10 @@ var targetConfiguration = {
     target: '/db/apps/tei-publisher/',
     html5AsBinary: true
 };
+var demoConfiguration = {
+    target: '/db/apps/tei-publisher/components/demo',
+    html5AsBinary: false
+}
 
 // ****************  Styles ****************** //
 
@@ -290,7 +294,9 @@ var oddPath =           'resources/odd/**/*',
     scriptPath =        'resources/scripts/*',
     modulePath =        'modules/**/*',
     transformPath =     'transform/*',
-    fontPath =          'resources/fonts/*';
+    fontPath =          'resources/fonts/*',
+    componentPath =     'components/*.html',
+    demoPath =          'components/demo/**/*';
 
 
 // Deploy all files to existDB
@@ -308,9 +314,20 @@ gulp.task('deploy', ['deploy:styles'], function () {
             ,modulePath
             ,transformPath
             ,fontPath
+            ,componentPath
+            ,demoPath
         ], {base: './'})
         .pipe(exClient.newer(targetConfiguration))
         .pipe(exClient.dest(targetConfiguration))
+});
+
+gulp.task('deploy-demo', function () {
+    console.log('deploying all component demos to local existDB"');
+    return gulp.src([
+            demoPath
+        ], {base: './'})
+        .pipe(exClient.newer(demoConfiguration))
+        .pipe(exClient.dest(demoConfiguration))
 });
 
 
