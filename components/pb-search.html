@@ -1,0 +1,22 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/iron-form/iron-form.html">
+<link rel="import" href="bower_components/iron-input/iron-input.html">
+<link rel="import" href="bower_components/iron-form/iron-form-elements-behavior.html">
+
+<dom-module id="pb-search">
+    <template>
+        <iron-form>
+            <form id="searchPageForm" method="get" action="$app/search.html">
+                <iron-input value="{{myValue::input}}" type="search" class="search-input templates:form-control typeahead-search" autocomplete="off" placeholder="i18n(search-query-attr)" name="query"/>
+                <input type="hidden" name="doc" data-template="search:form-current-doc"/>
+            </form>
+        </iron-form>
+    </template>
+    <script>
+        function submitForm() {
+            document.getElementById('searchPageForm').submit();
+        }
+    </script>
+</dom-module>
