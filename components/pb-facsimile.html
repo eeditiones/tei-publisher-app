@@ -3,9 +3,12 @@
 <link rel="import" href="bower_components/paper-spinner/paper-spinner-lite.html">
 
 <link rel="import" href="pb-facsimile-loader.html">
+<link rel="import" href="pb-facsimile-overlay.html">
 
 <script src="bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon.min.js"></script>
-<script src="bower_components/openseadragon-annotations/openseadragon-annotations.js"></script>
+<script src="bower_components/paper/dist/paper-full.js"></script>
+<script src="bower_components/OpenSeadragonPaperjsOverlay/openseadragon-paperjs-overlay.js"></script>
+<!--<script src="bower_components/openseadragon-annotations/openseadragon-annotations.js"></script>-->
 
 <dom-module id="pb-facsimile">
     <template>
@@ -14,14 +17,26 @@
                 display: block;
                 position: relative;
                 height: 500px;
+                position: relative;
+                background: lightyellow; //todo: remove - just for debugging
             }
+
             #viewer{
                 position: relative;
                 height: 100%;
                 width: 100%;
             }
+/*
+            pb-facsimile-overlay{
+                position: absolute;
+                top:0;
+                right:0;
+                bottom: 0;
+                left: 0;
+            }
+*/
 
-            paper-spinner-lite{
+            paper-spinner-lite {
                 opacity: 0;
                 display: block;
                 transition: opacity 700ms;
@@ -38,10 +53,12 @@
                 --paper-spinner-stroke-width: var(--img-pan-zoom-spinner-width, 5px);
                 @apply(--img-pan-zoom-spinner);
             }
-            paper-spinner-lite[active]{
+
+            paper-spinner-lite[active] {
                 opacity: 1;
             }
-            [hidden]{
+
+            [hidden] {
                 display: none;
             }
         </style>
@@ -54,6 +71,7 @@
 
         <!-- Openseadragon -->
         <div id="viewer"></div>
+        <!--<pb-facsimile-overlay id="overlay"></pb-facsimile-overlay>-->
     </template>
 
     <script>
@@ -173,7 +191,7 @@
 
             }
 
-            ready(){
+            ready() {
                 super.ready();
 
                 this.animationConfig = {
@@ -190,10 +208,20 @@
                     this._initOpenSeadragon();
                 }
 
+/*
+                window.addEventListener('WebComponentsReady', function (e) {
+                    console.log('onload overlay ', this.overlay);
+                    var rectangle = new paper.Rectangle(new paper.Point(50, 50), new paper.Point(150, 100));
+                    paper.view.draw();
+
+                });
+*/
+
+
             }
 
             // Init openseadragon
-            _initOpenSeadragon(){
+            _initOpenSeadragon() {
 
                 var tileSources = this.src;
                 if (!this.dzi) {
@@ -223,9 +251,25 @@
                 this.init = true;
 
                 console.log("viewer: ", this.viewer);
-                this.annotations = new OpenSeadragon.Annotations({ viewer });
-                console.log("annotations ", this.annotations);
+                this.overlay = this.viewer.paperjsOverlay();
+                console.log('overlay ', this.overlay);
+//                console.log('overlay ', this.overlay.paperjsOverlay());
 
+                this.mouseTracker = new OpenSeadragon.MouseTracker({
+                    element: this.viewer.canvas,
+                    pressHandler: this._handlePress
+                }).setTracking(true);
+
+                this.overlay.resize();
+//                this.overlay.resizecanvas();
+
+                console.log('view ', paper.view);
+            }
+
+            _handlePress(e) {
+                console.log('_handlePress ', e);
+                console.log('_handlePress paper ', paper);
+                console.log('_handlePress paper tools ', paper.tools);
             }
 
             //Function to destroy the viewer and clean up everything created by OpenSeadragon.
@@ -239,7 +283,7 @@
                 var currentZoom = this.viewer.viewport.getZoom();
                 var maxZoom = this.viewer.viewport.getMaxZoom();
                 var zoomTo = currentZoom + .7;
-                if(zoomTo < maxZoom){
+                if (zoomTo < maxZoom) {
                     this.viewer.viewport.zoomTo(zoomTo);
                 }
             }
@@ -250,9 +294,9 @@
                 var currentZoom = this.viewer.viewport.getZoom();
                 var minZoom = this.viewer.viewport.getMinZoom();
                 var zoomTo = currentZoom - .7;
-                if( zoomTo > minZoom){
+                if (zoomTo > minZoom) {
                     this.viewer.viewport.zoomTo(zoomTo);
-                }else {
+                } else {
                     if (minZoom != currentZoom) {
                         this.resetZoom();
                     }
@@ -265,7 +309,7 @@
             }
 
 
-            _srcChanged(){
+            _srcChanged() {
                 if (this.dzi && this.init) {
                     // add tiled image
                     this._addTiledImage();
@@ -273,22 +317,22 @@
             }
 
             // Add loaded images to viewer
-            _loadedChanged(){
+            _loadedChanged() {
                 if (this.loaded) {
                     if (!this.init) {
                         this._initOpenSeadragon();
-                    }else {
+                    } else {
                         this._addImage();
                     }
                 }
             }
 
-            _addImage(){
-                this.viewer.addSimpleImage({ url: this.src, index: 0, replace: true });
+            _addImage() {
+                this.viewer.addSimpleImage({url: this.src, index: 0, replace: true});
             }
 
-            _addTiledImage(){
-                this.viewer.addTiledImage({ tileSource: this.src, index: 0, replace: true});
+            _addTiledImage() {
+                this.viewer.addTiledImage({tileSource: this.src, index: 0, replace: true});
             }
 
 
