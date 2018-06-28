@@ -18,10 +18,7 @@ if ($exist:path eq '') then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <redirect url="{request:get-uri()}/"/>
     </dispatch>
- else if (contains($exist:path, "/components")) then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/components/{substring-after($exist:path, '/components/')}"/>
-    </dispatch>
+    
 else if ($exist:path eq "/") then
     (: forward root path to index.xql :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
@@ -39,7 +36,7 @@ else if (matches($exist:path, "^.*/(resources|transform)/.*$")) then
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
             <forward url="{$exist:controller}/{$dir}/{substring-after($exist:path, '/' || $dir || '/')}"/>
         </dispatch>
-
+    
 else if (contains($exist:path, "/images/")) then
      <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/resources/images/{substring-after($exist:path, '/images/')}"/>
@@ -53,6 +50,12 @@ else if (ends-with($exist:resource, ".xql")) then (
     </dispatch>
 
 )
+
+else if (contains($exist:path, "/components")) then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/components/{substring-after($exist:path, '/components/')}"/>
+    </dispatch>
+    
 else if ($logout or $login) then (
     login:set-user($config:login-domain, (), false()),
     (: redirect successful login attempts to the original page, but prevent redirection to non-local websites:)
