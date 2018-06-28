@@ -121,7 +121,7 @@
             }
             
             _refresh() {
-                this.dispatchEvent(new CustomEvent('view-changed', {detail: {src: src, odd:odd, view:view, start:start,xath:xpath}}));
+                this.dispatchEvent(new CustomEvent('view-changed', {detail: {src: this.src, odd:this.odd, view:this.view, start:this.start,xath:this.xpath}}));
                 this._updateStyles();
                 this._load(this.nodeId);
             }

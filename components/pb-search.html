@@ -9,17 +9,18 @@
     <template>
         <style>
             :host{
-
             }
 
             paper-input{
-
+                --paper-input-container-input:{
+                    color:white;
+                };
             }
 
         </style>
         <iron-form id="ironform">
             <form id="searchPageForm" method="get" action="{{action}}">
-                <paper-input type="search" name="query" on-key="_handleEnter">
+                <paper-input id="search" type="search" name="query" on-keyup="_handleEnter">
                     <iron-icon icon="search" on-click="_doSearch" slot="prefix"></iron-icon>
                 </paper-input>
 
@@ -66,9 +67,9 @@
             }
 
             _handleEnter(e){
-                //check enter keycode
-
-                this._doSubmit();
+                if(this.$.search.value.length != 0 && e.keyCode == 13){
+                    this._doSubmit();
+                }
             }
 
             _doSubmit(){
