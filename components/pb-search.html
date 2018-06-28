@@ -14,13 +14,18 @@
             paper-input{
                 --paper-input-container-input:{
                     color:white;
+                    border:white;
                 };
+                --paper-input-container-label: {
+                    color:var(--paper-grey-500);
+                };
+                padding-left:20px;
             }
 
         </style>
         <iron-form id="ironform">
             <form id="searchPageForm" method="get" action="{{action}}">
-                <paper-input id="search" type="search" name="query" on-keyup="_handleEnter">
+                <paper-input id="search" type="search" name="query" on-keyup="_handleEnter" label="[[placeHolder]]" no-label-float>
                     <iron-icon icon="search" on-click="_doSearch" slot="prefix"></iron-icon>
                 </paper-input>
 
