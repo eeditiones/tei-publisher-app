@@ -55,7 +55,11 @@
 </head>
 
 <body>
-    <pb-document id="document1" path="test/kant_rvernunft_1781.TEI-P5.xml"></pb-document>
+    <pb-document id="document1" path="test/kant_rvernunft_1781.TEI-P5.xml">
+        <pb-fragment id="frag1" odd="dta" xpath="//text/body" view="page"></pb-fragment>
+        <pb-fragment id="frag2" odd="dta" xpath="//text//div"></pb-fragment>
+    </pb-document>
+
     <pb-document id="document2" path="doc/documentation.xml"></pb-document>
     
     <app-header-layout>
@@ -88,7 +92,8 @@
                     </pb-navigation>
                     <pb-progress target="#view1" indeterminate="indeterminate" bottom-item="bottom-item"/>
                 </app-toolbar>
-                <pb-view id="view1" src="document1" odd="dta" view="page" xpath="//text/body" class="content-view"></pb-view>
+                <!--<pb-view id="view1" src="document1" odd="dta" view="page" xpath="//text/body" class="content-view"></pb-view>-->
+                <pb-view id="view1" fragment="frag1" class="content-view"></pb-view>
             </paper-card>
     
             <paper-card id="two">

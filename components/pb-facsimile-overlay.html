@@ -1,0 +1,107 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<script src="bower_components/paper/dist/paper-full.js"></script>
+
+<dom-module id="pb-facsimile-overlay">
+    <template>
+        <style>
+            :host {
+                display: block;
+                width: 100%;
+                height: 100%;
+                padding: 0;
+                margin: 0;
+                border: 0;
+                position: fixed;
+                top:0;
+                left:0;
+                right: 0;
+                bottom:0;
+                z-index:100;
+            }
+
+            canvas{
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+
+        <canvas id="canvas"></canvas>
+    </template>
+
+    <script>
+        /**
+         * `pb-facsimile-overlay`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbFacsimileOverlay extends Polymer.Element {
+            static get is() {
+                return 'pb-facsimile-overlay';
+            }
+
+            static get properties() {
+                return {
+                    prop1:{
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                console.log('connectedCallback', this);
+
+                var that = this;
+
+                window.addEventListener('load', function(e) {
+                    // Get a reference to the canvas object
+                    var canvas = that.$.canvas;
+                    console.log('this canvas ', canvas);
+
+                    var canvas = canvas;
+                    // Create an empty project and a view for the canvas:
+                    paper.setup(canvas);
+                    // Create a Paper.js Path to draw a line into it:
+                    var path = new paper.Path();
+                    // Give the stroke a color
+                    path.strokeColor = 'red';
+                    var start = new paper.Point(100, 100);
+                    // Move to start and draw a line from there
+                    path.moveTo(start);
+                    // Note that the plus operator on Point objects does not work
+                    // in JavaScript. Instead, we need to call the add() function:
+                    path.lineTo(start.add([ 200, -150 ]));
+
+                    var rectangle = new paper.Path.Rectangle({
+                        from: [25, 50],
+                        to: [200, 375],
+                        fillColor: 'green'
+                    });
+
+                    console.log('rectangle: ', rectangle);
+                    // Draw the view now:
+                    paper.view.draw();
+                });
+            }
+
+            ready(){
+                super.ready();
+            }
+
+            /* THIS COMPONENT DOES NOT USE SHADOWDOM IN ITS TEMPLATE */
+/*
+            _attachDom(dom) {
+                this.appendChild(dom);
+            }
+*/
+
+
+        }
+
+        window.customElements.define(PbFacsimileOverlay.is, PbFacsimileOverlay);
+    </script>
+</dom-module>
