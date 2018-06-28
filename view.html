@@ -33,7 +33,8 @@
         <link rel="import" href="components/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html"/>
         <link rel="import" href="components/bower_components/paper-button/paper-button.html"/>
         <link rel="import" href="components/bower_components/iron-form/iron-form.html"/>
-        <link rel="import" href="components/bower_components/iron-form/iron-form-element-behavior.html"/>
+        <link rel="import" href="components/bower_components/iron-input/iron-input.html"/>
+        <link rel="import" href="components/bower_components/iron-form-element-behavior/iron-form-element-behavior.html"/>
         <link rel="import" href="components/pb-document.html"/>
         <link rel="import" href="components/pb-view.html"/>
         <link rel="import" href="components/pb-navigation.html"/>
@@ -239,9 +240,13 @@
 
                         <!-- Search input -->
                         <pb-search>
-                            <paper-icon-button icon="icons:search"></paper-icon-button>
+                            <paper-icon-button icon="icons:search" onclick="submitForm('#searchPageForm')"></paper-icon-button>
+                            <iron-input>
+                                <input placeholder="Search..." type="search"></input>
+                            </iron-input>
                         </pb-search>
 
+                        <!-- language selector -->
                         <pb-lang name="lang" label="Language" data-template="pages:current-language">
                             <paper-item>en</paper-item>
                             <paper-item>de</paper-item>
@@ -250,6 +255,7 @@
                             <paper-item>pl</paper-item>
                         </pb-lang>
                     </app-toolbar>
+
                     <app-toolbar class="toolbar" sticky="sticky">
                         <paper-icon-button class="toc-toggle" icon="icons:view-list" drawer-toggle="drawer-toggle"/>
                         <pb-view-type target="#view1">Page View</pb-view-type>
@@ -266,10 +272,13 @@
                         </pb-navigation>
                         <pb-progress target="#view1" indeterminate="indeterminate" bottom-item="bottom-item"/>
                     </app-toolbar>
+
                 </app-header>
+
                 <main>
                     <pb-view id="view1" src="document1" data-template="pages:pb-view"/>
                 </main>
+
             </app-header-layout>
         </app-drawer-layout>
         
