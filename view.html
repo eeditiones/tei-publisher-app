@@ -239,11 +239,15 @@
                         </a>
 
                         <!-- Search input -->
-                        <pb-search>
+                        <pb-search action="myaction"
+                                   value="myVal"
+                                   place-holder="i18n(search-query-attr)">
+<!--
                             <paper-icon-button icon="icons:search" onclick="submitForm('#searchPageForm')"></paper-icon-button>
                             <iron-input>
                                 <input placeholder="Search..." type="search"></input>
                             </iron-input>
+-->
                         </pb-search>
 
                         <!-- language selector -->

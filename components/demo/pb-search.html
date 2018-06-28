@@ -6,20 +6,20 @@
     <title>existdb-document demo</title>
 
     <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
-
-    <link rel="import" href="../pb-facsimile.html"/>
+    <link rel="import" href="../pb-search.html"/>
     <style>
-      pb-facsimile{
-        /*width: 100%;*/
-        /*height:auto;*/
-        /*height: 500px;*/
-
+      .myclass{
+        background: red;
+      }
+      paper-input{
+        background:blue;
       }
     </style>
   </head>
   <body>
-      <pb-facsimile
-              src="http://showcases.exist-db.org:8198/cantaloupe/iiif/2/axc0529-0.jpg/0,0,200,200/full/0/default.jpg"
-              > </pb-facsimile>
+      <pb-search action="myaction"
+                 value="myVal"
+                 place-holder="i18n(search-query-attr)">
+      </pb-search>
   </body>
 </html>

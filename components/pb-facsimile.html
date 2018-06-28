@@ -1,13 +1,14 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 <link rel="import" href="bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="bower_components/paper-spinner/paper-spinner-lite.html">
+<link rel="import" href="bower_components/paper-styles/color.html">
 
 <link rel="import" href="pb-facsimile-loader.html">
-<link rel="import" href="pb-facsimile-overlay.html">
+<!--<link rel="import" href="pb-facsimile-overlay.html">-->
 
 <script src="bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon.min.js"></script>
-<script src="bower_components/paper/dist/paper-full.js"></script>
-<script src="bower_components/OpenSeadragonPaperjsOverlay/openseadragon-paperjs-overlay.js"></script>
+<!--<script src="bower_components/paper/dist/paper-full.js"></script>-->
+<!--<script src="bower_components/OpenSeadragonPaperjsOverlay/openseadragon-paperjs-overlay.js"></script>-->
 <!--<script src="bower_components/openseadragon-annotations/openseadragon-annotations.js"></script>-->
 
 <dom-module id="pb-facsimile">
@@ -16,9 +17,8 @@
             :host {
                 display: block;
                 position: relative;
-                height: 500px;
-                position: relative;
                 background: lightyellow; //todo: remove - just for debugging
+                height:500px;
             }
 
             #viewer{
@@ -251,19 +251,21 @@
                 this.init = true;
 
                 console.log("viewer: ", this.viewer);
-                this.overlay = this.viewer.paperjsOverlay();
-                console.log('overlay ', this.overlay);
+//                this.overlay = this.viewer.paperjsOverlay();
+//                console.log('overlay ', this.overlay);
 //                console.log('overlay ', this.overlay.paperjsOverlay());
 
+/*
                 this.mouseTracker = new OpenSeadragon.MouseTracker({
                     element: this.viewer.canvas,
                     pressHandler: this._handlePress
                 }).setTracking(true);
 
                 this.overlay.resize();
+*/
 //                this.overlay.resizecanvas();
 
-                console.log('view ', paper.view);
+//                console.log('view ', paper.view);
             }
 
             _handlePress(e) {

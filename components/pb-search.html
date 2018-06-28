@@ -3,20 +3,79 @@
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="bower_components/iron-form/iron-form.html">
 <link rel="import" href="bower_components/iron-input/iron-input.html">
-<link rel="import" href="bower_components/iron-form/iron-form-elements-behavior.html">
+<link rel="import" href="bower_components/paper-input/paper-input.html">
 
 <dom-module id="pb-search">
     <template>
-        <iron-form>
-            <form id="searchPageForm" method="get" action="$app/search.html">
-                <iron-input value="{{myValue::input}}" type="search" class="search-input templates:form-control typeahead-search" autocomplete="off" placeholder="i18n(search-query-attr)" name="query"/>
-                <input type="hidden" name="doc" data-template="search:form-current-doc"/>
+        <style>
+            :host{
+
+            }
+
+            paper-input{
+
+            }
+
+        </style>
+        <iron-form id="ironform">
+            <form id="searchPageForm" method="get" action="{{action}}">
+                <paper-input type="search" name="query" on-key="_handleEnter">
+                    <iron-icon icon="search" on-click="_doSearch" slot="prefix"></iron-icon>
+                </paper-input>
+
+                <!--<input value="{{myValue::input}}" type="search" class="search-input" autocomplete="off" placeholder="[[placeHolder]]" name="query">-->
+                <input type="hidden" name="doc" data-template="search:form-current-doc">
             </form>
         </iron-form>
     </template>
     <script>
-        function submitForm() {
-            document.getElementById('searchPageForm').submit();
+        class PbSearch extends Polymer.Element {
+            static get is() {
+                return 'pb-search';
+            }
+
+            static get properties() {
+                return {
+                    action:{
+                        type: String,
+                        reflectToAttribute:true
+                    },
+                    value:{
+                        type:String,
+                        reflectToAttribute:true
+                    },
+                    placeHolder: {
+                        type: String,
+                        reflectToAttribute:true
+                    },
+                    currentDoc: {
+                        type: String
+                    }
+                }
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                console.log("action ", this.action);
+            }
+
+            _doSearch(e){
+                console.log('_doSearch ',e);
+                console.log('_doSearch serialize',this.$.ironform.serializeForm());
+                this._doSubmit();
+            }
+
+            _handleEnter(e){
+                //check enter keycode
+
+                this._doSubmit();
+            }
+
+            _doSubmit(){
+                this.$.ironform.submit();
+            }
         }
+
+        window.customElements.define(PbSearch.is, PbSearch);
     </script>
 </dom-module>
