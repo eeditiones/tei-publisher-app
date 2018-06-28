@@ -1,20 +1,36 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<!--<link rel="import" href="bower_components/polymer/lib/elements/dom-repeat.html">-->
 
 <dom-module id="pb-lang">
     <template>
         <style>
             :host {
                 display: block;
-                
-                --paper-dropdown-menu {
+            }
+
+            paper-dropdown-menu{
+                --paper-dropdown-menu: {
                     color: var(--pb-lang-item-color);
+                };
+
+                --paper-input-container-input:{
+                    color:white;
+                };
+                --paper-input-container-label:{
+                    color:var(--paper-grey-100);
                 }
             }
+
         </style>
 
         <paper-dropdown-menu id="menu" label="[[label]]">
             <paper-listbox slot="dropdown-content" class="dropdown-content" selected="{{selected}}">
-                <slot/>
+                <slot></slot>
+<!--
+                <template id="repeat" is="dom-repeat" items="[[languages]]">
+                    <paper-item>[[item]]</paper-item>
+                </template>
+-->
             </paper-listbox>
         </paper-dropdown-menu>
     </template>
@@ -42,12 +58,18 @@
                     selected: {
                         type: String,
                         observer: '_changed'
+                    },
+/*
+                    languages:{
+                        type: Array
                     }
+*/
                 };
             }
 
             connectedCallback() {
                 super.connectedCallback();
+//                console.log("langs ", this.languages);
             }
 
             ready(){
