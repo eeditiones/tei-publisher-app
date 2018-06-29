@@ -35,6 +35,7 @@
         <link rel="import" href="components/bower_components/iron-form/iron-form.html"/>
         <link rel="import" href="components/bower_components/iron-input/iron-input.html"/>
         <link rel="import" href="components/bower_components/iron-form-element-behavior/iron-form-element-behavior.html"/>
+        <link rel="import" href="components/bower_components/paper-fab/paper-fab.html"/>
         <link rel="import" href="components/pb-document.html"/>
         <link rel="import" href="components/pb-view.html"/>
         <link rel="import" href="components/pb-navigation.html"/>
@@ -61,7 +62,8 @@
                 font-family: "Junicode",Georgia,"Times New Roman",serif;
                 font-size: 14pt;
                 line-height: 1.42857143;
-                max-width: 992px;
+                max-width: 60vw;
+                margin: 8px 16px;
             }
             
             paper-card {
@@ -99,8 +101,10 @@
                 background-color: #d1dae0;
             }
             
-            pb-view {
-                margin: 8px 16px;
+            @media (min-width: 769px) {
+                .toolbar pb-navigation {
+                    display: none;
+                }
             }
             
             [main-title] {
@@ -135,14 +139,31 @@
             }
             
             main {
+                position: relative;
                 display: flex;
                 justify-content: center;
             }
             
-            .margin-note {
-                display: none;
+            main pb-navigation {
+                position: fixed;
+                bottom: 45%;
+                --paper-fab-background: #35424b;
+                color: white;
             }
             
+            main pb-navigation[direction=backward] {
+                left: 20px;
+            }
+            
+            main pb-navigation[direction=forward] {
+                right: 20px;
+            }
+            
+            @media (max-width: 769px) {
+                main pb-navigation {
+                    display: none;
+                }
+            }
             
         </style>
     </head>
@@ -280,7 +301,13 @@
                 </app-header>
 
                 <main>
-                    <pb-view id="view1" src="document1" data-template="pages:pb-view"/>
+                    <pb-navigation target="#view1" direction="backward" unit="page">
+                        <paper-fab icon="icons:chevron-left"/>
+                    </pb-navigation>
+                    <pb-view id="view1" src="document1" data-template="pages:pb-view" history="history"/>
+                    <pb-navigation target="#view1" direction="forward" unit="page">
+                        <paper-fab icon="icons:chevron-right"/>
+                    </pb-navigation>
                 </main>
 
             </app-header-layout>

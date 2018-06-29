@@ -82,6 +82,10 @@
                     xpath: {
                         type: String,
                         reflectToAttribute: true
+                    },
+                    history: {
+                        type: Boolean,
+                        value: false
                     }
                 };
             }
@@ -149,7 +153,10 @@
                 if (params.root) {
                     url += '&root=' + params.root;
                 }
-                history.pushState(params, "Navigate page", url);
+                
+                if (this.history) {
+                    history.pushState(params, "Navigate page", url);
+                }
                 
                 console.log("Loading view with params %o", params);
                 this.$.loadContent.params = params;
