@@ -36,7 +36,6 @@
         <link rel="import" href="components/bower_components/iron-input/iron-input.html"/>
         <link rel="import" href="components/bower_components/iron-form-element-behavior/iron-form-element-behavior.html"/>
         <link rel="import" href="components/bower_components/paper-fab/paper-fab.html"/>
-        <link rel="import" href="components/bower_components/shadycss/apply-shim.html"/>
         <link rel="import" href="components/pb-document.html"/>
         <link rel="import" href="components/pb-view.html"/>
         <link rel="import" href="components/pb-navigation.html"/>
@@ -52,156 +51,158 @@
         <link rel="import" href="components/pb-link.html"/>
         <link rel="import" href="components/pb-collapse.html"/>
 
-        <style type="text/css">
-            @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald');
+        <custom-style>
+            <style type="text/css">
+                @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald');
 
-            body {
-                font-family: "Open Sans", Verdana, "Helvetica", sans-serif;
-                font-size: 16px;
-                margin: 0;
-            }
+                body {
+                    font-family: "Open Sans", Verdana, "Helvetica", sans-serif;
+                    font-size: 16px;
+                    margin: 0;
+                    color: #333333;
 
-            #view1 {
-                font-family: "Junicode",Georgia,"Times New Roman",serif;
-                font-size: 14pt;
-                line-height: 1.42857143;
-                max-width: 60vw;
-                margin: 8px 16px;
-            }
-
-            paper-card {
-                margin: 0 10px;
-            }
-
-            app-toolbar {
-                --app-toolbar-font-size: 16px;
-            }
-
-            .menubar {
-                background-color: #35424b;
-                color: white;
-            }
-
-            .menubar a, .menubar paper-menu-button {
-                margin: 0 8px;
-                display: block;
-                color: white;
-                text-decoration: none;
-            }
-
-            .menubar pb-lang {
-                text-align: right;
-                flex: 1 0;
-                --pb-lang-item-color: white;
-            }
-
-            .menubar paper-item a {
-                color: black;
-            }
-
-            .toolbar {
-                justify-content: space-between;
-                background-color: #d1dae0;
-            }
-
-            @media (min-width: 769px) {
-                .toolbar pb-navigation {
-                    display: none;
+                    --pb-link-theme: {
+                        font-family: "Junicode",Georgia,"Times New Roman",serif;
+                        text-decoration: none;
+                        color: black;
+                    };
                 }
-            }
 
-            [main-title] {
-                display: inline-block;
-            }
+                #view1 {
+                    font-family: "Junicode",Georgia,"Times New Roman",serif;
+                    font-size: 14pt;
+                    line-height: 1.42857143;
+                    max-width: 60vw;
+                    margin: 8px 16px;
+                }
 
-            .logo {
-                width: 140px;
-                height: 60px;
-                background-size: 100% 100%;
-                cursor: pointer;
-            }
+                paper-card {
+                    margin: 0 10px;
+                }
 
-            pb-view-type {
-                font-size: .75em;
-            }
+                app-toolbar {
+                    --app-toolbar-font-size: 16px;
+                }
 
-            pb-progress {
-                width: 100%;
-            }
+                .menubar {
+                    background-color: #35424b;
+                    color: white;
+                }
 
-            @media (max-width: 768px) {
-                #downloadDialog {
+                .menubar a, .menubar paper-menu-button {
+                    margin: 0 8px;
+                    display: block;
+                    color: white;
+                    text-decoration: none;
+                }
+
+                .menubar pb-lang {
+                    text-align: right;
+                    flex: 1 0;
+                    --pb-lang-item-color: white;
+                }
+
+                .menubar paper-item a {
+                    color: black;
+                }
+
+                .toolbar {
+                    justify-content: space-between;
+                    background-color: #d1dae0;
+                }
+
+                @media (min-width: 769px) {
+                    .toolbar pb-navigation {
+                        display: none;
+                    }
+                }
+
+                [main-title] {
+                    display: inline-block;
+                }
+
+                .logo {
+                    width: 140px;
+                    height: 60px;
+                    background-size: 100% 100%;
+                    cursor: pointer;
+                }
+
+                pb-view-type {
+                    font-size: .75em;
+                }
+
+                pb-progress {
                     width: 100%;
                 }
-            }
 
-            @media (min-width: 769px) {
-                #downloadDialog {
-                    width: 50%;
+                @media (max-width: 768px) {
+                    #downloadDialog {
+                        width: 100%;
+                    }
                 }
-            }
 
-            .content-body {
-                position: relative;
-                display: flex;
-                justify-content: center;
-            }
+                @media (min-width: 769px) {
+                    #downloadDialog {
+                        width: 50%;
+                    }
+                }
 
-            .content-body pb-navigation {
-                position: fixed;
-                bottom: 45%;
-                --paper-fab-background: #35424b;
-                color: white;
-            }
+                .content-body {
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                }
 
-            .content-body pb-navigation[direction=backward] {
-                left: 20px;
-            }
-
-            .content-body pb-navigation[direction=forward] {
-                right: 20px;
-            }
-
-            @media (max-width: 769px) {
                 .content-body pb-navigation {
-                    display: none;
+                    position: fixed;
+                    bottom: 45%;
+                    --paper-fab-background: #35424b;
+                    color: white;
                 }
-            }
 
-            .document-title {
-                text-align: center;
-                background: #FFFFFF;
-            }
+                .content-body pb-navigation[direction=backward] {
+                    left: 20px;
+                }
 
-            #drawer {
-                --app-drawer-width: 448px;
-            }
+                .content-body pb-navigation[direction=forward] {
+                    right: 20px;
+                }
 
-            .tocDrawer {
-                padding: 0 10px;
-            }
+                @media (max-width: 769px) {
+                    .content-body pb-navigation {
+                        display: none;
+                    }
+                }
 
-            #toc ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-            }
+                .document-title {
+                    text-align: center;
+                    background: #FFFFFF;
+                }
 
-            #toc ul ul {
-                margin-left: 20px;
-            }
+                #drawer {
+                    --app-drawer-width: 448px;
+                }
 
-            #toc li {
-                margin-bottom: .5em;
-            }
+                .tocDrawer {
+                    padding: 0 10px;
+                }
 
-            pb-link {
-                --pb-link-theme: {
-                    text-decoration: none;
-                    color: #C0C0C0;
-                };
-            }
-        </style>
+                #toc ul {
+                    list-style-type: none;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                #toc ul ul {
+                    margin-left: 20px;
+                }
+
+                #toc li {
+                    margin-bottom: .5em;
+                }
+            </style>
+        </custom-style>
     </head>
 
     <body data-template="i18n:translate" data-catalogues="resources/i18n">
