@@ -1,6 +1,7 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 
 <dom-module id="pb-navigation">
     <template>
@@ -16,7 +17,7 @@
          * @polymer
          * @demo demo/index.html
          */
-        class PbNavigation extends Polymer.Element {
+        class PbNavigation extends Polymer.mixinBehaviors([Polymer.IronA11yKeysBehavior], Polymer.Element) {
             static get is() {
                 return 'pb-navigation';
             }
@@ -29,6 +30,16 @@
                     direction: {
                         type: String,
                         value: 'next'
+                    },
+                    keyboard: {
+                        type: Boolean,
+                        value: false
+                    },
+                    keyEventTarget: {
+                        type: Object,
+                        value: function() {
+                            return document.body;
+                        }
                     }
                 };
             }
@@ -43,6 +54,14 @@
                 document.querySelectorAll(this.target).forEach(function(elem) {
                     elem.addEventListener('update', this._update.bind(this));
                 }.bind(this));
+
+                if (this.keyboard) {
+                    if (this.direction === 'forward') {
+                        this.addOwnKeyBinding('right', '_handleClick');
+                    } else {
+                        this.addOwnKeyBinding('left', '_handleClick');
+                    }
+                }
             }
 
             _handleClick() {
