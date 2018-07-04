@@ -61,7 +61,6 @@ let $xml :=
         let $document := pages:get-document($doc)
         let $namespace := namespace-uri-from-QName(node-name($document/*))
         let $xquery := "declare default element namespace '" || $namespace || "'; $document" || $xpath
-        let $log := console:log($xquery)
         let $data := util:eval($xquery)
         return
             pages:load-xml($data, $view, $root, $doc)
@@ -69,14 +68,21 @@ let $xml :=
         pages:load-xml($view, $root, $doc)
 return
     if ($xml?data) then
-        let $prev := $config:previous-page($xml?config, $xml?data, $view)
-        let $next := $config:next-page($xml?config, $xml?data, $view)
-        let $content := pages:get-content($xml?config, $xml?data)
+        let $content :=
+            if (not($view = "single")) then
+                pages:get-content($xml?config, $xml?data)
+            else
+                $xml?data
         let $userParams :=
             map:merge(
                 request:get-parameter-names()[starts-with(., 'user')] ! map { substring-after(., 'user.'): request:get-parameter(., ()) }
             )
-        let $html := pages:process-content($content, $xml?data, $xml?config, $userParams)
+        let $html :=
+            typeswitch ($xml?data)
+                case element() | document-node() return
+                    pages:process-content($content, $xml?data, $xml?config, $userParams)
+                default return
+                    $xml?data
         let $div :=
             if ($view = "page") then
                 ($xml?data/ancestor-or-self::tei:div[1], $xml?data/following::tei:div[1])[1]
@@ -90,20 +96,34 @@ return
                 "root": $root,
                 "odd": $config:odd,
                 "next":
-                    if ($next) then
-                        util:node-id($next)
-                    else (),
+                    if ($view != "single") then
+                        let $next := $config:next-page($xml?config, $xml?data, $view)
+                        return
+                            if ($next) then
+                                util:node-id($next)
+                            else ()
+                    else
+                        (),
                 "previous":
-                    if ($prev) then
-                        util:node-id($prev)
-                    else (),
+                    if ($view != "single") then
+                        let $prev := $config:previous-page($xml?config, $xml?data, $view)
+                        return
+                            if ($prev) then
+                                util:node-id($prev)
+                            else
+                                ()
+                    else
+                        (),
                 "switchView":
-                    let $node := pages:switch-view-id($xml?data, $view)
-                    return
-                        if ($node) then
-                            util:node-id($node)
-                        else
-                            (),
+                    if ($view != "single") then
+                        let $node := pages:switch-view-id($xml?data, $view)
+                        return
+                            if ($node) then
+                                util:node-id($node)
+                            else
+                                ()
+                    else
+                        (),
                 "content": serialize($html,
                     <output:serialization-parameters xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
                       <output:indent>no</output:indent>

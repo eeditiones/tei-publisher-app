@@ -9,7 +9,7 @@
         </style>
 
         <div id="content"><slot></slot></div>
-        
+
         <iron-ajax
             id="loadContent"
             verbose
@@ -39,6 +39,9 @@
                     },
                     target: {
                         type: String
+                    },
+                    container: {
+                        type: String
                     }
                 };
             }
@@ -47,7 +50,7 @@
                 super();
                 this.loaded = false;
             }
-            
+
             connectedCallback() {
                 super.connectedCallback();
             }
@@ -62,7 +65,7 @@
                 }
                 const appRoot = document.documentElement.getAttribute('data-app');
                 const url = [appRoot, this.url].join('/');
-                
+
                 const params = {};
                 const view = document.querySelector(this.target);
                 params.odd = view.getOdd();
@@ -72,13 +75,19 @@
                 this.$.loadContent.params = params;
                 this.$.loadContent.url = url;
                 this.$.loadContent.generateRequest();
-                
+
                 this.loaded = true;
             }
-            
+
             _handleContent() {
                 const resp = this.$.loadContent.lastResponse;
-                this.$.content.innerHTML = resp;
+                if (this.container) {
+                    this.$.content.style.display = 'none';
+                    document.querySelectorAll(this.container).forEach((elem) => elem.innerHTML = resp);
+                } else {
+                    this.$.content.style.display = '';
+                    this.$.content.innerHTML = resp;
+                }
             }
         }
 

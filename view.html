@@ -8,7 +8,7 @@
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"/>
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
-    
+
         <title data-template="config:app-title"/>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
@@ -36,6 +36,7 @@
         <link rel="import" href="components/bower_components/iron-input/iron-input.html"/>
         <link rel="import" href="components/bower_components/iron-form-element-behavior/iron-form-element-behavior.html"/>
         <link rel="import" href="components/bower_components/paper-fab/paper-fab.html"/>
+        <link rel="import" href="components/bower_components/shadycss/apply-shim.html"/>
         <link rel="import" href="components/pb-document.html"/>
         <link rel="import" href="components/pb-view.html"/>
         <link rel="import" href="components/pb-navigation.html"/>
@@ -48,16 +49,18 @@
         <link rel="import" href="components/pb-lang.html"/>
         <link rel="import" href="components/pb-search.html"/>
         <link rel="import" href="components/pb-ajax.html"/>
-    
+        <link rel="import" href="components/pb-link.html"/>
+        <link rel="import" href="components/pb-collapse.html"/>
+
         <style type="text/css">
             @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald');
-    
+
             body {
                 font-family: "Open Sans", Verdana, "Helvetica", sans-serif;
                 font-size: 16px;
                 margin: 0;
             }
-            
+
             #view1 {
                 font-family: "Junicode",Georgia,"Times New Roman",serif;
                 font-size: 14pt;
@@ -65,122 +68,150 @@
                 max-width: 60vw;
                 margin: 8px 16px;
             }
-            
+
             paper-card {
                 margin: 0 10px;
             }
-    
+
             app-toolbar {
                 --app-toolbar-font-size: 16px;
             }
-            
+
             .menubar {
                 background-color: #35424b;
                 color: white;
             }
-            
+
             .menubar a, .menubar paper-menu-button {
                 margin: 0 8px;
                 display: block;
                 color: white;
                 text-decoration: none;
             }
-            
+
             .menubar pb-lang {
                 text-align: right;
                 flex: 1 0;
                 --pb-lang-item-color: white;
             }
-            
+
             .menubar paper-item a {
                 color: black;
             }
-            
+
             .toolbar {
                 justify-content: space-between;
                 background-color: #d1dae0;
             }
-            
+
             @media (min-width: 769px) {
                 .toolbar pb-navigation {
                     display: none;
                 }
             }
-            
+
             [main-title] {
                 display: inline-block;
             }
-            
+
             .logo {
                 width: 140px;
                 height: 60px;
                 background-size: 100% 100%;
                 cursor: pointer;
             }
-            
+
             pb-view-type {
                 font-size: .75em;
             }
-            
+
             pb-progress {
                 width: 100%;
             }
-            
+
             @media (max-width: 768px) {
                 #downloadDialog {
                     width: 100%;
                 }
             }
-            
+
             @media (min-width: 769px) {
                 #downloadDialog {
                     width: 50%;
                 }
             }
-            
-            main {
+
+            .content-body {
                 position: relative;
                 display: flex;
                 justify-content: center;
             }
-            
-            main pb-navigation {
+
+            .content-body pb-navigation {
                 position: fixed;
                 bottom: 45%;
                 --paper-fab-background: #35424b;
                 color: white;
             }
-            
-            main pb-navigation[direction=backward] {
+
+            .content-body pb-navigation[direction=backward] {
                 left: 20px;
             }
-            
-            main pb-navigation[direction=forward] {
+
+            .content-body pb-navigation[direction=forward] {
                 right: 20px;
             }
-            
+
             @media (max-width: 769px) {
-                main pb-navigation {
+                .content-body pb-navigation {
                     display: none;
                 }
             }
-            
+
+            .document-title {
+                text-align: center;
+                background: #FFFFFF;
+            }
+
+            #drawer {
+                --app-drawer-width: 448px;
+            }
+
+            .tocDrawer {
+                padding: 0 10px;
+
+                --pb-link-style: {
+                    text-decoration: none;
+                    color: #C0C0C0;
+                };
+            }
+
+            #toc ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            #toc li {
+                margin-bottom: .5em;
+            }
         </style>
     </head>
-    
+
     <body data-template="i18n:translate" data-catalogues="resources/i18n">
         <pb-document id="document1" data-template="pages:pb-document"/>
         <app-drawer-layout force-narrow="force-narrow">
             <app-drawer slot="drawer" id="drawer">
-                <div style="height: 100%; overflow: auto;">
+                <div class="tocDrawer" style="height: 100%; overflow: auto;">
                     <h3>
                         <i18n:text key="contents">Contents</i18n:text>
                     </h3>
-                    <pb-load id="toc" url="templates/toc.html" target="#view1">Loading ...</pb-load>
+                    <pb-load id="loadToc" url="templates/toc.html" target="#view1" container="#toc">Loading ...</pb-load>
+                    <div id="toc"></div>
                 </div>
             </app-drawer>
             <app-header-layout>
-                <app-header slot="header" condenses="condenses" reveals="reveals" data-template="browse:fix-links">
+                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
                     <app-toolbar class="menubar">
                         <a href="$app/index.html">
                             <img src="../resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
@@ -298,9 +329,14 @@
                         <pb-progress target="#view1" indeterminate="indeterminate" bottom-item="bottom-item"/>
                     </app-toolbar>
 
+                    <app-toolbar sticky="sticky" class="document-title">
+                        <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
+                            <pb-param name="header" value="short"/>
+                        </pb-view>
+                    </app-toolbar>
                 </app-header>
 
-                <main>
+                <main class="content-body">
                     <pb-navigation target="#view1" direction="backward" unit="page">
                         <paper-fab icon="icons:chevron-left"/>
                     </pb-navigation>
@@ -312,7 +348,7 @@
 
             </app-header-layout>
         </app-drawer-layout>
-        
+
         <paper-dialog id="downloadDialog">
             <h2>
                 <i18n:text key="generating-file">Generating File...</i18n:text>
@@ -338,7 +374,7 @@
         <script type="text/javascript">
             var drawer = document.getElementById('drawer');
             drawer.addEventListener('opened-changed', function(ev) {
-                document.getElementById('toc').load();
+                document.getElementById('loadToc').load();
             });
         </script>
     </body>

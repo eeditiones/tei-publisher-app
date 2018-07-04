@@ -7,16 +7,16 @@
             :host {
                 display: block;
             }
-            
+
             .margin-note {
                 display: none;
             }
-            
+
             @media (min-width: 769px) {
                 .content.margin-right {
                     margin-right: 200px;
                 }
-                
+
                 .margin-note {
                     background: rgba(153, 153, 153, 0.2);
                     display: block;
@@ -28,7 +28,7 @@
                     clear: both;
                     width: 180px;
                 }
-                
+
                 .margin-note .n {
                   color: #777777;
                 }
@@ -111,11 +111,11 @@
             getDocument() {
                 return document.getElementById(this.src);
             }
-            
+
             getOdd() {
                 return this.odd || this.getDocument().odd || "teipublisher";
             }
-            
+
             getView() {
                 return this.view || this.getDocument().view || "single";
             }
@@ -123,7 +123,7 @@
             update() {
                 this._load(this.nodeId);
             }
-            
+
             _refresh() {
                 this.dispatchEvent(new CustomEvent('view-changed', {detail: {src: this.src, odd:this.odd, view:this.view, start:this.start,xath:this.xpath}}));
                 this._updateStyles();
@@ -133,7 +133,7 @@
             _load(pos) {
                 console.log("pos: %s", pos);
                 this.dispatchEvent(new CustomEvent('startUpdate'));
-                
+
                 const doc = this.getDocument();
 
                 let params = {
@@ -148,16 +148,16 @@
                     params.xpath = this.xpath;
                 }
                 this._getParameters(params);
-                
+
                 let url = doc.getFileName() + '?odd=' + params.odd + '&view=' + params.view;
                 if (params.root) {
                     url += '&root=' + params.root;
                 }
-                
+
                 if (this.history) {
                     history.pushState(params, "Navigate page", url);
                 }
-                
+
                 console.log("Loading view with params %o", params);
                 this.$.loadContent.params = params;
                 this.$.loadContent.generateRequest();
@@ -182,7 +182,7 @@
                 this.next = resp.next;
                 this.previous = resp.previous;
                 this.nodeId = resp.root;
-                
+
                 this.dispatchEvent(new CustomEvent('update', {detail: {data: resp}}));
                 this.dispatchEvent(new CustomEvent('endUpdate'));
             }
@@ -211,7 +211,11 @@
                 this._getParameters(params);
                 return params;
             }
-            
+
+            goto(nodeId) {
+                this._load(nodeId);
+
+            }
             navigate(direction) {
                 if (direction === 'backward') {
                     this._load(this.previous);
@@ -230,7 +234,7 @@
                     this.$.content.style.fontSize = (size - 1) + 'px';
                 }
             }
-            
+
             triggerEvent(type) {
                 this.dispatchEvent(new CustomEvent(type));
             }

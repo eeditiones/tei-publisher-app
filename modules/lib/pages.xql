@@ -348,20 +348,19 @@ declare %private function pages:toc-div($node, $model as map(*), $current as ele
             let $icon := if ($isIn) then "expand_less" else "expand_more"
             return
                 <li>
-                    {
-                        if ($hasDivs) then
-                            <a data-toggle="collapse" href="#{$id}"><span class="material-icons">{$icon}</span></a>
-                        else
-                            ()
-                    }
-                    <a data-doc="{config:get-identifier($div)}" data-div="{util:node-id($div)}" class="toc-link {$isCurrent}"
-                        href="{util:document-name($div)}?root={util:node-id($root)}&amp;odd={$model?config?odd}&amp;view={$view}">{$html}</a>
-                    {
-                        if ($hasDivs) then
-                            <div id="{$id}" class="collapse {$isIn}">{pages:toc-div($div, $model, $current)}</div>
-                        else
-                            pages:toc-div($div, $model, $current)
-                    }
+                {
+                    if ($hasDivs) then
+                        <pb-collapse>
+                            <span slot="collapse-trigger">
+                                <pb-link node-id="{util:node-id($root)}" target="#view1">{$html}</pb-link>
+                            </span>
+                            <span slot="collapse-content">
+                            { pages:toc-div($div, $model, $current) }
+                            </span>
+                        </pb-collapse>
+                    else
+                        <pb-link node-id="{util:node-id($root)}" target="#view1">{$html}</pb-link>
+                }
                 </li>
         }
         </ul>

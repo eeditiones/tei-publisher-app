@@ -1,0 +1,61 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/shadycss/apply-shim.html">
+
+<dom-module id="pb-link">
+    <template>
+        <style>
+            :host {
+                display: inline;
+            }
+
+            a, a:link {
+                @apply --pb-link-style;
+            }
+        </style>
+
+        <a href="#" on-click="_onClick"><slot></slot></a>
+    </template>
+
+    <script>
+        /**
+         * `pb-link`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbLink extends Polymer.Element {
+            static get is() {
+                return 'pb-link';
+            }
+
+            static get properties() {
+                return {
+                    target: {
+                        type: String
+                    },
+                    nodeId: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready(){
+                super.ready();
+            }
+
+            _onClick() {
+                document.querySelectorAll(this.target).forEach((elem) => {
+                    elem.goto(this.nodeId);
+                });
+            }
+        }
+
+        window.customElements.define(PbLink.is, PbLink);
+    </script>
+</dom-module>

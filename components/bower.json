@@ -22,10 +22,11 @@
     "openseadragon": "^2.3.1",
     "openseadragon-annotations": "^1.0.5",
     "img-pan-zoom": "^2.0.0",
-    "iron-form": "PolymerElements/iron-form#^2.4.0"
+    "iron-form": "PolymerElements/iron-form#^2.4.0",
     "OpenSeadragonPaperjsOverlay": "https://github.com/eriksjolund/OpenSeadragonPaperjsOverlay.git#master",
-    "paper": "^0.11.5"
-    "paper-fab": "PolymerElements/paper-fab#^2.1.0"
+    "paper": "^0.11.5",
+    "paper-fab": "PolymerElements/paper-fab#^2.1.0",
+    "iron-collapse-button": "jifalops/iron-collapse-button#^1.0.1"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
