@@ -9,7 +9,7 @@
             }
 
             a, a:link {
-                @apply --pb-link-style;
+                @apply --pb-link-theme;
             }
         </style>
 
@@ -49,7 +49,9 @@
                 super.ready();
             }
 
-            _onClick() {
+            _onClick(ev) {
+                ev.preventDefault();
+                ev.stopPropagation();
                 document.querySelectorAll(this.target).forEach((elem) => {
                     elem.goto(this.nodeId);
                 });

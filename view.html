@@ -179,11 +179,6 @@
 
             .tocDrawer {
                 padding: 0 10px;
-
-                --pb-link-style: {
-                    text-decoration: none;
-                    color: #C0C0C0;
-                };
             }
 
             #toc ul {
@@ -192,8 +187,19 @@
                 padding: 0;
             }
 
+            #toc ul ul {
+                margin-left: 20px;
+            }
+
             #toc li {
                 margin-bottom: .5em;
+            }
+
+            pb-link {
+                --pb-link-theme: {
+                    text-decoration: none;
+                    color: #C0C0C0;
+                };
             }
         </style>
     </head>
