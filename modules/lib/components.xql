@@ -74,9 +74,10 @@ return
             else
                 $xml?data
         let $userParams :=
-            map:merge(
-                request:get-parameter-names()[starts-with(., 'user')] ! map { substring-after(., 'user.'): request:get-parameter(., ()) }
-            )
+            map:merge((
+                request:get-parameter-names()[starts-with(., 'user')] ! map { substring-after(., 'user.'): request:get-parameter(., ()) },
+                map { "webcomponents": true() }
+            ))
         let $html :=
             typeswitch ($xml?data)
                 case element() | document-node() return
