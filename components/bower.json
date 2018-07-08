@@ -26,7 +26,8 @@
     "OpenSeadragonPaperjsOverlay": "https://github.com/eriksjolund/OpenSeadragonPaperjsOverlay.git#master",
     "paper": "^0.11.5",
     "paper-fab": "PolymerElements/paper-fab#^2.1.0",
-    "iron-collapse": "PolymerElements/iron-collapse#^2.2.1"
+    "iron-collapse": "PolymerElements/iron-collapse#^2.2.1",
+    "paper-tooltip": "PolymerElements/paper-tooltip#^2.1.1"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
