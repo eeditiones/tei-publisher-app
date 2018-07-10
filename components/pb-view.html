@@ -34,6 +34,14 @@
                   color: #777777;
                 }
             }
+
+            a[rel=footnote] {
+                @apply --pb-footnote-ref;
+            }
+
+            .content {
+                @apply --pb-content-theme;
+            }
         </style>
 
         <div id="view">
@@ -78,6 +86,10 @@
                     },
                     nodeId: {
                         type: String,
+                        reflectToAttribute: true
+                    },
+                    xmlId: {
+                        type: Array,
                         reflectToAttribute: true
                     },
                     xpath: {
@@ -132,23 +144,11 @@
             }
 
             _load(pos) {
-                console.log("pos: %s", pos);
                 this.dispatchEvent(new CustomEvent('startUpdate'));
 
                 const doc = this.getDocument();
 
-                let params = {
-                    "doc": doc.path,
-                    "odd": this.getOdd() + '.odd',
-                    "view": this.getView()
-                };
-                if (pos) {
-                    params['root'] = pos;
-                }
-                if (this.xpath) {
-                    params.xpath = this.xpath;
-                }
-                this._getParameters(params);
+                const params = this.getParameters(pos);
 
                 let url = doc.getFileName() + '?odd=' + params.odd + '&view=' + params.view;
                 if (params.root) {
@@ -160,6 +160,7 @@
                 }
 
                 console.log("Loading view with params %o", params);
+                this.$.content.innerHTML = "";
                 this.$.loadContent.params = params;
                 this.$.loadContent.generateRequest();
             }
@@ -179,6 +180,9 @@
 
             _handleContent() {
                 const resp = this.$.loadContent.lastResponse;
+                if (resp.error) {
+                    return;
+                }
                 this.$.content.innerHTML = resp.content;
                 this.next = resp.next;
                 this.previous = resp.previous;
@@ -188,28 +192,31 @@
                 this.dispatchEvent(new CustomEvent('endUpdate'));
             }
 
-            _getParameters(params) {
+            _getParameters() {
+                const params = [];
                 this.querySelectorAll('pb-param').forEach(function(param) {
                     params['user.' + param.getAttribute('name')] = param.getAttribute('value');
                 });
                 return params;
             }
 
-            getParameters() {
+            getParameters(pos) {
+                pos = pos || this.nodeId;
                 const doc = this.getDocument();
-
-                let params = {
-                    "doc": doc.path,
-                    "odd": this.getOdd() + '.odd',
-                    "view": this.getView()
-                };
-                if (this.nodeId) {
-                    params['root'] = this.nodeId;
+                const params = this._getParameters();
+                params.doc = doc.path;
+                params.odd = this.getOdd() + '.odd';
+                params.view = this.getView();
+                if (pos) {
+                    params['root'] = pos;
                 }
                 if (this.xpath) {
                     params.xpath = this.xpath;
                 }
-                this._getParameters(params);
+                if (this.xmlId) {
+                    params.id = this.xmlId;
+                }
+
                 return params;
             }
 
