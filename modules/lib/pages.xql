@@ -70,14 +70,29 @@ declare function pages:pb-document($node as node(), $model as map(*), $doc as xs
         </pb-document>
 };
 
-declare function pages:pb-view($node as node(), $model as map(*), $root as xs:string?) {
-    <pb-view node-id="{$root}">
-    { $node/@* }
-    </pb-view>
+declare function pages:pb-view($node as node(), $model as map(*), $root as xs:string?, $id as xs:string?) {
+    element { node-name($node) } {
+        attribute node-id { $root },
+        if ($id) then
+            attribute xml-id { '["' || $id || '"]'}
+        else
+            (),
+        $node/@*
+    }
 };
 
 declare function pages:current-language($node as node(), $model as map(*), $lang as xs:string?) {
     let $selected := count($node/*[. = $lang]/preceding-sibling::*)
+    return
+        element { node-name($node) } {
+            $node/@*,
+            attribute selected { $selected },
+            $node/*
+        }
+};
+
+declare function pages:current-layout($node as node(), $model as map(*), $layout as xs:string?) {
+    let $selected := count($node/*[. = $layout]/preceding-sibling::*)
     return
         element { node-name($node) } {
             $node/@*,
@@ -311,17 +326,17 @@ declare function pages:clean-footnotes($nodes as node()*) {
 
 declare
     %templates:wrap
-function pages:table-of-contents($node as node(), $model as map(*)) {
+function pages:table-of-contents($node as node(), $model as map(*), $target as xs:string*) {
     let $current :=
         if ($model?config?view = "page") then
             ($model?data/ancestor-or-self::tei:div[1], $model?data/following::tei:div[1])[1]
         else
             $model?data
     return
-        pages:toc-div(root($model?data), $model, $current)
+        pages:toc-div(root($model?data), $model, $current, $target)
 };
 
-declare %private function pages:toc-div($node, $model as map(*), $current as element()) {
+declare %private function pages:toc-div($node, $model as map(*), $current as element(), $target as xs:string?) {
     let $view := $model?config?view
     let $divs := nav:get-subsections($model?config, $node)
     return
@@ -355,11 +370,11 @@ declare %private function pages:toc-div($node, $model as map(*), $current as ele
                                 <pb-link node-id="{util:node-id($root)}" target="#view1">{$html}</pb-link>
                             </span>
                             <span slot="collapse-content">
-                            { pages:toc-div($div, $model, $current) }
+                            { pages:toc-div($div, $model, $current, $target) }
                             </span>
                         </pb-collapse>
                     else
-                        <pb-link node-id="{util:node-id($root)}" target="#view1">{$html}</pb-link>
+                        <pb-link node-id="{util:node-id($root)}" target="{$target}">{$html}</pb-link>
                 }
                 </li>
         }

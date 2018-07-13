@@ -9,6 +9,11 @@
                 display: block;
             }
 
+            .columns {
+                display: grid;
+                grid-template-columns: 50% 50%;
+            }
+
             .margin-note {
                 display: none;
             }
@@ -35,22 +40,30 @@
                 }
             }
 
-            a[rel=footnote] {
+            a[rel=footnote], pb-footnote-ref {
                 @apply --pb-footnote-ref;
             }
 
             .content {
                 @apply --pb-content-theme;
             }
+
+            .highlight {
+                @apply --pb-highlight-theme;
+            }
         </style>
 
         <div id="view">
+            <div class="columns">
+                <div id="column1"></div>
+                <div id="column2"></div>
+            </div>
             <div id="content"></div>
         </div>
 
         <iron-ajax
             id="loadContent"
-            url="modules/lib/components.xql"
+            url="[[url]]"
             verbose
             handle-as="json"
             method="get"
@@ -99,6 +112,13 @@
                     history: {
                         type: Boolean,
                         value: false
+                    },
+                    url: {
+                        type: String,
+                        value: "modules/lib/components.xql"
+                    },
+                    columnSeparator: {
+                        type: String
                     }
                 };
             }
@@ -160,7 +180,7 @@
                 }
 
                 console.log("Loading view with params %o", params);
-                this.$.content.innerHTML = "";
+                this._clear();
                 this.$.loadContent.params = params;
                 this.$.loadContent.generateRequest();
             }
@@ -178,18 +198,50 @@
                 this.$.view.appendChild(link);
             }
 
+            _clear() {
+                this.$.content.innerHTML = "";
+                this.$.column1.innerHTML = "";
+                this.$.column2.innerHTML = "";
+            }
+
             _handleContent() {
                 const resp = this.$.loadContent.lastResponse;
                 if (resp.error) {
                     return;
                 }
-                this.$.content.innerHTML = resp.content;
+
+                this._replaceContent(resp.content);
+
                 this.next = resp.next;
                 this.previous = resp.previous;
                 this.nodeId = resp.root;
 
                 this.dispatchEvent(new CustomEvent('update', {detail: {data: resp}}));
                 this.dispatchEvent(new CustomEvent('endUpdate'));
+            }
+
+            _replaceContent(content) {
+                const tempElem = document.createElement("div");
+                tempElem.innerHTML = content;
+                const root = tempElem.firstChild;
+                let cb;
+                if (this.columnSeparator) {
+                    const cbs = root.querySelectorAll(this.columnSeparator);
+                    // use last separator only
+                    if (cbs.length > 0) {
+                        cb = cbs.item(cbs.length - 1);
+                    }
+                }
+
+                if (!cb) {
+                    this.$.content.appendChild(root);
+                } else {
+                    const fragmentBefore = this._getFragmentBefore(root, cb);
+                    const fragmentAfter = this._getFragmentAfter(root, cb);
+
+                    this.$.column1.appendChild(fragmentBefore);
+                    this.$.column2.appendChild(fragmentAfter);
+                }
             }
 
             _getParameters() {
@@ -233,18 +285,34 @@
             }
 
             zoom(direction) {
-                const fontSize = window.getComputedStyle(this.$.content).getPropertyValue('font-size');
+                const fontSize = window.getComputedStyle(this.$.view).getPropertyValue('font-size');
                 const size = parseInt(fontSize.replace(/^(\d+)px/, "$1"));
 
                 if (direction === 'in') {
-                    this.$.content.style.fontSize = (size + 1) + 'px';
+                    this.$.view.style.fontSize = (size + 1) + 'px';
                 } else {
-                    this.$.content.style.fontSize = (size - 1) + 'px';
+                    this.$.view.style.fontSize = (size - 1) + 'px';
                 }
             }
 
             triggerEvent(type) {
                 this.dispatchEvent(new CustomEvent(type));
+            }
+
+            _getFragmentBefore(node, ms) {
+                const range = document.createRange();
+                range.setStartBefore(node);
+                range.setEndBefore(ms);
+
+                return range.cloneContents();
+            }
+
+            _getFragmentAfter(node, ms) {
+                const range = document.createRange();
+                range.setStartBefore(ms);
+                range.setEndAfter(node);
+
+                return range.cloneContents();
             }
         }
 

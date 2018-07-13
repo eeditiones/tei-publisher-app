@@ -1,7 +1,6 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
-<!--<link rel="import" href="bower_components/polymer/lib/elements/dom-repeat.html">-->
 
-<dom-module id="pb-lang">
+<dom-module id="pb-switch-layout">
     <template>
         <style>
             :host {
@@ -10,11 +9,11 @@
 
             paper-dropdown-menu{
                 --paper-dropdown-menu: {
-                    color: var(--pb-lang-item-color);
+                    color: var(--pb-lang-item-color, --paper-grey-100);
                 };
 
                 --paper-input-container-input:{
-                    color: var(--pb-lang-input-color, white);
+                    color: var(--pb-lang-input-color, black);
                 };
                 --paper-input-container-label:{
                     color:var(--paper-grey-100);
@@ -26,27 +25,22 @@
         <paper-dropdown-menu id="menu" label="[[label]]">
             <paper-listbox slot="dropdown-content" class="dropdown-content" selected="{{selected}}">
                 <slot></slot>
-<!--
-                <template id="repeat" is="dom-repeat" items="[[languages]]">
-                    <paper-item>[[item]]</paper-item>
-                </template>
--->
             </paper-listbox>
         </paper-dropdown-menu>
     </template>
 
     <script>
         /**
-         * `pb-lang`
+         * `pb-switch-layout`
          *
          *
          * @customElement
          * @polymer
          * @demo demo/index.html
          */
-        class PbLang extends Polymer.Element {
+        class PbSwitchLayout extends Polymer.Element {
             static get is() {
-                return 'pb-lang';
+                return 'pb-switch-layout';
             }
 
             static get properties() {
@@ -57,45 +51,41 @@
                     },
                     selected: {
                         type: String,
-                        observer: '_changed'
-                    },
-/*
-                    languages:{
-                        type: Array
+                        observer: '_changed',
+                        value: 1
                     }
-*/
                 };
             }
 
             connectedCallback() {
                 super.connectedCallback();
-//                console.log("langs ", this.languages);
             }
 
             ready(){
                 super.ready();
             }
-
+            
             _changed(newVal, oldVal) {
                 if (typeof oldVal !== 'undefined' && newVal !== oldVal) {
                     const loc = window.location;
-                    const lang = this.$.menu.selectedItemLabel;
+                    const layout = this.$.menu.selectedItemLabel;
                     let search;
                     if (loc.search) {
-                        search = loc.search.replace(/\&?lang=[\w]+/, '');
+                        search = loc.search.replace(/\&?layout=[\w]+/, '');
                         if (search == '?') {
-                            search = search + 'lang=' + lang;
+                            search = search + 'layout=' + layout;
                         } else {
-                            search = search + '&lang=' + lang;
+                            search = search + '&layout=' + layout;
                         }
                     } else {
-                        search = '?lang=' + lang;
+                        search = '?layout=' + layout;
                     }
                     loc.replace(loc.protocol + '//' + loc.hostname + ':' + loc.port + loc.pathname + search + loc.hash);
                 }
             }
+
         }
 
-        window.customElements.define(PbLang.is, PbLang);
+        window.customElements.define(PbSwitchLayout.is, PbSwitchLayout);
     </script>
 </dom-module>

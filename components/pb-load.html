@@ -20,7 +20,9 @@
 
     <script>
         /**
-         * `pb-load`
+         * `<pb-load>`
+         *
+         * Dynamically load data into a container, optionally triggered by an event.
          *
          *
          * @customElement
@@ -34,14 +36,33 @@
 
             static get properties() {
                 return {
+                    /** The URL for the AJAX request */
                     url: {
                         type: String
                     },
+                    /** Selector for the view this loader is connected to.
+                     * HTTP request parameters will be the same as for the view.
+                     */
                     target: {
                         type: String
                     },
+                    /**
+                     * The container element into which the results returned by
+                     * the AJAX request will be loaded.
+                     */
                     container: {
                         type: String
+                    },
+                    /**
+                     * An object defining an event source. Loading
+                     * will be triggered when the event source fires. The object
+                     * should specify two properties:
+                     *
+                     * 1. source: the object to register an event listener on
+                     * 2. event: name of the event to listen on
+                     */
+                    trigger: {
+                        type: Object
                     }
                 };
             }
@@ -55,23 +76,28 @@
                 super.connectedCallback();
             }
 
-            ready(){
+            ready() {
                 super.ready();
+                if (this.trigger && this.trigger.selector && this.trigger.event) {
+                    document.querySelectorAll(this.trigger.selector).forEach((elem) =>
+                        elem.addEventListener(this.trigger.event, this.load.bind(this)));
+                }
             }
 
             load() {
                 if (this.loaded) {
                     return;
                 }
+                console.log("Loading %s", this.url);
                 const appRoot = document.documentElement.getAttribute('data-app');
                 const url = [appRoot, this.url].join('/');
 
-                const params = {};
                 const view = document.querySelector(this.target);
-                params.odd = view.getOdd();
-                params.doc = view.getDocument().path;
-                params.view = view.getView();
-
+                if (!('getDocument' in view)) {
+                  return console.error('target not found:', this.target)
+                }
+                const params = view.getParameters();
+                params.target = this.target;
                 this.$.loadContent.params = params;
                 this.$.loadContent.url = url;
                 this.$.loadContent.generateRequest();

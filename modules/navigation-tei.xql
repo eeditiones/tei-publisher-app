@@ -156,7 +156,7 @@ declare %private function nav:get-previous-recursive($config as map(*), $div as 
             $div
 };
 
-declare %private function nav:milestone-chunk($ms1 as element(), $ms2 as element()?, $node as node()*) as node()*
+declare function nav:milestone-chunk($ms1 as element(), $ms2 as element()?, $node as node()*) as node()*
 {
     typeswitch ($node)
         case element() return

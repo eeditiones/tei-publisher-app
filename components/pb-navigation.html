@@ -29,11 +29,10 @@
                     },
                     direction: {
                         type: String,
-                        value: 'next'
+                        value: 'forward'
                     },
                     keyboard: {
-                        type: Boolean,
-                        value: false
+                        type: String
                     },
                     keyEventTarget: {
                         type: Object,
@@ -56,11 +55,7 @@
                 }.bind(this));
 
                 if (this.keyboard) {
-                    if (this.direction === 'forward') {
-                        this.addOwnKeyBinding('right', '_handleClick');
-                    } else {
-                        this.addOwnKeyBinding('left', '_handleClick');
-                    }
+                    this.addOwnKeyBinding(this.keyboard, '_handleClick');
                 }
             }
 

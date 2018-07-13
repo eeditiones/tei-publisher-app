@@ -12,7 +12,7 @@
         <title data-template="config:app-title"/>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"/>
+        <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
         <link rel="import" href="components/bower_components/app-layout/app-scroll-effects/effects/material.html"/>
         <link rel="import" href="components/bower_components/neon-animation/web-animations.html"/>
         <link rel="import" href="components/bower_components/iron-flex-layout/iron-flex-layout.html"/>
@@ -213,7 +213,8 @@
                     <h3>
                         <i18n:text key="contents">Contents</i18n:text>
                     </h3>
-                    <pb-load id="loadToc" url="templates/toc.html" target="#view1" container="#toc">Loading ...</pb-load>
+                    <pb-load id="loadToc" url="templates/toc.html" target="#view1" container="#toc"
+                        trigger='{"selector": "#drawer", "event": "opened-changed"}'>Loading ...</pb-load>
                     <div id="toc"></div>
                 </div>
             </app-drawer>
@@ -344,11 +345,11 @@
                 </app-header>
 
                 <main class="content-body">
-                    <pb-navigation target="#view1" direction="backward" unit="page" keyboard="keyboard">
+                    <pb-navigation target="#view1" direction="backward" unit="page" keyboard="left">
                         <paper-fab icon="icons:chevron-left"/>
                     </pb-navigation>
                     <pb-view id="view1" src="document1" data-template="pages:pb-view" history="history"/>
-                    <pb-navigation target="#view1" direction="forward" unit="page" keyboard="keyboard">
+                    <pb-navigation target="#view1" direction="forward" unit="page" keyboard="right">
                         <paper-fab icon="icons:chevron-right"/>
                     </pb-navigation>
                 </main>
@@ -378,11 +379,5 @@
                 </paper-button>
             </div>
         </paper-dialog>
-        <script type="text/javascript">
-            var drawer = document.getElementById('drawer');
-            drawer.addEventListener('opened-changed', function(ev) {
-                document.getElementById('loadToc').load();
-            });
-        </script>
     </body>
 </html>

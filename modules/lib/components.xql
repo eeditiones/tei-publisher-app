@@ -15,21 +15,31 @@
  :  You should have received a copy of the GNU General Public License
  :  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  :)
-xquery version "3.0";
+xquery version "3.1";
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
+import module namespace nav-tei="http://www.tei-c.org/tei-simple/navigation/tei" at "/db/apps/mishnah/modules/navigation-tei.xql";
 
 declare boundary-space strip;
 
 declare option output:method "json";
 declare option output:media-type "application/json";
 
+declare function local:extract-footnotes($html as element()*) {
+    map {
+        "footnotes": $html/div[@class="footnotes"],
+        "content":
+            element { node-name($html) } {
+                $html/@*,
+                $html/node() except $html/div[@class="footnotes"]
+            }
+    }
+};
 
 (:
  : This module is called from Javascript when the user wants to navigate to the next/previous
@@ -37,25 +47,30 @@ declare option output:media-type "application/json";
  :)
 let $doc := request:get-parameter("doc", ())
 let $root := request:get-parameter("root", ())
-let $id := request:get-parameter("id", ())
+let $id := request:get-parameter("id", () )
 let $view := request:get-parameter("view", $config:default-view)
 let $xpath := request:get-parameter("xpath", ())
 let $xml :=
-    if ($id) then (
-        console:log("Loading by id " || $id),
-        let $node := pages:get-document($doc)/id($id)
-        let $div := $node/ancestor-or-self::tei:div[1]
-        let $config := tpu:parse-pi(root($node), $view)
+    if (exists($id)) then (
+        let $document := pages:get-document($doc)
+        let $config := tpu:parse-pi($document, $view)
+        let $data :=
+            if (count($id) = 1) then
+                $document/id($id)
+            else
+                let $ms1 := $document/id($id[1])
+                let $ms2 := $document/id($id[2])
+                return
+                    if ($ms1 and $ms2) then
+                        nav-tei:milestone-chunk($ms1, $ms2, $document/tei:TEI)
+                    else
+                        ()
         return
             map {
                 "config": $config,
                 "odd": $config?odd,
                 "view": $config?view,
-                "data":
-                    if (empty($div)) then
-                        $node/following-sibling::tei:div[1]
-                    else
-                        $div
+                "data": $data
             }
     ) else if ($xpath) then
         let $document := pages:get-document($doc)
@@ -83,12 +98,8 @@ return
                 case element() | document-node() return
                     pages:process-content($content, $xml?data, $xml?config, $userParams)
                 default return
-                    $xml?data
-        let $div :=
-            if ($view = "page") then
-                ($xml?data/ancestor-or-self::tei:div[1], $xml?data/following::tei:div[1])[1]
-            else
-                $xml?data
+                    $content
+        let $transformed := local:extract-footnotes($html)
         let $doc := replace($doc, "^.*/([^/]+)$", "$1")
         return
             map {
@@ -125,10 +136,11 @@ return
                                 ()
                     else
                         (),
-                "content": serialize($html,
+                "content": serialize($transformed?content,
                     <output:serialization-parameters xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
                       <output:indent>no</output:indent>
-                    </output:serialization-parameters>)
+                    </output:serialization-parameters>),
+                "footnotes": $transformed?footnotes
             }
     else
         map { "error": "Not found" }
