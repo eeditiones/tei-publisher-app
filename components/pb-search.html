@@ -13,24 +13,25 @@
 
             paper-input{
                 --paper-input-container-input:{
-                    color:white;
-                    border:white;
+                    color: var(--pb-search-input, --paper-black);
+                    border: white;
                 };
                 --paper-input-container-label: {
-                    color:var(--paper-grey-500);
+                    color:var(--pb-search-label, --paper-grey-500);
                 };
                 padding-left:20px;
             }
 
         </style>
-        <iron-form id="ironform">
+        <iron-form id="ironform" allow-redirect>
             <form id="searchPageForm" method="get" action="{{action}}">
-                <paper-input id="search" type="search" name="query" on-keyup="_handleEnter" label="[[placeHolder]]" no-label-float>
+                <paper-input id="search" type="search" name="query" on-keyup="_handleEnter" label="[[placeHolder]]" no-label-float value="[[value]]">
                     <iron-icon icon="search" on-click="_doSearch" slot="prefix"></iron-icon>
                 </paper-input>
 
                 <!--<input value="{{myValue::input}}" type="search" class="search-input" autocomplete="off" placeholder="[[placeHolder]]" name="query">-->
                 <input type="hidden" name="doc" data-template="search:form-current-doc">
+                <input type="hidden" name="field" value="text"/>
             </form>
         </iron-form>
     </template>

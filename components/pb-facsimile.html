@@ -466,7 +466,6 @@
             }
 
             _getFacsimilesFromData(data) {
-                console.log(data.content)
               let facsimiles = data.content.match(/ facs="([^"]+)"/)
               return [facsimiles[1]] //.reduce(this._dedupeFacsimiles, [])
             }

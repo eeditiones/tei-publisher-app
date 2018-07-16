@@ -70,11 +70,16 @@ declare function pages:pb-document($node as node(), $model as map(*), $doc as xs
         </pb-document>
 };
 
-declare function pages:pb-view($node as node(), $model as map(*), $root as xs:string?, $id as xs:string?) {
+declare function pages:pb-view($node as node(), $model as map(*), $root as xs:string?, $id as xs:string?,
+    $action as xs:string?) {
     element { node-name($node) } {
         attribute node-id { $root },
         if ($id) then
             attribute xml-id { '["' || $id || '"]'}
+        else
+            (),
+        if ($action = "search") then
+            attribute highlight { "highlight" }
         else
             (),
         $node/@*
@@ -83,16 +88,6 @@ declare function pages:pb-view($node as node(), $model as map(*), $root as xs:st
 
 declare function pages:current-language($node as node(), $model as map(*), $lang as xs:string?) {
     let $selected := count($node/*[. = $lang]/preceding-sibling::*)
-    return
-        element { node-name($node) } {
-            $node/@*,
-            attribute selected { $selected },
-            $node/*
-        }
-};
-
-declare function pages:current-layout($node as node(), $model as map(*), $layout as xs:string?) {
-    let $selected := count($node/*[. = $layout]/preceding-sibling::*)
     return
         element { node-name($node) } {
             $node/@*,
@@ -367,7 +362,7 @@ declare %private function pages:toc-div($node, $model as map(*), $current as ele
                     if ($hasDivs) then
                         <pb-collapse>
                             <span slot="collapse-trigger">
-                                <pb-link node-id="{util:node-id($root)}" target="#view1">{$html}</pb-link>
+                                <pb-link node-id="{util:node-id($root)}" target="{$target}">{$html}</pb-link>
                             </span>
                             <span slot="collapse-content">
                             { pages:toc-div($div, $model, $current, $target) }
@@ -476,11 +471,18 @@ declare function pages:navigation-link($node as node(), $model as map(*), $direc
 };
 
 declare function pages:app-root($node as node(), $model as map(*)) {
-    element { node-name($node) } {
-        $node/@*,
-        attribute data-app { request:get-context-path() || substring-after($config:app-root, "/db") },
-        templates:process($node/*, $model)
-    }
+    let $model := map:merge(
+        (
+            $model, 
+            map { "app": request:get-context-path() || substring-after($config:app-root, "/db") }
+        )
+    )
+    return
+        element { node-name($node) } {
+            $node/@*,
+            attribute data-app { request:get-context-path() || substring-after($config:app-root, "/db") },
+            templates:process($node/*, $model)
+        }
 };
 
 declare function pages:determine-view($view as xs:string?, $node as node()) {
@@ -533,4 +535,37 @@ declare function pages:switch-view-id($data as element()+, $view as xs:string) {
             ($data/ancestor::tei:div, $data/following::tei:div, $data/ancestor::tei:body, $data/ancestor::tei:front)[1]
     return
         $root
+};
+
+declare function pages:parse-params($node as node(), $model as map(*)) {
+    element { node-name($node) } {
+        for $attr in $node/@*
+        return
+            if (matches($attr, "\$\{[^\}]+\}")) then
+                attribute { node-name($attr) } {
+                    string-join(
+                        let $parsed := analyze-string($attr, "\$\{([^\}]+?)(?::([^\}]+))?\}")
+                        for $token in $parsed/node()
+                        return
+                            typeswitch($token)
+                                case element(fn:non-match) return $token/string()
+                                case element(fn:match) return
+                                    let $paramName := $token/fn:group[1]
+                                    let $default := $token/fn:group[2]
+                                    let $found := [
+                                        request:get-parameter($paramName, $default),
+                                        $model($paramName),
+                                        session:get-attribute("apps.simple." || $paramName)
+                                    ]
+                                    return
+                                        array:fold-right($found, (), function($in, $value) {
+                                            if (exists($in)) then $in else $value
+                                        })
+                                default return $token
+                    )
+                }
+            else
+                $attr,
+        templates:process($node/node(), $model)
+    }
 };

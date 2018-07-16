@@ -12,6 +12,7 @@
             .columns {
                 display: grid;
                 grid-template-columns: 50% 50%;
+                grid-column-gap: 10px;
             }
 
             .margin-note {
@@ -109,6 +110,10 @@
                         type: String,
                         reflectToAttribute: true
                     },
+                    notFound: {
+                        type: String,
+                        value: "the server did not return any content"
+                    },
                     history: {
                         type: Boolean,
                         value: false
@@ -117,8 +122,42 @@
                         type: String,
                         value: "modules/lib/components.xql"
                     },
+                    /**
+                     * The server returns footnotes separately. Set this property
+                     * if you wish to append them to the main text.
+                     */
+                    appendFootnotes: {
+                        type: Boolean,
+                        value: true
+                    },
+                    /**
+                     * Should matches be highlighted if a search has been executed?
+                     */
+                    highlight: {
+                        type: Boolean,
+                        value: false
+                    },
+                    /**
+                     * CSS selector to find column breaks in the content returned
+                     * from the server. If this property is set and column breaks
+                     * are found, the component will display two columns side by side.
+                     */
                     columnSeparator: {
                         type: String
+                    },
+                    /**
+                     * The reading direction, i.e. 'ltr' or 'rtl'.
+                     */
+                    direction: {
+                        type: String,
+                        value: 'ltr'
+                    },
+                    toggleStates: {
+                        type: Object,
+                        readOnly: true,
+                        value: function() {
+                            return {};
+                        }
                     }
                 };
             }
@@ -207,10 +246,11 @@
             _handleContent() {
                 const resp = this.$.loadContent.lastResponse;
                 if (resp.error) {
+                    this.$.content.innerHTML = this.notFound;
                     return;
                 }
 
-                this._replaceContent(resp.content);
+                this._replaceContent(resp);
 
                 this.next = resp.next;
                 this.previous = resp.previous;
@@ -220,9 +260,9 @@
                 this.dispatchEvent(new CustomEvent('endUpdate'));
             }
 
-            _replaceContent(content) {
+            _replaceContent(resp) {
                 const tempElem = document.createElement("div");
-                tempElem.innerHTML = content;
+                tempElem.innerHTML = resp.content;
                 const root = tempElem.firstChild;
                 let cb;
                 if (this.columnSeparator) {
@@ -239,9 +279,23 @@
                     const fragmentBefore = this._getFragmentBefore(root, cb);
                     const fragmentAfter = this._getFragmentAfter(root, cb);
 
-                    this.$.column1.appendChild(fragmentBefore);
-                    this.$.column2.appendChild(fragmentAfter);
+                    if (this.direction === 'ltr') {
+                        this.$.column1.appendChild(fragmentBefore);
+                        this.$.column2.appendChild(fragmentAfter);
+                    } else {
+                        this.$.column2.appendChild(fragmentBefore);
+                        this.$.column1.appendChild(fragmentAfter);
+                    }
                 }
+                
+                if (this.appendFootnotes) {
+                    tempElem.innerHTML = resp.footnotes;
+                    if (tempElem.firstChild) {
+                        this.$.content.appendChild(tempElem.firstChild);
+                    }
+                }
+                    
+                this._applyToggles();
             }
 
             _getParameters() {
@@ -268,6 +322,9 @@
                 if (this.xmlId) {
                     params.id = this.xmlId;
                 }
+                if (this.highlight) {
+                    params.highlight = "yes";
+                }
 
                 return params;
             }
@@ -293,6 +350,17 @@
                 } else {
                     this.$.view.style.fontSize = (size - 1) + 'px';
                 }
+            }
+
+            toggle(selector, state) {
+                this.toggleStates[selector] = state;
+                this._applyToggles();
+            }
+
+            _applyToggles() {
+                Object.keys(this.toggleStates).forEach((selector) =>
+                    this.$.view.querySelectorAll(selector).forEach((elem) => elem.toggle(this.toggleStates[selector]))
+                );
             }
 
             triggerEvent(type) {

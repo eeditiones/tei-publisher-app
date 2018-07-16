@@ -23,7 +23,7 @@
         </style>
 
         <paper-dropdown-menu id="menu" label="[[label]]">
-            <paper-listbox slot="dropdown-content" class="dropdown-content" selected="{{selected}}">
+            <paper-listbox slot="dropdown-content" class="dropdown-content" selected="{{layout}}" attr-for-selected="value">
                 <slot></slot>
             </paper-listbox>
         </paper-dropdown-menu>
@@ -49,10 +49,10 @@
                         type: String,
                         value: 'Language'
                     },
-                    selected: {
+                    layout: {
                         type: String,
                         observer: '_changed',
-                        value: 1
+                        value: "translation"
                     }
                 };
             }
@@ -64,11 +64,11 @@
             ready(){
                 super.ready();
             }
-            
+
             _changed(newVal, oldVal) {
                 if (typeof oldVal !== 'undefined' && newVal !== oldVal) {
                     const loc = window.location;
-                    const layout = this.$.menu.selectedItemLabel;
+                    const layout = newVal;
                     let search;
                     if (loc.search) {
                         search = loc.search.replace(/\&?layout=[\w]+/, '');

@@ -7,10 +7,15 @@
             :host {
                 display: inline-block;
             }
+
+            #content {
+                color: var(--paper-blue-800);
+            }
         </style>
 
-        <span id="content"><slot name="content"></slot></span>
-        <paper-tooltip for="content" position="[[position]]" fitToVisibleBounds><slot name="alternate"></slot></paper-tooltip>
+        <slot style="display: none;"></slot>
+        <span id="content" name="content"></span>
+        <paper-tooltip id="tooltip" for="content" position="[[position]]" fitToVisibleBounds></paper-tooltip>
     </template>
 
     <script>
@@ -32,6 +37,12 @@
                     'position': {
                         type: 'String',
                         value: 'bottom'
+                    },
+                    'alternate': {
+                        type: 'String'
+                    },
+                    'content': {
+                        type: 'String'
                     }
                 };
             }
@@ -42,6 +53,30 @@
 
             ready(){
                 super.ready();
+                this.toggled = false;
+                this.content = this.querySelector('.default').innerHTML;
+                this.alternate = this.querySelector('.altcontent').innerHTML;
+                
+                this._update();
+            }
+
+            _update() {
+                this.$.content.innerHTML = this.content;
+                this.$.tooltip.innerHTML = this.alternate;
+            }
+
+            toggle(toggle) {
+                if (toggle === this.toggled) {
+                    return;
+                }
+                
+                this.toggled = toggle;
+
+                const old = this.content;
+                this.content = this.alternate;
+                this.alternate = old;
+
+                this._update();
             }
 
         }

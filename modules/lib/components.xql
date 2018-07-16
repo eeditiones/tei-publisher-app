@@ -23,7 +23,8 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
-import module namespace nav-tei="http://www.tei-c.org/tei-simple/navigation/tei" at "/db/apps/mishnah/modules/navigation-tei.xql";
+import module namespace nav-tei="http://www.tei-c.org/tei-simple/navigation/tei" at "../navigation-tei.xql";
+import module namespace query="http://www.tei-c.org/tei-simple/query" at "../query.xql";
 
 declare boundary-space strip;
 
@@ -50,6 +51,8 @@ let $root := request:get-parameter("root", ())
 let $id := request:get-parameter("id", () )
 let $view := request:get-parameter("view", $config:default-view)
 let $xpath := request:get-parameter("xpath", ())
+let $debug := request:get-parameter("debug", ())
+let $highlight := request:get-parameter("highlight", ())
 let $xml :=
     if (exists($id)) then (
         let $document := pages:get-document($doc)
@@ -83,11 +86,16 @@ let $xml :=
         pages:load-xml($view, $root, $doc)
 return
     if ($xml?data) then
-        let $content :=
-            if (not($view = "single")) then
-                pages:get-content($xml?config, $xml?data)
+        let $data :=
+            if (empty($xpath) and $highlight and exists(session:get-attribute("apps.simple.query"))) then
+                query:expand($xml?config, $xml?data)[1]
             else
                 $xml?data
+        let $content :=
+            if (not($view = "single")) then
+                pages:get-content($xml?config, $data)
+            else
+                $data
         let $userParams :=
             map:merge((
                 request:get-parameter-names()[starts-with(., 'user')] ! map { substring-after(., 'user.'): request:get-parameter(., ()) },
@@ -102,7 +110,12 @@ return
         let $transformed := local:extract-footnotes($html)
         let $doc := replace($doc, "^.*/([^/]+)$", "$1")
         return
-            map {
+            if ($debug) then (
+                util:declare-option("output:method", "html5"),
+                util:declare-option("output:media-type", "text/html"),
+                $transformed?content
+            ) else
+                map {
                 "view": $view,
                 "doc": $doc,
                 "root": $root,
