@@ -1,0 +1,154 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="bower_components/polymer/lib/elements/dom-repeat.html">
+
+<dom-module id="pb-results">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            paper-card {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            header {
+                padding: 4px 8px;
+            }
+            .matches {
+                display: table;
+                margin-left: 20px;
+            }
+            .match {
+                display: table-row;
+            }
+            .match * {
+                display: table-cell;
+                padding: 4px 8px;
+            }
+
+            .hi {
+                display: block;
+            }
+        </style>
+
+        <div>
+            <h3>Found [[resultCount]] hits</h3>
+            <template is="dom-repeat" items="{{hits}}">
+                <paper-card>
+                    <header>
+                        <div class="count">{{item.num}}</div>
+                    </header>
+                    <div class="matches">
+                        <template is="dom-repeat" items="{{item.matches}}">
+                            <div class="match">
+                                <div class="before">{{item.before}}</div>
+                                <a class="hi" href$="{{item.hi.link}}">{{item.hi.content}}</a>
+                                <div class="after">{{item.after}}</div>
+                            </div>
+                        </template>
+                    </div>
+                </paper-card>
+            </template>
+        </div>
+
+        <iron-ajax
+            id="load"
+            url="[[url]]"
+            verbose
+            handle-as="json"
+            method="get"
+            on-response="_update"></iron-ajax>
+    </template>
+
+    <script>
+        /**
+         * `pb-results`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbResults extends Polymer.Element {
+            static get is() {
+                return 'pb-results';
+            }
+
+            static get properties() {
+                return {
+                    source:{
+                        type: String
+                    },
+                    hits: {
+                        type: Object,
+                        value: []
+                    },
+                    resultCount: {
+                        type: Number,
+                        value: 0
+                    },
+                    start: {
+                        type: Number,
+                        value: 1,
+                        observer: 'doSearch'
+                    },
+                    perPage: {
+                        type: Number,
+                        value: 10
+                    },
+                    params: {
+                        type: Object
+                    },
+                    url: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready() {
+                super.ready();
+            }
+
+            search(options) {
+                this.start = 1;
+                this.url = options.url;
+                this.params = options.params;
+                this.doSearch();
+            }
+
+            doSearch() {
+                if (!this.params) {
+                    return;
+                }
+                this.dispatchEvent(new CustomEvent('startUpdate'));
+                this.params.start = this.start;
+                this.params.count = this.perPage;
+                this.$.load.params = this.params;
+                this.$.load.generateRequest();
+            }
+
+            _update() {
+                this.dispatchEvent(new CustomEvent('endUpdate'));
+                const resp = this.$.load.lastResponse;
+                this.hits = resp.hits;
+                this.resultCount = resp.hitCount;
+
+                this.dispatchEvent(new CustomEvent('pb-results-received', {
+                    detail: {
+                        "count": resp.hitCount,
+                        "start": this.start
+                    }
+                }));
+
+            }
+        }
+
+        window.customElements.define(PbResults.is, PbResults);
+    </script>
+</dom-module>

@@ -1,77 +1,207 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <div data-template="templates:include" data-template-path="templates/menu.html"/>
-    <section class="container-fluid">
-      <header class="row actions">
-          <div class="col-md-12">
-              <div class="page-header">
-                  <h1 data-template="config:app-title"/>
-              </div>
-          </div>
-      </header>
+<html xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="pages:app-root">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+        <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
 
-        <main class="row search">
-            <div class="col-md-3 col-md-push-9">
-                <form action="search.html" class="form form-horizontal">
-                    <div class="well well-sm">
-                        <div class="form-group">
-                            <div class="col-md-12 col-xs-12">
-                                <span class="input-group">
-                                    <input name="query" type="search" class="templates:form-control form-control typeahead-search" placeholder="Search For What?" autocomplete="off"/>
-                                    <span class="input-group-btn">
-                                        <button id="f-btn-search" type="submit" class="btn btn-primary">
-                                            <span class="material-icons">search</span>
-                                        </button>
-                                    </span>
-                                </span>
-                                <input type="hidden" name="field" value="text"/>
-                            </div>
-                        </div>
-                        <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Which Document Part?">
-                            <div class="col-md-12 col-xs-12">
-                                <select name="tei-target" class="form-control" data-template="templates:form-control">
-                                    <option value="tei-text" selected="selected">Search
-                                    Sections</option>
-                                    <option value="tei-head">Search Headings</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-9 col-md-pull-3">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Search Results</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="search:query">
-                            <p class="main-content">Found: <span id="hit-count" data-template="browse:hit-count"/>
-                            </p><!-- pagination for small device -->
-                            <div class="hidden-md hidden-lg hidden-sm">
-                                <ul class="pagination" data-template="browse:paginate" data-template-per-page="20" data-template-max-pages="5" data-template-min-hits="21"/>
-                            </div><!-- pagination for larger device -->
-                            <div class="hidden-xs">
-                                <ul class="pagination" data-template="browse:paginate" data-template-per-page="20" data-template-max-pages="9" data-template-min-hits="21"/>
-                            </div><!-- query results -->
-                            <table id="results" class="col-md-12 table">
-                                <colgroup>
-                                    <col class="previous"/>
-                                    <col class="hi"/>
-                                    <col class="next"/>
-                                </colgroup>
-                                <tbody data-template="search:show-hits" data-template-per-page="20"/>
-                            </table><!-- bottom pagination for small device -->
-                            <div class="hidden-md hidden-lg hidden-sm">
-                                <ul class="pagination" data-template="browse:paginate" data-template-per-page="20" data-template-max-pages="5" data-template-min-hits="21"/>
-                            </div><!-- bottom pagination for larger device -->
-                            <div class="hidden-xs">
-                                <ul class="pagination" data-template="browse:paginate" data-template-per-page="20" data-template-max-pages="9" data-template-min-hits="21"/>
-                            </div>
-                        </div>
-                    </div>
+        <title data-template="config:app-title"/>
+        <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
+        <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
+        <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
+        <link rel="import" href="components/dependencies-dev.html"/>
+
+        <custom-style>
+            <style type="text/css">
+                @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald');
+
+                body {
+                    font-family: "Open Sans", Verdana, "Helvetica", sans-serif;
+                    font-size: 16px;
+                    margin: 0;
+                    color: #333333;
+
+                    --pb-link-theme: {
+                        font-family: "Junicode",Georgia,"Times New Roman",serif;
+                        text-decoration: none;
+                        color: black;
+                    };
+
+                    --pb-footnote-ref: {
+                        font-size: 75%;
+                        vertical-align: top;
+                        color: #333333;
+                        text-decoration: none;
+                    }
+
+                    --pb-content-theme: {
+                        margin-right: 32px;
+                    }
+
+                    --pb-highlight-theme: {
+                        background-color: #F9E976;
+                    }
+                }
+
+                .search-panel {
+                    margin: 0 20px;
+                }
+
+                pb-results {
+                    overflow: scroll;
+                    margin: 0 20px;
+                    height: calc(100vh - 128px);
+                }
+
+                .targets {
+                    @apply --layout-vertical;
+                }
+
+                .targets paper-checkbox {
+                    margin-top: 10px;
+                }
+
+                app-toolbar {
+                    --app-toolbar-font-size: 16px;
+                }
+
+                app-toolbar pb-search {
+                    padding-left: 20px;
+                    --pb-search-input: white;
+                    --pb-search-label: --paper-grey-500;
+                }
+
+                .menubar {
+                    background-color: #35424b;
+                    color: white;
+                }
+
+                .menubar a, .menubar paper-menu-button {
+                    margin: 0 8px;
+                    display: block;
+                    color: white;
+                    text-decoration: none;
+                }
+
+                .menubar pb-lang {
+                    text-align: right;
+                    flex: 1 0;
+                    --pb-lang-item-color: white;
+                }
+
+                .menubar paper-item a {
+                    color: black;
+                }
+
+                .toolbar {
+                    justify-content: space-between;
+                    background-color: #d1dae0;
+                }
+
+                @media (min-width: 769px) {
+                    .toolbar pb-navigation {
+                        display: none;
+                    }
+                }
+
+                [main-title] {
+                    display: inline-block;
+                }
+
+                .logo {
+                    width: 140px;
+                    height: 60px;
+                    background-size: 100% 100%;
+                    cursor: pointer;
+                }
+
+                pb-progress {
+                    width: 100%;
+                }
+            </style>
+        </custom-style>
+    </head>
+
+    <body data-template="i18n:translate" data-catalogues="resources/i18n">
+        <app-drawer-layout force-narrow="force-narrow">
+            <app-drawer slot="drawer" id="drawer">
+                <div class="tocDrawer" style="height: 100%; overflow: auto;">
+                    <h3>
+                        <i18n:text key="contents">Contents</i18n:text>
+                    </h3>
+                    <pb-load id="loadToc" url="templates/toc.html" target="#view1" container="#toc"
+                        trigger='{"selector": "#drawer", "event": "opened-changed"}'>Loading ...</pb-load>
+                    <div id="toc"></div>
                 </div>
-            </div>
-        </main>
-    </section>
-</div>
+            </app-drawer>
+            <app-header-layout>
+                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                    <app-toolbar class="menubar">
+                        <a href="$app/index.html">
+                            <img src="resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
+                        </a>
+                        <a href="$app/index.html">Start</a>
+                        <paper-menu-button>
+                            <a href="#" slot="dropdown-trigger">
+                                <i18n:text key="documentation"/>
+                            </a>
+                            <paper-listbox slot="dropdown-content">
+                                <paper-item>
+                                    <a href="$app/doc/documentation.xml?odd=docbook.odd">
+                                        <i18n:text key="documentation"/>
+                                    </a>
+                                </paper-item>
+                                <paper-item>
+                                    <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
+                                </paper-item>
+                            </paper-listbox>
+                        </paper-menu-button>
+                        <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
+                            <img src="resources/images/wm_no_bg.svg" height="20"/>
+                        </a>
+
+                        <!-- Search input -->
+                        <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
+                                   place-holder="i18n(search-query-attr)"></pb-search>
+
+                        <!-- language selector -->
+                        <pb-lang name="lang" label="Language" data-template="pages:current-language">
+                            <paper-item>en</paper-item>
+                            <paper-item>de</paper-item>
+                            <paper-item>fr</paper-item>
+                            <paper-item>gr</paper-item>
+                            <paper-item>pl</paper-item>
+                        </pb-lang>
+                    </app-toolbar>
+                    <app-toolbar>
+                        <pb-paginate per-page="10" range="5" for="search-results"></pb-paginate>
+                        <pb-progress target="#search-results" indeterminate="indeterminate" bottom-item="bottom-item"/>
+                    </app-toolbar>
+                </app-header>
+
+                <main>
+                    <existdb-column-layout column-widths="70% 30%">
+                        <pb-results id="search-results"></pb-results>
+                        <paper-card class="search-panel">
+                            <div class="card-content">
+                                <pb-search id="search-form" action="modules/lib/search-ajax.xql" place-holder="i18n(search-query-attr)"
+                                    data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load"
+                                    target="#search-results">
+                                    <div class="targets">
+                                        <paper-checkbox name="tei-target" value="tei-text">Search sections</paper-checkbox>
+                                        <paper-checkbox name="tei-target" value="tei-head">Search headings</paper-checkbox>
+                                    </div>
+                                </pb-search>
+                            </div>
+                        </paper-card>
+                    </existdb-column-layout>
+                </main>
+
+            </app-header-layout>
+        </app-drawer-layout>
+    </body>
+</html>

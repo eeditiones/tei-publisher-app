@@ -4,6 +4,7 @@
 <link rel="import" href="bower_components/iron-form/iron-form.html">
 <link rel="import" href="bower_components/iron-input/iron-input.html">
 <link rel="import" href="bower_components/paper-input/paper-input.html">
+<link rel="import" href="bower_components/polymer/lib/utils/render-status.html">
 
 <dom-module id="pb-search">
     <template>
@@ -19,16 +20,16 @@
                 --paper-input-container-label: {
                     color:var(--pb-search-label, --paper-grey-500);
                 };
-                padding-left:20px;
             }
 
         </style>
-        <iron-form id="ironform" allow-redirect>
-            <form id="searchPageForm" method="get" action="{{action}}">
+        <iron-form id="ironform" allow-redirect="[[redirect]]">
+            <form id="searchPageForm" method="get" action="{{action}}" accept="text/html">
                 <paper-input id="search" type="search" name="query" on-keyup="_handleEnter" label="[[placeHolder]]" no-label-float value="[[value]]">
                     <iron-icon icon="search" on-click="_doSearch" slot="prefix"></iron-icon>
                 </paper-input>
 
+                <slot></slot>
                 <!--<input value="{{myValue::input}}" type="search" class="search-input" autocomplete="off" placeholder="[[placeHolder]]" name="query">-->
                 <input type="hidden" name="doc" data-template="search:form-current-doc">
                 <input type="hidden" name="field" value="text"/>
@@ -55,26 +56,61 @@
                         type: String,
                         reflectToAttribute:true
                     },
+                    target: {
+                        type: String
+                    },
+                    redirect: {
+                        type: Boolean,
+                        value: true
+                    },
                     currentDoc: {
                         type: String
+                    },
+                    submitOnLoad: {
+                        type: Boolean,
+                        value: false
                     }
                 }
             }
 
             connectedCallback() {
                 super.connectedCallback();
-                console.log("action ", this.action);
+                this.$.ironform.addEventListener('iron-form-response', (event) =>
+                    event.detail.completes.then((r) => this.dispatchEvent(new CustomEvent('pb-search', { detail: r.parseResponse() })))
+                );
+            }
+
+            ready() {
+                super.ready();
+                if (this.target) {
+                    this.redirect = false;
+                }
+                if (this.submitOnLoad) {
+                    Polymer.RenderStatus.afterNextRender(this, () => this._doSearch());
+                }
             }
 
             _doSearch(e){
-                console.log('_doSearch ',e);
-                console.log('_doSearch serialize',this.$.ironform.serializeForm());
-                this._doSubmit();
+                const json = this.$.ironform.serializeForm();
+                console.log('_doSearch serialize', json);
+                if (this.target) {
+                    const targetElem = document.querySelector(this.target);
+                    if (!targetElem) {
+                        console.error("(pb-search) Target element %s not found", this.target);
+                        return;
+                    }
+                    targetElem.search({
+                        "url": this.action,
+                        "params": json
+                    });
+                } else {
+                    this._doSubmit();
+                }
             }
 
             _handleEnter(e){
                 if(this.$.search.value.length != 0 && e.keyCode == 13){
-                    this._doSubmit();
+                    this._doSearch();
                 }
             }
 
