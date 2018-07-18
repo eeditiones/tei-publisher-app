@@ -177,7 +177,7 @@
 
             ready() {
                 super.ready();
-                this._refresh();
+                Polymer.RenderStatus.afterNextRender(this, () => this._refresh(true));
             }
 
             getDocument() {
@@ -196,13 +196,13 @@
                 this._load(this.nodeId);
             }
 
-            _refresh() {
+            _refresh(init) {
                 this.dispatchEvent(new CustomEvent('view-changed', {detail: {src: this.src, odd:this.odd, view:this.view, start:this.start,xath:this.xpath}}));
                 this._updateStyles();
-                this._load(this.nodeId);
+                this._load(this.nodeId, init);
             }
 
-            _load(pos) {
+            _load(pos, init) {
                 this.dispatchEvent(new CustomEvent('startUpdate'));
 
                 const doc = this.getDocument();
@@ -214,11 +214,12 @@
                     url += '&root=' + params.root;
                 }
 
-                if (this.history) {
+                if (this.history && !init) {
+                    console.log("<pb-view> Pushing to history: %o", this);
                     history.pushState(params, "Navigate page", url);
                 }
 
-                console.log("Loading view with params %o", params);
+                console.log("<pb-view> Loading view with params %o", params);
                 this._clear();
                 this.$.loadContent.params = params;
                 this.$.loadContent.generateRequest();
@@ -287,14 +288,14 @@
                         this.$.column1.appendChild(fragmentAfter);
                     }
                 }
-                
+
                 if (this.appendFootnotes) {
                     tempElem.innerHTML = resp.footnotes;
                     if (tempElem.firstChild) {
                         this.$.content.appendChild(tempElem.firstChild);
                     }
                 }
-                    
+
                 this._applyToggles();
             }
 

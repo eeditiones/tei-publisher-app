@@ -4,7 +4,7 @@
 
 <dom-module id="pb-view-type">
     <template>
-        <paper-checkbox id="button" checked="{{isActive}}"><slot></slot></paper-checkbox>
+        <paper-checkbox id="button" checked="{{isActive}}" on-click="_toggle"><slot></slot></paper-checkbox>
     </template>
 
     <script>
@@ -28,8 +28,12 @@
                     },
                     isActive: {
                         type: Boolean,
-                        value: false,
-                        observer: '_toggle'
+                        value: false
+                    },
+                    type: {
+                        type: String,
+                        value: 'div',
+                        computed: '_setType(isActive)'
                     }
                 };
             }
@@ -40,30 +44,30 @@
 
             ready(){
                 super.ready();
-                
+
                 document.querySelectorAll(this.target).forEach(function(elem) {
                     elem.addEventListener('update', this._update.bind(this));
                 }.bind(this));
             }
-            
+
+            _setType(isActive) {
+                return isActive ? 'page' : 'div';
+            }
+
             _update(ev) {
                 this.isActive = ev.detail.data.view === 'page';
                 this.root = ev.detail.data.switchView;
             }
-            
-            _toggle(newVal, oldVal) {
-                console.log("view-type: old: %s, new: %s", oldVal, newVal);
-                if (typeof oldVal !== 'undefined' && oldVal !== newVal) {
-                    console.log("updating view...");
-                    document.querySelectorAll(this.target).forEach((elem) => {
-                        elem.setProperties({
-                            'view': this.isActive ? 'page' : 'div',
-                            'position': this.root
-                        });
-                        elem.update();
+
+            _toggle(ev) {
+                console.log("<pb-view-type> toggle: %s", this.type);
+                document.querySelectorAll(this.target).forEach((elem) => {
+                    elem.setProperties({
+                        'view': this.type,
+                        'position': this.root
                     });
-                }
-                this.loaded = false;
+                    elem.update();
+                });
             }
         }
 
