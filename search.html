@@ -45,10 +45,20 @@
                     --pb-highlight-theme: {
                         background-color: #F9E976;
                     }
+
+                    --pb-results-body-font: 112% "Junicode",Georgia,"Times New Roman",serif;
+                }
+
+                main {
+                    margin-top: 10px;
                 }
 
                 .search-panel {
                     margin: 0 20px;
+                }
+
+                .search-panel paper-card {
+                    width: 100%;
                 }
 
                 pb-results {
@@ -178,7 +188,7 @@
                         </pb-lang>
                     </app-toolbar>
                     <app-toolbar>
-                        <pb-paginate per-page="10" range="5" for="search-results"></pb-paginate>
+                        <pb-paginate per-page="10" range="5" for="search-results" found-label="i18n(found)"></pb-paginate>
                         <pb-progress target="#search-results" indeterminate="indeterminate" bottom-item="bottom-item"/>
                     </app-toolbar>
                 </app-header>
@@ -186,18 +196,20 @@
                 <main>
                     <existdb-column-layout column-widths="70% 30%">
                         <pb-results id="search-results"></pb-results>
-                        <paper-card class="search-panel">
-                            <div class="card-content">
-                                <pb-search id="search-form" action="modules/lib/search-ajax.xql" place-holder="i18n(search-query-attr)"
-                                    data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load"
-                                    target="#search-results">
-                                    <div class="targets">
-                                        <paper-checkbox name="tei-target" value="tei-text">Search sections</paper-checkbox>
-                                        <paper-checkbox name="tei-target" value="tei-head">Search headings</paper-checkbox>
-                                    </div>
-                                </pb-search>
-                            </div>
-                        </paper-card>
+                        <div class="search-panel">
+                            <paper-card>
+                                <div class="card-content">
+                                    <pb-search id="search-form" action="modules/lib/search-ajax.xql" place-holder="i18n(search-query-attr)"
+                                        data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load"
+                                        target="#search-results">
+                                        <div class="targets">
+                                            <paper-checkbox name="tei-target" value="tei-text">Search sections</paper-checkbox>
+                                            <paper-checkbox name="tei-target" value="tei-head">Search headings</paper-checkbox>
+                                        </div>
+                                    </pb-search>
+                                </div>
+                            </paper-card>
+                        </div>
                     </existdb-column-layout>
                 </main>
 

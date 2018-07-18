@@ -71,7 +71,7 @@ declare function local:show-hits($hits as node()*, $start as xs:integer, $per-pa
                     "before": $summary//td[@class = 'previous']/string(),
                     "after": $summary//td[@class = 'following']/string(),
                     "hi": map {
-                        "link": $hi/a/@href,
+                        "link": replace($hi/a/@href, "&amp;amp;", "&amp;"),
                         "content": $hi//string()
                     }
                 }

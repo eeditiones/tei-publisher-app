@@ -11,14 +11,35 @@
 
             paper-card {
                 width: 100%;
-                margin-bottom: 10px;
+                margin-bottom: 15px;
+                padding: 8px;
             }
             header {
-                padding: 4px 8px;
+                @apply --layout-horizontal;
+                @apply --layout-start;
+            }
+            .count {
+                margin-right: 20px;
+                font-weight: bold;
+            }
+            .breadcrumb:link, .breadcrumb:visited {
+                text-decoration: none;
+                color: var(--paper-grey-600);
+                font: var(--pb-results-body-font);
+            }
+            .breadcrumb:before {
+                content: '>';
+                padding: 0 8px;
+                font-weight: bold;
+            }
+            .breadcrumb:first-child::before {
+                content: '';
             }
             .matches {
                 display: table;
                 margin-left: 20px;
+                margin-top: 10px;
+                font: var(--pb-results-body-font);
             }
             .match {
                 display: table-row;
@@ -34,11 +55,15 @@
         </style>
 
         <div>
-            <h3>Found [[resultCount]] hits</h3>
             <template is="dom-repeat" items="{{hits}}">
                 <paper-card>
                     <header>
                         <div class="count">{{item.num}}</div>
+                        <div class="breadcrumbs">
+                            <template is="dom-repeat" items="[[item.breadcrumbs]]">
+                                <a class="breadcrumb" href$="[[item.link]]">[[item.title]]</a>
+                            </template>
+                        </div>
                     </header>
                     <div class="matches">
                         <template is="dom-repeat" items="{{item.matches}}">
@@ -78,21 +103,18 @@
 
             static get properties() {
                 return {
-                    source:{
-                        type: String
+                    start: {
+                        type: Number,
+                        value: 1,
+                        observer: 'doSearch'
                     },
                     hits: {
-                        type: Object,
+                        type: Array,
                         value: []
                     },
                     resultCount: {
                         type: Number,
                         value: 0
-                    },
-                    start: {
-                        type: Number,
-                        value: 1,
-                        observer: 'doSearch'
                     },
                     perPage: {
                         type: Number,

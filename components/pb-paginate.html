@@ -6,11 +6,18 @@
         <style>
             :host {
                 display: block;
+
+                @apply --layout-horizontal;
+                @apply --layout-center;
             }
 
             span {
                 padding: 4px 8px;
                 cursor: pointer;
+            }
+
+            .found {
+                padding-left: 20px;
             }
 
             .active {
@@ -27,6 +34,8 @@
             <span class$="[[item.class]]" on-click="_handleClick">[[item.label]]</span>
         </template>
         <span on-click="_handleLast"><iron-icon icon="last-page"></iron-icon></span>
+
+        <span class="found">[[foundLabel]]: [[total]]</span>
     </template>
 
     <script>
@@ -55,6 +64,9 @@
                     perPage: {
                         type: Number,
                         value: 10
+                    },
+                    foundLabel: {
+                        type: String
                     },
                     page: {
                         type: Number,

@@ -76,19 +76,22 @@ declare function teis:get-breadcrumbs($config as map(*), $hit as element(), $par
     let $work := root($hit)/*
     let $work-title := nav:get-document-title($config, $work)
     return
-        <ol class="headings breadcrumb">
-            <li><a href="{$parent-id}">{$work-title}</a></li>
-            {
-                for $parentDiv in $hit/ancestor-or-self::tei:div[tei:head]
-                let $id := util:node-id(
-                    if ($config?view = "page") then $parentDiv/preceding::tei:pb[1] else $parentDiv
-                )
-                return
-                    <li>
-                        <a href="{$parent-id}?action=search&amp;root={$id}&amp;view={$config?view}&amp;odd={$config?odd}">{$parentDiv/tei:head/string()}</a>
-                    </li>
+        array {
+            map {
+                "title": $work-title,
+                "link": $parent-id
+            },
+            for $parentDiv in $hit/ancestor-or-self::tei:div[tei:head]
+            let $id := util:node-id(
+                if ($config?view = "page") then $parentDiv/preceding::tei:pb[1] else $parentDiv
+            )
+            return map {
+                "link":
+                    $parent-id || "?action=search&amp;root=" || $id || "&amp;view=" || $config?view || "&amp;odd=" ||
+                    $config?odd,
+                "title": $parentDiv/tei:head/string()
             }
-        </ol>
+        }
 };
 
 (:~
