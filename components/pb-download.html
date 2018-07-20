@@ -29,7 +29,13 @@
                     src: {
                         type: String
                     },
+                    file: {
+                        type: String
+                    },
                     type: {
+                        type: String
+                    },
+                    odd: {
                         type: String
                     },
                     dialog: {
@@ -44,9 +50,15 @@
             _handleClick(ev) {
                 ev.preventDefault();
                 const token = new Date().getTime() * 797;
-                const doc = document.getElementById(this.src);
-                const file = doc.getFileName();
-                const url = file + '.' + this.type + '?odd=' + doc.odd + '&cache=no&token=' + token;
+                
+                let url;
+                if (this.src) {
+                    const doc = document.getElementById(this.src);
+                    const file = doc.getFileName();
+                    url = file + '.' + this.type + '?odd=' + doc.odd + '&cache=no&token=' + token;
+                } else {
+                    url = this.file + '.' + this.type + '?odd=' + this.odd + '&cache=no&token=' + token;
+                }
 
                 console.log("Downloading %s", url);
                 const dialog = document.getElementById(this.dialog);

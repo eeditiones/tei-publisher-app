@@ -53,16 +53,28 @@
                     container: {
                         type: String
                     },
+                    auto: {
+                        type: Boolean,
+                        value: false
+                    },
                     /**
                      * An object defining an event source. Loading
-                     * will be triggered when the event source fires. The object
+                     * will be triggered when the event source fires. 
+                     * If no trigger is defined, loading will start immediately
+                     * when the element is ready.
+                     * 
+                     * The object
                      * should specify two properties:
                      *
                      * 1. source: the object to register an event listener on
                      * 2. event: name of the event to listen on
                      */
                     trigger: {
-                        type: Object
+                        type: Array
+                    },
+                    loadOnce: {
+                        type: Boolean,
+                        value: false
                     }
                 };
             }
@@ -78,34 +90,60 @@
 
             ready() {
                 super.ready();
-                if (this.trigger && this.trigger.selector && this.trigger.event) {
-                    document.querySelectorAll(this.trigger.selector).forEach((elem) =>
-                        elem.addEventListener(this.trigger.event, this.load.bind(this)));
+                if (this.trigger) {
+                    this.trigger.forEach((t) => {
+                        if (typeof t === "string") {
+                            document.querySelectorAll(t).forEach((elem) =>
+                                elem.addEventListener('pb-load', this.load.bind(this)));
+                        } else {
+                            document.querySelectorAll(t.selector).forEach((elem) =>
+                                elem.addEventListener(t.event, this.load.bind(this)));
+                        }
+                    });
+                }
+                if (this.auto) {
+                    this.load();
                 }
             }
-
-            load() {
-                if (this.loaded) {
+            
+            load(ev) {
+                if (this.loadOnce && this.loaded) {
                     return;
                 }
-                console.log("Loading %s", this.url);
+                
+                this.dispatchEvent(new CustomEvent('startUpdate'));
+                
                 const appRoot = document.documentElement.getAttribute('data-app');
                 const url = [appRoot, this.url].join('/');
 
-                const view = document.querySelector(this.target);
-                if (!('getDocument' in view)) {
-                  return console.error('target not found:', this.target)
+                let params;
+                if (ev && ev.detail && ev.detail.params) {
+                    params = ev.detail.params;
                 }
-                const params = view.getParameters();
-                params.target = this.target;
+                if (this.target) {
+                    const view = document.querySelector(this.target);
+                    if (!('getDocument' in view)) {
+                        return console.error('<pb-load> Target not found:', this.target)
+                    }
+                    
+                    params = view.getParameters();
+                    params.target = this.target;
+                }
+                console.log("<pb-load> Loading %s with parameters %o", this.url, params);
                 this.$.loadContent.params = params;
                 this.$.loadContent.url = url;
                 this.$.loadContent.generateRequest();
 
-                this.loaded = true;
+                if (this.loadOnce) {
+                    this.loaded = true;
+                }
             }
 
-            _handleContent() {
+            _handleContent(ev) {
+                this.dispatchEvent(new CustomEvent('endUpdate'));
+                
+                this._parseHeaders(ev.detail.xhr);
+                
                 const resp = this.$.loadContent.lastResponse;
                 if (this.container) {
                     this.$.content.style.display = 'none';
@@ -114,6 +152,18 @@
                     this.$.content.style.display = '';
                     this.$.content.innerHTML = resp;
                 }
+            }
+            
+            _parseHeaders(xhr) {
+                const total = xhr.getResponseHeader('pb-total');
+                const start = xhr.getResponseHeader('pb-start');
+                
+                this.dispatchEvent(new CustomEvent('pb-results-received', {
+                    detail: {
+                        "count": parseInt(total),
+                        "start": parseInt(start)
+                    }
+                }));
             }
         }
 

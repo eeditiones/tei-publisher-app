@@ -6,6 +6,7 @@
         <style>
             :host {
                 display: block;
+                visibility: hidden;
             }
             
             paper-progress {
@@ -50,10 +51,12 @@
             }
 
             _startUpdate() {
+                this.style.visibility = 'visible';
                 this.$.progress.disabled = false;
             }
             
             _endUpdate() {
+                this.style.visibility = 'hidden';
                 this.$.progress.disabled = true;
             }
         }

@@ -1,8 +1,6 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
-<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="bower_components/iron-form/iron-form.html">
-<link rel="import" href="bower_components/iron-input/iron-input.html">
 <link rel="import" href="bower_components/paper-input/paper-input.html">
 <link rel="import" href="bower_components/polymer/lib/utils/render-status.html">
 
@@ -56,12 +54,9 @@
                         type: String,
                         reflectToAttribute:true
                     },
-                    target: {
-                        type: String
-                    },
                     redirect: {
                         type: Boolean,
-                        value: true
+                        value: false
                     },
                     currentDoc: {
                         type: String
@@ -82,9 +77,7 @@
 
             ready() {
                 super.ready();
-                if (this.target) {
-                    this.redirect = false;
-                }
+
                 if (this.submitOnLoad) {
                     Polymer.RenderStatus.afterNextRender(this, () => this._doSearch());
                 }
@@ -93,18 +86,13 @@
             _doSearch(e){
                 const json = this.$.ironform.serializeForm();
                 console.log('_doSearch serialize', json);
-                if (this.target) {
-                    const targetElem = document.querySelector(this.target);
-                    if (!targetElem) {
-                        console.error("(pb-search) Target element %s not found", this.target);
-                        return;
-                    }
-                    targetElem.search({
-                        "url": this.action,
-                        "params": json
-                    });
-                } else {
+                if (this.redirect) {
                     this._doSubmit();
+                } else {
+                    this.dispatchEvent(new CustomEvent('pb-load', {detail: {
+                            "url": this.action,
+                            "params": json
+                    }}));
                 }
             }
 

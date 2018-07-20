@@ -132,6 +132,51 @@
                 pb-progress {
                     width: 100%;
                 }
+                
+                #results paper-card {
+                    width: 100%;
+                    margin-bottom: 15px;
+                    padding: 8px;
+                }
+                
+                #results header {
+                    @apply --layout-horizontal;
+                    @apply --layout-start;
+                }
+                #results .count {
+                    margin-right: 20px;
+                    font-weight: bold;
+                }
+                .breadcrumb:link, .breadcrumb:visited {
+                    text-decoration: none;
+                    color: var(--paper-grey-600);
+                    font: var(--pb-results-body-font);
+                }
+                .breadcrumb:before {
+                    content: '>';
+                    padding: 0 8px;
+                    font-weight: bold;
+                }
+                .breadcrumb:first-child::before {
+                    content: '';
+                }
+                .matches {
+                    display: table;
+                    margin-left: 20px;
+                    margin-top: 10px;
+                    font: var(--pb-results-body-font);
+                }
+                .matches p {
+                    display: table-row;
+                }
+                .matches p * {
+                    display: table-cell;
+                    padding: 4px 8px;
+                }
+
+                .hi {
+                    display: block;
+                }
             </style>
         </custom-style>
     </head>
@@ -144,7 +189,7 @@
                         <i18n:text key="contents">Contents</i18n:text>
                     </h3>
                     <pb-load id="loadToc" url="templates/toc.html" target="#view1" container="#toc"
-                        trigger='{"selector": "#drawer", "event": "opened-changed"}'>Loading ...</pb-load>
+                        trigger='[{"selector": "#drawer", "event": "opened-changed"}]'>Loading ...</pb-load>
                     <div id="toc"></div>
                 </div>
             </app-drawer>
@@ -176,7 +221,7 @@
 
                         <!-- Search input -->
                         <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
-                                   place-holder="i18n(search-query-attr)"></pb-search>
+                                   place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
 
                         <!-- language selector -->
                         <pb-lang name="lang" label="Language" data-template="pages:current-language">
@@ -188,14 +233,16 @@
                         </pb-lang>
                     </app-toolbar>
                     <app-toolbar>
-                        <pb-paginate per-page="10" range="5" for="search-results" found-label="i18n(found)"></pb-paginate>
+                        <pb-paginate id="paginate" per-page="10" range="5" target="search-results" found-label="i18n(found)"></pb-paginate>
                         <pb-progress target="#search-results" indeterminate="indeterminate" bottom-item="bottom-item"/>
                     </app-toolbar>
                 </app-header>
 
                 <main>
+                    <pb-load url="templates/search-results.html" id="search-results" container="#results"
+                        trigger='["#search-form", "#paginate"]'></pb-load>
                     <existdb-column-layout column-widths="70% 30%">
-                        <pb-results id="search-results"></pb-results>
+                        <div id="results"></div>
                         <div class="search-panel">
                             <paper-card>
                                 <div class="card-content">
@@ -212,7 +259,6 @@
                         </div>
                     </existdb-column-layout>
                 </main>
-
             </app-header-layout>
         </app-drawer-layout>
     </body>

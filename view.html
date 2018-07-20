@@ -195,8 +195,8 @@
                     <h3>
                         <i18n:text key="contents">Contents</i18n:text>
                     </h3>
-                    <pb-load id="loadToc" url="templates/toc.html" target="#view1" container="#toc"
-                        trigger='{"selector": "#drawer", "event": "opened-changed"}'>Loading ...</pb-load>
+                    <pb-load id="loadToc" url="templates/toc.html" target="#view1" container="#toc" load-once="load-once"
+                        trigger='[{"selector": "#drawer", "event": "opened-changed"}]'>Loading ...</pb-load>
                     <div id="toc"></div>
                 </div>
             </app-drawer>
@@ -282,7 +282,7 @@
 
                         <!-- Search input -->
                         <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
-                                   place-holder="i18n(search-query-attr)"></pb-search>
+                                   place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
 
                         <!-- language selector -->
                         <pb-lang name="lang" label="Language" data-template="pages:current-language">
@@ -322,7 +322,8 @@
                     <pb-navigation target="#view1" direction="backward" unit="page" keyboard="left">
                         <paper-fab icon="icons:chevron-left"/>
                     </pb-navigation>
-                    <pb-view id="view1" src="document1" data-template="pages:pb-view" history="history"/>
+                    <pb-view id="view1" src="document1" data-template="pages:pb-view" 
+                        column-separator=".tei-cb" history="history"/>
                     <pb-navigation target="#view1" direction="forward" unit="page" keyboard="right">
                         <paper-fab icon="icons:chevron-right"/>
                     </pb-navigation>

@@ -23,7 +23,7 @@
             .active {
                 background-color: var(--paper-grey-800);
                 color: white;
-                border-radius: 4em;
+                border-radius: 50%;
 
                 @apply --shadow-elevation-3dp;
             }
@@ -84,7 +84,7 @@
                         type: Array,
                         value: []
                     },
-                    "for": {
+                    target: {
                         type: String
                     }
                 };
@@ -103,9 +103,15 @@
             ready() {
                 super.ready();
 
-                const targetElem = document.getElementById(this.for);
-                targetElem.addEventListener('pb-results-received', this._refresh.bind(this));
-                targetElem.perPage = this.perPage;
+                if (this.target) {
+                    const targetElem = document.getElementById(this.target);
+                    if (!targetElem) {
+                        console.error('<pb-results> Target element not found: %s', this.target);
+                    } else {
+                        targetElem.addEventListener('pb-results-received', this._refresh.bind(this));
+                        targetElem.perPage = this.perPage;
+                    }
+                }
             }
 
             _update(start, total) {
@@ -117,7 +123,8 @@
                 let lowerBound = Math.max((this.page - Math.ceil(this.range / 2) + 1), 1);
                 let upperBound = Math.min((lowerBound + this.range - 1), this.pageCount);
                 lowerBound = Math.max((upperBound - this.range + 1), 1);
-                console.log("start: %d, perPage: %d, pageCount: %s, page: %d, lower: %d, upper: %d", start, this.perPage, this.pageCount, this.page, lowerBound, upperBound);
+                console.log("<pb-paginate> start: %d, total: %d, perPage: %d, pageCount: %s, page: %d, lower: %d, upper: %d", 
+                    start, total, this.perPage, this.pageCount, this.page, lowerBound, upperBound);
                 const pages = [];
                 for (let i = lowerBound; i <= upperBound; i++) {
                     pages.push({
@@ -139,18 +146,25 @@
                 const index = ev.model.item.label
                 const start = (index - 1) * this.perPage + 1;
                 this.set('start', start);
-                document.getElementById(this.for).set('start', start);
+                this.dispatchEvent(new CustomEvent('pb-load', {detail: {
+                    "params": { "start": start }
+                }}));
             }
 
             _handleFirst(ev) {
                 this.set('start', 1);
-                document.getElementById(this.for).set('start', 1);
+                this.dispatchEvent(new CustomEvent('pb-load', {detail: {
+                    "params": { "start": 1 }
+                }}));
             }
 
             _handleLast(ev) {
                 const start = (this.pageCount - 1) * this.perPage + 1;
                 this.set('start', start);
-                document.getElementById(this.for).set('start', start);
+                
+                this.dispatchEvent(new CustomEvent('pb-load', {detail: {
+                    "params": { "start": start }
+                }}));
             }
         }
 

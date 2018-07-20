@@ -114,6 +114,8 @@ declare
     %templates:default("start", 1)
     %templates:default("per-page", 10)
 function app:browse($node as node(), $model as map(*), $start as xs:int, $per-page as xs:int, $filter as xs:string?) {
+    response:set-header("pb-total", xs:string(count($model?all))),
+    response:set-header("pb-start", xs:string($start)),
     if (empty($model?all) and (empty($filter) or $filter = "")) then
         templates:process($node/*[@class="empty"], $model)
     else
@@ -251,8 +253,8 @@ declare function app:work-title($work as element(tei:TEI)?) {
         $main-title
 };
 
-declare function app:download-link($node as node(), $model as map(*), $type as xs:string,
-    $doc as xs:string?, $source as xs:boolean?, $mode as xs:string?, $odd as xs:string?) {
+declare function app:download-link($node as node(), $model as map(*),
+    $doc as xs:string?, $mode as xs:string?, $odd as xs:string?) {
     let $file :=
         if ($model?work) then
             config:get-identifier($model?work)
@@ -263,15 +265,11 @@ declare function app:download-link($node as node(), $model as map(*), $type as x
             replace($file, "^.*?([^/]*)$", "$1")
         else
             $file
-    let $uuid := util:uuid()
     return
         element { node-name($node) } {
             $node/@*,
-            attribute data-token { $uuid },
-            attribute href { $node/@href || $file || "." || $type || "?token=" || $uuid || "&amp;cache=no"
-                || "&amp;odd=" || ($model?config?odd, $config:odd)[1]
-                || (if ($source) then "&amp;source=yes" else ()) || (if ($mode) then "&amp;mode=" || $mode else ())
-            },
+            attribute file { $file },
+            attribute odd { ($model?config?odd, $config:odd)[1] },
             $node/node()
         }
 };
