@@ -61,12 +61,6 @@
                     width: 100%;
                 }
 
-                pb-results {
-                    overflow: scroll;
-                    margin: 0 20px;
-                    height: calc(100vh - 128px);
-                }
-
                 .targets {
                     @apply --layout-vertical;
                 }
@@ -132,13 +126,19 @@
                 pb-progress {
                     width: 100%;
                 }
+
+                #results {
+                    overflow: scroll;
+                    margin: 0 20px;
+                    height: calc(100vh - 128px);
+                }
                 
                 #results paper-card {
                     width: 100%;
                     margin-bottom: 15px;
                     padding: 8px;
                 }
-                
+
                 #results header {
                     @apply --layout-horizontal;
                     @apply --layout-start;
