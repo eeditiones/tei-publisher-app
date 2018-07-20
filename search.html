@@ -132,7 +132,7 @@
                     margin: 0 20px;
                     height: calc(100vh - 128px);
                 }
-                
+
                 #results paper-card {
                     width: 100%;
                     margin-bottom: 15px;
@@ -182,84 +182,72 @@
     </head>
 
     <body data-template="i18n:translate" data-catalogues="resources/i18n">
-        <app-drawer-layout force-narrow="force-narrow">
-            <app-drawer slot="drawer" id="drawer">
-                <div class="tocDrawer" style="height: 100%; overflow: auto;">
-                    <h3>
-                        <i18n:text key="contents">Contents</i18n:text>
-                    </h3>
-                    <pb-load id="loadToc" url="templates/toc.html" target="#view1" container="#toc"
-                        trigger='[{"selector": "#drawer", "event": "opened-changed"}]'>Loading ...</pb-load>
-                    <div id="toc"></div>
-                </div>
-            </app-drawer>
-            <app-header-layout>
-                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
-                    <app-toolbar class="menubar">
-                        <a href="$app/index.html">
-                            <img src="resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
+        <app-header-layout>
+            <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                <app-toolbar class="menubar">
+                    <a href="$app/index.html">
+                        <img src="resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
+                    </a>
+                    <a href="$app/index.html">Start</a>
+                    <paper-menu-button>
+                        <a href="#" slot="dropdown-trigger">
+                            <i18n:text key="documentation"/>
                         </a>
-                        <a href="$app/index.html">Start</a>
-                        <paper-menu-button>
-                            <a href="#" slot="dropdown-trigger">
-                                <i18n:text key="documentation"/>
-                            </a>
-                            <paper-listbox slot="dropdown-content">
-                                <paper-item>
-                                    <a href="$app/doc/documentation.xml?odd=docbook.odd">
-                                        <i18n:text key="documentation"/>
-                                    </a>
-                                </paper-item>
-                                <paper-item>
-                                    <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
-                                </paper-item>
-                            </paper-listbox>
-                        </paper-menu-button>
-                        <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
-                            <img src="resources/images/wm_no_bg.svg" height="20"/>
-                        </a>
+                        <paper-listbox slot="dropdown-content">
+                            <paper-item>
+                                <a href="$app/doc/documentation.xml?odd=docbook.odd">
+                                    <i18n:text key="documentation"/>
+                                </a>
+                            </paper-item>
+                            <paper-item>
+                                <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
+                            </paper-item>
+                        </paper-listbox>
+                    </paper-menu-button>
+                    <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
+                        <img src="resources/images/wm_no_bg.svg" height="20"/>
+                    </a>
 
-                        <!-- Search input -->
-                        <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
-                                   place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
+                    <!-- Search input -->
+                    <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
+                               place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
 
-                        <!-- language selector -->
-                        <pb-lang name="lang" label="Language" data-template="pages:current-language">
-                            <paper-item>en</paper-item>
-                            <paper-item>de</paper-item>
-                            <paper-item>fr</paper-item>
-                            <paper-item>gr</paper-item>
-                            <paper-item>pl</paper-item>
-                        </pb-lang>
-                    </app-toolbar>
-                    <app-toolbar>
-                        <pb-paginate id="paginate" per-page="10" range="5" target="search-results" found-label="i18n(found)"></pb-paginate>
-                        <pb-progress target="#search-results" indeterminate="indeterminate" bottom-item="bottom-item"/>
-                    </app-toolbar>
-                </app-header>
+                    <!-- language selector -->
+                    <pb-lang name="lang" label="Language" data-template="pages:current-language">
+                        <paper-item>en</paper-item>
+                        <paper-item>de</paper-item>
+                        <paper-item>fr</paper-item>
+                        <paper-item>gr</paper-item>
+                        <paper-item>pl</paper-item>
+                    </pb-lang>
+                </app-toolbar>
+                <app-toolbar>
+                    <pb-paginate id="paginate" per-page="10" range="5" target="search-results" found-label="i18n(found)"></pb-paginate>
+                    <pb-progress target="#search-results" indeterminate="indeterminate" bottom-item="bottom-item"/>
+                </app-toolbar>
+            </app-header>
 
-                <main>
-                    <pb-load url="templates/search-results.html" id="search-results" container="#results"
-                        trigger='["#search-form", "#paginate"]'></pb-load>
-                    <existdb-column-layout column-widths="70% 30%">
-                        <div id="results"></div>
-                        <div class="search-panel">
-                            <paper-card>
-                                <div class="card-content">
-                                    <pb-search id="search-form" action="modules/lib/search-ajax.xql" place-holder="i18n(search-query-attr)"
-                                        data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load"
-                                        target="#search-results">
-                                        <div class="targets">
-                                            <paper-checkbox name="tei-target" value="tei-text">Search sections</paper-checkbox>
-                                            <paper-checkbox name="tei-target" value="tei-head">Search headings</paper-checkbox>
-                                        </div>
-                                    </pb-search>
-                                </div>
-                            </paper-card>
-                        </div>
-                    </existdb-column-layout>
-                </main>
-            </app-header-layout>
-        </app-drawer-layout>
+            <main>
+                <pb-load url="templates/search-results.html" id="search-results" container="#results"
+                    trigger='["#search-form", "#paginate"]'></pb-load>
+                <existdb-column-layout column-widths="70% 30%">
+                    <div id="results"></div>
+                    <div class="search-panel">
+                        <paper-card>
+                            <div class="card-content">
+                                <pb-search id="search-form" action="modules/lib/search-ajax.xql" place-holder="i18n(search-query-attr)"
+                                    data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load"
+                                    target="#search-results">
+                                    <div class="targets">
+                                        <paper-checkbox name="tei-target" value="tei-text">Search sections</paper-checkbox>
+                                        <paper-checkbox name="tei-target" value="tei-head">Search headings</paper-checkbox>
+                                    </div>
+                                </pb-search>
+                            </div>
+                        </paper-card>
+                    </div>
+                </existdb-column-layout>
+            </main>
+        </app-header-layout>
     </body>
 </html>
