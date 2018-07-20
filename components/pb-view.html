@@ -181,7 +181,12 @@
             }
 
             getDocument() {
-                return document.getElementById(this.src);
+                const doc = document.getElementById(this.src);
+                if (doc) {
+                    return doc;
+                }
+
+                console.error('<pb-view> src document not found: %s', this.src);
             }
 
             getOdd() {
@@ -270,7 +275,7 @@
                     const cbs = root.querySelectorAll(this.columnSeparator);
                     // use last separator only
                     if (cbs.length > 0) {
-                        cb = cbs.item(cbs.length - 1);
+                        cb = cbs[cbs.length - 1];
                     }
                 }
 

@@ -14,10 +14,6 @@
       static get is() { return 'pb-document'; }
       static get properties() {
         return {
-          id: {
-            type: String,
-            value: ''
-          },
           path: {
               type: String,
               value: '',
@@ -43,19 +39,19 @@
       connectedCallback() {
           super.connectedCallback();
       }
-      
+
       ready() {
           super.ready();
       }
-      
+
       _update() {
           this.dispatchEvent(new CustomEvent('update', {detail: {path: this.path}}));
       }
-      
+
       getFileName() {
           return this.path.replace(/^.*?([^\/]+)$/, '$1');
       }
-      
+
       getFullPath() {
           return this.root + '/' + this.path;
       }
