@@ -114,19 +114,28 @@ declare
     %templates:default("start", 1)
     %templates:default("per-page", 10)
 function app:browse($node as node(), $model as map(*), $start as xs:int, $per-page as xs:int, $filter as xs:string?) {
-    response:set-header("pb-total", xs:string(count($model?all))),
-    response:set-header("pb-start", xs:string($start)),
-    if (empty($model?all) and (empty($filter) or $filter = "")) then
-        templates:process($node/*[@class="empty"], $model)
-    else
-        subsequence($model?all, $start, $per-page) !
-            templates:process($node/*[not(@class="empty")], map:new(
-                ($model, map {
-                    "work": .,
-                    "config": tpu:parse-pi(root(.), (), session:get-attribute("odd")),
-                    "ident": config:get-identifier(.)
-                }))
-            )
+    let $total := count($model?all)
+    let $start :=
+        if ($start > $total) then
+            ($total idiv $per-page) * $per-page + 1
+        else
+            $start
+    return (
+        response:set-header("pb-start", xs:string($start)),
+        response:set-header("pb-total", xs:string($total)),
+
+        if (empty($model?all) and (empty($filter) or $filter = "")) then
+            templates:process($node/*[@class="empty"], $model)
+        else
+            subsequence($model?all, $start, $per-page) !
+                templates:process($node/*[not(@class="empty")], map:new(
+                    ($model, map {
+                        "work": .,
+                        "config": tpu:parse-pi(root(.), (), session:get-attribute("odd")),
+                        "ident": config:get-identifier(.)
+                    }))
+                )
+    )
 };
 
 declare function app:add-identifier($node as node(), $model as map(*)) {
