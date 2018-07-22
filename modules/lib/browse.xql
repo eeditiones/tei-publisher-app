@@ -132,7 +132,8 @@ function app:browse($node as node(), $model as map(*), $start as xs:int, $per-pa
                     ($model, map {
                         "work": .,
                         "config": tpu:parse-pi(root(.), (), session:get-attribute("odd")),
-                        "ident": config:get-identifier(.)
+                        "ident": config:get-identifier(.),
+                        "path": document-uri(root(.))
                     }))
                 )
     )

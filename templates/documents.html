@@ -1,8 +1,8 @@
 <div xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="i18n:translate" data-catalogues="../resources/i18n">
     <div data-template="browse:dispatch-action"/>
     <div data-template="browse:list-works" data-template-root="">
-        <ul class="documents" data-template="browse:browse" data-template-per-page="20">
-            <li class="document" data-template="browse:add-identifier">
+        <ul class="documents" data-template="browse:browse" data-template-per-page="10">
+            <li class="document">
                 <div class="document-select" data-template="browse:show-if-logged-in">
                     <paper-checkbox data-template="pages:parse-params" name="documentCheckbox" value="${ident}"></paper-checkbox>
                 </div>
@@ -31,7 +31,7 @@
                                     </pb-download>
                                 </paper-item>
                                 <paper-item>
-                                    <pb-edit-xml title="i18n(view-tei)">
+                                    <pb-edit-xml title="i18n(view-tei)" path="${path}" data-template="pages:parse-params">
                                         <i18n:text key="view-tei"/>
                                     </pb-edit-xml>
                                 </paper-item>
