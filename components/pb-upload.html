@@ -1,0 +1,69 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/paper-button/paper-button.html">
+<link rel="import" href="bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="bower_components/vaadin-upload/vaadin-upload.html">
+
+<dom-module id="pb-upload">
+    <template>
+        <style>
+            :host {
+
+            }
+        </style>
+
+        <vaadin-upload id="uploader" accept=".xml,.tei,.odd" method="post" target="modules/lib/upload.xql" tabindex="-1" form-data-name="files[]">
+            <span slot="drop-label">DROPZONE - drop XML or ODD files here.</span>
+            <paper-button id="uploadBtn" slot="add-button">upload</paper-button>
+        </vaadin-upload>
+    </template>
+
+    <script>
+        /**
+         * `pb-upload`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbUpload extends Polymer.Element {
+            static get is() {
+                return 'pb-upload';
+            }
+
+            static get properties() {
+                return {
+                    target: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+
+                this.$.uploader.addEventListener('upload-before', function (event) {
+                    var file = event.detail.file;
+                    console.log(file);
+                    this.dispatchEvent(new CustomEvent('startUpdate'));
+                }.bind(this));
+                this.$.uploader.addEventListener('upload-progress', function (event) {
+                    var file = event.detail.file;
+                    console.log(file);
+                });
+                this.$.uploader.addEventListener('upload-success', function (event) {
+                    this.dispatchEvent(new CustomEvent('endUpdate'));
+
+                    this.dispatchEvent(new CustomEvent('pb-load'));
+                }.bind(this));
+            }
+
+            ready(){
+                super.ready();
+            }
+
+        }
+
+        window.customElements.define(PbUpload.is, PbUpload);
+    </script>
+</dom-module>

@@ -29,7 +29,8 @@
     "iron-collapse": "PolymerElements/iron-collapse#^2.2.1",
     "paper-tooltip": "PolymerElements/paper-tooltip#^2.1.1",
     "js-cookie": "^2.2.0",
-    "paper-radio-button": "PolymerElements/paper-radio-button#^2.1.0"
+    "paper-radio-button": "PolymerElements/paper-radio-button#^2.1.0",
+    "vaadin-upload": "vaadin/vaadin-upload#^4.1.0"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",

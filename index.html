@@ -152,9 +152,16 @@
                     }
                 }
 
-                .panels .upload {
+                .panels aside {
                     flex: 1 0 auto;
+                }
 
+                aside {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                aside .odds, aside .upload {
                     --paper-card-header: {
                         background-color: #607D8B;
                     }
@@ -165,6 +172,10 @@
                         font-weight: 400;
                         color: white;
                     }
+                }
+
+                aside .upload {
+                    margin-top: 20px;
                 }
 
                 .documents ul {
@@ -249,7 +260,7 @@
                         <paper-item>gr</paper-item>
                         <paper-item>pl</paper-item>
                     </pb-lang>
-                    <pb-progress target="#document-loader, #manage-odds" indeterminate="indeterminate" bottom-item="bottom-item"/>
+                    <pb-progress target="#document-loader, #manage-odds, #upload" indeterminate="indeterminate" bottom-item="bottom-item"/>
                 </app-toolbar>
             </app-header>
 
@@ -268,18 +279,23 @@
                         <div class="card-content">
                             <pb-paginate id="paginate" target="document-loader" per-page="10" range="5" found-label="i18n(browsing)"></pb-paginate>
                             <pb-browse-docs id="document-loader" url="templates/documents.html" container="#document-list"
-                                trigger='{"#paginate": "pb-load", "#manage-odds": "pb-load"}'
+                                trigger='{"#paginate": "pb-load", "#manage-odds": "pb-load", "#upload": "pb-load"}'
                                 auto="auto"></pb-browse-docs>
                             <div id="document-list"></div>
                         </div>
                     </paper-card>
-                    <div>
-                        <paper-card class="upload" heading="i18n(odd-data)">
+                    <aside>
+                        <paper-card class="odds" heading="i18n(odd-data)">
                             <div class="card-content">
                                 <pb-manage-odds id="manage-odds" target="document-loader"></pb-manage-odds>
                             </div>
                         </paper-card>
-                    </div>
+                        <paper-card class="upload" heading="i18n(upload)">
+                            <div class="card-content">
+                                <pb-upload id="upload"></pb-upload>
+                            </div>
+                        </paper-card>
+                    </aside>
                 </section>
             </main>
 

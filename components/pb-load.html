@@ -123,7 +123,7 @@
                 const appRoot = document.documentElement.getAttribute('data-app');
                 const url = [appRoot, this.url].join('/');
 
-                let params;
+                let params = {};
                 if (this.target) {
                     const view = document.querySelector(this.target);
                     if (!('getDocument' in view)) {
@@ -133,8 +133,10 @@
                     params = view.getParameters();
                     params.target = this.target;
                 } else if (ev) {
-                    if (ev instanceof Event && ev.detail.params) {
-                        params = ev.detail.params;
+                    if (ev instanceof Event) {
+                        if (ev.detail && ev.detail.params) {
+                            params = ev.detail.params;
+                        }
                     } else {
                         params = ev;
                     }
