@@ -85,6 +85,8 @@
 
             _doSearch(e){
                 const json = this.$.ironform.serializeForm();
+                // always start on first result after submitting new search
+                json.start = 1;
                 console.log('_doSearch serialize', json);
                 if (this.redirect) {
                     this._doSubmit();

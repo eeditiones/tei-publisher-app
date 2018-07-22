@@ -1,0 +1,185 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="bower_components/paper-button/paper-button.html">
+<link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="bower_components/iron-form/iron-form.html">
+<link rel="import" href="bower_components/paper-input/paper-input.html">
+<link rel="import" href="pb-ajax.html">
+<link rel="import" href="pb-edit-xml.html">
+
+<dom-module id="pb-manage-odds">
+    <template>
+        <style>
+            :host {
+                display: block;
+                min-width: 400px;
+            }
+
+            .odd {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .odd paper-checkbox {
+                display: block;
+                flex: 0 0;
+                margin-right: 1em;
+            }
+
+            .odd a {
+                display: block;
+                flex: 2 0;
+            }
+
+            .odd app-toolbar {
+                flex: 1 0;
+            }
+        </style>
+
+        <iron-form id="ironform">
+            <form>
+                <template is="dom-repeat" items="{{odds}}">
+                    <div class="odd">
+                        <paper-checkbox name="odd" checked$="[[item.current]]" value="[[item.path]]" on-click="_selectODD"></paper-checkbox>
+                        <a href$="odd-editor.html?odd=[[item.name]].odd" target="_blank">[[item.label]]</a>
+                        <app-toolbar>
+                            <pb-ajax url$="modules/lib/regenerate.xql?odd=[[item.name]].odd" dialog="messageDialog">
+                                <paper-icon-button icon="update"></paper-icon-button>
+                            </pb-ajax>
+                            <paper-icon-button icon="delete" on-click="_delete"></paper-icon-button>
+                            <pb-edit-xml path$="[[item.path]]">
+                                <paper-icon-button icon="code"></paper-icon-button>
+                            </pb-edit-xml>
+                        </app-toolbar>
+                    </div>
+                </template>
+                <paper-input name="new_odd" label="File name of the ODD" required auto-validate pattern="[a-zA-Z0-9-_]+"></paper-input>
+                <paper-input name="title" label="Title for display" auto-validate required></paper-input>
+                <paper-button id="createBtn" on-click="_createODD"><iron-icon icon="create"></iron-icon>Create</paper-button>
+                <paper-button id="createByEx" on-click="_createByExample"><iron-icon icon="create"></iron-icon>Create from examples</paper-button>
+            </form>
+        </iron-form>
+
+        <iron-ajax
+            id="load"
+            url="modules/lib/components-odd.xql"
+            verbose
+            handle-as="json"
+            method="get"
+            on-response="_update"></iron-ajax>
+
+        <paper-dialog id="deleteDialog" modal>
+            <h2>Delete</h2>
+            <paper-dialog-scrollable>
+                <p>Are you sure you want to delete the ODD file [[file]]?
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-confirm="dialog-confirm" autofocus on-click="_confirmDelete">Yes</paper-button>
+                <paper-button dialog-confirm="dialog-cancel">no</paper-button>
+            </div>
+        </paper-dialog>
+    </template>
+
+    <script>
+        /**
+         * `pb-manage-odds`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbManageOdds extends Polymer.Element {
+            static get is() {
+                return 'pb-manage-odds';
+            }
+
+            static get properties() {
+                return {
+                    odds: {
+                        type: Array
+                    },
+                    target: {
+                        type: String
+                    },
+                    _current: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+
+                this.$.ironform.addEventListener('change', (ev) => {
+                    // Validate the entire form to see if we should enable the `Submit` button.
+                    const valid = !this.$.ironform.validate();
+                    this.$.createBtn.disabled = valid;
+                    this.$.createByEx.disabled = valid;
+                });
+            }
+
+            ready(){
+                super.ready();
+
+                this.$.load.generateRequest();
+            }
+
+            _update() {
+                this.dispatchEvent(new CustomEvent('endUpdate'));
+                this.set('odds', this.$.load.lastResponse);
+            }
+
+            _selectODD(ev) {
+                const params = this.$.ironform.serializeForm();
+                console.log('<pb-manage-odds> selected: %o', params);
+                this.dispatchEvent(new CustomEvent('pb-load', {detail: {
+                    "params": params.odd
+                }}));
+            }
+
+            _createODD() {
+                const params = this.$.ironform.serializeForm();
+                console.log('<pb-manage-odds> create ODD: %o', params);
+                this.$.load.params = params;
+                this.$.load.generateRequest();
+            }
+
+            _createByExample() {
+                const params = this.$.ironform.serializeForm();
+                const fileBrowser = document.getElementById(this.target);
+                if (!(fileBrowser || fileBrowser.getSelected)) {
+                    console.error('<pb-manage-odds> target %s not found', this.target);
+                }
+                const selected = fileBrowser.getSelected();
+                document.querySelectorAll('.document-select paper-checkbox[checked]').forEach((checkbox) => {
+                    selected.push(checkbox.value);
+                });
+                console.log('<pb-manage-odds> create ODD by example: %o', selected);
+                params['byExample'] = selected;
+                this.$.load.params = params;
+                this.$.load.generateRequest();
+            }
+
+            _delete(ev) {
+                this._current = ev.model.item.path;
+                this.$.deleteDialog.open();
+            }
+
+            _confirmDelete() {
+                if (this._current) {
+                    console.log('<pb-manage-odds> deleting ODD: %s', this._current);
+                    this.$.load.params = { 'delete': this._current };
+                    this.$.load.generateRequest();
+                    this._current = null;
+                } else {
+                    console.error('<pb-manage-odds> no file marked for deletion');
+                }
+            }
+        }
+
+        window.customElements.define(PbManageOdds.is, PbManageOdds);
+    </script>
+</dom-module>

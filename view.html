@@ -30,7 +30,7 @@
                         text-decoration: none;
                         color: black;
                     };
-                    
+
                     --pb-footnote-ref: {
                         font-size: 75%;
                         vertical-align: top;
@@ -45,7 +45,7 @@
                     --pb-highlight-theme: {
                         background-color: #F9E976;
                     }
-                    
+
                     --pb-search-input: white;
                     --pb-search-label: --paper-grey-500;
                 }
@@ -196,7 +196,7 @@
                         <i18n:text key="contents">Contents</i18n:text>
                     </h3>
                     <pb-load id="loadToc" url="templates/toc.html" target="#view1" container="#toc" load-once="load-once"
-                        trigger='[{"selector": "#drawer", "event": "opened-changed"}]'>Loading ...</pb-load>
+                        trigger='{"#drawer": "opened-changed"}'>Loading ...</pb-load>
                     <div id="toc"></div>
                 </div>
             </app-drawer>
@@ -322,7 +322,7 @@
                     <pb-navigation target="#view1" direction="backward" unit="page" keyboard="left">
                         <paper-fab icon="icons:chevron-left"/>
                     </pb-navigation>
-                    <pb-view id="view1" src="document1" data-template="pages:pb-view" 
+                    <pb-view id="view1" src="document1" data-template="pages:pb-view"
                         column-separator=".tei-cb" history="history"/>
                     <pb-navigation target="#view1" direction="forward" unit="page" keyboard="right">
                         <paper-fab icon="icons:chevron-right"/>

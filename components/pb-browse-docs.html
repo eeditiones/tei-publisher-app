@@ -1,0 +1,130 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-load.html">
+
+<dom-module id="pb-browse-docs">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <div id="content"><slot></slot></div>
+
+        <iron-ajax
+            id="loadContent"
+            verbose
+            handle-as="text"
+            method="get"
+            on-response="_handleContent"></iron-ajax>
+
+        <paper-dialog id="deleteDialog">
+            <h2>Delete</h2>
+            <paper-dialog-scrollable>
+                <template is="dom-if" if="[[!_hasMultipleSelected(_file, _selected)]]"><p>Are you sure you want to delete the file [[_file]]?</p></template>
+                <template is="dom-if" if="[[_hasMultipleSelected(_file, _selected)]]"><p>Are you sure you want to delete [[_selected.length]] files?</p></template>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-confirm="dialog-confirm" autofocus on-click="_confirmDelete">Yes</paper-button>
+                <paper-button dialog-confirm="dialog-cancel">no</paper-button>
+            </div>
+        </paper-dialog>
+    </template>
+    <script>
+        /**
+         * `pb-browse-docs`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbBrowseDocs extends PbLoad {
+            static get is() {
+                return 'pb-browse-docs';
+            }
+
+            static get properties() {
+                return {
+                    _file: {
+                        type: String
+                    },
+                    _selected: {
+                        type: Array
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready(){
+                super.ready();
+            }
+
+            _onLoad(content) {
+                content.querySelectorAll('.delete').forEach((elem) => {
+                    elem.addEventListener('click', this._handleDelete.bind(this));
+                });
+            }
+
+            _handleDelete(ev) {
+                const selected = this.getSelected();
+                if (selected.length === 0) {
+                    this._file = ev.target.getAttribute('data-path').toString();
+                } else {
+                    this._selected = selected;
+                }
+                this.$.deleteDialog.open();
+            }
+
+            _hasMultipleSelected(_file, _selected) {
+                return _selected && _selected.length > 0;
+            }
+
+            _hasOneSelected(_file, _selected) {
+                return _file;
+            }
+
+            _confirmDelete() {
+                if (!(this._file || this._selected)) {
+                    return;
+                }
+
+                let files;
+                if (this._selected) {
+                    files = this._selected;
+                } else {
+                    files = [this._file];
+                }
+                console.log('<pb-browse-docs> Deleting %o', this._file);
+                const params = {
+                    action: 'delete',
+                    'docs[]': files
+                };
+                this._file = null;
+                this._selected = null;
+                this.load(params);
+            }
+
+            getSelected() {
+                const selected = [];
+                if (this.container) {
+                    document.querySelectorAll(this.container).forEach((container) =>
+                        container.querySelectorAll('.document-select paper-checkbox[checked]').forEach((checkbox) => {
+                            selected.push(checkbox.value);
+                        })
+                    );
+                } else {
+                    this.$.content.querySelectorAll('.document-select paper-checkbox[checked]').forEach((checkbox) => {
+                        selected.push(checkbox.value);
+                    });
+                }
+                return selected;
+            }
+        }
+
+        window.customElements.define(PbBrowseDocs.is, PbBrowseDocs);
+    </script>
+</dom-module>

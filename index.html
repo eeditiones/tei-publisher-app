@@ -51,14 +51,14 @@
                 }
 
                 main {
-                    margin: 10px 20px 0 20px;
+                    margin: 0 20px 0 20px;
                 }
-                
+
                 .tp-title {
                     font-family: "Oswald",Verdana,"Helvetica",sans-serif;
                     font-size: 36px;
                     font-weight: 400;
-                    
+
                 }
 
                 .tp-title span {
@@ -66,7 +66,7 @@
                     font-size: 26px;
                     margin-top: 12px;
                 }
-                
+
                 pb-results {
                     overflow: scroll;
                     margin: 0 20px;
@@ -130,57 +130,69 @@
                 pb-progress {
                     width: 100%;
                 }
-                
+
                 .panels {
                     display: flex;
                     flex-direction: row;
+                    margin-bottom: 40px;
                 }
-                
+
                 .panels .documents {
                     flex: 2 auto;
                     margin-right: 20px;
-                }
-                
-                .panels .upload {
-                    flex: 1 0;
-                    max-width: 500px;
-                    min-width: 260px;
-                }
-                
-                .documents {
-                    font-size: 16px;
-                    
+
                     --paper-card-header: {
                         background-color: #d1dae0;
                     }
+
+                    --paper-card-header-text: {
+                        font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                        font-size: 16px;
+                        font-weight: 400;
+                    }
                 }
-                
+
+                .panels .upload {
+                    flex: 1 0 auto;
+
+                    --paper-card-header: {
+                        background-color: #607D8B;
+                    }
+
+                    --paper-card-header-text: {
+                        font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                        font-size: 16px;
+                        font-weight: 400;
+                        color: white;
+                    }
+                }
+
                 .documents ul {
                     list-style: none;
                 }
-                
+
                 .documents app-toolbar {
                     @apply --layout-start-justified;
                     font-size: 14px;
                     margin-top: 10px;
                     padding-left: 0;
                 }
-                
+
                 .documents div {
                     margin: 0;
                 }
-                
+
                 .documents a, .documents a:visited {
                     color: #303F9F;
                     text-decoration: none;
                 }
-                
+
                 .documents li {
                     display: flex;
                     flex-direction: row;
                     margin-bottom: 10px;
                 }
-                
+
                 .documents .document-select {
                     flex: 0 0;
                     margin-right: 20px;
@@ -189,7 +201,7 @@
                     font-family: "Oswald",Verdana,"Helvetica",sans-serif;
                     font-weight: 400 !important;
                 }
-                
+
                 h5 {
                     font-size: 16px;
                     margin: 0;
@@ -255,13 +267,19 @@
                     <paper-card class="documents" heading="i18n(documents)">
                         <div class="card-content">
                             <pb-paginate id="paginate" target="document-loader" per-page="10" range="5" found-label="i18n(browsing)"></pb-paginate>
-                            <pb-load id="document-loader" url="templates/documents.html" container="#document-list"
-                                trigger='["#paginate"]'
-                                auto="auto"></pb-load>
+                            <pb-browse-docs id="document-loader" url="templates/documents.html" container="#document-list"
+                                trigger='{"#paginate": "pb-load", "#manage-odds": "pb-load"}'
+                                auto="auto"></pb-browse-docs>
                             <div id="document-list"></div>
                         </div>
                     </paper-card>
-                    <paper-card class="upload" heading="i18n(upload)"></paper-card>
+                    <div>
+                        <paper-card class="upload" heading="i18n(odd-data)">
+                            <div class="card-content">
+                                <pb-manage-odds id="manage-odds" target="document-loader"></pb-manage-odds>
+                            </div>
+                        </paper-card>
+                    </div>
                 </section>
             </main>
 
@@ -273,6 +291,15 @@
             <paper-dialog-scrollable>
                 <i18n:text key="download-message"/>
             </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                    <i18n:text key="close">Close</i18n:text>
+                </paper-button>
+            </div>
+        </paper-dialog>
+        <paper-dialog id="messageDialog" modal="modal">
+            <h2>Action</h2>
+            <paper-dialog-scrollable/>
             <div class="buttons">
                 <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
                     <i18n:text key="close">Close</i18n:text>

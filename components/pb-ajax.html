@@ -9,7 +9,7 @@
             :host {
                 display: block;
             }
-            
+
             paper-dialog {
                 position: static;
                 z-index: 1000;
@@ -17,7 +17,7 @@
         </style>
 
         <a id="button" on-click="_handleClick" title="[[title]]"><slot></slot></a>
-        
+
         <iron-ajax
             id="loadContent"
             url="[[url]]"
@@ -68,16 +68,19 @@
 
             _handleClick(ev) {
                 ev.preventDefault();
-                
-                const view = document.querySelector(this.target);
-                view.triggerEvent('startUpdate');
-                this.$.loadContent.params = view.getParameters();
+                if (this.target) {
+                    const view = document.querySelector(this.target);
+                    view.triggerEvent('startUpdate');
+                    this.$.loadContent.params = view.getParameters();
+                }
                 this.$.loadContent.generateRequest();
             }
-            
+
             _handleResponse() {
-                const view = document.querySelector(this.target);
-                view.triggerEvent('endUpdate');
+                if (this.target) {
+                    const view = document.querySelector(this.target);
+                    view.triggerEvent('endUpdate');
+                }
                 const resp = this.$.loadContent.lastResponse;
                 const dialog = document.getElementById(this.dialog);
                 const body = dialog.querySelector("paper-dialog-scrollable");

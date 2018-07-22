@@ -123,7 +123,8 @@ function app:browse($node as node(), $model as map(*), $start as xs:int, $per-pa
             templates:process($node/*[not(@class="empty")], map:new(
                 ($model, map {
                     "work": .,
-                    "config": tpu:parse-pi(root(.), (), session:get-attribute("odd"))
+                    "config": tpu:parse-pi(root(.), (), session:get-attribute("odd")),
+                    "ident": config:get-identifier(.)
                 }))
             )
 };

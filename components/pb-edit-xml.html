@@ -6,7 +6,7 @@
             :host {
                 display: block;
             }
-            
+
             a {
                 color: inherit;
                 text-decoration: none;
@@ -53,8 +53,11 @@
             }
 
             open() {
-                const sourceComponent = document.getElementById(this.src);
-                const path = sourceComponent.getFullPath();
+                let path = this.path;
+                if (this.src) {
+                    const sourceComponent = document.getElementById(this.src);
+                    path = sourceComponent.getFullPath();
+                }
                 // try to retrieve existing eXide window
                 const exide = window.open("", "eXide");
                 if (exide && !exide.closed) {
@@ -75,7 +78,7 @@
                     }
                 }
             }
-            
+
             _handleClick(ev) {
                 ev.preventDefault();
                 this.open();
