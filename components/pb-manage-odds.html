@@ -1,5 +1,6 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
-<link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="bower_components/paper-button/paper-button.html">
 <link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
@@ -38,23 +39,23 @@
             }
         </style>
 
+        <template is="dom-repeat" items="{{odds}}">
+            <div class="odd">
+                <paper-radio-button checked$="[[item.current]]" value="[[item.path]]" on-click="_selectODD"></paper-radio-button>
+                <a href$="odd-editor.html?odd=[[item.name]].odd" target="_blank">[[item.label]]</a>
+                <app-toolbar>
+                    <pb-ajax url$="modules/lib/regenerate.xql?odd=[[item.name]].odd" dialog="messageDialog">
+                        <paper-icon-button icon="update"></paper-icon-button>
+                    </pb-ajax>
+                    <paper-icon-button icon="delete" on-click="_delete"></paper-icon-button>
+                    <pb-edit-xml path$="[[item.path]]">
+                        <paper-icon-button icon="code"></paper-icon-button>
+                    </pb-edit-xml>
+                </app-toolbar>
+            </div>
+        </template>
         <iron-form id="ironform">
             <form>
-                <template is="dom-repeat" items="{{odds}}">
-                    <div class="odd">
-                        <paper-checkbox name="odd" checked$="[[item.current]]" value="[[item.path]]" on-click="_selectODD"></paper-checkbox>
-                        <a href$="odd-editor.html?odd=[[item.name]].odd" target="_blank">[[item.label]]</a>
-                        <app-toolbar>
-                            <pb-ajax url$="modules/lib/regenerate.xql?odd=[[item.name]].odd" dialog="messageDialog">
-                                <paper-icon-button icon="update"></paper-icon-button>
-                            </pb-ajax>
-                            <paper-icon-button icon="delete" on-click="_delete"></paper-icon-button>
-                            <pb-edit-xml path$="[[item.path]]">
-                                <paper-icon-button icon="code"></paper-icon-button>
-                            </pb-edit-xml>
-                        </app-toolbar>
-                    </div>
-                </template>
                 <paper-input name="new_odd" label="File name of the ODD" required auto-validate pattern="[a-zA-Z0-9-_]+"></paper-input>
                 <paper-input name="title" label="Title for display" auto-validate required></paper-input>
                 <paper-button id="createBtn" on-click="_createODD"><iron-icon icon="create"></iron-icon>Create</paper-button>
@@ -124,6 +125,12 @@
             ready(){
                 super.ready();
 
+                this._refresh();
+            }
+
+            _refresh(params) {
+                this.dispatchEvent(new CustomEvent('startUpdate'));
+                this.$.load.params = params;
                 this.$.load.generateRequest();
             }
 
@@ -133,18 +140,24 @@
             }
 
             _selectODD(ev) {
-                const params = this.$.ironform.serializeForm();
-                console.log('<pb-manage-odds> selected: %o', params);
+                const selected = ev.model.itemsIndex;
+                this.odds.forEach((odd, index) => {
+                    if (index !== selected && odd.current) {
+                        this.set('odds.' + index + '.current', false);
+                        this.set('odds.' + selected + '.current', true);
+                    }
+                });
+                const params = { odd: ev.model.item.name + '.odd' };
+                console.log('<pb-manage-odds> selected ODD: %o', params);
                 this.dispatchEvent(new CustomEvent('pb-load', {detail: {
-                    "params": params.odd
+                    "params": params
                 }}));
             }
 
             _createODD() {
                 const params = this.$.ironform.serializeForm();
                 console.log('<pb-manage-odds> create ODD: %o', params);
-                this.$.load.params = params;
-                this.$.load.generateRequest();
+                this._refresh(params);
             }
 
             _createByExample() {
@@ -159,8 +172,7 @@
                 });
                 console.log('<pb-manage-odds> create ODD by example: %o', selected);
                 params['byExample'] = selected;
-                this.$.load.params = params;
-                this.$.load.generateRequest();
+                this._refresh(params);
             }
 
             _delete(ev) {
@@ -171,8 +183,7 @@
             _confirmDelete() {
                 if (this._current) {
                     console.log('<pb-manage-odds> deleting ODD: %s', this._current);
-                    this.$.load.params = { 'delete': this._current };
-                    this.$.load.generateRequest();
+                    this._refresh({ 'delete': this._current });
                     this._current = null;
                 } else {
                     console.error('<pb-manage-odds> no file marked for deletion');

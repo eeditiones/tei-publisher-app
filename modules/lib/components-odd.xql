@@ -73,7 +73,7 @@ declare function local:create($new_odd, $title) {
 };
 
 declare function local:create-by-example($new_odd, $title, $examples) {
-    obe:process-example($config:data-default, $new_odd, "all", $examples, $title)
+    (obe:process-example($config:data-default, $new_odd, "all", $examples, $title))[0]
 };
 
 declare function local:list($odd) {
