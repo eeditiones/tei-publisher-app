@@ -7,12 +7,11 @@
     <template>
         <style>
             :host {
-
             }
         </style>
 
         <vaadin-upload id="uploader" accept=".xml,.tei,.odd" method="post" target="modules/lib/upload.xql" tabindex="-1" form-data-name="files[]">
-            <span slot="drop-label">DROPZONE - drop XML or ODD files here.</span>
+            <span slot="drop-label">Drop files here.</span>
             <paper-button id="uploadBtn" slot="add-button">upload</paper-button>
         </vaadin-upload>
     </template>

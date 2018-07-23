@@ -101,6 +101,15 @@
                     color: black;
                 }
 
+                .menubar pb-login {
+                    --pb-login-theme: {
+                        margin: 0 0 0 16px;
+                        display: block;
+                        color: white;
+                        text-decoration: none;
+                    }
+                }
+                
                 .toolbar {
                     justify-content: space-between;
                     background-color: #d1dae0;
@@ -220,6 +229,9 @@
                         <paper-item>gr</paper-item>
                         <paper-item>pl</paper-item>
                     </pb-lang>
+                    <pb-login login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user">
+                        <iron-icon slot="icon" icon="account-circle"></iron-icon>
+                    </pb-login>
                 </app-toolbar>
                 <app-toolbar>
                     <pb-paginate id="paginate" per-page="10" range="5" target="search-results" found-label="i18n(found)"></pb-paginate>

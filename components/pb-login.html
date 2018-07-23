@@ -1,0 +1,97 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/iron-form/iron-form.html">
+<link rel="import" href="bower_components/paper-input/paper-input.html">
+<link rel="import" href="bower_components/paper-button/paper-button.html">
+<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+
+<dom-module id="pb-login">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            a {
+                @apply --pb-login-theme;
+            }
+        </style>
+
+        <a href="#" on-click="_show">
+            <slot name="icon"></slot>
+            <template is="dom-if" if="[[loggedIn]]">[[logoutLabel]] [[user]]</template>
+            <template is="dom-if" if="[[!loggedIn]]">[[loginLabel]]</template>
+        </a>
+
+        <paper-dialog id="loginDialog">
+            <h2>Login</h2>
+            <paper-dialog-scrollable>
+                <iron-form id="form" allow-redirect>
+                    <form action="">
+                        <paper-input name="user" label="User"></paper-input>
+                        <paper-input name="password" label="Password" type="password"></paper-input>
+                        <input type="hidden" name="logout" value$="[[user]]"/>
+                    </form>
+                </iron-form>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-confirm="dialog-confirm" autofocus on-click="_confirmLogin">Login</paper-button>
+            </div>
+        </paper-dialog>
+    </template>
+
+    <script>
+        /**
+         * `pb-login`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbLogin extends Polymer.Element {
+            static get is() {
+                return 'pb-login';
+            }
+
+            static get properties() {
+                return {
+                    loggedIn: {
+                        type: Boolean,
+                        value: false
+                    },
+                    user: {
+                        type: String
+                    },
+                    loginLabel: {
+                        type: String
+                    },
+                    logoutLabel: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready(){
+                super.ready();
+            }
+
+            _show() {
+                if (this.loggedIn) {
+                    this._confirmLogin();
+                } else {
+                    this.$.loginDialog.open();
+                }
+            }
+
+            _confirmLogin() {
+                this.$.form.submit();
+            }
+        }
+
+        window.customElements.define(PbLogin.is, PbLogin);
+    </script>
+</dom-module>

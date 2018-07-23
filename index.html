@@ -95,6 +95,15 @@
                     text-decoration: none;
                 }
 
+                .menubar pb-login {
+                    --pb-login-theme: {
+                        margin: 0 0 0 16px;
+                        display: block;
+                        color: white;
+                        text-decoration: none;
+                    }
+                }
+
                 .menubar pb-lang {
                     text-align: right;
                     flex: 1 0;
@@ -261,6 +270,9 @@
                         <paper-item>gr</paper-item>
                         <paper-item>pl</paper-item>
                     </pb-lang>
+                    <pb-login login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user">
+                        <iron-icon slot="icon" icon="account-circle"></iron-icon>
+                    </pb-login>
                     <pb-progress target="#document-loader, #manage-odds, #upload" indeterminate="indeterminate" bottom-item="bottom-item"/>
                 </app-toolbar>
             </app-header>
