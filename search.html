@@ -11,33 +11,14 @@
 
         <title data-template="config:app-title"/>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald"/>
         <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
         <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
         <link rel="import" href="components/dependencies-dev.html"/>
 
         <custom-style>
             <style type="text/css">
-                @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald');
-
                 body {
-                    font-family: "Open Sans", Verdana, "Helvetica", sans-serif;
-                    font-size: 16px;
-                    margin: 0;
-                    color: #333333;
-
-                    --pb-link-theme: {
-                        font-family: "Junicode",Georgia,"Times New Roman",serif;
-                        text-decoration: none;
-                        color: black;
-                    };
-
-                    --pb-footnote-ref: {
-                        font-size: 75%;
-                        vertical-align: top;
-                        color: #333333;
-                        text-decoration: none;
-                    }
-
                     --pb-content-theme: {
                         margin-right: 32px;
                     }
@@ -69,71 +50,8 @@
                     margin-top: 10px;
                 }
 
-                app-toolbar {
-                    --app-toolbar-font-size: 16px;
-                }
-
-                app-toolbar pb-search {
-                    padding-left: 20px;
-                    --pb-search-input: white;
-                    --pb-search-label: --paper-grey-500;
-                }
-
-                .menubar {
-                    background-color: #35424b;
-                    color: white;
-                }
-
-                .menubar a, .menubar paper-menu-button {
-                    margin: 0 8px;
-                    display: block;
-                    color: white;
-                    text-decoration: none;
-                }
-
-                .menubar pb-lang {
-                    text-align: right;
-                    flex: 1 0;
-                    --pb-lang-item-color: white;
-                }
-
-                .menubar paper-item a {
-                    color: black;
-                }
-
-                .menubar pb-login {
-                    --pb-login-theme: {
-                        margin: 0 0 0 16px;
-                        display: block;
-                        color: white;
-                        text-decoration: none;
-                    }
-                }
-                
-                .toolbar {
-                    justify-content: space-between;
-                    background-color: #d1dae0;
-                }
-
-                @media (min-width: 769px) {
-                    .toolbar pb-navigation {
-                        display: none;
-                    }
-                }
-
                 [main-title] {
                     display: inline-block;
-                }
-
-                .logo {
-                    width: 140px;
-                    height: 60px;
-                    background-size: 100% 100%;
-                    cursor: pointer;
-                }
-
-                pb-progress {
-                    width: 100%;
                 }
 
                 #results {
