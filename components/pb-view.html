@@ -1,6 +1,8 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<!--
 <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="pb-alternate.html">
+-->
 
 <dom-module id="pb-view">
     <template>
@@ -80,7 +82,7 @@
          * @polymer
          * @demo demo/index.html
          */
-        class PbView extends Polymer.Element {
+        class PbView extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'pb-view';
             }
@@ -128,7 +130,7 @@
                      */
                     appendFootnotes: {
                         type: Boolean,
-                        value: true
+                        value: false
                     },
                     /**
                      * Should matches be highlighted if a search has been executed?
@@ -168,16 +170,22 @@
 
             connectedCallback() {
                 super.connectedCallback();
-
-                this.getDocument().addEventListener('update', function(e) {
-                    console.log('update %o', e.detail.path);
-                    this._refresh();
-                });
             }
 
             ready() {
                 super.ready();
-                Polymer.RenderStatus.afterNextRender(this, () => this._refresh(true));
+                this.subscribeTo('pb-navigate', ev => {
+                    this.navigate(ev.detail.direction);
+                });
+                this.subscribeTo('pb-refresh', this._refresh.bind(this));
+                this.subscribeTo('pb-toggle', ev => {
+                    this.toggle(ev.detail.selector, ev.detail.state);
+                });
+                this.subscribeTo('pb-zoom', ev => {
+                    this.zoom(ev.detail.direction);
+                });
+
+                Polymer.RenderStatus.afterNextRender(this, () => this._refresh());
             }
 
             getDocument() {
@@ -201,28 +209,45 @@
                 this._load(this.nodeId);
             }
 
-            _refresh(init) {
+            _refresh(ev) {
+                if (ev && ev.detail) {
+                    if (ev.detail.id) {
+                        this.xmlId = ev.detail.id;
+                    }
+                    this.odd = ev.detail.odd || this.odd;
+                    if (ev.detail.columnSeparator !== undefined) {
+                        this.columnSeparator = ev.detail.columnSeparator;
+                    }
+                    this.view = ev.detail.view || this.view;
+                    this.nodeId = ev.detail.position || this.nodeId;
+                }
                 this.dispatchEvent(new CustomEvent('view-changed', {detail: {src: this.src, odd:this.odd, view:this.view, start:this.start,xath:this.xpath}}));
                 this._updateStyles();
-                this._load(this.nodeId, init);
+                this._load(this.nodeId);
             }
 
-            _load(pos, init) {
+            _load(pos) {
                 this.dispatchEvent(new CustomEvent('startUpdate'));
 
                 const doc = this.getDocument();
 
+                if (!doc.path) {
+                    return;
+                }
+
                 const params = this.getParameters(pos);
+
+                this.emitTo('pb-start-update', params);
 
                 let url = doc.getFileName() + '?odd=' + params.odd + '&view=' + params.view;
                 if (params.root) {
                     url += '&root=' + params.root;
                 }
 
-                if (this.history && !init) {
-                    console.log("<pb-view> Pushing to history: %o", this);
-                    history.pushState(params, "Navigate page", url);
-                }
+                // if (this.history && !init) {
+                //     console.log("<pb-view> Pushing to history: %o", this);
+                //     history.pushState(params, "Navigate page", url);
+                // }
 
                 console.log("<pb-view> Loading view with params %o", params);
                 this._clear();
@@ -251,28 +276,63 @@
 
             _handleContent() {
                 const resp = this.$.loadContent.lastResponse;
+                if (!resp) {
+                    console.error('<pb-view> No response received');
+                    return;
+                }
                 if (resp.error) {
                     this.$.content.innerHTML = this.notFound;
                     return;
                 }
 
-                this._replaceContent(resp);
+                const elem = this._replaceContent(resp);
 
                 this.next = resp.next;
                 this.previous = resp.previous;
                 this.nodeId = resp.root;
-
-                this.dispatchEvent(new CustomEvent('update', {detail: {data: resp}}));
+                if (this.xmlId) {
+                    this.setParameter('root', this.nodeId);
+                    this.pushHistory('Navigate to xml:id');
+                }
+                this.xmlId = null;
+                const eventOptions = {
+                    data: resp,
+                    root: elem,
+                    params: this.$.loadContent.params
+                };
+                this.emitTo('pb-update', eventOptions);
+                this.emitTo('pb-end-update', null);
+                this.dispatchEvent(new CustomEvent('update', {detail: eventOptions}));
                 this.dispatchEvent(new CustomEvent('endUpdate'));
             }
 
             _replaceContent(resp) {
-                const tempElem = document.createElement("div");
-                tempElem.innerHTML = resp.content;
-                const root = tempElem.firstChild;
+                const fragment = document.createDocumentFragment();
+                const elem = document.createElement('div');
+                fragment.appendChild(elem);
+                elem.innerHTML = resp.content;
+
+                if (this.columnSeparator) {
+                    this._replaceColumns(elem);
+                } else {
+                    this.$.content.appendChild(elem);
+                }
+
+                if (this.appendFootnotes) {
+                    const footnotes = document.createElement('div');
+                    footnotes.innerHTML = resp.footnotes;
+                    this.$.content.appendChild(footnotes);
+                }
+
+                this._applyToggles();
+
+                return elem;
+            }
+
+            _replaceColumns(elem) {
                 let cb;
                 if (this.columnSeparator) {
-                    const cbs = root.querySelectorAll(this.columnSeparator);
+                    const cbs = elem.querySelectorAll(this.columnSeparator);
                     // use last separator only
                     if (cbs.length > 0) {
                         cb = cbs[cbs.length - 1];
@@ -280,11 +340,10 @@
                 }
 
                 if (!cb) {
-                    this.$.content.appendChild(root);
+                    this.$.content.appendChild(elem);
                 } else {
-                    const fragmentBefore = this._getFragmentBefore(root, cb);
-                    const fragmentAfter = this._getFragmentAfter(root, cb);
-
+                    const fragmentBefore = this._getFragmentBefore(elem, cb);
+                    const fragmentAfter = this._getFragmentAfter(elem, cb);
                     if (this.direction === 'ltr') {
                         this.$.column1.appendChild(fragmentBefore);
                         this.$.column2.appendChild(fragmentAfter);
@@ -293,15 +352,6 @@
                         this.$.column1.appendChild(fragmentAfter);
                     }
                 }
-
-                if (this.appendFootnotes) {
-                    tempElem.innerHTML = resp.footnotes;
-                    if (tempElem.firstChild) {
-                        this.$.content.appendChild(tempElem.firstChild);
-                    }
-                }
-
-                this._applyToggles();
             }
 
             _getParameters() {
@@ -337,12 +387,21 @@
 
             goto(nodeId) {
                 this._load(nodeId);
-
             }
+
+            gotoId(xmlId) {
+                this.xmlId = xmlId;
+                this._load();
+            }
+
             navigate(direction) {
                 if (direction === 'backward') {
+                    this.setParameter('root', this.previous);
+                    this.pushHistory('Navigate backward');
                     this._load(this.previous);
                 } else {
+                    this.setParameter('root', this.next);
+                    this.pushHistory('Navigate forward');
                     this._load(this.next);
                 }
             }

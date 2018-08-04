@@ -32,6 +32,9 @@
           },
           sourceView: {
               type: String
+          },
+          documentId: {
+              type: String
           }
         };
       }
@@ -46,6 +49,10 @@
 
       _update() {
           this.dispatchEvent(new CustomEvent('update', {detail: {path: this.path}}));
+      }
+
+      getDocumentId() {
+          return this.documentId;
       }
 
       getFileName() {

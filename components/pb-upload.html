@@ -1,7 +1,9 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<!--
 <link rel="import" href="bower_components/paper-button/paper-button.html">
 <link rel="import" href="bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="bower_components/vaadin-upload/vaadin-upload.html">
+-->
 
 <dom-module id="pb-upload">
     <template>
@@ -25,17 +27,9 @@
          * @polymer
          * @demo demo/index.html
          */
-        class PbUpload extends Polymer.Element {
+        class PbUpload extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'pb-upload';
-            }
-
-            static get properties() {
-                return {
-                    target: {
-                        type: String
-                    }
-                };
             }
 
             connectedCallback() {
@@ -44,16 +38,15 @@
                 this.$.uploader.addEventListener('upload-before', function (event) {
                     var file = event.detail.file;
                     console.log(file);
-                    this.dispatchEvent(new CustomEvent('startUpdate'));
+                    this.emitTo('pb-start-update');
                 }.bind(this));
                 this.$.uploader.addEventListener('upload-progress', function (event) {
                     var file = event.detail.file;
                     console.log(file);
                 });
                 this.$.uploader.addEventListener('upload-success', function (event) {
-                    this.dispatchEvent(new CustomEvent('endUpdate'));
-
-                    this.dispatchEvent(new CustomEvent('pb-load'));
+                    this.emitTo('pb-end-update');
+                    this.emitTo('pb-load');
                 }.bind(this));
             }
 

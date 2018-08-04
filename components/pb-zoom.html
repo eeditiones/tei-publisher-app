@@ -20,7 +20,7 @@
          * @polymer
          * @demo demo/index.html
          */
-        class PbZoom extends Polymer.Element {
+        class PbZoom extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'pb-zoom';
             }
@@ -30,9 +30,6 @@
                     icon:{
                         type: String,
                         value: "icons:zoom-in"
-                    },
-                    target: {
-                        type: String
                     },
                     direction: {
                         type: String,
@@ -50,9 +47,7 @@
             }
 
             _handleClick() {
-                document.querySelectorAll(this.target).forEach(function(elem) {
-                    elem.zoom(this.direction);
-                }.bind(this));
+                this.emitTo('pb-zoom', {direction: this.direction});
             }
         }
 

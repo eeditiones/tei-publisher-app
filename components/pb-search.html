@@ -1,8 +1,10 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<!--
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="bower_components/iron-form/iron-form.html">
 <link rel="import" href="bower_components/paper-input/paper-input.html">
 <link rel="import" href="bower_components/polymer/lib/utils/render-status.html">
+-->
 
 <dom-module id="pb-search">
     <template>
@@ -35,7 +37,7 @@
         </iron-form>
     </template>
     <script>
-        class PbSearch extends Polymer.Element {
+        class PbSearch extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'pb-search';
             }
@@ -71,7 +73,7 @@
             connectedCallback() {
                 super.connectedCallback();
                 this.$.ironform.addEventListener('iron-form-response', (event) =>
-                    event.detail.completes.then((r) => this.dispatchEvent(new CustomEvent('pb-search', { detail: r.parseResponse() })))
+                    event.detail.completes.then((r) => this.emitTo('pb-search', r.parseResponse()))
                 );
             }
 
@@ -87,14 +89,13 @@
                 const json = this.$.ironform.serializeForm();
                 // always start on first result after submitting new search
                 json.start = 1;
-                console.log('_doSearch serialize', json);
                 if (this.redirect) {
                     this._doSubmit();
                 } else {
-                    this.dispatchEvent(new CustomEvent('pb-load', {detail: {
-                            "url": this.action,
-                            "params": json
-                    }}));
+                    this.emitTo('pb-load', {
+                        "url": this.action,
+                        "params": json
+                    });
                 }
             }
 

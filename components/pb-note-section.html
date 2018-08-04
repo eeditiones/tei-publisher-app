@@ -21,7 +21,7 @@
          * @polymer
          * @demo demo/index.html
          */
-        class PbNoteSection extends Polymer.Element {
+        class PbNoteSection extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'pb-note-section';
             }
@@ -36,15 +36,13 @@
 
             connectedCallback() {
                 super.connectedCallback();
+
+                this.subscribeTo('pb-update', this._update.bind(this));
+                this.subscribeTo('pb-start-update', this._clear.bind(this));
             }
 
             ready() {
                 super.ready();
-
-                document.querySelectorAll(this.target).forEach(function(elem) {
-                    elem.addEventListener('update', this._update.bind(this));
-                    elem.addEventListener('startUpdate', this._clear.bind(this));
-                }.bind(this));
             }
 
             _update(ev) {

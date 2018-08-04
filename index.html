@@ -16,7 +16,7 @@
         <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
         <link rel="import" href="components/dependencies-dev.html"/>
         <custom-style>
-            <style type="text/css">
+            <style include="pb-common-styles">
                 main {
                     margin: 0 20px 0 20px;
                 }
@@ -173,7 +173,7 @@
                     <pb-login login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user">
                         <iron-icon slot="icon" icon="account-circle"></iron-icon>
                     </pb-login>
-                    <pb-progress target="#document-loader, #manage-odds, #upload" indeterminate="indeterminate" bottom-item="bottom-item"/>
+                    <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
                 </app-toolbar>
             </app-header>
 
@@ -190,10 +190,8 @@
                 <section class="panels">
                     <paper-card class="documents" heading="i18n(documents)">
                         <div class="card-content">
-                            <pb-paginate id="paginate" target="document-loader" per-page="10" range="5" found-label="i18n(browsing)"></pb-paginate>
-                            <pb-browse-docs id="document-loader" url="templates/documents.html" container="#document-list"
-                                trigger='{"#paginate": "pb-load", "#manage-odds": "pb-load", "#upload": "pb-load"}'
-                                auto="auto"></pb-browse-docs>
+                            <pb-paginate id="paginate" per-page="10" range="5" found-label="i18n(browsing)"></pb-paginate>
+                            <pb-browse-docs id="document-loader" url="templates/documents.html" container="#document-list" auto="auto"></pb-browse-docs>
                             <div id="document-list"></div>
                         </div>
                     </paper-card>

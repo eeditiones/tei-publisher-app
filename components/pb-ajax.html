@@ -1,7 +1,9 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<!--
 <link rel="import" href="bower_components/paper-dialog/paper-dialog.html"/>
 <link rel="import" href="bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html"/>
 <link rel="import" href="bower_components/paper-button/paper-button.html"/>
+-->
 
 <dom-module id="pb-ajax">
     <template>
@@ -36,16 +38,13 @@
          * @polymer
          * @demo demo/index.html
          */
-        class PbAjax extends Polymer.Element {
+        class PbAjax extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'pb-ajax';
             }
 
             static get properties() {
                 return {
-                    target: {
-                        type: String
-                    },
                     url: {
                         type: String
                     },
@@ -64,28 +63,26 @@
 
             ready() {
                 super.ready();
+                this.subscribeTo('pb-update', this._onUpdate.bind(this));
             }
 
             _handleClick(ev) {
                 ev.preventDefault();
-                if (this.target) {
-                    const view = document.querySelector(this.target);
-                    view.triggerEvent('startUpdate');
-                    this.$.loadContent.params = view.getParameters();
-                }
+                this.emitTo('pb-start-update');
                 this.$.loadContent.generateRequest();
             }
 
             _handleResponse() {
-                if (this.target) {
-                    const view = document.querySelector(this.target);
-                    view.triggerEvent('endUpdate');
-                }
+                this.emitTo('pb-end-update');
                 const resp = this.$.loadContent.lastResponse;
                 const dialog = document.getElementById(this.dialog);
                 const body = dialog.querySelector("paper-dialog-scrollable");
                 body.innerHTML = resp;
                 dialog.open();
+            }
+
+            _onUpdate(ev) {
+                this.$.loadContent.params = ev.detail.params;
             }
         }
 

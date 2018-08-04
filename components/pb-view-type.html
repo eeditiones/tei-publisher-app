@@ -1,6 +1,8 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<!--
 <link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+-->
 
 <dom-module id="pb-view-type">
     <template>
@@ -16,16 +18,13 @@
          * @polymer
          * @demo demo/index.html
          */
-        class PbViewType extends Polymer.Element {
+        class PbViewType extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'pb-view-type';
             }
 
             static get properties() {
                 return {
-                    target: {
-                        type: String
-                    },
                     isActive: {
                         type: Boolean,
                         value: false
@@ -45,9 +44,7 @@
             ready(){
                 super.ready();
 
-                document.querySelectorAll(this.target).forEach(function(elem) {
-                    elem.addEventListener('update', this._update.bind(this));
-                }.bind(this));
+                this.subscribeTo('pb-update', this._update.bind(this));
             }
 
             _setType(isActive) {
@@ -61,12 +58,9 @@
 
             _toggle(ev) {
                 console.log("<pb-view-type> toggle: %s", this.type);
-                document.querySelectorAll(this.target).forEach((elem) => {
-                    elem.setProperties({
-                        'view': this.type,
-                        'position': this.root
-                    });
-                    elem.update();
+                this.emitTo('pb-refresh', {
+                    'view': this.type,
+                    'position': this.root
                 });
             }
         }

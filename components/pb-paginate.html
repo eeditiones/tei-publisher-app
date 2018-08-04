@@ -1,5 +1,7 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<!--
 <link rel="import" href="bower_components/iron-icon/iron-icon.html">
+-->
 
 <dom-module id="pb-paginate">
     <template>
@@ -47,7 +49,7 @@
          * @polymer
          * @demo demo/index.html
          */
-        class PbPaginate extends Polymer.Element {
+        class PbPaginate extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'pb-paginate';
             }
@@ -83,9 +85,6 @@
                     pages: {
                         type: Array,
                         value: []
-                    },
-                    target: {
-                        type: String
                     }
                 };
             }
@@ -98,20 +97,12 @@
 
             connectedCallback() {
                 super.connectedCallback();
+
+                this.subscribeTo('pb-results-received', this._refresh.bind(this));
             }
 
             ready() {
                 super.ready();
-
-                if (this.target) {
-                    const targetElem = document.getElementById(this.target);
-                    if (!targetElem) {
-                        console.error('<pb-results> Target element not found: %s', this.target);
-                    } else {
-                        targetElem.addEventListener('pb-results-received', this._refresh.bind(this));
-                        targetElem.perPage = this.perPage;
-                    }
-                }
             }
 
             _update(start, total) {
@@ -123,7 +114,7 @@
                 let lowerBound = Math.max((this.page - Math.ceil(this.range / 2) + 1), 1);
                 let upperBound = Math.min((lowerBound + this.range - 1), this.pageCount);
                 lowerBound = Math.max((upperBound - this.range + 1), 1);
-                console.log("<pb-paginate> start: %d, total: %d, perPage: %d, pageCount: %s, page: %d, lower: %d, upper: %d", 
+                console.log("<pb-paginate> start: %d, total: %d, perPage: %d, pageCount: %s, page: %d, lower: %d, upper: %d",
                     start, total, this.perPage, this.pageCount, this.page, lowerBound, upperBound);
                 const pages = [];
                 for (let i = lowerBound; i <= upperBound; i++) {
@@ -146,25 +137,25 @@
                 const index = ev.model.item.label
                 const start = (index - 1) * this.perPage + 1;
                 this.set('start', start);
-                this.dispatchEvent(new CustomEvent('pb-load', {detail: {
+                this.emitTo('pb-load', {
                     "params": { "start": start }
-                }}));
+                });
             }
 
             _handleFirst(ev) {
                 this.set('start', 1);
-                this.dispatchEvent(new CustomEvent('pb-load', {detail: {
+                this.emitTo('pb-load', {
                     "params": { "start": 1 }
-                }}));
+                });
             }
 
             _handleLast(ev) {
                 const start = (this.pageCount - 1) * this.perPage + 1;
                 this.set('start', start);
-                
-                this.dispatchEvent(new CustomEvent('pb-load', {detail: {
+
+                this.emitTo('pb-load', {
                     "params": { "start": start }
-                }}));
+                });
             }
         }
 

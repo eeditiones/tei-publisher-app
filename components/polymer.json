@@ -1,7 +1,22 @@
 {
-  "lint": {
-    "rules": [
-      "polymer-2"
-    ]
-  }
+  "entrypoint": "build.html",
+  "shell": "dependencies-dev.html",
+  "sources":[
+    "./*.html"
+  ],
+  "builds": [
+    {
+      "name": "production",
+      "js": {"compile": false, "minify": true},
+      "css": {"minify": true},
+      "sourceMaps":true,
+      "inlineCss": false,
+      "html": {
+        "minify": true
+      },
+      "stripComments":true,
+      "bundle":false
+    }
+  ]
 }
+

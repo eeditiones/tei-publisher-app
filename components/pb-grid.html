@@ -1,0 +1,115 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-grid">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            #grid {
+                display: grid;
+                grid-template-columns: var(--pb-column-widths);
+                grid-column-gap: 20px;
+            }
+        </style>
+
+        <div id="grid"></div>
+    </template>
+
+    <script>
+        /**
+         * `pb-grid`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbGrid extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'pb-grid';
+            }
+
+            static get properties() {
+                return {
+                    columns: {
+                        type: Number
+                    },
+                    panels: {
+                        type: Array
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+
+                this.subscribeTo('pb-panel', ev => {
+                    const idx = Array.from(this.$.grid.children).reverse().indexOf(ev.detail.panel);
+                    console.log('<pb-grid> Updating panel %d to show %s', idx, ev.detail.active);
+                    this.panels[idx] = ev.detail.active;
+
+                    this.setParameter('panels', this.panels.join('.'));
+                    this.pushHistory('added panel');
+                });
+            }
+
+            ready() {
+                super.ready();
+                const panelsParam = this.getParameter('panels');
+                if (panelsParam) {
+                    this.panels = panelsParam.split('.').map(param => parseInt(param));
+                }
+                this.columns = this.panels.length;
+                this.template = this.querySelector('template');
+                this._update();
+                this.panels.forEach(panelNum => this._insertPanel(panelNum));
+            }
+
+            addPanel(initial) {
+                this.columns++;
+                this._update();
+                this.panels.push(initial);
+
+                this.setParameter('panels', this.panels.join('.'));
+                this.pushHistory('added panel');
+
+                this._insertPanel(initial);
+
+                this.emitTo('pb-refresh', null);
+            }
+
+            removePanel(panel) {
+                const idx = Array.from(this.$.grid.children).reverse().indexOf(panel);
+                console.log('<pb-grid> Removing panel %d', idx);
+                this.panels.splice(idx, 1);
+
+                this.setParameter('panels', this.panels.join('.'));
+                this.pushHistory('removed panel');
+
+                panel.parentNode.removeChild(panel);
+                this.columns--;
+                this._update();
+            }
+
+            _insertPanel(active) {
+                const clone = document.importNode(this.template.content.firstElementChild, true);
+                clone.setAttribute('active', active);
+                if (this.$.grid.children.length === 0) {
+                    this.$.grid.appendChild(clone);
+                } else {
+                    this.$.grid.insertBefore(clone, this.$.grid.firstElementChild);
+                }
+            }
+
+            _update() {
+                const colWidth = Math.floor(100 / this.columns);
+                this.updateStyles({'--pb-column-widths': (colWidth + '%').repeat(this.columns)});
+            }
+
+        }
+
+        window.customElements.define(PbGrid.is, PbGrid);
+    </script>
+</dom-module>

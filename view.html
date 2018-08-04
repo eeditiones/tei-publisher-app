@@ -11,12 +11,13 @@
 
         <title data-template="config:app-title"/>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald"/>
         <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
         <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
         <link rel="import" href="components/dependencies-dev.html"/>
 
         <custom-style>
-            <style type="text/css">
+            <style include="pb-common-styles">
                 body {
                     --pb-link-theme: {
                         font-family: "Junicode",Georgia,"Times New Roman",serif;
@@ -121,8 +122,7 @@
                     <h3>
                         <i18n:text key="contents">Contents</i18n:text>
                     </h3>
-                    <pb-load id="loadToc" url="templates/toc.html" target="#view1" container="#toc" load-once="load-once"
-                        trigger='{"#drawer": "opened-changed"}'>Loading ...</pb-load>
+                    <pb-load id="loadToc" url="templates/toc.html?target=transcription" src="document1" container="#toc" load-once="load-once">Loading ...</pb-load>
                     <div id="toc"></div>
                 </div>
             </app-drawer>
@@ -181,12 +181,12 @@
                             </a>
                             <paper-listbox slot="dropdown-content">
                                 <paper-item>
-                                    <pb-ajax target="#view1" url="$app/modules/lib/regenerate.xql" dialog="messageDialog">
+                                    <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/lib/regenerate.xql" dialog="messageDialog">
                                         <i18n:text key="recompile"/>
                                     </pb-ajax>
                                 </paper-item>
                                 <paper-item>
-                                    <pb-ajax target="#view1" url="$app/modules/index.xql" dialog="messageDialog">
+                                    <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/index.xql" dialog="messageDialog">
                                         <i18n:text key="metadata-update"/>
                                     </pb-ajax>
                                 </paper-item>
@@ -225,19 +225,21 @@
 
                     <app-toolbar class="toolbar" sticky="sticky">
                         <paper-icon-button class="toc-toggle" icon="icons:view-list" drawer-toggle="drawer-toggle"/>
-                        <pb-view-type target="#view1">Page View</pb-view-type>
+                        <pb-view-type subscribe="transcription" emit="transcription">Page View</pb-view-type>
                         <pb-edit-xml src="document1">
                             <paper-icon-button icon="icons:code" alt="Edit source"/>
                         </pb-edit-xml>
-                        <pb-zoom target="#view1" direction="in" icon="icons:zoom-in"/>
-                        <pb-zoom target="#view1" direction="out" icon="icons:zoom-out"/>
-                        <pb-navigation target="#view1" direction="backward" unit="page">
+                        <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
+                        <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
+                        <pb-navigation emit="transcription"
+                            subscribe="transcription" direction="backward" unit="page">
                             <paper-icon-button icon="icons:chevron-left"/>
                         </pb-navigation>
-                        <pb-navigation target="#view1" direction="forward" unit="page">
+                        <pb-navigation emit="transcription"
+                            subscribe="transcription" direction="forward" unit="page">
                             <paper-icon-button icon="icons:chevron-right"/>
                         </pb-navigation>
-                        <pb-progress target="#view1" indeterminate="indeterminate" bottom-item="bottom-item"/>
+                        <pb-progress subscribe="transcription" indeterminate="indeterminate" bottom-item="bottom-item"/>
                     </app-toolbar>
 
                     <app-toolbar sticky="sticky" class="document-title">
@@ -248,12 +250,15 @@
                 </app-header>
 
                 <main class="content-body">
-                    <pb-navigation target="#view1" direction="backward" unit="page" keyboard="left">
+                    <pb-navigation direction="backward" unit="page" keyboard="left" emit="transcription"
+                        subscribe="transcription">
                         <paper-fab icon="icons:chevron-left"/>
                     </pb-navigation>
                     <pb-view id="view1" src="document1" data-template="pages:pb-view"
-                        column-separator=".tei-cb" history="history"/>
-                    <pb-navigation target="#view1" direction="forward" unit="page" keyboard="right">
+                        column-separator=".tei-cb" history="history"
+                        subscribe="transcription" emit="transcription"/>
+                    <pb-navigation direction="forward" unit="page" keyboard="right" emit="transcription"
+                        subscribe="transcription">
                         <paper-fab icon="icons:chevron-right"/>
                     </pb-navigation>
                 </main>
@@ -283,5 +288,10 @@
                 </paper-button>
             </div>
         </paper-dialog>
+        <script>
+            document.getElementById('drawer').addEventListener('opened-changed', function() {
+                document.getElementById('loadToc').load();
+            });
+        </script>
     </body>
 </html>

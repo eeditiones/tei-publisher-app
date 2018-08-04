@@ -24,7 +24,7 @@
          * @polymer
          * @demo demo/index.html
          */
-        class PbFacsLink extends Polymer.Element {
+        class PbFacsLink extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'pb-facs-link';
             }
@@ -38,6 +38,10 @@
                     /** An array of coordinates describing a rectangle to highlight */
                     coordinates: {
                         type: Array
+                    },
+                    emit: {
+                        type: String,
+                        value: "transcription"
                     }
                 };
             }
@@ -53,15 +57,10 @@
             _mouseoverListener(ev) {
                 ev.preventDefault();
                 console.log("facs-link: %s %o", this.facs, this.coordinates);
-                const event = new CustomEvent('facsimile-show-annotation', {
-                    detail: {
-                        file: this.facs,
-                        coordinates: this.coordinates
-                    },
-                    composed: true,
-                    bubbles: true
+                this.emitTo('pb-show-annotation', {
+                    file: this.facs,
+                    coordinates: this.coordinates
                 });
-                this.dispatchEvent(event);
             }
         }
 

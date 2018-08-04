@@ -90,13 +90,13 @@ var targetConfigurationDefault = {
 
 // Deploy non-well-formed files in components directory as binaries
 var targetConfigurationComponents = {
-    target: '/db/apps/tei-publisher/components/',
+    target: '/db/apps/tei-publisher/',
     html5AsBinary: true
 };
 
 // Deploy non-well-formed files in components directory as binaries
 var targetConfigurationDemo = {
-    target: '/db/apps/tei-publisher/components/demo/',
+    target: '/db/apps/tei-publisher/',
     html5AsBinary: false
 }
 

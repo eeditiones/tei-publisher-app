@@ -1,9 +1,11 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<!--
 <link rel="import" href="bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="bower_components/paper-spinner/paper-spinner-lite.html">
 <link rel="import" href="bower_components/paper-styles/color.html">
 
 <link rel="import" href="pb-facsimile-loader.html">
+-->
 <!--<link rel="import" href="pb-facsimile-overlay.html">-->
 
 <script src="bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon.min.js"></script>
@@ -83,7 +85,7 @@
          * @polymer
          * @demo demo/index.html
          */
-        class PbFacsimile extends Polymer.Element {
+        class PbFacsimile extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'pb-facsimile';
             }
@@ -203,8 +205,7 @@
                     facsimiles: {
                       type: Array,
                       value: function() { return [] }
-                    },
-                    target: { type: String, value: '' }
+                    }
                 };
             }
 
@@ -220,29 +221,24 @@
             }
 
             connectedCallback() {
-              super.connectedCallback();
-              this._targetElements = document.querySelectorAll(this.target)
-              if (this._targetElements.length) {
+                super.connectedCallback();
                 this._boundShowAnnotationListener = this._showAnnotationListener.bind(this);
                 this._boundFragmentUpdateListener = this._fragmentUpdateListener.bind(this);
                 this._boundClearAll = this._clearAll.bind(this);
-                this._targetElements[0].addEventListener('startupdate', this._boundClearAll);
-                this._targetElements[0].addEventListener('update', this._boundFragmentUpdateListener);
-                this._targetElements.forEach(element =>
-                  element.addEventListener(
-                    'facsimile-show-annotation', this._boundShowAnnotationListener))
-              }
+                this.subscribeTo('pb-start-update', this._boundClearAll);
+                this.subscribeTo('pb-update', this._boundFragmentUpdateListener);
+                this.subscribeTo('pb-show-annotation', this._boundShowAnnotationListener);
             }
 
             disconnectedCallback() {
               super.disconnectedCallback();
-              if (this._targetElements.length) {
-                this._targetElements.forEach(element =>
-                  element.removeEventListener(
-                    'facsimile-show-annotation', this._boundShowAnnotationListener))
-                this._targetElements[0].removeEventListener('update', this._boundFragmentUpdateListener);
-                this._targetElements[0].removeEventListener('startupdate', this._boundClearAll);
-              }
+              // if (this._targetElements.length) {
+              //   this._targetElements.forEach(element =>
+              //     element.removeEventListener(
+              //       'facsimile-show-annotation', this._boundShowAnnotationListener))
+              //   this._targetElements[0].removeEventListener('update', this._boundFragmentUpdateListener);
+              //   this._targetElements[0].removeEventListener('startupdate', this._boundClearAll);
+              // }
             }
 
             ready() {
@@ -460,14 +456,20 @@
             _fragmentUpdateListener(event) {
               this.set('loaded', false)
               this.resetZoom()
-              this.set('facsimiles', this._getFacsimilesFromData(event.detail.data))
+              this.set('facsimiles', this._getFacsimilesFromData(event.detail.root))
               console.log('_boundFragmentUpdateListener', event.detail.content, this.facsimiles)
               this.set('loaded', true)
             }
 
-            _getFacsimilesFromData(data) {
-              let facsimiles = data.content.match(/ facs="([^"]+)"/)
-              return [facsimiles[1]] //.reduce(this._dedupeFacsimiles, [])
+            _getFacsimilesFromData(elem) {
+                const facsimiles = [];
+                elem.querySelectorAll('.columnbreak').forEach(cb => {
+                    if (cb.facs) {
+                        facsimiles.push(cb.facs);
+                    }
+                });
+                console.log('_getFacsimilesFromData', facsimiles);
+                return facsimiles;
             }
 
             _dedupeFacsimiles(deduped, nextMatch) {

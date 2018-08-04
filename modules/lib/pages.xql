@@ -362,14 +362,14 @@ declare %private function pages:toc-div($node, $model as map(*), $current as ele
                     if ($hasDivs) then
                         <pb-collapse>
                             <span slot="collapse-trigger">
-                                <pb-link node-id="{util:node-id($root)}" target="{$target}">{$html}</pb-link>
+                                <pb-link node-id="{util:node-id($root)}" emit="{$target}">{$html}</pb-link>
                             </span>
                             <span slot="collapse-content">
                             { pages:toc-div($div, $model, $current, $target) }
                             </span>
                         </pb-collapse>
                     else
-                        <pb-link node-id="{util:node-id($root)}" target="{$target}">{$html}</pb-link>
+                        <pb-link node-id="{util:node-id($root)}" emit="{$target}">{$html}</pb-link>
                 }
                 </li>
         }

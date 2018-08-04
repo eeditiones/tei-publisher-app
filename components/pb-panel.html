@@ -1,0 +1,122 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<!--
+<link rel="import" href="mishnah-common-styles.html">
+-->
+
+<dom-module id="pb-panel">
+    <template>
+        <style include="mishnah-common-styles">
+            :host {
+                display: block;
+            }
+
+            app-toolbar {
+                padding: 0;
+            }
+
+        </style>
+
+        <slot></slot>
+        <app-toolbar>
+            <paper-dropdown-menu id="menu" label="[[label]]">
+                <paper-listbox slot="dropdown-content" class="dropdown-content" selected="{{active}}">
+                    <template id="repeat" is="dom-repeat" items="[[panels]]">
+                        <paper-item>[[item]]</paper-item>
+                    </template>
+                </paper-listbox>
+            </paper-dropdown-menu>
+            <slot name="toolbar"></slot>
+        </app-toolbar>
+        <div id="content" class="panel"></div>
+    </template>
+
+    <script>
+        /**
+         * `seed-element`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbPanel extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'pb-panel';
+            }
+
+            static get properties() {
+                return {
+                    active:{
+                        type: Number,
+                        notify: true,
+                        observer: '_update'
+                    },
+                    label: {
+                        type: String,
+                        value: 'Panel'
+                    },
+                    panels: {
+                        type: Array
+                    },
+                    target: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready() {
+                super.ready();
+            }
+
+            _update(newVal, oldVal) {
+                this._show(oldVal != undefined);
+            }
+
+            _show(update) {
+                console.log('<pb-panel> showing panel %s', this.active);
+                this.$.content.querySelectorAll('._pb_panel').forEach(div => div.style.display = 'none');
+                const existingPanel = this.$.content.querySelector('._pb_panel' + this.active);
+                if (existingPanel) {
+                    existingPanel.style.display = '';
+                } else {
+                    const template = this._getActivePanel();
+                    const clone = document.importNode(template.content, true);
+                    const div = document.createElement('div');
+                    div.className = '_pb_panel _pb_panel' + this.active;
+                    div.appendChild(clone);
+                    this.$.content.appendChild(div);
+
+                    this.emitTo('pb-panel', {
+                        panel: this,
+                        active: this.active
+                    });
+
+                    if (update) {
+                        console.log('<pb-panel> triggering refresh of target %s', this.target);
+                        this.refresh();
+                    }
+                }
+            }
+
+            _getActivePanel() {
+                const templates = this.querySelectorAll('template');
+                return templates[this.active];
+            }
+
+            refresh() {
+                this.emitTo('pb-refresh', null);
+                // const transcript = document.querySelector(this.target);
+                // if (!(transcript && transcript.update)) {
+                //     console.error('<pb-panel> target %s not found', this.target);
+                // }
+                // transcript.update();
+            }
+        }
+
+        window.customElements.define(PbPanel.is, PbPanel);
+    </script>
+</dom-module>

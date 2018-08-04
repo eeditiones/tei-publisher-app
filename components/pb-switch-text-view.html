@@ -1,5 +1,7 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<!--
 <link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+-->
 <dom-module id="pb-switch-text-view">
     <template>
         <style>
@@ -20,7 +22,7 @@
          * @polymer
          * @demo demo/index.html
          */
-        class PbSwitchTextView extends Polymer.Element {
+        class PbSwitchTextView extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'pb-switch-text-view';
             }
@@ -51,9 +53,10 @@
 
             _changed(newVal, oldVal) {
                 if (typeof oldVal !== 'undefined' && newVal !== oldVal) {
-                    document.querySelectorAll(this.target).forEach(function(elem) {
-                        elem.toggle(this.selector, this.checked);
-                    }.bind(this));
+                    this.emitTo('pb-toggle', {
+                        selector: this.selector,
+                        state: this.checked
+                    });
                 }
             }
 

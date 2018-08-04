@@ -1,4 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<!--
 <link rel="import" href="bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="bower_components/paper-button/paper-button.html">
 <link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
@@ -7,6 +8,7 @@
 <link rel="import" href="bower_components/paper-input/paper-input.html">
 <link rel="import" href="pb-ajax.html">
 <link rel="import" href="pb-edit-xml.html">
+-->
 
 <dom-module id="pb-manage-odds">
     <template>
@@ -70,7 +72,7 @@
             method="get"
             on-response="_update"></iron-ajax>
 
-        <paper-dialog id="deleteDialog" modal>
+        <paper-dialog id="deleteDialog">
             <h2>Delete</h2>
             <paper-dialog-scrollable>
                 <p>Are you sure you want to delete the ODD file [[file]]?
@@ -91,7 +93,7 @@
          * @polymer
          * @demo demo/index.html
          */
-        class PbManageOdds extends Polymer.Element {
+        class PbManageOdds extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'pb-manage-odds';
             }
@@ -128,13 +130,15 @@
             }
 
             _refresh(params) {
-                this.dispatchEvent(new CustomEvent('startUpdate'));
+                this.emitTo('pb-start-update');
+
                 this.$.load.params = params;
                 this.$.load.generateRequest();
             }
 
             _update() {
-                this.dispatchEvent(new CustomEvent('endUpdate'));
+                this.emitTo('pb-end-update');
+
                 this.set('odds', this.$.load.lastResponse);
             }
 
@@ -148,9 +152,10 @@
                 });
                 const params = { odd: ev.model.item.name + '.odd' };
                 console.log('<pb-manage-odds> selected ODD: %o', params);
-                this.dispatchEvent(new CustomEvent('pb-load', {detail: {
+
+                this.emitTo('pb-load', {
                     "params": params
-                }}));
+                });
             }
 
             _createODD() {
