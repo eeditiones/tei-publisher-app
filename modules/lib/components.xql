@@ -81,7 +81,7 @@ let $xml :=
         let $xquery := "declare default element namespace '" || $namespace || "'; $document" || $xpath
         let $data := util:eval($xquery)
         return
-            pages:load-xml($data, $view, $root, $doc)
+            pages:load-xml($data, $view, (), $doc)
     else
         pages:load-xml($view, $root, $doc)
 return
@@ -119,7 +119,7 @@ return
                 "view": $view,
                 "doc": $doc,
                 "root": $root,
-                "odd": $config:odd,
+                "odd": $xml?config?odd,
                 "next":
                     if ($view != "single") then
                         let $next := $config:next-page($xml?config, $xml?data, $view)
@@ -152,7 +152,8 @@ return
                 "content": serialize($transformed?content,
                     <output:serialization-parameters xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
                       <output:indent>no</output:indent>
-                    </output:serialization-parameters>),
+                    <output:method>html5</output:method>
+                        </output:serialization-parameters>),
                 "footnotes": $transformed?footnotes
             }
     else
