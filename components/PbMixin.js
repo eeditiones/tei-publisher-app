@@ -5,15 +5,32 @@ function PbAppState() {
     return parent => class PbMixin extends parent {
         static get properties() {
             return {
+                /**
+                 * The channel to subscribe to. Only events on a channel corresponding
+                 * to this property are listened to.
+                 */
                 subscribe: {
                     type: String
                 },
+                /**
+                 * Configuration object to define a channel/event mapping. Every property
+                 * in the object is interpreted as the name of a channel and its value should
+                 * be an array of event names to listen to.
+                 */
                 subscribeConfig: {
                     type: Object
                 },
+                /**
+                 * The channel to send events to.
+                 */
                 emit: {
                     type: String
                 },
+                /**
+                 * Configuration object to define a channel/event mapping. Every property
+                 * in the object is interpreted as the name of a channel and its value should
+                 * be an array of event names to be dispatched.
+                 */
                 emitConfig: {
                     type: Object
                 }
@@ -24,23 +41,35 @@ function PbAppState() {
             super();
         }
 
+
+        /**
+         * Listen to the event defined by type. If property `subscribe` or `subscribe-config`
+         * is defined, this method will trigger the listener only if the event has a key
+         * equal to the key defined in `subscribe` or `subscribe-config`.
+         */
         subscribeTo(type, listener) {
-            let keys = [];
+            let channels = [];
             if (this.subscribeConfig) {
                 for (const key in this.subscribeConfig) {
                     this.subscribeConfig[key].forEach(t => {
                         if (t === type) {
-                            keys.push(key);
+                            channels.push(key);
                         }
                     })
                 }
             } else if (this.subscribe) {
-                keys.push(this.subscribe);
+                channels.push(this.subscribe);
             }
-            if (keys.length === 0) {
-                document.addEventListener(type, listener);
+            if (channels.length === 0) {
+                // no channel defined: listen for all events not targetted at a channel
+                document.addEventListener(type, ev => {
+                    if (ev.detail && ev.detail.key) {
+                        return;
+                    }
+                    listener(ev);
+                });
             } else {
-                keys.forEach(key =>
+                channels.forEach(key =>
                     document.addEventListener(type, ev => {
                         if (ev.detail && ev.detail.key && ev.detail.key === key) {
                             listener(ev);
@@ -50,6 +79,10 @@ function PbAppState() {
             }
         }
 
+        /**
+         * Dispatch an event of the given type, optionally limited to listeners on
+         * a certain channel, defined by properties `emit` or `emit-config`.
+         */
         emitTo(type, options) {
             let detail = {};
             if (this.emit) {
