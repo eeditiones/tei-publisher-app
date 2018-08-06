@@ -10,16 +10,13 @@
     this.placeholder = opts.placeholder;
     this.callback = opts.callback;
 
-    this.app.on('show', function() {
-        self.initCodeEditor();
-    });
-
     this.on('mount', function() {
         self.initCodeEditor();
     });
 
     initCodeEditor() {
-        if (this.codemirror || !$(this.refs.code).is(":visible")) {
+        var isVisible = this.root.offsetWidth > 0 && this.root.offsetHeight > 0;
+        if (this.codemirror || !isVisible) {
             return;
         }
         this.codemirror = CodeMirror(function(elt) {
@@ -49,4 +46,10 @@
         return this.code;
     }
     </script>
+    <style>
+        :scope { 
+            display: block;
+            min-height: 1em;
+        }
+    </style>
 </code-editor>

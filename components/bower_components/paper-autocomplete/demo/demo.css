@@ -1,0 +1,12 @@
+paper-autocomplete {
+  width: 450px;
+  max-width: 100%;
+}
+
+.bold {
+  font-weight: 500;
+}
+
+blockquote {
+  font-family: RobotoDraft;
+}

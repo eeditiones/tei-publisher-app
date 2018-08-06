@@ -177,7 +177,7 @@ function app:form-odd-select($node as node(), $model as map(*), $odd as xs:strin
                     $title || " [" || $rev-date || "]"
                 let $file := replace($resource, "^.*/([^/]+)$", "$1")
                 return
-                    <option value="{$file}">
+                    <paper-item value="{$file}">
                         {
                             if ($odd and $file = $odd) then
                                 attribute selected {"selected"}
@@ -185,7 +185,7 @@ function app:form-odd-select($node as node(), $model as map(*), $odd as xs:strin
                                 (),
                             string($displayname)
                         }
-                    </option>
+                    </paper-item>
             else
                 ()
         })

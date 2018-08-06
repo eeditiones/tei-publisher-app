@@ -1,5 +1,5 @@
 <edit-source>
-    <a class="btn btn-default" target="eXide" data-exide-open="{ path }"
+    <a target="eXide" data-exide-open="{ path }"
         href="../eXide/index.html?open={path}" onclick="{ click }"><yield/></a>
     <script>
         setPath(path) {
@@ -48,4 +48,9 @@
             return true;
         }
     </script>
+    <style>
+        a:link {
+            color: inherit;
+        }
+    </style>
 </edit-source>

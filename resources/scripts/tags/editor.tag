@@ -1,94 +1,52 @@
 <editor>
-    <div class="col-md-3">
-        <div ref="panel" class="panel panel-info">
-            <div class="panel-heading">
-                Visual ODD Editor <span class="label label-warning pull-right">Beta</span>
-            </div>
-            <div class="panel-body">
+    <aside>
+        <paper-card heading="Visual ODD Editor">
+            <div class="card-content">
                 <yield/>
-                <h3>{ odd }</h3>
+                <h3>
+                    <span>{ odd }</span>
 
-                <div  class="toolbar">
-                    <div class="btn-group">
-                        <button class="btn btn-default" onclick="{ reload }"><i class="material-icons">replay</i> Reload</button>
-                        <button id="save" class="btn btn-default" onclick="{ save }"><i class="material-icons">done_all</i> Save</button>
+                    <div>
+                        <edit-source ref="editSource">
+                            <paper-icon-button icon="code" title="ODD Source"></paper-icon-button>
+                        </edit-source>
+                        <paper-icon-button onclick="{ reload }" icon="refresh" title="Refresh"></paper-icon-button>
+                        <paper-icon-button onclick="{ save }" icon="save" title="Save"></paper-icon-button>
                     </div>
-                </div>
-
-                <div class="btn-group">
-                    <edit-source ref="editSource"><i class="material-icons">code</i> ODD Source</edit-source>
-                </div>
+                </h3>
                 <div id="new-element" class="input-group">
-                    <input ref="identNew" type="text" class="form-control" placeholder="Element Name">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" onclick="{ addElementSpec }">
-                            <i class="material-icons">add</i> New
-                        </button>
-                    </span>
+                    <paper-input ref="identNew" label="Add Element" always-float-label="always-float-label">
+                        <paper-icon-button slot="suffix" onclick="{ addElementSpec }" icon="add"></paper-icon-button>
+                    </paper-input>
                 </div>
 
                 <div id="jump-to">
-                    <combobox ref="jumpTo" source="{ getElementSpecs }" placeholder="Jump to ..." callback="{ jumpTo }"/>
+                    <paper-autocomplete ref="jumpTo" label="Jump to ..." always-float-label="always-float-label"></paper-autocomplete>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="col-md-9 element-specs">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="headingOne">
-                    <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" href="#collapseSettings" aria-expanded="true" aria-controls="collapseSettings">
-                        { title || titleShort || odd || 'Loading ...' }
-                        </a>
-                    </h4>
+        </paper-card>
+    </aside>
+    <section class="specs" ref="specs">
+        <paper-card class="metadata">
+            <pb-collapse>
+                <h4 slot="collapse-trigger" class="panel-title">
+                    { title || titleShort || odd || 'Loading ...' }
+                </h4>
+                <div slot="collapse-content">
+                    <paper-input ref="title" name="title" value="{ title }" label="Title" placeholder="[Title of the ODD]"></paper-input>
+                    <paper-input ref="titleShort" name="short-title" value="{ titleShort }" label="Short title" placeholder="[Short title for display]"></paper-input>
+                    <paper-input ref="source" name="source" value="{ source }" label="Source ODD" placeholder="[ODD to inherit from]"></paper-input>
+
+                    <paper-input ref="namespace" name="namespace" value="{ namespace }" label="Namespace" placeholder="[Default namespace URI (if not TEI)]">
+                        <paper-checkbox slot="prefix" ref="useNamespace" title="Check for using a different namespace than TEI"/>
+                    </paper-input>
                 </div>
-                <div id="collapseSettings" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                    <div class="panel-body">
-                        <form class="form-horizontal">
-                            <div class="form-group">
-                                <label class="control-label col-sm-3">Title:</label>
-                                <div class="col-sm-9">
-                                    <input ref="title" type="text" name="title" value="{ title }" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-3">Short Title:</label>
-                                <div class="col-sm-9">
-                                    <input ref="titleShort" type="text" name="short-title" value="{ titleShort }" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-3">Source:</label>
-                                <div class="col-sm-9">
-                                    <input ref="source" type="text" name="source" value="{ source }" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-3">Namespace:</label>
-                                <div class="col-sm-9">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <input ref="useNamespace" type="checkbox" aria-label="..." title="Check for using a different namespace than TEI"/>
-                                        </span>
-                                        <input ref="namespace" type="text" class="form-control" name="namespace" value="{ namespace }" disabled
-                                            placeholder="Default namespace URI (if not TEI)"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <element-spec id="es_{ this.ident }" each="{ elementSpecs }" ident="{ this.ident }" mode="{ this.mode }"
-                    model="{ this.models }"></element-spec>
-            </div>
-        </div>
-    </div>
+            </pb-collapse>
+        </paper-card>
+
+        <element-spec id="es_{ this.ident }" each="{ elementSpecs }" ident="{ this.ident }" mode="{ this.mode }"
+            model="{ this.models }"></element-spec>
+    </section>
 
     <message id="main-modal" ref="dialog"></message>
 
@@ -104,23 +62,20 @@
     this.titleShort = null;
 
     this.on('mount', function() {
-        $(self.refs.panel).affix({ top: 60 });
-        $(self.refs.panel).on('affix.bs.affix', function() {
-            var width = $(self.refs.panel).width();
-            self.refs.panel.style.width = width + 'px';
-        });
-        $(self.refs.panel).on('affixed-top.bs.affix', function() {
-            self.refs.panel.style.width = 'auto';
-        });
         $(self.refs.useNamespace).change(function() {
             $(self.refs.namespace).prop("disabled", !this.checked);
         });
+
+        self.refs.jumpTo.addEventListener('autocomplete-selected', self.jumpTo.bind(self));
     });
 
     load() {
+        document.dispatchEvent(new CustomEvent('pb-start-update'));
+
         this.refs.editSource.setPath(TeiPublisher.config.root + '/' + this.odd);
         $.getJSON("modules/editor.xql?odd=" + this.odd + '&root=' + TeiPublisher.config.root, function(data) {
             self.elementSpecs = data.elementSpecs;
+            console.log("element specs: %s", self.elementSpecs.length);
             self.namespace = data.namespace;
             self.source = data.source;
             self.title = data.title;
@@ -133,6 +88,8 @@
                 $(self.refs.namespace).prop("disabled", false);
             }
             self.update();
+            self.updateElementSpecs();
+            document.dispatchEvent(new CustomEvent('pb-end-update'));
         });
     }
 
@@ -195,24 +152,42 @@
         });
     }
 
-    getElementSpecs() {
-        return this.elementSpecs.map(function(spec) {
-            return spec.ident;
+    updateElementSpecs() {
+        var specs = this.elementSpecs.map(function(spec) {
+            return { text: spec.ident, value: spec.ident };
         });
+        this.refs.jumpTo.source = specs;
     }
 
-    jumpTo() {
-        var ident = this.refs.jumpTo.getData();
-        var target = document.getElementById('es_' + ident);
-        $(".models.collapse").collapse('hide');
+    collapseAll(current) {
+        this.forEachTag('element-spec', function(spec) {
+            if (spec.ident === current.ident) {
+                return;
+            }
+            spec.collapse();
+        })
+    }
 
-        $(target).find('.models.collapse').collapse('show');
+    jumpTo(ev) {
+        var ident = this.refs.jumpTo.text;
+        var target = document.getElementById('es_' + ident);
+
+        this.forEachTag('element-spec', function(spec) {
+            if (spec.ident === ident) {
+                spec.toggle();
+            } else {
+                spec.collapse();
+            }
+        });
+
         var top = $(target).position().top;
-        window.scrollTo(0, top + 60);
+        this.refs.specs.scrollTo(0, top + 60);
         this.refs.jumpTo.clear();
     }
 
     save(ev) {
+        document.dispatchEvent(new CustomEvent('pb-start-update'));
+
         ev.preventUpdate = true;
 
         var useNamespace = this.refs.useNamespace.checked;
@@ -271,9 +246,11 @@
                 });
                 msg += '</div>';
                 self.refs.dialog.set("Saved", msg);
+                document.dispatchEvent(new CustomEvent('pb-end-update'));
             },
             error: function(xhr, status) {
                 alert(status);
+                document.dispatchEvent(new CustomEvent('pb-end-update'));
             }
         });
     }

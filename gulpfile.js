@@ -17,6 +17,7 @@ var fs =                    require('fs'),
         'styles':               'resources/css/style.less',
         'vendor_styles':        'resources/css/vendor/*',
         'scripts':              'resources/scripts/app.js',
+        'riot':                 'resources/scripts/tags/*.tag',
         'vendor_scripts':       'resources/scripts/vendor/*',
         'html':                 '*.html',
         'images':               'resources/images/*',
@@ -35,7 +36,8 @@ var fs =                    require('fs'),
     output  = {
         'styles':               'resources/css',
         'vendor_styles':        'resources/css/vendor/*',
-        'scripts':              'resources/scripts/*',
+        'scripts':              'resources/scripts/**',
+        'riot':                 'resources/scripts/tags/*.tag',
         'vendor_scripts':       'resources/scripts/vendor/*',
         'html':                 '.',
         'images':               'resources/images/*',
@@ -140,7 +142,15 @@ gulp.task('deploy:vendor_scripts', function () {
         .pipe(exClient.dest(targetConfigurationDefault))
 });
 
-gulp.task('deploy:scripts', ['deploy:vendor_scripts'], function () {
+gulp.task('deploy:riot_scripts', function () {
+    return gulp.src([
+        output.riot
+    ], {base: '.'})
+        .pipe(exClient.newer(targetConfigurationComponents))
+        .pipe(exClient.dest(targetConfigurationComponents))
+});
+
+gulp.task('deploy:scripts', ['deploy:vendor_scripts','deploy:riot_scripts'], function () {
     return gulp.src(output.scripts, {base: '.'})
         .pipe(exClient.newer(targetConfigurationDefault))
         .pipe(exClient.dest(targetConfigurationDefault))
