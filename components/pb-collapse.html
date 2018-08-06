@@ -15,11 +15,17 @@
       }
 
       #trigger {
-          padding-left: 20px;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+
+          @apply --pb-collapse-trigger;
       }
 
       #trigger iron-icon {
-          margin-left: -20px;
+          display: block;
+          margin-right: 20px;
       }
     </style>
 
