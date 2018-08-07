@@ -9,8 +9,8 @@
                         <paper-icon-button onclick="{ moveDown }" icon="arrow-downward"></paper-icon-button>
                         <paper-icon-button onclick="{ moveUp }" icon="arrow-upward"></paper-icon-button>
                         <paper-icon-button onclick="{ remove }" icon="delete"></paper-icon-button>
-                        <paper-icon-button onclick="{ copy }" icon="copy"></paper-icon-button>
-                        <paper-icon-button onclick="{ paste }" icon="paste" if="{type == 'modelSequence' || type == 'modelGrp'}"></paper-icon-button>
+                        <paper-icon-button onclick="{ copy }" icon="content-copy"></paper-icon-button>
+                        <paper-icon-button onclick="{ paste }" icon="content-paste" if="{type == 'modelSequence' || type == 'modelGrp'}"></paper-icon-button>
                         <paper-menu-button if="{type == 'modelSequence' || type == 'modelGrp'}">
                             <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
                             <paper-listbox slot="dropdown-content">
@@ -114,19 +114,19 @@
             var self = this;
 
             $(this.refs.details).on("opened-changed", function() {
-                var icon = this.refs.details.opened ? 'expand-less' : 'expand-more';
+                var opened = this.refs.details.opened;
+                var icon = opened ? 'expand-less' : 'expand-more';
+                if (opened) {
+                    this.parent.collapseAll(this);
+                }
                 this.refs.toggle.icon = icon;
                 this.refs.predicate.initCodeEditor();
-                if (this.tags.rendition) {
-                    this.tags.rendition.forEach(function(rendition) {
-                        rendition.show();
-                    });
-                }
-                if (this.tags.parameter) {
-                    this.tags.parameter.forEach(function(param) {
-                        param.show();
-                    });
-                }
+                this.forEachTag('parameter', function(param) {
+                    param.show();
+                });
+                this.forEachTag('rendition', function(rendition) {
+                    rendition.show();
+                });
             }.bind(this));
 
             var autocomplete = [];
@@ -140,6 +140,19 @@
 
         toggle(ev) {
             this.refs.details.toggle();
+        }
+
+        collapse() {
+            this.refs.details.hide();
+        }
+
+        collapseAll(current) {
+            this.forEachTag('model', function(model) {
+                if (model == current) {
+                    return;
+                }
+                model.collapse();
+            })
         }
 
         getBehaviours() {
@@ -264,6 +277,7 @@
             this.parameters = this.updateTag('parameter');
             this.sourcerend = $(this.refs.sourcerend).is(":checked");
             this.renditions = this.updateTag('rendition');
+            console.log(this.renditions);
             this.models = this.updateTag('model');
         }
 

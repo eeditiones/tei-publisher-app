@@ -12,7 +12,7 @@
         </paper-menu-button>
 
         <paper-icon-button onclick="{ remove }" icon="delete"></paper-icon-button>
-        <paper-icon-button onclick="{ paste }" icon="paste"></paper-icon-button>
+        <paper-icon-button onclick="{ paste }" icon="content-paste"></paper-icon-button>
     </h3>
 
     <iron-collapse ref="models" class="models" opened="{show}" id="elem-{ ident }">
@@ -44,6 +44,15 @@
 
         collapse() {
             this.refs.models.hide();
+        }
+
+        collapseAll(current) {
+            this.forEachTag('model', function(model) {
+                if (model == current) {
+                    return;
+                }
+                model.collapse();
+            })
         }
 
         addModel(ev) {
