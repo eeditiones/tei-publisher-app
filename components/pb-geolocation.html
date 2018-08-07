@@ -1,0 +1,64 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-geolocation">
+    <template strip-whitespace>
+        <style>
+            :host {
+                display: inline;
+            }
+        </style>
+
+        <slot></slot>
+    </template>
+
+    <script>
+        /**
+         * `pb-geolocation`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbGeolocation extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'pb-geolocation';
+            }
+
+            static get properties() {
+                return {
+                    longitude: {
+                        type: Number
+                    },
+                    latitude: {
+                        type: Number
+                    },
+                    label: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+
+                this.addEventListener('mouseover', function() {
+                    this.emitTo('pb-geolocation', {
+                        coordinates: {
+                            latitude: this.latitude,
+                            longitude: this.longitude
+                        },
+                        label: this.label
+                    });
+                }.bind(this));
+            }
+
+            ready(){
+                super.ready();
+            }
+
+        }
+
+        window.customElements.define(PbGeolocation.is, PbGeolocation);
+    </script>
+</dom-module>
