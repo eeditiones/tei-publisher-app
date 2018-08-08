@@ -28,7 +28,7 @@
         this.on("mount", function() {
             var self = this;
 
-            $(this.refs.models).on("opened-changed", function() {
+            this.refs.models.addEventListener("opened-changed", function() {
                 var opened = this.refs.models.opened;
                 var icon = opened ? 'expand-less' : 'expand-more';
                 this.refs.toggle.icon = icon;

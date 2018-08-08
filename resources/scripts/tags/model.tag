@@ -107,13 +107,14 @@
             "section",
             "table",
             "text",
-            "title"
+            "title",
+            "webcomponent"
         ];
 
         this.on("mount", function() {
             var self = this;
 
-            $(this.refs.details).on("opened-changed", function() {
+            this.refs.details.addEventListener("opened-changed", function() {
                 var opened = this.refs.details.opened;
                 var icon = opened ? 'expand-less' : 'expand-more';
                 if (opened) {
@@ -129,12 +130,16 @@
                 });
             }.bind(this));
 
-            var autocomplete = [];
-            this.getBehaviours().forEach(function(behaviour) {
-                autocomplete.push({text: behaviour, value: behaviour});
-            });
-            $(this.refs.behaviour).prop('showResultsOnFocus', true);
-            $(this.refs.behaviour).prop('source', autocomplete);
+            if (this.refs.behaviour) {
+                var autocomplete = [];
+                this.getBehaviours().forEach(function(behaviour) {
+                    autocomplete.push({text: behaviour, value: behaviour});
+                });
+                this.refs.behaviour.showResultsOnFocus = true;
+                this.refs.behaviour.source = autocomplete;
+
+                this.refs.behaviour.addEventListener('autocomplete-blur', this.refresh.bind(this));
+            }
             this.refs.output.selected = this.output;
         });
 
@@ -277,7 +282,6 @@
             this.parameters = this.updateTag('parameter');
             this.sourcerend = $(this.refs.sourcerend).is(":checked");
             this.renditions = this.updateTag('rendition');
-            console.log(this.renditions);
             this.models = this.updateTag('model');
         }
 
