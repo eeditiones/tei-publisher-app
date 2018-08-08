@@ -154,9 +154,11 @@
         </app-drawer-layout>
 
         <script>
+        document.addEventListener('WebComponentsReady', function() {
             document.getElementById('drawer').addEventListener('opened-changed', function() {
                 document.getElementById('loadToc').load();
             });
+        });
         </script>
     </body>
 </html>
