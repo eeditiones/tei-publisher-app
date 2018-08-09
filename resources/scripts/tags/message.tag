@@ -17,8 +17,9 @@
             this.type = 'message';
             message = message || '';
             this.update();
-            $(this.refs.title).html(title);
-            $(this.refs.message).html(message);
+            this.refs.title.innerHTML = title;
+            this.refs.message.innerHTML = message;
+
             this.refs.modal.open();
         }
 
@@ -29,13 +30,13 @@
             this.refs.modal.open();
 
             return new Promise(function(resolve, reject) {
-                $(this.refs.confirm).one('click', resolve);
+                this.refs.confirm.addEventListener('click', resolve, { once: true });
             }.bind(this));
         }
 
         set(title, message) {
-            $(this.refs.title).html(title);
-            $(this.refs.message).html(message);
+            this.refs.title.innerHTML = title;
+            this.refs.message.innerHTML = message;
         }
     </script>
     <style>

@@ -50,6 +50,14 @@
 
     <message id="main-modal" ref="dialog"></message>
 
+    <iron-ajax
+        ref="loadContent"
+        url="modules/editor.xql"
+        verbose
+        handle-as="json"
+        content-type="application/x-www-form-urlencoded"
+        method="POST"></iron-ajax>
+
     <script>
     var self = this;
     this.mixin('utils');
@@ -62,35 +70,43 @@
     this.titleShort = null;
 
     this.on('mount', function() {
-        $(self.refs.useNamespace).change(function() {
-            $(self.refs.namespace).prop("disabled", !this.checked);
+
+        self.refs.useNamespace.addEventListener('change', function() {
+            self.refs.namespace.disabled = !this.checked;
         });
 
         self.refs.jumpTo.addEventListener('autocomplete-selected', self.jumpTo.bind(self));
+
+        CodeMirror.registerHelper("lint", "xquery", self.lintXQuery.bind(self));
     });
 
     load() {
         document.dispatchEvent(new CustomEvent('pb-start-update'));
 
         this.refs.editSource.setPath(TeiPublisher.config.root + '/' + this.odd);
-        $.getJSON("modules/editor.xql?odd=" + this.odd + '&root=' + TeiPublisher.config.root, function(data) {
-            self.elementSpecs = data.elementSpecs;
-            console.log("element specs: %s", self.elementSpecs.length);
-            self.namespace = data.namespace;
-            self.source = data.source;
-            self.title = data.title;
-            self.titleShort = data.titleShort;
-            if (self.namespace == null) {
-                $(self.refs.useNamespace).prop("checked", false);
-                $(self.refs.namespace).prop("disabled", true);
+        var params = { odd: this.odd, root: TeiPublisher.config.root };
+        this.refs.loadContent.params = params;
+        this.refs.loadContent.body = null;
+        var request = this.refs.loadContent.generateRequest();
+        request.completes.then(function(req) {
+            const data = req.response;
+            this.elementSpecs = data.elementSpecs;
+            console.log("element specs: %s", this.elementSpecs.length);
+            this.namespace = data.namespace;
+            this.source = data.source;
+            this.title = data.title;
+            this.titleShort = data.titleShort;
+            if (this.namespace == null) {
+                this.refs.useNamespace.checked = false;
+                this.refs.namespace.disabled = true;
             } else {
-                $(self.refs.useNamespace).prop("checked", true);
-                $(self.refs.namespace).prop("disabled", false);
+                this.refs.useNamespace.checked = true;
+                this.refs.namespace.disabled = false;
             }
-            self.update();
-            self.updateElementSpecs();
+            this.update();
+            this.updateElementSpecs();
             document.dispatchEvent(new CustomEvent('pb-end-update'));
-        });
+        }.bind(this));
     }
 
     reload(ev) {
@@ -110,12 +126,17 @@
         if (!ident || ident.length == 0) {
             return;
         }
-        $.getJSON("modules/editor.xql", {
+        var params = {
             action: "find",
             odd: self.odd,
             root: TeiPublisher.config.root,
             ident: ident
-        }, function(data) {
+        };
+        this.refs.loadContent.params = params;
+        this.refs.loadContent.body = null;
+        var request = this.refs.loadContent.generateRequest();
+        request.completes.then(function(req) {
+            const data = req.response;
             var mode;
             var models = [];
             if (data.status === 'not-found') {
@@ -137,9 +158,8 @@
             self.update();
 
             var target = document.getElementById('es_' + ident);
-            var top = $(target).position().top;
-            window.scrollTo(0, top + 60);
-        });
+            target.scrollIntoView();
+        }.bind(this));
     }
 
     removeElementSpec(item) {
@@ -180,8 +200,7 @@
             }
         });
 
-        var top = $(target).position().top;
-        this.refs.specs.scrollTo(0, top + 60);
+        target.scrollIntoView();
         this.refs.jumpTo.clear();
     }
 
@@ -216,43 +235,68 @@
 
         this.refs.dialog.show("Saving ...");
 
-        $.ajax({
-            method: "post",
-            dataType: "json",
-            url: "modules/editor.xql",
-            data: {
-                action: "save",
-                root: TeiPublisher.config.root,
-                "output-prefix": TeiPublisher.config.outputPrefix,
-                "output-root": TeiPublisher.config.outputRoot,
-                odd: this.odd,
-                data: specs
-            },
-            success: function(data) {
-                var msg = '<div class="list-group">';
-                data.report.forEach(function(report) {
-                    if (report.error) {
-                        msg += '<div class="list-group-item-danger">';
-                        msg += '<h4 class="list-group-item-heading">' + report.file + '</h4>';
-                        msg += '<h5 class="list-group-item-heading">Compilation error on line ' + report.line + ':</h5>'
-                        msg += '<pre class="list-group-item-text">' + report.error + '</pre>';
-                        msg += '<pre class="list-group-item-text">' + report.message + '</pre>';
-                        msg += '</div>';
-                    } else {
-                        msg += '<div class="list-group-item-success">';
-                        msg += '<p class="list-group-item-text">Generated '+ report.file + '</p>';
-                        msg += '</div>';
-                    }
-                });
-                msg += '</div>';
-                self.refs.dialog.set("Saved", msg);
-                document.dispatchEvent(new CustomEvent('pb-end-update'));
-            },
-            error: function(xhr, status) {
-                alert(status);
-                document.dispatchEvent(new CustomEvent('pb-end-update'));
-            }
+        this.refs.loadContent.params = null;
+        this.refs.loadContent.body = {
+            action: "save",
+            root: TeiPublisher.config.root,
+            "output-prefix": TeiPublisher.config.outputPrefix,
+            "output-root": TeiPublisher.config.outputRoot,
+            odd: this.odd,
+            data: specs
+        };
+        var request = this.refs.loadContent.generateRequest();
+        request.completes.then(function(req) {
+            const data = req.response;
+            var msg = '<div class="list-group">';
+            data.report.forEach(function(report) {
+                if (report.error) {
+                    msg += '<div class="list-group-item-danger">';
+                    msg += '<h4 class="list-group-item-heading">' + report.file + '</h4>';
+                    msg += '<h5 class="list-group-item-heading">Compilation error on line ' + report.line + ':</h5>'
+                    msg += '<pre class="list-group-item-text">' + report.error + '</pre>';
+                    msg += '<pre class="list-group-item-text">' + report.message + '</pre>';
+                    msg += '</div>';
+                } else {
+                    msg += '<div class="list-group-item-success">';
+                    msg += '<p class="list-group-item-text">Generated '+ report.file + '</p>';
+                    msg += '</div>';
+                }
+            });
+            msg += '</div>';
+            self.refs.dialog.set("Saved", msg);
+            document.dispatchEvent(new CustomEvent('pb-end-update'));
+        }.bind(this), function(rejected) {
+            alert(rejected.error);
+            document.dispatchEvent(new CustomEvent('pb-end-update'));
         });
+    }
+
+    lintXQuery(text) {
+        if (!text) {
+            return [];
+        }
+        return new Promise(function(resolve, reject) {
+            var params = {
+                action: "lint",
+                code: text
+            };
+            this.refs.loadContent.params = null;
+            this.refs.loadContent.body = params;
+            var request = this.refs.loadContent.generateRequest();
+            request.completes.then(function(req) {
+                const data = req.response;
+                if (data.status === 'fail') {
+                    resolve([{
+                        message: data.message,
+                        severity: "error",
+                        from: CodeMirror.Pos(data.line - 1, data.column),
+                        to: CodeMirror.Pos(data.line - 1, data.column + 1)
+                    }]);
+                } else {
+                    resolve([]);
+                }
+            }.bind(this));
+        }.bind(this));
     }
     </script>
 </editor>

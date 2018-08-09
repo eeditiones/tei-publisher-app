@@ -10,7 +10,7 @@
             // try to retrieve existing eXide window
             var exide = window.open("", "eXide");
             if (exide && !exide.closed) {
-                var snip = $(this).data("exide-create");
+                var snip = this.root.getAttribute('exide-create');
                 var path = this.path;
 
                 // check if eXide is really available or it's an empty page
@@ -25,8 +25,7 @@
                     }
                     exide.focus();
                     setTimeout(function() {
-                        if ($.browser.msie ||
-                            (typeof exide.eXide.app.hasFocus == "function" && !exide.eXide.app.hasFocus())) {
+                        if (typeof exide.eXide.app.hasFocus == "function" && !exide.eXide.app.hasFocus()) {
                             alert("Opened code in existing eXide window.");
                         }
                     }, 200);

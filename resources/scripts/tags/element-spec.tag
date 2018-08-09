@@ -31,7 +31,9 @@
             this.refs.models.addEventListener("opened-changed", function() {
                 var opened = this.refs.models.opened;
                 var icon = opened ? 'expand-less' : 'expand-more';
-                this.refs.toggle.icon = icon;
+                if (this.refs.toggle) {
+                    this.refs.toggle.icon = icon;
+                }
                 if (opened) {
                     this.parent.collapseAll(this);
                 }
@@ -57,7 +59,7 @@
 
         addModel(ev) {
             ev.preventDefault();
-            var type = $(ev.target).text();
+            var type = ev.target.innerText;
 
             this.models = this.updateTag('model');
 
@@ -96,7 +98,7 @@
             var data = this.clipboard.paste();
             if (data) {
                 this.models = this.updateTag('model');
-                $(this.refs.models).collapse("show");
+                this.refs.models.open();
                 this.models.unshift(data);
             }
         }

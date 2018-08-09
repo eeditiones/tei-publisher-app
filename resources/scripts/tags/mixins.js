@@ -25,8 +25,6 @@ function Mixin(app) {
         '>': '&gt;'
     };
 
-    CodeMirror.registerHelper("lint", "xquery", lintXQuery);
-
     this.escape = function(code) {
         var regex = new RegExp(Object.keys(replaceChars).join("|"), "g");
         return code.replace(regex, function(match) {
@@ -100,28 +98,5 @@ function Mixin(app) {
         }
         this.models = m;
         this.update();
-    }
-
-    function lintXQuery(text) {
-        if (!text) {
-            return [];
-        }
-        return new Promise(function(resolve, reject) {
-            $.getJSON("modules/editor.xql", {
-                action: "lint",
-                code: text
-            }, function(data) {
-                if (data.status === 'fail') {
-                    resolve([{
-                        message: data.message,
-                        severity: "error",
-                        from: CodeMirror.Pos(data.line - 1, data.column),
-                        to: CodeMirror.Pos(data.line - 1, data.column + 1)
-                    }]);
-                } else {
-                    resolve([]);
-                }
-            });
-        });
     }
 }

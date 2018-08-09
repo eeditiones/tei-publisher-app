@@ -240,7 +240,7 @@
 
         addNested(ev) {
             ev.preventDefault();
-            var type = $(ev.target).text();
+            var type = ev.target.innerText;
             this.updateModel();
             this.models.unshift({
                 behaviour: 'inline',
@@ -280,7 +280,9 @@
             this.predicate = this.refs.predicate.get();
             this.desc = this.refs.desc.value;
             this.parameters = this.updateTag('parameter');
-            this.sourcerend = $(this.refs.sourcerend).is(":checked");
+            if (this.refs.sourcerend) {
+                this.sourcerend = this.refs.sourcerend.checked;
+            }
             this.renditions = this.updateTag('rendition');
             this.models = this.updateTag('model');
         }

@@ -20,7 +20,7 @@
 
     getData() {
         return {
-            scope: $(this.refs.scope).val(),
+            scope: this.refs.scope.selected,
             css: this.refs.css.get()
         };
     }
@@ -32,7 +32,7 @@
         }
         css = this.escape(css);
         
-        var scope = $(this.refs.scope).val();
+        var scope = this.refs.scope.selected;
         var xml = indent + '<outputRendition';
         if (scope) {
             xml += ' scope="' + scope + '"';
