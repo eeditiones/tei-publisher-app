@@ -6,6 +6,11 @@
     <property name="project.version" value="3.1.0"/>
     <property name="server.url" value="http://demo.exist-db.org/exist/apps/public-repo/public/"/>
     <property name="build" value="build"/>
+    <property name="bundle.dir" value="build/bundle"/>
+
+
+    <property name="polymer.build.dir" value="components/build"/>
+
 
     <condition property="git.commit" value="${git.commit}" else="">
         <isset property="git.commit"/>
@@ -72,5 +77,58 @@
         </exec>
         <echo message="${npm.output}"/>
     </target>
+
+    <target name="clean-polymer-build" depends="clean">
+        <delete dir="${polymer.build.dir}"/>
+    </target>
+
+    <!--polymer optimization targets -->
+    <target name="polymer-build-production" depends="clean-polymer-build">
+        <exec dir="${basedir}/components" executable="polymer">
+            <arg value="build"/>
+            <arg value="-v"/>
+        </exec>
+    </target>
+
+    <target name="production-xar" depends="polymer-build-production">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${bundle.dir}"/>
+
+        <echo>
+            ### copying app files to ${bundle.dir}
+        </echo>
+        <copy todir="${bundle.dir}">
+            <fileset dir="${basedir}">
+                <include name="modules/**"/>
+                <include name="resources/**"/>
+                <include name="templates/**"/>
+                <include name="transform/**"/>
+
+                <include name="*.xml"/>
+                <include name="*.xql"/>
+
+                <include name="*.html"/>
+                <include name="icon.svg"/>
+                <include name="icon.png"/>
+
+                <include name="components/bower_components/js-cookie/**"/>
+                <include name="components/PbMixin.js"/>
+            </fileset>
+        </copy>
+
+        <echo>
+            ### copying polymer build to ${build}
+        </echo>
+        <copy toDir="${bundle.dir}/components" force="true">
+            <fileset dir="${basedir}/components/build/production">
+                <include name="**"/>
+            </fileset>
+        </copy>
+
+        <zip basedir="${bundle.dir}" destfile="${build}/${project.app}-${project.version}.xar" />
+
+
+    </target>
+
 
 </project>

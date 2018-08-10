@@ -17,7 +17,9 @@
     "url": "git@gitlab.existsolutions.com:tei-publisher/tei-publisher-app.git"
   },
   "license": "GPL-3.0",
-  "devDependencies": {},
+  "devDependencies": {
+    "polymer-build": "^3.0.4"
+  },
   "dependencies": {
     "del": "^2.2.2",
     "gulp": "^3.9.1",
