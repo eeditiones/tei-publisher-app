@@ -26,27 +26,52 @@
 
             static get properties() {
                 return {
+                    /**
+                     * todo
+                     */
                     src: {
                         type: String
                     },
+                    /**
+                     * todo
+                     */
                     file: {
                         type: String
                     },
+                    /**
+                     * todo
+                     */
                     type: {
                         type: String
                     },
+                    /**
+                     * todo
+                     */
                     odd: {
                         type: String
                     },
+                    /**
+                     * todo
+                     */
                     dialog: {
                         type: String
                     },
+                    /**
+                     * todo
+                     */
                     title: {
                         type: String
                     }
                 };
             }
 
+            /**
+             *
+             * triggers a document download
+             *
+             * @param ev
+             * @private
+             */
             _handleClick(ev) {
                 ev.preventDefault();
                 const token = new Date().getTime() * 797;

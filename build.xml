@@ -130,5 +130,10 @@
 
     </target>
 
+    <target name="polymer-docs">
+        <exec dir="${basedir}/components" executable="polymer" output="components/analysis.json">
+            <arg value="analyze"/>
+        </exec>
+    </target>
 
 </project>

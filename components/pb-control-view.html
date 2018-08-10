@@ -33,7 +33,7 @@
 
     <script>
         /**
-         * `pb-control-view`
+         * `pb-control-view` An dropdown allowing to select a view type e.g. 'facsimile' or 'translation'
          *
          *
          * @customElement
@@ -54,10 +54,16 @@
                         type: String,
                         value: 'View'
                     },
+                    /**
+                     * an array of selectable view types
+                     */
                     views: {
                         type: Array,
                         value: []
                     },
+                    /**
+                     * the currently selected index of selected item
+                     */
                     current: {
                         type: Number,
                         observer: '_toggle'

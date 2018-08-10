@@ -1,69 +1,96 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 
 <dom-module id="pb-document">
-  <script>
-    /**
-     * `pb-document`
-     *
-     *
-     * @customElement
-     * @polymer
-     * @demo demo/index.html
-     */
-    class PbDocument extends Polymer.Element {
-      static get is() { return 'pb-document'; }
-      static get properties() {
-        return {
-          path: {
-              type: String,
-              value: '',
-              notify: true,
-              observer: '_update'
-          },
-          root: {
-              type: String,
-              value: ''
-          },
-          odd: {
-              type: String
-          },
-          view: {
-              type: String
-          },
-          sourceView: {
-              type: String
-          },
-          documentId: {
-              type: String
-          }
-        };
-      }
+    <script>
+        /**
+         * ## `pb-document` represents a Publisher document. It has no visual presentation but holds some meta-data
+         * about the document to be used by other components like `<pb-view>`.
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbDocument extends Polymer.Element {
+            static get is() {
+                return 'pb-document';
+            }
 
-      connectedCallback() {
-          super.connectedCallback();
-      }
+            static get properties() {
+                return {
+                    /**
+                     * the URL path of the document on the server
+                     */
+                    path: {
+                        type: String,
+                        value: '',
+                        notify: true,
+                        observer: '_update'
+                    },
+                    /**
+                     *
+                     */
+                    root: {
+                        type: String,
+                        value: ''
+                    },
+                    /**
+                     * the odd file used to render this document
+                     */
+                    odd: {
+                        type: String
+                    },
+                    /**
+                     * the currently active view of the document?
+                     */
+                    view: {
+                        type: String
+                    },
+                    sourceView: {
+                        type: String
+                    },
+                    documentId: {
+                        type: String
+                    }
+                };
+            }
 
-      ready() {
-          super.ready();
-      }
+            connectedCallback() {
+                super.connectedCallback();
+            }
 
-      _update() {
-          this.dispatchEvent(new CustomEvent('update', {detail: {path: this.path}}));
-      }
+            ready() {
+                super.ready();
+            }
 
-      getDocumentId() {
-          return this.documentId;
-      }
+            _update() {
+                this.dispatchEvent(new CustomEvent('update', {detail: {path: this.path}}));
+            }
 
-      getFileName() {
-          return this.path.replace(/^.*?([^\/]+)$/, '$1');
-      }
+            /**
+             * todo
+             * @returns {documentId|{type}}
+             */
+            getDocumentId() {
+                return this.documentId;
+            }
 
-      getFullPath() {
-          return this.root + '/' + this.path;
-      }
-    }
+            /**
+             * todo
+             */
+            getFileName() {
+                return this.path.replace(/^.*?([^\/]+)$/, '$1');
+            }
 
-    window.customElements.define(PbDocument.is, PbDocument);
-  </script>
+            /**
+             * todo
+             * @returns {string}
+             */
+            getFullPath() {
+                return this.root + '/' + this.path;
+            }
+        }
+
+        window.customElements.define(PbDocument.is, PbDocument);
+    </script>
 </dom-module>

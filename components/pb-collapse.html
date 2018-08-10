@@ -8,104 +8,126 @@
 
 -->
 <dom-module id="pb-collapse">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-
-      #trigger {
-          display: flex;
-          flex-direction: row;
-          justify-content: flex-start;
-          align-items: center;
-
-          @apply --pb-collapse-trigger;
-      }
-
-      #trigger iron-icon {
-          display: block;
-          margin-right: 20px;
-      }
-    </style>
-
-    <div id="trigger" on-click="toggle">
-        <iron-icon icon="[[_toggle(opened, collapseIcon, expandIcon)]]"></iron-icon>
-        <slot name="collapse-trigger"></slot>
-    </div>
-    <iron-collapse id="collapse" horizontal="[[horizontal]]" no-animation="[[noAnimation]]" opened="[[opened]]">
-      <slot name="collapse-content"></slot>
-    </iron-collapse>
-  </template>
-
-  <script>
-    /**
-     * `pb-collapse`
-     * An iron-collapse with a trigger section and optional expand/collapse icons.
-     *
-     * @customElement
-     * @polymer
-     * @demo demo/index.html
-     */
-    class PbCollapse extends Polymer.Element {
-      static get is() {
-          return 'pb-collapse';
-      }
-
-      static get properties() {
-          return {
-            /**
-              * @deprecated
-              * Corresponds to the iron-collapse's horizontal property.
-              */
-            horizontal: {
-              type: Boolean,
-              value: false
-            },
-            /**
-              * Corresponds to the iron-collapse's noAnimation property.
-              */
-            noAnimation: {
-              type: Boolean,
-              value: false
-            },
-            /**
-              * Whether currently expanded.
-              */
-            opened: {
-              type: Boolean,
-              value: false,
-              notify: true
-            },
-            /**
-              * The icon when collapsed.
-              */
-            expandIcon: {
-              type: String,
-              value: 'icons:expand-more'
-            },
-            /**
-              * The icon when expanded.
-              */
-            collapseIcon: {
-              type: String,
-              value: 'icons:expand-less'
-            },
-            /**
-              * Whether to hide the expand/collapse icon.
-              */
-            noIcons: {
-              type: Boolean,
-              value: false
+    <template>
+        <style>
+            :host {
+                display: block;
             }
-          }
-      }
 
-      open() { this.opened = true; }
-      close() { this.opened = false; }
-      toggle() { this.opened = !this.opened; }
-      _toggle(cond, t, f) { return cond ? t : f; }
-    }
-    window.customElements.define(PbCollapse.is, PbCollapse);
-  </script>
+            #trigger {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+
+                @apply --pb-collapse-trigger;
+            }
+
+            #trigger iron-icon {
+                display: block;
+                margin-right: 20px;
+            }
+        </style>
+
+        <div id="trigger" on-click="toggle">
+            <iron-icon icon="[[_toggle(opened, collapseIcon, expandIcon)]]"></iron-icon>
+            <slot name="collapse-trigger"></slot>
+        </div>
+        <iron-collapse id="collapse" horizontal="[[horizontal]]" no-animation="[[noAnimation]]" opened="[[opened]]">
+            <slot name="collapse-content"></slot>
+        </iron-collapse>
+    </template>
+
+    <script>
+        /**
+         * ## `pb-collapse` - an iron-collapse with additional trigger section and optional expand/collapse icons.
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/pb-collapse.html
+         */
+        class PbCollapse extends Polymer.Element {
+            static get is() {
+                return 'pb-collapse';
+            }
+
+            static get properties() {
+                return {
+                    /**
+                     * @deprecated
+                     * Corresponds to the iron-collapse's horizontal property.
+                     */
+                    horizontal: {
+                        type: Boolean,
+                        value: false
+                    },
+                    /**
+                     * Corresponds to the iron-collapse's noAnimation property.
+                     *
+                     */
+                    noAnimation: {
+                        type: Boolean,
+                        value: false
+                    },
+                    /**
+                     * Whether currently expanded.
+                     *
+                     */
+                    opened: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    },
+                    /**
+                     * The icon when collapsed.
+                     */
+                    expandIcon: {
+                        type: String,
+                        value: 'icons:expand-more'
+                    },
+                    /**
+                     * The icon when expanded.
+                     */
+                    collapseIcon: {
+                        type: String,
+                        value: 'icons:expand-less'
+                    },
+                    /**
+                     * Whether to hide the expand/collapse icon.
+                     */
+                    noIcons: {
+                        type: Boolean,
+                        value: false
+                    }
+                }
+            }
+
+            /**
+             * opens the collapsible section
+             */
+            open() {
+                this.opened = true;
+            }
+
+            /**
+             * closes the collapsible section
+             */
+            close() {
+                this.opened = false;
+            }
+
+            /**
+             * toggles the collapsible state
+             */
+            toggle() {
+                this.opened = !this.opened;
+            }
+
+            _toggle(cond, t, f) {
+                return cond ? t : f;
+            }
+        }
+
+        window.customElements.define(PbCollapse.is, PbCollapse);
+    </script>
 </dom-module>
