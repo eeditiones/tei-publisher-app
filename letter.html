@@ -28,7 +28,7 @@
                         margin-right: 32px;
                     }
 
-                    --pb-view-height: calc(100vh - 192px);
+                    --pb-view-height: calc(100vh - 210px);
                 }
 
                 #view1 {
@@ -127,6 +127,10 @@
                     width: 100%;
                     height: 100%;
                 }
+
+                .highlight {
+                    background-color: #F9E976;
+                }
             </style>
         </custom-style>
     </head>
@@ -154,7 +158,7 @@
                     </app-toolbar>
                 </app-header>
 
-                <main class="content-body">
+                <section class="content-body">
                     <pb-navigation direction="backward" unit="page" keyboard="left" emit="transcription"
                         subscribe="transcription">
                         <paper-fab icon="icons:chevron-left"/>
@@ -174,7 +178,7 @@
                         subscribe="transcription">
                         <paper-fab icon="icons:chevron-right"/>
                     </pb-navigation>
-                </main>
+                </section>
             </app-header-layout>
         </app-drawer-layout>
         <script>
