@@ -14,7 +14,10 @@
 
   </head>
   <body>
-    <odd-editor>
+    <odd-editor rootPath="/db/apps/tei-publisher/odd"
+                outputPath="/db/apps/tei-publisher/transform"
+                odd="teipublisher.odd"
+                output-prefix="transform">
       <odd-selector selected="teipublisher.odd">
         <paper-item value="jats.odd" role="option" tabindex="-1" aria-disabled="false">JATS []</paper-item>
         <paper-item value="graves.odd" role="option" tabindex="-1" aria-disabled="false">Graves' Letters [2018-08-05+02:00]</paper-item>

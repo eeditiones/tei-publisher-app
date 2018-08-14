@@ -252,6 +252,9 @@
                     },
                     namespace: {
                         type: String
+                    },
+                    rootPath:{
+                        type: String
                     }
                 };
             }
@@ -259,6 +262,7 @@
             connectedCallback() {
                 super.connectedCallback();
                 console.log(this, ' connected');
+                console.log('connected root ', this.rootPath );
 
                 /*
                                 self.refs.useNamespace.addEventListener('change', function() {
@@ -274,8 +278,6 @@
                     this.$.namespace.disabled = !this.$.useNamespace.checked;
                 });
                 this.$.jumpTo.addEventListener('autocomplete-selected', this.jumpTo.bind(this));
-
-
 
                 CodeMirror.registerHelper("lint", "xquery", this.lintXQuery.bind(this));
 
@@ -300,6 +302,7 @@
             }
 
             lintXQuery(text) {
+/*
                 if (!text) {
                     return [];
                 }
@@ -325,6 +328,7 @@
                         }
                     }.bind(this));
                 }.bind(this));
+*/
             }
 
         }
