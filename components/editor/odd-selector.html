@@ -1,15 +1,36 @@
-<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/effects/material.html">
+
+
 
 <dom-module id="odd-selector">
     <template>
         <style>
             :host {
                 display: block;
+                width: 100%;
+            }
+
+/*
+            ::slotted(*){
+                display:none;
+            }
+*/
+            paper-dropdown-menu{
+                width:100%;
+            }
+
+            ::slotted(paper-item){
+                width:100%;
             }
         </style>
 
         <paper-dropdown-menu label="Editing ODD:">
-            <paper-listbox ref="select" name="odd" slot="dropdown-content" attr-for-selected="value">
+            <paper-listbox id="select" name="odd" slot="dropdown-content" attr-for-selected="value" iron-select="_selectOdd">
                 <slot></slot>
             </paper-listbox>
         </paper-dropdown-menu>
@@ -33,10 +54,17 @@
 
             static get properties() {
                 return {
-                    prop1:{
-                        type: String
+                    selected:{
+                        type: String,
+                        reflectToAttribute:true
                     }
                 };
+            }
+
+            _selectOdd(){
+//                this.selected = this.$.select.selected;
+//                console.log('odd selected: ', this.selected);
+                console.log('odd selected: ', this.parentNode);
             }
 
             connectedCallback() {

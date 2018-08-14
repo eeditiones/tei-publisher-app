@@ -5,8 +5,6 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-autocomplete/paper-autocomplete.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
-<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../pb-collapse.html">
 <link rel="import" href="odd-edit-source.html">
 <link rel="import" href="odd-element-spec.html">
@@ -16,8 +14,8 @@
     <template>
         <style include="pb-common-styles">
             :host {
-                display: block;
-                margin: 30px 20px;
+                display: flex;
+                /*margin: 30px 20px;*/
 
                 --paper-input-container: {
                     padding: 0;
@@ -31,21 +29,22 @@
                 };
 
                 --pb-view-height: calc(100vh - 94px);
+                --app-drawer-width:400px;
+
 
             }
 
-            app-drawer-layout{
-                display: grid;
-                grid-template-columns: 25% auto;
+            aside{
+                flex-grow:1;
+                margin-right:20px;
             }
-            app-drawer{
-                /*padding:30px;*/
-                min-width: 240px;
-                margin-right: 20px;
-                flex-grow: 2;
+            section{
+                flex-grow:3;
             }
 
             paper-card{
+                display: flex;
+                flex-direction:column;
                 --paper-card-header: {
                     background-color: #607D8B;
                 };
@@ -59,9 +58,6 @@
 
             }
 
-            paper-card#drawercard{
-                margin:20px;
-            }
             paper-card#drawercard h3{
                 /*background-color: var(--paper-card-header_-_background-color);*/
 
@@ -131,14 +127,21 @@
                 color: #C0C0C0;
             }
 
-
         </style>
 
-        <app-drawer-layout>
-            <app-drawer slot="drawer">
+        <iron-ajax
+                id="loadContent"
+                url="../modules/editor.xql"
+                handle-as="json"
+                content-type="application/x-www-form-urlencoded"
+                method="POST"></iron-ajax>
+
+        <!--<app-drawer-layout>-->
+            <!--<app-drawer slot="drawer">-->
+            <aside>
                 <paper-card id="drawercard" heading="Visual ODD Editor">
                     <div class="card-content">
-                        <!--<yield/>-->
+                        <slot></slot>
                         <h3>
                             <span>{{odd}}</span>
 
@@ -163,7 +166,8 @@
                         </div>
                     </div>
                 </paper-card>
-            </app-drawer>
+            </aside>
+            <!--</app-drawer>-->
 
             <section class="specs" id="specs">
                 <paper-card class="metadata">
@@ -195,17 +199,11 @@
                                   model="{{models}}"></odd-element-spec>
             </section>
 
-        </app-drawer-layout>
+        <!--</app-drawer-layout>-->
 
 
-        <message id="dialog"></message>
+        <message id="dialog" hidden></message>
 
-        <iron-ajax
-                id="loadContent"
-                url="../modules/editor.xql"
-                handle-as="json"
-                content-type="application/x-www-form-urlencoded"
-                method="POST"></iron-ajax>
     </template>
 
     <script>
@@ -276,6 +274,9 @@
                     this.$.namespace.disabled = !this.$.useNamespace.checked;
                 });
                 this.$.jumpTo.addEventListener('autocomplete-selected', this.jumpTo.bind(this));
+
+
+
                 CodeMirror.registerHelper("lint", "xquery", this.lintXQuery.bind(this));
 
 
