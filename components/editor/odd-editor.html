@@ -162,7 +162,7 @@
 
                         <div id="jump-to">
                             <paper-autocomplete id="jumpTo" label="Jump to ..."
-                                                always-float-label="always-float-label"></paper-autocomplete>
+                                always-float-label="always-float-label"></paper-autocomplete>
                         </div>
                     </div>
                 </paper-card>
@@ -173,7 +173,7 @@
                 <paper-card class="metadata">
                     <pb-collapse>
                         <h4 slot="collapse-trigger" class="panel-title">
-                            {{ getTitle() }}
+                            {{ _computedTitle(title, shortTitle, odd) }}
                         </h4>
                         <div slot="collapse-content">
                             <paper-input id="title" name="title" value="{{title}}" label="Title"
@@ -233,14 +233,13 @@
                     },
                     odd: {
                         type: String,
-                        observer: function () {
-                          this.load()
-                        },
+                        observer: 'load',
                         reflectToAttribute:true
                     },
                     elementSpecs: {
                         type: Array,
-                        value: []
+                        value: () => [],
+                        observer: '_specObserver'
                     },
                     source: {
                         type: String,
@@ -289,24 +288,40 @@
             }
 
 
-            jumpTo(ev) {
-                var ident = this.$.jumpTo.text;
-                var target = document.getElementById('es_' + ident);
+            jumpTo (ev) {
+              const ident = this.$.jumpTo.text;
+              const target = document.getElementById('es_' + ident);
+              this.$.jumpTo.clear();
 
-                this.forEachTag('element-spec', function(spec) {
-                    if (spec.ident === ident) {
-                        spec.toggle();
-                    } else {
-                        spec.collapse();
-                    }
-                });
+              if (!target) { return }
 
-                target.scrollIntoView();
-                this.$.jumpTo.clear();
+              const specs = Array.from(this.querySelectorAll('element-spec'));
+              specs.forEach(spec => {
+                  if (spec.ident === ident) {
+                    spec.toggle();
+                    return;
+                  }
+                  spec.collapse();
+              });
+
+              target.scrollIntoView();
             }
 
-            getTitle () {
-              this.title || this.titleShort || this.odd || 'Loading ...'
+            _computedTitle (title, titleShort, odd) {
+              return title || titleShort || odd || 'Loading ...'
+            }
+
+            _specMapper (spec) {
+               return {
+                 text: spec.ident,
+                 value: spec.ident
+               };
+            }
+
+            _specObserver () {
+              const source = this.elementSpecs.map(this._specMapper);
+
+              this.$.jumpTo.set('source', source);
             }
 
             lintXQuery(text) {
