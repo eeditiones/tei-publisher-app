@@ -30,7 +30,8 @@
         </style>
 
         <paper-dropdown-menu label="Editing ODD:">
-            <paper-listbox id="select" name="odd" slot="dropdown-content" attr-for-selected="value" iron-select="_selectOdd">
+            <paper-listbox id="select" name="odd" slot="dropdown-content"
+                attr-for-selected="value" on-iron-select="_selectOdd">
                 <slot></slot>
             </paper-listbox>
         </paper-dropdown-menu>

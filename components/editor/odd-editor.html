@@ -134,7 +134,7 @@
                 url="../modules/editor.xql"
                 handle-as="json"
                 content-type="application/x-www-form-urlencoded"
-                method="POST"></iron-ajax>
+                method="GET"></iron-ajax>
 
         <!--<app-drawer-layout>-->
             <!--<app-drawer slot="drawer">-->
@@ -173,7 +173,7 @@
                 <paper-card class="metadata">
                     <pb-collapse>
                         <h4 slot="collapse-trigger" class="panel-title">
-                            { title || titleShort || odd || 'Loading ...' }
+                            {{ getTitle() }}
                         </h4>
                         <div slot="collapse-content">
                             <paper-input id="title" name="title" value="{{title}}" label="Title"
@@ -232,7 +232,10 @@
                         type: Array
                     },
                     odd: {
-                        type: String
+                        type: String,
+                        observer: function () {
+                          this.load()
+                        }
                     },
                     elementSpecs: {
                         type: Array,
@@ -264,6 +267,7 @@
                 console.log(this, ' connected');
                 console.log('connected root ', this.rootPath );
 
+
                 /*
                                 self.refs.useNamespace.addEventListener('change', function() {
                                     self.refs.namespace.disabled = !this.checked;
@@ -279,14 +283,13 @@
                 });
                 this.$.jumpTo.addEventListener('autocomplete-selected', this.jumpTo.bind(this));
 
-                CodeMirror.registerHelper("lint", "xquery", this.lintXQuery.bind(this));
+                // CodeMirror.registerHelper("lint", "xquery", this.lintXQuery.bind(this));
 
 
             }
 
-
             jumpTo(ev) {
-                var ident = this.refs.jumpTo.text;
+                var ident = this.$.jumpTo.text;
                 var target = document.getElementById('es_' + ident);
 
                 this.forEachTag('element-spec', function(spec) {
@@ -298,7 +301,11 @@
                 });
 
                 target.scrollIntoView();
-                this.refs.jumpTo.clear();
+                this.$.jumpTo.clear();
+            }
+
+            getTitle () {
+              this.title || this.titleShort || this.odd || 'Loading ...'
             }
 
             lintXQuery(text) {
@@ -329,6 +336,35 @@
                     }.bind(this));
                 }.bind(this));
 */
+            }
+
+            load() {
+                document.dispatchEvent(new CustomEvent('pb-start-update'));
+
+                this.$.editSource.setPath(this.rootPath + '/' + this.odd);
+                var params = { odd: this.odd, root: this.rootPath };
+                this.$.loadContent.params = params;
+                this.$.loadContent.body = null;
+                var request = this.$.loadContent.generateRequest();
+                request.completes.then(function(req) {
+                    const data = req.response;
+                    this.elementSpecs = data.elementSpecs;
+                    console.log("element specs: %s", this.elementSpecs.length);
+                    this.namespace = data.namespace;
+                    this.source = data.source;
+                    this.title = data.title;
+                    this.titleShort = data.titleShort;
+                    if (this.namespace == null) {
+                        this.$.useNamespace.checked = false;
+                        this.$.namespace.disabled = true;
+                    } else {
+                        this.$.useNamespace.checked = true;
+                        this.$.namespace.disabled = false;
+                    }
+                    // this.update();
+                    // this.updateElementSpecs();
+                    document.dispatchEvent(new CustomEvent('pb-end-update'));
+                }.bind(this));
             }
 
         }
