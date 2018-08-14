@@ -327,7 +327,7 @@ var oddPath =           'resources/odd/**/*',
     modulePath =        'modules/**/*',
     transformPath =     'transform/*',
     fontPath =          'resources/fonts/*',
-    componentPath =     'components/*.html',
+    componentPath =     'components/**/*',
     demoPath =          'components/demo/**/*';
 
 // Deploy all files to existDB

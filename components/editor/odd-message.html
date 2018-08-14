@@ -1,6 +1,6 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 
-<dom-module id="seed-element">
+<dom-module id="odd-message">
     <template>
         <style>
             :host {
@@ -13,16 +13,16 @@
 
     <script>
         /**
-         * `seed-element`
+         * `OddMessage`
          *
          *
          * @customElement
          * @polymer
          * @demo demo/index.html
          */
-        class SeedElement extends Polymer.Element {
+        class OddMessage extends Polymer.Element {
             static get is() {
-                return 'seed-element';
+                return 'odd-message';
             }
 
             static get properties() {
@@ -37,9 +37,8 @@
                 super.connectedCallback();
             }
 
-
         }
 
-        window.customElements.define(SeedElement.is, SeedElement);
+        window.customElements.define(OddMessage.is, OddMessage);
     </script>
 </dom-module>

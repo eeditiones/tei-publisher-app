@@ -1,0 +1,333 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-autocomplete/paper-autocomplete.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../pb-collapse.html">
+<link rel="import" href="odd-edit-source.html">
+<link rel="import" href="odd-element-spec.html">
+<link rel="import" href="../pb-common-styles.html">
+
+<dom-module id="odd-editor">
+    <template>
+        <style include="pb-common-styles">
+            :host {
+                display: block;
+                margin: 30px 20px;
+
+                --paper-input-container: {
+                    padding: 0;
+                };
+
+                --paper-dialog-title: {
+                    margin-top: 0;
+                    padding: 12px;
+                    background-color: #607D8B;
+                    color: #F0F0F0;
+                };
+
+                --pb-view-height: calc(100vh - 94px);
+
+            }
+
+            app-drawer-layout{
+                display: grid;
+                grid-template-columns: 25% auto;
+            }
+            app-drawer{
+                /*padding:30px;*/
+                min-width: 240px;
+                margin-right: 20px;
+                flex-grow: 2;
+            }
+
+            paper-card{
+                --paper-card-header: {
+                    background-color: #607D8B;
+                };
+
+                --paper-card-header-text: {
+                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                    font-size: 16px;
+                    font-weight: 400;
+                    color: #F0F0F0;
+                };
+
+            }
+
+            paper-card#drawercard{
+                margin:20px;
+            }
+            paper-card#drawercard h3{
+                /*background-color: var(--paper-card-header_-_background-color);*/
+
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+
+            }
+
+
+            /* ported over but not checked yet */
+
+            editor .specs {
+                flex: 3 0;
+                height: var(--pb-view-height);
+                overflow: auto;
+            }
+
+            editor .metadata {
+                display: block;
+                width: 100%;
+
+                --pb-collapse-trigger: {
+                    background-color: #d1dae0;
+                    padding-left: 10px;
+                }
+            }
+
+            .metadata div {
+                padding: 0 16px 16px;
+            }
+
+            .metadata paper-input {
+                margin-bottom: 10px;
+            }
+
+            #jump-to {
+                margin-top: 1em;
+            }
+            .element-specs {
+                margin-bottom: 60px;
+            }
+            .models {
+                margin-left: 50px;
+                max-width: 800px;
+            }
+            model {
+                border-bottom: 1px solid #E0E0E0;
+            }
+            model h4 {
+                margin-top: 15px;
+                padding-top: 5px;
+                border-top: 1px solid #E0E0E0;
+            }
+            .renditions {
+                margin-top: 10px;
+            }
+            .CodeMirror {
+                height: auto;
+                margin-left: 10px;
+                padding-bottom: 7px;
+                margin-bottom: 7px;
+                border-bottom: 1px solid #E0E0E0;
+            }
+            .CodeMirror-empty {
+                color: #C0C0C0;
+            }
+
+
+        </style>
+
+        <app-drawer-layout>
+            <app-drawer slot="drawer">
+                <paper-card id="drawercard" heading="Visual ODD Editor">
+                    <div class="card-content">
+                        <!--<yield/>-->
+                        <h3>
+                            <span>{{odd}}</span>
+
+                            <div>
+                                <odd-edit-source id="editSource">
+                                    <paper-icon-button icon="code" title="ODD Source"></paper-icon-button>
+                                </odd-edit-source>
+                                <paper-icon-button on-click="reload" icon="refresh" title="Refresh"></paper-icon-button>
+                                <paper-icon-button on-click="save" icon="save" title="Save"></paper-icon-button>
+                            </div>
+                        </h3>
+                        <div id="new-element" class="input-group">
+                            <paper-input id="identNew" label="Add Element" always-float-label="always-float-label">
+                                <paper-icon-button slot="suffix" on-click="addElementSpec"
+                                                   icon="add"></paper-icon-button>
+                            </paper-input>
+                        </div>
+
+                        <div id="jump-to">
+                            <paper-autocomplete id="jumpTo" label="Jump to ..."
+                                                always-float-label="always-float-label"></paper-autocomplete>
+                        </div>
+                    </div>
+                </paper-card>
+            </app-drawer>
+
+            <section class="specs" id="specs">
+                <paper-card class="metadata">
+                    <pb-collapse>
+                        <h4 slot="collapse-trigger" class="panel-title">
+                            { title || titleShort || odd || 'Loading ...' }
+                        </h4>
+                        <div slot="collapse-content">
+                            <paper-input id="title" name="title" value="{{title}}" label="Title"
+                                         placeholder="[Title of the ODD]"></paper-input>
+                            <paper-input id="titleShort" name="short-title" value="{{titleShort}" label="Short title"
+                                         placeholder="[Short title for display]"></paper-input>
+                            <paper-input id="source" name="source" value="{{source}}" label="Source ODD"
+                                         placeholder="[ODD to inherit from]"></paper-input>
+
+                            <paper-input id="namespace" name="namespace" value="{{namespace}}" label="Namespace"
+                                         placeholder="[Default namespace URI (if not TEI)]">
+                                <paper-checkbox slot="prefix" id="useNamespace"
+                                                title="Check for using a different namespace than TEI"></paper-checkbox>
+                            </paper-input>
+                        </div>
+                    </pb-collapse>
+                </paper-card>
+
+                <odd-element-spec id="es_{{ident}}"
+                                  each="{{elementSpecs}"
+                                  ident="{{ident}}"
+                                  mode="{{mode}}"
+                                  model="{{models}}"></odd-element-spec>
+            </section>
+
+        </app-drawer-layout>
+
+
+        <message id="dialog"></message>
+
+        <iron-ajax
+                id="loadContent"
+                url="../modules/editor.xql"
+                handle-as="json"
+                content-type="application/x-www-form-urlencoded"
+                method="POST"></iron-ajax>
+    </template>
+
+    <script>
+        /**
+         * `odd-editor`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class OddEditor extends Polymer.Element {
+            static get is() {
+                return 'odd-editor';
+            }
+
+            static get properties() {
+                return {
+                    ident:{
+                        type: String
+                    },
+                    mode:{
+                        type: String
+                    },
+                    models:{
+                        type: Array
+                    },
+                    odd: {
+                        type: String
+                    },
+                    elementSpecs: {
+                        type: Array,
+                        value: []
+                    },
+                    source: {
+                        type: String,
+                        value: null
+                    },
+                    title: {
+                        type: String,
+                        value: null
+                    },
+                    titleShort: {
+                        type: String,
+                        value: null
+                    },
+                    namespace: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                console.log(this, ' connected');
+
+                /*
+                                self.refs.useNamespace.addEventListener('change', function() {
+                                    self.refs.namespace.disabled = !this.checked;
+                                });
+
+                                self.refs.jumpTo.addEventListener('autocomplete-selected', self.jumpTo.bind(self));
+
+                                CodeMirror.registerHelper("lint", "xquery", self.lintXQuery.bind(self));
+                */
+
+                this.$.useNamespace.addEventListener('change', function () {
+                    this.$.namespace.disabled = !this.$.useNamespace.checked;
+                });
+                this.$.jumpTo.addEventListener('autocomplete-selected', this.jumpTo.bind(this));
+                CodeMirror.registerHelper("lint", "xquery", this.lintXQuery.bind(this));
+
+
+            }
+
+
+            jumpTo(ev) {
+                var ident = this.refs.jumpTo.text;
+                var target = document.getElementById('es_' + ident);
+
+                this.forEachTag('element-spec', function(spec) {
+                    if (spec.ident === ident) {
+                        spec.toggle();
+                    } else {
+                        spec.collapse();
+                    }
+                });
+
+                target.scrollIntoView();
+                this.refs.jumpTo.clear();
+            }
+
+            lintXQuery(text) {
+                if (!text) {
+                    return [];
+                }
+                return new Promise(function(resolve, reject) {
+                    var params = {
+                        action: "lint",
+                        code: text
+                    };
+                    this.refs.loadContent.params = null;
+                    this.refs.loadContent.body = params;
+                    var request = this.refs.loadContent.generateRequest();
+                    request.completes.then(function(req) {
+                        const data = req.response;
+                        if (data.status === 'fail') {
+                            resolve([{
+                                message: data.message,
+                                severity: "error",
+                                from: CodeMirror.Pos(data.line - 1, data.column),
+                                to: CodeMirror.Pos(data.line - 1, data.column + 1)
+                            }]);
+                        } else {
+                            resolve([]);
+                        }
+                    }.bind(this));
+                }.bind(this));
+            }
+
+        }
+
+        window.customElements.define(OddEditor.is, OddEditor);
+    </script>
+</dom-module>

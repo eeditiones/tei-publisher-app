@@ -1,6 +1,6 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 
-<dom-module id="seed-element">
+<dom-module id="odd-selector">
     <template>
         <style>
             :host {
@@ -8,21 +8,27 @@
             }
         </style>
 
-        <slot></slot>
+        <paper-dropdown-menu label="Editing ODD:">
+            <paper-listbox ref="select" name="odd" slot="dropdown-content" attr-for-selected="value">
+                <slot></slot>
+            </paper-listbox>
+        </paper-dropdown-menu>
+
+        <!--<slot></slot>-->
     </template>
 
     <script>
         /**
-         * `seed-element`
+         * `odd-selector`
          *
          *
          * @customElement
          * @polymer
          * @demo demo/index.html
          */
-        class SeedElement extends Polymer.Element {
+        class OddSelector extends Polymer.Element {
             static get is() {
-                return 'seed-element';
+                return 'odd-selector';
             }
 
             static get properties() {
@@ -40,6 +46,6 @@
 
         }
 
-        window.customElements.define(SeedElement.is, SeedElement);
+        window.customElements.define(OddSelector.is, OddSelector);
     </script>
 </dom-module>
