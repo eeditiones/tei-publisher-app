@@ -235,7 +235,8 @@
                         type: String,
                         observer: function () {
                           this.load()
-                        }
+                        },
+                        reflectToAttribute:true
                     },
                     elementSpecs: {
                         type: Array,
@@ -267,7 +268,6 @@
                 console.log(this, ' connected');
                 console.log('connected root ', this.rootPath );
 
-
                 /*
                                 self.refs.useNamespace.addEventListener('change', function() {
                                     self.refs.namespace.disabled = !this.checked;
@@ -287,6 +287,7 @@
 
 
             }
+
 
             jumpTo(ev) {
                 var ident = this.$.jumpTo.text;
@@ -344,7 +345,7 @@
                 this.$.editSource.setPath(this.rootPath + '/' + this.odd);
                 var params = { odd: this.odd, root: this.rootPath };
                 this.$.loadContent.params = params;
-                this.$.loadContent.body = null;
+//                this.$.loadContent.body = null;
                 var request = this.$.loadContent.generateRequest();
                 request.completes.then(function(req) {
                     const data = req.response;
