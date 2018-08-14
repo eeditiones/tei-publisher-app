@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
@@ -178,7 +179,7 @@
                         <div slot="collapse-content">
                             <paper-input id="title" name="title" value="{{title}}" label="Title"
                                          placeholder="[Title of the ODD]"></paper-input>
-                            <paper-input id="titleShort" name="short-title" value="{{titleShort}" label="Short title"
+                            <paper-input id="titleShort" name="short-title" value="{{titleShort}}" label="Short title"
                                          placeholder="[Short title for display]"></paper-input>
                             <paper-input id="source" name="source" value="{{source}}" label="Source ODD"
                                          placeholder="[ODD to inherit from]"></paper-input>
@@ -192,11 +193,21 @@
                     </pb-collapse>
                 </paper-card>
 
+
+                <template id="specList" is="dom-repeat" items="{{elementSpecs}}" as="item">
+                    <odd-element-spec id="es_{{item.ident}}"
+                                      ident="{{item.ident}}"
+                                      mode="{{item.mode}}"
+                                      model="{{item.models}}"></odd-element-spec>
+                </template>
+
+<!--
                 <odd-element-spec id="es_{{ident}}"
                                   each="{{elementSpecs}"
                                   ident="{{ident}}"
                                   mode="{{mode}}"
                                   model="{{models}}"></odd-element-spec>
+-->
             </section>
 
         <!--</app-drawer-layout>-->
@@ -266,6 +277,11 @@
                 super.connectedCallback();
                 console.log(this, ' connected');
                 console.log('connected root ', this.rootPath );
+                if(this.odd){
+                    console.log('selector ', document.querySelector('odd-selector'));
+                    console.log('selector ', this.children);
+//                    this.querySelector('odd-selector').selected = this.odd;
+                }
 
                 /*
                                 self.refs.useNamespace.addEventListener('change', function() {
@@ -287,6 +303,12 @@
 
             }
 
+            ready(){
+                super.ready();
+//                console.log('selector ', this.querySelector('odd-selector'));
+
+            }
+
 
             jumpTo (ev) {
               const ident = this.$.jumpTo.text;
@@ -295,7 +317,7 @@
 
               if (!target) { return }
 
-              const specs = Array.from(this.querySelectorAll('element-spec'));
+              const specs = Array.from(this.querySelectorAll('odd-element-spec'));
               specs.forEach(spec => {
                   if (spec.ident === ident) {
                     spec.toggle();
