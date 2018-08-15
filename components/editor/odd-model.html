@@ -1,6 +1,9 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
 <link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="odd-code-editor.html">
+<link rel="import" href="odd-parameter.html">
+<link rel="import" href="odd-rendition.html">
 
 <dom-module id="odd-model">
     <template>
@@ -136,6 +139,7 @@
 
             connectedCallback() {
                 super.connectedCallback();
+                console.log('odd-model connected')
             }
 
 
