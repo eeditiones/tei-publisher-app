@@ -1,4 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
 
 <dom-module id="odd-element-spec">
     <template>
@@ -6,9 +8,34 @@
             :host {
                 display: block;
             }
+            input { vertical-align: middle; }
         </style>
 
-        <slot></slot>
+        <h3>
+            <paper-icon-button id="toggle" icon="expand-more" hidden$="{(models.length === 0)}" on-click="toggle"></paper-icon-button>
+            {{ ident }}
+            <paper-menu-button>
+                <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
+                <paper-listbox slot="dropdown-content" on-iron-select="_addModel">
+                    <paper-item>model</paper-item>
+                    <paper-item>modelSequence</paper-item>
+                    <paper-item>modelGrp</paper-item>
+                </paper-listbox>
+            </paper-menu-button>
+
+            <paper-icon-button on-click="remove" icon="delete"></paper-icon-button>
+            <paper-icon-button on-click="paste" icon="content-paste"></paper-icon-button>
+        </h3>
+
+        <iron-collapse id="models" class="models" opened="{{show}}" id="elem-{{ident}}">
+            <template id="modelList" is="dom-repeat" items="{{models}}" as="model">
+              <odd-model behaviour="{{model.behaviour}}" predicate="{{model.predicate}}"
+                type="{{model.type}}" output="{{model.output}}" css="{{model.css}}"
+                models="{{model.models}}" parameters="{{model.parameters}}"
+                desc="{{model.desc}}" sourcerend="{{model.sourcerend}}"/>
+            </template>
+        </iron-collapse>
+
     </template>
 
     <script>
@@ -27,17 +54,122 @@
 
             static get properties() {
                 return {
-                    prop1:{
-                        type: String
+                    ident:{
+                      type: String
+                    },
+                    mode:{
+                      type: String
+                    },
+                    models: {
+                      type: Array,
+                      value: () => []
+                    },
+                    show: {
+                      type: Boolean,
+                      value: true
+
                     }
                 };
             }
 
             connectedCallback() {
                 super.connectedCallback();
+                // TODO unklar was hier passieren soll
+                this.$.models.addEventListener("opened-changed", function() {
+                    var opened = this.$.models.opened;
+                    var icon = opened ? 'expand-less' : 'expand-more';
+                    if (this.$.toggle) {
+                        this.$.toggle.icon = icon;
+                    }
+                    if (opened) {
+                        this._collapseAll(this);
+                    }
+                }.bind(this));
             }
 
+            toggle(ev) {
+                this.$.models.toggle();
+            }
 
+            _collapse() {
+                this.$.models.hide();
+            }
+
+            _collapseAll(current) {
+                const models = Array.from(this.querySelectorAll('model'))
+                models.forEach(model => {
+                    if (model == current) { return; }
+                    model.collapse();
+                })
+            }
+
+            _addModel(ev) {
+                ev.preventDefault();
+                var type = ev.target.innerText;
+
+                this.models = this.updateTag('model');
+
+                this.refs.models.show();
+
+                this.models.unshift({
+                    behaviour: 'inline',
+                    predicate: null,
+                    type: type,
+                    output: null,
+                    models: [],
+                    parameters: [],
+                    renditions: [],
+                    sourcerend: false,
+                    show: true
+                });
+            }
+
+            _removeModel(item) {
+                this.parentNode.$.dialog.confirm('Delete?', 'Are you sure to delete the model?')
+                    .then(function() {
+                        var index = this.models.indexOf(item);
+                        this.models = this.updateTag('model');
+                        this.models.splice(index, 1);
+
+                        this.update();
+                    }.bind(this)
+                );
+            }
+
+            _remove(ev) {
+                this.parentNode.removeElementSpec(ev.item);
+            }
+
+            _paste(ev) {
+                // TODO
+                // var data = this.clipboard.paste();
+                // if (data) {
+                //     this.models = this.updateTag('model');
+                //     this.refs.models.open();
+                //     this.models.unshift(data);
+                // }
+            }
+
+            getData() {
+                return {
+                    ident: this.ident,
+                    mode: this.mode,
+                    models: this.updateTag('model')
+                };
+            }
+
+            serialize(indent) {
+                var xml = indent + '<elementSpec ident="' + this.ident + '"';
+                if (this.mode) {
+                    xml += ' mode="' + this.mode + '"';
+                }
+                xml += '>\n';
+
+                xml += this.serializeTag('model', indent + this.indentString);
+
+                xml += indent + '</elementSpec>\n';
+                return xml;
+            }
         }
 
         window.customElements.define(OddElementSpec.is, OddElementSpec);
