@@ -31,7 +31,7 @@
 
         <paper-dropdown-menu label="Editing ODD:">
             <paper-listbox id="select" name="odd" slot="dropdown-content"
-                attr-for-selected="value" on-iron-select="_selectOdd">
+                attr-for-selected="value" on-iron-select="_selectOdd" selected="{{selected}}">
                 <slot></slot>
             </paper-listbox>
         </paper-dropdown-menu>
@@ -55,12 +55,10 @@
 
             static get properties() {
                 return {
-/*
                     selected:{
                         type: String,
                         reflectToAttribute:true
                     }
-*/
                 };
             }
 

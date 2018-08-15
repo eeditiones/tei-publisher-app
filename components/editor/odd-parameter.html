@@ -1,4 +1,11 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-autocomplete/paper-autocomplete.html">
+<link rel="import" href="odd-code-editor.html">
+
+
+<!--
+    todo: just ported 'statically' - needs functional integration and testing
+-->
 
 <dom-module id="odd-parameter">
     <template>
@@ -8,7 +15,16 @@
             }
         </style>
 
-        <slot></slot>
+        <paper-autocomplete id="combo" text="{{name}}" placeholder="[Param name]" label="Name"
+                            source="[]"></paper-autocomplete>
+        <span class="value">
+            <odd-code-editor id="value" mode="xquery" code="{{value}}"
+                         placeholder="[XPath to define param value]"></odd-code-editor>
+        </span>
+        <span class="actions">
+        <paper-icon-button onclick="delete" icon="delete"></paper-icon-button>
+    </span>
+
     </template>
 
     <script>
@@ -27,14 +43,87 @@
 
             static get properties() {
                 return {
-                    prop1:{
-                        type: String
+                    name: {
+                        type: String,
+                        reflectToAttribute: true
+                    },
+                    value: {
+                        type: String,
+                        reflectToAttribute: true
                     }
                 };
             }
 
+            constructor(){
+                super();
+
+                const parameters = {
+                    alternate: ["content", "default", "alternate"],
+                    anchor: ["content", "id"],
+                    block: ["content"],
+                    body: ["content"],
+                    break: ["content", "type"],
+                    cell: ["content"],
+                    cit: ["content", "source"],
+                    "document": ["content"],
+                    figure: ["content", "title"],
+                    graphic: ["content", "url", "width", "height", "scale", "title"],
+                    heading: ["content", "level"],
+                    inline: ["content"],
+                    link: ["content", "link"],
+                    list: ["content"],
+                    listItem: ["content"],
+                    metadata: ["content"],
+                    note: ["content", "place", "label"],
+                    omit: ["content"],
+                    paragraph: ["content"],
+                    row: ["content"],
+                    section: ["content"],
+                    table: ["content"],
+                    text: ["content"],
+                    title: ["content"]
+                };
+
+            }
+
             connectedCallback() {
                 super.connectedCallback();
+            }
+
+            updateList() {
+                var autocomplete = [];
+                var values = parameters[this.parent.getBehaviour()] || [];
+
+                values.forEach(function(val) {
+                    autocomplete.push({
+                        text: val, value: val
+                    });
+                });
+                this.$.combo.source = autocomplete;
+            }
+
+            delete(ev) {
+                ev.preventDefault();
+                this.parentNode.removeParameter(ev.item);
+            }
+
+            getData() {
+                return {
+                    name: this.$.combo.text,
+                    value: this.$.value.get()
+                };
+            }
+
+            serialize(indent) {
+                var name = this.$.combo.text;
+                if (!name) {
+                    return '';
+                }
+                return indent + '<param name="' + name + '" value="' + this.escape(this.$.value.get()) + '"/>\n';
+            }
+
+            show() {
+                this.$.value.initCodeEditor();
             }
 
 
