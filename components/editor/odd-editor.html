@@ -127,7 +127,10 @@
             .CodeMirror-empty {
                 color: #C0C0C0;
             }
-
+            .icons{
+                display:inline-block;
+                white-space: nowrap;
+            }
         </style>
 
         <iron-ajax
@@ -146,13 +149,11 @@
                         <h3>
                             <span>{{odd}}</span>
 
-                            <div>
-                                <odd-edit-source id="editSource">
-                                    <paper-icon-button icon="code" title="ODD Source"></paper-icon-button>
-                                </odd-edit-source>
+                            <span class="icons">
+                                <odd-edit-source id="editSource"><paper-icon-button icon="code" title="ODD Source"></paper-icon-button></odd-edit-source>
                                 <paper-icon-button on-click="reload" icon="refresh" title="Refresh"></paper-icon-button>
                                 <paper-icon-button on-click="save" icon="save" title="Save"></paper-icon-button>
-                            </div>
+                            </span>
                         </h3>
                         <div id="new-element" class="input-group">
                             <paper-input id="identNew" label="Add Element" always-float-label="always-float-label">
@@ -277,10 +278,13 @@
                 super.connectedCallback();
                 console.log(this, ' connected');
                 console.log('connected root ', this.rootPath );
+
+
                 if(this.odd){
-                    console.log('selector ', document.querySelector('odd-selector'));
-                    console.log('selector ', this.children);
-//                    this.querySelector('odd-selector').selected = this.odd;
+                    console.log('selector ', this.querySelector('odd-selector'));
+                    console.log('selector ', document.getElementById('selector'));
+//                    console.log('selector ', this.children);
+//                    this.children[0].setAttribute('selected',this.odd);
                 }
 
                 /*
@@ -306,6 +310,7 @@
             ready(){
                 super.ready();
 //                console.log('selector ', this.querySelector('odd-selector'));
+
 
             }
 
