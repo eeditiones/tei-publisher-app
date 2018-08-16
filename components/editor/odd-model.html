@@ -1,6 +1,14 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
 <link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-autocomplete/paper-autocomplete.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="odd-code-editor.html">
 <link rel="import" href="odd-parameter.html">
 <link rel="import" href="odd-rendition.html">
@@ -130,6 +138,7 @@
                         <paper-listbox id="output" slot="dropdown-content" attr-for-selected="value">
                           <template id="outputList" is="dom-repeat" items="{{outputs}}" as="output">
                             <paper-item value="[[output]]">[[output]]</paper-item>
+                          </template>
                         </paper-listbox>
                     </paper-dropdown-menu>
                 </div>
@@ -143,7 +152,7 @@
                 <div class="predicate">
                     <label>Predicate</label>
                     <odd-code-editor id="predicate" mode="xquery" code="{{(predicate || '')}}" callback="[[refresh]]"
-                        placeholder="[XPath condition: model applies only if matched]"/>
+                        placeholder="[XPath condition: model applies only if matched]"></odd-code-editor>
                 </div>
                 <paper-input id="css" value="{{ css }}"
                     placeholder="[Define CSS class name (for external CSS)]"
@@ -156,7 +165,7 @@
                           on-click="addParameter"></paper-icon-button>
                     </div>
                     <template id="parameterList" is="dom-repeat" items="[[ parameters ]]" as="parameter">
-                      <odd-parameter name="[[ parameter.name ]]" value="[[ parameter.value ]]"/>
+                      <odd-parameter name="[[ parameter.name ]]" value="[[ parameter.value ]]"></odd-parameter>
                     </template>
                 </div>
 
@@ -171,7 +180,7 @@
                         </div>
                     </div>
                     <template id="renditionList" is="dom-repeat" items="{{ renditions }}" as="rendition">
-                      <odd-rendition scope="{{ rendition.scope }}" css="{{ rendition.css }}" events="{{ events }}"/>
+                      <odd-rendition scope="{{ rendition.scope }}" css="{{ rendition.css }}" events="{{ events }}"></odd-rendition>
                     </template>
                 </div>
             </iron-collapse>
@@ -180,7 +189,7 @@
                 <template id="modelList" is="dom-repeat" items="[[ models ]]" as="model">
                   <odd-model behaviour="{{ model.behaviour }}" predicate="{{ model.predicate }}"
                       type="{{ model.type }}" output="{{ model.output }}" desc="{{ model.desc }}"
-                      sourcerend="{{ model.sourcerend }}"/>
+                      sourcerend="{{ model.sourcerend }}"></odd-model>
                 </template>
             </div>
         </form>
@@ -319,14 +328,13 @@
 
           copy(ev) {
               ev.preventDefault();
-              this.clipboard.copy(this.getData());
+              //this.clipboard.copy(this.getData());
           }
 
           paste(ev) {
-              var data = this.clipboard.paste();
+              const data = null //this.clipboard.paste();
               if (data) {
-                  this.updateModel();
-                  this.models.unshift(data);
+                  this.unshift('models', data);
               }
           }
 
