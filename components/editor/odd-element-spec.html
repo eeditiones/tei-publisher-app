@@ -2,14 +2,29 @@
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
 <link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="odd-model.html">
+<link rel="import" href="../pb-common-styles.html">
 
 <dom-module id="odd-element-spec">
     <template>
-        <style>
+        <style include="pb-common-styles">
             :host {
                 display: block;
             }
+
+            h1, h2, h3, h4, h5, h6 {
+                font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                font-weight: 400 !important;
+            }
+
             input { vertical-align: middle; }
+
+/*
+            odd-model {
+                margin-left: 50px;
+                max-width: 800px;
+            }
+*/
+
         </style>
 
         <h3>
@@ -29,12 +44,17 @@
         </h3>
 
         <iron-collapse id="models" class="models" opened="{{show}}" id="elem-{{ident}}">
+
             <template id="modelList" is="dom-repeat" items="{{models}}" as="model">
+
               <odd-model behaviour="{{model.behaviour}}" predicate="{{model.predicate}}"
                 type="{{model.type}}" output="{{model.output}}" css="{{model.css}}"
                 models="{{model.models}}" parameters="{{model.parameters}}"
-                desc="{{model.desc}}" sourcerend="{{model.sourcerend}}"></odd-model>
+                desc="{{model.desc}}" sourcerend="{{model.sourcerend}}"
+              parent="[[parentComp]]"></odd-model>
+
             </template>
+
         </iron-collapse>
 
     </template>
@@ -67,7 +87,7 @@
                     },
                     show: {
                       type: Boolean,
-                      value: true
+                      value: false
                     },
                     currentItem: {
                       type: Object,
@@ -76,11 +96,16 @@
                 };
             }
 
+
+
             connectedCallback() {
                 super.connectedCallback();
                 // TODO unklar was hier passieren soll
                 this.$.models.addEventListener("opened-changed", function() {
                 }.bind(this));
+
+                this.parentComp = this;
+                console.log('parent component: ', this.parentComp);
             }
 
             toggle(ev) {

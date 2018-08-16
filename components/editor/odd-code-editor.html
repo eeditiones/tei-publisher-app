@@ -49,8 +49,8 @@
 
             connectedCallback() {
                 super.connectedCallback();
-                console.log('mode: ', this.mode);
-                console.log('code: ', this.code);
+//                console.log('mode: ', this.mode);
+//                console.log('code: ', this.code);
                 this.initCodeEditor();
             }
 
@@ -61,7 +61,7 @@
                 }
                 var self = this;
 
-                console.log('code: ', this. code);
+//                console.log('code: ', this. code);
 
                 this.codemirror = CodeMirror(this, {
                     value: self.$.code.code,

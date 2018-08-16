@@ -11,6 +11,7 @@
 
         <title data-template="config:app-title"/>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
+        <!--todo: keep styles local - on slow internet connection loading of fonts otherwise block page loading -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald"/>
         <link rel="stylesheet" type="text/css" href="resources/css/vendor/codemirror.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/vendor/ttcn.css"/>
@@ -137,7 +138,7 @@
         <script type="text/javascript" src="resources/scripts/vendor/codemirror/css.js"/>
         <script type="text/javascript" src="resources/scripts/vendor/codemirror/xquery.js"/>
     </head>
-    <body data-template="i18n:translate" data-catalogues="resources/i18n">
+    <body data-template="i18n:translate" data-catalogues="resources/i18n" unresolved="unresolved">
         <app-header-layout>
             <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
                 <app-toolbar class="menubar">
