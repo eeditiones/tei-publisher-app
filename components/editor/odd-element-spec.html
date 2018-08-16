@@ -16,19 +16,13 @@
                 font-weight: 400 !important;
             }
 
-            input { vertical-align: middle; }
-
-/*
-            odd-model {
-                margin-left: 50px;
-                max-width: 800px;
+            input {
+              vertical-align: middle;
             }
-*/
-
         </style>
 
         <h3>
-            <paper-icon-button id="toggle" icon="expand-more" hidden$="[[(models.length === 0)]]" on-click="toggle"></paper-icon-button>
+            <paper-icon-button id="toggle" icon="[[toggleButtonIcon(show)]]" hidden$="[[noModels(models)]]" on-click="toggle"></paper-icon-button>
             [[ ident ]]
             <paper-menu-button>
                 <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
@@ -50,8 +44,7 @@
               <odd-model behaviour="{{model.behaviour}}" predicate="{{model.predicate}}"
                 type="{{model.type}}" output="{{model.output}}" css="{{model.css}}"
                 models="{{model.models}}" parameters="{{model.parameters}}"
-                desc="{{model.desc}}" sourcerend="{{model.sourcerend}}"
-              parent="[[parentComp]]"></odd-model>
+                desc="{{model.desc}}" sourcerend="{{model.sourcerend}}"></odd-model>
 
             </template>
 
@@ -88,47 +81,41 @@
                     show: {
                       type: Boolean,
                       value: false
-                    },
-                    currentItem: {
-                      type: Object,
-                      value: null
                     }
                 };
             }
-
-
 
             connectedCallback() {
                 super.connectedCallback();
                 // TODO unklar was hier passieren soll
                 this.$.models.addEventListener("opened-changed", function() {
+                    this.set('show', this.$.models.opened)
                 }.bind(this));
+            }
 
-                this.parentComp = this;
-                console.log('parent component: ', this.parentComp);
+            toggleButtonIcon(show) {
+              const icon = (show ? 'expand-less' : 'expand-more')
+              console.log('asdfasdafs', icon)
+              return icon
             }
 
             toggle(ev) {
                 this.$.models.toggle();
-                const opened = this.$.models.opened;
-                const icon = opened ? 'expand-less' : 'expand-more';
-                if (this.$.toggle) {
-                    this.$.toggle.icon = icon;
-                }
+                console.log( this.show)
             }
 
-            _collapse() {
+            showModels() {
+                this.$.models.show();
+            }
+
+            collapseModels() {
                 this.$.models.hide();
             }
 
-            _collapseAll(current) {
-                const models = Array.from(this.querySelectorAll('model'))
-                models.forEach(model => {
-                    if (model == current) { return; }
-                    model.collapse();
-                })
+            noModels(models) {
+              return models.length === 0
             }
-
+            
             _addModel(ev) {
                 ev.preventDefault();
                 this.$.models.show();
@@ -171,14 +158,6 @@
                 // }
             }
 
-            getData() {
-                return {
-                    ident: this.ident,
-                    mode: this.mode,
-                    models: this.updateTag('model')
-                };
-            }
-
             serialize(indent) {
                 var xml = indent + '<elementSpec ident="' + this.ident + '"';
                 if (this.mode) {
@@ -186,7 +165,12 @@
                 }
                 xml += '>\n';
 
-                xml += this.serializeTag('model', indent + this.indentString);
+                xml += Array.from(this.$.modelList.querySelectorAll('odd-model'))
+                  .map(function (el) {
+                  // get element for item
+                  const item = this.$.modelList.modelForElement(el)
+                  return item.serialize(indent + this.indentString)
+                }.bind(this))
 
                 xml += indent + '</elementSpec>\n';
                 return xml;

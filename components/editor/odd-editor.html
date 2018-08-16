@@ -101,26 +101,10 @@
                 margin-top: 1em;
             }
 
-
-
-
-
-
-/*
-            .element-specs {
-                margin-bottom: 60px;
-            }
-*/
-/*
-            .models {
-                margin-left: 50px;
-                max-width: 800px;
-            }
-*/
-            model {
+            odd-model {
                 border-bottom: 1px solid #E0E0E0;
             }
-            model h4 {
+            odd-model h4 {
                 margin-top: 15px;
                 padding-top: 5px;
                 border-top: 1px solid #E0E0E0;
@@ -145,84 +129,67 @@
 
         </style>
 
-        <iron-ajax
-                id="loadContent"
-                url="../modules/editor.xql"
-                handle-as="json"
-                content-type="application/x-www-form-urlencoded"
-                method="GET"
-                on-response="_handleResponse"></iron-ajax>
+        <iron-ajax id="loadContent" url="../modules/editor.xql"
+                handle-as="json" content-type="application/x-www-form-urlencoded"
+                method="GET" on-response="_handleResponse"></iron-ajax>
 
-            <aside>
-                <paper-card id="drawercard" heading="Visual ODD Editor">
-                    <div class="card-content">
-                        <slot id="slot"></slot>
-                        <h3>
-                            <span>{{odd}}</span>
+        <aside>
+            <paper-card id="drawercard" heading="Visual ODD Editor">
+                <div class="card-content">
+                    <slot id="slot"></slot>
+                    <h3>
+                        <span>[[odd]]</span>
 
-                            <span class="icons">
-                                <odd-edit-source id="editSource"><paper-icon-button icon="code" title="ODD Source"></paper-icon-button></odd-edit-source>
-                                <paper-icon-button on-click="reload" icon="refresh" title="Refresh"></paper-icon-button>
-                                <paper-icon-button on-click="save" icon="save" title="Save"></paper-icon-button>
-                            </span>
-                        </h3>
-                        <div id="new-element" class="input-group">
-                            <paper-input id="identNew" label="Add Element" always-float-label="always-float-label">
-                                <paper-icon-button slot="suffix" on-click="addElementSpec"
-                                                   icon="add"></paper-icon-button>
-                            </paper-input>
-                        </div>
-
-                        <div id="jump-to">
-                            <paper-autocomplete id="jumpTo" label="Jump to ..."
-                                always-float-label="always-float-label"></paper-autocomplete>
-                        </div>
+                        <span class="icons">
+                            <odd-edit-source id="editSource"><paper-icon-button icon="code" title="ODD Source"></paper-icon-button></odd-edit-source>
+                            <paper-icon-button on-click="reload" icon="refresh" title="Refresh"></paper-icon-button>
+                            <paper-icon-button on-click="save" icon="save" title="Save"></paper-icon-button>
+                        </span>
+                    </h3>
+                    <div id="new-element" class="input-group">
+                        <paper-input id="identNew" label="Add Element" always-float-label="always-float-label">
+                            <paper-icon-button slot="suffix" on-click="addElementSpec"
+                                               icon="add"></paper-icon-button>
+                        </paper-input>
                     </div>
-                </paper-card>
-            </aside>
 
-            <section class="specs" id="specs">
+                    <div id="jump-to">
+                        <paper-autocomplete id="jumpTo" label="Jump to ..."
+                            always-float-label="always-float-label"></paper-autocomplete>
+                    </div>
+                </div>
+            </paper-card>
+        </aside>
 
-                <paper-card class="metadata">
-                    <pb-collapse>
-                        <h4 slot="collapse-trigger" class="panel-title">
-                            {{ _computedTitle(title, shortTitle, odd) }}
-                        </h4>
-                        <div slot="collapse-content">
-                            <paper-input id="title" name="title" value="{{title}}" label="Title"
-                                         placeholder="[Title of the ODD]"></paper-input>
-                            <paper-input id="titleShort" name="short-title" value="{{titleShort}}" label="Short title"
-                                         placeholder="[Short title for display]"></paper-input>
-                            <paper-input id="source" name="source" value="{{source}}" label="Source ODD"
-                                         placeholder="[ODD to inherit from]"></paper-input>
+        <section class="specs" id="specs">
 
-                            <paper-input id="namespace" name="namespace" value="{{namespace}}" label="Namespace"
-                                         placeholder="[Default namespace URI (if not TEI)]">
-                                <paper-checkbox slot="prefix" id="useNamespace"
-                                                title="Check for using a different namespace than TEI"></paper-checkbox>
-                            </paper-input>
-                        </div>
-                    </pb-collapse>
-                </paper-card>
+            <paper-card class="metadata">
+                <pb-collapse>
+                    <h4 slot="collapse-trigger" class="panel-title">
+                        [[ _computedTitle(title, shortTitle, odd) ]]
+                    </h4>
+                    <div slot="collapse-content">
+                        <paper-input id="title" name="title" value="{{title}}" label="Title"
+                                     placeholder="[Title of the ODD]"></paper-input>
+                        <paper-input id="titleShort" name="short-title" value="{{titleShort}}" label="Short title"
+                                     placeholder="[Short title for display]"></paper-input>
+                        <paper-input id="source" name="source" value="{{source}}" label="Source ODD"
+                                     placeholder="[ODD to inherit from]"></paper-input>
 
+                        <paper-input id="namespace" name="namespace" value="{{namespace}}" label="Namespace"
+                                     placeholder="[Default namespace URI (if not TEI)]">
+                            <paper-checkbox slot="prefix" id="useNamespace"
+                                            title="Check for using a different namespace than TEI"></paper-checkbox>
+                        </paper-input>
+                    </div>
+                </pb-collapse>
+            </paper-card>
 
-                <template id="specList" is="dom-repeat" items="{{elementSpecs}}" as="item">
-                    <odd-element-spec id="es_{{item.ident}}"
-                                      ident="{{item.ident}}"
-                                      mode="{{item.mode}}"
-                                      models="{{item.models}}"></odd-element-spec>
-                </template>
-
-<!--
-                <odd-element-spec id="es_{{ident}}"
-                                  each="{{elementSpecs}"
-                                  ident="{{ident}}"
-                                  mode="{{mode}}"
-                                  model="{{models}}"></odd-element-spec>
--->
-            </section>
-
-
+            <template id="specList" is="dom-repeat" items="{{elementSpecs}}" as="item">
+                <odd-element-spec id="es_{{item.ident}}" ident="{{item.ident}}"
+                        mode="{{item.mode}}" models="{{item.models}}"></odd-element-spec>
+            </template>
+        </section>
         <message id="dialog" hidden></message>
 
     </template>
@@ -279,6 +246,10 @@
                     },
                     rootPath:{
                         type: String
+                    },
+                    currentItem: {
+                        type: Object,
+                        value: null
                     }
                 };
             }
@@ -311,27 +282,16 @@
                     this.$.namespace.disabled = !this.$.useNamespace.checked;
                 });
                 this.$.jumpTo.addEventListener('autocomplete-selected', this.jumpTo.bind(this));
+            }
 
-                }
 
-
-            jumpTo (ev) {
-              const ident = this.$.jumpTo.text;
-              const target = document.getElementById('es_' + ident);
-              this.$.jumpTo.clear();
+            jumpTo () {
+              const id = '#es_' + this.$.jumpTo.text;
+              const target = this.shadowRoot.querySelector(id);
 
               if (!target) { return }
-
-              const specs = Array.from(this.querySelectorAll('odd-element-spec'));
-              specs.forEach(spec => {
-                  if (spec.ident === ident) {
-                    spec.toggle();
-                    return;
-                  }
-                  spec.collapse();
-              });
-
-              target.scrollIntoView();
+              this.$.jumpTo.clear();
+              this.setCurrentItem(target)
             }
 
             _computedTitle (title, titleShort, odd) {
@@ -347,7 +307,6 @@
 
             _specObserver () {
               const source = this.elementSpecs.map(this._specMapper);
-
               this.$.jumpTo.set('source', source);
             }
 
@@ -385,10 +344,9 @@
                 document.dispatchEvent(new CustomEvent('pb-start-update'));
 
                 this.$.editSource.setPath(this.rootPath + '/' + this.odd);
-                var params = { odd: this.odd, root: this.rootPath };
+                const params = { odd: this.odd, root: this.rootPath };
                 this.$.loadContent.params = params;
-//                this.$.loadContent.body = null;
-                var request = this.$.loadContent.generateRequest();
+                let request = this.$.loadContent.generateRequest();
                 request.completes.then(function(req) {
                     const data = req.response;
                     this.elementSpecs = data.elementSpecs;
@@ -404,13 +362,59 @@
                         this.$.useNamespace.checked = true;
                         this.$.namespace.disabled = false;
                     }
-                    // this.update();
-                    // this.updateElementSpecs();
                     document.dispatchEvent(new CustomEvent('pb-end-update'));
                 }.bind(this));
             }
 
+            addElementSpec(ev) {
+              ev.preventUpdate = true;
+              const ident = this.$.identNew.value;
+              if (!ident || ident.length === 0) {
+                  return;
+              }
+              const params = {
+                  action: "find",
+                  odd: this.odd,
+                  root: this.rootPath,
+                  ident: ident
+              };
+              this.$.loadContent.params = params;
 
+              let request = this.$.loadContent.generateRequest();
+              request.completes.then(this._handleElementSpecResponse.bind(this))
+            }
+
+            _handleElementSpecResponse(req) {
+                const data = req.response;
+                const ident = this.$.identNew.value
+                const mode = (data.status === 'not-found' ? 'add' : 'change');
+                const models = data.models || [];
+                const newSpec = {
+                    ident: ident,
+                    mode: mode,
+                    models: models,
+                    show: true
+                };
+
+                this.push('elementSpecs', newSpec);
+                this._specObserver()
+
+                const id = '#es_' + ident;
+                const target = this.shadowRoot.querySelector(id);
+                // this.setCurrentItem(target)
+            }
+
+            setCurrentItem(element) {
+              if (this.currentItem) {
+                this.currentItem.collapseModels();
+              }
+
+              this.set('currentItem', element)
+              console.log(this.currentItem)
+              this.currentItem.showModels()
+              this.currentItem.scrollIntoView();
+
+            }
         }
 
         window.customElements.define(OddEditor.is, OddEditor);
