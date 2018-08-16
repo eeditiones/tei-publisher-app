@@ -68,7 +68,9 @@
                     show: {
                       type: Boolean,
                       value: true
-
+                    },
+                    currentItem: {
+                      type: Object
                     }
                 };
             }
@@ -77,19 +79,16 @@
                 super.connectedCallback();
                 // TODO unklar was hier passieren soll
                 this.$.models.addEventListener("opened-changed", function() {
-                    var opened = this.$.models.opened;
-                    var icon = opened ? 'expand-less' : 'expand-more';
-                    if (this.$.toggle) {
-                        this.$.toggle.icon = icon;
-                    }
-                    if (opened) {
-                        this._collapseAll(this);
-                    }
                 }.bind(this));
             }
 
             toggle(ev) {
                 this.$.models.toggle();
+                const opened = this.$.models.opened;
+                const icon = opened ? 'expand-less' : 'expand-more';
+                if (this.$.toggle) {
+                    this.$.toggle.icon = icon;
+                }
             }
 
             _collapse() {
@@ -106,16 +105,12 @@
 
             _addModel(ev) {
                 ev.preventDefault();
-                var type = ev.target.innerText;
+                this.$.models.show();
 
-                this.models = this.updateTag('model');
-
-                this.refs.models.show();
-
-                this.models.unshift({
+                this.unshift('models', {
                     behaviour: 'inline',
                     predicate: null,
-                    type: type,
+                    type: ev.target.innerText,
                     output: null,
                     models: [],
                     parameters: [],
@@ -125,16 +120,15 @@
                 });
             }
 
-            _removeModel(item) {
-                this.parentNode.$.dialog.confirm('Delete?', 'Are you sure to delete the model?')
-                    .then(function() {
-                        var index = this.models.indexOf(item);
-                        this.models = this.updateTag('model');
-                        this.models.splice(index, 1);
+            removeModel(item) {
+                const index = this.models.indexOf(item);
+                const removeModelHandler = () => {
+                    this.splice('models', index, 1);
+                };
 
-                        this.update();
-                    }.bind(this)
-                );
+                this.parentNode.$.dialog
+                    .confirm('Delete?', 'Are you sure to delete the model?')
+                    .then(removeModelHandler.bind(this));
             }
 
             _remove(ev) {
