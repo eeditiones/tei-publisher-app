@@ -72,13 +72,14 @@
 
             /* ported over but not checked yet */
 
-            editor .specs {
+            .specs {
                 flex: 3 0;
                 height: var(--pb-view-height);
                 overflow: auto;
+                position: relative;
             }
 
-            editor .metadata {
+            .metadata {
                 display: block;
                 width: 100%;
 
@@ -131,6 +132,7 @@
                 display:inline-block;
                 white-space: nowrap;
             }
+
         </style>
 
         <iron-ajax
@@ -138,14 +140,13 @@
                 url="../modules/editor.xql"
                 handle-as="json"
                 content-type="application/x-www-form-urlencoded"
-                method="GET"></iron-ajax>
+                method="GET"
+                on-response="_handleResponse"></iron-ajax>
 
-        <!--<app-drawer-layout>-->
-            <!--<app-drawer slot="drawer">-->
             <aside>
                 <paper-card id="drawercard" heading="Visual ODD Editor">
                     <div class="card-content">
-                        <slot></slot>
+                        <slot id="slot"></slot>
                         <h3>
                             <span>{{odd}}</span>
 
@@ -169,9 +170,9 @@
                     </div>
                 </paper-card>
             </aside>
-            <!--</app-drawer>-->
 
             <section class="specs" id="specs">
+
                 <paper-card class="metadata">
                     <pb-collapse>
                         <h4 slot="collapse-trigger" class="panel-title">
@@ -210,8 +211,6 @@
                                   model="{{models}}"></odd-element-spec>
 -->
             </section>
-
-        <!--</app-drawer-layout>-->
 
 
         <message id="dialog" hidden></message>
@@ -276,13 +275,14 @@
 
             connectedCallback() {
                 super.connectedCallback();
-                console.log(this, ' connected');
+//                console.log(this, ' connected');
                 console.log('connected root ', this.rootPath );
 
 
                 if(this.odd){
-                    console.log('selector ', this.querySelector('odd-selector'));
-                    console.log('selector ', document.getElementById('selector'));
+//                    console.log('selector ', this.querySelector('odd-selector'));
+//                    console.log('selector ', document.getElementById('selector'));
+
 //                    console.log('selector ', this.children);
 //                    this.children[0].setAttribute('selected',this.odd);
                 }
@@ -302,17 +302,7 @@
                 });
                 this.$.jumpTo.addEventListener('autocomplete-selected', this.jumpTo.bind(this));
 
-                // CodeMirror.registerHelper("lint", "xquery", this.lintXQuery.bind(this));
-
-
-            }
-
-            ready(){
-                super.ready();
-//                console.log('selector ', this.querySelector('odd-selector'));
-
-
-            }
+                }
 
 
             jumpTo (ev) {
@@ -409,6 +399,7 @@
                     document.dispatchEvent(new CustomEvent('pb-end-update'));
                 }.bind(this));
             }
+
 
         }
 
