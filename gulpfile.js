@@ -243,7 +243,7 @@ gulp.task('deploy:components', function () {
 });
 
 gulp.task('watch:components', function () {
-    gulp.watch(input.components, ['deploy:components'])
+    gulp.watch([input.components, '!components/bower_components/**/*'], ['deploy:components'])
 });
 
 // Files in folder 'demo'
