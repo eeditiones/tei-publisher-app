@@ -40,7 +40,7 @@
                 return 'odd-rendition';
             }
 
-            
+
             static get properties() {
                 return {
                     scopes:{
@@ -85,8 +85,15 @@
 
 
             _remove(ev) {
-                //todo
-//                this.parent.removeRendition(ev.item);
+                ev.preventDefault();
+                var pathes = ev.composedPath();
+                pathes.forEach(function (item) {
+                    console.log("path: ", item);
+                    if (item.nodeName.toLowerCase() == 'odd-model') {
+                        item.removeRendition(this);
+                    }
+                });
+
             }
 
 

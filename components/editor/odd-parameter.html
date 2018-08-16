@@ -22,7 +22,7 @@
                          placeholder="[XPath to define param value]"></odd-code-editor>
         </span>
         <span class="actions">
-        <paper-icon-button onclick="delete" icon="delete"></paper-icon-button>
+        <paper-icon-button on-click="delete" icon="delete"></paper-icon-button>
     </span>
 
     </template>
@@ -104,7 +104,13 @@
 
             delete(ev) {
                 ev.preventDefault();
-                this.parentNode.removeParameter(ev.item);
+                var pathes = ev.composedPath();
+                pathes.forEach(function (item) {
+                    console.log("path: ", item);
+                    if (item.nodeName.toLowerCase() == 'odd-model') {
+                        item.removeParameter(this);
+                    }
+                });
             }
 
             getData() {
