@@ -26,10 +26,10 @@
             [[ ident ]]
             <paper-menu-button>
                 <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
-                <paper-listbox slot="dropdown-content" on-iron-select="_addModel">
-                    <paper-item>model</paper-item>
-                    <paper-item>modelSequence</paper-item>
-                    <paper-item>modelGrp</paper-item>
+                <paper-listbox id="addModel" slot="dropdown-content" on-iron-select="_addModel" attr-for-selected="value">
+                    <paper-item value="model">model</paper-item>
+                    <paper-item value="modelSequence">modelSequence</paper-item>
+                    <paper-item value="modelGrp">modelGrp</paper-item>
                 </paper-listbox>
             </paper-menu-button>
 
@@ -123,7 +123,7 @@
                 this.unshift('models', {
                     behaviour: 'inline',
                     predicate: null,
-                    type: ev.target.innerText,
+                    type: this.$.addModel.selected,
                     output: null,
                     models: [],
                     parameters: [],
