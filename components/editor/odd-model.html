@@ -230,7 +230,8 @@
                 };
             }
 
-            static outputs = [
+            static get outputs() {
+              return [
                 "",
                 "web",
                 "print",
@@ -238,9 +239,10 @@
                 "fo",
                 "latex",
                 "plain"
-            ]
+            ]}
 
-            static behaviours = [
+            static get behaviours() {
+              return [
                 "alternate",
                 "anchor",
                 "block",
@@ -266,82 +268,82 @@
                 "text",
                 "title",
                 "webcomponent"
-            ];
+              ]
+          }
 
+          connectedCallback() {
+              super.connectedCallback();
+              console.log('odd-model connected', this.rootPath, this.importPath)
+          }
 
-            connectedCallback() {
-                super.connectedCallback();
-                console.log('odd-model connected')
-            }
+          remove(e) {
+              e.preventDefault();
+              this.parent.removeModel(e.item);
+          }
 
-            remove(e) {
-                e.preventDefault();
-                this.parent.removeModel(e.item);
-            }
+          removeModel(item) {
+              const index = this.models.indexOf(item);
+              this.splice('models', index, 1);
+          }
 
-            removeModel(item) {
-                const index = this.models.indexOf(item);
-                this.splice('models', index, 1);
-            }
+          moveDown(e) {
+              e.preventDefault();
+              this.parentNode.moveModelDown(e.item);
+          }
 
-            moveDown(e) {
-                e.preventDefault();
-                this.parentNode.moveModelDown(e.item);
-            }
+          moveUp(e) {
+              e.preventDefault();
+              this.parentNode.moveModelUp(e.item);
+          }
 
-            moveUp(e) {
-                e.preventDefault();
-                this.parentNode.moveModelUp(e.item);
-            }
+          addParameter(e) {
+              this.push('parameters', { name: "", value: "" });
+          }
 
-            addParameter(e) {
-                this.push('parameters', { name: "", value: "" });
-            }
+          removeParameter(item) {
+              const index = this.parameters.indexOf(item);
+              this.splice('parameters', index, 1);
+          }
 
-            removeParameter(item) {
-                const index = this.parameters.indexOf(item);
-                this.splice('parameters', index, 1);
-            }
+          addRendition(ev) {
+              this.push('renditions', {
+                  scope: null,
+                  css: ''
+              });
+          }
 
-            addRendition(ev) {
-                this.push('renditions', {
-                    scope: null,
-                    css: ''
-                });
-            }
+          removeRendition(item) {
+              const index = this.renditions.indexOf(item);
+              this.splice('renditions', index, 1);
+          }
 
-            removeRendition(item) {
-                const index = this.renditions.indexOf(item);
-                this.splice('renditions', index, 1);
-            }
+          copy(ev) {
+              ev.preventDefault();
+              this.clipboard.copy(this.getData());
+          }
 
-            copy(ev) {
-                ev.preventDefault();
-                this.clipboard.copy(this.getData());
-            }
+          paste(ev) {
+              var data = this.clipboard.paste();
+              if (data) {
+                  this.updateModel();
+                  this.models.unshift(data);
+              }
+          }
 
-            paste(ev) {
-                var data = this.clipboard.paste();
-                if (data) {
-                    this.updateModel();
-                    this.models.unshift(data);
-                }
-            }
-
-            addNested(ev) {
-                ev.preventDefault();
-                this.unshift('models', {
-                    behaviour: 'inline',
-                    predicate: null,
-                    type: ev.target.innerText,
-                    output: null,
-                    sourcerend: false,
-                    models: [],
-                    parameters: [],
-                    renditions: [],
-                    show: true
-                });
-            }
+          addNested(ev) {
+              ev.preventDefault();
+              this.unshift('models', {
+                  behaviour: 'inline',
+                  predicate: null,
+                  type: ev.target.innerText,
+                  output: null,
+                  sourcerend: false,
+                  models: [],
+                  parameters: [],
+                  renditions: [],
+                  show: true
+              });
+          }
 
         }
 
