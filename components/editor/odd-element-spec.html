@@ -13,8 +13,8 @@
         </style>
 
         <h3>
-            <paper-icon-button id="toggle" icon="expand-more" hidden$="{(models.length === 0)}" on-click="toggle"></paper-icon-button>
-            {{ ident }}
+            <paper-icon-button id="toggle" icon="expand-more" hidden$="[[(models.length === 0)]]" on-click="toggle"></paper-icon-button>
+            [[ ident ]]
             <paper-menu-button>
                 <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
                 <paper-listbox slot="dropdown-content" on-iron-select="_addModel">
@@ -33,7 +33,7 @@
               <odd-model behaviour="{{model.behaviour}}" predicate="{{model.predicate}}"
                 type="{{model.type}}" output="{{model.output}}" css="{{model.css}}"
                 models="{{model.models}}" parameters="{{model.parameters}}"
-                desc="{{model.desc}}" sourcerend="{{model.sourcerend}}"/>
+                desc="{{model.desc}}" sourcerend="{{model.sourcerend}}"></odd-model>
             </template>
         </iron-collapse>
 
@@ -70,7 +70,8 @@
                       value: true
                     },
                     currentItem: {
-                      type: Object
+                      type: Object,
+                      value: null
                     }
                 };
             }
