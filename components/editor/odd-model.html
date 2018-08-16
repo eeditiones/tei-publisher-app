@@ -11,14 +11,105 @@
             :host {
                 display: block;
             }
+            form {
+                margin-bottom: 8px;
+            }
+            paper-input, paper-autocomplete {
+                margin-bottom: 16px;
+            }
+            .models {
+                margin-top: 8px;
+            }
+            .btn, .btn-group {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+            header {
+                background-color: #d1dae0;
+            }
+            header div {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            header h4 {
+                padding: 4px 8px;
+                margin: 0;
+            }
+            header p {
+                padding: 0 16px 4px;
+                margin: 0;
+                font-size: 85%;
+            }
+            header .predicate {
+                color: #ff5722;
+            }
+            header .predicate:before {
+                content: ' [';
+            }
+            header .predicate:after {
+                content: ']';
+            }
+            .predicate label {
+                display: block;
+                font-size: 12px;
+                font-weight: 300;
+                color: rgb(115, 115, 115);
+            }
+            .model-collapse {
+                color: #000000;
+                cursor: pointer;
+            }
+            .model-collapse:hover {
+                text-decoration: none;
+            }
+            .behaviour {
+                color: #ff5722;
+            }
+            .behaviour:before {
+                content: ' [';
+            }
+            .behaviour:after {
+                content: ']';
+            }
+            .group {
+                margin: 0;
+                font-size: 16px;
+                font-weight: bold;
+            }
+            .group .title {
+                /*text-decoration: underline;*/
+            }
+
+            .renditions, .parameters {
+                padding-left: 16px;
+                border-left: 3px solid #e0e0e0;
+            }
+            .renditions .group {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .predicate .form-control {
+                width: 100%;
+            }
+
+            .source {
+                text-decoration: none;
+                margin-bottom: 8px;
+            }
+
         </style>
 
-        <form class="form-inline">
+        <form>
             <header>
                 <div>
                     <h4>
                         <paper-icon-button ref="toggle" on-click="toggle" class="model-collapse" icon="expand-more"></paper-icon-button>
-                        {{ type }} <span class="behaviour" if="{{( type === 'model')}}">{{ behaviour }}</span>
+                        [[type]] <span class="behaviour" hidden$="[[( type === 'model' )]]">[[ behaviour ]]</span>
                         <span class="btn-group">
                             <paper-icon-button on-click="moveDown" icon="arrow-downward"></paper-icon-button>
                             <paper-icon-button on-click="moveUp" icon="arrow-upward"></paper-icon-button>
@@ -36,38 +127,40 @@
                         </span>
                     </h4>
                     <paper-dropdown-menu label="Output">
-                        <paper-listbox ref="output" slot="dropdown-content" attr-for-selected="value">
-                            <paper-item each="{ o in outputs }" value="{ o }">{ o }</paper-item>
+                        <paper-listbox id="output" slot="dropdown-content" attr-for-selected="value">
+                          <template id="outputList" is="dom-repeat" items="{{outputs}}" as="output">
+                            <paper-item value="[[output]]">[[output]]</paper-item>
                         </paper-listbox>
                     </paper-dropdown-menu>
                 </div>
-                <p>{{ desc }} <span class="predicate" hidden$="{{ predicate }}">{{ predicate }}</span></p>
+                <p>[[desc]] <span class="predicate" hidden$="[[predicate]]">[[predicate]]</span></p>
             </header>
-            <iron-collapse id="details" opened="{{show}}" id="elem-{{ ident }}" class="details">
+            <iron-collapse id="details" opened="{{show}}" id="elem-[[ident]]" class="details">
                 <paper-input id="desc" value="{{ desc }}" placeholder="[Document the model]"
                     on-change="refresh" label="Description"></paper-input>
-                <paper-autocomplete id="behaviour" hidden$="{{ type === 'model' }}"
+                <paper-autocomplete id="behaviour" hidden$="{{(type === 'model')}}"
                     text="{{ behaviour }}" placeholder="[Behaviour]" label="Behaviour"></paper-autocomplete>
                 <div class="predicate">
                     <label>Predicate</label>
-                    <odd-code-editor id="predicate" mode="xquery" code="{{ predicate || '' }}" callback="{{ refresh }}"
+                    <odd-code-editor id="predicate" mode="xquery" code="{{(predicate || '')}}" callback="[[refresh]]"
                         placeholder="[XPath condition: model applies only if matched]"/>
                 </div>
                 <paper-input id="css" value="{{ css }}"
                     placeholder="[Define CSS class name (for external CSS)]"
                     label="CSS Class"></paper-input>
 
-                <div class="parameters" hidden$="{{type == 'model'}}">
+                <div class="parameters" hidden$="[[(type == 'model')]]">
                     <div class="group">
                         <span class="title">Parameters</span>
-                        <paper-icon-button icon="add" on-click="{{ addParameter }}"></paper-icon-button>
+                        <paper-icon-button icon="add"
+                          on-click="addParameter"></paper-icon-button>
                     </div>
-                    <template id="parameterList" is="dom-repeat" items="{{ parameters }}" as="parameter">
-                      <odd-parameter name="{{ parameter.name }}" value="{{ parameter.value }}"/>
+                    <template id="parameterList" is="dom-repeat" items="[[ parameters ]]" as="parameter">
+                      <odd-parameter name="[[ parameter.name ]]" value="[[ parameter.value ]]"/>
                     </template>
                 </div>
 
-                <div class="renditions" hidden$="{{ type == 'model' }}">
+                <div class="renditions" hidden$="{{( type == 'model' )}}">
                     <div class="group">
                         <div>
                             <span class="title">Renditions</span>
@@ -83,8 +176,8 @@
                 </div>
             </iron-collapse>
 
-            <div class="models" hidden$="{{!(type == 'modelSequence' || type == 'modelGrp')}}">
-                <template id="modelList" is="dom-repeat" items="{{ models }}" as="model">
+            <div class="models" hidden$="[[!(type == 'modelSequence' || type == 'modelGrp')]]">
+                <template id="modelList" is="dom-repeat" items="[[ models ]]" as="model">
                   <odd-model behaviour="{{ model.behaviour }}" predicate="{{ model.predicate }}"
                       type="{{ model.type }}" output="{{ model.output }}" desc="{{ model.desc }}"
                       sourcerend="{{ model.sourcerend }}"/>
@@ -137,11 +230,118 @@
                 };
             }
 
+            static outputs = [
+                "",
+                "web",
+                "print",
+                "epub",
+                "fo",
+                "latex",
+                "plain"
+            ]
+
+            static behaviours = [
+                "alternate",
+                "anchor",
+                "block",
+                "body",
+                "break",
+                "cell",
+                "cit",
+                "document",
+                "figure",
+                "graphic",
+                "heading",
+                "inline",
+                "link",
+                "list",
+                "listItem",
+                "metadata",
+                "note",
+                "omit",
+                "paragraph",
+                "row",
+                "section",
+                "table",
+                "text",
+                "title",
+                "webcomponent"
+            ];
+
+
             connectedCallback() {
                 super.connectedCallback();
                 console.log('odd-model connected')
             }
 
+            remove(e) {
+                e.preventDefault();
+                this.parent.removeModel(e.item);
+            }
+
+            removeModel(item) {
+                const index = this.models.indexOf(item);
+                this.splice('models', index, 1);
+            }
+
+            moveDown(e) {
+                e.preventDefault();
+                this.parentNode.moveModelDown(e.item);
+            }
+
+            moveUp(e) {
+                e.preventDefault();
+                this.parentNode.moveModelUp(e.item);
+            }
+
+            addParameter(e) {
+                this.push('parameters', { name: "", value: "" });
+            }
+
+            removeParameter(item) {
+                const index = this.parameters.indexOf(item);
+                this.splice('parameters', index, 1);
+            }
+
+            addRendition(ev) {
+                this.push('renditions', {
+                    scope: null,
+                    css: ''
+                });
+            }
+
+            removeRendition(item) {
+                const index = this.renditions.indexOf(item);
+                this.splice('renditions', index, 1);
+            }
+
+            copy(ev) {
+                ev.preventDefault();
+                this.clipboard.copy(this.getData());
+            }
+
+            paste(ev) {
+                var data = this.clipboard.paste();
+                if (data) {
+                    this.updateModel();
+                    this.models.unshift(data);
+                }
+            }
+
+            addNested(ev) {
+                ev.preventDefault();
+                this.unshift('models', {
+                    behaviour: 'inline',
+                    predicate: null,
+                    type: ev.target.innerText,
+                    output: null,
+                    sourcerend: false,
+                    models: [],
+                    parameters: [],
+                    renditions: [],
+                    show: true
+                });
+            }
 
         }
 
