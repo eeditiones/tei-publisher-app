@@ -1,4 +1,10 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="odd-code-editor.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
 <dom-module id="odd-rendition">
     <template>
@@ -7,6 +13,15 @@
                 display: block;
             }
         </style>
+        <paper-dropdown-menu label="Scope">
+            <paper-listbox ref="scope" slot="dropdown-content" selected="{ scope }" attr-for-selected="value">
+                <template id="specList" is="dom-repeat" items="{{scopes}}" as="scope">
+                    <paper-item value="{{scope}}">scope</paper-item>
+                </template>
+            </paper-listbox>
+        </paper-dropdown-menu>
+        <paper-icon-button on-click="_remove" icon="delete"></paper-icon-button>
+        <odd-code-editor ref="css" mode="css" code="{ this.css }" placeholder="[CSS to apply]"></odd-code-editor>
 
         <slot></slot>
     </template>
@@ -25,16 +40,53 @@
                 return 'odd-rendition';
             }
 
+            
             static get properties() {
                 return {
-                    prop1:{
-                        type: String
+                    scopes:{
+                        type: Array,
+                        value: ["", "before", "after"]
                     }
                 };
             }
 
             connectedCallback() {
                 super.connectedCallback();
+            }
+
+            _getData() {
+                return {
+                    scope: this.$.scope.selected,
+                    css: this.$.css.get()
+                };
+            }
+
+            serialize(indent) {
+                var css = this.$.css.get();
+                if (!css) {
+                    return '';
+                }
+                css = this.escape(css);
+
+                var scope = this.$.scope.selected;
+                var xml = indent + '<outputRendition';
+                if (scope) {
+                    xml += ' scope="' + scope + '"';
+                }
+                xml += '>\n';
+                xml += indent + this.indentString + css;
+                xml += '\n' + indent + '</outputRendition>\n';
+                return xml;
+            }
+
+            show() {
+                this.$.css.initCodeEditor();
+            }
+
+
+            _remove(ev) {
+                //todo
+//                this.parent.removeRendition(ev.item);
             }
 
 
