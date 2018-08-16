@@ -51,10 +51,10 @@
                 super.connectedCallback();
                 console.log('mode: ', this.mode);
                 console.log('code: ', this.code);
-                this._initCodeEditor();
+                this.initCodeEditor();
             }
 
-            _initCodeEditor() {
+            initCodeEditor() {
                 var isVisible = this.offsetWidth > 0 && this.offsetHeight > 0;
                 if (this.codemirror || !isVisible) {
                     return;
