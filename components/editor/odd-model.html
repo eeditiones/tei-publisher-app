@@ -116,7 +116,7 @@
             <header>
                 <div>
                     <h4>
-                        <paper-icon-button ref="toggle" on-click="toggle" class="model-collapse" icon="expand-more"></paper-icon-button>
+                        <paper-icon-button id="toggle" on-click="toggle" class="model-collapse" icon="expand-more"></paper-icon-button>
                         [[type]] <span class="behaviour" hidden$="[[( type === 'model' )]]">[[ behaviour ]]</span>
                         <span class="btn-group">
                             <paper-icon-button on-click="moveDown" icon="arrow-downward"></paper-icon-button>
@@ -235,6 +235,10 @@
                     },
                     sourcerend:{
                         type: String
+                    },
+                    show: {
+                      type: Boolean,
+                      value: true
                     }
                 };
             }
@@ -283,6 +287,11 @@
           connectedCallback() {
               super.connectedCallback();
               console.log('odd-model connected', this.rootPath, this.importPath)
+          }
+
+          toggle() {
+            this.$.details.toggle()
+            
           }
 
           remove(e) {
