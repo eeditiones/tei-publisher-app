@@ -15,11 +15,6 @@
                 width: 100%;
             }
 
-/*
-            ::slotted(*){
-                display:none;
-            }
-*/
             paper-dropdown-menu{
                 width:100%;
             }
@@ -36,7 +31,6 @@
             </paper-listbox>
         </paper-dropdown-menu>
 
-        <!--<slot></slot>-->
     </template>
 
     <script>
@@ -56,23 +50,22 @@
             static get properties() {
                 return {
                     selected:{
-                        type: String,
-                        reflectToAttribute:true
+                        type: String
                     }
                 };
             }
 
             _selectOdd(){
 //                this.selected = this.$.select.selected;
-                console.log('odd    : ', this.$.select.selected);
-                console.log('odd selected: ', this.parentNode);
+//                console.log('odd    : ', this.$.select.selected);
+//                console.log('odd selected: ', this.parentNode);
 
+                //in this case this should be safe but is not a recommended practice
                 this.parentNode.set('odd', this.$.select.selected);
             }
 
             connectedCallback() {
                 super.connectedCallback();
-                console.log('selector connected ', this.selected);
                 this.$.select.select(this.selected);
             }
 

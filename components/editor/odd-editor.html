@@ -127,6 +127,10 @@
                 white-space: nowrap;
             }
 
+            /* todo: this doesn't work - should refactor to have the complete trigger exposed here (move out of pb-collapse) */
+            pb-collapse#meta ::slotted(.collapse-trigger){
+                height:56px;
+            }
         </style>
 
         <iron-ajax id="loadContent" url="../modules/editor.xql"
@@ -164,7 +168,7 @@
         <section class="specs" id="specs">
 
             <paper-card class="metadata">
-                <pb-collapse>
+                <pb-collapse id="meta">
                     <h4 slot="collapse-trigger" class="panel-title">
                         [[ _computedTitle(title, shortTitle, odd) ]]
                     </h4>
@@ -278,10 +282,19 @@
                                 CodeMirror.registerHelper("lint", "xquery", self.lintXQuery.bind(self));
                 */
 
+
                 this.$.useNamespace.addEventListener('change', function () {
                     this.$.namespace.disabled = !this.$.useNamespace.checked;
                 });
                 this.$.jumpTo.addEventListener('autocomplete-selected', this.jumpTo.bind(this));
+
+                //propagate odd prop to odd-selector
+                console.log("odd prop: ", this.odd);
+                if(this.odd){
+                    const selector = this.querySelector('odd-selector');
+                    console.log('selector: ', selector);
+                    selector.selected =  this.odd;
+                }
             }
 
 
@@ -295,6 +308,9 @@
             }
 
             _computedTitle (title, titleShort, odd) {
+                if(!this.odd){
+                    return ''
+                }
               return title || titleShort || odd || 'Loading ...'
             }
 

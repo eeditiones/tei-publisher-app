@@ -25,9 +25,12 @@
                 display: block;
                 margin-right: 20px;
             }
+            .collapse-trigger{
+                min-height:56px;
+            }
         </style>
 
-        <div id="trigger" on-click="toggle">
+        <div id="trigger" on-click="toggle" class="collapse-trigger">
             <iron-icon icon="[[_toggle(opened, collapseIcon, expandIcon)]]"></iron-icon>
             <slot name="collapse-trigger"></slot>
         </div>
