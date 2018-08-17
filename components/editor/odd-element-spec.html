@@ -22,7 +22,7 @@
         </style>
 
         <h3>
-            <paper-icon-button id="toggle" icon="[[toggleButtonIcon(show)]]" hidden$="[[noModels(models)]]" on-click="toggle"></paper-icon-button>
+            <paper-icon-button id="toggle" icon="[[toggleButtonIcon(show)]]" on-click="toggle"></paper-icon-button>
             [[ ident ]]
             <paper-menu-button>
                 <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
@@ -87,9 +87,19 @@
 
             connectedCallback() {
                 super.connectedCallback();
-                // TODO unklar was hier passieren soll
+                this.dispatchEvent(new CustomEvent('element-spec-connected', {
+                  detail: {target: this}
+                }));
+                
                 this.$.models.addEventListener("opened-changed", function() {
                     this.set('show', this.$.models.opened)
+                    if (!this.$.models.opened) {
+                      return;
+                    }
+
+                    this.dispatchEvent(new CustomEvent('element-spec-toggled', {
+                      detail: {target: this}
+                    }));
                 }.bind(this));
             }
 
@@ -112,10 +122,6 @@
                 this.$.models.hide();
             }
 
-            noModels(models) {
-              return models.length === 0
-            }
-            
             _addModel(ev) {
                 ev.preventDefault();
                 this.$.models.show();
@@ -145,7 +151,9 @@
             }
 
             _remove(ev) {
-                this.parentNode.removeElementSpec(ev.item);
+                this.dispatchEvent(new CustomEvent('element-spec-removed', {
+                  detail: {target: this}
+                }));
             }
 
             _paste(ev) {

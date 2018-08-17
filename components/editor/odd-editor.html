@@ -135,7 +135,7 @@
 
         <iron-ajax id="loadContent" url="../modules/editor.xql"
                 handle-as="json" content-type="application/x-www-form-urlencoded"
-                method="GET" on-response="_handleResponse"></iron-ajax>
+                method="GET"></iron-ajax>
 
         <aside>
             <paper-card id="drawercard" heading="Visual ODD Editor">
@@ -191,7 +191,10 @@
 
             <template id="specList" is="dom-repeat" items="{{elementSpecs}}" as="item">
                 <odd-element-spec id="es_{{item.ident}}" ident="{{item.ident}}"
-                        mode="{{item.mode}}" models="{{item.models}}"></odd-element-spec>
+                        mode="{{item.mode}}" models="{{item.models}}"
+                        on-element-spec-connected="elementSpecConnectedHandler"
+                        on-element-spec-removed="removeElementSpec"
+                        on-element-spec-toggled="handleElementSpecToggle"></odd-element-spec>
             </template>
         </section>
         <message id="dialog" hidden></message>
@@ -231,7 +234,6 @@
                     elementSpecs: {
                         type: Array,
                         value: () => [],
-                        observer: '_specObserver'
                     },
                     source: {
                         type: String,
@@ -254,15 +256,25 @@
                     currentItem: {
                         type: Object,
                         value: null
+                    },
+                    loading: {
+                      type: Boolean,
+                      value: false
                     }
                 };
+            }
+
+            // Observe changes to the users array
+            static get observers() {
+              return [
+                '_specObserver(elementSpecs.splices)'
+              ]
             }
 
             connectedCallback() {
                 super.connectedCallback();
 //                console.log(this, ' connected');
                 console.log('connected root ', this.rootPath );
-
 
                 if(this.odd){
 //                    console.log('selector ', this.querySelector('odd-selector'));
@@ -297,6 +309,11 @@
                 }
             }
 
+            elementSpecConnectedHandler (ev) {
+              if (this.loading) { return; }
+              console.log('set new connected odd-element-spec as currentItem', ev)
+              this.setCurrentItem(ev.detail.target)
+            }
 
             jumpTo () {
               const id = '#es_' + this.$.jumpTo.text;
@@ -321,9 +338,11 @@
                };
             }
 
-            _specObserver () {
-              const source = this.elementSpecs.map(this._specMapper);
-              this.$.jumpTo.set('source', source);
+            _specObserver (changeRecord) {
+                console.log('_specObserver', changeRecord)
+                // if (!changeRecord) { return; }
+                const source = this.elementSpecs.map(this._specMapper);
+                this.$.jumpTo.set('source', source);
             }
 
             lintXQuery(text) {
@@ -357,6 +376,8 @@
             }
 
             load() {
+                this.loading = true;
+                this.set('elementSpecs', [])
                 document.dispatchEvent(new CustomEvent('pb-start-update'));
 
                 this.$.editSource.setPath(this.rootPath + '/' + this.odd);
@@ -365,25 +386,30 @@
                 let request = this.$.loadContent.generateRequest();
                 request.completes.then(function(req) {
                     const data = req.response;
-                    this.elementSpecs = data.elementSpecs;
-                    console.log("element specs: %s", this.elementSpecs.length);
-                    this.namespace = data.namespace;
                     this.source = data.source;
                     this.title = data.title;
                     this.titleShort = data.titleShort;
+
+                    this.namespace = data.namespace;
                     if (this.namespace == null) {
                         this.$.useNamespace.checked = false;
                         this.$.namespace.disabled = true;
-                    } else {
+                    }
+                    else {
                         this.$.useNamespace.checked = true;
                         this.$.namespace.disabled = false;
                     }
+
+                    this.set('elementSpecs', data.elementSpecs);
+                    console.log("element specs: %s", this.elementSpecs.length);
+                    this.$.specList.render()
+
+                    this.loading = false
                     document.dispatchEvent(new CustomEvent('pb-end-update'));
                 }.bind(this));
             }
 
             addElementSpec(ev) {
-              ev.preventUpdate = true;
               const ident = this.$.identNew.value;
               if (!ident || ident.length === 0) {
                   return;
@@ -400,6 +426,7 @@
               request.completes.then(this._handleElementSpecResponse.bind(this))
             }
 
+
             _handleElementSpecResponse(req) {
                 const data = req.response;
                 const ident = this.$.identNew.value
@@ -413,11 +440,18 @@
                 };
 
                 this.push('elementSpecs', newSpec);
-                this._specObserver()
+                // trigger update of autocomplete list in jumpTo
+                this.$.identNew.value = '';
+            }
 
-                const id = '#es_' + ident;
-                const target = this.shadowRoot.querySelector(id);
-                // this.setCurrentItem(target)
+            removeElementSpec(ev) {
+              const index = this.$.specList.indexForElement(ev.detail.target)
+              this.splice('elementSpecs', index, 1);
+            }
+
+            handleElementSpecToggle(ev) {
+              if (ev.detail.target === this.currentItem) { return; }
+              this.setCurrentItem(ev.detail.target)
             }
 
             setCurrentItem(element) {
@@ -429,7 +463,6 @@
               console.log(this.currentItem)
               this.currentItem.showModels()
               this.currentItem.scrollIntoView();
-
             }
         }
 
