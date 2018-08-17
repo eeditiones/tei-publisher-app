@@ -1,0 +1,89 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+
+<script type="text/javascript" src="../../resources/scripts/vendor/codemirror/codemirror.js"></script>
+<script type="text/javascript" src="../../resources/scripts/vendor/codemirror/matchbrackets.js"></script>
+<script type="text/javascript" src="../../resources/scripts/vendor/codemirror/placeholder.js"></script>
+<script type="text/javascript" src="../../resources/scripts/vendor/codemirror/lint.js"></script>
+<script type="text/javascript" src="../../resources/scripts/vendor/codemirror/css.js"></script>
+<script type="text/javascript" src="../../resources/scripts/vendor/codemirror/xquery.js"></script>
+
+
+<dom-module id="odd-code-editor">
+    <template>
+        <style>
+            :host {
+                display: block;
+                min-height: 1em;
+            }
+        </style>
+
+        <pre id="pre" class="{{mode}}" hidden>{{code}}</pre>
+        <slot></slot>
+    </template>
+
+    <script>
+        /**
+         * `seed-element`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class OddCodeEditor extends Polymer.Element {
+            static get is() {
+                return 'odd-code-editor';
+            }
+
+            static get properties() {
+                return {
+                    code:{
+                        type: String,
+                        reflectToAttribute:true
+                    },
+                    mode:{
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+//                console.log('mode: ', this.mode);
+//                console.log('code: ', this.code);
+//                this.$.pre.innerHTML = this.code;
+                this.initCodeEditor();
+            }
+
+            initCodeEditor() {
+                var isVisible = this.offsetWidth > 0 && this.offsetHeight > 0;
+                if (this.codemirror || !isVisible) {
+                    return;
+                }
+                var self = this;
+
+//                console.log('code: ', this. code);
+
+                this.codemirror = CodeMirror(this, {
+                    value: self.code,
+                    mode: self.mode,
+                    lineNumbers: false,
+                    lineWrapping: true,
+                    autofocus: false,
+                    theme: "ttcn",
+                    matchBrackets: true,
+                    placeholder: self.placeholder || '[Empty]',
+                    gutters: ["CodeMirror-lint-markers"],
+                    lint: true
+                });
+                if (this.callback) {
+                    this.codemirror.on('change', this.callback);
+                }
+            }
+
+        }
+
+        window.customElements.define(OddCodeEditor.is, OddCodeEditor);
+    </script>
+</dom-module>

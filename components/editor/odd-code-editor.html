@@ -1,71 +1,140 @@
-<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
 
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/shadycss/apply-shim.html">
 
-<script type="text/javascript" src="../../resources/scripts/vendor/codemirror/codemirror.js"></script>
-<script type="text/javascript" src="../../resources/scripts/vendor/codemirror/matchbrackets.js"></script>
-<script type="text/javascript" src="../../resources/scripts/vendor/codemirror/placeholder.js"></script>
-<script type="text/javascript" src="../../resources/scripts/vendor/codemirror/lint.js"></script>
-<script type="text/javascript" src="../../resources/scripts/vendor/codemirror/css.js"></script>
-<script type="text/javascript" src="../../resources/scripts/vendor/codemirror/xquery.js"></script>
+<link rel="stylesheet" type="text/css" href="../../resources/css/vendor/codemirror.css">
+<link rel="stylesheet" type="text/css" href="../../resources/css/vendor/ttcn.css"/>
+<link rel="stylesheet" type="text/css" href="../../resources/css/vendor/lint.css"/>
 
+<!--<link rel="stylesheet" href="addon/fold/foldgutter.css">-->
+<!--<link rel="stylesheet" href="addon/dialog/dialog.css">-->
+<!--<link rel="stylesheet" href="theme/monokai.css">-->
+<script src="../../resources/scripts/vendor/codemirror/codemirror.js"></script>
+<script src="../../resources/scripts/vendor/codemirror/matchbrackets.js"></script>
+<script src="../../resources/scripts/vendor/codemirror/placeholder.js"></script>
+<script src="../../resources/scripts/vendor/codemirror/lint.js"></script>
+<script src="../../resources/scripts/vendor/codemirror/css.js"></script>
+<script src="../../resources/scripts/vendor/codemirror/xquery.js"></script>
+<style>
+/*
+    .CodeMirror{
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+        line-height: 1.3;
+        width: 100%;
+        height: auto;
+        margin: 0;
+    }
+*/
+    .CodeMirror {
+        border-top: 1px solid #eee;
+        height: auto;
+        margin-left: 10px;
+        padding-bottom: 7px;
+        margin-bottom: 7px;
+        border-bottom: 1px solid #E0E0E0;
+    }
+    .CodeMirror-empty {
+        color: #C0C0C0;
+    }
+    .CodeMirror  .CodeMirror-lint-markers{
+        background: red;
+        margin-left: 15px;
+    }
+/*
+    .CodeMirror-code{
+        margin-left: 15px;
+    }
+*/
+
+</style>
+<!--<script src="addon/search/searchcursor.js"></script>-->
+<!--<script src="addon/search/search.js"></script>-->
+<!--<script src="addon/dialog/dialog.js"></script>-->
+<!--<script src="addon/edit/matchbrackets.js"></script>-->
+<!--<script src="addon/edit/closebrackets.js"></script>-->
+<!--<script src="addon/comment/comment.js"></script>-->
+<!--<script src="addon/wrap/hardwrap.js"></script>-->
+<!--<script src="addon/fold/foldcode.js"></script>-->
+<!--<script src="addon/fold/brace-fold.js"></script>-->
+<!--<script src="mode/javascript/javascript.js"></script>-->
+<!--<script src="keymap/sublime.js"></script>-->
+
+<!--
+@demo demo/index.html
+-->
 
 <dom-module id="odd-code-editor">
     <template>
         <style>
             :host {
                 display: block;
-                min-height: 1em;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                position: relative;
             }
         </style>
 
-        <pre id="code" class="{{mode}}" code="{{code}}" hidden></pre>
-        <slot></slot>
+        <div on-click="_handleClick">
+            <slot id="slot"></slot>
+        </div>
+
     </template>
 
     <script>
-        /**
-         * `seed-element`
-         *
-         *
-         * @customElement
-         * @polymer
-         * @demo demo/index.html
-         */
         class OddCodeEditor extends Polymer.Element {
+
             static get is() {
                 return 'odd-code-editor';
             }
 
             static get properties() {
-                return {
+                return{
+                    _editor: {
+                        type: Object,
+                        notify: true
+                    },
+
                     code:{
                         type: String
                     },
-                    mode:{
-                        type: String
-                    }
-                };
+                    mode: {
+                        type: String,
+                        value: "javascript"
+                    },
+
+                    tabSize: {
+                        type: Number,
+                        value: 2
+                    },
+                }
             }
+
 
             connectedCallback() {
                 super.connectedCallback();
-//                console.log('mode: ', this.mode);
-//                console.log('code: ', this.code);
-                this.initCodeEditor();
+
+//                this.updateStyles();
+                this.focus();
             }
 
-            initCodeEditor() {
-                var isVisible = this.offsetWidth > 0 && this.offsetHeight > 0;
-                if (this.codemirror || !isVisible) {
-                    return;
-                }
-                var self = this;
+            ready(){
+                super.ready();
+                console.log('code: ', this.code);
 
-//                console.log('code: ', this. code);
-
-                this.codemirror = CodeMirror(this, {
-                    value: self.$.code.code,
-                    mode: self.mode,
+                this._editor = CodeMirror(this, {
+                    value: this.code,
+                    mode: this.mode,
                     lineNumbers: false,
                     lineWrapping: true,
                     autofocus: false,
@@ -75,13 +144,22 @@
                     gutters: ["CodeMirror-lint-markers"],
                     lint: true
                 });
-                if (this.callback) {
-                    this.codemirror.on('change', this.callback);
-                }
             }
 
+            getSource() {
+                return this._editor.getValue();
+            }
+
+            setSource(text) {
+                this._editor.setValue(text);
+            }
+
+            _handleClick(){
+
+            }
         }
 
         window.customElements.define(OddCodeEditor.is, OddCodeEditor);
+
     </script>
 </dom-module>
