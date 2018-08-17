@@ -407,6 +407,60 @@
                 });
             }
 
+            escape(code) {
+              var replaceChars = {
+                  '"': '&quot;',
+                  '&': '&amp;',
+                  '<': '&lt;',
+                  '>': '&gt;'
+              };
+                var regex = new RegExp(Object.keys(replaceChars).join("|"), "g");
+                return code.replace(regex, function(match) {
+                    return replaceChars[match];
+                });
+            }
+
+            serialize(indent) {
+              if (this.type === 'model' && !this.behaviour) {
+                  return '';
+              }
+
+              var xml = indent + '<' + this.type;
+              if (this.output) {
+                  xml += ' output="' + this.output + '"';
+              }
+              if (this.predicate) {
+                  xml += ' predicate="' + this.escape(this.predicate) + '"';
+              }
+              if (this.behaviour) {
+                  xml += ' behaviour="'+ this.behaviour + '"';
+              }
+              if (this.css) {
+                  xml += ' cssClass="' + this.css + '"';
+              }
+              if (this.sourcerend) {
+                  xml += ' useSourceRendition="true"';
+              }
+              var nestedIndent = indent + '    ';
+              var innerXML = "";
+              if (this.desc) {
+                  innerXML += nestedIndent + '<desc>' + this.desc + '</desc>\n';
+              }
+              // innerXML += this.serializeTag('model', nestedIndent);
+              innerXML += Array.from(this.shadowRoot.querySelectorAll('odd-model')).map(item => item.serialize(nestedIndent)).join('')
+              innerXML += Array.from(this.shadowRoot.querySelectorAll('odd-parameter')).map(item => item.serialize(nestedIndent)).join('')
+              innerXML += Array.from(this.shadowRoot.querySelectorAll('odd-rendition')).map(item => item.serialize(nestedIndent)).join('')
+
+              if (innerXML.length == 0) {
+                  xml += '/>\n';
+              }
+              else {
+                  xml += '>\n' + innerXML;
+                  xml += indent + '</' + this.type + '>\n';
+              }
+              return xml;
+          }
+
             _isModelType(){
                 return this.type != 'model';
             }

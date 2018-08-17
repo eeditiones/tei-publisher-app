@@ -90,7 +90,7 @@
                 this.dispatchEvent(new CustomEvent('element-spec-connected', {
                   detail: {target: this}
                 }));
-                
+
                 this.$.models.addEventListener("opened-changed", function() {
                     this.set('show', this.$.models.opened)
                     if (!this.$.models.opened) {
@@ -167,20 +167,11 @@
             }
 
             serialize(indent) {
-                var xml = indent + '<elementSpec ident="' + this.ident + '"';
-                if (this.mode) {
-                    xml += ' mode="' + this.mode + '"';
-                }
-                xml += '>\n';
-
-                xml += Array.from(this.$.modelList.querySelectorAll('odd-model'))
-                  .map(function (el) {
-                  // get element for item
-                  const item = this.$.modelList.modelForElement(el)
-                  return item.serialize(indent + this.indentString)
-                }.bind(this))
-
-                xml += indent + '</elementSpec>\n';
+                const mode = this.mode ? ` mode="${this.mode}"`: '';
+                let xml = `${indent}<elementSpec ident="${this.ident}"${mode}>\n`;
+                let indent2 = indent + '    '
+                xml += Array.from(this.shadowRoot.querySelectorAll('odd-model')).map(item => item.serialize(indent2)).join('')
+                xml += `${indent}</elementSpec>\n`;
                 return xml;
             }
         }

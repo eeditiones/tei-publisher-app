@@ -113,6 +113,19 @@
                 });
             }
 
+            escape(code) {
+              var replaceChars = {
+                  '"': '&quot;',
+                  '&': '&amp;',
+                  '<': '&lt;',
+                  '>': '&gt;'
+              };
+                var regex = new RegExp(Object.keys(replaceChars).join("|"), "g");
+                return code.replace(regex, function(match) {
+                    return replaceChars[match];
+                });
+            }
+
             getData() {
                 return {
                     name: this.$.combo.text,

@@ -9,6 +9,7 @@
 <link rel="import" href="../pb-collapse.html">
 <link rel="import" href="odd-edit-source.html">
 <link rel="import" href="odd-element-spec.html">
+<link rel="import" href="odd-message.html">
 <link rel="import" href="../pb-common-styles.html">
 
 <dom-module id="odd-editor">
@@ -137,6 +138,10 @@
                 handle-as="json" content-type="application/x-www-form-urlencoded"
                 method="GET"></iron-ajax>
 
+        <iron-ajax id="saveOdd" url="../modules/editor.xql"
+                handle-as="json" content-type="application/x-www-form-urlencoded"
+                method="POST"></iron-ajax>
+
         <aside>
             <paper-card id="drawercard" heading="Visual ODD Editor">
                 <div class="card-content">
@@ -197,7 +202,7 @@
                         on-element-spec-toggled="handleElementSpecToggle"></odd-element-spec>
             </template>
         </section>
-        <message id="dialog" hidden></message>
+        <odd-message id="dialog" hidden></odd-message>
 
     </template>
 
@@ -260,7 +265,19 @@
                     loading: {
                       type: Boolean,
                       value: false
-                    }
+                    },
+                    indentString: {
+                        type: String,
+                        value: '    '
+                    },
+                    outputPrefix: {
+                        type: String,
+                        value: ''
+                    },
+                    outputRoot: {
+                        type: String,
+                        value: ''
+                    },
                 };
             }
 
@@ -376,6 +393,7 @@
             }
 
             load() {
+                if (this.loading) { return; }
                 this.loading = true;
                 this.set('elementSpecs', [])
                 document.dispatchEvent(new CustomEvent('pb-start-update'));
@@ -463,6 +481,73 @@
               console.log(this.currentItem)
               this.currentItem.showModels()
               this.currentItem.scrollIntoView();
+            }
+
+            serialize() {
+              const useNamespace = this.$.useNamespace.checked;
+              const elementSpecElements = Array.from(this.shadowRoot.querySelectorAll('odd-element-spec'));
+              const serializedElementSpecs = elementSpecElements.map(elementSpecElement => elementSpecElement.serialize(this.indentString))
+              const ns = useNamespace ? ` ns="${this.namespace}"` : '';
+              const source = this.source ? ` source="${this.source}"` : '';
+
+              let schemaSpec = `<schemaSpec xmlns="http://www.tei-c.org/ns/1.0"${ns}${source}>\n`
+              schemaSpec += `${this.indentString}<title>${this.title}</title>\n`
+              schemaSpec += `${this.indentString}<title type="short">${this.titleShort}</title>\n`
+              schemaSpec += serializedElementSpecs.join('\n')
+              schemaSpec += `</schemaSpec>\n`;
+              return schemaSpec
+            }
+
+            save () {
+              document.dispatchEvent(new CustomEvent('pb-start-update'));
+              console.log(this.serialize())
+
+              this.$.dialog.show("Saving ...");
+
+              this.$.saveOdd.params = null;
+              this.$.saveOdd.body = {
+                  action: "save",
+                  root: '',
+                  "output-prefix": this.outputPrefix,
+                  "output-root": this.outputRoot,
+                  odd: this.odd,
+                  data: this.serialize()
+              };
+              const request = this.$.saveOdd.generateRequest();
+              request.completes
+                  .then(this.handleSaveComplete.bind(this))
+                  .catch(this.handleSaveError.bind(this));
+            }
+
+            _renderReport (report) {
+                if (report.error) {
+                    return `
+                        <div class="list-group-item-danger">
+                          <h4 class="list-group-item-heading">${report.file}</h4>
+                          <h5 class="list-group-item-heading">Compilation error on line ${report.line}:</h5>
+                          <pre class="list-group-item-text">${report.error}</pre>
+                          <pre class="list-group-item-text">${report.message}</pre>
+                        </div>
+                    `;
+                }
+                return `
+                    <div class="list-group-item-success">
+                      <p class="list-group-item-text">Generated ${report.file}</p>
+                    </div>
+                `;
+            }
+
+            handleSaveComplete (req) {
+                const data = req.response;
+                const report = data.report.map(this._renderReport);
+                const msg = `<div class="list-group">${report.join('')}</div>`;
+                this.$.dialog.set("Saved", msg);
+                document.dispatchEvent(new CustomEvent('pb-end-update'));
+            }
+
+            handleSaveError (rejected) {
+                this.$.dialog.set("Error", rejected.error);
+                document.dispatchEvent(new CustomEvent('pb-end-update'));
             }
         }
 

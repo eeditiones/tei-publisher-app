@@ -61,6 +61,19 @@
                 };
             }
 
+            escape(code) {
+              var replaceChars = {
+                  '"': '&quot;',
+                  '&': '&amp;',
+                  '<': '&lt;',
+                  '>': '&gt;'
+              };
+                var regex = new RegExp(Object.keys(replaceChars).join("|"), "g");
+                return code.replace(regex, function(match) {
+                    return replaceChars[match];
+                });
+            }
+
             serialize(indent) {
                 var css = this.$.css.get();
                 if (!css) {
@@ -74,7 +87,7 @@
                     xml += ' scope="' + scope + '"';
                 }
                 xml += '>\n';
-                xml += indent + this.indentString + css;
+                xml += indent + '   ' + css;
                 xml += '\n' + indent + '</outputRendition>\n';
                 return xml;
             }
