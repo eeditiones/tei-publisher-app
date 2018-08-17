@@ -18,15 +18,14 @@
     <link rel="import" href="../editor/odd-editor.html"/>
     <link rel="import" href="../editor/odd-selector.html"/>
 
-    <script type="text/javascript" src="../resources/scripts/vendor/codemirror/codemirror.js"></script>
+    <!--<script type="text/javascript" src="../resources/scripts/vendor/codemirror/codemirror.js"></script>-->
 
   </head>
   <body>
     <odd-editor root-path="/db/apps/tei-publisher/odd"
                 output-path="/db/apps/tei-publisher/transform"
-                odd="graves.odd"
                 output-prefix="transform">
-      <odd-selector id="selector" selected="teipublisher.odd">
+      <odd-selector id="selector">
         <paper-item value="jats.odd" role="option" tabindex="-1" aria-disabled="false">JATS []</paper-item>
         <paper-item value="graves.odd" role="option" tabindex="-1" aria-disabled="false">Graves' Letters [2018-08-05+02:00]</paper-item>
         <paper-item value="docbook.odd" role="option" tabindex="-1" aria-disabled="false">Docbook v5 []</paper-item>
@@ -39,17 +38,20 @@
       </odd-selector>
     </odd-editor>
 
-    <script>
-        window.addEventListener('WebComponentsReady', function(e){
-            var editor = document.querySelector('odd-editor');
-            console.log('editor ', editor);
-            console.log('editor odd', editor.getAttribute('odd'));
-            var selector = document.querySelector('odd-selector');
-            console.log('selector ', selector);
-            selector.setAttribute('selected', editor.getAttribute('odd'));
-//            console.log('selector ', document.getElementById('selector'));
 
-        });
-    </script>
+
+    <!--
+        <script>
+            window.addEventListener('WebComponentsReady', function(e){
+                var editor = document.querySelector('odd-editor');
+                console.log('editor ', editor);
+                console.log('editor odd', editor.getAttribute('odd'));
+                var selector = document.querySelector('odd-selector');
+                console.log('selector ', selector);
+                selector.setAttribute('selected', editor.getAttribute('odd'));
+
+            });
+        </script>
+    -->
   </body>
 </html>

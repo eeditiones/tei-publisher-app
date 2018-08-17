@@ -19,11 +19,22 @@
             input {
               vertical-align: middle;
             }
+            .ident{
+                display:inline-block;
+                min-width:180px;
+            }
+
+/*
+            h3{
+                display:flex;
+                flex-direction: column;
+            }
+*/
         </style>
 
         <h3>
             <paper-icon-button id="toggle" icon="[[toggleButtonIcon(show)]]" on-click="toggle"></paper-icon-button>
-            [[ ident ]]
+            <span class="ident">[[ ident ]]</span>
             <paper-menu-button>
                 <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
                 <paper-listbox id="addModel" slot="dropdown-content" on-iron-select="_addModel" attr-for-selected="value">
@@ -44,7 +55,8 @@
               <odd-model behaviour="{{model.behaviour}}" predicate="{{model.predicate}}"
                 type="{{model.type}}" output="{{model.output}}" css="{{model.css}}"
                 models="{{model.models}}" parameters="{{model.parameters}}"
-                desc="{{model.desc}}" sourcerend="{{model.sourcerend}}"></odd-model>
+                desc="{{model.desc}}" sourcerend="{{model.sourcerend}}"
+              on-remove-model="_removeModel"></odd-model>
 
             </template>
 
@@ -139,15 +151,25 @@
                 });
             }
 
+            _removeModel(e){
+                console.log('elementspec removemodel');
+
+            }
+
             removeModel(item) {
+                console.log('removeModel');
+/*
                 const index = this.models.indexOf(item);
                 const removeModelHandler = () => {
                     this.splice('models', index, 1);
                 };
 
+*/
+/*
                 this.parentNode.$.dialog
                     .confirm('Delete?', 'Are you sure to delete the model?')
                     .then(removeModelHandler.bind(this));
+*/
             }
 
             _remove(ev) {

@@ -9,7 +9,7 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-autocomplete/paper-autocomplete.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="odd-code-editor.html">
+<link rel="import" href="odd-code-editor-old.html">
 <link rel="import" href="odd-parameter.html">
 <link rel="import" href="odd-rendition.html">
 
@@ -181,8 +181,14 @@
                                     label="Behaviour"></paper-autocomplete>
                 <div class="predicate">
                     <label>Predicate</label>
+<!--
                     <odd-code-editor id="predicate" mode="xquery" code="{{(predicate || '')}}" callback="[[refresh]]"
                                      placeholder="[XPath condition: model applies only if matched]"></odd-code-editor>
+-->
+                    <odd-code-editor id="predicate" mode="xquery"
+                                     placeholder="[XPath condition: model applies only if matched]"
+                                    code="{{predicate}}">
+                    </odd-code-editor>
                 </div>
                 <paper-input id="css" value="{{ css }}"
                              placeholder="[Define CSS class name (for external CSS)]"
@@ -221,10 +227,12 @@
                 <template id="modelList" is="dom-repeat" items="[[ models ]]" as="model">
                     <odd-model behaviour="{{ model.behaviour }}" predicate="{{ model.predicate }}"
                                type="{{ model.type }}" output="{{ model.output }}" desc="{{ model.desc }}"
-                               sourcerend="{{ model.sourcerend }}"></odd-model>
+                               sourcerend="{{ model.sourcerend }}"
+                               on-remove-model="_removeModel"></odd-model>
                 </template>
             </div>
         </form>
+        <!--<slot name="code"></slot>-->
     </template>
 
     <script>
@@ -247,7 +255,9 @@
                         type: String
                     },
                     predicate: {
-                        type: String
+                        type: String,
+                        value:'',
+                        reflectToAttribute:true
                     },
                     type: {
                         type: String
@@ -323,12 +333,16 @@
                 ]
             }
 
+
             connectedCallback() {
                 super.connectedCallback();
-                console.log('odd-model connected', this.rootPath, this.importPath)
-                console.log('odd-model connected type', this.type);
-                console.log('odd-model connected parent component', this.parent);
+//                console.log('odd-model connected', this.rootPath, this.importPath)
+//                console.log('odd-model connected type', this.type);
+//                console.log('odd-model connected predicate', this.predicate);
+//                this.$.predicate.setAttribute('code', this.predicate);
+                this.addEventListener('remove-model', this.removeModel() );
             }
+
 
             toggle() {
                 this.$.details.toggle()
@@ -336,15 +350,35 @@
 
             remove(e) {
                 e.preventDefault();
-                console.log("parent: ", e);
+                console.log("parent: ", e.composedPath());
+
+
+/*
+                var pathes = e.composedPath();
+                pathes.forEach(function (item) {
+                    console.log("path: ", item);
+                    if (item.nodeName.toLowerCase() == 'odd-model' || item.nodeName.toLowerCase() == 'odd-element-spec') {
+                        item.removeModel(this);
+                        return;
+                    }
+                });
+*/
+
+
 //                this.parentNode.removeModel(e.item);
-//                this.dispatchEvent(new CustomEvent('remove-model', {detail: {kicked: true}}));
+                this.dispatchEvent(new CustomEvent('remove-model', {bubbles:true, detail: {item: this}}));
 
             }
+            _removeModel(e){
+                console.log('odd-model- removeModel',e.detail.item);
+            }
 
-            removeModel(item) {
-                const index = this.models.indexOf(item);
-                this.splice('models', index, 1);
+//            removeModel(item) {
+
+            removeModel(e) {
+//                console.log('removedModel event: ', e.item.behaviour);
+//                const index = this.models.indexOf(item);
+//                this.splice('models', index, 1);
             }
 
             moveDown(e) {
@@ -396,7 +430,7 @@
                 ev.preventDefault();
                 this.unshift('models', {
                     behaviour: 'inline',
-                    predicate: null,
+                    predicate: '',
                     type: this.$.modelType.selected,
                     output: null,
                     sourcerend: false,
@@ -467,6 +501,9 @@
 
             _hasNoPredicate(){
                 return !this.predicate;
+            }
+            _getPredicate(){
+                return this.predicate;
             }
 
         }
