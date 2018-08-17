@@ -37,6 +37,13 @@
                 super.connectedCallback();
             }
 
+            show (text) {
+                console.log('show', text)
+            }
+
+            set (title, text) {
+                console.log('set', title, text)
+            }
         }
 
         window.customElements.define(OddMessage.is, OddMessage);
