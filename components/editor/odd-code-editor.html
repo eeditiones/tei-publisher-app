@@ -9,11 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="code-mirror-styles.html">
 <link rel="import" href="bower_components/shadycss/apply-shim.html">
-
-<link rel="stylesheet" type="text/css" href="../../resources/css/vendor/codemirror.css">
-<link rel="stylesheet" type="text/css" href="../../resources/css/vendor/ttcn.css"/>
-<link rel="stylesheet" type="text/css" href="../../resources/css/vendor/lint.css"/>
 
 <!--<link rel="stylesheet" href="addon/fold/foldgutter.css">-->
 <!--<link rel="stylesheet" href="addon/dialog/dialog.css">-->
@@ -24,39 +21,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <script src="../../resources/scripts/vendor/codemirror/lint.js"></script>
 <script src="../../resources/scripts/vendor/codemirror/css.js"></script>
 <script src="../../resources/scripts/vendor/codemirror/xquery.js"></script>
-<style>
-/*
-    .CodeMirror{
-        border-top: 1px solid #eee;
-        border-bottom: 1px solid #eee;
-        line-height: 1.3;
-        width: 100%;
-        height: auto;
-        margin: 0;
-    }
-*/
-    .CodeMirror {
-        border-top: 1px solid #eee;
-        height: auto;
-        margin-left: 10px;
-        padding-bottom: 7px;
-        margin-bottom: 7px;
-        border-bottom: 1px solid #E0E0E0;
-    }
-    .CodeMirror-empty {
-        color: #C0C0C0;
-    }
-    .CodeMirror  .CodeMirror-lint-markers{
-        background: red;
-        margin-left: 15px;
-    }
-/*
-    .CodeMirror-code{
-        margin-left: 15px;
-    }
-*/
 
-</style>
+
 <!--<script src="addon/search/searchcursor.js"></script>-->
 <!--<script src="addon/search/search.js"></script>-->
 <!--<script src="addon/dialog/dialog.js"></script>-->
@@ -75,7 +41,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <dom-module id="odd-code-editor">
     <template>
-        <style>
+        <style include="code-mirror-styles">
             :host {
                 display: block;
                 width: 100%;
@@ -84,11 +50,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 position: relative;
             }
         </style>
-
-        <div on-click="_handleClick">
-            <slot id="slot"></slot>
-        </div>
-
+        <slot></slot>
     </template>
 
     <script>
@@ -99,14 +61,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
             static get properties() {
-                return{
+                return {
                     _editor: {
-                        type: Object,
-                        notify: true
+                        type: Object
                     },
-
                     code:{
-                        type: String
+                        type: String,
+                        value: ''
                     },
                     mode: {
                         type: String,
@@ -132,15 +93,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 super.ready();
                 console.log('code: ', this.code);
 
-                this._editor = CodeMirror(this, {
-                    value: this.code,
+                this._editor = CodeMirror(this.shadowRoot, {
+                    value: this.code || '',
                     mode: this.mode,
                     lineNumbers: false,
                     lineWrapping: true,
                     autofocus: false,
                     theme: "ttcn",
                     matchBrackets: true,
-                    placeholder: self.placeholder || '[Empty]',
+                    placeholder: this.placeholder || '[Empty]',
                     gutters: ["CodeMirror-lint-markers"],
                     lint: true
                 });
