@@ -9,7 +9,7 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-autocomplete/paper-autocomplete.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="odd-code-editor-old.html">
+<link rel="import" href="odd-code-editor.html">
 <link rel="import" href="odd-parameter.html">
 <link rel="import" href="odd-rendition.html">
 
@@ -76,6 +76,10 @@
                 font-size: 12px;
                 font-weight: 300;
                 color: rgb(115, 115, 115);
+            }
+
+            odd-code-editor {
+                height: 3rem;
             }
 
             .model-collapse {
@@ -181,10 +185,6 @@
                                     label="Behaviour"></paper-autocomplete>
                 <div class="predicate">
                     <label>Predicate</label>
-<!--
-                    <odd-code-editor id="predicate" mode="xquery" code="{{(predicate || '')}}" callback="[[refresh]]"
-                                     placeholder="[XPath condition: model applies only if matched]"></odd-code-editor>
--->
                     <odd-code-editor id="predicate" mode="xquery"
                                      placeholder="[XPath condition: model applies only if matched]"
                                     code="{{predicate}}">
