@@ -14,14 +14,15 @@
             }
         </style>
         <paper-dropdown-menu label="Scope">
-            <paper-listbox ref="scope" slot="dropdown-content" selected="{ scope }" attr-for-selected="value">
+            <paper-listbox id="scope" slot="dropdown-content" selected="{{ scope }}" attr-for-selected="value">
                 <template id="specList" is="dom-repeat" items="{{scopes}}" as="scope">
-                    <paper-item value="{{scope}}">scope</paper-item>
+                    <paper-item value="{{scope}}">{{scope}}</paper-item>
                 </template>
             </paper-listbox>
         </paper-dropdown-menu>
         <paper-icon-button on-click="_remove" icon="delete"></paper-icon-button>
-        <odd-code-editor ref="css" mode="css" code="{ this.css }" placeholder="[CSS to apply]"></odd-code-editor>
+        <odd-code-editor id="css" mode="css" code="{{css}}"
+          placeholder="[CSS to apply]"></odd-code-editor>
 
         <slot></slot>
     </template>
@@ -46,7 +47,9 @@
                     scopes:{
                         type: Array,
                         value: ["", "before", "after"]
-                    }
+                    },
+                    css: { type:String}
+
                 };
             }
 
