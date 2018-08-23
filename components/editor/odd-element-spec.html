@@ -157,21 +157,19 @@
             }
 
             removeModel(ev) {
+//                console.log('elementspec removeModel: ', this.models);
                 const item = ev.currentTarget;
                 const index = this.$.modelList.indexForElement(item);
-                this.splice('models', index, 1);
-                // const removeModelHandler = () => {
-                //     this.splice('models', index, 1);
-                // };
-                // this.parentNode.$.dialog
-                //     .confirm('Delete?', 'Are you sure to delete the model?')
-                //     .then(removeModelHandler.bind(this));
+
+                if(confirm('really delete?')) {
+                    this.splice('models', index, 1);
+                }
             }
 
             moveModelUp(ev) {
               const item = ev.currentTarget;
               const index = this.$.modelList.indexForElement(item);
-              console.log('moveModelUp', item, index)
+//              console.log('moveModelUp', item, index)
 
               if (index === 0) {
                 return;
@@ -184,7 +182,7 @@
             moveModelDown(ev) {
               const item = ev.currentTarget;
               const index = this.$.modelList.indexForElement(item);
-              console.log('moveModelDown', item, index)
+//              console.log('moveModelDown', item, index)
 
               if (index === this.models.length) {
                 return;

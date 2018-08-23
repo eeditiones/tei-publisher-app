@@ -1,13 +1,20 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="odd-code-editor.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/effects/material.html">
+
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
+<link rel="import" href="odd-code-editor.html">
+<link rel="import" href="code-mirror-styles.html">
+
 <dom-module id="odd-rendition">
-    <template>
+    <template include="code-mirror-styles">
         <style>
             :host {
                 display: block;
@@ -19,15 +26,24 @@
 
         </style>
         <paper-dropdown-menu label="Scope">
-            <paper-listbox id="scope" slot="dropdown-content" selected="{{ scope }}" attr-for-selected="value">
+            <paper-listbox id="scopeList" slot="dropdown-content" selected="{{scope}}" attr-for-selected="value">
                 <template id="specList" is="dom-repeat" items="{{scopes}}" as="scope">
                     <paper-item value="{{scope}}">{{scope}}</paper-item>
                 </template>
             </paper-listbox>
         </paper-dropdown-menu>
+        <textarea id="textarea" on-change="_handleChange"></textarea>
+
         <paper-icon-button on-click="_remove" icon="delete"></paper-icon-button>
-        <odd-code-editor id="css" mode="css" code="{{css}}"
-          placeholder="[CSS to apply]"></odd-code-editor>
+
+        <!--
+                <odd-code-editor id="css" mode="css" code="{{css}}"
+                  placeholder="[CSS to apply]">
+
+                </odd-code-editor>
+        -->
+
+
 
         <slot></slot>
     </template>
@@ -49,14 +65,23 @@
 
             static get properties() {
                 return {
-                    scopes:{
+                    scopes: {
                         type: Array,
                         value: ["", "before", "after"]
                     },
                     css: {
-                      type:String,
-                      notify: true,
-                      reflectToAttribute: true
+                        type: String,
+                        value: '',
+                        notify: true,
+                        reflectToAttribute: true,
+                        observer: '_valueChanged'
+                    },
+                    scope:{
+                        type: String,
+                        value:'',
+                        notify:true,
+                        reflectToAttribute:true,
+                        observer: '_scopeChanged'
                     }
 
                 };
@@ -68,20 +93,26 @@
 
             _getData() {
                 return {
-                    scope: this.$.scope.selected,
+                    scope: this.scope,
                     css: this.$.css.get()
                 };
+/*
+                return {
+                    scope: this.$.scopeList.selected,
+                    css: this.$.css.get()
+                };
+*/
             }
 
             escape(code) {
-              var replaceChars = {
-                  '"': '&quot;',
-                  '&': '&amp;',
-                  '<': '&lt;',
-                  '>': '&gt;'
-              };
+                var replaceChars = {
+                    '"': '&quot;',
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;'
+                };
                 var regex = new RegExp(Object.keys(replaceChars).join("|"), "g");
-                return code.replace(regex, function(match) {
+                return code.replace(regex, function (match) {
                     return replaceChars[match];
                 });
             }
@@ -93,7 +124,7 @@
                 }
                 css = this.escape(css);
 
-                var scope = this.$.scope.selected;
+                var scope = this.scope;
                 var xml = indent + '<outputRendition';
                 if (scope) {
                     xml += ' scope="' + scope + '"';
@@ -108,17 +139,28 @@
                 this.$.css.initCodeEditor();
             }
 
+            _handleSelect(e){
+                this.scope = this.$.scope.selected;
+            }
 
             _remove(ev) {
+//                console.log('_remove rendition: ', ev);
                 ev.preventDefault();
-                var pathes = ev.composedPath();
-                pathes.forEach(function (item) {
-                    console.log("path: ", item);
-                    if (item.nodeName.toLowerCase() == 'odd-model') {
-                        item.removeRendition(this);
-                    }
-                });
+                this.dispatchEvent(new CustomEvent('remove-rendition', {}));
+            }
 
+            _handleChange(){
+                this.css = this.$.textarea.value;
+            }
+
+            _valueChanged(){
+//                console.log('valueChanged');
+                this.$.textarea.value = this.css;
+            }
+
+            _scopeChanged(){
+//                console.log('scope changed ', this.$.scopeList.selected);
+                this.scope = this.$.scopeList.selected;
             }
 
 

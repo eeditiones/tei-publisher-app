@@ -1,6 +1,8 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-autocomplete/paper-autocomplete.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="odd-code-editor.html">
+<link rel="import" href="code-mirror-styles.html">
 
 
 <!--
@@ -9,7 +11,7 @@
 
 <dom-module id="odd-parameter">
     <template>
-        <style>
+        <style include="code-mirror-styles">
             :host {
                 display: block;
             }
@@ -23,8 +25,13 @@
         <paper-autocomplete id="combo" text="{{name}}" placeholder="[Param name]" label="Name"
                             source="[]"></paper-autocomplete>
         <span class="value">
+<!--
             <odd-code-editor id="value" mode="xquery" code="{{value}}"
-                         placeholder="[XPath to define param value]"></odd-code-editor>
+                         placeholder="[XPath to define param value]">
+
+            </odd-code-editor>
+-->
+            <textarea id="textarea" on-change="_handleChange"></textarea>
         </span>
         <span class="actions">
         <paper-icon-button on-click="delete" icon="delete"></paper-icon-button>
@@ -50,13 +57,15 @@
                 return {
                     name: {
                         type: String,
+                        notify: true,
                         reflectToAttribute: true
                     },
                     value: {
                         type: String,
                         value: '',
                         notify: true,
-                        reflectToAttribute: true
+                        reflectToAttribute: true,
+                        observer:'_valueChanged'
                     }
                 };
             }
@@ -95,6 +104,7 @@
 
             connectedCallback() {
                 super.connectedCallback();
+//                this.value = this.$.textarea.value;
             }
 
             updateList() {
@@ -110,14 +120,9 @@
             }
 
             delete(ev) {
+                console.log('parameter delete ', ev);
                 ev.preventDefault();
-                var pathes = ev.composedPath();
-                pathes.forEach(function (item) {
-                    console.log("path: ", item);
-                    if (item.nodeName.toLowerCase() == 'odd-model') {
-                        item.removeParameter(this);
-                    }
-                });
+                this.dispatchEvent(new CustomEvent('parameter-remove', {}));
             }
 
             escape(code) {
@@ -151,7 +156,14 @@
             show() {
                 this.$.value.initCodeEditor();
             }
+            _handleChange(){
+                this.value = this.$.textarea.value;
+            }
 
+            _valueChanged(){
+//                console.log('valueChanged');
+                this.$.textarea.value = this.value;
+            }
 
         }
 

@@ -21,6 +21,7 @@
     "polymer-build": "^3.0.4"
   },
   "dependencies": {
+    "codemirror": "^5.39.2",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-exist": "^1.4.2",

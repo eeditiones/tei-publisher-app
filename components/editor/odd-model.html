@@ -13,6 +13,12 @@
 <link rel="import" href="odd-parameter.html">
 <link rel="import" href="odd-rendition.html">
 
+
+<!--
+ todo: copy model
+ todo: paste model
+-->
+
 <dom-module id="odd-model">
     <template>
         <style include="pb-common-styles">
@@ -155,7 +161,7 @@
                             <paper-icon-button on-click="copy" icon="content-copy"></paper-icon-button>
                             <paper-icon-button on-click="paste" icon="content-paste"
                                                hidden$="[[_isGroupOrSequence(type)]]"></paper-icon-button>
-                            <paper-menu-button hidden$="[[_isGroupOrSequence(type)]]">
+                            <paper-menu-button hidden$="[[_isModel(type)]]">
                                 <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
                                 <paper-listbox id="modelType" slot="dropdown-content" on-iron-select="addNested" attr-for-selected="value">
                                     <paper-item value="model">model</paper-item>
@@ -203,11 +209,11 @@
                                            on-click="addParameter"></paper-icon-button>
                     </div>
                     <template id="parameterList" is="dom-repeat" items="{{parameters}}" as="parameter">
-                        <odd-parameter name="{{ parameter.name }}" value="{{ parameter.value }}"></odd-parameter>
+                        <odd-parameter name="{{ parameter.name }}" value="{{ parameter.value }}" on-parameter-remove="_removeParam"></odd-parameter>
                     </template>
                 </div>
 
-                <div class="renditions" hidden$="[[_isModel(type)]]">
+                <div class="renditions" hidden$="[[_isGroupOrSequence(type)]]">
                     <div class="group">
                         <div>
                             <span class="title">Renditions</span>
@@ -220,7 +226,7 @@
                     </div>
                     <template id="renditionList" is="dom-repeat" items="{{ renditions }}" as="rendition">
                         <odd-rendition scope="{{ rendition.scope }}" css="{{ rendition.css }}"
-                                       events="{{ events }}"></odd-rendition>
+                                       events="{{ events }}" on-remove-rendition="_removeRendition"></odd-rendition>
                     </template>
                 </div>
             </iron-collapse>
@@ -384,20 +390,23 @@
             }
 
             removeModel(ev) {
+//                console.log('odd-model removeModel: ', this.models);
                 const item = ev.target;
+//                console.log('odd-model removeModel ev ', ev);
+
                 const index = this.models.indexOf(item);
-                const removeModelHandler = () => {
+//                console.log('odd-model removeModel index ', index);
+
+                if(confirm('really delete?')){
                     this.splice('models', index, 1);
-                };
-                this.parentNode.$.dialog
-                    .confirm('Delete?', 'Are you sure to delete the model?')
-                    .then(removeModelHandler.bind(this));
+                }
+
             }
 
             moveModelUp(ev) {
               const item = ev.currentTarget;
               const index = this.$.modelList.indexForElement(item);
-              console.log('moveModelUp', item, index)
+//              console.log('moveModelUp', item, index)
 
               if (index === 0) {
                 return;
@@ -410,7 +419,7 @@
             moveModelDown(ev) {
               const item = ev.currentTarget;
               const index = this.$.modelList.indexForElement(item);
-              console.log('moveModelDown', item, index)
+//              console.log('moveModelDown', item, index)
 
               if (index === this.models.length) {
                 return;
@@ -424,10 +433,14 @@
                 this.push('parameters', {name: "", value: ""});
             }
 
+/*
             removeParameter(item) {
-                const index = this.parameters.indexOf(item);
+                console.log('removeParameter: ', this);
+                console.log('removeParameter item: ', item);
+                const index = this.parameters.indexOf(item.itemForElement(item));
                 this.splice('parameters', index, 1);
             }
+*/
 
             addRendition(ev) {
                 this.push('renditions', {
@@ -454,7 +467,7 @@
             }
 
             addNested(ev) {
-                console.log('addNested ', ev);
+//                console.log('addNested ', ev);
 
                 ev.preventDefault();
                 this.unshift('models', {
@@ -534,6 +547,22 @@
 
             _hasNoPredicate(predicate){
                 return !predicate;
+            }
+
+            _removeParam(e){
+//                console.log('_removeParam ', e);
+//                console.log('_removeParam ', e.target);
+//                console.log('parameters ', this.parameters);
+
+                const index = this.$.parameterList.indexForElement(e.target);
+//                console.log('param index ', index);
+//                console.log('param index ', this.get(['parameters',index]));
+                this.splice('parameters', index, 1);
+            }
+
+            _removeRendition(e){
+                const index = this.$.renditionList.indexForElement(e.target);
+                this.splice('renditions', index, 1);
             }
         }
 
