@@ -12,24 +12,25 @@
             }
 
             h1, h2, h3, h4, h5, h6 {
-                font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                font-family: "Oswald", Verdana, "Helvetica", sans-serif;
                 font-weight: 400 !important;
             }
 
             input {
-              vertical-align: middle;
-            }
-            .ident{
-                display:inline-block;
-                min-width:180px;
+                vertical-align: middle;
             }
 
-/*
-            h3{
-                display:flex;
-                flex-direction: column;
+            .ident {
+                display: inline-block;
+                min-width: 180px;
             }
-*/
+
+            /*
+                        h3{
+                            display:flex;
+                            flex-direction: column;
+                        }
+            */
         </style>
 
         <h3>
@@ -37,7 +38,8 @@
             <span class="ident">[[ ident ]]</span>
             <paper-menu-button>
                 <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
-                <paper-listbox id="addModel" slot="dropdown-content" on-iron-select="_addModel" attr-for-selected="value">
+                <paper-listbox id="addModel" slot="dropdown-content" on-iron-select="_addModel"
+                               attr-for-selected="value">
                     <paper-item value="model">model</paper-item>
                     <paper-item value="modelSequence">modelSequence</paper-item>
                     <paper-item value="modelGrp">modelGrp</paper-item>
@@ -50,18 +52,19 @@
 
         <iron-collapse id="models" class="models" opened="{{show}}" id="elem-{{ident}}">
 
-            <template id="modelList" is="dom-repeat" items="{{models}}" as="model">
+                <template id="modelList" is="dom-repeat" items="{{models}}" as="model">
+                    <template is="dom-if" if="{{show}}">
 
-              <odd-model behaviour="{{model.behaviour}}" predicate="{{model.predicate}}"
-                type="{{model.type}}" output="{{model.output}}" css="{{model.css}}"
-                models="{{model.models}}" parameters="{{model.parameters}}"
-                desc="{{model.desc}}" sourcerend="{{model.sourcerend}}"
-                show="{{model.show}}"
-                on-model-remove="removeModel"
-                on-model-move-up="moveModelUp"
-                on-model-move-down="moveModelDown"
-                ></odd-model>
-
+                    <odd-model behaviour="{{model.behaviour}}" predicate="{{model.predicate}}"
+                               type="{{model.type}}" output="{{model.output}}" css="{{model.css}}"
+                               models="{{model.models}}" parameters="{{model.parameters}}"
+                               desc="{{model.desc}}" sourcerend="{{model.sourcerend}}"
+                               show="{{model.show}}"
+                               on-model-remove="removeModel"
+                               on-model-move-up="moveModelUp"
+                               on-model-move-down="moveModelDown">
+                    </odd-model>
+                </template>
             </template>
 
         </iron-collapse>
@@ -84,19 +87,19 @@
 
             static get properties() {
                 return {
-                    ident:{
-                      type: String
+                    ident: {
+                        type: String
                     },
-                    mode:{
-                      type: String
+                    mode: {
+                        type: String
                     },
                     models: {
-                      type: Array,
-                      value: () => []
+                        type: Array,
+                        value: () => []
                     },
                     show: {
-                      type: Boolean,
-                      value: false
+                        type: Boolean,
+                        value: false
                     }
                 };
             }
@@ -104,27 +107,27 @@
             connectedCallback() {
                 super.connectedCallback();
                 this.dispatchEvent(new CustomEvent('element-spec-connected', {
-                  detail: {target: this}
+                    detail: {target: this}
                 }));
 
-                this.$.models.addEventListener("opened-changed", function() {
+                this.$.models.addEventListener("opened-changed", function () {
                     this.set('show', this.$.models.opened)
                     if (!this.$.models.opened) {
-                      return;
+                        return;
                     }
 
                     this.dispatchEvent(new CustomEvent('element-spec-toggled', {
-                      detail: {target: this}
+                        detail: {target: this}
                     }));
                 }.bind(this));
 
                 if (this.models.length === 0) {
-                  this._addModel()
+                    this._addModel()
                 }
             }
 
             toggleButtonIcon(show) {
-              return (show ? 'expand-less' : 'expand-more')
+                return (show ? 'expand-less' : 'expand-more')
             }
 
             toggle(ev) {
@@ -161,40 +164,40 @@
                 const item = ev.currentTarget;
                 const index = this.$.modelList.indexForElement(item);
 
-                if(confirm('really delete?')) {
+                if (confirm('really delete?')) {
                     this.splice('models', index, 1);
                 }
             }
 
             moveModelUp(ev) {
-              const item = ev.currentTarget;
-              const index = this.$.modelList.indexForElement(item);
+                const item = ev.currentTarget;
+                const index = this.$.modelList.indexForElement(item);
 //              console.log('moveModelUp', item, index)
 
-              if (index === 0) {
-                return;
-              }
-              const model = this.get(['models', index]);
-              this.splice('models', index, 1);
-              this.splice('models', index-1, 0, model);
+                if (index === 0) {
+                    return;
+                }
+                const model = this.get(['models', index]);
+                this.splice('models', index, 1);
+                this.splice('models', index - 1, 0, model);
             }
 
             moveModelDown(ev) {
-              const item = ev.currentTarget;
-              const index = this.$.modelList.indexForElement(item);
+                const item = ev.currentTarget;
+                const index = this.$.modelList.indexForElement(item);
 //              console.log('moveModelDown', item, index)
 
-              if (index === this.models.length) {
-                return;
-              }
-              const model = this.get(['models', index]);
-              this.splice('models', index, 1);
-              this.splice('models', index+1, 0, model);
+                if (index === this.models.length) {
+                    return;
+                }
+                const model = this.get(['models', index]);
+                this.splice('models', index, 1);
+                this.splice('models', index + 1, 0, model);
             }
 
             _remove(ev) {
                 this.dispatchEvent(new CustomEvent('element-spec-removed', {
-                  detail: {target: this}
+                    detail: {target: this}
                 }));
             }
 
@@ -209,7 +212,7 @@
             }
 
             serialize(indent) {
-                const mode = this.mode ? ` mode="${this.mode}"`: '';
+                const mode = this.mode ? ` mode="${this.mode}"` : '';
                 let xml = `${indent}<elementSpec ident="${this.ident}"${mode}>\n`;
                 let indent2 = indent + '    '
                 xml += Array.from(this.shadowRoot.querySelectorAll('odd-model')).map(item => item.serialize(indent2)).join('')
