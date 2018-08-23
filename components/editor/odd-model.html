@@ -144,17 +144,18 @@
             <header>
                 <div>
                     <h4>
-                        <paper-icon-button id="toggle" on-click="toggle" class="model-collapse"
-                                           icon="expand-more"></paper-icon-button>
-                        [[type]]<span class="behaviour" hidden$="[[_isModelType()]]">[[ behaviour ]]</span>
+                        <paper-icon-button id="toggle"
+                            icon="{{toggleButtonIcon(show)}}" on-click="toggle"
+                            class="model-collapse"></paper-icon-button>
+                        {{type}}<span class="behaviour" hidden$="[[_isGroupOrSequence(type)]]">{{ behaviour }}</span>
                         <span class="btn-group">
                             <paper-icon-button on-click="moveDown" icon="arrow-downward"></paper-icon-button>
                             <paper-icon-button on-click="moveUp" icon="arrow-upward"></paper-icon-button>
                             <paper-icon-button on-click="remove" icon="delete"></paper-icon-button>
                             <paper-icon-button on-click="copy" icon="content-copy"></paper-icon-button>
                             <paper-icon-button on-click="paste" icon="content-paste"
-                                               hidden$="{{(type == 'modelSequence' || type == 'modelGrp')}}"></paper-icon-button>
-                            <paper-menu-button hidden$="{{(type == 'modelSequence' || type == 'modelGrp')}}">
+                                               hidden$="[[_isGroupOrSequence(type)]]"></paper-icon-button>
+                            <paper-menu-button hidden$="[[_isGroupOrSequence(type)]]">
                                 <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
                                 <paper-listbox id="modelType" slot="dropdown-content" on-iron-select="addNested" attr-for-selected="value">
                                     <paper-item value="model">model</paper-item>
@@ -165,22 +166,23 @@
                         </span>
                     </h4>
                     <paper-dropdown-menu class="selectOutput" label="Output">
-                        <paper-listbox id="output" slot="dropdown-content" attr-for-selected="value">
+                        <paper-listbox id="output" slot="dropdown-content" attr-for-selected="value" selected="{{output}}">
                             <template id="outputList" is="dom-repeat" items="{{outputs}}" as="output">
-                                <paper-item value="[[output]]">[[output]]</paper-item>
+                                <paper-item value="{{output}}">{{output}}</paper-item>
                             </template>
                         </paper-listbox>
                     </paper-dropdown-menu>
                 </div>
-                <p>[[desc]]
-                    <span class="predicate" hidden$="[[_hasNoPredicate()]]">[[predicate]]</span></p>
-                    <!--<span class="predicate" hidden$="[[predicate]]">[[predicate]]</span></p>-->
+                <p>
+                    {{desc}}
+                    <span class="predicate" hidden$="{{_hasNoPredicate(predicate)}}">{{predicate}}</span>
+                </p>
             </header>
 
             <iron-collapse id="details" opened="{{show}}" id="elem-[[ident]]" class="details">
                 <paper-input id="desc" value="{{ desc }}" placeholder="[Document the model]"
                              on-change="refresh" label="Description"></paper-input>
-                <paper-autocomplete id="behaviour" hidden$="{{(type === 'model')}}"
+                <paper-autocomplete id="behaviour" hidden$="{{_isGroupOrSequence(type)}}"
                                     text="{{ behaviour }}" placeholder="[Behaviour]"
                                     label="Behaviour"></paper-autocomplete>
                 <div class="predicate">
@@ -194,18 +196,18 @@
                              placeholder="[Define CSS class name (for external CSS)]"
                              label="CSS Class"></paper-input>
 
-                <div class="parameters" hidden$="[[(type == 'model')]]">
+                <div class="parameters" hidden$="[[_isGroupOrSequence(type)]]">
                     <div class="group">
                         <span class="title">Parameters</span>
                         <paper-icon-button icon="add"
                                            on-click="addParameter"></paper-icon-button>
                     </div>
-                    <template id="parameterList" is="dom-repeat" items="[[ parameters ]]" as="parameter">
-                        <odd-parameter name="[[ parameter.name ]]" value="[[ parameter.value ]]"></odd-parameter>
+                    <template id="parameterList" is="dom-repeat" items="{{parameters}}" as="parameter">
+                        <odd-parameter name="{{ parameter.name }}" value="{{ parameter.value }}"></odd-parameter>
                     </template>
                 </div>
 
-                <div class="renditions" hidden$="{{( type == 'model' )}}">
+                <div class="renditions" hidden$="[[_isModel(type)]]">
                     <div class="group">
                         <div>
                             <span class="title">Renditions</span>
@@ -223,16 +225,18 @@
                 </div>
             </iron-collapse>
 
-            <div class="models" hidden$="[[!(type == 'modelSequence' || type == 'modelGrp')]]">
+            <div class="models" hidden$="[[_isModel(type)]]">
                 <template id="modelList" is="dom-repeat" items="[[ models ]]" as="model">
                     <odd-model behaviour="{{ model.behaviour }}" predicate="{{ model.predicate }}"
                                type="{{ model.type }}" output="{{ model.output }}" desc="{{ model.desc }}"
                                sourcerend="{{ model.sourcerend }}"
-                               on-remove-model="_removeModel"></odd-model>
+                               on-model-remove="removeModel"
+                               on-model-move-up="moveModelUp"
+                               on-model-move-down="moveModelDown"
+                               ></odd-model>
                 </template>
             </div>
         </form>
-        <!--<slot name="code"></slot>-->
     </template>
 
     <script>
@@ -252,43 +256,59 @@
             static get properties() {
                 return {
                     behaviour: {
-                        type: String
+                        type: String,
+                        reflectToAttribute:true,
+                        notify: true
                     },
                     predicate: {
                         type: String,
                         value:'',
-                        reflectToAttribute:true
+                        reflectToAttribute:true,
+                        notify: true
                     },
                     type: {
-                        type: String
+                        type: String,
+                        reflectToAttribute:true,
+                        notify: true
                     },
                     output: {
-                        type: String
+                        type: String,
+                        reflectToAttribute:true,
+                        notify: true
                     },
                     css: {
-                        type: String
+                        type: String,
+                        notify: true
                     },
                     models: {
                         type: Array,
-                        value: () => []
+                        value: () => [],
+                        notify: true
                     },
                     parameters: {
                         type: Array,
-                        value: () => []
+                        value: () => [],
+                        notify: true
                     },
                     renditions: {
                         type: Array,
-                        value: () => []
+                        value: () => [],
+                        notify: true
                     },
                     desc: {
-                        type: String
+                        type: String,
+                        notify: true,
+                        reflectToAttribute:true
                     },
                     sourcerend: {
-                        type: String
+                        type: String,
+                        notify: true
                     },
                     show: {
                         type: Boolean,
-                        value: false
+                        value: false,
+                        reflectToAttribute: true,
+                        notify: true
                     },
                     outputs: {
                         type: Array,
@@ -333,62 +353,71 @@
                 ]
             }
 
-
             connectedCallback() {
                 super.connectedCallback();
-//                console.log('odd-model connected', this.rootPath, this.importPath)
-//                console.log('odd-model connected type', this.type);
-//                console.log('odd-model connected predicate', this.predicate);
-//                this.$.predicate.setAttribute('code', this.predicate);
-                this.addEventListener('remove-model', this.removeModel() );
+                this.$.details.addEventListener("opened-changed", function() {
+                   this.set('show', this.$.details.opened)
+                }.bind(this))
             }
-
 
             toggle() {
                 this.$.details.toggle()
             }
 
+            toggleButtonIcon(show) {
+              return (show ? 'expand-less' : 'expand-more')
+            }
+
             remove(e) {
                 e.preventDefault();
-                console.log("parent: ", e.composedPath());
-
-
-/*
-                var pathes = e.composedPath();
-                pathes.forEach(function (item) {
-                    console.log("path: ", item);
-                    if (item.nodeName.toLowerCase() == 'odd-model' || item.nodeName.toLowerCase() == 'odd-element-spec') {
-                        item.removeModel(this);
-                        return;
-                    }
-                });
-*/
-
-
-//                this.parentNode.removeModel(e.item);
-                this.dispatchEvent(new CustomEvent('remove-model', {bubbles:true, detail: {item: this}}));
-
-            }
-            _removeModel(e){
-                console.log('odd-model- removeModel',e.detail.item);
-            }
-
-//            removeModel(item) {
-
-            removeModel(e) {
-//                console.log('removedModel event: ', e.item.behaviour);
-//                const index = this.models.indexOf(item);
-//                this.splice('models', index, 1);
+                this.dispatchEvent(new CustomEvent('model-remove'));
             }
 
             moveDown(e) {
                 e.preventDefault();
-                this.parentNode.moveModelDown(e.item);
+                this.dispatchEvent(new CustomEvent('model-move-down'));
             }
 
             moveUp(e) {
                 e.preventDefault();
-                this.parentNode.moveModelUp(e.item);
+                this.dispatchEvent(new CustomEvent('model-move-up'));
+            }
+
+            removeModel(ev) {
+                const item = ev.target;
+                const index = this.models.indexOf(item);
+                const removeModelHandler = () => {
+                    this.splice('models', index, 1);
+                };
+                this.parentNode.$.dialog
+                    .confirm('Delete?', 'Are you sure to delete the model?')
+                    .then(removeModelHandler.bind(this));
+            }
+
+            moveModelUp(ev) {
+              const item = ev.currentTarget;
+              const index = this.$.modelList.indexForElement(item);
+              console.log('moveModelUp', item, index)
+
+              if (index === 0) {
+                return;
+              }
+              const model = this.get(['models', index]);
+              this.splice('models', index, 1);
+              this.splice('models', index-1, 0, model);
+            }
+
+            moveModelDown(ev) {
+              const item = ev.currentTarget;
+              const index = this.$.modelList.indexForElement(item);
+              console.log('moveModelDown', item, index)
+
+              if (index === this.models.length) {
+                return;
+              }
+              const model = this.get(['models', index]);
+              this.splice('models', index, 1);
+              this.splice('models', index+1, 0, model);
             }
 
             addParameter(e) {
@@ -495,17 +524,17 @@
               return xml;
           }
 
-            _isModelType(){
-                return this.type != 'model';
+            _isGroupOrSequence(type){
+                return type !== 'model';
             }
 
-            _hasNoPredicate(){
-                return !this.predicate;
-            }
-            _getPredicate(){
-                return this.predicate;
+            _isModel(type){
+                return type === 'model';
             }
 
+            _hasNoPredicate(predicate){
+                return !predicate;
+            }
         }
 
         window.customElements.define(OddModel.is, OddModel);

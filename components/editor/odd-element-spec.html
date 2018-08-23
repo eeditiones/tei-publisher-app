@@ -56,7 +56,11 @@
                 type="{{model.type}}" output="{{model.output}}" css="{{model.css}}"
                 models="{{model.models}}" parameters="{{model.parameters}}"
                 desc="{{model.desc}}" sourcerend="{{model.sourcerend}}"
-              on-remove-model="_removeModel"></odd-model>
+                show="{{model.show}}"
+                on-model-remove="removeModel"
+                on-model-move-up="moveModelUp"
+                on-model-move-down="moveModelDown"
+                ></odd-model>
 
             </template>
 
@@ -113,17 +117,18 @@
                       detail: {target: this}
                     }));
                 }.bind(this));
+
+                if (this.models.length === 0) {
+                  this._addModel()
+                }
             }
 
             toggleButtonIcon(show) {
-              const icon = (show ? 'expand-less' : 'expand-more')
-              console.log('asdfasdafs', icon)
-              return icon
+              return (show ? 'expand-less' : 'expand-more')
             }
 
             toggle(ev) {
                 this.$.models.toggle();
-                console.log( this.show)
             }
 
             showModels() {
@@ -134,8 +139,7 @@
                 this.$.models.hide();
             }
 
-            _addModel(ev) {
-                ev.preventDefault();
+            _addModel() {
                 this.$.models.show();
 
                 this.unshift('models', {
@@ -151,25 +155,42 @@
                 });
             }
 
-            _removeModel(e){
-                console.log('elementspec removemodel');
-
+            removeModel(ev) {
+                const item = ev.currentTarget;
+                const index = this.$.modelList.indexForElement(item);
+                this.splice('models', index, 1);
+                // const removeModelHandler = () => {
+                //     this.splice('models', index, 1);
+                // };
+                // this.parentNode.$.dialog
+                //     .confirm('Delete?', 'Are you sure to delete the model?')
+                //     .then(removeModelHandler.bind(this));
             }
 
-            removeModel(item) {
-                console.log('removeModel');
-/*
-                const index = this.models.indexOf(item);
-                const removeModelHandler = () => {
-                    this.splice('models', index, 1);
-                };
+            moveModelUp(ev) {
+              const item = ev.currentTarget;
+              const index = this.$.modelList.indexForElement(item);
+              console.log('moveModelUp', item, index)
 
-*/
-/*
-                this.parentNode.$.dialog
-                    .confirm('Delete?', 'Are you sure to delete the model?')
-                    .then(removeModelHandler.bind(this));
-*/
+              if (index === 0) {
+                return;
+              }
+              const model = this.get(['models', index]);
+              this.splice('models', index, 1);
+              this.splice('models', index-1, 0, model);
+            }
+
+            moveModelDown(ev) {
+              const item = ev.currentTarget;
+              const index = this.$.modelList.indexForElement(item);
+              console.log('moveModelDown', item, index)
+
+              if (index === this.models.length) {
+                return;
+              }
+              const model = this.get(['models', index]);
+              this.splice('models', index, 1);
+              this.splice('models', index+1, 0, model);
             }
 
             _remove(ev) {
