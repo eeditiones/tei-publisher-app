@@ -12,6 +12,11 @@
             :host {
                 display: block;
             }
+
+            odd-code-editor {
+                height: 3rem;
+            }
+
         </style>
         <paper-dropdown-menu label="Scope">
             <paper-listbox id="scope" slot="dropdown-content" selected="{{ scope }}" attr-for-selected="value">
@@ -48,7 +53,11 @@
                         type: Array,
                         value: ["", "before", "after"]
                     },
-                    css: { type:String}
+                    css: {
+                      type:String,
+                      notify: true,
+                      reflectToAttribute: true
+                    }
 
                 };
             }
