@@ -13,6 +13,11 @@
             :host {
                 display: block;
             }
+
+            odd-code-editor {
+                height: 3rem;
+            }
+
         </style>
 
         <paper-autocomplete id="combo" text="{{name}}" placeholder="[Param name]" label="Name"
@@ -50,6 +55,7 @@
                     value: {
                         type: String,
                         value: '',
+                        notify: true,
                         reflectToAttribute: true
                     }
                 };
