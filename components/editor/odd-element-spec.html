@@ -36,6 +36,8 @@
                         }
             */
 
+
+
             :host([currentSelection]) > h3, :host([currentSelection]) > header{
                 /*background-color:var(--paper-grey-300);*/
                 /*outline: solid var(--paper-blue-grey-300);*/
@@ -44,11 +46,18 @@
 
             h3{
                 display:grid;
-                grid-template-columns: 5% auto 200px;
+                grid-template-columns: 40px auto 200px;
             }
             h3 .controls{
                 text-align: right;
+                margin-right: 10px;
+                display: none;
             }
+
+            :host([currentSelection]) > h3 > .controls{
+                display: inline-block;
+            }
+
             #toggle{
                 align-self:center;
             }
@@ -56,6 +65,10 @@
             h3 .ident{
                 align-self: center;
              }
+
+            paper-menu-button paper-icon-button{
+                margin-left:-10px;
+            }
         </style>
 
         <h3>
@@ -63,6 +76,8 @@
             <span class="ident">[[ ident ]]</span>
 
             <span class="controls">
+                <paper-icon-button on-click="remove" icon="delete"></paper-icon-button>
+                <paper-icon-button on-click="paste" icon="content-paste"></paper-icon-button>
                 <paper-menu-button>
                     <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
                     <paper-listbox id="addModel" slot="dropdown-content" on-iron-select="_addModel"
@@ -73,8 +88,6 @@
                     </paper-listbox>
                 </paper-menu-button>
 
-                <paper-icon-button on-click="remove" icon="delete"></paper-icon-button>
-                <paper-icon-button on-click="paste" icon="content-paste"></paper-icon-button>
             </span>
         </h3>
 

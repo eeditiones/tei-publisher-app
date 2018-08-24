@@ -59,18 +59,46 @@
             header h4 {
                 padding: 4px 8px;
                 margin: 0;
+                display: grid;
+                grid-template-columns: 40px 40% auto;
+            }
+            h4 .btn-group{
+                text-align: right;
+                display: none;
             }
 
-            header p {
+            #toggle, .modelType{
+                align-self:center;
+            }
+
+
+
+
+
+            header div.info {
                 padding: 0 16px 4px;
                 margin: 0;
                 font-size: 85%;
+                display: block;
+                margin:-10px 0 10px 32px;
+            }
+            header div.info *{
+                display: block;
+                line-height: 1.2;
+            }
+
+            header .outputDisplay{
+                text-transform: uppercase ;
+            }
+            header .description{
+                font-style: italic;
             }
 
             header .predicate {
                 color: #ff5722;
             }
 
+/*
             header .predicate:before {
                 content: ' [';
             }
@@ -78,6 +106,7 @@
             header .predicate:after {
                 content: ']';
             }
+*/
 
             .predicate label {
                 display: block;
@@ -150,16 +179,38 @@
                 @apply --shadow-elevation-4dp;
             }
 
+            paper-menu-button paper-icon-button{
+                margin-left:-10px;
+            }
+
+            /* need to play it save for FF */
+            :host([currentselection]) > form > header > h4 > .btn-group{
+                display: inline-block;
+            }
+            iron-collapse{
+                margin-top:10px;
+            }
+
+/*
+            .mainHeader{
+                display:grid;
+                grid-template-columns: 5% auto;
+            }
+            .mainHeader .btnGroup{
+                text-align: right;
+            }
+*/
         </style>
 
         <form>
             <header>
-                <div>
+                <!--<div class="mainHeader">-->
                     <h4>
                         <paper-icon-button id="toggle"
                                            icon="{{toggleButtonIcon(show)}}" on-click="toggle"
                                            class="model-collapse"></paper-icon-button>
-                        {{type}}<span class="behaviour" hidden$="[[_isGroupOrSequence(type)]]">{{ behaviour }}</span>
+                        <span class="modelType">{{type}}<span class="behaviour" hidden$="[[_isGroupOrSequence(type)]]">{{ behaviour }}</span></span>
+
                         <span class="btn-group">
                             <paper-icon-button on-click="moveDown" icon="arrow-downward"
                                                title="move down"></paper-icon-button>
@@ -169,17 +220,24 @@
                             <paper-icon-button on-click="copy" icon="content-copy" title="copy"></paper-icon-button>
                             <paper-icon-button on-click="paste" icon="content-paste"
                                                hidden$="[[_isGroupOrSequence(type)]]"></paper-icon-button>
-                            <paper-menu-button hidden$="[[_isModel(type)]]">
-                                <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
-                                <paper-listbox id="modelType" slot="dropdown-content" on-iron-select="addNested"
-                                               attr-for-selected="value">
-                                    <paper-item value="model">model</paper-item>
-                                    <paper-item value="modelSequence">modelSequence</paper-item>
-                                    <paper-item value="modelGrp">modelGrp</paper-item>
-                                </paper-listbox>
-                            </paper-menu-button>
+
+
+                            <template is="dom-if" if="[[_isGroupOrSequence(type)]]">
+                                <paper-menu-button>
+                                    <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
+                                    <paper-listbox id="modelType" slot="dropdown-content" on-iron-select="addNested"
+                                                   attr-for-selected="value">
+                                        <paper-item value="model">model</paper-item>
+                                        <paper-item value="modelSequence">modelSequence</paper-item>
+                                        <paper-item value="modelGrp">modelGrp</paper-item>
+                                    </paper-listbox>
+                                </paper-menu-button>
+                            </template>
+
+                            <!--<paper-menu-button hidden$="[[_isModel(type)]]">-->
                         </span>
                     </h4>
+<!--
                     <paper-dropdown-menu class="selectOutput" label="Output" hidden$="[[_isGroupOrSequence(type)]]">
                         <paper-listbox id="output" slot="dropdown-content" attr-for-selected="value"
                                        selected="{{output}}">
@@ -188,18 +246,31 @@
                             </template>
                         </paper-listbox>
                     </paper-dropdown-menu>
-                </div>
-                <p>
-                    {{desc}}
-                    <span class="predicate" hidden$="{{_hasNoPredicate(predicate)}}">{{predicate}}</span>
+-->
+                <!--</div>-->
+                <div class="info">
+                    <div class="outputDisplay">[[output]]</div>
+                    <div class="description">{{desc}}</div>
+                    <!--<div class="predicate" hidden$="{{_hasNoPredicate(predicate)}}">{{predicate}}</div>-->
+                    <div class="predicate">{{predicate}}</div>
                 </p>
             </header>
 
             <iron-collapse id="details" opened="{{show}}" id="elem-[[ident]]" class="details">
 
                 <!--<template is="dom-if" if="{{show}}">-->
+                <!--<paper-dropdown-menu class="selectOutput" label="Output" hidden$="[[_isGroupOrSequence(type)]]">-->
+                <paper-dropdown-menu class="selectOutput" label="Output">
+                    <paper-listbox id="output" slot="dropdown-content" attr-for-selected="value"
+                                   selected="{{output}}">
+                        <template id="outputList" is="dom-repeat" items="{{outputs}}" as="output">
+                            <paper-item value="{{output}}">{{output}}</paper-item>
+                        </template>
+                    </paper-listbox>
+                </paper-dropdown-menu>
 
-                    <paper-input id="desc" value="{{ desc }}" placeholder="[Document the model]"
+
+                <paper-input id="desc" value="{{ desc }}" placeholder="[Document the model]"
                                  on-change="refresh" label="Description"></paper-input>
                     <paper-autocomplete id="behaviour" hidden$="{{_isGroupOrSequence(type)}}"
                                         text="{{ behaviour }}" placeholder="[Behaviour]"
