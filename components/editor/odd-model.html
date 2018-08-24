@@ -205,6 +205,7 @@
         <form>
             <header>
                 <!--<div class="mainHeader">-->
+                <!-- todo: conditional rendering of controls should be refactored for clarity -->
                     <h4>
                         <paper-icon-button id="toggle"
                                            icon="{{toggleButtonIcon(show)}}" on-click="toggle"
@@ -219,10 +220,10 @@
                             <paper-icon-button on-click="remove" icon="delete" title="remove"></paper-icon-button>
                             <paper-icon-button on-click="copy" icon="content-copy" title="copy"></paper-icon-button>
                             <paper-icon-button on-click="paste" icon="content-paste"
-                                               hidden$="[[_isGroupOrSequence(type)]]"></paper-icon-button>
+                                               hidden$="[[_isModel(type)]]"></paper-icon-button>
 
 
-                            <template is="dom-if" if="[[_isGroupOrSequence(type)]]">
+                            <template id="typeSelector" is="dom-if" if="[[_isGroupOrSequence(type)]]">
                                 <paper-menu-button>
                                     <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
                                     <paper-listbox id="modelType" slot="dropdown-content" on-iron-select="addNested"
@@ -454,6 +455,7 @@
                 this.$.details.addEventListener("opened-changed", function () {
                     this.set('show', this.$.details.opened)
                 }.bind(this));
+
             }
 
             toggle() {
@@ -557,13 +559,15 @@
             }
 
             addNested(ev) {
-//                console.log('addNested ', ev);
+//                console.log('addNested ', ev.detail.item);
+//                console.log('addNested ', ev.detail.item.getAttribute('value'));
+//                console.log('addNested modeltype', this.$.modelType.selected);
 
-                ev.preventDefault();
+
                 this.unshift('models', {
                     behaviour: 'inline',
                     predicate: '',
-                    type: this.$.modelType.selected,
+                    type: ev.detail.item.getAttribute('value'),
                     output: null,
                     sourcerend: false,
                     models: [],
@@ -571,6 +575,9 @@
                     renditions: [],
                     show: true
                 });
+                //important to reset the listbox - otherwise next attempt to use it will fail if value has not changed
+                const modelTypeSelector = this.shadowRoot.querySelector('#modelType')
+                modelTypeSelector.select("");
             }
 
             escape(code) {

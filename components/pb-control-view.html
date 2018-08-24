@@ -104,12 +104,12 @@
                             params[p] = view[p];
                         }
                     }
-                    console.log("new %s, current: %s", view.view, this.mode);
+//                    console.log("new %s, current: %s", view.view, this.mode);
                     if (view.view !== this.mode) {
                         params.position = this.nodeId;
                         console.log("setting position to %s", this.nodeId);
                     }
-                    console.log("<pb-control-view> toggle: %o", params);
+//                    console.log("<pb-control-view> toggle: %o", params);
                     this.setParameter('transcript', view.id);
                     this.pushHistory('Change transcription mode');
                     this.emitTo('pb-refresh', params);
