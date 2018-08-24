@@ -9,6 +9,8 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-autocomplete/paper-autocomplete.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-styles/shadow.html">
+
 <link rel="import" href="odd-code-editor.html">
 <link rel="import" href="odd-parameter.html">
 <link rel="import" href="odd-rendition.html">
@@ -143,6 +145,11 @@
             .selectOutput {
                 margin-right: 10px;
             }
+
+            :host([currentselection]) > form > header{
+                @apply --shadow-elevation-4dp;
+            }
+
         </style>
 
         <form>
@@ -247,7 +254,9 @@
                                on-model-remove="removeModel"
                                on-model-move-up="moveModelUp"
                                on-model-move-down="moveModelDown"
-                    ></odd-model>
+                               on-click="_setCurrentSelection"
+                               on-item-toggled="_setCurrentSelection">
+                    </odd-model>
                 </template>
             </div>
         </form>
@@ -373,7 +382,7 @@
 
                 this.$.details.addEventListener("opened-changed", function () {
                     this.set('show', this.$.details.opened)
-                }.bind(this))
+                }.bind(this));
             }
 
             toggle() {
@@ -574,6 +583,14 @@
                 const index = this.$.renditionList.indexForElement(e.target);
                 this.splice('renditions', index, 1);
             }
+
+            _setCurrentSelection(e){
+                console.log('model_setCurrent: ', e.target);
+                this.dispatchEvent(new CustomEvent('current-changed', {composed:true, bubbles:true, detail:{target: e.target}}));
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
         }
 
         window.customElements.define(OddModel.is, OddModel);

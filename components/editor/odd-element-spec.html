@@ -1,6 +1,10 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/shadycss/apply-shim.html">
+
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
 <link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../bower_components/paper-styles/shadow.html">
+
 <link rel="import" href="odd-model.html">
 <link rel="import" href="../pb-common-styles.html">
 
@@ -31,23 +35,47 @@
                             flex-direction: column;
                         }
             */
+
+            :host([currentSelection]) > h3, :host([currentSelection]) > header{
+                /*background-color:var(--paper-grey-300);*/
+                /*outline: solid var(--paper-blue-grey-300);*/
+                @apply --shadow-elevation-2dp;
+            }
+
+            h3{
+                display:grid;
+                grid-template-columns: 5% auto 200px;
+            }
+            h3 .controls{
+                text-align: right;
+            }
+            #toggle{
+                align-self:center;
+            }
+
+            h3 .ident{
+                align-self: center;
+             }
         </style>
 
         <h3>
             <paper-icon-button id="toggle" icon="[[toggleButtonIcon(show)]]" on-click="toggle"></paper-icon-button>
             <span class="ident">[[ ident ]]</span>
-            <paper-menu-button>
-                <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
-                <paper-listbox id="addModel" slot="dropdown-content" on-iron-select="_addModel"
-                               attr-for-selected="value">
-                    <paper-item value="model">model</paper-item>
-                    <paper-item value="modelSequence">modelSequence</paper-item>
-                    <paper-item value="modelGrp">modelGrp</paper-item>
-                </paper-listbox>
-            </paper-menu-button>
 
-            <paper-icon-button on-click="remove" icon="delete"></paper-icon-button>
-            <paper-icon-button on-click="paste" icon="content-paste"></paper-icon-button>
+            <span class="controls">
+                <paper-menu-button>
+                    <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
+                    <paper-listbox id="addModel" slot="dropdown-content" on-iron-select="_addModel"
+                                   attr-for-selected="value">
+                        <paper-item value="model">model</paper-item>
+                        <paper-item value="modelSequence">modelSequence</paper-item>
+                        <paper-item value="modelGrp">modelGrp</paper-item>
+                    </paper-listbox>
+                </paper-menu-button>
+
+                <paper-icon-button on-click="remove" icon="delete"></paper-icon-button>
+                <paper-icon-button on-click="paste" icon="content-paste"></paper-icon-button>
+            </span>
         </h3>
 
         <iron-collapse id="models" class="models" opened="{{show}}" id="elem-{{ident}}">
@@ -62,7 +90,9 @@
                                show="{{model.show}}"
                                on-model-remove="removeModel"
                                on-model-move-up="moveModelUp"
-                               on-model-move-down="moveModelDown">
+                               on-model-move-down="moveModelDown"
+                               on-click="_setCurrentSelection"
+                               on-item-toggled="_setCurrentSelection">
                     </odd-model>
                 </template>
             </template>
@@ -124,6 +154,8 @@
                 if (this.models.length === 0) {
                     this._addModel()
                 }
+
+
             }
 
             toggleButtonIcon(show) {
@@ -132,6 +164,7 @@
 
             toggle(ev) {
                 this.$.models.toggle();
+                this.dispatchEvent(new CustomEvent('item-toggled', {}));
             }
 
             showModels() {
@@ -219,6 +252,14 @@
                 xml += `${indent}</elementSpec>\n`;
                 return xml;
             }
+
+            _setCurrentSelection(e){
+                console.log('element-spec._setCurrent: ', e.target);
+                e.preventDefault();
+                e.stopPropagation();
+                this.dispatchEvent(new CustomEvent('current-changed', {composed:true, bubbles:true, detail:{target: e.target}}));
+            }
+
         }
 
         window.customElements.define(OddElementSpec.is, OddElementSpec);

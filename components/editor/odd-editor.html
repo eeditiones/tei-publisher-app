@@ -39,6 +39,7 @@
             aside{
                 flex-grow:1;
                 margin-right:20px;
+                max-width:400px;
             }
             section{
                 flex-grow:3;
@@ -78,6 +79,8 @@
                 /*height: var(--pb-view-height);*/
                 overflow: auto;
                 position: relative;
+                max-width: 800px;
+                padding:6px;
             }
 
             .metadata {
@@ -130,7 +133,7 @@
 
             /* todo: this doesn't work - should refactor to have the complete trigger exposed here (move out of pb-collapse) */
             pb-collapse#meta ::slotted(.collapse-trigger){
-                height:56px;
+                /*height:56px;*/
             }
         </style>
 
@@ -157,14 +160,12 @@
                     </h3>
                     <div id="new-element" class="input-group">
                         <paper-input id="identNew" label="Add Element" always-float-label="always-float-label">
-                            <paper-icon-button slot="suffix" on-click="addElementSpec"
-                                               icon="add"></paper-icon-button>
+                            <paper-icon-button slot="suffix" on-click="addElementSpec" icon="add"></paper-icon-button>
                         </paper-input>
                     </div>
 
                     <div id="jump-to">
-                        <paper-autocomplete id="jumpTo" label="Jump to ..."
-                            always-float-label="always-float-label"></paper-autocomplete>
+                        <paper-autocomplete id="jumpTo" label="Jump to ..." always-float-label="always-float-label"></paper-autocomplete>
                     </div>
                 </div>
             </paper-card>
@@ -199,7 +200,9 @@
                         mode="{{item.mode}}" models="{{item.models}}"
                         on-element-spec-connected="elementSpecConnectedHandler"
                         on-element-spec-removed="removeElementSpec"
-                        on-element-spec-toggled="handleElementSpecToggle"></odd-element-spec>
+                        on-element-spec-toggled="handleElementSpecToggle"
+                        on-click="_setCurrentSelection"
+                        on-item-toggled="_setCurrentSelection"></odd-element-spec>
             </template>
         </section>
         <odd-message id="dialog" hidden></odd-message>
@@ -278,6 +281,9 @@
                         type: String,
                         value: ''
                     },
+                    currentSelection:{
+                        type: Object
+                    }
                 };
             }
 
@@ -324,6 +330,9 @@
                     console.log('selector: ', selector);
                     selector.selected =  this.odd;
                 }
+
+                this.addEventListener('current-changed', this._changeSelection);
+                this.focus();
             }
 
             elementSpecConnectedHandler (ev) {
@@ -424,6 +433,12 @@
 
                     this.loading = false
                     document.dispatchEvent(new CustomEvent('pb-end-update'));
+
+                    //init current selection
+                    this.currentSelection = this.shadowRoot.querySelector('odd-element-spec');
+                    this.currentSelection.setAttribute('currentselection',true);
+
+
                 }.bind(this));
             }
 
@@ -554,6 +569,26 @@
                 //todo: or should just the odd be loaded again?
                 window.location.href=window.location.href;
             }
+
+            _setCurrentSelection(e){
+//                console.log('editor._setCurrentSelection: ', e.target);
+                this.currentSelection.removeAttribute('currentselection');
+                this.currentSelection = e.target;
+                this.currentSelection.setAttribute('currentselection','true');
+            }
+
+            _changeSelection(e){
+                e.preventDefault();
+                e.stopPropagation();
+//                    console.log('current-changed received ', e.detail.target);
+//                    console.log('current-changed received current', this.currentSelection);
+                this.currentSelection.removeAttribute('currentselection');
+                const newSelection = e.detail.target;
+                newSelection.setAttribute('currentselection','true');
+//                    console.log('newSelection ', newSelection);
+                this.currentSelection = newSelection;
+            }
+
         }
 
         window.customElements.define(OddEditor.is, OddEditor);
