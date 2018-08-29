@@ -74,7 +74,7 @@
          * @polymer
          * @demo demo/index.html
          */
-        class PbEditApp extends Polymer.Element {
+        class PbEditApp extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'pb-edit-app';
             }
@@ -102,7 +102,12 @@
                     this.request.body['odd'] = self.$.odd.odd;
                 });
                 this.$.form.addEventListener('iron-form-response', (event) =>
-                    event.detail.completes.then((r) => this.emitTo('pb-end-update'))
+                    event.detail.completes.then((r) => {
+                        this.emitTo('pb-end-update');
+                    })
+                );
+                this.$.form.addEventListener('iron-form-invalid', () =>
+                    this.emitTo('pb-end-update')
                 );
             }
 
