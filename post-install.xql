@@ -23,6 +23,6 @@ sm:chown(xs:anyURI($target || "/modules/lib/latex.xql"), "tei"),
 sm:chgrp(xs:anyURI($target || "/modules/lib/latex.xql"), "dba"),
 
 (: App generator requires dba permissions to install packages :)
-sm:chmod(xs:anyURI($target || "/modules/generator.xql"), "rwsr-Sr-x"),
-sm:chown(xs:anyURI($target || "/modules/generator.xql"), "tei"),
-sm:chgrp(xs:anyURI($target || "/modules/generator.xql"), "dba")
+sm:chmod(xs:anyURI($target || "/modules/components-generate.xql"), "rwsr-Sr-x"),
+sm:chown(xs:anyURI($target || "/modules/components-generate.xql"), "tei"),
+sm:chgrp(xs:anyURI($target || "/modules/components-generate.xql"), "dba")

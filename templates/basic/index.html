@@ -1,131 +1,223 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<div xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <div data-template="templates:include" data-template-path="templates/menu.html"/>
-    <section class="container-fluid">
-        <header class="row">
-            <div class="col-md-12">
-                <div class="page-header">
-                    <h1 data-template="config:app-title"/>
-                </div>
+<html xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="pages:app-root">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+        <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
+
+        <title data-template="config:app-title"/>
+        <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald"/>
+        <script src="../tei-publisher/components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
+        <script src="../tei-publisher/components/bower_components/js-cookie/src/js.cookie.js"/>
+        <link rel="import" href="../tei-publisher/components/dependencies-dev.html"/>
+        <custom-style>
+            <style include="pb-common-styles">
+                main {
+                    margin: 0 20px 0 20px;
+                }
+
+                .tp-title {
+                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                    font-size: 36px;
+                    font-weight: 400;
+
+                }
+
+                .tp-title span {
+                    color: #9e9e9e;
+                    font-size: 26px;
+                }
+
+                pb-results {
+                    overflow: scroll;
+                    margin: 0 20px;
+                    height: calc(100vh - 128px);
+                }
+
+                .panels {
+                    display: flex;
+                    flex-direction: row;
+                    margin-bottom: 40px;
+                    margin-top: 12px;
+                }
+
+                .panels .documents {
+                    flex: 2 auto;
+                    margin-right: 20px;
+
+                    --paper-card-header: {
+                        background-color: #d1dae0;
+                    }
+
+                    --paper-card-header-text: {
+                        font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                        font-size: 16px;
+                        font-weight: 400;
+                    }
+                }
+
+                .panels aside {
+                    flex: 1 0 auto;
+                }
+
+                aside {
+                    display: flex;
+                    flex-direction: column;
+                    max-width: 460px;
+                }
+
+                aside .odds, aside .upload {
+                    --paper-card-header: {
+                        background-color: #607D8B;
+                    }
+
+                    --paper-card-header-text: {
+                        font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                        font-size: 16px;
+                        font-weight: 400;
+                        color: white;
+                    }
+                }
+
+                aside .upload {
+                }
+
+                .documents ul {
+                    list-style: none;
+                }
+
+                .documents app-toolbar {
+                    @apply --layout-start-justified;
+                    font-size: 14px;
+                    margin-top: 10px;
+                    padding-left: 0;
+                }
+
+                .documents div {
+                    margin: 0;
+                }
+
+                .documents a, .documents a:visited {
+                    color: #303F9F;
+                    text-decoration: none;
+                }
+
+                .documents li {
+                    display: flex;
+                    flex-direction: row;
+                    margin-bottom: 10px;
+                }
+
+                .documents .document-select {
+                    flex: 0 0;
+                    margin-right: 20px;
+                }
+                h1, h2, h3, h4, h5, h6 {
+                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                    font-weight: 400 !important;
+                }
+
+                h5 {
+                    font-size: 16px;
+                    margin: 0;
+                }
+            </style>
+        </custom-style>
+    </head>
+
+    <body data-template="i18n:translate" data-catalogues="resources/i18n">
+        <app-header-layout>
+            <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                <app-toolbar class="menubar">
+                    <a href="$app/index.html">
+                        <img src="resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
+                    </a>
+                    <a href="$app/index.html">Start</a>
+                    <paper-menu-button>
+                        <a href="#" slot="dropdown-trigger">
+                            <i18n:text key="documentation"/>
+                        </a>
+                        <paper-listbox slot="dropdown-content">
+                            <paper-item>
+                                <a href="$app/doc/documentation.xml?odd=docbook.odd">
+                                    <i18n:text key="documentation"/>
+                                </a>
+                            </paper-item>
+                            <paper-item>
+                                <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
+                            </paper-item>
+                        </paper-listbox>
+                    </paper-menu-button>
+                    <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
+                        <img src="resources/images/wm_no_bg.svg" height="20"/>
+                    </a>
+
+                    <!-- Search input -->
+                    <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}" place-holder="i18n(search-query-attr)" redirect="redirect"/>
+
+                    <!-- language selector -->
+                    <pb-lang name="lang" label="Language" data-template="pages:current-language">
+                        <paper-item>en</paper-item>
+                        <paper-item>de</paper-item>
+                        <paper-item>fr</paper-item>
+                        <paper-item>gr</paper-item>
+                        <paper-item>pl</paper-item>
+                    </pb-lang>
+                    <pb-login login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user">
+                        <iron-icon slot="icon" icon="account-circle"/>
+                    </pb-login>
+                    <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
+                </app-toolbar>
+            </app-header>
+
+            <main>
+                <section>
+                    <h1 class="tp-title" data-template="config:app-title"></h1>
+                </section>
+                <section class="panels">
+                    <paper-card class="documents" heading="i18n(documents)">
+                        <div class="card-content">
+                            <pb-paginate id="paginate" per-page="10" range="5" found-label="i18n(browsing)"/>
+                            <pb-browse-docs id="document-loader" url="templates/documents.html" container="#document-list" auto="auto"/>
+                            <div id="document-list"/>
+                        </div>
+                    </paper-card>
+                    <aside>
+                        <paper-card class="upload" heading="i18n(upload)">
+                            <div class="card-content">
+                                <pb-upload id="upload"/>
+                            </div>
+                        </paper-card>
+                    </aside>
+                </section>
+            </main>
+
+        </app-header-layout>
+        <paper-dialog id="downloadDialog">
+            <h2>
+                <i18n:text key="generating-file">Generating File...</i18n:text>
+            </h2>
+            <paper-dialog-scrollable>
+                <i18n:text key="download-message"/>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                    <i18n:text key="close">Close</i18n:text>
+                </paper-button>
             </div>
-        </header>
-        <main class="row">
-            <section class="col-md-3 col-md-push-9">
-                <form action="search.html" class="form form-horizontal">
-                    <div class="well well-sm">
-                        <div class="form-group">
-                            <div class="col-md-12 col-xs-12">
-                                <span class="input-group">
-                                    <input name="query" type="search" class="templates:form-control form-control typeahead-search" placeholder="i18n(search-query-attr)" autocomplete="off"/>
-                                    <span class="input-group-btn">
-                                        <button id="f-btn-search" type="submit" class="btn btn-primary">
-                                            <span class="material-icons">search</span>
-                                        </button>
-                                    </span>
-                                </span>
-                                <input type="hidden" name="field" value="text"/>
-                                <input type="hidden" name="doc" data-template="search:form-current-doc"/>
-                            </div>
-                        </div>
-                        <div class="form-group" data-toggle="tooltip" data-placement="left" title="i18n(search-part)">
-                            <div class="col-md-12 col-xs-12">
-                                <select name="tei-target" class="form-control" data-template="templates:form-control">
-                                    <option value="tei-text" selected="selected">
-                                        <i18n:text key="search-sections"/>
-                                    </option>
-                                    <option value="tei-head">
-                                        <i18n:text key="search-headings"/>
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <div class="panel panel-info" data-template="browse:show-if-logged-in">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            <i18n:text key="upload"/>
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <p>
-                            <i18n:text key="upload-files"/>
-                        </p>
-                        <span class="btn btn-success btn-block fileinput-button">
-                            <i class="material-icons">file_upload</i>
-                            <span>
-                                <i18n:text key="select-files"/>
-                            </span>
-                            <input id="fileupload" type="file" name="files[]" multiple="multiple"/>
-                        </span><!-- The global progress bar -->
-                        <div id="progress" class="progress">
-                            <div class="progress-bar progress-bar-success"/>
-                        </div><!-- The container for the uploaded files -->
-                        <table id="files-table" class="files table table-striped">
-                            <thead>
-                                <th colspan="2">
-                                    <i18n:text key="uploaded-files"/>
-                                </th>
-                            </thead>
-                            <tbody id="files"/>
-                        </table>
-                    </div>
-                </div>
-            </section>
-            <section class="col-md-9 col-md-pull-3">
-                <div>
-                    <div class="row">
-                        <div data-template="templates:include" data-template-path="templates/doc-table.html"/>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </section>
-    <script type="text/javascript" src="resources/scripts/vendor/jquery.ui.widget.js"/>
-    <script type="text/javascript" src="resources/scripts/vendor/jquery.iframe-transport.js"/>
-    <script type="text/javascript" src="resources/scripts/vendor/jquery.fileupload.js"/>
-    <script type="text/javascript">
-    $(function () {
-        'use strict';
-
-        function reloadDocTable() {
-            $("#documents-panel").load("templates/doc-table.html");
-        }
-
-        $('#fileupload').fileupload({
-            url: "modules/lib/upload.xql",
-            dataType: 'json',
-            done: function (e, data) {
-                $.each(data.result.files, function (index, file) {
-                    var tr = document.createElement("tr");
-                    var td = document.createElement("td");
-                    var link = document.createElement("a");
-                    link.href = file.path;
-                    link.target = "_blank";
-                    var icon = document.createElement("span");
-                    icon.className = "material-icons";
-                    icon.appendChild(document.createTextNode("open_in_new"));
-                    link.appendChild(icon);
-                    td.appendChild(link);
-                    tr.appendChild(td);
-
-                    td = document.createElement("td");
-                    td.appendChild(document.createTextNode(file.path));
-                    tr.appendChild(td);
-
-                    $("#files").append(tr);
-                });
-                reloadDocTable();
-            },
-            progressall: function (e, data) {
-                var progress = parseInt(data.loaded / data.total * 100, 10);
-                $('#progress .progress-bar').css(
-                    'width',
-                    progress + '%'
-                );
-            }
-        }).prop('disabled', !$.support.fileInput)
-            .parent().addClass($.support.fileInput ? undefined : 'disabled');
-    });
-    </script>
-</div>
+        </paper-dialog>
+        <paper-dialog id="messageDialog" modal="modal">
+            <h2>Action</h2>
+            <paper-dialog-scrollable/>
+            <div class="buttons">
+                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                    <i18n:text key="close">Close</i18n:text>
+                </paper-button>
+            </div>
+        </paper-dialog>
+    </body>
+</html>

@@ -12,8 +12,8 @@
             }
         </style>
 
-        <paper-dropdown-menu id="menu" label="[[label]]">
-            <paper-listbox slot="dropdown-content" class="dropdown-content" selected="{{_odd}}" attr-for-selected="value">
+        <paper-dropdown-menu id="menu" label="[[label]]" name="[[name]]">
+            <paper-listbox slot="dropdown-content" class="dropdown-content" selected="{{odd}}" attr-for-selected="value">
                 <template is="dom-repeat" items="{{odds}}">
                     <paper-item value$="[[item.name]]">[[item.label]]</paper-item>
                 </template>
@@ -55,8 +55,11 @@
                     odds: {
                         type: Array
                     },
+                    name: {
+                        type: String
+                    },
                     /** Currently selected ODD */
-                    _odd: {
+                    odd: {
                         type: String,
                         notify: true,
                         observer: '_selected'
@@ -70,25 +73,27 @@
 
             ready() {
                 super.ready();
-                let odd = this.getParameter('odd');
-                if (odd) {
-                    odd = odd.replace(/^(.*?)\.[^\.]+$/, '$1');
+                if (!this.odd) {
+                    let odd = this.getParameter('odd');
+                    if (odd) {
+                        odd = odd.replace(/^(.*?)\.[^\.]+$/, '$1');
+                    }
+                    this.odd = odd;
                 }
-                this._odd = odd;
                 this._refresh();
             }
 
             _selected(newOdd, oldOdd) {
                 if (typeof oldOdd !== 'undefined') {
-                    console.log('<pb-select-odd> Switching to ODD: %s', this._odd);
+                    console.log('<pb-select-odd> Switching to ODD: %s', this.odd);
                     this.emitTo('pb-refresh', {
-                        odd: this._odd
+                        odd: this.odd
                     });
                 }
             }
 
             _refresh() {
-                this.$.load.params = { odd: this._odd };
+                this.$.load.params = { odd: this.odd };
                 this.$.load.generateRequest();
             }
 

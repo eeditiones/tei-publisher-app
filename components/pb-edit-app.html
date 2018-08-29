@@ -1,0 +1,117 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-edit-app">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            paper-dropdown-menu {
+                width: 100%;
+                max-width: 864px;
+            }
+            fieldset {
+                margin-top: 16px;
+                padding: 0;
+                border: 0;
+            }
+            legend {
+                color: #909090;
+            }
+        </style>
+
+        <iron-form id="form">
+            <form action="modules/components-generate.xql" method="POST" accept="application/json" enctype="application/json">
+                <pb-select-odd id="odd" name="odd" label="ODD" odd="teipublisher"></pb-select-odd>
+                <paper-input name="uri" type="url" required placeholder="http://exist-db.org/apps/my-simple-app"
+                    label="URL to uniquely identify the app"></paper-input>
+                <paper-input name="abbrev" pattern="[a-zA-Z0-9-_]+" required placeholder="Short name"
+                    label="Short name to be used in URLs and file names"></paper-input>
+                <paper-input name="data-collection" pattern="[a-zA-Z0-9-_/]+" placeholder="data"
+                    label="Name of subcollection to hold TEI documents"></paper-input>
+                <paper-input name="title" required placeholder="Title of the app"
+                    label="Title of the app which will be shown e.g. in the dashboard"></paper-input>
+                <fieldset>
+                    <legend>Choose what is shown by default when browsing text: a single page
+                    or an entire division. Display by page requires that the TEI is properly marked up
+                    with &lt;tei:pb&gt; tags.</legend>
+                    <paper-dropdown-menu id="defaultView" label="Default View" name="default-view">
+                        <paper-listbox slot="dropdown-content" class="dropdown-content" selected="div" attr-for-selected="value">
+                            <paper-item value="div">By division (chapter/section...)</paper-item>
+                            <paper-item value="page">By page</paper-item>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+                </fieldset>
+                <fieldset>
+                    <legend>Define the smallest block on which a full text index is created. For documents
+                    organized into divisions, choosing tei:div is usually best. If there are no divisions,
+                    choose body.</legend>
+                    <paper-dropdown-menu id="index" label="Default Full Text Index" name="index">
+                        <paper-listbox slot="dropdown-content" class="dropdown-content" selected="tei:div" attr-for-selected="value">
+                            <paper-item value="tei:div">Create on division</paper-item>
+                            <paper-item value="tei:body">Create on body</paper-item>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+                </fieldset>
+                <fieldset>
+                    <legend>User account for administrative tasks. The user will be created if it does not yet exist.</legend>
+                    <paper-input name="owner" required placeholder="Username"
+                        label="The user account who will own the app."></paper-input>
+                    <paper-input name="password" type="password" required placeholder="Password"
+                        label="Password for the user owning this app."></paper-input>
+                </fieldset>
+                <paper-button id="submit" on-click="_doSubmit"><iron-icon icon="save"></iron-icon> Save/Generate</paper-button>
+            </form>
+        </iron-form>
+    </template>
+
+    <script>
+        /**
+         * `pb-edit-app`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbEditApp extends Polymer.Element {
+            static get is() {
+                return 'pb-edit-app';
+            }
+
+            static get properties() {
+                return {
+                    prop1:{
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready(){
+                super.ready();
+                const self = this;
+                this.$.form.addEventListener('iron-form-presubmit', function() {
+                    const view = self.$.defaultView.selectedItem.getAttribute('value');
+                    this.request.body['default-view'] = view;
+                    const index = self.$.index.selectedItem.getAttribute('value');
+                    this.request.body['index'] = index;
+                    this.request.body['odd'] = self.$.odd.odd;
+                });
+                this.$.form.addEventListener('iron-form-response', (event) =>
+                    event.detail.completes.then((r) => this.emitTo('pb-end-update'))
+                );
+            }
+
+            _doSubmit() {
+                this.emitTo('pb-start-update');
+                this.$.form.submit();
+            }
+        }
+
+        window.customElements.define(PbEditApp.is, PbEditApp);
+    </script>
+</dom-module>

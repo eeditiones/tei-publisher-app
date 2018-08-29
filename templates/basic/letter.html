@@ -12,15 +12,14 @@
         <title data-template="config:app-title"/>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald"/>
-        <script src="../tei-publisher/components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
-        <script src="../tei-publisher/components/bower_components/js-cookie/src/js.cookie.js"/>
-        <link rel="import" href="../tei-publisher/components/dependencies-dev.html"/>
+        <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
+        <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
+        <link rel="import" href="components/dependencies-dev.html"/>
 
         <custom-style>
             <style include="pb-common-styles">
                 body {
                     --pb-link-theme: {
-                        font-family: "Junicode",Georgia,"Times New Roman",serif;
                         text-decoration: none;
                         color: black;
                     };
@@ -28,14 +27,18 @@
                     --pb-content-theme: {
                         margin-right: 32px;
                     }
+
+                    --pb-view-height: calc(100vh - 210px);
                 }
 
                 #view1 {
-                    font-family: "Junicode",Georgia,"Times New Roman",serif;
-                    font-size: 14pt;
+                    flex: 3 0;
+                    font-size: 13pt;
                     line-height: 1.42857143;
                     max-width: 60vw;
                     margin: 8px 16px;
+                    height: var(--pb-view-height);
+                    overflow: auto;
                 }
 
                 .toolbar {
@@ -61,6 +64,7 @@
                     position: relative;
                     display: flex;
                     justify-content: center;
+                    margin: 0 100px;
                 }
 
                 .content-body pb-navigation {
@@ -86,6 +90,7 @@
 
                 .document-title {
                     text-align: center;
+                    background: #FFFFFF;
                 }
 
                 #drawer {
@@ -108,6 +113,23 @@
 
                 #toc li {
                     margin-bottom: .5em;
+                }
+
+                aside {
+                    flex: 1 0;
+                    min-width: 360px;
+                    max-width: 480px;
+                    height: var(--pb-view-height);
+                    overflow: auto;
+                }
+
+                pb-map {
+                    width: 100%;
+                    height: 100%;
+                }
+
+                .highlight {
+                    background-color: #F9E976;
                 }
             </style>
         </custom-style>
@@ -136,7 +158,7 @@
                     </app-toolbar>
                 </app-header>
 
-                <main class="content-body">
+                <section class="content-body">
                     <pb-navigation direction="backward" unit="page" keyboard="left" emit="transcription"
                         subscribe="transcription">
                         <paper-fab icon="icons:chevron-left"/>
@@ -144,20 +166,25 @@
                     <pb-view id="view1" src="document1" data-template="pages:pb-view"
                         column-separator=".tei-cb" history="history" append-footnotes="append-footnotes"
                         subscribe="transcription" emit="transcription"/>
+                    <aside class="places">
+                        <pb-view src="document1" odd="graves" subscribe="transcription">
+                            <pb-param name="mode" value="facets"/>
+                        </pb-view>
+                    </aside>
+                    <aside>
+                        <pb-map api-key="AIzaSyA8_mVF-4N2NRWfQ9y6ADgrkiQgoml3trw" zoom="14"></pb-map>
+                    </aside>
                     <pb-navigation direction="forward" unit="page" keyboard="right" emit="transcription"
                         subscribe="transcription">
                         <paper-fab icon="icons:chevron-right"/>
                     </pb-navigation>
-                </main>
+                </section>
             </app-header-layout>
         </app-drawer-layout>
-
         <script>
-        document.addEventListener('WebComponentsReady', function() {
             document.getElementById('drawer').addEventListener('opened-changed', function() {
                 document.getElementById('loadToc').load();
             });
-        });
         </script>
     </body>
 </html>

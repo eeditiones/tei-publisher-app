@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="pages:app-root">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+        <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
+
+        <title data-template="config:app-title"/>
+        <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald"/>
+        <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
+        <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
+        <link rel="import" href="components/dependencies-dev.html"/>
+
+        <custom-style>
+            <style include="pb-common-styles">
+                main {
+                    max-width: 1024px;
+                }
+            </style>
+        </custom-style>
+    </head>
+    <body data-template="i18n:translate" data-catalogues="resources/i18n">
+        <app-drawer-layout>
+            <app-drawer slot="drawer" id="drawer">
+                <app-toolbar class="menubar" xmlns:i18n="http://exist-db.org/xquery/i18n">
+                    <a href="$app/index.html">
+                        <img src="resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
+                    </a>
+                </app-toolbar>
+            </app-drawer>
+            <app-header-layout>
+                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                    <app-toolbar class="menubar" xmlns:i18n="http://exist-db.org/xquery/i18n">
+                        <a href="$app/index.html">Start</a>
+                        <paper-menu-button>
+                            <a href="#" slot="dropdown-trigger">
+                                <i18n:text key="documentation"/>
+                            </a>
+                            <paper-listbox slot="dropdown-content">
+                                <paper-item>
+                                    <a href="$app/doc/documentation.xml?odd=docbook.odd">
+                                        <i18n:text key="documentation"/>
+                                    </a>
+                                </paper-item>
+                                <paper-item>
+                                    <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
+                                </paper-item>
+                            </paper-listbox>
+                        </paper-menu-button>
+                        <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
+                            <img src="resources/images/wm_no_bg.svg" height="20"/>
+                        </a>
+                        <!-- language selector -->
+                        <pb-lang name="lang" label="Language" data-template="pages:current-language">
+                            <paper-item>en</paper-item>
+                            <paper-item>de</paper-item>
+                            <paper-item>fr</paper-item>
+                            <paper-item>gr</paper-item>
+                            <paper-item>pl</paper-item>
+                        </pb-lang>
+                        <pb-login login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user">
+                            <iron-icon slot="icon" icon="account-circle"></iron-icon>
+                        </pb-login>
+                        <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
+                    </app-toolbar>
+                </app-header>
+                <main>
+                    <pb-edit-app></pb-edit-app>
+                </main>
+            </app-header-layout>
+        </app-drawer-layout>
+    </body>
+</html>
