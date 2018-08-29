@@ -54,6 +54,41 @@ declare variable $deploy:REPO_DESCRIPTOR :=
     </meta>
 ;
 
+declare variable $deploy:ANT_FILE :=
+    <project default="xar">
+        <xmlproperty file="expath-pkg.xml"/>
+        <property name="project.version" value="${{package(version)}}"/>
+        <property name="build.dir" value="build"/>
+        <target name="xar">
+            <mkdir dir="${{build.dir}}"/>
+            <zip basedir="." destfile="${{build.dir}}/${{project.app}}-${{project.version}}.xar"
+                excludes="${{build.dir}}/*"/>
+        </target>
+    </project>;
+        
+declare function deploy:expand-ant($nodes as node()*, $json as map(*)) {
+    for $node in $nodes
+    return
+        typeswitch($node)
+            case element(project) return
+                <project name="{$json?abbr}">
+                    { $node/@* except $node/@name }
+                    { deploy:expand-ant($node/node(), $json) }
+                </project>
+            case element(property) return
+                if ($node/@name = "project.app") then
+                    <property name="project.app" value="{$json?abbr}"/>
+                else
+                    $node
+            case element() return
+                element { node-name($node) } {
+                    $node/@*,
+                    deploy:expand-ant($node/node(), $json)
+                }
+            default return
+                $node
+};
+
 declare function deploy:expand-expath-descriptor($pkg as element(expath:package), $json as map(*)) {
     <package xmlns="http://expath.org/ns/pkg" spec="1.0" version="0.1"
         name="{$json?uri}" abbrev="{$json?abbrev}">
@@ -139,6 +174,35 @@ declare function deploy:copy-collection($target as xs:string, $source as xs:stri
             deploy:copy-collection(concat($target, "/", $childColl), concat($source, "/", $childColl), $userData, $permissions)
     ) else
         ()
+};
+
+declare function deploy:store-xconf($collection as xs:string?, $json as map(*)) {
+    let $xconf:=
+        <collection xmlns="http://exist-db.org/collection-config/1.0">
+            <index xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                <fulltext default="none" attributes="false"/>
+                <lucene>
+                    <text qname="{$json?index}">
+                        <ignore qname="{$json?index}"/>
+                    </text>
+                    <text qname="tei:head"/>
+                    <text match="//tei:sourceDesc/tei:biblFull/tei:titleStmt/tei:title"/>
+                    <text match="//tei:fileDesc/tei:titleStmt/tei:title"/>
+                    <text qname="dbk:section"/>
+                    <text qname="dbk:title"/>
+                </lucene>
+            </index>
+        </collection>
+    return
+        xmldb:store($collection, "collection.xconf", $xconf, "text/xml")
+};
+
+
+declare function deploy:store-ant($collection as xs:string?, $json as map(*)) {
+    let $descriptor := deploy:expand-ant($deploy:ANT_FILE, $json)
+    return (
+        xmldb:store($collection, "build.xml", $descriptor, "text/xml")
+    )
 };
 
 declare function deploy:store-expath-descriptor($collection as xs:string?, $json as map(*)) {
@@ -234,6 +298,8 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
     let $created := (
         deploy:store-expath-descriptor($collection, $json),
         deploy:store-repo-descriptor($collection, $json),
+        deploy:store-ant($collection, $json),
+        deploy:store-xconf($collection, $json),
         deploy:copy-collection($collection, $base || "/templates/basic", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:expand($collection || "/modules", "config.xqm", $replacements),
         deploy:expand($collection || "/modules", "pm-config.xql", $replacements),
@@ -255,6 +321,7 @@ declare function deploy:package($collection as xs:string, $expathConf as element
 declare function deploy:deploy($collection as xs:string, $expathConf as element()) {
     let $pkg := deploy:package($collection, $expathConf)
     let $null := (
+        xmldb:remove($collection),
         repo:remove($expathConf/@name)
     )
     return
