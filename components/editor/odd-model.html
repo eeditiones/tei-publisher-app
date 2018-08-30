@@ -490,6 +490,10 @@
 
             }
 
+            getModel(){
+                return this.models;
+            }
+
             render(){
                 this.$.modelList.render();
             }
@@ -528,10 +532,12 @@
 
             removeModel(ev) {
 //                console.log('odd-model removeModel: ', this.models);
-                const item = ev.target;
-//                console.log('odd-model removeModel ev ', ev);
+//                const item = ev.target;
+                var item = ev.composedPath()[0];
+//                console.log('odd-model removeModel ev ', item);
+//                console.log('odd-model removeModel parentModel ', this.parentModel);
 
-                const index = this.models.indexOf(item);
+                const index = this.$.modelList.indexForElement(item);
 //                console.log('odd-model removeModel index ', index);
 
                 this.splice('models', index, 1);

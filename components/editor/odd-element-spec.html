@@ -236,13 +236,12 @@
             }
 
             removeModel(ev) {
+//                console.log('elementspec e: ', ev);
 //                console.log('elementspec removeModel: ', this.models);
                 const item = ev.currentTarget;
                 const index = this.$.modelList.indexForElement(item);
 
-//                if (confirm('really delete?')) {
-                    this.splice('models', index, 1);
-//                }
+                this.splice('models', index, 1);
             }
 
             moveModelUp(ev) {

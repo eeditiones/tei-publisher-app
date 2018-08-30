@@ -1,6 +1,12 @@
 <dom-module id='code-mirror-styles'>
     <template>
         <style>
+
+            .CodeMirror-lint-markers{
+                background:red;
+                margin:0;
+                padding:0;
+            }
             /* BASICS */
 
             .CodeMirror {
@@ -179,6 +185,7 @@
                 border-right: 30px solid transparent;
             }
 
+
             /* The fake, visible scrollbars. Used to force redraw during scrolling
                before actual scrolling happens, thus preventing shaking and
                flickering artifacts. */
@@ -282,7 +289,9 @@
 
             .CodeMirror-code {
                 outline: none;
+                padding-left:16px !important;
             }
+
 
             /* Force content-box sizing for the elements where we expect it */
             .CodeMirror-scroll,

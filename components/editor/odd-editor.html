@@ -386,7 +386,7 @@
                 if (this.clipboard=={}) return;
                 const targetElement = e.detail.target;
                 targetElement.addModel(this.clipboard);
-                targetElement.parentModel.render();
+                targetElement.render();
 
 //                console.log('odd-editor._paste clipboard', this.clipboard);
 //                console.log('odd-editor._paste clipboard', this.$.specList.itemForElement(this.clipboard));
