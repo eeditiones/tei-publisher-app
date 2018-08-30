@@ -27,24 +27,29 @@ declare option output:method "json";
 declare option output:media-type "application/json";
 
 let $odd := (request:get-parameter("odd", ()), session:get-attribute("odd"), $config:odd)[1]
+let $allOdds :=
+    dbutil:scan-resources(xs:anyURI($config:odd-root), function ($resource) {
+        if (ends-with($resource, ".odd")) then
+            let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
+            let $displayName := (
+                doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = "short"]/string(),
+                doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title/string(),
+                $name
+            )[1]
+            return
+                map {
+                    "name": $name,
+                    "label": $displayName,
+                    "path": $resource,
+                    "current": ($odd = $name || ".odd")
+                }
+        else
+            ()
+    })
 return
     array {
-        dbutil:scan-resources(xs:anyURI($config:odd-root), function ($resource) {
-            if (ends-with($resource, ".odd")) then
-                let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
-                let $displayName := (
-                    doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = "short"]/string(),
-                    doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title/string(),
-                    $name
-                )[1]
-                return
-                    map {
-                        "name": $name,
-                        "label": $displayName,
-                        "path": $resource,
-                        "current": ($odd = $name || ".odd")
-                    }
-            else
-                ()
-        })
+        for $odd in $allOdds
+        order by $odd?label
+        return
+            $odd
     }
