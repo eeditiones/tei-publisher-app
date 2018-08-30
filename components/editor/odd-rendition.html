@@ -32,7 +32,8 @@
                 </template>
             </paper-listbox>
         </paper-dropdown-menu>
-        <textarea id="textarea" on-change="_handleChange"></textarea>
+        <!--<textarea id="textarea" on-change="_handleChange"></textarea>-->
+        <paper-textarea id="textarea" on-change="_handleChange">{{value}}</paper-textarea>
 
         <paper-icon-button on-click="_remove" icon="delete"></paper-icon-button>
 

@@ -201,6 +201,10 @@
                 text-align: right;
             }
 */
+
+            .renditions{
+                margin-top:10px;
+            }
         </style>
 
         <form>
@@ -284,10 +288,13 @@
                                         label="Behaviour"></paper-autocomplete>
                     <div class="predicate">
                         <label>Predicate</label>
+<!--
                         <odd-code-editor id="predicate" mode="xquery"
                                          placeholder="[XPath condition: model applies only if matched]"
                                          code="{{predicate}}">
                         </odd-code-editor>
+-->
+                        <paper-input id="predicate" label="predicate" value="{{predicate}}"></paper-input>
                     </div>
                     <paper-input id="css" value="{{ css }}"
                                  placeholder="[Define CSS class name (for external CSS)]"
@@ -326,8 +333,15 @@
 
             <div class="models" hidden$="[[_isModel(type)]]">
                 <template id="modelList" is="dom-repeat" items="[[ models ]]" as="model">
-                    <odd-model behaviour="{{ model.behaviour }}" predicate="{{ model.predicate }}"
-                               type="{{ model.type }}" output="{{ model.output }}" desc="{{ model.desc }}"
+                    <odd-model behaviour="{{ model.behaviour }}"
+                               predicate="{{ model.predicate }}"
+                               type="{{ model.type }}"
+                               output="{{ model.output }}"
+                               css="{{model.css}}"
+                               models="{{model.models}}"
+                               parameters="{{model.parameters}}"
+                               renditions="{{model.renditions}}"
+                               desc="{{ model.desc }}"
                                sourcerend="{{ model.sourcerend }}"
                                on-model-remove="removeModel"
                                on-model-move-up="moveModelUp"
@@ -476,6 +490,10 @@
 
             }
 
+            render(){
+                this.$.modelList.render();
+            }
+
             toggle(e) {
 //                console.log('odd-model.toggle ', e);
                 console.log('odd-model.toggle ', e.composedPath());
@@ -504,6 +522,7 @@
             }
 
             addModel(model){
+                console.log('model.addModel ', model);
                 this.unshift('models',model);
             }
 
@@ -515,10 +534,7 @@
                 const index = this.models.indexOf(item);
 //                console.log('odd-model removeModel index ', index);
 
-                if (confirm('really delete?')) {
-                    this.splice('models', index, 1);
-                }
-
+                this.splice('models', index, 1);
             }
 
             moveModelUp(ev) {

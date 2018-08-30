@@ -98,20 +98,26 @@
         <iron-collapse id="models" class="models" opened="{{show}}" id="elem-{{ident}}">
         <!--<iron-collapse id="models" class="models" id="elem-{{ident}}" on-opened-changed="_updateOpened">-->
 
-                <template id="modelList" is="dom-repeat" items="{{models}}" as="model">
+                <template id="modelList" is="dom-repeat" items="{{models}}" as="model" mutable-data>
                     <template is="dom-if" if="{{show}}">
 
-                    <odd-model behaviour="{{model.behaviour}}" predicate="{{model.predicate}}"
-                               type="{{model.type}}" output="{{model.output}}" css="{{model.css}}"
-                               models="{{model.models}}" parameters="{{model.parameters}}"
-                               desc="{{model.desc}}" sourcerend="{{model.sourcerend}}"
+                    <odd-model behaviour="{{model.behaviour}}"
+                               predicate="{{model.predicate}}"
+                               type="{{model.type}}"
+                               output="{{model.output}}"
+                               css="{{model.css}}"
+                               models="{{model.models}}"
+                               parameters="{{model.parameters}}"
+                               desc="{{model.desc}}"
+                               sourcerend="{{model.sourcerend}}"
+                               renditions="{{model.renditions}}"
                                show="{{model.show}}"
                                on-model-remove="removeModel"
                                on-model-move-up="moveModelUp"
                                on-model-move-down="moveModelDown"
                                on-click="_setCurrentSelection"
                                on-item-toggled="_setCurrentSelection"
-                                parent-model="[[model]]">
+                               parent-model="[[model]]">
                     </odd-model>
                 </template>
             </template>
@@ -179,6 +185,10 @@
 
             }
 
+            render(){
+                this.$.modelList.render();
+            }
+
             toggleButtonIcon(show) {
                 return (show ? 'expand-less' : 'expand-more')
             }
@@ -230,9 +240,9 @@
                 const item = ev.currentTarget;
                 const index = this.$.modelList.indexForElement(item);
 
-                if (confirm('really delete?')) {
+//                if (confirm('really delete?')) {
                     this.splice('models', index, 1);
-                }
+//                }
             }
 
             moveModelUp(ev) {

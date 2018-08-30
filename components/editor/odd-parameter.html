@@ -20,22 +20,33 @@
                 height: 3rem;
             }
 
+            .wrapper{
+                display:grid;
+                grid-template-columns: 100px auto 20px;
+                grid-column-gap: 10px;
+            }
+            .actions{
+                align-self: center;
+                text-align: right;
+            }
+
         </style>
 
-        <paper-autocomplete id="combo" text="{{name}}" placeholder="[Param name]" label="Name"
-                            source="[]"></paper-autocomplete>
-        <span class="value">
+        <div class="wrapper">
+            <paper-autocomplete id="combo" text="{{name}}" placeholder="[Param name]" label="Name"
+                                source="[]"></paper-autocomplete>
 <!--
             <odd-code-editor id="value" mode="xquery" code="{{value}}"
                          placeholder="[XPath to define param value]">
 
             </odd-code-editor>
 -->
-            <textarea id="textarea" on-change="_handleChange"></textarea>
-        </span>
-        <span class="actions">
-        <paper-icon-button on-click="delete" icon="delete"></paper-icon-button>
-    </span>
+            <paper-input id="textarea" on-change="_handleChange" value="{{value}}" label="value"></paper-input>
+                <!--<textarea id="textarea" on-change="_handleChange"></textarea>-->
+            <div class="actions">
+                <paper-icon-button on-click="delete" icon="delete"></paper-icon-button>
+            </div>
+        </div>
 
     </template>
 
@@ -65,12 +76,12 @@
                         value: '',
                         notify: true,
                         reflectToAttribute: true,
-                        observer:'_valueChanged'
+                        observer: '_valueChanged'
                     }
                 };
             }
 
-            constructor(){
+            constructor() {
                 super();
 
                 const parameters = {
@@ -109,9 +120,9 @@
 
             updateList() {
                 var autocomplete = [];
-                var values = parameters[this.parent.getBehaviour()] || [];
+                var values = parameters[this.parent.getBehaviour()] || [];
 
-                values.forEach(function(val) {
+                values.forEach(function (val) {
                     autocomplete.push({
                         text: val, value: val
                     });
@@ -126,14 +137,14 @@
             }
 
             escape(code) {
-              var replaceChars = {
-                  '"': '&quot;',
-                  '&': '&amp;',
-                  '<': '&lt;',
-                  '>': '&gt;'
-              };
+                var replaceChars = {
+                    '"': '&quot;',
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;'
+                };
                 var regex = new RegExp(Object.keys(replaceChars).join("|"), "g");
-                return code.replace(regex, function(match) {
+                return code.replace(regex, function (match) {
                     return replaceChars[match];
                 });
             }
@@ -156,11 +167,12 @@
             show() {
                 this.$.value.initCodeEditor();
             }
-            _handleChange(){
+
+            _handleChange() {
                 this.value = this.$.textarea.value;
             }
 
-            _valueChanged(){
+            _valueChanged() {
 //                console.log('valueChanged');
                 this.$.textarea.value = this.value;
             }
