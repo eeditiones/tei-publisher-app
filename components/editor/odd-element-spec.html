@@ -69,15 +69,19 @@
             paper-menu-button paper-icon-button{
                 margin-left:-10px;
             }
+            iron-collapse{
+                --iron-collapse-transition-duration:0.6s;
+            }
         </style>
 
         <h3>
             <paper-icon-button id="toggle" icon="[[toggleButtonIcon(show)]]" on-click="toggle"></paper-icon-button>
+            <!--<paper-icon-button id="toggle" icon="[[toggleButtonIcon(show)]]"></paper-icon-button>-->
             <span class="ident">[[ ident ]]</span>
 
             <span class="controls">
                 <paper-icon-button on-click="remove" icon="delete"></paper-icon-button>
-                <paper-icon-button on-click="paste" icon="content-paste"></paper-icon-button>
+                <paper-icon-button on-click="_paste" icon="content-paste"></paper-icon-button>
                 <paper-menu-button>
                     <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
                     <paper-listbox id="addModel" slot="dropdown-content" on-iron-select="_addModel"
@@ -92,6 +96,7 @@
         </h3>
 
         <iron-collapse id="models" class="models" opened="{{show}}" id="elem-{{ident}}">
+        <!--<iron-collapse id="models" class="models" id="elem-{{ident}}" on-opened-changed="_updateOpened">-->
 
                 <template id="modelList" is="dom-repeat" items="{{models}}" as="model">
                     <template is="dom-if" if="{{show}}">
@@ -105,7 +110,8 @@
                                on-model-move-up="moveModelUp"
                                on-model-move-down="moveModelDown"
                                on-click="_setCurrentSelection"
-                               on-item-toggled="_setCurrentSelection">
+                               on-item-toggled="_setCurrentSelection"
+                                parent-model="[[model]]">
                     </odd-model>
                 </template>
             </template>
@@ -149,6 +155,8 @@
 
             connectedCallback() {
                 super.connectedCallback();
+
+//                this.addEventListener('click', e => this.toggle(e));
                 this.dispatchEvent(new CustomEvent('element-spec-connected', {
                     detail: {target: this}
                 }));
@@ -176,6 +184,9 @@
             }
 
             toggle(ev) {
+                console.log('toggle ',ev);
+
+                ev.preventDefault();
                 this.$.models.toggle();
                 this.dispatchEvent(new CustomEvent('item-toggled', {}));
             }
@@ -188,10 +199,14 @@
                 this.$.models.hide();
             }
 
-            _addModel() {
+            addModel(newModel){
+                this.unshift('models', newModel);
+            }
+
+            _addModel(e) {
                 this.$.models.show();
 
-                this.unshift('models', {
+                const newModel =  {
                     behaviour: 'inline',
                     predicate: null,
                     type: this.$.addModel.selected,
@@ -200,9 +215,14 @@
                     parameters: [],
                     renditions: [],
                     sourcerend: false,
-                    show: true
-                });
-                this.$.addModel.selected = null
+                    show: true,
+                    current:true
+                };
+                this.unshift('models',newModel);
+                const tmpl = this.$.modelList.querySelector('template');
+                console.log('dom-if template ', tmpl);
+                this.$.addModel.selected = null;
+
             }
 
             removeModel(ev) {
@@ -247,14 +267,17 @@
                 }));
             }
 
+
             _paste(ev) {
-                // TODO
-                // var data = this.clipboard.paste();
-                // if (data) {
-                //     this.models = this.updateTag('model');
-                //     this.refs.models.open();
-                //     this.models.unshift(data);
-                // }
+                console.log('elementspec _paste ',ev);
+                const editor = document.querySelector('odd-editor');
+                console.log('elementspec _paste editor clipboard',editor.clipboard);
+                this.dispatchEvent(new CustomEvent('paste', {composed:true, bubbles:true, detail: {target: this}}));
+            }
+
+            _toggle(e){
+                console.log('_toggle ',e);
+//                this.$.models.toggle();
             }
 
             serialize(indent) {
@@ -267,7 +290,7 @@
             }
 
             _setCurrentSelection(e){
-                console.log('element-spec._setCurrent: ', e.target);
+                console.log('element-spec._setCurrentSelection: ', e.target);
                 e.preventDefault();
                 e.stopPropagation();
                 this.dispatchEvent(new CustomEvent('current-changed', {composed:true, bubbles:true, detail:{target: e.target}}));

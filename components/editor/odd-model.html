@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-if.html">
 <link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
@@ -210,6 +211,11 @@
                         <paper-icon-button id="toggle"
                                            icon="{{toggleButtonIcon(show)}}" on-click="toggle"
                                            class="model-collapse"></paper-icon-button>
+<!--
+                        <paper-icon-button id="toggle"
+                                           icon="{{toggleButtonIcon(show)}}"
+                                           class="model-collapse"></paper-icon-button>
+-->
                         <span class="modelType">{{type}}<span class="behaviour" hidden$="[[_isGroupOrSequence(type)]]">{{ behaviour }}</span></span>
 
                         <span class="btn-group">
@@ -218,8 +224,8 @@
                             <paper-icon-button on-click="moveUp" icon="arrow-upward"
                                                title="move up"></paper-icon-button>
                             <paper-icon-button on-click="remove" icon="delete" title="remove"></paper-icon-button>
-                            <paper-icon-button on-click="copy" icon="content-copy" title="copy"></paper-icon-button>
-                            <paper-icon-button on-click="paste" icon="content-paste"
+                            <paper-icon-button on-click="_copy" icon="content-copy" title="copy"></paper-icon-button>
+                            <paper-icon-button on-click="_paste" icon="content-paste"
                                                hidden$="[[_isModel(type)]]"></paper-icon-button>
 
 
@@ -327,7 +333,8 @@
                                on-model-move-up="moveModelUp"
                                on-model-move-down="moveModelDown"
                                on-click="_setCurrentSelection"
-                               on-item-toggled="_setCurrentSelection">
+                               on-item-toggled="_setCurrentSelection"
+                               parent-model="[[model]]">
                     </odd-model>
                 </template>
             </div>
@@ -414,6 +421,11 @@
                             "fo",
                             "latex",
                             "plain"]
+                    },
+                    parentModel:{
+                        type: Array,
+                        reflectToAttribute: true,
+                        notify: true
                     }
                 };
             }
@@ -452,13 +464,23 @@
                 super.connectedCallback();
                 console.log('odd-model connected', this);
 
+//                this.addEventListener('click', e => this.toggle(e));
+
                 this.$.details.addEventListener("opened-changed", function () {
                     this.set('show', this.$.details.opened)
                 }.bind(this));
 
+                if(this.current){
+                    this.dispatchEvent(new CustomEvent('current-changed', {composed:true, bubbles:true, detail:{target: this}}));
+                }
+
             }
 
-            toggle() {
+            toggle(e) {
+//                console.log('odd-model.toggle ', e);
+                console.log('odd-model.toggle ', e.composedPath());
+
+//                if(this.show) return;
                 this.$.details.toggle()
             }
 
@@ -479,6 +501,10 @@
             moveUp(e) {
                 e.preventDefault();
                 this.dispatchEvent(new CustomEvent('model-move-up'));
+            }
+
+            addModel(model){
+                this.unshift('models',model);
             }
 
             removeModel(ev) {
@@ -546,16 +572,31 @@
                 this.splice('renditions', index, 1);
             }
 
-            copy(ev) {
+            _copy(ev) {
                 ev.preventDefault();
+                ev.stopPropagation();
+                console.log('odd-model.copy ', ev);
+                console.log('odd-model.copy data', this.parentModel);
+
+                this.dispatchEvent(new CustomEvent('copy', {composed:true, bubbles:true, detail: {model: this.parentModel}}));
+
                 //this.clipboard.copy(this.getData());
             }
 
-            paste(ev) {
-                const data = null //this.clipboard.paste();
-                if (data) {
-                    this.unshift('models', data);
-                }
+            _paste(ev) {
+                console.log('model _paste ',ev);
+/*
+                const editor = document.querySelector('odd-editor');
+                console.log('model _paste editor clipboard',editor.clipboard);
+*/
+                this.dispatchEvent(new CustomEvent('paste', {composed:true, bubbles:true, detail: {target: this}}));
+
+                /*
+                                const data = null //this.clipboard.paste();
+                                if (data) {
+                                    this.unshift('models', data);
+                                }
+                */
             }
 
             addNested(ev) {
@@ -576,6 +617,7 @@
                     show: true
                 });
                 //important to reset the listbox - otherwise next attempt to use it will fail if value has not changed
+                //use querySelector here instead of 'this.$' as listbox is in it's own <template>
                 const modelTypeSelector = this.shadowRoot.querySelector('#modelType')
                 modelTypeSelector.select("");
             }
@@ -663,10 +705,19 @@
             }
 
             _setCurrentSelection(e){
-                console.log('model_setCurrent: ', e.target);
-                this.dispatchEvent(new CustomEvent('current-changed', {composed:true, bubbles:true, detail:{target: e.target}}));
+                console.log('model._setCurrentSelection: ', e.target);
+//                this.dispatchEvent(new CustomEvent('current-changed', {composed:true, bubbles:true, detail:{target: e.target}}));
+                this.setCurrent(e.target);
                 e.preventDefault();
                 e.stopPropagation();
+            }
+
+            setCurrent(){
+                this.setCurrent(this);
+            }
+
+            setCurrent(target){
+                this.dispatchEvent(new CustomEvent('current-changed', {composed:true, bubbles:true, detail:{target: target}}));
             }
 
         }

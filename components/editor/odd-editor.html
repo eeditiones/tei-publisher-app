@@ -135,6 +135,11 @@
             pb-collapse#meta ::slotted(.collapse-trigger){
                 /*height:56px;*/
             }
+
+            iron-collapse{
+                --iron-collapse-transition-duration:0.8s;
+            }
+
         </style>
 
         <iron-ajax id="loadContent" url="../modules/editor.xql"
@@ -332,6 +337,9 @@
                 }
 
                 this.addEventListener('current-changed', this._changeSelection);
+                this.addEventListener('copy', e => this._copy(e));
+                this.addEventListener('paste', e => this._paste(e));
+
                 this.focus();
             }
 
@@ -355,6 +363,26 @@
                     return ''
                 }
               return title || titleShort || odd || 'Loading ...'
+            }
+
+            _copy(e){
+                console.log('odd-editor._copy ', e);
+                this.clipboard = e.detail.model;
+                console.log('odd-editor clipboard ', this.clipboard);
+            }
+
+            _paste(e){
+                console.log('odd-editor._paste ', e);
+                console.log('odd-editor._paste target', e.detail.target);
+                if (this.clipboard=={}) return;
+                const targetElement = e.detail.target;
+                targetElement.addModel(this.clipboard);
+
+                console.log('odd-editor._paste clipboard', this.clipboard);
+                this.clipboard= {};
+//                console.log('odd-editor._paste clipboard', this.$.specList.itemForElement(this.clipboard));
+//                this.unshift('elementSpecs',this.clipboard);
+
             }
 
             _specMapper (spec) {
@@ -571,17 +599,21 @@
             }
 
             _setCurrentSelection(e){
-//                console.log('editor._setCurrentSelection: ', e.target);
+                console.log('editor._setCurrentSelection: ', e.target);
                 this.currentSelection.removeAttribute('currentselection');
                 this.currentSelection = e.target;
                 this.currentSelection.setAttribute('currentselection','true');
             }
 
             _changeSelection(e){
+                console.log('odd-editor._changeSelection ', e);
+
+                if(e.detail.target == this) return;
+
                 e.preventDefault();
                 e.stopPropagation();
-//                    console.log('current-changed received ', e.detail.target);
-//                    console.log('current-changed received current', this.currentSelection);
+                    console.log('current-changed received ', e.detail.target);
+                    console.log('current-changed received current', this.currentSelection);
                 this.currentSelection.removeAttribute('currentselection');
                 const newSelection = e.detail.target;
                 newSelection.setAttribute('currentselection','true');
