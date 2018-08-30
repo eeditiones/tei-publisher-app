@@ -18,17 +18,42 @@
             legend {
                 color: #909090;
             }
+            
+            paper-dialog {
+                min-width: 420px;
+                max-width: 640px;
+                min-height: 128px;
+            }
+
+            paper-dialog h2 {
+                background-color: #607D8B;
+                padding: 16px 8px;
+                margin-top: 0;
+                color: #F0F0F0;
+            }
+            
+            .content {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .content a {
+                display: block;
+                flex: 1 0;
+            }
         </style>
 
         <iron-form id="form">
             <form action="modules/components-generate.xql" method="POST" accept="application/json" enctype="application/json">
                 <pb-select-odd id="odd" name="odd" label="ODD" odd="teipublisher"></pb-select-odd>
                 <paper-input name="uri" type="url" required placeholder="http://exist-db.org/apps/my-simple-app"
-                    label="URL to uniquely identify the app"></paper-input>
-                <paper-input name="abbrev" pattern="[a-zA-Z0-9-_]+" required placeholder="Short name"
-                    label="Short name to be used in URLs and file names"></paper-input>
+                    label="URL to uniquely identify the app" auto-validate></paper-input>
+                <paper-input id="abbrev" name="abbrev" pattern="[a-zA-Z0-9-_]+" required placeholder="Short name"
+                    label="Short name to be used in URLs and file names" auto-validate></paper-input>
                 <paper-input name="data-collection" pattern="[a-zA-Z0-9-_/]+" placeholder="data"
-                    label="Name of subcollection to hold TEI documents"></paper-input>
+                    label="Name of subcollection to hold TEI documents" auto-validate></paper-input>
                 <paper-input name="title" required placeholder="Title of the app"
                     label="Title of the app which will be shown e.g. in the dashboard"></paper-input>
                 <fieldset>
@@ -56,13 +81,30 @@
                 <fieldset>
                     <legend>User account for administrative tasks. The user will be created if it does not yet exist.</legend>
                     <paper-input name="owner" required placeholder="Username"
-                        label="The user account who will own the app."></paper-input>
+                        label="The user account who will own the app." auto-validate></paper-input>
                     <paper-input name="password" type="password" required placeholder="Password"
-                        label="Password for the user owning this app."></paper-input>
+                        label="Password for the user owning this app." auto-validate></paper-input>
                 </fieldset>
                 <paper-button id="submit" on-click="_doSubmit"><iron-icon icon="save"></iron-icon> Save/Generate</paper-button>
             </form>
         </iron-form>
+        <paper-dialog id="dialog">
+            <h2>App generated</h2>
+            <div id="dialogContent">
+                <template is="dom-if" if="{{!error}}">
+                    <a href$="[[url]]" target="_blank">
+                        <paper-button><iron-icon icon="icons:open-in-new"></iron-icon> Open</paper-button>
+                    </a>
+                    <p>Your app has been successfully generated!</p>
+                </template>
+                <template is="dom-if" if="{{error}}">
+                    <div id="error">[[error]]</div>
+                </template>
+            </div>
+            <div class="buttons">
+                <paper-button dialog-dismiss autofocus>Close</paper-button>
+            </div>
+        </paper-dialog>
     </template>
 
     <script>
@@ -81,7 +123,10 @@
 
             static get properties() {
                 return {
-                    prop1:{
+                    error: {
+                        type: String
+                    },
+                    url: {
                         type: String
                     }
                 };
@@ -104,6 +149,15 @@
                 this.$.form.addEventListener('iron-form-response', (event) =>
                     event.detail.completes.then((r) => {
                         this.emitTo('pb-end-update');
+                        const result = r.parseResponse();
+                        console.log('<pb-edit-app> Received response: %o', result);
+                        if (result.result === 'ok') {
+                            const baseURL = window.location.href.replace(/^(.*)\/tei-publisher\/.*/, "$1");
+                            this.url = baseURL + '/' + this.$.abbrev.value;
+                        } else {
+                            this.error = result.message;
+                        }
+                        this.$.dialog.open();
                     })
                 );
                 this.$.form.addEventListener('iron-form-invalid', () =>

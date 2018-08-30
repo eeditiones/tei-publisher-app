@@ -334,10 +334,17 @@ declare function deploy:update-or-create($json as map(*)) {
         if (exists($existing)) then
             "found app"
         else
-            let $mkcol := deploy:mkcol("/db/system/repo", (), ())
-            let $target := deploy:create-app("/db/system/repo/" || $json?abbrev, $json)
-            return
-                deploy:deploy($target, doc($target || "/expath-pkg.xml")/*)
+            try {
+                let $mkcol := deploy:mkcol("/db/system/repo", (), ())
+                let $target := deploy:create-app("/db/system/repo/" || $json?abbrev, $json)
+                return
+                    deploy:deploy($target, doc($target || "/expath-pkg.xml")/*)
+            } catch * {
+                map {
+                    "result": "error",
+                    "message": ($err:description, $err:value, $err:additional)[1]
+                }
+            }
 };
 
 let $data := request:get-data()
