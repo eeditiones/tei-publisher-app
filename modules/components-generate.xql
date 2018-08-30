@@ -321,8 +321,7 @@ declare function deploy:package($collection as xs:string, $expathConf as element
 declare function deploy:deploy($collection as xs:string, $expathConf as element()) {
     let $pkg := deploy:package($collection, $expathConf)
     let $null := (
-        xmldb:remove($collection),
-        repo:remove($expathConf/@name)
+        xmldb:remove($collection)
     )
     return
         repo:install-and-deploy-from-db($pkg)
