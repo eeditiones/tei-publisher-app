@@ -1,6 +1,7 @@
 process.env.WDIO_PROTOCOL = process.env.WDIO_PROTOCOL || 'http'
 process.env.WDIO_SERVER = process.env.WDIO_SERVER || 'localhost'
 process.env.WDIO_PORT = process.env.WDIO_PORT || '8080'
+process.env.WDIO_CHROME_BINARY = process.env.WDIO_CHROME_BINARY || '/usr/bin/google-chrome';
 
 exports.config = {
 
@@ -54,25 +55,34 @@ exports.config = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
-    maxInstances: 10,
+    maxInstances: 1,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
     capabilities: [
+        // {
+        //    browserName: 'phantomjs',
+        //    "phantomjs.cli.args" : ["--ignore-ssl-errors=yes"]
+        // },
         {
-            maxInstances: 10,
-            browserName: 'chrome',
-            screenResolution: "1280x1024"
-            //chromeOptions: {
-            //    args: ['--headless', '--disable-gpu', '--window-size=1280,1024'],
-            //    binary: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-            //}
+        // maxInstances can get overwritten per capability. So if you have an in-house Selenium
+        // grid with only 5 firefox instances available you can make sure that not more than
+        // 5 instances get started at a time.
+        // maxInstances: 5,
+
+        browserName: 'chrome',
+        chromeOptions: {
+            args: ['headless',
+                   'disable-gpu',
+                   '--window-size=1280,1024',
+                   'ignore-certificate-errors',
+                   'ignore-urlfetcher-cert-requests'],
+            binary: process.env.WDIO_CHROME_BINARY
+        },
+        acceptsSslCerts: true
         }
-        // {browserName: 'chrome', platform: 'Windows 10', version: "56.0", screenResolution: "1280x1024"}
-        // {browserName: 'MicrosoftEdge', platform: 'Windows 10', version: "14.14393", screenResolution: "1280x1024"}
-        // {browserName: 'firefox', platform: 'Linux', version: "45.0", screenResolution: "1024x768"}
     ],
     //
     // ===================
