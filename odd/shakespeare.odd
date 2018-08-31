@@ -34,11 +34,12 @@
         <body>
             <schemaSpec start="TEI teiCorpus" ident="shakespare" source="teipublisher.odd"> 
                 <elementSpec ident="pb" mode="change">
-                    <model behaviour="webcomponent" cssClass="columnbreak">
+                    <model behaviour="webcomponent" cssClass="facs">
                         <param name="name" value="'pb-facs-link'"/>
                         <param name="content" value="@n"/>
                         <param name="facs" value="replace(@facs, '^FFimg:(.*)$', '$1')"/>
                         <outputRendition>
+                            
                             font-size: 16px;
                             color: #888888;
                             cursor: pointer;
@@ -46,11 +47,12 @@
                             display: block;
                             margin-right: -32px;
                             float: right;
+                            
                         </outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec ident="lb" mode="change">
-                    <model behaviour="omit" predicate="not(parent::p)">
+                    <model predicate="not(parent::p)" behaviour="omit">
                         <desc>Omit line breaks unless inside a paragraph</desc>
                     </model>
                     <model behaviour="break" useSourceRendition="true">
@@ -58,9 +60,11 @@
                         <param name="label" value="@n"/>
                     </model>
                 </elementSpec>
-                <elementSpec mode="change" ident="speaker">
+                <elementSpec ident="speaker" mode="change">
                     <model behaviour="inline">
-                        <outputRendition>font-style:italic; margin-right: 1rem; display: inline-block; text-indent: 2rem;</outputRendition>
+                        <outputRendition>
+                            font-style:italic; margin-right: 1rem; display: inline-block; text-indent: 2rem;
+                        </outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec ident="l" mode="change">
@@ -68,41 +72,59 @@
                         <desc>Display inline if preceded by a speaker</desc>
                     </model>
                     <model behaviour="block" useSourceRendition="true">
-                        <outputRendition> margin-left: 1em; </outputRendition>
+                        <outputRendition>
+                            margin-left: 1em;
+                        </outputRendition>
                     </model>
                 </elementSpec>
-                <elementSpec mode="change" ident="p">
+                <elementSpec ident="p" mode="change">
                     <model predicate="ancestor::sp" behaviour="inline" useSourceRendition="true">
                         <desc>Inside a speech element, the paragraph is shown next to the speaker</desc>
                     </model>
                     <model behaviour="paragraph" useSourceRendition="true">
-                        <outputRendition>text-align: justify;</outputRendition>
+                        <outputRendition>
+                            text-align: justify;
+                        </outputRendition>
                     </model>
                 </elementSpec>
-                <elementSpec mode="change" ident="stage">
+                <elementSpec ident="stage" mode="change">
                     <model predicate="contains(@rend, 'rightJustified')" behaviour="block">
-                        <outputRendition>font-style: italic; text-align: right;</outputRendition>
+                        <outputRendition>
+                            font-style: italic; text-align: right;
+                        </outputRendition>
                     </model>
                     <model predicate="contains(@rend, 'center')" behaviour="block">
-                        <outputRendition>font-style: italic; text-align: center;</outputRendition>
+                        <outputRendition>
+                            font-style: italic; text-align: center;
+                        </outputRendition>
                     </model>
                     <model behaviour="block">
-                        <outputRendition>font-style: italic;</outputRendition>
+                        <outputRendition>
+                            font-style: italic;
+                        </outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec ident="head" mode="change">
                     <model predicate="@type='supplied'" behaviour="omit"/>
                     <model predicate="parent::figure" behaviour="block">
-                        <outputRendition>font-style: italic;</outputRendition>
+                        <outputRendition>
+                            font-style: italic;
+                        </outputRendition>
                     </model>
                     <model predicate="parent::table" behaviour="block">
-                        <outputRendition>font-style: italic;</outputRendition>
+                        <outputRendition>
+                            font-style: italic;
+                        </outputRendition>
                     </model>
                     <model predicate="parent::lg" behaviour="block">
-                        <outputRendition>font-style: italic;</outputRendition>
+                        <outputRendition>
+                            font-style: italic;
+                        </outputRendition>
                     </model>
                     <model predicate="parent::list" behaviour="block">
-                        <outputRendition>font-weight: bold;</outputRendition>
+                        <outputRendition>
+                            font-weight: bold;
+                        </outputRendition>
                     </model>
                     <model predicate="parent::div" behaviour="heading">
                         <param name="level" value="count(ancestor::div)"/>
@@ -125,16 +147,20 @@
                     </model>
                     <model output="web" predicate="@type='catchword'" behaviour="block" cssClass="catchword">
                         <outputRendition>
+                            
                             float: right;
                             margin-top: 1em;
                             color: #CCC;
+                            
                         </outputRendition>
                     </model>
                     <model output="web" predicate="@type='sig'" behaviour="block" cssClass="sig">
                         <outputRendition>
+                            
                             text-align: center;
                             margin-top: 1em;
                             color: #CCC;
+                            
                         </outputRendition>
                     </model>
                     <model behaviour="omit"/>

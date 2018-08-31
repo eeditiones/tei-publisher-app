@@ -94,7 +94,7 @@ let $node :=
                         else
                             html:inline($config, ., ("tei-signed2"), .)
                     case element(pb) return
-                        html:webcomponent($config, ., ("tei-pb", "columnbreak"), @n, 'pb-facs-link', map {"facs": replace(@facs, '^FFimg:(.*)$', '$1')})
+                        html:webcomponent($config, ., ("tei-pb", "facs"), @n, 'pb-facs-link', map {"facs": replace(@facs, '^FFimg:(.*)$', '$1')})
                     case element(pc) return
                         html:inline($config, ., ("tei-pc"), .)
                     case element(anchor) return
