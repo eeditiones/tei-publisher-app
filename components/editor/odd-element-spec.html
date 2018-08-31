@@ -71,7 +71,9 @@
             paper-menu-button paper-icon-button{
                 margin-left:-10px;
             }
-            iron-collapse{
+
+            /*todo: this does not take effect*/
+            iron-collapse.models{
                 --iron-collapse-transition-duration:0.6s;
             }
         </style>
@@ -99,7 +101,7 @@
 
         <iron-collapse id="models" class="models" opened="{{show}}" id="elem-{{ident}}">
         <!--<iron-collapse id="models" class="models" id="elem-{{ident}}" on-opened-changed="_updateOpened">-->
-
+            <div class="collapse-content">
                 <template id="modelList" is="dom-repeat" items="{{models}}" as="model" mutable-data>
                     <template is="dom-if" if="{{show}}">
 
@@ -123,7 +125,7 @@
                     </odd-model>
                 </template>
             </template>
-
+            </div>
         </iron-collapse>
 
     </template>

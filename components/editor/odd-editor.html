@@ -144,11 +144,11 @@
 
         </style>
 
-        <iron-ajax id="loadContent" url="../modules/editor.xql"
+        <iron-ajax id="loadContent" url="/exist/apps/tei-publisher/modules/editor.xql"
                 handle-as="json" content-type="application/x-www-form-urlencoded"
                 method="GET"></iron-ajax>
 
-        <iron-ajax id="saveOdd" url="../modules/editor.xql"
+        <iron-ajax id="saveOdd" url="/exist/apps/tei-publisher/modules/editor.xql"
                 handle-as="json" content-type="application/x-www-form-urlencoded"
                 method="POST"></iron-ajax>
 
@@ -167,7 +167,7 @@
                     </h3>
                     <div id="new-element" class="input-group">
                         <paper-input id="identNew" label="Add Element" always-float-label="always-float-label">
-                            <paper-icon-button slot="suffix" on-click="addElementSpec" icon="add"></paper-icon-button>
+                            <paper-icon-button slot="suffix" on-click="addElementSpec" icon="add" tabindex="-1"></paper-icon-button>
                         </paper-input>
                     </div>
 
@@ -301,18 +301,33 @@
               ]
             }
 
+            constructor(){
+                super();
+            }
+
+
             connectedCallback() {
                 super.connectedCallback();
 //                console.log(this, ' connected');
-                console.log('connected root ', this.rootPath );
+//                console.log('connected root ', this.rootPath );
+                const pathname = window.location.pathname;
+                this.basePath = pathname.substring(0,pathname.lastIndexOf('/components'));
+                console.log('basePath ', this.basePath );
+                console.log('odd param: ', window.location.search);
+                const search = window.location.search;
+                const locationOdd = search.substring(search.indexOf('odd=')+4);
+                console.log('odd from location ', locationOdd);
+                if(locationOdd.length != 0){
+                    this.odd = locationOdd;
+                }
 
-                if(this.odd){
+//                if(this.odd){
 //                    console.log('selector ', this.querySelector('odd-selector'));
 //                    console.log('selector ', document.getElementById('selector'));
 
 //                    console.log('selector ', this.children);
 //                    this.children[0].setAttribute('selected',this.odd);
-                }
+//                }
 
                 /*
                                 self.refs.useNamespace.addEventListener('change', function() {
@@ -446,7 +461,7 @@
                 this.set('elementSpecs', [])
                 document.dispatchEvent(new CustomEvent('pb-start-update'));
 
-                this.$.editSource.setPath(this.rootPath + '/' + this.odd);
+//                this.$.editSource.setPath(this.rootPath + '/' + this.odd);
                 const params = { odd: this.odd, root: this.rootPath };
                 this.$.loadContent.params = params;
                 let request = this.$.loadContent.generateRequest();
@@ -474,11 +489,15 @@
                     document.dispatchEvent(new CustomEvent('pb-end-update'));
 
                     //init current selection
-                    this.currentSelection = this.shadowRoot.querySelector('odd-element-spec');
-                    this.currentSelection.setAttribute('currentselection',true);
+//                    this.currentSelection = this.shadowRoot.querySelector('odd-element-spec');
+//                    this.currentSelection.setAttribute('currentselection',true);
 
 
                 }.bind(this));
+            }
+            _handleLoadResponse(){
+                this.currentSelection = this.shadowRoot.querySelector('odd-element-spec');
+                this.currentSelection.setAttribute('currentselection',true);
             }
 
             addElementSpec(ev) {
@@ -611,7 +630,9 @@
 
             _setCurrentSelection(e){
                 console.log('editor._setCurrentSelection: ', e.target);
-                this.currentSelection.removeAttribute('currentselection');
+                if(this.currentSelection != undefined){
+                    this.currentSelection.removeAttribute('currentselection');
+                }
                 this.currentSelection = e.target;
                 this.currentSelection.setAttribute('currentselection','true');
             }
@@ -623,9 +644,11 @@
 
                 e.preventDefault();
                 e.stopPropagation();
-                    console.log('current-changed received ', e.detail.target);
-                    console.log('current-changed received current', this.currentSelection);
-                this.currentSelection.removeAttribute('currentselection');
+                console.log('current-changed received ', e.detail.target);
+                console.log('current-changed received current', this.currentSelection);
+                if(this.currentSelection != undefined){
+                    this.currentSelection.removeAttribute('currentselection');
+                }
                 const newSelection = e.detail.target;
                 newSelection.setAttribute('currentselection','true');
 //                    console.log('newSelection ', newSelection);

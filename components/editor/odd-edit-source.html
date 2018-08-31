@@ -17,7 +17,7 @@
         </style>
 
         <!-- todo: path to eXide is absolute.-->
-        <a target="eXide" data-exide-open="{{path}}"
+        <a target="eXide" data-exide-open="{{path}}" odd="[[odd]]"
            href="/exist/apps/eXide/index.html?open={{path}}" on-click="_editSource"><slot></slot></a>
     </template>
 
@@ -39,6 +39,10 @@
                 return {
                     path:{
                         type: String
+                    },
+                    odd:{
+                        type: String,
+                        reflectToAttribute:true
                     }
                 };
             }
@@ -54,7 +58,6 @@
             }
 
             setPath(path){
-                //todo
                 this.path = path;
             }
 
@@ -63,7 +66,8 @@
                 var exide = window.open("", "eXide");
                 if (exide && !exide.closed) {
                     var snip = this.root.getAttribute('exide-create');
-                    var path = this.path;
+//                    var path = this.path;
+                    var path = this.rootPath + '/' + this.odd;
 
                     // check if eXide is really available or it's an empty page
                     var app = exide.eXide;
