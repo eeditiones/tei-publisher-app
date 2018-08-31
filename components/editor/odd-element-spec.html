@@ -31,15 +31,6 @@
                 min-width: 180px;
             }
 
-            /*
-                        h3{
-                            display:flex;
-                            flex-direction: column;
-                        }
-            */
-
-
-
             :host([currentSelection]) > h3, :host([currentSelection]) > header{
                 /*background-color:var(--paper-grey-300);*/
                 /*outline: solid var(--paper-blue-grey-300);*/
@@ -78,7 +69,6 @@
 
         <h3>
             <paper-icon-button id="toggle" icon="[[toggleButtonIcon(show)]]" on-click="toggle"></paper-icon-button>
-            <!--<paper-icon-button id="toggle" icon="[[toggleButtonIcon(show)]]"></paper-icon-button>-->
             <span class="ident">[[ ident ]]</span>
 
             <span class="controls">
@@ -98,7 +88,6 @@
         </h3>
 
         <iron-collapse id="models" class="models" opened="{{show}}" id="elem-{{ident}}">
-        <!--<iron-collapse id="models" class="models" id="elem-{{ident}}" on-opened-changed="_updateOpened">-->
 
                 <template id="modelList" is="dom-repeat" items="{{models}}" as="model" mutable-data>
                     <template is="dom-if" if="{{show}}">
@@ -164,16 +153,14 @@
             connectedCallback() {
                 super.connectedCallback();
 
-//                this.addEventListener('click', e => this.toggle(e));
                 this.dispatchEvent(new CustomEvent('element-spec-connected', {
                     detail: {target: this}
                 }));
 
                 this.$.models.addEventListener("opened-changed", function () {
                     this.set('show', this.$.models.opened)
-                    if (!this.$.models.opened) {
-                        return;
-                    }
+
+                    if (!this.$.models.opened) { return; }
 
                     this.dispatchEvent(new CustomEvent('element-spec-toggled', {
                         detail: {target: this}
@@ -183,8 +170,6 @@
                 if (this.models.length === 0) {
                     this._addModel()
                 }
-
-
             }
 
             render(){
@@ -238,8 +223,6 @@
             }
 
             removeModel(ev) {
-//                console.log('elementspec e: ', ev);
-//                console.log('elementspec removeModel: ', this.models);
                 const item = ev.currentTarget;
                 const index = this.$.modelList.indexForElement(item);
 
@@ -249,7 +232,6 @@
             moveModelUp(ev) {
                 const item = ev.currentTarget;
                 const index = this.$.modelList.indexForElement(item);
-//              console.log('moveModelUp', item, index)
 
                 if (index === 0) {
                     return;
@@ -262,7 +244,6 @@
             moveModelDown(ev) {
                 const item = ev.currentTarget;
                 const index = this.$.modelList.indexForElement(item);
-//              console.log('moveModelDown', item, index)
 
                 if (index === this.models.length) {
                     return;
@@ -288,16 +269,6 @@
 
             _toggle(e){
                 console.log('_toggle ',e);
-//                this.$.models.toggle();
-            }
-
-            serialize(indent) {
-                const mode = this.mode ? ` mode="${this.mode}"` : '';
-                let xml = `${indent}<elementSpec ident="${this.ident}"${mode}>\n`;
-                let indent2 = indent + '    '
-                xml += Array.from(this.shadowRoot.querySelectorAll('odd-model')).map(item => item.serialize(indent2)).join('')
-                xml += `${indent}</elementSpec>\n`;
-                return xml;
             }
 
             _setCurrentSelection(e){

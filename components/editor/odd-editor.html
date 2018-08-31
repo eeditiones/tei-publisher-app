@@ -192,12 +192,10 @@
                                      placeholder="[Short title for display]"></paper-input>
                         <paper-input id="source" name="source" value="{{source}}" label="Source ODD"
                                      placeholder="[ODD to inherit from]"></paper-input>
-
-                        <paper-input id="namespace" name="namespace" value="{{namespace}}" label="Namespace"
-                                     placeholder="[Default namespace URI (if not TEI)]">
-                            <paper-checkbox slot="prefix" id="useNamespace"
-                                            title="Check for using a different namespace than TEI"></paper-checkbox>
-                        </paper-input>
+                        <paper-checkbox id="useNamespace" checked="{{useNamespace}}"
+                                        title="Check for using a different namespace than TEI"></paper-checkbox>
+                        <paper-input id="namespace" name="namespace" value="{{namespace}}" label="Namespace" disabled="[[nsDisabled(useNamespace)]]"
+                                     placeholder="[Default namespace URI (if not TEI)]"></paper-input>
                     </div>
                 </pb-collapse>
             </paper-card>
@@ -290,6 +288,10 @@
                     },
                     currentSelection:{
                         type: Object
+                    },
+                    useNamespace: {
+                      type: Boolean,
+                      value: false
                     }
                 };
             }
@@ -301,38 +303,32 @@
               ]
             }
 
+            static get replaceCharMap ()  {
+                return {
+                  '"': '&quot;',
+                  '&': '&amp;',
+                  '<': '&lt;',
+                  '>': '&gt;'
+                }
+            };
+
+            static get replaceCharRegexp() {
+                return /"|&|<|>/g
+            }
+
+            replaceChars (match) {
+                return this.replaceCharMap[match];
+            }
+
             connectedCallback() {
                 super.connectedCallback();
-//                console.log(this, ' connected');
                 console.log('connected root ', this.rootPath );
 
-                if(this.odd){
-//                    console.log('selector ', this.querySelector('odd-selector'));
-//                    console.log('selector ', document.getElementById('selector'));
-
-//                    console.log('selector ', this.children);
-//                    this.children[0].setAttribute('selected',this.odd);
-                }
-
-                /*
-                                self.refs.useNamespace.addEventListener('change', function() {
-                                    self.refs.namespace.disabled = !this.checked;
-                                });
-
-                                self.refs.jumpTo.addEventListener('autocomplete-selected', self.jumpTo.bind(self));
-
-                                CodeMirror.registerHelper("lint", "xquery", self.lintXQuery.bind(self));
-                */
-
-
-                this.$.useNamespace.addEventListener('change', function () {
-                    this.$.namespace.disabled = !this.$.useNamespace.checked;
-                });
                 this.$.jumpTo.addEventListener('autocomplete-selected', this.jumpTo.bind(this));
 
                 //propagate odd prop to odd-selector
                 console.log("odd prop: ", this.odd);
-                if(this.odd){
+                if (this.odd) {
                     const selector = this.querySelector('odd-selector');
                     console.log('selector: ', selector);
                     selector.selected =  this.odd;
@@ -370,30 +366,15 @@
             _copy(e){
                 console.log('odd-editor._copy ', e);
                 this.clipboard = e.detail.model;
-//                console.log('odd-editor._copy clone', e.detail.model);
-//                console.log('odd-editor._copy json stringified', JSON.stringify(e.detail.model));
-//                console.log('odd-editor._copy json parsed', JSON.parse(JSON.stringify(e.detail.model)));
-//                const clone = e.detail.model;
                 const clone = JSON.parse(JSON.stringify(e.detail.model));
-//                console.log('cloned ', clone);
-
                 this.clipboard = clone;
-//                console.log('odd-editor clipboard ', this.clipboard);
             }
 
             _paste(e){
-//                console.log('odd-editor._paste ', e);
-//                console.log('odd-editor._paste target', e.detail.target);
-//                console.log('odd-editor._paste clipboard', this.clipboard);
-                if (this.clipboard=={}) return;
+                if (this.clipboard == {}) { return; }
                 const targetElement = e.detail.target;
                 targetElement.addModel(this.clipboard);
                 targetElement.render();
-
-//                console.log('odd-editor._paste clipboard', this.clipboard);
-//                console.log('odd-editor._paste clipboard', this.$.specList.itemForElement(this.clipboard));
-//                this.unshift('elementSpecs',this.clipboard);
-
             }
 
             _specMapper (spec) {
@@ -405,7 +386,6 @@
 
             _specObserver (changeRecord) {
                 console.log('_specObserver', changeRecord)
-                // if (!changeRecord) { return; }
                 const source = this.elementSpecs.map(this._specMapper);
                 this.$.jumpTo.set('source', source);
             }
@@ -443,7 +423,9 @@
             load() {
                 if (this.loading) { return; }
                 this.loading = true;
-                this.set('elementSpecs', [])
+                // reset
+                this.set('elementSpecs', []);
+
                 document.dispatchEvent(new CustomEvent('pb-start-update'));
 
                 this.$.editSource.setPath(this.rootPath + '/' + this.odd);
@@ -457,17 +439,10 @@
                     this.titleShort = data.titleShort;
 
                     this.namespace = data.namespace;
-                    if (this.namespace == null) {
-                        this.$.useNamespace.checked = false;
-                        this.$.namespace.disabled = true;
-                    }
-                    else {
-                        this.$.useNamespace.checked = true;
-                        this.$.namespace.disabled = false;
-                    }
+                    this.useNamespace = (this.namespace != null);
+                    console.log('NAMESPACE', this.namespace, this.useNamespace);
 
                     this.set('elementSpecs', data.elementSpecs);
-                    console.log("element specs: %s", this.elementSpecs.length);
                     this.$.specList.render()
 
                     this.loading = false
@@ -476,8 +451,6 @@
                     //init current selection
                     this.currentSelection = this.shadowRoot.querySelector('odd-element-spec');
                     this.currentSelection.setAttribute('currentselection',true);
-
-
                 }.bind(this));
             }
 
@@ -537,35 +510,97 @@
               this.currentItem.scrollIntoView();
             }
 
-            serialize() {
-              const useNamespace = this.$.useNamespace.checked;
-              const elementSpecElements = Array.from(this.shadowRoot.querySelectorAll('odd-element-spec'));
-              const serializedElementSpecs = elementSpecElements.map(elementSpecElement => elementSpecElement.serialize(this.indentString))
-              const ns = useNamespace ? ` ns="${this.namespace}"` : '';
+            serializeOdd() {
+              const ns = this.useNamespace ? ` ns="${this.namespace}"` : '';
               const source = this.source ? ` source="${this.source}"` : '';
+              const title = `${this.indentString}<title>${this.title}</title>\n`
+              const titleShort = `${this.indentString}<title type="short">${this.titleShort}</title>\n`
+              const elementSpecs = this.elementSpecs
+                .map(e => this.serializeElementSpec(this.indentString, e))
+                .join('')
 
-              let schemaSpec = `<schemaSpec xmlns="http://www.tei-c.org/ns/1.0"${ns}${source}>\n`
-              schemaSpec += `${this.indentString}<title>${this.title}</title>\n`
-              schemaSpec += `${this.indentString}<title type="short">${this.titleShort}</title>\n`
-              schemaSpec += serializedElementSpecs.join('\n')
-              schemaSpec += `</schemaSpec>\n`;
-              return schemaSpec
+              return `<schemaSpec xmlns="http://www.tei-c.org/ns/1.0"${ns}${source}>\n${title}${titleShort}${elementSpecs}</schemaSpec>\n`
+            }
+
+            serializeElementSpec (indent, elementSpec) {
+              const mode = elementSpec.mode ? ` mode="${elementSpec.mode}"` : '';
+              const indent2 = indent + this.indentString
+              const models = elementSpec.models
+                .map(m => this.serializeModel(indent2, m))
+                .join('')
+
+              return `${indent}<elementSpec ident="${elementSpec.ident}"${mode}>\n${models}${indent}</elementSpec>\n`;
+            }
+
+            serializeModel (indent, model) {
+                if (model.type === 'model' && !model.behaviour) { return ''; }
+
+                const nestedIndent = indent + this.indentString;
+
+                const attributes = [
+                  this.serializeAttribute('output', model.output),
+                  this.serializeAttribute('predicate', model.predicate),
+                  this.serializeAttribute('behaviour', model.behaviour),
+                  this.serializeAttribute('cssClass', model.css),
+                  this.serializeAttribute('useSourceRendition', model.sourcerend)
+                ].join('')
+
+                const desc = this.desc ? nestedIndent + '<desc>' + this.desc + '</desc>\n' : '';
+
+                // innerXML += this.serializeTag('model', nestedIndent);
+                const models = model.models
+                  .map(m => this.serializeModel(nestedIndent, m))
+                  .join('');
+                const parameters = model.parameters
+                  .map(p => this.serializeParameter(nestedIndent, p))
+                  .join('');
+                const renditions = model.renditions
+                  .map(r => this.serializeRendition(nestedIndent, r))
+                  .join('');
+
+                const innerXML = `${desc}${models}${parameters}${renditions}`;
+                const end = (innerXML.length > 0) ? `>\n${innerXML}${indent}</${model.type}` : '/';
+
+                return `${indent}<${model.type}${attributes}${end}>\n`
+            }
+
+            serializeParameter (indent, parameter) {
+              if (!parameter.name) { return ''; }
+              const name = this.serializeAttribute('name', parameter.name);
+              const value = this.serializeAttribute('value', parameter.value);
+              return `${indent}<param${name}${value}/>\n`
+            }
+
+            serializeRendition (indent, rendition) {
+              const scope = this.serializeAttribute('scope', rendition.scope);
+              const css = this.escape(rendition.css);
+              return `${indent}<outputRendition${scope}>\n${indent}${css}\n${indent}</outputRendition>\n`;
+            }
+
+            serializeAttribute (name, value) {
+                return value ? ` ${name}="${this.escape(value)}"` : ''
+            }
+
+            escape(code) {
+                if (!code) { return ''; }
+                return code.replace(this.replaceCharRegexp, this.replaceChars);
             }
 
             save () {
               document.dispatchEvent(new CustomEvent('pb-start-update'));
-              console.log(this.serialize())
+              const data = this.serializeOdd()
+              console.log('serialised ODD:', data)
 
               this.$.dialog.show("Saving ...");
 
               this.$.saveOdd.params = null;
               this.$.saveOdd.body = {
                   action: "save",
-                  root: '',
+                  root: '/db/apps/tei-publisher/odd',
                   "output-prefix": this.outputPrefix,
                   "output-root": this.outputRoot,
                   odd: this.odd,
-                  data: this.serialize()
+                  data: data
               };
               const request = this.$.saveOdd.generateRequest();
               request.completes
@@ -632,6 +667,7 @@
                 this.currentSelection = newSelection;
             }
 
+            nsDisabled(useNamespace) { return !useNamespace }
         }
 
         window.customElements.define(OddEditor.is, OddEditor);

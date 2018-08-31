@@ -74,10 +74,6 @@
                 align-self:center;
             }
 
-
-
-
-
             header div.info {
                 padding: 0 16px 4px;
                 margin: 0;
@@ -100,16 +96,6 @@
             header .predicate {
                 color: #ff5722;
             }
-
-/*
-            header .predicate:before {
-                content: ' [';
-            }
-
-            header .predicate:after {
-                content: ']';
-            }
-*/
 
             .predicate label {
                 display: block;
@@ -194,16 +180,6 @@
                 margin-top:10px;
             }
 
-/*
-            .mainHeader{
-                display:grid;
-                grid-template-columns: 5% auto;
-            }
-            .mainHeader .btnGroup{
-                text-align: right;
-            }
-*/
-
             .renditions{
                 margin-top:10px;
             }
@@ -211,17 +187,10 @@
 
         <form>
             <header>
-                <!--<div class="mainHeader">-->
-                <!-- todo: conditional rendering of controls should be refactored for clarity -->
                     <h4>
                         <paper-icon-button id="toggle"
                                            icon="{{toggleButtonIcon(show)}}" on-click="toggle"
                                            class="model-collapse"></paper-icon-button>
-<!--
-                        <paper-icon-button id="toggle"
-                                           icon="{{toggleButtonIcon(show)}}"
-                                           class="model-collapse"></paper-icon-button>
--->
                         <span class="modelType">{{type}}<span class="behaviour" hidden$="[[_isGroupOrSequence(type)]]">{{ behaviour }}</span></span>
 
                         <span class="btn-group">
@@ -247,32 +216,17 @@
                                 </paper-menu-button>
                             </template>
 
-                            <!--<paper-menu-button hidden$="[[_isModel(type)]]">-->
                         </span>
                     </h4>
-<!--
-                    <paper-dropdown-menu class="selectOutput" label="Output" hidden$="[[_isGroupOrSequence(type)]]">
-                        <paper-listbox id="output" slot="dropdown-content" attr-for-selected="value"
-                                       selected="{{output}}">
-                            <template id="outputList" is="dom-repeat" items="{{outputs}}" as="output">
-                                <paper-item value="{{output}}">{{output}}</paper-item>
-                            </template>
-                        </paper-listbox>
-                    </paper-dropdown-menu>
--->
-                <!--</div>-->
                 <div class="info">
                     <div class="outputDisplay">[[output]]</div>
                     <div class="description">{{desc}}</div>
-                    <!--<div class="predicate" hidden$="{{_hasNoPredicate(predicate)}}">{{predicate}}</div>-->
                     <div class="predicate">{{predicate}}</div>
                 </p>
             </header>
 
             <iron-collapse id="details" opened="{{show}}" id="elem-[[ident]]" class="details">
 
-                <!--<template is="dom-if" if="{{show}}">-->
-                <!--<paper-dropdown-menu class="selectOutput" label="Output" hidden$="[[_isGroupOrSequence(type)]]">-->
                 <paper-dropdown-menu class="selectOutput" label="Output">
                     <paper-listbox id="output" slot="dropdown-content" attr-for-selected="value"
                                    selected="{{output}}">
@@ -290,12 +244,6 @@
                                         label="Behaviour"></paper-autocomplete>
                     <div class="predicate">
                         <label>Predicate</label>
-<!--
-                        <odd-code-editor id="predicate" mode="xquery"
-                                         placeholder="[XPath condition: model applies only if matched]"
-                                         code="{{predicate}}">
-                        </odd-code-editor>
--->
                         <paper-input id="predicate" label="predicate" value="{{predicate}}"></paper-input>
                     </div>
                     <paper-input id="css" value="{{ css }}"
@@ -330,7 +278,6 @@
                                            events="{{ events }}" on-remove-rendition="_removeRendition"></odd-rendition>
                         </template>
                     </div>
-                <!--</template>-->
             </iron-collapse>
 
             <div class="models" hidden$="[[_isModel(type)]]">
@@ -480,9 +427,7 @@
 
             connectedCallback() {
                 super.connectedCallback();
-                console.log('odd-model connected', this);
-
-//                this.addEventListener('click', e => this.toggle(e));
+                // console.log('odd-model connected', this);
 
                 this.$.details.addEventListener("opened-changed", function () {
                     this.set('show', this.$.details.opened)
@@ -503,10 +448,7 @@
             }
 
             toggle(e) {
-//                console.log('odd-model.toggle ', e);
                 console.log('odd-model.toggle ', e.composedPath());
-
-//                if(this.show) return;
                 this.$.details.toggle()
             }
 
@@ -535,22 +477,15 @@
             }
 
             removeModel(ev) {
-//                console.log('odd-model removeModel: ', this.models);
-//                const item = ev.target;
-                var item = ev.composedPath()[0];
-//                console.log('odd-model removeModel ev ', item);
-//                console.log('odd-model removeModel parentModel ', this.parentModel);
-
+              // TODO test if:  const item = ev.currentTarget; works
+                const item = ev.composedPath()[0];
                 const index = this.$.modelList.indexForElement(item);
-//                console.log('odd-model removeModel index ', index);
-
                 this.splice('models', index, 1);
             }
 
             moveModelUp(ev) {
                 const item = ev.currentTarget;
                 const index = this.$.modelList.indexForElement(item);
-//              console.log('moveModelUp', item, index)
 
                 if (index === 0) {
                     return;
@@ -563,7 +498,6 @@
             moveModelDown(ev) {
                 const item = ev.currentTarget;
                 const index = this.$.modelList.indexForElement(item);
-//              console.log('moveModelDown', item, index)
 
                 if (index === this.models.length) {
                     return;
@@ -576,15 +510,6 @@
             addParameter(e) {
                 this.push('parameters', {name: "", value: ""});
             }
-
-            /*
-                        removeParameter(item) {
-                            console.log('removeParameter: ', this);
-                            console.log('removeParameter item: ', item);
-                            const index = this.parameters.indexOf(item.itemForElement(item));
-                            this.splice('parameters', index, 1);
-                        }
-            */
 
             addRendition(ev) {
                 this.push('renditions', {
@@ -605,32 +530,14 @@
                 console.log('odd-model.copy data', this.parentModel);
 
                 this.dispatchEvent(new CustomEvent('copy', {composed:true, bubbles:true, detail: {model: this.parentModel}}));
-
-                //this.clipboard.copy(this.getData());
             }
 
             _paste(ev) {
                 console.log('model _paste ',ev);
-/*
-                const editor = document.querySelector('odd-editor');
-                console.log('model _paste editor clipboard',editor.clipboard);
-*/
                 this.dispatchEvent(new CustomEvent('paste', {composed:true, bubbles:true, detail: {target: this}}));
-
-                /*
-                                const data = null //this.clipboard.paste();
-                                if (data) {
-                                    this.unshift('models', data);
-                                }
-                */
             }
 
             addNested(ev) {
-//                console.log('addNested ', ev.detail.item);
-//                console.log('addNested ', ev.detail.item.getAttribute('value'));
-//                console.log('addNested modeltype', this.$.modelType.selected);
-
-
                 this.unshift('models', {
                     behaviour: 'inline',
                     predicate: '',
@@ -648,60 +555,6 @@
                 modelTypeSelector.select("");
             }
 
-            escape(code) {
-                var replaceChars = {
-                    '"': '&quot;',
-                    '&': '&amp;',
-                    '<': '&lt;',
-                    '>': '&gt;'
-                };
-                var regex = new RegExp(Object.keys(replaceChars).join("|"), "g");
-                return code.replace(regex, function (match) {
-                    return replaceChars[match];
-                });
-            }
-
-            serialize(indent) {
-                if (this.type === 'model' && !this.behaviour) {
-                    return '';
-                }
-
-                var xml = indent + '<' + this.type;
-                if (this.output) {
-                    xml += ' output="' + this.output + '"';
-                }
-                if (this.predicate) {
-                    xml += ' predicate="' + this.escape(this.predicate) + '"';
-                }
-                if (this.behaviour) {
-                    xml += ' behaviour="' + this.behaviour + '"';
-                }
-                if (this.css) {
-                    xml += ' cssClass="' + this.css + '"';
-                }
-                if (this.sourcerend) {
-                    xml += ' useSourceRendition="true"';
-                }
-                var nestedIndent = indent + '    ';
-                var innerXML = "";
-                if (this.desc) {
-                    innerXML += nestedIndent + '<desc>' + this.desc + '</desc>\n';
-                }
-                // innerXML += this.serializeTag('model', nestedIndent);
-                innerXML += Array.from(this.shadowRoot.querySelectorAll('odd-model')).map(item => item.serialize(nestedIndent)).join('')
-                innerXML += Array.from(this.shadowRoot.querySelectorAll('odd-parameter')).map(item => item.serialize(nestedIndent)).join('')
-                innerXML += Array.from(this.shadowRoot.querySelectorAll('odd-rendition')).map(item => item.serialize(nestedIndent)).join('')
-
-                if (innerXML.length == 0) {
-                    xml += '/>\n';
-                }
-                else {
-                    xml += '>\n' + innerXML;
-                    xml += indent + '</' + this.type + '>\n';
-                }
-                return xml;
-            }
-
             _isGroupOrSequence(type) {
                 return type !== 'model';
             }
@@ -715,13 +568,7 @@
             }
 
             _removeParam(e) {
-//                console.log('_removeParam ', e);
-//                console.log('_removeParam ', e.target);
-//                console.log('parameters ', this.parameters);
-
                 const index = this.$.parameterList.indexForElement(e.target);
-//                console.log('param index ', index);
-//                console.log('param index ', this.get(['parameters',index]));
                 this.splice('parameters', index, 1);
             }
 
@@ -732,7 +579,6 @@
 
             _setCurrentSelection(e){
                 console.log('model._setCurrentSelection: ', e.target);
-//                this.dispatchEvent(new CustomEvent('current-changed', {composed:true, bubbles:true, detail:{target: e.target}}));
                 this.setCurrent(e.target);
                 e.preventDefault();
                 e.stopPropagation();

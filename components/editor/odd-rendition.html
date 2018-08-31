@@ -32,19 +32,9 @@
                 </template>
             </paper-listbox>
         </paper-dropdown-menu>
-        <!--<textarea id="textarea" on-change="_handleChange"></textarea>-->
         <paper-textarea id="textarea" on-change="_handleChange">{{value}}</paper-textarea>
 
         <paper-icon-button on-click="_remove" icon="delete"></paper-icon-button>
-
-        <!--
-                <odd-code-editor id="css" mode="css" code="{{css}}"
-                  placeholder="[CSS to apply]">
-
-                </odd-code-editor>
-        -->
-
-
 
         <slot></slot>
     </template>
@@ -92,50 +82,6 @@
                 super.connectedCallback();
             }
 
-            _getData() {
-                return {
-                    scope: this.scope,
-                    css: this.$.css.get()
-                };
-/*
-                return {
-                    scope: this.$.scopeList.selected,
-                    css: this.$.css.get()
-                };
-*/
-            }
-
-            escape(code) {
-                var replaceChars = {
-                    '"': '&quot;',
-                    '&': '&amp;',
-                    '<': '&lt;',
-                    '>': '&gt;'
-                };
-                var regex = new RegExp(Object.keys(replaceChars).join("|"), "g");
-                return code.replace(regex, function (match) {
-                    return replaceChars[match];
-                });
-            }
-
-            serialize(indent) {
-                var css = this.$.css.get();
-                if (!css) {
-                    return '';
-                }
-                css = this.escape(css);
-
-                var scope = this.scope;
-                var xml = indent + '<outputRendition';
-                if (scope) {
-                    xml += ' scope="' + scope + '"';
-                }
-                xml += '>\n';
-                xml += indent + '   ' + css;
-                xml += '\n' + indent + '</outputRendition>\n';
-                return xml;
-            }
-
             show() {
                 this.$.css.initCodeEditor();
             }
@@ -145,22 +91,19 @@
             }
 
             _remove(ev) {
-//                console.log('_remove rendition: ', ev);
                 ev.preventDefault();
                 this.dispatchEvent(new CustomEvent('remove-rendition', {}));
             }
 
-            _handleChange(){
+            _handleChange() {
                 this.css = this.$.textarea.value;
             }
 
-            _valueChanged(){
-//                console.log('valueChanged');
+            _valueChanged() {
                 this.$.textarea.value = this.css;
             }
 
-            _scopeChanged(){
-//                console.log('scope changed ', this.$.scopeList.selected);
+            _scopeChanged() {
                 this.scope = this.$.scopeList.selected;
             }
 

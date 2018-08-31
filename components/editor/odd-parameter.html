@@ -37,12 +37,6 @@
         <div class="wrapper">
             <paper-autocomplete id="combo" text="{{name}}" placeholder="[Param name]" label="Name"
                                 source="[]"></paper-autocomplete>
-<!--
-            <odd-code-editor id="value" mode="xquery" code="{{value}}"
-                         placeholder="[XPath to define param value]">
-
-            </odd-code-editor>
--->
             <paper-input id="textarea" on-change="_handleChange" value="{{value}}" label="value"></paper-input>
                 <!--<textarea id="textarea" on-change="_handleChange"></textarea>-->
             <div class="actions">
@@ -117,7 +111,6 @@
 
             connectedCallback() {
                 super.connectedCallback();
-//                this.value = this.$.textarea.value;
             }
 
             updateList() {
@@ -138,32 +131,11 @@
                 this.dispatchEvent(new CustomEvent('parameter-remove', {}));
             }
 
-            escape(code) {
-                var replaceChars = {
-                    '"': '&quot;',
-                    '&': '&amp;',
-                    '<': '&lt;',
-                    '>': '&gt;'
-                };
-                var regex = new RegExp(Object.keys(replaceChars).join("|"), "g");
-                return code.replace(regex, function (match) {
-                    return replaceChars[match];
-                });
-            }
-
             getData() {
                 return {
                     name: this.$.combo.text,
                     value: this.$.value.get()
                 };
-            }
-
-            serialize(indent) {
-                var name = this.$.combo.text;
-                if (!name) {
-                    return '';
-                }
-                return indent + '<param name="' + name + '" value="' + this.escape(this.$.value.get()) + '"/>\n';
             }
 
             show() {
@@ -175,7 +147,6 @@
             }
 
             _valueChanged() {
-//                console.log('valueChanged');
                 this.$.textarea.value = this.value;
             }
 
