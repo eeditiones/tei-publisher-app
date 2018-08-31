@@ -52,13 +52,13 @@
 
                     --paper-card-header: {
                         background-color: #d1dae0;
-                    }
+                    };
 
                     --paper-card-header-text: {
                         font-family: "Oswald",Verdana,"Helvetica",sans-serif;
                         font-size: 16px;
                         font-weight: 400;
-                    }
+                    };
                 }
 
                 .panels aside {
@@ -74,14 +74,14 @@
                 aside .odds, aside .upload {
                     --paper-card-header: {
                         background-color: #607D8B;
-                    }
+                    };
 
                     --paper-card-header-text: {
                         font-family: "Oswald",Verdana,"Helvetica",sans-serif;
                         font-size: 16px;
                         font-weight: 400;
                         color: white;
-                    }
+                    };
                 }
 
                 aside .upload {
@@ -247,6 +247,15 @@
         </paper-dialog>
         <paper-dialog id="messageDialog" modal="modal">
             <h2>Action</h2>
+            <paper-dialog-scrollable/>
+            <div class="buttons">
+                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                    <i18n:text key="close">Close</i18n:text>
+                </paper-button>
+            </div>
+        </paper-dialog>
+        <paper-dialog id="errorDialog">
+            <h2>Error</h2>
             <paper-dialog-scrollable/>
             <div class="buttons">
                 <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">

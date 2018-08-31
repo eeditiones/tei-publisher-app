@@ -96,7 +96,7 @@ else if (ends-with($exist:resource, ".html")) then (
     return
         (: the html page is run through view.xql to expand templates :)
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-            <forward url="{$exist:controller}/{$resource}"/>
+            <forward url="{$exist:controller}/{$resource}"/> 
             <view>
                 <forward url="{$exist:controller}/modules/view.xql">
                 {
@@ -107,10 +107,15 @@ else if (ends-with($exist:resource, ".html")) then (
                 }
                 </forward>
             </view>
-    		<error-handler>
-    			<forward url="{$exist:controller}/error-page.html" method="get"/>
-    			<forward url="{$exist:controller}/modules/view.xql"/>
-    		</error-handler>
+            {
+                if ($exist:resource = "index.html") then
+            		<error-handler>
+            			<forward url="{$exist:controller}/error-page.html" method="get"/>
+            			<forward url="{$exist:controller}/modules/view.xql"/>
+            		</error-handler>
+                else
+                    ()
+            }
         </dispatch>
 
 ) else if (matches($exist:path, "/(" || string-join($data-collections, "|") || ")/.*[^/]+\..*$")) then (
