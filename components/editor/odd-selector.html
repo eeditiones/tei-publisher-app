@@ -61,7 +61,9 @@
 //                console.log('odd selected: ', this.parentNode);
 
                 //in this case this should be safe but is not a recommended practice
-                this.parentNode.set('odd', this.$.select.selected);
+                if(this.parentNode){
+                    this.parentNode.odd = this.$.select.selected;
+                }
             }
 
             connectedCallback() {

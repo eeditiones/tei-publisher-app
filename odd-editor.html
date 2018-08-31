@@ -11,13 +11,14 @@
 
         <title data-template="config:app-title"/>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
-        <!--todo: keep styles local - on slow internet connection loading of fonts otherwise block page loading -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald"/>
         <link rel="stylesheet" type="text/css" href="resources/css/vendor/codemirror.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/vendor/ttcn.css"/>
         <link rel="stylesheet" type="text/css" href="resources/css/vendor/lint.css"/>
         <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
         <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
+
+        <link rel="import" href="components/editor/editor-dependencies.html"/>
         <link rel="import" href="components/dependencies-dev.html"/>
 
         <custom-style>
@@ -131,12 +132,12 @@
             }
             </style>
         </custom-style>
-        <script type="text/javascript" src="resources/scripts/vendor/codemirror/codemirror.js"/>
-        <script type="text/javascript" src="resources/scripts/vendor/codemirror/matchbrackets.js"/>
-        <script type="text/javascript" src="resources/scripts/vendor/codemirror/placeholder.js"/>
-        <script type="text/javascript" src="resources/scripts/vendor/codemirror/lint.js"/>
-        <script type="text/javascript" src="resources/scripts/vendor/codemirror/css.js"/>
-        <script type="text/javascript" src="resources/scripts/vendor/codemirror/xquery.js"/>
+        <!--<script type="text/javascript" src="resources/scripts/vendor/codemirror/codemirror.js"/>-->
+        <!--<script type="text/javascript" src="resources/scripts/vendor/codemirror/matchbrackets.js"/>-->
+        <!--<script type="text/javascript" src="resources/scripts/vendor/codemirror/placeholder.js"/>-->
+        <!--<script type="text/javascript" src="resources/scripts/vendor/codemirror/lint.js"/>-->
+        <!--<script type="text/javascript" src="resources/scripts/vendor/codemirror/css.js"/>-->
+        <!--<script type="text/javascript" src="resources/scripts/vendor/codemirror/xquery.js"/>-->
     </head>
     <body data-template="i18n:translate" data-catalogues="resources/i18n" unresolved="unresolved">
         <app-header-layout>
@@ -184,27 +185,21 @@
                 </app-toolbar>
             </app-header>
             <main>
-                <editor>
-                    <odd-select data-template="app:form-odd-select"></odd-select>
-                </editor>
-                <script src="resources/scripts/tags/mixins.js" type="text/javascript"></script>
-                <script src="resources/scripts/tags/code-editor.tag" type="riot/tag"></script>
-                <script src="resources/scripts/tags/message.tag" type="riot/tag"></script>
-                <script src="resources/scripts/tags/odd-select.tag" type="riot/tag"></script>
-                <script src="resources/scripts/tags/edit-source.tag" type="riot/tag"></script>
-                <script src="resources/scripts/tags/parameter.tag" type="riot/tag"></script>
-                <script src="resources/scripts/tags/rendition.tag" type="riot/tag"></script>
-                <script src="resources/scripts/tags/model.tag" type="riot/tag"></script>
-                <script src="resources/scripts/tags/element-spec.tag" type="riot/tag"></script>
-                <script src="resources/scripts/tags/editor.tag" type="riot/tag"></script>
-                <script src="resources/scripts/vendor/riot+compiler.min.js"></script>
-                <script data-template="app:editor-init"></script>
-                <script>
-                    var app = riot.observable();
-                    var mixin = new Mixin(app);
-                    riot.mixin('utils', mixin);
-                    riot.mount('editor');
-                </script>
+                <odd-editor root-path="/db/apps/tei-publisher/odd"
+                            output-path="/db/apps/tei-publisher/transform"
+                            output-prefix="transform">
+                    <odd-selector id="selector">
+                        <paper-item value="jats.odd" role="option" tabindex="-1" aria-disabled="false">JATS []</paper-item>
+                        <paper-item value="graves.odd" role="option" tabindex="-1" aria-disabled="false">Graves' Letters [2018-08-05+02:00]</paper-item>
+                        <paper-item value="docbook.odd" role="option" tabindex="-1" aria-disabled="false">Docbook v5 []</paper-item>
+                        <paper-item value="dta.odd" role="option" tabindex="-1" aria-disabled="false">Deutsches Textarchiv [2017-09-08]</paper-item>
+                        <paper-item value="tei_simplePrint.odd" role="option" tabindex="-1" aria-disabled="false">Standard Default [2016-11-17]</paper-item>
+                        <paper-item value="beamer.odd" role="option" tabindex="0" aria-disabled="false">Presentations [2017-09-08]</paper-item>
+                        <paper-item value="teipublisher.odd" role="option" tabindex="-1" aria-disabled="false">TEI Publisher Base [2017-09-08]</paper-item>
+                        <paper-item value="letter.odd" role="option" tabindex="-1" aria-disabled="false">Letters [2017-09-08]</paper-item>
+                        <paper-item value="myteisimple.odd" role="option" tabindex="-1" aria-disabled="false">Example ODD [2017-09-08]</paper-item>
+                    </odd-selector>
+                </odd-editor>
             </main>
         </app-header-layout>
     </body>
