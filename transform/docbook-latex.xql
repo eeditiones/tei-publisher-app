@@ -166,8 +166,7 @@ let $node :=
                     case element(filename) return
                         latex:inline($config, ., ("tei-filename", "code"), .)
                     case element(note) return
-                        (: No function found for behavior: panel :)
-                        $config?apply($config, ./node())
+                        latex:block($config, ., ("tei-note2"), .)
                     case element(tag) return
                         latex:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return
