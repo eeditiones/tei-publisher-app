@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<!--
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-if.html">
 <link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
@@ -15,6 +16,7 @@
 <link rel="import" href="odd-code-editor.html">
 <link rel="import" href="odd-parameter.html">
 <link rel="import" href="odd-rendition.html">
+-->
 
 
 <!--
@@ -440,38 +442,40 @@
                         type: Array,
                         reflectToAttribute: true,
                         notify: true
+                    },
+                    behaviours:{
+                        type:Array,
+                        reflectToAttribute: true,
+                        notify: true,
+                        value:[
+                            "alternate",
+                            "anchor",
+                            "block",
+                            "body",
+                            "break",
+                            "cell",
+                            "cit",
+                            "document",
+                            "figure",
+                            "graphic",
+                            "heading",
+                            "inline",
+                            "link",
+                            "list",
+                            "listItem",
+                            "metadata",
+                            "note",
+                            "omit",
+                            "paragraph",
+                            "row",
+                            "section",
+                            "table",
+                            "text",
+                            "title",
+                            "webcomponent"
+                        ]
                     }
                 };
-            }
-
-            static get behaviours() {
-                return [
-                    "alternate",
-                    "anchor",
-                    "block",
-                    "body",
-                    "break",
-                    "cell",
-                    "cit",
-                    "document",
-                    "figure",
-                    "graphic",
-                    "heading",
-                    "inline",
-                    "link",
-                    "list",
-                    "listItem",
-                    "metadata",
-                    "note",
-                    "omit",
-                    "paragraph",
-                    "row",
-                    "section",
-                    "table",
-                    "text",
-                    "title",
-                    "webcomponent"
-                ]
             }
 
             connectedCallback() {
@@ -487,7 +491,7 @@
                 if(this.current){
                     this.dispatchEvent(new CustomEvent('current-changed', {composed:true, bubbles:true, detail:{target: this}}));
                 }
-
+                this.$.behaviour.source = this.behaviours;
             }
 
             getModel(){
