@@ -8,16 +8,20 @@
         <style>
             :host {
                 display: inline-block;
+                
+                --paper-tooltip: {
+                    @apply --pb-alternate;
+                };
             }
-
+            
             #content {
-                color: var(--paper-blue-800);
+                color: var(--pb-alternate-inline, --paper-blue-800);
             }
         </style>
 
         <slot style="display: none;"></slot>
         <span id="content" name="content"></span>
-        <paper-tooltip id="tooltip" for="content" position="[[position]]" fitToVisibleBounds></paper-tooltip>
+        <paper-tooltip id="tooltip" for="content" position="[[position]]" fit-to-visible-bounds></paper-tooltip>
     </template>
 
     <script>

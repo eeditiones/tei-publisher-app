@@ -1,3 +1,4 @@
+<?teipublisher template="translation.html" odd="serafin.odd" view="div"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS2">
    <teiHeader>
       <fileDesc>
@@ -55,14 +56,14 @@
                      1441–1449. Z tej właśnie rodziny pochodził Stanisław Orlik pisarz polny koronny
                      i żupnik ruski w 1550 r. (<title>AGZ</title> XIII, nr 896; <title>DLb</title>.
                      2, s. 532; 3, s. 420; ZK 150, s. 316; 257, s. 367; GK 10, s. 675, Rutkowski,
-                        <title>Żupy ruskie</title>, s.57).</note>
+                     <title>Żupy ruskie</title>, s.57).</note>
                </person>
                <person xml:id="K2">
                   <persName>Kazimierz II</persName>
                   <note>(1396/1407 - zm. 1442) książę bełski, syn Siemowita IV księcia mazowieckiego
                      i Aleksandry siostry króla Władysława Jagiełły, brat Siemowita, Trojdena i
                      Władysława I (Dworzaczek, <title>Genealogia</title>, tabl. 4;
-                        <title>PSB</title> XII, s. 283-284).</note>
+                     <title>PSB</title> XII, s. 283-284).</note>
                </person>
                <person xml:id="JO">
                   <persName>Jan Odrowąż</persName>
@@ -84,14 +85,14 @@
                   <note>z Szamotuł h. Nałęcz, podczaszy kaliski 1414–1423, kasztelan międzyrzecki
                      1423–1444, starosta wschowski 1424–1427, ruski (lwowski) 1431–1439, zm. w 1444
                      podczas wyprawy warneńskiej (<title>U</title> I/1; <title>U</title> III/1;
-                        <title>WSB</title>, s. 728-729).</note>
+                     <title>WSB</title>, s. 728-729).</note>
                </person>
                <person xml:id="MzB">
                   <persName>Michał z Buczacza</persName>
                   <note>h. Awdaniec, starosta halicki 1414–1436, kamieniecki 1430, 1438, przemyski
                      1437–1438 , wojewoda podolski 22 września 1437 – 7 kwietnia 1438, zginął ok. 1
                      czerwca 1438 w bitwie z Tatarami pod Krasnym Polem (<title>U</title> III/3;
-                        <title>PSB</title> III, s. 84–85).</note>
+                     <title>PSB</title> III, s. 84–85).</note>
                </person>
             </listPerson>
             <listOrg>
@@ -143,49 +144,49 @@
                         obediencia premissa.</seg>
                      <seg xml:id="s.1.2.2"> Magnifice domine.</seg>
                      <seg xml:id="s.1.2.3">Precepit michi Vestra Gracia scriptotenus,
-                           <supplied>quod</supplied>
+                        <supplied>quod</supplied>
                         <lb/> ducem <persName ref="#K2">Kazimirum</persName> in trecentis cum
                         quinquaginta marcis deberem expedire.</seg>
                      <seg xml:id="s.1.2.4">Quod mandatum ducerem lib<supplied>enter</supplied>,
                         <lb/>sed deficit causa nam <hi rend="space">gwerrarum</hi> continua propter
-                           disturbia<anchor xml:id="a1"/> pauci mercatores, tam salis,
-                           qu<supplied>am .....</supplied>
+                        disturbia<anchor xml:id="a1"/> pauci mercatores, tam salis,
+                        qu<supplied>am .....</supplied>
                         <lb/> videntur pertransire et, per consequens, pauca pecunia datur
                         theoloneorum, ob quem defectum et n<supplied>ostros</supplied>
                         <expan>tutor<ex>es</ex></expan> non habeo vnde expedire ipsorum annuis in
                         salariis.</seg>
                      <seg xml:id="s.1.2.5">Vestra tamen exequens mandata in
-                           cras<supplied>tino</supplied>, presentium literarum vestrarum post
+                        cras<supplied>tino</supplied>, presentium literarum vestrarum post
                         presentacionem, ducem prefatum auisaui sibi sexaginta marcas offerendo pro
                         <gap/> pecuniis, solucionis terminos petens prorogari, petens dari per
                         Ipsius Claritatem semiambulato<supplied>rem</supplied> promissum, qui si
                         dabitur, protinus Vestre Gracie destinabo eundem describens, quomodo michi
                         succedet in <gap/>.</seg>
                      <seg xml:id="s.1.2.6">Parwum vadit theoloneum, tamen reuerendos dominos <rs
-                           type="person" ref="#JO">archiepiscopum</rs> et canonicos Leopolienses
+                        type="person" ref="#JO">archiepiscopum</rs> et canonicos Leopolienses
                         necnon episcopum <supplied>....</supplied> in duplicibus
-                           Quatuortemporibus<anchor xml:id="a2"/> totaliter expediui, fulgidumque
-                           <rs type="person" ref="#AO">ducem Andruschkonem</rs> in quatuor
-                           <supplied>....</supplied>.</seg>
-                     <seg xml:id="s.1.2.7">Et pro nunc me dominus <rs type="person" ref="#WS"
-                           >capitaneus ammonet Leopoliensis</rs> pro centum cum viginti marcis,
+                        Quatuortemporibus<anchor xml:id="a2"/> totaliter expediui, fulgidumque
+                        <persName ref="#AO">ducem Andruschkonem</persName> in quatuor
+                        <supplied>....</supplied>.</seg>
+                     <seg xml:id="s.1.2.7">Et pro nunc me dominus <persName ref="#WS"
+                        >capitaneus ammonet Leopoliensis</persName> pro centum cum viginti marcis,
                         dicens <gap/> de theoloneo, si non soluerem sibi pecuniam eandem.</seg>
                      <seg xml:id="s.1.2.8">Ceterum Vestra michi precepit Gracia, quod domino An..
                         <gap/> quinquaginta marcas saluere deberem, et adhuc alia debita super
-                           salari<supplied>i</supplied>s annuis soluere singula non habeo vnde
+                        salari<supplied>i</supplied>s annuis soluere singula non habeo vnde
                         recipere, soluissem tamen ea, si solariis domini ducis Kazimiri
-                           <supplied>....</supplied> litera vestra mediante.</seg>
+                        <supplied>....</supplied> litera vestra mediante.</seg>
                      <seg xml:id="s.1.2.9">Semper tamen, prout magis potero, in exoluendis eisdem
                         debitis solicitam curam applicabo, petoque Vestram Graciam, dignemini mei
                         curam gerere vestri serui, velut dominus meus
                         grac<supplied>iosus</supplied>.</seg>
-                     <seg xml:id="s.1.2.10">Scire dignemini quia magnificus et strenui domini <name
-                           type="person" ref="#MzB">Michael de Buczacz</name> palatinus Podoliensis
-                        etc. cum <rs type="person" ref="#BraciaMzB">fratribus</rs> crebris me
+                     <seg xml:id="s.1.2.10">Scire dignemini quia magnificus et strenui domini <persName
+                        ref="#MzB">Michael de Buczacz</persName> palatinus Podoliensis
+                        etc. cum <persName ref="#BraciaMzB">fratribus</persName> crebris me
                         auisant literis, ut res mobiles et mercancias diuersas eorum a theolonei
-                           solucio<supplied>ne</supplied> solutas mittere deberem, figentes spem
+                        solucio<supplied>ne</supplied> solutas mittere deberem, figentes spem
                         Vestram in Graciam, pro quo peto informari, quid sit
-                           facie<supplied>ndum</supplied>, ne postea videar rancorem aliquem inter
+                        facie<supplied>ndum</supplied>, ne postea videar rancorem aliquem inter
                         Graciam Vestram et ipsos ordinare.</seg>
                      <seg xml:id="s.1.2.11">Datum in <placeName ref="Grodek">Grodek</placeName>, de
                         sero, infra octauas Epifanie Domini.</seg></p>
@@ -248,12 +249,12 @@
                         zapłaty i o to, aby Jego Książęca Wysokość dał przyrzeczonego podjezdka.
                         Jeśli zostanie on dany, od razu wyślę go do Waszej Łaskawości, pisząc, jak
                         mi poszło w <gap/>.</seg>
-                     <seg xml:id="t.1.2.6">Cła mało schodzi, wypłaciłem jednak wielebnym panom <rs
-                           type="person" ref="#JO">arcybiskupowi</rs> i kanonikom lwowskim oraz
-                        biskupowi <gap/> podwójne Suche Dni, zaś jaśnie <rs type="person" ref="#AO"
-                           >księciu Andruszce</rs> cztery <gap/>.</seg>
-                     <seg xml:id="t.1.2.7">Tymczasem upomina mnie pan <rs type="person" ref="#WS"
-                           >starosta lwowski</rs> w sprawie 120 grzywien, mówi <gap/> o cle, gdybym
+                     <seg xml:id="t.1.2.6">Cła mało schodzi, wypłaciłem jednak wielebnym panom <persName
+                        ref="#JO">arcybiskupowi</persName> i kanonikom lwowskim oraz
+                        biskupowi <gap/> podwójne Suche Dni, zaś jaśnie <persName ref="#AO"
+                           >księciu Andruszce</persName> cztery <gap/>.</seg>
+                     <seg xml:id="t.1.2.7">Tymczasem upomina mnie pan <persName ref="#WS"
+                        >starosta lwowski</persName> w sprawie 120 grzywien, mówi <gap/> o cle, gdybym
                         miał mu tych pieniędzy nie zapłacić.</seg>
                      <seg xml:id="t.1.2.8">Ponadto polecił mi Wasza Łaskawość, abym wypłacił panu
                         An<gap/> 50 grzywien, a ja dotąd nie mam skąd wziąć, by spłacić poszczególne
@@ -264,8 +265,8 @@
                         sił, aby spłacić te długi; proszę Waszą Łaskawość, zechciejcie troszczyć się
                         o mnie, waszego sługę, jako łaskawy mój pan.</seg>
                      <seg xml:id="t.1.2.10">Zechciejcie wiedzieć, że wielmożny pan <persName
-                           ref="#MzB">Michał z Buczacza</persName> wojewoda podolski etc. i mężni
-                        panowie <rs type="person" ref="#BraciaMzB">jego bracia</rs>, pokładając
+                        ref="#MzB">Michał z Buczacza</persName> wojewoda podolski etc. i mężni
+                        panowie <persName ref="#BraciaMzB">jego bracia</persName>, pokładając
                         nadzieję w Waszej Łaskawości, nawiedzają mnie stale listami, abym wysłał
                         ruchomości i różne ich towary zwolnione od opłaty cła. Przeto proszę, by mi
                         powiedziano, co mam czynić, aby nie wydawało się potem, że wzbudziłem jakąś
