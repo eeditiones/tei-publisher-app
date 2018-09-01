@@ -14,7 +14,7 @@
 -->
 
 <dom-module id="odd-rendition">
-    <template include="code-mirror-styles">
+    <template>
         <style>
             :host {
                 display: block;
@@ -32,7 +32,7 @@
                 </template>
             </paper-listbox>
         </paper-dropdown-menu>
-        <paper-textarea id="textarea" on-change="_handleChange">{{value}}</paper-textarea>
+        <paper-textarea id="textarea" on-change="_handleChange" value="{{css}}">{{css}}</paper-textarea>
 
         <paper-icon-button on-click="_remove" icon="delete"></paper-icon-button>
 
@@ -65,7 +65,7 @@
                         value: '',
                         notify: true,
                         reflectToAttribute: true,
-                        observer: '_valueChanged'
+                        observer:'_handleChange'
                     },
                     scope:{
                         type: String,
@@ -96,11 +96,7 @@
             }
 
             _handleChange() {
-                this.css = this.$.textarea.value;
-            }
-
-            _valueChanged() {
-                this.$.textarea.value = this.css;
+                this.css = this.$.textarea.textContent;
             }
 
             _scopeChanged() {
