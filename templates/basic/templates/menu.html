@@ -30,33 +30,35 @@
             </paper-item>
         </paper-listbox>
     </paper-menu-button>
-    <paper-menu-button data-template="browse:show-if-logged-in">
-        <a href="#" slot="dropdown-trigger">
-            <i18n:text key="admin"/>
-        </a>
-        <paper-listbox slot="dropdown-content">
-            <paper-item>
-                <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/lib/regenerate.xql" dialog="messageDialog">
-                    <i18n:text key="recompile"/>
-                </pb-ajax>
-            </paper-item>
-            <paper-item>
-                <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/index.xql" dialog="messageDialog">
-                    <i18n:text key="metadata-update"/>
-                </pb-ajax>
-            </paper-item>
-            <paper-item>
-                <a href="#" data-template="pages:edit-odd-link" target="_new">
-                    <i18n:text key="edit-odd"/>
-                </a>
-            </paper-item>
-            <paper-item>
-                <a href="$app/generate.html">
-                    <i18n:text key="app-generator"/>
-                </a>
-            </paper-item>
-        </paper-listbox>
-    </paper-menu-button>
+    <pb-restricted login="login">
+        <paper-menu-button>
+            <a href="#" slot="dropdown-trigger">
+                <i18n:text key="admin"/>
+            </a>
+            <paper-listbox slot="dropdown-content">
+                <paper-item>
+                    <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/lib/regenerate.xql" dialog="messageDialog">
+                        <i18n:text key="recompile"/>
+                    </pb-ajax>
+                </paper-item>
+                <paper-item>
+                    <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/index.xql" dialog="messageDialog">
+                        <i18n:text key="metadata-update"/>
+                    </pb-ajax>
+                </paper-item>
+                <paper-item>
+                    <a href="#" data-template="pages:edit-odd-link" target="_new">
+                        <i18n:text key="edit-odd"/>
+                    </a>
+                </paper-item>
+                <paper-item>
+                    <a href="$app/generate.html">
+                        <i18n:text key="app-generator"/>
+                    </a>
+                </paper-item>
+            </paper-listbox>
+        </paper-menu-button>
+    </pb-restricted>
     <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
         <img src="resources/images/wm_no_bg.svg" height="20"/>
     </a>
@@ -73,7 +75,7 @@
         <paper-item>gr</paper-item>
         <paper-item>pl</paper-item>
     </pb-lang>
-    <pb-login login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user">
+    <pb-login id="login" login-label="i18n(login)" logout-label="i18n(logout)" group="tei" data-template="browse:current-user">
         <iron-icon slot="icon" icon="account-circle"></iron-icon>
     </pb-login>
     <paper-dialog id="downloadDialog">

@@ -66,18 +66,6 @@ declare function app:current-user($node as node(), $model as map(*)) {
         }
 };
 
-declare function app:show-if-logged-in($node as node(), $model as map(*)) {
-    let $user := request:get-attribute($config:login-domain || ".user")
-    return
-        if ($user) then
-            element { node-name($node) } {
-                $node/@*,
-                templates:process($node/node(), $model)
-            }
-        else
-            ()
-};
-
 (:~
  : List documents in data collection
  :)
