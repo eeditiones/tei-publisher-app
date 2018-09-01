@@ -96,21 +96,26 @@ else if (ends-with($exist:resource, ".html")) then (
     return
         (: the html page is run through view.xql to expand templates :)
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-            <forward url="{$exist:controller}/{$resource}"/>
+            <forward url="{$exist:controller}/{$resource}"/> 
             <view>
                 <forward url="{$exist:controller}/modules/view.xql">
                 {
-                    if ($exist:resource = ("search-results.html", "doc-table.html", "index.html")) then
+                    if ($exist:resource = ("search-results.html", "documents.html", "index.html")) then
                         <set-header name="Cache-Control" value="no-cache"/>
                     else
                         ()
                 }
                 </forward>
             </view>
-    		<error-handler>
-    			<forward url="{$exist:controller}/error-page.html" method="get"/>
-    			<forward url="{$exist:controller}/modules/view.xql"/>
-    		</error-handler>
+            {
+                if ($exist:resource = "index.html") then
+            		<error-handler>
+            			<forward url="{$exist:controller}/error-page.html" method="get"/>
+            			<forward url="{$exist:controller}/modules/view.xql"/>
+            		</error-handler>
+                else
+                    ()
+            }
         </dispatch>
 
 ) else if (matches($exist:path, "/(" || string-join($data-collections, "|") || ")/.*[^/]+\..*$")) then (
@@ -123,8 +128,6 @@ else if (ends-with($exist:resource, ".html")) then (
     let $html :=
         if ($exist:resource = "") then
             "index.html"
-        else if ($exist:resource = "doc-table.html") then
-            "templates/doc-table.html"
         else if ($exist:resource = ("search.html", "toc.html")) then
             $exist:resource
         else

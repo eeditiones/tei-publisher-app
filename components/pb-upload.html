@@ -32,18 +32,25 @@
                 return 'pb-upload';
             }
 
+            static get properties() {
+                return {
+                    target: {
+                        type: String
+                    }
+                };
+            }
+
             connectedCallback() {
                 super.connectedCallback();
 
                 this.$.uploader.addEventListener('upload-before', function (event) {
-                    var file = event.detail.file;
-                    console.log(file);
                     this.emitTo('pb-start-update');
                 }.bind(this));
-                this.$.uploader.addEventListener('upload-progress', function (event) {
-                    var file = event.detail.file;
-                    console.log(file);
-                });
+                this.$.uploader.addEventListener('upload-request', function(event) {
+                    if (this.target) {
+                        event.detail.formData.append('root', this.target);
+                    }
+                }.bind(this));
                 this.$.uploader.addEventListener('upload-success', function (event) {
                     this.emitTo('pb-end-update');
                     this.emitTo('pb-load');

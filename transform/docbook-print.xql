@@ -163,8 +163,7 @@ let $node :=
                     case element(filename) return
                         fo:inline($config, ., ("tei-filename", "code"), .)
                     case element(note) return
-                        (: No function found for behavior: panel :)
-                        $config?apply($config, ./node())
+                        fo:block($config, ., ("tei-note2"), .)
                     case element(tag) return
                         fo:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return

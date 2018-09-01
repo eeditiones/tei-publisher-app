@@ -9,19 +9,6 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
-declare function pmf:code($config as map(*), $node as element(), $class as xs:string+, $content as node()*, $lang as item()?) {
-    <pre class="code" data-language="{if ($lang) then $lang else 'xquery'}">
-    {replace(string-join($content/node()), "^\s+?(.*)\s+$", "$1")}
-    </pre>
-};
-
-declare function pmf:panel($config as map(*), $node as element(), $class as xs:string+, $content as item()*, $title as item()?) {
-    <div class="panel {$class}">
-        <div class="panel-heading">{ html:apply-children($config, $node, $title) }</div>
-        <div class="panel-body">{ html:apply-children($config, $node, $content) }</div>
-    </div>
-};
-
 declare function pmf:iframe($config as map(*), $node as element(), $class as xs:string+, $content as item()*, $src, $width, $height) {
     <iframe src="{$src}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen">
     {
@@ -36,8 +23,6 @@ declare function pmf:iframe($config as map(*), $node as element(), $class as xs:
     }
     </iframe>
 };
-
-
 
 declare function pmf:definitionList($config as map(*), $node as element(), $class as xs:string+, $content as node()*) {
     <dl>{ html:apply-children($config, $node, $content) }</dl>

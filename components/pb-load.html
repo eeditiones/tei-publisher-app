@@ -15,7 +15,8 @@
             verbose
             handle-as="text"
             method="get"
-            on-response="_handleContent"></iron-ajax>
+            on-response="_handleContent"
+            on-error="_handleError"></iron-ajax>
     </template>
 
     <script>
@@ -147,6 +148,19 @@
                 }
             }
 
+            _handleError(ev) {
+                this.emitTo('pb-end-update');
+                const msg = this.$.loadContent.lastError.response;
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(msg, "application/xml");
+                const node = doc.querySelector('message');
+                
+                const dialog = document.getElementById('errorDialog');
+                const body = dialog.querySelector("paper-dialog-scrollable");
+                body.innerHTML = node.textContent;
+                dialog.open();
+            }
+            
             _parseHeaders(xhr) {
                 const total = xhr.getResponseHeader('pb-total');
                 const start = xhr.getResponseHeader('pb-start');

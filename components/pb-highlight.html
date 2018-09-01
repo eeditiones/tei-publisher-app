@@ -1,0 +1,91 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-highlight">
+    <template>
+        <style>
+            :host {
+                transition: background-color .5s linear;
+                -moz-transition: background-color .5s linear;
+                -webkit-transition: background-color .5s linear;
+                -ms-transition: background-color .5s linear;
+            }
+        </style>
+
+        <slot></slot>
+    </template>
+
+    <script>
+        /**
+         * `pb-highlight`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbHighlight extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'pb-highlight';
+            }
+
+            static get properties() {
+                return {
+                    key: {
+                        type: String
+                    },
+                    isTarget: {
+                        type: Boolean
+                    },
+                    useClass: {
+                        type: String,
+                        value: 'highlight'
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+
+                if (this.isTarget) {
+                    console.log('registering handler for %s', this.key);
+                    this.subscribeTo('pb-highlight-on', this._highlightOn.bind(this));
+                    this.subscribeTo('pb-highlight-off', this._highlightOff.bind(this));
+                } else if (this.key) {
+                    this.addEventListener('mouseenter', function(ev) {
+                        this.emitTo('pb-highlight-on', {
+                            id: this.key
+                        });
+                    }.bind(this));
+                    this.addEventListener('mouseleave', function(ev) {
+                        this.emitTo('pb-highlight-off', {
+                            id: this.key
+                        });
+                    }.bind(this));
+                }
+            }
+
+            ready() {
+                super.ready();
+            }
+
+            _highlightOn(ev) {
+                if (ev.detail.id === this.key) {
+                    console.log('<pb-highlight> highlight %s %s', ev.detail.id, this.key);
+                    this.scrollIntoView();
+                    this.classList.add(this.useClass);
+                    setTimeout(function() {
+                        this.classList.remove(this.useClass);
+                    }.bind(this), 1000);
+                }
+            }
+
+            _highlightOff(ev) {
+                if (ev.detail.id === this.key) {
+                    this.classList.remove(this.useClass);
+                }
+            }
+        }
+
+        window.customElements.define(PbHighlight.is, PbHighlight);
+    </script>
+</dom-module>

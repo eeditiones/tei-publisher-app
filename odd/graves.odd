@@ -32,18 +32,44 @@
     </teiHeader>
     <text>
         <body>
-            <schemaSpec start="TEI teiCorpus" ident="graves" source="teipublisher.odd"> 
+            <schemaSpec start="TEI teiCorpus" ident="graves" source="teipublisher.odd">
                 <elementSpec ident="name" mode="change">
-                    <model predicate="$parameters?mode='facets' and @type='place'" behaviour="inline">
+                    <model predicate="$parameters?mode='facets' and @type='person'" behaviour="webcomponent">
+                        <param name="name" value="'pb-highlight'"/>
                         <param name="content" value="id(substring-after(@ref, '#'), root(.))"/>
+                        <param name="key" value="substring-after(@ref, '#')"/>
+                        <param name="is-target" value="true()"/>
+                        <outputRendition>
+                            display: block;
+                        </outputRendition>
+                    </model>
+                    <model predicate="$parameters?mode='facets' and @type='place'" behaviour="webcomponent">
+                        <param name="content" value="id(substring-after(@ref, '#'), root(.))"/>
+                        <param name="name" value="'pb-highlight'"/>
+                        <param name="key" value="substring-after(@ref, '#')"/>
+                        <param name="is-target" value="true()"/>
+                        <outputRendition>
+                            display: block;
+                        </outputRendition>
                     </model>
                     <model predicate="@type='place' and id(substring-after(@ref, '#'), root(.))/location/geo" behaviour="webcomponent">
                         <param name="name" value="'pb-geolocation'"/>
                         <param name="longitude" value="tokenize(id(substring-after(@ref, '#'), root(.))/location/geo, ' ')[2]"/>
                         <param name="latitude" value="tokenize(id(substring-after(@ref, '#'), root(.))/location/geo, ' ')[1]"/>
                         <param name="label" value="id(substring-after(@ref, '#'), root(.))/placeName"/>
+                        <param name="key" value="substring-after(@ref, '#')"/>
                         <outputRendition>
                             color: #1565c0;
+cursor: pointer;
+                        </outputRendition>
+                    </model>
+                    <model predicate="@type='person' and id(substring-after(@ref, '#'), root(.))" behaviour="webcomponent">
+                        <param name="name" value="'pb-highlight'"/>
+                        <param name="content" value="."/>
+                        <param name="key" value="substring-after(@ref, '#')"/>
+                        <outputRendition>
+                            color: #bf360c;
+cursor: pointer;
                         </outputRendition>
                     </model>
                     <model predicate="@type='place'" behaviour="inline">
@@ -54,7 +80,7 @@
                 </elementSpec>
                 <elementSpec ident="note" mode="change"/>
             <elementSpec ident="dateline" mode="change">
-                    <model behaviour="block">
+                    <model behaviour="block" useSourceRendition="true">
                         <outputRendition>
                             float: right;
                         </outputRendition>
@@ -78,30 +104,62 @@
                 <elementSpec ident="closer" mode="change">
                     <model behaviour="block">
                         <outputRendition>
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             margin-top: 3em; margin-left: 1em; margin-left:
                   1em;
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         </outputRendition>
                     </model>
                 </elementSpec>
@@ -111,12 +169,65 @@
                             <param name="content" value="'Places'"/>
                             <param name="level" value="2"/>
                             <outputRendition>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                 font-weight: 200;
 border-bottom: 1px solid #A0A0A0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             </outputRendition>
                         </model>
                         <model behaviour="block">
-                            <param name="content" value=".//name[@type='place']"/>
+                            <param name="content" value="for $n in .//name[@type='place'] group by $ref := $n/@ref order by $ref return $n[1]"/>
+                        </model>
+                        <model behaviour="heading">
+                            <param name="content" value="'People'"/>
+                            <param name="level" value="2"/>
+                            <outputRendition>
+
+
+
+
+
+                                font-weight: 200;
+border-bottom: 1px solid #A0A0A0;
+
+
+
+
+
+                            </outputRendition>
+                        </model>
+                        <model behaviour="section">
+                            <param name="content" value="for $n in .//name[@type='person'] group by $ref := $n/@ref order by $ref return $n[1]"/>
                         </model>
                     </modelSequence>
                     <modelSequence>
@@ -147,17 +258,62 @@ border-bottom: 1px solid #A0A0A0;
                         <param name="longitude" value="tokenize(., ' ')[2]"/>
                         <param name="content" value="."/>
                         <outputRendition>
-                            
-                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             color: #1565c0;
-cursor: pointer;                        
-                        
-                        
+cursor: pointer;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         </outputRendition>
                     </model>
                 </elementSpec>
                 <elementSpec ident="opener" mode="change">
                     <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="person" mode="add">
+                    <modelSequence behaviour="inline">
+                        <desc>Output metadata for a person</desc>
+                        <model behaviour="heading">
+                            <param name="content" value="persName"/>
+                            <param name="level" value="3"/>
+                        </model>
+                        <model behaviour="block">
+                            <desc>Output note</desc>
+                            <param name="content" value="note/node()"/>
+                        </model>
+                    </modelSequence>
                 </elementSpec>
             </schemaSpec>
         </body>

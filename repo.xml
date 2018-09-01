@@ -41,5 +41,5 @@
             </ul>
         </change>
     </changelog>
-    <permissions xmlns:repo="http://exist-db.org/xquery/repo" password="simple" user="tei" group="tei" mode="rwxrwxr-x"/>
+    <permissions xmlns:repo="http://exist-db.org/xquery/repo" password="simple" user="tei" group="tei" mode="rw-rw-r--"/>
 </meta>

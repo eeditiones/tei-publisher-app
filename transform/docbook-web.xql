@@ -41,7 +41,7 @@ declare function model:transform($options as map(*), $input as node()*) {
     
         let $output := model:apply($config, $input)
         return
-            $output
+            html:finish($config, $output)
     )
 };
 
@@ -152,9 +152,9 @@ let $node :=
                         if (parent::cell|parent::para|parent::ab) then
                             html:inline($config, ., ("tei-programlisting1", "code"), .)
                         else
-                            ext-html:code($config, ., ("tei-programlisting2"), ., @language)
+                            html:webcomponent($config, ., ("tei-programlisting2"), ., 'pb-code-highlight', map {"lang": @language})
                     case element(synopsis) return
-                        ext-html:code($config, ., ("tei-synopsis2"), ., @language)
+                        html:webcomponent($config, ., ("tei-synopsis2"), ., 'pb-code-highlight', map {"lang": @language})
                     case element(example) return
                         html:figure($config, ., ("tei-example"), *[not(self::title|self::info)], info/title/node()|title/node())
                     case element(function) return
@@ -166,7 +166,8 @@ let $node :=
                     case element(filename) return
                         html:inline($config, ., ("tei-filename", "code"), .)
                     case element(note) return
-                        ext-html:panel($config, ., ("tei-note", "panel-default"), *[not(self::title)], title)
+                        (: More than one model without predicate found for ident note. Choosing first one. :)
+                        html:webcomponent($config, ., ("tei-note1", "note"), *[not(self::title)], 'paper-card', map {"heading": title})
                     case element(tag) return
                         html:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return

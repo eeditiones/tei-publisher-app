@@ -36,6 +36,8 @@
                 }
                 if (opened) {
                     this.parent.collapseAll(this);
+                } else {
+                    this.models = this.updateTag('model');
                 }
             }.bind(this));
         });
