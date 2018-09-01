@@ -38,6 +38,10 @@
             .odd app-toolbar {
                 flex: 1 0;
             }
+
+            pb-restricted {
+                display: flex;
+            }
         </style>
 
         <template is="dom-repeat" items="{{odds}}">
@@ -45,10 +49,12 @@
                 <paper-radio-button checked$="[[item.current]]" value="[[item.path]]" on-click="_selectODD"></paper-radio-button>
                 <a href$="odd-editor.html?odd=[[item.name]].odd" target="_blank">[[item.label]]</a>
                 <app-toolbar>
-                    <pb-ajax url$="modules/lib/regenerate.xql?odd=[[item.name]].odd" dialog="messageDialog">
-                        <paper-icon-button icon="update"></paper-icon-button>
-                    </pb-ajax>
-                    <paper-icon-button icon="delete" on-click="_delete"></paper-icon-button>
+                    <pb-restricted login="login">
+                        <pb-ajax url$="modules/lib/regenerate.xql?odd=[[item.name]].odd" dialog="messageDialog">
+                            <paper-icon-button icon="update"></paper-icon-button>
+                        </pb-ajax>
+                        <paper-icon-button icon="delete" on-click="_delete"></paper-icon-button>
+                    </pb-restricted>
                     <pb-edit-xml path$="[[item.path]]">
                         <paper-icon-button icon="code"></paper-icon-button>
                     </pb-edit-xml>

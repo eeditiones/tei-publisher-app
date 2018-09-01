@@ -62,6 +62,12 @@ declare function app:current-user($node as node(), $model as map(*)) {
             else
                 (),
             attribute user { $user },
+            attribute groups {
+                if ($user) then
+                    '[' || string-join(sm:get-user-groups($user) ! ('"' || . || '"'), ',') || ']'
+                else
+                    '[]'
+            },
             templates:process($node/node(), $model)
         }
 };
