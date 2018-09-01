@@ -316,8 +316,8 @@
                 return /"|&|<|>/g
             }
 
-            replaceChars (match) {
-                return this.replaceCharMap[match];
+            static replaceChars (match) {
+                return OddEditor.replaceCharMap[match];
             }
 
             constructor(){
@@ -596,7 +596,7 @@
             escape(code) {
                 if (!code) { return ''; }
                 if (typeof code === 'string') {
-                    return code.replace(this.replaceCharRegexp, this.replaceChars);
+                    return code.replace(OddEditor.replaceCharRegexp, OddEditor.replaceChars);
                 }
                 return code;
             }
