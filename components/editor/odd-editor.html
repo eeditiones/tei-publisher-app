@@ -223,7 +223,7 @@
          * @polymer
          * @demo demo/index.html
          */
-        class OddEditor extends Polymer.Element {
+        class OddEditor extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'odd-editor';
             }
@@ -329,13 +329,8 @@
               const pathname = window.location.pathname;
               this.basePath = pathname.substring(0,pathname.lastIndexOf('/components'));
               console.log('basePath ', this.basePath );
-              console.log('odd param: ', window.location.search);
-              const search = window.location.search;
-              const locationOdd = search.substring(search.indexOf('odd=')+4);
-              console.log('odd from location ', locationOdd);
-              if(locationOdd.length != 0){
-                  this.odd = locationOdd;
-              }
+              this.odd = this.getParameter('odd');
+              console.log('odd param: ', this.odd);
 
                 this.$.jumpTo.addEventListener('autocomplete-selected', this.jumpTo.bind(this));
 
@@ -529,7 +524,7 @@
               const ns = this.useNamespace ? ` ns="${this.namespace}"` : '';
               const source = this.source ? ` source="${this.source}"` : '';
               const title = `${this.indentString}<title>${this.title}</title>\n`
-              const titleShort = `${this.indentString}<title type="short">${this.titleShort}</title>\n`
+              const titleShort = this.titleShort ? `${this.indentString}<title type="short">${this.titleShort}</title>\n`: '';
               const elementSpecs = this.elementSpecs
                 .map(e => this.serializeElementSpec(this.indentString, e))
                 .join('')
@@ -598,7 +593,10 @@
 
             escape(code) {
                 if (!code) { return ''; }
-                return code.replace(this.replaceCharRegexp, this.replaceChars);
+                if (typeof code === 'string') {
+                    return code.replace(this.replaceCharRegexp, this.replaceChars);
+                }
+                return code;
             }
 
             save () {
