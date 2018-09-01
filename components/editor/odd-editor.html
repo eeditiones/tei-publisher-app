@@ -331,7 +331,9 @@
               console.log('basePath ', this.basePath );
               this.odd = this.getParameter('odd');
               console.log('odd param: ', this.odd);
-
+              this.outputRoot = this.outputRoot || this.getParameter('output-root');
+              this.rootPath = this.rootPath || this.getParameter('root');
+              
                 this.$.jumpTo.addEventListener('autocomplete-selected', this.jumpTo.bind(this));
 
                 //propagate odd prop to odd-selector
@@ -609,7 +611,7 @@
               this.$.saveOdd.params = null;
               this.$.saveOdd.body = {
                   action: "save",
-                  root: '/db/apps/tei-publisher/odd',
+                  root: '/db/apps/tei-publisher/odd', 
                   "output-prefix": this.outputPrefix,
                   "output-root": this.outputRoot,
                   odd: this.odd,
