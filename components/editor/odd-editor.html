@@ -162,7 +162,7 @@
                         <span class="icons">
                             <odd-edit-source id="editSource"><paper-icon-button icon="code" title="ODD Source"></paper-icon-button></odd-edit-source>
                             <paper-icon-button on-click="_reload" icon="refresh" title="Refresh"></paper-icon-button>
-                            <paper-icon-button on-click="save" icon="save" title="Save"></paper-icon-button>
+                            <paper-icon-button on-click="save" icon="save" title="Save" disabled$="[[!loggedIn]]"></paper-icon-button>
                         </span>
                     </h3>
                     <div id="new-element" class="input-group">
@@ -292,7 +292,11 @@
                     useNamespace: {
                       type: Boolean,
                       value: false
-                    }
+                  },
+                  loggedIn: {
+                      type: Boolean,
+                      value: true
+                  }
                 };
             }
 
@@ -333,7 +337,7 @@
               console.log('odd param: ', this.odd);
               this.outputRoot = this.outputRoot || this.getParameter('output-root');
               this.rootPath = this.rootPath || this.getParameter('root');
-              
+
                 this.$.jumpTo.addEventListener('autocomplete-selected', this.jumpTo.bind(this));
 
                 //propagate odd prop to odd-selector
@@ -347,6 +351,10 @@
                 this.addEventListener('current-changed', this._changeSelection);
                 this.addEventListener('copy', e => this._copy(e));
                 this.addEventListener('paste', e => this._paste(e));
+
+                this.subscribeTo('pb-login', (ev) => {
+                    this.loggedIn = ev.detail.user != null;
+                });
 
                 this.focus();
             }
@@ -611,7 +619,7 @@
               this.$.saveOdd.params = null;
               this.$.saveOdd.body = {
                   action: "save",
-                  root: '/db/apps/tei-publisher/odd', 
+                  root: '/db/apps/tei-publisher/odd',
                   "output-prefix": this.outputPrefix,
                   "output-root": this.outputRoot,
                   odd: this.odd,
