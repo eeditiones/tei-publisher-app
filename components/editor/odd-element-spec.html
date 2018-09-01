@@ -169,9 +169,7 @@
                     }));
                 }.bind(this));
 
-                if (this.models.length === 0) {
-                    this._addModel()
-                }
+
             }
 
             render(){
@@ -183,7 +181,7 @@
             }
 
             toggle(ev) {
-                console.log('toggle ',ev);
+//                console.log('toggle ',ev);
 
                 ev.preventDefault();
                 this.$.models.toggle();
@@ -219,7 +217,7 @@
                 };
                 this.unshift('models',newModel);
                 const tmpl = this.$.modelList.querySelector('template');
-                console.log('dom-if template ', tmpl);
+//                console.log('dom-if template ', tmpl);
                 this.$.addModel.selected = null;
 
             }
@@ -263,18 +261,19 @@
 
 
             _paste(ev) {
-                console.log('elementspec _paste ',ev);
+//                console.log('elementspec _paste ',ev);
                 const editor = document.querySelector('odd-editor');
-                console.log('elementspec _paste editor clipboard',editor.clipboard);
+//                console.log('elementspec _paste editor clipboard',editor.clipboard);
                 this.dispatchEvent(new CustomEvent('paste', {composed:true, bubbles:true, detail: {target: this}}));
             }
 
             _toggle(e){
-                console.log('_toggle ',e);
+//                console.log('_toggle ',e);
             }
 
+
             _setCurrentSelection(e){
-                console.log('element-spec._setCurrentSelection: ', e.target);
+//                console.log('element-spec._setCurrentSelection: ', e.target);
                 e.preventDefault();
                 e.stopPropagation();
                 this.dispatchEvent(new CustomEvent('current-changed', {composed:true, bubbles:true, detail:{target: e.target}}));
