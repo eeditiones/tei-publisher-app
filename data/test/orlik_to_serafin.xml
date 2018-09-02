@@ -182,13 +182,13 @@
                         grac<supplied>iosus</supplied>.</seg>
                      <seg xml:id="s.1.2.10">Scire dignemini quia magnificus et strenui domini <persName
                         ref="#MzB">Michael de Buczacz</persName> palatinus Podoliensis
-                        etc. cum <persName ref="#BraciaMzB">fratribus</persName> crebris me
+                        etc. cum <orgName ref="#BraciaMzB">fratribus</orgName> crebris me
                         auisant literis, ut res mobiles et mercancias diuersas eorum a theolonei
                         solucio<supplied>ne</supplied> solutas mittere deberem, figentes spem
                         Vestram in Graciam, pro quo peto informari, quid sit
                         facie<supplied>ndum</supplied>, ne postea videar rancorem aliquem inter
                         Graciam Vestram et ipsos ordinare.</seg>
-                     <seg xml:id="s.1.2.11">Datum in <placeName ref="Grodek">Grodek</placeName>, de
+                     <seg xml:id="s.1.2.11">Datum in <placeName ref="#Grodek">Grodek</placeName>, de
                         sero, infra octauas Epifanie Domini.</seg></p>
                   <signed xml:id="s.1.3">
                      <seg xml:id="s.1.3.1"><persName ref="#MO">Nicolaus Orlyk</persName></seg>
@@ -266,12 +266,12 @@
                         o mnie, waszego sługę, jako łaskawy mój pan.</seg>
                      <seg xml:id="t.1.2.10">Zechciejcie wiedzieć, że wielmożny pan <persName
                         ref="#MzB">Michał z Buczacza</persName> wojewoda podolski etc. i mężni
-                        panowie <persName ref="#BraciaMzB">jego bracia</persName>, pokładając
+                        panowie <orgName ref="#BraciaMzB">jego bracia</orgName>, pokładając
                         nadzieję w Waszej Łaskawości, nawiedzają mnie stale listami, abym wysłał
                         ruchomości i różne ich towary zwolnione od opłaty cła. Przeto proszę, by mi
                         powiedziano, co mam czynić, aby nie wydawało się potem, że wzbudziłem jakąś
                         nienawiść między Waszą Łaskawością a nimi.</seg>
-                     <seg xml:id="t.1.2.11">Dan w <placeName ref="Grodek">Gródku</placeName>,
+                     <seg xml:id="t.1.2.11">Dan w <placeName ref="#Grodek">Gródku</placeName>,
                         wieczorem, w oktawie Objawienia Pańskiego.</seg>
                   </p>
                   <signed xml:id="t.1.3">

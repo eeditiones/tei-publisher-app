@@ -183,7 +183,7 @@ let $node :=
                         else
                             html:title($config, ., ("tei-fileDesc4"), titleStmt)
                     case element(seg) return
-                        html:inline($config, ., css:get-rendition(., ("tei-seg")), .)
+                        html:webcomponent($config, ., css:get-rendition(., ("tei-seg")), ., 'pb-highlight', map {"key": replace(@xml:id, "^\w\.(.*)$", "$1")})
                     case element(profileDesc) return
                         html:omit($config, ., ("tei-profileDesc"), .)
                     case element(email) return
@@ -528,6 +528,11 @@ let $node :=
                             html:inline($config, ., ("tei-placeName1"), .)
                         else
                             html:alternate($config, ., ("tei-placeName2"), ., ., id(substring-after(@ref, '#'), root(.)))
+                    case element(orgName) return
+                        if (parent::org) then
+                            html:inline($config, ., ("tei-orgName1"), .)
+                        else
+                            html:alternate($config, ., ("tei-orgName2"), ., ., id(substring-after(@ref, '#'), root(.)))
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return

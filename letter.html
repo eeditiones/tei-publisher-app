@@ -121,15 +121,17 @@
                     max-width: 480px;
                     height: var(--pb-view-height);
                     overflow: auto;
+
+                    --pb-highlight: {
+                        display: block;
+                        width: 100%;
+                        padding: 0 8px;
+                    };
                 }
 
                 pb-map {
                     width: 100%;
                     height: 100%;
-                }
-
-                .highlight {
-                    background-color: #F9E976;
                 }
             </style>
         </custom-style>
@@ -172,7 +174,7 @@
                         </pb-view>
                     </aside>
                     <aside>
-                        <pb-map api-key="AIzaSyA8_mVF-4N2NRWfQ9y6ADgrkiQgoml3trw" zoom="14"></pb-map>
+                        <pb-map api-key="AIzaSyA8_mVF-4N2NRWfQ9y6ADgrkiQgoml3trw" zoom="14" subscribe="letter"></pb-map>
                     </aside>
                     <pb-navigation direction="forward" unit="page" keyboard="right" emit="transcription"
                         subscribe="transcription">

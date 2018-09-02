@@ -1,11 +1,11 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/tei-publisher/odd/serafin.odd
+    ODD: /db/apps/tei-publisher/odd/graves.odd
  :)
 xquery version "3.1";
 
-module namespace model="http://www.tei-c.org/pm/models/serafin/fo";
+module namespace model="http://www.tei-c.org/pm/models/graves/fo";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
@@ -30,7 +30,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["fo","print"],
-                "odd": "/db/apps/tei-publisher/odd/serafin.odd",
+                "odd": "/db/apps/tei-publisher/odd/graves.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }
@@ -91,11 +91,11 @@ let $node :=
                         else
                             fo:inline($config, ., ("tei-signed2"), .)
                     case element(pb) return
-                        fo:break($config, ., css:get-rendition(., ("tei-pb")), ., 'page', (concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else '')))
+                        fo:omit($config, ., ("tei-pb"), .)
                     case element(pc) return
                         fo:inline($config, ., ("tei-pc"), .)
                     case element(anchor) return
-                        fo:note($config, ., ("tei-anchor"), let $target := '#' || @xml:id return root(.)//div[@type='notes']/note[@target=$target], (), ())
+                        fo:anchor($config, ., ("tei-anchor"), ., @xml:id)
                     case element(TEI) return
                         fo:document($config, ., ("tei-TEI"), .)
                     case element(formula) return
@@ -125,12 +125,18 @@ let $node :=
                     case element(code) return
                         fo:inline($config, ., ("tei-code"), .)
                     case element(note) return
-                        if (parent::person) then
-                            fo:inline($config, ., ("tei-note"), .)
+                        if (@place) then
+                            fo:note($config, ., ("tei-note1"), ., @place, @n)
                         else
-                            $config?apply($config, ./node())
+                            if (parent::div and not(@place)) then
+                                fo:block($config, ., ("tei-note2"), .)
+                            else
+                                if (not(@place)) then
+                                    fo:inline($config, ., ("tei-note3"), .)
+                                else
+                                    $config?apply($config, ./node())
                     case element(dateline) return
-                        fo:block($config, ., ("tei-dateline"), .)
+                        fo:block($config, ., css:get-rendition(., ("tei-dateline")), .)
                     case element(back) return
                         fo:block($config, ., ("tei-back"), .)
                     case element(del) return
@@ -180,8 +186,7 @@ let $node :=
                         else
                             fo:title($config, ., ("tei-fileDesc4"), titleStmt)
                     case element(seg) return
-                        (: No function found for behavior: webcomponent :)
-                        $config?apply($config, ./node())
+                        fo:inline($config, ., css:get-rendition(., ("tei-seg")), .)
                     case element(profileDesc) return
                         fo:omit($config, ., ("tei-profileDesc"), .)
                     case element(email) return
@@ -267,7 +272,7 @@ let $node :=
                     case element(docTitle) return
                         fo:block($config, ., css:get-rendition(., ("tei-docTitle")), .)
                     case element(lb) return
-                        fo:omit($config, ., css:get-rendition(., ("tei-lb")), .)
+                        fo:break($config, ., css:get-rendition(., ("tei-lb")), ., 'line', @n)
                     case element(w) return
                         fo:inline($config, ., ("tei-w"), .)
                     case element(stage) return
@@ -275,7 +280,26 @@ let $node :=
                     case element(titlePage) return
                         fo:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                     case element(name) return
-                        fo:inline($config, ., ("tei-name"), .)
+                        if ($parameters?mode='facets' and @type='person') then
+                            (: No function found for behavior: webcomponent :)
+                            $config?apply($config, ./node())
+                        else
+                            if ($parameters?mode='facets' and @type='place') then
+                                (: No function found for behavior: webcomponent :)
+                                $config?apply($config, ./node())
+                            else
+                                if (@type='place' and id(substring-after(@ref, '#'), root(.))/location/geo) then
+                                    (: No function found for behavior: webcomponent :)
+                                    $config?apply($config, ./node())
+                                else
+                                    if (@type='person' and id(substring-after(@ref, '#'), root(.))) then
+                                        (: No function found for behavior: webcomponent :)
+                                        $config?apply($config, ./node())
+                                    else
+                                        if (@type='place') then
+                                            fo:inline($config, ., ("tei-name5"), .)
+                                        else
+                                            $config?apply($config, ./node())
                     case element(front) return
                         fo:block($config, ., ("tei-front"), .)
                     case element(lg) return
@@ -461,10 +485,19 @@ let $node :=
                     case element(expan) return
                         fo:inline($config, ., ("tei-expan"), .)
                     case element(body) return
-                        (
-                            fo:index($config, ., ("tei-body1"), ., 'toc'),
-                            fo:block($config, ., ("tei-body2"), .)
-                        )
+                        if ($parameters?mode='facets') then
+                            (
+                                fo:heading($config, ., ("tei-body1"), 'Places'),
+                                fo:block($config, ., ("tei-body2"), for $n in .//name[@type='place'] group by $ref := $n/@ref order by $ref return $n[1]),
+                                fo:heading($config, ., ("tei-body3"), 'People'),
+                                fo:section($config, ., ("tei-body4"), for $n in .//name[@type='person'] group by $ref := $n/@ref order by $ref return $n[1])
+                            )
+
+                        else
+                            (
+                                fo:index($config, ., ("tei-body5"), ., 'toc'),
+                                fo:block($config, ., ("tei-body6"), .)
+                            )
 
                     case element(spGrp) return
                         fo:block($config, ., ("tei-spGrp"), .)
@@ -502,26 +535,25 @@ let $node :=
                         fo:inline($config, ., ("tei-docAuthor"), .)
                     case element(byline) return
                         fo:block($config, ., ("tei-byline"), .)
-                    case element(persName) return
-                        if (parent::person) then
-                            fo:inline($config, ., ("tei-persName1"), .)
-                        else
-                            fo:alternate($config, ., ("tei-persName2"), ., ., id(substring-after(@ref, '#'), root(.)))
+                    case element(place) return
+                        (
+                            fo:heading($config, ., ("tei-place1"), string-join(placeName, ', ')),
+                            if (location/geo) then
+                                fo:block($config, ., ("tei-place2"), ('Location: ', location/geo))
+                            else
+                                (),
+                            fo:block($config, ., ("tei-place3"), note/node())
+                        )
+
+                    case element(geo) return
+                        (: No function found for behavior: webcomponent :)
+                        $config?apply($config, ./node())
                     case element(person) return
-                        if (parent::listPerson) then
-                            fo:inline($config, ., ("tei-person"), .)
-                        else
-                            $config?apply($config, ./node())
-                    case element(placeName) return
-                        if (parent::place) then
-                            fo:inline($config, ., ("tei-placeName1"), .)
-                        else
-                            fo:alternate($config, ., ("tei-placeName2"), ., ., id(substring-after(@ref, '#'), root(.)))
-                    case element(orgName) return
-                        if (parent::org) then
-                            fo:inline($config, ., ("tei-orgName1"), .)
-                        else
-                            fo:alternate($config, ., ("tei-orgName2"), ., ., id(substring-after(@ref, '#'), root(.)))
+                        (
+                            fo:heading($config, ., ("tei-person1"), persName),
+                            fo:block($config, ., ("tei-person2"), note/node())
+                        )
+
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())
