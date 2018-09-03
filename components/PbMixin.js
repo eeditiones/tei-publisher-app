@@ -84,25 +84,45 @@ function PbAppState() {
          * a certain channel, defined by properties `emit` or `emit-config`.
          */
         emitTo(type, options) {
-            let detail = {};
-            if (this.emit) {
-                detail.key = this.emit;
-            } else if (this.emitConfig) {
-                detail.key = this.emitConfig[type];
-            }
-            if (options) {
-                for (const opt in options) {
-                    if (options.hasOwnProperty(opt)) {
-                        detail[opt] = options[opt];
-                    }
+            const channels = [];
+            if (this.emitConfig) {
+                for (const key in this.emitConfig) {
+                    this.emitConfig[key].forEach(t => {
+                        if (t === type) {
+                            channels.push(key);
+                        }
+                    })
                 }
+            } else if (this.emit) {
+                channels.push(this.emit);
             }
-            const ev = new CustomEvent(type, {
-                detail: detail,
-                composed: true,
-                bubbles: true
-            });
-            document.dispatchEvent(ev);
+            if (channels.length == 0) {
+                const ev = new CustomEvent({
+                    detail: options,
+                    composed: true,
+                    bubbles: true
+                });
+                document.dispatchEvent(ev);
+            } else {
+                channels.forEach(key => {
+                    const detail = {
+                        key: key
+                    };
+                    if (options) {
+                        for (const opt in options) {
+                            if (options.hasOwnProperty(opt)) {
+                                detail[opt] = options[opt];
+                            }
+                        }
+                    }
+                    const ev = new CustomEvent(type, {
+                        detail: detail,
+                        composed: true,
+                        bubbles: true
+                    });
+                    document.dispatchEvent(ev);
+                });
+            }
         }
 
         getParameter(name) {
