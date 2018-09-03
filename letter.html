@@ -64,22 +64,7 @@
                     position: relative;
                     display: flex;
                     justify-content: center;
-                    margin: 0 100px;
-                }
-
-                .content-body pb-navigation {
-                    position: fixed;
-                    bottom: 45%;
-                    --paper-fab-background: #35424b;
-                    color: white;
-                }
-
-                .content-body pb-navigation[direction=backward] {
-                    left: 20px;
-                }
-
-                .content-body pb-navigation[direction=forward] {
-                    right: 20px;
+                    margin: 0 10px;
                 }
 
                 @media (max-width: 769px) {
@@ -91,28 +76,6 @@
                 .document-title {
                     text-align: center;
                     background: #FFFFFF;
-                }
-
-                #drawer {
-                    --app-drawer-width: 448px;
-                }
-
-                .tocDrawer {
-                    padding: 0 10px;
-                }
-
-                #toc ul {
-                    list-style-type: none;
-                    margin: 0;
-                    padding: 0;
-                }
-
-                #toc ul ul {
-                    margin-left: 20px;
-                }
-
-                #toc li {
-                    margin-bottom: .5em;
                 }
 
                 aside {
@@ -139,54 +102,30 @@
 
     <body unresolved="unresolved" data-template="i18n:translate" data-catalogues="resources/i18n">
         <pb-document id="document1" data-template="pages:pb-document"/>
-        <app-drawer-layout force-narrow="force-narrow">
-            <app-drawer slot="drawer" id="drawer">
-                <div class="tocDrawer" style="height: 100%; overflow: auto;">
-                    <h3>
-                        <i18n:text key="contents">Contents</i18n:text>
-                    </h3>
-                    <pb-load id="loadToc" url="templates/toc.html?target=transcription" src="document1" container="#toc" load-once="load-once">Loading ...</pb-load>
-                    <div id="toc"></div>
-                </div>
-            </app-drawer>
-            <app-header-layout>
-                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
-                    <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
-                    <app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/>
-                    <app-toolbar sticky="sticky" class="document-title">
-                        <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
-                            <pb-param name="header" value="short"/>
-                        </pb-view>
-                    </app-toolbar>
-                </app-header>
+        <app-header-layout>
+            <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
+                <app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/>
+                <app-toolbar sticky="sticky" class="document-title">
+                    <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
+                        <pb-param name="header" value="short"/>
+                    </pb-view>
+                </app-toolbar>
+            </app-header>
 
-                <section class="content-body">
-                    <pb-navigation direction="backward" unit="page" keyboard="left" emit="transcription"
-                        subscribe="transcription">
-                        <paper-fab icon="icons:chevron-left"/>
-                    </pb-navigation>
-                    <pb-view id="view1" src="document1" data-template="pages:pb-view"
-                        column-separator=".tei-cb" history="history" append-footnotes="append-footnotes"
-                        subscribe="transcription" emit="transcription"/>
-                    <aside class="places">
-                        <pb-view src="document1" odd="graves" subscribe="transcription">
-                            <pb-param name="mode" value="facets"/>
-                        </pb-view>
-                    </aside>
-                    <aside>
-                        <pb-map api-key="AIzaSyA8_mVF-4N2NRWfQ9y6ADgrkiQgoml3trw" zoom="14" subscribe="letter"></pb-map>
-                    </aside>
-                    <pb-navigation direction="forward" unit="page" keyboard="right" emit="transcription"
-                        subscribe="transcription">
-                        <paper-fab icon="icons:chevron-right"/>
-                    </pb-navigation>
-                </section>
-            </app-header-layout>
-        </app-drawer-layout>
-        <script>
-            document.getElementById('drawer').addEventListener('opened-changed', function() {
-                document.getElementById('loadToc').load();
-            });
-        </script>
+            <section class="content-body">
+                <pb-view id="view1" src="document1" data-template="pages:pb-view"
+                    column-separator=".tei-cb" history="history" append-footnotes="append-footnotes"
+                    subscribe="transcription" emit="transcription"/>
+                <aside class="places">
+                    <pb-view src="document1" odd="graves" subscribe="transcription" emit="letter">
+                        <pb-param name="mode" value="facets"/>
+                    </pb-view>
+                </aside>
+                <aside>
+                    <pb-map api-key="AIzaSyA8_mVF-4N2NRWfQ9y6ADgrkiQgoml3trw" zoom="14" subscribe="letter"></pb-map>
+                </aside>
+            </section>
+        </app-header-layout>
     </body>
 </html>
