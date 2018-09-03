@@ -93,27 +93,26 @@
             <div class="collapse-content">
                 <template id="modelList" is="dom-repeat" items="{{models}}" as="model" mutable-data>
                     <template is="dom-if" if="{{show}}">
-
-                    <odd-model behaviour="{{model.behaviour}}"
-                               predicate="{{model.predicate}}"
-                               type="{{model.type}}"
-                               output="{{model.output}}"
-                               css="{{model.css}}"
-                               models="{{model.models}}"
-                               parameters="{{model.parameters}}"
-                               desc="{{model.desc}}"
-                               sourcerend="{{model.sourcerend}}"
-                               renditions="{{model.renditions}}"
-                               show="{{model.show}}"
-                               on-model-remove="removeModel"
-                               on-model-move-up="moveModelUp"
-                               on-model-move-down="moveModelDown"
-                               on-click="_setCurrentSelection"
-                               on-item-toggled="_setCurrentSelection"
-                               parent-model="[[model]]">
-                    </odd-model>
+                        <odd-model behaviour="{{model.behaviour}}"
+                                   predicate="{{model.predicate}}"
+                                   type="{{model.type}}"
+                                   output="{{model.output}}"
+                                   css="{{model.css}}"
+                                   models="{{model.models}}"
+                                   parameters="{{model.parameters}}"
+                                   desc="{{model.desc}}"
+                                   sourcerend="{{model.sourcerend}}"
+                                   renditions="{{model.renditions}}"
+                                   show="{{model.show}}"
+                                   on-model-remove="removeModel"
+                                   on-model-move-up="moveModelUp"
+                                   on-model-move-down="moveModelDown"
+                                   on-click="_setCurrentSelection"
+                                   on-item-toggled="_setCurrentSelection"
+                                   parent-model="[[model]]">
+                        </odd-model>
+                    </template>
                 </template>
-            </template>
             </div>
         </iron-collapse>
 
@@ -223,11 +222,16 @@
             }
 
             removeModel(ev) {
-                const item = ev.currentTarget;
-                const index = this.$.modelList.indexForElement(item);
+                console.log('removeModel ',ev);
 
-                this.splice('models', index, 1);
+                if (confirm('really delete?')) {
+                    const item = ev.currentTarget;
+                    const index = this.$.modelList.indexForElement(item);
+                    this.splice('models', index, 1);
+                }
             }
+
+
 
             moveModelUp(ev) {
                 const item = ev.currentTarget;
