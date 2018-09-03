@@ -62,7 +62,7 @@ function PbAppState() {
             }
             if (channels.length === 0) {
                 // no channel defined: listen for all events not targetted at a channel
-                document.addEventListener(type, ev => {
+                document.addEventListener(type, (ev) => {
                     if (ev.detail && ev.detail.key) {
                         return;
                     }
@@ -97,7 +97,7 @@ function PbAppState() {
                 channels.push(this.emit);
             }
             if (channels.length == 0) {
-                const ev = new CustomEvent({
+                const ev = new CustomEvent(type, {
                     detail: options,
                     composed: true,
                     bubbles: true
@@ -124,7 +124,7 @@ function PbAppState() {
                 });
             }
         }
-
+        
         getParameter(name) {
             const params = url.searchParams.getAll(name);
             if (params && params.length > 0) {
