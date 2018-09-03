@@ -480,7 +480,9 @@
               // TODO test if:  const item = ev.currentTarget; works
                 const item = ev.composedPath()[0];
                 const index = this.$.modelList.indexForElement(item);
-                this.splice('models', index, 1);
+                if (confirm('really delete?')) {
+                    this.splice('models', index, 1);
+                }
             }
 
             moveModelUp(ev) {
