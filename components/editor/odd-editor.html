@@ -340,19 +340,31 @@
               this.outputRoot = this.outputRoot || this.getParameter('output-root');
               this.rootPath = this.rootPath || this.getParameter('root');
 
-                this.$.jumpTo.addEventListener('autocomplete-selected', this.jumpTo.bind(this));
+              this.$.jumpTo.addEventListener('autocomplete-selected', this.jumpTo.bind(this));
 
-                //propagate odd prop to odd-selector
-                console.log("odd prop: ", this.odd);
-                if (this.odd) {
-                    const selector = this.querySelector('odd-selector');
-                    console.log('selector: ', selector);
-                    selector.selected =  this.odd;
+              // wire up odd-selector
+              // TODO inline odd-selector
+              const oddSelector = this.querySelector('odd-selector');
+              console.log("odd prop: ", this.odd);
+
+              if (this.odd) {
+                  oddSelector.selected = this.odd;
+              }
+              oddSelector.addEventListener('odd-selected', function (e) {
+                if (confirm('Any unsaved changes will be lost. Continue?')) {
+                  this.odd = e.detail.odd;
+                  window.history.pushState({},"", '?odd=' + this.odd)
                 }
+                oddSelector.selected = this.odd;
+              }.bind(this))
 
-                this.addEventListener('current-changed', this._changeSelection);
-                this.addEventListener('copy', e => this._copy(e));
-                this.addEventListener('paste', e => this._paste(e));
+              this.addEventListener('current-changed', this._changeSelection);
+              this.addEventListener('copy', e => this._copy(e));
+              this.addEventListener('paste', e => this._paste(e));
+
+                window.onbeforeunload = function () {
+                  return 'Any unsaved changes will be lost. Continue?';
+                };
 
                 this.subscribeTo('pb-login', (ev) => {
                     this.loggedIn = ev.detail.user != null;
@@ -669,12 +681,14 @@
                 document.dispatchEvent(new CustomEvent('pb-end-update'));
             }
 
-            _reload(e){
+            _reload (e) {
                 //todo: or should just the odd be loaded again?
-                window.location.href=window.location.href;
+                if (confirm('Any unsaved changes will be lost. Continue?')) {
+                  location.reload(true);
+                }
             }
 
-            _setCurrentSelection(e){
+            _setCurrentSelection (e) {
                 console.log('editor._setCurrentSelection: ', e.target);
                 if(this.currentSelection != undefined){
                     this.currentSelection.removeAttribute('currentselection');
@@ -686,7 +700,7 @@
             _changeSelection(e){
                 console.log('odd-editor._changeSelection ', e);
 
-                if(e.detail.target == this) return;
+                if (e.detail.target == this) return;
 
                 e.preventDefault();
                 e.stopPropagation();
@@ -697,7 +711,6 @@
                 }
                 const newSelection = e.detail.target;
                 newSelection.setAttribute('currentselection','true');
-//                    console.log('newSelection ', newSelection);
                 this.currentSelection = newSelection;
             }
 
