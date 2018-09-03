@@ -15,11 +15,6 @@
                     color: #333333;
                     text-decoration: none;
                 };
-                
-                --pb-alternate: {
-                    max-width: 400px;
-                    font-size: 14px;
-                };
 
                 --pb-content-theme: {
                     margin-right: 32px;
@@ -36,6 +31,19 @@
                     color: #F0F0F0;
                     font-family: "Oswald",Verdana,"Helvetica",sans-serif;
                 };
+
+                --paper-tooltip: {
+                    max-width: 400px;
+                    font-size: 16px;
+                    text-align: left;
+                    line-height: 1.33;
+                    background-color: var(--paper-grey-50);
+                    color: #101010;
+                    box-shadow: 2px 4px 14px rgba(0, 0, 0, 0.6);
+                    border-radius: 6px;
+                };
+
+                --paper-tooltip-delay-in: 200;
             }
 
             app-toolbar {
@@ -77,6 +85,7 @@
 
             .menubar paper-item a {
                 color: black;
+                margin: 0;
             }
 
             [main-title] {
@@ -111,12 +120,22 @@
                 font-weight: 400 !important;
             }
 
+            .alternate {
+                display: inline-block;
+            }
+
+            .alternate .default {
+                color: var(--pb-alternate-inline, --paper-blue-800);
+            }
+
             odd-model {
                 margin-left: 50px;
                 max-width: 800px;
             }
 
-
+            [unresolved]{
+                display: none;
+            }
         </style>
     </template>
 </dom-module>

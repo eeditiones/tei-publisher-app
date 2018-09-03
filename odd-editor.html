@@ -168,7 +168,7 @@
                     <!-- Search input -->
                     <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
                                place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
- 
+
                     <!-- language selector -->
                     <pb-lang name="lang" label="Language" data-template="pages:current-language">
                         <paper-item>en</paper-item>
@@ -177,7 +177,8 @@
                         <paper-item>gr</paper-item>
                         <paper-item>pl</paper-item>
                     </pb-lang>
-                    <pb-login login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user">
+                    <pb-login login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user"
+                        group="tei">
                         <iron-icon slot="icon" icon="account-circle"></iron-icon>
                     </pb-login>
                     <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>

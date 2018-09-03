@@ -3,9 +3,11 @@
     <div data-template="browse:list-works" data-template-root="">
         <ul class="documents" data-template="browse:browse" data-template-per-page="10">
             <li class="document">
-                <div class="document-select" data-template="browse:show-if-logged-in">
-                    <paper-checkbox data-template="pages:parse-params" name="documentCheckbox" value="${ident}"></paper-checkbox>
-                </div>
+                <pb-restricted login="login">
+                    <div class="document-select">
+                        <paper-checkbox data-template="pages:parse-params" name="documentCheckbox" value="${ident}"></paper-checkbox>
+                    </div>
+                </pb-restricted>
                 <div class="document-info">
                     <header data-template="browse:short-header"></header>
                     <app-toolbar>

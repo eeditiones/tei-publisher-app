@@ -108,7 +108,7 @@
         </custom-style>
     </head>
 
-    <body data-template="i18n:translate" data-catalogues="resources/i18n">
+    <body unresolved="unresolved" data-template="i18n:translate" data-catalogues="resources/i18n">
         <app-header-layout>
             <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
                 <app-toolbar class="menubar">
@@ -147,7 +147,8 @@
                         <paper-item>gr</paper-item>
                         <paper-item>pl</paper-item>
                     </pb-lang>
-                    <pb-login login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user">
+                    <pb-login login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user"
+                        group="tei">
                         <iron-icon slot="icon" icon="account-circle"></iron-icon>
                     </pb-login>
                 </app-toolbar>

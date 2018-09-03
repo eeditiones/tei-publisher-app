@@ -62,20 +62,14 @@ declare function app:current-user($node as node(), $model as map(*)) {
             else
                 (),
             attribute user { $user },
+            attribute groups {
+                if ($user) then
+                    '[' || string-join(sm:get-user-groups($user) ! ('"' || . || '"'), ',') || ']'
+                else
+                    '[]'
+            },
             templates:process($node/node(), $model)
         }
-};
-
-declare function app:show-if-logged-in($node as node(), $model as map(*)) {
-    let $user := request:get-attribute($config:login-domain || ".user")
-    return
-        if ($user) then
-            element { node-name($node) } {
-                $node/@*,
-                templates:process($node/node(), $model)
-            }
-        else
-            ()
 };
 
 (:~

@@ -131,7 +131,7 @@
         </custom-style>
     </head>
 
-    <body data-template="i18n:translate" data-catalogues="resources/i18n">
+    <body unresolved="unresolved" data-template="i18n:translate" data-catalogues="resources/i18n">
         <app-header-layout>
             <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
                 <app-toolbar class="menubar">
@@ -154,27 +154,29 @@
                             </paper-item>
                         </paper-listbox>
                     </paper-menu-button>
-                    <paper-menu-button data-template="browse:show-if-logged-in">
-                        <a href="#" slot="dropdown-trigger">
-                            <i18n:text key="admin"/>
-                        </a>
-                        <paper-listbox slot="dropdown-content">
-                            <paper-item>
-                                <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/lib/regenerate.xql" dialog="messageDialog">
-                                    <i18n:text key="recompile"/>
-                                </pb-ajax>
-                            </paper-item>
-                            <paper-item>
-                                <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/index.xql" dialog="messageDialog">
-                                    <i18n:text key="metadata-update"/>
-                                </pb-ajax>
-                            </paper-item>
-                            <paper-item>
-                                <a href="#" data-template="pages:edit-odd-link" target="_new"><i18n:text key="edit-odd"/></a>
-                            </paper-item>
-                            <paper-item><a href="$app/manage.html"><i18n:text key="app-generator"/></a></paper-item>
-                        </paper-listbox>
-                    </paper-menu-button>
+                    <pb-restricted login="login" group="tei">
+                        <paper-menu-button>
+                            <a href="#" slot="dropdown-trigger">
+                                <i18n:text key="admin"/>
+                            </a>
+                            <paper-listbox slot="dropdown-content">
+                                <paper-item>
+                                    <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/lib/regenerate.xql" dialog="messageDialog">
+                                        <i18n:text key="recompile"/>
+                                    </pb-ajax>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/index.xql" dialog="messageDialog">
+                                        <i18n:text key="metadata-update"/>
+                                    </pb-ajax>
+                                </paper-item>
+                                <paper-item>
+                                    <a href="#" data-template="pages:edit-odd-link" target="_new"><i18n:text key="edit-odd"/></a>
+                                </paper-item>
+                                <paper-item><a href="$app/manage.html"><i18n:text key="app-generator"/></a></paper-item>
+                            </paper-listbox>
+                        </paper-menu-button>
+                    </pb-restricted>
                     <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
                         <img src="resources/images/wm_no_bg.svg" height="20"/>
                     </a>
@@ -191,7 +193,8 @@
                         <paper-item>gr</paper-item>
                         <paper-item>pl</paper-item>
                     </pb-lang>
-                    <pb-login login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user">
+                    <pb-login id="login" login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user"
+                        group="tei">
                         <iron-icon slot="icon" icon="account-circle"></iron-icon>
                     </pb-login>
                     <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
@@ -219,7 +222,7 @@
                     <aside>
                         <paper-card class="odds" heading="i18n(odd-data)">
                             <div class="card-content">
-                                <pb-manage-odds id="manage-odds" target="document-loader"></pb-manage-odds>
+                                <pb-manage-odds id="manage-odds" target="document-loader" login="login"></pb-manage-odds>
                             </div>
                         </paper-card>
                         <paper-card class="upload" heading="i18n(upload)">

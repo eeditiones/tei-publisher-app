@@ -1,11 +1,11 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/tei-publisher/odd/serafin.odd
+    ODD: /db/apps/tei-publisher/odd/graves.odd
  :)
 xquery version "3.1";
 
-module namespace model="http://www.tei-c.org/pm/models/serafin/latex";
+module namespace model="http://www.tei-c.org/pm/models/graves/latex";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
@@ -30,7 +30,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["latex","print"],
-                "odd": "/db/apps/tei-publisher/odd/serafin.odd",
+                "odd": "/db/apps/tei-publisher/odd/graves.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }
@@ -91,11 +91,11 @@ let $node :=
                         else
                             latex:inline($config, ., ("tei-signed2"), .)
                     case element(pb) return
-                        latex:break($config, ., css:get-rendition(., ("tei-pb")), ., 'page', (concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else '')))
+                        latex:omit($config, ., ("tei-pb"), .)
                     case element(pc) return
                         latex:inline($config, ., ("tei-pc"), .)
                     case element(anchor) return
-                        latex:note($config, ., ("tei-anchor"), let $target := '#' || @xml:id return root(.)//div[@type='notes']/note[@target=$target], (), ())
+                        latex:anchor($config, ., ("tei-anchor"), ., @xml:id)
                     case element(TEI) return
                         latex:document($config, ., ("tei-TEI"), .)
                     case element(formula) return
@@ -125,12 +125,18 @@ let $node :=
                     case element(code) return
                         latex:inline($config, ., ("tei-code"), .)
                     case element(note) return
-                        if (parent::person) then
-                            latex:inline($config, ., ("tei-note"), .)
+                        if (@place) then
+                            latex:note($config, ., ("tei-note1"), ., @place, @n)
                         else
-                            $config?apply($config, ./node())
+                            if (parent::div and not(@place)) then
+                                latex:block($config, ., ("tei-note2"), .)
+                            else
+                                if (not(@place)) then
+                                    latex:inline($config, ., ("tei-note3"), .)
+                                else
+                                    $config?apply($config, ./node())
                     case element(dateline) return
-                        latex:block($config, ., ("tei-dateline"), .)
+                        latex:block($config, ., css:get-rendition(., ("tei-dateline")), .)
                     case element(back) return
                         latex:block($config, ., ("tei-back"), .)
                     case element(del) return
@@ -180,8 +186,7 @@ let $node :=
                         else
                             latex:title($config, ., ("tei-fileDesc4"), titleStmt)
                     case element(seg) return
-                        (: No function found for behavior: webcomponent :)
-                        $config?apply($config, ./node())
+                        latex:inline($config, ., css:get-rendition(., ("tei-seg")), .)
                     case element(profileDesc) return
                         latex:omit($config, ., ("tei-profileDesc"), .)
                     case element(email) return
@@ -267,7 +272,7 @@ let $node :=
                     case element(docTitle) return
                         latex:block($config, ., css:get-rendition(., ("tei-docTitle")), .)
                     case element(lb) return
-                        latex:omit($config, ., css:get-rendition(., ("tei-lb")), .)
+                        latex:break($config, ., css:get-rendition(., ("tei-lb")), ., 'line', @n)
                     case element(w) return
                         latex:inline($config, ., ("tei-w"), .)
                     case element(stage) return
@@ -275,7 +280,26 @@ let $node :=
                     case element(titlePage) return
                         latex:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                     case element(name) return
-                        latex:inline($config, ., ("tei-name"), .)
+                        if ($parameters?mode='facets' and @type='person') then
+                            (: No function found for behavior: webcomponent :)
+                            $config?apply($config, ./node())
+                        else
+                            if ($parameters?mode='facets' and @type='place') then
+                                (: No function found for behavior: webcomponent :)
+                                $config?apply($config, ./node())
+                            else
+                                if (@type='place' and id(substring-after(@ref, '#'), root(.))/location/geo) then
+                                    (: No function found for behavior: webcomponent :)
+                                    $config?apply($config, ./node())
+                                else
+                                    if (@type='person' and id(substring-after(@ref, '#'), root(.))) then
+                                        (: No function found for behavior: webcomponent :)
+                                        $config?apply($config, ./node())
+                                    else
+                                        if (@type='place') then
+                                            latex:inline($config, ., ("tei-name5"), .)
+                                        else
+                                            $config?apply($config, ./node())
                     case element(front) return
                         latex:block($config, ., ("tei-front"), .)
                     case element(lg) return
@@ -462,10 +486,19 @@ let $node :=
                     case element(expan) return
                         latex:inline($config, ., ("tei-expan"), .)
                     case element(body) return
-                        (
-                            latex:index($config, ., ("tei-body1"), ., 'toc'),
-                            latex:block($config, ., ("tei-body2"), .)
-                        )
+                        if ($parameters?mode='facets') then
+                            (
+                                latex:heading($config, ., ("tei-body1"), 'Places'),
+                                latex:block($config, ., ("tei-body2"), for $n in .//name[@type='place'] group by $ref := $n/@ref order by $ref return $n[1]),
+                                latex:heading($config, ., ("tei-body3"), 'People'),
+                                latex:section($config, ., ("tei-body4"), for $n in .//name[@type='person'] group by $ref := $n/@ref order by $ref return $n[1])
+                            )
+
+                        else
+                            (
+                                latex:index($config, ., ("tei-body5"), ., 'toc'),
+                                latex:block($config, ., ("tei-body6"), .)
+                            )
 
                     case element(spGrp) return
                         latex:block($config, ., ("tei-spGrp"), .)
@@ -503,26 +536,25 @@ let $node :=
                         latex:inline($config, ., ("tei-docAuthor"), .)
                     case element(byline) return
                         latex:block($config, ., ("tei-byline"), .)
-                    case element(persName) return
-                        if (parent::person) then
-                            latex:inline($config, ., ("tei-persName1"), .)
-                        else
-                            latex:alternate($config, ., ("tei-persName2"), ., ., id(substring-after(@ref, '#'), root(.)))
+                    case element(place) return
+                        (
+                            latex:heading($config, ., ("tei-place1"), string-join(placeName, ', ')),
+                            if (location/geo) then
+                                latex:block($config, ., ("tei-place2"), ('Location: ', location/geo))
+                            else
+                                (),
+                            latex:block($config, ., ("tei-place3"), note/node())
+                        )
+
+                    case element(geo) return
+                        (: No function found for behavior: webcomponent :)
+                        $config?apply($config, ./node())
                     case element(person) return
-                        if (parent::listPerson) then
-                            latex:inline($config, ., ("tei-person"), .)
-                        else
-                            $config?apply($config, ./node())
-                    case element(placeName) return
-                        if (parent::place) then
-                            latex:inline($config, ., ("tei-placeName1"), .)
-                        else
-                            latex:alternate($config, ., ("tei-placeName2"), ., ., id(substring-after(@ref, '#'), root(.)))
-                    case element(orgName) return
-                        if (parent::org) then
-                            latex:inline($config, ., ("tei-orgName1"), .)
-                        else
-                            latex:alternate($config, ., ("tei-orgName2"), ., ., id(substring-after(@ref, '#'), root(.)))
+                        (
+                            latex:heading($config, ., ("tei-person1"), persName),
+                            latex:block($config, ., ("tei-person2"), note/node())
+                        )
+
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

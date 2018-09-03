@@ -38,39 +38,126 @@
                 </elementSpec>
                 <elementSpec ident="anchor" mode="change">
                     <model behaviour="note">
-                        <param name="content" value="let $target := '#' || @xml:id return root(.)//div[@type='notes']/note[@target=$target]"/>
-                    </model>
+            <param name="content" value="let $target := '#' || @xml:id return root(.)//div[@type='notes']/note[@target=$target]"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="persName" mode="add">
-                    <model predicate="parent::person" behaviour="inline"/>
+                    <model predicate="parent::person" behaviour="inline">
+            <outputRendition scope="after">
+            content: ': ';
+            </outputRendition>
+            <outputRendition>
+            font-weight: bold;
+            </outputRendition>
+        </model>
                     <model behaviour="alternate">
-                        <param name="default" value="."/>
-                        <param name="alternate" value="id(substring-after(@ref, '#'), root(.))"/>
-                    </model>
+            <param name="default" value="."/>
+            <param name="alternate" value="id(substring-after(@ref, '#'), root(.))"/>
+            <outputRendition>
+            color: #1565c0;
+            </outputRendition>
+        </model>
                 </elementSpec>
                 <elementSpec ident="person" mode="add">
                     <model predicate="parent::listPerson" behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
                     <model predicate="parent::person" behaviour="inline">
-                        <outputRendition scope="selected">
-                            content: ': ';
-                        </outputRendition>
-                    </model>
+            <outputRendition scope="selected">
+            content: ': ';
+            </outputRendition>
+        </model>
                 </elementSpec>
                 <elementSpec ident="placeName" mode="add">
                     <model predicate="parent::place" behaviour="inline">
-                        <outputRendition scope="before">
-                            content: ': ';
-                        </outputRendition>
-                    </model>
+            <outputRendition scope="after">
+            content: ': ';
+            </outputRendition>
+            <outputRendition>
+            font-weight: bold;
+            </outputRendition>
+        </model>
                     <model behaviour="alternate">
-                        <param name="default" value="."/>
-                        <param name="alternate" value="id(substring-after(@ref, '#'), root(.))"/>
-                        <outputRendition scope="before">
-                            content: 'abc';
-                        </outputRendition>
-                    </model>
+            <param name="default" value="."/>
+            <param name="alternate" value="id(substring-after(@ref, '#'), root(.))"/>
+            <outputRendition>
+            color: #ef6c00;
+            </outputRendition>
+        </model>
+                </elementSpec>
+            <elementSpec ident="orgName" mode="add">
+                    <model predicate="parent::org" behaviour="inline">
+            <outputRendition scope="after">
+            content: ': ';
+            </outputRendition>
+            <outputRendition>
+            font-weight: bold;
+            </outputRendition>
+        </model>
+                    <model behaviour="alternate">
+            <param name="default" value="."/>
+            <param name="alternate" value="id(substring-after(@ref, '#'), root(.))"/>
+            <outputRendition>
+            color: #2e7d32;
+            </outputRendition>
+        </model>
+                </elementSpec>
+                <elementSpec ident="title" mode="change">
+                    <model predicate="$parameters?header='short'" behaviour="heading">
+            <param name="level" value="5"/>
+        </model>
+                    <modelSequence predicate="parent::titleStmt/parent::fileDesc">
+            <model predicate="preceding-sibling::title" behaviour="text">
+                <param name="content" value="' — '"/>
+            </model>
+            <model behaviour="inline">
+                <outputRendition>
+                color: red; font-size: 2em;
+                </outputRendition>
+            </model>
+        </modelSequence>
+                    <model predicate="not(@level) and parent::bibl" behaviour="inline"/>
+                    <modelSequence predicate="@level='m' or not(@level)">
+            <model behaviour="inline">
+                <outputRendition>
+                font-style: italic;
+                </outputRendition>
+            </model>
+            <model predicate="ancestor::biblFull" behaviour="text">
+                <param name="content" value="', '"/>
+            </model>
+        </modelSequence>
+                    <modelSequence predicate="@level='s' or @level='j'">
+            <model behaviour="inline">
+                <outputRendition>
+                font-style: italic;
+                </outputRendition>
+            </model>
+            <model predicate="following-sibling::* and     (  ancestor::biblFull)" behaviour="text">
+                <param name="content" value="', '"/>
+            </model>
+        </modelSequence>
+                    <modelSequence predicate="@level='u' or @level='a'">
+            <model behaviour="inline">
+                <outputRendition>
+                font-style: italic;
+                </outputRendition>
+            </model>
+            <model predicate="following-sibling::* and     (    ancestor::biblFull)" behaviour="text">
+                <param name="content" value="'. '"/>
+            </model>
+        </modelSequence>
+                    <model behaviour="inline">
+            <outputRendition>
+            font-style: italic;
+            </outputRendition>
+        </model>
+                </elementSpec>
+                <elementSpec ident="seg" mode="change">
+                    <model behaviour="webcomponent" useSourceRendition="true">
+            <param name="name" value="'pb-highlight'"/>
+            <param name="key" value="replace(@xml:id, &#34;^\w\.(.*)$&#34;, &#34;$1&#34;)"/>
+        </model>
                 </elementSpec>
             </schemaSpec>
         </body>

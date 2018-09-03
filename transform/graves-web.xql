@@ -1,11 +1,11 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/tei-publisher/odd/serafin.odd
+    ODD: /db/apps/tei-publisher/odd/graves.odd
  :)
 xquery version "3.1";
 
-module namespace model="http://www.tei-c.org/pm/models/serafin/web";
+module namespace model="http://www.tei-c.org/pm/models/graves/web";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
@@ -30,7 +30,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["web"],
-                "odd": "/db/apps/tei-publisher/odd/serafin.odd",
+                "odd": "/db/apps/tei-publisher/odd/graves.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }
@@ -94,11 +94,11 @@ let $node :=
                         else
                             html:inline($config, ., ("tei-signed2"), .)
                     case element(pb) return
-                        html:break($config, ., css:get-rendition(., ("tei-pb")), ., 'page', (concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else '')))
+                        html:omit($config, ., ("tei-pb"), .)
                     case element(pc) return
                         html:inline($config, ., ("tei-pc"), .)
                     case element(anchor) return
-                        html:note($config, ., ("tei-anchor"), let $target := '#' || @xml:id return root(.)//div[@type='notes']/note[@target=$target], (), ())
+                        html:anchor($config, ., ("tei-anchor"), ., @xml:id)
                     case element(TEI) return
                         html:document($config, ., ("tei-TEI"), .)
                     case element(formula) return
@@ -128,12 +128,18 @@ let $node :=
                     case element(code) return
                         html:inline($config, ., ("tei-code"), .)
                     case element(note) return
-                        if (parent::person) then
-                            html:inline($config, ., ("tei-note"), .)
+                        if (@place) then
+                            html:note($config, ., ("tei-note1"), ., @place, @n)
                         else
-                            $config?apply($config, ./node())
+                            if (parent::div and not(@place)) then
+                                html:block($config, ., ("tei-note2"), .)
+                            else
+                                if (not(@place)) then
+                                    html:inline($config, ., ("tei-note3"), .)
+                                else
+                                    $config?apply($config, ./node())
                     case element(dateline) return
-                        html:block($config, ., ("tei-dateline"), .)
+                        html:block($config, ., css:get-rendition(., ("tei-dateline")), .)
                     case element(back) return
                         html:block($config, ., ("tei-back"), .)
                     case element(del) return
@@ -183,7 +189,7 @@ let $node :=
                         else
                             html:title($config, ., ("tei-fileDesc4"), titleStmt)
                     case element(seg) return
-                        html:webcomponent($config, ., css:get-rendition(., ("tei-seg")), ., 'pb-highlight', map {"key": replace(@xml:id, "^\w\.(.*)$", "$1")})
+                        html:inline($config, ., css:get-rendition(., ("tei-seg")), .)
                     case element(profileDesc) return
                         html:omit($config, ., ("tei-profileDesc"), .)
                     case element(email) return
@@ -272,7 +278,7 @@ let $node :=
                     case element(docTitle) return
                         html:block($config, ., css:get-rendition(., ("tei-docTitle")), .)
                     case element(lb) return
-                        html:omit($config, ., css:get-rendition(., ("tei-lb")), .)
+                        html:break($config, ., css:get-rendition(., ("tei-lb")), ., 'line', @n)
                     case element(w) return
                         html:inline($config, ., ("tei-w"), .)
                     case element(stage) return
@@ -280,7 +286,22 @@ let $node :=
                     case element(titlePage) return
                         html:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                     case element(name) return
-                        html:inline($config, ., ("tei-name"), .)
+                        if ($parameters?mode='facets' and @type='person') then
+                            html:webcomponent($config, ., ("tei-name1"), id(substring-after(@ref, '#'), root(.)), 'pb-highlight', map {"key": substring-after(@ref, '#'), "subscribe": 'letter', "emit": 'facets'})
+                        else
+                            if ($parameters?mode='facets' and @type='place') then
+                                html:webcomponent($config, ., ("tei-name2"), id(substring-after(@ref, '#'), root(.)), 'pb-highlight', map {"key": substring-after(@ref, '#'), "scroll": true(), "subscribe": 'letter', "emit": 'facets'})
+                            else
+                                if (@type='place' and id(substring-after(@ref, '#'), root(.))/location/geo) then
+                                    html:webcomponent($config, ., ("tei-name3"), ., 'pb-geolocation', map {"longitude": tokenize(id(substring-after(@ref, '#'), root(.))/location/geo, ' ')[2], "latitude": tokenize(id(substring-after(@ref, '#'), root(.))/location/geo, ' ')[1], "label": id(substring-after(@ref, '#'), root(.))/placeName, "key": substring-after(@ref, '#'), "scroll": true(), "emit": 'letter', "duration": 1000})
+                                else
+                                    if (@type='person' and id(substring-after(@ref, '#'), root(.))) then
+                                        html:webcomponent($config, ., ("tei-name4"), ., 'pb-highlight', map {"key": substring-after(@ref, '#'), "scroll": true(), "emit": 'letter'})
+                                    else
+                                        if (@type='place') then
+                                            html:inline($config, ., ("tei-name5"), .)
+                                        else
+                                            $config?apply($config, ./node())
                     case element(front) return
                         html:block($config, ., ("tei-front"), .)
                     case element(lg) return
@@ -472,10 +493,19 @@ let $node :=
                     case element(expan) return
                         html:inline($config, ., ("tei-expan"), .)
                     case element(body) return
-                        (
-                            html:index($config, ., ("tei-body1"), 'toc', .),
-                            html:block($config, ., ("tei-body2"), .)
-                        )
+                        if ($parameters?mode='facets') then
+                            (
+                                html:heading($config, ., ("tei-body1"), 'Places', 2),
+                                html:block($config, ., ("tei-body2"), for $n in .//name[@type='place'] group by $ref := $n/@ref order by $ref return $n[1]),
+                                html:heading($config, ., ("tei-body3"), 'People', 2),
+                                html:section($config, ., ("tei-body4"), for $n in .//name[@type='person'] group by $ref := $n/@ref order by $ref return $n[1])
+                            )
+
+                        else
+                            (
+                                html:index($config, ., ("tei-body5"), 'toc', .),
+                                html:block($config, ., ("tei-body6"), .)
+                            )
 
                     case element(spGrp) return
                         html:block($config, ., ("tei-spGrp"), .)
@@ -513,26 +543,24 @@ let $node :=
                         html:inline($config, ., ("tei-docAuthor"), .)
                     case element(byline) return
                         html:block($config, ., ("tei-byline"), .)
-                    case element(persName) return
-                        if (parent::person) then
-                            html:inline($config, ., ("tei-persName1"), .)
-                        else
-                            html:alternate($config, ., ("tei-persName2"), ., ., id(substring-after(@ref, '#'), root(.)))
+                    case element(place) return
+                        (
+                            html:heading($config, ., ("tei-place1"), string-join(placeName, ', '), 3),
+                            if (location/geo) then
+                                html:block($config, ., ("tei-place2"), ('Location: ', location/geo))
+                            else
+                                (),
+                            html:block($config, ., ("tei-place3"), note/node())
+                        )
+
+                    case element(geo) return
+                        html:webcomponent($config, ., ("tei-geo"), ., 'pb-geolocation', map {"latitude": tokenize(., ' ')[1], "longitude": tokenize(., ' ')[2]})
                     case element(person) return
-                        if (parent::listPerson) then
-                            html:inline($config, ., ("tei-person"), .)
-                        else
-                            $config?apply($config, ./node())
-                    case element(placeName) return
-                        if (parent::place) then
-                            html:inline($config, ., ("tei-placeName1"), .)
-                        else
-                            html:alternate($config, ., ("tei-placeName2"), ., ., id(substring-after(@ref, '#'), root(.)))
-                    case element(orgName) return
-                        if (parent::org) then
-                            html:inline($config, ., ("tei-orgName1"), .)
-                        else
-                            html:alternate($config, ., ("tei-orgName2"), ., ., id(substring-after(@ref, '#'), root(.)))
+                        (
+                            html:heading($config, ., ("tei-person1"), persName, 3),
+                            html:block($config, ., ("tei-person2"), note/node())
+                        )
+
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return

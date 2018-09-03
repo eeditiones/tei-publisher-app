@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
@@ -35,75 +36,88 @@
             <schemaSpec start="TEI teiCorpus" ident="graves" source="teipublisher.odd">
                 <elementSpec ident="name" mode="change">
                     <model predicate="$parameters?mode='facets' and @type='person'" behaviour="webcomponent">
-                        <param name="name" value="'pb-highlight'"/>
-                        <param name="content" value="id(substring-after(@ref, '#'), root(.))"/>
-                        <param name="key" value="substring-after(@ref, '#')"/>
-                        <param name="is-target" value="true()"/>
-                        <outputRendition>
-                            display: block;
-                        </outputRendition>
-                    </model>
+            <param name="name" value="'pb-highlight'"/>
+            <param name="content" value="id(substring-after(@ref, '#'), root(.))"/>
+            <param name="key" value="substring-after(@ref, '#')"/>
+            <param name="subscribe" value="'letter'"/>
+            <param name="emit" value="'facets'"/>
+            <outputRendition>
+            display: block;
+            </outputRendition>
+        </model>
                     <model predicate="$parameters?mode='facets' and @type='place'" behaviour="webcomponent">
-                        <param name="content" value="id(substring-after(@ref, '#'), root(.))"/>
-                        <param name="name" value="'pb-highlight'"/>
-                        <param name="key" value="substring-after(@ref, '#')"/>
-                        <param name="is-target" value="true()"/>
-                        <outputRendition>
-                            display: block;
-                        </outputRendition>
-                    </model>
+            <param name="content" value="id(substring-after(@ref, '#'), root(.))"/>
+            <param name="name" value="'pb-highlight'"/>
+            <param name="key" value="substring-after(@ref, '#')"/>
+            <param name="scroll" value="true()"/>
+            <param name="subscribe" value="'letter'"/>
+            <param name="emit" value="'facets'"/>
+            <outputRendition>
+            display: block;
+            </outputRendition>
+        </model>
                     <model predicate="@type='place' and id(substring-after(@ref, '#'), root(.))/location/geo" behaviour="webcomponent">
-                        <param name="name" value="'pb-geolocation'"/>
-                        <param name="longitude" value="tokenize(id(substring-after(@ref, '#'), root(.))/location/geo, ' ')[2]"/>
-                        <param name="latitude" value="tokenize(id(substring-after(@ref, '#'), root(.))/location/geo, ' ')[1]"/>
-                        <param name="label" value="id(substring-after(@ref, '#'), root(.))/placeName"/>
-                        <param name="key" value="substring-after(@ref, '#')"/>
-                        <outputRendition>
+            <param name="name" value="'pb-geolocation'"/>
+            <param name="longitude" value="tokenize(id(substring-after(@ref, '#'), root(.))/location/geo, ' ')[2]"/>
+            <param name="latitude" value="tokenize(id(substring-after(@ref, '#'), root(.))/location/geo, ' ')[1]"/>
+            <param name="label" value="id(substring-after(@ref, '#'), root(.))/placeName"/>
+            <param name="key" value="substring-after(@ref, '#')"/>
+            <param name="scroll" value="true()"/>
+            <param name="emit" value="'letter'"/>
+            <param name="duration" value="1000"/>
+            <outputRendition>
+            
                             color: #1565c0;
 cursor: pointer;
-                        </outputRendition>
-                    </model>
+                        
+            </outputRendition>
+        </model>
                     <model predicate="@type='person' and id(substring-after(@ref, '#'), root(.))" behaviour="webcomponent">
-                        <param name="name" value="'pb-highlight'"/>
-                        <param name="content" value="."/>
-                        <param name="key" value="substring-after(@ref, '#')"/>
-                        <outputRendition>
+            <param name="name" value="'pb-highlight'"/>
+            <param name="content" value="."/>
+            <param name="key" value="substring-after(@ref, '#')"/>
+            <param name="scroll" value="true()"/>
+            <param name="emit" value="'letter'"/>
+            <outputRendition>
+            
                             color: #bf360c;
 cursor: pointer;
-                        </outputRendition>
-                    </model>
+                        
+            </outputRendition>
+        </model>
                     <model predicate="@type='place'" behaviour="inline">
-                        <outputRendition>
-                            font-style: italic;
-                        </outputRendition>
-                    </model>
+            <outputRendition>
+            font-style: italic;
+            </outputRendition>
+        </model>
                 </elementSpec>
                 <elementSpec ident="note" mode="change"/>
             <elementSpec ident="dateline" mode="change">
                     <model behaviour="block" useSourceRendition="true">
-                        <outputRendition>
-                            float: right;
-                        </outputRendition>
-                    </model>
+            <outputRendition>
+            float: right;
+            </outputRendition>
+        </model>
                 </elementSpec>
                 <elementSpec ident="pb" mode="change">
                     <model behaviour="omit">
-                        <param name="type" value="'page'"/>
-                        <param name="label" value="(concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else ''))"/>
-                        <outputRendition>
-                            display: block; margin-left: 4pt; color: grey; float: right;
-                        </outputRendition>
-                        <outputRendition>
-                            content: '[Page ';
-                        </outputRendition>
-                        <outputRendition>
-                            content: ']';
-                        </outputRendition>
-                    </model>
+            <param name="type" value="'page'"/>
+            <param name="label" value="(concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else ''))"/>
+            <outputRendition>
+            display: block; margin-left: 4pt; color: grey; float: right;
+            </outputRendition>
+            <outputRendition>
+            content: '[Page ';
+            </outputRendition>
+            <outputRendition>
+            content: ']';
+            </outputRendition>
+        </model>
                 </elementSpec>
                 <elementSpec ident="closer" mode="change">
                     <model behaviour="block">
-                        <outputRendition>
+            <outputRendition>
+            
 
 
 
@@ -160,15 +174,17 @@ cursor: pointer;
 
 
 
-                        </outputRendition>
-                    </model>
+                        
+            </outputRendition>
+        </model>
                 </elementSpec>
                 <elementSpec ident="body" mode="change">
                     <modelSequence predicate="$parameters?mode='facets'" behaviour="inline">
-                        <model behaviour="heading">
-                            <param name="content" value="'Places'"/>
-                            <param name="level" value="2"/>
-                            <outputRendition>
+            <model behaviour="heading">
+                <param name="content" value="'Places'"/>
+                <param name="level" value="2"/>
+                <outputRendition>
+                
 
 
 
@@ -203,15 +219,17 @@ border-bottom: 1px solid #A0A0A0;
 
 
 
-                            </outputRendition>
-                        </model>
-                        <model behaviour="block">
-                            <param name="content" value="for $n in .//name[@type='place'] group by $ref := $n/@ref order by $ref return $n[1]"/>
-                        </model>
-                        <model behaviour="heading">
-                            <param name="content" value="'People'"/>
-                            <param name="level" value="2"/>
-                            <outputRendition>
+                            
+                </outputRendition>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="for $n in .//name[@type='place'] group by $ref := $n/@ref order by $ref return $n[1]"/>
+            </model>
+            <model behaviour="heading">
+                <param name="content" value="'People'"/>
+                <param name="level" value="2"/>
+                <outputRendition>
+                
 
 
 
@@ -224,40 +242,42 @@ border-bottom: 1px solid #A0A0A0;
 
 
 
-                            </outputRendition>
-                        </model>
-                        <model behaviour="section">
-                            <param name="content" value="for $n in .//name[@type='person'] group by $ref := $n/@ref order by $ref return $n[1]"/>
-                        </model>
-                    </modelSequence>
+                            
+                </outputRendition>
+            </model>
+            <model behaviour="section">
+                <param name="content" value="for $n in .//name[@type='person'] group by $ref := $n/@ref order by $ref return $n[1]"/>
+            </model>
+        </modelSequence>
                     <modelSequence>
-                        <model behaviour="index">
-                            <param name="type" value="'toc'"/>
-                        </model>
-                        <model behaviour="block"/>
-                    </modelSequence>
+            <model behaviour="index">
+                <param name="type" value="'toc'"/>
+            </model>
+            <model behaviour="block"/>
+        </modelSequence>
                 </elementSpec>
                 <elementSpec ident="place" mode="add">
                     <modelSequence behaviour="inline">
-                        <model behaviour="heading">
-                            <param name="content" value="string-join(placeName, ', ')"/>
-                            <param name="level" value="3"/>
-                        </model>
-                        <model predicate="location/geo" behaviour="block">
-                            <param name="content" value="('Location: ', location/geo)"/>
-                        </model>
-                        <model behaviour="block">
-                            <param name="content" value="note/node()"/>
-                        </model>
-                    </modelSequence>
+            <model behaviour="heading">
+                <param name="content" value="string-join(placeName, ', ')"/>
+                <param name="level" value="3"/>
+            </model>
+            <model predicate="location/geo" behaviour="block">
+                <param name="content" value="('Location: ', location/geo)"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="note/node()"/>
+            </model>
+        </modelSequence>
                 </elementSpec>
                 <elementSpec ident="geo" mode="add">
                     <model behaviour="webcomponent">
-                        <param name="name" value="'pb-geolocation'"/>
-                        <param name="latitude" value="tokenize(., ' ')[1]"/>
-                        <param name="longitude" value="tokenize(., ' ')[2]"/>
-                        <param name="content" value="."/>
-                        <outputRendition>
+            <param name="name" value="'pb-geolocation'"/>
+            <param name="latitude" value="tokenize(., ' ')[1]"/>
+            <param name="longitude" value="tokenize(., ' ')[2]"/>
+            <param name="content" value="."/>
+            <outputRendition>
+            
 
 
 
@@ -296,24 +316,23 @@ cursor: pointer;
 
 
 
-                        </outputRendition>
-                    </model>
+                        
+            </outputRendition>
+        </model>
                 </elementSpec>
                 <elementSpec ident="opener" mode="change">
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="person" mode="add">
                     <modelSequence behaviour="inline">
-                        <desc>Output metadata for a person</desc>
-                        <model behaviour="heading">
-                            <param name="content" value="persName"/>
-                            <param name="level" value="3"/>
-                        </model>
-                        <model behaviour="block">
-                            <desc>Output note</desc>
-                            <param name="content" value="note/node()"/>
-                        </model>
-                    </modelSequence>
+            <model behaviour="heading">
+                <param name="content" value="persName"/>
+                <param name="level" value="3"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="note/node()"/>
+            </model>
+        </modelSequence>
                 </elementSpec>
             </schemaSpec>
         </body>
