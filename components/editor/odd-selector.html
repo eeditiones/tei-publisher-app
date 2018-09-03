@@ -55,20 +55,12 @@
                 };
             }
 
-            _selectOdd(){
-//                this.selected = this.$.select.selected;
-//                console.log('odd    : ', this.$.select.selected);
-//                console.log('odd selected: ', this.parentNode);
-
-                //in this case this should be safe but is not a recommended practice
-                if(this.parentNode){
-                    this.parentNode.odd = this.$.select.selected;
-                }
+            _selectOdd() {
+                this.dispatchEvent(new CustomEvent('odd-selected', {detail: {odd: this.$.select.selected}}))
             }
 
             connectedCallback() {
                 super.connectedCallback();
-                this.$.select.select(this.selected);
             }
 
 
