@@ -238,9 +238,12 @@
 
                 <paper-input id="desc" value="{{ desc }}" placeholder="[Document the model]"
                     on-change="refresh" label="Description"></paper-input>
+<!--
                 <paper-input id="predicate" label="predicate"
                     placeholder="[Define further conditions that have to be met (in xquery)]"
                     value="{{predicate}}"></paper-input>
+-->
+                <odd-code-editor code="{{predicate}}" mode="xquery">{{predicate}}</odd-code-editor>
                 <div hidden$="{{_isGroupOrSequence(type)}}">
                     <paper-autocomplete id="behaviour" placeholder="[Behaviour]"
                         text="{{ behaviour }}" label="Behaviour"></paper-autocomplete>
