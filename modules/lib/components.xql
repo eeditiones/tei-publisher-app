@@ -107,7 +107,7 @@ return
                     pages:process-content($content, $xml?data, $xml?config, $userParams)
                 default return
                     $content
-        let $transformed := local:extract-footnotes($html)
+        let $transformed := local:extract-footnotes($html[1])
         let $doc := replace($doc, "^.*/([^/]+)$", "$1")
         return
             if ($debug) then (

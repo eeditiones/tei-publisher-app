@@ -119,7 +119,7 @@
          <correspDesc>
             <correspAction type="sent">
                <persName ref="#MO">Mikołaj Orlik</persName>
-               <placeName>Gródek</placeName>
+               <placeName ref="#Grodek">Gródek</placeName>
                <date when="1438-01-13">13 stycznia [1438]</date>
             </correspAction>
          </correspDesc>
@@ -162,8 +162,8 @@
                         Ipsius Claritatem semiambulato<supplied>rem</supplied> promissum, qui si
                         dabitur, protinus Vestre Gracie destinabo eundem describens, quomodo michi
                         succedet in <gap/>.</seg>
-                     <seg xml:id="s.1.2.6">Parwum vadit theoloneum, tamen reuerendos dominos <rs
-                        type="person" ref="#JO">archiepiscopum</rs> et canonicos Leopolienses
+                     <seg xml:id="s.1.2.6">Parwum vadit theoloneum, tamen reuerendos dominos <persName
+                        ref="#JO">archiepiscopum</persName> et canonicos Leopolienses
                         necnon episcopum <supplied>....</supplied> in duplicibus
                         Quatuortemporibus<anchor xml:id="a2"/> totaliter expediui, fulgidumque
                         <persName ref="#AO">ducem Andruschkonem</persName> in quatuor

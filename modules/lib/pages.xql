@@ -152,7 +152,7 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
 };
 
 declare function pages:load-xml($data as node()*, $view as xs:string?, $root as xs:string?, $doc as xs:string) {
-    let $config := tpu:parse-pi(root($data)[1], $view)
+    let $config := tpu:parse-pi(root($data[1]), $view)
     return
         map {
             "config": $config,
@@ -473,7 +473,7 @@ declare function pages:navigation-link($node as node(), $model as map(*), $direc
 declare function pages:app-root($node as node(), $model as map(*)) {
     let $model := map:merge(
         (
-            $model, 
+            $model,
             map { "app": request:get-context-path() || substring-after($config:app-root, "/db") }
         )
     )
