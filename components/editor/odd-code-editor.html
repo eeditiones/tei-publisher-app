@@ -60,9 +60,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               height: 100%;
             }
         </style>
+        <iron-ajax id="lint" url="/exist/apps/tei-publisher/modules/editor.xql"
+                   handle-as="json" content-type="application/x-www-form-urlencoded"
+                   method="POST"></iron-ajax>
+
         <div id="editorDiv"></div>
 
     </template>
+
     <script>
         class OddCodeEditor extends Polymer.Element {
 
@@ -115,7 +120,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 // cm.on('refresh', e => console.log('refresh', e));
 
                 this._editor = cm
+                CodeMirror.registerHelper("lint", "xquery", this.lintXQuery.bind(this));
+
             }
+
+            lintXQuery(text) {
+                console.log('lintXQuery ', text);
+
+                if (!text) {
+                    return [];
+                }
+                return new Promise(function(resolve, reject) {
+                    var params = {
+                        action: "lint",
+                        code: text
+                    };
+                    this.$.lint.params = null;
+                    this.$.lint.body = params;
+                    var request = this.$.lint.generateRequest();
+                    request.completes.then(function(req) {
+                        const data = req.response;
+                        if (data.status === 'fail') {
+                            resolve([{
+                                message: data.message,
+                                severity: "error",
+                                from: CodeMirror.Pos(data.line - 1, data.column),
+                                to: CodeMirror.Pos(data.line - 1, data.column + 1)
+                            }]);
+                        } else {
+                            resolve([]);
+                        }
+                    }.bind(this));
+                }.bind(this));
+            }
+
 
             getSource() {
                 return this._editor.getValue();
