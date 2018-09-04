@@ -49,10 +49,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 margin: 0;
                 position: relative;
             }
-        </style>
-        <slot></slot>
-    </template>
+            #editorDiv {
+              position: relative;
+              top:0;
+              left:0;
+            }
 
+            #editorDiv, .CodeMirror {
+              width: 100%;
+              height: 100%;
+            }
+        </style>
+        <div id="editorDiv"></div>
+
+    </template>
     <script>
         class OddCodeEditor extends Polymer.Element {
 
@@ -65,9 +75,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     _editor: {
                         type: Object
                     },
-                    code:{
+                    code: {
                         type: String,
-                        value: ''
+                        value: '',
+                        observe: 'setSource'
                     },
                     mode: {
                         type: String,
@@ -81,34 +92,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 }
             }
 
-
             connectedCallback() {
                 super.connectedCallback();
-
-//                this.updateStyles();
-                this.focus();
             }
 
             ready(){
                 super.ready();
-//                console.log('code: ', this.code);
-
-                this._editor = CodeMirror(this.shadowRoot, {
+                const cm = CodeMirror(this.$.editorDiv, {
                     value: this.code || '',
                     mode: this.mode,
-                    lineNumbers: false,
-                    lineWrapping: true,
-                    autofocus: false,
-                    theme: "ttcn",
-                    matchBrackets: true,
-                    placeholder: this.placeholder || '[Empty]',
-                    lint: true
-                });
-/*
-                this._editor = CodeMirror(this.shadowRoot, {
-                    value: this.code || '',
-                    mode: this.mode,
-                    lineNumbers: false,
+                    lineNumbers: true,
                     lineWrapping: true,
                     autofocus: false,
                     theme: "ttcn",
@@ -116,8 +109,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     placeholder: this.placeholder || '[Empty]',
                     gutters: ["CodeMirror-lint-markers"],
                     lint: true
-                });
-*/
+                })
+                // for some reason these will never fire
+                // cm.on('redraw', (e) => console.log("redraw",e))
+                // cm.on('refresh', e => console.log('refresh', e));
+
+                this._editor = cm
             }
 
             getSource() {
@@ -128,12 +125,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 this._editor.setValue(text);
             }
 
-            _handleClick(){
-
-            }
-
-            get() {
-              return this.getSource()
+            refresh () {
+              if (!this._editor) return
+              this._editor.refresh();
             }
 
         }

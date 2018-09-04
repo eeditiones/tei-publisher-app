@@ -243,7 +243,7 @@
                     placeholder="[Define further conditions that have to be met (in xquery)]"
                     value="{{predicate}}"></paper-input>
 -->
-                <odd-code-editor code="{{predicate}}" mode="xquery">{{predicate}}</odd-code-editor>
+                <odd-code-editor id="predicate" code="{{predicate}}" mode="xquery"></odd-code-editor>
                 <div hidden$="{{_isGroupOrSequence(type)}}">
                     <paper-autocomplete id="behaviour" placeholder="[Behaviour]"
                         text="{{ behaviour }}" label="Behaviour"></paper-autocomplete>
@@ -452,6 +452,7 @@
             toggle(e) {
                 console.log('odd-model.toggle ', e.composedPath());
                 this.$.details.toggle()
+                this.$.predicate.refresh()
             }
 
             toggleButtonIcon(show) {
@@ -586,10 +587,6 @@
                 this.setCurrent(e.target);
                 e.preventDefault();
                 e.stopPropagation();
-            }
-
-            setCurrent(){
-                this.setCurrent(this);
             }
 
             setCurrent(target){
