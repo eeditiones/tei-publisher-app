@@ -24,7 +24,7 @@
         <delete dir="${build}"/>
     </target>
 
-    <target name="xar">
+    <target name="xar" depends="clean">
         <mkdir dir="${build}"/>
         <zip basedir="." destfile="${build}/${project.app}-${project.version}${git.commit}.xar">
             <exclude name="${build}/*"/>
@@ -99,10 +99,13 @@
         </echo>
         <copy todir="${bundle.dir}">
             <fileset dir="${basedir}">
+                <include name="data/**"/>
                 <include name="modules/**"/>
+                <include name="odd/**"/>
                 <include name="resources/**"/>
                 <include name="templates/**"/>
                 <include name="transform/**"/>
+                <include name="webtest/**"/>
 
                 <include name="*.xml"/>
                 <include name="*.xql"/>

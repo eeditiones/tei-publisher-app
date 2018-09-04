@@ -1,8 +1,8 @@
 {
   "entrypoint": "build.html",
   "shell": "dependencies-dev.html",
-  "sources":[
-    "./*.html"
+  "sources": [
+      "./**/*.html"
   ],
   "builds": [
     {
