@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
@@ -67,9 +66,13 @@
             <param name="duration" value="1000"/>
             <outputRendition>
             
+            
+            
                             color: #1565c0;
 cursor: pointer;
                         
+            
+            
             </outputRendition>
         </model>
                     <model predicate="@type='person' and id(substring-after(@ref, '#'), root(.))" behaviour="webcomponent">
@@ -80,9 +83,13 @@ cursor: pointer;
             <param name="emit" value="'letter'"/>
             <outputRendition>
             
+            
+            
                             color: #bf360c;
 cursor: pointer;
                         
+            
+            
             </outputRendition>
         </model>
                     <model predicate="@type='place'" behaviour="inline">
@@ -117,73 +124,18 @@ cursor: pointer;
                 <elementSpec ident="closer" mode="change">
                     <model behaviour="block">
             <outputRendition>
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            margin-top: 3em; margin-left: 1em; margin-left:
-                  1em;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        
+            margin: 3em 1em 20px;
             </outputRendition>
         </model>
                 </elementSpec>
                 <elementSpec ident="body" mode="change">
-                    <modelSequence predicate="$parameters?mode='facets'" behaviour="inline">
+                    <modelSequence predicate="$parameters?mode='facets'">
             <model behaviour="heading">
                 <param name="content" value="'Places'"/>
                 <param name="level" value="2"/>
                 <outputRendition>
+                
+                
                 
 
 
@@ -220,6 +172,8 @@ border-bottom: 1px solid #A0A0A0;
 
 
                             
+                
+                
                 </outputRendition>
             </model>
             <model behaviour="block">
@@ -230,6 +184,8 @@ border-bottom: 1px solid #A0A0A0;
                 <param name="level" value="2"/>
                 <outputRendition>
                 
+                
+                
 
 
 
@@ -243,6 +199,8 @@ border-bottom: 1px solid #A0A0A0;
 
 
                             
+                
+                
                 </outputRendition>
             </model>
             <model behaviour="section">
@@ -257,7 +215,7 @@ border-bottom: 1px solid #A0A0A0;
         </modelSequence>
                 </elementSpec>
                 <elementSpec ident="place" mode="add">
-                    <modelSequence behaviour="inline">
+                    <modelSequence>
             <model behaviour="heading">
                 <param name="content" value="string-join(placeName, ', ')"/>
                 <param name="level" value="3"/>
@@ -276,47 +234,10 @@ border-bottom: 1px solid #A0A0A0;
             <param name="latitude" value="tokenize(., ' ')[1]"/>
             <param name="longitude" value="tokenize(., ' ')[2]"/>
             <param name="content" value="."/>
+            <param name="emit" value="'letter'"/>
             <outputRendition>
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            color: #1565c0;
+            color: #1565c0;
 cursor: pointer;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        
             </outputRendition>
         </model>
                 </elementSpec>
@@ -324,15 +245,64 @@ cursor: pointer;
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="person" mode="add">
-                    <modelSequence behaviour="inline">
+                    <modelSequence>
             <model behaviour="heading">
                 <param name="content" value="persName"/>
                 <param name="level" value="3"/>
+                <outputRendition>
+                margin-bottom: 0;
+                </outputRendition>
+            </model>
+            <model predicate="birth or death or occupation" behaviour="block">
+                <param name="content" value="(occupation, birth, death)"/>
+                <outputRendition>
+                font-size: .85em;
+margin-bottom: .5em;
+                </outputRendition>
             </model>
             <model behaviour="block">
                 <param name="content" value="note/node()"/>
             </model>
         </modelSequence>
+                </elementSpec>
+            <elementSpec ident="postscript" mode="change">
+                    <modelSequence>
+            <model behaviour="heading">
+                <param name="content" value="('Postscript by ', id(substring-after(@resp, '#'), root(.))/persName)"/>
+                <param name="level" value="5"/>
+                <outputRendition>
+                margin-top: 10px;
+padding-top: 10px;
+border-top: 1px solid #A0A0A0;
+font-style: italic;
+                </outputRendition>
+            </model>
+            <model behaviour="block"/>
+        </modelSequence>
+                </elementSpec>
+                <elementSpec ident="persName" mode="add">
+                    <model predicate="forename or surname" behaviour="inline">
+            <param name="content" value="(forename, ' ', surname[not(@type='married')], if (surname[@type='married']) then (' (', string-join(surname[@type='married'], ', '), ')') else ())"/>
+        </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="birth" mode="add">
+                    <model predicate="following-sibling::death" behaviour="inline">
+            <param name="content" value="('* ', ., '; ')"/>
+        </model>
+                    <model behaviour="inline">
+            <param name="content" value="('* ', .)"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="death" mode="add">
+                    <model behaviour="inline">
+            <param name="content" value="('✝', .)"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="occupation" mode="add">
+                    <model behaviour="inline">
+            <param name="content" value="(., ' ')"/>
+        </model>
                 </elementSpec>
             </schemaSpec>
         </body>

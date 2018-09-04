@@ -236,48 +236,47 @@
                     </paper-listbox>
                 </paper-dropdown-menu>
 
-
                 <paper-input id="desc" value="{{ desc }}" placeholder="[Document the model]"
-                                 on-change="refresh" label="Description"></paper-input>
-                    <paper-autocomplete id="behaviour" hidden$="{{_isGroupOrSequence(type)}}"
-                                        text="{{ behaviour }}" placeholder="[Behaviour]"
-                                        label="Behaviour"></paper-autocomplete>
-                    <div class="predicate">
-                        <label>Predicate</label>
-                        <paper-input id="predicate" label="predicate" value="{{predicate}}"></paper-input>
-                    </div>
+                    on-change="refresh" label="Description"></paper-input>
+                <paper-input id="predicate" label="predicate"
+                    placeholder="[Define further conditions that have to be met (in xquery)]"
+                    value="{{predicate}}"></paper-input>
+                <div hidden$="{{_isGroupOrSequence(type)}}">
+                    <paper-autocomplete id="behaviour" placeholder="[Behaviour]"
+                        text="{{ behaviour }}" label="Behaviour"></paper-autocomplete>
                     <paper-input id="css" value="{{ css }}"
-                                 placeholder="[Define CSS class name (for external CSS)]"
-                                 label="CSS Class"></paper-input>
+                        placeholder="[Define CSS class name (for external CSS)]"
+                        label="CSS Class"></paper-input>
+                </div>
 
-                    <div class="parameters" hidden$="[[_isGroupOrSequence(type)]]">
-                        <div class="group">
-                            <span class="title">Parameters</span>
-                            <paper-icon-button icon="add"
-                                               on-click="addParameter"></paper-icon-button>
-                        </div>
-                        <template id="parameterList" is="dom-repeat" items="{{parameters}}" as="parameter">
-                            <odd-parameter name="{{ parameter.name }}" value="{{ parameter.value }}"
-                                           on-parameter-remove="_removeParam"></odd-parameter>
-                        </template>
+                <div class="parameters" hidden$="[[_isGroupOrSequence(type)]]">
+                    <div class="group">
+                        <span class="title">Parameters</span>
+                        <paper-icon-button icon="add"
+                                           on-click="addParameter"></paper-icon-button>
                     </div>
+                    <template id="parameterList" is="dom-repeat" items="{{parameters}}" as="parameter">
+                        <odd-parameter name="{{ parameter.name }}" value="{{ parameter.value }}"
+                                       on-parameter-remove="_removeParam"></odd-parameter>
+                    </template>
+                </div>
 
-                    <div class="renditions" hidden$="[[_isGroupOrSequence(type)]]">
-                        <div class="group">
-                            <div>
-                                <span class="title">Renditions</span>
-                                <paper-icon-button icon="add" on-click="addRendition"></paper-icon-button>
-                            </div>
-                            <div class="source">
-                                <paper-checkbox checked$="{{ sourcerend }}" id="sourcerend">Use source rendition
-                                </paper-checkbox>
-                            </div>
+                <div class="renditions" hidden$="[[_isGroupOrSequence(type)]]">
+                    <div class="group">
+                        <div>
+                            <span class="title">Renditions</span>
+                            <paper-icon-button icon="add" on-click="addRendition"></paper-icon-button>
                         </div>
-                        <template id="renditionList" is="dom-repeat" items="{{ renditions }}" as="rendition">
-                            <odd-rendition scope="{{ rendition.scope }}" css="{{ rendition.css }}"
-                                           events="{{ events }}" on-remove-rendition="_removeRendition"></odd-rendition>
-                        </template>
+                        <div class="source">
+                            <paper-checkbox checked$="{{ sourcerend }}" id="sourcerend">Use source rendition
+                            </paper-checkbox>
+                        </div>
                     </div>
+                    <template id="renditionList" is="dom-repeat" items="{{ renditions }}" as="rendition">
+                        <odd-rendition scope="{{ rendition.scope }}" css="{{ rendition.css }}"
+                                       events="{{ events }}" on-remove-rendition="_removeRendition"></odd-rendition>
+                    </template>
+                </div>
             </iron-collapse>
 
             <div class="models" hidden$="[[_isModel(type)]]">
