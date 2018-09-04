@@ -105,7 +105,6 @@
                 <include name="resources/**"/>
                 <include name="templates/**"/>
                 <include name="transform/**"/>
-                <include name="webtest/**"/>
 
                 <include name="*.xml"/>
                 <include name="*.xql"/>
