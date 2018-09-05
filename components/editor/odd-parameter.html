@@ -23,9 +23,10 @@
             }
 
             .wrapper{
-                display:grid;
+                display:block;
                 grid-template-columns: 100px auto 20px;
                 grid-column-gap: 10px;
+                margin-bottom:10px;
             }
             .actions{
                 align-self: end;
@@ -37,8 +38,12 @@
         <div class="wrapper">
             <paper-autocomplete id="combo" text="{{name}}" placeholder="[Param name]" label="Name"
                                 source="[]"></paper-autocomplete>
-            <paper-input id="textarea" on-change="_handleChange" value="{{value}}" label="value"></paper-input>
-                <!--<textarea id="textarea" on-change="_handleChange"></textarea>-->
+            <!--<paper-input id="textarea" on-change="_handleChange" value="{{value}}" label="value"></paper-input>-->
+
+            <odd-code-editor id="editor"
+                             mode="xquery"
+                             code="{{value}}"
+                             on-change="_handleChange"></odd-code-editor>
             <div class="actions">
                 <paper-icon-button on-click="delete" icon="delete"></paper-icon-button>
             </div>
@@ -71,8 +76,7 @@
                         type: String,
                         value: '',
                         notify: true,
-                        reflectToAttribute: true,
-                        observer: '_valueChanged'
+                        reflectToAttribute: true
                     }
                 };
             }
@@ -111,6 +115,8 @@
 
             connectedCallback() {
                 super.connectedCallback();
+                this.value = this.value.trim();
+                this.dispatchEvent(new CustomEvent('parameter-connected', {composed:true, bubbles:true, detail: {target: this}}));
             }
 
             updateList() {
@@ -134,20 +140,16 @@
             getData() {
                 return {
                     name: this.$.combo.text,
-                    value: this.$.value.get()
+                    value: this.$.editor.getSource()
                 };
             }
 
-            show() {
-                this.$.value.initCodeEditor();
+            refreshEditor(){
+                this.$.editor.refresh();
             }
 
             _handleChange() {
-                this.value = this.$.textarea.value;
-            }
-
-            _valueChanged() {
-                this.$.textarea.value = this.value;
+                this.value = this.$.editor.getSource();
             }
 
         }

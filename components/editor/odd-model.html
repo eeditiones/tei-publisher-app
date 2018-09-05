@@ -246,7 +246,11 @@
                     placeholder="[Define further conditions that have to be met (in xquery)]"
                     value="{{predicate}}"></paper-input>
 -->
-                <odd-code-editor id="predicate" code="{{predicate}}" mode="xquery" label="Predicate"></odd-code-editor>
+                <odd-code-editor id="predicate"
+                                 code="{{predicate}}"
+                                 mode="xquery"
+                                 label="Predicate"
+                                 on-change="_updatePredicate"></odd-code-editor>
 
                 <div hidden$="{{_isGroupOrSequence(type)}}">
                     <paper-autocomplete id="behaviour" placeholder="[Behaviour]"
@@ -263,8 +267,10 @@
                                            on-click="addParameter"></paper-icon-button>
                     </div>
                     <template id="parameterList" is="dom-repeat" items="{{parameters}}" as="parameter">
-                        <odd-parameter name="{{ parameter.name }}" value="{{ parameter.value }}"
-                                       on-parameter-remove="_removeParam"></odd-parameter>
+                        <odd-parameter name="{{ parameter.name }}"
+                                       value="{{ parameter.value }}"
+                                       on-parameter-remove="_removeParam"
+                                       on-parameter-connected="_refreshParameters"></odd-parameter>
                     </template>
                 </div>
 
@@ -465,6 +471,10 @@
                 for (let i = 0; i < renditions.length; i++) {
                     renditions[i].refreshEditor();
                 }
+                const parameters = this.shadowRoot.querySelectorAll('odd-parameter');
+                for (let i = 0; i < parameters.length; i++) {
+                    parameters[i].refreshEditor();
+                }
             }
 
             toggleButtonIcon(show) {
@@ -544,6 +554,11 @@
                 ev.detail.target.refreshEditor();
             }
 
+            _refreshParameters(ev){
+                console.log('_refreshParameters ', ev.detail);
+                ev.detail.target.refreshEditor();
+            }
+
             _copy(ev) {
                 ev.preventDefault();
                 ev.stopPropagation();
@@ -586,6 +601,10 @@
 
             _hasNoPredicate(predicate) {
                 return !predicate;
+            }
+
+            _updatePredicate(ev){
+                this.predicate = this.$.predicate.getSource();
             }
 
             _removeParam(e) {

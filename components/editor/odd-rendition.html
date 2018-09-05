@@ -37,7 +37,11 @@
         </paper-dropdown-menu>
         <!--<paper-textarea id="textarea" on-change="_handleChange" value="{{css}}">{{css}}</paper-textarea>-->
 
-        <odd-code-editor id="editor" code="{{css}}" mode="css" on-change="handleChange"></odd-code-editor>
+        <odd-code-editor
+                id="editor"
+                code="{{css}}"
+                mode="css"
+                on-change="_handleChange"></odd-code-editor>
 
 
         <paper-icon-button on-click="_remove" icon="delete"></paper-icon-button>
@@ -70,8 +74,7 @@
                         type: String,
                         value: '',
                         notify: true,
-                        reflectToAttribute: true,
-                        observer:'_handleChange'
+                        reflectToAttribute: true
                     },
                     scope:{
                         type: String,
@@ -95,11 +98,17 @@
                 this.refreshEditor();
             }
 
-/*
-            show() {
-                this.$.css.initCodeEditor();
+            refreshEditor(){
+                console.log('refreshEditor');
+                this.$.editor.refresh();
             }
-*/
+
+
+            /*
+                        show() {
+                            this.$.css.initCodeEditor();
+                        }
+            */
 
             _handleSelect(e){
                 this.scope = this.$.scope.selected;
@@ -111,8 +120,6 @@
             }
 
             _handleChange() {
-//                this.css = this.$.textarea.textContent;
-//                this.css = this.shadowRoot.querySelector('juicy-ace-editor').value;
                 this.css = this.$.editor.getSource();
             }
 
@@ -120,10 +127,6 @@
                 this.scope = this.$.scopeList.selected;
             }
 
-            refreshEditor(){
-                console.log('refreshEditor');
-                this.$.editor.refresh();
-            }
 
         }
 

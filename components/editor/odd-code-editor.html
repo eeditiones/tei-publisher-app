@@ -87,7 +87,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     code: {
                         type: String,
                         value: '',
-                        observe: 'setSource'
+                        observe: 'setSource',
+                        notify:true
                     },
                     mode: {
                         type: String,
@@ -125,10 +126,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     placeholder: this.placeholder || '[Empty]',
                     gutters: ["CodeMirror-lint-markers"],
                     lint: true
-                })
-                // for some reason these will never fire
-                // cm.on('redraw', (e) => console.log("redraw",e))
-                // cm.on('refresh', e => console.log('refresh', e));
+                });
+
+                cm.on('change',function(e){
+                    this.code = cm.getValue();
+                }.bind(this));
 
                 this._editor = cm;
                 if(this.mode == 'xquery'){
@@ -166,7 +168,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     }.bind(this));
                 }.bind(this));
             }
-
 
             getSource() {
                 return this._editor.getValue();
