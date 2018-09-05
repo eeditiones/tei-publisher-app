@@ -27,6 +27,10 @@
             odd-code-editor{
                 min-height:50px;
             }
+            .actions{
+                text-align: right;
+            }
+
         </style>
         <paper-dropdown-menu label="Scope">
             <paper-listbox id="scopeList" slot="dropdown-content" selected="{{scope}}" attr-for-selected="value">
@@ -43,8 +47,9 @@
                 mode="css"
                 on-change="_handleChange"></odd-code-editor>
 
-
-        <paper-icon-button on-click="_remove" icon="delete"></paper-icon-button>
+        <div class="actions">
+            <paper-icon-button on-click="_remove" icon="delete"></paper-icon-button>
+        </div>
 
         <slot></slot>
     </template>

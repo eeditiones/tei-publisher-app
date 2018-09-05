@@ -118,6 +118,24 @@
             </fileset>
         </copy>
 
+        <!--ugly but don't know how to do better -->
+        <copy todir="${bundle.dir}/components/bower_components/codemirror/lib">
+            <fileset dir="${basedir}/components/bower_components/codemirror/lib">
+                <include name="codemirror.css"/>
+            </fileset>
+        </copy>
+        <copy todir="${bundle.dir}/components/bower_components/codemirror/theme">
+            <fileset dir="${basedir}/components/bower_components/codemirror/theme">
+                <include name="ttcn.css"/>
+            </fileset>
+        </copy>
+        <copy todir="${bundle.dir}/components/bower_components/codemirror/addon/lint">
+            <fileset dir="${basedir}/components/bower_components/codemirror/addon/lint">
+                <include name="lint.css"/>
+            </fileset>
+        </copy>
+
+
         <echo>
             ### copying polymer build to ${build}
         </echo>

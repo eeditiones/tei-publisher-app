@@ -10,7 +10,7 @@
       "js": {"compile": false, "minify": true},
       "css": {"minify": true},
       "sourceMaps":true,
-      "inlineCss": true,
+      "inlineCss": false,
       "html": {
         "minify": true
       },
