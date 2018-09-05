@@ -213,7 +213,6 @@
             </template>
         </section>
         <odd-message id="dialog" hidden></odd-message>
-
     </template>
 
     <script>
@@ -334,9 +333,9 @@
               super.connectedCallback();
               const pathname = window.location.pathname;
               this.basePath = pathname.substring(0,pathname.lastIndexOf('/components'));
-              console.log('basePath ', this.basePath );
+//              console.log('basePath ', this.basePath );
               this.odd = this.getParameter('odd');
-              console.log('odd param: ', this.odd);
+//              console.log('odd param: ', this.odd);
               this.outputRoot = this.outputRoot || this.getParameter('output-root');
               this.rootPath = this.rootPath || this.getParameter('root');
 
@@ -345,7 +344,7 @@
               // wire up odd-selector
               // TODO inline odd-selector
               const oddSelector = this.querySelector('odd-selector');
-              console.log("odd prop: ", this.odd);
+//              console.log("odd prop: ", this.odd);
 
               if (this.odd) {
                   oddSelector.selected = this.odd;
@@ -375,7 +374,7 @@
 
             elementSpecConnectedHandler (ev) {
               if (this.loading) { return; }
-              console.log('set new connected odd-element-spec as currentItem', ev)
+//              console.log('set new connected odd-element-spec as currentItem', ev)
               this.setCurrentItem(ev.detail.target)
             }
 
@@ -396,7 +395,7 @@
             }
 
             _copy(e){
-                console.log('odd-editor._copy ', e);
+//                console.log('odd-editor._copy ', e);
                 this.clipboard = e.detail.model;
                 const clone = JSON.parse(JSON.stringify(e.detail.model));
                 this.clipboard = clone;
@@ -417,40 +416,11 @@
             }
 
             _specObserver (changeRecord) {
-                console.log('_specObserver', changeRecord)
+//                console.log('_specObserver', changeRecord)
                 const source = this.elementSpecs.map(this._specMapper);
                 this.$.jumpTo.set('source', source);
             }
 
-            lintXQuery(text) {
-/*
-                if (!text) {
-                    return [];
-                }
-                return new Promise(function(resolve, reject) {
-                    var params = {
-                        action: "lint",
-                        code: text
-                    };
-                    this.refs.loadContent.params = null;
-                    this.refs.loadContent.body = params;
-                    var request = this.refs.loadContent.generateRequest();
-                    request.completes.then(function(req) {
-                        const data = req.response;
-                        if (data.status === 'fail') {
-                            resolve([{
-                                message: data.message,
-                                severity: "error",
-                                from: CodeMirror.Pos(data.line - 1, data.column),
-                                to: CodeMirror.Pos(data.line - 1, data.column + 1)
-                            }]);
-                        } else {
-                            resolve([]);
-                        }
-                    }.bind(this));
-                }.bind(this));
-*/
-            }
 
             load() {
                 if (this.loading) { return; }
@@ -472,7 +442,7 @@
 
                     this.namespace = data.namespace;
                     this.useNamespace = (this.namespace != null);
-                    console.log('NAMESPACE', this.namespace, this.useNamespace);
+//                    console.log('NAMESPACE', this.namespace, this.useNamespace);
 
                     this.set('elementSpecs', data.elementSpecs);
                     this.$.specList.render()
@@ -525,7 +495,7 @@
 
 
             removeElementSpec(ev) {
-                console.log('removeElementSpec ', ev);
+//                console.log('removeElementSpec ', ev);
 
                 if (confirm('really delete?')) {
                     const index = this.$.specList.indexForElement(ev.detail.target);
@@ -544,7 +514,7 @@
               }
 
               this.set('currentItem', element)
-              console.log(this.currentItem)
+//              console.log(this.currentItem)
               this.currentItem.showModels()
               this.currentItem.scrollIntoView();
             }
@@ -689,7 +659,7 @@
             }
 
             _setCurrentSelection (e) {
-                console.log('editor._setCurrentSelection: ', e.target);
+//                console.log('editor._setCurrentSelection: ', e.target);
                 if(this.currentSelection != undefined){
                     this.currentSelection.removeAttribute('currentselection');
                 }
@@ -698,14 +668,14 @@
             }
 
             _changeSelection(e){
-                console.log('odd-editor._changeSelection ', e);
+//                console.log('odd-editor._changeSelection ', e);
 
                 if (e.detail.target == this) return;
 
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('current-changed received ', e.detail.target);
-                console.log('current-changed received current', this.currentSelection);
+//                console.log('current-changed received ', e.detail.target);
+//                console.log('current-changed received current', this.currentSelection);
                 if(this.currentSelection != undefined){
                     this.currentSelection.removeAttribute('currentselection');
                 }

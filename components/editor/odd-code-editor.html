@@ -11,17 +11,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/shadycss/apply-shim.html">
 <link rel="import" href="code-mirror-styles.html">
+<link rel="import" href="odd-codemirror-imports.html">
 
 
 <!--<link rel="stylesheet" href="addon/fold/foldgutter.css">-->
 <!--<link rel="stylesheet" href="addon/dialog/dialog.css">-->
 <!--<link rel="stylesheet" href="theme/monokai.css">-->
+<!--
 <script src="../../resources/scripts/vendor/codemirror/codemirror.js"></script>
 <script src="../../resources/scripts/vendor/codemirror/matchbrackets.js"></script>
 <script src="../../resources/scripts/vendor/codemirror/placeholder.js"></script>
 <script src="../../resources/scripts/vendor/codemirror/lint.js"></script>
 <script src="../../resources/scripts/vendor/codemirror/css.js"></script>
 <script src="../../resources/scripts/vendor/codemirror/xquery.js"></script>
+-->
 
 
 <!--<script src="addon/search/searchcursor.js"></script>-->
@@ -64,6 +67,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                    handle-as="json" content-type="application/x-www-form-urlencoded"
                    method="POST"></iron-ajax>
 
+        <div>[[label]]</div>
         <div id="editorDiv"></div>
 
     </template>
@@ -94,6 +98,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         type: Number,
                         value: 2
                     },
+                    label:{
+                        type: String
+                    }
                 }
             }
 
@@ -103,10 +110,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             ready(){
                 super.ready();
+                if(this.code){
+                    let code = this.code;
+                    this.code = code.trim();
+                }
                 const cm = CodeMirror(this.$.editorDiv, {
                     value: this.code || '',
                     mode: this.mode,
-                    lineNumbers: true,
+                    lineNumbers: false,
                     lineWrapping: true,
                     autofocus: false,
                     theme: "ttcn",
@@ -119,8 +130,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 // cm.on('redraw', (e) => console.log("redraw",e))
                 // cm.on('refresh', e => console.log('refresh', e));
 
-                this._editor = cm
-                CodeMirror.registerHelper("lint", "xquery", this.lintXQuery.bind(this));
+                this._editor = cm;
+                if(this.mode == 'xquery'){
+                    CodeMirror.registerHelper("lint", "xquery", this.lintXQuery.bind(this));
+                }
 
             }
 

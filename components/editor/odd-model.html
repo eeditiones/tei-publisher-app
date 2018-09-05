@@ -183,6 +183,9 @@
             .renditions{
                 margin-top:10px;
             }
+            odd-code-editor{
+                margin-bottom:30px;
+            }
         </style>
 
         <form>
@@ -243,7 +246,8 @@
                     placeholder="[Define further conditions that have to be met (in xquery)]"
                     value="{{predicate}}"></paper-input>
 -->
-                <odd-code-editor id="predicate" code="{{predicate}}" mode="xquery"></odd-code-editor>
+                <odd-code-editor id="predicate" code="{{predicate}}" mode="xquery" label="Predicate"></odd-code-editor>
+
                 <div hidden$="{{_isGroupOrSequence(type)}}">
                     <paper-autocomplete id="behaviour" placeholder="[Behaviour]"
                         text="{{ behaviour }}" label="Behaviour"></paper-autocomplete>
@@ -276,8 +280,11 @@
                         </div>
                     </div>
                     <template id="renditionList" is="dom-repeat" items="{{ renditions }}" as="rendition">
-                        <odd-rendition scope="{{ rendition.scope }}" css="{{ rendition.css }}"
-                                       events="{{ events }}" on-remove-rendition="_removeRendition"></odd-rendition>
+                        <odd-rendition scope="{{ rendition.scope }}"
+                                       css="{{ rendition.css }}"
+                                       events="{{ events }}"
+                                       on-remove-rendition="_removeRendition"
+                                       on-rendition-connected="_refreshRendition"></odd-rendition>
                     </template>
                 </div>
             </iron-collapse>
@@ -360,7 +367,8 @@
                     renditions: {
                         type: Array,
                         value: () => [],
-                        notify: true
+                        notify: true,
+                        observer: '_updateRendition'
                     },
                     desc: {
                         type: String,
@@ -451,8 +459,12 @@
 
             toggle(e) {
                 console.log('odd-model.toggle ', e.composedPath());
-                this.$.details.toggle()
-                this.$.predicate.refresh()
+                this.$.details.toggle();
+                this.$.predicate.refresh();
+                const renditions = this.shadowRoot.querySelectorAll('odd-rendition');
+                for (let i = 0; i < renditions.length; i++) {
+                    renditions[i].refreshEditor();
+                }
             }
 
             toggleButtonIcon(show) {
@@ -528,6 +540,10 @@
                 this.splice('renditions', index, 1);
             }
 
+            _refreshRendition(ev){
+                ev.detail.target.refreshEditor();
+            }
+
             _copy(ev) {
                 ev.preventDefault();
                 ev.stopPropagation();
@@ -583,7 +599,7 @@
             }
 
             _setCurrentSelection(e){
-                console.log('model._setCurrentSelection: ', e.target);
+//                console.log('model._setCurrentSelection: ', e.target);
                 this.setCurrent(e.target);
                 e.preventDefault();
                 e.stopPropagation();
