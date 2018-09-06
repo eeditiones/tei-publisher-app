@@ -430,7 +430,8 @@
 
                 document.dispatchEvent(new CustomEvent('pb-start-update'));
 
-//                this.$.editSource.setPath(this.rootPath + '/' + this.odd);
+
+                this.$.editSource.setPath(this.rootPath + '/' + this.odd);
                 const params = { odd: this.odd, root: this.rootPath };
                 this.$.loadContent.params = params;
                 let request = this.$.loadContent.generateRequest();
