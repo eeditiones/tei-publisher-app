@@ -109,6 +109,7 @@
                                    on-model-move-down="moveModelDown"
                                    on-click="_setCurrentSelection"
                                    on-item-toggled="_setCurrentSelection"
+                                   on-model-connected="_refreshModel"
                                    parent-model="[[model]]">
                         </odd-model>
                     </template>
@@ -214,8 +215,11 @@
                     show: true,
                     current:true
                 };
+
+                console.log('new model ', newModel);
+
                 this.unshift('models',newModel);
-                const tmpl = this.$.modelList.querySelector('template');
+//                const tmpl = this.$.modelList.querySelector('template');
 //                console.log('dom-if template ', tmpl);
                 this.$.addModel.selected = null;
 
@@ -256,6 +260,12 @@
                 this.splice('models', index, 1);
                 this.splice('models', index + 1, 0, model);
             }
+
+            _refreshModel(ev){
+                console.log('refreshModel ', ev.detail.target);
+                ev.detail.target.refreshPredicateEditor();
+            }
+
 
             _remove(ev) {
                 this.dispatchEvent(new CustomEvent('element-spec-removed', {

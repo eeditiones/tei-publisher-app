@@ -373,8 +373,7 @@
                     renditions: {
                         type: Array,
                         value: () => [],
-                        notify: true,
-                        observer: '_updateRendition'
+                        notify: true
                     },
                     desc: {
                         type: String,
@@ -453,6 +452,8 @@
                     this.dispatchEvent(new CustomEvent('current-changed', {composed:true, bubbles:true, detail:{target: this}}));
                 }
                 this.$.behaviour.source = this.behaviours;
+                this.dispatchEvent(new CustomEvent('model-connected', {composed:true, bubbles:true, detail: {target: this}}));
+
             }
 
             getModel(){
@@ -467,6 +468,12 @@
                 console.log('odd-model.toggle ', e.composedPath());
                 this.$.details.toggle();
                 this.$.predicate.refresh();
+                const models = this.shadowRoot.querySelectorAll('odd-model');
+                console.log('toggle models ', models);
+
+                for (let i = 0; i < models.length; i++) {
+                    models[i].refreshPredicateEditor();
+                }
                 const renditions = this.shadowRoot.querySelectorAll('odd-rendition');
                 for (let i = 0; i < renditions.length; i++) {
                     renditions[i].refreshEditor();
@@ -548,6 +555,11 @@
             removeRendition(item) {
                 const index = this.renditions.indexOf(item);
                 this.splice('renditions', index, 1);
+            }
+
+            refreshPredicateEditor(){
+                console.log('refreshPredicateEditor');
+                this.$.predicate.refresh();
             }
 
             _refreshRendition(ev){
