@@ -23,10 +23,16 @@
             }
 
             .wrapper{
-                display:block;
-                grid-template-columns: 100px auto 20px;
-                grid-column-gap: 10px;
+                display:flex;
+                flex-direction: row;
                 margin-bottom:10px;
+            }
+            paper-autocomplete, .actions {
+                flex: 1 1;
+            }
+            odd-code-editor {
+                flex: 2 0;
+                margin-left: 10px;
             }
             .actions{
                 align-self: end;
