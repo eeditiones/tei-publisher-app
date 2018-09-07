@@ -91,7 +91,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     code: {
                         type: String,
                         value: '',
-                        observe: 'setSource',
+                        observer: 'setSource',
                         notify:true
                     },
                     mode: {
@@ -177,8 +177,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 return this._editor.getValue();
             }
 
-            setSource(text) {
-                this._editor.setValue(text);
+            setSource(newval) {
+                console.log('setSource', this._editor, newval)
+                if (!newval) { return }
+                if (!this._editor) return;
+                this._editor.setValue(newval);
+                this._editor.refresh();
             }
 
             refresh () {
