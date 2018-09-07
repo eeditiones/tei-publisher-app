@@ -178,8 +178,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
             setSource(newval) {
-                console.log('setSource', this._editor, newval)
-                if (!newval) { return }
+                const val = newval || ''
                 if (!this._editor) return;
                 this._editor.setValue(newval);
                 this._editor.refresh();
