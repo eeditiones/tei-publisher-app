@@ -10,10 +10,6 @@
     The "odd" is defined by its name, without the .odd suffix.
 -->
 <modules>
-    <!-- Special latex configuration for presentations -->
-    <output mode="latex" odd="beamer">
-        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latexbeamer" prefix="ext-beamer" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-latexbeamer.xql"/>
-    </output>
     <!-- General latex extension functions -->
     <output mode="latex">
         <property name="class">"article"</property>
