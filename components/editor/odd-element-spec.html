@@ -109,8 +109,7 @@
                                    on-model-move-down="moveModelDown"
                                    on-click="_setCurrentSelection"
                                    on-item-toggled="_setCurrentSelection"
-                                   on-model-connected="_refreshModel"
-                                   parent-model="[[model]]">
+                                   on-model-connected="_refreshModel">
                         </odd-model>
                     </template>
                 </template>
@@ -168,8 +167,6 @@
                         detail: {target: this}
                     }));
                 }.bind(this));
-
-
             }
 
             render(){
@@ -181,11 +178,10 @@
             }
 
             toggle(ev) {
-//                console.log('toggle ',ev);
-
                 ev.preventDefault();
                 this.$.models.toggle();
                 this.dispatchEvent(new CustomEvent('item-toggled', {}));
+                // refreshEditors of all models here?
             }
 
             showModels() {
@@ -219,8 +215,6 @@
                 console.log('new model ', newModel);
 
                 this.unshift('models',newModel);
-//                const tmpl = this.$.modelList.querySelector('template');
-//                console.log('dom-if template ', tmpl);
                 this.$.addModel.selected = null;
 
             }
@@ -234,8 +228,6 @@
                     this.splice('models', index, 1);
                 }
             }
-
-
 
             moveModelUp(ev) {
                 const item = ev.currentTarget;
@@ -263,7 +255,7 @@
 
             _refreshModel(ev){
                 console.log('refreshModel ', ev.detail.target);
-                ev.detail.target.refreshPredicateEditor();
+                ev.detail.target.refreshEditors();
             }
 
 
@@ -275,24 +267,15 @@
 
 
             _paste(ev) {
-//                console.log('elementspec _paste ',ev);
                 const editor = document.querySelector('odd-editor');
-//                console.log('elementspec _paste editor clipboard',editor.clipboard);
                 this.dispatchEvent(new CustomEvent('paste', {composed:true, bubbles:true, detail: {target: this}}));
             }
 
-            _toggle(e){
-//                console.log('_toggle ',e);
-            }
-
-
             _setCurrentSelection(e){
-//                console.log('element-spec._setCurrentSelection: ', e.target);
                 e.preventDefault();
                 e.stopPropagation();
                 this.dispatchEvent(new CustomEvent('current-changed', {composed:true, bubbles:true, detail:{target: e.target}}));
             }
-
         }
 
         window.customElements.define(OddElementSpec.is, OddElementSpec);

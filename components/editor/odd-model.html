@@ -241,15 +241,12 @@
 
                 <paper-input id="desc" value="{{ desc }}" placeholder="[Document the model]"
                     on-change="refresh" label="Description"></paper-input>
-<!--
-                <paper-input id="predicate" label="predicate"
-                    placeholder="[Define further conditions that have to be met (in xquery)]"
-                    value="{{predicate}}"></paper-input>
--->
+
                 <odd-code-editor id="predicate"
                                  code="{{predicate}}"
                                  mode="xquery"
                                  label="Predicate"
+                                 placeholder="[Define further conditions that have to be met (in xquery)]"
                                  on-change="_updatePredicate"></odd-code-editor>
 
                 <div hidden$="{{_isGroupOrSequence(type)}}">
@@ -311,8 +308,7 @@
                                on-model-move-up="moveModelUp"
                                on-model-move-down="moveModelDown"
                                on-click="_setCurrentSelection"
-                               on-item-toggled="_setCurrentSelection"
-                               parent-model="[[model]]">
+                               on-item-toggled="_setCurrentSelection">
                     </odd-model>
                 </template>
             </div>
@@ -464,24 +460,28 @@
                 this.$.modelList.render();
             }
 
+            refreshEditors () {
+              this.$.predicate.refresh();
+
+              const models = this.shadowRoot.querySelectorAll('odd-model');
+              for (let i = 0; i < models.length; i++) {
+                  models[i].refreshEditors();
+              }
+              const renditions = this.shadowRoot.querySelectorAll('odd-rendition');
+              for (let i = 0; i < renditions.length; i++) {
+                  renditions[i].refreshEditor();
+              }
+              const parameters = this.shadowRoot.querySelectorAll('odd-parameter');
+              for (let i = 0; i < parameters.length; i++) {
+                  parameters[i].refreshEditor();
+              }
+            }
+
             toggle(e) {
                 console.log('odd-model.toggle ', e.composedPath());
                 this.$.details.toggle();
-                this.$.predicate.refresh();
-                const models = this.shadowRoot.querySelectorAll('odd-model');
-                console.log('toggle models ', models);
 
-                for (let i = 0; i < models.length; i++) {
-                    models[i].refreshPredicateEditor();
-                }
-                const renditions = this.shadowRoot.querySelectorAll('odd-rendition');
-                for (let i = 0; i < renditions.length; i++) {
-                    renditions[i].refreshEditor();
-                }
-                const parameters = this.shadowRoot.querySelectorAll('odd-parameter');
-                for (let i = 0; i < parameters.length; i++) {
-                    parameters[i].refreshEditor();
-                }
+                this.refreshEditors()
             }
 
             toggleButtonIcon(show) {
