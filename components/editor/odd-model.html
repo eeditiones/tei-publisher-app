@@ -308,7 +308,8 @@
                                on-model-move-up="moveModelUp"
                                on-model-move-down="moveModelDown"
                                on-click="_setCurrentSelection"
-                               on-item-toggled="_setCurrentSelection">
+                               on-item-toggled="_setCurrentSelection"
+                               parent-model="[[model]]">
                     </odd-model>
                 </template>
             </div>
@@ -395,6 +396,11 @@
                             "fo",
                             "latex",
                             "plain"]
+                    },
+                    parentModel:{
+                        type: Array,
+                        reflectToAttribute: true,
+                        notify: true
                     },
                     behaviours:{
                         type:Array,
