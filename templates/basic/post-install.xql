@@ -95,7 +95,7 @@ declare function local:generate-code($collection as xs:string) {
     )
 };
 
-sm:chmod(xs:anyURI($target || "/modules/view.xql"), "rwsr-xr-x"),
+sm:chmod(xs:anyURI($target || "/modules/view.xql"), "rwxr-Sr-x"),
 (:sm:chmod(xs:anyURI($target || "/modules/transform.xql"), "rwsr-xr-x"),:)
 sm:chmod(xs:anyURI($target || "/modules/lib/pdf.xql"), "rwsr-xr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/get-epub.xql"), "rwsr-xr-x"),
