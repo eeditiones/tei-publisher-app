@@ -78,7 +78,7 @@
 .tei-author1:before { content: 'By '; }
 .tei-castList { list-style: ordered; }
 .tei-l { margin-left: 1em; }
-.tei-closer { margin-top: 3em; margin-left: 1em; margin-left: 1em; }
+.tei-closer { margin: 3em 1em 20px; }
 .tei-p { text-align: justify; }
 .tei-q1 { margin-left: 10px; margin-right: 10px; }
 .tei-q2:before { content: '‘'; }
@@ -92,6 +92,7 @@
 .tei-name3 { color: #1565c0; cursor: pointer; }
 .tei-name4 { color: #bf360c; cursor: pointer; }
 .tei-name5 { font-style: italic; }
+.tei-postscript1 { margin-top: 10px; padding-top: 10px; border-top: 1px solid #A0A0A0; font-style: italic; }
 .tei-edition:before { content: 'Edition: '; }
 .tei-div1 { border: 1px solid black; padding: 5px; }
 .tei-add { color: green; text-decoration: underline; }
@@ -122,4 +123,11 @@
 .tei-quote1:after { content: '’'; }
 .tei-quote2 { margin-left: 10px; margin-right: 10px; }
 .tei-row1 { font-weight: bold; }
-.tei-geo { color: #1565c0; cursor: pointer; }
+.tei-place1 { margin-bottom: 0; }
+.tei-place2 { font-size: .75em; }
+.tei-place3 { font-size: .75em; }
+.tei-geo2 { color: #1565c0; cursor: pointer; }
+.tei-person1 { margin-bottom: 0; }
+.tei-person2 { font-size: .85em; margin-bottom: .5em; }
+.tei-idno1:after { content: ', '; }
+.tei-idno3 { content: ', '; }

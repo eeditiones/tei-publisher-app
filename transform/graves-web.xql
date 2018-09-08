@@ -322,7 +322,11 @@ let $node :=
                     case element(docImprint) return
                         html:inline($config, ., ("tei-docImprint"), .)
                     case element(postscript) return
-                        html:block($config, ., ("tei-postscript"), .)
+                        (
+                            html:heading($config, ., ("tei-postscript1"), ('Postscript by ', id(substring-after(@resp, '#'), root(.))/persName), 5),
+                            html:block($config, ., ("tei-postscript2"), .)
+                        )
+
                     case element(edition) return
                         if (ancestor::teiHeader) then
                             html:block($config, ., ("tei-edition"), .)
@@ -547,20 +551,61 @@ let $node :=
                         (
                             html:heading($config, ., ("tei-place1"), string-join(placeName, ', '), 3),
                             if (location/geo) then
-                                html:block($config, ., ("tei-place2"), ('Location: ', location/geo))
+                                html:block($config, ., ("tei-place2"), location/geo)
                             else
                                 (),
-                            html:block($config, ., ("tei-place3"), note/node())
+                            html:block($config, ., ("tei-place3"), string-join(location/*[not(self::geo)], ', ')),
+                            html:block($config, ., ("tei-place4"), note/node())
                         )
 
                     case element(geo) return
-                        html:webcomponent($config, ., ("tei-geo"), ., 'pb-geolocation', map {"latitude": tokenize(., ' ')[1], "longitude": tokenize(., ' ')[2]})
+                        (
+                            html:inline($config, ., ("tei-geo1"), 'Location: '),
+                            html:webcomponent($config, ., ("tei-geo2"), ., 'pb-geolocation', map {"latitude": tokenize(., ' ')[1], "longitude": tokenize(., ' ')[2], "emit": 'letter'})
+                        )
+
                     case element(person) return
                         (
                             html:heading($config, ., ("tei-person1"), persName, 3),
-                            html:block($config, ., ("tei-person2"), note/node())
+                            if (birth or death or occupation) then
+                                html:block($config, ., ("tei-person2"), (occupation, birth, death))
+                            else
+                                (),
+                            if (idno) then
+                                html:block($config, ., ("tei-person3"), idno)
+                            else
+                                (),
+                            html:block($config, ., ("tei-person4"), note/node())
                         )
 
+                    case element(persName) return
+                        if (forename or surname) then
+                            html:inline($config, ., ("tei-persName1"), (forename, ' ', surname[not(@type='married')], if (surname[@type='married']) then (' (', string-join(surname[@type='married'], ', '), ')') else ()))
+                        else
+                            html:inline($config, ., ("tei-persName2"), .)
+                    case element(birth) return
+                        if (following-sibling::death) then
+                            html:inline($config, ., ("tei-birth1"), ('* ', ., '; '))
+                        else
+                            html:inline($config, ., ("tei-birth2"), ('* ', .))
+                    case element(death) return
+                        html:inline($config, ., ("tei-death"), ('✝', .))
+                    case element(occupation) return
+                        html:inline($config, ., ("tei-occupation"), (., ' '))
+                    case element(idno) return
+                        if (@type='VIAF' and following-sibling::idno) then
+                            html:link($config, ., ("tei-idno1"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/')
+                        else
+                            if (@type='VIAF') then
+                                html:link($config, ., ("tei-idno2"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/')
+                            else
+                                if (@type='LC-Name-Authority-File' and following-sibling::idno) then
+                                    html:link($config, ., ("tei-idno3"), 'LoC Authority', 'https://lccn.loc.gov/' || string())
+                                else
+                                    if (@type='LC-Name-Authority-File') then
+                                        html:link($config, ., ("tei-idno4"), 'LoC Authority', 'https://lccn.loc.gov/' || string())
+                                    else
+                                        $config?apply($config, ./node())
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return

@@ -319,7 +319,11 @@ let $node :=
                     case element(docImprint) return
                         fo:inline($config, ., ("tei-docImprint"), .)
                     case element(postscript) return
-                        fo:block($config, ., ("tei-postscript"), .)
+                        (
+                            fo:heading($config, ., ("tei-postscript1"), ('Postscript by ', id(substring-after(@resp, '#'), root(.))/persName)),
+                            fo:block($config, ., ("tei-postscript2"), .)
+                        )
+
                     case element(edition) return
                         if (ancestor::teiHeader) then
                             fo:block($config, ., ("tei-edition"), .)
@@ -539,21 +543,62 @@ let $node :=
                         (
                             fo:heading($config, ., ("tei-place1"), string-join(placeName, ', ')),
                             if (location/geo) then
-                                fo:block($config, ., ("tei-place2"), ('Location: ', location/geo))
+                                fo:block($config, ., ("tei-place2"), location/geo)
                             else
                                 (),
-                            fo:block($config, ., ("tei-place3"), note/node())
+                            fo:block($config, ., ("tei-place3"), string-join(location/*[not(self::geo)], ', ')),
+                            fo:block($config, ., ("tei-place4"), note/node())
                         )
 
                     case element(geo) return
-                        (: No function found for behavior: webcomponent :)
-                        $config?apply($config, ./node())
+                        (
+                            fo:inline($config, ., ("tei-geo1"), 'Location: '),
+                            (: No function found for behavior: webcomponent :)
+                            $config?apply($config, ./node())
+                        )
+
                     case element(person) return
                         (
                             fo:heading($config, ., ("tei-person1"), persName),
-                            fo:block($config, ., ("tei-person2"), note/node())
+                            if (birth or death or occupation) then
+                                fo:block($config, ., ("tei-person2"), (occupation, birth, death))
+                            else
+                                (),
+                            if (idno) then
+                                fo:block($config, ., ("tei-person3"), idno)
+                            else
+                                (),
+                            fo:block($config, ., ("tei-person4"), note/node())
                         )
 
+                    case element(persName) return
+                        if (forename or surname) then
+                            fo:inline($config, ., ("tei-persName1"), (forename, ' ', surname[not(@type='married')], if (surname[@type='married']) then (' (', string-join(surname[@type='married'], ', '), ')') else ()))
+                        else
+                            fo:inline($config, ., ("tei-persName2"), .)
+                    case element(birth) return
+                        if (following-sibling::death) then
+                            fo:inline($config, ., ("tei-birth1"), ('* ', ., '; '))
+                        else
+                            fo:inline($config, ., ("tei-birth2"), ('* ', .))
+                    case element(death) return
+                        fo:inline($config, ., ("tei-death"), ('✝', .))
+                    case element(occupation) return
+                        fo:inline($config, ., ("tei-occupation"), (., ' '))
+                    case element(idno) return
+                        if (@type='VIAF' and following-sibling::idno) then
+                            fo:link($config, ., ("tei-idno1"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/')
+                        else
+                            if (@type='VIAF') then
+                                fo:link($config, ., ("tei-idno2"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/')
+                            else
+                                if (@type='LC-Name-Authority-File' and following-sibling::idno) then
+                                    fo:link($config, ., ("tei-idno3"), 'LoC Authority', 'https://lccn.loc.gov/' || string())
+                                else
+                                    if (@type='LC-Name-Authority-File') then
+                                        fo:link($config, ., ("tei-idno4"), 'LoC Authority', 'https://lccn.loc.gov/' || string())
+                                    else
+                                        $config?apply($config, ./node())
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())
