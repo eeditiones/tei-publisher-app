@@ -167,11 +167,6 @@
                             </a>
                             <paper-listbox slot="dropdown-content">
                                 <paper-item>
-                                    <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/lib/regenerate.xql" dialog="messageDialog">
-                                        <i18n:text key="recompile"/>
-                                    </pb-ajax>
-                                </paper-item>
-                                <paper-item>
                                     <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/index.xql" dialog="messageDialog">
                                         <i18n:text key="metadata-update"/>
                                     </pb-ajax>
