@@ -3,7 +3,7 @@
     <div data-template="browse:list-works" data-template-root="">
         <ul class="documents" data-template="browse:browse" data-template-per-page="10">
             <li class="document">
-                <pb-restricted login="login">
+                <pb-restricted login="login" group="tei">
                     <div class="document-select">
                         <paper-checkbox data-template="pages:parse-params" name="documentCheckbox" value="${ident}"></paper-checkbox>
                     </div>
@@ -23,8 +23,18 @@
                                     </pb-download>
                                 </paper-item>
                                 <paper-item>
+                                    <pb-download type="pdf" dialog="downloadDialog" title="PDF (FO Version)" source="source" data-template="browse:download-link">
+                                        <i18n:text key="fo-source">PDF (FO Version Source)</i18n:text>
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
                                     <pb-download type="tex" dialog="downloadDialog" title="PDF (LaTeX Version)" data-template="browse:download-link">
                                         <i18n:text key="pdf-latex">PDF (LaTeX Version)</i18n:text>
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-download type="tex" dialog="downloadDialog" title="PDF (LaTeX Version)" source="source" data-template="browse:download-link">
+                                        <i18n:text key="latex-source">PDF (LaTeX Version)</i18n:text>
                                     </pb-download>
                                 </paper-item>
                                 <paper-item>
