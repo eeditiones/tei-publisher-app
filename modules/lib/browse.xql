@@ -52,7 +52,7 @@ function app:check-login($node as node(), $model as map(*)) {
 };
 
 declare function app:current-user($node as node(), $model as map(*)) {
-    let $user := request:get-attribute($config:login-domain || ".user")
+    let $user := sm:id()//sm:effective/sm:username/string()
     let $loggedIn := exists($user)
     return
         element { node-name($node) } {
