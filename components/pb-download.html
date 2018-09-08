@@ -7,7 +7,7 @@
                 display: block;
             }
         </style>
-        <a id="button" on-click="_handleClick" title="[[title]]"><slot></slot></a>
+        <a id="button" on-click="_handleClick" title="[[title]]" target="[[_target]]" href="[[_url]]"><slot></slot></a>
     </template>
 
     <script>
@@ -61,8 +61,24 @@
                      */
                     title: {
                         type: String
+                    },
+                    source: {
+                        type: Boolean,
+                        value: false
+                    },
+                    _target: {
+                        type: String,
+                        value: false,
+                        computed: '_computeTarget(source)'
+                    },
+                    _url: {
+                        type: String
                     }
                 };
+            }
+
+            _computeTarget(source) {
+                return source ? '_blank' : '_self';
             }
 
             /**
@@ -73,9 +89,8 @@
              * @private
              */
             _handleClick(ev) {
-                ev.preventDefault();
                 const token = new Date().getTime() * 797;
-                
+
                 let url;
                 if (this.src) {
                     const doc = document.getElementById(this.src);
@@ -84,12 +99,17 @@
                 } else {
                     url = this.file + '.' + this.type + '?odd=' + this.odd + '&cache=no&token=' + token;
                 }
+                if (this.source) {
+                    url += '&source=yes';
+                    this._url = url;
+                    return;
+                }
 
-                console.log("Downloading %s", url);
+                ev.preventDefault();
                 const dialog = document.getElementById(this.dialog);
-                
+
                 dialog.open();
-                
+
                 const downloadCheck = window.setInterval(() => {
                     const cookieValue = Cookies.get("simple.token");
                     if (cookieValue == token) {
