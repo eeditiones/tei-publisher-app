@@ -115,3 +115,15 @@ declare %private function nav:get-previous-recursive($config as map(*), $div as 
         else
             $div
 };
+
+declare function nav:index($root) {
+    let $header := root($root)/*/dbk:info
+    return
+        <doc>
+            {
+                for $title in $header/dbk:title
+                return
+                    <field name="title" store="yes">{replace(string-join($title//text(), " "), "^\s*(.*)$", "$1", "m")}</field>
+            }
+        </doc>
+};

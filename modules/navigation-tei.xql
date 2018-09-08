@@ -182,3 +182,24 @@ declare function nav:milestone-chunk($ms1 as element(), $ms2 as element()?, $nod
             if ($node >> $ms1 and (empty($ms2) or $node << $ms2)) then $node
             else ()
 };
+
+declare function nav:index($root) {
+    let $header := root($root)//tei:teiHeader
+    let $titleStmt := ($header//tei:msDesc/tei:head, $header//tei:titleStmt/tei:title)[1]
+    return
+        <doc>
+            {
+                for $title in $titleStmt/tei:title
+                return
+                    <field name="title" store="yes">{replace(string-join($title//text(), " "), "^\s*(.*)$", "$1", "m")}</field>
+            }
+            {
+                for $author in $titleStmt/tei:author
+                let $normalized := replace($author/string(), "^([^,]*,[^,]*),?.*$", "$1")
+                return
+                    <field name="author" store="yes">{$normalized}</field>
+            }
+            <field name="year" store="yes">{root($root)//tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:edition/tei:date/text()}</field>
+            <field name="file" store="yes">{substring-before(util:document-name($root), ".xml")}</field>
+        </doc>
+};

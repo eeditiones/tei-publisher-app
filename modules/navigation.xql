@@ -94,3 +94,7 @@ declare function nav:output-footnotes($footnotes as element()*) {
         </ol>
     </div>
 };
+
+declare function nav:index($config as map(*), $root) {
+    nav:dispatch($config, "index", [$root])
+};

@@ -113,3 +113,7 @@ declare %private function nav:get-previous-recursive($config as map(*), $div as 
         else
             $div
 };
+
+declare function nav:index($root) {
+    ()
+};
