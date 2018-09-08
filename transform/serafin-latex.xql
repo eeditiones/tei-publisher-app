@@ -505,9 +505,10 @@ let $node :=
                         latex:block($config, ., ("tei-byline"), .)
                     case element(persName) return
                         if (parent::person) then
-                            latex:inline($config, ., ("tei-persName1"), .)
+                            latex:inline($config, ., ("tei-persName2"), .)
                         else
-                            latex:alternate($config, ., ("tei-persName2"), ., ., id(substring-after(@ref, '#'), root(.)))
+                            (: More than one model without predicate found for ident persName. Choosing first one. :)
+                            latex:inline($config, ., ("tei-persName1"), .)
                     case element(person) return
                         if (parent::listPerson) then
                             latex:inline($config, ., ("tei-person"), .)
@@ -515,14 +516,21 @@ let $node :=
                             $config?apply($config, ./node())
                     case element(placeName) return
                         if (parent::place) then
-                            latex:inline($config, ., ("tei-placeName1"), .)
+                            latex:inline($config, ., ("tei-placeName2"), .)
                         else
-                            latex:alternate($config, ., ("tei-placeName2"), ., ., id(substring-after(@ref, '#'), root(.)))
+                            (: More than one model without predicate found for ident placeName. Choosing first one. :)
+                            latex:inline($config, ., ("tei-placeName1"), .)
                     case element(orgName) return
                         if (parent::org) then
-                            latex:inline($config, ., ("tei-orgName1"), .)
+                            latex:inline($config, ., ("tei-orgName2"), .)
                         else
-                            latex:alternate($config, ., ("tei-orgName2"), ., ., id(substring-after(@ref, '#'), root(.)))
+                            (: More than one model without predicate found for ident orgName. Choosing first one. :)
+                            latex:inline($config, ., ("tei-orgName1"), .)
+                    case element(correspAction) return
+                        if (@type='sent') then
+                            latex:inline($config, ., ("tei-correspAction"), (placeName, ', ', date))
+                        else
+                            $config?apply($config, ./node())
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

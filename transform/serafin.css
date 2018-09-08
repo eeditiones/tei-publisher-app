@@ -92,7 +92,6 @@
 .tei-head5 { font-weight: bold; }
 .tei-unclear:after { content: ' [?] '; }
 .tei-argument { margin-bottom: 0.5em; }
-.tei-title3 { color: red; font-size: 2em; }
 .tei-title5 { font-style: italic; }
 .tei-title7 { font-style: italic; }
 .tei-title9 { font-style: italic; }
@@ -111,12 +110,16 @@
 .tei-quote1:after { content: '’'; }
 .tei-quote2 { margin-left: 10px; margin-right: 10px; }
 .tei-row1 { font-weight: bold; }
-.tei-persName1:after { content: ': '; }
-.tei-persName1 { font-weight: bold; }
-.tei-persName2 { color: #1565c0; }
-.tei-placeName1:after { content: ': '; }
-.tei-placeName1 { font-weight: bold; }
-.tei-placeName2 { color: #ef6c00; }
-.tei-orgName1:after { content: ': '; }
-.tei-orgName1 { font-weight: bold; }
-.tei-orgName2 { color: #2e7d32; }
+.tei-persName1 { color: #1565c0; }
+.tei-persName2:after { content: ': '; }
+.tei-persName2 { font-weight: bold; }
+.tei-persName3 { color: #1565c0; }
+.tei-placeName1 { color: #ef6c00; }
+.tei-placeName2:after { content: ': '; }
+.tei-placeName2 { font-weight: bold; }
+.tei-placeName3 { color: #ef6c00; }
+.tei-orgName1 { color: #2e7d32; }
+.tei-orgName2:after { content: ': '; }
+.tei-orgName2 { font-weight: bold; }
+.tei-orgName3 { color: #2e7d32; }
+.tei-correspAction:before { content: ' — '; }

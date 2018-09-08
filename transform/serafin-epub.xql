@@ -69,7 +69,10 @@ let $node :=
                         if ($parameters?header='short') then
                             epub:block($config, ., ("tei-teiHeader3"), .)
                         else
-                            html:metadata($config, ., ("tei-teiHeader4"), .)
+                            if ($parameters?header='letter') then
+                                html:heading($config, ., ("tei-teiHeader4"), (fileDesc/titleStmt/title[not(@type)], profileDesc/correspDesc), 5)
+                            else
+                                html:metadata($config, ., ("tei-teiHeader5"), .)
                     case element(supplied) return
                         if (parent::choice) then
                             html:inline($config, ., ("tei-supplied1"), .)
@@ -388,7 +391,7 @@ let $node :=
                         epub:block($config, ., ("tei-argument"), .)
                     case element(date) return
                         if (@when) then
-                            html:alternate($config, ., ("tei-date3"), ., ., @when)
+                            html:alternate($config, ., ("tei-date3"), ., ., format-date(xs:date(@when), '[D1o] [MNn] [Y]', (session:get-attribute('lang'), 'en')[1], (), ()))
                         else
                             if (text()) then
                                 html:inline($config, ., ("tei-date4"), .)
@@ -463,7 +466,10 @@ let $node :=
                             )
 
                         else
-                            epub:block($config, ., ("tei-titleStmt6"), .)
+                            if ($parameters?header='letter') then
+                                html:inline($config, ., ("tei-titleStmt6"), title[not(@type)])
+                            else
+                                html:heading($config, ., ("tei-titleStmt7"), ., 4)
                     case element(sic) return
                         if (parent::choice and count(parent::*/*) gt 1) then
                             html:inline($config, ., ("tei-sic1"), .)
@@ -515,9 +521,9 @@ let $node :=
                         epub:block($config, ., ("tei-byline"), .)
                     case element(persName) return
                         if (parent::person) then
-                            html:inline($config, ., ("tei-persName1"), .)
+                            html:inline($config, ., ("tei-persName2"), .)
                         else
-                            html:alternate($config, ., ("tei-persName2"), ., ., id(substring-after(@ref, '#'), root(.)))
+                            html:alternate($config, ., ("tei-persName3"), ., ., id(substring-after(@ref, '#'), root(.)))
                     case element(person) return
                         if (parent::listPerson) then
                             html:inline($config, ., ("tei-person"), .)
@@ -525,14 +531,19 @@ let $node :=
                             $config?apply($config, ./node())
                     case element(placeName) return
                         if (parent::place) then
-                            html:inline($config, ., ("tei-placeName1"), .)
+                            html:inline($config, ., ("tei-placeName2"), .)
                         else
-                            html:alternate($config, ., ("tei-placeName2"), ., ., id(substring-after(@ref, '#'), root(.)))
+                            html:alternate($config, ., ("tei-placeName3"), ., ., id(substring-after(@ref, '#'), root(.)))
                     case element(orgName) return
                         if (parent::org) then
-                            html:inline($config, ., ("tei-orgName1"), .)
+                            html:inline($config, ., ("tei-orgName2"), .)
                         else
-                            html:alternate($config, ., ("tei-orgName2"), ., ., id(substring-after(@ref, '#'), root(.)))
+                            html:alternate($config, ., ("tei-orgName3"), ., ., id(substring-after(@ref, '#'), root(.)))
+                    case element(correspAction) return
+                        if (@type='sent') then
+                            html:inline($config, ., ("tei-correspAction"), (placeName, ', ', date))
+                        else
+                            $config?apply($config, ./node())
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return
