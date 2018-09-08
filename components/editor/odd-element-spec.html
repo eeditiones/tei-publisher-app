@@ -268,7 +268,7 @@
 
             _paste(ev) {
                 const editor = document.querySelector('odd-editor');
-                this.dispatchEvent(new CustomEvent('paste', {composed:true, bubbles:true, detail: {target: this}}));
+                this.dispatchEvent(new CustomEvent('odd-paste', {composed:true, bubbles:true, detail: {target: this}}));
             }
 
             _setCurrentSelection(e){
