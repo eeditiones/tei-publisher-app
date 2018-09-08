@@ -169,7 +169,7 @@ else if (ends-with($exist:resource, ".html")) then (
         else if (ends-with($exist:resource, ".xml")) then
             let $docPath := $path || $id
             let $template :=
-                if ($html) then $html else (local:get-template($docPath), "view.html")[1]
+                if ($html) then $html else (local:get-template($docPath), $config:default-template)[1]
             return
                 <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
                     <forward url="{$exist:controller}/{$template}"></forward>
