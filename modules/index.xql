@@ -16,7 +16,7 @@ declare function local:index() {
             {
                 for $title in $titleStmt/tei:title
                 return
-                    <field name="title" store="yes">{string-join($title/text(), " ")}</field>
+                    <field name="title" store="yes">{replace(string-join($title//text(), " "), "^\s*(.*)$", "$1", "m")}</field>
             }
             {
                 for $author in $titleStmt/tei:author

@@ -72,19 +72,44 @@ declare function app:current-user($node as node(), $model as map(*)) {
         }
 };
 
+declare
+    %templates:wrap
+function app:sort($items as element()*, $sortBy as xs:string?) {
+    console:log("sort by " || $sortBy),
+    switch ($sortBy)
+        case "title" return
+            for $item in $items
+            let $titleFromIndex := ft:get-field(document-uri(root($item)), "title")
+            let $title :=
+                if (exists($titleFromIndex)) then
+                    $titleFromIndex
+                else
+                    let $header := root($item)//tei:teiHeader
+                    let $title := ($header//tei:msDesc/tei:head, $header//tei:titleStmt/tei:title)[1]
+                    return
+                        replace(string-join($title//text(), " "), "^\s*(.*)$", "$1", "m")
+            order by $title
+            return
+                $item
+        default return
+            $items
+};
+
+
 (:~
  : List documents in data collection
  :)
 declare
     %templates:wrap
+    %templates:default("sort", "title")
 function app:list-works($node as node(), $model as map(*), $filter as xs:string?, $root as xs:string,
-    $browse as xs:string?, $odd as xs:string?) {
+    $browse as xs:string?, $odd as xs:string?, $sort as xs:string) {
     let $odd := ($odd, session:get-attribute("odd"))[1]
     let $oddAvailable := $odd and doc-available($config:odd-root || "/" || $odd)
     let $odd := if ($oddAvailable) then $odd else $config:default-odd
     let $cached := session:get-attribute("simple.works")
     let $filtered :=
-        if ($filter) then
+        if (exists($filter)) then
             let $ordered :=
                 for $rootCol in $config:data-root
                 for $item in
@@ -96,17 +121,18 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
             for $doc in $ordered
             return
                 doc($doc/@uri)/*
-        else if ($cached and $filter != "") then
+        else if (exists($cached) and $filter != "") then
             $cached
         else
             $config:data-root ! collection(. || "/" || $root)/*
+    let $sorted := app:sort($filtered, $sort)
     return (
-        session:set-attribute("simple.works", $filtered),
+        session:set-attribute("simple.works", $sorted),
         session:set-attribute("browse", $browse),
         session:set-attribute("filter", $filter),
         session:set-attribute("odd", $odd),
         map {
-            "all" : $filtered,
+            "all" : $sorted,
             "mode": "browse"
         }
     )
