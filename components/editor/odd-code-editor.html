@@ -178,9 +178,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
             setSource(newval) {
+                if (!this._editor || newval === this._editor.getValue()) {
+                    return;
+                }
                 const val = newval || ''
-                if (!this._editor) return;
-                this._editor.setValue(newval);
+                this._editor.setValue(val);
                 this._editor.refresh();
             }
 

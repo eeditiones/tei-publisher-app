@@ -358,8 +358,8 @@
               }.bind(this))
 
               this.addEventListener('current-changed', this._changeSelection);
-              this.addEventListener('copy', e => this._copy(e));
-              this.addEventListener('paste', e => this._paste(e));
+              this.addEventListener('odd-copy', e => this._copy(e));
+              this.addEventListener('odd-paste', e => this._paste(e));
 
                 window.onbeforeunload = function () {
                   return 'Any unsaved changes will be lost. Continue?';

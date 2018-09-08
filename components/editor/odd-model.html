@@ -576,12 +576,12 @@
                 console.log('odd-model.copy ', ev);
                 console.log('odd-model.copy data', this.parentModel);
 
-                this.dispatchEvent(new CustomEvent('copy', {composed:true, bubbles:true, detail: {model: this.parentModel}}));
+                this.dispatchEvent(new CustomEvent('odd-copy', {composed:true, bubbles:true, detail: {model: this.parentModel}}));
             }
 
             _paste(ev) {
                 console.log('model _paste ',ev);
-                this.dispatchEvent(new CustomEvent('paste', {composed:true, bubbles:true, detail: {target: this}}));
+                this.dispatchEvent(new CustomEvent('odd-paste', {composed:true, bubbles:true, detail: {target: this}}));
             }
 
             addNested(ev) {
