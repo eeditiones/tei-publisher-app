@@ -82,7 +82,8 @@ declare function pages:pb-view($node as node(), $model as map(*), $root as xs:st
             attribute highlight { "highlight" }
         else
             (),
-        $node/@*
+        $node/@*,
+        $node/*
     }
 };
 

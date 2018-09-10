@@ -50,6 +50,7 @@ dt {
 
 /* Model rendition styles */
 
+.tei-title1:before { content: ' > '; color: #607d8b; }
 .tei-emphasis1 { font-weight: bold; }
 .tei-emphasis2 { font-style: italic; }
 .tei-td1 { font-weight: bold; text-align: left; }
