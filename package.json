@@ -18,7 +18,8 @@
   },
   "license": "GPL-3.0",
   "devDependencies": {
-    "polymer-build": "^3.0.4"
+    "polymer-build": "^3.0.4",
+    "web-component-tester": "^6.8.0"
   },
   "dependencies": {
     "codemirror": "^5.39.2",
