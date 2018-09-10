@@ -35,6 +35,8 @@
                     };
 
                     --paper-card-header-color: #F0F0F0;
+
+                    --pb-view-height: calc(100vh - 200px);
                 }
 
                 #view1 {
@@ -65,6 +67,8 @@
                     position: relative;
                     display: flex;
                     justify-content: center;
+                    height: var(--pb-view-height);
+                    overflow: auto;
                 }
 
                 .content-body pb-navigation {
@@ -88,8 +92,10 @@
                     }
                 }
 
-                .document-title {
-                    text-align: center;
+                .breadcrumbs {
+                    margin: 16px 0 16px 20px;
+                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                    font-weight: 400;
                 }
 
                 #drawer {
@@ -150,10 +156,13 @@
                         <pb-progress subscribe="transcription" indeterminate="indeterminate" bottom-item="bottom-item"/>
                     </app-toolbar>
 
-                    <app-toolbar sticky="sticky" class="document-title">
-                        <h3>Documentation</h3>
-                    </app-toolbar>
                 </app-header>
+
+                <section class="breadcrumbs">
+                    <pb-view id="title-view1" src="document1" data-template="pages:pb-view" subscribe="transcription">
+                        <pb-param name="mode" value="breadcrumbs"/>
+                    </pb-view>
+                </section>
 
                 <main class="content-body">
                     <pb-navigation direction="backward" unit="page" keyboard="left" emit="transcription"

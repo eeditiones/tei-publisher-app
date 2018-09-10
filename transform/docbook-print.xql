@@ -81,15 +81,25 @@ let $node :=
                     case element(affiliation) return
                         fo:inline($config, ., ("tei-affiliation"), (', ', .))
                     case element(title) return
-                        if (parent::note) then
+                        if ($parameters?mode='breadcrumbs') then
                             fo:inline($config, ., ("tei-title1"), .)
                         else
-                            if (parent::info and $parameters?header='short') then
-                                fo:link($config, ., ("tei-title2"), ., $parameters?doc)
+                            if (parent::note) then
+                                fo:inline($config, ., ("tei-title2"), .)
                             else
-                                fo:heading($config, ., ("tei-title3", "title"), .)
+                                if (parent::info and $parameters?header='short') then
+                                    fo:link($config, ., ("tei-title3"), ., $parameters?doc)
+                                else
+                                    fo:heading($config, ., ("tei-title4", "title"), .)
                     case element(section) return
-                        fo:block($config, ., ("tei-section"), .)
+                        if ($parameters?mode='breadcrumbs') then
+                            (
+                                fo:inline($config, ., ("tei-section1"), $parameters?root/ancestor::section/title),
+                                fo:inline($config, ., ("tei-section2"), title)
+                            )
+
+                        else
+                            fo:block($config, ., ("tei-section3"), .)
                     case element(para) return
                         fo:paragraph($config, ., ("tei-para"), .)
                     case element(emphasis) return
