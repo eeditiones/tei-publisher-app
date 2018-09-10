@@ -45,13 +45,9 @@ TEI Publisher is brought to you by <a href="http://existsolutions.com"><img src=
 
 All resources can either be edited live via eXist-db's XML editor eXide or via local development having `node` and `ant`installed.
 
-## Building
-
-To build latest version which can be installed via eXist's package manager it is sufficient to just run
-
-`ant`
-
 ## Development
+
+Following instructions are only relevant for developers who want to contribute further web components.
 
 ### Prerequisites
 *   Install npm: [https://www.npmjs.com/get-npm](https://www.npmjs.com/get-npm)
@@ -65,10 +61,6 @@ Install node modules by running
 
 
 ### Build
-
-`gulp build` builds the styles by processing less into minified css with sourcemaps.
-
-`gulp deploy` sends files (and built styles) to the local exist-db
 
 `gulp watch` will upload files to the local exist-db instance whenever a source file changes.
 
