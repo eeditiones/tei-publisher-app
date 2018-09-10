@@ -45,6 +45,12 @@ TEI Publisher is brought to you by <a href="http://existsolutions.com"><img src=
 
 All resources can either be edited live via eXist-db's XML editor eXide or via local development having `node` and `ant`installed.
 
+## Building
+
+To build latest version which can be installed via eXist's package manager it is sufficient to just run
+
+`ant`
+
 ## Development
 
 ### Prerequisites
