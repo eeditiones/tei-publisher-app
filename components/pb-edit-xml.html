@@ -53,10 +53,12 @@
             }
 
             open() {
+                let href = '/exist/apps/eXide/'
                 let path = this.path;
                 if (this.src) {
                     const sourceComponent = document.getElementById(this.src);
                     path = sourceComponent.getFullPath();
+                    href = sourceComponent.sourceView;
                 }
                 // try to retrieve existing eXide window
                 const exide = window.open("", "eXide");
@@ -74,7 +76,7 @@
                             exide.eXide.app.findDocument(path);
                         };
                         // empty page
-                        exide.location = srcComponent.sourceView;
+                        exide.location = href;
                     }
                 }
             }
