@@ -1,15 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
                 <title type="short">TEI Publisher Base</title>
-                <title>TEI Publisher ODD (base ODD for TEI Publisher generated apps)</title>
+                <title>TEI Publisher ODD
+                    <desc>Base ODD for TEI Publisher apps</desc>
+                </title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>
                 <availability>
                     <licence target="https://www.gnu.org/licenses/gpl-3.0.en.html">Distributed under GNU General Public License</licence>
-                    <p>Copyright 2017 <ref target="http://existsolutions.com">eXistSolutions GmbH</ref></p>
+                    <p>Copyright 2017 <ref target="http://existsolutions.com">eXistSolutions GmbH</ref>
+                    </p>
                     <p>This program is free software: you can redistribute it and/or modify
                         it under the terms of the GNU General Public License as published by
                         the Free Software Foundation, either version 3 of the License, or
