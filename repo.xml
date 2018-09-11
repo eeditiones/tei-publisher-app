@@ -10,9 +10,14 @@
     <target>tei-publisher</target>
     <prepare>pre-install.xql</prepare>
     <finish>post-install.xql</finish>
-    <note>Generated apps may fail after updating. Run .../myapp/modules/lib/regenerate.xql in browser or eXide once
-        to update your ODDs.</note>
+    <note>This RC may not work 100% with all browsers yet. Use Chrome for the complete set of features.
+        Safari, Firefox and Edge work fine with some limitations.</note>
     <changelog>
+        <change version="4.0.0">
+            <ul xmlns="http://www.w3.org/1999/xhtml">
+                <li>complete rewrite of TEI Publisher based on webcomponents</li>
+            </ul>
+        </change>
         <change version="3.0.1">
             <ul xmlns="http://www.w3.org/1999/xhtml">
                 <li>add language selector</li>

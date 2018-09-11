@@ -108,7 +108,7 @@
         </custom-style>
     </head>
 
-    <body unresolved="unresolved" data-template="i18n:translate" data-catalogues="resources/i18n">
+    <body data-template="i18n:translate" data-catalogues="resources/i18n">
         <pb-document id="document1" data-template="pages:pb-document"/>
         <app-drawer-layout force-narrow="force-narrow">
             <app-drawer slot="drawer" id="drawer">
@@ -143,7 +143,7 @@
                     <pb-view id="view1" src="document1" data-template="pages:pb-view"
                         column-separator=".tei-cb" history="history" append-footnotes="append-footnotes"
                         subscribe="transcription" emit="transcription"/>
-                    <pb-facsimile base-uri="http://showcases.exist-db.org:8198/cantaloupe/iiif/2/"
+                    <pb-facsimile base-uri="http://apps.existsolutions.com/cantaloupe/iiif/2/"
                         showNavigationControl="true" showNavigator="true" subscribe="transcription"/>
                 </main>
             </app-header-layout>

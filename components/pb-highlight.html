@@ -3,21 +3,16 @@
 <dom-module id="pb-highlight">
     <template>
         <style>
+            :host {
+                display: inline;
+            }
+
             @keyframes keyFrameBackgroundColorIn {
                 0% {
                     background-color: inherit;
                 }
                 100% {
                     background-color: var(--pb-highlight-color, #F9E976);
-                }
-            }
-
-            @keyframes keyFrameBackgroundColorOut {
-                0% {
-                    background-color: var(--pb-highlight-color, #F9E976);
-                }
-                100% {
-                    background-color: inherit;
                 }
             }
 
@@ -38,10 +33,6 @@
 
             .highlight-off {
                 background-color: inherit;
-                animation-name: keyFrameBackgroundColorOut;
-                animation-duration: 500ms;
-                animation-iteration-count: 1;
-                animation-timing-function: ease-in;
             }
         </style>
 
@@ -105,17 +96,14 @@
                 this.subscribeTo('pb-highlight-off', this._highlightOff.bind(this));
 
                 if (this.key) {
-                    this.addEventListener('mouseenter', function(ev) {
+                    this.addEventListener('mouseover', function(ev) {
+                        this.emitTo('pb-highlight-off', {
+                            source: this
+                        });
                         this.emitTo('pb-highlight-on', {
                             id: this.key,
                             source: this,
                             scroll: this.scroll
-                        });
-                    }.bind(this));
-                    this.addEventListener('mouseleave', function(ev) {
-                        this.emitTo('pb-highlight-off', {
-                            id: this.key,
-                            source: this
                         });
                     }.bind(this));
                 }
@@ -127,24 +115,21 @@
 
             _highlightOn(ev) {
                 if (ev.detail.source != this && ev.detail.id === this.key) {
-                    this.$.content.classList.add('highlight-on');
-                    this.$.content.classList.remove('highlight-off');
+                    this.$.content.className = 'highlight-on';
                     if (ev.detail.scroll) {
                         this.scrollIntoView({behaviour: 'smooth'});
                     }
                     if (this.duration > 0) {
                         setTimeout(function() {
-                            this.$.content.classList.add('highlight-off');
-                            this.$.content.classList.remove('highlight-on');
+                            this.$.content.className = 'highlight-off';
                         }.bind(this), this.duration);
                     }
                 }
             }
 
             _highlightOff(ev) {
-                if (ev.detail.source != this && ev.detail.id === this.key) {
-                    this.$.content.classList.remove('highlight-on');
-                    this.$.content.classList.add('highlight-off');
+                if (ev.detail.source != this) {
+                    this.$.content.className = 'highlight-off';
                 }
             }
         }

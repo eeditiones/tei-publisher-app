@@ -13,10 +13,10 @@
             }
         </style>
 
-        <google-map id="map" api-key="[[apiKey]]" fit-to-markers latitude="[[latitude]]" longitude="[[longitude]]" zoom="[[zoom]]">
-            <google-map-marker id="marker" latitude="[[latitude]]" longitude="[[longitude]]" label="[[label]]">
-                <h3>[[label]]</h3>
-            </google-map-marker>
+        <google-map id="map" api-key="[[apiKey]]" latitude="[[latitude]]" longitude="[[longitude]]" zoom="[[zoom]]">
+            <template is="dom-repeat" items="[[markers]]">
+                <google-map-marker slot="markers" latitude="[[item.latitude]]" longitude="[[item.longitude]]" label="[[item.label]]"></google-map-marker>
+            </template>
         </google-map>
     </template>
 
@@ -51,6 +51,10 @@
                     zoom: {
                         type: Number,
                         value: 14
+                    },
+                    markers: {
+                        type: Array,
+                        value: []
                     }
                 };
             }
@@ -58,11 +62,26 @@
             connectedCallback() {
                 super.connectedCallback();
 
+                this.subscribeTo('pb-update', function(ev) {
+                    const markers = [];
+                    ev.detail.root.querySelectorAll('pb-geolocation').forEach(function(loc) {
+                        const marker = {
+                            latitude: loc.latitude,
+                            longitude: loc.longitude,
+                            label: loc.label
+                        };
+                        markers.push(marker);
+                    }.bind(this));
+                    this.markers = markers;
+                }.bind(this));
+
                 this.subscribeTo('pb-geolocation', function(ev) {
                     if (ev.detail.coordinates) {
-                        this.latitude = ev.detail.coordinates.latitude;
-                        this.longitude = ev.detail.coordinates.longitude;
-                        this.label = ev.detail.label;
+                        this.setProperties({
+                            latitude: ev.detail.coordinates.latitude,
+                            longitude: ev.detail.coordinates.longitude,
+                            label: ev.detail.label
+                        });
                     }
                 }.bind(this));
             }

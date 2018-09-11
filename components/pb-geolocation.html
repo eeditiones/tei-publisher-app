@@ -5,11 +5,39 @@
     <template strip-whitespace>
         <style>
             :host {
-                display: inline-block;
+                display: inline;
+            }
+
+            @keyframes keyFrameBackgroundColorIn {
+                0% {
+                    background-color: inherit;
+                }
+                100% {
+                    background-color: var(--pb-highlight-color, #F9E976);
+                }
+            }
+
+            #content {
+                display: inline;
+
+                @apply --pb-highlight;
+            }
+
+            .highlight-on {
+                background-color: var(--pb-highlight-color, #F9E976);
+                animation-name: keyFrameBackgroundColorIn;
+                animation-duration: 500ms;
+                animation-iteration-count: 1;
+                animation-timing-function: ease-in;
+
+            }
+
+            .highlight-off {
+                background-color: inherit;
             }
         </style>
 
-        <slot></slot>
+        <span id="content"><slot></slot></span>
     </template>
 
     <script>

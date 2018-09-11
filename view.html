@@ -35,7 +35,7 @@
                     font-size: 14pt;
                     line-height: 1.42857143;
                     max-width: 60vw;
-                    margin: 8px 16px;
+                    margin: 0 16px;
                 }
 
                 .toolbar {
@@ -84,8 +84,9 @@
                     }
                 }
 
-                .document-title {
-                    text-align: center;
+                .breadcrumbs {
+                    margin: 16px 0 16px 20px;
+                    font-weight: 400;
                 }
 
                 #drawer {
@@ -129,13 +130,13 @@
                 <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
                     <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
                     <app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/>
-                    <app-toolbar sticky="sticky" class="document-title">
-                        <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
-                            <pb-param name="header" value="short"/>
-                        </pb-view>
-                    </app-toolbar>
                 </app-header>
 
+                <section class="breadcrumbs">
+                    <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
+                        <pb-param name="header" value="short"/>
+                    </pb-view>
+                </section>
                 <main class="content-body">
                     <pb-navigation direction="backward" unit="page" keyboard="left" emit="transcription"
                         subscribe="transcription">
