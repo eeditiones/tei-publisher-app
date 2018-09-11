@@ -110,6 +110,7 @@
                 <include name="*.xql"/>
 
                 <include name="*.html"/>
+                <include name="*.xconf"/>
                 <include name="icon.svg"/>
                 <include name="icon.png"/>
 
