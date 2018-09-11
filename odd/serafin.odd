@@ -3,7 +3,9 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Letters by Mikołaj Serafin</title>
+                <title>Serafin Letters
+                    <desc>15th c. manuscript correspondence with parallel translation</desc>
+                </title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>

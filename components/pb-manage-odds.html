@@ -42,6 +42,12 @@
             pb-restricted {
                 display: flex;
             }
+            
+            .odd-description {
+                color: #888888;
+                font-size: 0.8em;
+                margin-top: -1em;
+            }
         </style>
 
         <template is="dom-repeat" items="{{odds}}">
@@ -60,6 +66,7 @@
                     </pb-edit-xml>
                 </app-toolbar>
             </div>
+            <div class="odd-description">[[item.description]]</div>
         </template>
         <pb-restricted login="login">
             <iron-form id="ironform">

@@ -3,7 +3,9 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Graves' Letters</title>
+                <title>Graves' Letters
+                    <desc>Modern correspondence with visualisation of prosopographical and geographical information</desc>
+                </title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>

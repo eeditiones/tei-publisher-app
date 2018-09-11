@@ -83,13 +83,17 @@ declare function local:list($odd) {
                 let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
                 let $displayName := (
                     doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = "short"]/string(),
-                    doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title/string(),
+                    doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title/text(),
                     $name
                 )[1]
+                let $description :=  doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title/tei:desc/string()
+
+
                 return
                     map {
                         "name": $name,
                         "label": $displayName,
+                        "description": $description,
                         "path": $resource,
                         "current": ($odd = $name || ".odd")
                     }
