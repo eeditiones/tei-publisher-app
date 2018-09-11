@@ -76,17 +76,17 @@ declare function dbs:get-breadcrumbs($config as map(*), $hit as element(), $pare
     let $work := root($hit)/*
     let $work-title := nav:get-document-title($config, $work)
     return
-        <ol class="headings breadcrumb">
-            <li><a href="{$parent-id}">{$work-title}</a></li>
+        <div class="breadcrumbs">
+            <a class="breadcrumb" href="{$parent-id}">{$work-title}</a>
             {
                 for $parentDiv in $hit/ancestor-or-self::db:section[db:title]
                 let $id := util:node-id($parentDiv)
                 return
-                    <li>
-                        <a href="{$parent-id}?action=search&amp;root={$id}&amp;view={$config?view}&amp;odd={$config?odd}">{$parentDiv/db:title/string()}</a>
-                    </li>
+                    <a class="breadcrumb" href="{$parent-id}?action=search&amp;root={$id}&amp;view={$config?view}&amp;odd={$config?odd}">
+                    {$parentDiv/db:title/string()}
+                    </a>
             }
-        </ol>
+        </div>
 };
 
 (:~
