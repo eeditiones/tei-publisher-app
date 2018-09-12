@@ -3,10 +3,10 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title type="short">TEI Publisher Base</title>
                 <title>TEI Publisher ODD
-                    <desc>Base ODD for TEI Publisher apps</desc>
+                    ,
                 </title>
+                <title type="short">TEI Publisher Base</title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>
@@ -36,38 +36,41 @@
     </teiHeader>
     <text>
         <body>
-            <schemaSpec start="TEI teiCorpus" source="tei_simplePrint.odd" ident="teipublisher">
+            <schemaSpec start="TEI teiCorpus" ident="teipublisher" source="tei_simplePrint.odd">
                 <elementSpec ident="text" mode="change">
-                    <model behaviour="body">
-                        <desc>tei_simplePrint.odd sets a font and margin on the text body. We don't
-                            want that.</desc>
-                    </model>
+                    <model behaviour="body"/>
                 </elementSpec>
                 <elementSpec ident="figure" mode="change">
                     <model predicate="head or @rendition='simple:display'" behaviour="block"/>
-                    <model behaviour="inline">
-                        <desc>Changed to not show a blue border around the figure</desc>
-                    </model>
+                    <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="head" mode="change">
                     <model predicate="$parameters?header='short'" behaviour="inline">
-                        <param name="content" value="replace(string-join(.//text()[not(parent::ref)]), '^(.*?)[^\w]*$', '$1')"/>
-                    </model>
+            <param name="content" value="replace(string-join(.//text()[not(parent::ref)]), '^(.*?)[^\w]*$', '$1')"/>
+        </model>
                     <model predicate="parent::figure" behaviour="block">
-                        <outputRendition>font-style: italic;</outputRendition>
-                    </model>
+            <outputRendition>
+            font-style: italic;
+            </outputRendition>
+        </model>
                     <model predicate="parent::table" behaviour="block">
-                        <outputRendition>font-style: italic;</outputRendition>
-                    </model>
+            <outputRendition>
+            font-style: italic;
+            </outputRendition>
+        </model>
                     <model predicate="parent::lg" behaviour="block">
-                        <outputRendition>font-style: italic;</outputRendition>
-                    </model>
+            <outputRendition>
+            font-style: italic;
+            </outputRendition>
+        </model>
                     <model predicate="parent::list" behaviour="block">
-                        <outputRendition>font-weight: bold;</outputRendition>
-                    </model>
+            <outputRendition>
+            font-weight: bold;
+            </outputRendition>
+        </model>
                     <model predicate="parent::div" behaviour="heading">
-                        <param name="level" value="count(ancestor::div)"/>
-                    </model>
+            <param name="level" value="count(ancestor::div)"/>
+        </model>
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="teiHeader" mode="change">
@@ -76,105 +79,119 @@
                     <model output="web" predicate="$parameters?header='short'" behaviour="block"/>
                     <model output="web" behaviour="metadata"/>
                 </elementSpec>
-                <elementSpec mode="change" ident="fileDesc">
+                <elementSpec ident="fileDesc" mode="change">
                     <modelSequence predicate="$parameters?header='short'">
-                        <model behaviour="block" cssClass="header-short">
-                            <param name="content" value="titleStmt"/>
-                        </model>
-                        <model behaviour="block" cssClass="header-short">
-                            <param name="content" value="editionStmt"/>
-                        </model>
-                        <model behaviour="block" cssClass="header-short">
-                            <param name="content" value="publicationStmt"/>
-                        </model>
-                    </modelSequence>
+            <model behaviour="block" cssClass="header-short">
+                <param name="content" value="titleStmt"/>
+            </model>
+            <model behaviour="block" cssClass="header-short">
+                <param name="content" value="editionStmt"/>
+            </model>
+            <model behaviour="block" cssClass="header-short">
+                <param name="content" value="publicationStmt"/>
+            </model>
+        </modelSequence>
                     <model behaviour="title">
-                        <param name="content" value="titleStmt"/>
-                    </model>
+            <param name="content" value="titleStmt"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="titleStmt" mode="add">
                     <model output="latex" behaviour="meta">
-                        <param name="content" value="."/>
-                    </model>
+            <param name="content" value="."/>
+        </model>
                     <model output="fo" behaviour="heading"/>
+                    <model predicate="$parameters?mode='title'" behaviour="heading">
+            <param name="content" value="title[not(@type)]"/>
+            <param name="level" value="5"/>
+        </model>
                     <modelSequence output="web" predicate="$parameters?header='short'">
-                        <model behaviour="link">
-                            <param name="content" value="title[1]"/>
-                            <param name="link" value="$parameters?doc"/>
-                        </model>
-                        <model behaviour="block">
-                            <param name="content" value="subsequence(title, 2)"/>
-                        </model>
-                        <model behaviour="block">
-                            <param name="content" value="author"/>
-                        </model>
-                    </modelSequence>
+            <model behaviour="link">
+                <param name="content" value="title[1]"/>
+                <param name="link" value="$parameters?doc"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="subsequence(title, 2)"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="author"/>
+            </model>
+        </modelSequence>
                     <model output="web" behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="publicationStmt" mode="add">
                     <model output="web" behaviour="block">
-                        <param name="content" value="availability/licence"/>
-                    </model>
+            <param name="content" value="availability/licence"/>
+        </model>
                     <model behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="licence" mode="add">
-                    <model output="web" behaviour="link" predicate="@target" cssClass="licence">
-                        <param name="content" value="'Licence'"/>
-                        <param name="link" value="@target"/>
-                    </model>
+                    <model output="web" predicate="@target" behaviour="link" cssClass="licence">
+            <param name="content" value="'Licence'"/>
+            <param name="link" value="@target"/>
+        </model>
                     <model behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="title" mode="change">
                     <model predicate="$parameters?header='short'" behaviour="heading">
-                        <param name="level" value="5"/>
-                    </model>
+            <param name="level" value="5"/>
+        </model>
                     <modelSequence predicate="parent::titleStmt/parent::fileDesc">
-                        <model predicate="preceding-sibling::title" behaviour="text">
-                            <param name="content" value="' — '"/>
-                        </model>
-                        <model behaviour="inline">
-                            <outputRendition>color: red; font-size: 2em;</outputRendition>
-                        </model>
-                    </modelSequence>
+            <model predicate="preceding-sibling::title" behaviour="text">
+                <param name="content" value="' — '"/>
+            </model>
+            <model behaviour="inline"/>
+        </modelSequence>
                     <model predicate="not(@level) and parent::bibl" behaviour="inline"/>
                     <modelSequence predicate="@level='m' or not(@level)">
-                        <model behaviour="inline">
-                            <outputRendition>font-style: italic;</outputRendition>
-                        </model>
-                        <model predicate="ancestor::biblFull" behaviour="text">
-                            <param name="content" value="', '"/>
-                        </model>
-                    </modelSequence>
+            <model behaviour="inline">
+                <outputRendition>
+                font-style: italic;
+                </outputRendition>
+            </model>
+            <model predicate="ancestor::biblFull" behaviour="text">
+                <param name="content" value="', '"/>
+            </model>
+        </modelSequence>
                     <modelSequence predicate="@level='s' or @level='j'">
-                        <model behaviour="inline">
-                            <outputRendition>font-style: italic;</outputRendition>
-                        </model>
-                        <model predicate="following-sibling::* and     (  ancestor::biblFull)" behaviour="text">
-                            <param name="content" value="', '"/>
-                        </model>
-                    </modelSequence>
+            <model behaviour="inline">
+                <outputRendition>
+                font-style: italic;
+                </outputRendition>
+            </model>
+            <model predicate="following-sibling::* and     (  ancestor::biblFull)" behaviour="text">
+                <param name="content" value="', '"/>
+            </model>
+        </modelSequence>
                     <modelSequence predicate="@level='u' or @level='a'">
-                        <model behaviour="inline">
-                            <outputRendition>font-style: italic;</outputRendition>
-                        </model>
-                        <model predicate="following-sibling::* and     (    ancestor::biblFull)" behaviour="text">
-                            <param name="content" value="'. '"/>
-                        </model>
-                    </modelSequence>
+            <model behaviour="inline">
+                <outputRendition>
+                font-style: italic;
+                </outputRendition>
+            </model>
+            <model predicate="following-sibling::* and     (    ancestor::biblFull)" behaviour="text">
+                <param name="content" value="'. '"/>
+            </model>
+        </modelSequence>
                     <model behaviour="inline">
-                        <outputRendition>font-style: italic;</outputRendition>
-                    </model>
+            <outputRendition>
+            font-style: italic;
+            </outputRendition>
+        </model>
                 </elementSpec>
-                <elementSpec mode="change" ident="author">
+                <elementSpec ident="author" mode="change">
                     <model predicate="ancestor::teiHeader" behaviour="block">
-                        <outputRendition scope="before">content: 'By ';</outputRendition>
-                    </model>
+            <outputRendition scope="before">
+            content: 'By ';
+            </outputRendition>
+        </model>
                     <model behaviour="inline"/>
                 </elementSpec>
-                <elementSpec mode="change" ident="edition">
+                <elementSpec ident="edition" mode="change">
                     <model predicate="ancestor::teiHeader" behaviour="block">
-                        <outputRendition scope="before">content: 'Edition: ';</outputRendition>
-                    </model>
+            <outputRendition scope="before">
+            content: 'Edition: ';
+            </outputRendition>
+        </model>
                 </elementSpec>
             </schemaSpec>
         </body>

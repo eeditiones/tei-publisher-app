@@ -96,7 +96,6 @@
 .tei-head5 { font-weight: bold; }
 .tei-unclear:after { content: ' [?] '; }
 .tei-argument { margin-bottom: 0.5em; }
-.tei-title3 { color: red; font-size: 2em; }
 .tei-title5 { font-style: italic; }
 .tei-title7 { font-style: italic; }
 .tei-title9 { font-style: italic; }
