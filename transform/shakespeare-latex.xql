@@ -63,7 +63,6 @@ let $node :=
                         if (head or @rendition='simple:display') then
                             latex:block($config, ., ("tei-figure1"), .)
                         else
-                            (: Changed to not show a blue border around the figure :)
                             latex:inline($config, ., ("tei-figure2"), .)
                     case element(teiHeader) return
                         latex:metadata($config, ., ("tei-teiHeader1"), .)
@@ -193,7 +192,6 @@ let $node :=
                     case element(email) return
                         latex:inline($config, ., ("tei-email"), .)
                     case element(text) return
-                        (: tei_simplePrint.odd sets a font and margin on the text body. We don't want that. :)
                         latex:body($config, ., ("tei-text"), .)
                     case element(floatingText) return
                         latex:block($config, ., ("tei-floatingText"), .)
@@ -243,7 +241,6 @@ let $node :=
                             $config?apply($config, ./node())
                     case element(l) return
                         if (preceding-sibling::*[1][self::speaker]) then
-                            (: Display inline if preceded by a speaker :)
                             latex:inline($config, ., ("tei-l1"), .)
                         else
                             latex:block($config, ., css:get-rendition(., ("tei-l2")), .)
@@ -261,7 +258,6 @@ let $node :=
                                 $config?apply($config, ./node())
                     case element(p) return
                         if (ancestor::sp) then
-                            (: Inside a speech element, the paragraph is shown next to the speaker :)
                             latex:inline($config, ., css:get-rendition(., ("tei-p1")), .)
                         else
                             latex:paragraph($config, ., css:get-rendition(., ("tei-p2")), .)
@@ -285,7 +281,6 @@ let $node :=
                         latex:block($config, ., css:get-rendition(., ("tei-docTitle")), .)
                     case element(lb) return
                         if (not(parent::p)) then
-                            (: Omit line breaks unless inside a paragraph :)
                             latex:omit($config, ., ("tei-lb1"), .)
                         else
                             latex:break($config, ., css:get-rendition(., ("tei-lb2")), ., 'line', @n)
@@ -479,8 +474,11 @@ let $node :=
                         else
                             $config?apply($config, ./node())
                     case element(titleStmt) return
-                        (: No function found for behavior: meta :)
-                        $config?apply($config, ./node())
+                        if ($parameters?mode='title') then
+                            latex:heading($config, ., ("tei-titleStmt3"), title[@type='statement'])
+                        else
+                            (: No function found for behavior: meta :)
+                            $config?apply($config, ./node())
                     case element(sic) return
                         if (parent::choice and count(parent::*/*) gt 1) then
                             latex:inline($config, ., ("tei-sic1"), .)
