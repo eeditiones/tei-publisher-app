@@ -63,7 +63,6 @@ let $node :=
                         if (head or @rendition='simple:display') then
                             epub:block($config, ., ("tei-figure1"), .)
                         else
-                            (: Changed to not show a blue border around the figure :)
                             html:inline($config, ., ("tei-figure2"), .)
                     case element(teiHeader) return
                         if ($parameters?header='short') then
@@ -201,7 +200,6 @@ let $node :=
                     case element(email) return
                         html:inline($config, ., ("tei-email"), .)
                     case element(text) return
-                        (: tei_simplePrint.odd sets a font and margin on the text body. We don't want that. :)
                         html:body($config, ., ("tei-text"), .)
                     case element(floatingText) return
                         epub:block($config, ., ("tei-floatingText"), .)
@@ -467,15 +465,18 @@ let $node :=
                         else
                             $config?apply($config, ./node())
                     case element(titleStmt) return
-                        if ($parameters?header='short') then
-                            (
-                                html:link($config, ., ("tei-titleStmt3"), title[1], $parameters?doc),
-                                epub:block($config, ., ("tei-titleStmt4"), subsequence(title, 2)),
-                                epub:block($config, ., ("tei-titleStmt5"), author)
-                            )
-
+                        if ($parameters?mode='title') then
+                            html:heading($config, ., ("tei-titleStmt3"), title[not(@type)], 5)
                         else
-                            epub:block($config, ., ("tei-titleStmt6"), .)
+                            if ($parameters?header='short') then
+                                (
+                                    html:link($config, ., ("tei-titleStmt4"), title[1], $parameters?doc),
+                                    epub:block($config, ., ("tei-titleStmt5"), subsequence(title, 2)),
+                                    epub:block($config, ., ("tei-titleStmt6"), author)
+                                )
+
+                            else
+                                epub:block($config, ., ("tei-titleStmt7"), .)
                     case element(sic) return
                         if (parent::choice and count(parent::*/*) gt 1) then
                             html:inline($config, ., ("tei-sic1"), .)

@@ -63,7 +63,6 @@ let $node :=
                         if (head or @rendition='simple:display') then
                             latex:block($config, ., ("tei-figure1"), .)
                         else
-                            (: Changed to not show a blue border around the figure :)
                             latex:inline($config, ., ("tei-figure2"), .)
                     case element(teiHeader) return
                         latex:metadata($config, ., ("tei-teiHeader1"), .)
@@ -199,7 +198,6 @@ let $node :=
                     case element(email) return
                         latex:inline($config, ., ("tei-email"), .)
                     case element(text) return
-                        (: tei_simplePrint.odd sets a font and margin on the text body. We don't want that. :)
                         latex:body($config, ., ("tei-text"), .)
                     case element(floatingText) return
                         latex:block($config, ., ("tei-floatingText"), .)
@@ -464,8 +462,11 @@ let $node :=
                         else
                             $config?apply($config, ./node())
                     case element(titleStmt) return
-                        (: No function found for behavior: meta :)
-                        $config?apply($config, ./node())
+                        if ($parameters?mode='title') then
+                            latex:heading($config, ., ("tei-titleStmt3"), title[not(@type)])
+                        else
+                            (: No function found for behavior: meta :)
+                            $config?apply($config, ./node())
                     case element(sic) return
                         if (parent::choice and count(parent::*/*) gt 1) then
                             latex:inline($config, ., ("tei-sic1"), .)
