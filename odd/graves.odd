@@ -3,8 +3,7 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Graves' Letters
-                    <desc>Modern correspondence with visualisation of prosopographical and geographical information</desc>
+                <title>Graves' Letters <desc>Modern correspondence with visualization of prosopographical and geographical information</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -39,7 +38,7 @@
                 <elementSpec ident="name" mode="change">
                     <model predicate="$parameters?mode='facets' and @type='person'" behaviour="webcomponent">
             <param name="name" value="'pb-highlight'"/>
-            <param name="content" value="id(substring-after(@ref, '#'), root(.))"/>
+            <param name="content" value="id(substring-after(@ref, '#'), root($parameters?root))"/>
             <param name="key" value="substring-after(@ref, '#')"/>
             <param name="subscribe" value="'letter'"/>
             <param name="emit" value="'facets'"/>
@@ -48,7 +47,7 @@
             </outputRendition>
         </model>
                     <model predicate="$parameters?mode='facets' and @type='place'" behaviour="webcomponent">
-            <param name="content" value="id(substring-after(@ref, '#'), root(.))"/>
+            <param name="content" value="id(substring-after(@ref, '#'), root($parameters?root))"/>
             <param name="name" value="'pb-highlight'"/>
             <param name="key" value="substring-after(@ref, '#')"/>
             <param name="scroll" value="true()"/>
@@ -58,53 +57,29 @@
             display: block;
             </outputRendition>
         </model>
-                    <model predicate="@type='place' and id(substring-after(@ref, '#'), root(.))/location/geo" behaviour="webcomponent">
+                    <model predicate="@type='place' and id(substring-after(@ref, '#'), root($parameters?root))/location/geo" behaviour="webcomponent">
             <param name="name" value="'pb-geolocation'"/>
-            <param name="longitude" value="tokenize(id(substring-after(@ref, '#'), root(.))/location/geo, ' ')[2]"/>
-            <param name="latitude" value="tokenize(id(substring-after(@ref, '#'), root(.))/location/geo, ' ')[1]"/>
-            <param name="label" value="id(substring-after(@ref, '#'), root(.))/placeName"/>
+            <param name="longitude" value="tokenize(id(substring-after(@ref, '#'), root($parameters?root))/location/geo, ' ')[2]"/>
+            <param name="latitude" value="tokenize(id(substring-after(@ref, '#'), root($parameters?root))/location/geo, ' ')[1]"/>
+            <param name="label" value="id(substring-after(@ref, '#'), root($parameters?root))/placeName"/>
             <param name="key" value="substring-after(@ref, '#')"/>
             <param name="scroll" value="true()"/>
             <param name="emit" value="'letter'"/>
             <param name="duration" value="1000"/>
             <outputRendition>
-            
-            
-            
-            
-            
-            
-                            color: #1565c0;
+            color: #1565c0;
 cursor: pointer;
-                        
-            
-            
-            
-            
-            
             </outputRendition>
         </model>
-                    <model predicate="@type='person' and id(substring-after(@ref, '#'), root(.))" behaviour="webcomponent">
+                    <model predicate="@type='person' and id(substring-after(@ref, '#'), root($parameters?root))" behaviour="webcomponent">
             <param name="name" value="'pb-highlight'"/>
             <param name="content" value="."/>
             <param name="key" value="substring-after(@ref, '#')"/>
             <param name="scroll" value="true()"/>
             <param name="emit" value="'letter'"/>
             <outputRendition>
-            
-            
-            
-            
-            
-            
-                            color: #bf360c;
+            color: #bf360c;
 cursor: pointer;
-                        
-            
-            
-            
-            
-            
             </outputRendition>
         </model>
                     <model predicate="@type='place'" behaviour="inline">
@@ -150,11 +125,12 @@ cursor: pointer;
                 <param name="level" value="2"/>
                 <outputRendition>
                 
-                
-                
-                
-                
-                
+
+
+
+
+
+
 
 
 
@@ -189,11 +165,12 @@ border-bottom: 1px solid #A0A0A0;
 
 
 
-                            
-                
-                
-                
-                
+
+
+
+
+
+
                 
                 </outputRendition>
             </model>
@@ -205,11 +182,12 @@ border-bottom: 1px solid #A0A0A0;
                 <param name="level" value="2"/>
                 <outputRendition>
                 
-                
-                
-                
-                
-                
+
+
+
+
+
+
 
 
 
@@ -222,11 +200,12 @@ border-bottom: 1px solid #A0A0A0;
 
 
 
-                            
-                
-                
-                
-                
+
+
+
+
+
+
                 
                 </outputRendition>
             </model>
@@ -268,7 +247,7 @@ border-bottom: 1px solid #A0A0A0;
         </modelSequence>
                 </elementSpec>
                 <elementSpec ident="geo" mode="add">
-                    <modelSequence behaviour="inline">
+                    <modelSequence>
             <model behaviour="inline">
                 <param name="content" value="'Location: '"/>
             </model>
@@ -279,10 +258,8 @@ border-bottom: 1px solid #A0A0A0;
                 <param name="content" value="."/>
                 <param name="emit" value="'letter'"/>
                 <outputRendition>
-                
                 color: #1565c0;
 cursor: pointer;
-                
                 </outputRendition>
             </model>
         </modelSequence>
@@ -303,8 +280,10 @@ cursor: pointer;
                 <param name="content" value="(occupation, birth, death)"/>
                 <outputRendition>
                 
+
                 font-size: .85em;
 margin-bottom: .5em;
+
                 
                 </outputRendition>
             </model>
@@ -323,14 +302,16 @@ margin-bottom: .5em;
                 <param name="level" value="5"/>
                 <outputRendition>
                 
-                
-                
+
+
+
                 margin-top: 10px;
 padding-top: 10px;
 border-top: 1px solid #A0A0A0;
 font-style: italic;
-                
-                
+
+
+
                 
                 </outputRendition>
             </model>

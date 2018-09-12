@@ -40,10 +40,15 @@
           </imageobject>
         </mediaobject>
       </informalfigure>
-      <para>A word of warning though: while the processing model was developed as part of the TEI Simple initiative, it is not necessarily trivial to comprehend nor "simple" regarding the knowledge and skill it requires. The goal rather was to improve workflows and interoperability by providing a minimal abstraction for the processing rules applied to a document. Using the processing model definitely simplifies the life of the developer, who often has to write a few thousand lines of code just to render a particular TEI document into HTML, only to repeat the same tedious process for PDF output. Last but not least the processing model empowers the scholary editor to create high-quality prototype websites from a given data set without even relying on a developer.</para>
+      <para>A word of warning though: while the processing model was developed as part of the TEI Simple initiative, it is not necessarily trivial to comprehend
+        nor "simple" regarding the complexity of documents it can process. In fact, the TEI processing model has proved to be a truly universal tool. It's goal
+        was to improve workflows and interoperability by providing a minimal abstraction for the processing rules applied to a document. Using the processing
+        model definitely simplifies the life of the developer, who often has to write a few thousand lines of code just to render a particular TEI document into
+        HTML, only to repeat the same tedious process for PDF output. Last but not least the processing model empowers the scholary editor to create
+        high-quality prototype websites from a given data set without even relying on a developer.</para>
     </section>
     <section>
-      <title>TEI Publisher</title>
+      <title>The TEI Publisher Environment</title>
       <para>TEI Publisher does a lot more than just implement the TEI processing model. It consists of the following components:</para>
       <itemizedlist>
         <listitem>
@@ -64,6 +69,51 @@
         </listitem>
       </itemizedlist>
       <para>In a strict sense, only the first component implements the processing model specification. The larger part of the application deals with graphical user interface components, adding pagination, navigation and search features.</para>
+    </section>
+    <section>
+      <title>New in Version 4.0</title>
+      <para>Version 4.0 of TEI Publisher features a complete redesign of the user interface. Most of this has happened behind the scenes and may not be
+        immediately visible. The workflow and ODD processing remain the same, so nearly everything in this documentation applies unchanged.</para>
+      <para>The goal of the redesign was to allow users to realize more complex user interfaces and application layouts as demonstrated by the various examples:
+        parallel view of transcription and translation, showing a map for geo coordinates, presenting a facsimile image. Previously implementing such features
+        required some XQuery, Javascript and CSS coding skills. This is no longer required: all the new layout examples were created by applying small
+        modifications to an HTML template file.</para>
+      <para>This became possible thanks to a new web technology called <link xlink:href="https://www.webcomponents.org/">webcomponents</link>. Webcomponents are
+        small self-contained building blocks. TEI Publisher provides webcomponents for the most frequently needed actions like showing a TEI fragment after
+        transforming it to HTML, adding navigation buttons, table of contents etc. The goal is to make the creation of a custom page as simple as playing with
+        lego blocks.</para>
+      <para>Webcomponents are part of the W3C HTML5 standard and should thus be supported by all major browsers in the future. Right now Chrome offers best
+        support as it implements the standard natively. Safari is close behind. Firefox and Edge need fallback libraries for missing functionality, but in
+        particular Firefox is catching up.</para>
+      <para>To summarize the main changes:</para>
+      <itemizedlist>
+        <listitem>
+          <para>the user interface is now completely based on webcomponents, using <link
+              xlink:href="https://www.polymer-project.org/2.0/docs/devguide/feature-overview">polymer</link> as supporting library. Bootstrap has been
+            dropped.</para>
+        </listitem>
+        <listitem>
+          <para>TEI Publisher ships with a set of HTML templates which should serve as a starting point for different types of view layouts. These replace the
+            single template <code>view.html</code> used before.</para>
+        </listitem>
+        <listitem>
+          <para>TEI documents can select an HTML template via the <code>teipublisher</code> processing instruction. See the corresponding <link linkend="pi-config">section of the
+            documentation</link>.</para>
+        </listitem>
+      </itemizedlist>
+      <para>Look at the provided HTML template files: <code>view.html</code>, <code>translation.html</code>, <code>letter.html</code> and
+          <code>facsimile.html</code> to see how components are used. You will find two sets of components:</para>
+      <orderedlist>
+        <listitem>
+          <para>custom elements starting with <code>pb-</code>: those are components provided by TEI Publisher. They implement the core functionality of the UI.
+            As of the 4.0.0RC1 version of TEI Publisher, these components are not fully documented yet, but you should get an idea by looking at the
+            code.</para>
+        </listitem>
+        <listitem>
+          <para>all other custom elements are off-the-shelf components which can be found on <link xlink:href="https://www.webcomponents.org/"
+              >webcomponents.org</link></para>
+        </listitem>
+      </orderedlist>
     </section>
     <section xml:id="quickstart">
       <title>Getting Started</title>
@@ -889,7 +939,7 @@
         </itemizedlist>
       </section>
     </section>
-    <section>
+    <section xml:id="pi-config">
       <title>Configure the ODD via processing instructions</title>
       <para>Sometimes you want to use a different ODD for a specific TEI document. Before displaying a document, TEI publisher will check if a processing instruction exists at the start of the document, telling it which ODD to use (along with other configuration parameters). For example, the following processing instruction associates the document with the <filename>dta.odd</filename> ODD and switches to a page-by-page display (along TEI page break boundaries):</para>
 
@@ -901,7 +951,13 @@
         <varlistentry>
           <term>odd</term>
           <listitem>
-            <para>The ODD file to use for rendering the document</para>
+            <para>The ODD file to use for rendering the document.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>template</term>
+          <listitem>
+            <para>The HTML template to use. Default is <code>view.html</code>.</para>
           </listitem>
         </varlistentry>
         <varlistentry>

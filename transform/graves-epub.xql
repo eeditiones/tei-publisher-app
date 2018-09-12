@@ -287,15 +287,15 @@ let $node :=
                         epub:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                     case element(name) return
                         if ($parameters?mode='facets' and @type='person') then
-                            html:webcomponent($config, ., ("tei-name1"), id(substring-after(@ref, '#'), root(.)), 'pb-highlight', map {"key": substring-after(@ref, '#'), "subscribe": 'letter', "emit": 'facets'})
+                            html:webcomponent($config, ., ("tei-name1"), id(substring-after(@ref, '#'), root($parameters?root)), 'pb-highlight', map {"key": substring-after(@ref, '#'), "subscribe": 'letter', "emit": 'facets'})
                         else
                             if ($parameters?mode='facets' and @type='place') then
-                                html:webcomponent($config, ., ("tei-name2"), id(substring-after(@ref, '#'), root(.)), 'pb-highlight', map {"key": substring-after(@ref, '#'), "scroll": true(), "subscribe": 'letter', "emit": 'facets'})
+                                html:webcomponent($config, ., ("tei-name2"), id(substring-after(@ref, '#'), root($parameters?root)), 'pb-highlight', map {"key": substring-after(@ref, '#'), "scroll": true(), "subscribe": 'letter', "emit": 'facets'})
                             else
-                                if (@type='place' and id(substring-after(@ref, '#'), root(.))/location/geo) then
-                                    html:webcomponent($config, ., ("tei-name3"), ., 'pb-geolocation', map {"longitude": tokenize(id(substring-after(@ref, '#'), root(.))/location/geo, ' ')[2], "latitude": tokenize(id(substring-after(@ref, '#'), root(.))/location/geo, ' ')[1], "label": id(substring-after(@ref, '#'), root(.))/placeName, "key": substring-after(@ref, '#'), "scroll": true(), "emit": 'letter', "duration": 1000})
+                                if (@type='place' and id(substring-after(@ref, '#'), root($parameters?root))/location/geo) then
+                                    html:webcomponent($config, ., ("tei-name3"), ., 'pb-geolocation', map {"longitude": tokenize(id(substring-after(@ref, '#'), root($parameters?root))/location/geo, ' ')[2], "latitude": tokenize(id(substring-after(@ref, '#'), root($parameters?root))/location/geo, ' ')[1], "label": id(substring-after(@ref, '#'), root($parameters?root))/placeName, "key": substring-after(@ref, '#'), "scroll": true(), "emit": 'letter', "duration": 1000})
                                 else
-                                    if (@type='person' and id(substring-after(@ref, '#'), root(.))) then
+                                    if (@type='person' and id(substring-after(@ref, '#'), root($parameters?root))) then
                                         html:webcomponent($config, ., ("tei-name4"), ., 'pb-highlight', map {"key": substring-after(@ref, '#'), "scroll": true(), "emit": 'letter'})
                                     else
                                         if (@type='place') then

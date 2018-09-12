@@ -288,11 +288,11 @@ let $node :=
                                 (: No function found for behavior: webcomponent :)
                                 $config?apply($config, ./node())
                             else
-                                if (@type='place' and id(substring-after(@ref, '#'), root(.))/location/geo) then
+                                if (@type='place' and id(substring-after(@ref, '#'), root($parameters?root))/location/geo) then
                                     (: No function found for behavior: webcomponent :)
                                     $config?apply($config, ./node())
                                 else
-                                    if (@type='person' and id(substring-after(@ref, '#'), root(.))) then
+                                    if (@type='person' and id(substring-after(@ref, '#'), root($parameters?root))) then
                                         (: No function found for behavior: webcomponent :)
                                         $config?apply($config, ./node())
                                     else

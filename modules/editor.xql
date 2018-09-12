@@ -72,7 +72,7 @@ declare function local:load($oddPath as xs:string, $root as xs:string) {
                 },
             "namespace": $schemaSpec/@ns/string(),
             "source": $schemaSpec/@source/string(),
-            "title": $odd//teiHeader/fileDesc/titleStmt/title[not(@type)]/string(),
+            "title": $odd//teiHeader/fileDesc/titleStmt/title[not(@type)]/text(),
             "titleShort": $odd//teiHeader/fileDesc/titleStmt/title[@type = 'short']/string()
         }
 };

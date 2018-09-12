@@ -170,7 +170,7 @@ function app:form-odd-select($node as node(), $model as map(*), $odd as xs:strin
                 let $rev-date := data(doc($resource)//tei:revisionDesc/tei:change/@when)[1]
                 let $title := (
                 doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = "short"],
-                doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title,
+                doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title/text(),
                 $name
                 )[1]
                 return
