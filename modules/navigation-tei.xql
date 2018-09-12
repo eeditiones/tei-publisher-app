@@ -42,7 +42,7 @@ declare function nav:get-section($config as map(*), $doc) {
                 if ($group) then
                     $group[1]
                 else
-                    root($doc)/tei:TEI//tei:body
+                    root($doc)/tei:TEI//tei:text
 };
 
 declare function nav:get-document-title($config as map(*), $root as element()) {
