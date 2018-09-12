@@ -3,7 +3,9 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Dantiscus' Letters</title>
+                <title>Dantiscus' Letters
+                    <desc>16th c. correspondence with facsimile and encoding of transcriptional features and prosopographical information</desc>
+                </title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>
@@ -50,6 +52,7 @@
             <outputRendition>
             
             
+            
                             
                             font-size: 16px;
                             color: #888888;
@@ -60,6 +63,7 @@
                             float: right;
                             
                         
+            
             
             </outputRendition>
         </model>
@@ -135,8 +139,10 @@
                     <model predicate="parent::div and not(@place)" behaviour="block">
             <outputRendition>
             
+            
             margin-left: 10px;margin-right: 10px;
                   font-size:smaller;
+            
             
             </outputRendition>
         </model>
@@ -152,6 +158,15 @@
             </outputRendition>
         </model>
                 </elementSpec>
+            <elementSpec ident="rs" mode="change">
+        <model behaviour="alternate">
+            <param name="default" value="."/>
+            <param name="alternate" value="id(substring-after(@ref, '#'), root($parameters?root))"/>
+            <outputRendition>
+            color: green;
+            </outputRendition>
+        </model>
+    </elementSpec>
             </schemaSpec>
         </body>
     </text>

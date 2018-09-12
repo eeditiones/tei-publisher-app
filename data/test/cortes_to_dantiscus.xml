@@ -68,7 +68,7 @@
                      1540 he became their agent in Antwerp. Son-in-law of Bartholomäus Welser (;
                      POCIECHA 4, p. 260; NDB, Bd. 22, p. 355-356). </note>
                </person>
-               <person xml:id="IDPe437">
+               <person xml:id="IDPe30">
                   <persName>Charles V of Habsburg</persName>
                   <note> (1500-02-24 – 1558-09-21), from 1506 ruler of the Burgundian territories
                      inherited from his father Philip of Habsburg (regency by his grandfather
@@ -76,6 +76,10 @@
                      (abdicated 1556), 1519-1530 King of the Romans, 1519, Holy Roman Emperor of the
                      German Nation (elected 1519, crowned 1530, abdicated 1556); son of Philip I the
                      Handsome and Joanna the Mad of Castile. </note>
+               </person>
+               <person xml:id="IDPe437">
+                   <persName>Hernán Cortés de Monroy e Pizarro</persName>
+                   <note>(1485 – 1547-12-02); Spanish conquistador and Dantiscus' friend</note>
                </person>
             </listPerson>
 

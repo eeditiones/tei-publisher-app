@@ -179,7 +179,7 @@ let $node :=
                     case element(figDesc) return
                         fo:inline($config, ., ("tei-figDesc"), .)
                     case element(rs) return
-                        fo:inline($config, ., ("tei-rs"), .)
+                        fo:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root)))
                     case element(foreign) return
                         fo:inline($config, ., ("tei-foreign"), .)
                     case element(fileDesc) return
