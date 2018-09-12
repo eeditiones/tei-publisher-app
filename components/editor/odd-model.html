@@ -1,0 +1,646 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<!--
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-if.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-autocomplete/paper-autocomplete.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-styles/shadow.html">
+
+<link rel="import" href="odd-code-editor.html">
+<link rel="import" href="odd-parameter.html">
+<link rel="import" href="odd-rendition.html">
+-->
+
+
+<!--
+ todo: copy model
+ todo: paste model
+-->
+
+<dom-module id="odd-model">
+    <template>
+        <style include="pb-common-styles">
+            :host {
+                display: block;
+            }
+
+            form {
+                margin-bottom: 8px;
+            }
+
+            paper-input, paper-autocomplete {
+                margin-bottom: 16px;
+            }
+
+            .models {
+                margin-top: 8px;
+            }
+
+            .btn, .btn-group {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+
+            header {
+                background-color: #d1dae0;
+            }
+
+            header div {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            header h4 {
+                padding: 4px 8px;
+                margin: 0;
+                display: grid;
+                grid-template-columns: 40px 40% auto;
+            }
+            h4 .btn-group{
+                text-align: right;
+                display: none;
+            }
+
+            #toggle, .modelType{
+                align-self:center;
+            }
+
+            header div.info {
+                padding: 0 16px 4px;
+                margin: 0;
+                font-size: 85%;
+                display: block;
+                margin:-10px 0 10px 32px;
+            }
+            header div.info *{
+                display: block;
+                line-height: 1.2;
+            }
+
+            header .outputDisplay{
+                text-transform: uppercase ;
+            }
+            header .description{
+                font-style: italic;
+            }
+
+            header .predicate {
+                color: #ff5722;
+            }
+
+            .predicate label {
+                display: block;
+                font-size: 12px;
+                font-weight: 300;
+                color: rgb(115, 115, 115);
+            }
+
+            odd-code-editor {
+                height: 3rem;
+            }
+
+            .model-collapse {
+                color: #000000;
+                cursor: pointer;
+            }
+
+            .model-collapse:hover {
+                text-decoration: none;
+            }
+
+            .behaviour {
+                color: #ff5722;
+            }
+
+            .behaviour:before {
+                content: ' [';
+            }
+
+            .behaviour:after {
+                content: ']';
+            }
+
+            .group {
+                margin: 0;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            .group .title {
+                /*text-decoration: underline;*/
+            }
+
+            .renditions, .parameters {
+                padding-left: 16px;
+                border-left: 3px solid #e0e0e0;
+            }
+
+            .renditions .group {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .predicate .form-control {
+                width: 100%;
+            }
+
+            .source {
+                text-decoration: none;
+                margin-bottom: 8px;
+            }
+
+            .selectOutput {
+                margin-right: 10px;
+            }
+
+            :host([currentselection]) > form > header{
+                @apply --shadow-elevation-4dp;
+            }
+
+            paper-menu-button paper-icon-button{
+                margin-left:-10px;
+            }
+
+            /* need to play it save for FF */
+            :host([currentselection]) > form > header > h4 > .btn-group{
+                display: inline-block;
+            }
+            iron-collapse{
+                margin-top:10px;
+            }
+
+            .renditions{
+                margin-top:10px;
+            }
+            odd-code-editor{
+                margin-bottom:30px;
+            }
+        </style>
+
+        <form>
+            <header>
+                    <h4>
+                        <paper-icon-button id="toggle"
+                                           icon="{{toggleButtonIcon(show)}}" on-click="toggle"
+                                           class="model-collapse"></paper-icon-button>
+                        <span class="modelType">{{type}}<span class="behaviour" hidden$="[[_isGroupOrSequence(type)]]">{{ behaviour }}</span></span>
+
+                        <span class="btn-group">
+                            <paper-icon-button on-click="moveDown" icon="arrow-downward"
+                                               title="move down"></paper-icon-button>
+                            <paper-icon-button on-click="moveUp" icon="arrow-upward"
+                                               title="move up"></paper-icon-button>
+                            <paper-icon-button on-click="remove" icon="delete" title="remove"></paper-icon-button>
+                            <paper-icon-button on-click="_copy" icon="content-copy" title="copy"></paper-icon-button>
+                            <paper-icon-button on-click="_paste" icon="content-paste"
+                                               hidden$="[[_isModel(type)]]"></paper-icon-button>
+
+
+                            <template id="typeSelector" is="dom-if" if="[[_isGroupOrSequence(type)]]">
+                                <paper-menu-button>
+                                    <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
+                                    <paper-listbox id="modelType" slot="dropdown-content" on-iron-select="addNested"
+                                                   attr-for-selected="value">
+                                        <paper-item value="model">model</paper-item>
+                                        <paper-item value="modelSequence">modelSequence</paper-item>
+                                        <paper-item value="modelGrp">modelGrp</paper-item>
+                                    </paper-listbox>
+                                </paper-menu-button>
+                            </template>
+
+                        </span>
+                    </h4>
+                <div class="info">
+                    <div class="outputDisplay">[[output]]</div>
+                    <div class="description">{{desc}}</div>
+                    <div class="predicate">{{predicate}}</div>
+                </p>
+            </header>
+
+            <iron-collapse id="details" opened="{{show}}" id="elem-[[ident]]" class="details">
+
+                <paper-dropdown-menu class="selectOutput" label="Output">
+                    <paper-listbox id="output" slot="dropdown-content" attr-for-selected="value"
+                                   selected="{{output}}">
+                        <template id="outputList" is="dom-repeat" items="{{outputs}}" as="output">
+                            <paper-item value="{{output}}">{{output}}</paper-item>
+                        </template>
+                    </paper-listbox>
+                </paper-dropdown-menu>
+
+                <paper-input id="desc" value="{{ desc }}" placeholder="[Document the model]"
+                    on-change="refresh" label="Description"></paper-input>
+
+                <odd-code-editor id="predicate"
+                                 code="{{predicate}}"
+                                 mode="xquery"
+                                 label="Predicate"
+                                 placeholder="[Define further conditions that have to be met (in xquery)]"
+                                 on-change="_updatePredicate"></odd-code-editor>
+
+                <div hidden$="{{_isGroupOrSequence(type)}}">
+                    <paper-autocomplete id="behaviour" placeholder="[Behaviour]"
+                        text="{{ behaviour }}" label="Behaviour"></paper-autocomplete>
+                    <paper-input id="css" value="{{ css }}"
+                        placeholder="[Define CSS class name (for external CSS)]"
+                        label="CSS Class"></paper-input>
+                </div>
+
+                <div class="parameters" hidden$="[[_isGroupOrSequence(type)]]">
+                    <div class="group">
+                        <span class="title">Parameters</span>
+                        <paper-icon-button icon="add"
+                                           on-click="addParameter"></paper-icon-button>
+                    </div>
+                    <template id="parameterList" is="dom-repeat" items="{{parameters}}" as="parameter">
+                        <odd-parameter name="{{ parameter.name }}"
+                                       value="{{ parameter.value }}"
+                                       on-parameter-remove="_removeParam"
+                                       on-parameter-connected="_refreshParameters"></odd-parameter>
+                    </template>
+                </div>
+
+                <div class="renditions" hidden$="[[_isGroupOrSequence(type)]]">
+                    <div class="group">
+                        <div>
+                            <span class="title">Renditions</span>
+                            <paper-icon-button icon="add" on-click="addRendition"></paper-icon-button>
+                        </div>
+                        <div class="source">
+                            <paper-checkbox checked$="{{ sourcerend }}" id="sourcerend">Use source rendition
+                            </paper-checkbox>
+                        </div>
+                    </div>
+                    <template id="renditionList" is="dom-repeat" items="{{ renditions }}" as="rendition">
+                        <odd-rendition scope="{{ rendition.scope }}"
+                                       css="{{ rendition.css }}"
+                                       events="{{ events }}"
+                                       on-remove-rendition="_removeRendition"
+                                       on-rendition-connected="_refreshRendition"></odd-rendition>
+                    </template>
+                </div>
+            </iron-collapse>
+
+            <div class="models" hidden$="[[_isModel(type)]]">
+                <template id="modelList" is="dom-repeat" items="[[ models ]]" as="model">
+                    <odd-model behaviour="{{ model.behaviour }}"
+                               predicate="{{ model.predicate }}"
+                               type="{{ model.type }}"
+                               output="{{ model.output }}"
+                               css="{{model.css}}"
+                               models="{{model.models}}"
+                               parameters="{{model.parameters}}"
+                               renditions="{{model.renditions}}"
+                               desc="{{ model.desc }}"
+                               sourcerend="{{ model.sourcerend }}"
+                               on-model-remove="removeModel"
+                               on-model-move-up="moveModelUp"
+                               on-model-move-down="moveModelDown"
+                               on-click="_setCurrentSelection"
+                               on-item-toggled="_setCurrentSelection"
+                               parent-model="[[model]]">
+                    </odd-model>
+                </template>
+            </div>
+        </form>
+    </template>
+
+    <script>
+        /**
+         * `odd-model`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class OddModel extends Polymer.Element {
+            static get is() {
+                return 'odd-model';
+            }
+
+            static get properties() {
+                return {
+                    behaviour: {
+                        type: String,
+                        reflectToAttribute: true,
+                        notify: true
+                    },
+                    predicate: {
+                        type: String,
+                        value: '',
+                        reflectToAttribute: true,
+                        notify: true
+                    },
+                    type: {
+                        type: String,
+                        reflectToAttribute: true,
+                        notify: true
+                    },
+                    output: {
+                        type: String,
+                        reflectToAttribute: true,
+                        notify: true
+                    },
+                    css: {
+                        type: String,
+                        notify: true
+                    },
+                    models: {
+                        type: Array,
+                        value: () => [],
+                        notify: true
+                    },
+                    parameters: {
+                        type: Array,
+                        value: () => [],
+                        notify: true
+                    },
+                    renditions: {
+                        type: Array,
+                        value: () => [],
+                        notify: true
+                    },
+                    desc: {
+                        type: String,
+                        notify: true,
+                        reflectToAttribute: true
+                    },
+                    sourcerend: {
+                        type: String,
+                        notify: true
+                    },
+                    show: {
+                        type: Boolean,
+                        value: false,
+                        reflectToAttribute: true,
+                        notify: true
+                    },
+                    outputs: {
+                        type: Array,
+                        value: ["",
+                            "web",
+                            "print",
+                            "epub",
+                            "fo",
+                            "latex",
+                            "plain"]
+                    },
+                    parentModel:{
+                        type: Array,
+                        reflectToAttribute: true,
+                        notify: true
+                    },
+                    behaviours:{
+                        type:Array,
+                        value:[
+                            "alternate",
+                            "anchor",
+                            "block",
+                            "body",
+                            "break",
+                            "cell",
+                            "cit",
+                            "document",
+                            "figure",
+                            "graphic",
+                            "heading",
+                            "inline",
+                            "link",
+                            "list",
+                            "listItem",
+                            "metadata",
+                            "note",
+                            "omit",
+                            "paragraph",
+                            "row",
+                            "section",
+                            "table",
+                            "text",
+                            "title",
+                            "webcomponent"
+                        ]
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                // console.log('odd-model connected', this);
+
+                this.$.details.addEventListener("opened-changed", function () {
+                    this.set('show', this.$.details.opened)
+                }.bind(this));
+
+                if(this.current){
+                    this.dispatchEvent(new CustomEvent('current-changed', {composed:true, bubbles:true, detail:{target: this}}));
+                }
+                this.$.behaviour.source = this.behaviours;
+                this.dispatchEvent(new CustomEvent('model-connected', {composed:true, bubbles:true, detail: {target: this}}));
+
+            }
+
+            getModel(){
+                return this.models;
+            }
+
+            render(){
+                this.$.modelList.render();
+            }
+
+            refreshEditors () {
+              this.$.predicate.refresh();
+
+              const models = this.shadowRoot.querySelectorAll('odd-model');
+              for (let i = 0; i < models.length; i++) {
+                  models[i].refreshEditors();
+              }
+              const renditions = this.shadowRoot.querySelectorAll('odd-rendition');
+              for (let i = 0; i < renditions.length; i++) {
+                  renditions[i].refreshEditor();
+              }
+              const parameters = this.shadowRoot.querySelectorAll('odd-parameter');
+              for (let i = 0; i < parameters.length; i++) {
+                  parameters[i].refreshEditor();
+              }
+            }
+
+            toggle(e) {
+                console.log('odd-model.toggle ', e.composedPath());
+                this.$.details.toggle();
+
+                this.refreshEditors()
+            }
+
+            toggleButtonIcon(show) {
+                return (show ? 'expand-less' : 'expand-more')
+            }
+
+            remove(e) {
+                e.preventDefault();
+                this.dispatchEvent(new CustomEvent('model-remove'));
+            }
+
+            moveDown(e) {
+                e.preventDefault();
+                this.dispatchEvent(new CustomEvent('model-move-down'));
+            }
+
+            moveUp(e) {
+                e.preventDefault();
+                this.dispatchEvent(new CustomEvent('model-move-up'));
+            }
+
+            addModel(model){
+                console.log('model.addModel ', model);
+                this.unshift('models',model);
+            }
+
+            removeModel(ev) {
+              // TODO test if:  const item = ev.currentTarget; works
+                const item = ev.composedPath()[0];
+                const index = this.$.modelList.indexForElement(item);
+                if (confirm('really delete?')) {
+                    this.splice('models', index, 1);
+                }
+            }
+
+            moveModelUp(ev) {
+                const item = ev.currentTarget;
+                const index = this.$.modelList.indexForElement(item);
+
+                if (index === 0) {
+                    return;
+                }
+                const model = this.get(['models', index]);
+                this.splice('models', index, 1);
+                this.splice('models', index - 1, 0, model);
+            }
+
+            moveModelDown(ev) {
+                const item = ev.currentTarget;
+                const index = this.$.modelList.indexForElement(item);
+
+                if (index === this.models.length) {
+                    return;
+                }
+                const model = this.get(['models', index]);
+                this.splice('models', index, 1);
+                this.splice('models', index + 1, 0, model);
+            }
+
+            addParameter(e) {
+                this.push('parameters', {name: "", value: ""});
+            }
+
+            addRendition(ev) {
+                this.push('renditions', {
+                    scope: null,
+                    css: ''
+                });
+            }
+
+            removeRendition(item) {
+                const index = this.renditions.indexOf(item);
+                this.splice('renditions', index, 1);
+            }
+
+            refreshPredicateEditor(){
+                console.log('refreshPredicateEditor');
+                this.$.predicate.refresh();
+            }
+
+            _refreshRendition(ev){
+                ev.detail.target.refreshEditor();
+            }
+
+            _refreshParameters(ev){
+                console.log('_refreshParameters ', ev.detail);
+                ev.detail.target.refreshEditor();
+            }
+
+            _copy(ev) {
+                ev.preventDefault();
+                ev.stopPropagation();
+                console.log('odd-model.copy ', ev);
+                console.log('odd-model.copy data', this.parentModel);
+
+                this.dispatchEvent(new CustomEvent('odd-copy', {composed:true, bubbles:true, detail: {model: this.parentModel}}));
+            }
+
+            _paste(ev) {
+                console.log('model _paste ',ev);
+                this.dispatchEvent(new CustomEvent('odd-paste', {composed:true, bubbles:true, detail: {target: this}}));
+            }
+
+            addNested(ev) {
+                this.unshift('models', {
+                    behaviour: 'inline',
+                    predicate: '',
+                    type: ev.detail.item.getAttribute('value'),
+                    output: null,
+                    sourcerend: false,
+                    models: [],
+                    parameters: [],
+                    renditions: [],
+                    show: true
+                });
+                //important to reset the listbox - otherwise next attempt to use it will fail if value has not changed
+                //use querySelector here instead of 'this.$' as listbox is in it's own <template>
+                const modelTypeSelector = this.shadowRoot.querySelector('#modelType')
+                modelTypeSelector.select("");
+            }
+
+            _isGroupOrSequence(type) {
+                return type !== 'model';
+            }
+
+            _isModel(type) {
+                return type === 'model';
+            }
+
+            _hasNoPredicate(predicate) {
+                return !predicate;
+            }
+
+            _updatePredicate(ev){
+                this.predicate = this.$.predicate.getSource();
+            }
+
+            _removeParam(e) {
+                const index = this.$.parameterList.indexForElement(e.target);
+                this.splice('parameters', index, 1);
+            }
+
+            _removeRendition(e) {
+                const index = this.$.renditionList.indexForElement(e.target);
+                this.splice('renditions', index, 1);
+            }
+
+            _setCurrentSelection(e){
+//                console.log('model._setCurrentSelection: ', e.target);
+                this.setCurrent(e.target);
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            setCurrent(target){
+                this.dispatchEvent(new CustomEvent('current-changed', {composed:true, bubbles:true, detail:{target: target}}));
+            }
+
+        }
+
+        window.customElements.define(OddModel.is, OddModel);
+    </script>
+</dom-module>

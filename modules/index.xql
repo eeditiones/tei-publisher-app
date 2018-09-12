@@ -1,34 +1,19 @@
 xquery version "3.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare function local:index() {
     for $root in $config:data-root
-    for $doc in collection($root)/tei:TEI
-    let $titleStmt := (
-        $doc//tei:sourceDesc/tei:biblFull/tei:titleStmt,
-        $doc//tei:fileDesc/tei:titleStmt
-    )
-    let $index :=
-        <doc>
-            {
-                for $title in $titleStmt/tei:title
-                return
-                    <field name="title" store="yes">{string-join($title/text(), " ")}</field>
-            }
-            {
-                for $author in $titleStmt/tei:author
-                let $normalized := replace($author/string(), "^([^,]*,[^,]*),?.*$", "$1")
-                return
-                    <field name="author" store="yes">{$normalized}</field>
-            }
-            <field name="year" store="yes">{$doc/tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:edition/tei:date/text()}</field>
-            <field name="file" store="yes">{substring-before(util:document-name($doc), ".xml")}</field>
-        </doc>
+    for $doc in collection($root)/*
+    let $index := nav:index(map { "type": nav:document-type($doc) }, $doc)
     return
-        ft:index(document-uri(root($doc)), $index)
+        if ($index) then
+            ft:index(document-uri(root($doc)), $index)
+        else
+            ()
 };
 
 declare function local:clear() {

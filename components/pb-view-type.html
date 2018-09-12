@@ -1,0 +1,70 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<!--
+<link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+-->
+
+<dom-module id="pb-view-type">
+    <template>
+        <paper-checkbox id="button" checked="{{isActive}}" on-click="_toggle"><slot></slot></paper-checkbox>
+    </template>
+
+    <script>
+        /**
+         * `pb-view-type`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbViewType extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'pb-view-type';
+            }
+
+            static get properties() {
+                return {
+                    isActive: {
+                        type: Boolean,
+                        value: false
+                    },
+                    type: {
+                        type: String,
+                        value: 'div',
+                        computed: '_setType(isActive)'
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready(){
+                super.ready();
+
+                this.subscribeTo('pb-update', this._update.bind(this));
+            }
+
+            _setType(isActive) {
+                return isActive ? 'page' : 'div';
+            }
+
+            _update(ev) {
+                this.isActive = ev.detail.data.view === 'page';
+                this.root = ev.detail.data.switchView;
+            }
+
+            _toggle(ev) {
+                console.log("<pb-view-type> toggle: %s", this.type);
+                this.emitTo('pb-refresh', {
+                    'view': this.type,
+                    'position': this.root
+                });
+            }
+        }
+
+        window.customElements.define(PbViewType.is, PbViewType);
+    </script>
+</dom-module>

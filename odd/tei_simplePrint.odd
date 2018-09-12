@@ -1,9 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
   <teiHeader>
     <fileDesc>
       <titleStmt>
         <title type="short">Standard Default</title>
-        <title>Standard ODD for the Simple Subset of TEI</title>
+        <title>Standard ODD for the Simple Subset of TEI
+            <desc>TEI-C processing defaults; this ODD is a starting point for TEI Publisher ODD chaining</desc>
+        </title>
       </titleStmt>
       <publicationStmt>
         <p>For distribution from TEI </p>

@@ -1,210 +1,269 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<div xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-  <div data-template="templates:include" data-template-path="templates/menu.html"/>
-  <section class="container-fluid" data-template="i18n:translate" data-catalogues="resources/i18n">
-    <header class="row">
-      <div class="page-header col-md-12">
-        <h1 class="tp-title">TEI Publisher</h1>
-        <h2 class="tp-subtitle">The Instant Publishing Toolbox</h2>
-      </div>
-    </header>
-    <div class="row">
-      <section class="col-md-12">
-        <p>Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD, then generate your own, standalone app (using the
-          <a href="generate.html">App Generator</a>) covering all core features like browsing, search and PDF generation.</p>
-        <p class="well well-sm">
-          <span class="bold">
-            <a href="#loginDialog" data-toggle="modal">Log in</a>
-            to upload files or see administrative functions (default user: "tei", password: "simple")</span>.</p>
-        <div data-template="app:action"/>
-      </section>
-    </div>
-    <main class="row">
-      <section class="col-md-8">
-        <div>
-          <div class="row">
-            <div data-template="templates:include" data-template-path="templates/doc-table.html"/>
-          </div>
-        </div>
-      </section>
-      <section class="col-md-4">
-        <!--form action="search.html" class="form form-horizontal"> <div class="well well-sm"> <div class="form-group"> <div class="col-md-12 col-xs-12"> <span class="input-group"> <input name="query" type="search" class="templates:form-control form-control
-        typeahead-search" placeholder="Search For What?" autocomplete="off"/> <span class="input-group-btn"> <button id="f-btn-search" type="submit" class="btn btn-primary"> <span class="material-icons">search</span> </button> </span> </span> <input
-        type="hidden" name="field" value="text"/> </div> </div> <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Which Document Part?"> <div class="col-md-12 col-xs-12"> <select name="tei-target" class="form-control"
-        data-template="templates:form-control"> <option value="tei-text" selected="selected">Search Sections</option> <option value="tei-head">Search Headings</option> </select> </div> </div> </div> </form-->
-        <div class="panel panel-info">
-          <div class="panel-heading">
-            <h3 class="panel-title">
-              <i18n:text key="odd-data"/>
-            </h3>
-          </div>
-          <div class="panel-body">
-            <table class="odd-table">
-              <tbody data-template="app:odd-table"/>
-            </table>
-            <div class="col-md-12" data-template="browse:show-if-logged-in">
-              <form id="odds" class="form" action="" method="POST" data-toggle="validator">
-                <div class="form-group">
-                  <input type="text" name="new_odd" class="form-control" placeholder="i18n(new-odd-name)" required="required" pattern="[a-zA-Z0-9-_]+"/>
-                </div>
-                <div class="form-group">
-                  <input type="text" name="title" class="form-control" placeholder="i18n(new-odd-title)" required="required"/>
-                </div>
-                <div class="form-group">
-                  <button class="btn btn-default btn-block" type="submit" name="create">
-                    <i class="material-icons">create</i><i18n:text key="create"/>
-                  </button>
-                </div>
-                <hr />
-                <div class="form-group">
-                  <button class="btn btn-default btn-block" type="submit" name="build" value='build' title="i18n(odd-build-title)">
-                    <i class="material-icons">build</i>
-                    <i18n:text key="odd-build"/></button>
-                </div>
-                <input type="hidden" name="odd_base" value="all"/>
-                <input type="hidden" name="action" value="create-odd"/>
-              </form>
+<html xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="pages:app-root">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+        <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
+
+        <title data-template="config:app-title"/>
+        <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald"/>
+        <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
+        <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
+        <link rel="import" href="components/dependencies-dev.html"/>
+        <style>
+            [unresolved]{
+                display:none;
+            }
+        </style>
+
+        <custom-style>
+            <style include="pb-common-styles">
+                main {
+                    margin: 0 20px 0 20px;
+                }
+
+                .tp-title {
+                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                    font-size: 36px;
+                    font-weight: 400;
+
+                }
+
+                .tp-title span {
+                    color: #9e9e9e;
+                    font-size: 26px;
+                    margin-top: 12px;
+                }
+
+                pb-results {
+                    overflow: scroll;
+                    margin: 0 20px;
+                    height: calc(100vh - 128px);
+                }
+
+                .panels {
+                    display: flex;
+                    flex-direction: row;
+                    margin-bottom: 40px;
+                }
+
+                .panels .documents {
+                    flex: 2 auto;
+                    margin-right: 20px;
+
+                    --paper-card-header: {
+                        background-color: #d1dae0;
+                    };
+
+                    --paper-card-header-text: {
+                        font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                        font-size: 16px;
+                        font-weight: 400;
+                    };
+                }
+
+                .panels aside {
+                    flex: 1 0 auto;
+                }
+
+                aside {
+                    display: flex;
+                    flex-direction: column;
+                    max-width: 460px;
+                }
+
+                aside .odds, aside .upload {
+                    --paper-card-header: {
+                        background-color: #607D8B;
+                    };
+
+                    --paper-card-header-text: {
+                        font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                        font-size: 16px;
+                        font-weight: 400;
+                        color: white;
+                    };
+                }
+
+                aside .upload {
+                    margin-top: 20px;
+                }
+
+                .documents ul {
+                    list-style: none;
+                }
+
+                .documents app-toolbar {
+                    @apply --layout-start-justified;
+                    font-size: 14px;
+                    margin-top: 10px;
+                    padding-left: 0;
+                }
+
+                .documents div {
+                    margin: 0;
+                }
+
+                .documents a, .documents a:visited {
+                    color: #303F9F;
+                    text-decoration: none;
+                }
+
+                .documents li {
+                    display: flex;
+                    flex-direction: row;
+                    margin-bottom: 10px;
+                }
+
+                .documents .document-select {
+                    flex: 0 0;
+                    margin-right: 20px;
+                }
+                h1, h2, h3, h4, h5, h6 {
+                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                    font-weight: 400 !important;
+                }
+
+                h5 {
+                    font-size: 16px;
+                    margin: 0;
+                }
+            </style>
+        </custom-style>
+    </head>
+
+    <body data-template="i18n:translate" data-catalogues="resources/i18n">
+        <app-header-layout>
+            <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                <app-toolbar class="menubar">
+                    <a href="$app/index.html">
+                        <img src="resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
+                    </a>
+                    <a href="$app/index.html">Start</a>
+                    <paper-menu-button>
+                        <a href="#" slot="dropdown-trigger">
+                            <i18n:text key="documentation"/>
+                        </a>
+                        <paper-listbox slot="dropdown-content">
+                            <paper-item>
+                                <a href="$app/doc/documentation.xml?odd=docbook.odd">
+                                    <i18n:text key="documentation"/>
+                                </a>
+                            </paper-item>
+                            <paper-item>
+                                <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
+                            </paper-item>
+                        </paper-listbox>
+                    </paper-menu-button>
+                    <pb-restricted login="login" group="tei">
+                        <paper-menu-button>
+                            <a href="#" slot="dropdown-trigger">
+                                <i18n:text key="admin"/>
+                            </a>
+                            <paper-listbox slot="dropdown-content">
+                                <paper-item>
+                                    <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/index.xql" dialog="messageDialog">
+                                        <i18n:text key="metadata-update"/>
+                                    </pb-ajax>
+                                </paper-item>
+                                <paper-item>
+                                    <a href="#" data-template="pages:edit-odd-link" target="_new"><i18n:text key="edit-odd"/></a>
+                                </paper-item>
+                                <paper-item><a href="$app/manage.html"><i18n:text key="app-generator"/></a></paper-item>
+                            </paper-listbox>
+                        </paper-menu-button>
+                    </pb-restricted>
+                    <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
+                        <img src="resources/images/wm_no_bg.svg" height="20"/>
+                    </a>
+
+                    <!-- Search input -->
+                    <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
+                               place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
+
+                    <!-- language selector -->
+                    <pb-lang name="lang" label="Language" data-template="pages:current-language">
+                        <paper-item>en</paper-item>
+                        <paper-item>de</paper-item>
+                        <paper-item>fr</paper-item>
+                        <paper-item>gr</paper-item>
+                        <paper-item>it</paper-item>
+                        <paper-item>pl</paper-item>
+                    </pb-lang>
+                    <pb-login id="login" login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user"
+                        group="tei">
+                        <iron-icon slot="icon" icon="account-circle"></iron-icon>
+                    </pb-login>
+                    <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
+                </app-toolbar>
+            </app-header>
+
+            <main>
+                <section>
+                    <h1 class="tp-title">TEI Publisher <span>The Instant Publishing Toolbox</span></h1>
+                    <p>Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD.</p>
+                    <p><strong>Log in</strong>
+                    to upload files or see administrative functions (default user: "tei", password: "simple").</p>
+                </section>
+                <section class="panels">
+                    <paper-card class="documents" heading="i18n(documents)">
+                        <div class="card-content">
+                            <pb-paginate id="paginate" per-page="10" range="5" found-label="i18n(browsing)"></pb-paginate>
+                            <pb-browse-docs id="document-loader" url="templates/documents.html" container="#document-list" auto="auto"></pb-browse-docs>
+                            <div id="document-list"></div>
+                        </div>
+                    </paper-card>
+                    <aside>
+                        <paper-card class="odds" heading="i18n(odd-data)">
+                            <div class="card-content">
+                                <pb-manage-odds id="manage-odds" target="document-loader" login="login"></pb-manage-odds>
+                            </div>
+                        </paper-card>
+                        <paper-card class="upload" heading="i18n(upload)">
+                            <div class="card-content">
+                                <pb-upload id="upload" target="test"></pb-upload>
+                            </div>
+                        </paper-card>
+                    </aside>
+                </section>
+            </main>
+
+        </app-header-layout>
+        <paper-dialog id="downloadDialog">
+            <h2>
+                <i18n:text key="generating-file">Generating File...</i18n:text>
+            </h2>
+            <paper-dialog-scrollable>
+                <i18n:text key="download-message"/>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                    <i18n:text key="close">Close</i18n:text>
+                </paper-button>
             </div>
-          </div>
-        </div>
-        <div id="upload-panel" class="panel panel-info" data-template="browse:show-if-logged-in">
-          <div class="panel-heading">
-            <h3 class="panel-title">
-              <i18n:text key="upload"/>
-            </h3>
-          </div>
-          <div class="panel-body">
-            <p>
-              <i18n:text key="upload-files"/>
-            </p>
-            <span class="btn btn-success btn-block fileinput-button">
-              <i class="material-icons">file_upload</i>
-              <span>
-                <i18n:text key="select-files"/>
-              </span>
-              <input id="fileupload" type="file" name="files[]" multiple="multiple"/>
-            </span>
-            <!-- The global progress bar -->
-            <div id="progress" class="progress">
-              <div class="progress-bar progress-bar-success"/>
+        </paper-dialog>
+        <paper-dialog id="messageDialog" modal="modal">
+            <h2>Action</h2>
+            <paper-dialog-scrollable/>
+            <div class="buttons">
+                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                    <i18n:text key="close">Close</i18n:text>
+                </paper-button>
             </div>
-            <!-- The container for the uploaded files -->
-            <table id="files-table" class="files table table-striped">
-              <thead>
-                <th colspan="2">
-                  <i18n:text key="uploaded-files"/>
-                </th>
-              </thead>
-              <tbody id="files"/>
-            </table>
-          </div>
-        </div>
-      </section>
-    </main>
-    <div id="confirm-odd" class="modal fade" tabindex="-1" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title"><i18n:text key="delete"/>?</h4>
-                </div>
-                <div class="modal-body">
-                    <p><i18n:text key="odd-delete-confirmation"/></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="confirm-odd-delete"><i18n:text key="yes"/></button>
-                    <button type="submit" class="btn btn-primary" data-dismiss="modal"><i18n:text key="no"/></button>
-                </div>
+        </paper-dialog>
+        <paper-dialog id="errorDialog">
+            <h2>Error</h2>
+            <paper-dialog-scrollable/>
+            <div class="buttons">
+                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                    <i18n:text key="close">Close</i18n:text>
+                </paper-button>
             </div>
-        </div>
-    </div>
-  </section>
-  <script type="text/javascript" src="resources/scripts/vendor/jquery.ui.widget.js"/>
-  <script type="text/javascript" src="resources/scripts/vendor/jquery.iframe-transport.js"/>
-  <script type="text/javascript" src="resources/scripts/vendor/jquery.fileupload.js"/>
-  <script type="text/javascript">
-    $(function () {
-      'use strict';
-
-      setTimeout(function() { $(".alert-message").hide(); }, 2000);
-
-      function reloadDocTable() {
-        $("#documents-panel").load("templates/doc-table.html");
-      }
-
-      $('button[name=build]').click(function(ev) {
-          ev.preventDefault();
-          var selected = [];
-          var checked = $("#documents input:checked").parents(".document");
-          var params = {
-              odd_base: $("input[name=odd_base]:checked").val(),
-              new_odd: $("input[name=new_odd]").val(),
-              title: $("input[name=title]").val(),
-              action: 'build-odd'
-          };
-          if (checked.length > 0) {
-              var docs = [];
-              checked.each(function() {
-                  docs.push($(this).attr('data-doc'));
-              });
-              params['docs'] = docs;
-          }
-          window.location.search = '?' + $.param(params);
-      });
-
-      $('#fileupload').fileupload({
-        url: "modules/lib/upload.xql",
-        dataType: 'json',
-        formData: {
-          "root": "test"
-        },
-        done: function (e, data) {
-          $.each(data.result.files, function (index, file) {
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var link = document.createElement("a");
-            link.href = file.path;
-            link.target = "_blank";
-            var icon = document.createElement("span");
-            icon.className = "material-icons";
-            icon.appendChild(document.createTextNode("open_in_new"));
-            link.appendChild(icon);
-            td.appendChild(link);
-            tr.appendChild(td);
-
-            td = document.createElement("td");
-            td.appendChild(document.createTextNode(file.path));
-            tr.appendChild(td);
-
-            $("#files").append(tr);
-          });
-          reloadDocTable();
-        },
-        progressall: function (e, data) {
-          var progress = parseInt(data.loaded / data.total * 100, 10);
-          $('#progress .progress-bar').css('width', progress + '%');
-        }
-      }).prop('disabled', !$.support.fileInput).parent().addClass(
-        $.support.fileInput
-          ? undefined
-          : 'disabled'
-      );
-
-      var toDelete;
-      $('.delete-odd').click(function(ev) {
-          ev.preventDefault();
-          toDelete = $(this).attr('href');
-          $("#odd-to-delete").text(toDelete);
-          $("#confirm-odd").modal("show");
-      });
-      $("#confirm-odd-delete").on("click", function(ev) {
-          $("#confirm").modal("hide");
-          var params = {
-              action: 'delete-odd',
-              docs: [toDelete]
-          };
-          window.location.search = '?' + $.param(params);
-      });
-    });
-  </script>
-</div>
+        </paper-dialog>
+    </body>
+</html>

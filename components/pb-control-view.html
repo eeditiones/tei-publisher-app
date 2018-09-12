@@ -1,0 +1,122 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-control-view">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            paper-dropdown-menu {
+                --paper-dropdown-menu: {
+                    color: var(--pb-lang-item-color, --paper-grey-100);
+                };
+
+                --paper-input-container-input:{
+                    color: var(--pb-lang-input-color, black);
+                };
+                --paper-input-container-label:{
+                    color:var(--paper-grey-100);
+                }
+            }
+
+        </style>
+
+        <paper-dropdown-menu label="[[label]]">
+            <paper-listbox slot="dropdown-content" selected="{{current}}">
+                <template id="repeat" is="dom-repeat" items="[[views]]">
+                    <paper-item>[[item.label]]</paper-item>
+                </template>
+            </paper-listbox>
+        </paper-dropdown-menu>
+    </template>
+
+    <script>
+        /**
+         * `pb-control-view` An dropdown allowing to select a view type e.g. 'facsimile' or 'translation'
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbControlView extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'pb-control-view';
+            }
+
+            static get properties() {
+                return {
+                    target: {
+                        type: String
+                    },
+                    label: {
+                        type: String,
+                        value: 'View'
+                    },
+                    /**
+                     * an array of selectable view types
+                     */
+                    views: {
+                        type: Array,
+                        value: []
+                    },
+                    /**
+                     * the currently selected index of selected item
+                     */
+                    current: {
+                        type: Number,
+                        observer: '_toggle'
+                    },
+                    mode: {
+                        type: String
+                    },
+                    nodeId: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                const mode = this.getParameter('transcript');
+                const activeView = this.views.find(view => view.id === mode);
+                this.current = this.views.indexOf(activeView);
+            }
+
+            ready(){
+                super.ready();
+
+                this.subscribeTo('pb-update', this._update.bind(this));
+            }
+
+            _update(ev) {
+                this.mode = ev.detail.data.view;
+                this.nodeId = ev.detail.data.switchView;
+            }
+
+            _toggle(newValue, oldValue) {
+                if (oldValue !== undefined) {
+                    const view = this.views[newValue];
+                    const params = {};
+                    for (const p in view) {
+                        if (p !== 'id' && view.hasOwnProperty(p)) {
+                            params[p] = view[p];
+                        }
+                    }
+//                    console.log("new %s, current: %s", view.view, this.mode);
+                    if (view.view !== this.mode) {
+                        params.position = this.nodeId;
+                        console.log("setting position to %s", this.nodeId);
+                    }
+//                    console.log("<pb-control-view> toggle: %o", params);
+                    this.setParameter('transcript', view.id);
+                    this.pushHistory('Change transcription mode');
+                    this.emitTo('pb-refresh', params);
+                }
+            }
+        }
+
+        window.customElements.define(PbControlView.is, PbControlView);
+    </script>
+</dom-module>

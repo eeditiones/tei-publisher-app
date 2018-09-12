@@ -9,7 +9,7 @@
     "sync": {
         "server": "localhost",
         "root": "/db/apps/tei-publisher",
-        "active": true,
+        "active": false,
         "ignore": [
             ".existdb.json",
             ".git/**",

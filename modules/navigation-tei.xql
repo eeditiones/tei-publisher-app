@@ -37,12 +37,12 @@ declare function nav:get-section($config as map(*), $doc) {
         if ($div) then
             $div
         else
-            let $group := $doc/tei:TEI/tei:text/tei:group/tei:text/(tei:front|tei:body|tei:back)
+            let $group := root($doc)/tei:TEI/tei:text/tei:group/tei:text/(tei:front|tei:body|tei:back)
             return
                 if ($group) then
                     $group[1]
                 else
-                    $doc/tei:TEI//tei:body
+                    root($doc)/tei:TEI//tei:text
 };
 
 declare function nav:get-document-title($config as map(*), $root as element()) {
@@ -160,7 +160,7 @@ declare %private function nav:get-previous-recursive($config as map(*), $div as 
             $div
 };
 
-declare %private function nav:milestone-chunk($ms1 as element(), $ms2 as element()?, $node as node()*) as node()*
+declare function nav:milestone-chunk($ms1 as element(), $ms2 as element()?, $node as node()*) as node()*
 {
     typeswitch ($node)
         case element() return
@@ -181,4 +181,25 @@ declare %private function nav:milestone-chunk($ms1 as element(), $ms2 as element
         default return
             if ($node >> $ms1 and (empty($ms2) or $node << $ms2)) then $node
             else ()
+};
+
+declare function nav:index($root) {
+    let $header := root($root)//tei:teiHeader
+    let $titleStmt := ($header//tei:msDesc/tei:head, $header//tei:titleStmt/tei:title)[1]
+    return
+        <doc>
+            {
+                for $title in $titleStmt/tei:title
+                return
+                    <field name="title" store="yes">{replace(string-join($title//text(), " "), "^\s*(.*)$", "$1", "m")}</field>
+            }
+            {
+                for $author in $titleStmt/tei:author
+                let $normalized := replace($author/string(), "^([^,]*,[^,]*),?.*$", "$1")
+                return
+                    <field name="author" store="yes">{$normalized}</field>
+            }
+            <field name="year" store="yes">{root($root)//tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:edition/tei:date/text()}</field>
+            <field name="file" store="yes">{substring-before(util:document-name($root), ".xml")}</field>
+        </doc>
 };

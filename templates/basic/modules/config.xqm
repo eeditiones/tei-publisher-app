@@ -36,6 +36,12 @@ declare variable $config:default-language := "en";
 declare variable $config:default-view := "$$default-view$$";
 
 (:
+ : The default HTML template used for viewing document content. This can be
+ : overwritten by the teipublisher processing instruction inside a TEI document.
+ :)
+declare variable $config:default-template := "view.html";
+
+(:
  : The element to search by default, either 'tei:div' or 'tei:body'.
  :)
 declare variable $config:search-default := "$$default-search$$";

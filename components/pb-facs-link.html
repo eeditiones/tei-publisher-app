@@ -1,0 +1,69 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-facs-link">
+    <template>
+        <style>
+            :host {
+            }
+
+            a, a:link {
+                text-decoration: none;
+                color: inherit;
+            }
+        </style>
+
+        <a href="#" on-mouseover="_mouseoverListener"><slot></slot></a>
+    </template>
+
+    <script>
+        /**
+         * `pb-facs-link`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbFacsLink extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'pb-facs-link';
+            }
+
+            static get properties() {
+                return {
+                    /** URL pointing to the facsimile image to load */
+                    facs: {
+                        type: String
+                    },
+                    /** An array of coordinates describing a rectangle to highlight */
+                    coordinates: {
+                        type: Array
+                    },
+                    emit: {
+                        type: String,
+                        value: "transcription"
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready(){
+                super.ready();
+            }
+
+            _mouseoverListener(ev) {
+                ev.preventDefault();
+                console.log("facs-link: %s %o", this.facs, this.coordinates);
+                this.emitTo('pb-show-annotation', {
+                    file: this.facs,
+                    coordinates: this.coordinates
+                });
+            }
+        }
+
+        window.customElements.define(PbFacsLink.is, PbFacsLink);
+    </script>
+</dom-module>

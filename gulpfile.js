@@ -17,15 +17,17 @@ var fs =                    require('fs'),
         'styles':               'resources/css/style.less',
         'vendor_styles':        'resources/css/vendor/*',
         'scripts':              'resources/scripts/app.js',
+        'riot':                 'resources/scripts/tags/*.tag',
         'vendor_scripts':       'resources/scripts/vendor/*',
         'html':                 '*.html',
         'images':               'resources/images/*',
         'fonts':                'resources/fonts/*',
-        'templates':            'templates/**/*.html',
-        'odd':                  'odd/!*',
+        'templates':            'templates/**',
+        'odd':                  'odd/*',
         'transform':            'transform/*',
         'modules':              'modules/**/*',
         'other':                '*{.xpr,.xqr,.xql,.xml,.xconf}',
+        'components':           'components/**/*',
         'gen_app_styles':       'resources/css/**/*',
         'gen_app_scripts':      'resources/scripts/**/*',
         'gen_app_templates':    'templates/*.html',
@@ -34,7 +36,8 @@ var fs =                    require('fs'),
     output  = {
         'styles':               'resources/css',
         'vendor_styles':        'resources/css/vendor/*',
-        'scripts':              'resources/scripts/*',
+        'scripts':              'resources/scripts/**',
+        'riot':                 'resources/scripts/tags/*.tag',
         'vendor_scripts':       'resources/scripts/vendor/*',
         'html':                 '.',
         'images':               'resources/images/*',
@@ -47,7 +50,6 @@ var fs =                    require('fs'),
         'gen_app_scripts':      'templates/basic/resources/scripts',
         'gen_app_templates':    'templates/basic/templates',
         'gen_app_pages':        'templates/basic'
-
     }
 ;
 
@@ -76,13 +78,29 @@ var exClient = exist.createClient({
     host: 'localhost',
     port: '8080',
     path: '/exist/xmlrpc',
-    basic_auth: { user: 'admin', pass: '' }
+    basic_auth: {
+        user: 'admin',
+        pass: ''
+    }
 });
 
-var targetConfiguration = {
+// Default deployment configuration
+var targetConfigurationDefault = {
+    target: '/db/apps/tei-publisher/',
+    html5AsBinary: false
+};
+
+// Deploy non-well-formed files in components directory as binaries
+var targetConfigurationComponents = {
     target: '/db/apps/tei-publisher/',
     html5AsBinary: true
 };
+
+// Deploy non-well-formed files in components directory as binaries
+var targetConfigurationDemo = {
+    target: '/db/apps/tei-publisher/',
+    html5AsBinary: false
+}
 
 // ****************  Styles ****************** //
 
@@ -97,15 +115,15 @@ gulp.task('build:styles', function(){
 gulp.task('deploy:vendor_styles', function () {
     console.log('deploying less and css files');
     return gulp.src(input.vendor_styles, {base: './'})
-        .pipe(exClient.newer(targetConfiguration))
-        .pipe(exClient.dest(targetConfiguration))
+        .pipe(exClient.newer(targetConfigurationDefault))
+        .pipe(exClient.dest(targetConfigurationDefault))
 });
 
 gulp.task('deploy:styles', ['build:styles', 'deploy:vendor_styles'], function () {
     console.log('deploying less and css files');
     return gulp.src('resources/css/**/*', {base: './'})
-        .pipe(exClient.newer(targetConfiguration))
-        .pipe(exClient.dest(targetConfiguration))
+        .pipe(exClient.newer(targetConfigurationDefault))
+        .pipe(exClient.dest(targetConfigurationDefault))
 });
 
 gulp.task('watch:styles', function () {
@@ -120,14 +138,22 @@ gulp.task('deploy:vendor_scripts', function () {
     return gulp.src([
         output.vendor_scripts
     ], {base: '.'})
-        .pipe(exClient.newer(targetConfiguration))
-        .pipe(exClient.dest(targetConfiguration))
+        .pipe(exClient.newer(targetConfigurationDefault))
+        .pipe(exClient.dest(targetConfigurationDefault))
 });
 
-gulp.task('deploy:scripts', ['deploy:vendor_scripts'], function () {
+gulp.task('deploy:riot_scripts', function () {
+    return gulp.src([
+        output.riot
+    ], {base: '.'})
+        .pipe(exClient.newer(targetConfigurationComponents))
+        .pipe(exClient.dest(targetConfigurationComponents))
+});
+
+gulp.task('deploy:scripts', ['deploy:vendor_scripts','deploy:riot_scripts'], function () {
     return gulp.src(output.scripts, {base: '.'})
-        .pipe(exClient.newer(targetConfiguration))
-        .pipe(exClient.dest(targetConfiguration))
+        .pipe(exClient.newer(targetConfigurationDefault))
+        .pipe(exClient.dest(targetConfigurationDefault))
 });
 
 // Watch scripts
@@ -142,8 +168,8 @@ gulp.task('watch:scripts', function () {
 gulp.task('deploy:templates', function () {
     console.log('deploying templates');
     return gulp.src(input.templates, {base: './'})
-        .pipe(exClient.newer(targetConfiguration))
-        .pipe(exClient.dest(targetConfiguration))
+        .pipe(exClient.newer(targetConfigurationDefault))
+        .pipe(exClient.dest(targetConfigurationDefault))
 });
 
 // Watch templates
@@ -159,8 +185,8 @@ gulp.task('watch:templates', function () {
 gulp.task('deploy:html', function () {
     console.log('deploying html files');
     return gulp.src(input.html, {base: './'})
-        .pipe(exClient.newer(targetConfiguration))
-        .pipe(exClient.dest(targetConfiguration))
+        .pipe(exClient.newer(targetConfigurationDefault))
+        .pipe(exClient.dest(targetConfigurationDefault))
 });
 
 // Watch HTML pages
@@ -175,8 +201,8 @@ gulp.task('watch:html', function () {
 gulp.task('deploy:odd', function () {
     console.log('deploying directory "odd"');
     return gulp.src(input.odd, {base: './'})
-        .pipe(exClient.newer(targetConfiguration))
-        .pipe(exClient.dest(targetConfiguration))
+        .pipe(exClient.newer(targetConfigurationDefault))
+        .pipe(exClient.dest(targetConfigurationDefault))
 });
 
 gulp.task('watch:odd', function () {
@@ -188,8 +214,8 @@ gulp.task('watch:odd', function () {
 // Deploy Images
 gulp.task('deploy:images', function () {
     return gulp.src(output.images, {base: '.'})
-        .pipe(exClient.newer(targetConfiguration))
-        .pipe(exClient.dest(targetConfiguration))
+        .pipe(exClient.newer(targetConfigurationDefault))
+        .pipe(exClient.dest(targetConfigurationDefault))
 });
 
 gulp.task('watch:images', function () {
@@ -200,12 +226,34 @@ gulp.task('watch:images', function () {
 
 gulp.task('deploy:other', function () {
     return gulp.src(input.other, {base: './'})
-        .pipe(exClient.newer(targetConfiguration))
-        .pipe(exClient.dest(targetConfiguration))
+        .pipe(exClient.newer(targetConfigurationDefault))
+        .pipe(exClient.dest(targetConfigurationDefault))
 });
 
 gulp.task('watch:other', function () {
     gulp.watch(input.other, ['deploy:other'])
+});
+
+// *************  Components ***************************//
+
+gulp.task('deploy:components', function () {
+    return gulp.src(input.components, {base: './'})
+        .pipe(exClient.newer(targetConfigurationComponents))
+        .pipe(exClient.dest(targetConfigurationComponents))
+});
+
+gulp.task('watch:components', function () {
+    gulp.watch([input.components, '!components/bower_components/**/*'], ['deploy:components'])
+});
+
+// Files in folder 'demo'
+gulp.task('deploy:demo', function () {
+    console.log('deploying all component demos to local existDB"');
+    return gulp.src([
+        demoPath
+    ], {base: './'})
+        .pipe(exClient.newer(targetConfigurationDemo))
+        .pipe(exClient.dest(targetConfigurationDemo))
 });
 
 // *************  Copy resources to generated app folder *************** //
@@ -241,8 +289,8 @@ gulp.task('copy', ['copy:styles', 'copy:scripts', 'copy:templates', 'copy:pages'
 gulp.task('deploy:modules', function () {
     console.log('deploying directory "modules"');
     return gulp.src(input.modules, {base: './'})
-        .pipe(exClient.newer(targetConfiguration))
-        .pipe(exClient.dest(targetConfiguration))
+        .pipe(exClient.newer(targetConfigurationDefault))
+        .pipe(exClient.dest(targetConfigurationDefault))
 });
 
 gulp.task('watch:modules', function () {
@@ -262,7 +310,8 @@ gulp.task('watch', [
     'watch:scripts',
     'watch:html',
     'watch:odd',
-    'watch:other'
+    'watch:other',
+    'watch:components'
 ]);
 
 // Deployment paths
@@ -277,8 +326,9 @@ var oddPath =           'resources/odd/**/*',
     scriptPath =        'resources/scripts/*',
     modulePath =        'modules/**/*',
     transformPath =     'transform/*',
-    fontPath =          'resources/fonts/*';
-
+    fontPath =          'resources/fonts/*',
+    componentPath =     'components/**/*',
+    demoPath =          'components/demo/**/*';
 
 // Deploy all files to existDB
 gulp.task('deploy', ['deploy:styles'], function () {
@@ -295,15 +345,16 @@ gulp.task('deploy', ['deploy:styles'], function () {
             ,modulePath
             ,transformPath
             ,fontPath
+            ,componentPath
+            ,demoPath
         ], {base: './'})
-        .pipe(exClient.newer(targetConfiguration))
-        .pipe(exClient.dest(targetConfiguration))
+        .pipe(exClient.newer(targetConfigurationDefault))
+        .pipe(exClient.dest(targetConfigurationDefault))
 });
-
 
 // TODO add test to gulp
 gulp.task('test', () => {
-  console.log('I will be a test one day, for now please see the documentation for how to run tests');
+    console.log('I will be a test one day, for now please see the documentation for how to run tests');
 });
 
 // Default task (which is called by 'npm gulp' task)

@@ -1,5 +1,5 @@
 <edit-source>
-    <a class="btn btn-default" target="eXide" data-exide-open="{ path }"
+    <a target="eXide" data-exide-open="{ path }"
         href="../eXide/index.html?open={path}" onclick="{ click }"><yield/></a>
     <script>
         setPath(path) {
@@ -10,7 +10,7 @@
             // try to retrieve existing eXide window
             var exide = window.open("", "eXide");
             if (exide && !exide.closed) {
-                var snip = $(this).data("exide-create");
+                var snip = this.root.getAttribute('exide-create');
                 var path = this.path;
 
                 // check if eXide is really available or it's an empty page
@@ -25,8 +25,7 @@
                     }
                     exide.focus();
                     setTimeout(function() {
-                        if ($.browser.msie ||
-                            (typeof exide.eXide.app.hasFocus == "function" && !exide.eXide.app.hasFocus())) {
+                        if (typeof exide.eXide.app.hasFocus == "function" && !exide.eXide.app.hasFocus()) {
                             alert("Opened code in existing eXide window.");
                         }
                     }, 200);
@@ -48,4 +47,9 @@
             return true;
         }
     </script>
+    <style>
+        a:link {
+            color: inherit;
+        }
+    </style>
 </edit-source>

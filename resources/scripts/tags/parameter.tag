@@ -1,17 +1,30 @@
 <parameter name="{ name }" value="{ value }">
-    <combobox ref="combo" class="name" current="{ name }" source="{ updateList }" placeholder="[Param name]"/>
+    <paper-autocomplete ref="combo" text="{ name }" placeholder="[Param name]" label="Name" source="[]"></paper-autocomplete>
     <span class="value">
         <code-editor ref="value" mode="xquery" code="{ value }" placeholder="[XPath to define param value]"></code-editor>
     </span>
     <span class="actions">
-        <button type="button" class="btn btn-default" onclick="{ delete }"><i class="material-icons">delete</i></button>
+        <paper-icon-button onclick="{ delete }" icon="delete"></paper-icon-button>
     </span>
 
     <script>
     this.mixin('utils');
 
+    this.on("mount", function() {
+        this.show();
+        this.updateList();
+    });
+
     updateList() {
-        return parameters[this.parent.getBehaviour()] || [];
+        var autocomplete = [];
+        var values = parameters[this.parent.getBehaviour()] || [];
+
+        values.forEach(function(val) {
+            autocomplete.push({
+                text: val, value: val
+            });
+        });
+        this.refs.combo.source = autocomplete;
     }
 
     delete(ev) {
@@ -21,19 +34,23 @@
 
     getData() {
         return {
-            name: this.refs.combo.getData(),
+            name: this.refs.combo.text,
             value: this.refs.value.get()
         };
     }
 
     serialize(indent) {
-        var name = this.refs.combo.getData();
+        var name = this.refs.combo.text;
         if (!name) {
             return '';
         }
         return indent + '<param name="' + name + '" value="' + this.escape(this.refs.value.get()) + '"/>\n';
     }
 
+    show() {
+        this.refs.value.initCodeEditor();
+    }
+    
     var parameters = {
         alternate: ["content", "default", "alternate"],
         anchor: ["content", "id"],
@@ -61,12 +78,10 @@
         title: ["content"]
     };
     <style>
-    :scope { display: table-row; }
-    input { display: table-cell; margin-right: 10px; }
-    .actions { display: table-cell; width: 10%; }
+    :scope { display: flex; flex-direction: row; align-items: flex-start; }
+    paper-autocomplete { flex: 1 0; margin-right: 10px; }
+    .actions {  }
     .btn { margin: 0; }
-    .value { display: table-cell; width: 70% !important; padding-left: 10px; }
-    textarea { width: 100% !important; }
-    combobox { display: table-cell; width: 20% !important; font-weight: bold; vertical-align: bottom; }
+    .value { flex: 2 0; padding-left: 10px; min-width: 300px; min-height: 1em; }
     </style>
 </parameter>

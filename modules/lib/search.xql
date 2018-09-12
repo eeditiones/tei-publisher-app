@@ -100,46 +100,49 @@ declare
     %templates:default("start", 1)
     %templates:default("per-page", 10)
 function search:show-hits($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer, $view as xs:string?) {
+    response:set-header("pb-total", xs:string(count($model?hits))),
+    response:set-header("pb-start", xs:string($start)),
     for $hit at $p in subsequence($model("hits"), $start, $per-page)
     let $config := tpu:parse-pi(root($hit), $view)
     let $parent := query:get-parent-section($config, $hit)
     let $parent-id := config:get-identifier($parent)
     let $parent-id := if ($model?docs) then replace($parent-id, "^.*?([^/]*)$", "$1") else $parent-id
     let $div := query:get-current($config, $parent)
-    let $loc :=
-        <tr class="reference">
-            <td colspan="3">
-                <span class="number">{$start + $p - 1}</span>
-                { query:get-breadcrumbs($config, $hit, $parent-id) }
-            </td>
-        </tr>
     let $expanded := util:expand($hit, "add-exist-id=all")
     let $docId := config:get-identifier($div)
-    return (
-        $loc,
-        for $match in subsequence($expanded//exist:match, 1, 5)
-        let $matchId := $match/../@exist:id
-        let $docLink :=
-            if ($config?view = "page") then
-                (: first check if there's a pb in the expanded section before the match :)
-                let $pbBefore := $match/preceding::tei:pb[1]
-                return
-                    if ($pbBefore) then
-                        $pbBefore/@exist:id
-                    else
-                        (: no: locate the element containing the match in the source document :)
-                        let $contextNode := util:node-by-id($hit, $matchId)
-                        (: and get the pb preceding it :)
-                        let $page := $contextNode/preceding::tei:pb[1]
+    return
+        <paper-card>
+            <header>
+                <div class="count">{$start + $p - 1}</div>
+                { query:get-breadcrumbs($config, $hit, $parent-id) }
+            </header>
+            <div class="matches">
+            {
+                for $match in subsequence($expanded//exist:match, 1, 5)
+                let $matchId := $match/../@exist:id
+                let $docLink :=
+                    if ($config?view = "page") then
+                        (: first check if there's a pb in the expanded section before the match :)
+                        let $pbBefore := $match/preceding::tei:pb[1]
                         return
-                            if ($page) then
-                                util:node-id($page)
+                            if ($pbBefore) then
+                                $pbBefore/@exist:id
                             else
-                                util:node-id($div)
-            else
-                util:node-id($div)
-        let $config := <config width="60" table="yes" link="{$docId}?root={$docLink}&amp;action=search&amp;view={$config?view}&amp;odd={$config?odd}#{$matchId}"/>
-        return
-            kwic:get-summary($expanded, $match, $config)
-    )
+                                (: no: locate the element containing the match in the source document :)
+                                let $contextNode := util:node-by-id($hit, $matchId)
+                                (: and get the pb preceding it :)
+                                let $page := $contextNode/preceding::tei:pb[1]
+                                return
+                                    if ($page) then
+                                        util:node-id($page)
+                                    else
+                                        util:node-id($div)
+                    else
+                        util:node-id($div)
+                let $config := <config width="60" table="no" link="{$docId}?root={$docLink}&amp;action=search&amp;view={$config?view}&amp;odd={$config?odd}#{$matchId}"/>
+                return
+                    kwic:get-summary($expanded, $match, $config)
+            }
+            </div>
+        </paper-card>
 };

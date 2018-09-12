@@ -1,0 +1,137 @@
+<dom-module id='pb-common-styles'>
+    <template>
+        <style>
+            body {
+                font-size: 16px;
+                font-family: 'Roboto', 'Noto', sans-serif;
+                line-height: 24px;
+                font-weight: 300;
+                margin: 0;
+                color: #333333;
+
+                --pb-footnote-ref: {
+                    font-size: 75%;
+                    vertical-align: top;
+                    color: #333333;
+                    text-decoration: none;
+                };
+
+                --pb-content-theme: {
+                    margin-right: 32px;
+                };
+
+                --pb-highlight-theme: {
+                    background-color: #F9E976;
+                };
+
+                --pb-login-title: {
+                    background-color: #607D8B;
+                    padding: 16px 8px;
+                    margin-top: 0;
+                    color: #F0F0F0;
+                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                };
+
+                --paper-tooltip: {
+                    max-width: 400px;
+                    font-size: 16px;
+                    text-align: left;
+                    line-height: 1.33;
+                    background-color: var(--paper-grey-50);
+                    color: #101010;
+                    box-shadow: 2px 4px 14px rgba(0, 0, 0, 0.6);
+                    border-radius: 6px;
+                };
+
+                --paper-tooltip-delay-in: 200;
+            }
+
+            app-toolbar {
+                --app-toolbar-font-size: 16px;
+            }
+
+            app-toolbar pb-search {
+                padding-left: 20px;
+                --pb-search-input: white;
+                --pb-search-label: --paper-grey-500;
+            }
+
+            .menubar {
+                background-color: #35424b;
+                color: white;
+            }
+
+            .menubar a, .menubar paper-menu-button {
+                margin: 0 8px;
+                display: block;
+                color: white;
+                text-decoration: none;
+            }
+
+            .menubar pb-login {
+                --pb-login-theme: {
+                    margin: 0 0 0 16px;
+                    display: block;
+                    color: white;
+                    text-decoration: none;
+                }
+            }
+
+            .menubar pb-lang {
+                text-align: right;
+                flex: 1 0;
+                --pb-lang-item-color: white;
+            }
+
+            .menubar paper-item a {
+                color: black;
+                margin: 0;
+            }
+
+            [main-title] {
+                display: inline-block;
+            }
+
+            .logo {
+                width: 140px;
+                height: 60px;
+                background-size: 100% 100%;
+                cursor: pointer;
+            }
+
+            pb-progress {
+                width: 100%;
+            }
+
+            @media (max-width: 768px) {
+                #downloadDialog {
+                    width: 100%;
+                }
+            }
+
+            @media (min-width: 769px) {
+                #downloadDialog {
+                    width: 50%;
+                }
+            }
+
+            h1, h2, h3, h4, h5, h6 {
+                font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                font-weight: 400 !important;
+            }
+
+            .alternate {
+                display: inline-block;
+            }
+
+            .alternate .default {
+                color: var(--pb-alternate-inline, --paper-blue-800);
+            }
+
+            odd-model {
+                margin-left: 50px;
+                max-width: 800px;
+            }
+        </style>
+    </template>
+</dom-module>

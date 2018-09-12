@@ -1,0 +1,104 @@
+<script type="text/javascript" src="PbMixin.js"> </script>
+<script type="text/javascript">
+    var PbMixin = PbAppState();
+</script>
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="bower_components/shadycss/apply-shim.html">
+
+
+<link rel="import" href="bower_components/app-layout/app-scroll-effects/effects/material.html">
+<link rel="import" href="bower_components/neon-animation/web-animations.html">
+<link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="bower_components/existdb-layout/dependencies.html">
+<link rel="import" href="bower_components/app-layout/app-layout.html">
+<link rel="import" href="bower_components/paper-card/paper-card.html">
+<link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="bower_components/paper-item/paper-item.html">
+<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="bower_components/paper-button/paper-button.html">
+<link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="bower_components/iron-form/iron-form.html">
+<link rel="import" href="bower_components/paper-input/paper-input.html">
+<link rel="import" href="bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="bower_components/iron-input/iron-input.html">
+<link rel="import" href="bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
+<link rel="import" href="bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="bower_components/iron-ajax/iron-request.html">
+<link rel="import" href="bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="bower_components/paper-styles/color.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+<link rel="import" href="bower_components/polymer/lib/utils/render-status.html">
+<link rel="import" href="bower_components/vaadin-upload/vaadin-upload.html">
+<link rel="import" href="bower_components/vaadin-usage-statistics/vaadin-usage-statistics.html">
+<link rel="import" href="bower_components/vaadin-progress-bar/vaadin-progress-bar.html">
+<link rel="import" href="bower_components/paper-autocomplete/paper-autocomplete.html">
+<link rel="import" href="bower_components/google-map/google-map.html">
+
+
+
+<!--<link rel="import" href="pb-mixin.html">-->
+
+
+<link rel="import" href="pb-common-styles.html">
+<link rel="import" href="pb-document.html">
+<link rel="import" href="pb-view.html">
+<link rel="import" href="pb-navigation.html">
+<link rel="import" href="pb-zoom.html">
+<link rel="import" href="pb-view-type.html">
+<link rel="import" href="pb-edit-xml.html">
+<link rel="import" href="pb-progress.html">
+<link rel="import" href="pb-load.html">
+<link rel="import" href="pb-download.html">
+<link rel="import" href="pb-lang.html">
+<link rel="import" href="pb-search.html">
+<link rel="import" href="pb-ajax.html">
+<link rel="import" href="pb-link.html">
+<link rel="import" href="pb-collapse.html">
+<link rel="import" href="pb-manage-odds.html">
+<link rel="import" href="pb-paginate.html">
+<link rel="import" href="pb-browse-docs.html">
+<link rel="import" href="pb-upload.html">
+<link rel="import" href="pb-login.html">
+<link rel="import" href="pb-switch-text-view.html">
+<link rel="import" href="pb-switch-layout.html">
+<link rel="import" href="pb-facs-link.html">
+<link rel="import" href="pb-facsimile.html">
+<link rel="import" href="pb-facsimile-loader.html">
+<link rel="import" href="pb-note-section.html">
+<link rel="import" href="pb-panel.html">
+<link rel="import" href="pb-grid.html">
+<link rel="import" href="pb-grid-action.html">
+<link rel="import" href="pb-control-view.html">
+<link rel="import" href="pb-map.html">
+<link rel="import" href="pb-geolocation.html">
+<link rel="import" href="pb-select-odd.html">
+<link rel="import" href="pb-highlight.html">
+<link rel="import" href="pb-edit-app.html">
+<link rel="import" href="pb-restricted.html">
+
+<link rel="import" href="editor/odd-edit-source.html">
+<link rel="import" href="editor/odd-selector.html">
+<link rel="import" href="editor/odd-element-spec.html">
+<link rel="import" href="editor/odd-message.html">
+<link rel="import" href="editor/odd-model.html">
+<link rel="import" href="editor/odd-code-editor.html">
+<link rel="import" href="editor/odd-parameter.html">
+<link rel="import" href="editor/odd-rendition.html">
+<link rel="import" href="editor/odd-editor.html">

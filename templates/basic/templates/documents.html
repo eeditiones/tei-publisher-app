@@ -1,0 +1,61 @@
+<div xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="i18n:translate" data-catalogues="../resources/i18n">
+    <div data-template="browse:dispatch-action"/>
+    <div data-template="browse:list-works" data-template-root="">
+        <ul class="documents" data-template="browse:browse" data-template-per-page="10">
+            <li class="document">
+                <pb-restricted login="login" group="tei">
+                    <div class="document-select">
+                        <paper-checkbox data-template="pages:parse-params" name="documentCheckbox" value="${ident}"></paper-checkbox>
+                    </div>
+                </pb-restricted>
+                <div class="document-info">
+                    <header data-template="browse:short-header"></header>
+                    <app-toolbar>
+                        <paper-menu-button>
+                            <paper-button slot="dropdown-trigger" title="i18n(download)">
+                                <iron-icon icon="file-download"></iron-icon>
+                                <i18n:text key="download">Download</i18n:text>
+                            </paper-button>
+                            <paper-listbox slot="dropdown-content">
+                                <paper-item>
+                                    <pb-download type="pdf" dialog="downloadDialog" title="PDF (FO Version)" data-template="browse:download-link">
+                                        <i18n:text key="pdf-fo">PDF (FO Version)</i18n:text>
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-download type="pdf" dialog="downloadDialog" title="PDF (FO Version)" source="source" data-template="browse:download-link">
+                                        <i18n:text key="fo-source">PDF (FO Version Source)</i18n:text>
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-download type="tex" dialog="downloadDialog" title="PDF (LaTeX Version)" data-template="browse:download-link">
+                                        <i18n:text key="pdf-latex">PDF (LaTeX Version)</i18n:text>
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-download type="tex" dialog="downloadDialog" title="PDF (LaTeX Version)" source="source" data-template="browse:download-link">
+                                        <i18n:text key="latex-source">PDF (LaTeX Version)</i18n:text>
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-download type="epub" dialog="downloadDialog" data-template="browse:download-link">
+                                        <i18n:text key="epub-download">ePUB</i18n:text>
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-edit-xml title="i18n(view-tei)" path="${path}" data-template="pages:parse-params">
+                                        <i18n:text key="view-tei"/>
+                                    </pb-edit-xml>
+                                </paper-item>
+                            </paper-listbox>
+                        </paper-menu-button>
+                        <paper-button class="delete" title="i18n(delete)" data-template="pages:parse-params" data-path="${ident}">
+                            <iron-icon icon="delete"></iron-icon>
+                            <i18n:text key="delete">Delete</i18n:text>
+                        </paper-button>
+                    </app-toolbar>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

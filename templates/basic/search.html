@@ -1,83 +1,191 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<div data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <div data-template="templates:include" data-template-path="templates/menu.html"/>
-    <section class="container-fluid">
-      <header class="row">
-          <div class="col-md-12">
-              <div class="page-header">
-                  <h1 data-template="config:app-title"/>
-              </div>
-          </div>
-      </header>
+<html xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="pages:app-root">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+        <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
 
-        <main xmlns:i18n="http://exist-db.org/xquery/i18n" class="row search">
-            <div class="col-md-3 col-md-push-9">
-                <form action="search.html" class="form form-horizontal">
-                    <div class="well well-sm">
-                        <div class="form-group">
-                            <div class="col-md-12 col-xs-12">
-                                <span class="input-group">
-                                    <input name="query" type="search" class="templates:form-control form-control typeahead-search" placeholder="Search For What?" autocomplete="off"/>
-                                    <span class="input-group-btn">
-                                        <button id="f-btn-search" type="submit" class="btn btn-primary">
-                                            <span class="material-icons">search</span>
-                                        </button>
-                                    </span>
-                                </span>
-                                <input type="hidden" name="field" value="text"/>
+        <title data-template="config:app-title"/>
+        <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald"/>
+        <script src="../tei-publisher/components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
+        <script src="../tei-publisher/components/bower_components/js-cookie/src/js.cookie.js"/>
+        <link rel="import" href="../tei-publisher/components/dependencies-dev.html"/>
+
+        <custom-style>
+            <style include="pb-common-styles">
+                body {
+                    --pb-content-theme: {
+                        margin-right: 32px;
+                    }
+
+                    --pb-highlight-theme: {
+                        background-color: #F9E976;
+                    }
+
+                    --pb-results-body-font: 112% "Junicode",Georgia,"Times New Roman",serif;
+                }
+
+                main {
+                    margin-top: 10px;
+                }
+
+                .search-panel {
+                    margin: 0 20px;
+                }
+
+                .search-panel paper-card {
+                    width: 100%;
+                }
+
+                .targets {
+                    @apply --layout-vertical;
+                }
+
+                .targets paper-checkbox {
+                    margin-top: 10px;
+                }
+
+                [main-title] {
+                    display: inline-block;
+                }
+
+                #results {
+                    overflow: scroll;
+                    margin: 0 20px;
+                    height: calc(100vh - 128px);
+                }
+
+                #results paper-card {
+                    width: 100%;
+                    margin-bottom: 15px;
+                    padding: 8px;
+                }
+
+                #results header {
+                    @apply --layout-horizontal;
+                    @apply --layout-start;
+                }
+                #results .count {
+                    margin-right: 20px;
+                    font-weight: bold;
+                }
+                .breadcrumb:link, .breadcrumb:visited {
+                    text-decoration: none;
+                    color: var(--paper-grey-600);
+                    font: var(--pb-results-body-font);
+                }
+                .breadcrumb:before {
+                    content: '>';
+                    padding: 0 8px;
+                    font-weight: bold;
+                }
+                .breadcrumb:first-child::before {
+                    content: '';
+                }
+                .matches {
+                    display: table;
+                    margin-left: 20px;
+                    margin-top: 10px;
+                    font: var(--pb-results-body-font);
+                }
+                .matches p {
+                    display: table-row;
+                }
+                .matches p * {
+                    display: table-cell;
+                    padding: 4px 8px;
+                }
+
+                .hi {
+                    display: block;
+                }
+            </style>
+        </custom-style>
+    </head>
+
+    <body unresolved="unresolved" data-template="i18n:translate" data-catalogues="resources/i18n">
+        <app-header-layout>
+            <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                <app-toolbar class="menubar">
+                    <a href="$app/index.html">
+                        <img src="resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
+                    </a>
+                    <a href="$app/index.html">Start</a>
+                    <paper-menu-button>
+                        <a href="#" slot="dropdown-trigger">
+                            <i18n:text key="documentation"/>
+                        </a>
+                        <paper-listbox slot="dropdown-content">
+                            <paper-item>
+                                <a href="$app/doc/documentation.xml?odd=docbook.odd">
+                                    <i18n:text key="documentation"/>
+                                </a>
+                            </paper-item>
+                            <paper-item>
+                                <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
+                            </paper-item>
+                        </paper-listbox>
+                    </paper-menu-button>
+                    <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
+                        <img src="resources/images/wm_no_bg.svg" height="20"/>
+                    </a>
+
+                    <!-- Search input -->
+                    <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
+                               place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
+
+                    <!-- language selector -->
+                    <pb-lang name="lang" label="Language" data-template="pages:current-language">
+                        <paper-item>en</paper-item>
+                        <paper-item>de</paper-item>
+                        <paper-item>fr</paper-item>
+                        <paper-item>gr</paper-item>
+                        <paper-item>it</paper-item>
+                        <paper-item>pl</paper-item>
+                    </pb-lang>
+                    <pb-login login-label="i18n(login)" logout-label="i18n(logout)" group="tei" data-template="browse:current-user">
+                        <iron-icon slot="icon" icon="account-circle"></iron-icon>
+                    </pb-login>
+                </app-toolbar>
+                <app-toolbar>
+                    <pb-paginate per-page="10" range="5" found-label="i18n(found)"></pb-paginate>
+                    <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
+                </app-toolbar>
+            </app-header>
+
+            <main>
+                <pb-load url="templates/search-results.html" container="#results"></pb-load>
+                <existdb-column-layout column-widths="70% 30%">
+                    <div id="results"></div>
+                    <div class="search-panel">
+                        <paper-card>
+                            <div class="card-content">
+                                <pb-search id="search-form" place-holder="i18n(search-query-attr)"
+                                    data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load">
+                                    <div class="targets">
+                                        <paper-checkbox name="tei-target" value="tei-text">Search sections</paper-checkbox>
+                                        <paper-checkbox name="tei-target" value="tei-head">Search headings</paper-checkbox>
+                                    </div>
+                                </pb-search>
                             </div>
-                        </div>
-                        <div class="form-group" data-toggle="tooltip" data-placement="left" title="i18n(search-part)">
-                            <div class="col-md-12 col-xs-12">
-                                <select name="tei-target" class="form-control" data-template="templates:form-control">
-                                    <option value="tei-text" selected="selected">
-                                        <i18n:text key="search-sections"/>
-                                    </option>
-                                    <option value="tei-head">
-                                        <i18n:text key="search-headings"/>
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
+                        </paper-card>
                     </div>
-                </form>
+                </existdb-column-layout>
+            </main>
+        </app-header-layout>
+        <paper-dialog id="errorDialog">
+            <h2>Error</h2>
+            <paper-dialog-scrollable/>
+            <div class="buttons">
+                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                    <i18n:text key="close">Close</i18n:text>
+                </paper-button>
             </div>
-            <div class="col-md-9 col-md-pull-3">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            <i18n:text key="search-results">Search Results</i18n:text>
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="search:query">
-                            <p class="main-content">
-                                <i18n:text key="found">Found</i18n:text>: <span id="hit-count" data-template="browse:hit-count"/>
-                            </p><!-- pagination for small device -->
-                            <div class="hidden-md hidden-lg hidden-sm">
-                                <ul class="pagination" data-template="browse:paginate" data-template-per-page="20" data-template-max-pages="5" data-template-min-hits="21"/>
-                            </div><!-- pagination for larger device -->
-                            <div class="hidden-xs">
-                                <ul class="pagination" data-template="browse:paginate" data-template-per-page="20" data-template-max-pages="9" data-template-min-hits="21"/>
-                            </div><!-- query results -->
-                            <table id="results" class="col-md-12 table">
-                                <colgroup>
-                                    <col class="previous"/>
-                                    <col class="hi"/>
-                                    <col class="next"/>
-                                </colgroup>
-                                <tbody data-template="search:show-hits" data-template-per-page="20"/>
-                            </table><!-- bottom pagination for small device -->
-                            <div class="hidden-md hidden-lg hidden-sm">
-                                <ul class="pagination" data-template="browse:paginate" data-template-per-page="20" data-template-max-pages="5" data-template-min-hits="21"/>
-                            </div><!-- bottom pagination for larger device -->
-                            <div class="hidden-xs">
-                                <ul class="pagination" data-template="browse:paginate" data-template-per-page="20" data-template-max-pages="9" data-template-min-hits="21"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </section>
-</div>
+        </paper-dialog>
+    </body>
+</html>

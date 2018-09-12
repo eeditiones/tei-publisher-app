@@ -36,6 +36,12 @@ declare variable $config:default-language := "en";
 declare variable $config:default-view := "div";
 
 (:
+ : The default HTML template used for viewing document content. This can be
+ : overwritten by the teipublisher processing instruction inside a TEI document.
+ :)
+declare variable $config:default-template := "view.html";
+
+(:
  : The element to search by default, either 'tei:div' or 'tei:body'.
  :)
 declare variable $config:search-default := "tei:div";
@@ -101,13 +107,13 @@ return
     <fop version="1.0">
         <!-- Strict user configuration -->
         <strict-configuration>true</strict-configuration>
-        
+
         <!-- Strict FO validation -->
         <strict-validation>false</strict-validation>
-        
+
         <!-- Base URL for resolving relative URLs -->
         <base>./</base>
-        
+
         <renderers>
             <renderer mime="application/pdf">
                 <fonts>

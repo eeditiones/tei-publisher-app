@@ -2,10 +2,55 @@
 /* Generated from /db/apps/tei-publisher/odd/docbook.odd */
 
 /* Global styles */
+h1 {
+	font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+	font-size: 36px;
+	font-weight: 400;
+	}
 
+h2 {
+	font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+	font-size: 26px;
+	font-weight: 400;
+	}
+
+figure {
+	text-align: center;
+	margin: 24px 0;
+	padding: 16px 0;
+	border-top: 1px solid #d6d7d9;
+	border-bottom: 1px solid #d6d7d9;
+	}
+
+figure img {
+	margin: 0 auto;
+	display: block;
+	max-width: 100%;
+	height: auto;
+	}
+
+figcaption {
+	margin-top: .5em;
+	text-align: right;
+	}
+
+.code {
+	font-family: "Ubuntu Mono",Menlo,Consolas,Courier,monospace;
+	font-size: 85%;
+	}
+
+.note > * {
+	margin-left: 16px;
+	margin-right: 16px;
+	}
+
+dt {
+	font-weight: 700;
+	}
 
 /* Model rendition styles */
 
+.tei-title1:before { content: ' > '; color: #607d8b; }
 .tei-emphasis1 { font-weight: bold; }
 .tei-emphasis2 { font-style: italic; }
 .tei-td1 { font-weight: bold; text-align: left; }

@@ -51,37 +51,65 @@ function app:check-login($node as node(), $model as map(*)) {
             templates:process($node/*[1], $model)
 };
 
-declare
-    %templates:wrap
-function app:current-user($node as node(), $model as map(*)) {
-    request:get-attribute($config:login-domain || ".user")
+declare function app:current-user($node as node(), $model as map(*)) {
+    let $user := request:get-attribute($config:login-domain || ".user")
+    let $loggedIn := exists($user)
+    return
+        element { node-name($node) } {
+            $node/@*,
+            if ($loggedIn) then
+                attribute logged-in { "logged-in" }
+            else
+                (),
+            attribute user { $user },
+            attribute groups {
+                if ($user) then
+                    '[' || string-join(sm:get-user-groups($user) ! ('"' || . || '"'), ',') || ']'
+                else
+                    '[]'
+            },
+            templates:process($node/node(), $model)
+        }
 };
 
-declare function app:show-if-logged-in($node as node(), $model as map(*)) {
-    let $user := request:get-attribute($config:login-domain || ".user")
-    return
-        if ($user) then
-            element { node-name($node) } {
-                $node/@*,
-                templates:process($node/node(), $model)
-            }
-        else
-            ()
+declare
+    %templates:wrap
+function app:sort($items as element()*, $sortBy as xs:string?) {
+    console:log("sort by " || $sortBy),
+    switch ($sortBy)
+        case "title" return
+            for $item in $items
+            let $titleFromIndex := ft:get-field(document-uri(root($item)), "title")
+            let $title :=
+                if (exists($titleFromIndex)) then
+                    $titleFromIndex
+                else
+                    let $header := root($item)//tei:teiHeader
+                    let $title := ($header//tei:msDesc/tei:head, $header//tei:titleStmt/tei:title)[1]
+                    return
+                        replace(string-join($title//text(), " "), "^\s*(.*)$", "$1", "m")
+            order by $title
+            return
+                $item
+        default return
+            $items
 };
+
 
 (:~
  : List documents in data collection
  :)
 declare
     %templates:wrap
+    %templates:default("sort", "title")
 function app:list-works($node as node(), $model as map(*), $filter as xs:string?, $root as xs:string,
-    $browse as xs:string?, $odd as xs:string?) {
+    $browse as xs:string?, $odd as xs:string?, $sort as xs:string) {
     let $odd := ($odd, session:get-attribute("odd"))[1]
     let $oddAvailable := $odd and doc-available($config:odd-root || "/" || $odd)
     let $odd := if ($oddAvailable) then $odd else $config:default-odd
     let $cached := session:get-attribute("simple.works")
     let $filtered :=
-        if ($filter) then
+        if (exists($filter)) then
             let $ordered :=
                 for $rootCol in $config:data-root
                 for $item in
@@ -93,17 +121,18 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
             for $doc in $ordered
             return
                 doc($doc/@uri)/*
-        else if ($cached and $filter != "") then
+        else if (exists($cached) and $filter != "") then
             $cached
         else
             $config:data-root ! collection(. || "/" || $root)/*
+    let $sorted := app:sort($filtered, $sort)
     return (
-        session:set-attribute("simple.works", $filtered),
+        session:set-attribute("simple.works", $sorted),
         session:set-attribute("browse", $browse),
         session:set-attribute("filter", $filter),
         session:set-attribute("odd", $odd),
         map {
-            "all" : $filtered,
+            "all" : $sorted,
             "mode": "browse"
         }
     )
@@ -114,16 +143,29 @@ declare
     %templates:default("start", 1)
     %templates:default("per-page", 10)
 function app:browse($node as node(), $model as map(*), $start as xs:int, $per-page as xs:int, $filter as xs:string?) {
-    if (empty($model?all) and (empty($filter) or $filter = "")) then
-        templates:process($node/*[@class="empty"], $model)
-    else
-        subsequence($model?all, $start, $per-page) !
-            templates:process($node/*[not(@class="empty")], map:new(
-                ($model, map {
-                    "work": .,
-                    "config": tpu:parse-pi(root(.), (), session:get-attribute("odd"))
-                }))
-            )
+    let $total := count($model?all)
+    let $start :=
+        if ($start > $total) then
+            ($total idiv $per-page) * $per-page + 1
+        else
+            $start
+    return (
+        response:set-header("pb-start", xs:string($start)),
+        response:set-header("pb-total", xs:string($total)),
+
+        if (empty($model?all) and (empty($filter) or $filter = "")) then
+            templates:process($node/*[@class="empty"], $model)
+        else
+            subsequence($model?all, $start, $per-page) !
+                templates:process($node/*[not(@class="empty")], map:new(
+                    ($model, map {
+                        "work": .,
+                        "config": tpu:parse-pi(root(.), (), session:get-attribute("odd")),
+                        "ident": config:get-identifier(.),
+                        "path": document-uri(root(.))
+                    }))
+                )
+    )
 };
 
 declare function app:add-identifier($node as node(), $model as map(*)) {
@@ -251,8 +293,8 @@ declare function app:work-title($work as element(tei:TEI)?) {
         $main-title
 };
 
-declare function app:download-link($node as node(), $model as map(*), $type as xs:string,
-    $doc as xs:string?, $source as xs:boolean?, $mode as xs:string?, $odd as xs:string?) {
+declare function app:download-link($node as node(), $model as map(*),
+    $doc as xs:string?, $mode as xs:string?, $odd as xs:string?) {
     let $file :=
         if ($model?work) then
             config:get-identifier($model?work)
@@ -263,15 +305,11 @@ declare function app:download-link($node as node(), $model as map(*), $type as x
             replace($file, "^.*?([^/]*)$", "$1")
         else
             $file
-    let $uuid := util:uuid()
     return
         element { node-name($node) } {
             $node/@*,
-            attribute data-token { $uuid },
-            attribute href { $node/@href || $file || "." || $type || "?token=" || $uuid || "&amp;cache=no"
-                || "&amp;odd=" || ($model?config?odd, $config:odd)[1]
-                || (if ($source) then "&amp;source=yes" else ()) || (if ($mode) then "&amp;mode=" || $mode else ())
-            },
+            attribute file { $file },
+            attribute odd { ($model?config?odd, $config:odd)[1] },
             $node/node()
         }
 };

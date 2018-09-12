@@ -170,14 +170,14 @@ function app:form-odd-select($node as node(), $model as map(*), $odd as xs:strin
                 let $rev-date := data(doc($resource)//tei:revisionDesc/tei:change/@when)[1]
                 let $title := (
                 doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = "short"],
-                doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title,
+                doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title/text(),
                 $name
                 )[1]
                 return
                     $title || " [" || $rev-date || "]"
                 let $file := replace($resource, "^.*/([^/]+)$", "$1")
                 return
-                    <option value="{$file}">
+                    <paper-item value="{$file}">
                         {
                             if ($odd and $file = $odd) then
                                 attribute selected {"selected"}
@@ -185,7 +185,7 @@ function app:form-odd-select($node as node(), $model as map(*), $odd as xs:strin
                                 (),
                             string($displayname)
                         }
-                    </option>
+                    </paper-item>
             else
                 ()
         })

@@ -1,79 +1,67 @@
 <model behaviour="{ behaviour }" predicate="{ predicate }" type="{ type }" output="{ output }" css="{ css }">
     <form class="form-inline">
         <header>
-            <h4>
-                <div class="pull-right">
-                    <label>Output:</label>
-                    <select ref="output" class="form-control">
-                        <option each="{ o in outputs }" selected="{ o === output }">{ o }</option>
-                    </select>
-                </div>
-                <a data-toggle="collapse" data-target="#{ id }" class="model-collapse">
-                    <i class="material-icons" ref="collapseToggle">expand_more</i>
+            <div>
+                <h4>
+                    <paper-icon-button ref="toggle" onclick="{ toggle }" class="model-collapse" icon="expand-more"></paper-icon-button>
                     { type } <span class="behaviour" if="{ type === 'model'}">{ behaviour }</span>
-                </a>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-xs" onclick="{ moveDown }"><i class="material-icons">arrow_downward</i></button>
-                    <button type="button" class="btn btn-default btn-xs" onclick="{ moveUp }"><i class="material-icons">arrow_upward</i></button>
-                    <button type="button" class="btn btn-default btn-xs" onclick="{ remove }"><i class="material-icons">delete</i></button>
-                    <button type="button" class="btn btn-default btn-xs" onclick="{ copy }"><i class="material-icons">content_copy</i></button>
-                    <button type="button" class="btn btn-default btn-xs" onclick="{ paste }" if="{type == 'modelSequence' || type == 'modelGrp'}">
-                        <i class="material-icons">content_paste</i>
-                    </button>
-                    <div class="btn-group" if="{type == 'modelSequence' || type == 'modelGrp'}">
-                        <button type="button" class="btn dropdown-toggle btn-xs" data-toggle="dropdown"><i class="material-icons">add</i></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#" onclick="{ addNested }">model</a></li>
-                            <li><a href="#" onclick="{ addNested }">modelSequence</a></li>
-                            <li><a href="#" onclick="{ addNested }">modelGrp</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </h4>
+                    <span class="btn-group">
+                        <paper-icon-button onclick="{ moveDown }" icon="arrow-downward"></paper-icon-button>
+                        <paper-icon-button onclick="{ moveUp }" icon="arrow-upward"></paper-icon-button>
+                        <paper-icon-button onclick="{ remove }" icon="delete"></paper-icon-button>
+                        <paper-icon-button onclick="{ copy }" icon="content-copy"></paper-icon-button>
+                        <paper-icon-button onclick="{ paste }" icon="content-paste" if="{type == 'modelSequence' || type == 'modelGrp'}"></paper-icon-button>
+                        <paper-menu-button if="{type == 'modelSequence' || type == 'modelGrp'}">
+                            <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
+                            <paper-listbox slot="dropdown-content">
+                                <paper-item onclick="{ addNested }">model</paper-item>
+                                <paper-item onclick="{ addNested }">modelSequence</paper-item>
+                                <paper-item onclick="{ addNested }">modelGrp</paper-item>
+                            </paper-listbox>
+                        </paper-menu-button>
+                    </span>
+                </h4>
+                <paper-dropdown-menu label="Output">
+                    <paper-listbox ref="output" slot="dropdown-content" attr-for-selected="value">
+                        <paper-item each="{ o in outputs }" value="{ o }">{ o }</paper-item>
+                    </paper-listbox>
+                </paper-dropdown-menu>
+            </div>
             <p>{ desc } <span class="predicate" if="{ predicate }">{ predicate }</span></p>
         </header>
-        <div class="collapse details { show ? 'in' : '' }" id="{ id }" ref="details">
-            <table>
-                <tr class="predicate">
-                    <td>Description:</td>
-                    <td><input ref="desc" type="text" class="form-control" value="{ desc }" placeholder="[Document the model]" onchange="{ refresh }"/></td>
-                </tr>
-                <tr if="{ type === 'model' }">
-                    <td>Behaviour:</td>
-                    <td>
-                        <combobox ref="behaviour" current="{ behaviour }" source="{ getBehaviours }" callback="{ refresh }"
-                            placeholder="[behaviour]"/>
-                    </td>
-                </tr>
-                <tr class="predicate">
-                    <td>Predicate:</td>
-                    <td>
-                        <code-editor ref="predicate" mode="xquery" code="{ predicate || '' }" callback="{ refresh }"
-                            placeholder="[XPath condition: model applies only if matched]"/>
-                    </td>
-                </tr>
-                <tr class="predicate">
-                    <td>CSS Class:</td>
-                    <td>
-                        <input ref="css" type="text" class="form-control" value="{ css }"
-                            placeholder="[Define CSS class name (for external CSS)]"/>
-                    </td>
-                </tr>
-            </table>
+        <iron-collapse ref="details" opened="{show}" id="elem-{ ident }" class="details">
+            <paper-input ref="desc" value="{ desc }" placeholder="[Document the model]"
+                onchange="{ refresh }" label="Description"></paper-input>
+            <paper-autocomplete ref="behaviour" if="{ type === 'model' }" text="{ behaviour }" placeholder="[Behaviour]" label="Behaviour"></paper-autocomplete>
+            <div class="predicate">
+                <label>Predicate</label>
+                <code-editor ref="predicate" mode="xquery" code="{ predicate || '' }" callback="{ refresh }"
+                    placeholder="[XPath condition: model applies only if matched]"/>
+            </div>
+            <paper-input ref="css" value="{ css }" placeholder="[Define CSS class name (for external CSS)]"
+                label="CSS Class"></paper-input>
 
             <div class="parameters" if="{type == 'model'}">
-                <div class="group"><span class="title">Parameters</span> <button type="button" class="btn" onclick="{ addParameter }"><i class="material-icons">add</i></button></div>
+                <div class="group">
+                    <span class="title">Parameters</span>
+                    <paper-icon-button icon="add" onclick="{ addParameter }"></paper-icon-button>
+                </div>
                 <parameter each="{ parameters }" name="{ this.name }" value="{ this.value }"/>
             </div>
 
             <div class="renditions" if="{type == 'model'}">
-                <div class="group"><span class="title">Renditions</span>
-                    <button type="button" class="btn" onclick="{ addRendition }"><i class="material-icons">add</i></button>
-                    <span class="source"><input type="checkbox" checked="{ sourcerend }" ref="sourcerend"/> Use source rendition</span>
+                <div class="group">
+                    <div>
+                        <span class="title">Renditions</span>
+                        <paper-icon-button icon="add" onclick="{ addRendition }"></paper-icon-button>
+                    </div>
+                    <div class="source">
+                        <paper-checkbox checked="{ sourcerend }" ref="sourcerend">Use source rendition</paper-checkbox>
+                    </div>
                 </div>
                 <rendition each="{ renditions }" scope="{ this.scope }" css="{ this.css }" events="{ events }"/>
             </div>
-        </div>
+        </iron-collapse>
 
         <div class="models" if="{type == 'modelSequence' || type == 'modelGrp'}">
             <model each="{ models }" behaviour="{ this.behaviour }" predicate="{ this.predicate }"
@@ -119,20 +107,58 @@
             "section",
             "table",
             "text",
-            "title"
+            "title",
+            "webcomponent"
         ];
 
         this.on("mount", function() {
             var self = this;
-            $(this.refs.details).on("show.bs.collapse", function() {
-                $('.details').collapse('hide');
-                $(self.refs.collapseToggle).text("expand_less");
-            });
-            $(this.refs.details).on("hide.bs.collapse", function() {
-                $(self.refs.collapseToggle).text("expand_more");
-            });
 
+            this.refs.details.addEventListener("opened-changed", function() {
+                var opened = this.refs.details.opened;
+                var icon = opened ? 'expand-less' : 'expand-more';
+                if (opened) {
+                    this.parent.collapseAll(this);
+                }
+                this.refs.toggle.icon = icon;
+                this.refs.predicate.initCodeEditor();
+                this.forEachTag('parameter', function(param) {
+                    param.show();
+                });
+                this.forEachTag('rendition', function(rendition) {
+                    rendition.show();
+                });
+            }.bind(this));
+
+            if (this.refs.behaviour) {
+                var autocomplete = [];
+                this.getBehaviours().forEach(function(behaviour) {
+                    autocomplete.push({text: behaviour, value: behaviour});
+                });
+                this.refs.behaviour.showResultsOnFocus = true;
+                this.refs.behaviour.source = autocomplete;
+
+                this.refs.behaviour.addEventListener('autocomplete-blur', this.refresh.bind(this));
+            }
+            this.refs.output.selected = this.output;
         });
+
+        toggle(ev) {
+            this.refs.details.toggle();
+        }
+
+        collapse() {
+            this.refs.details.hide();
+        }
+
+        collapseAll(current) {
+            this.forEachTag('model', function(model) {
+                if (model == current) {
+                    return;
+                }
+                model.collapse();
+            })
+        }
 
         getBehaviours() {
             return this.behaviours;
@@ -140,7 +166,7 @@
 
         getBehaviour() {
             if (this.refs.behaviour) {
-                return this.refs.behaviour.getData();
+                return this.refs.behaviour.text;
             }
         }
 
@@ -214,7 +240,7 @@
 
         addNested(ev) {
             ev.preventDefault();
-            var type = $(ev.target).text();
+            var type = ev.target.innerText;
             this.updateModel();
             this.models.unshift({
                 behaviour: 'inline',
@@ -247,14 +273,16 @@
 
         updateModel() {
             if (this.refs.behaviour) {
-                this.behaviour = this.refs.behaviour.getData();
+                this.behaviour = this.refs.behaviour.text;
             }
-            this.output = this.refs.output.options[this.refs.output.selectedIndex].value;
+            this.output = this.refs.output.selected;
             this.css = this.refs.css.value;
             this.predicate = this.refs.predicate.get();
             this.desc = this.refs.desc.value;
             this.parameters = this.updateTag('parameter');
-            this.sourcerend = $(this.refs.sourcerend).is(":checked");
+            if (this.refs.sourcerend) {
+                this.sourcerend = this.refs.sourcerend.checked;
+            }
             this.renditions = this.updateTag('rendition');
             this.models = this.updateTag('model');
         }
@@ -307,6 +335,9 @@
         form {
             margin-bottom: 8px;
         }
+        paper-input, paper-autocomplete {
+            margin-bottom: 16px;
+        }
         .models {
             margin-top: 8px;
         }
@@ -317,6 +348,13 @@
         header {
             background-color: #d1dae0;
         }
+        header div {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         header h4 {
             padding: 4px 8px;
             margin: 0;
@@ -334,6 +372,12 @@
         }
         header .predicate:after {
             content: ']';
+        }
+        .predicate label {
+            display: block;
+            font-size: 12px;
+            font-weight: 300;
+            color: rgb(115, 115, 115);
         }
         .model-collapse {
             color: #000000;
@@ -364,24 +408,11 @@
             padding-left: 16px;
             border-left: 3px solid #e0e0e0;
         }
-
-        table {
-            width: 100%;
-        }
-        td {
-            padding-bottom: 10px;
-        }
-        td > * {
-            width: 100%;
-        }
-        td:nth-child(1) {
-            width: 20%;
-            font-weight: bold;
-            padding-right: 10px;
-        }
-        .parameters {
-            display: table;
-            width: 100%;
+        .renditions .group {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
         }
         .predicate .form-control {
             width: 100%;
@@ -389,10 +420,7 @@
 
         .source {
             text-decoration: none;
-        }
-        .source input {
             margin-bottom: 8px;
-            margin-right: 1em;
         }
     </style>
 </model>

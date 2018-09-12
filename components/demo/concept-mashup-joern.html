@@ -1,0 +1,89 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+
+    <title>existdb-document demo</title>
+    <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"> </script>
+    <link rel="import" href="../bower_components/existdb-layout/dependencies.html"/>
+
+    <style>
+        [slot="header"]{
+            background: lightsteelblue;
+        }
+
+        #one{
+            background:steelblue;
+        }
+        #two{
+            background:lightgreen;
+        }
+
+        #three{
+            background:yellow;
+        }
+        #four{
+            background: yellowgreen;
+        }
+        #five{
+            background: lightyellow;
+        }
+
+    </style>
+</head>
+
+<body>
+    <pb-document id="document1" path="abc123.xml"> </pb-document>
+    <pb-document id="document2" path="abc456.xml"> </pb-document>
+
+    <existdb-column-layout column-widths="30% 30% 20% 10% 10%">
+        <!-- use header slot -->
+        <div slot="header">
+            <h1>
+                <pb-view src="document1" odd="mishnah.odd" xpath="//teiHeader/titleStmt">
+                    some header text
+                </pb-view>
+            </h1>
+        </div>
+
+        <div id="one">
+            <pb-view src="document1" odd="mishnah.odd" xpath="//text/body" view="page|column|opening|div">
+                <!-- Renders TEI document into HTML. pb-pb triggers facsimile view change, e.g.: -->
+                <p>Bla bla bla. <pb-pb facs="x638474"></pb-pb></p>
+            </pb-view>
+            <pb-navigation target="document1" direction="forward" unit="page|div|chapter"></pb-navigation>
+            <pb-navigation target="document1" direction="back" unit="page|div|chapter"></pb-navigation>
+        </div>
+
+        <div id="two">
+            <pb-facsimile src="document1" base-uri="http://apps.existsolutions.com/iiif">
+                Facsimile here
+            </pb-facsimile>
+        </div>
+
+        <div id="three">
+            <pb-view id="commentary-view" src="document2" odd="mishnah.odd" xpath="//text/body[@type='commentary']"
+                     view="page|column|opening|div">
+                Comments
+                <pb-param name="mode" value="commentary"></pb-param>
+            </pb-view>
+            <pb-navigation target="document2" direction="forward" unit="page|div|chapter"></pb-navigation>
+            <pb-navigation target="document2" direction="back" unit="page|div|chapter"></pb-navigation>
+        </div>
+
+        <div id="four">
+            <!-- Display notes from document 2 by receiving an update event from the commentary-view -->
+            <pb-subview src="commentary-view" property="notes">
+                another commentary
+            </pb-subview>
+        </div>
+
+        <div id="five">
+            <pb-facsimile src="document2" base-uri="http://apps.existsolutions.com/iiif">
+                Facsimile here
+            </pb-facsimile>
+        </div>
+
+    </existdb-column-layout>
+</body>
+</html>

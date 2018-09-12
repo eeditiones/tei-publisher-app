@@ -1,13 +1,10 @@
 <rendition scope="{ scope }">
-    <form class="form-inline">
-        <div class="form-group">
-            <span>Scope:</span>
-            <select ref="scope" class="form-control">
-                <option each="{ s in scopes }" selected="{ s === scope }">{ s }</option>
-            </select>
-            <button type="button" class="btn btn-default" onclick="{ remove }"><i class="material-icons">delete</i></button>
-        </div>
-    </form>
+    <paper-dropdown-menu label="Scope">
+        <paper-listbox ref="scope" slot="dropdown-content" selected="{ scope }" attr-for-selected="value">
+            <option each="{ s in scopes }" value="{ s }">{ s }</option>
+        </paper-listbox>
+    </paper-dropdown-menu>
+    <paper-icon-button onclick="{ remove }" icon="delete"></paper-icon-button>
     <code-editor ref="css" mode="css" code="{ this.css }" placeholder="[CSS to apply]"></code-editor>
 
     <script>
@@ -23,7 +20,7 @@
 
     getData() {
         return {
-            scope: $(this.refs.scope).val(),
+            scope: this.refs.scope.selected,
             css: this.refs.css.get()
         };
     }
@@ -35,7 +32,7 @@
         }
         css = this.escape(css);
         
-        var scope = $(this.refs.scope).val();
+        var scope = this.refs.scope.selected;
         var xml = indent + '<outputRendition';
         if (scope) {
             xml += ' scope="' + scope + '"';
@@ -45,13 +42,14 @@
         xml += '\n' + indent + '</outputRendition>\n';
         return xml;
     }
+    
+    show() {
+        this.refs.css.initCodeEditor();
+    }
     </script>
     <style>
-        .form-group {
-            margin-top: 0;
-        }
-        textarea {
-            width: 100%;
+        code-editor {
+            margin-top: 10px;
         }
     </style>
 </rendition>

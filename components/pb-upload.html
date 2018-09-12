@@ -1,0 +1,68 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<!--
+<link rel="import" href="bower_components/paper-button/paper-button.html">
+<link rel="import" href="bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="bower_components/vaadin-upload/vaadin-upload.html">
+-->
+
+<dom-module id="pb-upload">
+    <template>
+        <style>
+            :host {
+            }
+        </style>
+
+        <vaadin-upload id="uploader" accept=".xml,.tei,.odd" method="post" target="modules/lib/upload.xql" tabindex="-1" form-data-name="files[]">
+            <span slot="drop-label">Drop files here.</span>
+            <paper-button id="uploadBtn" slot="add-button">upload</paper-button>
+        </vaadin-upload>
+    </template>
+
+    <script>
+        /**
+         * `pb-upload`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbUpload extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'pb-upload';
+            }
+
+            static get properties() {
+                return {
+                    target: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+
+                this.$.uploader.addEventListener('upload-before', function (event) {
+                    this.emitTo('pb-start-update');
+                }.bind(this));
+                this.$.uploader.addEventListener('upload-request', function(event) {
+                    if (this.target) {
+                        event.detail.formData.append('root', this.target);
+                    }
+                }.bind(this));
+                this.$.uploader.addEventListener('upload-success', function (event) {
+                    this.emitTo('pb-end-update');
+                    this.emitTo('pb-load');
+                }.bind(this));
+            }
+
+            ready(){
+                super.ready();
+            }
+
+        }
+
+        window.customElements.define(PbUpload.is, PbUpload);
+    </script>
+</dom-module>

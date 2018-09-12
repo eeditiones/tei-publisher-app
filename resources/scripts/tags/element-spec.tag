@@ -1,52 +1,72 @@
 <element-spec ident="{ ident }" mode="{ mode }">
     <h3>
-        <a href="#elem-{ ident }" data-toggle="collapse"><span ref="toggle" class="material-icons"
-            if="{ models.length > 0 }">expand_more</span></a>
+        <paper-icon-button ref="toggle" icon="expand-more" if="{ models.length > 0 }" onclick="{ toggle }"></paper-icon-button>
         { ident }
-        <div class="btn-group">
-            <button type="button" class="btn btn-xs dropdown-toggle" data-toggle="dropdown"><i class="material-icons">add</i></button>
-            <ul class="dropdown-menu">
-                <li><a href="#" onclick="{ addModel }">model</a></li>
-                <li><a href="#" onclick="{ addModel }">modelSequence</a></li>
-                <li><a href="#" onclick="{ addModel }">modelGrp</a></li>
-            </ul>
-        </div>
-        <button type="button" class="btn btn-xs" onclick="{ remove }"><i class="material-icons">delete</i></button>
-        <button type="button" class="btn btn-default btn-xs" onclick="{ paste }">
-            <i class="material-icons">content_paste</i>
-        </button>
+        <paper-menu-button>
+            <paper-icon-button icon="add" slot="dropdown-trigger"></paper-icon-button>
+            <paper-listbox slot="dropdown-content">
+                <paper-item onclick="{ addModel }">model</paper-item>
+                <paper-item onclick="{ addModel }">modelSequence</paper-item>
+                <paper-item onclick="{ addModel }">modelGrp</paper-item>
+            </paper-listbox>
+        </paper-menu-button>
+
+        <paper-icon-button onclick="{ remove }" icon="delete"></paper-icon-button>
+        <paper-icon-button onclick="{ paste }" icon="content-paste"></paper-icon-button>
     </h3>
 
-    <div ref="models" id="elem-{ ident }" class="collapse models {show ? 'in' : ''}">
+    <iron-collapse ref="models" class="models" opened="{show}" id="elem-{ ident }">
         <model each="{ models }" behaviour="{ this.behaviour }" predicate="{ this.predicate }"
             type="{ this.type }" output="{ this.output }" css="{ this.css }" models="{ this.models }"
             parameters="{ this.parameters }" desc="{ this.desc }"
             sourcerend="{ this.sourcerend }"/>
-    </div>
+    </iron-collapse>
 
     <script>
         this.mixin('utils');
 
         this.on("mount", function() {
             var self = this;
-            $(this.refs.models).on("show.bs.collapse", function() {
-                $(self.refs.toggle).text("expand_less");
-            });
-            $(this.refs.models).on("shown.bs.collapse", function() {
-                self.app.trigger('show');
-            });
-            $(this.refs.models).on("hide.bs.collapse", function() {
-                $(self.refs.toggle).text("expand_more");
-            });
+
+            this.refs.models.addEventListener("opened-changed", function() {
+                var opened = this.refs.models.opened;
+                var icon = opened ? 'expand-less' : 'expand-more';
+                if (this.refs.toggle) {
+                    this.refs.toggle.icon = icon;
+                }
+                if (opened) {
+                    this.parent.collapseAll(this);
+                } else {
+                    this.models = this.updateTag('model');
+                }
+            }.bind(this));
         });
+
+        toggle(ev) {
+            this.refs.models.toggle();
+        }
+
+        collapse() {
+            this.refs.models.hide();
+        }
+
+        collapseAll(current) {
+            this.forEachTag('model', function(model) {
+                if (model == current) {
+                    return;
+                }
+                model.collapse();
+            })
+        }
 
         addModel(ev) {
             ev.preventDefault();
-            var type = $(ev.target).text();
+            var type = ev.target.innerText;
 
             this.models = this.updateTag('model');
 
-            $(this.refs.models).collapse("show");
+            this.refs.models.show();
+
             this.models.unshift({
                 behaviour: 'inline',
                 predicate: null,
@@ -80,7 +100,7 @@
             var data = this.clipboard.paste();
             if (data) {
                 this.models = this.updateTag('model');
-                $(this.refs.models).collapse("show");
+                this.refs.models.open();
                 this.models.unshift(data);
             }
         }

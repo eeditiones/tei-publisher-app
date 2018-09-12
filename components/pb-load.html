@@ -1,0 +1,182 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-load">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <div id="content"><slot></slot></div>
+
+        <iron-ajax
+            id="loadContent"
+            verbose
+            handle-as="text"
+            method="get"
+            on-response="_handleContent"
+            on-error="_handleError"></iron-ajax>
+    </template>
+
+    <script>
+        /**
+         * `<pb-load>`
+         *
+         * Dynamically load data into a container, optionally triggered by an event.
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbLoad extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'pb-load';
+            }
+
+            static get properties() {
+                return {
+                    /** The URL for the AJAX request */
+                    url: {
+                        type: String
+                    },
+                    /** ID of the pb-document this element is connected to. The document path to
+                    * load will be taken from the pb-document.
+                     */
+                    src: {
+                        type: String
+                    },
+                    /**
+                     * The container element into which the results returned by
+                     * the AJAX request will be loaded.
+                     */
+                    container: {
+                        type: String
+                    },
+                    auto: {
+                        type: Boolean,
+                        value: false
+                    },
+                    loadOnce: {
+                        type: Boolean,
+                        value: false
+                    },
+                    start: {
+                        type: Number
+                    }
+                };
+            }
+
+            constructor() {
+                super();
+                this.loaded = false;
+                this.parameters = null;
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+
+                this.subscribeTo('pb-load', this.load.bind(this));
+            }
+
+            ready() {
+                super.ready();
+
+                if (this.auto) {
+                    this.load();
+                }
+            }
+
+            load(ev) {
+                if (this.loadOnce && this.loaded) {
+                    return;
+                }
+
+                this.emitTo('pb-start-update');
+
+                const appRoot = document.documentElement.getAttribute('data-app');
+                const url = [appRoot, this.url].join('/');
+
+                let params = {};
+
+                if (ev) {
+                    if (ev instanceof Event) {
+                        if (ev.detail && ev.detail.params) {
+                            params = ev.detail.params;
+                        }
+                    } else {
+                        params = ev;
+                    }
+                }
+
+                if (this.src) {
+                    const doc = document.getElementById(this.src);
+                    params.doc = doc.path;
+                }
+
+                // set start parameter to start property, but only if not provided otherwise already
+                if (this.start && !params.start) {
+                    params.start = this.start;
+                }
+                console.log("<pb-load> Loading %s with parameters %o", this.url, params);
+                this.$.loadContent.params = params;
+                this.$.loadContent.url = url;
+                this.$.loadContent.generateRequest();
+
+                if (this.loadOnce) {
+                    this.loaded = true;
+                }
+            }
+
+            _handleContent(ev) {
+                this.emitTo('pb-end-update');
+
+                this._parseHeaders(ev.detail.xhr);
+
+                const resp = this.$.loadContent.lastResponse;
+                if (this.container) {
+                    this.$.content.style.display = 'none';
+                    document.querySelectorAll(this.container).forEach((elem) => {
+                        elem.innerHTML = resp
+                        this._onLoad(elem);
+                    });
+                } else {
+                    this.$.content.style.display = '';
+                    this.$.content.innerHTML = resp;
+                    this._onLoad(this.$.content);
+                }
+            }
+
+            _handleError(ev) {
+                this.emitTo('pb-end-update');
+                const msg = this.$.loadContent.lastError.response;
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(msg, "application/xml");
+                const node = doc.querySelector('message');
+                
+                const dialog = document.getElementById('errorDialog');
+                const body = dialog.querySelector("paper-dialog-scrollable");
+                body.innerHTML = node.textContent;
+                dialog.open();
+            }
+            
+            _parseHeaders(xhr) {
+                const total = xhr.getResponseHeader('pb-total');
+                const start = xhr.getResponseHeader('pb-start');
+
+                this.start = parseInt(start);
+
+                this.emitTo('pb-results-received', {
+                    "count": parseInt(total),
+                    "start": this.start
+                });
+            }
+
+            _onLoad(content) {
+            }
+        }
+
+        window.customElements.define(PbLoad.is, PbLoad);
+    </script>
+</dom-module>

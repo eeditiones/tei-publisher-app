@@ -3,8 +3,11 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Processing Model for Docbook v5</title>
-                <title type="short">Docbook v5</title>
+                <title>Processing Model for Docbook v5
+                    <desc>Processing of Docbook format</desc>
+                </title>
+                <title type="short">Docbook v5
+                </title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>
@@ -28,6 +31,48 @@
                 <p>born digital</p>
             </sourceDesc>
         </fileDesc>
+        <encodingDesc>
+            <tagsDecl>
+                <rendition selector="h1">
+                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                    font-size: 36px;
+                    font-weight: 400;
+                </rendition>
+                <rendition selector="h2">
+                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                    font-size: 26px;
+                    font-weight: 400;
+                </rendition>
+                <rendition selector="figure">
+                    text-align: center;
+                    margin: 24px 0;
+                    padding: 16px 0;
+                    border-top: 1px solid #d6d7d9;
+                    border-bottom: 1px solid #d6d7d9;
+                </rendition>
+                <rendition selector="figure img">
+                    margin: 0 auto;
+                    display: block;
+                    max-width: 100%;
+                    height: auto;
+                </rendition>
+                <rendition selector="figcaption">
+                    margin-top: .5em;
+                    text-align: right;
+                </rendition>
+                <rendition selector=".code">
+                    font-family: "Ubuntu Mono",Menlo,Consolas,Courier,monospace;
+                    font-size: 85%;
+                </rendition>
+                <rendition selector=".note &gt; *">
+                    margin-left: 16px;
+                    margin-right: 16px;
+                </rendition>
+                <rendition selector="dt">
+                    font-weight: 700;
+                </rendition>
+            </tagsDecl>
+        </encodingDesc>
     </teiHeader>
     <text>
         <body>
@@ -195,7 +240,8 @@
                 <elementSpec ident="programlisting">
                     <modelGrp output="web">
                         <model predicate="parent::cell|parent::para|parent::ab" behaviour="inline" cssClass="code"/>
-                        <model behaviour="code">
+                        <model behaviour="webcomponent">
+                            <param name="name" value="'pb-code-highlight'"/>
                             <param name="lang" value="@language"/>
                         </model>
                     </modelGrp>
@@ -203,7 +249,8 @@
                 </elementSpec>
                 <elementSpec ident="synopsis">
                     <model output="print" behaviour="block" cssClass="programlisting"/>
-                    <model behaviour="code">
+                    <model behaviour="webcomponent">
+                        <param name="name" value="'pb-code-highlight'"/>
                         <param name="lang" value="@language"/>
                     </model>
                 </elementSpec>
@@ -226,10 +273,12 @@
                     <model behaviour="inline" cssClass="code"/>
                 </elementSpec>
                 <elementSpec ident="note">
-                    <model behaviour="panel" cssClass="panel-default">
-                        <param name="title" value="title"/>
+                    <model output="web" behaviour="webcomponent" cssClass="note">
+                        <param name="name" value="'paper-card'"/>
+                        <param name="heading" value="title"/>
                         <param name="content" value="*[not(self::title)]"/>
                     </model>
+                    <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="tag">
                     <model behaviour="inline" cssClass="code">

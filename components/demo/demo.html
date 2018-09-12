@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+
+    <title>existdb-document demo</title>
+    <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"> </script>
+    <link rel="import" href="../bower_components/existdb-layout/dependencies.html"/>
+    <link rel="import" href="../bower_components/app-layout/app-layout.html">
+    <link rel="import" href="../bower_components/paper-card/paper-card.html">
+    <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html"/>
+    <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html"/>
+    <link rel="import" href="../bower_components/app-layout/app-header/app-header.html"/>
+    <link rel="import" href="../pb-document.html"/>
+    <link rel="import" href="../pb-view.html"/>
+    <link rel="import" href="../pb-navigation.html"/>
+    <link rel="import" href="../pb-zoom.html"/>
+    <link rel="import" href="../pb-view-type.html"/>
+    <link rel="import" href="../pb-edit-xml.html"/>
+    <link rel="import" href="../pb-progress.html"/>
+
+    <style>
+        [slot="header"]{
+            background: lightsteelblue;
+        }
+
+        paper-card {
+            margin: 0 10px;
+        }
+
+        app-header app-toolbar {
+            background-color: #35424b;
+            color: white;
+        }
+        
+        paper-card app-toolbar {
+            background-color: #d1dae0;
+        }
+        
+        .content-view {
+            margin: 8px 16px;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 40px;
+            background-size: 100% 100%;
+        }
+        
+        pb-view-type {
+            font-size: .75em;
+        }
+    </style>
+</head>
+
+<body>
+    <pb-document id="document1" path="test/kant_rvernunft_1781.TEI-P5.xml"></pb-document>
+    <pb-document id="document2" path="doc/documentation.xml"></pb-document>
+    
+    <app-header-layout>
+        <app-header slot="header" fixed condenses effects="waterfall">
+            <app-toolbar>
+                <div class="spacer">
+                    <img src="../resources/images/tei-publisher-logo-contrast-color.svg" class="logo">
+                </div>
+            </app-toolbar>
+        </app-header>
+        <existdb-column-layout column-widths="50% 50%">
+            <paper-card id="one">
+                <app-toolbar>
+                    <div main-title>
+                        <pb-view src="document1" odd="dta" xpath="//teiHeader/fileDesc/titleStmt/title">
+                            <pb-param name="header" value="short"/>
+                        </pb-view>
+                    </div>
+                    <pb-view-type target="#view1">Page View</pb-view-type>
+                    <pb-edit-xml src="document1" href="/exist/apps/eXide/">
+                        <paper-icon-button icon="icons:code" alt="Edit source"></paper-icon-button>
+                    </pb-edit-xml>
+                    <pb-zoom target="#view1" direction="in" icon="icons:zoom-in"></pb-zoom>
+                    <pb-zoom target="#view1" direction="out" icon="icons:zoom-out"></pb-zoom>
+                    <pb-navigation target="#view1" direction="backward" unit="page">
+                        <paper-icon-button icon="icons:chevron-left"></paper-icon-button>
+                    </pb-navigation>
+                    <pb-navigation target="#view1" direction="forward" unit="page">
+                        <paper-icon-button icon="icons:chevron-right"></paper-icon-button>
+                    </pb-navigation>
+                    <pb-progress target="#view1" indeterminate="indeterminate" bottom-item="bottom-item"/>
+                </app-toolbar>
+                <pb-view id="view1" src="document1" odd="dta" view="page" xpath="//text/body" class="content-view"></pb-view>
+            </paper-card>
+    
+            <paper-card id="two">
+                <app-toolbar>
+                    <div main-title>
+                        <pb-view src="document2" odd="docbook" xpath="/*/info/title">
+                        </pb-view>
+                    </div>
+                    <pb-zoom target="#view2" direction="in" icon="icons:zoom-in"></pb-zoom>
+                    <pb-zoom target="#view2" direction="out" icon="icons:zoom-out"></pb-zoom>
+                    <pb-navigation target="#view2" direction="backward" unit="page">
+                        <paper-icon-button icon="icons:chevron-left"></paper-icon-button>
+                    </pb-navigation>
+                    <pb-navigation target="#view2" direction="forward" unit="page">
+                        <paper-icon-button icon="icons:chevron-right"></paper-icon-button>
+                    </pb-navigation>
+                    <pb-progress target="#view2" indeterminate="indeterminate" bottom-item="bottom-item"/>
+                </app-toolbar>
+                <pb-view id="view2" src="document2" odd="docbook" view="div" class="content-view"></pb-view>
+            </paper-card>
+        </existdb-column-layout>
+    </app-header-layout>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-zoom">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <paper-icon-button icon="{{icon}}" on-click="_handleClick"></paper-icon-button>
+    </template>
+
+    <script>
+        /**
+         * `pb-zoom`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbZoom extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'pb-zoom';
+            }
+
+            static get properties() {
+                return {
+                    icon:{
+                        type: String,
+                        value: "icons:zoom-in"
+                    },
+                    direction: {
+                        type: String,
+                        value: 'next'
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready(){
+                super.ready();
+            }
+
+            _handleClick() {
+                this.emitTo('pb-zoom', {direction: this.direction});
+            }
+        }
+
+        window.customElements.define(PbZoom.is, PbZoom);
+    </script>
+</dom-module>

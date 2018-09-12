@@ -1,52 +1,53 @@
 <message type="{ type }">
-    <div ref="modal" class="modal fade" tabindex="-1" style="display: none;">
-        <div class="modal-dialog" style="z-index: 1080;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 ref="title" class="modal-title">Action</h4>
-                </div>
-                <div class="modal-body">
-                    <div ref="message" class="message"/>
-                </div>
-                <div class="modal-footer">
-                    <button if="{ this.type == 'message' }" type="submit" class="btn btn-primary" data-dismiss="modal">Close</button>
-                    <button if="{ this.type == 'confirm' }" type="submit" class="btn btn-primary" data-dismiss="modal" ref="confirm">Yes</button>
-                    <button if="{ this.type == 'confirm' }" type="submit" class="btn btn-primary" data-dismiss="modal">No</button>
-                </div>
-            </div>
+    <paper-dialog ref="modal">
+        <h2 ref="title">Action</h2>
+        <paper-dialog-scrollable ref="message" class="message"></paper-dialog-scrollable>
+        <div class="buttons">
+
+            <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus" if="{ this.type == 'message' }">Close</paper-button>
+            <paper-button ref="confirm" dialog-confirm="dialog-confirm" autofocus="autofocus" if="{ this.type == 'confirm' }">Yes</paper-button>
+            <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus" if="{ this.type == 'confirm' }">No</paper-button>
         </div>
-    </div>
+    </paper-dialog>
 
     <script>
         this.type = this.opts.type;
-        
+
         show(title, message) {
             this.type = 'message';
             message = message || '';
             this.update();
-            $(this.refs.title).html(title);
-            $(this.refs.message).html(message);
-            $(this.refs.modal).modal("show");
+            this.refs.title.innerHTML = title;
+            this.refs.message.innerHTML = message;
+
+            this.refs.modal.open();
         }
 
         confirm(title, message) {
             this.type = 'confirm';
             this.set(title, message);
             this.update();
-            $(this.refs.modal).modal("show");
+            this.refs.modal.open();
+
             return new Promise(function(resolve, reject) {
-                $(this.refs.confirm).one('click', resolve);
+                this.refs.confirm.addEventListener('click', resolve, { once: true });
             }.bind(this));
         }
-        
+
         set(title, message) {
-            $(this.refs.title).html(title);
-            $(this.refs.message).html(message);
+            this.refs.title.innerHTML = title;
+            this.refs.message.innerHTML = message;
+        }
+    </script>
+    <style>
+        paper-dialog {
+            min-width: 420px;
+            max-width: 640px;
+            min-height: 128px;
         }
 
-        this.on("mount", function() {
-            $(this.refs.modal).modal({show: false});
-        });
-    </script>
+        paper-dialog h2 {
+            background-color: #607D8B;
+        }
+    </style>
 </message>

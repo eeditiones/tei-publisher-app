@@ -31,7 +31,7 @@ declare function local:upload($root, $paths, $payloads) {
 
 let $name := request:get-uploaded-file-name("files[]")
 let $data := request:get-uploaded-file-data("files[]")
-let $root := request:get-parameter("root", "")
+let $root := request:get-parameter("root", ())
 return
     try {
         local:upload($root, $name, $data)

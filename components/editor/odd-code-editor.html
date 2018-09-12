@@ -1,0 +1,199 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/shadycss/apply-shim.html">
+<link rel="import" href="code-mirror-styles.html">
+<link rel="import" href="odd-codemirror-imports.html">
+
+
+<!--<link rel="stylesheet" href="addon/fold/foldgutter.css">-->
+<!--<link rel="stylesheet" href="addon/dialog/dialog.css">-->
+<!--<link rel="stylesheet" href="theme/monokai.css">-->
+<!--
+<script src="../../resources/scripts/vendor/codemirror/codemirror.js"></script>
+<script src="../../resources/scripts/vendor/codemirror/matchbrackets.js"></script>
+<script src="../../resources/scripts/vendor/codemirror/placeholder.js"></script>
+<script src="../../resources/scripts/vendor/codemirror/lint.js"></script>
+<script src="../../resources/scripts/vendor/codemirror/css.js"></script>
+<script src="../../resources/scripts/vendor/codemirror/xquery.js"></script>
+-->
+
+
+<!--<script src="addon/search/searchcursor.js"></script>-->
+<!--<script src="addon/search/search.js"></script>-->
+<!--<script src="addon/dialog/dialog.js"></script>-->
+<!--<script src="addon/edit/matchbrackets.js"></script>-->
+<!--<script src="addon/edit/closebrackets.js"></script>-->
+<!--<script src="addon/comment/comment.js"></script>-->
+<!--<script src="addon/wrap/hardwrap.js"></script>-->
+<!--<script src="addon/fold/foldcode.js"></script>-->
+<!--<script src="addon/fold/brace-fold.js"></script>-->
+<!--<script src="mode/javascript/javascript.js"></script>-->
+<!--<script src="keymap/sublime.js"></script>-->
+
+<!--
+@demo demo/index.html
+-->
+
+<dom-module id="odd-code-editor">
+    <template>
+        <style include="code-mirror-styles">
+            :host {
+                display: block;
+                width: 100%;
+                margin: 0;
+                position: relative;
+            }
+            #editorDiv {
+              position: relative;
+              top:0;
+              left:0;
+            }
+
+            #editorDiv, .CodeMirror {
+              width: 100%;
+              height: 100%;
+            }
+
+            .label {
+                @apply --paper-font-caption;
+            }
+        </style>
+        <iron-ajax id="lint" url="/exist/apps/tei-publisher/modules/editor.xql"
+                   handle-as="json" content-type="application/x-www-form-urlencoded"
+                   method="POST"></iron-ajax>
+
+        <div class="label">[[label]]</div>
+        <div id="editorDiv"></div>
+
+    </template>
+
+    <script>
+        class OddCodeEditor extends Polymer.Element {
+
+            static get is() {
+                return 'odd-code-editor';
+            }
+
+            static get properties() {
+                return {
+                    _editor: {
+                        type: Object
+                    },
+                    code: {
+                        type: String,
+                        value: '',
+                        observer: 'setSource',
+                        notify:true
+                    },
+                    mode: {
+                        type: String,
+                        value: "javascript"
+                    },
+
+                    tabSize: {
+                        type: Number,
+                        value: 2
+                    },
+                    label:{
+                        type: String
+                    }
+                }
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready(){
+                super.ready();
+                if(this.code){
+                    let code = this.code;
+                    this.code = code.trim();
+                }
+                const cm = CodeMirror(this.$.editorDiv, {
+                    value: this.code || '',
+                    mode: this.mode,
+                    lineNumbers: false,
+                    lineWrapping: true,
+                    autofocus: false,
+                    theme: "ttcn",
+                    matchBrackets: true,
+                    placeholder: this.placeholder || '[Empty]',
+                    gutters: ["CodeMirror-lint-markers"],
+                    lint: true
+                });
+
+                cm.on('change',function(e){
+                    this.code = cm.getValue();
+                }.bind(this));
+
+                this._editor = cm;
+                if(this.mode == 'xquery'){
+                    CodeMirror.registerHelper("lint", "xquery", this.lintXQuery.bind(this));
+                }
+
+            }
+
+            lintXQuery(text) {
+                console.log('lintXQuery ', text);
+
+                if (!text) {
+                    return [];
+                }
+                return new Promise(function(resolve, reject) {
+                    var params = {
+                        action: "lint",
+                        code: text
+                    };
+                    this.$.lint.params = null;
+                    this.$.lint.body = params;
+                    var request = this.$.lint.generateRequest();
+                    request.completes.then(function(req) {
+                        const data = req.response;
+                        if (data.status === 'fail') {
+                            resolve([{
+                                message: data.message,
+                                severity: "error",
+                                from: CodeMirror.Pos(data.line - 1, data.column),
+                                to: CodeMirror.Pos(data.line - 1, data.column + 1)
+                            }]);
+                        } else {
+                            resolve([]);
+                        }
+                    }.bind(this));
+                }.bind(this));
+            }
+
+            getSource() {
+                return this._editor.getValue();
+            }
+
+            setSource(newval) {
+                if (!this._editor || newval === this._editor.getValue()) {
+                    return;
+                }
+                const val = newval || ''
+                this._editor.setValue(val);
+                this._editor.refresh();
+            }
+
+            refresh () {
+              if (!this._editor) return;
+              this._editor.refresh();
+            }
+
+        }
+
+        window.customElements.define(OddCodeEditor.is, OddCodeEditor);
+
+    </script>
+</dom-module>

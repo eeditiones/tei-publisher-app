@@ -1,0 +1,61 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-note-section">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <slot></slot>
+        <div id="notes"></div>
+    </template>
+
+    <script>
+        /**
+         * `pb-note-section`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbNoteSection extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'pb-note-section';
+            }
+
+            static get properties() {
+                return {
+                    target: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+
+                this.subscribeTo('pb-update', this._update.bind(this));
+                this.subscribeTo('pb-start-update', this._clear.bind(this));
+            }
+
+            ready() {
+                super.ready();
+            }
+
+            _update(ev) {
+                if (ev.detail.data.footnotes) {
+                    this.$.notes.innerHTML = this.$.notes.innerHTML + ev.detail.data.footnotes;
+                }
+            }
+
+            _clear() {
+                this.$.notes.innerHTML = "";
+            }
+        }
+
+        window.customElements.define(PbNoteSection.is, PbNoteSection);
+    </script>
+</dom-module>

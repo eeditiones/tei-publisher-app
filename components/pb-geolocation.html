@@ -1,0 +1,93 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-highlight.html">
+
+<dom-module id="pb-geolocation">
+    <template strip-whitespace>
+        <style>
+            :host {
+                display: inline;
+            }
+
+            @keyframes keyFrameBackgroundColorIn {
+                0% {
+                    background-color: inherit;
+                }
+                100% {
+                    background-color: var(--pb-highlight-color, #F9E976);
+                }
+            }
+
+            #content {
+                display: inline;
+
+                @apply --pb-highlight;
+            }
+
+            .highlight-on {
+                background-color: var(--pb-highlight-color, #F9E976);
+                animation-name: keyFrameBackgroundColorIn;
+                animation-duration: 500ms;
+                animation-iteration-count: 1;
+                animation-timing-function: ease-in;
+
+            }
+
+            .highlight-off {
+                background-color: inherit;
+            }
+        </style>
+
+        <span id="content"><slot></slot></span>
+    </template>
+
+    <script>
+        /**
+         * `pb-geolocation`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbGeolocation extends PbHighlight {
+            static get is() {
+                return 'pb-geolocation';
+            }
+
+            static get properties() {
+                return {
+                    longitude: {
+                        type: Number
+                    },
+                    latitude: {
+                        type: Number
+                    },
+                    label: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+
+                this.addEventListener('mouseover', function() {
+                    this.emitTo('pb-geolocation', {
+                        coordinates: {
+                            latitude: this.latitude,
+                            longitude: this.longitude
+                        },
+                        label: this.label
+                    });
+                }.bind(this));
+            }
+
+            ready(){
+                super.ready();
+            }
+
+        }
+
+        window.customElements.define(PbGeolocation.is, PbGeolocation);
+    </script>
+</dom-module>

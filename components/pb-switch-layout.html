@@ -1,0 +1,91 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-switch-layout">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            paper-dropdown-menu{
+                --paper-dropdown-menu: {
+                    color: var(--pb-lang-item-color, --paper-grey-100);
+                };
+
+                --paper-input-container-input:{
+                    color: var(--pb-lang-input-color, black);
+                };
+                --paper-input-container-label:{
+                    color:var(--paper-grey-100);
+                }
+            }
+
+        </style>
+
+        <paper-dropdown-menu id="menu" label="[[label]]">
+            <paper-listbox slot="dropdown-content" class="dropdown-content" selected="{{layout}}" attr-for-selected="value">
+                <slot></slot>
+            </paper-listbox>
+        </paper-dropdown-menu>
+    </template>
+
+    <script>
+        /**
+         * `pb-switch-layout`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbSwitchLayout extends Polymer.Element {
+            static get is() {
+                return 'pb-switch-layout';
+            }
+
+            static get properties() {
+                return {
+                    label: {
+                        type: String,
+                        value: 'Language'
+                    },
+                    layout: {
+                        type: String,
+                        observer: '_changed',
+                        value: "translation"
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready(){
+                super.ready();
+            }
+
+            _changed(newVal, oldVal) {
+                if (typeof oldVal !== 'undefined' && newVal !== oldVal) {
+                    const loc = window.location;
+                    const layout = newVal;
+                    let search;
+                    if (loc.search) {
+                        search = loc.search.replace(/\&?layout=[\w]+/, '');
+                        if (search == '?') {
+                            search = search + 'layout=' + layout;
+                        } else {
+                            search = search + '&layout=' + layout;
+                        }
+                    } else {
+                        search = '?layout=' + layout;
+                    }
+                    loc.replace(loc.protocol + '//' + loc.hostname + ':' + loc.port + loc.pathname + search + loc.hash);
+                }
+            }
+
+        }
+
+        window.customElements.define(PbSwitchLayout.is, PbSwitchLayout);
+    </script>
+</dom-module>

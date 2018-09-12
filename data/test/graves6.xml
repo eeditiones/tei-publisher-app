@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?teipublisher odd="graves.odd" template="letter.html"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
     <teiHeader>
         <fileDesc>
@@ -663,7 +664,7 @@
                 <salute>Love</salute>
                 <name ref="#GravesRobert" type="person">Father</name>
             </closer>
-            <note place="margin" resp="#GravesBeryl">
+            <postscript resp="#GravesBeryl">
                 <p>Please get 2 photos (passport x4cm large) and send them to <name
                         ref="#PritchardEnid" type="person">Enid</name> for your <name
                         ref="#Yugoslavia" type="place">Yug</name> visa. Better get some extra copies
@@ -672,8 +673,8 @@
                         >Barcelona</name>-<name ref="#Palma" type="place">Palma</name> crashed
                         <date>Friday night</date> at <name ref="#Puigpunent" type="place"
                         >Puigpunent</name>. Only two passengers aboard.</p>
-            </note>
-            <note place="margin" resp="#GravesBeryl">
+            </postscript>
+            <postscript resp="#GravesBeryl">
                 <p>STOP PRESS. Have changed our plans due to a letter from <name
                         ref="#NicholsonJenny" type="person">Jenny</name> who begs us to spend
                     Christmas with her in <name ref="#Rome" type="place">Rome</name>. So get the
@@ -687,7 +688,7 @@
                         when="1957-12-19">19th</date> or <date when="1957-12-20">20th</date>. Hope
                     you like this idea as much as we do. Love, <name ref="#GravesBeryl"
                         type="person">Mother</name>. </p>
-            </note>
+            </postscript>
         </body>
     </text>
 </TEI>

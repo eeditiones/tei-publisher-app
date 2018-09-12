@@ -1,0 +1,74 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<!--
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+-->
+
+<dom-module id="pb-navigation">
+    <template>
+        <a id="button" on-click="_handleClick"><slot></slot></a>
+    </template>
+
+    <script>
+        /**
+         * `pb-navigation`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbNavigation extends Polymer.mixinBehaviors([Polymer.IronA11yKeysBehavior], PbMixin(Polymer.Element)) {
+            static get is() {
+                return 'pb-navigation';
+            }
+
+            static get properties() {
+                return {
+                    direction: {
+                        type: String,
+                        value: 'forward'
+                    },
+                    keyboard: {
+                        type: String
+                    },
+                    keyEventTarget: {
+                        type: Object,
+                        value: function() {
+                            return document.body;
+                        }
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready(){
+                super.ready();
+
+                this.subscribeTo('pb-update', this._update.bind(this));
+
+                if (this.keyboard) {
+                    this.addOwnKeyBinding(this.keyboard, '_handleClick');
+                }
+            }
+
+            _handleClick() {
+                this.emitTo('pb-navigate', { direction: this.direction });
+            }
+
+            _update(ev) {
+                if (this.direction === 'forward') {
+                    this.$.button.disabled = !ev.detail.data.next;
+                } else {
+                    this.$.button.disabled = !ev.detail.data.previous;
+                }
+            }
+        }
+
+        window.customElements.define(PbNavigation.is, PbNavigation);
+    </script>
+</dom-module>

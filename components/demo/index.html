@@ -1,0 +1,38 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+
+    <title>existdb-document demo</title>
+
+    <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+
+    <link rel="import" href="../bower_components/iron-demo-helpers/demo-pages-shared-styles.html"/>
+    <link rel="import" href="../bower_components/iron-demo-helpers/demo-snippet.html"/>
+    <link rel="import" href="../bower_components/app-layout/app-layout.html">
+    <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html"/>
+    <link rel="import" href="../pb-document.html"/>
+    <link rel="import" href="../pb-view.html"/>
+    <link rel="import" href="../pb-navigation.html"/>
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+      </style>
+    </custom-style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic pb-document demo</h3>
+      <demo-snippet>
+        <template>
+            <app-toolbar>
+                <pb-navigation target="view1" direction="backward" unit="page" icon="icons:chevron-left"></pb-navigation>
+                <pb-navigation target="view1" direction="forward" unit="page" icon="icons:chevron-right"></pb-navigation>
+            </app-toolbar>
+            <pb-document id="document1" path="test/kant_rvernunft_1781.TEI-P5.xml"></pb-document>
+            <pb-view id="view1" src="document1" odd="mishnah.odd" xpath="//text/body"></pb-view>
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>

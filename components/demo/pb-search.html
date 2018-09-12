@@ -1,0 +1,25 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+
+    <title>existdb-document demo</title>
+
+    <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="../pb-search.html"/>
+    <style>
+      .myclass{
+        background: red;
+      }
+      paper-input{
+        background:blue;
+      }
+    </style>
+  </head>
+  <body>
+      <pb-search action="myaction"
+                 value="myVal"
+                 place-holder="i18n(search-query-attr)">
+      </pb-search>
+  </body>
+</html>

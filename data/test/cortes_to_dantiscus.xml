@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?teipublisher template="facsimile.html" odd="dantiscus.odd" view="page"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="CIDTC5772">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>Hernán CORTÉS to Ioannes DANTISCUS, Madrid [1529]-09-11 </title>
+            <title type="s">Corpus of Texts and Correspondence of Ioannes Dantiscus</title>
+            <editor>Anna Skolimowska et al.</editor>
+            <respStmt>
+               <resp>TEI transcription</resp>
+               <persName>Jerzy Axer</persName>
+            </respStmt>
+            <respStmt>
+               <resp>initial TEI transcription</resp>
+               <persName>Anna Skolimowska</persName>
+            </respStmt>
+            <respStmt>
+               <resp>TEI encoding</resp>
+               <persName>Magdalena Turska</persName>
+            </respStmt>
+         </titleStmt>
+         <publicationStmt>
+            <publisher>Laboratory for Source Editing and Digital Humanities</publisher>
+            <pubPlace>Warsaw</pubPlace>
+            <date>2010</date>
+         </publicationStmt>
+         <sourceDesc>
+            <msDesc type="fair-copy">
+               <msIdentifier>
+                  <institution>B. Ossol. </institution>
+                  <idno>12034/III, p. 79-82</idno>
+               </msIdentifier>
+               <msContents>
+                  <p/>
+               </msContents>
+               <physDesc>
+                  <p>fair copy; autograph; a seal next to the address</p>
+               </physDesc>
+            </msDesc>
+         </sourceDesc>
+      </fileDesc>
+      <profileDesc>
+         <particDesc>
+            <listPerson>
+               <person xml:id="IDPe1">
+                  <persName>Ioannes Dantiscus</persName>
+                  <note/>
+               </person>
+               <person xml:id="IDPe968">
+                  <persName>Heinrich Ehinger</persName>
+                  <note> (<persName>Enrrico Eynger</persName>) (†ca. 1537); member of the Ehinger
+                     family of German merchants, linked primarily to the great banking and trade
+                     enterprise of the Welsers, also cooperated with Italian merchants. Together
+                     with other associates of the Welsers (Hieronymus Sailer, Albrecht Cuon, Georg
+                     Ehinger), he dealt with overseas trade as well as the colonization of
+                     Venezuela. Also involved in commerce were Heinrich’s brothers: Ulrich, Georg
+                     and Johannsen, while Sebastian was a clergyman. Ulrich (d. 1537), like
+                     Heinrich, was involved in commerce in Spain, and was a member of Emperor
+                     Charles V’s council. Johannsen (d. 1546) was the Welsers’ factor in Memmingen
+                     (NDB 4 Ehinger, p. 344-345). </note>
+               </person>
+               <person xml:id="IDPe156">
+                  <persName>Hieronymus Sailer</persName>
+                  <note> (<persName>Hieronymus Seiler</persName>) (1495 – 1559-06-15); in 1524 agent
+                     of the Welsers' company in Spain, and later, from 1528, in Venezuela. After his
+                     return to Europe, he dealt with the Welsers' affairs at the Spanish court, in
+                     1540 he became their agent in Antwerp. Son-in-law of Bartholomäus Welser (;
+                     POCIECHA 4, p. 260; NDB, Bd. 22, p. 355-356). </note>
+               </person>
+               <person xml:id="IDPe30">
+                  <persName>Charles V of Habsburg</persName>
+                  <note> (1500-02-24 – 1558-09-21), from 1506 ruler of the Burgundian territories
+                     inherited from his father Philip of Habsburg (regency by his grandfather
+                     Emperor Maximilian I untill 1515, abdicated 1556), from 1516 King of Spain
+                     (abdicated 1556), 1519-1530 King of the Romans, 1519, Holy Roman Emperor of the
+                     German Nation (elected 1519, crowned 1530, abdicated 1556); son of Philip I the
+                     Handsome and Joanna the Mad of Castile. </note>
+               </person>
+               <person xml:id="IDPe437">
+                   <persName>Hernán Cortés de Monroy e Pizarro</persName>
+                   <note>(1485 – 1547-12-02); Spanish conquistador and Dantiscus' friend</note>
+               </person>
+            </listPerson>
+
+         </particDesc>
+
+
+         <settingDesc>
+            <listPlace>
+               <place xml:id="IDPl562">
+                  <placeName>Poland</placeName>
+                  <location>
+                     <geo/>
+                  </location>
+                  <note>(<placeName>Kingdom of Poland</placeName>,
+                     <placeName>Polonia</placeName>).</note>
+               </place>
+               <place xml:id="IDPl726">
+                  <placeName>America</placeName>
+                  <location>
+                     <geo/>
+                  </location>
+                  <note>, the continent.</note>
+               </place>
+               <place xml:id="IDPl45">
+                  <placeName>Madrid</placeName>
+                  <location>
+                     <geo/>
+                  </location>
+                  <note> (<placeName>Madritum</placeName>, <placeName>Maioretum</placeName>,
+                        <placeName>Madrillae</placeName>), city in central Spain, Castile, on the
+                        <placeName>Manzanares</placeName> river, from 1561 capital of Spain.</note>
+               </place>
+            </listPlace>
+         </settingDesc>
+         <correspDesc>
+            <correspAction type="sent">
+               <persName ref="#IDPe437">Hernán CORTÉS</persName>
+               <placeName ref="#IDPl45">Madrid</placeName>
+               <date when="1438-01-13">January 13 [1438]</date>
+            </correspAction>
+         </correspDesc>
+      </profileDesc>
+      <revisionDesc>
+         <listChange>
+            <change/>
+         </listChange>
+      </revisionDesc>
+   </teiHeader>
+
+   <text xml:lang="es">
+      <front>
+         <div>
+            <p>
+               <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp82.jpg"/>
+               <seg type="address"> Al muy Magnifico Señor <name type="person" ref="#IDPe1">Johanes
+                     Dantiscus</name> enbajador de <name type="place" ref="#IDPl562">Polonia</name>
+                  en la corte del <rs type="person" ref="#IDPe30">enperador</rs> nuestro señor.
+               </seg>
+            </p>
+         </div>
+      </front>
+      <body>
+         <div>
+            <p>
+               <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp79.jpg"/>
+               <seg type="salutation"> Muy Magnifico Señor </seg>
+            </p>
+            <p>
+               <seg type="incipit"> No quisiera que <choice>
+                     <expan>V<ex>uestra</ex>
+                            </expan>
+                     <abbr>V.</abbr>
+                  </choice>
+                  <choice>
+                     <expan>S<ex>eñoria</ex>
+                            </expan>
+                     <abbr>S.</abbr>
+                  </choice> fuera el primero que comencara</seg> por mucho aunque lo pudiera aver
+               hecho muy bien sin perjuyzio de mi honrra por averse co<choice>
+                  <corr type="lemma">n</corr>
+                  <sic/>
+               </choice>fichado de alla mensajero primero que de aca. Mas tanbien digo que no
+               querria ganar tanta honrra que me dexase de escrivir porque seria muy mayor el deseo
+               de saber de su muy magnifica persona y la perdida del rregozijo de sus cartas y el
+               dolor de pensar que ya no se acuerda de sus seruvidores. Mas si <foreign xml:lang="la">amor est doctor amoris</foreign>, yo estoy desto satisfecho. </p>
+            <p> Yo estoy muy bueno ytem su servidor <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp80.jpg"/> como sienpre de mi corason y
+               pretesto que sienpre terne este cuydado de escrivir a <choice>
+                  <expan>V<ex>uestra</ex>
+                        </expan>
+                  <abbr>V.</abbr>
+               </choice>
+               <choice>
+                  <expan>S<ex>eñoria</ex>
+                        </expan>
+                  <abbr>S.</abbr>
+               </choice> desde aqui y desde la <name type="place" ref="#IDPl726">Nueva España</name>
+               y de mas adelante si pasare. <choice>
+                  <expan>V<ex>uestra</ex>
+                        </expan>
+                  <abbr>V.</abbr>
+               </choice>
+               <choice>
+                  <expan>S<ex>eñoria</ex>
+                        </expan>
+                  <abbr>S.</abbr>
+               </choice> me haga merced de pagarme en la misma moneda. Y sea mas largo que yo
+               escrivo a lo menos agora porque quando este donde aya que escrivir yo lo hare y tanto
+               que antes de trabajo que no me rreprehenda de acto y de alla sienpre avra que
+               escrivir. Quando me escriviere venga dirigido a miçer <name type="person" ref="#IDPe156">Geronimo</name> y a miçer <name type="person" ref="#IDPe968">Enrrique</name> porque ellos por me fazer merced me encaminaran los despachos y
+               asi va este por su mano.</p>
+            <p> Nuestro Señor guarde y prospere la muy magnifica persona y esta<choice>
+                  <corr type="lemma">do</corr>
+                  <sic/>
+               </choice> de <choice>
+                  <expan>V<ex>uestra</ex>
+                        </expan>
+                  <abbr>V.</abbr>
+               </choice>
+               <choice>
+                  <expan>S<ex>eñoria</ex>
+                        </expan>
+                  <abbr>S.</abbr>
+               </choice> como desea.</p>
+            <closer> De <name type="place" ref="#IDPl45">Madrid</name>, XI de setienbre. </closer>
+            <closer>
+               <salute>Servidor de a <choice>
+                     <expan>V<ex>uest</ex>ra</expan>
+                     <abbr>V.</abbr>
+                  </choice> Señoria
+                  <name type="person" ref="#IDPe437">Hernando Cortes</name>
+               </salute>
+            </closer>
+            <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp81.jpg"/>
+            <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp82.jpg"/>
+         </div>
+      </body>
+   </text>
+</TEI>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="pages:app-root">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+    <link rel="shortcut icon" type="image/x-icon" href="../resources/images/favicon.ico"/>
+    <link rel="shortcut icon" type="image/png" href="../resources/images/favicon-16.png" sizes="16x16"/>
+    <link rel="shortcut icon" type="image/png" href="../resources/images/favicon-24.png" sizes="24x24"/>
+    <link rel="shortcut icon" type="image/png" href="../resources/images/favicon-32.png" sizes="32x32"/>
+    <link rel="shortcut icon" type="image/png" href="../resources/images/favicon-64.png" sizes="64x64"/>
+
+    <title data-template="config:app-title"/>
+    <link rel="stylesheet" type="text/css" href="../resources/fonts/font.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald"/>
+    <script src="bower_components/webcomponentsjs/webcomponents-loader.js"/>
+    <script src="bower_components/js-cookie/src/js.cookie.js"/>
+    <link rel="import" href="dependencies-dev.html"/>
+    <custom-style>
+        <style include="pb-common-styles">
+            main {
+                margin: 0 20px 0 20px;
+            }
+
+            .tp-title {
+                font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                font-size: 36px;
+                font-weight: 400;
+
+            }
+
+            .tp-title span {
+                color: #9e9e9e;
+                font-size: 26px;
+                margin-top: 12px;
+            }
+
+            pb-results {
+                overflow: scroll;
+                margin: 0 20px;
+                height: calc(100vh - 128px);
+            }
+
+            .panels {
+                display: flex;
+                flex-direction: row;
+                margin-bottom: 40px;
+            }
+
+            .panels .documents {
+                flex: 2 auto;
+                margin-right: 20px;
+
+                --paper-card-header: {
+                    background-color: #d1dae0;
+                };
+
+                --paper-card-header-text: {
+                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                    font-size: 16px;
+                    font-weight: 400;
+                };
+            }
+
+            .panels aside {
+                flex: 1 0 auto;
+            }
+
+            aside {
+                display: flex;
+                flex-direction: column;
+                max-width: 460px;
+            }
+
+            aside .odds, aside .upload {
+                --paper-card-header: {
+                    background-color: #607D8B;
+                };
+
+                --paper-card-header-text: {
+                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                    font-size: 16px;
+                    font-weight: 400;
+                    color: white;
+                };
+            }
+
+            aside .upload {
+                margin-top: 20px;
+            }
+
+            .documents ul {
+                list-style: none;
+            }
+
+            .documents app-toolbar {
+                @apply --layout-start-justified;
+                font-size: 14px;
+                margin-top: 10px;
+                padding-left: 0;
+            }
+
+            .documents div {
+                margin: 0;
+            }
+
+            .documents a, .documents a:visited {
+                color: #303F9F;
+                text-decoration: none;
+            }
+
+            .documents li {
+                display: flex;
+                flex-direction: row;
+                margin-bottom: 10px;
+            }
+
+            .documents .document-select {
+                flex: 0 0;
+                margin-right: 20px;
+            }
+            h1, h2, h3, h4, h5, h6 {
+                font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                font-weight: 400 !important;
+            }
+
+            h5 {
+                font-size: 16px;
+                margin: 0;
+            }
+        </style>
+    </custom-style>
+</head>
+
+<body unresolved="unresolved" data-template="i18n:translate" data-catalogues="../resources/i18n">
+    <app-header-layout>
+        <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+            <app-toolbar class="menubar">
+                <a href="$app/index.html">
+                    <img src="../resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
+                </a>
+                <a href="$app/index.html">Start</a>
+                <paper-menu-button>
+                    <a href="#" slot="dropdown-trigger">
+                        <i18n:text key="documentation"/>
+                    </a>
+                    <paper-listbox slot="dropdown-content">
+                        <paper-item>
+                            <a href="$app/doc/documentation.xml?odd=docbook.odd">
+                                <i18n:text key="documentation"/>
+                            </a>
+                        </paper-item>
+                        <paper-item>
+                            <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
+                        </paper-item>
+                    </paper-listbox>
+                </paper-menu-button>
+                <pb-restricted login="login" group="tei">
+                    <paper-menu-button>
+                        <a href="#" slot="dropdown-trigger">
+                            <i18n:text key="admin"/>
+                        </a>
+                        <paper-listbox slot="dropdown-content">
+                            <paper-item>
+                                <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/lib/regenerate.xql" dialog="messageDialog">
+                                    <i18n:text key="recompile"/>
+                                </pb-ajax>
+                            </paper-item>
+                            <paper-item>
+                                <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/index.xql" dialog="messageDialog">
+                                    <i18n:text key="metadata-update"/>
+                                </pb-ajax>
+                            </paper-item>
+                            <paper-item>
+                                <a href="#" data-template="pages:edit-odd-link" target="_new"><i18n:text key="edit-odd"/></a>
+                            </paper-item>
+                            <paper-item><a href="$app/manage.html"><i18n:text key="app-generator"/></a></paper-item>
+                        </paper-listbox>
+                    </paper-menu-button>
+                </pb-restricted>
+                <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
+                    <img src="../resources/images/wm_no_bg.svg" height="20"/>
+                </a>
+
+                <!-- Search input -->
+                <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
+                           place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
+
+                <!-- language selector -->
+                <pb-lang name="lang" label="Language" data-template="pages:current-language">
+                    <paper-item>en</paper-item>
+                    <paper-item>de</paper-item>
+                    <paper-item>fr</paper-item>
+                    <paper-item>gr</paper-item>
+                    <paper-item>pl</paper-item>
+                </pb-lang>
+                <pb-login id="login" login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user"
+                          group="tei">
+                    <iron-icon slot="icon" icon="account-circle"></iron-icon>
+                </pb-login>
+                <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
+            </app-toolbar>
+        </app-header>
+
+        <main>
+            <section>
+                <h1 class="tp-title">TEI Publisher <span>The Instant Publishing Toolbox</span></h1>
+                <p>Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD, then generate your own, standalone app (using the
+                    <a href="generate.html">App Generator</a>) covering all core features like browsing, search and PDF generation.</p>
+                <p class="well well-sm">
+                    <span class="bold">
+                    <a href="#loginDialog" data-toggle="modal">Log in</a>
+                    to upload files or see administrative functions (default user: "tei", password: "simple")</span>.</p>
+            </section>
+            <section class="panels">
+                <paper-card class="documents" heading="i18n(documents)">
+                    <div class="card-content">
+                        <pb-paginate id="paginate" per-page="10" range="5" found-label="i18n(browsing)"></pb-paginate>
+                        <pb-browse-docs id="document-loader" url="templates/documents.html" container="#document-list" auto="auto"></pb-browse-docs>
+                        <div id="document-list"></div>
+                    </div>
+                </paper-card>
+                <aside>
+                    <paper-card class="odds" heading="i18n(odd-data)">
+                        <div class="card-content">
+                            <pb-manage-odds id="manage-odds" target="document-loader" login="login"></pb-manage-odds>
+                        </div>
+                    </paper-card>
+                    <paper-card class="upload" heading="i18n(upload)">
+                        <div class="card-content">
+                            <pb-upload id="upload" target="test"></pb-upload>
+                        </div>
+                    </paper-card>
+                </aside>
+            </section>
+        </main>
+
+    </app-header-layout>
+    <paper-dialog id="downloadDialog">
+        <h2>
+            <i18n:text key="generating-file">Generating File...</i18n:text>
+        </h2>
+        <paper-dialog-scrollable>
+            <i18n:text key="download-message"/>
+        </paper-dialog-scrollable>
+        <div class="buttons">
+            <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                <i18n:text key="close">Close</i18n:text>
+            </paper-button>
+        </div>
+    </paper-dialog>
+    <paper-dialog id="messageDialog" modal="modal">
+        <h2>Action</h2>
+        <paper-dialog-scrollable/>
+        <div class="buttons">
+            <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                <i18n:text key="close">Close</i18n:text>
+            </paper-button>
+        </div>
+    </paper-dialog>
+    <paper-dialog id="errorDialog">
+        <h2>Error</h2>
+        <paper-dialog-scrollable/>
+        <div class="buttons">
+            <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                <i18n:text key="close">Close</i18n:text>
+            </paper-button>
+        </div>
+    </paper-dialog>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/custom-style.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../bower_components/paper-styles/color.html">
+
+<dom-module id="existdb-document">
+    <template>
+        <style>
+            :host {
+                width: 100%;
+                display: block;
+                padding: 0;
+                margin: 0;
+            }
+            div.app-grid{
+                background: var(--paper-blue-500);
+                display: grid;
+                grid-template-columns: var(--app-column-widths);
+                padding: 0;
+                margin:0;
+            }
+        </style>
+        <iron-ajax id="loadDocument"
+                   verbose with-credentials
+                   method="get"
+                   handle-as="json"
+                   on-response="_handleDocument"
+                   url="/exist/apps/"
+                   params="{{params}}"
+                   on-error="_handleError"></iron-ajax>
+
+        <div id="wrapper"></div>
+    </template>
+
+    <script>
+        /**
+         * `existdb-document`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class ExistdbDocument extends Polymer.Element {
+            static get is() {
+                return 'existdb-document';
+            }
+
+            static get properties() {
+                return {
+                    /* params prop holds the url params for iron-ajax */
+                    params:{
+                        type: Array,
+                        value:[]
+                    },
+                    columnWidths: {
+                        type:String,
+                        notify:true,
+                        reflectToAttribute:true,
+                        observer:'_handleColumnChange'
+                    }
+
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            _handleDocument() {
+
+            }
+
+            _handleError(){
+
+            }
+        }
+
+        window.customElements.define(ExistdbDocument.is, ExistdbDocument);
+    </script>
+</dom-module>

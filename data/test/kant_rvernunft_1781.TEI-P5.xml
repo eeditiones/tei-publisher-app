@@ -205,12 +205,6 @@
     </teiHeader>
     <text>
         <front>
-            <pb facs="#f0001"/>
-            <pb facs="#f0002"/>
-            <pb facs="#f0003"/>
-            <pb facs="#f0004"/>
-            <pb facs="#f0005"/>
-            <pb facs="#f0006"/>
             <pb facs="#f0007"/>
             <titlePage type="main">
                 <docTitle>
@@ -247,7 +241,6 @@
                 </docImprint>
             </titlePage>
             <lb/>
-            <pb facs="#f0008"/>
             <pb facs="#f0009"/>
             <div type="dedication">
                 <p rendition="#c">Sr. Excellenz,<lb/>

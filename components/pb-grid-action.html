@@ -1,0 +1,66 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-grid-action">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <a on-click="_click"><slot></slot></a>
+    </template>
+
+    <script>
+        /**
+         * `pb-grid-action`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbGridAction extends Polymer.Element {
+            static get is() {
+                return 'pb-grid-action';
+            }
+
+            static get properties() {
+                return {
+                    action: {
+                        type: String,
+                        value: 'add'
+                    },
+                    grid: {
+                        type: String
+                    },
+                    initial: {
+                        type: Number
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready(){
+                super.ready();
+            }
+
+            _click() {
+                const grid = document.querySelector(this.grid);
+                if (!(grid && grid.addPanel)) {
+                    return console.error('<pb-grid-action> grid not found: %s', this.grid);
+                }
+                if (this.action === 'add') {
+                    grid.addPanel(this.initial);
+                } else {
+                    grid.removePanel(this.parentNode);
+                }
+            }
+        }
+
+        window.customElements.define(PbGridAction.is, PbGridAction);
+    </script>
+</dom-module>

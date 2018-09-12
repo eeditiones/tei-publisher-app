@@ -41,7 +41,7 @@ declare function model:transform($options as map(*), $input as node()*) {
     
         let $output := model:apply($config, $input)
         return
-            $output
+            html:finish($config, $output)
     )
 };
 
@@ -81,15 +81,25 @@ let $node :=
                     case element(affiliation) return
                         html:inline($config, ., ("tei-affiliation"), (', ', .))
                     case element(title) return
-                        if (parent::note) then
+                        if ($parameters?mode='breadcrumbs') then
                             html:inline($config, ., ("tei-title1"), .)
                         else
-                            if (parent::info and $parameters?header='short') then
-                                html:link($config, ., ("tei-title2"), ., $parameters?doc)
+                            if (parent::note) then
+                                html:inline($config, ., ("tei-title2"), .)
                             else
-                                html:heading($config, ., ("tei-title3", "title"), ., count(ancestor::section))
+                                if (parent::info and $parameters?header='short') then
+                                    html:link($config, ., ("tei-title3"), ., $parameters?doc)
+                                else
+                                    html:heading($config, ., ("tei-title4", "title"), ., count(ancestor::section))
                     case element(section) return
-                        html:block($config, ., ("tei-section"), .)
+                        if ($parameters?mode='breadcrumbs') then
+                            (
+                                html:inline($config, ., ("tei-section1"), $parameters?root/ancestor::section/title),
+                                html:inline($config, ., ("tei-section2"), title)
+                            )
+
+                        else
+                            html:block($config, ., ("tei-section3"), .)
                     case element(para) return
                         html:paragraph($config, ., ("tei-para"), .)
                     case element(emphasis) return
@@ -152,9 +162,9 @@ let $node :=
                         if (parent::cell|parent::para|parent::ab) then
                             html:inline($config, ., ("tei-programlisting1", "code"), .)
                         else
-                            ext-html:code($config, ., ("tei-programlisting2"), ., @language)
+                            html:webcomponent($config, ., ("tei-programlisting2"), ., 'pb-code-highlight', map {"lang": @language})
                     case element(synopsis) return
-                        ext-html:code($config, ., ("tei-synopsis2"), ., @language)
+                        html:webcomponent($config, ., ("tei-synopsis2"), ., 'pb-code-highlight', map {"lang": @language})
                     case element(example) return
                         html:figure($config, ., ("tei-example"), *[not(self::title|self::info)], info/title/node()|title/node())
                     case element(function) return
@@ -166,7 +176,8 @@ let $node :=
                     case element(filename) return
                         html:inline($config, ., ("tei-filename", "code"), .)
                     case element(note) return
-                        ext-html:panel($config, ., ("tei-note", "panel-default"), *[not(self::title)], title)
+                        (: More than one model without predicate found for ident note. Choosing first one. :)
+                        html:webcomponent($config, ., ("tei-note1", "note"), *[not(self::title)], 'paper-card', map {"heading": title})
                     case element(tag) return
                         html:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return

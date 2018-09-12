@@ -50,7 +50,7 @@ declare function nav:get-section-for-node($config as map(*), $node as element())
     nav:dispatch($config, "get-section-for-node", [$config, $node])
 };
 
-declare function nav:get-section($config as map(*), $doc as document-node()) {
+declare function nav:get-section($config as map(*), $doc as node()) {
     nav:dispatch($config, "get-section", [$config, $doc])
 };
 
@@ -93,4 +93,8 @@ declare function nav:output-footnotes($footnotes as element()*) {
         }
         </ol>
     </div>
+};
+
+declare function nav:index($config as map(*), $root) {
+    nav:dispatch($config, "index", [$root])
 };

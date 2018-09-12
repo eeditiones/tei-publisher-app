@@ -1,0 +1,467 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<!--
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="pb-alternate.html">
+-->
+
+<dom-module id="pb-view">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            .columns {
+                display: grid;
+                grid-template-columns: 50% 50%;
+                grid-column-gap: 10px;
+            }
+
+            .margin-note {
+                display: none;
+            }
+
+            @media (min-width: 769px) {
+                .content.margin-right {
+                    margin-right: 200px;
+                }
+
+                .margin-note {
+                    background: rgba(153, 153, 153, 0.2);
+                    display: block;
+                    font-size: small;
+                    margin-right: -200px;
+                    margin-bottom: 5px;
+                    padding: 5px 0;
+                    float: right;
+                    clear: both;
+                    width: 180px;
+                }
+
+                .margin-note .n {
+                  color: #777777;
+                }
+            }
+
+            a[rel=footnote], pb-footnote-ref {
+                @apply --pb-footnote-ref;
+            }
+
+            .content {
+                @apply --pb-content-theme;
+            }
+
+            .highlight {
+                @apply --pb-highlight-theme;
+            }
+        </style>
+
+        <div id="view">
+            <div class="columns">
+                <div id="column1"></div>
+                <div id="column2"></div>
+            </div>
+            <div id="content"></div>
+        </div>
+
+        <iron-ajax
+            id="loadContent"
+            url="[[url]]"
+            verbose
+            handle-as="json"
+            method="get"
+            on-response="_handleContent"></iron-ajax>
+    </template>
+
+    <script>
+        /**
+         * This is the main component for viewing text which has been transformed via an ODD.
+         *
+         * Custom property | Description | Default
+         * ----------------|-------------|--------
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbView extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'pb-view';
+            }
+
+            static get properties() {
+                return {
+                    src: {
+                        type: String
+                    },
+                    odd: {
+                        type: String,
+                        reflectToAttribute: true
+                    },
+                    view: {
+                        type: String,
+                        reflectToAttribute: true
+                    },
+                    nodeId: {
+                        type: String,
+                        reflectToAttribute: true
+                    },
+                    xmlId: {
+                        type: Array,
+                        reflectToAttribute: true
+                    },
+                    xpath: {
+                        type: String,
+                        reflectToAttribute: true
+                    },
+                    notFound: {
+                        type: String,
+                        value: "the server did not return any content"
+                    },
+                    history: {
+                        type: Boolean,
+                        value: false
+                    },
+                    url: {
+                        type: String,
+                        value: "modules/lib/components.xql"
+                    },
+                    /**
+                     * The server returns footnotes separately. Set this property
+                     * if you wish to append them to the main text.
+                     */
+                    appendFootnotes: {
+                        type: Boolean,
+                        value: false
+                    },
+                    /**
+                     * Should matches be highlighted if a search has been executed?
+                     */
+                    highlight: {
+                        type: Boolean,
+                        value: false
+                    },
+                    /**
+                     * CSS selector to find column breaks in the content returned
+                     * from the server. If this property is set and column breaks
+                     * are found, the component will display two columns side by side.
+                     */
+                    columnSeparator: {
+                        type: String
+                    },
+                    /**
+                     * The reading direction, i.e. 'ltr' or 'rtl'.
+                     */
+                    direction: {
+                        type: String,
+                        value: 'ltr'
+                    },
+                    toggleStates: {
+                        type: Object,
+                        readOnly: true,
+                        value: function() {
+                            return {};
+                        }
+                    }
+                };
+            }
+
+            constructor() {
+                super();
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready() {
+                super.ready();
+                this.subscribeTo('pb-navigate', ev => {
+                    this.navigate(ev.detail.direction);
+                });
+                this.subscribeTo('pb-refresh', this._refresh.bind(this));
+                this.subscribeTo('pb-toggle', ev => {
+                    this.toggle(ev.detail.selector, ev.detail.state);
+                });
+                this.subscribeTo('pb-zoom', ev => {
+                    this.zoom(ev.detail.direction);
+                });
+
+                Polymer.RenderStatus.afterNextRender(this, () => this._refresh());
+            }
+
+            getDocument() {
+                const doc = document.getElementById(this.src);
+                if (doc) {
+                    return doc;
+                }
+
+                console.error('<pb-view> src document not found: %s', this.src);
+            }
+
+            getOdd() {
+                return this.odd || this.getDocument().odd || "teipublisher";
+            }
+
+            getView() {
+                return this.view || this.getDocument().view || "single";
+            }
+
+            update() {
+                this._load(this.nodeId);
+            }
+
+            _refresh(ev) {
+                if (ev && ev.detail) {
+                    if (ev.detail.id) {
+                        this.xmlId = ev.detail.id;
+                    }
+                    this.odd = ev.detail.odd || this.odd;
+                    if (ev.detail.columnSeparator !== undefined) {
+                        this.columnSeparator = ev.detail.columnSeparator;
+                    }
+                    this.view = ev.detail.view || this.view;
+                    this.nodeId = ev.detail.position || this.nodeId;
+                }
+                this.dispatchEvent(new CustomEvent('view-changed', {detail: {src: this.src, odd:this.odd, view:this.view, start:this.start,xath:this.xpath}}));
+                this._updateStyles();
+                this._load(this.nodeId);
+            }
+
+            _load(pos) {
+                this.dispatchEvent(new CustomEvent('startUpdate'));
+
+                const doc = this.getDocument();
+
+                if (!doc.path) {
+                    return;
+                }
+
+                const params = this.getParameters(pos);
+
+                this.emitTo('pb-start-update', params);
+
+                let url = doc.getFileName() + '?odd=' + params.odd + '&view=' + params.view;
+                if (params.root) {
+                    url += '&root=' + params.root;
+                }
+
+                // if (this.history && !init) {
+                //     console.log("<pb-view> Pushing to history: %o", this);
+                //     history.pushState(params, "Navigate page", url);
+                // }
+
+                console.log("<pb-view> Loading view with params %o", params);
+                this._clear();
+                this.$.loadContent.params = params;
+                this.$.loadContent.generateRequest();
+            }
+
+            _updateStyles() {
+                const oldLink = this.$.view.querySelector("link");
+                if (oldLink) {
+                    oldLink.parentNode.removeChild(oldLink);
+                }
+                const link = document.createElement('link');
+                link.setAttribute('rel', 'stylesheet');
+                link.setAttribute('type', 'text/css');
+                link.setAttribute('href', 'transform/' + this.getOdd() + '.css' );
+
+                this.$.view.appendChild(link);
+            }
+
+            _clear() {
+                this.$.content.innerHTML = "";
+                this.$.column1.innerHTML = "";
+                this.$.column2.innerHTML = "";
+            }
+
+            _handleContent() {
+                const resp = this.$.loadContent.lastResponse;
+                if (!resp) {
+                    console.error('<pb-view> No response received');
+                    return;
+                }
+                if (resp.error) {
+                    this.$.content.innerHTML = this.notFound;
+                    return;
+                }
+
+                const elem = this._replaceContent(resp);
+
+                this.next = resp.next;
+                this.previous = resp.previous;
+                this.nodeId = resp.root;
+                if (this.xmlId) {
+                    this.setParameter('root', this.nodeId);
+                    this.pushHistory('Navigate to xml:id');
+                }
+                this.xmlId = null;
+                const eventOptions = {
+                    data: resp,
+                    root: elem,
+                    params: this.$.loadContent.params
+                };
+                this.emitTo('pb-update', eventOptions);
+                this.emitTo('pb-end-update', null);
+                this.dispatchEvent(new CustomEvent('update', {detail: eventOptions}));
+                this.dispatchEvent(new CustomEvent('endUpdate'));
+            }
+
+            _replaceContent(resp) {
+                const fragment = document.createDocumentFragment();
+                const elem = document.createElement('div');
+                fragment.appendChild(elem);
+                elem.innerHTML = resp.content;
+
+                if (this.columnSeparator) {
+                    this._replaceColumns(elem);
+                } else {
+                    this.$.content.appendChild(elem);
+                }
+
+                if (this.appendFootnotes) {
+                    const footnotes = document.createElement('div');
+                    footnotes.innerHTML = resp.footnotes;
+                    this.$.content.appendChild(footnotes);
+                }
+
+                this._initFootnotes(this.$.content);
+
+                this._applyToggles();
+
+                return elem;
+            }
+
+            _replaceColumns(elem) {
+                let cb;
+                if (this.columnSeparator) {
+                    const cbs = elem.querySelectorAll(this.columnSeparator);
+                    // use last separator only
+                    if (cbs.length > 0) {
+                        cb = cbs[cbs.length - 1];
+                    }
+                }
+
+                if (!cb) {
+                    this.$.content.appendChild(elem);
+                } else {
+                    const fragmentBefore = this._getFragmentBefore(elem, cb);
+                    const fragmentAfter = this._getFragmentAfter(elem, cb);
+                    if (this.direction === 'ltr') {
+                        this.$.column1.appendChild(fragmentBefore);
+                        this.$.column2.appendChild(fragmentAfter);
+                    } else {
+                        this.$.column2.appendChild(fragmentBefore);
+                        this.$.column1.appendChild(fragmentAfter);
+                    }
+                }
+            }
+
+            _initFootnotes(content) {
+                content.querySelectorAll('.note, .fn-back').forEach(elem => {
+                    elem.addEventListener('click', (ev) => {
+                        ev.preventDefault();
+                        var fn = this.$.content.querySelector(elem.hash);
+                        fn.scrollIntoView();
+                    });
+                })
+            }
+
+            _getParameters() {
+                const params = [];
+                this.querySelectorAll('pb-param').forEach(function(param) {
+                    params['user.' + param.getAttribute('name')] = param.getAttribute('value');
+                });
+                return params;
+            }
+
+            getParameters(pos) {
+                pos = pos || this.nodeId;
+                const doc = this.getDocument();
+                const params = this._getParameters();
+                params.doc = doc.path;
+                params.odd = this.getOdd() + '.odd';
+                params.view = this.getView();
+                if (pos) {
+                    params['root'] = pos;
+                }
+                if (this.xpath) {
+                    params.xpath = this.xpath;
+                }
+                if (this.xmlId) {
+                    params.id = this.xmlId;
+                }
+                if (this.highlight) {
+                    params.highlight = "yes";
+                }
+
+                return params;
+            }
+
+            goto(nodeId) {
+                this._load(nodeId);
+            }
+
+            gotoId(xmlId) {
+                this.xmlId = xmlId;
+                this._load();
+            }
+
+            navigate(direction) {
+                if (direction === 'backward') {
+                    this.setParameter('root', this.previous);
+                    this.pushHistory('Navigate backward');
+                    this._load(this.previous);
+                } else {
+                    this.setParameter('root', this.next);
+                    this.pushHistory('Navigate forward');
+                    this._load(this.next);
+                }
+            }
+
+            zoom(direction) {
+                const fontSize = window.getComputedStyle(this.$.view).getPropertyValue('font-size');
+                const size = parseInt(fontSize.replace(/^(\d+)px/, "$1"));
+
+                if (direction === 'in') {
+                    this.$.view.style.fontSize = (size + 1) + 'px';
+                } else {
+                    this.$.view.style.fontSize = (size - 1) + 'px';
+                }
+            }
+
+            toggle(selector, state) {
+                this.toggleStates[selector] = state;
+                this._applyToggles();
+            }
+
+            _applyToggles() {
+                Object.keys(this.toggleStates).forEach((selector) =>
+                    this.$.view.querySelectorAll(selector).forEach((elem) => elem.toggle(this.toggleStates[selector]))
+                );
+            }
+
+            triggerEvent(type) {
+                this.dispatchEvent(new CustomEvent(type));
+            }
+
+            _getFragmentBefore(node, ms) {
+                const range = document.createRange();
+                range.setStartBefore(node);
+                range.setEndBefore(ms);
+
+                return range.cloneContents();
+            }
+
+            _getFragmentAfter(node, ms) {
+                const range = document.createRange();
+                range.setStartBefore(ms);
+                range.setEndAfter(node);
+
+                return range.cloneContents();
+            }
+        }
+
+        window.customElements.define(PbView.is, PbView);
+    </script>
+</dom-module>

@@ -9,11 +9,12 @@ declare variable $dir external;
 (: the target collection into which the app is deployed :)
 declare variable $target external;
 
-sm:chmod(xs:anyURI($target || "/modules/view.xql"), "rwsr-xr-x"),
+sm:chmod(xs:anyURI($target || "/modules/view.xql"), "rwxr-Sr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/transform.xql"), "rwsr-xr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/pdf.xql"), "rwsr-xr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/epub.xql"), "rwsr-xr-x"),
-sm:chmod(xs:anyURI($target || "/modules/lib/ajax.xql"), "rwsr-xr-x"),
+sm:chmod(xs:anyURI($target || "/modules/lib/components.xql"), "rwsr-xr-x"),
+sm:chmod(xs:anyURI($target || "/modules/lib/components-odd.xql"), "rwxr-Sr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/upload.xql"), "rwsr-xr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/regenerate.xql"), "rwsr-xr-x"),
 
@@ -23,6 +24,6 @@ sm:chown(xs:anyURI($target || "/modules/lib/latex.xql"), "tei"),
 sm:chgrp(xs:anyURI($target || "/modules/lib/latex.xql"), "dba"),
 
 (: App generator requires dba permissions to install packages :)
-sm:chmod(xs:anyURI($target || "/modules/generator.xql"), "rwsr-Sr-x"),
-sm:chown(xs:anyURI($target || "/modules/generator.xql"), "tei"),
-sm:chgrp(xs:anyURI($target || "/modules/generator.xql"), "dba")
+sm:chmod(xs:anyURI($target || "/modules/components-generate.xql"), "rwsr-Sr-x"),
+sm:chown(xs:anyURI($target || "/modules/components-generate.xql"), "tei"),
+sm:chgrp(xs:anyURI($target || "/modules/components-generate.xql"), "dba")

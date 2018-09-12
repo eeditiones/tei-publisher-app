@@ -1,0 +1,164 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<!--
+<link rel="import" href="bower_components/iron-icon/iron-icon.html">
+-->
+
+<dom-module id="pb-paginate">
+    <template>
+        <style>
+            :host {
+                display: block;
+
+                @apply --layout-horizontal;
+                @apply --layout-center;
+            }
+
+            span {
+                padding: 4px 8px;
+                cursor: pointer;
+            }
+
+            .found {
+                padding-left: 20px;
+            }
+
+            .active {
+                background-color: var(--paper-grey-800);
+                color: white;
+                border-radius: 50%;
+
+                @apply --shadow-elevation-3dp;
+            }
+        </style>
+
+        <span on-click="_handleFirst"><iron-icon icon="first-page"></iron-icon></span>
+        <template is="dom-repeat" items="{{pages}}">
+            <span class$="[[item.class]]" on-click="_handleClick">[[item.label]]</span>
+        </template>
+        <span on-click="_handleLast"><iron-icon icon="last-page"></iron-icon></span>
+
+        <span class="found">[[foundLabel]]: [[total]]</span>
+    </template>
+
+    <script>
+        /**
+         * `pb-paginate`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbPaginate extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'pb-paginate';
+            }
+
+            static get properties() {
+                return {
+                    total: {
+                        type: Number
+                    },
+                    start: {
+                        type: Number,
+                        value: 1
+                    },
+                    perPage: {
+                        type: Number,
+                        value: 10
+                    },
+                    foundLabel: {
+                        type: String
+                    },
+                    page: {
+                        type: Number,
+                        value: 1
+                    },
+                    pageCount: {
+                        type: Number,
+                        value: 10
+                    },
+                    range: {
+                        type: Number,
+                        value: 5
+                    },
+                    pages: {
+                        type: Array,
+                        value: []
+                    }
+                };
+            }
+
+            static get observers() {
+              return [
+                '_update(start,total)'
+              ]
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+
+                this.subscribeTo('pb-results-received', this._refresh.bind(this));
+            }
+
+            ready() {
+                super.ready();
+            }
+
+            _update(start, total) {
+                if (!total || !start) {
+                    return;
+                }
+                this.pageCount = Math.ceil(total / this.perPage);
+                this.page = Math.ceil(start / this.perPage);
+                let lowerBound = Math.max((this.page - Math.ceil(this.range / 2) + 1), 1);
+                let upperBound = Math.min((lowerBound + this.range - 1), this.pageCount);
+                lowerBound = Math.max((upperBound - this.range + 1), 1);
+                console.log("<pb-paginate> start: %d, total: %d, perPage: %d, pageCount: %s, page: %d, lower: %d, upper: %d",
+                    start, total, this.perPage, this.pageCount, this.page, lowerBound, upperBound);
+                const pages = [];
+                for (let i = lowerBound; i <= upperBound; i++) {
+                    pages.push({
+                        label: i,
+                        "class": i === this.page ? "active" : ""
+                    });
+                }
+                this.pages = pages;
+            }
+
+            _refresh(ev) {
+                this.setProperties({
+                    start: ev.detail.start,
+                    total: ev.detail.count
+                });
+            }
+
+            _handleClick(ev) {
+                const index = ev.model.item.label
+                const start = (index - 1) * this.perPage + 1;
+                this.set('start', start);
+                this.emitTo('pb-load', {
+                    "params": { "start": start }
+                });
+            }
+
+            _handleFirst(ev) {
+                this.set('start', 1);
+                this.emitTo('pb-load', {
+                    "params": { "start": 1 }
+                });
+            }
+
+            _handleLast(ev) {
+                const start = (this.pageCount - 1) * this.perPage + 1;
+                this.set('start', start);
+
+                this.emitTo('pb-load', {
+                    "params": { "start": start }
+                });
+            }
+        }
+
+        window.customElements.define(PbPaginate.is, PbPaginate);
+    </script>
+</dom-module>

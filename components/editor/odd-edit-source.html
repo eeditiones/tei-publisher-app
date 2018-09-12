@@ -1,0 +1,111 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<!--
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+-->
+
+<dom-module id="odd-edit-source">
+    <template>
+        <style>
+            :host {
+                display: inline;
+            }
+            a {
+                color: black;
+            }
+        </style>
+
+        <!-- todo: path to eXide is absolute.-->
+        <a target="eXide" data-exide-open="{{path}}" odd="[[odd]]"
+           href="/exist/apps/eXide/index.html?open={{path}}" on-click="_editSource"><slot></slot></a>
+    </template>
+
+    <script>
+        /**
+         * `odd-edit-source`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class OddEditSource extends Polymer.Element {
+            static get is() {
+                return 'odd-edit-source';
+            }
+
+            static get properties() {
+                return {
+                    path:{
+                        type: String
+                    },
+                    odd:{
+                        type: String,
+                        reflectToAttribute:true
+                    }
+                };
+            }
+
+
+            connectedCallback() {
+                super.connectedCallback();
+                console.log(this, 'connectedCallback');
+            }
+
+            ready(){
+                super.ready();
+            }
+
+            setPath(path){
+                this.path = path;
+            }
+
+            _editSource(ev){
+                // try to retrieve existing eXide window
+                var exide = window.open("", "eXide");
+                if (exide && !exide.closed) {
+                    var snip = this.root.getAttribute('exide-create');
+//                    var path = this.path;
+                    var path = this.rootPath + '/' + this.odd;
+
+                    // check if eXide is really available or it's an empty page
+                    var app = exide.eXide;
+                    if (app) {
+                        // eXide is there
+                        if (snip) {
+                            exide.eXide.app.newDocument(snip, "xquery");
+                        } else {
+                            console.log("Locating document %s", path);
+                            exide.eXide.app.findDocument(path);
+                        }
+                        exide.focus();
+                        setTimeout(function() {
+                            if (typeof exide.eXide.app.hasFocus == "function" && !exide.eXide.app.hasFocus()) {
+                                alert("Opened code in existing eXide window.");
+                            }
+                        }, 200);
+                    } else {
+                        window.eXide_onload = function() {
+                            console.log("onload called for %s", path);
+                            if (snip) {
+                                exide.eXide.app.newDocument(snip, "xquery");
+                            } else {
+                                exide.eXide.app.findDocument(path);
+                            }
+                        };
+                        // empty page
+                        console.log("Opening %s", ev.target.href.substring(0, ev.target.href.indexOf('?')));
+                        exide.location = ev.target.href.substring(0, ev.target.href.indexOf('?'));
+                    }
+                    ev.preventDefault();
+                }
+                return true;
+            }
+
+
+        }
+
+        window.customElements.define(OddEditSource.is, OddEditSource);
+    </script>
+</dom-module>
