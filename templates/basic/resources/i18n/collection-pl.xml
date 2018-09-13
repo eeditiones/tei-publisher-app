@@ -50,12 +50,13 @@
     <msg key="examples">Przykłady</msg>
     <msg key="odd-data">Pliki ODD</msg>
     <msg key="create">Utwórz</msg>
-    <msg key="delete">Delete</msg>
-    <msg key="delete-confirmation">Are you sure you would like to delete <span id="docs-to-delete"/> resources?</msg>
+    <msg key="delete">Usuń</msg>
+    <msg key="delete-confirmation">Czy na pewno chcesz usunąć następujące dokumenty? <span id="docs-to-delete"/>
+    </msg>
     <msg key="yes">Tak</msg>
     <msg key="no">Nie</msg>
-    <msg key="odd-build">Build from examples</msg>
-    <msg key="odd-build-title">Create an ODD from the selected sample TEI documents or entire collection</msg>
-    <msg key="new-odd-name">Name of new customization</msg>
-    <msg key="new-odd-title">Title for display</msg>
+    <msg key="odd-build">Wygeneruj z próbki</msg>
+    <msg key="odd-build-title">Utwórz ODD na podstawie próbki dokumentów TEI documents lub całego korpusu</msg>
+    <msg key="new-odd-name">Nazwa nowego pliku ODD</msg>
+    <msg key="new-odd-title">Etykieta do wyświetlania</msg>
 </catalogue>
