@@ -78,8 +78,8 @@
                      Handsome and Joanna the Mad of Castile. </note>
                </person>
                <person xml:id="IDPe437">
-                   <persName>Hernán Cortés de Monroy e Pizarro</persName>
-                   <note>(1485 – 1547-12-02); Spanish conquistador and Dantiscus' friend</note>
+                  <persName>Hernán Cortés de Monroy e Pizarro</persName>
+                  <note>(1485 – 1547-12-02); Spanish conquistador and Dantiscus' friend</note>
                </person>
             </listPerson>
 
@@ -148,68 +148,76 @@
                <seg type="salutation"> Muy Magnifico Señor </seg>
             </p>
             <p>
+               <lb/>
                <seg type="incipit"> No quisiera que <choice>
                      <expan>V<ex>uestra</ex>
-                            </expan>
+                     </expan>
                      <abbr>V.</abbr>
                   </choice>
                   <choice>
                      <expan>S<ex>eñoria</ex>
-                            </expan>
+                     </expan>
                      <abbr>S.</abbr>
-                  </choice> fuera el primero que comencara</seg> por mucho aunque lo pudiera aver
-               hecho muy bien sin perjuyzio de mi honrra por averse co<choice>
+                  </choice> fuera el primero que co<lb/>mencara</seg> por mucho aunque lo pudiera
+               <lb/> aver hecho muy bien sin perjuyzio de <lb/>mi honrra por averse co<choice>
                   <corr type="lemma">n</corr>
                   <sic/>
-               </choice>fichado de alla mensajero primero que de aca. Mas tanbien digo que no
-               querria ganar tanta honrra que me dexase de escrivir porque seria muy mayor el deseo
-               de saber de su muy magnifica persona y la perdida del rregozijo de sus cartas y el
-               dolor de pensar que ya no se acuerda de sus seruvidores. Mas si <foreign xml:lang="la">amor est doctor amoris</foreign>, yo estoy desto satisfecho. </p>
-            <p> Yo estoy muy bueno ytem su servidor <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp80.jpg"/> como sienpre de mi corason y
-               pretesto que sienpre terne este cuydado de escrivir a <choice>
+               </choice>fichado de alla <lb/>mensajero primero que de aca. Mas tan<lb/>bien digo que
+               no querria ganar tanta hon<lb/>rra que me dexase de escrivir porque se<lb/>ria muy
+               mayor el deseo de saber de <lb/>su muy magnifica persona y la perdi<lb/>da del
+               rregozijo de sus cartas y el <lb/>dolor de pensar que ya no se acuer<lb/>da de sus
+               seruvidores. Mas si <foreign xml:lang="la">amor est <lb/>doctor amoris</foreign>, yo
+               estoy desto satisfecho. </p>
+            <p>
+               <lb/>Yo estoy muy bueno ytem su servidor <pb
+                  facs="iiif:15929_000_IDL5772_BOss12034_IIIp80.jpg"/> como sienpre de mi corason y
+               pretesto que <lb/>sienpre terne este cuydado de escrivir <lb/>a <choice>
                   <expan>V<ex>uestra</ex>
-                        </expan>
+                  </expan>
                   <abbr>V.</abbr>
                </choice>
                <choice>
                   <expan>S<ex>eñoria</ex>
-                        </expan>
+                  </expan>
                   <abbr>S.</abbr>
-               </choice> desde aqui y desde la <name type="place" ref="#IDPl726">Nueva España</name>
-               y de mas adelante si pasare. <choice>
+               </choice> desde aqui y desde la <name type="place" ref="#IDPl726">Nueva
+                  Es<lb/>paña</name> y de mas adelante si pasare. <choice>
                   <expan>V<ex>uestra</ex>
-                        </expan>
+                  </expan>
                   <abbr>V.</abbr>
                </choice>
+               <lb/>
                <choice>
                   <expan>S<ex>eñoria</ex>
-                        </expan>
+                  </expan>
                   <abbr>S.</abbr>
-               </choice> me haga merced de pagarme en la misma moneda. Y sea mas largo que yo
-               escrivo a lo menos agora porque quando este donde aya que escrivir yo lo hare y tanto
-               que antes de trabajo que no me rreprehenda de acto y de alla sienpre avra que
-               escrivir. Quando me escriviere venga dirigido a miçer <name type="person" ref="#IDPe156">Geronimo</name> y a miçer <name type="person" ref="#IDPe968">Enrrique</name> porque ellos por me fazer merced me encaminaran los despachos y
-               asi va este por su mano.</p>
-            <p> Nuestro Señor guarde y prospere la muy magnifica persona y esta<choice>
+               </choice> me haga merced de pagarme en la mis<lb/>ma moneda. Y sea mas largo que yo
+               escri<lb/>vo a lo menos agora porque quando este <lb/>donde aya que escrivir yo lo
+               hare y tan<lb/>to que antes de trabajo que no me rreprehenda <lb/>de acto y de alla
+               sienpre avra que escrivir. <lb/>Quando me escriviere venga dirigido <lb/>a miçer
+                  <name type="person" ref="#IDPe156">Geronimo</name> y a miçer <name type="person"
+                  ref="#IDPe968">Enrrique</name> por<lb/>que ellos por me fazer merced me
+               encamina<lb/>ran los despachos y asi va este por su mano.</p>
+            <p>
+               <lb/>Nuestro Señor guarde y prospere la muy magnifica <lb/>persona y esta<choice>
                   <corr type="lemma">do</corr>
                   <sic/>
                </choice> de <choice>
                   <expan>V<ex>uestra</ex>
-                        </expan>
+                  </expan>
                   <abbr>V.</abbr>
                </choice>
                <choice>
                   <expan>S<ex>eñoria</ex>
-                        </expan>
+                  </expan>
                   <abbr>S.</abbr>
-               </choice> como desea.</p>
-            <closer> De <name type="place" ref="#IDPl45">Madrid</name>, XI de setienbre. </closer>
+               </choice> como desea. </p>
+            <closer>De <name type="place" ref="#IDPl45">Madrid</name>, <lb/>XI de setienbre. </closer>
             <closer>
                <salute>Servidor de a <choice>
                      <expan>V<ex>uest</ex>ra</expan>
                      <abbr>V.</abbr>
-                  </choice> Señoria
-                  <name type="person" ref="#IDPe437">Hernando Cortes</name>
+                  </choice> Señoria <name type="person" ref="#IDPe437">Hernando Cortes</name>
                </salute>
             </closer>
             <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp81.jpg"/>
