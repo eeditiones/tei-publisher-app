@@ -27,7 +27,9 @@ var fs =                    require('fs'),
         'transform':            'transform/*',
         'modules':              'modules/**/*',
         'other':                '*{.xpr,.xqr,.xql,.xml,.xconf}',
-        'components':           'components/**/*',
+        'components':           'components/*',
+        'components_test':      'components/test/**/*',
+        'components_demo':      'components/demo/**/*',
         'gen_app_styles':       'resources/css/**/*',
         'gen_app_scripts':      'resources/scripts/**/*',
         'gen_app_templates':    'templates/*.html',
@@ -84,23 +86,31 @@ var exClient = exist.createClient({
     }
 });
 
+var baseUrl = '/db/apps/tei-publisher/';
+
 // Default deployment configuration
 var targetConfigurationDefault = {
-    target: '/db/apps/tei-publisher/',
+    target: baseUrl,
     html5AsBinary: false
 };
 
 // Deploy non-well-formed files in components directory as binaries
 var targetConfigurationComponents = {
-    target: '/db/apps/tei-publisher/',
+    target: baseUrl + 'components/',
     html5AsBinary: true
 };
 
-// Deploy non-well-formed files in components directory as binaries
+// Deploy only well-formed files in components/demo directory
 var targetConfigurationDemo = {
-    target: '/db/apps/tei-publisher/',
+    target: baseUrl + 'components/demo/',
     html5AsBinary: false
-}
+};
+
+// Deploy non-well-formed files in components/test directory as binaries
+var targetConfigurationTest = {
+    target: baseUrl + '/components/test/',
+    html5AsBinary: true
+};
 
 // ****************  Styles ****************** //
 
@@ -146,8 +156,8 @@ gulp.task('deploy:riot_scripts', function () {
     return gulp.src([
         output.riot
     ], {base: '.'})
-        .pipe(exClient.newer(targetConfigurationComponents))
-        .pipe(exClient.dest(targetConfigurationComponents))
+        .pipe(exClient.newer(targetConfigurationDefault))
+        .pipe(exClient.dest(targetConfigurationDefault))
 });
 
 gulp.task('deploy:scripts', ['deploy:vendor_scripts','deploy:riot_scripts'], function () {
@@ -236,24 +246,37 @@ gulp.task('watch:other', function () {
 
 // *************  Components ***************************//
 
+gulp.task('watch:components', function () {
+    gulp.watch([input.components, '!components/bower_components/**/*', '!components/demo', '!components/test'], ['deploy:components'])});
+
+gulp.task('watch:components_test', function () {
+    gulp.watch(input.components_test, ['deploy:components_test'])
+});
+
+gulp.task('watch:components_demo', function () {
+    gulp.watch(input.components_demo, ['deploy:components_demo'])
+});
+
 gulp.task('deploy:components', function () {
-    return gulp.src(input.components, {base: './'})
+    return gulp.src(input.components, {base: 'components'})
         .pipe(exClient.newer(targetConfigurationComponents))
         .pipe(exClient.dest(targetConfigurationComponents))
 });
 
-gulp.task('watch:components', function () {
-    gulp.watch([input.components, '!components/bower_components/**/*'], ['deploy:components'])
-});
-
 // Files in folder 'demo'
-gulp.task('deploy:demo', function () {
+gulp.task('deploy:components_demo', function () {
     console.log('deploying all component demos to local existDB"');
-    return gulp.src([
-        demoPath
-    ], {base: './'})
+    return gulp.src(input.components_demo, {base: 'components/demo'})
         .pipe(exClient.newer(targetConfigurationDemo))
         .pipe(exClient.dest(targetConfigurationDemo))
+});
+
+// Files in folder 'test'
+gulp.task('deploy:components_test', function () {
+    console.log('deploying all component tests to local existDB"');
+    return gulp.src(input.components_test, {base: 'components/test'})
+        .pipe(exClient.newer(targetConfigurationTest))
+        .pipe(exClient.dest(targetConfigurationTest))
 });
 
 // *************  Copy resources to generated app folder *************** //
@@ -302,7 +325,7 @@ gulp.task('build', [
     'build:styles'
 ]);
 
-// Watch and deploy all changed files
+// Watch all changed files
 gulp.task('watch', [
     'watch:styles',
     'watch:templates',
@@ -311,43 +334,42 @@ gulp.task('watch', [
     'watch:html',
     'watch:odd',
     'watch:other',
-    'watch:components'
+    'watch:components',
+    'watch:components_demo',
+    'watch:components_test'
 ]);
 
-// Deployment paths
+// Deploy all files
+gulp.task('deploy', [
+    'deploy:styles',
+    'deploy:scripts',
+    'deploy:components',
+    'deploy:components_test',
+    'deploy:components_demo',
+    'deploy:modules',
+    'deploy:odd',
+    'deploy:other'
+]);
 
-var oddPath =           'resources/odd/**/*',
-    templatePath =      'templates/*.html',
-    htmlPath =          '*.html',
-    cssPath =           'resources/css',
-    vendorCssPath =     'resources/css/vendor/*',
-    otherPath =         '*{.xpr,.xqr,.xql,.xml,.xconf}',
-    imagePath =         'images/*',
-    scriptPath =        'resources/scripts/*',
-    modulePath =        'modules/**/*',
-    transformPath =     'transform/*',
-    fontPath =          'resources/fonts/*',
-    componentPath =     'components/**/*',
-    demoPath =          'components/demo/**/*';
+// Paths for deploying only to 'targetConfigurationDefault'
+var pathsToDeploy = [
+    output.odd
+    ,input.html
+    ,input.gen_app_templates
+    ,output.styles
+    ,input.vendor_styles
+    ,input.other
+    ,input.images
+    ,output.scripts
+    ,input.modules
+    ,input.transform
+    ,input.fonts
+];
 
 // Deploy all files to existDB
-gulp.task('deploy', ['deploy:styles'], function () {
+gulp.task('deploy-default', ['deploy:styles'], function () {
     console.log('deploying all files to local existDB"');
-    return gulp.src([
-             oddPath
-            ,templatePath
-            ,htmlPath
-            ,cssPath
-            ,vendorCssPath
-            ,otherPath
-            ,imagePath
-            ,scriptPath
-            ,modulePath
-            ,transformPath
-            ,fontPath
-            ,componentPath
-            ,demoPath
-        ], {base: './'})
+    return gulp.src(pathsToDeploy, {base: './'})
         .pipe(exClient.newer(targetConfigurationDefault))
         .pipe(exClient.dest(targetConfigurationDefault))
 });
