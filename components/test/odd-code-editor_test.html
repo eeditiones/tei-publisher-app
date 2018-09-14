@@ -9,13 +9,15 @@
   <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
   <script src="../bower_components/web-component-tester/browser.js"></script>
 
-  <link rel="import" href="../editor/odd-code-editor.html">
+  <link rel="import" href="../editor/odd-edit-source.html">
 </head>
 <body>
 
-  <test-fixture id="CodeEditorTestFixture">
+  <test-fixture id="BasicTestFixture">
     <template>
-      <odd-code-editor mode="xquery" code="bbaljdlkajslkdf"></odd-code-editor>
+      <odd-edit-source odd="graves.odd">
+        <paper-icon-button icon="code" title="ODD Source" role="button" tabindex="0" aria-disabled="false"></paper-icon-button>
+      </odd-edit-source>
     </template>
   </test-fixture>
 
@@ -25,8 +27,8 @@
       suite('odd-edit-source', () => {
 
           test('evaluating the odd path works', () => {
-              const element = fixture('CodeEditorTestFixture');
-              assert.equal(element.mode, 'xquery');
+              const element = fixture('BasicTestFixture');
+              assert.equal(element.path, '/exist/apps/tei-publisher/odd/graves.odd');
 //              element.querySelector('paper-icon-button').click();
 
               /*
@@ -48,8 +50,6 @@
           */
 
       });
-
-
   </script>
 
 </body>
