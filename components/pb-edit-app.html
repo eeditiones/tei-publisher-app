@@ -1,4 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/polymer/lib/elements/dom-if.html">
 
 <dom-module id="pb-edit-app">
     <template>
@@ -18,7 +19,7 @@
             legend {
                 color: #909090;
             }
-            
+
             paper-dialog {
                 min-width: 420px;
                 max-width: 640px;
@@ -31,14 +32,14 @@
                 margin-top: 0;
                 color: #F0F0F0;
             }
-            
+
             .content {
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
             }
-            
+
             .content a {
                 display: block;
                 flex: 1 0;
@@ -154,6 +155,7 @@
                         if (result.result === 'ok') {
                             const baseURL = window.location.href.replace(/^(.*)\/tei-publisher\/.*/, "$1");
                             this.url = baseURL + '/' + this.$.abbrev.value;
+                            this.error = null;
                         } else {
                             this.error = result.message;
                         }

@@ -39,7 +39,7 @@
                     line-height: 1.42857143;
                     max-width: 60vw;
                     margin: 0 16px;
-                    max-height: var(--pb-view-height);
+                    height: var(--pb-view-height);
                     overflow: auto;
                 }
 
@@ -120,19 +120,19 @@
                         </pb-edit-xml>
                         <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
                         <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
-                        <pb-navigation emit="transcription"
+                        <pb-navigation emit="transcription" keyboard="left"
                             subscribe="transcription" direction="backward" unit="page">
                             <paper-icon-button icon="icons:chevron-left"/>
                         </pb-navigation>
-                        <pb-navigation emit="transcription"
+                        <pb-navigation emit="transcription" keyboard="right"
                             subscribe="transcription" direction="forward" unit="page">
                             <paper-icon-button icon="icons:chevron-right"/>
                         </pb-navigation>
                         <pb-progress subscribe="transcription" indeterminate="indeterminate" bottom-item="bottom-item"/>
                     </app-toolbar>
                     <app-toolbar sticky="sticky" class="document-title">
-                        <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title[@type='statement']" view="single">
-                            <pb-param name="header" value="short"/>
+                        <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt" view="single">
+                            <pb-param name="mode" value="title"/>
                         </pb-view>
                     </app-toolbar>
                 </app-header>

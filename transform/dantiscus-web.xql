@@ -1,11 +1,11 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/tei-publisher/odd/graves.odd
+    ODD: /db/apps/tei-publisher/odd/dantiscus.odd
  :)
 xquery version "3.1";
 
-module namespace model="http://www.tei-c.org/pm/models/graves/epub";
+module namespace model="http://www.tei-c.org/pm/models/dantiscus/web";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
@@ -17,7 +17,7 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
-import module namespace epub="http://www.tei-c.org/tei-simple/xquery/functions/epub";
+import module namespace ext-html="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql";
 
 (:~
 
@@ -29,8 +29,8 @@ declare function model:transform($options as map(*), $input as node()*) {
     let $config :=
         map:new(($options,
             map {
-                "output": ["epub","web"],
-                "odd": "/db/apps/tei-publisher/odd/graves.odd",
+                "output": ["web"],
+                "odd": "/db/apps/tei-publisher/odd/dantiscus.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }
@@ -61,13 +61,12 @@ let $node :=
                         html:listItem($config, ., ("tei-item"), ., ())
                     case element(figure) return
                         if (head or @rendition='simple:display') then
-                            epub:block($config, ., ("tei-figure1"), .)
+                            html:block($config, ., ("tei-figure1"), .)
                         else
-                            (: Changed to not show a blue border around the figure :)
                             html:inline($config, ., ("tei-figure2"), .)
                     case element(teiHeader) return
                         if ($parameters?header='short') then
-                            epub:block($config, ., ("tei-teiHeader3"), .)
+                            html:block($config, ., ("tei-teiHeader3"), .)
                         else
                             html:metadata($config, ., ("tei-teiHeader4"), .)
                     case element(supplied) return
@@ -90,11 +89,14 @@ let $node :=
                         html:inline($config, ., ("tei-label"), .)
                     case element(signed) return
                         if (parent::closer) then
-                            epub:block($config, ., ("tei-signed1"), .)
+                            html:block($config, ., ("tei-signed1"), .)
                         else
                             html:inline($config, ., ("tei-signed2"), .)
                     case element(pb) return
-                        html:omit($config, ., ("tei-pb"), .)
+                        if (starts-with(@facs, 'iiif:')) then
+                            html:webcomponent($config, ., ("tei-pb1", "facs"), @n, 'pb-facs-link', map {"facs": replace(@facs, '^iiif:(.*)$', '$1')})
+                        else
+                            html:omit($config, ., ("tei-pb2"), .)
                     case element(pc) return
                         html:inline($config, ., ("tei-pc"), .)
                     case element(anchor) return
@@ -103,18 +105,18 @@ let $node :=
                         html:document($config, ., ("tei-TEI"), .)
                     case element(formula) return
                         if (@rendition='simple:display') then
-                            epub:block($config, ., ("tei-formula1"), .)
+                            html:block($config, ., ("tei-formula1"), .)
                         else
                             html:inline($config, ., ("tei-formula2"), .)
                     case element(choice) return
                         if (sic and corr) then
-                            html:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
+                            html:alternate($config, ., ("tei-choice4", "choice"), ., corr[1], sic[1])
                         else
                             if (abbr and expan) then
-                                html:alternate($config, ., ("tei-choice5"), ., expan[1], abbr[1])
+                                html:alternate($config, ., ("tei-choice5", "choice"), ., expan[1], abbr[1])
                             else
                                 if (orig and reg) then
-                                    html:alternate($config, ., ("tei-choice6"), ., reg[1], orig[1])
+                                    html:alternate($config, ., ("tei-choice6", "choice"), ., reg[1], orig[1])
                                 else
                                     $config?apply($config, ./node())
                     case element(hi) return
@@ -128,26 +130,29 @@ let $node :=
                     case element(code) return
                         html:inline($config, ., ("tei-code"), .)
                     case element(note) return
-                        if (@place) then
-                            epub:note($config, ., ("tei-note1"), ., @place, @n)
+                        if (parent::person or parent::place) then
+                            html:inline($config, ., ("tei-note1"), .)
                         else
-                            if (parent::div and not(@place)) then
-                                epub:block($config, ., ("tei-note2"), .)
+                            if (@place) then
+                                html:note($config, ., ("tei-note2"), ., @place, @n)
                             else
-                                if (not(@place)) then
-                                    html:inline($config, ., ("tei-note3"), .)
+                                if (parent::div and not(@place)) then
+                                    html:block($config, ., ("tei-note3"), .)
                                 else
-                                    $config?apply($config, ./node())
+                                    if (not(@place)) then
+                                        html:inline($config, ., ("tei-note4"), .)
+                                    else
+                                        $config?apply($config, ./node())
                     case element(dateline) return
-                        epub:block($config, ., css:get-rendition(., ("tei-dateline")), .)
+                        html:block($config, ., ("tei-dateline"), .)
                     case element(back) return
-                        epub:block($config, ., ("tei-back"), .)
+                        html:block($config, ., ("tei-back"), .)
                     case element(del) return
                         html:inline($config, ., ("tei-del"), .)
                     case element(trailer) return
-                        epub:block($config, ., ("tei-trailer"), .)
+                        html:block($config, ., ("tei-trailer"), .)
                     case element(titlePart) return
-                        epub:block($config, ., css:get-rendition(., ("tei-titlePart")), .)
+                        html:block($config, ., css:get-rendition(., ("tei-titlePart")), .)
                     case element(ab) return
                         html:paragraph($config, ., ("tei-ab"), .)
                     case element(revisionDesc) return
@@ -157,15 +162,15 @@ let $node :=
                     case element(subst) return
                         html:inline($config, ., ("tei-subst"), .)
                     case element(roleDesc) return
-                        epub:block($config, ., ("tei-roleDesc"), .)
+                        html:block($config, ., ("tei-roleDesc"), .)
                     case element(orig) return
                         html:inline($config, ., ("tei-orig"), .)
                     case element(opener) return
-                        epub:block($config, ., ("tei-opener"), .)
+                        html:block($config, ., ("tei-opener"), .)
                     case element(speaker) return
-                        epub:block($config, ., ("tei-speaker"), .)
+                        html:block($config, ., ("tei-speaker"), .)
                     case element(imprimatur) return
-                        epub:block($config, ., ("tei-imprimatur"), .)
+                        html:block($config, ., ("tei-imprimatur"), .)
                     case element(publisher) return
                         if (ancestor::teiHeader) then
                             (: Omit if located in teiHeader. :)
@@ -175,15 +180,15 @@ let $node :=
                     case element(figDesc) return
                         html:inline($config, ., ("tei-figDesc"), .)
                     case element(rs) return
-                        html:inline($config, ., ("tei-rs"), .)
+                        html:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root)))
                     case element(foreign) return
                         html:inline($config, ., ("tei-foreign"), .)
                     case element(fileDesc) return
                         if ($parameters?header='short') then
                             (
-                                epub:block($config, ., ("tei-fileDesc1", "header-short"), titleStmt),
-                                epub:block($config, ., ("tei-fileDesc2", "header-short"), editionStmt),
-                                epub:block($config, ., ("tei-fileDesc3", "header-short"), publicationStmt)
+                                html:block($config, ., ("tei-fileDesc1", "header-short"), titleStmt),
+                                html:block($config, ., ("tei-fileDesc2", "header-short"), editionStmt),
+                                html:block($config, ., ("tei-fileDesc3", "header-short"), publicationStmt)
                             )
 
                         else
@@ -195,20 +200,19 @@ let $node :=
                     case element(email) return
                         html:inline($config, ., ("tei-email"), .)
                     case element(text) return
-                        (: tei_simplePrint.odd sets a font and margin on the text body. We don't want that. :)
                         html:body($config, ., ("tei-text"), .)
                     case element(floatingText) return
-                        epub:block($config, ., ("tei-floatingText"), .)
+                        html:block($config, ., ("tei-floatingText"), .)
                     case element(sp) return
-                        epub:block($config, ., ("tei-sp"), .)
+                        html:block($config, ., ("tei-sp"), .)
                     case element(abbr) return
                         html:inline($config, ., ("tei-abbr"), .)
                     case element(table) return
                         html:table($config, ., ("tei-table"), .)
                     case element(cb) return
-                        epub:break($config, ., ("tei-cb"), ., 'column', @n)
+                        html:break($config, ., ("tei-cb"), ., 'column', @n)
                     case element(group) return
-                        epub:block($config, ., ("tei-group"), .)
+                        html:block($config, ., ("tei-group"), .)
                     case element(licence) return
                         if (@target) then
                             html:link($config, ., ("tei-licence1", "licence"), 'Licence', @target)
@@ -225,9 +229,9 @@ let $node :=
                         if (bibl) then
                             html:list($config, ., ("tei-listBibl1"), bibl, ())
                         else
-                            epub:block($config, ., ("tei-listBibl2"), .)
+                            html:block($config, ., ("tei-listBibl2"), .)
                     case element(address) return
-                        epub:block($config, ., ("tei-address"), .)
+                        html:block($config, ., ("tei-address"), .)
                     case element(g) return
                         if (not(text())) then
                             html:glyph($config, ., ("tei-g1"), .)
@@ -235,7 +239,7 @@ let $node :=
                             html:inline($config, ., ("tei-g2"), .)
                     case element(author) return
                         if (ancestor::teiHeader) then
-                            epub:block($config, ., ("tei-author1"), .)
+                            html:block($config, ., ("tei-author1"), .)
                         else
                             html:inline($config, ., ("tei-author2"), .)
                     case element(castList) return
@@ -244,9 +248,9 @@ let $node :=
                         else
                             $config?apply($config, ./node())
                     case element(l) return
-                        epub:block($config, ., css:get-rendition(., ("tei-l")), .)
+                        html:block($config, ., css:get-rendition(., ("tei-l")), .)
                     case element(closer) return
-                        epub:block($config, ., ("tei-closer"), .)
+                        html:block($config, ., ("tei-closer"), .)
                     case element(rhyme) return
                         html:inline($config, ., ("tei-rhyme"), .)
                     case element(list) return
@@ -263,58 +267,43 @@ let $node :=
                         html:inline($config, ., ("tei-measure"), .)
                     case element(q) return
                         if (l) then
-                            epub:block($config, ., css:get-rendition(., ("tei-q1")), .)
+                            html:block($config, ., css:get-rendition(., ("tei-q1")), .)
                         else
                             if (ancestor::p or ancestor::cell) then
                                 html:inline($config, ., css:get-rendition(., ("tei-q2")), .)
                             else
-                                epub:block($config, ., css:get-rendition(., ("tei-q3")), .)
+                                html:block($config, ., css:get-rendition(., ("tei-q3")), .)
                     case element(actor) return
                         html:inline($config, ., ("tei-actor"), .)
                     case element(epigraph) return
-                        epub:block($config, ., ("tei-epigraph"), .)
+                        html:block($config, ., ("tei-epigraph"), .)
                     case element(s) return
                         html:inline($config, ., ("tei-s"), .)
                     case element(docTitle) return
-                        epub:block($config, ., css:get-rendition(., ("tei-docTitle")), .)
+                        html:block($config, ., css:get-rendition(., ("tei-docTitle")), .)
                     case element(lb) return
-                        epub:break($config, ., css:get-rendition(., ("tei-lb")), ., 'line', @n)
+                        html:break($config, ., css:get-rendition(., ("tei-lb")), ., 'line', @n)
                     case element(w) return
                         html:inline($config, ., ("tei-w"), .)
                     case element(stage) return
-                        epub:block($config, ., ("tei-stage"), .)
+                        html:block($config, ., ("tei-stage"), .)
                     case element(titlePage) return
-                        epub:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
+                        html:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                     case element(name) return
-                        if ($parameters?mode='facets' and @type='person') then
-                            html:webcomponent($config, ., ("tei-name1"), id(substring-after(@ref, '#'), root($parameters?root)), 'pb-highlight', map {"key": substring-after(@ref, '#'), "subscribe": 'letter', "emit": 'facets'})
-                        else
-                            if ($parameters?mode='facets' and @type='place') then
-                                html:webcomponent($config, ., ("tei-name2"), id(substring-after(@ref, '#'), root($parameters?root)), 'pb-highlight', map {"key": substring-after(@ref, '#'), "scroll": true(), "subscribe": 'letter', "emit": 'facets'})
-                            else
-                                if (@type='place' and id(substring-after(@ref, '#'), root($parameters?root))/location/geo) then
-                                    html:webcomponent($config, ., ("tei-name3"), ., 'pb-geolocation', map {"longitude": tokenize(id(substring-after(@ref, '#'), root($parameters?root))/location/geo, ' ')[2], "latitude": tokenize(id(substring-after(@ref, '#'), root($parameters?root))/location/geo, ' ')[1], "label": id(substring-after(@ref, '#'), root($parameters?root))/placeName, "key": substring-after(@ref, '#'), "scroll": true(), "emit": 'letter', "duration": 1000})
-                                else
-                                    if (@type='person' and id(substring-after(@ref, '#'), root($parameters?root))) then
-                                        html:webcomponent($config, ., ("tei-name4"), ., 'pb-highlight', map {"key": substring-after(@ref, '#'), "scroll": true(), "emit": 'letter'})
-                                    else
-                                        if (@type='place') then
-                                            html:inline($config, ., ("tei-name5"), .)
-                                        else
-                                            $config?apply($config, ./node())
+                        html:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root)))
                     case element(front) return
-                        epub:block($config, ., ("tei-front"), .)
+                        html:block($config, ., ("tei-front"), .)
                     case element(lg) return
-                        epub:block($config, ., ("tei-lg"), .)
+                        html:block($config, ., ("tei-lg"), .)
                     case element(publicationStmt) return
                         (: More than one model without predicate found for ident publicationStmt. Choosing first one. :)
-                        epub:block($config, ., ("tei-publicationStmt1"), availability/licence)
+                        html:block($config, ., ("tei-publicationStmt1"), availability/licence)
                     case element(biblScope) return
                         html:inline($config, ., ("tei-biblScope"), .)
                     case element(desc) return
                         html:inline($config, ., ("tei-desc"), .)
                     case element(role) return
-                        epub:block($config, ., ("tei-role"), .)
+                        html:block($config, ., ("tei-role"), .)
                     case element(docEdition) return
                         html:inline($config, ., ("tei-docEdition"), .)
                     case element(num) return
@@ -322,14 +311,10 @@ let $node :=
                     case element(docImprint) return
                         html:inline($config, ., ("tei-docImprint"), .)
                     case element(postscript) return
-                        (
-                            html:heading($config, ., ("tei-postscript1"), ('Postscript by ', id(substring-after(@resp, '#'), root(.))/persName), 5),
-                            epub:block($config, ., ("tei-postscript2"), .)
-                        )
-
+                        html:block($config, ., ("tei-postscript"), .)
                     case element(edition) return
                         if (ancestor::teiHeader) then
-                            epub:block($config, ., ("tei-edition"), .)
+                            html:block($config, ., ("tei-edition"), .)
                         else
                             $config?apply($config, ./node())
                     case element(cell) return
@@ -339,12 +324,12 @@ let $node :=
                         html:inline($config, ., ("tei-relatedItem"), .)
                     case element(div) return
                         if (@type='title_page') then
-                            epub:block($config, ., ("tei-div1"), .)
+                            html:block($config, ., ("tei-div1"), .)
                         else
                             if (parent::body or parent::front or parent::back) then
                                 html:section($config, ., ("tei-div2"), .)
                             else
-                                epub:block($config, ., ("tei-div3"), .)
+                                html:block($config, ., ("tei-div3"), .)
                     case element(graphic) return
                         html:graphic($config, ., ("tei-graphic"), ., @url, @width, @height, @scale, desc)
                     case element(reg) return
@@ -372,21 +357,21 @@ let $node :=
                             html:inline($config, ., ("tei-head1"), replace(string-join(.//text()[not(parent::ref)]), '^(.*?)[^\w]*$', '$1'))
                         else
                             if (parent::figure) then
-                                epub:block($config, ., ("tei-head2"), .)
+                                html:block($config, ., ("tei-head2"), .)
                             else
                                 if (parent::table) then
-                                    epub:block($config, ., ("tei-head3"), .)
+                                    html:block($config, ., ("tei-head3"), .)
                                 else
                                     if (parent::lg) then
-                                        epub:block($config, ., ("tei-head4"), .)
+                                        html:block($config, ., ("tei-head4"), .)
                                     else
                                         if (parent::list) then
-                                            epub:block($config, ., ("tei-head5"), .)
+                                            html:block($config, ., ("tei-head5"), .)
                                         else
                                             if (parent::div) then
                                                 html:heading($config, ., ("tei-head6"), ., count(ancestor::div))
                                             else
-                                                epub:block($config, ., ("tei-head7"), .)
+                                                html:block($config, ., ("tei-head7"), .)
                     case element(ex) return
                         html:inline($config, ., ("tei-ex"), .)
                     case element(castGroup) return
@@ -406,11 +391,11 @@ let $node :=
                         if (parent::closer) then
                             html:inline($config, ., ("tei-salute1"), .)
                         else
-                            epub:block($config, ., ("tei-salute2"), .)
+                            html:block($config, ., ("tei-salute2"), .)
                     case element(unclear) return
                         html:inline($config, ., ("tei-unclear"), .)
                     case element(argument) return
-                        epub:block($config, ., ("tei-argument"), .)
+                        html:block($config, ., ("tei-argument"), .)
                     case element(date) return
                         if (@when) then
                             html:alternate($config, ., ("tei-date3"), ., ., @when)
@@ -480,15 +465,18 @@ let $node :=
                         else
                             $config?apply($config, ./node())
                     case element(titleStmt) return
-                        if ($parameters?header='short') then
-                            (
-                                html:link($config, ., ("tei-titleStmt3"), title[1], $parameters?doc),
-                                epub:block($config, ., ("tei-titleStmt4"), subsequence(title, 2)),
-                                epub:block($config, ., ("tei-titleStmt5"), author)
-                            )
-
+                        if ($parameters?mode='title') then
+                            html:heading($config, ., ("tei-titleStmt3"), title[not(@type)], 5)
                         else
-                            epub:block($config, ., ("tei-titleStmt6"), .)
+                            if ($parameters?header='short') then
+                                (
+                                    html:link($config, ., ("tei-titleStmt4"), title[1], $parameters?doc),
+                                    html:block($config, ., ("tei-titleStmt5"), subsequence(title, 2)),
+                                    html:block($config, ., ("tei-titleStmt6"), author)
+                                )
+
+                            else
+                                html:block($config, ., ("tei-titleStmt7"), .)
                     case element(sic) return
                         if (parent::choice and count(parent::*/*) gt 1) then
                             html:inline($config, ., ("tei-sic1"), .)
@@ -497,31 +485,22 @@ let $node :=
                     case element(expan) return
                         html:inline($config, ., ("tei-expan"), .)
                     case element(body) return
-                        if ($parameters?mode='facets') then
-                            (
-                                html:heading($config, ., ("tei-body1"), 'Places', 2),
-                                epub:block($config, ., ("tei-body2"), for $n in .//name[@type='place'] group by $ref := $n/@ref order by $ref return $n[1]),
-                                html:heading($config, ., ("tei-body3"), 'People', 2),
-                                html:section($config, ., ("tei-body4"), for $n in .//name[@type='person'] group by $ref := $n/@ref order by $ref return $n[1])
-                            )
-
-                        else
-                            (
-                                html:index($config, ., ("tei-body5"), 'toc', .),
-                                epub:block($config, ., ("tei-body6"), .)
-                            )
+                        (
+                            html:index($config, ., ("tei-body1"), 'toc', .),
+                            html:block($config, ., ("tei-body2"), .)
+                        )
 
                     case element(spGrp) return
-                        epub:block($config, ., ("tei-spGrp"), .)
+                        html:block($config, ., ("tei-spGrp"), .)
                     case element(fw) return
                         if (ancestor::p or ancestor::ab) then
                             html:inline($config, ., ("tei-fw1"), .)
                         else
-                            epub:block($config, ., ("tei-fw2"), .)
+                            html:block($config, ., ("tei-fw2"), .)
                     case element(encodingDesc) return
                         html:omit($config, ., ("tei-encodingDesc"), .)
                     case element(addrLine) return
-                        epub:block($config, ., ("tei-addrLine"), .)
+                        html:block($config, ., ("tei-addrLine"), .)
                     case element(gap) return
                         if (desc) then
                             html:inline($config, ., ("tei-gap1"), .)
@@ -536,7 +515,7 @@ let $node :=
                             html:inline($config, ., css:get-rendition(., ("tei-quote1")), .)
                         else
                             (: If it is inside a paragraph then it is inline, otherwise it is block level :)
-                            epub:block($config, ., css:get-rendition(., ("tei-quote2")), .)
+                            html:block($config, ., css:get-rendition(., ("tei-quote2")), .)
                     case element(row) return
                         if (@role='label') then
                             html:row($config, ., ("tei-row1"), .)
@@ -546,66 +525,11 @@ let $node :=
                     case element(docAuthor) return
                         html:inline($config, ., ("tei-docAuthor"), .)
                     case element(byline) return
-                        epub:block($config, ., ("tei-byline"), .)
-                    case element(place) return
-                        (
-                            html:heading($config, ., ("tei-place1"), string-join(placeName, ', '), 3),
-                            if (location/geo) then
-                                epub:block($config, ., ("tei-place2"), location/geo)
-                            else
-                                (),
-                            epub:block($config, ., ("tei-place3"), string-join(location/*[not(self::geo)], ', ')),
-                            epub:block($config, ., ("tei-place4"), note/node())
-                        )
-
-                    case element(geo) return
-                        (
-                            html:inline($config, ., ("tei-geo1"), 'Location: '),
-                            html:webcomponent($config, ., ("tei-geo2"), ., 'pb-geolocation', map {"latitude": tokenize(., ' ')[1], "longitude": tokenize(., ' ')[2], "emit": 'letter'})
-                        )
-
+                        html:block($config, ., ("tei-byline"), .)
                     case element(person) return
-                        (
-                            html:heading($config, ., ("tei-person1"), persName, 3),
-                            if (birth or death or occupation) then
-                                epub:block($config, ., ("tei-person2"), (occupation, birth, death))
-                            else
-                                (),
-                            if (idno) then
-                                epub:block($config, ., ("tei-person3"), idno)
-                            else
-                                (),
-                            epub:block($config, ., ("tei-person4"), note/node())
-                        )
-
+                        html:inline($config, ., ("tei-person"), .)
                     case element(persName) return
-                        if (forename or surname) then
-                            html:inline($config, ., ("tei-persName1"), (forename, ' ', surname[not(@type='married')], if (surname[@type='married']) then (' (', string-join(surname[@type='married'], ', '), ')') else ()))
-                        else
-                            html:inline($config, ., ("tei-persName2"), .)
-                    case element(birth) return
-                        if (following-sibling::death) then
-                            html:inline($config, ., ("tei-birth1"), ('* ', ., '; '))
-                        else
-                            html:inline($config, ., ("tei-birth2"), ('* ', .))
-                    case element(death) return
-                        html:inline($config, ., ("tei-death"), ('✝', .))
-                    case element(occupation) return
-                        html:inline($config, ., ("tei-occupation"), (., ' '))
-                    case element(idno) return
-                        if (@type='VIAF' and following-sibling::idno) then
-                            html:link($config, ., ("tei-idno1"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/')
-                        else
-                            if (@type='VIAF') then
-                                html:link($config, ., ("tei-idno2"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/')
-                            else
-                                if (@type='LC-Name-Authority-File' and following-sibling::idno) then
-                                    html:link($config, ., ("tei-idno3"), 'LoC Authority', 'https://lccn.loc.gov/' || string())
-                                else
-                                    if (@type='LC-Name-Authority-File') then
-                                        html:link($config, ., ("tei-idno4"), 'LoC Authority', 'https://lccn.loc.gov/' || string())
-                                    else
-                                        $config?apply($config, ./node())
+                        html:inline($config, ., ("tei-persName"), .)
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return

@@ -47,6 +47,8 @@ All resources can either be edited live via eXist-db's XML editor eXide or via l
 
 ## Development
 
+Following instructions are only relevant for developers who want to contribute further web components.
+
 ### Prerequisites
 *   Install npm: [https://www.npmjs.com/get-npm](https://www.npmjs.com/get-npm)
 
@@ -59,10 +61,6 @@ Install node modules by running
 
 
 ### Build
-
-`gulp build` builds the styles by processing less into minified css with sourcemaps.
-
-`gulp deploy` sends files (and built styles) to the local exist-db
 
 `gulp watch` will upload files to the local exist-db instance whenever a source file changes.
 

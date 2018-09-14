@@ -1,24 +1,26 @@
 process.env.WDIO_PROTOCOL = process.env.WDIO_PROTOCOL || 'http'
 process.env.WDIO_SERVER = process.env.WDIO_SERVER || 'localhost'
 process.env.WDIO_PORT = process.env.WDIO_PORT || '8080'
+process.env.WDIO_CHROMEDRIVER_PORT = process.env.WDIO_CHROMEDRIVER_PORT || '9515';
 process.env.WDIO_CHROME_BINARY = process.env.WDIO_CHROME_BINARY || '/usr/bin/google-chrome';
 
 exports.config = {
 
     // =====================
-   // Server Configurations
-   // =====================
-   // Host address of the running Selenium server. This information is usually obsolete as
-   // WebdriverIO automatically connects to localhost. Also if you are using one of the
-   // supported cloud services like Sauce Labs, Browserstack or Testing Bot you also don't
-   // need to define host and port information because WebdriverIO can figure that out
-   // according to your user and key information. However if you are using a private Selenium
-   // backend you should define the host address, port, and path here.
-   //
-   host: '0.0.0.0',
-   port: 9515,
-   path: '/',
-   services: ['chromedriver'],
+    // Server Configurations
+    // =====================
+    // Host address of the running Selenium server. This information is usually obsolete as
+    // WebdriverIO automatically connects to localhost. Also if you are using one of the
+    // supported cloud services like Sauce Labs, Browserstack or Testing Bot you also don't
+    // need to define host and port information because WebdriverIO can figure that out
+    // according to your user and key information. However if you are using a private Selenium
+    // backend you should define the host address, port, and path here.
+    //
+    // host: '0.0.0.0',
+    path: '/',
+    port: process.env.WDIO_CHROMEDRIVER_PORT,
+    services: [ 'chromedriver' ],
+    chromeDriverArgs: [ '--port=' + process.env.WDIO_CHROMEDRIVER_PORT ],
 
     // user: "wolfgangmm",
     // key: process.env.SAUCE_KEY,
@@ -67,21 +69,21 @@ exports.config = {
         //    "phantomjs.cli.args" : ["--ignore-ssl-errors=yes"]
         // },
         {
-        // maxInstances can get overwritten per capability. So if you have an in-house Selenium
-        // grid with only 5 firefox instances available you can make sure that not more than
-        // 5 instances get started at a time.
-        // maxInstances: 5,
+            // maxInstances can get overwritten per capability. So if you have an in-house Selenium
+            // grid with only 5 firefox instances available you can make sure that not more than
+            // 5 instances get started at a time.
+            // maxInstances: 5,
 
-        browserName: 'chrome',
-        chromeOptions: {
-            args: ['headless',
-                   'disable-gpu',
-                   '--window-size=1280,1024',
-                   'ignore-certificate-errors',
-                   'ignore-urlfetcher-cert-requests'],
-            binary: process.env.WDIO_CHROME_BINARY
-        },
-        acceptsSslCerts: true
+            browserName: 'chrome',
+            chromeOptions: {
+                args: ['headless',
+                       'disable-gpu',
+                       '--window-size=1280,1024',
+                       'ignore-certificate-errors',
+                       'ignore-urlfetcher-cert-requests'],
+                binary: process.env.WDIO_CHROME_BINARY
+            },
+            acceptsSslCerts: true
         }
     ],
     //
@@ -99,7 +101,7 @@ exports.config = {
     logLevel: 'error',
     //
     // Enables colors for log output.
-    coloredLogs: true,
+    coloredLogs: false,
     //
     // If you only want to run your tests until a specific amount of tests have failed use
     // bail (default is 0 - don't bail, run all tests).

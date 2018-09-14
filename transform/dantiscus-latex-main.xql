@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/myteisimple/latex' at '/db/apps/tei-publisher/transform/myteisimple-latex.xql';
+import module namespace m='http://www.tei-c.org/pm/models/dantiscus/latex' at '/db/apps/tei-publisher/transform/dantiscus-latex.xql';
 
 declare variable $xml external;
 
@@ -8,7 +8,7 @@ let $options := map {
     "class": "article",
     "section-numbers": false(),
     "font-size": "12pt",
-    "styles": ["../transform/myteisimple.css"],
+    "styles": ["../transform/dantiscus.css"],
     "collection": "/db/apps/tei-publisher/transform",
     "parameters": if (exists($parameters)) then $parameters else map {}
 }

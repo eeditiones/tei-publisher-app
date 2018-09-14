@@ -63,7 +63,6 @@ let $node :=
                         if (head or @rendition='simple:display') then
                             epub:block($config, ., ("tei-figure1"), .)
                         else
-                            (: Changed to not show a blue border around the figure :)
                             html:inline($config, ., ("tei-figure2"), .)
                     case element(teiHeader) return
                         if ($parameters?header='short') then
@@ -195,7 +194,6 @@ let $node :=
                     case element(email) return
                         html:inline($config, ., ("tei-email"), .)
                     case element(text) return
-                        (: tei_simplePrint.odd sets a font and margin on the text body. We don't want that. :)
                         html:body($config, ., ("tei-text"), .)
                     case element(floatingText) return
                         epub:block($config, ., ("tei-floatingText"), .)
@@ -248,7 +246,6 @@ let $node :=
                             $config?apply($config, ./node())
                     case element(l) return
                         if (preceding-sibling::*[1][self::speaker]) then
-                            (: Display inline if preceded by a speaker :)
                             html:inline($config, ., ("tei-l1"), .)
                         else
                             epub:block($config, ., css:get-rendition(., ("tei-l2")), .)
@@ -266,7 +263,6 @@ let $node :=
                                 $config?apply($config, ./node())
                     case element(p) return
                         if (ancestor::sp) then
-                            (: Inside a speech element, the paragraph is shown next to the speaker :)
                             html:inline($config, ., css:get-rendition(., ("tei-p1")), .)
                         else
                             html:paragraph($config, ., css:get-rendition(., ("tei-p2")), .)
@@ -290,7 +286,6 @@ let $node :=
                         epub:block($config, ., css:get-rendition(., ("tei-docTitle")), .)
                     case element(lb) return
                         if (not(parent::p)) then
-                            (: Omit line breaks unless inside a paragraph :)
                             html:omit($config, ., ("tei-lb1"), .)
                         else
                             epub:break($config, ., css:get-rendition(., ("tei-lb2")), ., 'line', @n)
@@ -482,15 +477,18 @@ let $node :=
                         else
                             $config?apply($config, ./node())
                     case element(titleStmt) return
-                        if ($parameters?header='short') then
-                            (
-                                html:link($config, ., ("tei-titleStmt3"), title[1], $parameters?doc),
-                                epub:block($config, ., ("tei-titleStmt4"), subsequence(title, 2)),
-                                epub:block($config, ., ("tei-titleStmt5"), author)
-                            )
-
+                        if ($parameters?mode='title') then
+                            html:heading($config, ., ("tei-titleStmt3"), title[@type='statement'], 5)
                         else
-                            epub:block($config, ., ("tei-titleStmt6"), .)
+                            if ($parameters?header='short') then
+                                (
+                                    html:link($config, ., ("tei-titleStmt4"), title[1], $parameters?doc),
+                                    epub:block($config, ., ("tei-titleStmt5"), subsequence(title, 2)),
+                                    epub:block($config, ., ("tei-titleStmt6"), author)
+                                )
+
+                            else
+                                epub:block($config, ., ("tei-titleStmt7"), .)
                     case element(sic) return
                         if (parent::choice and count(parent::*/*) gt 1) then
                             html:inline($config, ., ("tei-sic1"), .)
