@@ -24,16 +24,13 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../c
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 
 declare function tpu:parse-pi($doc as document-node(), $view as xs:string?) {
-    tpu:parse-pi($doc, $view, ())
+    tpu:parse-pi($doc, $view, request:get-parameter("odd", ()))
 };
 
 declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd as xs:string?) {
-    let $odd := ($odd, $config:odd)[1]
     let $oddAvailable := doc-available($config:odd-root || "/" || $odd)
-    let $odd := if ($oddAvailable) then $odd else $config:default-odd
     let $default := map {
         "view": ($view, $config:default-view)[1],
-        "odd": $odd,
         "depth": $config:pagination-depth,
         "fill": $config:pagination-fill,
         "type": nav:document-type($doc/*)
@@ -53,6 +50,20 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd
                 else
                     map:entry($key, $value)
         )
+    (: Check if ODD configured in PI is available :)
+    let $cfgOddAvail :=
+        if ($pis?odd) then
+            doc-available($config:odd-root || "/" || $pis?odd)
+        else
+            false()
+    (: ODD from parameter should overwrite ODD defined in PI :)
+    let $config :=
+        if ($odd) then
+            map:new(($pis, map { "odd": $odd }))
+        else if ($cfgOddAvail) then
+            $pis
+        else
+            map:new(($pis, map { "odd": $config:default-odd }))
     return
-        map:new(($default, $pis))
+        map:new(($default, $config))
 };

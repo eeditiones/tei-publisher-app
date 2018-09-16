@@ -59,7 +59,10 @@
                     name: {
                         type: String
                     },
-                    /** Currently selected ODD */
+                    /** Currently selected ODD. If this property is set, the component
+                     * will immediately load the list of ODDs from the server and select
+                     * the given ODD.
+                     */
                     odd: {
                         type: String,
                         notify: true,
@@ -74,19 +77,18 @@
 
             ready() {
                 super.ready();
-                if (!this.odd) {
-                    let odd = this.getParameter('odd');
-                    if (odd) {
-                        odd = odd.replace(/^(.*?)\.[^\.]+$/, '$1');
-                    }
-                    this.odd = odd;
+                this.subscribeTo('pb-update', this._onTargetUpdate.bind(this));
+
+                if (this.odd) {
+                    this._refresh();
                 }
-                this._refresh();
             }
 
             _selected(newOdd, oldOdd) {
-                if (typeof oldOdd !== 'undefined') {
-                    console.log('<pb-select-odd> Switching to ODD: %s', this.odd);
+                if (typeof oldOdd !== 'undefined' && newOdd !== oldOdd) {
+                    console.log('<pb-select-odd> Switching to ODD %s from %s', this.odd, oldOdd);
+                    this.setParameter('odd', this.odd + '.odd');
+                    this.pushHistory('Set ODD: %s', this.odd);
                     this.emitTo('pb-refresh', {
                         odd: this.odd
                     });
@@ -100,6 +102,18 @@
 
             _update() {
                 this.set('odds', this.$.load.lastResponse);
+            }
+
+            _onTargetUpdate(ev) {
+                let newOdd = ev.detail.data.odd;
+                if (newOdd) {
+                    newOdd = newOdd.replace(/^(.*?)\.[^\.]+$/, '$1');
+                    console.log('<pb-select-odd> Set current ODD from %s to %s', this.odd, newOdd);
+                }
+                if (newOdd !== this.odd) {
+                    this._refresh();
+                }
+                this.odd = newOdd;
             }
         }
 
