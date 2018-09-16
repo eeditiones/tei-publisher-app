@@ -12,9 +12,9 @@
         <title data-template="config:app-title"/>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald"/>
-        <script src="../tei-publisher/components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
-        <script src="../tei-publisher/components/bower_components/js-cookie/src/js.cookie.js"/>
-        <link rel="import" href="../tei-publisher/components/dependencies-dev.html"/>
+        <script src="../tei-pulisher/components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
+        <script src="../tei-pulisher/components/bower_components/js-cookie/src/js.cookie.js"/>
+        <link rel="import" href="../tei-pulisher/components/dependencies-dev.html"/>
 
         <custom-style>
             <style include="pb-common-styles">
@@ -105,7 +105,24 @@
         <app-header-layout>
             <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
                 <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
-                <app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/>
+                <app-toolbar class="toolbar" sticky="sticky" xmlns:i18n="http://exist-db.org/xquery/i18n">
+                    <paper-icon-button class="toc-toggle" icon="icons:view-list" drawer-toggle="drawer-toggle"/>
+                    <pb-select-odd label="Use ODD:" emit="transcription"></pb-select-odd>
+                    <pb-edit-xml src="document1">
+                        <paper-icon-button icon="icons:code" alt="Edit source"/>
+                    </pb-edit-xml>
+                    <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
+                    <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
+                    <pb-navigation emit="transcription"
+                        subscribe="transcription" direction="backward" unit="page">
+                        <paper-icon-button icon="icons:chevron-left"/>
+                    </pb-navigation>
+                    <pb-navigation emit="transcription"
+                        subscribe="transcription" direction="forward" unit="page">
+                        <paper-icon-button icon="icons:chevron-right"/>
+                    </pb-navigation>
+                    <pb-progress subscribe="transcription" indeterminate="indeterminate" bottom-item="bottom-item"/>
+                </app-toolbar>
             </app-header>
 
             <section class="breadcrumbs">
