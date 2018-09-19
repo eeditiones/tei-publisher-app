@@ -10,11 +10,12 @@
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
 
         <title data-template="config:app-title"/>
+        <meta name="description" content="Default single text layout"/>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald"/>
-        <script src="../tei-publisher/components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
-        <script src="../tei-publisher/components/bower_components/js-cookie/src/js.cookie.js"/>
-        <link rel="import" href="../tei-publisher/components/dependencies-dev.html"/>
+        <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
+        <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
+        <link rel="import" href="components/dependencies-dev.html"/>
 
         <custom-style>
             <style include="pb-common-styles">
@@ -35,7 +36,7 @@
                     font-size: 14pt;
                     line-height: 1.42857143;
                     max-width: 60vw;
-                    margin: 8px 16px;
+                    margin: 0 16px;
                 }
 
                 .toolbar {
@@ -84,8 +85,9 @@
                     }
                 }
 
-                .document-title {
-                    text-align: center;
+                .breadcrumbs {
+                    margin: 16px 0 16px 20px;
+                    font-weight: 400;
                 }
 
                 #drawer {
@@ -128,14 +130,33 @@
             <app-header-layout>
                 <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
                     <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
-                    <app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/>
-                    <app-toolbar sticky="sticky" class="document-title">
-                        <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
-                            <pb-param name="header" value="short"/>
-                        </pb-view>
+                    <app-toolbar class="toolbar" sticky="sticky" xmlns:i18n="http://exist-db.org/xquery/i18n">
+                        <paper-icon-button class="toc-toggle" icon="icons:view-list" drawer-toggle="drawer-toggle"/>
+                        <pb-view-type subscribe="transcription" emit="transcription">Page View</pb-view-type>
+                        <pb-select-odd label="Use ODD:" emit="transcription" subscribe="transcription"></pb-select-odd>
+                        <pb-select-template label="Template" data-template="pages:pb-select-template"></pb-select-template>
+                        <pb-edit-xml src="document1">
+                            <paper-icon-button icon="icons:code" alt="Edit source"/>
+                        </pb-edit-xml>
+                        <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
+                        <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
+                        <pb-navigation emit="transcription"
+                            subscribe="transcription" direction="backward" unit="page">
+                            <paper-icon-button icon="icons:chevron-left"/>
+                        </pb-navigation>
+                        <pb-navigation emit="transcription"
+                            subscribe="transcription" direction="forward" unit="page">
+                            <paper-icon-button icon="icons:chevron-right"/>
+                        </pb-navigation>
+                        <pb-progress subscribe="transcription" indeterminate="indeterminate" bottom-item="bottom-item"/>
                     </app-toolbar>
                 </app-header>
 
+                <section class="breadcrumbs">
+                    <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
+                        <pb-param name="header" value="short"/>
+                    </pb-view>
+                </section>
                 <main class="content-body">
                     <pb-navigation direction="backward" unit="page" keyboard="left" emit="transcription"
                         subscribe="transcription">

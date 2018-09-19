@@ -15,10 +15,15 @@ declare variable $logout := request:get-parameter("logout", ());
 declare variable $login := request:get-parameter("user", ());
 
 declare function local:get-template($doc as xs:string) {
-    let $document := pages:get-document($doc)
-    let $config := tpu:parse-pi($document, request:get-parameter("view", ()))
+    let $template := request:get-parameter("template", ())
     return
-        $config?template
+        if ($template) then
+            $template
+        else
+            let $document := pages:get-document($doc)
+            let $config := tpu:parse-pi($document, request:get-parameter("view", ()))
+            return
+                $config?template
 };
 
 
@@ -33,7 +38,32 @@ else if ($exist:path eq "/") then
         <redirect url="index.html"/>
     </dispatch>
 
-else if (contains($exist:path, "/$shared/")) then
+(:
+ : Login a user via AJAX. Just returns a 401 if login fails.
+ :)
+else if ($exist:resource eq 'login') then (
+    let $loggedIn := login:set-user($config:login-domain, (), false())
+    let $user := request:get-attribute($config:login-domain || ".user")
+    return (
+        util:declare-option("exist:serialize", "method=json"),
+        try {
+            <status>
+                <user>{$user}</user>
+                {
+                    if ($user) then (
+                        <group>{sm:get-user-groups($user)}</group>,
+                        <dba>{sm:is-dba($user)}</dba>
+                    ) else
+                        ()
+                }
+            </status>
+        } catch * {
+            response:set-status-code(401),
+            <status>{$err:description}</status>
+        }
+    )
+
+) else if (contains($exist:path, "/$shared/")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="/shared-resources/{substring-after($exist:path, '/$shared/')}"/>
     </dispatch>
@@ -61,7 +91,7 @@ else if (ends-with($exist:resource, ".xql")) then (
 
 else if (contains($exist:path, "/components")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/components/{substring-after($exist:path, '/components/')}"/>
+        <forward url="{$exist:controller}/../tei-publisher/components/{substring-after($exist:path, '/components/')}"/>
     </dispatch>
 
 else if ($logout or $login) then (
@@ -105,10 +135,15 @@ else if (ends-with($exist:resource, ".html")) then (
                 }
                 </forward>
             </view>
-    		<error-handler>
-    			<forward url="{$exist:controller}/error-page.html" method="get"/>
-    			<forward url="{$exist:controller}/modules/view.xql"/>
-    		</error-handler>
+            {
+                if ($exist:resource = "index.html") then
+            		<error-handler>
+            			<forward url="{$exist:controller}/error-page.html" method="get"/>
+            			<forward url="{$exist:controller}/modules/view.xql"/>
+            		</error-handler>
+                else
+                    ()
+            }
         </dispatch>
 
 ) else (
@@ -172,9 +207,15 @@ else if (ends-with($exist:resource, ".html")) then (
                 if ($html) then $html else (local:get-template($docPath), $config:default-template)[1]
             return
                 <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                    <forward url="{$exist:controller}/{$template}"></forward>
+                    <forward url="{$exist:controller}/templates/pages/{$template}"></forward>
                     <view>
                         <forward url="{$exist:controller}/modules/view.xql">
+                        {
+                            if (request:get-parameter("template", ())) then
+                                ()
+                            else
+                                <add-parameter name="template" value="{$template}"/>
+                        }
                         {
                             if ($exist:resource != "toc.html") then
                                 <add-parameter name="doc" value="{$path}{$id}"/>

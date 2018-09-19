@@ -10,44 +10,50 @@
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
 
         <title data-template="config:app-title"/>
+        <meta name="description" content="Documentation"/>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald"/>
         <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
         <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
+        <script src="resources/scripts/vendor/highlight.pack.js"/>
         <link rel="import" href="components/dependencies-dev.html"/>
-
+        <link rel="import" href="components/pb-code-highlight.html"/>
         <custom-style>
             <style include="pb-common-styles">
                 body {
                     --pb-link-theme: {
-                        font-family: "Junicode",Georgia,"Times New Roman",serif;
                         text-decoration: none;
                         color: black;
                     };
 
                     --pb-content-theme: {
                         margin-right: 32px;
-                    }
+                    };
 
-                    --pb-alternate-inline: var(--paper-blue-800);
+                    --paper-card-header: {
+                        font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                        background-color: #607D8B;
+                    };
 
-                    --pb-view-height: calc(100vh - 192px);
+                    --paper-card-header-color: #F0F0F0;
+
+                    --pb-view-height: calc(100vh - 200px);
                 }
 
-                #view1, #view2 {
-                    flex: 1 1;
-                    font-family: "Junicode", Georgia, "Times New Roman", serif;
-                    font-size: 14pt;
-                    line-height: 1.42857143;
+                #view1 {
                     max-width: 60vw;
-                    margin: 0 16px;
-                    max-height: var(--pb-view-height);
-                    overflow: auto;
+                    margin: 8px 16px;
                 }
 
                 .toolbar {
                     justify-content: space-between;
                     background-color: #d1dae0;
+                }
+
+                @media (min-width: 769px) {
+                    .toolbar pb-navigation {
+                        display: none;
+                    }
                 }
 
                 [main-title] {
@@ -62,21 +68,35 @@
                     position: relative;
                     display: flex;
                     justify-content: center;
-                    padding: 0 20px;
+                    height: var(--pb-view-height);
+                    overflow: auto;
                 }
 
-                .content-body pb-view {
-                    flex: 1 1;
+                .content-body pb-navigation {
+                    position: fixed;
+                    bottom: 45%;
+                    --paper-fab-background: #35424b;
+                    color: white;
+                }
+
+                .content-body pb-navigation[direction=backward] {
+                    left: 20px;
+                }
+
+                .content-body pb-navigation[direction=forward] {
+                    right: 20px;
                 }
 
                 @media (max-width: 769px) {
-                    .document-title {
+                    .content-body pb-navigation {
                         display: none;
                     }
                 }
 
-                .document-title {
-                    justify-content: space-between;
+                .breadcrumbs {
+                    margin: 16px 0 16px 20px;
+                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                    font-weight: 400;
                 }
 
                 #drawer {
@@ -104,7 +124,7 @@
         </custom-style>
     </head>
 
-    <body data-template="i18n:translate" data-catalogues="resources/i18n">
+    <body unresolved="unresolved" data-template="i18n:translate" data-catalogues="resources/i18n">
         <pb-document id="document1" data-template="pages:pb-document"/>
         <app-drawer-layout force-narrow="force-narrow">
             <app-drawer slot="drawer" id="drawer">
@@ -121,7 +141,6 @@
                     <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
                     <app-toolbar class="toolbar" sticky="sticky" xmlns:i18n="http://exist-db.org/xquery/i18n">
                         <paper-icon-button class="toc-toggle" icon="icons:view-list" drawer-toggle="drawer-toggle"/>
-                        <pb-select-odd label="Use ODD:" emit="transcription" subscribe="transcription"></pb-select-odd>
                         <pb-edit-xml src="document1">
                             <paper-icon-button icon="icons:code" alt="Edit source"/>
                         </pb-edit-xml>
@@ -138,21 +157,26 @@
                         <pb-progress subscribe="transcription" indeterminate="indeterminate" bottom-item="bottom-item"/>
                     </app-toolbar>
 
-                    <app-toolbar sticky="sticky" class="document-title">
-                        <pb-view id="title-view1" src="document1" xpath="//teiHeader" view="single">
-                            <pb-param name="header" value="letter"/>
-                        </pb-view>
-                    </app-toolbar>
                 </app-header>
 
+                <section class="breadcrumbs">
+                    <pb-view id="title-view1" src="document1" data-template="pages:pb-view" subscribe="transcription">
+                        <pb-param name="mode" value="breadcrumbs"/>
+                    </pb-view>
+                </section>
+
                 <main class="content-body">
+                    <pb-navigation direction="backward" unit="page" keyboard="left" emit="transcription"
+                        subscribe="transcription">
+                        <paper-fab icon="icons:chevron-left"/>
+                    </pb-navigation>
                     <pb-view id="view1" src="document1" data-template="pages:pb-view"
-                        xpath="//text[@xml:lang='la']/body"
                         column-separator=".tei-cb" history="history" append-footnotes="append-footnotes"
                         subscribe="transcription" emit="transcription"/>
-                    <pb-view id="view2" src="document1" data-template="pages:pb-view"
-                        xpath="//text[@xml:lang='pl']/body" subscribe="transcription"
-                        column-separator=".tei-cb" append-footnotes="append-footnotes"/>
+                    <pb-navigation direction="forward" unit="page" keyboard="right" emit="transcription"
+                        subscribe="transcription">
+                        <paper-fab icon="icons:chevron-right"/>
+                    </pb-navigation>
                 </main>
             </app-header-layout>
         </app-drawer-layout>

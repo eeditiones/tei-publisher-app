@@ -17,10 +17,15 @@ declare variable $login := request:get-parameter("user", ());
 declare variable $data-collections := $config:setup/collections/path;
 
 declare function local:get-template($doc as xs:string) {
-    let $document := pages:get-document($doc)
-    let $config := tpu:parse-pi($document, request:get-parameter("view", ()))
+    let $template := request:get-parameter("template", ())
     return
-        $config?template
+        if ($template) then
+            $template
+        else
+            let $document := pages:get-document($doc)
+            let $config := tpu:parse-pi($document, request:get-parameter("view", ()))
+            return
+                $config?template
 };
 
 
@@ -204,9 +209,15 @@ else if (ends-with($exist:resource, ".html")) then (
                 if ($html) then $html else (local:get-template($docPath), $config:default-template)[1]
             return
                 <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                    <forward url="{$exist:controller}/{$template}"></forward>
+                    <forward url="{$exist:controller}/templates/pages/{$template}"></forward>
                     <view>
                         <forward url="{$exist:controller}/modules/view.xql">
+                        {
+                            if (request:get-parameter("template", ())) then
+                                ()
+                            else
+                                <add-parameter name="template" value="{$template}"/>
+                        }
                         {
                             if ($exist:resource != "toc.html") then
                                 <add-parameter name="doc" value="{$path}{$id}"/>

@@ -81,7 +81,10 @@ let $xml :=
         let $xquery := "declare default element namespace '" || $namespace || "'; $document" || $xpath
         let $data := util:eval($xquery)
         return
-            pages:load-xml($data, $view, (), $doc)
+            if ($data) then
+                pages:load-xml($data, $view, (), $doc)
+            else
+                ()
     else
         pages:load-xml($view, $root, $doc)
 return

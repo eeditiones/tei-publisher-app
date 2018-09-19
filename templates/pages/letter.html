@@ -10,6 +10,7 @@
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
 
         <title data-template="config:app-title"/>
+        <meta name="description" content="Letter with map/facets"/>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald"/>
         <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
@@ -44,12 +45,6 @@
                 .toolbar {
                     justify-content: space-between;
                     background-color: #d1dae0;
-                }
-
-                @media (min-width: 769px) {
-                    .toolbar pb-navigation {
-                        display: none;
-                    }
                 }
 
                 [main-title] {
@@ -108,6 +103,12 @@
                 <app-toolbar class="toolbar" sticky="sticky" xmlns:i18n="http://exist-db.org/xquery/i18n">
                     <paper-icon-button class="toc-toggle" icon="icons:view-list" drawer-toggle="drawer-toggle"/>
                     <pb-select-odd label="Use ODD:" emit="transcription" subscribe="transcription"></pb-select-odd>
+                    <pb-select-template label="Template" template="${template}" data-template="pages:parse-params">
+                        <paper-item value="view.html">Default Single Text</paper-item>
+                        <paper-item value="translation.html">Side-by-side: transcription/translation</paper-item>
+                        <paper-item value="facsimile.html">Text/Facsimile</paper-item>
+                        <paper-item value="letter.html">Letter with Sidebar/Map</paper-item>
+                    </pb-select-template>
                     <pb-edit-xml src="document1">
                         <paper-icon-button icon="icons:code" alt="Edit source"/>
                     </pb-edit-xml>

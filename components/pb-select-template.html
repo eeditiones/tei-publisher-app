@@ -1,0 +1,74 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-select-template">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            paper-dropdown-menu {
+                --paper-listbox-background-color: white;
+            }
+        </style>
+
+        <paper-dropdown-menu id="menu" label="[[label]]" name="[[name]]">
+            <paper-listbox slot="dropdown-content" class="dropdown-content" selected="{{template}}" attr-for-selected="value">
+                <slot></slot>
+            </paper-listbox>
+        </paper-dropdown-menu>
+    </template>
+
+    <script>
+        /**
+         * `pb-select-template`: Switch between available ODDs.
+         * It loads the list of ODDs from `components-odd.xql`.
+         * Emits a `pb-refresh` event to subscribed views.
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbSelectTemplate extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'pb-select-template';
+            }
+
+            static get properties() {
+                return {
+                    /** The label to show on top of the dropdown menu */
+                    label: {
+                        type: String,
+                        value: 'Template'
+                    },
+                    /** Currently selected ODD. If this property is set, the component
+                     * will immediately load the list of ODDs from the server and select
+                     * the given ODD.
+                     */
+                    template: {
+                        type: String,
+                        observer: '_selected'
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback() ;
+            }
+
+            ready() {
+                super.ready();
+            }
+
+            _selected(newTemplate, oldTemplate) {
+                if (typeof oldTemplate !== 'undefined' && newTemplate && newTemplate !== oldTemplate) {
+                    this.setParameter('template', newTemplate);
+                    window.location = this.getUrl().toString();
+                }
+            }
+        }
+
+        window.customElements.define(PbSelectTemplate.is, PbSelectTemplate);
+    </script>
+</dom-module>

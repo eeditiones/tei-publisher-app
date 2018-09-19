@@ -65,7 +65,7 @@ declare variable $deploy:ANT_FILE :=
                 excludes="${{build.dir}}/*"/>
         </target>
     </project>;
-        
+
 declare function deploy:expand-ant($nodes as node()*, $json as map(*)) {
     for $node in $nodes
     return
@@ -301,6 +301,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:store-ant($collection, $json),
         deploy:store-xconf($collection, $json),
         deploy:copy-collection($collection, $base || "/templates/basic", ($json?owner, "tei"), "rw-rw-r--"),
+        deploy:copy-collection($collection || "/templates/pages", $base || "/templates/pages", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:expand($collection || "/modules", "config.xqm", $replacements),
         deploy:expand($collection || "/modules", "pm-config.xql", $replacements),
         deploy:store-libs($collection, ($json?owner, "tei"), "rw-rw-r--"),

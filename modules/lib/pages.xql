@@ -87,6 +87,19 @@ declare function pages:pb-view($node as node(), $model as map(*), $root as xs:st
     }
 };
 
+declare function pages:pb-select-template($node as node(), $model as map(*), $template as xs:string?) {
+    <pb-select-template template="{$template}">
+    {
+        $node/@*,
+        for $html in collection($config:app-root || "/templates/pages")/*
+        let $description := $html//meta[@name="description"]/@content/string()
+        return
+            <paper-item value="{util:document-name($html)}">{($description, util:document-name($html))[1]}</paper-item>
+        }
+    </pb-select-template>
+};
+
+
 declare function pages:current-language($node as node(), $model as map(*), $lang as xs:string?) {
     let $selected := count($node/*[. = $lang]/preceding-sibling::*)
     return

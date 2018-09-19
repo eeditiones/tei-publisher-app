@@ -10,11 +10,12 @@
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
 
         <title data-template="config:app-title"/>
+        <meta name="description" content="Transcription/translation"/>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald"/>
-        <script src="../tei-publisher/components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
-        <script src="../tei-publisher/components/bower_components/js-cookie/src/js.cookie.js"/>
-        <link rel="import" href="../tei-publisher/components/dependencies-dev.html"/>
+        <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
+        <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
+        <link rel="import" href="components/dependencies-dev.html"/>
 
         <custom-style>
             <style include="pb-common-styles">
@@ -29,17 +30,19 @@
                         margin-right: 32px;
                     }
 
+                    --pb-alternate-inline: var(--paper-blue-800);
+
                     --pb-view-height: calc(100vh - 192px);
                 }
 
-                #view1 {
+                #view1, #view2 {
                     flex: 1 1;
                     font-family: "Junicode", Georgia, "Times New Roman", serif;
                     font-size: 14pt;
                     line-height: 1.42857143;
                     max-width: 60vw;
                     margin: 0 16px;
-                    height: var(--pb-view-height);
+                    max-height: var(--pb-view-height);
                     overflow: auto;
                 }
 
@@ -63,14 +66,18 @@
                     padding: 0 20px;
                 }
 
-                .content-body pb-facsimile {
+                .content-body pb-view {
                     flex: 1 1;
                 }
 
                 @media (max-width: 769px) {
-                    .document-title, pb-facsimile {
+                    .document-title {
                         display: none;
                     }
+                }
+
+                .document-title {
+                    justify-content: space-between;
                 }
 
                 #drawer {
@@ -113,36 +120,41 @@
             <app-header-layout>
                 <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
                     <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
-                    <app-toolbar class="toolbar" sticky="sticky">
+                    <app-toolbar class="toolbar" sticky="sticky" xmlns:i18n="http://exist-db.org/xquery/i18n">
                         <paper-icon-button class="toc-toggle" icon="icons:view-list" drawer-toggle="drawer-toggle"/>
+                        <pb-select-odd label="Use ODD:" emit="transcription" subscribe="transcription"></pb-select-odd>
+                        <pb-select-template label="Template" data-template="pages:pb-select-template"></pb-select-template>
                         <pb-edit-xml src="document1">
                             <paper-icon-button icon="icons:code" alt="Edit source"/>
                         </pb-edit-xml>
                         <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
                         <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
-                        <pb-navigation emit="transcription" keyboard="left"
+                        <pb-navigation emit="transcription"
                             subscribe="transcription" direction="backward" unit="page">
                             <paper-icon-button icon="icons:chevron-left"/>
                         </pb-navigation>
-                        <pb-navigation emit="transcription" keyboard="right"
+                        <pb-navigation emit="transcription"
                             subscribe="transcription" direction="forward" unit="page">
                             <paper-icon-button icon="icons:chevron-right"/>
                         </pb-navigation>
                         <pb-progress subscribe="transcription" indeterminate="indeterminate" bottom-item="bottom-item"/>
                     </app-toolbar>
+
                     <app-toolbar sticky="sticky" class="document-title">
-                        <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt" view="single">
-                            <pb-param name="mode" value="title"/>
+                        <pb-view id="title-view1" src="document1" xpath="//teiHeader" view="single">
+                            <pb-param name="header" value="letter"/>
                         </pb-view>
                     </app-toolbar>
                 </app-header>
 
                 <main class="content-body">
                     <pb-view id="view1" src="document1" data-template="pages:pb-view"
+                        xpath="! (.//text[@xml:lang = 'la']/body | .//text/body)[1]"
                         column-separator=".tei-cb" history="history" append-footnotes="append-footnotes"
                         subscribe="transcription" emit="transcription"/>
-                    <pb-facsimile base-uri="http://apps.existsolutions.com/cantaloupe/iiif/2/"
-                        showNavigationControl="true" showNavigator="true" subscribe="transcription"/>
+                    <pb-view id="view2" src="document1" data-template="pages:pb-view"
+                        xpath="//text[@xml:lang='pl']/body" subscribe="transcription"
+                        column-separator=".tei-cb" append-footnotes="append-footnotes"/>
                 </main>
             </app-header-layout>
         </app-drawer-layout>
