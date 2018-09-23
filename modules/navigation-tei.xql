@@ -32,17 +32,20 @@ declare function nav:get-section-for-node($config as map(*), $node as element())
 };
 
 declare function nav:get-section($config as map(*), $doc) {
-    let $div := ($doc//tei:div)[1]
-    return
-        if ($div) then
-            $div
-        else
-            let $group := root($doc)/tei:TEI/tei:text/tei:group/tei:text/(tei:front|tei:body|tei:back)
-            return
-                if ($group) then
-                    $group[1]
-                else
-                    root($doc)/tei:TEI//tei:text
+    if ($doc instance of element(tei:div)) then
+        $doc
+    else
+        let $div := ($doc//tei:div)[1]
+        return
+            if ($div) then
+                $div
+            else
+                let $group := root($doc)/tei:TEI/tei:text/tei:group/tei:text/(tei:front|tei:body|tei:back)
+                return
+                    if ($group) then
+                        $group[1]
+                    else
+                        root($doc)/tei:TEI//tei:text
 };
 
 declare function nav:get-document-title($config as map(*), $root as element()) {
