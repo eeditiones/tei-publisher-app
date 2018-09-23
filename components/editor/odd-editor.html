@@ -334,10 +334,7 @@
               const pathname = window.location.pathname;
               this.basePath = pathname.substring(0,pathname.lastIndexOf('/components'));
 //              console.log('basePath ', this.basePath );
-              this.odd = this.getParameter('odd');
 //              console.log('odd param: ', this.odd);
-              this.outputRoot = this.outputRoot || this.getParameter('output-root');
-              this.rootPath = this.rootPath || this.getParameter('root');
 
               this.$.jumpTo.addEventListener('autocomplete-selected', this.jumpTo.bind(this));
 
