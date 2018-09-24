@@ -54,6 +54,7 @@
             <div class="odd">
                 <paper-radio-button checked$="[[item.current]]" value="[[item.path]]" on-click="_selectODD"></paper-radio-button>
                 <a href$="odd-editor.html?odd=[[item.name]].odd" target="_blank">[[item.label]]</a>
+                <!-- TODO this toolbar should only appear once per ODD files papercard -->
                 <app-toolbar>
                     <pb-restricted login="login">
                         <pb-ajax url$="modules/lib/regenerate.xql?odd=[[item.name]].odd" dialog="messageDialog">
