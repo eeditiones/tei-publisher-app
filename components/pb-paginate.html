@@ -18,17 +18,20 @@
                 cursor: pointer;
             }
 
-            .found {
-                padding-left: 20px;
-            }
-
             .active {
                 background-color: var(--paper-grey-800);
                 color: white;
                 border-radius: 50%;
+                min-width: 1em;
+                text-align: center;
 
                 @apply --shadow-elevation-3dp;
             }
+
+            .found {
+                padding-left: 20px;
+            }
+
         </style>
 
         <span on-click="_handleFirst"><iron-icon icon="first-page"></iron-icon></span>
