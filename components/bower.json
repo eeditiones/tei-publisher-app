@@ -8,7 +8,6 @@
     "iron-icons": "PolymerElements/iron-icons#^2.1.1",
     "app-layout": "PolymerElements/app-layout#^2.1.1",
     "paper-styles": "PolymerElements/paper-styles#^2.1.0",
-    "existdb-layout": "https://gitlab.existsolutions.com/eXistdbElements/existdb-layout.git#^0.2.0",
     "paper-card": "PolymerElements/paper-card#^2.1.0",
     "paper-checkbox": "PolymerElements/paper-checkbox#^2.0.4",
     "paper-progress": "PolymerElements/paper-progress#^2.1.1",

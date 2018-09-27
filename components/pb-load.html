@@ -84,7 +84,9 @@
                 super.ready();
 
                 if (this.auto) {
-                    this.load();
+                    Polymer.RenderStatus.beforeNextRender(this, function() {
+                        this.load();
+                    });
                 }
             }
 
@@ -154,13 +156,13 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(msg, "application/xml");
                 const node = doc.querySelector('message');
-                
+
                 const dialog = document.getElementById('errorDialog');
                 const body = dialog.querySelector("paper-dialog-scrollable");
                 body.innerHTML = node.textContent;
                 dialog.open();
             }
-            
+
             _parseHeaders(xhr) {
                 const total = xhr.getResponseHeader('pb-total');
                 const start = xhr.getResponseHeader('pb-start');

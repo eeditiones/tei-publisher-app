@@ -42,7 +42,7 @@
             pb-restricted {
                 display: flex;
             }
-            
+
             .odd-description {
                 color: #888888;
                 font-size: 0.8em;
@@ -78,7 +78,7 @@
                 </form>
             </iron-form>
         </pb-restricted>
-        
+
         <iron-ajax
             id="load"
             url="modules/lib/components-odd.xql"
@@ -141,7 +141,9 @@
             ready(){
                 super.ready();
 
-                this._refresh();
+                Polymer.RenderStatus.beforeNextRender(this, function() {
+                    this._refresh();
+                });
             }
 
             _refresh(params) {
