@@ -24,7 +24,8 @@
          * `<pb-load>`
          *
          * Dynamically load data into a container, optionally triggered by an event.
-         *
+         * This is used for e.g. the document list on the start page or the table
+         * of contents.
          *
          * @customElement
          * @polymer
@@ -64,6 +65,10 @@
                     },
                     start: {
                         type: Number
+                    },
+                    history: {
+                        type: Boolean,
+                        value: false
                     }
                 };
             }
@@ -77,14 +82,38 @@
             connectedCallback() {
                 super.connectedCallback();
 
-                this.subscribeTo('pb-load', this.load.bind(this));
+                this.subscribeTo('pb-load', function(ev) {
+                    if (this.history && ev.detail.params) {
+                        const start = ev.detail.params.start;
+                        if (start) {
+                            this.setParameter('start', start);
+                            this.pushHistory('pagination', {
+                                start: start
+                            });
+                        }
+                    }
+                    this.load(ev);
+                }.bind(this));
+
+                if (this.history) {
+                    window.addEventListener('popstate', function(ev) {
+                        ev.preventDefault();
+                        if (ev.state && ev.state.start && ev.state.start !== this.start) {
+                            this.start = ev.state.start;
+                            this.load();
+                        }
+                    }.bind(this));
+                }
             }
 
             ready() {
                 super.ready();
 
                 if (this.auto) {
-                    this.load();
+                    Polymer.RenderStatus.beforeNextRender(this, function() {
+                        this.start = this.getParameter('start', this.start);
+                        this.load();
+                    });
                 }
             }
 
@@ -154,19 +183,20 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(msg, "application/xml");
                 const node = doc.querySelector('message');
-                
+
                 const dialog = document.getElementById('errorDialog');
                 const body = dialog.querySelector("paper-dialog-scrollable");
                 body.innerHTML = node.textContent;
                 dialog.open();
             }
-            
+
             _parseHeaders(xhr) {
                 const total = xhr.getResponseHeader('pb-total');
                 const start = xhr.getResponseHeader('pb-start');
 
-                this.start = parseInt(start);
-
+                if (this.start !== start) {
+                    this.start = parseInt(start);
+                }
                 this.emitTo('pb-results-received', {
                     "count": parseInt(total),
                     "start": this.start

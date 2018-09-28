@@ -205,6 +205,8 @@ declare function pages:load-xml($data as node()*, $view as xs:string?, $root as 
 declare function pages:get-document($idOrName as xs:string) {
     if ($config:address-by-id) then
         root(collection($config:data-root)/id($idOrName))
+    else if (starts-with($idOrName, '/')) then
+        doc(xmldb:encode-uri($idOrName))
     else
         doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
 };
@@ -286,11 +288,11 @@ function pages:view($node as node(), $model as map(*), $action as xs:string) {
         pages:process-content($xml, $model?data, $model?config)
 };
 
-declare function pages:process-content($xml as element()*, $root as element()*, $config as map(*)) {
+declare function pages:process-content($xml as node()*, $root as node()*, $config as map(*)) {
     pages:process-content($xml, $root, $config, ())
 };
 
-declare function pages:process-content($xml as element()*, $root as element()*, $config as map(*), $userParams as map(*)?) {
+declare function pages:process-content($xml as node()*, $root as node()*, $config as map(*), $userParams as map(*)?) {
     let $params := map:merge((
             map {
                 "root": $root,

@@ -9,8 +9,7 @@
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
 
         <title data-template="config:app-title"/>
-        <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Oswald"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
         <script src="../tei-publisher/components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
         <script src="../tei-publisher/components/bower_components/js-cookie/src/js.cookie.js"/>
         <link rel="import" href="../tei-publisher/components/dependencies-dev.html"/>
@@ -148,7 +147,7 @@
                         <paper-item>it</paper-item>
                         <paper-item>pl</paper-item>
                     </pb-lang>
-                    <pb-login login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user" group="tei">
+                    <pb-login id="login" login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user" group="tei">
                         <iron-icon slot="icon" icon="account-circle"/>
                     </pb-login>
                     <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
@@ -163,7 +162,7 @@
                     <paper-card class="documents" heading="i18n(documents)">
                         <div class="card-content">
                             <pb-paginate id="paginate" per-page="10" range="5" found-label="i18n(browsing)"/>
-                            <pb-browse-docs id="document-loader" url="templates/documents.html" container="#document-list" auto="auto"/>
+                            <pb-browse-docs id="document-loader" url="templates/documents.html" container="#document-list" auto="auto" history="history"/>
                             <div id="document-list"/>
                         </div>
                     </paper-card>

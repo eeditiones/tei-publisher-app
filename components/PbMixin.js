@@ -124,13 +124,13 @@ function PbAppState() {
                 });
             }
         }
-        
-        getParameter(name) {
+
+        getParameter(name, fallback) {
             const params = url.searchParams.getAll(name);
             if (params && params.length > 0) {
                 return params[0];
             }
-            return null;
+            return fallback;
         }
 
         getParameterValues(name) {
@@ -145,8 +145,8 @@ function PbAppState() {
             return url;
         }
 
-        pushHistory(msg) {
-            history.pushState(null, msg, url.toString());
+        pushHistory(msg, state) {
+            history.pushState(state, msg, url.toString());
         }
     }
 };

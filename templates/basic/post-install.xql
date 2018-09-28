@@ -58,7 +58,7 @@ declare function local:create-data-collection() {
 
 
 declare function local:generate-code($collection as xs:string) {
-    let $odd := xmldb:get-child-resources($collection || "/resources/odd")[ends-with(., ".odd")]
+    for $odd in xmldb:get-child-resources($collection || "/resources/odd")[ends-with(., ".odd")]
     let $count := count($odd)
     let $oddName :=
         switch ($count)

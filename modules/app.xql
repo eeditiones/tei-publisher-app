@@ -137,22 +137,20 @@ function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
 };
 
 declare
-%templates:wrap
 %templates:default("odd", "teipublisher.odd")
-function app:editor-init($node as node(), $model as map(*), $odd as xs:string, $root as xs:string?, $output-root as xs:string?,
+function app:odd-editor($node as node(), $model as map(*), $odd as xs:string, $root as xs:string?, $output-root as xs:string?,
 $output-prefix as xs:string?) {
     let $root := ($root, $config:odd-root)[1]
-    let $config := map {
-        "config": map {
-            "odd": $odd,
-            "root": $root,
-            "outputRoot": ($output-root, $config:app-root || "/transform")[1],
-            "outputPrefix": ($output-prefix, "transform")[1]
-        }
-    }
     return
-        "var TeiPublisher = " || serialize($config,
-        <output:serialization-parameters><output:method>json</output:method></output:serialization-parameters>)
+        <odd-editor output-root="{($output-root, $config:app-root || "/transform")[1]}"
+            root-path="{$root}"
+            output-prefix="{($output-prefix, "transform")[1]}"
+            odd="{$odd}">
+        {
+            $node/@*,
+            templates:process($node/node(), $model)
+        }
+        </odd-editor>
 };
 
 
