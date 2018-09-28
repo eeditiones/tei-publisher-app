@@ -30,3 +30,25 @@ Run the tests:
 ```shell
 ./node_modules/.bin/wdio wdio.conf.js
 ```
+
+## Web Components Test
+
+No need to run Selenium.
+
+To use a non standard Chrime binary use the `WDIO_CHROME_BINARY` variable:
+
+```shell
+export WDIO_CHROME_BINARY=/usr/bin/google-chrome-beta
+```
+
+Run wct test:
+
+```shell
+npm test-wct
+```
+
+or manually:
+
+```shell
+./node_modules/.bin/wdio wdio.conf.js --spec test/specs/wct-index.spec.js
+```
