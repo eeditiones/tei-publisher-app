@@ -35,16 +35,16 @@ Run the tests:
 
 No need to run Selenium.
 
-To use a non standard Chrime binary use the `WDIO_CHROME_BINARY` variable:
+To use a non standard Chrome binary use the `WDIO_CHROME_BINARY` variable:
 
 ```shell
-export WDIO_CHROME_BINARY=/usr/bin/google-chrome-beta
+export WDIO_CHROME_BINARY="/usr/bin/google-chrome-beta"
 ```
 
 Run wct test:
 
 ```shell
-npm test-wct
+npm test wct
 ```
 
 or manually:
