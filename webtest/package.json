@@ -29,12 +29,14 @@
     "wdio-phantomjs-service": "^0.2.2",
     "wdio-sauce-service": "^0.3.1",
     "wdio-spec-reporter": "0.0.5",
-    "webdriverio": "^4.9.11"
+    "webdriverio": "^4.9.11",
+    "xml-writer": "^1.7.0"
   },
   "scripts": {
     "test": "./node_modules/.bin/wdio wdio.conf.js",
     "test-dev": "./node_modules/.bin/wdio wdio.conf.js --suite dev",
-    "test-prod": "./node_modules/.bin/wdio wdio.conf.js --suite prod"
+    "test-prod": "./node_modules/.bin/wdio wdio.conf.js --suite prod",
+    "test-wct": "./node_modules/.bin/wdio wdio.conf.js --spec test/specs/wct-index.spec.js"
   },
   "author": "Wolfgang Meier",
   "license": "GPL-3.0",
