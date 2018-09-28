@@ -4,12 +4,12 @@
 <dom-module id="pb-leaflet-map">
     <template>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css">
-        
+
         <style>
             :host {
                 display: block;
             }
-            
+
             #map {
                 width: 100%;
                 height: 100%;
@@ -69,16 +69,16 @@
                     '_locationChanged(latitude, longitude, zoom)'
                 ]
             }
-            
+
             connectedCallback() {
                 super.connectedCallback();
-                
+
                 this.subscribeTo('pb-update-map', (ev) => {
                     const markers = [];
                     const bounds = L.latLngBounds();
                     ev.detail.forEach((loc) => {
                         const marker = L.marker([loc.latitude, loc.longitude]);
-                        marker.bindTooltip(loc.label).openTooltip();
+                        marker.bindTooltip(loc.label);
                         markers.push(marker);
                         marker.addTo(this._map);
                         bounds.extend([loc.latitude, loc.longitude]);
@@ -88,7 +88,7 @@
                         this._map.fitBounds(bounds);
                     }
                 });
-                
+
                 this.subscribeTo('pb-update', function(ev) {
                     const markers = [];
                     const bounds = L.latLngBounds();
@@ -104,7 +104,7 @@
                         this._map.setZoom(this.zoom);
                     }
                 }.bind(this));
-                
+
                 this.subscribeTo('pb-geolocation', function(ev) {
                     if (ev.detail.coordinates) {
                         this.setProperties({
@@ -117,17 +117,17 @@
 
             ready() {
                 super.ready();
-                
+
                 this._initMap();
             }
-            
+
             _initMap() {
                 if (this._map) {
                     return;
                 }
-                
+
                 L.Icon.Default.imagePath = 'resources/images/';
-                
+
                 let crs;
                 switch (this.crs) {
                     case 'EPSG4326':
@@ -155,10 +155,18 @@
                 // 	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
                 // }).addTo(this._map);
             }
-            
+
             _locationChanged(latitude, longitude, zoom) {
                 if (this._map) {
-                    this._map.setView([latitude, longitude], zoom);
+                    const coords = L.latLng([latitude, longitude]);
+                    this._markers.forEach(marker => {
+                        if (marker.getLatLng().equals(coords)) {
+                            marker.openTooltip();
+                        } else {
+                            marker.closeTooltip();
+                        }
+                    })
+                    this._map.setView(coords, zoom);
                 }
             }
         }
