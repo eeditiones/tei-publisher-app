@@ -28,6 +28,7 @@ var fs =                    require('fs'),
         'modules':              'modules/**/*',
         'other':                '*{.xpr,.xqr,.xql,.xml,.xconf}',
         'components':           'components/*',
+        'components_editor':    'components/editor/*',
         'components_test':      'components/test/**/*',
         'components_demo':      'components/demo/**/*',
         'gen_app_styles':       'resources/css/**/*',
@@ -97,6 +98,12 @@ var targetConfigurationDefault = {
 // Deploy non-well-formed files in components directory as binaries
 var targetConfigurationComponents = {
     target: baseUrl + 'components/',
+    html5AsBinary: true
+};
+
+// Deploy non-well-formed files in components directory as binaries
+var targetConfigurationComponentsEditor = {
+    target: baseUrl + 'components/editor/',
     html5AsBinary: true
 };
 
@@ -257,10 +264,20 @@ gulp.task('watch:components_demo', function () {
     gulp.watch(input.components_demo, ['deploy:components_demo'])
 });
 
+gulp.task('watch:components_editor', function () {
+    gulp.watch(input.components_editor, ['deploy:components_editor'])
+});
+
 gulp.task('deploy:components', function () {
     return gulp.src(input.components, {base: 'components'})
         .pipe(exClient.newer(targetConfigurationComponents))
         .pipe(exClient.dest(targetConfigurationComponents))
+});
+
+gulp.task('deploy:components_editor', function () {
+    return gulp.src(input.components_editor, {base: 'components/editor'})
+        .pipe(exClient.newer(targetConfigurationComponentsEditor))
+        .pipe(exClient.dest(targetConfigurationComponentsEditor))
 });
 
 // Files in folder 'demo'
@@ -335,6 +352,7 @@ gulp.task('watch', [
     'watch:odd',
     'watch:other',
     'watch:components',
+    'watch:components_editor',
     'watch:components_demo',
     'watch:components_test'
 ]);
