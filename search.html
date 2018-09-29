@@ -31,10 +31,13 @@
                 }
 
                 main {
+                    display: flex;
+                    flex-direction: row;
                     margin-top: 10px;
                 }
 
                 .search-panel {
+                    flex: 1 1;
                     margin: 0 20px;
                 }
 
@@ -55,9 +58,10 @@
                 }
 
                 #results {
+                    flex: 2 1;
                     overflow: scroll;
                     margin: 0 20px;
-                    height: calc(100vh - 128px);
+                    height: calc(100vh - 140px);
                 }
 
                 #results paper-card {
@@ -161,22 +165,20 @@
 
             <main>
                 <pb-load url="templates/search-results.html" container="#results"></pb-load>
-                <existdb-column-layout column-widths="70% 30%">
-                    <div id="results"></div>
-                    <div class="search-panel">
-                        <paper-card>
-                            <div class="card-content">
-                                <pb-search id="search-form" place-holder="i18n(search-query-attr)"
-                                    data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load">
-                                    <div class="targets">
-                                        <paper-checkbox name="tei-target" value="tei-text">Search sections</paper-checkbox>
-                                        <paper-checkbox name="tei-target" value="tei-head">Search headings</paper-checkbox>
-                                    </div>
-                                </pb-search>
-                            </div>
-                        </paper-card>
-                    </div>
-                </existdb-column-layout>
+                <div id="results"></div>
+                <div class="search-panel">
+                    <paper-card>
+                        <div class="card-content">
+                            <pb-search id="search-form" place-holder="i18n(search-query-attr)"
+                                data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load">
+                                <div class="targets">
+                                    <paper-checkbox name="tei-target" value="tei-text">Search sections</paper-checkbox>
+                                    <paper-checkbox name="tei-target" value="tei-head">Search headings</paper-checkbox>
+                                </div>
+                            </pb-search>
+                        </div>
+                    </paper-card>
+                </div>
             </main>
         </app-header-layout>
         <paper-dialog id="errorDialog">
