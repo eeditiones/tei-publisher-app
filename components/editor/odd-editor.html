@@ -547,7 +547,7 @@
                 const attributes = [
                   this.serializeAttribute('output', model.output),
                   this.serializeAttribute('predicate', model.predicate),
-                  this.serializeAttribute('behaviour', model.behaviour),
+                  model.type === 'model' ? this.serializeAttribute('behaviour', model.behaviour) : '',
                   this.serializeAttribute('cssClass', model.css),
                   this.serializeAttribute('useSourceRendition', model.sourcerend)
                 ].join('')
