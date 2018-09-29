@@ -60,7 +60,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             #editorDiv, .CodeMirror {
               width: 100%;
-              height: 100%;
+              height: auto;
             }
 
             .label {
@@ -129,7 +129,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     matchBrackets: true,
                     placeholder: this.placeholder || '[Empty]',
                     gutters: ["CodeMirror-lint-markers"],
-                    lint: true
+                    lint: true,
+                    viewportMargin: Infinity
                 });
 
                 cm.on('change',function(e){
