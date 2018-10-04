@@ -75,7 +75,7 @@
 .tei-castList { list-style: ordered; }
 .tei-l { margin-left: 1em; }
 .tei-closer { margin-top: 1em; margin-left: 1em; margin-left: 1em; }
-.tei-p { text-align: justify; }
+.tei-p2 { text-align: justify; }
 .tei-q1 { margin-left: 10px; margin-right: 10px; }
 .tei-q2:before { content: '‘'; }
 .tei-q2:after { content: '’'; }
@@ -110,10 +110,10 @@
 .tei-quote1:after { content: '’'; }
 .tei-quote2 { margin-left: 10px; margin-right: 10px; }
 .tei-row1 { font-weight: bold; }
-.tei-persName1 { color: #1565c0; }
-.tei-persName2:after { content: ': '; }
-.tei-persName2 { font-weight: bold; }
-.tei-persName3 { color: #1565c0; }
+.tei-persName2 { color: #1565c0; }
+.tei-persName3:after { content: ': '; }
+.tei-persName3 { font-weight: bold; }
+.tei-persName4 { color: #1565c0; }
 .tei-placeName1 { color: #ef6c00; }
 .tei-placeName2:after { content: ': '; }
 .tei-placeName2 { font-weight: bold; }

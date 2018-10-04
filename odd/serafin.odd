@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -35,7 +35,76 @@
     </teiHeader>
     <text>
         <body>
-            <schemaSpec start="TEI teiCorpus" ident="serafin" source="teipublisher.odd"> <elementSpec ident="lb" mode="change">
+            <schemaSpec start="TEI teiCorpus" ident="serafin" source="teipublisher.odd"> 
+                <elementSpec ident="TEI" mode="change">
+                    <model output="latex" behaviour="section">
+                        <param name="header" value="teiHeader"/>
+                        <param name="title" value="teiHeader/fileDesc/titleStmt/title/node()"/>
+                        <param name="content" value=".//text[@type='source']/body"/>
+                        <param name="translation" value=".//text[@xml:lang='pl']"/>
+                        <param name="glossary" value="teiHeader/profileDesc/particDesc/listPerson/person"/>
+                        <pb:template>
+                            \documentclass[10pt,a4paper]{article}
+                            
+                            \usepackage[latin,polish]{babel}
+                            \usepackage{reledmac}
+                            \usepackage{reledpar}
+                            \usepackage{hyperref}
+                            \usepackage{glossaries}
+                            \makenoidxglossaries
+                            
+                            \usepackage{fancyhdr,extramarks,xifthen}
+                            \pagestyle{fancy}
+                            
+                            \fancyhead[LO,RE]{\footnotesize\volume}
+                            \fancyfoot[LE,RO]{\small \thepage}
+                            
+                            [[glossary]]
+                            
+                            \begin{document}
+                            
+                            \setlength{\columnrulewidth}{0.2pt}
+                            \setlength{\Lcolwidth}{0.425\textwidth}
+                            \setlength{\Rcolwidth}{0.425\textwidth}
+                            \columnsposition{C}
+                            \numberlinefalse
+                            
+                            [[header]]
+                            
+                            \begin{pairs}
+                            
+                            \begin{Leftside}
+                            \beginnumbering
+                            \selectlanguage{latin}
+                            [[content]]
+                            \endnumbering
+                            \end{Leftside}
+                            
+                            \begin{Rightside}
+                            \beginnumbering
+                            \selectlanguage{polish}
+                            [[translation]]
+                            \endnumbering
+                            \end{Rightside}
+                            
+                            \end{pairs}
+                            
+                            \Columns
+                            
+                            \printnoidxglossaries
+                            
+                            \end{document}
+                        </pb:template>
+                    </model>
+                    <model behaviour="document"/>
+                </elementSpec>
+                <elementSpec ident="p" mode="change">
+                    <model output="latex" behaviour="paragraph"/>
+                    <model behaviour="paragraph" useSourceRendition="true">
+                        <outputRendition>text-align: justify;</outputRendition>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="lb" mode="change">
                     <model behaviour="omit" useSourceRendition="true"/>
                 </elementSpec>
                 <elementSpec ident="anchor" mode="change">
@@ -44,6 +113,10 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="persName" mode="add">
+                    <model output="latex" behaviour="inline">
+                        <param name="id" value="substring-after(@ref, '#')"/>
+                        <pb:template>\glslink{[[id]]}{[[content]]}</pb:template>
+                    </model>
                     <model output="print" behaviour="inline">
             <outputRendition>
             color: #1565c0;
@@ -66,6 +139,15 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="person" mode="add">
+                    <model output="latex" predicate="parent::listPerson" behaviour="block">
+                        <param name="id" value="@xml:id"/>
+                        <param name="name" value="persName/text()"/>
+                        <param name="note" value="note"/>
+                        <pb:template>\newglossaryentry{[[id]]}{
+                            name=[[name]],
+                            description={[[note]]}
+                        }</pb:template>
+                    </model>
                     <model predicate="parent::listPerson" behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
@@ -75,13 +157,13 @@
             </outputRendition>
         </model>
                 </elementSpec>
-                <elementSpec ident="placeName" mode="add">
-                    <model output="print" behaviour="inline">
+        <elementSpec ident="placeName" mode="add">
+            <model output="print" behaviour="inline">
             <outputRendition>
             color: #ef6c00;
             </outputRendition>
         </model>
-                    <model predicate="parent::place" behaviour="inline">
+            <model predicate="parent::place" behaviour="inline">
             <outputRendition scope="after">
             content: ': ';
             </outputRendition>
@@ -167,6 +249,9 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="seg" mode="change">
+                    <model output="latex" behaviour="inline">
+                        <pb:template>\pstart [[content]] \pend</pb:template>
+                    </model>
                     <model behaviour="webcomponent" useSourceRendition="true">
             <param name="name" value="'pb-highlight'"/>
             <param name="key" value="replace(@xml:id, &#34;^\w\.(.*)$&#34;, &#34;$1&#34;)"/>
@@ -197,7 +282,10 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="teiHeader" mode="change">
-                    <model output="latex" behaviour="metadata"/>
+                    <model output="latex" behaviour="block">
+                        <param name="content" value="(fileDesc/titleStmt/title[not(@type)], profileDesc/correspDesc)"/>
+                        <pb:template>\def\volume{[[content]]}</pb:template>
+                    </model>
                     <model output="fo" behaviour="omit"/>
                     <model output="web" predicate="$parameters?header='short'" behaviour="block"/>
                     <model output="web" predicate="$parameters?header='letter'" behaviour="heading">
@@ -208,11 +296,11 @@
                 </elementSpec>
                 <elementSpec ident="correspAction" mode="add">
                     <model predicate="@type='sent'" behaviour="inline">
-            <param name="content" value="(placeName, ', ', date)"/>
-            <outputRendition scope="before">
-            content: ' — ';
-            </outputRendition>
-        </model>
+                        <param name="content" value="(placeName, ', ', date)"/>
+                        <outputRendition scope="before">
+                        content: ' — ';
+                        </outputRendition>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="date" mode="change">
                     <model output="print" predicate="text()" behaviour="inline"/>

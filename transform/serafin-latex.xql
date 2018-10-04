@@ -13,11 +13,87 @@ declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
 declare namespace xi='http://www.w3.org/2001/XInclude';
 
+declare namespace pb='http://teipublisher.com/1.0';
+
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
 import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-latex.xql";
+
+declare function model:template1($config as map(*), $node as node()*, $params as map(*)) {
+        ``[\def\volume{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+};
+
+declare function model:template2($config as map(*), $node as node()*, $params as map(*)) {
+        ``[
+                                \documentclass[10pt,a4paper]{article}
+                                
+                                \usepackage[latin,polish]{babel}
+                                \usepackage{reledmac}
+                                \usepackage{reledpar}
+                                \usepackage{hyperref}
+                                \usepackage{glossaries}
+                                \makenoidxglossaries
+                                
+                                \usepackage{fancyhdr,extramarks,xifthen}
+                                \pagestyle{fancy}
+                                
+                                \fancyhead[LO,RE]{\footnotesize\volume}
+                                \fancyfoot[LE,RO]{\small \thepage}
+                                
+                                `{string-join($config?apply-children($config, $node, $params?glossary))}`
+                                
+                                \begin{document}
+                                
+                                \setlength{\columnrulewidth}{0.2pt}
+                                \setlength{\Lcolwidth}{0.425\textwidth}
+                                \setlength{\Rcolwidth}{0.425\textwidth}
+                                \columnsposition{C}
+                                \numberlinefalse
+                                
+                                `{string-join($config?apply-children($config, $node, $params?header))}`
+                                
+                                \begin{pairs}
+                                
+                                \begin{Leftside}
+                                \beginnumbering
+                                \selectlanguage{latin}
+                                `{string-join($config?apply-children($config, $node, $params?content))}`
+                                \endnumbering
+                                \end{Leftside}
+                                
+                                \begin{Rightside}
+                                \beginnumbering
+                                \selectlanguage{polish}
+                                `{string-join($config?apply-children($config, $node, $params?translation))}`
+                                \endnumbering
+                                \end{Rightside}
+                                
+                                \end{pairs}
+                                
+                                \Columns
+                                
+                                \printnoidxglossaries
+                                
+                                \end{document}
+                            ]``
+};
+
+declare function model:template3($config as map(*), $node as node()*, $params as map(*)) {
+        ``[\pstart `{string-join($config?apply-children($config, $node, $params?content))}` \pend]``
+};
+
+declare function model:template4($config as map(*), $node as node()*, $params as map(*)) {
+        ``[\glslink{`{string-join($config?apply-children($config, $node, $params?id))}`}{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+};
+
+declare function model:template5($config as map(*), $node as node()*, $params as map(*)) {
+        ``[\newglossaryentry{`{string-join($config?apply-children($config, $node, $params?id))}`}{
+                                name=`{string-join($config?apply-children($config, $node, $params?name))}`,
+                                description={`{string-join($config?apply-children($config, $node, $params?note))}`}
+                            }]``
+};
 
 (:~
 
@@ -46,11 +122,11 @@ declare function model:transform($options as map(*), $input as node()*) {
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
-    let $parameters := 
+        let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
     return
     $input !         (
-let $node := 
+            let $node := 
                 .
             return
                             typeswitch(.)
@@ -63,10 +139,17 @@ let $node :=
                         if (head or @rendition='simple:display') then
                             latex:block($config, ., ("tei-figure1"), .)
                         else
-                            (: Changed to not show a blue border around the figure :)
                             latex:inline($config, ., ("tei-figure2"), .)
                     case element(teiHeader) return
-                        latex:metadata($config, ., ("tei-teiHeader1"), .)
+                        let $params := 
+                            map {
+                                "content": (fileDesc/titleStmt/title[not(@type)], profileDesc/correspDesc)
+                            }
+
+                                                let $content := 
+                            model:template1($config, ., $params)
+                        return
+                                                latex:block(map:merge(($config, map:entry("template", true()))), ., ("tei-teiHeader1"), $content)
                     case element(supplied) return
                         if (parent::choice) then
                             latex:inline($config, ., ("tei-supplied1"), .)
@@ -97,7 +180,20 @@ let $node :=
                     case element(anchor) return
                         latex:note($config, ., ("tei-anchor"), let $target := '#' || @xml:id return root(.)//div[@type='notes']/note[@target=$target], (), ())
                     case element(TEI) return
-                        latex:document($config, ., ("tei-TEI"), .)
+                        (: More than one model without predicate found for ident TEI. Choosing first one. :)
+                        let $params := 
+                            map {
+                                "header": teiHeader,
+                                "title": teiHeader/fileDesc/titleStmt/title/node(),
+                                "content": .//text[@type='source']/body,
+                                "translation": .//text[@xml:lang='pl'],
+                                "glossary": teiHeader/profileDesc/particDesc/listPerson/person
+                            }
+
+                                                let $content := 
+                            model:template2($config, ., $params)
+                        return
+                                                latex:section(map:merge(($config, map:entry("template", true()))), ., ("tei-TEI1"), $content)
                     case element(formula) return
                         if (@rendition='simple:display') then
                             latex:block($config, ., ("tei-formula1"), .)
@@ -180,14 +276,21 @@ let $node :=
                         else
                             latex:title($config, ., ("tei-fileDesc4"), titleStmt)
                     case element(seg) return
-                        (: No function found for behavior: webcomponent :)
-                        $config?apply($config, ./node())
+                        (: More than one model without predicate found for ident seg. Choosing first one. :)
+                        let $params := 
+                            map {
+                                "content": .
+                            }
+
+                                                let $content := 
+                            model:template3($config, ., $params)
+                        return
+                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-seg1"), $content)
                     case element(profileDesc) return
                         latex:omit($config, ., ("tei-profileDesc"), .)
                     case element(email) return
                         latex:inline($config, ., ("tei-email"), .)
                     case element(text) return
-                        (: tei_simplePrint.odd sets a font and margin on the text body. We don't want that. :)
                         latex:body($config, ., ("tei-text"), .)
                     case element(floatingText) return
                         latex:block($config, ., ("tei-floatingText"), .)
@@ -247,7 +350,8 @@ let $node :=
                             else
                                 $config?apply($config, ./node())
                     case element(p) return
-                        latex:paragraph($config, ., css:get-rendition(., ("tei-p")), .)
+                        (: More than one model without predicate found for ident p. Choosing first one. :)
+                        latex:paragraph($config, ., ("tei-p1"), .)
                     case element(measure) return
                         latex:inline($config, ., ("tei-measure"), .)
                     case element(q) return
@@ -505,15 +609,38 @@ let $node :=
                         latex:block($config, ., ("tei-byline"), .)
                     case element(persName) return
                         if (parent::person) then
-                            latex:inline($config, ., ("tei-persName2"), .)
+                            latex:inline($config, ., ("tei-persName3"), .)
                         else
                             (: More than one model without predicate found for ident persName. Choosing first one. :)
-                            latex:inline($config, ., ("tei-persName1"), .)
+                            let $params := 
+                                map {
+                                    "id": substring-after(@ref, '#'),
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template4($config, ., $params)
+                            return
+                                                        latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-persName1"), $content)
                     case element(person) return
                         if (parent::listPerson) then
-                            latex:inline($config, ., ("tei-person"), .)
+                            let $params := 
+                                map {
+                                    "id": @xml:id,
+                                    "name": persName/text(),
+                                    "note": note,
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template5($config, ., $params)
+                            return
+                                                        latex:block(map:merge(($config, map:entry("template", true()))), ., ("tei-person1"), $content)
                         else
-                            $config?apply($config, ./node())
+                            if (parent::listPerson) then
+                                latex:inline($config, ., ("tei-person2"), .)
+                            else
+                                $config?apply($config, ./node())
                     case element(placeName) return
                         if (parent::place) then
                             latex:inline($config, ., ("tei-placeName2"), .)

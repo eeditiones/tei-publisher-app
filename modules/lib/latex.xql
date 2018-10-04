@@ -45,11 +45,13 @@ return (
                         <workingDir>{$local:WORKING_DIR}</workingDir>
                     </option>
                 let $output :=
-                    process:execute(
-                        ( $config:tex-command($file) ), $options
-                    )
+                    for $i in 1 to 3
+                    return
+                        process:execute(
+                            ( $config:tex-command($file) ), $options
+                        )
                 return
-                    if ($output/@exitCode < 2) then
+                    if ($output[last()]/@exitCode < 2) then
                         let $pdf := file:read-binary($local:WORKING_DIR || "/" || $file || ".pdf")
                         return
                             response:stream-binary($pdf, "media-type=application/pdf", $file || ".pdf")
