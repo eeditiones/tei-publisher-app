@@ -35,7 +35,7 @@ Run the tests:
 
 No need to run Selenium.
 
-To use a non standard Chrime binary use the `WDIO_CHROME_BINARY` variable:
+To use a non standard Chrome binary use the `WDIO_CHROME_BINARY` variable:
 
 ```shell
 export WDIO_CHROME_BINARY=/usr/bin/google-chrome-beta
@@ -52,3 +52,7 @@ or manually:
 ```shell
 ./node_modules/.bin/wdio wdio.conf.js --spec test/specs/wct-index.spec.js
 ```
+
+### Continuous Integration with Jenkins
+
+Every push into the master branch on Gitlab will trigger [a CI job in Jenkins](https://jenkins.existsolutions.com/view/Tei-Publisher/job/teipublisher-web-components-test/).

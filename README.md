@@ -70,3 +70,7 @@ Install node modules by running
 `gulp test` currently contains just a placeholder message, while integrating the test suite is work in progress.
 
 Please follow these instructions [here](http://gitlab.existsolutions.com/tei-publisher/tei-publisher-app/tree/master/webtest), for running the test-suite.
+
+### Web Components Testing
+
+Described in a separate [README.md inside the `webtest` directory](webtest/README.md).
