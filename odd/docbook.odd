@@ -115,6 +115,12 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="title">
+                    <model predicate="$parameters?mode='breadcrumbs'" behaviour="inline">
+                        <outputRendition scope="before">
+                            content: ' > ';
+                            color: #607d8b;
+                        </outputRendition>
+                    </model>
                     <model predicate="parent::note" behaviour="inline"/>
                     <model predicate="parent::info and $parameters?header='short'" behaviour="link">
                         <param name="link" value="$parameters?doc"/>
@@ -124,6 +130,14 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="section">
+                    <modelSequence predicate="$parameters?mode='breadcrumbs'">
+                        <model behaviour="inline">
+                            <param name="content" value="$parameters?root/ancestor::section/title"/>
+                        </model>
+                        <model behaviour="inline">
+                            <param name="content" value="title"/>
+                        </model>
+                    </modelSequence>
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="para">
