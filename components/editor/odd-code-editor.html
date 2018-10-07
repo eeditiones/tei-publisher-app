@@ -98,7 +98,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         type: String,
                         value: "javascript"
                     },
-
+                    placeholder: {
+                        type: String,
+                        value: '[Empty]'
+                    },
                     tabSize: {
                         type: Number,
                         value: 2
@@ -127,7 +130,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     autofocus: false,
                     theme: "ttcn",
                     matchBrackets: true,
-                    placeholder: this.placeholder || '[Empty]',
+                    placeholder: this.placeholder,
                     gutters: ["CodeMirror-lint-markers"],
                     lint: true,
                     viewportMargin: Infinity
