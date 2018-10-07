@@ -572,8 +572,8 @@
                 const renditions = model.renditions
                   .map(r => this.serializeRendition(nestedIndent, r))
                   .join('');
-
-                const innerXML = `${desc}${models}${parameters}${renditions}`;
+                const template = this.serializeTemplate(nestedIndent, model.template);
+                const innerXML = `${desc}${models}${parameters}${template}${renditions}`;
                 const end = (innerXML.length > 0) ? `>\n${innerXML}${indent}</${model.type}` : '/';
 
                 return `${indent}<${model.type}${attributes}${end}>\n`
@@ -590,6 +590,11 @@
               const scope = this.serializeAttribute('scope', rendition.scope);
               const css = this.escape(rendition.css);
               return `${indent}<outputRendition${scope}>\n${indent}${css}\n${indent}</outputRendition>\n`;
+            }
+
+            serializeTemplate (indent, template) {
+                if (!template) { return ''; }
+                return `${indent}<pb:template>${template}</pb:template>\n`;
             }
 
             serializeAttribute (name, value) {

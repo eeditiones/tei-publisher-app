@@ -97,7 +97,7 @@
                 color: #ff5722;
             }
 
-            .predicate label {
+            .predicate label, .template label {
                 display: block;
                 font-size: 12px;
                 font-weight: 300;
@@ -251,6 +251,12 @@
                     <paper-input id="css" value="{{ css }}"
                         placeholder="[Define CSS class name (for external CSS)]"
                         label="CSS Class"></paper-input>
+                    <odd-code-editor id="template"
+                                     code="{{template}}"
+                                     mode="{{_templateMode(output)}}"
+                                     label="Template"
+                                     placeholder="[Define code template to apply to content]"
+                                     on-change="_updateTemplate"></odd-code-editor>
                 </div>
 
                 <div class="parameters" hidden$="[[_isGroupOrSequence(type)]]">
@@ -298,6 +304,7 @@
                                models="{{model.models}}"
                                parameters="{{model.parameters}}"
                                renditions="{{model.renditions}}"
+                               template="{{model.template}}"
                                desc="{{ model.desc }}"
                                sourcerend="{{ model.sourcerend }}"
                                on-model-remove="removeModel"
@@ -340,6 +347,11 @@
                         notify: true
                     },
                     type: {
+                        type: String,
+                        reflectToAttribute: true,
+                        notify: true
+                    },
+                    template: {
                         type: String,
                         reflectToAttribute: true,
                         notify: true
@@ -457,6 +469,7 @@
 
             refreshEditors () {
               this.$.predicate.refresh();
+              this.$.template.refresh();
 
               const models = this.shadowRoot.querySelectorAll('odd-model');
               for (let i = 0; i < models.length; i++) {
@@ -614,6 +627,10 @@
                 this.predicate = this.$.predicate.getSource();
             }
 
+            _updateTemplate(ev) {
+                this.template = this.$.template.getSource();
+            }
+
             _removeParam(e) {
                 const index = this.$.parameterList.indexForElement(e.target);
                 this.splice('parameters', index, 1);
@@ -635,6 +652,15 @@
                 this.dispatchEvent(new CustomEvent('current-changed', {composed:true, bubbles:true, detail:{target: target}}));
             }
 
+            _templateMode(output) {
+                switch (output) {
+                    case 'latex':
+                        return 'latex';
+                    case 'web':
+                    default:
+                        return 'xml';
+                }
+            }
         }
 
         window.customElements.define(OddModel.is, OddModel);

@@ -1,6 +1,7 @@
 xquery version "3.1";
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace pb="http://teipublisher.com/1.0";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
@@ -26,7 +27,8 @@ declare function local:models($spec as element()) {
                 "sourcerend": $model/@useSourceRendition = 'true',
                 "renditions": local:renditions($model),
                 "parameters": local:parameters($model),
-                "models": local:models($model)
+                "models": local:models($model),
+                "template": local:template($model)
             }
     }
 };
@@ -40,6 +42,10 @@ declare function local:parameters($model as element()) {
                 "value": $param/@value/string()
             }
     }
+};
+
+declare function local:template($model as element()) {
+    $model/pb:template/string()
 };
 
 
@@ -72,8 +78,9 @@ declare function local:load($oddPath as xs:string, $root as xs:string) {
                 },
             "namespace": $schemaSpec/@ns/string(),
             "source": $schemaSpec/@source/string(),
-            "title": $odd//teiHeader/fileDesc/titleStmt/title[not(@type)]/text(),
-            "titleShort": $odd//teiHeader/fileDesc/titleStmt/title[@type = 'short']/string()
+            "title": string-join($odd//teiHeader/fileDesc/titleStmt/title[not(@type)]/text()),
+            "titleShort": $odd//teiHeader/fileDesc/titleStmt/title[@type = 'short']/string(),
+            "description": $odd//teiHeader/fileDesc/titleStmt/title[not(@type)]/desc/text()
         }
 };
 
@@ -180,6 +187,10 @@ declare function local:update($nodes as node()*, $data as document-node(), $orig
                         return
                             namespace { $prefix } { $namespace }
                         ,
+                        if ("http://teipublisher.com/1.0" = in-scope-prefixes($node)) then
+                            ()
+                        else
+                            namespace pb { "http://teipublisher.com/1.0" },
                         $node/@*,
                         local:update($node/node(), $data, $orig)
                     }
