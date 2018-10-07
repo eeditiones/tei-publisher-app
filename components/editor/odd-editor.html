@@ -192,6 +192,8 @@
                                      placeholder="[Title of the ODD]"></paper-input>
                         <paper-input id="titleShort" name="short-title" value="{{titleShort}}" label="Short title"
                                      placeholder="[Short title for display]"></paper-input>
+                        <paper-input id="description" name="description" value="{{description}}" label="Description"
+                                  placeholder="[Description of the ODD]"></paper-input>
                         <paper-input id="source" name="source" value="{{source}}" label="Source ODD"
                                      placeholder="[ODD to inherit from]"></paper-input>
                         <paper-checkbox id="useNamespace" checked="{{useNamespace}}"
@@ -258,6 +260,10 @@
                         value: null
                     },
                     titleShort: {
+                        type: String,
+                        value: null
+                    },
+                    description: {
                         type: String,
                         value: null
                     },
@@ -437,6 +443,7 @@
                     this.source = data.source;
                     this.title = data.title;
                     this.titleShort = data.titleShort;
+                    this.description = data.description;
 
                     this.namespace = data.namespace;
                     this.useNamespace = (this.namespace != null);
@@ -520,13 +527,14 @@
             serializeOdd() {
               const ns = this.useNamespace ? ` ns="${this.namespace}"` : '';
               const source = this.source ? ` source="${this.source}"` : '';
-              const title = `${this.indentString}<title>${this.title}</title>\n`
+              const description = this.description ? ` <desc>${this.description}</desc>` : '';
+              const title = `${this.indentString}<title>${this.title}${description}</title>\n`;
               const titleShort = this.titleShort ? `${this.indentString}<title type="short">${this.titleShort}</title>\n`: '';
               const elementSpecs = this.elementSpecs
                 .map(e => this.serializeElementSpec(this.indentString, e))
                 .join('')
 
-              return `<schemaSpec xmlns="http://www.tei-c.org/ns/1.0"${ns}${source}>\n${title}${titleShort}${elementSpecs}</schemaSpec>\n`
+              return `<schemaSpec xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0"${ns}${source}>\n${title}${titleShort}${elementSpecs}</schemaSpec>\n`
             }
 
             serializeElementSpec (indent, elementSpec) {
