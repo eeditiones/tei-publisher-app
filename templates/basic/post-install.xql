@@ -108,5 +108,6 @@ sm:chmod(xs:anyURI($target || "/modules/lib/upload.xql"), "rwsr-xr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/latex.xql"), "rwxr-Sr-x"),
 sm:chgrp(xs:anyURI($target || "/modules/lib/latex.xql"), "dba"),
 
+local:mkcol($target, "transform"),
 local:generate-code($target),
 local:create-data-collection()
