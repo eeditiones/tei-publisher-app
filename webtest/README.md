@@ -44,7 +44,7 @@ export WDIO_CHROME_BINARY="/usr/bin/google-chrome-beta"
 Run wct test:
 
 ```shell
-npm test wct
+npm run test-wct
 ```
 
 or manually:
