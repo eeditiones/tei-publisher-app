@@ -58,6 +58,7 @@ declare variable $deploy:ANT_FILE :=
     <project default="xar">
         <xmlproperty file="expath-pkg.xml"/>
         <property name="project.version" value="${{package(version)}}"/>
+        <property name="project.app" value="${package(abbrev)}"/>
         <property name="build.dir" value="build"/>
         <target name="xar">
             <mkdir dir="${{build.dir}}"/>
