@@ -56,3 +56,5 @@ or manually:
 ### Continuous Integration with Jenkins
 
 Every push into the master branch on Gitlab will trigger [a CI job in Jenkins](https://jenkins.existsolutions.com/view/Tei-Publisher/job/teipublisher-web-components-test/).
+
+Setup intructions can be found in the [jenkinsci/gitlab-plugin repo's wiki](https://github.com/jenkinsci/gitlab-plugin/wiki/Setup-Example).
