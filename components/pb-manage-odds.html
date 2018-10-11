@@ -54,6 +54,7 @@
             <div class="odd">
                 <paper-radio-button checked$="[[item.current]]" value="[[item.path]]" on-click="_selectODD"></paper-radio-button>
                 <a href$="odd-editor.html?odd=[[item.name]].odd" target="_blank">[[item.label]]</a>
+                <!-- TODO this toolbar should only appear once per ODD files papercard -->
                 <app-toolbar>
                     <pb-restricted login="login">
                         <pb-ajax url$="modules/lib/regenerate.xql?odd=[[item.name]].odd" dialog="messageDialog">
@@ -74,7 +75,7 @@
                     <paper-input name="new_odd" label="File name of the ODD" required auto-validate pattern="[a-zA-Z0-9-_]+"></paper-input>
                     <paper-input name="title" label="Title for display" auto-validate required></paper-input>
                     <paper-button id="createBtn" on-click="_createODD"><iron-icon icon="create"></iron-icon>Create</paper-button>
-                    <paper-button id="createByEx" on-click="_createByExample"><iron-icon icon="create"></iron-icon>Create from examples</paper-button>
+                    <paper-button id="createByEx" on-click="_createByExample"><iron-icon icon="build"></iron-icon>Create from examples</paper-button>
                 </form>
             </iron-form>
         </pb-restricted>
