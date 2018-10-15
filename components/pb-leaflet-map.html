@@ -78,6 +78,9 @@
                     const bounds = L.latLngBounds();
                     ev.detail.forEach((loc) => {
                         const marker = L.marker([loc.latitude, loc.longitude]);
+                        marker.addEventListener('click', () => {
+                            this.emitTo('pb-leaflet-marker-click', loc);
+                        });
                         marker.bindTooltip(loc.label);
                         markers.push(marker);
                         marker.addTo(this._map);
@@ -90,6 +93,10 @@
                 });
 
                 this.subscribeTo('pb-update', function(ev) {
+                    this._markers.forEach(function(marker) {
+                        marker.remove();
+                    });
+
                     const markers = [];
                     const bounds = L.latLngBounds();
                     ev.detail.root.querySelectorAll('pb-geolocation').forEach(function(loc) {
@@ -154,6 +161,8 @@
                 // L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
                 // 	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
                 // }).addTo(this._map);
+
+                L.control.scale().addTo(this._map);
             }
 
             _locationChanged(latitude, longitude, zoom) {
