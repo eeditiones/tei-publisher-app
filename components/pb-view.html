@@ -46,7 +46,7 @@
             a[rel=footnote], pb-footnote-ref {
                 @apply --pb-footnote-ref;
             }
-            
+
             .footnotes {
                 @apply --pb-footnotes;
             }
@@ -117,6 +117,10 @@
                         type: String,
                         reflectToAttribute: true
                     },
+                    /**
+                     * Message to display if no content was returned by the server.
+                     * Set to empty string to show nothing.
+                     */
                     notFound: {
                         type: String,
                         value: "the server did not return any content"
@@ -286,7 +290,9 @@
                     return;
                 }
                 if (resp.error) {
-                    this.$.content.innerHTML = this.notFound;
+                    if (this.notFound) {
+                        this.$.content.innerHTML = this.notFound;
+                    }
                     return;
                 }
 
