@@ -32,7 +32,8 @@ return (
         let $id := replace($id, "^(.*)\..*", "$1")
         let $xml := pages:get-document($id)/*
         let $config := tpu:parse-pi(root($xml), ())
-        let $tex := string-join($pm-config:latex-transform($xml, map { "image-dir": config:get-repo-dir() || "/" || $config:data-root[1] || "/" }, $config?odd))
+        let $tex := string-join($pm-config:latex-transform($xml, map { "image-dir": config:get-repo-dir() || "/" ||
+            substring-after($config:data-root[1], $config:app-root) || "/" }, $config?odd))
         let $file :=
             replace($id, "^.*?([^/]+)$", "$1") || format-dateTime(current-dateTime(), "-[Y0000][M00][D00]-[H00][m00]")
         return

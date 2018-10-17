@@ -14,18 +14,6 @@
     <output mode="latex">
         <property name="class">"article"</property>
         <property name="section-numbers">false()</property>
-        <property name="font-size">"12pt"</property>
-        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latex" prefix="ext-latex" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-latex.xql"/>
-    </output>
-    <!-- General fo extension functions -->
-    <output mode="print">
-        <module mode="print" uri="http://www.tei-c.org/tei-simple/xquery/ext-fo" prefix="ext-fo" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-fo.xql"/>
-    </output>
-    <output mode="web">
-        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql"/>
-    </output>
-    <!-- Special web configuration for the documentation (to handle <code>) -->
-    <output mode="epub" odd="documentation">
-        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql"/>
+        <property name="font-size">"11pt"</property>
     </output>
 </modules>
