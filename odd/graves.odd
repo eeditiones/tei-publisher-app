@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Graves' Letters <desc>Modern correspondence with visualization of prosopographical and geographical information</desc>
+                <title>Graves' Letters 
+                 
+                 <desc>Modern correspondence with visualization of prosopographical and geographical information</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -28,6 +29,19 @@
                 <p>born digital</p>
             </sourceDesc>
         </fileDesc>
+        <encodingDesc>
+            <tagsDecl>
+                <pb:behaviour ident="glossary" output="latex"> 
+                    <pb:param name="id" value="@xml:id"/>
+                    <pb:param name="name"/>
+                    <pb:param name="note"/>
+                    <pb:template>\newglossaryentry{[[id]]} { 
+                        name=[[name]],
+                        description={[[note]]}
+                        }</pb:template>
+                </pb:behaviour>
+            </tagsDecl>
+        </encodingDesc>
         <revisionDesc>
             <change when="2018-08-05+02:00">Initial version</change>
         </revisionDesc>
@@ -36,6 +50,10 @@
         <body>
             <schemaSpec start="TEI teiCorpus" ident="graves" source="teipublisher.odd">
                 <elementSpec ident="name" mode="change">
+                    <model output="latex" behaviour="inline">
+            <param name="id" value="substring-after(@ref, '#')"/>
+            <pb:template>\glslink{[[id]]}{[[content]]}</pb:template>
+        </model>
                     <model predicate="$parameters?mode='facets' and @type='person'" behaviour="webcomponent">
             <param name="name" value="'pb-highlight'"/>
             <param name="content" value="id(substring-after(@ref, '#'), root($parameters?root))"/>
@@ -67,8 +85,10 @@
             <param name="emit" value="'letter'"/>
             <param name="duration" value="1000"/>
             <outputRendition>
+            
             color: #1565c0;
 cursor: pointer;
+            
             </outputRendition>
         </model>
                     <model predicate="@type='person' and id(substring-after(@ref, '#'), root($parameters?root))" behaviour="webcomponent">
@@ -78,8 +98,10 @@ cursor: pointer;
             <param name="scroll" value="true()"/>
             <param name="emit" value="'letter'"/>
             <outputRendition>
+            
             color: #bf360c;
 cursor: pointer;
+            
             </outputRendition>
         </model>
                     <model predicate="@type='place'" behaviour="inline">
@@ -90,6 +112,7 @@ cursor: pointer;
                 </elementSpec>
                 <elementSpec ident="note" mode="change"/>
             <elementSpec ident="dateline" mode="change">
+                    <model output="latex" behaviour="omit"/>
                     <model behaviour="block" useSourceRendition="true">
             <outputRendition>
             float: right;
@@ -112,6 +135,9 @@ cursor: pointer;
         </model>
                 </elementSpec>
                 <elementSpec ident="closer" mode="change">
+                    <model output="latex" behaviour="inline">
+            <pb:template>\closing{[[content]]}</pb:template>
+        </model>
                     <model behaviour="block">
             <outputRendition>
             margin: 3em 1em 20px;
@@ -125,6 +151,8 @@ cursor: pointer;
                 <param name="level" value="2"/>
                 <outputRendition>
                 
+                
+                
 
 
 
@@ -171,6 +199,8 @@ border-bottom: 1px solid #A0A0A0;
 
 
 
+                
+                
                 
                 </outputRendition>
             </model>
@@ -182,6 +212,8 @@ border-bottom: 1px solid #A0A0A0;
                 <param name="level" value="2"/>
                 <outputRendition>
                 
+                
+                
 
 
 
@@ -206,6 +238,8 @@ border-bottom: 1px solid #A0A0A0;
 
 
 
+                
+                
                 
                 </outputRendition>
             </model>
@@ -221,6 +255,10 @@ border-bottom: 1px solid #A0A0A0;
         </modelSequence>
                 </elementSpec>
                 <elementSpec ident="place" mode="add">
+                    <model output="latex" behaviour="glossary">
+            <param name="name" value="string-join(placeName, ', ')"/>
+            <param name="note" value="note"/>
+        </model>
                     <modelSequence>
             <model behaviour="heading">
                 <param name="content" value="string-join(placeName, ', ')"/>
@@ -236,7 +274,7 @@ border-bottom: 1px solid #A0A0A0;
                 </outputRendition>
             </model>
             <model behaviour="block">
-                <param name="content" value="string-join(location/*[not(self::geo)], ', ')"/>
+                <param name="content" value="string-join(location/* except location/geo, ', ')"/>
                 <outputRendition>
                 font-size: .75em;
                 </outputRendition>
@@ -251,23 +289,33 @@ border-bottom: 1px solid #A0A0A0;
             <model behaviour="inline">
                 <param name="content" value="'Location: '"/>
             </model>
-            <model behaviour="webcomponent">
+            <model output="web" behaviour="webcomponent">
                 <param name="name" value="'pb-geolocation'"/>
                 <param name="latitude" value="tokenize(., ' ')[1]"/>
                 <param name="longitude" value="tokenize(., ' ')[2]"/>
                 <param name="content" value="."/>
                 <param name="emit" value="'letter'"/>
                 <outputRendition>
+                
                 color: #1565c0;
 cursor: pointer;
+                
                 </outputRendition>
             </model>
+            <model behaviour="inline"/>
         </modelSequence>
                 </elementSpec>
                 <elementSpec ident="opener" mode="change">
+                    <model output="latex" behaviour="inline">
+            <pb:template>\opening{[[content]]}</pb:template>
+        </model>
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="person" mode="add">
+                    <model output="latex" behaviour="glossary">
+            <param name="name" value="persName"/>
+            <param name="note" value="note"/>
+        </model>
                     <modelSequence>
             <model behaviour="heading">
                 <param name="content" value="persName"/>
@@ -279,12 +327,8 @@ cursor: pointer;
             <model predicate="birth or death or occupation" behaviour="block">
                 <param name="content" value="(occupation, birth, death)"/>
                 <outputRendition>
-                
-
                 font-size: .85em;
 margin-bottom: .5em;
-
-                
                 </outputRendition>
             </model>
             <model predicate="idno" behaviour="block">
@@ -296,23 +340,18 @@ margin-bottom: .5em;
         </modelSequence>
                 </elementSpec>
             <elementSpec ident="postscript" mode="change">
+                    <model output="latex" behaviour="block">
+            <pb:template>\ps [[content]]</pb:template>
+        </model>
                     <modelSequence>
             <model behaviour="heading">
                 <param name="content" value="('Postscript by ', id(substring-after(@resp, '#'), root(.))/persName)"/>
                 <param name="level" value="5"/>
                 <outputRendition>
-                
-
-
-
                 margin-top: 10px;
 padding-top: 10px;
 border-top: 1px solid #A0A0A0;
 font-style: italic;
-
-
-
-                
                 </outputRendition>
             </model>
             <model behaviour="block"/>
@@ -364,6 +403,69 @@ font-style: italic;
                     <model predicate="@type='LC-Name-Authority-File'" behaviour="link">
             <param name="link" value="'https://lccn.loc.gov/' || string()"/>
             <param name="content" value="'LoC Authority'"/>
+        </model>
+                </elementSpec>
+            <elementSpec ident="TEI" mode="change">
+                    <model output="latex" behaviour="inline">
+            <param name="glossary" value="(teiHeader//particDesc/listPerson/person, teiHeader//settingDesc/listPlace/place)"/>
+            <param name="content" value="text"/>
+            <param name="header" value="teiHeader"/>
+            <param name="date" value="text/body/opener/dateline/date"/>
+            <param name="from" value="teiHeader//correspDesc/correspAction[@type='sending']"/>
+            <param name="to" value="teiHeader//correspDesc/correspAction[@type='receiving']"/>
+            <pb:template>\documentclass[10pt,a4paper,fromalign=right]{scrlttr2}
+
+\usepackage[british]{babel}
+\usepackage{hyperref}
+\usepackage{glossaries}
+\makenoidxglossaries
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\fancyhf{}
+\fancyhead[LO,RE]{\footnotesize\volume}
+\fancyfoot[LE,RO]{\footnotesize\thepage}
+
+\setkomavar{date}{[[date]]}
+
+[[glossary]]
+
+\begin{document}
+
+[[header]]
+
+\begin{letter}[[to]]
+[[from]]
+[[content]]
+\end{letter}
+
+\printnoidxglossaries
+
+\end{document}</pb:template>
+        </model>
+                    <model behaviour="document"/>
+                </elementSpec>
+            <elementSpec ident="teiHeader" mode="change">
+                    <model output="latex" behaviour="inline">
+            <param name="content" value="(fileDesc/titleStmt/title[not(@type)])"/>
+            <pb:template>\def\volume{[[content]]}</pb:template>
+        </model>
+                    <model output="fo" behaviour="omit"/>
+                    <model output="web" predicate="$parameters?header='short'" behaviour="block"/>
+                    <model output="web" behaviour="metadata"/>
+                </elementSpec>
+                <elementSpec ident="correspAction" mode="add">
+                    <model output="latex" predicate="@type='sending'" behaviour="inline">
+            <param name="name" value="persName"/>
+            <param name="location" value="settlement"/>
+            <pb:template>\setkomavar{fromname}{[[name]]}
+\setkomavar{fromaddress}{[[location]]}</pb:template>
+        </model>
+                    <model output="latex" predicate="@type='receiving'" behaviour="inline">
+            <param name="name" value="persName"/>
+            <param name="location" value="settlement"/>
+            <pb:template>{[[name]]\\[[location]]}</pb:template>
         </model>
                 </elementSpec>
             </schemaSpec>
