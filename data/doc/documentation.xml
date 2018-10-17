@@ -22,8 +22,6 @@
       </affiliation>
     </author>
   </info>
-  <section>
-    <title>TEI Publisher</title>
     <section>
       <title>Introduction</title>
       <para>The TEI Processing Model (PM) extends the TEI ODD specification format with a processing model for documents. That way intended processing for all elements can be expressed within the TEI vocubulary itself. It aims at the XML-savvy editor who is familiar with TEI but is not necessarily a developer. The editor knows the logical structure of the text and maps it to a small set of abstract transformation functions, called <emphasis>behaviours</emphasis>. Predefined behaviours are, for example, <code>paragraph</code>, <code>heading</code> or <code>note</code>.</para>
@@ -1553,7 +1551,6 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           If the processor finds <tag>param</tag> tags in the model rule which cannot be mapped to a declared parameter,
           it stores this extra paramter as a key/value pair into the map <varname>$optional</varname>.</para>
     </section>
-  </section>
   </section>
   <section xml:id="faq">
     <title>Frequently Asked Questions</title>
