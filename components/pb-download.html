@@ -95,7 +95,7 @@
                 if (this.src) {
                     const doc = document.getElementById(this.src);
                     const file = doc.getFileName();
-                    url = file + '.' + this.type + '?odd=' + doc.odd + '&cache=no&token=' + token;
+                    url = file + '.' + this.type + '?odd=' + doc.odd + '.odd&cache=no&token=' + token;
                 } else {
                     url = this.file + '.' + this.type + '?odd=' + this.odd + '&cache=no&token=' + token;
                 }
