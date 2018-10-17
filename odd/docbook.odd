@@ -3,12 +3,13 @@
         <fileDesc>
             <titleStmt>
                 <title>Processing Model for Docbook v5
-                    
-                 
-                 
-                 
-                 
-                 
+
+
+
+
+
+
+
                  <desc>Processing of Docbook format</desc>
                 </title>
                 <title type="short">Docbook v5
@@ -192,7 +193,7 @@
             <pb:template>[[content]] \author{[[author]]}
 \maketitle</pb:template>
         </model>
-                    <model predicate="not(parent::article|parent::book)" behaviour="block"/>
+                    <model predicate="not(parent::article or parent::book)" behaviour="block"/>
                     <model output="epub" behaviour="block">
             <param name="content" value="(title, author)"/>
         </model>
@@ -239,10 +240,12 @@
         </model>
                     <model predicate="$parameters?mode='breadcrumbs'" behaviour="inline">
             <outputRendition scope="before">
-            
+
+
             content: ' &gt; ';
                             color: #607d8b;
-            
+
+
             </outputRendition>
         </model>
                     <model predicate="parent::note" behaviour="inline"/>
@@ -449,12 +452,13 @@
             <elementSpec ident="guibutton" mode="add">
                     <model behaviour="inline">
             <outputRendition>
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
+
 
 
                             color: #fff;
@@ -464,12 +468,13 @@ padding-right: 4px;
 border: 1px solid #707070;
 
 
-                        
-            
-            
-            
-            
-            
+
+
+
+
+
+
+
             </outputRendition>
         </model>
                 </elementSpec>

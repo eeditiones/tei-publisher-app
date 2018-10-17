@@ -19,7 +19,7 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
-(: Generated behaviour function for pb:behaviour/@ident=definitionList :)
+(: Generated behaviour function for ident definitionList :)
 declare %private function model:definitionList($config as map(*), $node as node()*, $class as xs:string+, $content) {
     $node ! (
 
@@ -27,7 +27,8 @@ declare %private function model:definitionList($config as map(*), $node as node(
         <t xmlns=""><dl>{$config?apply-children($config, $node, $content)}</dl></t>/*
     )
 };
-(: Generated behaviour function for pb:behaviour/@ident=definition :)
+
+(: Generated behaviour function for ident definition :)
 declare %private function model:definition($config as map(*), $node as node()*, $class as xs:string+, $content, $term) {
     $node ! (
 
@@ -35,7 +36,8 @@ declare %private function model:definition($config as map(*), $node as node()*, 
         <t xmlns=""><dt>{$config?apply-children($config, $node, $term)}</dt><dd>{$config?apply-children($config, $node, $content)}</dd></t>/*
     )
 };
-(: Generated behaviour function for pb:behaviour/@ident=iframe :)
+
+(: Generated behaviour function for ident iframe :)
 declare %private function model:iframe($config as map(*), $node as node()*, $class as xs:string+, $content, $src, $width, $height) {
     $node ! (
 
@@ -44,6 +46,7 @@ declare %private function model:iframe($config as map(*), $node as node()*, $cla
                         </iframe></t>/*
     )
 };
+
 (:~
 
     Main entry point for the transformation.
@@ -82,7 +85,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(article) return
                         html:document($config, ., ("tei-article2"), .)
                     case element(info) return
-                        if (not(parent::article|parent::book)) then
+                        if (not(parent::article or parent::book)) then
                             html:block($config, ., ("tei-info2"), .)
                         else
                             if ($parameters?header='short') then

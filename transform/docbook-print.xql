@@ -29,7 +29,8 @@ declare %private function model:code($config as map(*), $node as node()*, $class
         <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" space-before=".5em" space-after=".5em" padding-left="1em" padding-right="1em" padding-top=".5em" padding-bottom=".5em" border-color="#A0A0A0" border="solid 2pt" font-family="monospace" font-size=".85em" line-height="1.2" hyphenate="false" white-space="pre" wrap-option="wrap">{$config?apply-children($config, $node, $content)}</fo:block>
     )
 };
-(: Generated behaviour function for pb:behaviour/@ident=definitionList :)
+
+(: Generated behaviour function for ident definitionList :)
 declare %private function model:definitionList($config as map(*), $node as node()*, $class as xs:string+, $content) {
     $node ! (
 
@@ -37,7 +38,8 @@ declare %private function model:definitionList($config as map(*), $node as node(
         <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format">{$config?apply-children($config, $node, $content)}</fo:block>
     )
 };
-(: Generated behaviour function for pb:behaviour/@ident=definition :)
+
+(: Generated behaviour function for ident definition :)
 declare %private function model:definition($config as map(*), $node as node()*, $class as xs:string+, $content, $term) {
     $node ! (
 
@@ -47,7 +49,8 @@ declare %private function model:definition($config as map(*), $node as node()*, 
                         </pb:template>
     )
 };
-(: Generated behaviour function for pb:behaviour/@ident=iframe :)
+
+(: Generated behaviour function for ident iframe :)
 declare %private function model:iframe($config as map(*), $node as node()*, $class as xs:string+, $content, $src, $width, $height) {
     $node ! (
 
@@ -56,6 +59,7 @@ declare %private function model:iframe($config as map(*), $node as node()*, $cla
                         </iframe></t>/*
     )
 };
+
 (:~
 
     Main entry point for the transformation.
@@ -94,7 +98,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(article) return
                         fo:document($config, ., ("tei-article2"), .)
                     case element(info) return
-                        if (not(parent::article|parent::book)) then
+                        if (not(parent::article or parent::book)) then
                             fo:block($config, ., ("tei-info2"), .)
                         else
                             if ($parameters?header='short') then

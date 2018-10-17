@@ -33,7 +33,8 @@ declare %private function model:code($config as map(*), $node as node()*, $class
 ]``
     )
 };
-(: Generated behaviour function for pb:behaviour/@ident=definitionList :)
+
+(: Generated behaviour function for ident definitionList :)
 declare %private function model:definitionList($config as map(*), $node as node()*, $class as xs:string+, $content) {
     $node ! (
 
@@ -41,7 +42,8 @@ declare %private function model:definitionList($config as map(*), $node as node(
         ``[\begin{description}`{string-join($config?apply-children($config, $node, $content))}`\end{description}]``
     )
 };
-(: Generated behaviour function for pb:behaviour/@ident=definition :)
+
+(: Generated behaviour function for ident definition :)
 declare %private function model:definition($config as map(*), $node as node()*, $class as xs:string+, $content, $term) {
     $node ! (
 
@@ -49,7 +51,8 @@ declare %private function model:definition($config as map(*), $node as node()*, 
         ``[\item [`{string-join($config?apply-children($config, $node, $term))}`] `{string-join($config?apply-children($config, $node, $content))}`]``
     )
 };
-(: Generated behaviour function for pb:behaviour/@ident=iframe :)
+
+(: Generated behaviour function for ident iframe :)
 declare %private function model:iframe($config as map(*), $node as node()*, $class as xs:string+, $content, $src, $width, $height) {
     $node ! (
 
@@ -58,6 +61,7 @@ declare %private function model:iframe($config as map(*), $node as node()*, $cla
                         </iframe></t>/*
     )
 };
+
 (: generated template function for element spec: article :)
 declare %private function model:template1($config as map(*), $node as node()*, $params as map(*)) {
     ``[\documentclass[english,a4paper,`{string-join($config?apply-children($config, $node, $params?fontSize))}`]{`{string-join($config?apply-children($config, $node, $params?class))}`}
@@ -186,7 +190,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             return
                                                         latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-info1"), $content)
                         else
-                            if (not(parent::article|parent::book)) then
+                            if (not(parent::article or parent::book)) then
                                 latex:block($config, ., ("tei-info2"), .)
                             else
                                 if ($parameters?header='short') then
