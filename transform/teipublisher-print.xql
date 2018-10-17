@@ -17,8 +17,6 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace fo="http://www.tei-c.org/tei-simple/xquery/functions/fo";
 
-import module namespace ext-fo="http://www.tei-c.org/tei-simple/xquery/ext-fo" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-fo.xql";
-
 (:~
 
     Main entry point for the transformation.
@@ -46,11 +44,11 @@ declare function model:transform($options as map(*), $input as node()*) {
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
-    let $parameters := 
+        let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
     return
     $input !         (
-let $node := 
+            let $node := 
                 .
             return
                             typeswitch(.)
@@ -495,10 +493,7 @@ let $node :=
                     case element(byline) return
                         fo:block($config, ., ("tei-byline"), .)
                     case element(titleStmt) return
-                        if ($parameters?mode='title') then
-                            fo:heading($config, ., ("tei-titleStmt3"), title[not(@type)])
-                        else
-                            fo:heading($config, ., ("tei-titleStmt2"), .)
+                        fo:heading($config, ., ("tei-titleStmt2"), .)
                     case element(publicationStmt) return
                         fo:omit($config, ., ("tei-publicationStmt2"), .)
                     case element(licence) return

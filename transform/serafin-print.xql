@@ -19,82 +19,6 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace fo="http://www.tei-c.org/tei-simple/xquery/functions/fo";
 
-import module namespace ext-fo="http://www.tei-c.org/tei-simple/xquery/ext-fo" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-fo.xql";
-
-declare function model:template1($config as map(*), $node as node()*, $params as map(*)) {
-        ``[\def\volume{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
-};
-
-declare function model:template2($config as map(*), $node as node()*, $params as map(*)) {
-        ``[
-                                \documentclass[10pt,a4paper]{article}
-                                
-                                \usepackage[latin,polish]{babel}
-                                \usepackage{reledmac}
-                                \usepackage{reledpar}
-                                \usepackage{hyperref}
-                                \usepackage{glossaries}
-                                \makenoidxglossaries
-                                
-                                \usepackage{fancyhdr,extramarks,xifthen}
-                                \pagestyle{fancy}
-                                
-                                \fancyhead[LO,RE]{\footnotesize\volume}
-                                \fancyfoot[LE,RO]{\small \thepage}
-                                
-                                `{string-join($config?apply-children($config, $node, $params?glossary))}`
-                                
-                                \begin{document}
-                                
-                                \setlength{\columnrulewidth}{0.2pt}
-                                \setlength{\Lcolwidth}{0.425\textwidth}
-                                \setlength{\Rcolwidth}{0.425\textwidth}
-                                \columnsposition{C}
-                                \numberlinefalse
-                                
-                                `{string-join($config?apply-children($config, $node, $params?header))}`
-                                
-                                \begin{pairs}
-                                
-                                \begin{Leftside}
-                                \beginnumbering
-                                \selectlanguage{latin}
-                                `{string-join($config?apply-children($config, $node, $params?content))}`
-                                \endnumbering
-                                \end{Leftside}
-                                
-                                \begin{Rightside}
-                                \beginnumbering
-                                \selectlanguage{polish}
-                                `{string-join($config?apply-children($config, $node, $params?translation))}`
-                                \endnumbering
-                                \end{Rightside}
-                                
-                                \end{pairs}
-                                
-                                \Columns
-                                
-                                \printnoidxglossaries
-                                
-                                \end{document}
-                            ]``
-};
-
-declare function model:template3($config as map(*), $node as node()*, $params as map(*)) {
-        ``[\pstart `{string-join($config?apply-children($config, $node, $params?content))}` \pend]``
-};
-
-declare function model:template4($config as map(*), $node as node()*, $params as map(*)) {
-        ``[\glslink{`{string-join($config?apply-children($config, $node, $params?id))}`}{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
-};
-
-declare function model:template5($config as map(*), $node as node()*, $params as map(*)) {
-        ``[\newglossaryentry{`{string-join($config?apply-children($config, $node, $params?id))}`}{
-                                name=`{string-join($config?apply-children($config, $node, $params?name))}`,
-                                description={`{string-join($config?apply-children($config, $node, $params?note))}`}
-                            }]``
-};
-
 (:~
 
     Main entry point for the transformation.
@@ -577,33 +501,23 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(byline) return
                         fo:block($config, ., ("tei-byline"), .)
                     case element(persName) return
-                        if (parent::person) then
-                            fo:inline($config, ., ("tei-persName3"), .)
-                        else
-                            (: More than one model without predicate found for ident persName. Choosing first one. :)
-                            fo:inline($config, ., ("tei-persName2"), .)
+                        fo:inline($config, ., ("tei-persName2"), .)
                     case element(person) return
                         if (parent::listPerson) then
                             fo:inline($config, ., ("tei-person2"), .)
                         else
                             $config?apply($config, ./node())
                     case element(placeName) return
-                        if (parent::place) then
-                            fo:inline($config, ., ("tei-placeName2"), .)
-                        else
-                            (: More than one model without predicate found for ident placeName. Choosing first one. :)
-                            fo:inline($config, ., ("tei-placeName1"), .)
+                        fo:inline($config, ., ("tei-placeName2"), .)
                     case element(orgName) return
-                        if (parent::org) then
-                            fo:inline($config, ., ("tei-orgName2"), .)
-                        else
-                            (: More than one model without predicate found for ident orgName. Choosing first one. :)
-                            fo:inline($config, ., ("tei-orgName1"), .)
+                        fo:inline($config, ., ("tei-orgName1"), .)
                     case element(correspAction) return
                         if (@type='sent') then
                             fo:inline($config, ., ("tei-correspAction"), (placeName, ', ', date))
                         else
                             $config?apply($config, ./node())
+                    case element(place) return
+                        fo:inline($config, ., ("tei-place2"), .)
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

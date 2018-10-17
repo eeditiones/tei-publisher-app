@@ -10,7 +10,7 @@ declare function pml:transform($xml as node()*, $parameters as map(*)?) {
    let $options := map {
     "class": "article",
     "section-numbers": false(),
-    "font-size": "12pt",
+    "font-size": "11pt",
        "styles": ["../transform/tei_simplePrint.css"],
        "collection": "/db/apps/tei-publisher/transform",
        "parameters": if (exists($parameters)) then $parameters else map {}

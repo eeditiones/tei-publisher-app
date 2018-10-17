@@ -11,14 +11,119 @@ declare default element namespace "http://docbook.org/ns/docbook";
 
 declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
+declare namespace pb='http://teipublisher.com/1.0';
+
 declare namespace xlink='http://www.w3.org/1999/xlink';
 
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
-import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-latex.xql";
+(: Code listing :)
+declare %private function model:code($config as map(*), $node as node()*, $class as xs:string+, $content) {
+    $node ! (
+        let $language := @language
+         let $code := replace($content, '^\s*(.*?)$', '$1')
 
+        return
+
+        ``[\begin{lstlisting}[language=`{string-join($config?apply-children($config, $node, $language))}`]
+`{string-join($config?apply-children($config, $node, $code))}`
+\end{lstlisting}
+]``
+    )
+};
+(: Generated behaviour function for pb:behaviour/@ident=definitionList :)
+declare %private function model:definitionList($config as map(*), $node as node()*, $class as xs:string+, $content) {
+    $node ! (
+
+        
+        ``[\begin{description}`{string-join($config?apply-children($config, $node, $content))}`\end{description}]``
+    )
+};
+(: Generated behaviour function for pb:behaviour/@ident=definition :)
+declare %private function model:definition($config as map(*), $node as node()*, $class as xs:string+, $content, $term) {
+    $node ! (
+
+        
+        ``[\item [`{string-join($config?apply-children($config, $node, $term))}`] `{string-join($config?apply-children($config, $node, $content))}`]``
+    )
+};
+(: Generated behaviour function for pb:behaviour/@ident=iframe :)
+declare %private function model:iframe($config as map(*), $node as node()*, $class as xs:string+, $content, $src, $width, $height) {
+    $node ! (
+
+        
+        <t xmlns=""><iframe src="{$config?apply-children($config, $node, $src)}" width="{$config?apply-children($config, $node, $width)}" height="{$config?apply-children($config, $node, $height)}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen">
+                        </iframe></t>/*
+    )
+};
+(: generated template function for element spec: article :)
+declare %private function model:template1($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\documentclass[english,a4paper,`{string-join($config?apply-children($config, $node, $params?fontSize))}`]{`{string-join($config?apply-children($config, $node, $params?class))}`}
+\usepackage[english]{babel}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{mdframed}
+\usepackage[export]{adjustbox}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{tabu}
+\pagestyle{fancy}
+\definecolor{myblue}{rgb}{0,0.1,0.6}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{
+basicstyle=\small\ttfamily,
+columns=flexible,
+keepspaces=true,
+breaklines=true,
+keywordstyle=\color{myblue}
+}
+\lstloadlanguages{xml}
+\def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}
+\graphicspath{{`{string-join($config?apply-children($config, $node, $params?image-dir))}`/doc/}}
+`{string-join($config?apply-children($config, $node, $params?styles))}`
+\begin{document}
+`{string-join($config?apply-children($config, $node, $params?content))}`
+\end{document}]``
+};
+(: generated template function for element spec: info :)
+declare %private function model:template2($config as map(*), $node as node()*, $params as map(*)) {
+    ``[`{string-join($config?apply-children($config, $node, $params?content))}` \author{`{string-join($config?apply-children($config, $node, $params?author))}`}
+\maketitle]``
+};
+(: generated template function for element spec: author :)
+declare %private function model:template3($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\and `{string-join($config?apply-children($config, $node, $params?content))}`]``
+};
+(: generated template function for element spec: author :)
+declare %private function model:template4($config as map(*), $node as node()*, $params as map(*)) {
+    ``[`{string-join($config?apply-children($config, $node, $params?content))}`]``
+};
+(: generated template function for element spec: title :)
+declare %private function model:template5($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\title{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+};
+(: generated template function for element spec: code :)
+declare %private function model:template6($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\verb|`{string-join($config?apply-children($config, $node, $params?content))}`|]``
+};
+(: generated template function for element spec: note :)
+declare %private function model:template7($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\begin{mdframed}[frametitle={`{string-join($config?apply-children($config, $node, $params?title))}`}]
+`{string-join($config?apply-children($config, $node, $params?content))}`
+\end{mdframed}]``
+};
+(: generated template function for element spec: videodata :)
+declare %private function model:template8($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\begin{center}
+Not available in PDF edition. Go to \url{`{string-join($config?apply-children($config, $node, $params?content))}`} to view.
+\end{center}]``
+};
 (:~
 
     Main entry point for the transformation.
@@ -46,51 +151,106 @@ declare function model:transform($options as map(*), $input as node()*) {
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
-    let $parameters := 
+        let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
     return
     $input !         (
-let $node := 
+            let $node := 
                 .
             return
                             typeswitch(.)
                     case element(article) return
-                        latex:document($config, ., ("tei-article"), .)
-                    case element(info) return
-                        if (not(parent::article|parent::book)) then
-                            latex:block($config, ., ("tei-info1"), .)
-                        else
-                            if ($parameters?header='short') then
-                                (
-                                    latex:heading($config, ., ("tei-info3"), title),
-                                    if (author) then
-                                        latex:block($config, ., ("tei-info4"), author)
-                                    else
-                                        ()
-                                )
+                        let $params := 
+                            map {
+                                "image-dir": $parameters?image-dir,
+                                "styles": string-join($config("latex-styles"), '&#10;'),
+                                "fontSize": ($config?font-size, "11pt")[1],
+                                "class": ($config?class, "article")[1],
+                                "content": .
+                            }
 
+                                                let $content := 
+                            model:template1($config, ., $params)
+                        return
+                                                latex:block(map:merge(($config, map:entry("template", true()))), ., ("tei-article1"), $content)
+                    case element(info) return
+                        if (parent::article|parent::book) then
+                            let $params := 
+                                map {
+                                    "content": title,
+                                    "author": author
+                                }
+
+                                                        let $content := 
+                                model:template2($config, ., $params)
+                            return
+                                                        latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-info1"), $content)
+                        else
+                            if (not(parent::article|parent::book)) then
+                                latex:block($config, ., ("tei-info2"), .)
                             else
-                                latex:metadata($config, ., ("tei-info5"), .)
+                                if ($parameters?header='short') then
+                                    (
+                                        latex:heading($config, ., ("tei-info4"), title),
+                                        if (author) then
+                                            latex:block($config, ., ("tei-info5"), author)
+                                        else
+                                            ()
+                                    )
+
+                                else
+                                    latex:metadata($config, ., ("tei-info6"), .)
                     case element(author) return
                         if (preceding-sibling::author) then
-                            latex:inline($config, ., ("tei-author1"), (', ', personname, affiliation))
+                            let $params := 
+                                map {
+                                    "content": (personname, affiliation)
+                                }
+
+                                                        let $content := 
+                                model:template3($config, ., $params)
+                            return
+                                                        latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-author1"), $content)
                         else
-                            latex:inline($config, ., ("tei-author2"), (personname, affiliation))
+                            if (preceding-sibling::author) then
+                                latex:inline($config, ., ("tei-author3"), (', ', personname, affiliation))
+                            else
+                                (: More than one model without predicate found for ident author. Choosing first one. :)
+                                let $params := 
+                                    map {
+                                        "content": (personname, affiliation)
+                                    }
+
+                                                                let $content := 
+                                    model:template4($config, ., $params)
+                                return
+                                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-author2"), $content)
                     case element(personname) return
                         latex:inline($config, ., ("tei-personname"), (firstname, ' ', surname))
                     case element(affiliation) return
                         latex:inline($config, ., ("tei-affiliation"), (', ', .))
                     case element(title) return
-                        if ($parameters?mode='breadcrumbs') then
-                            latex:inline($config, ., ("tei-title1"), .)
+                        if (parent::info) then
+                            let $params := 
+                                map {
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template5($config, ., $params)
+                            return
+                                                        latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-title1"), $content)
                         else
-                            if (parent::note) then
+                            if ($parameters?mode='breadcrumbs') then
                                 latex:inline($config, ., ("tei-title2"), .)
                             else
-                                if (parent::info and $parameters?header='short') then
-                                    latex:link($config, ., ("tei-title3"), ., $parameters?doc)
+                                if (parent::note) then
+                                    latex:inline($config, ., ("tei-title3"), .)
                                 else
-                                    latex:heading($config, ., ("tei-title4", "title"), .)
+                                    if (parent::info and $parameters?header='short') then
+                                        latex:link($config, ., ("tei-title4"), ., $parameters?doc)
+                                    else
+                                        latex:heading($config, ., ("tei-title5", "title"), .)
                     case element(section) return
                         if ($parameters?mode='breadcrumbs') then
                             (
@@ -108,12 +268,23 @@ let $node :=
                         else
                             latex:inline($config, ., ("tei-emphasis2"), .)
                     case element(code) return
-                        latex:inline($config, ., ("tei-code", "code"), .)
+                        let $params := 
+                            map {
+                                "content": .
+                            }
+
+                                                let $content := 
+                            model:template6($config, ., $params)
+                        return
+                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-code1"), $content)
                     case element(figure) return
-                        if (title|info/title) then
-                            latex:figure($config, ., ("tei-figure1", "figure"), *[not(self::title|self::info)], title/node()|info/title/node())
+                        if (mediaobject/imageobject/imagedata[ends-with(@fileref, '.gif')]) then
+                            latex:omit($config, ., ("tei-figure1"), .)
                         else
-                            latex:figure($config, ., ("tei-figure2"), ., ())
+                            if (title|info/title) then
+                                latex:figure($config, ., ("tei-figure2", "figure"), *[not(self::title|self::info)], title/node()|info/title/node())
+                            else
+                                latex:figure($config, ., ("tei-figure3"), ., ())
                     case element(informalfigure) return
                         if (caption) then
                             latex:figure($config, ., ("tei-informalfigure1", "figure"), *[not(self::caption)], caption/node())
@@ -132,27 +303,20 @@ let $node :=
                     case element(step) return
                         latex:listItem($config, ., ("tei-step"), .)
                     case element(variablelist) return
-                        (: No function found for behavior: definitionList :)
-                        $config?apply($config, ./node())
+                        model:definitionList($config, ., ("tei-variablelist"), varlistentry)
                     case element(varlistentry) return
-                        (
-                            (: No function found for behavior: definitionTerm :)
-                            $config?apply($config, ./node()),
-                            (: No function found for behavior: definitionDef :)
-                            $config?apply($config, ./node())
-                        )
-
+                        model:definition($config, ., ("tei-varlistentry"), listitem/node(), term/node())
                     case element(table) return
                         if (title) then
                             (
                                 latex:heading($config, ., ("tei-table1"), title),
-                                latex:table($config, ., ("tei-table2"), .//tr)
+                                latex:table($config, ., ("tei-table2"), .//tr, map {"columns": max(.//tr ! count(td))})
                             )
 
                         else
-                            latex:table($config, ., ("tei-table3", "table"), .//tr)
+                            latex:table($config, ., ("tei-table3", "table"), .//tr, map {"columns": max(.//tr ! count(td))})
                     case element(informaltable) return
-                        latex:table($config, ., ("tei-informaltable", "table"), .//tr)
+                        latex:table($config, ., ("tei-informaltable", "table"), .//tr, map {"columns": max(.//tr ! count(td))})
                     case element(tr) return
                         latex:row($config, ., ("tei-tr"), .)
                     case element(td) return
@@ -161,10 +325,9 @@ let $node :=
                         else
                             latex:cell($config, ., ("tei-td2"), ., ())
                     case element(programlisting) return
-                        latex:block($config, ., ("tei-programlisting3", "programlisting"), .)
+                        model:code($config, ., ("tei-programlisting1"), .)
                     case element(synopsis) return
-                        (: More than one model without predicate found for ident synopsis. Choosing first one. :)
-                        latex:block($config, ., ("tei-synopsis1", "programlisting"), .)
+                        model:code($config, ., ("tei-synopsis1"), .)
                     case element(example) return
                         latex:figure($config, ., ("tei-example"), *[not(self::title|self::info)], info/title/node()|title/node())
                     case element(function) return
@@ -176,7 +339,16 @@ let $node :=
                     case element(filename) return
                         latex:inline($config, ., ("tei-filename", "code"), .)
                     case element(note) return
-                        latex:block($config, ., ("tei-note2"), .)
+                        let $params := 
+                            map {
+                                "title": title,
+                                "content": *[not(self::title)]
+                            }
+
+                                                let $content := 
+                            model:template7($config, ., $params)
+                        return
+                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-note1"), $content)
                     case element(tag) return
                         latex:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return
@@ -189,8 +361,20 @@ let $node :=
                     case element(guilabel) return
                         latex:inline($config, ., ("tei-guilabel"), .)
                     case element(videodata) return
-                        (: No function found for behavior: iframe :)
-                        $config?apply($config, ./node())
+                        let $params := 
+                            map {
+                                "content": @fileref
+                            }
+
+                                                let $content := 
+                            model:template8($config, ., $params)
+                        return
+                                                latex:block(map:merge(($config, map:entry("template", true()))), ., ("tei-videodata1"), $content)
+                    case element(mediaobject) return
+                        if (imageobject/imagedata[ends-with(@fileref, '.gif')]) then
+                            latex:omit($config, ., ("tei-mediaobject"), .)
+                        else
+                            $config?apply($config, ./node())
                     case element() return
                         latex:inline($config, ., ("tei--element"), .)
                     case text() | xs:anyAtomicType return

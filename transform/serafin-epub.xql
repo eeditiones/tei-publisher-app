@@ -21,80 +21,6 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
 import module namespace epub="http://www.tei-c.org/tei-simple/xquery/functions/epub";
 
-declare function model:template1($config as map(*), $node as node()*, $params as map(*)) {
-        ``[\def\volume{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
-};
-
-declare function model:template2($config as map(*), $node as node()*, $params as map(*)) {
-        ``[
-                                \documentclass[10pt,a4paper]{article}
-                                
-                                \usepackage[latin,polish]{babel}
-                                \usepackage{reledmac}
-                                \usepackage{reledpar}
-                                \usepackage{hyperref}
-                                \usepackage{glossaries}
-                                \makenoidxglossaries
-                                
-                                \usepackage{fancyhdr,extramarks,xifthen}
-                                \pagestyle{fancy}
-                                
-                                \fancyhead[LO,RE]{\footnotesize\volume}
-                                \fancyfoot[LE,RO]{\small \thepage}
-                                
-                                `{string-join($config?apply-children($config, $node, $params?glossary))}`
-                                
-                                \begin{document}
-                                
-                                \setlength{\columnrulewidth}{0.2pt}
-                                \setlength{\Lcolwidth}{0.425\textwidth}
-                                \setlength{\Rcolwidth}{0.425\textwidth}
-                                \columnsposition{C}
-                                \numberlinefalse
-                                
-                                `{string-join($config?apply-children($config, $node, $params?header))}`
-                                
-                                \begin{pairs}
-                                
-                                \begin{Leftside}
-                                \beginnumbering
-                                \selectlanguage{latin}
-                                `{string-join($config?apply-children($config, $node, $params?content))}`
-                                \endnumbering
-                                \end{Leftside}
-                                
-                                \begin{Rightside}
-                                \beginnumbering
-                                \selectlanguage{polish}
-                                `{string-join($config?apply-children($config, $node, $params?translation))}`
-                                \endnumbering
-                                \end{Rightside}
-                                
-                                \end{pairs}
-                                
-                                \Columns
-                                
-                                \printnoidxglossaries
-                                
-                                \end{document}
-                            ]``
-};
-
-declare function model:template3($config as map(*), $node as node()*, $params as map(*)) {
-        ``[\pstart `{string-join($config?apply-children($config, $node, $params?content))}` \pend]``
-};
-
-declare function model:template4($config as map(*), $node as node()*, $params as map(*)) {
-        ``[\glslink{`{string-join($config?apply-children($config, $node, $params?id))}`}{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
-};
-
-declare function model:template5($config as map(*), $node as node()*, $params as map(*)) {
-        ``[\newglossaryentry{`{string-join($config?apply-children($config, $node, $params?id))}`}{
-                                name=`{string-join($config?apply-children($config, $node, $params?name))}`,
-                                description={`{string-join($config?apply-children($config, $node, $params?note))}`}
-                            }]``
-};
-
 (:~
 
     Main entry point for the transformation.
@@ -363,7 +289,6 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(lg) return
                         epub:block($config, ., ("tei-lg"), .)
                     case element(publicationStmt) return
-                        (: More than one model without predicate found for ident publicationStmt. Choosing first one. :)
                         epub:block($config, ., ("tei-publicationStmt1"), availability/licence)
                     case element(biblScope) return
                         html:inline($config, ., ("tei-biblScope"), .)
@@ -605,9 +530,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                             $config?apply($config, ./node())
                     case element(placeName) return
                         if (parent::place) then
-                            html:inline($config, ., ("tei-placeName2"), .)
+                            html:inline($config, ., ("tei-placeName3"), .)
                         else
-                            html:alternate($config, ., ("tei-placeName3"), ., ., id(substring-after(@ref, '#'), root(.)))
+                            html:alternate($config, ., ("tei-placeName4"), ., ., id(substring-after(@ref, '#'), root(.)))
                     case element(orgName) return
                         if (parent::org) then
                             html:inline($config, ., ("tei-orgName2"), .)
@@ -618,6 +543,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:inline($config, ., ("tei-correspAction"), (placeName, ', ', date))
                         else
                             $config?apply($config, ./node())
+                    case element(place) return
+                        html:inline($config, ., ("tei-place2"), .)
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return

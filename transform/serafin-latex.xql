@@ -19,82 +19,75 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
-import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-latex.xql";
+(: Generated behaviour function for pb:behaviour/@ident=glossary :)
+declare %private function model:glossary($config as map(*), $node as node()*, $class as xs:string+, $content, $name, $note) {
+    $node ! (
+        let $id := @xml:id
 
-declare function model:template1($config as map(*), $node as node()*, $params as map(*)) {
-        ``[\def\volume{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+        return
+
+        ``[\newglossaryentry{`{string-join($config?apply-children($config, $node, $id))}`} { 
+name=`{string-join($config?apply-children($config, $node, $name))}`,
+description={`{string-join($config?apply-children($config, $node, $note))}`}
+}]``
+    )
 };
-
-declare function model:template2($config as map(*), $node as node()*, $params as map(*)) {
-        ``[
-                                \documentclass[10pt,a4paper]{article}
-                                
-                                \usepackage[latin,polish]{babel}
-                                \usepackage{reledmac}
-                                \usepackage{reledpar}
-                                \usepackage{hyperref}
-                                \usepackage{glossaries}
-                                \makenoidxglossaries
-                                
-                                \usepackage{fancyhdr,extramarks,xifthen}
-                                \pagestyle{fancy}
-                                
-                                \fancyhead[LO,RE]{\footnotesize\volume}
-                                \fancyfoot[LE,RO]{\small \thepage}
-                                
-                                `{string-join($config?apply-children($config, $node, $params?glossary))}`
-                                
-                                \begin{document}
-                                
-                                \setlength{\columnrulewidth}{0.2pt}
-                                \setlength{\Lcolwidth}{0.425\textwidth}
-                                \setlength{\Rcolwidth}{0.425\textwidth}
-                                \columnsposition{C}
-                                \numberlinefalse
-                                
-                                `{string-join($config?apply-children($config, $node, $params?header))}`
-                                
-                                \begin{pairs}
-                                
-                                \begin{Leftside}
-                                \beginnumbering
-                                \selectlanguage{latin}
-                                `{string-join($config?apply-children($config, $node, $params?content))}`
-                                \endnumbering
-                                \end{Leftside}
-                                
-                                \begin{Rightside}
-                                \beginnumbering
-                                \selectlanguage{polish}
-                                `{string-join($config?apply-children($config, $node, $params?translation))}`
-                                \endnumbering
-                                \end{Rightside}
-                                
-                                \end{pairs}
-                                
-                                \Columns
-                                
-                                \printnoidxglossaries
-                                
-                                \end{document}
-                            ]``
+(: generated template function for element spec: teiHeader :)
+declare %private function model:template1($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\def\volume{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
-
-declare function model:template3($config as map(*), $node as node()*, $params as map(*)) {
-        ``[\pstart `{string-join($config?apply-children($config, $node, $params?content))}` \pend]``
+(: generated template function for element spec: TEI :)
+declare %private function model:template2($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\documentclass[10pt,a4paper,twoside]{article}
+\usepackage[latin,polish]{babel}
+\usepackage{reledmac}
+\usepackage{reledpar}
+\usepackage{hyperref}
+\usepackage{glossaries}
+\makenoidxglossaries
+\usepackage{fancyhdr,extramarks,xifthen}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LO,RE]{\footnotesize\volume}
+\fancyhead[LE,RO]{\footnotesize\thepage}
+`{string-join($config?apply-children($config, $node, $params?glossary))}`
+\begin{document}
+\setlength{\columnrulewidth}{0.2pt}
+\setlength{\Lcolwidth}{0.425\textwidth}
+\setlength{\Rcolwidth}{0.425\textwidth}
+\columnsposition{C}
+\numberlinefalse
+`{string-join($config?apply-children($config, $node, $params?header))}`
+\begin{pairs}
+\begin{Leftside}
+\beginnumbering
+\selectlanguage{latin}
+`{string-join($config?apply-children($config, $node, $params?content))}`
+\endnumbering
+\end{Leftside}
+\begin{Rightside}
+\beginnumbering
+\selectlanguage{polish}
+`{string-join($config?apply-children($config, $node, $params?translation))}`
+\endnumbering
+\end{Rightside}
+\end{pairs}
+\Columns
+\printnoidxglossaries
+\end{document}]``
 };
-
-declare function model:template4($config as map(*), $node as node()*, $params as map(*)) {
-        ``[\glslink{`{string-join($config?apply-children($config, $node, $params?id))}`}{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+(: generated template function for element spec: seg :)
+declare %private function model:template3($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\pstart `{string-join($config?apply-children($config, $node, $params?content))}` \pend]``
 };
-
-declare function model:template5($config as map(*), $node as node()*, $params as map(*)) {
-        ``[\newglossaryentry{`{string-join($config?apply-children($config, $node, $params?id))}`}{
-                                name=`{string-join($config?apply-children($config, $node, $params?name))}`,
-                                description={`{string-join($config?apply-children($config, $node, $params?note))}`}
-                            }]``
+(: generated template function for element spec: persName :)
+declare %private function model:template4($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\glslink{`{string-join($config?apply-children($config, $node, $params?id))}`}{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
-
+(: generated template function for element spec: placeName :)
+declare %private function model:template5($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\glslink{`{string-join($config?apply-children($config, $node, $params?id))}`}{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+};
 (:~
 
     Main entry point for the transformation.
@@ -180,14 +173,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(anchor) return
                         latex:note($config, ., ("tei-anchor"), let $target := '#' || @xml:id return root(.)//div[@type='notes']/note[@target=$target], (), ())
                     case element(TEI) return
-                        (: More than one model without predicate found for ident TEI. Choosing first one. :)
                         let $params := 
                             map {
                                 "header": teiHeader,
                                 "title": teiHeader/fileDesc/titleStmt/title/node(),
                                 "content": .//text[@type='source']/body,
                                 "translation": .//text[@xml:lang='pl'],
-                                "glossary": teiHeader/profileDesc/particDesc/listPerson/person
+                                "glossary": (teiHeader//particDesc/listPerson/person, teiHeader//settingDesc/listPlace/place)
                             }
 
                                                 let $content := 
@@ -276,7 +268,6 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             latex:title($config, ., ("tei-fileDesc4"), titleStmt)
                     case element(seg) return
-                        (: More than one model without predicate found for ident seg. Choosing first one. :)
                         let $params := 
                             map {
                                 "content": .
@@ -299,7 +290,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(abbr) return
                         latex:inline($config, ., ("tei-abbr"), .)
                     case element(table) return
-                        latex:table($config, ., ("tei-table"), .)
+                        latex:table($config, ., ("tei-table"), ., map {})
                     case element(cb) return
                         latex:break($config, ., ("tei-cb"), ., 'column', @n)
                     case element(group) return
@@ -350,7 +341,6 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 $config?apply($config, ./node())
                     case element(p) return
-                        (: More than one model without predicate found for ident p. Choosing first one. :)
                         latex:paragraph($config, ., ("tei-p1"), .)
                     case element(measure) return
                         latex:inline($config, ., ("tei-measure"), .)
@@ -608,56 +598,38 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(byline) return
                         latex:block($config, ., ("tei-byline"), .)
                     case element(persName) return
-                        if (parent::person) then
-                            latex:inline($config, ., ("tei-persName3"), .)
-                        else
-                            (: More than one model without predicate found for ident persName. Choosing first one. :)
-                            let $params := 
-                                map {
-                                    "id": substring-after(@ref, '#'),
-                                    "content": .
-                                }
+                        let $params := 
+                            map {
+                                "id": substring-after(@ref, '#'),
+                                "content": .
+                            }
 
-                                                        let $content := 
-                                model:template4($config, ., $params)
-                            return
-                                                        latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-persName1"), $content)
+                                                let $content := 
+                            model:template4($config, ., $params)
+                        return
+                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-persName1"), $content)
                     case element(person) return
-                        if (parent::listPerson) then
-                            let $params := 
-                                map {
-                                    "id": @xml:id,
-                                    "name": persName/text(),
-                                    "note": note,
-                                    "content": .
-                                }
-
-                                                        let $content := 
-                                model:template5($config, ., $params)
-                            return
-                                                        latex:block(map:merge(($config, map:entry("template", true()))), ., ("tei-person1"), $content)
-                        else
-                            if (parent::listPerson) then
-                                latex:inline($config, ., ("tei-person2"), .)
-                            else
-                                $config?apply($config, ./node())
+                        model:glossary($config, ., ("tei-person1"), ., persName/text(), note)
                     case element(placeName) return
-                        if (parent::place) then
-                            latex:inline($config, ., ("tei-placeName2"), .)
-                        else
-                            (: More than one model without predicate found for ident placeName. Choosing first one. :)
-                            latex:inline($config, ., ("tei-placeName1"), .)
+                        let $params := 
+                            map {
+                                "id": substring-after(@ref, '#'),
+                                "content": .
+                            }
+
+                                                let $content := 
+                            model:template5($config, ., $params)
+                        return
+                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-placeName1"), $content)
                     case element(orgName) return
-                        if (parent::org) then
-                            latex:inline($config, ., ("tei-orgName2"), .)
-                        else
-                            (: More than one model without predicate found for ident orgName. Choosing first one. :)
-                            latex:inline($config, ., ("tei-orgName1"), .)
+                        latex:inline($config, ., ("tei-orgName1"), .)
                     case element(correspAction) return
                         if (@type='sent') then
                             latex:inline($config, ., ("tei-correspAction"), (placeName, ', ', date))
                         else
                             $config?apply($config, ./node())
+                    case element(place) return
+                        model:glossary($config, ., ("tei-place1"), ., placeName/text(), note)
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

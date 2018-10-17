@@ -46,11 +46,11 @@ declare function model:transform($options as map(*), $input as node()*) {
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
-    let $parameters := 
+        let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
     return
     $input !         (
-let $node := 
+            let $node := 
                 .
             return
                             typeswitch(.)
@@ -296,7 +296,6 @@ let $node :=
                     case element(lg) return
                         epub:block($config, ., ("tei-lg"), .)
                     case element(publicationStmt) return
-                        (: More than one model without predicate found for ident publicationStmt. Choosing first one. :)
                         epub:block($config, ., ("tei-publicationStmt1"), availability/licence)
                     case element(biblScope) return
                         html:inline($config, ., ("tei-biblScope"), .)

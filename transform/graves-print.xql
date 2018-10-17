@@ -13,11 +13,11 @@ declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
 declare namespace xi='http://www.w3.org/2001/XInclude';
 
+declare namespace pb='http://teipublisher.com/1.0';
+
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace fo="http://www.tei-c.org/tei-simple/xquery/functions/fo";
-
-import module namespace ext-fo="http://www.tei-c.org/tei-simple/xquery/ext-fo" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-fo.xql";
 
 (:~
 
@@ -46,11 +46,11 @@ declare function model:transform($options as map(*), $input as node()*) {
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
-    let $parameters := 
+        let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
     return
     $input !         (
-let $node := 
+            let $node := 
                 .
             return
                             typeswitch(.)
@@ -63,7 +63,6 @@ let $node :=
                         if (head or @rendition='simple:display') then
                             fo:block($config, ., ("tei-figure1"), .)
                         else
-                            (: Changed to not show a blue border around the figure :)
                             fo:inline($config, ., ("tei-figure2"), .)
                     case element(teiHeader) return
                         fo:omit($config, ., ("tei-teiHeader2"), .)
@@ -97,7 +96,7 @@ let $node :=
                     case element(anchor) return
                         fo:anchor($config, ., ("tei-anchor"), ., @xml:id)
                     case element(TEI) return
-                        fo:document($config, ., ("tei-TEI"), .)
+                        fo:document($config, ., ("tei-TEI2"), .)
                     case element(formula) return
                         if (@rendition='simple:display') then
                             fo:block($config, ., ("tei-formula1"), .)
@@ -136,7 +135,7 @@ let $node :=
                                 else
                                     $config?apply($config, ./node())
                     case element(dateline) return
-                        fo:block($config, ., css:get-rendition(., ("tei-dateline")), .)
+                        fo:block($config, ., css:get-rendition(., ("tei-dateline2")), .)
                     case element(back) return
                         fo:block($config, ., ("tei-back"), .)
                     case element(del) return
@@ -158,7 +157,7 @@ let $node :=
                     case element(orig) return
                         fo:inline($config, ., ("tei-orig"), .)
                     case element(opener) return
-                        fo:block($config, ., ("tei-opener"), .)
+                        fo:block($config, ., ("tei-opener2"), .)
                     case element(speaker) return
                         fo:block($config, ., ("tei-speaker"), .)
                     case element(imprimatur) return
@@ -192,7 +191,6 @@ let $node :=
                     case element(email) return
                         fo:inline($config, ., ("tei-email"), .)
                     case element(text) return
-                        (: tei_simplePrint.odd sets a font and margin on the text body. We don't want that. :)
                         fo:body($config, ., ("tei-text"), .)
                     case element(floatingText) return
                         fo:block($config, ., ("tei-floatingText"), .)
@@ -240,7 +238,7 @@ let $node :=
                     case element(l) return
                         fo:block($config, ., css:get-rendition(., ("tei-l")), .)
                     case element(closer) return
-                        fo:block($config, ., ("tei-closer"), .)
+                        fo:block($config, ., ("tei-closer2"), .)
                     case element(rhyme) return
                         fo:inline($config, ., ("tei-rhyme"), .)
                     case element(list) return
@@ -297,7 +295,7 @@ let $node :=
                                         $config?apply($config, ./node())
                                     else
                                         if (@type='place') then
-                                            fo:inline($config, ., ("tei-name5"), .)
+                                            fo:inline($config, ., ("tei-name6"), .)
                                         else
                                             $config?apply($config, ./node())
                     case element(front) return
@@ -320,8 +318,8 @@ let $node :=
                         fo:inline($config, ., ("tei-docImprint"), .)
                     case element(postscript) return
                         (
-                            fo:heading($config, ., ("tei-postscript1"), ('Postscript by ', id(substring-after(@resp, '#'), root(.))/persName)),
-                            fo:block($config, ., ("tei-postscript2"), .)
+                            fo:heading($config, ., ("tei-postscript2"), ('Postscript by ', id(substring-after(@resp, '#'), root(.))/persName)),
+                            fo:block($config, ., ("tei-postscript3"), .)
                         )
 
                     case element(edition) return
@@ -541,34 +539,33 @@ let $node :=
                         fo:block($config, ., ("tei-byline"), .)
                     case element(place) return
                         (
-                            fo:heading($config, ., ("tei-place1"), string-join(placeName, ', ')),
+                            fo:heading($config, ., ("tei-place2"), string-join(placeName, ', ')),
                             if (location/geo) then
-                                fo:block($config, ., ("tei-place2"), location/geo)
+                                fo:block($config, ., ("tei-place3"), location/geo)
                             else
                                 (),
-                            fo:block($config, ., ("tei-place3"), string-join(location/*[not(self::geo)], ', ')),
-                            fo:block($config, ., ("tei-place4"), note/node())
+                            fo:block($config, ., ("tei-place4"), string-join(location/* except location/geo, ', ')),
+                            fo:block($config, ., ("tei-place5"), note/node())
                         )
 
                     case element(geo) return
                         (
                             fo:inline($config, ., ("tei-geo1"), 'Location: '),
-                            (: No function found for behavior: webcomponent :)
-                            $config?apply($config, ./node())
+                            fo:inline($config, ., ("tei-geo3"), .)
                         )
 
                     case element(person) return
                         (
-                            fo:heading($config, ., ("tei-person1"), persName),
+                            fo:heading($config, ., ("tei-person2"), persName),
                             if (birth or death or occupation) then
-                                fo:block($config, ., ("tei-person2"), (occupation, birth, death))
+                                fo:block($config, ., ("tei-person3"), (occupation, birth, death))
                             else
                                 (),
                             if (idno) then
-                                fo:block($config, ., ("tei-person3"), idno)
+                                fo:block($config, ., ("tei-person4"), idno)
                             else
                                 (),
-                            fo:block($config, ., ("tei-person4"), note/node())
+                            fo:block($config, ., ("tei-person5"), note/node())
                         )
 
                     case element(persName) return

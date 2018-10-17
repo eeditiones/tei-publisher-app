@@ -11,14 +11,51 @@ declare default element namespace "http://docbook.org/ns/docbook";
 
 declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
+declare namespace pb='http://teipublisher.com/1.0';
+
 declare namespace xlink='http://www.w3.org/1999/xlink';
 
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace fo="http://www.tei-c.org/tei-simple/xquery/functions/fo";
 
-import module namespace ext-fo="http://www.tei-c.org/tei-simple/xquery/ext-fo" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-fo.xql";
+(: Code listing :)
+declare %private function model:code($config as map(*), $node as node()*, $class as xs:string+, $content) {
+    $node ! (
+        let $language := @language
 
+        return
+
+        <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" space-before=".5em" space-after=".5em" padding-left="1em" padding-right="1em" padding-top=".5em" padding-bottom=".5em" border-color="#A0A0A0" border="solid 2pt" font-family="monospace" font-size=".85em" line-height="1.2" hyphenate="false" white-space="pre" wrap-option="wrap">{$config?apply-children($config, $node, $content)}</fo:block>
+    )
+};
+(: Generated behaviour function for pb:behaviour/@ident=definitionList :)
+declare %private function model:definitionList($config as map(*), $node as node()*, $class as xs:string+, $content) {
+    $node ! (
+
+        
+        <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format">{$config?apply-children($config, $node, $content)}</fo:block>
+    )
+};
+(: Generated behaviour function for pb:behaviour/@ident=definition :)
+declare %private function model:definition($config as map(*), $node as node()*, $class as xs:string+, $content, $term) {
+    $node ! (
+
+        
+        <pb:template xmlns:pb="http://teipublisher.com/1.0">
+                            <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format">{$config?apply-children($config, $node, $content)}</fo:block>
+                        </pb:template>
+    )
+};
+(: Generated behaviour function for pb:behaviour/@ident=iframe :)
+declare %private function model:iframe($config as map(*), $node as node()*, $class as xs:string+, $content, $src, $width, $height) {
+    $node ! (
+
+        
+        <t xmlns=""><iframe src="{$config?apply-children($config, $node, $src)}" width="{$config?apply-children($config, $node, $width)}" height="{$config?apply-children($config, $node, $height)}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen">
+                        </iframe></t>/*
+    )
+};
 (:~
 
     Main entry point for the transformation.
@@ -46,51 +83,51 @@ declare function model:transform($options as map(*), $input as node()*) {
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
-    let $parameters := 
+        let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
     return
     $input !         (
-let $node := 
+            let $node := 
                 .
             return
                             typeswitch(.)
                     case element(article) return
-                        fo:document($config, ., ("tei-article"), .)
+                        fo:document($config, ., ("tei-article2"), .)
                     case element(info) return
                         if (not(parent::article|parent::book)) then
-                            fo:block($config, ., ("tei-info1"), .)
+                            fo:block($config, ., ("tei-info2"), .)
                         else
                             if ($parameters?header='short') then
                                 (
-                                    fo:heading($config, ., ("tei-info3"), title),
+                                    fo:heading($config, ., ("tei-info4"), title),
                                     if (author) then
-                                        fo:block($config, ., ("tei-info4"), author)
+                                        fo:block($config, ., ("tei-info5"), author)
                                     else
                                         ()
                                 )
 
                             else
-                                fo:metadata($config, ., ("tei-info5"), .)
+                                fo:metadata($config, ., ("tei-info6"), .)
                     case element(author) return
                         if (preceding-sibling::author) then
-                            fo:inline($config, ., ("tei-author1"), (', ', personname, affiliation))
+                            fo:inline($config, ., ("tei-author3"), (', ', personname, affiliation))
                         else
-                            fo:inline($config, ., ("tei-author2"), (personname, affiliation))
+                            fo:inline($config, ., ("tei-author4"), (personname, affiliation))
                     case element(personname) return
                         fo:inline($config, ., ("tei-personname"), (firstname, ' ', surname))
                     case element(affiliation) return
                         fo:inline($config, ., ("tei-affiliation"), (', ', .))
                     case element(title) return
                         if ($parameters?mode='breadcrumbs') then
-                            fo:inline($config, ., ("tei-title1"), .)
+                            fo:inline($config, ., ("tei-title2"), .)
                         else
                             if (parent::note) then
-                                fo:inline($config, ., ("tei-title2"), .)
+                                fo:inline($config, ., ("tei-title3"), .)
                             else
                                 if (parent::info and $parameters?header='short') then
-                                    fo:link($config, ., ("tei-title3"), ., $parameters?doc)
+                                    fo:link($config, ., ("tei-title4"), ., $parameters?doc)
                                 else
-                                    fo:heading($config, ., ("tei-title4", "title"), .)
+                                    fo:heading($config, ., ("tei-title5", "title"), .)
                     case element(section) return
                         if ($parameters?mode='breadcrumbs') then
                             (
@@ -108,12 +145,12 @@ let $node :=
                         else
                             fo:inline($config, ., ("tei-emphasis2"), .)
                     case element(code) return
-                        fo:inline($config, ., ("tei-code", "code"), .)
+                        fo:inline($config, ., ("tei-code2", "code"), .)
                     case element(figure) return
                         if (title|info/title) then
-                            fo:figure($config, ., ("tei-figure1", "figure"), *[not(self::title|self::info)], title/node()|info/title/node())
+                            fo:figure($config, ., ("tei-figure2", "figure"), *[not(self::title|self::info)], title/node()|info/title/node())
                         else
-                            fo:figure($config, ., ("tei-figure2"), ., ())
+                            fo:figure($config, ., ("tei-figure3"), ., ())
                     case element(informalfigure) return
                         if (caption) then
                             fo:figure($config, ., ("tei-informalfigure1", "figure"), *[not(self::caption)], caption/node())
@@ -132,13 +169,9 @@ let $node :=
                     case element(step) return
                         fo:listItem($config, ., ("tei-step"), .)
                     case element(variablelist) return
-                        ext-fo:definitionList($config, ., ("tei-variablelist"), varlistentry)
+                        model:definitionList($config, ., ("tei-variablelist"), varlistentry)
                     case element(varlistentry) return
-                        (
-                            ext-fo:definitionTerm($config, ., ("tei-varlistentry1", "term"), term/node()),
-                            ext-fo:definitionDef($config, ., ("tei-varlistentry2", "varlistentry"), listitem/node())
-                        )
-
+                        model:definition($config, ., ("tei-varlistentry"), listitem/node(), term/node())
                     case element(table) return
                         if (title) then
                             (
@@ -158,10 +191,9 @@ let $node :=
                         else
                             fo:cell($config, ., ("tei-td2"), ., ())
                     case element(programlisting) return
-                        fo:block($config, ., ("tei-programlisting3", "programlisting"), .)
+                        fo:block($config, ., ("tei-programlisting4", "programlisting"), .)
                     case element(synopsis) return
-                        (: More than one model without predicate found for ident synopsis. Choosing first one. :)
-                        fo:block($config, ., ("tei-synopsis1", "programlisting"), .)
+                        fo:block($config, ., ("tei-synopsis2", "programlisting"), .)
                     case element(example) return
                         fo:figure($config, ., ("tei-example"), *[not(self::title|self::info)], info/title/node()|title/node())
                     case element(function) return
@@ -173,7 +205,7 @@ let $node :=
                     case element(filename) return
                         fo:inline($config, ., ("tei-filename", "code"), .)
                     case element(note) return
-                        fo:block($config, ., ("tei-note2"), .)
+                        fo:block($config, ., ("tei-note3"), .)
                     case element(tag) return
                         fo:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return
@@ -186,8 +218,7 @@ let $node :=
                     case element(guilabel) return
                         fo:inline($config, ., ("tei-guilabel"), .)
                     case element(videodata) return
-                        (: No function found for behavior: iframe :)
-                        $config?apply($config, ./node())
+                        model:iframe($config, ., ("tei-videodata2"), ., @fileref, @width, @depth)
                     case element() return
                         fo:inline($config, ., ("tei--element"), .)
                     case text() | xs:anyAtomicType return

@@ -17,8 +17,6 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
-import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-latex.xql";
-
 (:~
 
     Main entry point for the transformation.
@@ -46,11 +44,11 @@ declare function model:transform($options as map(*), $input as node()*) {
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
-    let $parameters := 
+        let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
     return
     $input !         (
-let $node := 
+            let $node := 
                 .
             return
                             typeswitch(.)
@@ -197,7 +195,7 @@ let $node :=
                     case element(sp) return
                         latex:block($config, ., ("tei-sp"), .)
                     case element(table) return
-                        latex:table($config, ., ("tei-table"), .)
+                        latex:table($config, ., ("tei-table"), ., map {})
                     case element(abbr) return
                         latex:inline($config, ., ("tei-abbr"), .)
                     case element(group) return
@@ -495,11 +493,8 @@ let $node :=
                     case element(byline) return
                         latex:block($config, ., ("tei-byline"), .)
                     case element(titleStmt) return
-                        if ($parameters?mode='title') then
-                            latex:heading($config, ., ("tei-titleStmt3"), title[not(@type)])
-                        else
-                            (: No function found for behavior: meta :)
-                            $config?apply($config, ./node())
+                        (: No function found for behavior: meta :)
+                        $config?apply($config, ./node())
                     case element(publicationStmt) return
                         latex:omit($config, ., ("tei-publicationStmt2"), .)
                     case element(licence) return

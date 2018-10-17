@@ -11,15 +11,11 @@ declare default element namespace "";
 
 declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
-declare namespace tp='http://teipublisher.com/odd';
-
 declare namespace xlink='http://www.w3.org/1999/xlink';
 
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
-
-import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-latex.xql";
 
 (:~
 
@@ -41,68 +37,73 @@ declare function model:transform($options as map(*), $input as node()*) {
     
     return (
         
-        model:apply($config, $input)
+        let $output := model:apply($config, $input)
+        return
+            $output
     )
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
-    let $parameters := 
+        let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
     return
     $input !         (
-            typeswitch(.)
-                case element(body) return
-                    latex:body($config, ., ("tei-body"), .)
-                case element(sec) return
-                    latex:section($config, ., ("tei-sec"), .)
-                case element(title) return
-                    latex:heading($config, ., ("tei-title"), .)
-                case element(p) return
-                    latex:paragraph($config, ., ("tei-p"), .)
-                case element(list) return
-                    latex:list($config, ., ("tei-list"), .)
-                case element(list-item) return
-                    latex:listItem($config, ., ("tei-list-item"), .)
-                case element(uri) return
-                    latex:link($config, ., ("tei-uri"), ., @xlink:href)
-                case element(bold) return
-                    latex:inline($config, ., ("tei-bold"), .)
-                case element(italic) return
-                    latex:inline($config, ., ("tei-italic"), .)
-                case element(table-wrap) return
-                    latex:block($config, ., ("tei-table-wrap"), .)
-                case element(table) return
-                    latex:table($config, ., ("tei-table", "table"), .)
-                case element(tr) return
-                    latex:row($config, ., ("tei-tr"), .)
-                case element(td) return
-                    latex:cell($config, ., ("tei-td"), ., ())
-                case element(th) return
-                    latex:cell($config, ., css:get-rendition(@style, ("tei-th")), ., ())
-                case element(article-meta) return
-                    latex:block($config, ., ("tei-article-meta"), title-group)
-                case element(title-group) return
-                    (
-                        latex:link($config, ., ("tei-title-group1"), article-title, $parameters?doc),
-                        latex:block($config, ., ("tei-title-group2"), subtitle)
-                    )
+            let $node := 
+                .
+            return
+                            typeswitch(.)
+                    case element(body) return
+                        latex:body($config, ., ("tei-body"), .)
+                    case element(sec) return
+                        latex:section($config, ., ("tei-sec"), .)
+                    case element(title) return
+                        latex:heading($config, ., ("tei-title"), .)
+                    case element(p) return
+                        latex:paragraph($config, ., ("tei-p"), .)
+                    case element(list) return
+                        latex:list($config, ., ("tei-list"), .)
+                    case element(list-item) return
+                        latex:listItem($config, ., ("tei-list-item"), .)
+                    case element(uri) return
+                        latex:link($config, ., ("tei-uri"), ., @xlink:href)
+                    case element(bold) return
+                        latex:inline($config, ., ("tei-bold"), .)
+                    case element(italic) return
+                        latex:inline($config, ., ("tei-italic"), .)
+                    case element(table-wrap) return
+                        latex:block($config, ., ("tei-table-wrap"), .)
+                    case element(table) return
+                        latex:table($config, ., ("tei-table", "table"), ., map {})
+                    case element(tr) return
+                        latex:row($config, ., ("tei-tr"), .)
+                    case element(td) return
+                        latex:cell($config, ., ("tei-td"), ., ())
+                    case element(th) return
+                        latex:cell($config, ., css:get-rendition(., ("tei-th")), ., ())
+                    case element(article-meta) return
+                        latex:block($config, ., ("tei-article-meta"), title-group)
+                    case element(title-group) return
+                        (
+                            latex:link($config, ., ("tei-title-group1"), article-title, $parameters?doc),
+                            latex:block($config, ., ("tei-title-group2"), subtitle)
+                        )
 
-                case element(article-title) return
-                    if ($parameters?header='short') then
-                        latex:heading($config, ., ("tei-article-title"), .)
-                    else
+                    case element(article-title) return
+                        if ($parameters?header='short') then
+                            latex:heading($config, ., ("tei-article-title"), .)
+                        else
+                            $config?apply($config, ./node())
+                    case element(subtitle) return
+                        latex:heading($config, ., ("tei-subtitle"), .)
+                    case element() return
+                        if (namespace-uri(.) = '') then
+                            $config?apply($config, ./node())
+                        else
+                            .
+                    case text() | xs:anyAtomicType return
+                        latex:escapeChars(.)
+                    default return 
                         $config?apply($config, ./node())
-                case element(subtitle) return
-                    latex:heading($config, ., ("tei-subtitle"), .)
-                case element() return
-                    if (namespace-uri(.) = '') then
-                        $config?apply($config, ./node())
-                    else
-                        .
-                case text() | xs:anyAtomicType return
-                    latex:escapeChars(.)
-                default return 
-                    $config?apply($config, ./node())
 
         )
 

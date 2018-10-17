@@ -114,10 +114,10 @@
 .tei-persName3:after { content: ': '; }
 .tei-persName3 { font-weight: bold; }
 .tei-persName4 { color: #1565c0; }
-.tei-placeName1 { color: #ef6c00; }
-.tei-placeName2:after { content: ': '; }
-.tei-placeName2 { font-weight: bold; }
-.tei-placeName3 { color: #ef6c00; }
+.tei-placeName2 { color: #ef6c00; }
+.tei-placeName3:after { content: ': '; }
+.tei-placeName3 { font-weight: bold; }
+.tei-placeName4 { color: #ef6c00; }
 .tei-orgName1 { color: #2e7d32; }
 .tei-orgName2:after { content: ': '; }
 .tei-orgName2 { font-weight: bold; }

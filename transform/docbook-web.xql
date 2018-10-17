@@ -11,14 +11,39 @@ declare default element namespace "http://docbook.org/ns/docbook";
 
 declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
+declare namespace pb='http://teipublisher.com/1.0';
+
 declare namespace xlink='http://www.w3.org/1999/xlink';
 
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
-import module namespace ext-html="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql";
+(: Generated behaviour function for pb:behaviour/@ident=definitionList :)
+declare %private function model:definitionList($config as map(*), $node as node()*, $class as xs:string+, $content) {
+    $node ! (
 
+        
+        <t xmlns=""><dl>{$config?apply-children($config, $node, $content)}</dl></t>/*
+    )
+};
+(: Generated behaviour function for pb:behaviour/@ident=definition :)
+declare %private function model:definition($config as map(*), $node as node()*, $class as xs:string+, $content, $term) {
+    $node ! (
+
+        
+        <t xmlns=""><dt>{$config?apply-children($config, $node, $term)}</dt><dd>{$config?apply-children($config, $node, $content)}</dd></t>/*
+    )
+};
+(: Generated behaviour function for pb:behaviour/@ident=iframe :)
+declare %private function model:iframe($config as map(*), $node as node()*, $class as xs:string+, $content, $src, $width, $height) {
+    $node ! (
+
+        
+        <t xmlns=""><iframe src="{$config?apply-children($config, $node, $src)}" width="{$config?apply-children($config, $node, $width)}" height="{$config?apply-children($config, $node, $height)}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen">
+                        </iframe></t>/*
+    )
+};
 (:~
 
     Main entry point for the transformation.
@@ -46,51 +71,51 @@ declare function model:transform($options as map(*), $input as node()*) {
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
-    let $parameters := 
+        let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
     return
     $input !         (
-let $node := 
+            let $node := 
                 .
             return
                             typeswitch(.)
                     case element(article) return
-                        html:document($config, ., ("tei-article"), .)
+                        html:document($config, ., ("tei-article2"), .)
                     case element(info) return
                         if (not(parent::article|parent::book)) then
-                            html:block($config, ., ("tei-info1"), .)
+                            html:block($config, ., ("tei-info2"), .)
                         else
                             if ($parameters?header='short') then
                                 (
-                                    html:heading($config, ., ("tei-info3"), title, 5),
+                                    html:heading($config, ., ("tei-info4"), title, 5),
                                     if (author) then
-                                        html:block($config, ., ("tei-info4"), author)
+                                        html:block($config, ., ("tei-info5"), author)
                                     else
                                         ()
                                 )
 
                             else
-                                html:metadata($config, ., ("tei-info5"), .)
+                                html:metadata($config, ., ("tei-info6"), .)
                     case element(author) return
                         if (preceding-sibling::author) then
-                            html:inline($config, ., ("tei-author1"), (', ', personname, affiliation))
+                            html:inline($config, ., ("tei-author3"), (', ', personname, affiliation))
                         else
-                            html:inline($config, ., ("tei-author2"), (personname, affiliation))
+                            html:inline($config, ., ("tei-author4"), (personname, affiliation))
                     case element(personname) return
                         html:inline($config, ., ("tei-personname"), (firstname, ' ', surname))
                     case element(affiliation) return
                         html:inline($config, ., ("tei-affiliation"), (', ', .))
                     case element(title) return
                         if ($parameters?mode='breadcrumbs') then
-                            html:inline($config, ., ("tei-title1"), .)
+                            html:inline($config, ., ("tei-title2"), .)
                         else
                             if (parent::note) then
-                                html:inline($config, ., ("tei-title2"), .)
+                                html:inline($config, ., ("tei-title3"), .)
                             else
                                 if (parent::info and $parameters?header='short') then
-                                    html:link($config, ., ("tei-title3"), ., $parameters?doc)
+                                    html:link($config, ., ("tei-title4"), ., $parameters?doc)
                                 else
-                                    html:heading($config, ., ("tei-title4", "title"), ., count(ancestor::section))
+                                    html:heading($config, ., ("tei-title5", "title"), ., count(ancestor::section))
                     case element(section) return
                         if ($parameters?mode='breadcrumbs') then
                             (
@@ -108,12 +133,12 @@ let $node :=
                         else
                             html:inline($config, ., ("tei-emphasis2"), .)
                     case element(code) return
-                        html:inline($config, ., ("tei-code", "code"), .)
+                        html:inline($config, ., ("tei-code2", "code"), .)
                     case element(figure) return
                         if (title|info/title) then
-                            html:figure($config, ., ("tei-figure1", "figure"), *[not(self::title|self::info)], title/node()|info/title/node())
+                            html:figure($config, ., ("tei-figure2", "figure"), *[not(self::title|self::info)], title/node()|info/title/node())
                         else
-                            html:figure($config, ., ("tei-figure2"), ., ())
+                            html:figure($config, ., ("tei-figure3"), ., ())
                     case element(informalfigure) return
                         if (caption) then
                             html:figure($config, ., ("tei-informalfigure1", "figure"), *[not(self::caption)], caption/node())
@@ -132,13 +157,9 @@ let $node :=
                     case element(step) return
                         html:listItem($config, ., ("tei-step"), ., ())
                     case element(variablelist) return
-                        ext-html:definitionList($config, ., ("tei-variablelist"), varlistentry)
+                        model:definitionList($config, ., ("tei-variablelist"), varlistentry)
                     case element(varlistentry) return
-                        (
-                            ext-html:definitionTerm($config, ., ("tei-varlistentry1", "term"), term/node()),
-                            ext-html:definitionDef($config, ., ("tei-varlistentry2", "varlistentry"), listitem/node())
-                        )
-
+                        model:definition($config, ., ("tei-varlistentry"), listitem/node(), term/node())
                     case element(table) return
                         if (title) then
                             (
@@ -158,13 +179,12 @@ let $node :=
                         else
                             html:cell($config, ., ("tei-td2"), ., ())
                     case element(programlisting) return
-                        (: More than one model without predicate found for ident programlisting. Choosing first one. :)
                         if (parent::cell|parent::para|parent::ab) then
-                            html:inline($config, ., ("tei-programlisting1", "code"), .)
+                            html:inline($config, ., ("tei-programlisting2", "code"), .)
                         else
-                            html:webcomponent($config, ., ("tei-programlisting2"), ., 'pb-code-highlight', map {"lang": @language})
+                            html:webcomponent($config, ., ("tei-programlisting3"), ., 'pb-code-highlight', map {"lang": @language})
                     case element(synopsis) return
-                        html:webcomponent($config, ., ("tei-synopsis2"), ., 'pb-code-highlight', map {"lang": @language})
+                        html:webcomponent($config, ., ("tei-synopsis3"), ., 'pb-code-highlight', map {"lang": @language})
                     case element(example) return
                         html:figure($config, ., ("tei-example"), *[not(self::title|self::info)], info/title/node()|title/node())
                     case element(function) return
@@ -176,8 +196,7 @@ let $node :=
                     case element(filename) return
                         html:inline($config, ., ("tei-filename", "code"), .)
                     case element(note) return
-                        (: More than one model without predicate found for ident note. Choosing first one. :)
-                        html:webcomponent($config, ., ("tei-note1", "note"), *[not(self::title)], 'paper-card', map {"heading": title})
+                        html:webcomponent($config, ., ("tei-note2", "note"), *[not(self::title)], 'paper-card', map {"heading": title})
                     case element(tag) return
                         html:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return
@@ -190,7 +209,7 @@ let $node :=
                     case element(guilabel) return
                         html:inline($config, ., ("tei-guilabel"), .)
                     case element(videodata) return
-                        ext-html:iframe($config, ., ("tei-videodata"), ., @fileref, @width, @depth)
+                        model:iframe($config, ., ("tei-videodata2"), ., @fileref, @width, @depth)
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return

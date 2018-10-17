@@ -13,12 +13,77 @@ declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
 declare namespace xi='http://www.w3.org/2001/XInclude';
 
+declare namespace pb='http://teipublisher.com/1.0';
+
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
-import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-latex.xql";
+(: Generated behaviour function for pb:behaviour/@ident=glossary :)
+declare %private function model:glossary($config as map(*), $node as node()*, $class as xs:string+, $content, $name, $note) {
+    $node ! (
+        let $id := @xml:id
 
+        return
+
+        ``[\newglossaryentry{`{string-join($config?apply-children($config, $node, $id))}`} { 
+name=`{string-join($config?apply-children($config, $node, $name))}`,
+description={`{string-join($config?apply-children($config, $node, $note))}`}
+}]``
+    )
+};
+(: generated template function for element spec: teiHeader :)
+declare %private function model:template1($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\def\volume{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+};
+(: generated template function for element spec: TEI :)
+declare %private function model:template2($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\documentclass[10pt,a4paper,fromalign=right]{scrlttr2}
+\usepackage[british]{babel}
+\usepackage{hyperref}
+\usepackage{glossaries}
+\makenoidxglossaries
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LO,RE]{\footnotesize\volume}
+\fancyfoot[LE,RO]{\footnotesize\thepage}
+\setkomavar{date}{`{string-join($config?apply-children($config, $node, $params?date))}`}
+`{string-join($config?apply-children($config, $node, $params?glossary))}`
+\begin{document}
+`{string-join($config?apply-children($config, $node, $params?header))}`
+\begin{letter}`{string-join($config?apply-children($config, $node, $params?to))}`
+`{string-join($config?apply-children($config, $node, $params?from))}`
+`{string-join($config?apply-children($config, $node, $params?content))}`
+\end{letter}
+\printnoidxglossaries
+\end{document}]``
+};
+(: generated template function for element spec: opener :)
+declare %private function model:template3($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\opening{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+};
+(: generated template function for element spec: closer :)
+declare %private function model:template4($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\closing{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+};
+(: generated template function for element spec: name :)
+declare %private function model:template5($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\glslink{`{string-join($config?apply-children($config, $node, $params?id))}`}{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+};
+(: generated template function for element spec: postscript :)
+declare %private function model:template6($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\ps `{string-join($config?apply-children($config, $node, $params?content))}`]``
+};
+(: generated template function for element spec: correspAction :)
+declare %private function model:template7($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\setkomavar{fromname}{`{string-join($config?apply-children($config, $node, $params?name))}`}
+\setkomavar{fromaddress}{`{string-join($config?apply-children($config, $node, $params?location))}`}]``
+};
+(: generated template function for element spec: correspAction :)
+declare %private function model:template8($config as map(*), $node as node()*, $params as map(*)) {
+    ``[{`{string-join($config?apply-children($config, $node, $params?name))}`\\`{string-join($config?apply-children($config, $node, $params?location))}`}]``
+};
 (:~
 
     Main entry point for the transformation.
@@ -46,11 +111,11 @@ declare function model:transform($options as map(*), $input as node()*) {
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
-    let $parameters := 
+        let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
     return
     $input !         (
-let $node := 
+            let $node := 
                 .
             return
                             typeswitch(.)
@@ -63,10 +128,17 @@ let $node :=
                         if (head or @rendition='simple:display') then
                             latex:block($config, ., ("tei-figure1"), .)
                         else
-                            (: Changed to not show a blue border around the figure :)
                             latex:inline($config, ., ("tei-figure2"), .)
                     case element(teiHeader) return
-                        latex:metadata($config, ., ("tei-teiHeader1"), .)
+                        let $params := 
+                            map {
+                                "content": (fileDesc/titleStmt/title[not(@type)])
+                            }
+
+                                                let $content := 
+                            model:template1($config, ., $params)
+                        return
+                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-teiHeader1"), $content)
                     case element(supplied) return
                         if (parent::choice) then
                             latex:inline($config, ., ("tei-supplied1"), .)
@@ -97,7 +169,20 @@ let $node :=
                     case element(anchor) return
                         latex:anchor($config, ., ("tei-anchor"), ., @xml:id)
                     case element(TEI) return
-                        latex:document($config, ., ("tei-TEI"), .)
+                        let $params := 
+                            map {
+                                "glossary": (teiHeader//particDesc/listPerson/person, teiHeader//settingDesc/listPlace/place),
+                                "content": text,
+                                "header": teiHeader,
+                                "date": text/body/opener/dateline/date,
+                                "from": teiHeader//correspDesc/correspAction[@type='sending'],
+                                "to": teiHeader//correspDesc/correspAction[@type='receiving']
+                            }
+
+                                                let $content := 
+                            model:template2($config, ., $params)
+                        return
+                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-TEI1"), $content)
                     case element(formula) return
                         if (@rendition='simple:display') then
                             latex:block($config, ., ("tei-formula1"), .)
@@ -136,7 +221,7 @@ let $node :=
                                 else
                                     $config?apply($config, ./node())
                     case element(dateline) return
-                        latex:block($config, ., css:get-rendition(., ("tei-dateline")), .)
+                        latex:omit($config, ., ("tei-dateline1"), .)
                     case element(back) return
                         latex:block($config, ., ("tei-back"), .)
                     case element(del) return
@@ -158,7 +243,15 @@ let $node :=
                     case element(orig) return
                         latex:inline($config, ., ("tei-orig"), .)
                     case element(opener) return
-                        latex:block($config, ., ("tei-opener"), .)
+                        let $params := 
+                            map {
+                                "content": .
+                            }
+
+                                                let $content := 
+                            model:template3($config, ., $params)
+                        return
+                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-opener1"), $content)
                     case element(speaker) return
                         latex:block($config, ., ("tei-speaker"), .)
                     case element(imprimatur) return
@@ -192,7 +285,6 @@ let $node :=
                     case element(email) return
                         latex:inline($config, ., ("tei-email"), .)
                     case element(text) return
-                        (: tei_simplePrint.odd sets a font and margin on the text body. We don't want that. :)
                         latex:body($config, ., ("tei-text"), .)
                     case element(floatingText) return
                         latex:block($config, ., ("tei-floatingText"), .)
@@ -201,7 +293,7 @@ let $node :=
                     case element(abbr) return
                         latex:inline($config, ., ("tei-abbr"), .)
                     case element(table) return
-                        latex:table($config, ., ("tei-table"), .)
+                        latex:table($config, ., ("tei-table"), ., map {})
                     case element(cb) return
                         latex:break($config, ., ("tei-cb"), ., 'column', @n)
                     case element(group) return
@@ -240,7 +332,15 @@ let $node :=
                     case element(l) return
                         latex:block($config, ., css:get-rendition(., ("tei-l")), .)
                     case element(closer) return
-                        latex:block($config, ., ("tei-closer"), .)
+                        let $params := 
+                            map {
+                                "content": .
+                            }
+
+                                                let $content := 
+                            model:template4($config, ., $params)
+                        return
+                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-closer1"), $content)
                     case element(rhyme) return
                         latex:inline($config, ., ("tei-rhyme"), .)
                     case element(list) return
@@ -280,26 +380,16 @@ let $node :=
                     case element(titlePage) return
                         latex:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                     case element(name) return
-                        if ($parameters?mode='facets' and @type='person') then
-                            (: No function found for behavior: webcomponent :)
-                            $config?apply($config, ./node())
-                        else
-                            if ($parameters?mode='facets' and @type='place') then
-                                (: No function found for behavior: webcomponent :)
-                                $config?apply($config, ./node())
-                            else
-                                if (@type='place' and id(substring-after(@ref, '#'), root($parameters?root))/location/geo) then
-                                    (: No function found for behavior: webcomponent :)
-                                    $config?apply($config, ./node())
-                                else
-                                    if (@type='person' and id(substring-after(@ref, '#'), root($parameters?root))) then
-                                        (: No function found for behavior: webcomponent :)
-                                        $config?apply($config, ./node())
-                                    else
-                                        if (@type='place') then
-                                            latex:inline($config, ., ("tei-name5"), .)
-                                        else
-                                            $config?apply($config, ./node())
+                        let $params := 
+                            map {
+                                "id": substring-after(@ref, '#'),
+                                "content": .
+                            }
+
+                                                let $content := 
+                            model:template5($config, ., $params)
+                        return
+                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-name1"), $content)
                     case element(front) return
                         latex:block($config, ., ("tei-front"), .)
                     case element(lg) return
@@ -319,11 +409,15 @@ let $node :=
                     case element(docImprint) return
                         latex:inline($config, ., ("tei-docImprint"), .)
                     case element(postscript) return
-                        (
-                            latex:heading($config, ., ("tei-postscript1"), ('Postscript by ', id(substring-after(@resp, '#'), root(.))/persName)),
-                            latex:block($config, ., ("tei-postscript2"), .)
-                        )
+                        let $params := 
+                            map {
+                                "content": .
+                            }
 
+                                                let $content := 
+                            model:template6($config, ., $params)
+                        return
+                                                latex:block(map:merge(($config, map:entry("template", true()))), ., ("tei-postscript1"), $content)
                     case element(edition) return
                         if (ancestor::teiHeader) then
                             latex:block($config, ., ("tei-edition"), .)
@@ -541,37 +635,15 @@ let $node :=
                     case element(byline) return
                         latex:block($config, ., ("tei-byline"), .)
                     case element(place) return
-                        (
-                            latex:heading($config, ., ("tei-place1"), string-join(placeName, ', ')),
-                            if (location/geo) then
-                                latex:block($config, ., ("tei-place2"), location/geo)
-                            else
-                                (),
-                            latex:block($config, ., ("tei-place3"), string-join(location/*[not(self::geo)], ', ')),
-                            latex:block($config, ., ("tei-place4"), note/node())
-                        )
-
+                        model:glossary($config, ., ("tei-place1"), ., string-join(placeName, ', '), note)
                     case element(geo) return
                         (
                             latex:inline($config, ., ("tei-geo1"), 'Location: '),
-                            (: No function found for behavior: webcomponent :)
-                            $config?apply($config, ./node())
+                            latex:inline($config, ., ("tei-geo3"), .)
                         )
 
                     case element(person) return
-                        (
-                            latex:heading($config, ., ("tei-person1"), persName),
-                            if (birth or death or occupation) then
-                                latex:block($config, ., ("tei-person2"), (occupation, birth, death))
-                            else
-                                (),
-                            if (idno) then
-                                latex:block($config, ., ("tei-person3"), idno)
-                            else
-                                (),
-                            latex:block($config, ., ("tei-person4"), note/node())
-                        )
-
+                        model:glossary($config, ., ("tei-person1"), ., persName, note)
                     case element(persName) return
                         if (forename or surname) then
                             latex:inline($config, ., ("tei-persName1"), (forename, ' ', surname[not(@type='married')], if (surname[@type='married']) then (' (', string-join(surname[@type='married'], ', '), ')') else ()))
@@ -600,6 +672,34 @@ let $node :=
                                         latex:link($config, ., ("tei-idno4"), 'LoC Authority', 'https://lccn.loc.gov/' || string())
                                     else
                                         $config?apply($config, ./node())
+                    case element(correspAction) return
+                        if (@type='sending') then
+                            let $params := 
+                                map {
+                                    "name": persName,
+                                    "location": settlement,
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template7($config, ., $params)
+                            return
+                                                        latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-correspAction1"), $content)
+                        else
+                            if (@type='receiving') then
+                                let $params := 
+                                    map {
+                                        "name": persName,
+                                        "location": settlement,
+                                        "content": .
+                                    }
+
+                                                                let $content := 
+                                    model:template8($config, ., $params)
+                                return
+                                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-correspAction2"), $content)
+                            else
+                                $config?apply($config, ./node())
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())
