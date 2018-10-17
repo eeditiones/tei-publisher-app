@@ -160,7 +160,7 @@ function app:browse($node as node(), $model as map(*), $start as xs:int, $per-pa
                 templates:process($node/*[not(@class="empty")], map:new(
                     ($model, map {
                         "work": .,
-                        "config": tpu:parse-pi(root(.), (), session:get-attribute("odd")),
+                        "config": tpu:parse-pi(root(.), ()),
                         "ident": config:get-identifier(.),
                         "path": document-uri(root(.))
                     }))
@@ -294,7 +294,7 @@ declare function app:work-title($work as element(tei:TEI)?) {
 };
 
 declare function app:download-link($node as node(), $model as map(*),
-    $doc as xs:string?, $mode as xs:string?, $odd as xs:string?) {
+    $doc as xs:string?, $mode as xs:string?) {
     let $file :=
         if ($model?work) then
             config:get-identifier($model?work)
