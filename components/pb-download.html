@@ -66,6 +66,9 @@
                         type: Boolean,
                         value: false
                     },
+                    params: {
+                        type: String
+                    },
                     _target: {
                         type: String,
                         value: false,
@@ -94,11 +97,16 @@
                 let url;
                 if (this.src) {
                     const doc = document.getElementById(this.src);
-                    const file = doc.getFileName();
-                    url = file + '.' + this.type + '?odd=' + doc.odd + '.odd&cache=no&token=' + token;
+                    const file = this.file ? this.file : doc.getFileName();
+                    url = file + (this.type ?'.' + this.type : '') + '?odd=' + doc.odd + '.odd&cache=no&token=' + token;
                 } else {
-                    url = this.file + '.' + this.type + '?odd=' + this.odd + '&cache=no&token=' + token;
+                    url = this.file + (this.type ?'.' + this.type : '') + '?odd=' + this.odd + '&cache=no&token=' + token;
                 }
+
+                if (this.params) {
+                    url += '&' + this.params;
+                }
+
                 if (this.source) {
                     url += '&source=yes';
                     this._url = url;
@@ -106,19 +114,20 @@
                 }
 
                 ev.preventDefault();
-                const dialog = document.getElementById(this.dialog);
+                if (this.dialog) {
+                    const dialog = document.getElementById(this.dialog);
 
-                dialog.open();
+                    dialog.open();
 
-                const downloadCheck = window.setInterval(() => {
-                    const cookieValue = Cookies.get("simple.token");
-                    if (cookieValue == token) {
-                        window.clearInterval(downloadCheck);
-                        Cookies.remove("simple.token");
-                        dialog.close();
-                    }
-                });
-
+                    const downloadCheck = window.setInterval(() => {
+                        const cookieValue = Cookies.get("simple.token");
+                        if (cookieValue == token) {
+                            window.clearInterval(downloadCheck);
+                            Cookies.remove("simple.token");
+                            dialog.close();
+                        }
+                    });
+                }
                 window.location = url;
             }
         }

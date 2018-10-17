@@ -230,12 +230,10 @@ declare function pages:single-page-link($node as node(), $model as map(*), $doc 
 };
 
 declare function pages:edit-odd-link($node as node(), $model as map(*)) {
-    element { node-name($node) } {
-        $node/@* except $node/@href,
-        attribute href { $pages:EDIT_ODD_LINK || "?odd=" || $config:odd || "&amp;root=" || $config:odd-root ||
-            "&amp;output-root=" || $config:output-root || "&amp;output=" || $config:output },
-        $node/node()
-    }
+    <pb-download file="{$pages:EDIT_ODD_LINK}" source="source"
+        params="root={$config:odd-root}&amp;output-root={$config:output-root}&amp;output={$config:output}">
+        {$node/@*, $node/node()}
+    </pb-download>
 };
 
 
