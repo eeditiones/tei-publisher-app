@@ -308,6 +308,8 @@ declare function pages:process-content($xml as node()*, $root as node()*, $confi
                 nav:output-footnotes($html//li[@class = "footnote"])
             else
                 ()
+            ,
+            $html//paper-tooltip
         }
         </div>
 };
@@ -324,6 +326,8 @@ declare function pages:clean-footnotes($nodes as node()*) {
                         $node/@*,
                         pages:clean-footnotes($node/node())
                     }
+            case element(paper-tooltip) return
+		()
             case element() return
                 element { node-name($node) } {
                     $node/@*,
