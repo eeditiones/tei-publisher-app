@@ -24,6 +24,7 @@ import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace nav-tei="http://www.tei-c.org/tei-simple/navigation/tei" at "../navigation-tei.xql";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 import module namespace query="http://www.tei-c.org/tei-simple/query" at "../query.xql";
 
 declare boundary-space strip;
@@ -54,12 +55,23 @@ let $xpath := request:get-parameter("xpath", ())
 let $debug := request:get-parameter("debug", ())
 let $highlight := request:get-parameter("highlight", ())
 let $xml :=
-    if (exists($id)) then (
+    if ($xpath) then
+        let $document := pages:get-document($doc)
+        let $namespace := namespace-uri-from-QName(node-name($document/*))
+        let $xquery := "declare default element namespace '" || $namespace || "'; $document" || $xpath
+        let $data := util:eval($xquery)
+        return
+            if ($data) then
+                pages:load-xml($data, $view, (), $doc)
+            else
+                ()
+
+    else if (exists($id)) then (
         let $document := pages:get-document($doc)
         let $config := tpu:parse-pi($document, $view)
         let $data :=
             if (count($id) = 1) then
-                $document/id($id)
+                nav:get-section-for-node($config, $document/id($id))
             else
                 let $ms1 := $document/id($id[1])
                 let $ms2 := $document/id($id[2])
@@ -75,17 +87,7 @@ let $xml :=
                 "view": $config?view,
                 "data": $data
             }
-    ) else if ($xpath) then
-        let $document := pages:get-document($doc)
-        let $namespace := namespace-uri-from-QName(node-name($document/*))
-        let $xquery := "declare default element namespace '" || $namespace || "'; $document" || $xpath
-        let $data := util:eval($xquery)
-        return
-            if ($data) then
-                pages:load-xml($data, $view, (), $doc)
-            else
-                ()
-    else
+    ) else
         pages:load-xml($view, $root, $doc)
 return
     if ($xml?data) then
