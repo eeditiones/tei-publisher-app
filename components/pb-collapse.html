@@ -32,7 +32,7 @@
 
         <div id="trigger" on-click="toggle" class="collapse-trigger">
             <iron-icon icon="[[_toggle(opened, collapseIcon, expandIcon)]]"></iron-icon>
-            <slot name="collapse-trigger"></slot>
+            <slot id="collapseTrigger" name="collapse-trigger"></slot>
         </div>
         <iron-collapse id="collapse" horizontal="[[horizontal]]" no-animation="[[noAnimation]]" opened="[[opened]]">
             <slot name="collapse-content"></slot>
@@ -47,7 +47,7 @@
          * @polymer
          * @demo demo/pb-collapse.html
          */
-        class PbCollapse extends Polymer.Element {
+        class PbCollapse extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'pb-collapse';
             }
@@ -99,6 +99,9 @@
                     noIcons: {
                         type: Boolean,
                         value: false
+                    },
+                    data: {
+                        type: Object
                     }
                 }
             }
@@ -108,6 +111,7 @@
              */
             open() {
                 this.opened = true;
+                this.emitTo('pb-collapse-open', this.data);
             }
 
             /**
@@ -122,10 +126,20 @@
              */
             toggle() {
                 this.opened = !this.opened;
+                if (this.opened) {
+                    this.emitTo('pb-collapse-open', this.data);
+                }
             }
 
             _toggle(cond, t, f) {
                 return cond ? t : f;
+            }
+
+            _getLabel() {
+                const nodes = this.$.collapseTrigger.assignedNodes();
+                if (nodes && nodes.length > 0) {
+                    return nodes[0].innerHTML;
+                }
             }
         }
 

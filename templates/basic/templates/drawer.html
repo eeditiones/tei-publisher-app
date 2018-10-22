@@ -1,0 +1,76 @@
+<app-drawer slot="drawer" align="right" xmlns:i18n="http://exist-db.org/xquery/i18n">
+    <div class="drawer-content">
+        <pb-media-query query="max-width: 1023px">
+            <!-- language selector -->
+            <pb-lang name="lang" label="Language" data-template="pages:current-language">
+                <paper-item>en</paper-item>
+                <paper-item>de</paper-item>
+                <paper-item>fr</paper-item>
+                <paper-item>gr</paper-item>
+                <paper-item>it</paper-item>
+                <paper-item>pl</paper-item>
+            </pb-lang>
+            <pb-collapse>
+                <h3 slot="collapse-trigger"><i18n:text key="download"/></h3>
+                <paper-listbox slot="collapse-content">
+                    <paper-item>
+                        <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)">
+                            <i18n:text key="pdf-fo"/>
+                        </pb-download>
+                    </paper-item>
+                    <paper-item>
+                        <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)" source="source">
+                            <i18n:text key="fo-source"/>
+                        </pb-download>
+                    </paper-item>
+                    <paper-item>
+                        <pb-download type="tex" src="document1" dialog="downloadDialog" title="i18n(pdf-latex)">
+                            <i18n:text key="pdf-latex"/>
+                        </pb-download>
+                    </paper-item>
+                    <paper-item>
+                        <pb-download type="tex" src="document1" dialog="downloadDialog" title="i18n(pdf-latex)" source="source">
+                            <i18n:text key="latex-source"/>
+                        </pb-download>
+                    </paper-item>
+                    <paper-item>
+                        <pb-download type="epub" src="document1" dialog="downloadDialog">
+                            ePUB
+                        </pb-download>
+                    </paper-item>
+                    <paper-item>
+                        <pb-edit-xml src="document1" title="i18n(view-tei)">
+                            XML
+                        </pb-edit-xml>
+                    </paper-item>
+                </paper-listbox>
+            </pb-collapse>
+            <pb-restricted login="login">
+                <pb-collapse>
+                    <h3 slot="collapse-trigger"><i18n:text key="admin"/></h3>
+                    <paper-listbox slot="collapse-content">
+                        <paper-item>
+                            <pb-ajax subscribe="transcription" emit="transcription" url="${app}/modules/lib/regenerate.xql" dialog="messageDialog"
+                                data-template="pages:parse-params">
+                                <i18n:text key="recompile"/>
+                            </pb-ajax>
+                        </paper-item>
+                        <paper-item>
+                            <pb-ajax subscribe="transcription" emit="transcription" url="${app}/modules/index.xql" dialog="messageDialog"
+                                data-template="pages:parse-params"><i18n:text key="metadata-update"/></pb-ajax>
+                        </paper-item>
+                        <paper-item>
+                            <pb-download data-template="pages:edit-odd-link" src="document1"><i18n:text key="edit-odd"/></pb-download>
+                        </paper-item>
+                    </paper-listbox>
+                </pb-collapse>
+            </pb-restricted>
+        </pb-media-query>
+        <div class="settings">
+            <h3>Settings</h3>
+            <pb-edit-xml src="document1">
+                <paper-button alt="Edit source"><iron-icon icon="icons:code"></iron-icon> <i18n:text key="view-tei"/></paper-button>
+            </pb-edit-xml>
+        </div>
+    </div>
+</app-drawer>

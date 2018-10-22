@@ -2,91 +2,92 @@
     <a href="$app/index.html">
         <img src="resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
     </a>
-    <a href="$app/index.html">Start</a>
-    <paper-menu-button>
-        <a href="#" slot="dropdown-trigger" title="i18n(download)">
-            <i18n:text key="download"/>
-        </a>
-        <paper-listbox slot="dropdown-content">
-            <paper-item>
-                <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)">
-                    <i18n:text key="pdf-fo"/>
-                </pb-download>
-            </paper-item>
-            <paper-item>
-                <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)" source="source">
-                    <i18n:text key="fo-source"/>                 </pb-download>
-            </paper-item>
-            <paper-item>
-                <pb-download type="tex" src="document1" dialog="downloadDialog" title="i18n(pdf-latex)">
-                    <i18n:text key="pdf-latex"/>
-                </pb-download>
-            </paper-item>
-            <paper-item>
-                <pb-download type="tex" src="document1" dialog="downloadDialog" title="i18n(pdf-latex)" source="source">
-                    <i18n:text key="latex-source"/>
-                </pb-download>
-            </paper-item>
-            <paper-item>
-                <pb-download type="epub" src="document1" dialog="downloadDialog">
-                    ePUB
-                </pb-download>
-            </paper-item>
-            <paper-item>
-                <pb-edit-xml src="document1" title="i18n(view-tei)">
-                    XML
-                </pb-edit-xml>
-            </paper-item>
-        </paper-listbox>
-    </paper-menu-button>
-    <pb-restricted login="login">
+    <pb-media-query query="min-width: 1024px">
+        <a href="$app/index.html">Start</a>
         <paper-menu-button>
-            <a href="#" slot="dropdown-trigger">
-                <i18n:text key="admin"/>
+            <a href="#" slot="dropdown-trigger" title="i18n(download)">
+                <i18n:text key="download"/>
             </a>
             <paper-listbox slot="dropdown-content">
                 <paper-item>
-                    <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/lib/regenerate.xql" dialog="messageDialog">
-                        <i18n:text key="recompile"/>
-                    </pb-ajax>
-                </paper-item>
-                <paper-item>
-                    <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/index.xql" dialog="messageDialog">
-                        <i18n:text key="metadata-update"/>
-                    </pb-ajax>
-                </paper-item>
-                <paper-item>
-                    <pb-download data-template="pages:edit-odd-link" src="document1">
-                        <i18n:text key="edit-odd"/>
+                    <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)">
+                        <i18n:text key="pdf-fo"/>
                     </pb-download>
                 </paper-item>
                 <paper-item>
-                    <a href="$app/generate.html">
-                        <i18n:text key="app-generator"/>
-                    </a>
+                    <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)" source="source">
+                        <i18n:text key="fo-source"/>
+                    </pb-download>
+                </paper-item>
+                <paper-item>
+                    <pb-download type="tex" src="document1" dialog="downloadDialog" title="i18n(pdf-latex)">
+                        <i18n:text key="pdf-latex"/>
+                    </pb-download>
+                </paper-item>
+                <paper-item>
+                    <pb-download type="tex" src="document1" dialog="downloadDialog" title="i18n(pdf-latex)" source="source">
+                        <i18n:text key="latex-source"/>
+                    </pb-download>
+                </paper-item>
+                <paper-item>
+                    <pb-download type="epub" src="document1" dialog="downloadDialog">
+                        ePUB
+                    </pb-download>
+                </paper-item>
+                <paper-item>
+                    <pb-edit-xml src="document1" title="i18n(view-tei)">
+                        XML
+                    </pb-edit-xml>
                 </paper-item>
             </paper-listbox>
         </paper-menu-button>
-    </pb-restricted>
-    <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
-        <img src="resources/images/wm_no_bg.svg" height="20"/>
-    </a>
+
+        <pb-restricted login="login">
+            <paper-menu-button>
+                <a href="#" slot="dropdown-trigger"><i18n:text key="admin"/></a>
+                <paper-listbox slot="dropdown-content">
+                    <paper-item>
+                        <pb-ajax subscribe="transcription" emit="transcription" url="${app}/modules/lib/regenerate.xql" dialog="messageDialog"
+                            data-template="pages:parse-params">
+                            <i18n:text key="recompile"/>
+                        </pb-ajax>
+                    </paper-item>
+                    <paper-item>
+                        <pb-ajax subscribe="transcription" emit="transcription" url="${app}/modules/index.xql" dialog="messageDialog"
+                            data-template="pages:parse-params"><i18n:text key="metadata-update"/></pb-ajax>
+                    </paper-item>
+                    <paper-item>
+                        <pb-download data-template="pages:edit-odd-link" src="document1"><i18n:text key="edit-odd"/></pb-download>
+                    </paper-item>
+                    <paper-item>
+                        <a href="${app}/manage.html" data-template="pages:parse-params">
+                            <i18n:text key="app-generator"/>
+                        </a>
+                    </paper-item>
+                </paper-listbox>
+            </paper-menu-button>
+        </pb-restricted>
+
+        <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
+            <img src="resources/images/wm_no_bg.svg" height="20"/>
+        </a>
+    </pb-media-query>
 
     <!-- Search input -->
     <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
-               place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
-
-    <!-- language selector -->
-    <pb-lang name="lang" label="Language" data-template="pages:current-language">
-        <paper-item>en</paper-item>
-        <paper-item>de</paper-item>
-        <paper-item>fr</paper-item>
-        <paper-item>gr</paper-item>
-        <paper-item>it</paper-item>
-        <paper-item>pl</paper-item>
-    </pb-lang>
+       place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
+    <pb-media-query query="min-width: 1024px">
+       <!-- language selector -->
+       <pb-lang name="lang" label="Language" data-template="pages:current-language">
+           <paper-item>en</paper-item>
+           <paper-item>de</paper-item>
+           <paper-item>fr</paper-item>
+           <paper-item>gr</paper-item>
+           <paper-item>it</paper-item>
+           <paper-item>pl</paper-item>
+       </pb-lang>
+    </pb-media-query>
     <pb-login id="login" login-label="i18n(login)" logout-label="i18n(logout)" group="tei" data-template="browse:current-user">
-        <iron-icon slot="icon" icon="account-circle"></iron-icon>
     </pb-login>
     <paper-dialog id="downloadDialog">
         <h2>

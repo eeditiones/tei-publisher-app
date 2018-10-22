@@ -220,6 +220,10 @@
 
             _refresh(ev) {
                 if (ev && ev.detail) {
+                    if (ev.detail.path) {
+                        const doc = this.getDocument();
+                        doc.path = ev.detail.path;
+                    }
                     if (ev.detail.id) {
                         this.xmlId = ev.detail.id;
                     }

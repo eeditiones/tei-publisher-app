@@ -1,0 +1,52 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-media-query">
+    <template>
+        <style>
+            :host {
+                display: inherit;
+            }
+        </style>
+
+        <template is="dom-if" if="{{queryMatches}}">
+            <slot></slot>
+        </template>
+
+        <iron-media-query query="{{query}}" query-matches="{{queryMatches}}">
+    </template>
+
+    <script>
+        /**
+         * `pb-media-query`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbMediaQuery extends Polymer.Element {
+            static get is() {
+                return 'pb-media-query';
+            }
+
+            static get properties() {
+                return {
+                    query: {
+                        type: String
+                    },
+                    queryMatches: {
+                        type: Boolean
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+
+        }
+
+        window.customElements.define(PbMediaQuery.is, PbMediaQuery);
+    </script>
+</dom-module>

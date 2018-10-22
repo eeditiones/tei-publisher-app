@@ -15,7 +15,7 @@
                         <paper-menu-button>
                             <paper-button slot="dropdown-trigger" title="i18n(download)">
                                 <iron-icon icon="file-download"></iron-icon>
-                                <i18n:text key="download">Download</i18n:text>
+                                <span class="label"><i18n:text key="download">Download</i18n:text></span>
                             </paper-button>
                             <paper-listbox slot="dropdown-content">
                                 <paper-item>
@@ -52,7 +52,7 @@
                         </paper-menu-button>
                         <paper-button class="delete" title="i18n(delete)" data-template="pages:parse-params" data-path="${ident}">
                             <iron-icon icon="delete"></iron-icon>
-                            <i18n:text key="delete">Delete</i18n:text>
+                            <span class="label"><i18n:text key="delete">Delete</i18n:text></span>
                         </paper-button>
                     </app-toolbar>
                 </div>

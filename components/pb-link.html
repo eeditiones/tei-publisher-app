@@ -34,6 +34,9 @@
                 return {
                     nodeId: {
                         type: String
+                    },
+                    path: {
+                        type: String
                     }
                 };
             }
@@ -50,12 +53,18 @@
                 ev.preventDefault();
                 ev.stopPropagation();
 
-                this.setParameter('root', this.nodeId);
+                const params = {};
+                if (this.nodeId) {
+                    this.setParameter('root', this.nodeId);
+                    params.position = this.nodeId;
+                }
+                if (this.path) {
+                    params.path = this.path;
+                }
+
                 this.pushHistory('table of contents click');
 
-                this.emitTo('pb-refresh', {
-                    position: this.nodeId
-                });
+                this.emitTo('pb-refresh', params);
             }
         }
 

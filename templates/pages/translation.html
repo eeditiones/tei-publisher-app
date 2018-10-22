@@ -26,10 +26,6 @@
                         color: black;
                     };
 
-                    --pb-content-theme: {
-                        margin-right: 32px;
-                    }
-
                     --pb-alternate-inline: var(--paper-blue-800);
 
                     --pb-view-height: calc(100vh - 192px);
@@ -80,26 +76,8 @@
                     justify-content: space-between;
                 }
 
-                #drawer {
-                    --app-drawer-width: 448px;
-                }
-
-                .tocDrawer {
-                    padding: 0 10px;
-                }
-
-                #toc ul {
-                    list-style-type: none;
-                    margin: 0;
-                    padding: 0;
-                }
-
-                #toc ul ul {
-                    margin-left: 20px;
-                }
-
-                #toc li {
-                    margin-bottom: .5em;
+                .toc-toggle, pb-navigation {
+                    display: none;
                 }
             </style>
         </custom-style>
@@ -108,37 +86,11 @@
     <body data-template="i18n:translate" data-catalogues="resources/i18n">
         <pb-document id="document1" data-template="pages:pb-document"/>
         <app-drawer-layout force-narrow="force-narrow">
-            <app-drawer slot="drawer" id="drawer">
-                <div class="tocDrawer" style="height: 100%; overflow: auto;">
-                    <h3>
-                        <i18n:text key="contents">Contents</i18n:text>
-                    </h3>
-                    <pb-load id="loadToc" url="templates/toc.html?target=transcription" src="document1" container="#toc" load-once="load-once">Loading ...</pb-load>
-                    <div id="toc"></div>
-                </div>
-            </app-drawer>
+            <app-drawer data-template="templates:include" data-template-path="templates/drawer.html"/>
             <app-header-layout>
                 <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
                     <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
-                    <app-toolbar class="toolbar" sticky="sticky" xmlns:i18n="http://exist-db.org/xquery/i18n">
-                        <paper-icon-button class="toc-toggle" icon="icons:view-list" drawer-toggle="drawer-toggle"/>
-                        <pb-select-odd label="Use ODD:" emit="transcription" subscribe="transcription"></pb-select-odd>
-                        <pb-select-template label="Template" data-template="pages:pb-select-template"></pb-select-template>
-                        <pb-edit-xml src="document1">
-                            <paper-icon-button icon="icons:code" alt="Edit source"/>
-                        </pb-edit-xml>
-                        <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
-                        <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
-                        <pb-navigation emit="transcription"
-                            subscribe="transcription" direction="backward" unit="page">
-                            <paper-icon-button icon="icons:chevron-left"/>
-                        </pb-navigation>
-                        <pb-navigation emit="transcription"
-                            subscribe="transcription" direction="forward" unit="page">
-                            <paper-icon-button icon="icons:chevron-right"/>
-                        </pb-navigation>
-                        <pb-progress subscribe="transcription" indeterminate="indeterminate" bottom-item="bottom-item"/>
-                    </app-toolbar>
+                    <app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/>
 
                     <app-toolbar sticky="sticky" class="document-title">
                         <pb-view id="title-view1" src="document1" xpath="//teiHeader" view="single">
@@ -158,13 +110,5 @@
                 </main>
             </app-header-layout>
         </app-drawer-layout>
-
-        <script>
-        document.addEventListener('WebComponentsReady', function() {
-            document.getElementById('drawer').addEventListener('opened-changed', function() {
-                document.getElementById('loadToc').load();
-            });
-        });
-        </script>
     </body>
 </html>

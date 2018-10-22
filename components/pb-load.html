@@ -83,7 +83,7 @@
                 super.connectedCallback();
 
                 this.subscribeTo('pb-load', function(ev) {
-                    if (this.history && ev.detail.params) {
+                    if (this.history && ev.detail && ev.detail.params) {
                         const start = ev.detail.params.start;
                         if (start) {
                             this.setParameter('start', start);

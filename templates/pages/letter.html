@@ -26,10 +26,6 @@
                         color: black;
                     };
 
-                    --pb-content-theme: {
-                        margin-right: 32px;
-                    }
-
                     --pb-view-height: calc(100vh - 220px);
                 }
 
@@ -78,6 +74,7 @@
                     flex: 1 0;
                     min-width: 360px;
                     max-width: 480px;
+                    margin-right: 16px;
                     height: var(--pb-view-height);
                     overflow: auto;
 
@@ -92,60 +89,44 @@
                     width: 100%;
                     height: 100%;
                 }
+
+                .toc-toggle, pb-navigation {
+                    display: none;
+                }
             </style>
         </custom-style>
     </head>
 
     <body data-template="i18n:translate" data-catalogues="resources/i18n">
         <pb-document id="document1" data-template="pages:pb-document"/>
-        <app-header-layout>
-            <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
-                <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
-                <app-toolbar class="toolbar" sticky="sticky" xmlns:i18n="http://exist-db.org/xquery/i18n">
-                    <paper-icon-button class="toc-toggle" icon="icons:view-list" drawer-toggle="drawer-toggle"/>
-                    <pb-select-odd label="Use ODD:" emit="transcription" subscribe="transcription"></pb-select-odd>
-                    <pb-select-template label="Template" template="${template}" data-template="pages:parse-params">
-                        <paper-item value="view.html">Default Single Text</paper-item>
-                        <paper-item value="translation.html">Side-by-side: transcription/translation</paper-item>
-                        <paper-item value="facsimile.html">Text/Facsimile</paper-item>
-                        <paper-item value="letter.html">Letter with Sidebar/Map</paper-item>
-                    </pb-select-template>
-                    <pb-edit-xml src="document1">
-                        <paper-icon-button icon="icons:code" alt="Edit source"/>
-                    </pb-edit-xml>
-                    <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
-                    <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
-                    <pb-navigation emit="transcription"
-                        subscribe="transcription" direction="backward" unit="page">
-                        <paper-icon-button icon="icons:chevron-left"/>
-                    </pb-navigation>
-                    <pb-navigation emit="transcription"
-                        subscribe="transcription" direction="forward" unit="page">
-                        <paper-icon-button icon="icons:chevron-right"/>
-                    </pb-navigation>
-                    <pb-progress subscribe="transcription" indeterminate="indeterminate" bottom-item="bottom-item"/>
-                </app-toolbar>
-            </app-header>
+        <app-drawer-layout force-narrow="force-narrow">
+            <app-drawer data-template="templates:include" data-template-path="templates/drawer.html"/>
+            <app-header-layout>
+                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                    <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
+                    <app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/>
+                </app-header>
 
-            <section class="breadcrumbs">
-                <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
-                    <pb-param name="header" value="short"/>
-                </pb-view>
-            </section>
-            <section class="content-body">
-                <pb-view id="view1" src="document1" data-template="pages:pb-view"
-                    column-separator=".tei-cb" history="history" append-footnotes="append-footnotes"
-                    subscribe="transcription" emit="transcription"/>
-                <aside class="places">
-                    <pb-view src="document1" odd="graves" subscribe="transcription" emit="letter">
-                        <pb-param name="mode" value="facets"/>
+                <section class="breadcrumbs">
+                    <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
+                        <pb-param name="header" value="short"/>
                     </pb-view>
-                </aside>
-                <aside>
-                    <pb-leaflet-map subscribe="letter" access-token="pk.eyJ1Ijoid29sZmdhbmdtbSIsImEiOiJjam1kMjVpMnUwNm9wM3JwMzdsNGhhcnZ0In0.v65crewF-dkNsPF3o1Q4uw"/>
-                    <!--pb-map api-key="AIzaSyA8_mVF-4N2NRWfQ9y6ADgrkiQgoml3trw" zoom="14" subscribe="letter"></pb-map-->
-                </aside>
-            </section>
-        </app-header-layout>
+                </section>
+                <section class="content-body">
+                    <pb-view id="view1" src="document1" data-template="pages:pb-view"
+                        column-separator=".tei-cb" history="history" append-footnotes="append-footnotes"
+                        subscribe="transcription" emit="transcription"/>
+                    <aside class="places">
+                        <pb-view src="document1" odd="graves" subscribe="transcription" emit="letter">
+                            <pb-param name="mode" value="facets"/>
+                        </pb-view>
+                    </aside>
+                    <aside>
+                        <pb-leaflet-map subscribe="letter" access-token="pk.eyJ1Ijoid29sZmdhbmdtbSIsImEiOiJjam1kMjVpMnUwNm9wM3JwMzdsNGhhcnZ0In0.v65crewF-dkNsPF3o1Q4uw"/>
+                        <!--pb-map api-key="AIzaSyA8_mVF-4N2NRWfQ9y6ADgrkiQgoml3trw" zoom="14" subscribe="letter"></pb-map-->
+                    </aside>
+                </section>
+            </app-header-layout>
+        </app-drawer-layout>
     </body>
 </html>

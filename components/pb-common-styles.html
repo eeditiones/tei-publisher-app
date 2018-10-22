@@ -16,10 +16,6 @@
                     text-decoration: none;
                 };
 
-                --pb-content-theme: {
-                    margin-right: 32px;
-                };
-
                 --pb-highlight-theme: {
                     background-color: #F9E976;
                 };
@@ -53,10 +49,60 @@
             app-toolbar pb-search {
                 padding-left: 20px;
                 --pb-search-input: white;
-                --pb-search-label: --paper-grey-500;
+                --pb-search-label: var(--paper-grey-600);
+            }
+
+            app-drawer {
+                --pb-lang-item-color: black;
+                --pb-lang-input-color: black;
+                --pb-lang-label-color: var(--paper-grey-600);
+            }
+
+            .drawer-content {
+                overflow: auto;
+                height: 100%;
+                padding: 8px 10px;
+                text-align: left;
+            }
+
+            .drawer-content pb-collapse h3 {
+                margin-bottom: 0;
+                margin-top: 0;
+            }
+
+            .drawer-content paper-listbox {
+                margin: 0;
+            }
+
+            app-drawer .settings, app-drawer pb-collapse {
+                display: flex;
+                flex-direction: column;
+            }
+
+            app-drawer paper-listbox {
+                width: 100%;
+            }
+
+            app-drawer a, app-drawer a:link {
+                text-decoration: none;
+                color: inherit;
+            }
+
+            app-drawer-layout:not([narrow]) [drawer-toggle] {
+              display: none;
+            }
+
+            .toolbar {
+                justify-content: space-between;
+                background-color: #d1dae0;
+            }
+
+            [drawer-toggle] {
+                padding-right: 0;
             }
 
             .menubar {
+                justify-content: space-between;
                 background-color: #35424b;
                 color: white;
             }
@@ -66,6 +112,10 @@
                 display: block;
                 color: white;
                 text-decoration: none;
+            }
+
+            .menubar a:first-child {
+                margin: 0 8px 0 0;
             }
 
             .menubar pb-login {
@@ -118,6 +168,7 @@
             h1, h2, h3, h4, h5, h6 {
                 font-family: "Oswald",Verdana,"Helvetica",sans-serif;
                 font-weight: 400 !important;
+                line-height: 1.2;
             }
 
             .alternate {

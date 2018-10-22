@@ -14,7 +14,7 @@
             }
 
             paper-dialog {
-                min-width: 420px;
+                min-width: 320px;
                 max-width: 640px;
                 min-height: 128px;
             }
@@ -32,15 +32,24 @@
                 @apply --pb-login-theme;
             }
 
+            @media (max-width: 1024px) {
+                .label {
+                    display: none;
+                }
+            }
+
             #message {
                 color: var(--paper-red-800);
             }
         </style>
 
-        <a href="#" on-click="_show">
-            <slot name="icon"></slot>
-            <template is="dom-if" if="[[loggedIn]]">[[logoutLabel]] [[user]]</template>
-            <template is="dom-if" if="[[!loggedIn]]">[[loginLabel]]</template>
+        <a href="#" on-click="_show" title="[[user]]">
+            <template is="dom-if" if="[[loggedIn]]">
+                <iron-icon icon="[[logoutIcon]]"></iron-icon> <span class="label">[[logoutLabel]] [[user]]</span>
+            </template>
+            <template is="dom-if" if="[[!loggedIn]]">
+                <iron-icon icon="[[loginIcon]]"></iron-icon> <span class="label">[[loginLabel]]</span>
+            </template>
         </a>
 
         <paper-dialog id="loginDialog">
@@ -119,6 +128,14 @@
                      */
                     logoutLabel: {
                         type: String
+                    },
+                    loginIcon: {
+                        type: String,
+                        value: 'account-circle'
+                    },
+                    logoutIcon: {
+                        type: String,
+                        value: 'supervisor-account'
                     },
                     password: {
                         type: String
