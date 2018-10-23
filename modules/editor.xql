@@ -45,7 +45,7 @@ declare function local:parameters($model as element()) {
 };
 
 declare function local:template($model as element()) {
-    $model/pb:template/string()
+    string-join($model/pb:template/node() ! serialize(., map { "indent": false() }))
 };
 
 

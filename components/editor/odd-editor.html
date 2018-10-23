@@ -594,7 +594,7 @@
 
             serializeTemplate (indent, template) {
                 if (!template) { return ''; }
-                return `${indent}<pb:template>${template}</pb:template>\n`;
+                return `${indent}<pb:template xmlns="">${template}</pb:template>\n`;
             }
 
             serializeAttribute (name, value) {
