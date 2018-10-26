@@ -29,8 +29,7 @@ declare %private function model:code($config as map(*), $node as node()*, $class
 
         ``[\begin{lstlisting}[language=`{string-join($config?apply-children($config, $node, $language))}`]
 `{string-join($config?apply-children($config, $node, $code))}`
-\end{lstlisting}
-]``
+\end{lstlisting} ]``
     )
 };
 
@@ -39,7 +38,9 @@ declare %private function model:definitionList($config as map(*), $node as node(
     $node ! (
 
         
-        ``[\begin{description}`{string-join($config?apply-children($config, $node, $content))}`\end{description}]``
+        ``[\begin{description}
+`{string-join($config?apply-children($config, $node, $content))}`
+\end{description}]``
     )
 };
 
@@ -57,8 +58,7 @@ declare %private function model:iframe($config as map(*), $node as node()*, $cla
     $node ! (
 
         
-        <t xmlns=""><iframe src="{$config?apply-children($config, $node, $src)}" width="{$config?apply-children($config, $node, $width)}" height="{$config?apply-children($config, $node, $height)}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen">
-                        </iframe></t>/*
+        <t xmlns=""><iframe src="{$config?apply-children($config, $node, $src)}" width="{$config?apply-children($config, $node, $width)}" height="{$config?apply-children($config, $node, $height)}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"> </iframe></t>/*
     )
 };
 
@@ -112,18 +112,22 @@ declare %private function model:template4($config as map(*), $node as node()*, $
 declare %private function model:template5($config as map(*), $node as node()*, $params as map(*)) {
     ``[\title{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
-(: generated template function for element spec: code :)
+(: generated template function for element spec: title :)
 declare %private function model:template6($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><h1><pb-link path="{$config?apply-children($config, $node, $params?path)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-link></h1></t>/*
+};
+(: generated template function for element spec: code :)
+declare %private function model:template7($config as map(*), $node as node()*, $params as map(*)) {
     ``[\verb|`{string-join($config?apply-children($config, $node, $params?content))}`|]``
 };
 (: generated template function for element spec: note :)
-declare %private function model:template7($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template8($config as map(*), $node as node()*, $params as map(*)) {
     ``[\begin{mdframed}[frametitle={`{string-join($config?apply-children($config, $node, $params?title))}`}]
 `{string-join($config?apply-children($config, $node, $params?content))}`
 \end{mdframed}]``
 };
 (: generated template function for element spec: videodata :)
-declare %private function model:template8($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template9($config as map(*), $node as node()*, $params as map(*)) {
     ``[\begin{center}
 Not available in PDF edition. Go to \url{`{string-join($config?apply-children($config, $node, $params?content))}`} to view.
 \end{center}]``
@@ -203,7 +207,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     )
 
                                 else
-                                    latex:metadata($config, ., ("tei-info6"), .)
+                                    latex:block($config, ., ("tei-info6"), (title, author, pubdate, abstract))
                     case element(author) return
                         if (preceding-sibling::author) then
                             let $params := 
@@ -245,16 +249,28 @@ declare function model:apply($config as map(*), $input as node()*) {
                             return
                                                         latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-title1"), $content)
                         else
-                            if ($parameters?mode='breadcrumbs') then
-                                latex:inline($config, ., ("tei-title2"), .)
+                            if ($parameters?mode='summary') then
+                                let $params := 
+                                    map {
+                                        "content": node(),
+                                        "path": $parameters?path
+                                    }
+
+                                                                let $content := 
+                                    model:template6($config, ., $params)
+                                return
+                                                                latex:block(map:merge(($config, map:entry("template", true()))), ., ("tei-title2", "articletitle"), $content)
                             else
-                                if (parent::note) then
+                                if ($parameters?mode='breadcrumbs') then
                                     latex:inline($config, ., ("tei-title3"), .)
                                 else
-                                    if (parent::info and $parameters?header='short') then
-                                        latex:link($config, ., ("tei-title4"), ., $parameters?doc)
+                                    if (parent::note) then
+                                        latex:inline($config, ., ("tei-title4"), .)
                                     else
-                                        latex:heading($config, ., ("tei-title5", "title"), .)
+                                        if (parent::info and $parameters?header='short') then
+                                            latex:link($config, ., ("tei-title5"), ., $parameters?doc)
+                                        else
+                                            latex:heading($config, ., ("tei-title6", "title"), .)
                     case element(section) return
                         if ($parameters?mode='breadcrumbs') then
                             (
@@ -278,7 +294,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             }
 
                                                 let $content := 
-                            model:template6($config, ., $params)
+                            model:template7($config, ., $params)
                         return
                                                 latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-code1"), $content)
                     case element(figure) return
@@ -295,7 +311,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             latex:figure($config, ., ("tei-informalfigure2", "figure"), ., ())
                     case element(imagedata) return
-                        latex:graphic($config, ., ("tei-imagedata", "img-responsive"), ., @fileref, (), (), (), ())
+                        latex:graphic($config, ., ("tei-imagedata"), ., @fileref, (), (), (), ())
                     case element(itemizedlist) return
                         latex:list($config, ., ("tei-itemizedlist"), listitem)
                     case element(listitem) return
@@ -350,7 +366,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             }
 
                                                 let $content := 
-                            model:template7($config, ., $params)
+                            model:template8($config, ., $params)
                         return
                                                 latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-note1"), $content)
                     case element(tag) return
@@ -371,7 +387,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             }
 
                                                 let $content := 
-                            model:template8($config, ., $params)
+                            model:template9($config, ., $params)
                         return
                                                 latex:block(map:merge(($config, map:entry("template", true()))), ., ("tei-videodata1"), $content)
                     case element(mediaobject) return
@@ -379,6 +395,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                             latex:omit($config, ., ("tei-mediaobject"), .)
                         else
                             $config?apply($config, ./node())
+                    case element(abstract) return
+                        if ($parameters?path = $parameters?active) then
+                            latex:omit($config, ., ("tei-abstract1"), .)
+                        else
+                            latex:block($config, ., ("tei-abstract2"), .)
+                    case element(pubdate) return
+                        latex:inline($config, ., ("tei-pubdate", "pubdate"), format-date(., '[MNn] [D1], [Y0001]', 'en_US', (), ()))
                     case element() return
                         latex:inline($config, ., ("tei--element"), .)
                     case text() | xs:anyAtomicType return
@@ -392,15 +415,18 @@ declare function model:apply($config as map(*), $input as node()*) {
 
 declare function model:apply-children($config as map(*), $node as element(), $content as item()*) {
         
-    $content ! (
-        typeswitch(.)
-            case element() return
-                if (. is $node) then
-                    $config?apply($config, ./node())
-                else
-                    $config?apply($config, .)
-            default return
-                latex:escapeChars(.)
-    )
+    if ($config?template) then
+        $content
+    else
+        $content ! (
+            typeswitch(.)
+                case element() return
+                    if (. is $node) then
+                        $config?apply($config, ./node())
+                    else
+                        $config?apply($config, .)
+                default return
+                    latex:escapeChars(.)
+        )
 };
 

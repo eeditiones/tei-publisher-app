@@ -29,10 +29,12 @@ declare %private function model:definitionList($config as map(*), $node as node(
 };
 
 (: Generated behaviour function for ident definition :)
-declare %private function model:definition($config as map(*), $node as node()*, $class as xs:string+, $content, $term) {
+declare %private function model:definition($config as map(*), $node as node()*, $class as xs:string+, $content) {
     $node ! (
+        let $term := 'blablabla'
 
-        
+        return
+
         <t xmlns=""><dt>{$config?apply-children($config, $node, $term)}</dt><dd>{$config?apply-children($config, $node, $content)}</dd></t>/*
     )
 };
@@ -42,11 +44,14 @@ declare %private function model:iframe($config as map(*), $node as node()*, $cla
     $node ! (
 
         
-        <t xmlns=""><iframe src="{$config?apply-children($config, $node, $src)}" width="{$config?apply-children($config, $node, $width)}" height="{$config?apply-children($config, $node, $height)}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen">
-                        </iframe></t>/*
+        <t xmlns=""><iframe src="{$config?apply-children($config, $node, $src)}" width="{$config?apply-children($config, $node, $width)}" height="{$config?apply-children($config, $node, $height)}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"> </iframe></t>/*
     )
 };
 
+(: generated template function for element spec: title :)
+declare %private function model:template1($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><h1><pb-link path="{$config?apply-children($config, $node, $params?path)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-link></h1></t>/*
+};
 (:~
 
     Main entry point for the transformation.
@@ -83,7 +88,10 @@ declare function model:apply($config as map(*), $input as node()*) {
             return
                             typeswitch(.)
                     case element(article) return
-                        html:document($config, ., ("tei-article2"), .)
+                        if ($parameters?mode='summary') then
+                            html:block($config, ., ("tei-article2"), info)
+                        else
+                            html:document($config, ., ("tei-article3"), .)
                     case element(info) return
                         if (not(parent::article or parent::book)) then
                             html:block($config, ., ("tei-info2"), .)
@@ -98,7 +106,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 )
 
                             else
-                                html:metadata($config, ., ("tei-info6"), .)
+                                html:block($config, ., ("tei-info6"), (title, author, pubdate, abstract))
                     case element(author) return
                         if (preceding-sibling::author) then
                             html:inline($config, ., ("tei-author3"), (', ', personname, affiliation))
@@ -109,16 +117,28 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(affiliation) return
                         html:inline($config, ., ("tei-affiliation"), (', ', .))
                     case element(title) return
-                        if ($parameters?mode='breadcrumbs') then
-                            html:inline($config, ., ("tei-title2"), .)
+                        if ($parameters?mode='summary') then
+                            let $params := 
+                                map {
+                                    "content": node(),
+                                    "path": $parameters?path
+                                }
+
+                                                        let $content := 
+                                model:template1($config, ., $params)
+                            return
+                                                        html:block(map:merge(($config, map:entry("template", true()))), ., ("tei-title2", "articletitle"), $content)
                         else
-                            if (parent::note) then
+                            if ($parameters?mode='breadcrumbs') then
                                 html:inline($config, ., ("tei-title3"), .)
                             else
-                                if (parent::info and $parameters?header='short') then
-                                    html:link($config, ., ("tei-title4"), ., $parameters?doc)
+                                if (parent::note) then
+                                    html:inline($config, ., ("tei-title4"), .)
                                 else
-                                    html:heading($config, ., ("tei-title5", "title"), ., count(ancestor::section))
+                                    if (parent::info and $parameters?header='short') then
+                                        html:link($config, ., ("tei-title5"), ., $parameters?doc)
+                                    else
+                                        html:heading($config, ., ("tei-title6", "title"), ., if ($parameters?view='single') then   count(ancestor::section) + 1 else  count(ancestor::section))
                     case element(section) return
                         if ($parameters?mode='breadcrumbs') then
                             (
@@ -148,7 +168,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             html:figure($config, ., ("tei-informalfigure2", "figure"), ., ())
                     case element(imagedata) return
-                        html:graphic($config, ., ("tei-imagedata", "img-responsive"), ., @fileref, (), (), (), ())
+                        html:graphic($config, ., ("tei-imagedata"), ., @fileref, (), (), (), ())
                     case element(itemizedlist) return
                         html:list($config, ., ("tei-itemizedlist"), listitem, ())
                     case element(listitem) return
@@ -162,7 +182,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(variablelist) return
                         model:definitionList($config, ., ("tei-variablelist"), varlistentry)
                     case element(varlistentry) return
-                        model:definition($config, ., ("tei-varlistentry"), listitem/node(), term/node())
+                        model:definition($config, ., ("tei-varlistentry"), listitem/node())
                     case element(table) return
                         if (title) then
                             (
@@ -185,7 +205,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (parent::cell|parent::para|parent::ab) then
                             html:inline($config, ., ("tei-programlisting2", "code"), .)
                         else
-                            html:webcomponent($config, ., ("tei-programlisting3"), ., 'pb-code-highlight', map {"lang": @language})
+                            html:webcomponent($config, ., ("tei-programlisting3"), text(), 'pb-code-highlight', map {"lang": @language})
                     case element(synopsis) return
                         html:webcomponent($config, ., ("tei-synopsis3"), ., 'pb-code-highlight', map {"lang": @language})
                     case element(example) return
@@ -213,6 +233,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:inline($config, ., ("tei-guilabel"), .)
                     case element(videodata) return
                         model:iframe($config, ., ("tei-videodata2"), ., @fileref, @width, @depth)
+                    case element(abstract) return
+                        if ($parameters?path = $parameters?active) then
+                            html:omit($config, ., ("tei-abstract1"), .)
+                        else
+                            html:block($config, ., ("tei-abstract2"), .)
+                    case element(pubdate) return
+                        html:inline($config, ., ("tei-pubdate", "pubdate"), format-date(., '[MNn] [D1], [Y0001]', 'en_US', (), ()))
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return
@@ -228,15 +255,18 @@ declare function model:apply($config as map(*), $input as node()*) {
 
 declare function model:apply-children($config as map(*), $node as element(), $content as item()*) {
         
-    $content ! (
-        typeswitch(.)
-            case element() return
-                if (. is $node) then
-                    $config?apply($config, ./node())
-                else
-                    $config?apply($config, .)
-            default return
-                html:escapeChars(.)
-    )
+    if ($config?template) then
+        $content
+    else
+        $content ! (
+            typeswitch(.)
+                case element() return
+                    if (. is $node) then
+                        $config?apply($config, ./node())
+                    else
+                        $config?apply($config, .)
+                default return
+                    html:escapeChars(.)
+        )
 };
 

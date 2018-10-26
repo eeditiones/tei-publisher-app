@@ -55,11 +55,14 @@ declare %private function model:iframe($config as map(*), $node as node()*, $cla
     $node ! (
 
         
-        <t xmlns=""><iframe src="{$config?apply-children($config, $node, $src)}" width="{$config?apply-children($config, $node, $width)}" height="{$config?apply-children($config, $node, $height)}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen">
-                        </iframe></t>/*
+        <t xmlns=""><iframe src="{$config?apply-children($config, $node, $src)}" width="{$config?apply-children($config, $node, $width)}" height="{$config?apply-children($config, $node, $height)}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"> </iframe></t>/*
     )
 };
 
+(: generated template function for element spec: title :)
+declare %private function model:template1($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><h1><pb-link path="{$config?apply-children($config, $node, $params?path)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-link></h1></t>/*
+};
 (:~
 
     Main entry point for the transformation.
@@ -96,7 +99,10 @@ declare function model:apply($config as map(*), $input as node()*) {
             return
                             typeswitch(.)
                     case element(article) return
-                        fo:document($config, ., ("tei-article2"), .)
+                        if ($parameters?mode='summary') then
+                            fo:block($config, ., ("tei-article2"), info)
+                        else
+                            fo:document($config, ., ("tei-article3"), .)
                     case element(info) return
                         if (not(parent::article or parent::book)) then
                             fo:block($config, ., ("tei-info2"), .)
@@ -111,7 +117,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 )
 
                             else
-                                fo:metadata($config, ., ("tei-info6"), .)
+                                fo:block($config, ., ("tei-info6"), (title, author, pubdate, abstract))
                     case element(author) return
                         if (preceding-sibling::author) then
                             fo:inline($config, ., ("tei-author3"), (', ', personname, affiliation))
@@ -122,16 +128,28 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(affiliation) return
                         fo:inline($config, ., ("tei-affiliation"), (', ', .))
                     case element(title) return
-                        if ($parameters?mode='breadcrumbs') then
-                            fo:inline($config, ., ("tei-title2"), .)
+                        if ($parameters?mode='summary') then
+                            let $params := 
+                                map {
+                                    "content": node(),
+                                    "path": $parameters?path
+                                }
+
+                                                        let $content := 
+                                model:template1($config, ., $params)
+                            return
+                                                        fo:block(map:merge(($config, map:entry("template", true()))), ., ("tei-title2", "articletitle"), $content)
                         else
-                            if (parent::note) then
+                            if ($parameters?mode='breadcrumbs') then
                                 fo:inline($config, ., ("tei-title3"), .)
                             else
-                                if (parent::info and $parameters?header='short') then
-                                    fo:link($config, ., ("tei-title4"), ., $parameters?doc)
+                                if (parent::note) then
+                                    fo:inline($config, ., ("tei-title4"), .)
                                 else
-                                    fo:heading($config, ., ("tei-title5", "title"), .)
+                                    if (parent::info and $parameters?header='short') then
+                                        fo:link($config, ., ("tei-title5"), ., $parameters?doc)
+                                    else
+                                        fo:heading($config, ., ("tei-title6", "title"), .)
                     case element(section) return
                         if ($parameters?mode='breadcrumbs') then
                             (
@@ -161,7 +179,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             fo:figure($config, ., ("tei-informalfigure2", "figure"), ., ())
                     case element(imagedata) return
-                        fo:graphic($config, ., ("tei-imagedata", "img-responsive"), ., @fileref, (), (), (), ())
+                        fo:graphic($config, ., ("tei-imagedata"), ., @fileref, (), (), (), ())
                     case element(itemizedlist) return
                         fo:list($config, ., ("tei-itemizedlist"), listitem)
                     case element(listitem) return
@@ -223,6 +241,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:inline($config, ., ("tei-guilabel"), .)
                     case element(videodata) return
                         model:iframe($config, ., ("tei-videodata2"), ., @fileref, @width, @depth)
+                    case element(abstract) return
+                        if ($parameters?path = $parameters?active) then
+                            fo:omit($config, ., ("tei-abstract1"), .)
+                        else
+                            fo:block($config, ., ("tei-abstract2"), .)
+                    case element(pubdate) return
+                        fo:inline($config, ., ("tei-pubdate", "pubdate"), format-date(., '[MNn] [D1], [Y0001]', 'en_US', (), ()))
                     case element() return
                         fo:inline($config, ., ("tei--element"), .)
                     case text() | xs:anyAtomicType return
@@ -236,15 +261,18 @@ declare function model:apply($config as map(*), $input as node()*) {
 
 declare function model:apply-children($config as map(*), $node as element(), $content as item()*) {
         
-    $content ! (
-        typeswitch(.)
-            case element() return
-                if (. is $node) then
-                    $config?apply($config, ./node())
-                else
-                    $config?apply($config, .)
-            default return
-                fo:escapeChars(.)
-    )
+    if ($config?template) then
+        $content
+    else
+        $content ! (
+            typeswitch(.)
+                case element() return
+                    if (. is $node) then
+                        $config?apply($config, ./node())
+                    else
+                        $config?apply($config, .)
+                default return
+                    fo:escapeChars(.)
+        )
 };
 

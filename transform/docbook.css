@@ -2,59 +2,46 @@
 /* Generated from /db/apps/tei-publisher/odd/docbook.odd */
 
 /* Global styles */
+h1, h2, h3, h4, h5, h6 {
+	line-height: 1.2; }
+
 h1 {
-	font-family: "Oswald",Verdana,"Helvetica",sans-serif;
-	font-size: 36px;
-	font-weight: 400;
-	}
+	font-family: "Oswald",Verdana,"Helvetica",sans-serif; font-size: 36px; font-weight: 400; line-height: 1.2; }
 
 h2 {
-	font-family: "Oswald",Verdana,"Helvetica",sans-serif;
-	font-size: 26px;
-	font-weight: 400;
-	}
+	font-family: "Oswald",Verdana,"Helvetica",sans-serif; font-size: 26px; font-weight: 400; }
 
 figure {
-	text-align: center;
-	margin: 24px 0;
-	padding: 16px 0;
-	border-top: 1px solid #d6d7d9;
-	border-bottom: 1px solid #d6d7d9;
-	}
+	text-align: center; margin: 24px 0; padding: 16px 0; border-top: 1px solid #d6d7d9; border-bottom: 1px solid
+	#d6d7d9; }
 
 figure img {
-	margin: 0 auto;
-	display: block;
-	max-width: 100%;
-	height: auto;
-	}
+	margin: 0 auto; display: block; max-width: 100%; height: auto; }
 
 figcaption {
-	margin-top: .5em;
-	text-align: right;
-	}
+	margin-top: .5em; text-align: right; }
 
 .code {
-	font-family: "Ubuntu Mono",Menlo,Consolas,Courier,monospace;
-	font-size: 85%;
-	}
+	font-family: "Ubuntu Mono",Menlo,Consolas,Courier,monospace; font-size: 85%; }
 
 .note > * {
-	margin-left: 16px;
-	margin-right: 16px;
-	}
+	margin-left: 16px; margin-right: 16px; }
 
 dt {
-	font-weight: 700;
-	}
+	font-weight: 700; }
 
 /* Model rendition styles */
 
-.tei-title2:before { content: ' > '; color: #607d8b; }
+.tei-title3:before { content: ' > '; color: #607d8b; }
 .tei-emphasis1 { font-weight: bold; }
 .tei-emphasis2 { font-style: italic; }
+.tei-imagedata { max-width: 100%; }
 .tei-td1 { font-weight: bold; }
 .tei-tag:before { content: '<'; }
 .tei-tag:after { content: '>'; }
 .tei-guibutton { color: #fff; background-color: #909090; padding-left: 4px; padding-right: 4px; border: 1px solid #707070; }
 .tei-guilabel { font-style: italic; }
+.tei-videodata2 { max-width: 100%; }
+.tei-abstract2 { color: #909090; padding-left: 10px; border-left: 3px solid #c0c0c0; }
+.tei-pubdate:before { content: '\00B7'; padding-right: 8px; padding-left: 8px; }
+.tei-pubdate { color: #808080; }

@@ -1,19 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Processing Model for Docbook v5
-
-
-
-
-
-
-
+                <title>Processing Model for Docbook v5 
+                 
                  <desc>Processing of Docbook format</desc>
                 </title>
-                <title type="short">Docbook v5
-                </title>
+                <title type="short">Docbook v5 </title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>
@@ -21,14 +15,10 @@
                     <licence target="https://www.gnu.org/licenses/gpl-3.0.en.html">Distributed under GNU General Public License</licence>
                     <p>Copyright 2017 <ref target="http://existsolutions.com">eXistSolutions GmbH</ref>
                     </p>
-                    <p>This program is free software: you can redistribute it and/or modify
-                        it under the terms of the GNU General Public License as published by
-                        the Free Software Foundation, either version 3 of the License, or
-                        (at your option) any later version.</p>
-                    <p>This program is distributed in the hope that it will be useful,
-                        but WITHOUT ANY WARRANTY; without even the implied warranty of
-                        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                        GNU General Public License for more details.</p>
+                    <p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+                        the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+                    <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+                        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
                 </availability>
             </publicationStmt>
             <sourceDesc>
@@ -43,11 +33,9 @@
                     <desc>Code listing</desc>
                     <pb:param name="language" value="@language"/>
                     <pb:param name="code" value="replace($content, '^\s*(.*?)$', '$1')"/>
-                    <pb:template>
-                    \begin{lstlisting}[language=[[language]]]
-                    [[code]]
-                    \end{lstlisting}
-                    </pb:template>
+                    <pb:template xml:space="preserve">\begin{lstlisting}[language=[[language]]]
+[[code]]
+\end{lstlisting} </pb:template>
                 </pb:behaviour>
                 <pb:behaviour ident="code" output="fo">
                     <desc>Code listing</desc>
@@ -62,7 +50,7 @@
                     </pb:template>
                 </pb:behaviour>
                 <pb:behaviour ident="definition" output="web">
-                    <pb:param name="term"/>
+                    <pb:param name="term" value="'blablabla'"/>
                     <pb:template>
                         <dt xmlns="">[[term]]</dt>
                         <dd xmlns="">[[content]]</dd>
@@ -82,7 +70,9 @@
                     </pb:template>
                 </pb:behaviour>
                 <pb:behaviour ident="definitionList" output="latex">
-                    <pb:template>\begin{description}[[content]]\end{description}</pb:template>
+                    <pb:template xml:space="preserve">\begin{description}
+[[content]]
+\end{description}</pb:template>
                 </pb:behaviour>
                 <pb:behaviour ident="definition" output="latex">
                     <pb:param name="term"/>
@@ -93,48 +83,19 @@
                     <pb:param name="width"/>
                     <pb:param name="height"/>
                     <pb:template>
-                        <iframe xmlns="" src="[[src]]" width="[[width]]" height="[[height]]" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen">
-                        </iframe>
+                        <iframe xmlns="" src="[[src]]" width="[[width]]" height="[[height]]" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"> </iframe>
                     </pb:template>
                 </pb:behaviour>
-                <rendition selector="h1">
-                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
-                    font-size: 36px;
-                    font-weight: 400;
-                </rendition>
-                <rendition selector="h2">
-                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
-                    font-size: 26px;
-                    font-weight: 400;
-                </rendition>
-                <rendition selector="figure">
-                    text-align: center;
-                    margin: 24px 0;
-                    padding: 16px 0;
-                    border-top: 1px solid #d6d7d9;
-                    border-bottom: 1px solid #d6d7d9;
-                </rendition>
-                <rendition selector="figure img">
-                    margin: 0 auto;
-                    display: block;
-                    max-width: 100%;
-                    height: auto;
-                </rendition>
-                <rendition selector="figcaption">
-                    margin-top: .5em;
-                    text-align: right;
-                </rendition>
-                <rendition selector=".code">
-                    font-family: "Ubuntu Mono",Menlo,Consolas,Courier,monospace;
-                    font-size: 85%;
-                </rendition>
-                <rendition selector=".note &gt; *">
-                    margin-left: 16px;
-                    margin-right: 16px;
-                </rendition>
-                <rendition selector="dt">
-                    font-weight: 700;
-                </rendition>
+                <rendition selector="h1, h2, h3, h4, h5, h6"> line-height: 1.2; </rendition>
+                <rendition selector="h1"> font-family: "Oswald",Verdana,"Helvetica",sans-serif; font-size: 36px; font-weight: 400; line-height: 1.2; </rendition>
+                <rendition selector="h2"> font-family: "Oswald",Verdana,"Helvetica",sans-serif; font-size: 26px; font-weight: 400; </rendition>
+                <rendition selector="figure"> text-align: center; margin: 24px 0; padding: 16px 0; border-top: 1px solid #d6d7d9; border-bottom: 1px solid
+                    #d6d7d9; </rendition>
+                <rendition selector="figure img"> margin: 0 auto; display: block; max-width: 100%; height: auto; </rendition>
+                <rendition selector="figcaption"> margin-top: .5em; text-align: right; </rendition>
+                <rendition selector=".code"> font-family: "Ubuntu Mono",Menlo,Consolas,Courier,monospace; font-size: 85%; </rendition>
+                <rendition selector=".note &gt; *"> margin-left: 16px; margin-right: 16px; </rendition>
+                <rendition selector="dt"> font-weight: 700; </rendition>
             </tagsDecl>
         </encodingDesc>
     </teiHeader>
@@ -147,7 +108,7 @@
             <param name="styles" value="string-join($config(&#34;latex-styles&#34;), '&amp;#10;')"/>
             <param name="fontSize" value="($config?font-size, &#34;11pt&#34;)[1]"/>
             <param name="class" value="($config?class, &#34;article&#34;)[1]"/>
-            <pb:template>\documentclass[english,a4paper,[[fontSize]]]{[[class]]}
+            <pb:template xmlns="" xml:space="preserve">\documentclass[english,a4paper,[[fontSize]]]{[[class]]}
 \usepackage[english]{babel}
 \usepackage{colortbl}
 \usepackage{xcolor}
@@ -184,13 +145,16 @@
 [[content]]
 \end{document}</pb:template>
         </model>
+                    <model predicate="$parameters?mode='summary'" behaviour="block">
+            <param name="content" value="info"/>
+        </model>
                     <model behaviour="document"/>
                 </elementSpec>
                 <elementSpec ident="info">
                     <model output="latex" predicate="parent::article|parent::book" behaviour="inline">
             <param name="content" value="title"/>
             <param name="author" value="author"/>
-            <pb:template>[[content]] \author{[[author]]}
+            <pb:template xmlns="" xml:space="preserve">[[content]] \author{[[author]]}
 \maketitle</pb:template>
         </model>
                     <model predicate="not(parent::article or parent::book)" behaviour="block"/>
@@ -206,16 +170,18 @@
                 <param name="content" value="author"/>
             </model>
         </modelSequence>
-                    <model behaviour="metadata"/>
+                    <model behaviour="block">
+            <param name="content" value="(title, author, pubdate, abstract)"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="author">
                     <model output="latex" predicate="preceding-sibling::author" behaviour="inline">
             <param name="content" value="(personname, affiliation)"/>
-            <pb:template>\and [[content]]</pb:template>
+            <pb:template xmlns="" xml:space="preserve">\and [[content]]</pb:template>
         </model>
                     <model output="latex" behaviour="inline">
             <param name="content" value="(personname, affiliation)"/>
-            <pb:template>[[content]]</pb:template>
+            <pb:template xmlns="" xml:space="preserve">[[content]]</pb:template>
         </model>
                     <model predicate="preceding-sibling::author" behaviour="inline">
             <param name="content" value="(', ', personname, affiliation)"/>
@@ -236,16 +202,21 @@
                 </elementSpec>
                 <elementSpec ident="title">
                     <model output="latex" predicate="parent::info" behaviour="inline">
-            <pb:template>\title{[[content]]}</pb:template>
+            <pb:template xmlns="" xml:space="preserve">\title{[[content]]}</pb:template>
+        </model>
+                    <model predicate="$parameters?mode='summary'" behaviour="block" cssClass="articletitle">
+            <param name="content" value="node()"/>
+            <param name="path" value="$parameters?path"/>
+            <pb:template xmlns="" xml:space="preserve"><h1><pb-link path="[[path]]" emit="transcription">[[content]]</pb-link></h1></pb:template>
         </model>
                     <model predicate="$parameters?mode='breadcrumbs'" behaviour="inline">
-            <outputRendition scope="before">
-
-
-            content: ' &gt; ';
+            <outputRendition xml:space="preserve" scope="before">
+            
+            
+                            content: ' &gt; ';
                             color: #607d8b;
-
-
+                        
+            
             </outputRendition>
         </model>
                     <model predicate="parent::note" behaviour="inline"/>
@@ -253,7 +224,7 @@
             <param name="link" value="$parameters?doc"/>
         </model>
                     <model behaviour="heading" cssClass="title">
-            <param name="level" value="count(ancestor::section)"/>
+            <param name="level" value="if ($parameters?view='single') then   count(ancestor::section) + 1 else  count(ancestor::section)"/>
         </model>
                 </elementSpec>
                 <elementSpec ident="section">
@@ -272,19 +243,19 @@
                 </elementSpec>
                 <elementSpec ident="emphasis">
                     <model predicate="@role='bold'" behaviour="inline">
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             font-weight: bold;
             </outputRendition>
         </model>
                     <model behaviour="inline">
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             font-style: italic;
             </outputRendition>
         </model>
                 </elementSpec>
                 <elementSpec ident="code">
                     <model output="latex" behaviour="inline">
-            <pb:template>\verb|[[content]]|</pb:template>
+            <pb:template xmlns="" xml:space="preserve">\verb|[[content]]|</pb:template>
         </model>
                     <model behaviour="inline" cssClass="code"/>
                 </elementSpec>
@@ -304,8 +275,11 @@
                     <model behaviour="figure" cssClass="figure"/>
                 </elementSpec>
                 <elementSpec ident="imagedata">
-                    <model behaviour="graphic" cssClass="img-responsive">
+                    <model behaviour="graphic">
             <param name="url" value="@fileref"/>
+            <outputRendition xml:space="preserve">
+            max-width: 100%;
+            </outputRendition>
         </model>
                 </elementSpec>
                 <elementSpec ident="itemizedlist">
@@ -340,6 +314,7 @@
                     <model behaviour="definition">
             <param name="term" value="term/node()"/>
             <param name="content" value="listitem/node()"/>
+            <param name="opt" value="'bla'"/>
         </model>
                 </elementSpec>
                 <elementSpec ident="table" mode="add">
@@ -368,7 +343,7 @@
                 </elementSpec>
                 <elementSpec ident="td">
                     <model predicate="parent::tr/parent::thead" behaviour="cell">
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             font-weight: bold;
             </outputRendition>
         </model>
@@ -383,6 +358,7 @@
             <model behaviour="webcomponent">
                 <param name="name" value="'pb-code-highlight'"/>
                 <param name="lang" value="@language"/>
+                <param name="content" value="text()"/>
             </model>
         </modelGrp>
                     <model behaviour="block" cssClass="programlisting"/>
@@ -417,7 +393,7 @@
                     <model output="latex" behaviour="inline">
             <param name="title" value="title"/>
             <param name="content" value="*[not(self::title)]"/>
-            <pb:template>\begin{mdframed}[frametitle={[[title]]}]
+            <pb:template xmlns="" xml:space="preserve">\begin{mdframed}[frametitle={[[title]]}]
 [[content]]
 \end{mdframed}</pb:template>
         </model>
@@ -430,10 +406,10 @@
                 </elementSpec>
                 <elementSpec ident="tag">
                     <model behaviour="inline" cssClass="code">
-            <outputRendition scope="before">
+            <outputRendition xml:space="preserve" scope="before">
             content: '&lt;';
             </outputRendition>
-            <outputRendition scope="after">
+            <outputRendition xml:space="preserve" scope="after">
             content: '&gt;';
             </outputRendition>
         </model>
@@ -449,46 +425,32 @@
                 <elementSpec ident="*">
                     <model behaviour="inline"/>
                 </elementSpec>
-            <elementSpec ident="guibutton" mode="add">
+                <elementSpec ident="guibutton" mode="add">
                     <model behaviour="inline">
-            <outputRendition>
-
-
-
-
-
-
-
-
-
+            <outputRendition xml:space="preserve">
+            
+            
                             color: #fff;
-background-color: #909090;
-padding-left: 4px;
-padding-right: 4px;
-border: 1px solid #707070;
-
-
-
-
-
-
-
-
-
+                            background-color: #909090;
+                            padding-left: 4px;
+                            padding-right: 4px;
+                            border: 1px solid #707070;
+                        
+            
             </outputRendition>
         </model>
                 </elementSpec>
                 <elementSpec ident="guilabel" mode="add">
                     <model behaviour="inline">
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             font-style: italic;
             </outputRendition>
         </model>
                 </elementSpec>
-            <elementSpec ident="videodata" mode="add">
+                <elementSpec ident="videodata" mode="add">
                     <model output="latex" behaviour="block">
             <param name="content" value="@fileref"/>
-            <pb:template>\begin{center}
+            <pb:template xmlns="" xml:space="preserve">\begin{center}
 Not available in PDF edition. Go to \url{[[content]]} to view.
 \end{center}</pb:template>
         </model>
@@ -496,10 +458,40 @@ Not available in PDF edition. Go to \url{[[content]]} to view.
             <param name="width" value="@width"/>
             <param name="height" value="@depth"/>
             <param name="src" value="@fileref"/>
+            <outputRendition xml:space="preserve">
+            max-width: 100%;
+            </outputRendition>
         </model>
                 </elementSpec>
-            <elementSpec ident="mediaobject" mode="add">
+                <elementSpec ident="mediaobject" mode="add">
                     <model output="latex" predicate="imageobject/imagedata[ends-with(@fileref, '.gif')]" behaviour="omit"/>
+                </elementSpec>
+                <elementSpec ident="abstract" mode="add">
+                    <model predicate="$parameters?path = $parameters?active" behaviour="omit"/>
+                    <model behaviour="block">
+            <outputRendition xml:space="preserve">
+            color: #909090;
+padding-left: 10px;
+border-left: 3px solid #c0c0c0;
+            </outputRendition>
+        </model>
+                </elementSpec>
+                <elementSpec ident="pubdate" mode="add">
+                    <model behaviour="inline" cssClass="pubdate">
+            <param name="content" value="format-date(., '[MNn] [D1], [Y0001]', 'en_US', (), ())"/>
+            <outputRendition xml:space="preserve" scope="before">
+            
+            
+                        content: '\00B7';
+                        padding-right: 8px;
+                        padding-left: 8px;
+                        
+            
+            </outputRendition>
+            <outputRendition xml:space="preserve">
+            color: #808080;
+            </outputRendition>
+        </model>
                 </elementSpec>
             </schemaSpec>
         </body>

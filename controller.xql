@@ -1,5 +1,7 @@
 xquery version "3.0";
 
+declare namespace dbk="http://docbook.org/ns/docbook";
+
 import module namespace login="http://exist-db.org/xquery/login" at "resource:org/exist/xquery/modules/persistentlogin/login.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "modules/config.xqm";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "modules/lib/pages.xql";
@@ -28,6 +30,17 @@ declare function local:get-template($doc as xs:string) {
                 $config?template
 };
 
+declare function local:last-blog-entry() {
+    util:document-name(
+        head(
+            for $article in collection($config:data-root || "/doc/blog")
+            let $published := $article/*/dbk:info/dbk:pubdate
+            order by xs:date($published) descending
+            return
+                $article
+        )
+    )
+};
 
 if ($exist:path eq '') then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
@@ -147,8 +160,12 @@ else if (ends-with($exist:resource, ".html")) then (
                     ()
             }
         </dispatch>
+) else if (matches($exist:path, "^/doc/blog/?$")) then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <redirect url="{request:get-uri()}/{local:last-blog-entry()}"/>
+    </dispatch>
 
-) else if (matches($exist:path, "/(" || string-join($data-collections, "|") || ")/.*[^/]+\..*$")) then (
+else if (matches($exist:path, "/(" || string-join($data-collections, "|") || ")/.*[^/]+\..*$")) then (
     login:set-user($config:login-domain, (), false()),
     (: let $id := replace(xmldb:decode($exist:resource), "^(.*)\..*$", "$1") :)
     let $id := xmldb:decode($exist:resource)
@@ -160,6 +177,8 @@ else if (ends-with($exist:resource, ".html")) then (
             "index.html"
         else if ($exist:resource = ("search.html", "toc.html")) then
             $exist:resource
+        else if (starts-with($exist:path, "/doc/blog/")) then
+            "blog.html"
         else
             ()
     return

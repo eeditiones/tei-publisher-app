@@ -61,8 +61,9 @@ declare variable $pages:EDIT_ODD_LINK :=
 
 declare function pages:pb-document($node as node(), $model as map(*), $doc as xs:string, $root as xs:string?,
     $id as xs:string?, $view as xs:string?) {
+    let $odd := $node/@odd
     let $data := pages:get-document($doc)
-    let $config := tpu:parse-pi(root($data), $view)
+    let $config := tpu:parse-pi(root($data), $view, $odd)
     return
         <pb-document path="{$doc}" root="{$config:data-root}" view="{$config?view}" odd="{replace($config?odd, '^(.*)\.odd', '$1')}"
             source-view="{$pages:EXIDE}">
