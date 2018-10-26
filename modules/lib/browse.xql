@@ -78,7 +78,11 @@ function app:sort($items as element()*, $sortBy as xs:string?) {
     console:log("sort by " || $sortBy),
     switch ($sortBy)
         case "title" return
-            for $item in $items
+            for $item in
+                if (count($config:data-exclude) = 1) then
+                    $items[not(matches(util:collection-name(.), $config:data-exclude))]
+                else
+                    $items
             let $titleFromIndex := ft:get-field(document-uri(root($item)), "title")
             let $title :=
                 if (exists($titleFromIndex)) then
@@ -92,7 +96,10 @@ function app:sort($items as element()*, $sortBy as xs:string?) {
             return
                 $item
         default return
-            $items
+            if (count($config:data-exclude) = 1) then
+                $items[not(matches(util:collection-name(.), $config:data-exclude))]
+            else
+                $items
 };
 
 

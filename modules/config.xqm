@@ -212,6 +212,8 @@ declare variable $config:data-root := $config:app-root || "/data";
 
 declare variable $config:data-default := $config:data-root || "/test";
 
+declare variable $config:data-exclude := "/doc(/blog)?";
+
 declare variable $config:default-odd := "teipublisher.odd";
 
 declare variable $config:odd := request:get-parameter("odd", $config:default-odd);
