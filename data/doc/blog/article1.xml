@@ -17,14 +17,16 @@
     </info>
     <section>
         <title>Why Templates?</title>
-        <para>While TEI Publisher does provide ways to write your own behaviours in XQuery and thus extend the ones defined in the guidelines, I would
-            consider this bad practice and try to limit it to the absolute minimum. For HTML output this works quite well and we
-            have realized complex projects with just two or three extension behaviours.
-            Things start to become more difficult if you try to output LaTeX: there are hundreds of packages to use, and 
-            experienced users typically define their own macros or environments for all recurring typesetting tasks. For example, to
-            print a TEI <tag>persName</tag>, experienced LaTeX users would normally create a corresponding <code>\persName</code> macro and
-            handle the formatting details there. Out of the box the TEI processing model does not facilitate this level of customization 
-            though.</para>
+        <para>While TEI Publisher does provide ways to write your own behaviours in XQuery and thus
+            extend the ones defined in the guidelines, I would consider this bad practice and try to
+            limit it to the absolute minimum. For HTML output this works quite well and we have
+            realized complex projects with just two or three extension behaviours. Things start to
+            become more difficult if you try to output LaTeX: there are hundreds of packages to use,
+            and users typically define their own macros or environments for all recurring
+            typesetting tasks. For example, to print a TEI <tag>persName</tag>, experienced LaTeX
+            users would normally create a corresponding <code>\persName</code> macro and handle the
+            formatting details there. Out of the box the TEI processing model does not facilitate
+            this level of customization though.</para>
         <para>The newest version of <filename>tei-publisher-lib</filename> thus adds support for code templates to processing models.</para>
     </section>
     <section>
@@ -72,27 +74,27 @@
             define our own behaviours right inside the ODD!</para>
         <para>Take the TEI Publisher documentation (or this article) as an example: it is written in docbook 5 and transformed via ODD.            The documentation includes some videos which are hosted on youtube. In docbook those are represented by <tag>videodata</tag>
             elements inside a <tag>videoobject</tag>:</para>
-        <programlisting xml:space="preserve"><![CDATA[<figure xml:id="edit-odd">
-    <title>Screencast</title>
-    <mediaobject>
-      <videoobject>
-        <videodata fileref="https://www.youtube.com/embed/avRO-b2BwUI?rel=0" width="853" depth="480"/>
-      </videoobject>
-    </mediaobject>
-</figure>]]></programlisting>
+        <programlisting xml:space="preserve"><![CDATA[&lt;figure xml:id="edit-odd"&gt;
+    &lt;title&gt;Screencast&lt;/title&gt;
+    &lt;mediaobject&gt;
+      &lt;videoobject&gt;
+        &lt;videodata fileref="https://www.youtube.com/embed/avRO-b2BwUI?rel=0" width="853" depth="480"/&gt;
+      &lt;/videoobject&gt;
+    &lt;/mediaobject&gt;
+&lt;/figure&gt;]]></programlisting>
         <para>In the HTML output we would need to transform this into an <tag>iframe</tag>, so the reader can view the video embedded
             in the page. We can achieve this with a <tag>pb:template</tag> as sketched in the previous section, but it would be nice to
             turn this into a general-purpose behaviour, which we can re-use in other situations requiring an iframe. The TEI Publisher
             library allows us to define a behaviour right inside the ODD as follows:</para>
         
-        <programlisting xml:space="preserve"><![CDATA[<pb:behaviour ident="iframe" output="web">
-    <pb:param name="src"/>
-    <pb:param name="width"/>
-    <pb:param name="height"/>
-    <pb:template xmlns="">
-        <iframe src="[[src]]" width="[[width]]" height="[[height]]" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"></iframe>
-    </pb:template>
-</pb:behaviour>]]></programlisting>
+        <programlisting xml:space="preserve"><![CDATA[&lt;pb:behaviour ident="iframe" output="web"&gt;
+    &lt;pb:param name="src"/&gt;
+    &lt;pb:param name="width"/&gt;
+    &lt;pb:param name="height"/&gt;
+    &lt;pb:template xmlns=""&gt;
+        &lt;iframe src="[[src]]" width="[[width]]" height="[[height]]" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"&gt;&lt;/iframe&gt;
+    &lt;/pb:template&gt;
+&lt;/pb:behaviour&gt;]]></programlisting>
         
         <note>
             <para>Note how we have to reset the namespace on the <tag>pb:template</tag>? This is required because the default
@@ -109,13 +111,20 @@
             be used as value for the parameter.</para>
         <para>The new behaviour will be named <function>iframe</function> and takes three parameters: <parameter>src</parameter>,
             <parameter>width</parameter> and <parameter>height</parameter>. It can now be called from a <tag>model</tag> as follows:</para>
-        <programlisting xml:space="preserve"><![CDATA[<model behaviour="iframe">
-    <param name="width" value="@width"/>
-    <param name="height" value="@depth"/>
-    <param name="src" value="@fileref"/>
-</model>]]></programlisting>
+        <programlisting xml:space="preserve"><![CDATA[&lt;model behaviour="iframe"&gt;
+    &lt;param name="width" value="@width"/&gt;
+    &lt;param name="height" value="@depth"/&gt;
+    &lt;param name="src" value="@fileref"/&gt;
+&lt;/model&gt;]]></programlisting>
         <para>For further code examples, please have a look at <link xlink:href="https://gitlab.existsolutions.com/tei-publisher/tei-publisher-app/blob/master/odd/docbook.odd">docbook.odd</link>, which is used for viewing the
             documentation.</para>
+        <note>
+            <para>At the time of writing, the graphical ODD editor in TEI Publisher does not yet
+                support defining your own behaviours via <tag>pb-behaviour</tag>. You thus have to
+                make those changes in the source XML using eXide, oXygen or another XML editor. You
+                can, however, use the graphical editor to continue editing the ODD afterwards. It is
+                smart enough to not overwrite your hand-written code upon save.</para>
+        </note>
     </section>
     <section>
         <title>Efficiency and Performance</title>
