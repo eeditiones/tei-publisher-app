@@ -1,4 +1,5 @@
-<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
         <title>Adding Templates to the TEI Processing Model</title>
         <abstract>
@@ -30,37 +31,38 @@
         <para>The newest version of <filename>tei-publisher-lib</filename> thus adds support for code templates to processing models.</para>
     </section>
     <section>
-        <title>Introducing <tag>pb:template</tag></title>
+        <title>Introducing <tag>pb:template</tag>
+        </title>
         <para>
             Within the ODD, a <tag>model</tag> may now define a <tag>pb:template</tag> element containing a code template. The template is
             expanded first and the result is passed into the behaviour specified for the model, replacing the default <parameter>content</parameter>
             parameter accepted by all behaviours. The very simple case of outputting a <tag>persName</tag> in LaTeX could thus be written as:</para>
-        
-        <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="persName" mode="add"&gt;
-    &lt;model behaviour="inline" mode="latex"&gt;
-        &lt;pb:template&gt;\persName{[[content]]}&lt;/pb:template&gt;
-    &lt;/model&gt;
-&lt;/elementSpec&gt;</programlisting>
-        <para>The template can reference other parameters defined within the <tag>model</tag> by enclosing the parameter name in double    
+
+        <programlisting language="xml" xml:space="preserve"><![CDATA[<elementSpec ident="persName" mode="add">
+    <model behaviour="inline" mode="latex">
+        <pb:template>\persName{[[content]]}</pb:template>
+    </model>
+</elementSpec>]]></programlisting>
+        <para>The template can reference other parameters defined within the <tag>model</tag> by enclosing the parameter name in double
             brackets. In the example above we're referencing
             the default parameter <parameter>content</parameter>, which contains the nested content of the <tag>persName</tag> tag. The
             parameter will be processed before it is passed into the template, so if <tag>persName</tag> contains nested TEI markup, the
             corresponding processing model rules will be applied first.</para>
-        <para>The result of expanding the template then becomes the new <parameter>content</parameter> parameter to be passed to the 
+        <para>The result of expanding the template then becomes the new <parameter>content</parameter> parameter to be passed to the
             behaviour (<code>inline</code> in the example above), which is processed in the normal way as defined in the TEI guidelines.</para>
         <para>You may also specify additional parameters to be included in the template. For example, the TEI document may contain a
             glossary of terms which are referenced in the text using <code>&lt;term ref="#termid"&gt;text&lt;/term&gt;</code>. In LaTeX
             this would translate to <code>\glslink{ref}{text}</code>, which can be easily produced by the following <tag>model</tag>:</para>
-        <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="term" mode="add"&gt;
-    &lt;model behaviour="inline" mode="latex"&gt;
-        &lt;param name="ref" value="substring-after(@ref, '#')"/&gt;
-        &lt;pb:template&gt;\glslink{[[ref]]}{[[content]]}&lt;/pb:template&gt;
-    &lt;/model&gt;
-&lt;/elementSpec&gt;</programlisting>
+        <programlisting language="xml" xml:space="preserve"><![CDATA[<elementSpec ident="term" mode="add">
+    <model behaviour="inline" mode="latex">
+        <param name="ref" value="substring-after(@ref, '#')"/>
+        <pb:template>\glslink{[[ref]]}{[[content]]}</pb:template>
+    </model>
+</elementSpec>]]></programlisting>
         <para>We define an additional parameter <parameter>ref</parameter>, which contains the id string from the <parameter>@ref</parameter>
             attribute, stripping out the leading '#'.</para>
-        <para>The templating mechanism is not limited to LaTeX, but may also be used to generate HTML or FO, 
-            for example, if you have to generate a complex HTML fragment to 
+        <para>The templating mechanism is not limited to LaTeX, but may also be used to generate HTML or FO,
+            for example, if you have to generate a complex HTML fragment to
             represent a single TEI element. This is hard and sometimes impossible to achieve without templates. We'll see some examples in the next section.</para>
     </section>
     <section>
@@ -74,35 +76,35 @@
             define our own behaviours right inside the ODD!</para>
         <para>Take the TEI Publisher documentation (or this article) as an example: it is written in docbook 5 and transformed via ODD.            The documentation includes some videos which are hosted on youtube. In docbook those are represented by <tag>videodata</tag>
             elements inside a <tag>videoobject</tag>:</para>
-        <programlisting xml:space="preserve"><![CDATA[&lt;figure xml:id="edit-odd"&gt;
-    &lt;title&gt;Screencast&lt;/title&gt;
-    &lt;mediaobject&gt;
-      &lt;videoobject&gt;
-        &lt;videodata fileref="https://www.youtube.com/embed/avRO-b2BwUI?rel=0" width="853" depth="480"/&gt;
-      &lt;/videoobject&gt;
-    &lt;/mediaobject&gt;
-&lt;/figure&gt;]]></programlisting>
+        <programlisting xml:space="preserve"><![CDATA[<figure xml:id="edit-odd">
+    <title>Screencast</title>
+    <mediaobject>
+      <videoobject>
+        <videodata fileref="https://www.youtube.com/embed/avRO-b2BwUI?rel=0" width="853" depth="480"/>
+      </videoobject>
+    </mediaobject>
+</figure>]]></programlisting>
         <para>In the HTML output we would need to transform this into an <tag>iframe</tag>, so the reader can view the video embedded
             in the page. We can achieve this with a <tag>pb:template</tag> as sketched in the previous section, but it would be nice to
             turn this into a general-purpose behaviour, which we can re-use in other situations requiring an iframe. The TEI Publisher
             library allows us to define a behaviour right inside the ODD as follows:</para>
-        
-        <programlisting xml:space="preserve"><![CDATA[&lt;pb:behaviour ident="iframe" output="web"&gt;
-    &lt;pb:param name="src"/&gt;
-    &lt;pb:param name="width"/&gt;
-    &lt;pb:param name="height"/&gt;
-    &lt;pb:template xmlns=""&gt;
-        &lt;iframe src="[[src]]" width="[[width]]" height="[[height]]" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"&gt;&lt;/iframe&gt;
-    &lt;/pb:template&gt;
-&lt;/pb:behaviour&gt;]]></programlisting>
-        
+
+        <programlisting xml:space="preserve"><![CDATA[<pb:behaviour ident="iframe" output="web">
+    <pb:param name="src"/>
+    <pb:param name="width"/>
+    <pb:param name="height"/>
+    <pb:template xmlns="">
+        <iframe src="[[src]]" width="[[width]]" height="[[height]]" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"></iframe>
+    </pb:template>
+</pb:behaviour>]]></programlisting>
+
         <note>
             <para>Note how we have to reset the namespace on the <tag>pb:template</tag>? This is required because the default
                 namespace in an ODD document is the TEI namespace. You thus need to reset it whenever you want to output elements
                 in another or no namespace inside a template. Without this, the iframe would end up in the TEI namespace. Webbrowsers
                 will usually ignore it, but it will be wrong nevertheless.</para>
         </note>
-        <para>All behaviours should be included in the TEI header or - to be exact: the <tag>tagsDecl</tag> inside the <tag>encodingDesc</tag>. 
+        <para>All behaviours should be included in the TEI header or - to be exact: the <tag>tagsDecl</tag> inside the <tag>encodingDesc</tag>.
             You may have multiple behaviour declarations with the same <parameter>@ident</parameter>, given that they apply to different
             <parameter>@output</parameter> modes.
             Parameters
@@ -111,11 +113,11 @@
             be used as value for the parameter.</para>
         <para>The new behaviour will be named <function>iframe</function> and takes three parameters: <parameter>src</parameter>,
             <parameter>width</parameter> and <parameter>height</parameter>. It can now be called from a <tag>model</tag> as follows:</para>
-        <programlisting xml:space="preserve"><![CDATA[&lt;model behaviour="iframe"&gt;
-    &lt;param name="width" value="@width"/&gt;
-    &lt;param name="height" value="@depth"/&gt;
-    &lt;param name="src" value="@fileref"/&gt;
-&lt;/model&gt;]]></programlisting>
+        <programlisting xml:space="preserve"><![CDATA[<model behaviour="iframe">
+    <param name="width" value="@width"/>
+    <param name="height" value="@depth"/>
+    <param name="src" value="@fileref"/>
+</model>]]></programlisting>
         <para>For further code examples, please have a look at <link xlink:href="https://gitlab.existsolutions.com/tei-publisher/tei-publisher-app/blob/master/odd/docbook.odd">docbook.odd</link>, which is used for viewing the
             documentation.</para>
         <note>
