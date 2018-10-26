@@ -6,6 +6,10 @@
             :host {
                 display: block;
             }
+
+            a {
+                @apply --pb-download;
+            }
         </style>
         <a id="button" on-click="_handleClick" title="[[title]]" target="[[_target]]" href="[[_url]]"><slot></slot></a>
     </template>
@@ -75,13 +79,35 @@
                         computed: '_computeTarget(source)'
                     },
                     _url: {
-                        type: String
+                        type: String,
+                        computed: '_computeURL(src, type, file, odd, params)'
                     }
                 };
             }
 
             _computeTarget(source) {
                 return source ? '_blank' : '_self';
+            }
+
+            _computeURL(src, type, file, odd, params) {
+                const token = new Date().getTime() * 797;
+                let url;
+                if (this.src) {
+                    const doc = document.getElementById(this.src);
+                    console.log(doc);
+                    const file = this.file ? this.file : doc.getFileName();
+                    url = file + (this.type ?'.' + this.type : '') + '?odd=' + doc.odd + '.odd&cache=no&token=' + token;
+                } else {
+                    url = this.file + (this.type ?'.' + this.type : '') + '?odd=' + this.odd + '&cache=no&token=' + token;
+                }
+
+                if (this.params) {
+                    url += '&' + this.params;
+                }
+                if (this.source) {
+                    url += '&source=yes';
+                }
+                return url;
             }
 
             /**
@@ -92,23 +118,7 @@
              * @private
              */
             _handleClick(ev) {
-                const token = new Date().getTime() * 797;
-
-                let url;
-                if (this.src) {
-                    const doc = document.getElementById(this.src);
-                    const file = this.file ? this.file : doc.getFileName();
-                    url = file + (this.type ?'.' + this.type : '') + '?odd=' + doc.odd + '.odd&cache=no&token=' + token;
-                } else {
-                    url = this.file + (this.type ?'.' + this.type : '') + '?odd=' + this.odd + '&cache=no&token=' + token;
-                }
-
-                if (this.params) {
-                    url += '&' + this.params;
-                }
-
                 if (this.source) {
-                    url += '&source=yes';
                     this._url = url;
                     return;
                 }
@@ -128,7 +138,7 @@
                         }
                     });
                 }
-                window.location = url;
+                window.location = this._url;
             }
         }
 
