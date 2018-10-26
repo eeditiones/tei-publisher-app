@@ -8,7 +8,7 @@
                 the generated output. The newest version of the TEI Publisher library thus extends the processing model
                 syntax with two custom elements for defining code templates.</para>
         </abstract>
-        <pubdate>2018-10-23</pubdate>
+        <pubdate>2018-10-26</pubdate>
         <author>
             <personname>
                 <firstname>Wolfgang</firstname>
@@ -28,7 +28,11 @@
             users would normally create a corresponding <code>\persName</code> macro and handle the
             formatting details there. Out of the box the TEI processing model does not facilitate
             this level of customization though.</para>
-        <para>The newest version of <filename>tei-publisher-lib</filename> thus adds support for code templates to processing models.</para>
+        <para>The newest version of <filename>tei-publisher-lib</filename> (version 2.5.0) thus adds support for code templates to processing models.</para>
+        <note>
+            <para><filename>tei-publisher-lib</filename> is the library part of TEI Publisher and is compatible with all
+            recent releases of TEI Publisher as well as apps generated from it.</para>
+        </note>
     </section>
     <section>
         <title>Introducing <tag>pb:template</tag>
@@ -39,7 +43,7 @@
             parameter accepted by all behaviours. The very simple case of outputting a <tag>persName</tag> in LaTeX could thus be written as:</para>
 
         <programlisting language="xml" xml:space="preserve"><![CDATA[<elementSpec ident="persName" mode="add">
-    <model behaviour="inline" mode="latex">
+    <model behaviour="inline" output="latex">
         <pb:template>\persName{[[content]]}</pb:template>
     </model>
 </elementSpec>]]></programlisting>
@@ -54,7 +58,7 @@
             glossary of terms which are referenced in the text using <code>&lt;term ref="#termid"&gt;text&lt;/term&gt;</code>. In LaTeX
             this would translate to <code>\glslink{ref}{text}</code>, which can be easily produced by the following <tag>model</tag>:</para>
         <programlisting language="xml" xml:space="preserve"><![CDATA[<elementSpec ident="term" mode="add">
-    <model behaviour="inline" mode="latex">
+    <model behaviour="inline" output="latex">
         <param name="ref" value="substring-after(@ref, '#')"/>
         <pb:template>\glslink{[[ref]]}{[[content]]}</pb:template>
     </model>
