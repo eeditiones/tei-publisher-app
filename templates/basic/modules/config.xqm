@@ -205,6 +205,8 @@ declare variable $config:app-root :=
 
 declare variable $config:data-root := $$config-data$$;
 
+declare variable $config:data-exclude := ();
+
 declare variable $config:default-odd := "$$config-odd$$";
 
 declare variable $config:odd := $config:default-odd;
