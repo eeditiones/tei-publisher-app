@@ -335,7 +335,9 @@
 
                 if (this.appendFootnotes) {
                     const footnotes = document.createElement('div');
-                    footnotes.innerHTML = resp.footnotes;
+                    if (resp.footnotes) {
+                        footnotes.innerHTML = resp.footnotes;
+                    }
                     this.$.content.appendChild(footnotes);
                 }
 
