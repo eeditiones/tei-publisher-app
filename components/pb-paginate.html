@@ -141,14 +141,20 @@
                 const start = (index - 1) * this.perPage + 1;
                 this.set('start', start);
                 this.emitTo('pb-load', {
-                    "params": { "start": start }
+                    "params": { 
+                        "start": start,
+                        "per-page": this.perPage
+                    }
                 });
             }
 
             _handleFirst(ev) {
                 this.set('start', 1);
                 this.emitTo('pb-load', {
-                    "params": { "start": 1 }
+                    "params": { 
+                        "start": 1,
+                        "per-page": this.perPage
+                    }
                 });
             }
 
@@ -157,7 +163,10 @@
                 this.set('start', start);
 
                 this.emitTo('pb-load', {
-                    "params": { "start": start }
+                    "params": { 
+                        "start": start,
+                        "per-page": this.perPage
+                    }
                 });
             }
         }
