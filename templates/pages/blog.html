@@ -41,36 +41,54 @@
                     --pb-view-height: calc(100vh - 200px);
                 }
 
-                .content {
-                    flex: 3 1;
-                    margin: 8px 0 8px 32px;
-                    font-size: 1.2em;
+                .toolbar pb-navigation {
+                    display: none;
                 }
-
-                @media (min-width: 769px) {
-                    .toolbar pb-navigation {
+                
+                @media (max-width: 1023px) {
+                    .content-body {
+                        margin: 0 8px;
+                    }
+                    
+                    .summary h1 {
+                        font-size: 16px;
+                    }
+                    
+                    .tei-abstract2 {
                         display: none;
                     }
-
+                }
+                
+                @media (min-width: 1024px) {
+                    [drawer-toggle] {
+                        display: none;
+                    }
+                    
+                    .content-body {
+                        position: relative;
+                        display: flex;
+                        justify-content: space-between;
+                        margin: 0 16px;
+                    }
+                    
+                    aside {
+                        flex: 1 0;
+                        min-width: 300px;
+                        max-width: 400px;
+                        height: var(--pb-view-height);
+                        overflow: auto;
+                    }
+                    
                     #view1 {
                         width: 36em;
                         max-width: 100%;
                     }
-                }
-
-                .content-body {
-                    position: relative;
-                    display: flex;
-                    justify-content: space-between;
-                    margin: 0 16px;
-                }
-
-                aside {
-                    flex: 1 0;
-                    min-width: 300px;
-                    max-width: 400px;
-                    height: var(--pb-view-height);
-                    overflow: auto;
+                    
+                    .content {
+                        flex: 3 1;
+                        margin: 8px 0 8px 32px;
+                        font-size: 1.2em;
+                    }
                 }
 
                 .summary li {
@@ -103,7 +121,106 @@
     <body unresolved="unresolved" data-template="i18n:translate" data-catalogues="resources/i18n">
         <pb-document id="document1" data-template="pages:pb-document" odd="docbook"/>
         <app-drawer-layout force-narrow="force-narrow">
-            <app-drawer data-template="templates:include" data-template-path="templates/drawer.html"/>
+            <app-drawer slot="drawer" align="right" xmlns:i18n="http://exist-db.org/xquery/i18n">
+                <div class="drawer-content">
+                    <pb-media-query query="max-width: 1023px">
+                        <!-- language selector -->
+                        <pb-lang name="lang" label="Language" data-template="pages:current-language">
+                            <paper-item>en</paper-item>
+                            <paper-item>de</paper-item>
+                            <paper-item>fr</paper-item>
+                            <paper-item>gr</paper-item>
+                            <paper-item>it</paper-item>
+                            <paper-item>pl</paper-item>
+                        </pb-lang>
+                        <pb-collapse>
+                            <h3 slot="collapse-trigger">Articles</h3>
+                            <div slot="collapse-content">
+                                <pb-load url="modules/blog.xql?doc=${doc}" auto="auto" container=".summary" emit="transcription"
+                                    data-template="pages:parse-params"/>
+                                <div class="summary"></div>
+                            </div>
+                        </pb-collapse>
+                        <pb-collapse>
+                            <h3 slot="collapse-trigger"><i18n:text key="documentation"/></h3>
+                            <paper-listbox slot="collapse-content">
+                                <paper-item>
+                                    <a href="${app}/doc/documentation.xml?odd=docbook.odd" data-template="pages:parse-params">
+                                        <i18n:text key="documentation"/>
+                                    </a>
+                                </paper-item>
+                                <paper-item>
+                                    <a href="${app}/doc/documentation.xml?odd=docbook.odd&amp;id=faq" data-template="pages:parse-params">FAQ</a>
+                                </paper-item>
+                                <paper-item>
+                                    <a href="${app}/doc/blog/" data-template="pages:parse-params">News</a>
+                                </paper-item>
+                            </paper-listbox>
+                        </pb-collapse>
+                        <pb-collapse>
+                            <h3 slot="collapse-trigger"><i18n:text key="download"/></h3>
+                            <paper-listbox slot="collapse-content">
+                                <paper-item>
+                                    <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)">
+                                        <i18n:text key="pdf-fo"/>
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)" source="source">
+                                        <i18n:text key="fo-source"/>
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-download type="tex" src="document1" dialog="downloadDialog" title="i18n(pdf-latex)">
+                                        <i18n:text key="pdf-latex"/>
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-download type="tex" src="document1" dialog="downloadDialog" title="i18n(pdf-latex)" source="source">
+                                        <i18n:text key="latex-source"/>
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-download type="epub" src="document1" dialog="downloadDialog">
+                                        ePUB
+                                    </pb-download>
+                                </paper-item>
+                                <paper-item>
+                                    <pb-edit-xml src="document1" title="i18n(view-tei)">
+                                        XML
+                                    </pb-edit-xml>
+                                </paper-item>
+                            </paper-listbox>
+                        </pb-collapse>
+                        <pb-restricted login="login">
+                            <pb-collapse>
+                                <h3 slot="collapse-trigger"><i18n:text key="admin"/></h3>
+                                <paper-listbox slot="collapse-content">
+                                    <paper-item>
+                                        <pb-ajax subscribe="transcription" emit="transcription" url="${app}/modules/lib/regenerate.xql" dialog="messageDialog"
+                                            data-template="pages:parse-params">
+                                            <i18n:text key="recompile"/>
+                                        </pb-ajax>
+                                    </paper-item>
+                                    <paper-item>
+                                        <pb-ajax subscribe="transcription" emit="transcription" url="${app}/modules/index.xql" dialog="messageDialog"
+                                            data-template="pages:parse-params"><i18n:text key="metadata-update"/></pb-ajax>
+                                    </paper-item>
+                                    <paper-item>
+                                        <pb-download data-template="pages:edit-odd-link" src="document1"><i18n:text key="edit-odd"/></pb-download>
+                                    </paper-item>
+                                    <paper-item>
+                                        <a href="${app}/manage.html" data-template="pages:parse-params">
+                                            <i18n:text key="app-generator"/>
+                                        </a>
+                                    </paper-item>
+                                </paper-listbox>
+                            </pb-collapse>
+                        </pb-restricted>
+                    </pb-media-query>
+                </div>
+            </app-drawer>
+
             <app-header-layout>
                 <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
                     <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
@@ -111,12 +228,14 @@
                 </app-header>
 
                 <main class="content-body">
-                    <aside>
-                        <h1>Blog</h1>
-                        <pb-load url="modules/blog.xql?doc=${doc}" auto="auto" container=".summary" emit="transcription"
-                            data-template="pages:parse-params"/>
-                        <div class="summary"></div>
-                    </aside>
+                    <pb-media-query query="min-width: 1024px">
+                        <aside>
+                            <h1>Blog</h1>
+                            <pb-load url="modules/blog.xql?doc=${doc}" auto="auto" container=".summary" emit="transcription"
+                                data-template="pages:parse-params"/>
+                            <div class="summary"></div>
+                        </aside>
+                    </pb-media-query>
                     <div class="content">
                         <pb-view id="view1" src="document1" data-template="pages:pb-view" view="single" subscribe="transcription"
                             emit="transcription"
