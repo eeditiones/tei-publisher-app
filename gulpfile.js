@@ -24,6 +24,7 @@ var fs =                    require('fs'),
         'fonts':                'resources/fonts/*',
         'templates':            'templates/**',
         'odd':                  'odd/*',
+        'data':                 'data/**/*',
         'transform':            'transform/*',
         'modules':              'modules/**/*',
         'other':                '*{.xpr,.xqr,.xql,.xml,.xconf}',
@@ -226,6 +227,19 @@ gulp.task('watch:odd', function () {
     gulp.watch(input.odd, ['deploy:odd'])
 });
 
+// *************  Data *************** //
+
+gulp.task('deploy:data', function () {
+    console.log('deploying directory "data"');
+    return gulp.src(input.data, {base: './'})
+        .pipe(exClient.newer(targetConfigurationDefault))
+        .pipe(exClient.dest(targetConfigurationDefault))
+});
+
+gulp.task('watch:data', function () {
+    gulp.watch(input.data, ['deploy:data'])
+});
+
 // *************  Images *************** //
 
 // Deploy Images
@@ -350,6 +364,7 @@ gulp.task('watch', [
     'watch:scripts',
     'watch:html',
     'watch:odd',
+    'watch:data',
     'watch:other',
     'watch:components',
     'watch:components_editor',
@@ -366,6 +381,7 @@ gulp.task('deploy', [
     'deploy:components_demo',
     'deploy:modules',
     'deploy:odd',
+    'deploy:data',
     'deploy:other'
 ]);
 

@@ -15,7 +15,7 @@
         <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
         <link rel="import" href="components/dependencies-dev.html"/>
         <style>
-            [unresolved]{
+            [unresolved] {
                 display:none;
             }
         </style>
@@ -25,12 +25,16 @@
                 main {
                     margin: 0 20px 0 20px;
                 }
-
-                @media (max-width: 768px) {
+                
+                @media (max-width: 1023px) {
                     main {
                         margin: 0 8px 0 8px;
                     }
 
+                    .doclist {
+                        margin-bottom: 20px;
+                    }
+                    
                     .documents {
                         padding-left: 10px;
                     }
@@ -64,12 +68,15 @@
                 }
 
                 @media (min-width: 1024px) {
+                    .toolbar {
+                        display: none;
+                    }
                     .panels {
                         display: flex;
                         flex-direction: row;
                     }
 
-                    .panels .documents {
+                    .panels .doclist {
                         flex: 2 auto;
                         margin-right: 20px;
                     }
@@ -79,7 +86,7 @@
                     margin-bottom: 40px;
                 }
 
-                .panels .documents {
+                .panels .doclist {
                     --paper-card-header: {
                         background-color: #d1dae0;
                     };
@@ -91,13 +98,11 @@
                     };
                 }
 
-                .panels aside {
-                    flex: 1 0 auto;
-                }
-
                 aside {
+                    flex: 1 0 auto;
                     display: flex;
                     flex-direction: column;
+                    max-width: 480px;
                 }
 
                 aside .odds, aside .upload {
@@ -161,11 +166,11 @@
         </custom-style>
     </head>
 
-    <body data-template="i18n:translate" data-catalogues="resources/i18n">
+    <body unresolved="unresolved" data-template="i18n:translate" data-catalogues="resources/i18n">
         <app-drawer-layout force-narrow="force-narrow">
             <app-drawer slot="drawer" align="right" xmlns:i18n="http://exist-db.org/xquery/i18n">
                 <div class="drawer-content">
-                    <pb-media-query query="max-width: 1023px">
+                    <pb-media-query query="(max-width: 1023px)">
                         <!-- language selector -->
                         <pb-lang name="lang" label="Language" data-template="pages:current-language">
                             <paper-item>en</paper-item>
@@ -186,6 +191,9 @@
                                 <paper-item>
                                     <a href="${app}/doc/documentation.xml?odd=docbook.odd&amp;id=faq" data-template="pages:parse-params">FAQ</a>
                                 </paper-item>
+                                <paper-item>
+                                    <a href="${app}/doc/blog/" data-template="pages:parse-params">News</a>
+                                </paper-item>
                             </paper-listbox>
                         </pb-collapse>
                     </pb-media-query>
@@ -197,7 +205,7 @@
                         <a href="$app/index.html">
                             <img src="resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
                         </a>
-                        <pb-media-query query="min-width: 1024px">
+                        <pb-media-query query="(min-width: 1024px)">
                             <a href="$app/index.html">Start</a>
                             <paper-menu-button>
                                 <a href="#" slot="dropdown-trigger">
@@ -236,9 +244,7 @@
                             <!-- Search input -->
                             <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
                                 place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
-                        </pb-media-query>
-
-                        <pb-media-query query="min-width: 1024px">
+                            
                             <!-- language selector -->
                             <pb-lang name="lang" label="Language" data-template="pages:current-language">
                                 <paper-item>en</paper-item>
@@ -255,7 +261,7 @@
                         </pb-login>
                         <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
                     </app-toolbar>
-                    <pb-media-query query="max-width: 1023px">
+                    <pb-media-query query="(max-width: 1023px)">
                         <app-toolbar class="toolbar" sticky="sticky" xmlns:i18n="http://exist-db.org/xquery/i18n">
                             <!-- Search input -->
                             <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
@@ -273,7 +279,7 @@
                         to upload files or see administrative functions (default user: "tei", password: "simple").</p>
                     </section>
                     <section class="panels">
-                        <paper-card class="documents" heading="i18n(documents)">
+                        <paper-card class="doclist" heading="i18n(documents)">
                             <div class="card-content">
                                 <pb-paginate id="paginate" per-page="10" range="5" found-label="i18n(browsing)"></pb-paginate>
                                 <pb-browse-docs id="document-loader" url="templates/documents.html"

@@ -17,6 +17,11 @@
         <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
         <link rel="import" href="components/dependencies-dev.html"/>
 
+        <style>
+            [unresolved] {
+                display:none;
+            }
+        </style>
         <custom-style>
             <style include="pb-common-styles">
                 body {
@@ -42,19 +47,6 @@
                     overflow: auto;
                 }
 
-                .toolbar {
-                    justify-content: space-between;
-                    background-color: #d1dae0;
-                }
-
-                [main-title] {
-                    display: inline-block;
-                }
-
-                pb-view-type {
-                    font-size: .75em;
-                }
-
                 .content-body {
                     position: relative;
                     display: flex;
@@ -66,16 +58,6 @@
                     flex: 1 1;
                 }
 
-                @media (max-width: 769px) {
-                    .document-title {
-                        display: none;
-                    }
-                }
-
-                .document-title {
-                    justify-content: space-between;
-                }
-
                 .toc-toggle, pb-navigation {
                     display: none;
                 }
@@ -83,7 +65,7 @@
         </custom-style>
     </head>
 
-    <body data-template="i18n:translate" data-catalogues="resources/i18n">
+    <body unresolved="unresolved" data-template="i18n:translate" data-catalogues="resources/i18n">
         <pb-document id="document1" data-template="pages:pb-document"/>
         <app-drawer-layout force-narrow="force-narrow">
             <app-drawer data-template="templates:include" data-template-path="templates/drawer.html"/>
@@ -91,14 +73,13 @@
                 <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
                     <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
                     <app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/>
-
-                    <app-toolbar sticky="sticky" class="document-title">
-                        <pb-view id="title-view1" src="document1" xpath="//teiHeader" view="single">
-                            <pb-param name="header" value="letter"/>
-                        </pb-view>
-                    </app-toolbar>
                 </app-header>
 
+                <section class="breadcrumbs">
+                    <pb-view id="title-view1" src="document1" xpath="//teiHeader" view="single">
+                        <pb-param name="header" value="letter"/>
+                    </pb-view>
+                </section>
                 <main class="content-body">
                     <pb-view id="view1" src="document1" data-template="pages:pb-view"
                         xpath="! (.//text[@xml:lang = 'la']/body | .//text/body)[1]"

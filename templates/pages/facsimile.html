@@ -16,7 +16,11 @@
         <script src="../tei-publisher/components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
         <script src="../tei-publisher/components/bower_components/js-cookie/src/js.cookie.js"/>
         <link rel="import" href="../tei-publisher/components/dependencies-dev.html"/>
-
+        <style>
+            [unresolved] {
+                display:none;
+            }
+        </style>
         <custom-style>
             <style include="pb-common-styles">
                 body {
@@ -39,19 +43,6 @@
                     overflow: auto;
                 }
 
-                .toolbar {
-                    justify-content: space-between;
-                    background-color: #d1dae0;
-                }
-
-                [main-title] {
-                    display: inline-block;
-                }
-
-                pb-view-type {
-                    font-size: .75em;
-                }
-
                 .content-body {
                     position: relative;
                     display: flex;
@@ -64,52 +55,23 @@
                 }
 
                 @media (max-width: 769px) {
-                    .document-title, pb-facsimile {
+                    pb-facsimile {
                         display: none;
                     }
-                }
-
-                pb-drawer {
-                    top: 128px;
-                    background-color: #F0F0F0;
-                }
-
-                .tocDrawer {
-                    padding: 0 10px;
-                }
-
-                #toc ul {
-                    list-style-type: none;
-                    margin: 0;
-                    padding: 0;
-                }
-
-                #toc ul ul {
-                    margin-left: 20px;
-                }
-
-                #toc li {
-                    margin-bottom: .5em;
                 }
             </style>
         </custom-style>
     </head>
 
-    <body data-template="i18n:translate" data-catalogues="resources/i18n">
+    <body unresolved="unresolved" data-template="i18n:translate" data-catalogues="resources/i18n">
         <pb-document id="document1" data-template="pages:pb-document"/>
         <app-drawer-layout force-narrow="force-narrow">
             <app-drawer data-template="templates:include" data-template-path="templates/drawer.html"/>
             <app-header-layout>
-                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                <app-header slot="header" fixed="fixed" data-template="browse:fix-links">
                     <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
                     <app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/>
-                    <app-toolbar sticky="sticky" class="document-title">
-                        <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt" view="single">
-                            <pb-param name="mode" value="title"/>
-                        </pb-view>
-                    </app-toolbar>
                 </app-header>
-
                 <pb-drawer toggle="tocToggle" class="tocDrawer" emit="toc" subscribe="transcription">
                     <div class="drawer-content">
                         <h3>
@@ -119,6 +81,11 @@
                         <div id="toc"></div>
                     </div>
                 </pb-drawer>
+                <section class="breadcrumbs">
+                    <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt" view="single">
+                        <pb-param name="mode" value="title"/>
+                    </pb-view>
+                </section>
                 <main class="content-body">
                     <pb-view id="view1" src="document1" data-template="pages:pb-view"
                         column-separator=".tei-cb" history="history" append-footnotes="append-footnotes"

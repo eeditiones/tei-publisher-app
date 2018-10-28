@@ -96,7 +96,7 @@
                 justify-content: space-between;
                 background-color: #d1dae0;
             }
-
+            
             [drawer-toggle] {
                 padding-right: 0;
             }
@@ -112,6 +112,13 @@
                 };
             }
 
+            .menubar pb-media-query {
+                flex: 2 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
             .menubar a, .menubar paper-menu-button {
                 margin: 0 8px;
                 display: block;
@@ -158,6 +165,10 @@
                 width: 100%;
             }
 
+            pb-view-type {
+                font-size: .75em;
+            }
+
             @media (max-width: 768px) {
                 #downloadDialog {
                     width: 100%;
@@ -170,6 +181,11 @@
                 }
             }
 
+            .breadcrumbs {
+                margin: 0 0 0 20px;
+                font-weight: 400;
+            }
+            
             h1, h2, h3, h4, h5, h6 {
                 font-family: "Oswald",Verdana,"Helvetica",sans-serif;
                 font-weight: 400 !important;
@@ -187,6 +203,29 @@
             odd-model {
                 margin-left: 50px;
                 max-width: 800px;
+            }
+            
+            pb-drawer {
+                top: 128px;
+                background-color: #F0F0F0;
+            }
+
+            .tocDrawer {
+                padding: 0 10px;
+            }
+
+            #toc ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            #toc ul ul {
+                margin-left: 20px;
+            }
+
+            #toc li {
+                margin-bottom: .5em;
             }
         </style>
     </template>

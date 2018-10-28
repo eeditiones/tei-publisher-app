@@ -18,6 +18,11 @@
         <script src="resources/scripts/vendor/highlight.pack.js"/>
         <link rel="import" href="components/dependencies-dev.html"/>
         <link rel="import" href="components/pb-code-highlight.html"/>
+        <style>
+            [unresolved] {
+                display:none;
+            }
+        </style>
         <custom-style>
             <style include="pb-common-styles">
                 body {
@@ -42,11 +47,6 @@
                     font-size: 1.2em;
                 }
 
-                .toolbar {
-                    justify-content: space-between;
-                    background-color: #d1dae0;
-                }
-
                 @media (min-width: 769px) {
                     .toolbar pb-navigation {
                         display: none;
@@ -56,14 +56,6 @@
                         width: 36em;
                         max-width: 100%;
                     }
-                }
-
-                [main-title] {
-                    display: inline-block;
-                }
-
-                pb-view-type {
-                    font-size: .75em;
                 }
 
                 .content-body {
@@ -79,12 +71,6 @@
                     max-width: 400px;
                     height: var(--pb-view-height);
                     overflow: auto;
-                }
-
-                .breadcrumbs {
-                    margin: 16px 0 4px 20px;
-                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
-                    font-weight: 400;
                 }
 
                 .summary li {

@@ -4,6 +4,10 @@
     <template>
         <style>
             :host {
+                display: none;
+            }
+            
+            :host(.active) {
                 display: inherit;
             }
         </style>
@@ -35,11 +39,21 @@
                         type: String
                     },
                     queryMatches: {
-                        type: Boolean
+                        type: Boolean,
+                        reflectToAttribute: true,
+                        observer: '_show'
                     }
                 };
             }
 
+            _show() {
+                if (this.queryMatches) {
+                    this.className = 'active';
+                } else {
+                    this.className = '';
+                }
+            }
+            
             connectedCallback() {
                 super.connectedCallback();
             }

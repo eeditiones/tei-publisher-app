@@ -18,6 +18,11 @@
         <script src="resources/scripts/vendor/highlight.pack.js"/>
         <link rel="import" href="components/dependencies-dev.html"/>
         <link rel="import" href="components/pb-code-highlight.html"/>
+        <style>
+            [unresolved] {
+                display:none;
+            }
+        </style>
         <custom-style>
             <style include="pb-common-styles">
                 body {
@@ -40,11 +45,6 @@
                     margin: 8px 16px;
                 }
 
-                .toolbar {
-                    justify-content: space-between;
-                    background-color: #d1dae0;
-                }
-
                 @media (min-width: 769px) {
                     .toolbar pb-navigation {
                         display: none;
@@ -53,14 +53,6 @@
                     #view1 {
                         max-width: 60vw;
                     }
-                }
-
-                [main-title] {
-                    display: inline-block;
-                }
-
-                pb-view-type {
-                    font-size: .75em;
                 }
 
                 .content-body {
@@ -90,31 +82,6 @@
                     .content-body pb-navigation {
                         display: none;
                     }
-                }
-
-                pb-drawer {
-                    top: 128px;
-                    background-color: #F0F0F0;
-                }
-
-                .breadcrumbs {
-                    margin: 16px 0 4px 20px;
-                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
-                    font-weight: 400;
-                }
-
-                #toc ul {
-                    list-style-type: none;
-                    margin: 0;
-                    padding: 0;
-                }
-
-                #toc ul ul {
-                    margin-left: 20px;
-                }
-
-                #toc li {
-                    margin-bottom: .5em;
                 }
             </style>
         </custom-style>

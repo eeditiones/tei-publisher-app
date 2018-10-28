@@ -5,7 +5,7 @@
         <style>
             :host {
                 position: fixed;
-                width: 448px;
+                width: 0;
                 left: -448px;
                 bottom: 0;
                 height: 100vh;
@@ -17,6 +17,7 @@
 
             :host([opened]) {
                 left: 0;
+                width: 448px;
                 transition: .5s;
             }
 

@@ -17,7 +17,11 @@
         <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
         <link rel="import" href="components/dependencies-dev.html"/>
         <link rel="import" href="components/pb-leaflet-map.html"/>
-
+        <style>
+            [unresolved] {
+                display:none;
+            }
+        </style>
         <custom-style>
             <style include="pb-common-styles">
                 body {
@@ -39,19 +43,6 @@
                     overflow: auto;
                 }
 
-                .toolbar {
-                    justify-content: space-between;
-                    background-color: #d1dae0;
-                }
-
-                [main-title] {
-                    display: inline-block;
-                }
-
-                pb-view-type {
-                    font-size: .75em;
-                }
-
                 .content-body {
                     position: relative;
                     display: flex;
@@ -63,11 +54,6 @@
                     .content-body pb-navigation {
                         display: none;
                     }
-                }
-
-                .breadcrumbs {
-                    margin: 0 0 0 20px;
-                    font-weight: 400;
                 }
 
                 aside {
@@ -97,7 +83,7 @@
         </custom-style>
     </head>
 
-    <body data-template="i18n:translate" data-catalogues="resources/i18n">
+    <body unresolved="unresolved" data-template="i18n:translate" data-catalogues="resources/i18n">
         <pb-document id="document1" data-template="pages:pb-document"/>
         <app-drawer-layout force-narrow="force-narrow">
             <app-drawer data-template="templates:include" data-template-path="templates/drawer.html"/>
