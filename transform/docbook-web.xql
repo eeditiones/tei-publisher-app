@@ -29,12 +29,10 @@ declare %private function model:definitionList($config as map(*), $node as node(
 };
 
 (: Generated behaviour function for ident definition :)
-declare %private function model:definition($config as map(*), $node as node()*, $class as xs:string+, $content) {
+declare %private function model:definition($config as map(*), $node as node()*, $class as xs:string+, $content, $term) {
     $node ! (
-        let $term := 'blablabla'
 
-        return
-
+        
         <t xmlns=""><dt>{$config?apply-children($config, $node, $term)}</dt><dd>{$config?apply-children($config, $node, $content)}</dd></t>/*
     )
 };
@@ -182,7 +180,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(variablelist) return
                         model:definitionList($config, ., ("tei-variablelist"), varlistentry)
                     case element(varlistentry) return
-                        model:definition($config, ., ("tei-varlistentry"), listitem/node())
+                        model:definition($config, ., ("tei-varlistentry"), listitem/node(), term/node())
                     case element(table) return
                         if (title) then
                             (
