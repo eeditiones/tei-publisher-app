@@ -54,15 +54,17 @@
 
             ready() {
                 super.ready();
-                const login = document.getElementById(this.login);
-                if (!login) {
-                    console.error('<pb-restricted> connected pb-login element not found!');
-                    return;
-                }
-                this.subscribeTo('pb-login', (ev) => {
-                    this.show = this._loggedIn(ev.detail.user, ev.detail.group);
+                Polymer.RenderStatus.afterNextRender(this, () => {
+                    const login = document.getElementById(this.login);
+                    if (!login) {
+                        console.error('<pb-restricted> connected pb-login element not found!');
+                        return;
+                    }
+                    this.subscribeTo('pb-login', (ev) => {
+                        this.show = this._loggedIn(ev.detail.user, ev.detail.group);
+                    });
+                    this.show = login.loggedIn && this._loggedIn(login.user, login.groups);
                 });
-                this.show = login.loggedIn && this._loggedIn(login.user, login.groups);
             }
 
             _loggedIn(user, groups) {
