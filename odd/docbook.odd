@@ -50,7 +50,7 @@
                     </pb:template>
                 </pb:behaviour>
                 <pb:behaviour ident="definition" output="web">
-                    <pb:param name="term" value="'blablabla'"/>
+                    <pb:param name="term"/>
                     <pb:template>
                         <dt xmlns="">[[term]]</dt>
                         <dd xmlns="">[[content]]</dd>
@@ -314,7 +314,6 @@
                     <model behaviour="definition">
             <param name="term" value="term/node()"/>
             <param name="content" value="listitem/node()"/>
-            <param name="opt" value="'bla'"/>
         </model>
                 </elementSpec>
                 <elementSpec ident="table" mode="add">
