@@ -85,6 +85,10 @@
                     scroll: {
                         type: Boolean,
                         value: false
+                    },
+                    highlightSelf: {
+                        type: Boolean,
+                        value: false
                     }
                 };
             }
@@ -100,6 +104,9 @@
                         this.emitTo('pb-highlight-off', {
                             source: this
                         });
+                        if (this.highlightSelf) {
+                            this._highlightOn({detail: {id: this.key}});
+                        }
                         this.emitTo('pb-highlight-on', {
                             id: this.key,
                             source: this,
