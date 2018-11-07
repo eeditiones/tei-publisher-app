@@ -150,3 +150,5 @@ function PbAppState() {
         }
     }
 };
+
+var PbMixin = PbAppState();

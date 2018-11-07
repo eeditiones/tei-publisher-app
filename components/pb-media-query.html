@@ -1,12 +1,10 @@
-<link rel="import" href="bower_components/polymer/polymer-element.html">
-
 <dom-module id="pb-media-query">
     <template>
         <style>
             :host {
                 display: none;
             }
-            
+
             :host(.active) {
                 display: inherit;
             }
@@ -53,7 +51,7 @@
                     this.className = '';
                 }
             }
-            
+
             connectedCallback() {
                 super.connectedCallback();
             }

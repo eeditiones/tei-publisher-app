@@ -2,21 +2,25 @@
   "entrypoint": "build.html",
   "shell": "dependencies-dev.html",
   "sources": [
-      "./**/*.html"
+      "./pb-*.html",
+      "./editor/odd-*.html"
   ],
   "builds": [
     {
       "name": "production",
+      "bundle": {
+        "stripComments": true,
+        "inlineCss": false,
+        "sourcemaps": false
+      },
       "js": {"compile": false, "minify": true},
       "css": {"minify": true},
-      "sourceMaps":true,
+      "sourceMaps":false,
       "inlineCss": false,
       "html": {
         "minify": true
       },
-      "stripComments":true,
-      "bundle":false
+      "stripComments":true
     }
   ]
 }
-

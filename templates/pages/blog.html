@@ -14,8 +14,6 @@
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
         <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
-        <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
-        <script src="resources/scripts/vendor/highlight.pack.js"/>
         <link rel="import" href="components/dependencies-dev.html"/>
         <link rel="import" href="components/pb-code-highlight.html"/>
         <style>
@@ -44,33 +42,33 @@
                 .toolbar pb-navigation {
                     display: none;
                 }
-                
+
                 @media (max-width: 1023px) {
                     .content-body {
                         margin: 0 8px;
                     }
-                    
+
                     .summary h1 {
                         font-size: 16px;
                     }
-                    
+
                     .tei-abstract2 {
                         display: none;
                     }
                 }
-                
+
                 @media (min-width: 1024px) {
                     [drawer-toggle] {
                         display: none;
                     }
-                    
+
                     .content-body {
                         position: relative;
                         display: flex;
                         justify-content: space-between;
                         margin: 0 16px;
                     }
-                    
+
                     aside {
                         flex: 1 0;
                         min-width: 300px;
@@ -78,12 +76,12 @@
                         height: var(--pb-view-height);
                         overflow: auto;
                     }
-                    
+
                     #view1 {
                         width: 36em;
                         max-width: 100%;
                     }
-                    
+
                     .content {
                         flex: 3 1;
                         margin: 8px 0 8px 32px;
