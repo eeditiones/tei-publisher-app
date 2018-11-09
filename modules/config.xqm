@@ -164,13 +164,14 @@ declare variable $config:tex-command := function ($file) {
 declare variable $config:epub-config := function ($doc as document-node(), $langParameter as xs:string?) {
     let $root := $doc/*
     let $properties := tpu:parse-pi($doc, ())
+    let $meta := nav:get-document-metadata($properties, $root)
     return
         map {
             "metadata": map {
-                "title": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title/string(),
-                "creator": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:author/string(),
+                "title": $meta?title,
+                "creator": string-join($meta?author, ", "),
                 "urn": util:uuid(),
-                "language": ($langParameter, $root/@xml:lang/string(), $root/tei:teiHeader/@xml:lang/string(), "en")[1]
+                "language": $meta?language
             },
             "odd": $properties?odd,
             "output-root": $config:odd-root,

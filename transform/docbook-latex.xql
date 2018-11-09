@@ -345,9 +345,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             latex:cell($config, ., ("tei-td2"), ., ())
                     case element(programlisting) return
-                        model:code($config, ., ("tei-programlisting1"), .)
+                        model:code($config, ., ("tei-programlisting2"), .)
                     case element(synopsis) return
-                        model:code($config, ., ("tei-synopsis1"), .)
+                        model:code($config, ., ("tei-synopsis2"), .)
                     case element(example) return
                         latex:figure($config, ., ("tei-example"), *[not(self::title|self::info)], info/title/node()|title/node())
                     case element(function) return
@@ -368,7 +368,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                                 let $content := 
                             model:template8($config, ., $params)
                         return
-                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-note1"), $content)
+                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-note2"), $content)
                     case element(tag) return
                         latex:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return

@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
                 <title>Processing Model for Docbook v5 
+                 
                  
                  <desc>Processing of Docbook format</desc>
                 </title>
@@ -213,9 +213,11 @@
             <outputRendition xml:space="preserve" scope="before">
             
             
+            
                             content: ' &gt; ';
                             color: #607d8b;
                         
+            
             
             </outputRendition>
         </model>
@@ -349,6 +351,14 @@
                     <model behaviour="cell"/>
                 </elementSpec>
                 <elementSpec ident="programlisting">
+                    <model output="epub" behaviour="block">
+            <outputRendition xml:space="preserve">
+            font-family: monospace;
+margin: 1em 0 1em .5em;
+padding: 1em 0 1em .5em;
+white-space: pre-wrap;
+            </outputRendition>
+        </model>
                     <model output="latex" behaviour="code">
             <param name="language" value="@language"/>
         </model>
@@ -363,6 +373,14 @@
                     <model behaviour="block" cssClass="programlisting"/>
                 </elementSpec>
                 <elementSpec ident="synopsis">
+                    <model output="epub" behaviour="block">
+            <outputRendition xml:space="preserve">
+            font-family: monospace;
+margin: 1em 0 1em .5em;
+padding: 1em 0 1em .5em;
+white-space: pre-wrap;
+            </outputRendition>
+        </model>
                     <model output="latex" behaviour="code"/>
                     <model output="print" behaviour="block" cssClass="programlisting"/>
                     <model behaviour="webcomponent">
@@ -389,6 +407,17 @@
                     <model behaviour="inline" cssClass="code"/>
                 </elementSpec>
                 <elementSpec ident="note">
+                    <model output="epub" behaviour="block">
+            <outputRendition xml:space="preserve">
+            border-top: 1px solid #C0C4C0;
+border-bottom: 1px solid #C0C4C0;
+margin: 1em 0 1em .5em;
+padding: 1em 0 1em .5em;
+-webkit-column-break-inside: avoid; /* Chrome, Safari, Opera */
+          page-break-inside: avoid; /* Firefox */
+               break-inside: avoid; /* IE 10+ */
+            </outputRendition>
+        </model>
                     <model output="latex" behaviour="inline">
             <param name="title" value="title"/>
             <param name="content" value="*[not(self::title)]"/>
@@ -429,12 +458,14 @@
             <outputRendition xml:space="preserve">
             
             
+            
                             color: #fff;
                             background-color: #909090;
                             padding-left: 4px;
                             padding-right: 4px;
                             border: 1px solid #707070;
                         
+            
             
             </outputRendition>
         </model>
@@ -469,9 +500,11 @@ Not available in PDF edition. Go to \url{[[content]]} to view.
                     <model predicate="$parameters?path = $parameters?active" behaviour="omit"/>
                     <model behaviour="block">
             <outputRendition xml:space="preserve">
+            
             color: #909090;
 padding-left: 10px;
 border-left: 3px solid #c0c0c0;
+            
             </outputRendition>
         </model>
                 </elementSpec>
@@ -481,10 +514,12 @@ border-left: 3px solid #c0c0c0;
             <outputRendition xml:space="preserve" scope="before">
             
             
+            
                         content: '\00B7';
                         padding-right: 8px;
                         padding-left: 8px;
                         
+            
             
             </outputRendition>
             <outputRendition xml:space="preserve">

@@ -37,6 +37,9 @@ dt {
 .tei-emphasis2 { font-style: italic; }
 .tei-imagedata { max-width: 100%; }
 .tei-td1 { font-weight: bold; }
+.tei-programlisting1 { font-family: monospace; margin: 1em 0 1em .5em; padding: 1em 0 1em .5em; white-space: pre-wrap; }
+.tei-synopsis1 { font-family: monospace; margin: 1em 0 1em .5em; padding: 1em 0 1em .5em; white-space: pre-wrap; }
+.tei-note1 { border-top: 1px solid #C0C4C0; border-bottom: 1px solid #C0C4C0; margin: 1em 0 1em .5em; padding: 1em 0 1em .5em; -webkit-column-break-inside: avoid; /* Chrome, Safari, Opera */ page-break-inside: avoid; /* Firefox */ break-inside: avoid; /* IE 10+ */ }
 .tei-tag:before { content: '<'; }
 .tei-tag:after { content: '>'; }
 .tei-guibutton { color: #fff; background-color: #909090; padding-left: 4px; padding-right: 4px; border: 1px solid #707070; }

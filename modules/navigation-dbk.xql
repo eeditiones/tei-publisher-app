@@ -39,6 +39,14 @@ declare function nav:get-document-title($config as map(*), $root as element()) {
     $root/dbk:info/dbk:title/string()
 };
 
+declare function nav:get-document-metadata($config as map(*), $root as element()) {
+    map {
+        "title": nav:get-document-title($config, $root),
+        "author": $root/dbk:info/dbk:author/string(),
+        "language": ($root/@xml:lang/string(), "en")[1]
+    }
+};
+
 declare function nav:get-content($config as map(*), $div as element()) {
     typeswitch($div)
         case element(dbk:section) return

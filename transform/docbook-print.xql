@@ -213,9 +213,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             fo:cell($config, ., ("tei-td2"), ., ())
                     case element(programlisting) return
-                        fo:block($config, ., ("tei-programlisting4", "programlisting"), .)
+                        fo:block($config, ., ("tei-programlisting5", "programlisting"), .)
                     case element(synopsis) return
-                        fo:block($config, ., ("tei-synopsis2", "programlisting"), .)
+                        fo:block($config, ., ("tei-synopsis3", "programlisting"), .)
                     case element(example) return
                         fo:figure($config, ., ("tei-example"), *[not(self::title|self::info)], info/title/node()|title/node())
                     case element(function) return
@@ -227,7 +227,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(filename) return
                         fo:inline($config, ., ("tei-filename", "code"), .)
                     case element(note) return
-                        fo:block($config, ., ("tei-note3"), .)
+                        fo:block($config, ., ("tei-note4"), .)
                     case element(tag) return
                         fo:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return

@@ -201,11 +201,11 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:cell($config, ., ("tei-td2"), ., ())
                     case element(programlisting) return
                         if (parent::cell|parent::para|parent::ab) then
-                            html:inline($config, ., ("tei-programlisting2", "code"), .)
+                            html:inline($config, ., ("tei-programlisting3", "code"), .)
                         else
-                            html:webcomponent($config, ., ("tei-programlisting3"), text(), 'pb-code-highlight', map {"lang": @language})
+                            html:webcomponent($config, ., ("tei-programlisting4"), text(), 'pb-code-highlight', map {"lang": @language})
                     case element(synopsis) return
-                        html:webcomponent($config, ., ("tei-synopsis3"), ., 'pb-code-highlight', map {"lang": @language})
+                        html:webcomponent($config, ., ("tei-synopsis4"), ., 'pb-code-highlight', map {"lang": @language})
                     case element(example) return
                         html:figure($config, ., ("tei-example"), *[not(self::title|self::info)], info/title/node()|title/node())
                     case element(function) return
@@ -217,7 +217,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(filename) return
                         html:inline($config, ., ("tei-filename", "code"), .)
                     case element(note) return
-                        html:webcomponent($config, ., ("tei-note2", "note"), *[not(self::title)], 'paper-card', map {"heading": title})
+                        html:webcomponent($config, ., ("tei-note3", "note"), *[not(self::title)], 'paper-card', map {"heading": title})
                     case element(tag) return
                         html:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return

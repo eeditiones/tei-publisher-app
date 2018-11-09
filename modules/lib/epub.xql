@@ -181,7 +181,7 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
 declare function epub:images-entry($doc, $entries as element()*) {
     let $root := util:collection-name($doc)
     for $relPath in distinct-values($entries//*:img/@src)
-    let $path := 
+    let $path :=
         if ($config:epub-images-path) then
             $config:epub-images-path || $relPath
         else
@@ -215,7 +215,7 @@ declare function epub:title-xhtml-entry($language, $doc, $config) {
 :)
 declare function epub:title-xhtml-body($fileDesc as element()?, $config) {
     <div xmlns="http://www.w3.org/1999/xhtml" id="title">
-        { $pm-config:epub-transform($fileDesc, map { "root": $fileDesc }, $config?odd) }
+        { epub:fix-namespaces($pm-config:epub-transform($fileDesc, map { "root": $fileDesc }, $config?odd)) }
     </div>
 };
 
@@ -235,9 +235,14 @@ declare function epub:body-xhtml-entries($doc as document-node(), $config) {
 declare function epub:body-xhtml($node, $config) {
     let $next := $config:next-page($config?docConfig, $node, "div")
     let $content := pages:get-content($config?docConfig, $node)
-    let $title := nav:get-section-heading($config?docConfig, $content)
+    let $title := nav:get-section-heading($config?docConfig, $content)/node()
+    let $title :=
+        if ($title) then
+            $pm-config:epub-transform($title, map { "root": $title }, $config?odd)
+        else
+            "--no title---"
     let $body := $pm-config:epub-transform($content, map { "root": $node }, $config?odd)
-    let $body-xhtml:= epub:assemble-xhtml($title, $config?metadata?language, epub:fix-namespaces($body))
+    let $body-xhtml:= epub:assemble-xhtml(epub:fix-namespaces($title), $config?metadata?language, epub:fix-namespaces($body))
     return (
         <entry name="{concat('OEBPS/', epub:generate-id($node), '.html')}" type="xml">{$body-xhtml}</entry>,
         if ($next) then
@@ -368,7 +373,7 @@ declare function epub:table-of-contents-xhtml-entry($config, $doc, $suppress-doc
                 return
                     <li>
                         <a href="{epub:generate-id($div)}.html#{$id}">
-                        { 
+                        {
                             $text
                         }
                         </a>

@@ -58,6 +58,10 @@ declare function nav:get-document-title($config as map(*), $root as element()) {
     nav:dispatch($config, "get-document-title", [$config, $root])
 };
 
+declare function nav:get-document-metadata($config as map(*), $root as element()) {
+    nav:dispatch($config, "get-document-metadata", [$config, $root])
+};
+
 declare function nav:get-subsections($config as map(*), $root as node()) {
     nav:dispatch($config, "get-subsections", [$config, $root])
 };

@@ -203,12 +203,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             html:cell($config, ., ("tei-td2"), ., ())
                     case element(programlisting) return
-                        if (parent::cell|parent::para|parent::ab) then
-                            html:inline($config, ., ("tei-programlisting2", "code"), .)
-                        else
-                            html:webcomponent($config, ., ("tei-programlisting3"), text(), 'pb-code-highlight', map {"lang": @language})
+                        epub:block($config, ., ("tei-programlisting1"), .)
                     case element(synopsis) return
-                        html:webcomponent($config, ., ("tei-synopsis3"), ., 'pb-code-highlight', map {"lang": @language})
+                        epub:block($config, ., ("tei-synopsis1"), .)
                     case element(example) return
                         html:figure($config, ., ("tei-example"), *[not(self::title|self::info)], info/title/node()|title/node())
                     case element(function) return
@@ -220,7 +217,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(filename) return
                         html:inline($config, ., ("tei-filename", "code"), .)
                     case element(note) return
-                        html:webcomponent($config, ., ("tei-note2", "note"), *[not(self::title)], 'paper-card', map {"heading": title})
+                        epub:block($config, ., ("tei-note1"), .)
                     case element(tag) return
                         html:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return

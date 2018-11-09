@@ -54,6 +54,13 @@ declare function nav:get-document-title($config as map(*), $root as element()) {
         if ($main-title) then $main-title else $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/string()
 };
 
+declare function nav:get-document-metadata($config as map(*), $root as element()) {
+    map {
+        "title": nav:get-document-title($config, $root),
+        "author": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:author/string(),
+        "language": ($langParameter, $root/@xml:lang/string(), $root/tei:teiHeader/@xml:lang/string(), "en")[1]
+    }
+};
 
 declare function nav:get-content($config as map(*), $div as element()) {
     typeswitch ($div)
