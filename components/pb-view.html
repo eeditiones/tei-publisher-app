@@ -378,7 +378,9 @@
                     elem.addEventListener('click', (ev) => {
                         ev.preventDefault();
                         var fn = this.$.content.querySelector(elem.hash);
-                        fn.scrollIntoView();
+                        if (fn) {
+                            fn.scrollIntoView();
+                        }
                     });
                 })
             }
