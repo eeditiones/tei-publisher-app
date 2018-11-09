@@ -79,6 +79,9 @@
                     _url: {
                         type: String,
                         computed: '_computeURL(src, type, file, odd, params)'
+                    },
+                    _token: {
+                        type: String
                     }
                 };
             }
@@ -88,15 +91,15 @@
             }
 
             _computeURL(src, type, file, odd, params) {
-                const token = new Date().getTime() * 797;
+                this._token = new Date().getTime() * 797;
                 let url;
                 if (this.src) {
                     const doc = document.getElementById(this.src);
                     console.log(doc);
                     const file = this.file ? this.file : doc.getFileName();
-                    url = file + (this.type ?'.' + this.type : '') + '?odd=' + doc.odd + '.odd&cache=no&token=' + token;
+                    url = file + (this.type ?'.' + this.type : '') + '?odd=' + doc.odd + '.odd&cache=no&token=' + this._token;
                 } else {
-                    url = this.file + (this.type ?'.' + this.type : '') + '?odd=' + this.odd + '&cache=no&token=' + token;
+                    url = this.file + (this.type ?'.' + this.type : '') + '?odd=' + this.odd + '&cache=no&token=' + this._token;
                 }
 
                 if (this.params) {
@@ -129,7 +132,7 @@
 
                     const downloadCheck = window.setInterval(() => {
                         const cookieValue = Cookies.get("simple.token");
-                        if (cookieValue == token) {
+                        if (cookieValue == this._token) {
                             window.clearInterval(downloadCheck);
                             Cookies.remove("simple.token");
                             dialog.close();
