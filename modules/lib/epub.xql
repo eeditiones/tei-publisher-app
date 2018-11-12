@@ -20,6 +20,7 @@ import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
+import module namespace counter="http://exist-db.org/xquery/counter" at "java:org.exist.xquery.modules.counter.CounterModule";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
@@ -39,7 +40,8 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
     @see http://demo.exist-db.org/exist/functions/compression/zip
 :)
 declare function epub:generate-epub($config as map(*), $doc, $css, $filename) {
-    let $config := map:merge(($config, map { "docConfig": tpu:parse-pi(root($doc), "div") }))
+    let $docConfig := map:merge((tpu:parse-pi(root($doc), "div"), map { "view": "div" }))
+    let $config := map:merge(($config, map { "docConfig": $docConfig }, map { "type": $docConfig?type }))
     let $xhtml := epub:body-xhtml-entries(root($doc), $config)
     let $entries :=
         (
@@ -321,9 +323,9 @@ declare function epub:toc-ncx-entry($config, $text) {
                     <content src="table-of-contents.html"/>
                 </navPoint>
                 {
-                    for $text in $text//tei:text/*
-                    return
-                        epub:toc-ncx-div($config, $text, 2)
+                    counter:create("teipublisher-epub-toc")[2],
+                    epub:toc-ncx-div($config, nav:get-section($config?docConfig, $text)/.., 2),
+                    counter:destroy("teipublisher-epub-toc")[2]
                 }
             </navMap>
         </ncx>
@@ -332,22 +334,23 @@ declare function epub:toc-ncx-entry($config, $text) {
 };
 
 declare function epub:toc-ncx-div($config, $root as element(), $start as xs:int) {
-    for $div in $root/tei:div
-    let $id := if ($div/@xml:id) then $div/@xml:id else epub:generate-id($div)
-    let $file := epub:generate-id($div/ancestor-or-self::tei:div[count(ancestor::tei:div) < $config:pagination-depth][1])
-    let $index := count($div/preceding::tei:div[ancestor::tei:body]) + count($div/ancestor::tei:div) + 1
-    let $text :=
-        if ($div/tei:head) then
-            $pm-config:epub-transform($div/tei:head[1], map { "header": "short", "root": $div }, $config?odd)//text()
+    let $divs := nav:get-subsections($config?docConfig, $root)
+    for $div at $count in $divs
+    let $headings := nav:get-section-heading($config?docConfig, $div)
+    let $html :=
+        if ($headings) then
+            normalize-space(string-join($headings//text()))
         else
             "[no title]"
+    let $file := epub:generate-id(nav:get-section-for-node($config?docConfig, $div))
+    let $id := if ($div/@xml:id) then $div/@xml:id else epub:generate-id($div)
     return
-        <navPoint id="navpoint-{$id}" playOrder="{$start + $index}" xmlns="http://www.daisy.org/z3986/2005/ncx/">
+        <navPoint id="navpoint-{$id}" playOrder="{counter:next-value('teipublisher-epub-toc') + $start}" xmlns="http://www.daisy.org/z3986/2005/ncx/">
             <navLabel>
-                <text>{$text}</text>
+                <text>{$html}</text>
             </navLabel>
             <content src="{$file}.html#{$id}"/>
-            { epub:toc-ncx-div($config, $div, $start)}
+            { epub:toc-ncx-div($config, $div, $start) }
         </navPoint>
 };
 
@@ -404,7 +407,7 @@ declare function epub:assemble-xhtml($title, $language, $body) {
     </html>
 };
 
-declare function epub:fix-namespaces($nodes as node()*) {
+declare function epub:fix-namespaces($nodes as item()*) {
     for $node in $nodes
     return
         typeswitch ($node)

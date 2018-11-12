@@ -58,7 +58,7 @@ declare function nav:get-document-metadata($config as map(*), $root as element()
     map {
         "title": nav:get-document-title($config, $root),
         "author": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:author/string(),
-        "language": ($langParameter, $root/@xml:lang/string(), $root/tei:teiHeader/@xml:lang/string(), "en")[1]
+        "language": ($root/@xml:lang/string(), $root/tei:teiHeader/@xml:lang/string(), "en")[1]
     }
 };
 
