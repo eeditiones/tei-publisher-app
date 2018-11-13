@@ -89,8 +89,9 @@ declare function nav:get-content($config as map(*), $div as element()) {
                             attribute exist:id { util:node-id($div) },
                             util:expand(
                                 (
-                                    $child/preceding-sibling::*,                                     nav:get-content($config, $child)
-                                ),                                 "add-exist-id=all"
+                                    $child/preceding-sibling::*,
+                                    nav:get-content($config, $child)
+                                ),  "add-exist-id=all"
                             )
                         }
                 else

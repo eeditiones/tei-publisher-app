@@ -22,6 +22,8 @@ import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../
 import module namespace counter="http://exist-db.org/xquery/counter" at "java:org.exist.xquery.modules.counter.CounterModule";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
+declare namespace xhtml="http://www.w3.org/1999/xhtml"; 
+declare namespace ep="http://www.idpf.org/2007/ops";
 
 (:~
     Main function of the EPUB module for assembling EPUB files:
@@ -211,7 +213,7 @@ declare function epub:body-xhtml-entries($doc as document-node(), $config) {
     let $div := nav:get-section($config?docConfig, $doc)
     let $entries := epub:body-xhtml($div, $config)
     return
-        ($entries, epub:endnotes-xhtml-entry($config?metadata?language, $entries))
+        $entries
 };
 
 declare function epub:body-xhtml($node, $config) {
@@ -232,32 +234,6 @@ declare function epub:body-xhtml($node, $config) {
         else
             ()
     )
-};
-
-declare function epub:endnotes-xhtml-entry($language, $entries as element()*) {
-    <entry name="OEBPS/endnotes.xhtml" type="xml">
-    {
-        epub:assemble-xhtml("Notes", $language, epub:fix-namespaces(
-            <div xmlns="http://www.w3.org/1999/xhtml">
-                <h1>Notes</h1>
-                <table class="endnotes">
-                {
-                    for $entry in $entries
-                    for $note in $entry//*[@class = "endnote"]
-                    return
-                        <tr>
-                            <td id="{$note/@id}" class="note-number">{$note/preceding-sibling::*[1]/text()}</td>
-                            <td>
-                                {$note/node(), " "}
-                                <a href="{substring-after($entry/@name, 'OEBPS/')}#A{$note/@id}">Return</a>
-                            </td>
-                        </tr>
-                }
-                </table>
-            </div>
-        ))
-    }
-    </entry>
 };
 
 (:~
@@ -412,16 +388,46 @@ declare function epub:table-of-contents-xhtml-entry($config, $doc, $suppress-doc
     @return the serialized XHTML element
 :)
 declare function epub:assemble-xhtml($title, $language, $body) {
-    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="{$language}">
-        <head>
-            <title>{$title}</title>
-            <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
-        </head>
-        <body>
-            {$body}
-        </body>
-    </html>
+    let $footnotes := $body//xhtml:aside[@ep:type="footnote"]
+    return
+        <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="{$language}">
+            <head>
+                <title>{$title}</title>
+                <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+            </head>
+            <body>
+                { 
+                    if ($footnotes) then (
+                        epub:strip-footnotes($body),
+                        <section epub:type="footnotes">{$footnotes}</section>
+                    ) else 
+                        $body 
+                }       
+            </body>
+        </html>
 };
+
+declare function epub:strip-footnotes($nodes as node()*) {
+    for $node in $nodes
+    return
+        typeswitch($node)
+            case document-node() return
+                document {
+                    epub:strip-footnotes($node/node())
+                }
+            case element(xhtml:aside) return
+                if ($node[@ep:type="footnote"]) then
+                    ()
+                else
+                    $node
+            case element() return
+                element { node-name($node) } {
+                    $node/@*,
+                    epub:strip-footnotes($node/node())
+                }
+            default return $node
+};
+
 
 declare function epub:fix-namespaces($nodes as item()*) {
     for $node in $nodes

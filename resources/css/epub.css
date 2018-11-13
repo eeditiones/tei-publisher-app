@@ -19,10 +19,6 @@ body {
   hyphens: auto;
   -epub-hyphens: auto;
   line-height: 1.42857;
-}
-
-p,
-li {
   orphans: 2;
   widows: 2;
 }
@@ -87,31 +83,10 @@ blockquote cite {
 }
 
 /* Notes */
-.note {
+.noteref {
   font-size: x-small;
   vertical-align: super;
 }
-.note-number {
-  font-size: x-small;
-  width: 10%;
-  vertical-align: top;
-}
-.margin-note {
-  background: #F8F8FF;
-  font-size: small;
-}
-.margin-note:before {
-  content: " [";
-}
-.margin-note:after {
-  content: "] ";
-}
-.pb,
-.pb2 {
-  font-size: xx-small;
-  color: #c0c0c0;
-  vertical-align: super;
-  display: inline;
-  float: inherit;
-  margin: 0;
+.pagebreak {
+    display: none;
 }
