@@ -22,7 +22,7 @@ import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../
 import module namespace counter="http://exist-db.org/xquery/counter" at "java:org.exist.xquery.modules.counter.CounterModule";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
-declare namespace xhtml="http://www.w3.org/1999/xhtml"; 
+declare namespace xhtml="http://www.w3.org/1999/xhtml";
 declare namespace ep="http://www.idpf.org/2007/ops";
 
 (:~
@@ -347,40 +347,6 @@ declare function epub:toc-ncx-div($config, $root as element(), $start as xs:int)
 };
 
 (:~
-    Helper function, creates the OEBPS/table-of-contents.html file.
-
-    @param $title the page's title
-    @param $text the tei:text element for the file, which contains the divs to be processed into the EPUB
-    @return the entry for the OEBPS/table-of-contents.html file
-:)
-declare function epub:table-of-contents-xhtml-entry($config, $doc, $suppress-documents) {
-    let $body :=
-        <div xmlns="http://www.w3.org/1999/xhtml" id="table-of-contents">
-            <h2>Contents</h2>
-            <ul>{
-                for $div in $doc//tei:body/tei:div
-                let $text :=
-                    if ($div/tei:head) then
-                        $pm-config:epub-transform($div/tei:head[1], map { "header": "short", "root": $div }, $config?odd)//text()
-                    else
-                        "[no title]"
-                let $id := if ($div/@xml:id) then $div/@xml:id else epub:generate-id($div)
-                return
-                    <li>
-                        <a href="{epub:generate-id($div)}.xhtml#{$id}">
-                        {
-                            $text
-                        }
-                        </a>
-                    </li>
-            }</ul>
-        </div>
-    let $table-of-contents-xhtml := epub:assemble-xhtml($config?metadata?title, $config?metadata?language, $body)
-    return
-        <entry name="OEBPS/table-of-contents.xhtml" type="xml">{$table-of-contents-xhtml}</entry>
-};
-
-(:~
     Helper function, contains the basic XHTML shell used by all XHTML files in the EPUB package.
 
     @param $title the page's title
@@ -396,13 +362,13 @@ declare function epub:assemble-xhtml($title, $language, $body) {
                 <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
             </head>
             <body>
-                { 
+                {
                     if ($footnotes) then (
                         epub:strip-footnotes($body),
                         <section epub:type="footnotes">{$footnotes}</section>
-                    ) else 
-                        $body 
-                }       
+                    ) else
+                        $body
+                }
             </body>
         </html>
 };

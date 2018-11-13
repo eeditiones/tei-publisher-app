@@ -115,15 +115,18 @@ declare function model:apply($config as map(*), $input as node()*) {
 
 declare function model:apply-children($config as map(*), $node as element(), $content as item()*) {
         
-    $content ! (
-        typeswitch(.)
-            case element() return
-                if (. is $node) then
-                    $config?apply($config, ./node())
-                else
-                    $config?apply($config, .)
-            default return
-                html:escapeChars(.)
-    )
+    if ($config?template) then
+        $content
+    else
+        $content ! (
+            typeswitch(.)
+                case element() return
+                    if (. is $node) then
+                        $config?apply($config, ./node())
+                    else
+                        $config?apply($config, .)
+                default return
+                    html:escapeChars(.)
+        )
 };
 

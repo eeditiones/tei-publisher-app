@@ -13,6 +13,8 @@ declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
 declare namespace xi='http://www.w3.org/2001/XInclude';
 
+declare namespace pb='http://teipublisher.com/1.0';
+
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
@@ -110,13 +112,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:inline($config, ., ("tei-formula2"), .)
                     case element(choice) return
                         if (sic and corr) then
-                            html:alternate($config, ., ("tei-choice4", "choice"), ., corr[1], sic[1])
+                            epub:alternate($config, ., ("tei-choice4", "choice"), ., corr[1], sic[1])
                         else
                             if (abbr and expan) then
-                                html:alternate($config, ., ("tei-choice5", "choice"), ., expan[1], abbr[1])
+                                epub:alternate($config, ., ("tei-choice5", "choice"), ., expan[1], abbr[1])
                             else
                                 if (orig and reg) then
-                                    html:alternate($config, ., ("tei-choice6", "choice"), ., reg[1], orig[1])
+                                    epub:alternate($config, ., ("tei-choice6", "choice"), ., reg[1], orig[1])
                                 else
                                     $config?apply($config, ./node())
                     case element(hi) return
@@ -180,7 +182,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(figDesc) return
                         html:inline($config, ., ("tei-figDesc"), .)
                     case element(rs) return
-                        html:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root)))
+                        epub:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root)))
                     case element(foreign) return
                         html:inline($config, ., ("tei-foreign"), .)
                     case element(fileDesc) return
@@ -290,7 +292,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(titlePage) return
                         epub:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                     case element(name) return
-                        html:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root)))
+                        epub:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root)))
                     case element(front) return
                         epub:block($config, ., ("tei-front"), .)
                     case element(lg) return
@@ -397,7 +399,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         epub:block($config, ., ("tei-argument"), .)
                     case element(date) return
                         if (@when) then
-                            html:alternate($config, ., ("tei-date3"), ., ., @when)
+                            epub:alternate($config, ., ("tei-date3"), ., ., @when)
                         else
                             if (text()) then
                                 html:inline($config, ., ("tei-date4"), .)
@@ -547,15 +549,18 @@ declare function model:apply($config as map(*), $input as node()*) {
 
 declare function model:apply-children($config as map(*), $node as element(), $content as item()*) {
         
-    $content ! (
-        typeswitch(.)
-            case element() return
-                if (. is $node) then
-                    $config?apply($config, ./node())
-                else
-                    $config?apply($config, .)
-            default return
-                html:escapeChars(.)
-    )
+    if ($config?template) then
+        $content
+    else
+        $content ! (
+            typeswitch(.)
+                case element() return
+                    if (. is $node) then
+                        $config?apply($config, ./node())
+                    else
+                        $config?apply($config, .)
+                default return
+                    html:escapeChars(.)
+        )
 };
 

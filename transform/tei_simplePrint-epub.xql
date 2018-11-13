@@ -117,13 +117,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:cell($config, ., ("tei-cell"), ., ())
                     case element(choice) return
                         if (sic and corr) then
-                            html:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
+                            epub:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
                         else
                             if (abbr and expan) then
-                                html:alternate($config, ., ("tei-choice5"), ., expan[1], abbr[1])
+                                epub:alternate($config, ., ("tei-choice5"), ., expan[1], abbr[1])
                             else
                                 if (orig and reg) then
-                                    html:alternate($config, ., ("tei-choice6"), ., reg[1], orig[1])
+                                    epub:alternate($config, ., ("tei-choice6"), ., reg[1], orig[1])
                                 else
                                     $config?apply($config, ./node())
                     case element(cit) return
@@ -144,7 +144,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:inline($config, ., ("tei-corr2"), .)
                     case element(date) return
                         if (@when) then
-                            html:alternate($config, ., ("tei-date3"), ., ., @when)
+                            epub:alternate($config, ., ("tei-date3"), ., ., @when)
                         else
                             if (text()) then
                                 html:inline($config, ., ("tei-date4"), .)
@@ -495,15 +495,18 @@ declare function model:apply($config as map(*), $input as node()*) {
 
 declare function model:apply-children($config as map(*), $node as element(), $content as item()*) {
         
-    $content ! (
-        typeswitch(.)
-            case element() return
-                if (. is $node) then
-                    $config?apply($config, ./node())
-                else
-                    $config?apply($config, .)
-            default return
-                html:escapeChars(.)
-    )
+    if ($config?template) then
+        $content
+    else
+        $content ! (
+            typeswitch(.)
+                case element() return
+                    if (. is $node) then
+                        $config?apply($config, ./node())
+                    else
+                        $config?apply($config, .)
+                default return
+                    html:escapeChars(.)
+        )
 };
 

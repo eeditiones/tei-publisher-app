@@ -1,4 +1,5 @@
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -36,27 +37,34 @@
         <body>
             <schemaSpec start="TEI teiCorpus" ident="dta" source="teipublisher.odd">
                 <elementSpec ident="pb" mode="change">
+                    <model output="epub" behaviour="break">
+            <param name="type" value="'pagebreak'"/>
+            <param name="label" value="@n/string()"/>
+        </model>
                     <model predicate="count(../*) = 1 and count(ancestor::*) = 1" behaviour="inline" useSourceRendition="true">
-                        <param name="content" value="'[Empty page]'"/>
-                        <outputRendition>
-                            color: #CCC;
-                        </outputRendition>
-                    </model>
+            <param name="content" value="'[Empty page]'"/>
+            <outputRendition xml:space="preserve">
+            color: #CCC;
+            </outputRendition>
+        </model>
                     <model behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="fw" mode="change">
                     <model output="web" predicate="@place='top' and $parameters?view='page'" behaviour="inline">
-                        <outputRendition>
+            <outputRendition xml:space="preserve">
+            
                             
                             display: inline-block;
                             margin-top: .5em;
                             margin-bottom: 1em;
                             color: #CCC;
                             
-                        </outputRendition>
-                    </model>
+                        
+            </outputRendition>
+        </model>
                     <model output="web" predicate="@type='sig' and $parameters?view='page'" behaviour="block">
-                        <outputRendition>
+            <outputRendition xml:space="preserve">
+            
                             
                             
                             
@@ -66,10 +74,12 @@
                             
                             
                             
-                        </outputRendition>
-                    </model>
+                        
+            </outputRendition>
+        </model>
                     <model output="web" predicate="@type='catch' and $parameters?view='page'" behaviour="block">
-                        <outputRendition>
+            <outputRendition xml:space="preserve">
+            
                             
                             
                             
@@ -78,26 +88,25 @@
                             
                             
                             
-                        </outputRendition>
-                    </model>
+                        
+            </outputRendition>
+        </model>
                     <model behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="lb" mode="change">
-                    <modelSequence output="web" predicate="@break='no' and $parameters?view='page'" behaviour="inline">
-                        <desc>Output hyphen before break</desc>
-                        <model behaviour="inline">
-                            <desc>Output hyphen before break</desc>
-                            <param name="content" value="'-'"/>
-                        </model>
-                        <model behaviour="break">
-                            <param name="type" value="'line'"/>
-                            <param name="label" value="@n"/>
-                        </model>
-                    </modelSequence>
+                    <modelSequence output="web" predicate="@break='no' and $parameters?view='page'">
+            <model behaviour="inline">
+                <param name="content" value="'-'"/>
+            </model>
+            <model behaviour="break">
+                <param name="type" value="'line'"/>
+                <param name="label" value="@n"/>
+            </model>
+        </modelSequence>
                     <model output="web" predicate="$parameters?view='page' and not(following-sibling::*[1][self::p])" behaviour="break" useSourceRendition="true">
-                        <param name="type" value="'line'"/>
-                        <param name="label" value="@n"/>
-                    </model>
+            <param name="type" value="'line'"/>
+            <param name="label" value="@n"/>
+        </model>
                     <model behaviour="omit"/>
                 </elementSpec>
             </schemaSpec>

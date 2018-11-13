@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
                 <title>Dantiscus' Letters
-                    <desc>16th c. correspondence with facsimile and encoding of transcriptional features and prosopographical information</desc>
+                    
+                 <desc>16th c. correspondence with facsimile and encoding of transcriptional features and prosopographical information</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -49,7 +50,8 @@
             <param name="name" value="'pb-facs-link'"/>
             <param name="content" value="@n"/>
             <param name="facs" value="replace(@facs, '^iiif:(.*)$', '$1')"/>
-            <outputRendition>
+            <outputRendition xml:space="preserve">
+            
             
             
             
@@ -65,18 +67,19 @@
                         
             
             
+            
             </outputRendition>
         </model>
                     <model behaviour="omit">
             <param name="type" value="'page'"/>
             <param name="label" value="(concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else ''))"/>
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             display: block; margin-left: 4pt; color: grey; float: right;
             </outputRendition>
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             content: '[Page ';
             </outputRendition>
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             content: ']';
             </outputRendition>
         </model>
@@ -111,7 +114,7 @@
                     <model behaviour="alternate">
             <param name="default" value="."/>
             <param name="alternate" value="id(substring-after(@ref, '#'), root($parameters?root))"/>
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             color: green;
             </outputRendition>
         </model>
@@ -121,14 +124,14 @@
                 </elementSpec>
                 <elementSpec ident="persName" mode="add">
                     <model behaviour="inline">
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             font-weight: bold;
             </outputRendition>
         </model>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
                     <model predicate="parent::person or parent::place" behaviour="inline">
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             text-variant: italic;
             </outputRendition>
         </model>
@@ -137,36 +140,38 @@
             <param name="label" value="@n"/>
         </model>
                     <model predicate="parent::div and not(@place)" behaviour="block">
-            <outputRendition>
+            <outputRendition xml:space="preserve">
+            
             
             
             margin-left: 10px;margin-right: 10px;
                   font-size:smaller;
             
             
+            
             </outputRendition>
         </model>
                     <model predicate="not(@place)" behaviour="inline">
-            <outputRendition scope="before">
+            <outputRendition xml:space="preserve" scope="before">
             content:" [";
             </outputRendition>
-            <outputRendition scope="after">
+            <outputRendition xml:space="preserve" scope="after">
             content:"] ";
             </outputRendition>
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             font-size:small;
             </outputRendition>
         </model>
                 </elementSpec>
             <elementSpec ident="rs" mode="change">
-        <model behaviour="alternate">
+                    <model behaviour="alternate">
             <param name="default" value="."/>
             <param name="alternate" value="id(substring-after(@ref, '#'), root($parameters?root))"/>
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             color: green;
             </outputRendition>
         </model>
-    </elementSpec>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>

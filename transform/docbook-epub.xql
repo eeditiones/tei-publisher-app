@@ -203,9 +203,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             html:cell($config, ., ("tei-td2"), ., ())
                     case element(programlisting) return
-                        epub:block($config, ., ("tei-programlisting1"), .)
+                        epub:block($config, ., ("tei-programlisting1"), text())
                     case element(synopsis) return
-                        epub:block($config, ., ("tei-synopsis1"), .)
+                        epub:block($config, ., ("tei-synopsis1"), text())
                     case element(example) return
                         html:figure($config, ., ("tei-example"), *[not(self::title|self::info)], info/title/node()|title/node())
                     case element(function) return

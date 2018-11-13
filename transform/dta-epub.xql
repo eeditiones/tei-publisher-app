@@ -13,6 +13,8 @@ declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
 declare namespace xi='http://www.w3.org/2001/XInclude';
 
+declare namespace pb='http://teipublisher.com/1.0';
+
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
@@ -93,10 +95,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             html:inline($config, ., ("tei-signed2"), .)
                     case element(pb) return
-                        if (count(../*) = 1 and count(ancestor::*) = 1) then
-                            html:inline($config, ., css:get-rendition(., ("tei-pb1")), '[Empty page]')
-                        else
-                            html:omit($config, ., ("tei-pb2"), .)
+                        epub:break($config, ., ("tei-pb1"), ., 'pagebreak', @n/string())
                     case element(pc) return
                         html:inline($config, ., ("tei-pc"), .)
                     case element(anchor) return
@@ -110,13 +109,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:inline($config, ., ("tei-formula2"), .)
                     case element(choice) return
                         if (sic and corr) then
-                            html:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
+                            epub:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
                         else
                             if (abbr and expan) then
-                                html:alternate($config, ., ("tei-choice5"), ., expan[1], abbr[1])
+                                epub:alternate($config, ., ("tei-choice5"), ., expan[1], abbr[1])
                             else
                                 if (orig and reg) then
-                                    html:alternate($config, ., ("tei-choice6"), ., reg[1], orig[1])
+                                    epub:alternate($config, ., ("tei-choice6"), ., reg[1], orig[1])
                                 else
                                     $config?apply($config, ./node())
                     case element(hi) return
@@ -281,7 +280,6 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(lb) return
                         if (@break='no' and $parameters?view='page') then
                             (
-                                (: Output hyphen before break :)
                                 html:inline($config, ., ("tei-lb1"), '-'),
                                 epub:break($config, ., ("tei-lb2"), ., 'line', @n)
                             )
@@ -405,7 +403,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         epub:block($config, ., ("tei-argument"), .)
                     case element(date) return
                         if (@when) then
-                            html:alternate($config, ., ("tei-date3"), ., ., @when)
+                            epub:alternate($config, ., ("tei-date3"), ., ., @when)
                         else
                             if (text()) then
                                 html:inline($config, ., ("tei-date4"), .)
@@ -557,15 +555,18 @@ declare function model:apply($config as map(*), $input as node()*) {
 
 declare function model:apply-children($config as map(*), $node as element(), $content as item()*) {
         
-    $content ! (
-        typeswitch(.)
-            case element() return
-                if (. is $node) then
-                    $config?apply($config, ./node())
-                else
-                    $config?apply($config, .)
-            default return
-                html:escapeChars(.)
-    )
+    if ($config?template) then
+        $content
+    else
+        $content ! (
+            typeswitch(.)
+                case element() return
+                    if (. is $node) then
+                        $config?apply($config, ./node())
+                    else
+                        $config?apply($config, .)
+                default return
+                    html:escapeChars(.)
+        )
 };
 
