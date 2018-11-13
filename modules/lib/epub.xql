@@ -18,7 +18,6 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../c
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
-import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 import module namespace counter="http://exist-db.org/xquery/counter" at "java:org.exist.xquery.modules.counter.CounterModule";
 
@@ -49,10 +48,10 @@ declare function epub:generate-epub($config as map(*), $doc, $css, $filename) {
             epub:container-entry(),
             epub:content-opf-entry($config, $doc, $xhtml),
             epub:title-xhtml-entry($config?metadata?language, $doc, $config),
-            epub:table-of-contents-xhtml-entry($config, $doc, false()),
             epub:images-entry($doc, $xhtml),
             epub:stylesheet-entry($css),
             epub:toc-ncx-entry($config, $doc),
+            epub:nav-entry($config, $doc),
             epub:fonts-entry($config),
             $xhtml
         )
@@ -106,27 +105,28 @@ declare function epub:container-entry() {
 declare function epub:content-opf-entry($config as map(*), $text, $xhtml as element()*) {
     let $entries :=
         for $entry in $xhtml
-        let $id := replace($entry/@name, '^OEBPS/(.*)\.html$', '$1')
+        let $id := replace($entry/@name, '^OEBPS/(.*)\.xhtml$', '$1')
         return
             <item xmlns="http://www.idpf.org/2007/opf"
-                id="{$id}" href="{$id}.html" media-type="application/xhtml+xml"/>
+                id="{$id}" href="{$id}.xhtml" media-type="application/xhtml+xml"/>
     let $refs :=
         for $entry in $xhtml
-        let $id := replace($entry/@name, '^OEBPS/(.*)\.html$', '$1')
+        let $id := replace($entry/@name, '^OEBPS/(.*)\.xhtml$', '$1')
         return
             <itemref xmlns="http://www.idpf.org/2007/opf" idref="{$id}"/>
     let $content-opf :=
-        <package xmlns="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" unique-identifier="bookid">
-            <metadata>
+        <package xmlns="http://www.idpf.org/2007/opf" unique-identifier="bookid" version="3.0">
+            <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
                 <dc:title>{$config?metadata?title}</dc:title>
                 <dc:creator>{$config?metadata?creator}</dc:creator>
                 <dc:identifier id="bookid">{$config?metadata?urn}</dc:identifier>
                 <dc:language>{$config?metadata?language}</dc:language>
+                <meta property="dcterms:modified">{current-dateTime()}</meta>
             </metadata>
             <manifest>
                 <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
-                <item id="title" href="title.html" media-type="application/xhtml+xml"/>
-                <item id="table-of-contents" href="table-of-contents.html" media-type="application/xhtml+xml"/>
+                <item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>
+                <item id="title" href="title.xhtml" media-type="application/xhtml+xml"/>
                 {
                     $entries
                 }
@@ -151,30 +151,10 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
             </manifest>
             <spine toc="ncx">
                 <itemref idref="title"/>
-                <itemref idref="table-of-contents"/>
                 {
                     $refs
                 }
             </spine>
-            <guide>
-                <reference href="table-of-contents.html" type="toc" title="Table of Contents"/>
-                {
-                (: first text div :)
-                let $doc := root($text)
-                let $first-text-div := nav:get-section($config?docConfig, $doc)
-                let $id := epub:generate-id($first-text-div)
-                let $title := $first-text-div/tei:head
-                return
-                    <reference href="{$id}.html" type="text" title="{$title}"/>
-                }
-                {
-                (: index div :)
-                if ($text/id('index')) then
-                    <reference href="index.html" type="index" title="Index"/>
-                else
-                    ()
-                }
-            </guide>
         </package>
     return
         <entry name="OEBPS/content.opf" type="xml">{$content-opf}</entry>
@@ -206,7 +186,7 @@ declare function epub:title-xhtml-entry($language, $doc, $config) {
     let $body := epub:title-xhtml-body(nav:get-header($config?docConfig, $doc), $config)
     let $title-xhtml := epub:assemble-xhtml($title, $language, $body)
     return
-        <entry name="OEBPS/title.html" type="xml">{$title-xhtml}</entry>
+        <entry name="OEBPS/title.xhtml" type="xml">{$title-xhtml}</entry>
 };
 
 (:~
@@ -235,7 +215,7 @@ declare function epub:body-xhtml-entries($doc as document-node(), $config) {
 };
 
 declare function epub:body-xhtml($node, $config) {
-    let $next := $config:next-page($config?docConfig, $node, "div")
+    let $next := nav:get-next($config?docConfig, $node, "div")
     let $content := pages:get-content($config?docConfig, $node)
     let $title := nav:get-section-heading($config?docConfig, $content)/node()
     let $title :=
@@ -244,9 +224,9 @@ declare function epub:body-xhtml($node, $config) {
         else
             "--no title---"
     let $body := $pm-config:epub-transform($content, map { "root": $node }, $config?odd)
-    let $body-xhtml:= epub:assemble-xhtml(epub:fix-namespaces($title), $config?metadata?language, epub:fix-namespaces($body))
+    let $body-xhtml:= epub:assemble-xhtml(string-join($title), $config?metadata?language, epub:fix-namespaces($body))
     return (
-        <entry name="{concat('OEBPS/', epub:generate-id($node), '.html')}" type="xml">{$body-xhtml}</entry>,
+        <entry name="{concat('OEBPS/', epub:generate-id($node), '.xhtml')}" type="xml">{$body-xhtml}</entry>,
         if ($next) then
             epub:body-xhtml($next, $config)
         else
@@ -255,7 +235,7 @@ declare function epub:body-xhtml($node, $config) {
 };
 
 declare function epub:endnotes-xhtml-entry($language, $entries as element()*) {
-    <entry name="OEBPS/endnotes.html" type="xml">
+    <entry name="OEBPS/endnotes.xhtml" type="xml">
     {
         epub:assemble-xhtml("Notes", $language, epub:fix-namespaces(
             <div xmlns="http://www.w3.org/1999/xhtml">
@@ -290,6 +270,48 @@ declare function epub:stylesheet-entry($css as xs:string) {
     <entry name="OEBPS/stylesheet.css" type="binary">{util:string-to-binary($css)}</entry>
 };
 
+declare function epub:nav-entry($config, $text) {
+    let $toc :=
+        <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="{$config?metadata?language}"
+            xml:lang="{$config?metadata?language}">
+            <head>
+                <title>Navigation</title>
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+            </head>
+            <body>
+                <nav epub:type="toc">
+                {
+                    epub:toc-nav-div($config, nav:get-section($config?docConfig, $text)/..)
+                }
+                </nav>
+            </body>
+        </html>
+    return
+        <entry name="OEBPS/nav.xhtml" type="xml">{$toc}</entry>
+};
+
+declare function epub:toc-nav-div($config, $root as element()) {
+    <ol xmlns="http://www.w3.org/1999/xhtml">
+    {
+        let $divs := nav:get-subsections($config?docConfig, $root)
+        for $div in $divs
+        let $headings := nav:get-section-heading($config?docConfig, $div)
+        let $html :=
+            if ($headings) then
+                normalize-space(string-join($headings//text()))
+            else
+                "[no title]"
+        let $file := epub:generate-id(nav:get-section-for-node($config?docConfig, $div))
+        let $id := if ($div/@xml:id) then $div/@xml:id else epub:generate-id($div)
+        return
+            <li>
+                <a href="{$file}.xhtml#{$id}">{$html}</a>
+                { epub:toc-nav-div($config, $div) }
+            </li>
+    }
+    </ol>
+};
+
 (:~
     Helper function, creates the OEBPS/toc.ncx file.
 
@@ -314,17 +336,11 @@ declare function epub:toc-ncx-entry($config, $text) {
                     <navLabel>
                         <text>Title</text>
                     </navLabel>
-                    <content src="title.html"/>
-                </navPoint>
-                <navPoint id="navpoint-table-of-contents" playOrder="2">
-                    <navLabel>
-                        <text>Table of Contents</text>
-                    </navLabel>
-                    <content src="table-of-contents.html"/>
+                    <content src="title.xhtml"/>
                 </navPoint>
                 {
                     counter:create("teipublisher-epub-toc")[2],
-                    epub:toc-ncx-div($config, nav:get-section($config?docConfig, $text)/.., 2),
+                    epub:toc-ncx-div($config, nav:get-section($config?docConfig, $text)/.., 1),
                     counter:destroy("teipublisher-epub-toc")[2]
                 }
             </navMap>
@@ -349,7 +365,7 @@ declare function epub:toc-ncx-div($config, $root as element(), $start as xs:int)
             <navLabel>
                 <text>{$html}</text>
             </navLabel>
-            <content src="{$file}.html#{$id}"/>
+            <content src="{$file}.xhtml#{$id}"/>
             { epub:toc-ncx-div($config, $div, $start) }
         </navPoint>
 };
@@ -375,7 +391,7 @@ declare function epub:table-of-contents-xhtml-entry($config, $doc, $suppress-doc
                 let $id := if ($div/@xml:id) then $div/@xml:id else epub:generate-id($div)
                 return
                     <li>
-                        <a href="{epub:generate-id($div)}.html#{$id}">
+                        <a href="{epub:generate-id($div)}.xhtml#{$id}">
                         {
                             $text
                         }
@@ -385,7 +401,7 @@ declare function epub:table-of-contents-xhtml-entry($config, $doc, $suppress-doc
         </div>
     let $table-of-contents-xhtml := epub:assemble-xhtml($config?metadata?title, $config?metadata?language, $body)
     return
-        <entry name="OEBPS/table-of-contents.html" type="xml">{$table-of-contents-xhtml}</entry>
+        <entry name="OEBPS/table-of-contents.xhtml" type="xml">{$table-of-contents-xhtml}</entry>
 };
 
 (:~
@@ -396,7 +412,7 @@ declare function epub:table-of-contents-xhtml-entry($config, $doc, $suppress-doc
     @return the serialized XHTML element
 :)
 declare function epub:assemble-xhtml($title, $language, $body) {
-    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$language}">
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="{$language}">
         <head>
             <title>{$title}</title>
             <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
