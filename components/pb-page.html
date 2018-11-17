@@ -1,0 +1,43 @@
+<dom-module id="pb-page">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <slot></slot>
+    </template>
+
+    <script>
+        /**
+         * A wrapper element around a TEI Publisher page. Currently mainly used to take care of resizing issues.
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PbPage extends Polymer.Element {
+            static get is() {
+                return 'pb-page';
+            }
+
+            static get properties() {
+                return {
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            ready() {
+                console.log('<pb-page> trigger window resize');
+                this.dispatchEvent(new Event('resize'));
+            }
+        }
+
+        window.customElements.define(PbPage.is, PbPage);
+    </script>
+</dom-module>

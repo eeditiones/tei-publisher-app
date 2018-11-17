@@ -166,84 +166,11 @@
     </head>
 
     <body unresolved="unresolved" data-template="i18n:translate" data-catalogues="resources/i18n">
-        <app-drawer-layout force-narrow="force-narrow">
-            <app-drawer slot="drawer" align="right" xmlns:i18n="http://exist-db.org/xquery/i18n">
-                <div class="drawer-content">
-                    <pb-media-query query="(max-width: 1023px)">
-                        <!-- language selector -->
-                        <pb-lang name="lang" label="Language" data-template="pages:current-language">
-                            <paper-item>en</paper-item>
-                            <paper-item>de</paper-item>
-                            <paper-item>fr</paper-item>
-                            <paper-item>gr</paper-item>
-                            <paper-item>it</paper-item>
-                            <paper-item>pl</paper-item>
-                        </pb-lang>
-                        <pb-collapse>
-                            <h3 slot="collapse-trigger"><i18n:text key="documentation"/></h3>
-                            <paper-listbox slot="collapse-content">
-                                <paper-item>
-                                    <a href="${app}/doc/documentation.xml?odd=docbook.odd" data-template="pages:parse-params">
-                                        <i18n:text key="documentation"/>
-                                    </a>
-                                </paper-item>
-                                <paper-item>
-                                    <a href="${app}/doc/documentation.xml?odd=docbook.odd&amp;id=faq" data-template="pages:parse-params">FAQ</a>
-                                </paper-item>
-                                <paper-item>
-                                    <a href="${app}/doc/blog/" data-template="pages:parse-params">News</a>
-                                </paper-item>
-                            </paper-listbox>
-                        </pb-collapse>
-                    </pb-media-query>
-                </div>
-            </app-drawer>
-            <app-header-layout>
-                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
-                    <app-toolbar class="menubar">
-                        <a href="$app/index.html">
-                            <img src="resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
-                        </a>
-                        <pb-media-query query="(min-width: 1024px)">
-                            <a href="$app/index.html">Start</a>
-                            <paper-menu-button>
-                                <a href="#" slot="dropdown-trigger">
-                                    <i18n:text key="documentation"/>
-                                </a>
-                                <paper-listbox slot="dropdown-content">
-                                    <paper-item>
-                                        <a href="$app/doc/documentation.xml?odd=docbook.odd">
-                                            <i18n:text key="documentation"/>
-                                        </a>
-                                    </paper-item>
-                                    <paper-item>
-                                        <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
-                                    </paper-item>
-                                </paper-listbox>
-                            </paper-menu-button>
-                            <a href="$app/doc/blog/">News</a>
-                            <pb-restricted login="login" group="tei">
-                                <paper-menu-button>
-                                    <a href="#" slot="dropdown-trigger">
-                                        <i18n:text key="admin"/>
-                                    </a>
-                                    <paper-listbox slot="dropdown-content">
-                                        <paper-item>
-                                            <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/index.xql" dialog="messageDialog">
-                                                <i18n:text key="metadata-update"/>
-                                            </pb-ajax>
-                                        </paper-item>
-                                        <paper-item><a href="$app/manage.html"><i18n:text key="app-generator"/></a></paper-item>
-                                    </paper-listbox>
-                                </paper-menu-button>
-                            </pb-restricted>
-                            <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
-                                <img src="resources/images/wm_no_bg.svg" height="20"/>
-                            </a>
-                            <!-- Search input -->
-                            <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
-                                place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
-
+        <pb-page>
+            <app-drawer-layout force-narrow="force-narrow">
+                <app-drawer slot="drawer" align="right" xmlns:i18n="http://exist-db.org/xquery/i18n">
+                    <div class="drawer-content">
+                        <pb-media-query query="(max-width: 1023px)">
                             <!-- language selector -->
                             <pb-lang name="lang" label="Language" data-template="pages:current-language">
                                 <paper-item>en</paper-item>
@@ -253,86 +180,161 @@
                                 <paper-item>it</paper-item>
                                 <paper-item>pl</paper-item>
                             </pb-lang>
+                            <pb-collapse>
+                                <h3 slot="collapse-trigger"><i18n:text key="documentation"/></h3>
+                                <paper-listbox slot="collapse-content">
+                                    <paper-item>
+                                        <a href="${app}/doc/documentation.xml?odd=docbook.odd" data-template="pages:parse-params">
+                                            <i18n:text key="documentation"/>
+                                        </a>
+                                    </paper-item>
+                                    <paper-item>
+                                        <a href="${app}/doc/documentation.xml?odd=docbook.odd&amp;id=faq" data-template="pages:parse-params">FAQ</a>
+                                    </paper-item>
+                                    <paper-item>
+                                        <a href="${app}/doc/blog/" data-template="pages:parse-params">News</a>
+                                    </paper-item>
+                                </paper-listbox>
+                            </pb-collapse>
                         </pb-media-query>
-                        <pb-login id="login" login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user"
-                            group="tei">
-                            <iron-icon slot="icon" icon="account-circle"></iron-icon>
-                        </pb-login>
-                        <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
-                    </app-toolbar>
-                    <pb-media-query query="(max-width: 1023px)">
-                        <app-toolbar class="toolbar" sticky="sticky" xmlns:i18n="http://exist-db.org/xquery/i18n">
-                            <!-- Search input -->
-                            <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
-                                place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
-                            <paper-icon-button icon="icons:menu" drawer-toggle="drawer-toggle"/>
+                    </div>
+                </app-drawer>
+                <app-header-layout>
+                    <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                        <app-toolbar class="menubar">
+                            <a href="$app/index.html">
+                                <img src="resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
+                            </a>
+                            <pb-media-query query="(min-width: 1024px)">
+                                <a href="$app/index.html">Start</a>
+                                <paper-menu-button>
+                                    <a href="#" slot="dropdown-trigger">
+                                        <i18n:text key="documentation"/>
+                                    </a>
+                                    <paper-listbox slot="dropdown-content">
+                                        <paper-item>
+                                            <a href="$app/doc/documentation.xml?odd=docbook.odd">
+                                                <i18n:text key="documentation"/>
+                                            </a>
+                                        </paper-item>
+                                        <paper-item>
+                                            <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
+                                        </paper-item>
+                                    </paper-listbox>
+                                </paper-menu-button>
+                                <a href="$app/doc/blog/">News</a>
+                                <pb-restricted login="login" group="tei">
+                                    <paper-menu-button>
+                                        <a href="#" slot="dropdown-trigger">
+                                            <i18n:text key="admin"/>
+                                        </a>
+                                        <paper-listbox slot="dropdown-content">
+                                            <paper-item>
+                                                <pb-ajax subscribe="transcription" emit="transcription" url="$app/modules/index.xql" dialog="messageDialog">
+                                                    <i18n:text key="metadata-update"/>
+                                                </pb-ajax>
+                                            </paper-item>
+                                            <paper-item><a href="$app/manage.html"><i18n:text key="app-generator"/></a></paper-item>
+                                        </paper-listbox>
+                                    </paper-menu-button>
+                                </pb-restricted>
+                                <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
+                                    <img src="resources/images/wm_no_bg.svg" height="20"/>
+                                </a>
+                                <!-- Search input -->
+                                <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
+                                    place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
+
+                                <!-- language selector -->
+                                <pb-lang name="lang" label="Language" data-template="pages:current-language">
+                                    <paper-item>en</paper-item>
+                                    <paper-item>de</paper-item>
+                                    <paper-item>fr</paper-item>
+                                    <paper-item>gr</paper-item>
+                                    <paper-item>it</paper-item>
+                                    <paper-item>pl</paper-item>
+                                </pb-lang>
+                            </pb-media-query>
+                            <pb-login id="login" login-label="i18n(login)" logout-label="i18n(logout)" data-template="browse:current-user"
+                                group="tei">
+                                <iron-icon slot="icon" icon="account-circle"></iron-icon>
+                            </pb-login>
+                            <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
                         </app-toolbar>
-                    </pb-media-query>
-                </app-header>
+                        <pb-media-query query="(max-width: 1023px)">
+                            <app-toolbar class="toolbar" sticky="sticky" xmlns:i18n="http://exist-db.org/xquery/i18n">
+                                <!-- Search input -->
+                                <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
+                                    place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
+                                <paper-icon-button icon="icons:menu" drawer-toggle="drawer-toggle"/>
+                            </app-toolbar>
+                        </pb-media-query>
+                    </app-header>
 
-                <main>
-                    <section>
-                        <h1 class="tp-title">TEI Publisher <span>The Instant Publishing Toolbox</span></h1>
-                        <p>Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD.</p>
-                        <p><strong>Log in</strong>
-                        to upload files or see administrative functions (default user: "tei", password: "simple").</p>
-                    </section>
-                    <section class="panels">
-                        <paper-card class="doclist" heading="i18n(documents)">
-                            <div class="card-content">
-                                <pb-paginate id="paginate" per-page="10" range="5" found-label="i18n(browsing)"></pb-paginate>
-                                <pb-browse-docs id="document-loader" url="templates/documents.html"
-                                    container="#document-list" auto="auto" history="history"></pb-browse-docs>
-                                <div id="document-list"></div>
-                            </div>
-                        </paper-card>
-                        <aside>
-                            <paper-card class="odds" heading="i18n(odd-data)">
+                    <main>
+                        <section>
+                            <h1 class="tp-title">TEI Publisher <span>The Instant Publishing Toolbox</span></h1>
+                            <p>Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD.</p>
+                            <p><strong>Log in</strong>
+                            to upload files or see administrative functions (default user: "tei", password: "simple").</p>
+                        </section>
+                        <section class="panels">
+                            <paper-card class="doclist" heading="i18n(documents)">
                                 <div class="card-content">
-                                    <pb-manage-odds id="manage-odds" target="document-loader" login="login"></pb-manage-odds>
+                                    <pb-paginate id="paginate" per-page="10" range="5" found-label="i18n(browsing)"></pb-paginate>
+                                    <pb-browse-docs id="document-loader" url="templates/documents.html"
+                                        container="#document-list" auto="auto" history="history"></pb-browse-docs>
+                                    <div id="document-list"></div>
                                 </div>
                             </paper-card>
-                            <paper-card class="upload" heading="i18n(upload)">
-                                <div class="card-content">
-                                    <pb-upload id="upload" target="test"></pb-upload>
-                                </div>
-                            </paper-card>
-                        </aside>
-                    </section>
-                </main>
+                            <aside>
+                                <paper-card class="odds" heading="i18n(odd-data)">
+                                    <div class="card-content">
+                                        <pb-manage-odds id="manage-odds" target="document-loader" login="login"></pb-manage-odds>
+                                    </div>
+                                </paper-card>
+                                <paper-card class="upload" heading="i18n(upload)">
+                                    <div class="card-content">
+                                        <pb-upload id="upload" target="test"></pb-upload>
+                                    </div>
+                                </paper-card>
+                            </aside>
+                        </section>
+                    </main>
 
-            </app-header-layout>
-        </app-drawer-layout>
-        <paper-dialog id="downloadDialog">
-            <h2>
-                <i18n:text key="generating-file">Generating File...</i18n:text>
-            </h2>
-            <paper-dialog-scrollable>
-                <i18n:text key="download-message"/>
-            </paper-dialog-scrollable>
-            <div class="buttons">
-                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
-                    <i18n:text key="close">Close</i18n:text>
-                </paper-button>
-            </div>
-        </paper-dialog>
-        <paper-dialog id="messageDialog" modal="modal">
-            <h2>Action</h2>
-            <paper-dialog-scrollable/>
-            <div class="buttons">
-                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
-                    <i18n:text key="close">Close</i18n:text>
-                </paper-button>
-            </div>
-        </paper-dialog>
-        <paper-dialog id="errorDialog">
-            <h2>Error</h2>
-            <paper-dialog-scrollable/>
-            <div class="buttons">
-                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
-                    <i18n:text key="close">Close</i18n:text>
-                </paper-button>
-            </div>
-        </paper-dialog>
+                </app-header-layout>
+            </app-drawer-layout>
+            <paper-dialog id="downloadDialog">
+                <h2>
+                    <i18n:text key="generating-file">Generating File...</i18n:text>
+                </h2>
+                <paper-dialog-scrollable>
+                    <i18n:text key="download-message"/>
+                </paper-dialog-scrollable>
+                <div class="buttons">
+                    <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                        <i18n:text key="close">Close</i18n:text>
+                    </paper-button>
+                </div>
+            </paper-dialog>
+            <paper-dialog id="messageDialog" modal="modal">
+                <h2>Action</h2>
+                <paper-dialog-scrollable/>
+                <div class="buttons">
+                    <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                        <i18n:text key="close">Close</i18n:text>
+                    </paper-button>
+                </div>
+            </paper-dialog>
+            <paper-dialog id="errorDialog">
+                <h2>Error</h2>
+                <paper-dialog-scrollable/>
+                <div class="buttons">
+                    <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                        <i18n:text key="close">Close</i18n:text>
+                    </paper-button>
+                </div>
+            </paper-dialog>
+        </pb-page>
     </body>
 </html>

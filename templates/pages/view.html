@@ -85,43 +85,45 @@
     </head>
 
     <body unresolved="unresolved" data-template="i18n:translate" data-catalogues="resources/i18n">
-        <pb-document id="document1" data-template="pages:pb-document"/>
-        <app-drawer-layout force-narrow="force-narrow">
-            <app-drawer data-template="templates:include" data-template-path="templates/drawer.html"/>
-            <app-header-layout>
-                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
-                    <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
-                    <app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/>
-                </app-header>
+        <pb-page>
+            <pb-document id="document1" data-template="pages:pb-document"/>
+            <app-drawer-layout force-narrow="force-narrow">
+                <app-drawer data-template="templates:include" data-template-path="templates/drawer.html"/>
+                <app-header-layout>
+                    <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                        <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
+                        <app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/>
+                    </app-header>
 
-                <pb-drawer toggle="tocToggle" class="tocDrawer" emit="toc" subscribe="transcription">
-                    <div class="drawer-content">
-                        <h3>
-                            <i18n:text key="contents">Contents</i18n:text>
-                        </h3>
-                        <pb-load id="loadToc" url="templates/toc.html?target=transcription" src="document1" subscribe="toc" container="#toc" load-once="load-once">Loading ...</pb-load>
-                        <div id="toc"></div>
-                    </div>
-                </pb-drawer>
-                <section class="breadcrumbs">
-                    <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
-                        <pb-param name="header" value="short"/>
-                    </pb-view>
-                </section>
-                <main class="content-body">
-                    <pb-navigation direction="backward" unit="page" keyboard="left" emit="transcription"
-                        subscribe="transcription">
-                        <paper-fab icon="icons:chevron-left"/>
-                    </pb-navigation>
-                    <pb-view id="view1" src="document1" data-template="pages:pb-view"
-                        column-separator=".tei-cb" history="history" append-footnotes="append-footnotes"
-                        subscribe="transcription" emit="transcription"/>
-                    <pb-navigation direction="forward" unit="page" keyboard="right" emit="transcription"
-                        subscribe="transcription">
-                        <paper-fab icon="icons:chevron-right"/>
-                    </pb-navigation>
-                </main>
-            </app-header-layout>
-        </app-drawer-layout>
+                    <pb-drawer toggle="tocToggle" class="tocDrawer" emit="toc" subscribe="transcription">
+                        <div class="drawer-content">
+                            <h3>
+                                <i18n:text key="contents">Contents</i18n:text>
+                            </h3>
+                            <pb-load id="loadToc" url="templates/toc.html?target=transcription" src="document1" subscribe="toc" container="#toc" load-once="load-once">Loading ...</pb-load>
+                            <div id="toc"></div>
+                        </div>
+                    </pb-drawer>
+                    <section class="breadcrumbs">
+                        <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
+                            <pb-param name="header" value="short"/>
+                        </pb-view>
+                    </section>
+                    <main class="content-body">
+                        <pb-navigation direction="backward" unit="page" keyboard="left" emit="transcription"
+                            subscribe="transcription">
+                            <paper-fab icon="icons:chevron-left"/>
+                        </pb-navigation>
+                        <pb-view id="view1" src="document1" data-template="pages:pb-view"
+                            column-separator=".tei-cb" history="history" append-footnotes="append-footnotes"
+                            subscribe="transcription" emit="transcription"/>
+                        <pb-navigation direction="forward" unit="page" keyboard="right" emit="transcription"
+                            subscribe="transcription">
+                            <paper-fab icon="icons:chevron-right"/>
+                        </pb-navigation>
+                    </main>
+                </app-header-layout>
+            </app-drawer-layout>
+        </pb-page>
     </body>
 </html>
