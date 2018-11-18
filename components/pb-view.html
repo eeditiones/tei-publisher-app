@@ -1,9 +1,24 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
-<!--
-<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="pb-alternate.html">
--->
+<script src="PbMixin.js"></script>
 
+<!--
+This is the main component for viewing text which has been transformed via an ODD.
+The document to be viewed is determined by the `pb-document` element the property
+`src` points to. `pb-view` can display an entire document or just a fragment of it
+as defined by the properties `xmlId`, `nodeId` or `xpath`.
+
+## CSS Mixins
+
+| Custom property | Description | Default|
+| ----------------|-------------|--------|
+|--pb-content-theme | Mixin applied to the content view | {}|
+|--pb-footnotes | Mixin for formatting footnotes | {}|
+|--pb-footnote-ref | Mixin for formatting footnote references | {}|
+|--pb-highlight-theme | Mixin applied to matches in the text when displaying search results | {}|
+
+@customElement
+@polymer
+-->
 <dom-module id="pb-view">
     <template>
         <style>
@@ -78,41 +93,71 @@
     </template>
 
     <script>
-        /**
-         * This is the main component for viewing text which has been transformed via an ODD.
-         *
-         * Custom property | Description | Default
-         * ----------------|-------------|--------
-         * @customElement
-         * @polymer
-         * @demo demo/index.html
-         */
+        /** @appliesMixin PbMixin */
         class PbView extends PbMixin(Polymer.Element) {
+             
             static get is() {
                 return 'pb-view';
             }
 
             static get properties() {
                 return {
+                    /**
+                     * The id of a `pb-document` element this view should display.
+                     * Settings like `odd` or `view` will be taken from the `pb-document`
+                     * unless overwritten by properties in this component.
+                     *
+                     * This property is **required** and **must** point to an existing `pb-document` with
+                     * the given id.
+                     */
                     src: {
                         type: String
                     },
+                    /**
+                     * The ODD to use for rendering the document. Overwrites an ODD defined on
+                     * `pb-document`. The odd should be specified by its name without path 
+                     * or the `.odd` suffix.
+                     */
                     odd: {
                         type: String,
                         reflectToAttribute: true
                     },
+                    /**
+                     * The view type to use for paginating the document. Either `page`, `div` or `single`.
+                     * Overwrites the same property specified on `pb-document`. Values have the following meaning:
+                     *
+                     * Value | Displayed content
+                     * ------|------------------
+                     * `page` | content is displayed page by page as determined by tei:pb
+                     * `div` | content is displayed by divisions
+                     * `single` | do not paginate but display entire content at once
+                     */
                     view: {
                         type: String,
                         reflectToAttribute: true
                     },
+                    /**
+                     * An eXist nodeId. If specified, selects the root of the fragment of the document
+                     * which should be displayed. Normally this property is set automatically by pagination.
+                     */
                     nodeId: {
                         type: String,
                         reflectToAttribute: true
                     },
+                    /**
+                     * An xml:id to be displayed. If specified, this determines the root of the fragment to be
+                     * displayed. Use to directly navigate to a specific section.
+                     */
                     xmlId: {
                         type: Array,
                         reflectToAttribute: true
                     },
+                    /**
+                     * An optional XPath expression: the root of the fragment to be displayed is determined
+                     * by evaluating the given XPath expression. The XPath expression should be absolute.
+                     * The namespace of the document is declared as default namespace, so no prefixes should
+                     * be used.
+                     */
                     xpath: {
                         type: String,
                         reflectToAttribute: true
@@ -125,10 +170,18 @@
                         type: String,
                         value: "the server did not return any content"
                     },
+                    /**
+                     * Modify browser history: if set, any load operation performed by this
+                     * element will generate a new history entry in the browser's history.
+                     * Only use this on one element on the page.
+                     */
                     history: {
                         type: Boolean,
                         value: false
                     },
+                    /**
+                     * The relative URL to the script on the server which will be called for loading content.
+                     */
                     url: {
                         type: String,
                         value: "modules/lib/components.xql"
@@ -197,6 +250,9 @@
                 Polymer.RenderStatus.afterNextRender(this, () => this._refresh());
             }
 
+            /**
+             * Returns the `pb-document` element this `pb-view` is connected to
+             */
             getDocument() {
                 const doc = document.getElementById(this.src);
                 if (doc) {
@@ -206,6 +262,9 @@
                 console.error('<pb-view> src document not found: %s', this.src);
             }
 
+            /**
+             * Returns the ODD used to render content.
+             */
             getOdd() {
                 return this.odd || this.getDocument().odd || "teipublisher";
             }
@@ -214,6 +273,9 @@
                 return this.view || this.getDocument().view || "single";
             }
 
+            /**
+             * Trigger an update of this element's content
+             */
             update() {
                 this._load(this.nodeId);
             }
@@ -240,8 +302,6 @@
             }
 
             _load(pos) {
-                this.dispatchEvent(new CustomEvent('startUpdate'));
-
                 const doc = this.getDocument();
 
                 if (!doc.path) {
@@ -317,8 +377,6 @@
                 };
                 this.emitTo('pb-update', eventOptions);
                 this.emitTo('pb-end-update', null);
-                this.dispatchEvent(new CustomEvent('update', {detail: eventOptions}));
-                this.dispatchEvent(new CustomEvent('endUpdate'));
             }
 
             _replaceContent(resp) {
@@ -393,6 +451,9 @@
                 return params;
             }
 
+            /**
+             * Return the parameter object which would be passed to the server by this component
+             */
             getParameters(pos) {
                 pos = pos || this.nodeId;
                 const doc = this.getDocument();
@@ -416,15 +477,31 @@
                 return params;
             }
 
+            /**
+             * Load a part of the document identified by the given eXist nodeId
+             *
+             * @param {String} nodeId The eXist nodeId of the root element to load
+             */ 
             goto(nodeId) {
                 this._load(nodeId);
             }
 
+            /**
+             * Load a part of the document identified by the given xml:id
+             *
+             * @param {String} xmlId The xml:id to be loaded
+             */
             gotoId(xmlId) {
                 this.xmlId = xmlId;
                 this._load();
             }
 
+            /**
+             * Navigate the document either forward or backward and refresh the view.
+             * The navigation method is determined by property `view`.
+             *
+             * @param {string} direction either `backward` or `forward`
+             */
             navigate(direction) {
                 if (direction === 'backward') {
                     this.setParameter('root', this.previous);
@@ -437,6 +514,11 @@
                 }
             }
 
+            /**
+             * Zoom the displayed content by increasing or decreasing font size.
+             *
+             * @param {string} direction either `in` or `out`
+             */
             zoom(direction) {
                 const fontSize = window.getComputedStyle(this.$.view).getPropertyValue('font-size');
                 const size = parseInt(fontSize.replace(/^(\d+)px/, "$1"));
@@ -459,10 +541,6 @@
                 );
             }
 
-            triggerEvent(type) {
-                this.dispatchEvent(new CustomEvent(type));
-            }
-
             _getFragmentBefore(node, ms) {
                 const range = document.createRange();
                 range.setStartBefore(node);
@@ -478,6 +556,28 @@
 
                 return range.cloneContents();
             }
+            
+            /**
+             * Fired before the element updates its content
+             *
+             * @event pb-start-update
+             * @param {object} Parameters to be passed to the request
+             */
+             
+             /**
+              * Fired when the component received content from the server
+              * 
+              * @event pb-update
+              * @param {Object} data the raw data returned from the server
+              * @param {HTMLElement} root the HTML element inserted as content
+              * @param {Object} params the parameters sent to the server to request the content
+              */
+              
+              /**
+               * Fired after the element has finished updating its content
+               *
+               * @event pb-end-update
+               */
         }
 
         window.customElements.define(PbView.is, PbView);

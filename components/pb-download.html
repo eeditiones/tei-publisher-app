@@ -95,7 +95,6 @@
                 let url;
                 if (this.src) {
                     const doc = document.getElementById(this.src);
-                    console.log(doc);
                     const file = this.file ? this.file : doc.getFileName();
                     url = file + (this.type ?'.' + this.type : '') + '?odd=' + doc.odd + '.odd&cache=no&token=' + this._token;
                 } else {

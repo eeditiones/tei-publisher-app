@@ -116,6 +116,8 @@
 
                 <include name="components/bower_components/js-cookie/**"/>
                 <include name="components/PbMixin.js"/>
+                <include name="components/analysis.json"/>
+                <include name="components/docs.html"/>
             </fileset>
         </copy>
 

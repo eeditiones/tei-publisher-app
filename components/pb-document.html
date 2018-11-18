@@ -1,3 +1,12 @@
+<!--
+    Represents a Publisher document. It has no visual presentation but holds meta-data
+    about the document to be used by other components like `pb-view`. Every `pb-view`
+    references a `pb-document`.
+    
+    
+    @customElement
+    @polymer
+-->
 <dom-module id="pb-document">
     <template>
         <style>
@@ -7,15 +16,6 @@
         </style>
     </template>
     <script>
-        /**
-         * ## `pb-document` represents a Publisher document. It has no visual presentation but holds some meta-data
-         * about the document to be used by other components like `<pb-view>`.
-         *
-         *
-         * @customElement
-         * @polymer
-         * @demo demo/index.html
-         */
         class PbDocument extends Polymer.Element {
             static get is() {
                 return 'pb-document';
@@ -24,7 +24,7 @@
             static get properties() {
                 return {
                     /**
-                     * the URL path of the document on the server
+                     * The path to the document to be loaded. Should be relative to `root`.
                      */
                     path: {
                         type: String,
@@ -33,28 +33,35 @@
                         observer: '_update'
                     },
                     /**
-                     *
+                     * The root collection which will be used to resolve relative paths
+                     * specified in `path`.
                      */
                     root: {
                         type: String,
                         value: ''
                     },
                     /**
-                     * the odd file used to render this document
+                     * The odd file which should be used to render this document by default. Might be
+                     * overwritten in a `pb-view`. The odd should be specified by its name without path 
+                     * or the `.odd` suffix.
                      */
                     odd: {
                         type: String
                     },
                     /**
-                     * the currently active view of the document?
+                     * The default view to be used for displaying this document. Can be either `page`, `div` or `simple`.
+                     * Might be overwritten in a `pb-view`.
+                     * 
+                     * Value | Displayed content
+                     * ------|------------------
+                     * `page` | content is displayed page by page as determined by tei:pb
+                     * `div` | content is displayed by divisions
+                     * `single` | do not paginate but display entire content at once
                      */
                     view: {
                         type: String
                     },
                     sourceView: {
-                        type: String
-                    },
-                    documentId: {
                         type: String
                     }
                 };
@@ -73,23 +80,18 @@
             }
 
             /**
-             * todo
-             * @returns {documentId|{type}}
-             */
-            getDocumentId() {
-                return this.documentId;
-            }
-
-            /**
-             * todo
+             * Returns the name of the document without path.
+             *
+             * @returns {string} Name of the document
              */
             getFileName() {
                 return this.path.replace(/^.*?([^\/]+)$/, '$1');
             }
 
             /**
-             * todo
-             * @returns {string}
+             * Returns the full path to the document.
+             
+             * @returns {string} Full path to the document
              */
             getFullPath() {
                 return this.root + '/' + this.path;
