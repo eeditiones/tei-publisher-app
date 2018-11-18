@@ -33,8 +33,11 @@
             }
 
             ready() {
-                console.log('<pb-page> trigger window resize');
-                this.dispatchEvent(new Event('resize'));
+                super.ready();
+                Polymer.RenderStatus.afterNextRender(this, () => {
+                    console.log('<pb-page> trigger window resize');
+                    this.querySelectorAll('app-header').forEach(h => h._notifyLayoutChanged());
+                });
             }
         }
 
