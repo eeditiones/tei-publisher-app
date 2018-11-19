@@ -1,4 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-mixin.html">
 
 <dom-module id="pb-zoom">
     <template>
@@ -13,12 +14,12 @@
 
     <script>
         /**
-         * `pb-zoom`
-         *
+         * Zoom button to enlarge/shrink the font for the views. This component does not
+         * implement any functionality itself, but just emits a `pb-zoom` event.
          *
          * @customElement
          * @polymer
-         * @demo demo/index.html
+         * @appliesMixin PbMixin
          */
         class PbZoom extends PbMixin(Polymer.Element) {
             static get is() {
@@ -27,13 +28,19 @@
 
             static get properties() {
                 return {
-                    icon:{
+                    /**
+                     * The icon to use
+                     */
+                    icon: {
                         type: String,
                         value: "icons:zoom-in"
                     },
+                    /**
+                     * Either 'in' or 'out'
+                     */
                     direction: {
                         type: String,
-                        value: 'next'
+                        value: 'in'
                     }
                 };
             }
@@ -42,13 +49,20 @@
                 super.connectedCallback();
             }
 
-            ready(){
+            ready() {
                 super.ready();
             }
 
             _handleClick() {
                 this.emitTo('pb-zoom', {direction: this.direction});
             }
+            
+            /**
+             * Fired when the user clicks the element.
+             *
+             * @event pb-zoom
+             * @param {String} direction: either 'in' or 'out'
+             */
         }
 
         window.customElements.define(PbZoom.is, PbZoom);

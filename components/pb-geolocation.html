@@ -42,12 +42,12 @@
 
     <script>
         /**
-         * `pb-geolocation`
+         * Represents a geo location. Extends `pb-highlight`, but sends an additional `pb-geolocation` event
+         * on mouseover.
          *
          *
          * @customElement
          * @polymer
-         * @demo demo/index.html
          */
         class PbGeolocation extends PbHighlight {
             static get is() {
@@ -62,6 +62,9 @@
                     latitude: {
                         type: Number
                     },
+                    /**
+                     * Optional label for the place, e.g. to display a marker
+                     */
                     label: {
                         type: String
                     }
@@ -86,6 +89,13 @@
                 super.ready();
             }
 
+            /**
+             * Fired on mouseover
+             *
+             * @event pb-geolocation
+             * @param {Object} coordinates an object with two properties: latitude and longitude
+             * @param {String} label an optional label for the place
+             */
         }
 
         window.customElements.define(PbGeolocation.is, PbGeolocation);

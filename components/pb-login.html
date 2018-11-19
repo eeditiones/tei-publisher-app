@@ -1,10 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
-<!--
-<link rel="import" href="bower_components/iron-form/iron-form.html">
-<link rel="import" href="bower_components/paper-input/paper-input.html">
-<link rel="import" href="bower_components/paper-button/paper-button.html">
-<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
--->
+<link rel="import" href="pb-mixin.html">
 
 <dom-module id="pb-login">
     <template>
@@ -83,7 +78,7 @@
          *
          * @customElement
          * @polymer
-         * @demo demo/index.html
+         * @appliesMixin PbMixin
          */
         class PbLogin extends PbMixin(Polymer.Element) {
             static get is() {
@@ -212,6 +207,14 @@
                 }
                 return true;
             }
+            
+            /**
+             * Fired on successful login.
+             *
+             * @event pb-login
+             * @param {String} user logged in user
+             * @param {Array<String>} groups groups the user is a member of
+             */
         }
 
         window.customElements.define(PbLogin.is, PbLogin);

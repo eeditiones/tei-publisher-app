@@ -15,12 +15,11 @@
 
     <script>
         /**
-         * `pb-code-highlight`
-         *
+         * An element for syntax highlighting code based on `highlight.js`.
+         * Mainly used from the ODD for the TEI Publisher documentation.
          *
          * @customElement
          * @polymer
-         * @demo demo/index.html
          */
         class PbCodeHighlight extends Polymer.Element {
             static get is() {
@@ -29,6 +28,9 @@
 
             static get properties() {
                 return {
+                    /**
+                     * The language to be used for syntax highlighting.
+                     */
                     lang: {
                         type: String,
                         value: "text"

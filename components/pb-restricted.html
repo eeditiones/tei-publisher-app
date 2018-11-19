@@ -1,4 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-mixin.html">
 
 <dom-module id="pb-restricted">
     <template>
@@ -16,12 +17,12 @@
     <script>
         /**
          * Show content if the user is logged in. Optionally requires the user
-         * to be member of a specific group.
-         *
+         * to be member of a specific group. Listens for the `pb-login` event
+         * triggered by `pb-login` to be notified of user changes.
          *
          * @customElement
          * @polymer
-         * @demo demo/index.html
+         * @appliesMixin PbMixin
          */
         class PbRestricted extends PbMixin(Polymer.Element) {
             static get is() {
