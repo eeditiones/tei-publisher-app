@@ -21,6 +21,7 @@ but ported to ES6 syntax and using latest OpenSeaDragon lib.
         /**
          * `pb-facsimile-loader`
          *
+         * A image loader used by pb-facsimile
          *
          * @customElement
          * @polymer
@@ -33,6 +34,9 @@ but ported to ES6 syntax and using latest OpenSeaDragon lib.
 
             static get properties() {
                 return {
+                    /**
+                     * image src
+                     */
                     src: {
                         observer: '_srcChanged',
                         type: String

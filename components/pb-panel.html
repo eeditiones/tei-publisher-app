@@ -32,8 +32,9 @@
 
     <script>
         /**
-         * `seed-element`
+         * `pb-panel`
          *
+         * a panel with dropdown at top to switch between views.
          *
          * @customElement
          * @polymer
@@ -46,15 +47,24 @@
 
             static get properties() {
                 return {
+                    /**
+                     * the index of the active view
+                     */
                     active:{
                         type: Number,
                         notify: true,
                         observer: '_update'
                     },
+                    /**
+                     * the label for the current view
+                     */
                     label: {
                         type: String,
                         value: 'Panel'
                     },
+                    /**
+                     * the array of available panels
+                     */
                     panels: {
                         type: Array
                     },

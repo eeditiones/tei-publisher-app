@@ -24,6 +24,8 @@
         /**
          * `pb-map`
          *
+         * a wrapper for a google map
+         *
          *
          * @customElement
          * @polymer
@@ -36,6 +38,9 @@
 
             static get properties() {
                 return {
+                    /**
+                     * the Google apikey to access Google maps service
+                     */
                     apiKey: {
                         type: String
                     },

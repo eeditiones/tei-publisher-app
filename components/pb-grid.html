@@ -21,6 +21,10 @@
         /**
          * `pb-grid`
          *
+         * A component to create a column layout based upon CSS grid. It offers methods for dynamically changing
+         * the layout by adding or removing panels at runtime.
+         *
+         * todo: unused - still needed here?
          *
          * @customElement
          * @polymer
@@ -33,9 +37,15 @@
 
             static get properties() {
                 return {
+                    /**
+                     * the number of columns
+                     */
                     columns: {
                         type: Number
                     },
+                    /**
+                     * an array of panels to display as columns
+                     */
                     panels: {
                         type: Array
                     }

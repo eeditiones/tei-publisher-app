@@ -47,7 +47,11 @@
         /**
          * `pb-paginate`
          *
+         * paginator component to browse through server-generated lists.
          *
+         * Uses pb-load for executing the actual requests to fetch a page.
+         *
+         * @see pb-load
          * @customElement
          * @polymer
          * @demo demo/index.html
@@ -59,13 +63,22 @@
 
             static get properties() {
                 return {
+                    /**
+                     * total number of pages
+                     */
                     total: {
                         type: Number
                     },
+                    /**
+                     * start page
+                     */
                     start: {
                         type: Number,
                         value: 1
                     },
+                    /**
+                     * amount of entries per page
+                     */
                     perPage: {
                         type: Number,
                         value: 10
@@ -73,18 +86,30 @@
                     foundLabel: {
                         type: String
                     },
+                    /**
+                     * the current page
+                     */
                     page: {
                         type: Number,
                         value: 1
                     },
+                    /**
+                     * the amount of pages
+                     */
                     pageCount: {
                         type: Number,
                         value: 10
                     },
+                    /**
+                     * todo
+                     */
                     range: {
                         type: Number,
                         value: 5
                     },
+                    /**
+                     * todo:
+                     */
                     pages: {
                         type: Array,
                         value: []

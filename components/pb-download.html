@@ -29,37 +29,38 @@
             static get properties() {
                 return {
                     /**
-                     * todo
+                     * optional id reference to a pb-document. If present the pb-download will allow to download the
+                     * referenced pb-document.
                      */
                     src: {
                         type: String
                     },
                     /**
-                     * todo
+                     * todo clarify: not currently used.
                      */
                     file: {
                         type: String
                     },
                     /**
-                     * todo
+                     * the document type as given by file extension e.g. .pdf
                      */
                     type: {
                         type: String
                     },
                     /**
-                     * todo
+                     * todo - clarify: can't find any usage of the odd param in the current code. What's the purpose?
                      */
                     odd: {
                         type: String
                     },
                     /**
-                     * todo
+                     * optional id of dialog component to show when downloading
                      */
                     dialog: {
                         type: String
                     },
                     /**
-                     * todo
+                     * HTML title to show for this pb-download
                      */
                     title: {
                         type: String

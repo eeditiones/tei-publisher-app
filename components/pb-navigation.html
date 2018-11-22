@@ -14,7 +14,11 @@ It just sends a `pb-navigate` event when clicked.
     </template>
 
     <script>
-        /** @appliesMixin PbMixin */
+        /**
+         * a component to navigate in a document forward and backward.
+         *
+         * @appliesMixin PbMixin
+         */
         class PbNavigation extends Polymer.mixinBehaviors([Polymer.IronA11yKeysBehavior], PbMixin(Polymer.Element)) {
             static get is() {
                 return 'pb-navigation';

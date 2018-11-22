@@ -16,6 +16,15 @@
         </style>
     </template>
     <script>
+        /**
+         * This is a faceless component representing a Document in the database. It provides access to
+         * meta-data as the path, root, odd etc.
+         *
+         * pb-document should have an id attribute set to allow other components to access it.
+         *
+         * @customElement
+         * @polymer
+         */
         class PbDocument extends Polymer.Element {
             static get is() {
                 return 'pb-document';

@@ -13,7 +13,9 @@
         /**
          * `pb-grid-action`
          *
+         * an action component to execute an 'add panel' or 'remove panel' action on a pb-grid.
          *
+         * todo: unused - still needed here?
          * @customElement
          * @polymer
          * @demo demo/index.html
@@ -25,10 +27,18 @@
 
             static get properties() {
                 return {
+                    /**
+                     * the type of action. Can be either `add` or `remove`
+                     *
+                     * Defaults to `add`
+                     */
                     action: {
                         type: String,
                         value: 'add'
                     },
+                    /**
+                     * reference to a pb-grid element
+                     */
                     grid: {
                         type: String
                     },
@@ -47,6 +57,7 @@
             }
 
             _click() {
+                // todo: grid must be in lightDOM to be discovered. What is expected for this.grid? A string like '#myId'?
                 const grid = document.querySelector(this.grid);
                 if (!(grid && grid.addPanel)) {
                     return console.error('<pb-grid-action> grid not found: %s', this.grid);

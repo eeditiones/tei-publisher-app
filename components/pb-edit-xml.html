@@ -18,6 +18,8 @@
         /**
          * `pb-edit-xml`
          *
+         * Allows to open a XML document for editing in eXide. The document may be given by using the `path` or `src'
+         * attributes.
          *
          * @customElement
          * @polymer
@@ -30,12 +32,21 @@
 
             static get properties() {
                 return {
+                    /**
+                     * expects a context-absolute path to the document to edit e.g. '/db/apps/tei-publisher/mytext.xml'
+                     */
                     path: {
                         type: String
                     },
+                    /**
+                     * optional id reference to a pb-document
+                     */
                     src: {
                         type: String
                     },
+                    /**
+                     * HTML title to be used
+                     */
                     title: {
                         type: String
                     }

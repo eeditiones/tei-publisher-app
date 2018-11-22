@@ -103,6 +103,8 @@
         /**
          * `pb-manage-odds`
          *
+         * a panel to manage ODD-files. Lists out all available ODD-files and dependent on your authorization
+         * allow to view, edit and remove ODD-files. Also gives access to ODD-editor via linking each entry of the list.
          *
          * @customElement
          * @polymer
@@ -115,6 +117,9 @@
 
             static get properties() {
                 return {
+                    /**
+                     * array of ODD-files to be listed
+                     */
                     odds: {
                         type: Array
                     },

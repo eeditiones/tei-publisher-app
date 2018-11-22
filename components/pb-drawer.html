@@ -33,6 +33,8 @@
         /**
          * `pb-drawer`
          *
+         * A drawer component used e.g. for table-of-contents
+         *
          *
          * @customElement
          * @polymer
@@ -45,9 +47,15 @@
 
             static get properties() {
                 return {
+                    /**
+                     * optional id reference to a component that allows opening/closing the drawer
+                     */
                     toggle: {
                         type: String
                     },
+                    /**
+                     * Boolean reflecting the opened/closed state of the drawer
+                     */
                     opened: {
                         type: Boolean,
                         reflectToAttribute: true,
