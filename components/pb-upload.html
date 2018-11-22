@@ -22,6 +22,7 @@
         /**
          * `pb-upload`
          *
+         * a document upload component
          *
          * @customElement
          * @polymer
@@ -34,6 +35,9 @@
 
             static get properties() {
                 return {
+                    /**
+                     * the server-side script to handle the upload
+                     */
                     target: {
                         type: String
                     }
