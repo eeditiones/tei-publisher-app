@@ -95,7 +95,7 @@ as defined by the properties `xmlId`, `nodeId` or `xpath`.
     <script>
         /** @appliesMixin PbMixin */
         class PbView extends PbMixin(Polymer.Element) {
-             
+
             static get is() {
                 return 'pb-view';
             }
@@ -115,7 +115,7 @@ as defined by the properties `xmlId`, `nodeId` or `xpath`.
                     },
                     /**
                      * The ODD to use for rendering the document. Overwrites an ODD defined on
-                     * `pb-document`. The odd should be specified by its name without path 
+                     * `pb-document`. The odd should be specified by its name without path
                      * or the `.odd` suffix.
                      */
                     odd: {
@@ -481,7 +481,7 @@ as defined by the properties `xmlId`, `nodeId` or `xpath`.
              * Load a part of the document identified by the given eXist nodeId
              *
              * @param {String} nodeId The eXist nodeId of the root element to load
-             */ 
+             */
             goto(nodeId) {
                 this._load(nodeId);
             }
@@ -556,28 +556,47 @@ as defined by the properties `xmlId`, `nodeId` or `xpath`.
 
                 return range.cloneContents();
             }
-            
+
             /**
              * Fired before the element updates its content
              *
              * @event pb-start-update
              * @param {object} Parameters to be passed to the request
              */
-             
+
              /**
               * Fired when the component received content from the server
-              * 
+              *
               * @event pb-update
               * @param {Object} data the raw data returned from the server
               * @param {HTMLElement} root the HTML element inserted as content
               * @param {Object} params the parameters sent to the server to request the content
               */
-              
+
               /**
                * Fired after the element has finished updating its content
                *
                * @event pb-end-update
                */
+
+               /**
+                * When this event is received: navigate forward or backward in the document
+                *
+                * @event pb-navigate
+                */
+
+                /**
+                 * When this event is received: increase or decrease the font size of the content
+                 *
+                 * @event pb-zoom
+                 */
+
+                 /**
+                  * When received, refresh the current view using the parameters passed in the
+                  * event details.
+                  *
+                  * @event pb-refresh
+                  */
         }
 
         window.customElements.define(PbView.is, PbView);

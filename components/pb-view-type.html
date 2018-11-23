@@ -1,8 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
-<!--
-<link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="bower_components/iron-icons/iron-icons.html">
--->
+<link rel="import" href="pb-mixin.html">
 
 <dom-module id="pb-view-type">
     <template>
@@ -11,12 +8,14 @@
 
     <script>
         /**
-         * `pb-view-type`
-         *
+         * A checkbox to switch between page-by-page and division-by-division view.
+         * Needs to be subscribed to a particular view. Listen to its `update` event
+         * to determine current view type and reading position.
          *
          * @customElement
          * @polymer
          * @demo demo/index.html
+         * @appliesMixin PbMixin
          */
         class PbViewType extends PbMixin(Polymer.Element) {
             static get is() {
@@ -63,6 +62,13 @@
                     'position': this.root
                 });
             }
+            /**
+             * Fired when the user toggles the element.
+             *
+             * @event pb-refresh
+             * @param {object} view the view type to switch to: either `page` or `div`
+             * @param {String} position the position in the document to be shown
+             */
         }
 
         window.customElements.define(PbViewType.is, PbViewType);
