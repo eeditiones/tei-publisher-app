@@ -2,8 +2,9 @@
     Represents a Publisher document. It has no visual presentation but holds meta-data
     about the document to be used by other components like `pb-view`. Every `pb-view`
     references a `pb-document`.
-    
-    
+
+    pb-document should have an id attribute set to allow other components to access it.
+
     @customElement
     @polymer
 -->
@@ -17,13 +18,7 @@
     </template>
     <script>
         /**
-         * This is a faceless component representing a Document in the database. It provides access to
-         * meta-data as the path, root, odd etc.
-         *
-         * pb-document should have an id attribute set to allow other components to access it.
-         *
-         * @customElement
-         * @polymer
+         * @demo demo/pb-document.html
          */
         class PbDocument extends Polymer.Element {
             static get is() {
@@ -51,7 +46,7 @@
                     },
                     /**
                      * The odd file which should be used to render this document by default. Might be
-                     * overwritten in a `pb-view`. The odd should be specified by its name without path 
+                     * overwritten in a `pb-view`. The odd should be specified by its name without path
                      * or the `.odd` suffix.
                      */
                     odd: {
@@ -60,7 +55,7 @@
                     /**
                      * The default view to be used for displaying this document. Can be either `page`, `div` or `simple`.
                      * Might be overwritten in a `pb-view`.
-                     * 
+                     *
                      * Value | Displayed content
                      * ------|------------------
                      * `page` | content is displayed page by page as determined by tei:pb
@@ -99,7 +94,7 @@
 
             /**
              * Returns the full path to the document.
-             
+
              * @returns {string} Full path to the document
              */
             getFullPath() {

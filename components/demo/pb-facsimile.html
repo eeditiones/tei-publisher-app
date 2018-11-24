@@ -6,20 +6,38 @@
     <title>existdb-document demo</title>
 
     <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="../dependencies-dev.html"/>
+    <link rel="import" href="../bower_components/iron-demo-helpers/demo-pages-shared-styles.html"/>
+    <link rel="import" href="../bower_components/iron-demo-helpers/demo-snippet.html"/>
 
-    <link rel="import" href="../pb-facsimile.html"/>
     <style>
-      pb-facsimile{
-        /*width: 100%;*/
-        /*height:auto;*/
-        /*height: 500px;*/
-
+      pb-facsimile {
+          flex: 1 0;
+          min-width: 400px;
+          height: 360px;
+          margin-right: 20px;
+      }
+      div {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
       }
     </style>
   </head>
   <body>
-      <pb-facsimile
-              src="http://showcases.exist-db.org:8198/cantaloupe/iiif/2/axc0529-0.jpg/0,0,200,200/full/0/default.jpg"
-              > </pb-facsimile>
+      <demo-snippet>
+          <template>
+              <div>
+                <pb-facsimile base-uri="http://apps.existsolutions.com/cantaloupe/iiif/2/"
+                    facsimiles='["15929_000_IDL5772_BOss12034_IIIp79.jpg", "axc0671-0.jpg"]'
+                    default-zoom-level="0" show-navigator="show-navigator"
+                    showNavigationControl="true" showNavigator="true"></pb-facsimile>
+                <ul>
+                    <li><pb-facs-link facs="15929_000_IDL5772_BOss12034_IIIp79.jpg">Facsimile 1</pb-facs-link></li>
+                    <li><pb-facs-link facs="axc0671-0.jpg">Facsimile 2</pb-facs-link></li>
+                </ul>
+            </div>
+        </template>
+    </demo-snippet>
   </body>
 </html>

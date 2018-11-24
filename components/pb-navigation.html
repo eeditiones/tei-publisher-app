@@ -1,13 +1,6 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 <link rel="import" href="pb-mixin.html"/>
 
-<!--
-Navigate backward/forward in a document. This component does not implement any functionality itself.
-It just sends a `pb-navigate` event when clicked.
-
-@customElement
-@polymer
--->
 <dom-module id="pb-navigation">
     <template>
         <a id="button" on-click="_handleClick"><slot></slot></a>
@@ -15,9 +8,13 @@ It just sends a `pb-navigate` event when clicked.
 
     <script>
         /**
-         * a component to navigate in a document forward and backward.
+         * Navigate backward/forward in a document. This component does not implement any functionality itself.
+         * It just sends a `pb-navigate` event when clicked.
          *
+         * @customElement
+         * @polymer
          * @appliesMixin PbMixin
+         * @demo demo/pb-view.html
          */
         class PbNavigation extends Polymer.mixinBehaviors([Polymer.IronA11yKeysBehavior], PbMixin(Polymer.Element)) {
             static get is() {

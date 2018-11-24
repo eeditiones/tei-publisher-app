@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+
+        <title>pb-view Demo</title>
+        <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+        <link rel="import" href="../dependencies-dev.html"/>
+        <link rel="import" href="../pb-code-highlight.html"/>
+        <link rel="import" href="../bower_components/iron-demo-helpers/demo-pages-shared-styles.html"/>
+        <link rel="import" href="../bower_components/iron-demo-helpers/demo-snippet.html"/>
+        <custom-style>
+            <style is="custom-style" include="demo-pages-shared-styles">
+            </style>
+        </custom-style>
+    </head>
+
+    <body>
+        <demo-snippet>
+            <template>
+                <pb-code-highlight lang="xquery">
+                    for $i in $root//tei:placeName
+                    order by $i descending
+                    return
+                        &lt;li&gt;{$i/string()}&lt;/li&gt;
+                </pb-code-highlight>
+            </template>
+        </demo-snippet>
+    </body>
+</html>

@@ -13,11 +13,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 33,
+              "line": 34,
               "column": 20
             },
             "end": {
-              "line": 36,
+              "line": 37,
               "column": 21
             }
           },
@@ -36,11 +36,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 40,
+              "line": 41,
               "column": 12
             },
             "end": {
-              "line": 42,
+              "line": 43,
               "column": 13
             }
           },
@@ -56,11 +56,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 44,
+              "line": 45,
               "column": 12
             },
             "end": {
-              "line": 49,
+              "line": 50,
               "column": 13
             }
           },
@@ -72,15 +72,20 @@
         }
       ],
       "staticMethods": [],
-      "demos": [],
+      "demos": [
+        {
+          "url": "demo/pb-code-highlight.html",
+          "description": ""
+        }
+      ],
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 23,
+          "line": 24,
           "column": 8
         },
         "end": {
-          "line": 50,
+          "line": 51,
           "column": 9
         }
       },
@@ -93,11 +98,11 @@
           "description": "The language to be used for syntax highlighting.",
           "sourceRange": {
             "start": {
-              "line": 33,
+              "line": 34,
               "column": 20
             },
             "end": {
-              "line": 36,
+              "line": 37,
               "column": 21
             }
           },
@@ -144,7 +149,7 @@
               "column": 20
             },
             "end": {
-              "line": 39,
+              "line": 40,
               "column": 21
             }
           },
@@ -152,7 +157,8 @@
             "polymer": {
               "attributeType": "Number"
             }
-          }
+          },
+          "defaultValue": "51.505"
         },
         {
           "name": "longitude",
@@ -161,11 +167,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 40,
+              "line": 41,
               "column": 20
             },
             "end": {
-              "line": 42,
+              "line": 44,
               "column": 21
             }
           },
@@ -173,7 +179,8 @@
             "polymer": {
               "attributeType": "Number"
             }
-          }
+          },
+          "defaultValue": "-0.09"
         },
         {
           "name": "zoom",
@@ -182,11 +189,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 43,
+              "line": 45,
               "column": 20
             },
             "end": {
-              "line": 46,
+              "line": 48,
               "column": 21
             }
           },
@@ -204,11 +211,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 47,
+              "line": 49,
               "column": 20
             },
             "end": {
-              "line": 50,
+              "line": 52,
               "column": 21
             }
           },
@@ -226,11 +233,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 51,
+              "line": 53,
               "column": 20
             },
             "end": {
-              "line": 54,
+              "line": 56,
               "column": 21
             }
           },
@@ -248,11 +255,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 55,
+              "line": 57,
               "column": 20
             },
             "end": {
-              "line": 57,
+              "line": 59,
               "column": 21
             }
           },
@@ -269,11 +276,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 58,
+              "line": 60,
               "column": 20
             },
             "end": {
-              "line": 61,
+              "line": 63,
               "column": 21
             }
           },
@@ -292,11 +299,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 72,
+              "line": 74,
               "column": 12
             },
             "end": {
-              "line": 122,
+              "line": 124,
               "column": 13
             }
           },
@@ -312,11 +319,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 124,
+              "line": 126,
               "column": 12
             },
             "end": {
-              "line": 128,
+              "line": 130,
               "column": 13
             }
           },
@@ -332,11 +339,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 130,
+              "line": 132,
               "column": 12
             },
             "end": {
-              "line": 165,
+              "line": 169,
               "column": 13
             }
           },
@@ -352,11 +359,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 167,
+              "line": 171,
               "column": 12
             },
             "end": {
-              "line": 179,
+              "line": 183,
               "column": 13
             }
           },
@@ -380,7 +387,7 @@
       "staticMethods": [],
       "demos": [
         {
-          "url": "demo/index.html",
+          "url": "demo/pb-leaflet-map.html",
           "description": ""
         }
       ],
@@ -391,7 +398,7 @@
           "column": 8
         },
         "end": {
-          "line": 180,
+          "line": 184,
           "column": 9
         }
       },
@@ -408,7 +415,7 @@
               "column": 20
             },
             "end": {
-              "line": 39,
+              "line": 40,
               "column": 21
             }
           },
@@ -420,11 +427,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 40,
+              "line": 41,
               "column": 20
             },
             "end": {
-              "line": 42,
+              "line": 44,
               "column": 21
             }
           },
@@ -436,11 +443,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 43,
+              "line": 45,
               "column": 20
             },
             "end": {
-              "line": 46,
+              "line": 48,
               "column": 21
             }
           },
@@ -452,11 +459,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 47,
+              "line": 49,
               "column": 20
             },
             "end": {
-              "line": 50,
+              "line": 52,
               "column": 21
             }
           },
@@ -468,11 +475,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 51,
+              "line": 53,
               "column": 20
             },
             "end": {
-              "line": 54,
+              "line": 56,
               "column": 21
             }
           },
@@ -1085,7 +1092,7 @@
       "tagname": "pb-paginate"
     },
     {
-      "description": "Represents a Publisher document. It has no visual presentation but holds meta-data\n    about the document to be used by other components like `pb-view`. Every `pb-view`\n    references a `pb-document`.\n    \n    \n    \n\nThis is a faceless component representing a Document in the database. It provides access to\nmeta-data as the path, root, odd etc.\n\npb-document should have an id attribute set to allow other components to access it.",
+      "description": "Represents a Publisher document. It has no visual presentation but holds meta-data\n    about the document to be used by other components like `pb-view`. Every `pb-view`\n    references a `pb-document`.\n\n    pb-document should have an id attribute set to allow other components to access it.",
       "summary": "",
       "path": "pb-document.html",
       "properties": [
@@ -1096,11 +1103,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 37,
+              "line": 32,
               "column": 20
             },
             "end": {
-              "line": 42,
+              "line": 37,
               "column": 21
             }
           },
@@ -1120,11 +1127,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 47,
+              "line": 42,
               "column": 20
             },
             "end": {
-              "line": 50,
+              "line": 45,
               "column": 21
             }
           },
@@ -1142,11 +1149,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 56,
+              "line": 51,
               "column": 20
             },
             "end": {
-              "line": 58,
+              "line": 53,
               "column": 21
             }
           },
@@ -1163,11 +1170,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 69,
+              "line": 64,
               "column": 20
             },
             "end": {
-              "line": 71,
+              "line": 66,
               "column": 21
             }
           },
@@ -1184,11 +1191,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 72,
+              "line": 67,
               "column": 20
             },
             "end": {
-              "line": 74,
+              "line": 69,
               "column": 21
             }
           },
@@ -1206,11 +1213,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 78,
+              "line": 73,
               "column": 12
             },
             "end": {
-              "line": 80,
+              "line": 75,
               "column": 13
             }
           },
@@ -1226,11 +1233,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 82,
+              "line": 77,
               "column": 12
             },
             "end": {
-              "line": 84,
+              "line": 79,
               "column": 13
             }
           },
@@ -1246,11 +1253,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 86,
+              "line": 81,
               "column": 12
             },
             "end": {
-              "line": 88,
+              "line": 83,
               "column": 13
             }
           },
@@ -1266,11 +1273,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 95,
+              "line": 90,
               "column": 12
             },
             "end": {
-              "line": 97,
+              "line": 92,
               "column": 13
             }
           },
@@ -1287,11 +1294,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 104,
+              "line": 99,
               "column": 12
             },
             "end": {
-              "line": 106,
+              "line": 101,
               "column": 13
             }
           },
@@ -1304,15 +1311,20 @@
         }
       ],
       "staticMethods": [],
-      "demos": [],
+      "demos": [
+        {
+          "url": "demo/pb-document.html",
+          "description": ""
+        }
+      ],
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 27,
+          "line": 22,
           "column": 8
         },
         "end": {
-          "line": 107,
+          "line": 102,
           "column": 9
         }
       },
@@ -1325,11 +1337,11 @@
           "description": "The path to the document to be loaded. Should be relative to `root`.",
           "sourceRange": {
             "start": {
-              "line": 37,
+              "line": 32,
               "column": 20
             },
             "end": {
-              "line": 42,
+              "line": 37,
               "column": 21
             }
           },
@@ -1341,11 +1353,11 @@
           "description": "The root collection which will be used to resolve relative paths\nspecified in `path`.",
           "sourceRange": {
             "start": {
-              "line": 47,
+              "line": 42,
               "column": 20
             },
             "end": {
-              "line": 50,
+              "line": 45,
               "column": 21
             }
           },
@@ -1357,11 +1369,11 @@
           "description": "The odd file which should be used to render this document by default. Might be\noverwritten in a `pb-view`. The odd should be specified by its name without path\nor the `.odd` suffix.",
           "sourceRange": {
             "start": {
-              "line": 56,
+              "line": 51,
               "column": 20
             },
             "end": {
-              "line": 58,
+              "line": 53,
               "column": 21
             }
           },
@@ -1373,11 +1385,11 @@
           "description": "The default view to be used for displaying this document. Can be either `page`, `div` or `simple`.\nMight be overwritten in a `pb-view`.\n\nValue | Displayed content\n------|------------------\n`page` | content is displayed page by page as determined by tei:pb\n`div` | content is displayed by divisions\n`single` | do not paginate but display entire content at once",
           "sourceRange": {
             "start": {
-              "line": 69,
+              "line": 64,
               "column": 20
             },
             "end": {
-              "line": 71,
+              "line": 66,
               "column": 21
             }
           },
@@ -1389,11 +1401,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 72,
+              "line": 67,
               "column": 20
             },
             "end": {
-              "line": 74,
+              "line": 69,
               "column": 21
             }
           },
@@ -1520,11 +1532,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 112,
+              "line": 115,
               "column": 20
             },
             "end": {
-              "line": 114,
+              "line": 117,
               "column": 21
             }
           },
@@ -1541,11 +1553,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 120,
+              "line": 123,
               "column": 20
             },
             "end": {
-              "line": 123,
+              "line": 126,
               "column": 21
             }
           },
@@ -1562,11 +1574,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 134,
+              "line": 137,
               "column": 20
             },
             "end": {
-              "line": 137,
+              "line": 140,
               "column": 21
             }
           },
@@ -1583,11 +1595,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 142,
+              "line": 145,
               "column": 20
             },
             "end": {
-              "line": 145,
+              "line": 148,
               "column": 21
             }
           },
@@ -1604,11 +1616,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 150,
+              "line": 153,
               "column": 20
             },
             "end": {
-              "line": 153,
+              "line": 156,
               "column": 21
             }
           },
@@ -1625,11 +1637,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 160,
+              "line": 163,
               "column": 20
             },
             "end": {
-              "line": 163,
+              "line": 166,
               "column": 21
             }
           },
@@ -1646,11 +1658,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 168,
+              "line": 171,
               "column": 20
             },
             "end": {
-              "line": 171,
+              "line": 174,
               "column": 21
             }
           },
@@ -1668,11 +1680,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 177,
+              "line": 180,
               "column": 20
             },
             "end": {
-              "line": 180,
+              "line": 183,
               "column": 21
             }
           },
@@ -1690,11 +1702,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 184,
+              "line": 187,
               "column": 20
             },
             "end": {
-              "line": 187,
+              "line": 190,
               "column": 21
             }
           },
@@ -1712,11 +1724,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 192,
+              "line": 195,
               "column": 20
             },
             "end": {
-              "line": 195,
+              "line": 198,
               "column": 21
             }
           },
@@ -1734,11 +1746,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 199,
+              "line": 202,
               "column": 20
             },
             "end": {
-              "line": 202,
+              "line": 205,
               "column": 21
             }
           },
@@ -1756,11 +1768,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 208,
+              "line": 211,
               "column": 20
             },
             "end": {
-              "line": 210,
+              "line": 213,
               "column": 21
             }
           },
@@ -1777,11 +1789,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 214,
+              "line": 217,
               "column": 20
             },
             "end": {
-              "line": 217,
+              "line": 220,
               "column": 21
             }
           },
@@ -1799,11 +1811,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 218,
+              "line": 221,
               "column": 20
             },
             "end": {
-              "line": 224,
+              "line": 227,
               "column": 21
             }
           },
@@ -2015,11 +2027,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 232,
+              "line": 235,
               "column": 12
             },
             "end": {
-              "line": 234,
+              "line": 237,
               "column": 13
             }
           },
@@ -2035,11 +2047,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 236,
+              "line": 239,
               "column": 12
             },
             "end": {
-              "line": 250,
+              "line": 253,
               "column": 13
             }
           },
@@ -2055,11 +2067,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 255,
+              "line": 258,
               "column": 12
             },
             "end": {
-              "line": 262,
+              "line": 265,
               "column": 13
             }
           },
@@ -2072,11 +2084,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 267,
+              "line": 270,
               "column": 12
             },
             "end": {
-              "line": 269,
+              "line": 272,
               "column": 13
             }
           },
@@ -2089,11 +2101,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 271,
+              "line": 274,
               "column": 12
             },
             "end": {
-              "line": 273,
+              "line": 276,
               "column": 13
             }
           },
@@ -2106,11 +2118,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 278,
+              "line": 281,
               "column": 12
             },
             "end": {
-              "line": 280,
+              "line": 283,
               "column": 13
             }
           },
@@ -2126,11 +2138,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 282,
+              "line": 285,
               "column": 12
             },
             "end": {
-              "line": 301,
+              "line": 304,
               "column": 13
             }
           },
@@ -2150,11 +2162,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 303,
+              "line": 306,
               "column": 12
             },
             "end": {
-              "line": 328,
+              "line": 331,
               "column": 13
             }
           },
@@ -2174,11 +2186,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 330,
+              "line": 333,
               "column": 12
             },
             "end": {
-              "line": 341,
+              "line": 344,
               "column": 13
             }
           },
@@ -2194,11 +2206,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 343,
+              "line": 346,
               "column": 12
             },
             "end": {
-              "line": 347,
+              "line": 350,
               "column": 13
             }
           },
@@ -2214,11 +2226,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 349,
+              "line": 352,
               "column": 12
             },
             "end": {
-              "line": 379,
+              "line": 382,
               "column": 13
             }
           },
@@ -2234,11 +2246,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 381,
+              "line": 384,
               "column": 12
             },
             "end": {
-              "line": 406,
+              "line": 409,
               "column": 13
             }
           },
@@ -2255,11 +2267,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 408,
+              "line": 411,
               "column": 12
             },
             "end": {
-              "line": 431,
+              "line": 434,
               "column": 13
             }
           },
@@ -2279,11 +2291,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 433,
+              "line": 436,
               "column": 12
             },
             "end": {
-              "line": 443,
+              "line": 446,
               "column": 13
             }
           },
@@ -2303,11 +2315,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 445,
+              "line": 448,
               "column": 12
             },
             "end": {
-              "line": 451,
+              "line": 454,
               "column": 13
             }
           },
@@ -2320,11 +2332,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 456,
+              "line": 459,
               "column": 12
             },
             "end": {
-              "line": 477,
+              "line": 480,
               "column": 13
             }
           },
@@ -2341,11 +2353,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 484,
+              "line": 487,
               "column": 12
             },
             "end": {
-              "line": 486,
+              "line": 489,
               "column": 13
             }
           },
@@ -2367,11 +2379,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 493,
+              "line": 496,
               "column": 12
             },
             "end": {
-              "line": 496,
+              "line": 499,
               "column": 13
             }
           },
@@ -2393,11 +2405,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 504,
+              "line": 507,
               "column": 12
             },
             "end": {
-              "line": 514,
+              "line": 517,
               "column": 13
             }
           },
@@ -2419,11 +2431,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 521,
+              "line": 524,
               "column": 12
             },
             "end": {
-              "line": 530,
+              "line": 533,
               "column": 13
             }
           },
@@ -2445,11 +2457,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 532,
+              "line": 535,
               "column": 12
             },
             "end": {
-              "line": 535,
+              "line": 538,
               "column": 13
             }
           },
@@ -2472,11 +2484,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 537,
+              "line": 540,
               "column": 12
             },
             "end": {
-              "line": 541,
+              "line": 544,
               "column": 13
             }
           },
@@ -2492,11 +2504,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 543,
+              "line": 546,
               "column": 12
             },
             "end": {
-              "line": 549,
+              "line": 552,
               "column": 13
             }
           },
@@ -2516,11 +2528,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 551,
+              "line": 554,
               "column": 12
             },
             "end": {
-              "line": 557,
+              "line": 560,
               "column": 13
             }
           },
@@ -2536,15 +2548,20 @@
         }
       ],
       "staticMethods": [],
-      "demos": [],
+      "demos": [
+        {
+          "url": "demo/pb-view.html",
+          "description": ""
+        }
+      ],
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 96,
+          "line": 99,
           "column": 8
         },
         "end": {
-          "line": 580,
+          "line": 602,
           "column": 9
         }
       },
@@ -2629,11 +2646,11 @@
           "description": "The id of a `pb-document` element this view should display.\nSettings like `odd` or `view` will be taken from the `pb-document`\nunless overwritten by properties in this component.\n\nThis property is **required** and **must** point to an existing `pb-document` with\nthe given id.",
           "sourceRange": {
             "start": {
-              "line": 112,
+              "line": 115,
               "column": 20
             },
             "end": {
-              "line": 114,
+              "line": 117,
               "column": 21
             }
           },
@@ -2645,11 +2662,11 @@
           "description": "The ODD to use for rendering the document. Overwrites an ODD defined on\n`pb-document`. The odd should be specified by its name without path\nor the `.odd` suffix.",
           "sourceRange": {
             "start": {
-              "line": 120,
+              "line": 123,
               "column": 20
             },
             "end": {
-              "line": 123,
+              "line": 126,
               "column": 21
             }
           },
@@ -2661,11 +2678,11 @@
           "description": "The view type to use for paginating the document. Either `page`, `div` or `single`.\nOverwrites the same property specified on `pb-document`. Values have the following meaning:\n\nValue | Displayed content\n------|------------------\n`page` | content is displayed page by page as determined by tei:pb\n`div` | content is displayed by divisions\n`single` | do not paginate but display entire content at once",
           "sourceRange": {
             "start": {
-              "line": 134,
+              "line": 137,
               "column": 20
             },
             "end": {
-              "line": 137,
+              "line": 140,
               "column": 21
             }
           },
@@ -2677,11 +2694,11 @@
           "description": "An eXist nodeId. If specified, selects the root of the fragment of the document\nwhich should be displayed. Normally this property is set automatically by pagination.",
           "sourceRange": {
             "start": {
-              "line": 142,
+              "line": 145,
               "column": 20
             },
             "end": {
-              "line": 145,
+              "line": 148,
               "column": 21
             }
           },
@@ -2693,11 +2710,11 @@
           "description": "An xml:id to be displayed. If specified, this determines the root of the fragment to be\ndisplayed. Use to directly navigate to a specific section.",
           "sourceRange": {
             "start": {
-              "line": 150,
+              "line": 153,
               "column": 20
             },
             "end": {
-              "line": 153,
+              "line": 156,
               "column": 21
             }
           },
@@ -2709,11 +2726,11 @@
           "description": "An optional XPath expression: the root of the fragment to be displayed is determined\nby evaluating the given XPath expression. The XPath expression should be absolute.\nThe namespace of the document is declared as default namespace, so no prefixes should\nbe used.",
           "sourceRange": {
             "start": {
-              "line": 160,
+              "line": 163,
               "column": 20
             },
             "end": {
-              "line": 163,
+              "line": 166,
               "column": 21
             }
           },
@@ -2725,11 +2742,11 @@
           "description": "Message to display if no content was returned by the server.\nSet to empty string to show nothing.",
           "sourceRange": {
             "start": {
-              "line": 168,
+              "line": 171,
               "column": 20
             },
             "end": {
-              "line": 171,
+              "line": 174,
               "column": 21
             }
           },
@@ -2741,11 +2758,11 @@
           "description": "Modify browser history: if set, any load operation performed by this\nelement will generate a new history entry in the browser's history.\nOnly use this on one element on the page.",
           "sourceRange": {
             "start": {
-              "line": 177,
+              "line": 180,
               "column": 20
             },
             "end": {
-              "line": 180,
+              "line": 183,
               "column": 21
             }
           },
@@ -2757,11 +2774,11 @@
           "description": "The relative URL to the script on the server which will be called for loading content.",
           "sourceRange": {
             "start": {
-              "line": 184,
+              "line": 187,
               "column": 20
             },
             "end": {
-              "line": 187,
+              "line": 190,
               "column": 21
             }
           },
@@ -2773,11 +2790,11 @@
           "description": "The server returns footnotes separately. Set this property\nif you wish to append them to the main text.",
           "sourceRange": {
             "start": {
-              "line": 192,
+              "line": 195,
               "column": 20
             },
             "end": {
-              "line": 195,
+              "line": 198,
               "column": 21
             }
           },
@@ -2789,11 +2806,11 @@
           "description": "Should matches be highlighted if a search has been executed?",
           "sourceRange": {
             "start": {
-              "line": 199,
+              "line": 202,
               "column": 20
             },
             "end": {
-              "line": 202,
+              "line": 205,
               "column": 21
             }
           },
@@ -2805,11 +2822,11 @@
           "description": "CSS selector to find column breaks in the content returned\nfrom the server. If this property is set and column breaks\nare found, the component will display two columns side by side.",
           "sourceRange": {
             "start": {
-              "line": 208,
+              "line": 211,
               "column": 20
             },
             "end": {
-              "line": 210,
+              "line": 213,
               "column": 21
             }
           },
@@ -2821,11 +2838,11 @@
           "description": "The reading direction, i.e. 'ltr' or 'rtl'.",
           "sourceRange": {
             "start": {
-              "line": 214,
+              "line": 217,
               "column": 20
             },
             "end": {
-              "line": 217,
+              "line": 220,
               "column": 21
             }
           },
@@ -2837,11 +2854,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 218,
+              "line": 221,
               "column": 20
             },
             "end": {
-              "line": 224,
+              "line": 227,
               "column": 21
             }
           },
@@ -2858,6 +2875,18 @@
         },
         {
           "type": "CustomEvent",
+          "name": "pb-navigate",
+          "description": "When this event is received: navigate forward or backward in the document",
+          "metadata": {}
+        },
+        {
+          "type": "CustomEvent",
+          "name": "pb-refresh",
+          "description": "When received, refresh the current view using the parameters passed in the\nevent details.",
+          "metadata": {}
+        },
+        {
+          "type": "CustomEvent",
           "name": "pb-start-update",
           "description": "Fired before the element updates its content",
           "metadata": {}
@@ -2866,6 +2895,12 @@
           "type": "CustomEvent",
           "name": "pb-update",
           "description": "Fired when the component received content from the server",
+          "metadata": {}
+        },
+        {
+          "type": "CustomEvent",
+          "name": "pb-zoom",
+          "description": "When this event is received: increase or decrease the font size of the content",
           "metadata": {}
         }
       ],
@@ -2880,7 +2915,7 @@
       ]
     },
     {
-      "description": "Navigate backward/forward in a document. This component does not implement any functionality itself.\nIt just sends a `pb-navigate` event when clicked.\n\na component to navigate in a document forward and backward.",
+      "description": "Navigate backward/forward in a document. This component does not implement any functionality itself.\nIt just sends a `pb-navigate` event when clicked.",
       "summary": "",
       "path": "pb-navigation.html",
       "properties": [
@@ -2983,11 +3018,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 31,
+              "line": 28,
               "column": 20
             },
             "end": {
-              "line": 34,
+              "line": 31,
               "column": 21
             }
           },
@@ -3005,11 +3040,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 38,
+              "line": 35,
               "column": 20
             },
             "end": {
-              "line": 40,
+              "line": 37,
               "column": 21
             }
           },
@@ -3026,11 +3061,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 41,
+              "line": 38,
               "column": 20
             },
             "end": {
-              "line": 46,
+              "line": 43,
               "column": 21
             }
           },
@@ -3240,11 +3275,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 50,
+              "line": 47,
               "column": 12
             },
             "end": {
-              "line": 52,
+              "line": 49,
               "column": 13
             }
           },
@@ -3260,11 +3295,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 54,
+              "line": 51,
               "column": 12
             },
             "end": {
-              "line": 62,
+              "line": 59,
               "column": 13
             }
           },
@@ -3280,11 +3315,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 64,
+              "line": 61,
               "column": 12
             },
             "end": {
-              "line": 66,
+              "line": 63,
               "column": 13
             }
           },
@@ -3300,11 +3335,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 68,
+              "line": 65,
               "column": 12
             },
             "end": {
-              "line": 74,
+              "line": 71,
               "column": 13
             }
           },
@@ -3320,15 +3355,20 @@
         }
       ],
       "staticMethods": [],
-      "demos": [],
+      "demos": [
+        {
+          "url": "demo/pb-view.html",
+          "description": ""
+        }
+      ],
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 21,
+          "line": 18,
           "column": 8
         },
         "end": {
-          "line": 75,
+          "line": 72,
           "column": 9
         }
       },
@@ -3413,11 +3453,11 @@
           "description": "The direction to navigate in, either `forward` or `backward`",
           "sourceRange": {
             "start": {
-              "line": 31,
+              "line": 28,
               "column": 20
             },
             "end": {
-              "line": 34,
+              "line": 31,
               "column": 21
             }
           },
@@ -3429,11 +3469,11 @@
           "description": "Enable keyboard shortcuts: press left for backward, right for forward",
           "sourceRange": {
             "start": {
-              "line": 38,
+              "line": 35,
               "column": 20
             },
             "end": {
-              "line": 40,
+              "line": 37,
               "column": 21
             }
           },
@@ -3445,11 +3485,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 41,
+              "line": 38,
               "column": 20
             },
             "end": {
-              "line": 46,
+              "line": 43,
               "column": 21
             }
           },
@@ -3468,11 +3508,11 @@
           "name": "",
           "range": {
             "start": {
-              "line": 12,
+              "line": 5,
               "column": 47
             },
             "end": {
-              "line": 12,
+              "line": 5,
               "column": 60
             }
           }
@@ -4020,10 +4060,102 @@
       ]
     },
     {
-      "description": "<link rel=\"import\" href=\"bower_components/paper-checkbox/paper-checkbox.html\">\n<link rel=\"import\" href=\"bower_components/iron-icons/iron-icons.html\">\n\n`pb-view-type`",
+      "description": "A checkbox to switch between page-by-page and division-by-division view.\nNeeds to be subscribed to a particular view. Listen to its `update` event\nto determine current view type and reading position.",
       "summary": "",
       "path": "pb-view-type.html",
       "properties": [
+        {
+          "name": "subscribe",
+          "type": "string | null | undefined",
+          "description": "The name of the channel to subscribe to. Only events on a channel corresponding\nto this property are listened to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 35,
+              "column": 16
+            },
+            "end": {
+              "line": 37,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "subscribeConfig",
+          "type": "Object | null | undefined",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to listen to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 43,
+              "column": 16
+            },
+            "end": {
+              "line": 45,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Object"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emit",
+          "type": "string | null | undefined",
+          "description": "The name of the channel to send events to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 49,
+              "column": 16
+            },
+            "end": {
+              "line": 51,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emitConfig",
+          "type": "Object | null | undefined",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to be dispatched.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 57,
+              "column": 16
+            },
+            "end": {
+              "line": 59,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Object"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
         {
           "name": "isActive",
           "type": "boolean | null | undefined",
@@ -4031,11 +4163,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 27,
+              "line": 26,
               "column": 20
             },
             "end": {
-              "line": 30,
+              "line": 29,
               "column": 21
             }
           },
@@ -4053,11 +4185,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 31,
+              "line": 30,
               "column": 20
             },
             "end": {
-              "line": 35,
+              "line": 34,
               "column": 21
             }
           },
@@ -4072,16 +4204,208 @@
       ],
       "methods": [
         {
+          "name": "subscribeTo",
+          "description": "Listen to the event defined by type. If property `subscribe` or `subscribe-config`\nis defined, this method will trigger the listener only if the event has a key\nequal to the key defined in `subscribe` or `subscribe-config`.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 76,
+              "column": 8
+            },
+            "end": {
+              "line": 106,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "type",
+              "type": "String",
+              "description": "Name of the event, usually starting with `pb-`"
+            },
+            {
+              "name": "listener",
+              "type": "Function",
+              "description": "Callback function"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emitTo",
+          "description": "Dispatch an event of the given type. If the properties `emit` or `emit-config`\nare defined, the event will be limited to the channel specified there.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 115,
+              "column": 8
+            },
+            "end": {
+              "line": 155,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "type",
+              "type": "String",
+              "description": "Name of the event, usually starting with `pb-`"
+            },
+            {
+              "name": "options",
+              "type": "Object",
+              "description": "Options to be passed in ev.detail"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getParameter",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 157,
+              "column": 8
+            },
+            "end": {
+              "line": 163,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "fallback"
+            }
+          ],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getParameterValues",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 165,
+              "column": 8
+            },
+            "end": {
+              "line": 167,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name"
+            }
+          ],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "setParameter",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 169,
+              "column": 8
+            },
+            "end": {
+              "line": 171,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 173,
+              "column": 8
+            },
+            "end": {
+              "line": 175,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "pushHistory",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 177,
+              "column": 8
+            },
+            "end": {
+              "line": 179,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "msg"
+            },
+            {
+              "name": "state"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "connectedCallback",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 39,
+              "line": 38,
               "column": 12
             },
             "end": {
-              "line": 41,
+              "line": 40,
               "column": 13
             }
           },
@@ -4097,11 +4421,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 43,
+              "line": 42,
               "column": 12
             },
             "end": {
-              "line": 47,
+              "line": 46,
               "column": 13
             }
           },
@@ -4117,11 +4441,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 49,
+              "line": 48,
               "column": 12
             },
             "end": {
-              "line": 51,
+              "line": 50,
               "column": 13
             }
           },
@@ -4138,11 +4462,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 53,
+              "line": 52,
               "column": 12
             },
             "end": {
-              "line": 56,
+              "line": 55,
               "column": 13
             }
           },
@@ -4162,11 +4486,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 58,
+              "line": 57,
               "column": 12
             },
             "end": {
-              "line": 64,
+              "line": 63,
               "column": 13
             }
           },
@@ -4191,11 +4515,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 20,
+          "line": 19,
           "column": 8
         },
         "end": {
-          "line": 65,
+          "line": 71,
           "column": 9
         }
       },
@@ -4204,15 +4528,87 @@
       "name": "PbViewType",
       "attributes": [
         {
+          "name": "subscribe",
+          "description": "The name of the channel to subscribe to. Only events on a channel corresponding\nto this property are listened to.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 35,
+              "column": 16
+            },
+            "end": {
+              "line": 37,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "subscribe-config",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to listen to.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 43,
+              "column": 16
+            },
+            "end": {
+              "line": 45,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "Object | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emit",
+          "description": "The name of the channel to send events to.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 49,
+              "column": 16
+            },
+            "end": {
+              "line": 51,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emit-config",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to be dispatched.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 57,
+              "column": 16
+            },
+            "end": {
+              "line": 59,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "Object | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "is-active",
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 27,
+              "line": 26,
               "column": 20
             },
             "end": {
-              "line": 30,
+              "line": 29,
               "column": 21
             }
           },
@@ -4224,11 +4620,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 31,
+              "line": 30,
               "column": 20
             },
             "end": {
-              "line": 35,
+              "line": 34,
               "column": 21
             }
           },
@@ -4236,7 +4632,14 @@
           "type": "string | null | undefined"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "type": "CustomEvent",
+          "name": "pb-refresh",
+          "description": "Fired when the user toggles the element.",
+          "metadata": {}
+        }
+      ],
       "styling": {
         "cssVariables": [],
         "selectors": []
@@ -4247,17 +4650,20 @@
           "name": "",
           "range": {
             "start": {
-              "line": 8,
+              "line": 5,
               "column": 78
             },
             "end": {
-              "line": 8,
+              "line": 5,
               "column": 91
             }
           }
         }
       ],
-      "tagname": "pb-view-type"
+      "tagname": "pb-view-type",
+      "mixins": [
+        "PbMixin"
+      ]
     },
     {
       "description": "`pb-edit-xml`\n\nAllows to open a XML document for editing in eXide. The document may be given by using the `path` or `src'\nattributes.",
@@ -7669,22 +8075,22 @@
       "tagname": "pb-browse-docs"
     },
     {
-      "description": "<link rel=\"import\" href=\"bower_components/paper-button/paper-button.html\">\n<link rel=\"import\" href=\"bower_components/iron-icon/iron-icon.html\">\n<link rel=\"import\" href=\"bower_components/vaadin-upload/vaadin-upload.html\">\n\n`pb-upload`",
+      "description": "<link rel=\"import\" href=\"bower_components/paper-button/paper-button.html\">\n<link rel=\"import\" href=\"bower_components/iron-icon/iron-icon.html\">\n<link rel=\"import\" href=\"bower_components/vaadin-upload/vaadin-upload.html\">\n\n`pb-upload`\n\na document upload component",
       "summary": "",
       "path": "pb-upload.html",
       "properties": [
         {
           "name": "target",
           "type": "string | null | undefined",
-          "description": "",
+          "description": "the server-side script to handle the upload",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 36,
+              "line": 40,
               "column": 20
             },
             "end": {
-              "line": 38,
+              "line": 42,
               "column": 21
             }
           },
@@ -7702,11 +8108,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 42,
+              "line": 46,
               "column": 12
             },
             "end": {
-              "line": 57,
+              "line": 61,
               "column": 13
             }
           },
@@ -7722,11 +8128,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 59,
+              "line": 63,
               "column": 12
             },
             "end": {
-              "line": 61,
+              "line": 65,
               "column": 13
             }
           },
@@ -7747,11 +8153,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 29,
+          "line": 30,
           "column": 8
         },
         "end": {
-          "line": 63,
+          "line": 67,
           "column": 9
         }
       },
@@ -7761,14 +8167,14 @@
       "attributes": [
         {
           "name": "target",
-          "description": "",
+          "description": "the server-side script to handle the upload",
           "sourceRange": {
             "start": {
-              "line": 36,
+              "line": 40,
               "column": 20
             },
             "end": {
-              "line": 38,
+              "line": 42,
               "column": 21
             }
           },
@@ -8688,438 +9094,6 @@
       "mixins": [
         "PbMixin"
       ]
-    },
-    {
-      "description": "<link rel=\"import\" href=\"bower_components/paper-checkbox/paper-checkbox.html\">\n\n`pb-switch-text-view`",
-      "summary": "",
-      "path": "pb-switch-text-view.html",
-      "properties": [
-        {
-          "name": "checked",
-          "type": "string | null | undefined",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 31,
-              "column": 20
-            },
-            "end": {
-              "line": 35,
-              "column": 21
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "observer": "\"_changed\"",
-              "attributeType": "String"
-            }
-          },
-          "defaultValue": "false"
-        },
-        {
-          "name": "selector",
-          "type": "string | null | undefined",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 36,
-              "column": 20
-            },
-            "end": {
-              "line": 38,
-              "column": 21
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "String"
-            }
-          }
-        },
-        {
-          "name": "target",
-          "type": "string | null | undefined",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 39,
-              "column": 20
-            },
-            "end": {
-              "line": 41,
-              "column": 21
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "String"
-            }
-          }
-        }
-      ],
-      "methods": [
-        {
-          "name": "connectedCallback",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 45,
-              "column": 12
-            },
-            "end": {
-              "line": 47,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": [],
-          "return": {
-            "type": "void"
-          }
-        },
-        {
-          "name": "ready",
-          "description": "",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 49,
-              "column": 12
-            },
-            "end": {
-              "line": 51,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": [],
-          "return": {
-            "type": "void"
-          }
-        },
-        {
-          "name": "_changed",
-          "description": "",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 53,
-              "column": 12
-            },
-            "end": {
-              "line": 60,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "newVal"
-            },
-            {
-              "name": "oldVal"
-            }
-          ],
-          "return": {
-            "type": "void"
-          }
-        }
-      ],
-      "staticMethods": [],
-      "demos": [
-        {
-          "url": "demo/index.html",
-          "description": ""
-        }
-      ],
-      "metadata": {},
-      "sourceRange": {
-        "start": {
-          "line": 24,
-          "column": 8
-        },
-        "end": {
-          "line": 62,
-          "column": 9
-        }
-      },
-      "privacy": "public",
-      "superclass": "HTMLElement",
-      "name": "PbSwitchTextView",
-      "attributes": [
-        {
-          "name": "checked",
-          "description": "",
-          "sourceRange": {
-            "start": {
-              "line": 31,
-              "column": 20
-            },
-            "end": {
-              "line": 35,
-              "column": 21
-            }
-          },
-          "metadata": {},
-          "type": "string | null | undefined"
-        },
-        {
-          "name": "selector",
-          "description": "",
-          "sourceRange": {
-            "start": {
-              "line": 36,
-              "column": 20
-            },
-            "end": {
-              "line": 38,
-              "column": 21
-            }
-          },
-          "metadata": {},
-          "type": "string | null | undefined"
-        },
-        {
-          "name": "target",
-          "description": "",
-          "sourceRange": {
-            "start": {
-              "line": 39,
-              "column": 20
-            },
-            "end": {
-              "line": 41,
-              "column": 21
-            }
-          },
-          "metadata": {},
-          "type": "string | null | undefined"
-        }
-      ],
-      "events": [],
-      "styling": {
-        "cssVariables": [],
-        "selectors": []
-      },
-      "slots": [
-        {
-          "description": "",
-          "name": "",
-          "range": {
-            "start": {
-              "line": 12,
-              "column": 46
-            },
-            "end": {
-              "line": 12,
-              "column": 59
-            }
-          }
-        }
-      ],
-      "tagname": "pb-switch-text-view"
-    },
-    {
-      "description": "`pb-switch-layout`",
-      "summary": "",
-      "path": "pb-switch-layout.html",
-      "properties": [
-        {
-          "name": "label",
-          "type": "string | null | undefined",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 45,
-              "column": 20
-            },
-            "end": {
-              "line": 48,
-              "column": 21
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "String"
-            }
-          },
-          "defaultValue": "\"Language\""
-        },
-        {
-          "name": "layout",
-          "type": "string | null | undefined",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 49,
-              "column": 20
-            },
-            "end": {
-              "line": 53,
-              "column": 21
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "observer": "\"_changed\"",
-              "attributeType": "String"
-            }
-          },
-          "defaultValue": "\"translation\""
-        }
-      ],
-      "methods": [
-        {
-          "name": "connectedCallback",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 57,
-              "column": 12
-            },
-            "end": {
-              "line": 59,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": [],
-          "return": {
-            "type": "void"
-          }
-        },
-        {
-          "name": "ready",
-          "description": "",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 61,
-              "column": 12
-            },
-            "end": {
-              "line": 63,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": [],
-          "return": {
-            "type": "void"
-          }
-        },
-        {
-          "name": "_changed",
-          "description": "",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 65,
-              "column": 12
-            },
-            "end": {
-              "line": 82,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "newVal"
-            },
-            {
-              "name": "oldVal"
-            }
-          ],
-          "return": {
-            "type": "void"
-          }
-        }
-      ],
-      "staticMethods": [],
-      "demos": [
-        {
-          "url": "demo/index.html",
-          "description": ""
-        }
-      ],
-      "metadata": {},
-      "sourceRange": {
-        "start": {
-          "line": 38,
-          "column": 8
-        },
-        "end": {
-          "line": 84,
-          "column": 9
-        }
-      },
-      "privacy": "public",
-      "superclass": "Polymer.Element",
-      "name": "PbSwitchLayout",
-      "attributes": [
-        {
-          "name": "label",
-          "description": "",
-          "sourceRange": {
-            "start": {
-              "line": 45,
-              "column": 20
-            },
-            "end": {
-              "line": 48,
-              "column": 21
-            }
-          },
-          "metadata": {},
-          "type": "string | null | undefined"
-        },
-        {
-          "name": "layout",
-          "description": "",
-          "sourceRange": {
-            "start": {
-              "line": 49,
-              "column": 20
-            },
-            "end": {
-              "line": 53,
-              "column": 21
-            }
-          },
-          "metadata": {},
-          "type": "string | null | undefined"
-        }
-      ],
-      "events": [],
-      "styling": {
-        "cssVariables": [],
-        "selectors": []
-      },
-      "slots": [
-        {
-          "description": "",
-          "name": "",
-          "range": {
-            "start": {
-              "line": 24,
-              "column": 16
-            },
-            "end": {
-              "line": 24,
-              "column": 29
-            }
-          }
-        }
-      ],
-      "tagname": "pb-switch-layout"
     },
     {
       "description": "`pb-facs-link`\n\ntodo: no usage found in project. Still needed?",
@@ -10216,7 +10190,7 @@
       "staticMethods": [],
       "demos": [
         {
-          "url": "demo/index.html",
+          "url": "demo/pb-facsimile.html",
           "description": ""
         }
       ],
@@ -10908,181 +10882,6 @@
       },
       "slots": [],
       "tagname": "pb-facsimile-loader"
-    },
-    {
-      "description": "`pb-note-section`\n\ntodo: not yet used or outdated?",
-      "summary": "",
-      "path": "pb-note-section.html",
-      "properties": [
-        {
-          "name": "target",
-          "type": "string | null | undefined",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 31,
-              "column": 20
-            },
-            "end": {
-              "line": 33,
-              "column": 21
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "String"
-            }
-          }
-        }
-      ],
-      "methods": [
-        {
-          "name": "connectedCallback",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 37,
-              "column": 12
-            },
-            "end": {
-              "line": 42,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": [],
-          "return": {
-            "type": "void"
-          }
-        },
-        {
-          "name": "ready",
-          "description": "",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 44,
-              "column": 12
-            },
-            "end": {
-              "line": 46,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": [],
-          "return": {
-            "type": "void"
-          }
-        },
-        {
-          "name": "_update",
-          "description": "",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 48,
-              "column": 12
-            },
-            "end": {
-              "line": 52,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "ev"
-            }
-          ],
-          "return": {
-            "type": "void"
-          }
-        },
-        {
-          "name": "_clear",
-          "description": "",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 54,
-              "column": 12
-            },
-            "end": {
-              "line": 56,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": [],
-          "return": {
-            "type": "void"
-          }
-        }
-      ],
-      "staticMethods": [],
-      "demos": [
-        {
-          "url": "demo/index.html",
-          "description": ""
-        }
-      ],
-      "metadata": {},
-      "sourceRange": {
-        "start": {
-          "line": 24,
-          "column": 8
-        },
-        "end": {
-          "line": 57,
-          "column": 9
-        }
-      },
-      "privacy": "public",
-      "superclass": "HTMLElement",
-      "name": "PbNoteSection",
-      "attributes": [
-        {
-          "name": "target",
-          "description": "",
-          "sourceRange": {
-            "start": {
-              "line": 31,
-              "column": 20
-            },
-            "end": {
-              "line": 33,
-              "column": 21
-            }
-          },
-          "metadata": {},
-          "type": "string | null | undefined"
-        }
-      ],
-      "events": [],
-      "styling": {
-        "cssVariables": [],
-        "selectors": []
-      },
-      "slots": [
-        {
-          "description": "",
-          "name": "",
-          "range": {
-            "start": {
-              "line": 10,
-              "column": 8
-            },
-            "end": {
-              "line": 10,
-              "column": 21
-            }
-          }
-        }
-      ],
-      "tagname": "pb-note-section"
     },
     {
       "description": "<link rel=\"import\" href=\"mishnah-common-styles.html\">\n\n`pb-panel`\n\na panel with dropdown at top to switch between views.",
@@ -11905,361 +11704,6 @@
         }
       ],
       "tagname": "pb-grid-action"
-    },
-    {
-      "description": "`pb-control-view` An dropdown allowing to select a view type e.g. 'facsimile' or 'translation'",
-      "summary": "",
-      "path": "pb-control-view.html",
-      "properties": [
-        {
-          "name": "target",
-          "type": "string | null | undefined",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 49,
-              "column": 20
-            },
-            "end": {
-              "line": 51,
-              "column": 21
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "String"
-            }
-          }
-        },
-        {
-          "name": "label",
-          "type": "string | null | undefined",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 52,
-              "column": 20
-            },
-            "end": {
-              "line": 55,
-              "column": 21
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "String"
-            }
-          },
-          "defaultValue": "\"View\""
-        },
-        {
-          "name": "views",
-          "type": "Array | null | undefined",
-          "description": "an array of selectable view types",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 59,
-              "column": 20
-            },
-            "end": {
-              "line": 62,
-              "column": 21
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "Array"
-            }
-          },
-          "defaultValue": "[]"
-        },
-        {
-          "name": "current",
-          "type": "number | null | undefined",
-          "description": "the currently selected index of selected item",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 66,
-              "column": 20
-            },
-            "end": {
-              "line": 69,
-              "column": 21
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "observer": "\"_toggle\"",
-              "attributeType": "Number"
-            }
-          }
-        },
-        {
-          "name": "mode",
-          "type": "string | null | undefined",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 70,
-              "column": 20
-            },
-            "end": {
-              "line": 72,
-              "column": 21
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "String"
-            }
-          }
-        },
-        {
-          "name": "nodeId",
-          "type": "string | null | undefined",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 73,
-              "column": 20
-            },
-            "end": {
-              "line": 75,
-              "column": 21
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "String"
-            }
-          }
-        }
-      ],
-      "methods": [
-        {
-          "name": "connectedCallback",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 79,
-              "column": 12
-            },
-            "end": {
-              "line": 84,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": [],
-          "return": {
-            "type": "void"
-          }
-        },
-        {
-          "name": "ready",
-          "description": "",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 86,
-              "column": 12
-            },
-            "end": {
-              "line": 90,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": [],
-          "return": {
-            "type": "void"
-          }
-        },
-        {
-          "name": "_update",
-          "description": "",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 92,
-              "column": 12
-            },
-            "end": {
-              "line": 95,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "ev"
-            }
-          ],
-          "return": {
-            "type": "void"
-          }
-        },
-        {
-          "name": "_toggle",
-          "description": "",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 97,
-              "column": 12
-            },
-            "end": {
-              "line": 116,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "newValue"
-            },
-            {
-              "name": "oldValue"
-            }
-          ],
-          "return": {
-            "type": "void"
-          }
-        }
-      ],
-      "staticMethods": [],
-      "demos": [
-        {
-          "url": "demo/index.html",
-          "description": ""
-        }
-      ],
-      "metadata": {},
-      "sourceRange": {
-        "start": {
-          "line": 42,
-          "column": 8
-        },
-        "end": {
-          "line": 117,
-          "column": 9
-        }
-      },
-      "privacy": "public",
-      "superclass": "HTMLElement",
-      "name": "PbControlView",
-      "attributes": [
-        {
-          "name": "target",
-          "description": "",
-          "sourceRange": {
-            "start": {
-              "line": 49,
-              "column": 20
-            },
-            "end": {
-              "line": 51,
-              "column": 21
-            }
-          },
-          "metadata": {},
-          "type": "string | null | undefined"
-        },
-        {
-          "name": "label",
-          "description": "",
-          "sourceRange": {
-            "start": {
-              "line": 52,
-              "column": 20
-            },
-            "end": {
-              "line": 55,
-              "column": 21
-            }
-          },
-          "metadata": {},
-          "type": "string | null | undefined"
-        },
-        {
-          "name": "views",
-          "description": "an array of selectable view types",
-          "sourceRange": {
-            "start": {
-              "line": 59,
-              "column": 20
-            },
-            "end": {
-              "line": 62,
-              "column": 21
-            }
-          },
-          "metadata": {},
-          "type": "Array | null | undefined"
-        },
-        {
-          "name": "current",
-          "description": "the currently selected index of selected item",
-          "sourceRange": {
-            "start": {
-              "line": 66,
-              "column": 20
-            },
-            "end": {
-              "line": 69,
-              "column": 21
-            }
-          },
-          "metadata": {},
-          "type": "number | null | undefined"
-        },
-        {
-          "name": "mode",
-          "description": "",
-          "sourceRange": {
-            "start": {
-              "line": 70,
-              "column": 20
-            },
-            "end": {
-              "line": 72,
-              "column": 21
-            }
-          },
-          "metadata": {},
-          "type": "string | null | undefined"
-        },
-        {
-          "name": "node-id",
-          "description": "",
-          "sourceRange": {
-            "start": {
-              "line": 73,
-              "column": 20
-            },
-            "end": {
-              "line": 75,
-              "column": 21
-            }
-          },
-          "metadata": {},
-          "type": "string | null | undefined"
-        }
-      ],
-      "events": [],
-      "styling": {
-        "cssVariables": [],
-        "selectors": []
-      },
-      "slots": [],
-      "tagname": "pb-control-view"
     },
     {
       "description": "`pb-map`\n\na wrapper for a google map",

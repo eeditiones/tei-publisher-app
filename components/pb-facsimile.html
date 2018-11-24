@@ -1,17 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
-<!--
-<link rel="import" href="bower_components/paper-spinner/paper-spinner.html">
-<link rel="import" href="bower_components/paper-spinner/paper-spinner-lite.html">
-<link rel="import" href="bower_components/paper-styles/color.html">
-
-<link rel="import" href="pb-facsimile-loader.html">
--->
-<!--<link rel="import" href="pb-facsimile-overlay.html">-->
-
 <script src="bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon.min.js"></script>
-<!--<script src="bower_components/paper/dist/paper-full.js"></script>-->
-<!--<script src="bower_components/OpenSeadragonPaperjsOverlay/openseadragon-paperjs-overlay.js"></script>-->
-<!--<script src="bower_components/openseadragon-annotations/openseadragon-annotations.js"></script>-->
 
 <dom-module id="pb-facsimile">
     <template>
@@ -84,7 +72,7 @@
          *
          * @customElement
          * @polymer
-         * @demo demo/index.html
+         * @demo demo/pb-facsimile.html
          */
         class PbFacsimile extends PbMixin(Polymer.Element) {
             static get is() {
@@ -130,12 +118,19 @@
                     // zoomInButton, zoomOutButton etc, are rendered inactive.
                     showNavigationControl: {
                         type: Boolean,
-                        value: false
+                        value: true
                     },
                     // Set to true to make the navigator minimap appear.
                     showNavigator: {
                         type: Boolean,
                         value: false
+                    },
+                    /**
+                     * Default zoom between: set to 0 to adjust to viewer size.
+                     */
+                    defaultZoomLevel: {
+                        type: Number,
+                        value: 0
                     },
                     // The "zoom distance" per mouse click or touch tap.
                     // Note: Setting this to 1.0 effectively disables the click-to-zoom feature
@@ -299,11 +294,12 @@
                     showZoomControl:    true,
                     showHomeControl:    true,
                     showFullPageControl: true,
-                    showNavigator:      false,
+                    showNavigator:      this.showNavigator,
+                    showNavigationControl: this.showNavigationControl,
                     autoHideControls:   false,
                     visibilityRatio:    1,
                     minZoomLevel:       1,
-                    defaultZoomLevel:   1,
+                    defaultZoomLevel:   this.defaultZoomLevel,
                     constrainDuringPan: true
                 });
 
@@ -409,9 +405,9 @@
               }
 
               if (
-                !event.detail.coordinates ||
-                !event.detail.coordinates[0] ||
-                event.detail.coordinates.length !== 4
+                event.detail.coordinates &&
+                (!event.detail.coordinates[0] ||
+                event.detail.coordinates.length !== 4)
               ) {
                 return console.error('coords incomplete or missing', event.detail)
               }
@@ -427,30 +423,32 @@
                   this.viewer.goToPage(page);
               }
 
-              // deconstruct given coordinates into variables
-              const [x1, y1, w, h] = event.detail.coordinates;
+              if (event.detail.coordinates) {
+                  // deconstruct given coordinates into variables
+                  const [x1, y1, w, h] = event.detail.coordinates;
 
-              const currentRect = this.viewer.viewport.viewportToImageRectangle(
-                this.viewer.viewport.getBounds(true));
+                  const currentRect = this.viewer.viewport.viewportToImageRectangle(
+                    this.viewer.viewport.getBounds(true));
 
-              // scroll into view?
-              if (!currentRect.containsPoint(new OpenSeadragon.Point(x1, y1))) {
-                  this.viewer.viewport.fitBoundsWithConstraints(
-                    this.viewer.viewport.imageToViewportRectangle(x1, y1, currentRect.width, currentRect.height));
+                  // scroll into view?
+                  if (!currentRect.containsPoint(new OpenSeadragon.Point(x1, y1))) {
+                      this.viewer.viewport.fitBoundsWithConstraints(
+                        this.viewer.viewport.imageToViewportRectangle(x1, y1, currentRect.width, currentRect.height));
+                  }
+
+                  // create new overlay
+                  const overlay = this.overlay = document.createElement('div');
+                  overlay.id = overlayId;
+                  overlay.style.border = this.getStyle();
+
+                  // place marker
+                  const marker = this.viewer.viewport.imageToViewportRectangle(x1, y1, w, h);
+
+                  this.viewer.addOverlay({
+                      element: overlay,
+                      location: marker
+                  });
               }
-
-              // create new overlay
-              const overlay = this.overlay = document.createElement('div');
-              overlay.id = overlayId;
-              overlay.style.border = this.getStyle();
-
-              // place marker
-              const marker = this.viewer.viewport.imageToViewportRectangle(x1, y1, w, h);
-
-              this.viewer.addOverlay({
-                  element: overlay,
-                  location: marker
-              });
               console.log('_showAnnotationListener', 'DONE')
             }
 

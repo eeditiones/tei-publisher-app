@@ -26,7 +26,7 @@
          *
          * @customElement
          * @polymer
-         * @demo demo/index.html
+         * @demo demo/pb-leaflet-map.html
          */
         class PbLeafletMap extends PbMixin(Polymer.Element) {
             static get is() {
@@ -36,10 +36,12 @@
             static get properties() {
                 return {
                     latitude: {
-                        type: Number
+                        type: Number,
+                        value: 51.505
                     },
                     longitude: {
-                        type: Number
+                        type: Number,
+                        value: -0.09
                     },
                     zoom: {
                         type: Number,
@@ -163,6 +165,8 @@
                 // }).addTo(this._map);
 
                 L.control.scale().addTo(this._map);
+
+                this._map.setView([this.latitude, this.longitude], this.zoom);
             }
 
             _locationChanged(latitude, longitude, zoom) {

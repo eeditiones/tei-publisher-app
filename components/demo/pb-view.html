@@ -3,13 +3,17 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
 
-        <title>pb-document Demo</title>
+        <title>pb-view Demo</title>
         <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
         <link rel="import" href="../dependencies-dev.html"/>
         <link rel="import" href="../bower_components/iron-demo-helpers/demo-pages-shared-styles.html"/>
         <link rel="import" href="../bower_components/iron-demo-helpers/demo-snippet.html"/>
         <custom-style>
             <style is="custom-style" include="demo-pages-shared-styles">
+                body {
+                    --paper-fab-background: #35424b;
+                }
+
                 demo-snippet {
                     position: relative;
                 }
@@ -18,10 +22,6 @@
                     display: flex;
                     justify-content: space-between;
                 }
-
-                pb-view {
-                    flex: 1 0;
-                }
             </style>
         </custom-style>
     </head>
@@ -29,13 +29,22 @@
     <body>
         <demo-snippet>
             <template>
-                <pb-document id="document1" path="test/kant_rvernunft_1781.TEI-P5.xml" odd="dta" view="page"></pb-document>
-                <pb-document id="document2" path="doc/documentation.xml" odd="docbook" view="div"></pb-document>
+                <pb-document id="document1" path="test/kant_rvernunft_1781.TEI-P5.xml" odd="dta"></pb-document>
 
-                <!-- Display two document views side by side -->
+                <!-- Output the document title -->
+                <pb-view src="document1" xpath="//teiHeader/fileDesc/titleStmt/title">
+                    <pb-param name="header" value="short"/>
+                </pb-view>
                 <main>
-                    <pb-view id="view1" src="document1"></pb-view>
-                    <pb-view id="view2" src="document2"></pb-view>
+                    <!-- Navigate to previous page -->
+                    <pb-navigation direction="backward" unit="page" keyboard="left">
+                        <paper-fab icon="icons:chevron-left"></paper-fab>
+                    </pb-navigation>
+                    <pb-view id="view1" src="document1" view="page"></pb-view>
+                    <!-- Navigate to next page -->
+                    <pb-navigation direction="forward" unit="page" keyboard="right">
+                        <paper-fab icon="icons:chevron-right"></paper-fab>
+                    </pb-navigation>
                 </main>
             </template>
         </demo-snippet>

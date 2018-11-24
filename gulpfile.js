@@ -111,7 +111,7 @@ var targetConfigurationComponentsEditor = {
 // Deploy only well-formed files in components/demo directory
 var targetConfigurationDemo = {
     target: baseUrl + 'components/demo/',
-    html5AsBinary: false
+    html5AsBinary: true
 };
 
 // Deploy non-well-formed files in components/test directory as binaries
