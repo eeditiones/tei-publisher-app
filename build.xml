@@ -117,6 +117,7 @@
                 <include name="components/bower_components/js-cookie/**"/>
                 <include name="components/analysis.json"/>
                 <include name="components/docs.html"/>
+                <include name="components/demo/**"/>
             </fileset>
         </copy>
 
