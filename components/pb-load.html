@@ -1,4 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-mixin.html">
 
 <dom-module id="pb-load">
     <template>
@@ -23,13 +24,14 @@
         /**
          * `<pb-load>`
          *
-         * Dynamically load data into a container, optionally triggered by an event.
+         * Dynamically load data by calling a server-side script, optionally triggered by an event.
          * This is used for e.g. the document list on the start page or the table
          * of contents.
          *
          * @customElement
          * @polymer
-         * @demo demo/index.html
+         * @appliesMixin PbMixin
+         * @demo demo/pb-load.html
          */
         class PbLoad extends PbMixin(Polymer.Element) {
             static get is() {
@@ -38,7 +40,9 @@
 
             static get properties() {
                 return {
-                    /** The URL for the AJAX request */
+                    /** The URL for the AJAX request. If a relative URL is passed, it will be resolved
+                     * either against the app root (if known) or the location of the webcomponent.
+                     */
                     url: {
                         type: String
                     },
@@ -55,14 +59,23 @@
                     container: {
                         type: String
                     },
+                    /**
+                     * Should content be loaded immediately when the component is initialized?
+                     */
                     auto: {
                         type: Boolean,
                         value: false
                     },
+                    /**
+                     * Only load content once, not every time a `pb-load` event is received.
+                     */
                     loadOnce: {
                         type: Boolean,
                         value: false
                     },
+                    /**
+                     * Start offset to use for showing paginated content.
+                     */
                     start: {
                         type: Number
                     },
@@ -125,7 +138,12 @@
                 this.emitTo('pb-start-update');
 
                 const appRoot = document.documentElement.getAttribute('data-app');
-                const url = [appRoot, this.url].join('/');
+                let url;
+                if (appRoot) {
+                    url = [appRoot, this.url].join('/');
+                } else {
+                    url = this.resolveUrl(this.url);
+                }
 
                 let params = {};
 
@@ -205,6 +223,27 @@
 
             _onLoad(content) {
             }
+
+            /**
+             * Fired before the element updates its content
+             *
+             * @event pb-start-update
+             * @param {object} Parameters to be passed to the request
+             */
+
+            /**
+             * Fired after the element has finished updating its content
+             *
+             * @event pb-end-update
+             */
+
+             /**
+              * Fired after the element has received content from the server
+              *
+              * @event pb-results-received
+              * @param {int} count number of results received (according to `pb-total` header)
+              * @param {int} start offset into the result set (according to `pb-start` header)
+              */
         }
 
         window.customElements.define(PbLoad.is, PbLoad);

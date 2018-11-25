@@ -98,7 +98,12 @@ else if (contains($exist:path, "/images/")) then
 else if (ends-with($exist:resource, ".xql")) then (
     login:set-user($config:login-domain, (), false()),
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/modules/{substring-after($exist:path, '/modules/')}"/>
+        {
+            if (contains($exist:path, "/modules")) then
+                <forward url="{$exist:controller}/modules/{substring-after($exist:path, '/modules/')}"/>
+            else
+                <forward url="{$exist:controller}{$exist:path}"/>
+        }
         <cache-control cache="no"/>
     </dispatch>
 

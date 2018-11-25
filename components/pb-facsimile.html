@@ -125,6 +125,16 @@
                         type: Boolean,
                         value: false
                     },
+                    /** If true then the 'Go home' button is displayed to go back to the original zoom and pan. */
+                    showHomeControl: {
+                        type: Boolean,
+                        value: true
+                    },
+                    /** If true then the 'Toggle full page' button is displayed to switch between full page and normal mode. */
+                    showFullPageControl: {
+                        type: Boolean,
+                        value: false
+                    },
                     /**
                      * Default zoom between: set to 0 to adjust to viewer size.
                      */
@@ -274,28 +284,16 @@
                 // }
 
                 this.viewer = OpenSeadragon({
-                    // element: this.$.viewer,
-                    // visibilityRatio: this.visibilityRatio,
-                    // constrainDuringPan: this.constrainDuringPan,
-                    // showNavigationControl: this.showNavigationControl,
-                    // showNavigator: this.showNavigator,
-                    // zoomPerClick: this.zoomPerClick,
-                    // zoomPerScroll: this.zoomPerScroll,
-                    // animationTime: this.animationTime,
-                    // navPrevNextWrap: this.navPrevNextWrap,
-                    // showRotationControl: this.showRotationControl,
-                    // minZoomImageRatio: this.minZoomImageRatio,
-                    // maxZoomPixelRatio: this.maxZoomPixelRatio,
-                    // tileSources: tileSources
                     element:            this.$.viewer,
                     prefixUrl:          "resources/images/seadragon/",
                     preserveViewport:   true,
                     sequenceMode:       true,
                     showZoomControl:    true,
-                    showHomeControl:    true,
-                    showFullPageControl: true,
+                    showHomeControl:    this.showHomeControl,
+                    showFullPageControl: this.showFullPageControl,
                     showNavigator:      this.showNavigator,
                     showNavigationControl: this.showNavigationControl,
+                    showRotationControl: this.showRotationControl,
                     autoHideControls:   false,
                     visibilityRatio:    1,
                     minZoomLevel:       1,
