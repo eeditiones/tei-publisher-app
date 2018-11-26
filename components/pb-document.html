@@ -40,7 +40,7 @@
                      * The root collection which will be used to resolve relative paths
                      * specified in `path`.
                      */
-                    root: {
+                    rootPath: {
                         type: String,
                         value: ''
                     },
@@ -98,7 +98,7 @@
              * @returns {string} Full path to the document
              */
             getFullPath() {
-                return this.root + '/' + this.path;
+                return this.rootPath + '/' + this.path;
             }
         }
 
