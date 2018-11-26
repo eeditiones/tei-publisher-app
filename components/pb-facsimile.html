@@ -1,4 +1,6 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-mixin.html">
+
 <script src="bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon.min.js"></script>
 
 <dom-module id="pb-facsimile">
@@ -113,9 +115,11 @@
                         notify: true,
                         observer: "_loadedChanged"
                     },
-                    // Set to false to prevent the appearance of the default navigation controls.
-                    // Note that if set to false, the customs buttons set by the options
-                    // zoomInButton, zoomOutButton etc, are rendered inactive.
+                    /**
+                     *  Set to false to prevent the appearance of the default navigation controls.
+                     * Note that if set to false, the customs buttons set by the options
+                     * zoomInButton, zoomOutButton etc, are rendered inactive.
+                     */
                     showNavigationControl: {
                         type: Boolean,
                         value: true
@@ -142,52 +146,65 @@
                         type: Number,
                         value: 0
                     },
-                    // The "zoom distance" per mouse click or touch tap.
-                    // Note: Setting this to 1.0 effectively disables the click-to-zoom feature
-                    // (also see gestureSettings[Mouse|Touch|Pen].clickToZoom/dblClickToZoom).
+                    /** The "zoom distance" per mouse click or touch tap.
+                     * Note: Setting this to 1.0 effectively disables the click-to-zoom feature
+                     * (also see gestureSettings[Mouse|Touch|Pen].clickToZoom/dblClickToZoom).
+                     */
                     zoomPerClick: {
                         type: Number,
                         value: 2.0
                     },
-                    // The "zoom distance" per mouse scroll or touch pinch.
-                    // Note: Setting this to 1.0 effectively disables the mouse-wheel zoom feature
-                    // (also see gestureSettings[Mouse|Touch|Pen].scrollToZoom}).
+                    /** The "zoom distance" per mouse scroll or touch pinch.
+                     * Note: Setting this to 1.0 effectively disables the mouse-wheel zoom feature
+                     * (also see gestureSettings[Mouse|Touch|Pen].scrollToZoom}).
+                     */
                     zoomPerScroll: {
                         type: Number,
                         value: 1.2
                     },
-                    // Specifies the animation duration per each OpenSeadragon.
-                    // Spring which occur when the image is dragged or zoomed.
+                    /**
+                     *
+                     * Specifies the animation duration per each OpenSeadragon.
+                     * Spring which occur when the image is dragged or zoomed.
+                     */
                     animationTime: {
                         type: Number,
                         value: 1.2
                     },
-                    // If true then the 'previous' button will wrap to the last
-                    // image when viewing the first image and the 'next' button
-                    // will wrap to the first image when viewing the last image.
+                    /**
+                     * If true then the 'previous' button will wrap to the last
+                     * image when viewing the first image and the 'next' button
+                     * will wrap to the first image when viewing the last image.
+                     */
                     navPrevNextWrap: {
                         type: Boolean,
                         value: false
                     },
-                    // If true then the rotate left/right controls will be displayed
-                    // as part of the standard controls. This is also subject to the
-                    // browser support for rotate (e.g. viewer.drawer.canRotate()).
+                    /**
+                     * If true then the rotate left/right controls will be displayed
+                     * as part of the standard controls. This is also subject to the
+                     * browser support for rotate (e.g. viewer.drawer.canRotate()).
+                     */
                     showRotationControl: {
                         type: Boolean,
                         value: false
                     },
-                    // The minimum percentage ( expressed as a number between 0 and 1 )
-                    // of the viewport height or width at which the zoom out will
-                    // be constrained.
-                    // Setting it to 0, for example will allow you to zoom out infinity.
+                    /**
+                     *  The minimum percentage ( expressed as a number between 0 and 1 )
+                     * of the viewport height or width at which the zoom out will
+                     *  be constrained.
+                     * Setting it to 0, for example will allow you to zoom out infinity.
+                     */
                     minZoomImageRatio: {
                         type: Number,
                         value: 1
                     },
-                    // The maximum ratio to allow a zoom-in to affect the highest
-                    // level pixel ratio. This can be set to Infinity to allow 'infinite'
-                    // zooming into the image though it is less effective visually
-                    // if the HTML5 Canvas is not availble on the viewing device.
+                    /**
+                     *  The maximum ratio to allow a zoom-in to affect the highest
+                     * level pixel ratio. This can be set to Infinity to allow 'infinite'
+                     * zooming into the image though it is less effective visually
+                     * if the HTML5 Canvas is not availble on the viewing device.
+                     */
                     maxZoomPixelRatio: {
                         type: Number,
                         value: 1.1
@@ -197,17 +214,26 @@
                         type: Boolean,
                         value: false
                     },
-                    // The percentage ( as a number from 0 to 1 ) of the source image
-                    // which must be kept within the viewport.
-                    // If the image is dragged beyond that limit, it will 'bounce'
-                    // back until the minimum visibility ratio is achieved.
-                    // Setting this to 0 and wrapHorizontal ( or wrapVertical )
-                    // to true will provide the effect of an infinitely scrolling viewport.
+                    /**
+                     *  The percentage ( as a number from 0 to 1 ) of the source image
+                     * which must be kept within the viewport.
+                     * If the image is dragged beyond that limit, it will 'bounce'
+                     * back until the minimum visibility ratio is achieved.
+                     * Setting this to 0 and wrapHorizontal ( or wrapVertical )
+                     * to true will provide the effect of an infinitely scrolling viewport.
+                     */
                     visibilityRatio: {
                         type: Number,
                         value: 1
                     },
-                    baseUri: { type: String, value: 'http://apps.existsolutions.com:8182/iiif/2/'},
+                    baseUri: {
+                        type: String,
+                        value: 'http://apps.existsolutions.com:8182/iiif/2/'
+                    },
+                    /**
+                     * Array of facsimiles
+                     *
+                     */
                     facsimiles: {
                       type: Array,
                       value: function() { return [] }
@@ -350,7 +376,8 @@
                 this.viewer.viewport.goHome();
             }
 
-            getStyle() {
+            // returns the border styling for facsimile viewer
+            getBorderStyle() {
               return '4px solid rgba(128, 0, 0, 0.5)'
             }
 
@@ -437,7 +464,7 @@
                   // create new overlay
                   const overlay = this.overlay = document.createElement('div');
                   overlay.id = overlayId;
-                  overlay.style.border = this.getStyle();
+                  overlay.style.border = this.getBorderStyle();
 
                   // place marker
                   const marker = this.viewer.viewport.imageToViewportRectangle(x1, y1, w, h);

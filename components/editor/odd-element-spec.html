@@ -112,12 +112,11 @@
 
     <script>
         /**
-         * `odd-element-spec`
+         * represents an ODD `elementSpec` element
          *
          *
          * @customElement
          * @polymer
-         * @demo demo/index.html
          */
         class OddElementSpec extends Polymer.Element {
             static get is() {
@@ -126,16 +125,26 @@
 
             static get properties() {
                 return {
+                    // identifier for this ´element-spec´
                     ident: {
                         type: String
                     },
+                    /**
+                     * mode for an ´elementSpec` may be 'add', 'remove' or being undefined
+                     */
                     mode: {
                         type: String
                     },
+                    /**
+                     * array of ODD `model` elements
+                     */
                     models: {
                         type: Array,
                         value: () => []
                     },
+                    /**
+                     * if true shows its models otherwise it's collapsed
+                     */
                     show: {
                         type: Boolean,
                         value: false
@@ -143,6 +152,10 @@
                 };
             }
 
+            /**
+             *
+             * @event element-spec-connected fires when this element is connected
+             */
             connectedCallback() {
                 super.connectedCallback();
 
@@ -161,14 +174,29 @@
                 }.bind(this));
             }
 
+            /**
+             * renders the list of models
+             */
             render(){
                 this.$.modelList.render();
             }
 
+            /**
+             * hide/show child elements of this `elementSpec`
+             *
+             * @param show
+             * @returns {string}
+             */
             toggleButtonIcon(show) {
                 return (show ? 'expand-less' : 'expand-more')
             }
 
+            /**
+             * hide/show child elements of this `elementSpec`
+             *
+             * @param ev
+             * @event item-toggled fires when opening/closing
+             */
             toggle(ev) {
                 ev.preventDefault();
                 this.$.models.toggle();
@@ -244,6 +272,7 @@
                 this.splice('models', index, 1);
                 this.splice('models', index + 1, 0, model);
             }
+
 
             _refreshModel(ev){
                 console.log('refreshModel ', ev.detail.target);

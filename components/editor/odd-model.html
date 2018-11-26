@@ -1,23 +1,4 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<!--
-<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
-<link rel="import" href="../bower_components/polymer/lib/elements/dom-if.html">
-<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
-<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
-<link rel="import" href="../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../bower_components/paper-autocomplete/paper-autocomplete.html">
-<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../bower_components/paper-styles/shadow.html">
-
-<link rel="import" href="odd-code-editor.html">
-<link rel="import" href="odd-parameter.html">
-<link rel="import" href="odd-rendition.html">
--->
-
 
 <!--
  todo: copy model
@@ -321,12 +302,11 @@
 
     <script>
         /**
-         * `odd-model`
+         * represents a ODD `model`
          *
          *
          * @customElement
          * @polymer
-         * @demo demo/index.html
          */
         class OddModel extends Polymer.Element {
             static get is() {
@@ -335,11 +315,17 @@
 
             static get properties() {
                 return {
+                    /**
+                     * maps to ODD ´model` behaviour attribute
+                     */
                     behaviour: {
                         type: String,
                         reflectToAttribute: true,
                         notify: true
                     },
+                    /**
+                     * maps to ODD `model` predicate
+                     */
                     predicate: {
                         type: String,
                         value: '',
@@ -459,6 +445,11 @@
 
             }
 
+            /**
+             * todo: unused function - remove
+             *
+             * @returns {models|{type}|{type, value}|{type, value, notify}|*}
+             */
             getModel(){
                 return this.models;
             }
@@ -501,21 +492,43 @@
                 this.dispatchEvent(new CustomEvent('model-remove'));
             }
 
+            /**
+             * move model down in list
+             *
+             * @param e
+             * @event model-move-down dispatched to request the model to move down
+             */
             moveDown(e) {
                 e.preventDefault();
                 this.dispatchEvent(new CustomEvent('model-move-down'));
             }
 
+            /**
+             * move model up in list
+             *
+             * @param e
+             * @event model-move-up dispatched to request the model to move up
+             */
             moveUp(e) {
                 e.preventDefault();
                 this.dispatchEvent(new CustomEvent('model-move-up'));
             }
 
+            /**
+             * add a model to the array of models
+             *
+             * @param model
+             */
             addModel(model){
                 console.log('model.addModel ', model);
                 this.unshift('models',model);
             }
 
+            /**
+             * remove a model from the array
+             *
+             * @param ev
+             */
             removeModel(ev) {
               // TODO test if:  const item = ev.currentTarget; works
                 const item = ev.composedPath()[0];
@@ -525,6 +538,11 @@
                 }
             }
 
+            /**
+             * move model up in list
+             *
+             * @param ev
+             */
             moveModelUp(ev) {
                 const item = ev.currentTarget;
                 const index = this.$.modelList.indexForElement(item);
@@ -537,6 +555,11 @@
                 this.splice('models', index - 1, 0, model);
             }
 
+            /**
+             * move model down in list
+             *
+             * @param ev
+             */
             moveModelDown(ev) {
                 const item = ev.currentTarget;
                 const index = this.$.modelList.indexForElement(item);
@@ -549,10 +572,20 @@
                 this.splice('models', index + 1, 0, model);
             }
 
+            /**
+             * add a model parameter
+             *
+             * @param e
+             */
             addParameter(e) {
                 this.push('parameters', {name: "", value: ""});
             }
 
+            /**
+             * add a rendition
+             *
+             * @param ev
+             */
             addRendition(ev) {
                 this.push('renditions', {
                     scope: null,
@@ -560,16 +593,30 @@
                 });
             }
 
+            /**
+             * remove a rendition
+             *
+             * @param item
+             */
             removeRendition(item) {
                 const index = this.renditions.indexOf(item);
                 this.splice('renditions', index, 1);
             }
 
+            /**
+             * refresh the predicate editor
+             */
             refreshPredicateEditor(){
                 console.log('refreshPredicateEditor');
                 this.$.predicate.refresh();
             }
 
+            /**
+             * refresh the rendition editor
+             *
+             * @param ev
+             * @private
+             */
             _refreshRendition(ev){
                 ev.detail.target.refreshEditor();
             }
@@ -592,6 +639,7 @@
                 console.log('model _paste ',ev);
                 this.dispatchEvent(new CustomEvent('odd-paste', {composed:true, bubbles:true, detail: {target: this}}));
             }
+
 
             addNested(ev) {
                 this.unshift('models', {
@@ -648,6 +696,12 @@
                 e.stopPropagation();
             }
 
+            /**
+             * set current model
+             *
+             * @param target
+             * @event current-changed fired after current model changed
+             */
             setCurrent(target){
                 this.dispatchEvent(new CustomEvent('current-changed', {composed:true, bubbles:true, detail:{target: target}}));
             }

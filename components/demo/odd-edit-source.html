@@ -1,5 +1,5 @@
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
 
@@ -7,12 +7,21 @@
 
     <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 
-    <link rel="import" href="../editor/odd-edit-source.html"/>
+    <link rel="import" href="../dependencies-dev.html"/>
 
-  </head>
-  <body>
-    <odd-edit-source>
-      <paper-icon-button icon="code" title="ODD Source" role="button" tabindex="0" aria-disabled="false"></paper-icon-button>
-    </odd-edit-source>
-  </body>
+
+</head>
+<body>
+    <demo-snippet>
+        <template>
+            <odd-edit-source path="/db/apps/tei-publisher/odd/graves.odd">
+                <paper-icon-button icon="code"
+                                   title="ODD Source"
+                                   role="button"
+                                   tabindex="0"
+                                   aria-disabled="false"></paper-icon-button>
+            </odd-edit-source>
+        </template>
+    </demo-snippet>
+</body>
 </html>

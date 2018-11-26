@@ -23,6 +23,7 @@
          *
          * @customElement
          * @polymer
+         * @demo demo/odd-edit-source.html
          */
         class OddEditSource extends Polymer.Element {
             static get is() {
@@ -70,7 +71,7 @@
                 // try to retrieve existing eXide window
                 var exide = window.open("", "eXide");
                 if (exide && !exide.closed) {
-                    var snip = this.root.getAttribute('exide-create');
+                    var snip = this.getAttribute('exide-create');
 //                    var path = this.path;
                     var path = this.rootPath + '/' + this.odd;
 
