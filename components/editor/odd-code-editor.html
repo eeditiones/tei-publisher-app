@@ -1,37 +1,7 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/shadycss/apply-shim.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/shadycss/apply-shim.html">
 <link rel="import" href="code-mirror-styles.html">
 <link rel="import" href="odd-codemirror-imports.html">
-
-
-<!--<link rel="stylesheet" href="addon/fold/foldgutter.css">-->
-<!--<link rel="stylesheet" href="addon/dialog/dialog.css">-->
-<!--<link rel="stylesheet" href="theme/monokai.css">-->
-<!--
-<script src="../../resources/scripts/vendor/codemirror/codemirror.js"></script>
-<script src="../../resources/scripts/vendor/codemirror/matchbrackets.js"></script>
-<script src="../../resources/scripts/vendor/codemirror/placeholder.js"></script>
-<script src="../../resources/scripts/vendor/codemirror/lint.js"></script>
-<script src="../../resources/scripts/vendor/codemirror/css.js"></script>
-<script src="../../resources/scripts/vendor/codemirror/xquery.js"></script>
--->
-
-
-<!--<script src="addon/search/searchcursor.js"></script>-->
-<!--<script src="addon/search/search.js"></script>-->
-<!--<script src="addon/dialog/dialog.js"></script>-->
-<!--<script src="addon/edit/matchbrackets.js"></script>-->
-<!--<script src="addon/edit/closebrackets.js"></script>-->
-<!--<script src="addon/comment/comment.js"></script>-->
-<!--<script src="addon/wrap/hardwrap.js"></script>-->
-<!--<script src="addon/fold/foldcode.js"></script>-->
-<!--<script src="addon/fold/brace-fold.js"></script>-->
-<!--<script src="mode/javascript/javascript.js"></script>-->
-<!--<script src="keymap/sublime.js"></script>-->
-
-<!--
-@demo demo/index.html
--->
 
 <dom-module id="odd-code-editor">
     <template>
@@ -67,6 +37,15 @@
     </template>
 
     <script>
+        /**
+         * A code-editor based on CodeMirror supporting XML, XQuery and CSS
+         *
+         * Supports XQuery linting
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/odd-code-editor.html
+         */
         class OddCodeEditor extends Polymer.Element {
 
             static get is() {
@@ -75,27 +54,45 @@
 
             static get properties() {
                 return {
+                    /**
+                     * reference to actual CodeMirror object
+                     */
                     _editor: {
                         type: Object
                     },
+                    /**
+                     * the code as a string
+                     */
                     code: {
                         type: String,
                         value: '',
                         observer: 'setSource',
                         notify:true
                     },
+                    /**
+                     * the language mode e.g. 'javascript' or 'xquery'.
+                     */
                     mode: {
                         type: String,
                         value: "javascript"
                     },
+                    /**
+                     * placeholder if code is empty
+                     */
                     placeholder: {
                         type: String,
                         value: '[Empty]'
                     },
+                    /**
+                     * tab indent size
+                     */
                     tabSize: {
                         type: Number,
                         value: 2
                     },
+                    /**
+                     * label for the editor
+                     */
                     label:{
                         type: String
                     }
@@ -137,6 +134,15 @@
 
             }
 
+            /**
+             * XQuery linting.
+             *
+             * calls server-side service for XQuery linting. Will return an array of linting errors or an empty array
+             * if code is fine.
+             *
+             * @param text
+             * @returns {*}
+             */
             lintXQuery(text) {
                 console.log('lintXQuery ', text);
 
@@ -167,10 +173,19 @@
                 }.bind(this));
             }
 
+            /**
+             *
+             * @returns the sourcecode
+             */
             getSource() {
                 return this._editor.getValue();
             }
 
+            /**
+             * pass code to editor for editing/display.
+             *
+             * @param newval
+             */
             setSource(newval) {
                 if (!this._editor || newval === this._editor.getValue()) {
                     return;
@@ -180,6 +195,10 @@
                 this._editor.refresh();
             }
 
+            /**
+             * call refresh() to update the view after external changes have occured. Might be needed after dynamic
+             * changes of the UI.
+             */
             refresh () {
               if (!this._editor) return;
               this._editor.refresh();

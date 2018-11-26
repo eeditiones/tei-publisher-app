@@ -15,23 +15,27 @@
 
 
     <!--<link rel="import" href="../editor/odd-model.html"/>-->
-    <link rel="import" href="../editor/odd-code-editor.html"/>
+    <link rel="import" href="../dependencies-dev.html"/>
 
 </head>
 <body>
+    <demo-snippet>
+        <template>
 
-    <div style="width:400px; height:50px;">
-        <odd-code-editor mode="xquery" placeholder="[foo]" code=""></odd-code-editor>
-    </div>
-    <div style="width:400px; height:50px;">
-        <odd-code-editor mode="xquery" placeholder="[foo]" code="ancestor::teiHeader"></odd-code-editor>
-    </div>
-    <div style="width:400px; height:50px;">
-        <odd-code-editor mode="xquery" placeholder="[foo]" code="abbr and expan"></odd-code-editor>
-    </div>
-    <div style="width:400px; height:50px;">
-        <odd-code-editor mode="css" placeholder="[bar]" code="font-style: italic;"></odd-code-editor>
-    </div>
+            <div style="width:400px; height:50px;">
+                <odd-code-editor mode="xquery" placeholder="[foo]" code=""></odd-code-editor>
+            </div>
+            <div style="width:400px; height:50px;">
+                <odd-code-editor mode="xquery" placeholder="[foo]" code="ancestor::teiHeader"></odd-code-editor>
+            </div>
+            <div style="width:400px; height:50px;">
+                <odd-code-editor mode="xquery" placeholder="[foo]" code="abbr and expan"></odd-code-editor>
+            </div>
+            <div style="width:400px; height:50px;">
+                <odd-code-editor mode="css" placeholder="[bar]" code="font-style: italic;"></odd-code-editor>
+            </div>
+        </template>
+    </demo-snippet>
 
 </body>
 </html>

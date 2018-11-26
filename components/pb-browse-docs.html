@@ -1,5 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
-<link rel="import" href="pb-load.html">
+<link rel="import" href="pb-mixin.html">
 
 <dom-module id="pb-browse-docs">
     <template>
@@ -40,6 +40,7 @@
          *
          * @customElement
          * @polymer
+         * @appliesMixin PbMixin
          */
         class PbBrowseDocs extends PbMixin(PbLoad) {
             static get is() {
@@ -61,9 +62,27 @@
                 super.connectedCallback();
             }
 
-            ready(){
-                super.ready();
+            /**
+             * returns selected documents.
+             *
+             * @returns {Array}
+             */
+            getSelected() {
+                const selected = [];
+                if (this.container) {
+                    document.querySelectorAll(this.container).forEach((container) =>
+                        container.querySelectorAll('.document-select paper-checkbox[checked]').forEach((checkbox) => {
+                            selected.push(checkbox.value);
+                        })
+                    );
+                } else {
+                    this.$.content.querySelectorAll('.document-select paper-checkbox[checked]').forEach((checkbox) => {
+                        selected.push(checkbox.value);
+                    });
+                }
+                return selected;
             }
+
 
             _onLoad(content) {
                 content.querySelectorAll('.delete').forEach((elem) => {
@@ -110,21 +129,6 @@
                 this.load(params);
             }
 
-            getSelected() {
-                const selected = [];
-                if (this.container) {
-                    document.querySelectorAll(this.container).forEach((container) =>
-                        container.querySelectorAll('.document-select paper-checkbox[checked]').forEach((checkbox) => {
-                            selected.push(checkbox.value);
-                        })
-                    );
-                } else {
-                    this.$.content.querySelectorAll('.document-select paper-checkbox[checked]').forEach((checkbox) => {
-                        selected.push(checkbox.value);
-                    });
-                }
-                return selected;
-            }
         }
 
         window.customElements.define(PbBrowseDocs.is, PbBrowseDocs);

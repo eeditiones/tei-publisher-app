@@ -14,7 +14,7 @@
 
     <script>
         /**
-         * `pb-download`
+         * a download link for given href. Will display a dialog while downloading. This must be given by id reference.
          *
          *
          * @customElement
@@ -53,7 +53,7 @@
                         type: String
                     },
                     /**
-                     * optional id of dialog component to show when downloading
+                     * id of dialog component to show when downloading
                      */
                     dialog: {
                         type: String
@@ -68,6 +68,9 @@
                         type: Boolean,
                         value: false
                     },
+                    /**
+                     *  request params given on URL
+                     */
                     params: {
                         type: String
                     },
@@ -127,6 +130,7 @@
                 if (this.dialog) {
                     const dialog = document.getElementById(this.dialog);
 
+                    //todo: this will error when dialog is not found or defined on element.
                     dialog.open();
 
                     const downloadCheck = window.setInterval(() => {
