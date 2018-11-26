@@ -6924,22 +6924,22 @@
       "tagname": "pb-search"
     },
     {
-      "description": "Triggers an action on the server and shows a dialog\nupon completion. Used for the \"recompile ODD\" and other\nactions.\n\nThe parameters sent to the server-side script will be copied\nfrom the `pb-view` to which this component subscribes.",
+      "description": "Triggers an action on the server and shows a dialog\n upon completion. Used for the \"recompile ODD\" and other\n actions.\n\n The parameters sent to the server-side script will be copied\n from the `pb-view` to which this component subscribes.\n\nTriggers an action on the server and shows a dialog\nupon completion. Used for the \"recompile ODD\" and other\nactions.\n\nThe parameters sent to the server-side script will be copied\nfrom the `pb-view` to which this component subscribes.",
       "summary": "",
       "path": "pb-ajax.html",
       "properties": [
         {
           "name": "url",
           "type": "string | null | undefined",
-          "description": "",
+          "description": "the URL to send a request to",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 43,
+              "line": 54,
               "column": 20
             },
             "end": {
-              "line": 45,
+              "line": 56,
               "column": 21
             }
           },
@@ -6956,11 +6956,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 46,
+              "line": 57,
               "column": 20
             },
             "end": {
-              "line": 48,
+              "line": 59,
               "column": 21
             }
           },
@@ -6977,11 +6977,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 49,
+              "line": 60,
               "column": 20
             },
             "end": {
-              "line": 51,
+              "line": 62,
               "column": 21
             }
           },
@@ -6999,11 +6999,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 55,
+              "line": 66,
               "column": 12
             },
             "end": {
-              "line": 57,
+              "line": 68,
               "column": 13
             }
           },
@@ -7019,11 +7019,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 59,
+              "line": 70,
               "column": 12
             },
             "end": {
-              "line": 62,
+              "line": 73,
               "column": 13
             }
           },
@@ -7039,11 +7039,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 64,
+              "line": 75,
               "column": 12
             },
             "end": {
-              "line": 68,
+              "line": 79,
               "column": 13
             }
           },
@@ -7063,11 +7063,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 70,
+              "line": 81,
               "column": 12
             },
             "end": {
-              "line": 77,
+              "line": 88,
               "column": 13
             }
           },
@@ -7083,11 +7083,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 79,
+              "line": 90,
               "column": 12
             },
             "end": {
-              "line": 81,
+              "line": 92,
               "column": 13
             }
           },
@@ -7107,11 +7107,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 36,
+          "line": 44,
           "column": 8
         },
         "end": {
-          "line": 82,
+          "line": 93,
           "column": 9
         }
       },
@@ -7121,14 +7121,14 @@
       "attributes": [
         {
           "name": "url",
-          "description": "",
+          "description": "the URL to send a request to",
           "sourceRange": {
             "start": {
-              "line": 43,
+              "line": 54,
               "column": 20
             },
             "end": {
-              "line": 45,
+              "line": 56,
               "column": 21
             }
           },
@@ -7140,11 +7140,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 46,
+              "line": 57,
               "column": 20
             },
             "end": {
-              "line": 48,
+              "line": 59,
               "column": 21
             }
           },
@@ -7156,11 +7156,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 49,
+              "line": 60,
               "column": 20
             },
             "end": {
-              "line": 51,
+              "line": 62,
               "column": 21
             }
           },
@@ -7179,11 +7179,11 @@
           "name": "",
           "range": {
             "start": {
-              "line": 13,
+              "line": 23,
               "column": 65
             },
             "end": {
-              "line": 13,
+              "line": 23,
               "column": 78
             }
           }
@@ -9797,17 +9797,61 @@
           "defaultValue": "false"
         },
         {
+          "name": "showHomeControl",
+          "type": "boolean | null | undefined",
+          "description": "If true then the 'Go home' button is displayed to go back to the original zoom and pan.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 128,
+              "column": 20
+            },
+            "end": {
+              "line": 131,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          },
+          "defaultValue": "true"
+        },
+        {
+          "name": "showFullPageControl",
+          "type": "boolean | null | undefined",
+          "description": "If true then the 'Toggle full page' button is displayed to switch between full page and normal mode.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 133,
+              "column": 20
+            },
+            "end": {
+              "line": 136,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          },
+          "defaultValue": "false"
+        },
+        {
           "name": "defaultZoomLevel",
           "type": "number | null | undefined",
           "description": "Default zoom between: set to 0 to adjust to viewer size.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 130,
+              "line": 140,
               "column": 20
             },
             "end": {
-              "line": 133,
+              "line": 143,
               "column": 21
             }
           },
@@ -9825,11 +9869,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 137,
+              "line": 147,
               "column": 20
             },
             "end": {
-              "line": 140,
+              "line": 150,
               "column": 21
             }
           },
@@ -9847,11 +9891,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 144,
+              "line": 154,
               "column": 20
             },
             "end": {
-              "line": 147,
+              "line": 157,
               "column": 21
             }
           },
@@ -9869,11 +9913,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 150,
+              "line": 160,
               "column": 20
             },
             "end": {
-              "line": 153,
+              "line": 163,
               "column": 21
             }
           },
@@ -9891,11 +9935,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 157,
+              "line": 167,
               "column": 20
             },
             "end": {
-              "line": 160,
+              "line": 170,
               "column": 21
             }
           },
@@ -9913,11 +9957,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 164,
+              "line": 174,
               "column": 20
             },
             "end": {
-              "line": 167,
+              "line": 177,
               "column": 21
             }
           },
@@ -9935,11 +9979,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 172,
+              "line": 182,
               "column": 20
             },
             "end": {
-              "line": 175,
+              "line": 185,
               "column": 21
             }
           },
@@ -9957,11 +10001,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 180,
+              "line": 190,
               "column": 20
             },
             "end": {
-              "line": 183,
+              "line": 193,
               "column": 21
             }
           },
@@ -9979,11 +10023,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 185,
+              "line": 195,
               "column": 20
             },
             "end": {
-              "line": 188,
+              "line": 198,
               "column": 21
             }
           },
@@ -10001,11 +10045,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 195,
+              "line": 205,
               "column": 20
             },
             "end": {
-              "line": 198,
+              "line": 208,
               "column": 21
             }
           },
@@ -10023,11 +10067,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 199,
+              "line": 209,
               "column": 20
             },
             "end": {
-              "line": 199,
+              "line": 209,
               "column": 98
             }
           },
@@ -10045,11 +10089,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 200,
+              "line": 210,
               "column": 20
             },
             "end": {
-              "line": 203,
+              "line": 213,
               "column": 21
             }
           },
@@ -10068,11 +10112,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 218,
+              "line": 228,
               "column": 12
             },
             "end": {
-              "line": 226,
+              "line": 236,
               "column": 13
             }
           },
@@ -10088,11 +10132,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 228,
+              "line": 238,
               "column": 12
             },
             "end": {
-              "line": 237,
+              "line": 247,
               "column": 13
             }
           },
@@ -10108,11 +10152,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 239,
+              "line": 249,
               "column": 12
             },
             "end": {
-              "line": 261,
+              "line": 271,
               "column": 13
             }
           },
@@ -10128,11 +10172,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 264,
+              "line": 274,
               "column": 12
             },
             "end": {
-              "line": 309,
+              "line": 307,
               "column": 13
             }
           },
@@ -10148,11 +10192,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 311,
+              "line": 309,
               "column": 12
             },
             "end": {
-              "line": 315,
+              "line": 313,
               "column": 13
             }
           },
@@ -10172,11 +10216,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 318,
+              "line": 316,
               "column": 12
             },
             "end": {
-              "line": 321,
+              "line": 319,
               "column": 13
             }
           },
@@ -10192,11 +10236,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 324,
+              "line": 322,
               "column": 12
             },
             "end": {
-              "line": 332,
+              "line": 330,
               "column": 13
             }
           },
@@ -10212,11 +10256,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 335,
+              "line": 333,
               "column": 12
             },
             "end": {
-              "line": 347,
+              "line": 345,
               "column": 13
             }
           },
@@ -10232,11 +10276,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 350,
+              "line": 348,
               "column": 12
             },
             "end": {
-              "line": 352,
+              "line": 350,
               "column": 13
             }
           },
@@ -10252,11 +10296,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 354,
+              "line": 352,
               "column": 12
             },
             "end": {
-              "line": 356,
+              "line": 354,
               "column": 13
             }
           },
@@ -10269,11 +10313,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 358,
+              "line": 356,
               "column": 12
             },
             "end": {
-              "line": 362,
+              "line": 360,
               "column": 13
             }
           },
@@ -10289,11 +10333,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 364,
+              "line": 362,
               "column": 12
             },
             "end": {
-              "line": 369,
+              "line": 367,
               "column": 13
             }
           },
@@ -10309,11 +10353,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 372,
+              "line": 370,
               "column": 12
             },
             "end": {
-              "line": 380,
+              "line": 378,
               "column": 13
             }
           },
@@ -10329,11 +10373,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 382,
+              "line": 380,
               "column": 12
             },
             "end": {
-              "line": 384,
+              "line": 382,
               "column": 13
             }
           },
@@ -10349,11 +10393,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 386,
+              "line": 384,
               "column": 12
             },
             "end": {
-              "line": 388,
+              "line": 386,
               "column": 13
             }
           },
@@ -10369,11 +10413,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 390,
+              "line": 388,
               "column": 12
             },
             "end": {
-              "line": 392,
+              "line": 390,
               "column": 13
             }
           },
@@ -10390,11 +10434,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 394,
+              "line": 392,
               "column": 12
             },
             "end": {
-              "line": 452,
+              "line": 450,
               "column": 13
             }
           },
@@ -10411,11 +10455,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 454,
+              "line": 452,
               "column": 12
             },
             "end": {
-              "line": 460,
+              "line": 458,
               "column": 13
             }
           },
@@ -10435,11 +10479,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 462,
+              "line": 460,
               "column": 12
             },
             "end": {
-              "line": 471,
+              "line": 469,
               "column": 13
             }
           },
@@ -10456,11 +10500,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 473,
+              "line": 471,
               "column": 12
             },
             "end": {
-              "line": 476,
+              "line": 474,
               "column": 13
             }
           },
@@ -10480,11 +10524,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 478,
+              "line": 476,
               "column": 12
             },
             "end": {
-              "line": 486,
+              "line": 484,
               "column": 13
             }
           },
@@ -10513,7 +10557,7 @@
           "column": 8
         },
         "end": {
-          "line": 487,
+          "line": 485,
           "column": 9
         }
       },
@@ -10650,15 +10694,47 @@
           "type": "boolean | null | undefined"
         },
         {
+          "name": "show-home-control",
+          "description": "If true then the 'Go home' button is displayed to go back to the original zoom and pan.",
+          "sourceRange": {
+            "start": {
+              "line": 128,
+              "column": 20
+            },
+            "end": {
+              "line": 131,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "boolean | null | undefined"
+        },
+        {
+          "name": "show-full-page-control",
+          "description": "If true then the 'Toggle full page' button is displayed to switch between full page and normal mode.",
+          "sourceRange": {
+            "start": {
+              "line": 133,
+              "column": 20
+            },
+            "end": {
+              "line": 136,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "boolean | null | undefined"
+        },
+        {
           "name": "default-zoom-level",
           "description": "Default zoom between: set to 0 to adjust to viewer size.",
           "sourceRange": {
             "start": {
-              "line": 130,
+              "line": 140,
               "column": 20
             },
             "end": {
-              "line": 133,
+              "line": 143,
               "column": 21
             }
           },
@@ -10670,11 +10746,11 @@
           "description": "(also see gestureSettings[Mouse|Touch|Pen].clickToZoom/dblClickToZoom).",
           "sourceRange": {
             "start": {
-              "line": 137,
+              "line": 147,
               "column": 20
             },
             "end": {
-              "line": 140,
+              "line": 150,
               "column": 21
             }
           },
@@ -10686,11 +10762,11 @@
           "description": "(also see gestureSettings[Mouse|Touch|Pen].scrollToZoom}).",
           "sourceRange": {
             "start": {
-              "line": 144,
+              "line": 154,
               "column": 20
             },
             "end": {
-              "line": 147,
+              "line": 157,
               "column": 21
             }
           },
@@ -10702,11 +10778,11 @@
           "description": "Spring which occur when the image is dragged or zoomed.",
           "sourceRange": {
             "start": {
-              "line": 150,
+              "line": 160,
               "column": 20
             },
             "end": {
-              "line": 153,
+              "line": 163,
               "column": 21
             }
           },
@@ -10718,11 +10794,11 @@
           "description": "will wrap to the first image when viewing the last image.",
           "sourceRange": {
             "start": {
-              "line": 157,
+              "line": 167,
               "column": 20
             },
             "end": {
-              "line": 160,
+              "line": 170,
               "column": 21
             }
           },
@@ -10734,11 +10810,11 @@
           "description": "browser support for rotate (e.g. viewer.drawer.canRotate()).",
           "sourceRange": {
             "start": {
-              "line": 164,
+              "line": 174,
               "column": 20
             },
             "end": {
-              "line": 167,
+              "line": 177,
               "column": 21
             }
           },
@@ -10750,11 +10826,11 @@
           "description": "Setting it to 0, for example will allow you to zoom out infinity.",
           "sourceRange": {
             "start": {
-              "line": 172,
+              "line": 182,
               "column": 20
             },
             "end": {
-              "line": 175,
+              "line": 185,
               "column": 21
             }
           },
@@ -10766,11 +10842,11 @@
           "description": "if the HTML5 Canvas is not availble on the viewing device.",
           "sourceRange": {
             "start": {
-              "line": 180,
+              "line": 190,
               "column": 20
             },
             "end": {
-              "line": 183,
+              "line": 193,
               "column": 21
             }
           },
@@ -10782,11 +10858,11 @@
           "description": "Constrain during pan",
           "sourceRange": {
             "start": {
-              "line": 185,
+              "line": 195,
               "column": 20
             },
             "end": {
-              "line": 188,
+              "line": 198,
               "column": 21
             }
           },
@@ -10798,11 +10874,11 @@
           "description": "to true will provide the effect of an infinitely scrolling viewport.",
           "sourceRange": {
             "start": {
-              "line": 195,
+              "line": 205,
               "column": 20
             },
             "end": {
-              "line": 198,
+              "line": 208,
               "column": 21
             }
           },
@@ -10814,11 +10890,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 199,
+              "line": 209,
               "column": 20
             },
             "end": {
-              "line": 199,
+              "line": 209,
               "column": 98
             }
           },
@@ -10830,11 +10906,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 200,
+              "line": 210,
               "column": 20
             },
             "end": {
-              "line": 203,
+              "line": 213,
               "column": 21
             }
           },
@@ -36835,11 +36911,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 87,
+              "line": 77,
               "column": 20
             },
             "end": {
-              "line": 89,
+              "line": 79,
               "column": 21
             }
           },
@@ -36856,11 +36932,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 90,
+              "line": 80,
               "column": 20
             },
             "end": {
-              "line": 95,
+              "line": 85,
               "column": 21
             }
           },
@@ -36880,11 +36956,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 96,
+              "line": 86,
               "column": 20
             },
             "end": {
-              "line": 99,
+              "line": 89,
               "column": 21
             }
           },
@@ -36902,11 +36978,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 100,
+              "line": 90,
               "column": 20
             },
             "end": {
-              "line": 103,
+              "line": 93,
               "column": 21
             }
           },
@@ -36924,11 +37000,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 104,
+              "line": 94,
               "column": 20
             },
             "end": {
-              "line": 107,
+              "line": 97,
               "column": 21
             }
           },
@@ -36946,11 +37022,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 108,
+              "line": 98,
               "column": 20
             },
             "end": {
-              "line": 110,
+              "line": 100,
               "column": 21
             }
           },
@@ -37211,11 +37287,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 118,
+              "line": 108,
               "column": 12
             },
             "end": {
-              "line": 147,
+              "line": 137,
               "column": 13
             }
           },
@@ -39003,11 +39079,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 114,
+              "line": 104,
               "column": 12
             },
             "end": {
-              "line": 116,
+              "line": 106,
               "column": 13
             }
           },
@@ -39136,11 +39212,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 149,
+              "line": 139,
               "column": 12
             },
             "end": {
-              "line": 177,
+              "line": 167,
               "column": 13
             }
           },
@@ -39157,11 +39233,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 179,
+              "line": 169,
               "column": 12
             },
             "end": {
-              "line": 181,
+              "line": 171,
               "column": 13
             }
           },
@@ -39174,11 +39250,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 183,
+              "line": 173,
               "column": 12
             },
             "end": {
-              "line": 190,
+              "line": 180,
               "column": 13
             }
           },
@@ -39198,11 +39274,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 192,
+              "line": 182,
               "column": 12
             },
             "end": {
-              "line": 195,
+              "line": 185,
               "column": 13
             }
           },
@@ -40157,11 +40233,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 79,
+          "line": 69,
           "column": 8
         },
         "end": {
-          "line": 197,
+          "line": 187,
           "column": 9
         }
       },
@@ -40174,11 +40250,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 90,
+              "line": 80,
               "column": 20
             },
             "end": {
-              "line": 95,
+              "line": 85,
               "column": 21
             }
           },
@@ -40190,11 +40266,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 96,
+              "line": 86,
               "column": 20
             },
             "end": {
-              "line": 99,
+              "line": 89,
               "column": 21
             }
           },
@@ -40206,11 +40282,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 100,
+              "line": 90,
               "column": 20
             },
             "end": {
-              "line": 103,
+              "line": 93,
               "column": 21
             }
           },
@@ -40222,11 +40298,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 104,
+              "line": 94,
               "column": 20
             },
             "end": {
-              "line": 107,
+              "line": 97,
               "column": 21
             }
           },
@@ -40238,11 +40314,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 108,
+              "line": 98,
               "column": 20
             },
             "end": {
-              "line": 110,
+              "line": 100,
               "column": 21
             }
           },

@@ -154,10 +154,8 @@
     </target>
 
     <target name="polymer-docs">
-        <exec dir="${basedir}/components" executable="polymer" output="components/analysis.json">
-            <arg value="analyze"/>
-            <arg value=">"/>
-            <arg value="analyse.json"/>
+        <exec dir="${basedir}/components" executable="polymer" output="components/analysis.json" >
+            <arg line="analyze"/>
         </exec>
     </target>
 

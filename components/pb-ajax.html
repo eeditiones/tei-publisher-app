@@ -1,3 +1,13 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-mixin.html">
+<!--
+ Triggers an action on the server and shows a dialog
+ upon completion. Used for the "recompile ODD" and other
+ actions.
+
+ The parameters sent to the server-side script will be copied
+ from the `pb-view` to which this component subscribes.
+-->
 <dom-module id="pb-ajax">
     <template strip-whitespace>
         <style>
@@ -23,17 +33,6 @@
     </template>
 
     <script>
-        /**
-         * Triggers an action on the server and shows a dialog
-         * upon completion. Used for the "recompile ODD" and other
-         * actions.
-         *
-         * The parameters sent to the server-side script will be copied
-         * from the `pb-view` to which this component subscribes.
-         *
-         * @customElement
-         * @polymer
-         */
         class PbAjax extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'pb-ajax';
@@ -41,12 +40,21 @@
 
             static get properties() {
                 return {
+                    /**
+                     * the URL to send a request to
+                     */
                     url: {
                         type: String
                     },
+                    /**
+                     * title of link that triggers the request
+                     */
                     title: {
                         type: String
                     },
+                    /**
+                     * id of a dialog component used to display the response to the request.
+                     */
                     dialog: {
                         type: String
                     }
