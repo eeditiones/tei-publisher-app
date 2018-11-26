@@ -1,7 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
-<!--
-<link rel="import" href="bower_components/iron-icon/iron-icon.html">
--->
+<link rel="import" href="pb-mixin.html">
 
 <dom-module id="pb-paginate">
     <template>
@@ -34,13 +32,15 @@
 
         </style>
 
-        <span on-click="_handleFirst"><iron-icon icon="first-page"></iron-icon></span>
-        <template is="dom-repeat" items="{{pages}}">
-            <span class$="[[item.class]]" on-click="_handleClick">[[item.label]]</span>
-        </template>
-        <span on-click="_handleLast"><iron-icon icon="last-page"></iron-icon></span>
+        <template is="dom-if" if="[[total]]">
+            <span on-click="_handleFirst"><iron-icon icon="first-page"></iron-icon></span>
+            <template is="dom-repeat" items="{{pages}}">
+                <span class$="[[item.class]]" on-click="_handleClick">[[item.label]]</span>
+            </template>
+            <span on-click="_handleLast"><iron-icon icon="last-page"></iron-icon></span>
 
-        <span class="found">[[foundLabel]]: [[total]]</span>
+            <span class="found">[[foundLabel]]: [[total]]</span>
+        </template>
     </template>
 
     <script>
@@ -54,6 +54,8 @@
          * @see pb-load
          * @customElement
          * @polymer
+         * @appliesMixin PbMixin
+         * @demo demo/pb-search.html
          */
         class PbPaginate extends PbMixin(Polymer.Element) {
             static get is() {
@@ -66,7 +68,8 @@
                      * total number of pages
                      */
                     total: {
-                        type: Number
+                        type: Number,
+                        value: 0
                     },
                     /**
                      * start page
