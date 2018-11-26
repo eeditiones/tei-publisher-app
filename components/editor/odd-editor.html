@@ -1,18 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<!--
-<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../bower_components/paper-card/paper-card.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../bower_components/paper-autocomplete/paper-autocomplete.html">
-<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../pb-collapse.html">
-<link rel="import" href="odd-edit-source.html">
-<link rel="import" href="odd-element-spec.html">
-<link rel="import" href="odd-message.html">
-<link rel="import" href="../pb-common-styles.html">
--->
+
 
 <dom-module id="odd-editor">
     <template>
@@ -219,7 +206,7 @@
 
     <script>
         /**
-         * `odd-editor`
+         * Editor for ODD files
          *
          *
          * @customElement
@@ -236,17 +223,29 @@
                     ident:{
                         type: String
                     },
+                    /**
+                     * ElementSpec mode. Can be ´add´, ´change´ or undefined.
+                     */
                     mode:{
                         type: String
                     },
+                    /**
+                     * Array of ´odd-model´ Elements
+                     */
                     models:{
                         type: Array
                     },
+                    /**
+                     * the odd file being edited
+                     */
                     odd: {
                         type: String,
                         observer: 'load',
                         reflectToAttribute:true
                     },
+                    /**
+                     * array of ´element-spec´ Elements of given odd file
+                     */
                     elementSpecs: {
                         type: Array,
                         value: () => [],
@@ -508,6 +507,11 @@
                 }
             }
 
+            /**
+             *
+             * @param ev
+             * @event element-spec-toggle
+             */
             handleElementSpecToggle(ev) {
               if (ev.detail.target === this.currentItem) { return; }
               this.setCurrentItem(ev.detail.target)
