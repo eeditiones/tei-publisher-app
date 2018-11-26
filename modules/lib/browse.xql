@@ -201,7 +201,7 @@ function app:short-header($node as node(), $model as map(*)) {
         if ($header) then
             $header
         else
-            util:document-name($work)
+            <a href="{$relPath}">{util:document-name($work)}</a>
 };
 
 (:~
