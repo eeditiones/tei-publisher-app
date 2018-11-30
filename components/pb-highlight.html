@@ -41,7 +41,7 @@
     </template>
 
     <script>
-        
+
         /**
          * Link elements to each other: if the user moves the mouse over one element,
          * the others are highlighted by changing their background color. Which elements
@@ -61,6 +61,7 @@
          * @customElement
          * @polymer
          * @appliesMixin PbMixin
+         * @demo demo/pb-highlight.html
          */
         class PbHighlight extends PbMixin(Polymer.Element) {
             static get is() {
@@ -143,7 +144,7 @@
                     this.$.content.className = 'highlight-off';
                 }
             }
-            
+
             /**
              * Fired if mouse pointer enters the element
              *
@@ -152,7 +153,7 @@
              * @param {Object} source this element
              * @param {scroll} should target scroll to highlighted position
              */
-             
+
              /**
               * Fired if mouse pointer leaves the element
               *
