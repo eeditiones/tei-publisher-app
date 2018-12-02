@@ -23,6 +23,51 @@
     </author>
   </info>
     <section>
+      <title>Quickstart</title>
+      <section>
+        <title>What TEI Publisher does ...</title>
+      <para>The vision behind TEI Publisher is to provide a tool which enables scholars and editors to publish their materials without becoming programmers, but
+        also does not force them into a one-size-fits-it-all framework. Experienced developers will benefit as well by writing less code, avoiding redundancy,
+        improve maintenance and interoperability - to just name a few. TEI Publisher is all about <emphasis role="bold">standards</emphasis>, <emphasis
+          role="bold">reusability</emphasis> and <emphasis role="bold">sustainability</emphasis>!</para>
+        <para>At the heart of TEI Publisher is the TEI Processing Model (PM). This is described in the <link
+          xlink:href="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/TD.html#TDPM">TEI P5 guidelines</link> and forms part of the ODD specification format:
+        it defines how a TEI document should be rendered to different output formats.</para>
+      <para>TEI gives users a lot of freedom in encoding: there's always more than one way!  To maintain interoperability and sustainability, you need a way to
+        formally describe the encoding used, document editorial guidelines and transcription processes.  TEI ODD was designed for this purpose. But how a
+        document should be rendered was previously still determined by external software and could not be described within the ODD itself. The TEI Processing
+        Model changes this!</para>
+      <para>The intended processing for all elements can now be expressed within the TEI vocabulary as part of the ODD. The logical structure of the text is
+        mapped to a small set of abstract transformation functions, called <emphasis>behaviours</emphasis>. Basic styling features can be set directly within
+        the ODD using CSS. The processing model is media-agnostic: rendition styles are transparently translated into the different output media types like
+        HTML, XSL-FO, LaTeX, or ePUB. A single ODD can handle a multitude of output media types with just a few small adjustments.</para>
+      <para>Despite it's elegant simplicity, various projects we realized in the past prove that the TEI Processing Model is:</para>
+      <orderedlist>
+        <listitem>
+          <para>powerful enough to cover complex transformation needs</para>
+        </listitem>
+        <listitem>
+          <para>a truly universal tool for any kind of digital edition</para>
+        </listitem>
+        <listitem>
+          <para>efficient and as fast (or faster) as handwritten transformations</para>
+        </listitem>
+        <listitem>
+          <para>suitable for any XML, not just TEI (this documentation is written in docbook!)</para>
+        </listitem>
+      </orderedlist>
+      <para>However, online editions require more than just a text transformation: the text needs to be embedded into an application context, adding navigation,
+        pagination, search, facsimile display and so on. The larger part of TEI Publisher deals with those aspects, providing all the necessary building blocks
+        for an online edition.</para>
+      <para>Staying true to the spirit of code reuse and interoperability, TEI Publisher 4.0 implements all functionality as small "lego" blocks to be freely
+        arranged and recombined. The technology making this possible is called <emphasis>webcomponents</emphasis>. It is part of the HTML5 specification and
+        natively implemented by many browsers. Users don't need to dive into the details of this standard though: all you need to modify the example pages is a
+        bit of basic HTML knowledge. Where the <link xlink:href="../components/docs.html">available components</link> are not enough, feel free to describe your
+        use case and propose new components. After all, our mantra is reuse, reuse, reuse and we want to turn TEI Publisher into a box of tools the entire
+        community can benefit from.</para>
+      </section>
+    </section>
+    <section>
       <title>Introduction</title>
       <para>The TEI Processing Model (PM) extends the TEI ODD specification format with a processing model for documents. That way intended processing for all elements can be expressed within the TEI vocubulary itself. It aims at the XML-savvy editor who is familiar with TEI but is not necessarily a developer. The editor knows the logical structure of the text and maps it to a small set of abstract transformation functions, called <emphasis>behaviours</emphasis>. Predefined behaviours are, for example, <code>paragraph</code>, <code>heading</code> or <code>note</code>.</para>
       <note>
