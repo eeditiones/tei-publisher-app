@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?teipublisher odd="docbook.odd" template="documentation.html"?>
+<?teipublisher odd="docbook.odd" template="documentation.html" depth="2"?>
 <article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>TEI Publisher</title>
@@ -66,6 +66,69 @@
         use case and propose new components. After all, our mantra is reuse, reuse, reuse and we want to turn TEI Publisher into a box of tools the entire
         community can benefit from.</para>
       </section>
+    <section>
+      <title>Installation</title>
+      <para>TEI Publisher runs on top of the <link xlink:href="http://exist-db.org">eXist XML database</link>. It is distributed as an eXist application package, making it easy to install on any local or
+        remote eXist database instance. Just go to the dashboard, open the package manager and install the TEI Publisher application package from the public
+        repository. Required dependencies will be installed automatically. </para>
+      <note>
+        <title>Note</title>
+        <para>You need at least
+          <link xlink:href="http://exist-db.org">eXist 3.6.0</link> to run the latest version of TEI Publisher. eXist's package manager will not show you the newest version of TEI Publisher unless your eXist version meets the requirements.</para>
+      </note>
+      <para>After installing you will find the TEI Publisher icon on your dashboard. Click on it to open the starting page of TEI Publisher.</para>
+    </section>
+    <section>
+      <title>Browsing Documents</title>
+      <section>
+        <title>The Start Page</title>
+        <para>The start page of TEI Publisher serves as a playground for viewing documents and testing transformations. It consists of three panels:<orderedlist>
+            <listitem>
+              <para>the list of documents currently installed</para>
+            </listitem>
+            <listitem>
+              <para>a panel showing the ODD files known to the application</para>
+            </listitem>
+            <listitem>
+              <para>an upload box to upload new documents</para>
+            </listitem>
+          </orderedlist></para>
+        <para>You can upload your own TEI documents by either clicking on the <guibutton>upload</guibutton> button or dragging and dropping files onto the
+          upload panel.</para>
+        <para>The sample documents installed by default showcase various customization aspects using different ODDs and view templates. We suggest to have a
+          look at each of them to see what TEI Publisher can do.</para>
+      </section>
+      <section>
+        <title>Document View</title>
+        <para>The document view varies slightly depending on the sample document you are looking at. For now, it is sufficient to know some default functionality:</para>
+        <itemizedlist>
+            <listitem>
+              <para>the login button to the right of the menu bar allows you to log in. By default, there's a user named <parameter>tei</parameter> with
+                password <parameter>simple</parameter>. You need to be logged in for most advanced actions like creating or editing ODDs.</para>
+            </listitem>
+            <listitem>
+              <para>the rightmost button in the toolbar opens the settings panel. Here you can change the ODD being used for display as well as the view
+                template (more about this later). By default, all sample documents apply the specific ODD which fits them best, but you can play around and
+                select another ODD to see what happens.</para>
+              <figure>
+                <title>The Settings Panel</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="settings-panel.png" width="128px"/>
+                  </imageobject>
+                </mediaobject>
+              </figure>
+            </listitem>
+            <listitem>
+              <para>the leftmost toolbar button will open a table of contents (if the viewed document has a division structure)</para>
+            </listitem>
+            <listitem>
+              <para>the <guibutton>Download</guibutton> menu allows you to download the currently viewed document in a variety of output formats. Not all output
+                formats work equally well for all examples as we have not customized every example for every media.</para>
+            </listitem>
+          </itemizedlist>
+      </section>
+    </section>
     </section>
     <section>
       <title>Introduction</title>
