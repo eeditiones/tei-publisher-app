@@ -129,6 +129,46 @@
           </itemizedlist>
       </section>
     </section>
+      <section>
+        <title>Creating Your First ODD</title>
+      <para>The general workflow for creating a customization is as follows:<orderedlist>
+          <listitem>
+            <para>upload a TEI sample document you want to format</para>
+          </listitem>
+          <listitem>
+            <para>create a new ODD</para>
+          </listitem>
+          <listitem>
+            <para>modify the ODD to match your requirements</para>
+          </listitem>
+        </orderedlist></para>
+      <para>For the purpose of this quickstart, we will reuse one of the pre-installed sample documents, but create a new ODD for it:</para>
+      <procedure>
+        <step>
+          <para>Log in and fill out the form at the bottom of the panel listing ODD files. Choose a name for the ODD, e.g. <option>myletter</option> (without a
+            suffix) and a title, which will appear in the list after creation. Click on <guibutton>Create</guibutton> (not <guibutton>Create from
+              examples</guibutton>).</para>
+          <para>The newly created ODD should appear in the side panel.</para>
+        </step>
+        <step>
+          <para>In the document list, click on <emphasis>Letter #6 from Robert Graves to William Graves</emphasis> to open it in the document viewer.</para>
+        </step>
+        <step>
+          <para>Open the settings panel (rightmost toolbar button, see above) and choose your ODD from the dropdown showing available ODDs. You may also change
+            the used HTML template  to <option>Default single text layout</option>, though this is not absolutely necessary.</para>
+        </step>
+        <step>
+          <para>The view should change and display the letter's content with only basic formatting applied. Since our ODD has just been created and is empty, we
+            see the content with standard formatting applied. Our ODD by default inherits from <filename>teipublisher.odd</filename>, which likewise extends
+              <filename>tei_simplePrint.odd</filename>. The latter is maintained by the TEI community and contains processing model declarations for the most
+            important TEI elements. Thanks to this inheritance mechanism, many documents display nicely without requiring a lot of additional
+            customization.</para>
+        </step>
+        <step>
+          <para>From the menu, select <guimenu>Admin</guimenu> / <guimenuitem>Edit ODD</guimenuitem> to open the visual ODD editor.</para>
+        </step>
+      </procedure>
+      </section>
     </section>
     <section>
       <title>Introduction</title>
@@ -276,7 +316,7 @@
         <section>
           <title>Advanced Use</title>
           <para>To further tweak the building process you can call the functions of the <filename>odd-by-example.xql</filename> module from your own XQuery code. If you wish to generate your own basis for the comparison you can call the following function to store a compiled ODD in the default odd location of tei-pubisher:</para>
-          <programlisting language="XQuery">obe:compile-odd(doc('../odd/my-file.odd'), 'my-file-name')</programlisting>
+          <programlisting language="XQuery" xml:space="preserve">obe:compile-odd(doc('../odd/my-file.odd'), 'my-file-name')</programlisting>
           <note>
             <title>Note</title>
             <para>Do to a bug in the <filename>odd2odd.xsl</filename> stylesheet the output of this function is not always valid. To use it for further processing you need to make sure that only valid documents are used for further processing</para>
@@ -284,7 +324,7 @@
           <para>You can also modify the transformation parameters of:</para>
           <programlisting language="XQuery">obe:process-example(doc('../data/test/myTEI.xml'), 'odd-name', 'simplePrint')</programlisting>
           <para>The above example uses simplePrint as a basis for building the new ODD. The full list of configurable options are:</para>
-          <programlisting language="xml">&lt;parameters&gt;
+          <programlisting language="xml" xml:space="preserve">&lt;parameters&gt;
   &lt;!-- the document corpus --&gt;
   &lt;param name="corpus" value="."/&gt;
   &lt;!-- name of odd --&gt;
@@ -408,12 +448,12 @@
             copied from
             <filename>teipublisher.odd</filename>
             looks like this:</para>
-          <programlisting language="xml">&lt;elementSpec mode="change" ident="dateline"&gt;
+          <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="dateline"&gt;
     &lt;model behaviour="block"/&gt; 
 &lt;/elementSpec&gt;</programlisting>
           <para>To make the text right-aligned, we add a
             <tag>outputRendition</tag>:</para>
-          <programlisting language="xml">&lt;elementSpec mode="change" ident="dateline"&gt;
+          <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="dateline"&gt;
   &lt;model behaviour="block"&gt;
       &lt;outputRendition&gt;text-align: right;&lt;/outputRendition&gt; 
   &lt;/model&gt;
@@ -422,7 +462,7 @@
             <tag>pb</tag>
             label, so we add another
             <tag>elementSpec</tag>:</para>
-          <programlisting language="xml">&lt;elementSpec mode="change" ident="pb"&gt;
+          <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="pb"&gt;
   &lt;model behaviour="omit"/&gt;
 &lt;/elementSpec&gt;</programlisting>
           <para>To test the changes, go back to the main page of the app, select the new ODD and click on "Regenerate", then browse to the letter and view the result. In fact, the "regenerate" step is not absolutely necessary as the library will usually
@@ -466,7 +506,7 @@
           child and omitting any possible
           <tag>rdg</tag>
           children.</para>
-        <programlisting language="xml">&lt;elementSpec mode="change" ident="app"&gt; 
+        <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="app"&gt; 
   &lt;model behaviour="inline"&gt; 
     &lt;param name="content" value="lem"/&gt; 
   &lt;/model&gt; 
@@ -517,7 +557,7 @@
           entries only content of its
           <tag>lem</tag>
           child is to be displayed (as an inline chunk of text):</para>
-        <programlisting language="xml">&lt;elementSpec mode="change" ident="app"&gt; 
+        <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="app"&gt; 
   &lt;model behaviour="inline"&gt; 
     &lt;param name="content" value="lem"/&gt; 
   &lt;/model&gt; 
@@ -525,7 +565,7 @@
         <para>Model specifying output rendition: contents of
           <tag>ex</tag>
           elements are to be displayed in italic and wrapped in parentheses:</para>
-        <programlisting language="xml">&lt;elementSpec mode="change" ident="ex"&gt; 
+        <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="ex"&gt; 
   &lt;model behaviour="inline"&gt; 
     &lt;outputRendition&gt;font-style: italic;&lt;/outputRendition&gt; 
     &lt;outputRendition scope="before"&gt;
@@ -542,7 +582,7 @@
           element to include two
           <tag>model</tag>
           elements as follows:</para>
-        <programlisting language="xml">&lt;elementSpec mode="change" ident="quote"&gt; 
+        <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="quote"&gt; 
   &lt;model predicate="ancestor::p" behaviour="inline"&gt; 
     &lt;outputRendition&gt;font-style: italic;&lt;/outputRendition&gt;
   &lt;/model&gt; 
@@ -597,7 +637,7 @@
           elements intended for a single kind of output. The
           <tag>modelSequence</tag>
           element is provided for the case where a sequence of models is to be processed, functioning as a single unit. Common use case would be to use modelSequence to generate table of contents along with the reading text as shown in the example below:</para>
-        <programlisting language="xml">&lt;elementSpec mode="change" ident="body"&gt; 
+        <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="body"&gt; 
   &lt;modelSequence&gt; 
     &lt;model behaviour="index"&gt; 
       &lt;param name="type" value="'toc'"/&gt; 
@@ -967,7 +1007,7 @@
             and omit content elements without specification, you may want to define a default elementSpec as shown below:</para>
           <programlisting>&lt;elementSpec ident="*"&gt; &lt;model behaviour="omit"/&gt; &lt;/elementSpec&gt;</programlisting>
           <para>You can also define models to be applied to all text nodes, e.g. if you need to normalize certain nodes:</para>
-          <programlisting>&lt;elementSpec ident="text()"&gt; &lt;
+          <programlisting xml:space="preserve">&lt;elementSpec ident="text()"&gt; &lt;
   model behaviour="text"/&gt; 
 &lt;/elementSpec&gt;</programlisting>
         </section>
@@ -976,7 +1016,7 @@
           <para>The script calling the processing model may pass external parameters into the ODD. They will be available in the variable
             <varname>$parameters</varname>, which is an XQuery map. Access parameters using the XQuery lookup operator.</para>
           <para>For example, one can use this feature to control how specific parts of the document are output, without having to define a separate output mode, which would result in much more code. Below we display a shortened header for the document, containing simply its title, but only if the parameter "header" is set to "short":</para>
-          <programlisting language="xquery">&lt;elementSpec mode="change" ident="fileDesc"&gt; 
+          <programlisting language="xquery" xml:space="preserve">&lt;elementSpec mode="change" ident="fileDesc"&gt; 
   &lt;modelSequence predicate="$parameters?header='short'"&gt; 
     &lt;model behaviour="block" cssClass="header-short"&gt; 
       &lt;param name="content" value="titleStmt"/&gt; 
@@ -1515,7 +1555,7 @@
           element may be used. For example,
           <filename>teipublisher.fo.css</filename>
           contains:</para>
-        <programlisting language="css">
+        <programlisting language="css" xml:space="preserve">
 .tei-text { font-family: "Junicode"; hyphenate: true; } 
 .tei-floatingText { padding: 6pt; } 
 .tei-p { text-align: justify; }
@@ -1579,7 +1619,7 @@
         optionally be limited to a specific ODD, whose name is specified in the
         <varname>@odd</varname>
         attribute.</para>
-      <programlisting language="xml"><![CDATA[<modules>
+      <programlisting language="xml" xml:space="preserve"><![CDATA[<modules>
     <!-- functions or behaviours common to all output modes -->
     <output>
       <module uri="http://www.tei-c.org/tei-simple/xquery/common-functions" prefix="tc" at="xmldb:exist:///db/apps/my-app/modules/common.xql"/>
@@ -1636,7 +1676,7 @@
       </variablelist>
         <para>For all additional parameters, the processing model implementation tries to fill each custom parameter with a corresponding value by looking through the <tag>param</tag> tags in the ODD to find one with a name matching the variable name. If no matching parameter can be found, the function argument will be set to the empty sequence. You should not enforce a type or cardinality for any of the custom parameters as this may lead to unexpected errors. The parameters may be empty or contain more than one item.</para>
       <para>For example, our extension module <filename>ext-html.xql</filename> may look as follows:</para>
-      <programlisting language="xquery"><![CDATA[xquery version "3.1"; 
+      <programlisting language="xquery" xml:space="preserve"><![CDATA[xquery version "3.1"; 
 (:~ : Non-standard extension functions, mainly used for the documentation. :) 
 module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-html";
 declare namespace tei="http://www.tei-c.org/ns/1.0"; 
@@ -1667,7 +1707,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <para>For example, it is common practice to keep notes in the back of the document and reference them using ref. When processing the ref, you want to include the note's content into the
         <function>note</function>
         behaviour:</para>
-      <programlisting language="xml">&lt;elementSpec mode="change" ident="ref"&gt; 
+      <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="ref"&gt; 
   &lt;model behaviour="note"&gt; 
     &lt;param name="place" value="'margin'"/&gt; 
     &lt;!-- Look up the note by xml:id --&gt; 
@@ -1706,7 +1746,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         <varname>@output</varname>
         or neither of both.
         <emphasis role="bold">Order is important</emphasis>! If your default model (the one without predicate or output) is placed in front of your more specific models, it will always match:</para>
-      <programlisting>&lt;elementSpec mode="change" ident="hi"&gt; 
+      <programlisting xml:space="preserve">&lt;elementSpec mode="change" ident="hi"&gt; 
   &lt;model behaviour="inline"/&gt; 
   &lt;model predicate="@rend='bold'" behaviour="inline"&gt; 
     &lt;outputRendition&gt;font-weight: bold;&lt;/outputRendition&gt; 
