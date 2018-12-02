@@ -127,7 +127,7 @@
             ready() {
                 super.ready();
 
-                this._initMap();
+                Polymer.RenderStatus.afterNextRender(this, this._initMap);
             }
 
             _initMap() {
@@ -148,10 +148,11 @@
                 }
                 this._map = L.map(this.$.map, {
                     zoom: this.zoom,
+                    center: L.latLng([this.latitude, this.longitude]),
                     crs: crs
                 });
                 // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                // 	maxZoom: 19,
+                // 	maxZoom: 18,
                 // 	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 // }).addTo(this._map);
                 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -165,8 +166,6 @@
                 // }).addTo(this._map);
 
                 L.control.scale().addTo(this._map);
-
-                this._map.setView([this.latitude, this.longitude], this.zoom);
             }
 
             _locationChanged(latitude, longitude, zoom) {
