@@ -129,6 +129,9 @@
           </itemizedlist>
       </section>
     </section>
+    </section>
+      <section>
+        <title>Basic Customization</title>
       <section>
         <title>Creating Your First ODD</title>
       <para>The general workflow for creating a customization is as follows:<orderedlist>
@@ -169,205 +172,19 @@
         </step>
       </procedure>
       </section>
-    </section>
-    <section>
-      <title>Introduction</title>
-      <para>The TEI Processing Model (PM) extends the TEI ODD specification format with a processing model for documents. That way intended processing for all elements can be expressed within the TEI vocubulary itself. It aims at the XML-savvy editor who is familiar with TEI but is not necessarily a developer. The editor knows the logical structure of the text and maps it to a small set of abstract transformation functions, called <emphasis>behaviours</emphasis>. Predefined behaviours are, for example, <code>paragraph</code>, <code>heading</code> or <code>note</code>.</para>
-      <note>
-        <title>New</title>
-        <para>Starting with TEI Publisher 3.0, the processing model can also be used to transform non-TEI documents! For example, this documentation is written in <emphasis>docbook</emphasis>.</para>
-      </note>
-      <para>Basic styling features can be set directly within the ODD using CSS. The processing model is media-agnostic: rendition styles are transparently translated into the different output media types like HTML, XSL-FO, LaTeX, or ePUB.</para>
-      <para>At the same time, the processing model implements a clean separation of concerns to improve the workflow between editors, designers and developers. The editor defines how elements are mapped to behavior functions and specifies basic styling rules, the designer controls the overall presentation of the material, and the developer concentrates on the general application framework and—if necessary—supports the editor by providing custom behavior functions as <link linkend="extension-modules">extension modules</link>.</para>
-      <informalfigure>
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="rahtzrationale.png"/>
-          </imageobject>
-        </mediaobject>
-      </informalfigure>
-      <para>A word of warning though: while the processing model was developed as part of the TEI Simple initiative, it is not necessarily trivial to comprehend
-        nor "simple" regarding the complexity of documents it can process. In fact, the TEI processing model has proved to be a truly universal tool. It's goal
-        was to improve workflows and interoperability by providing a minimal abstraction for the processing rules applied to a document. Using the processing
-        model definitely simplifies the life of the developer, who often has to write a few thousand lines of code just to render a particular TEI document into
-        HTML, only to repeat the same tedious process for PDF output. Last but not least the processing model empowers the scholary editor to create
-        high-quality prototype websites from a given data set without even relying on a developer.</para>
-    </section>
-    <section>
-      <title>The TEI Publisher Environment</title>
-      <para>TEI Publisher does a lot more than just implement the TEI processing model. It consists of the following components:</para>
-      <itemizedlist>
-        <listitem>
-          <para>
-            A set of library modules to render a TEI document into various output formats, which can be imported into other applications. This corresponds to the TEI Publisher library package.
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            The core application to work and experiment with various source documents and processing model instances. This is the main TEI Publisher app.
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            An application generator, which takes a processing model instance and creates a user interface around it, resulting in a standalone web application for a certain corpus of documents. The generated application shares most of its XQuery code and
-            interface with the main TEI Publisher app, but can be customized to meet your needs.
-          </para>
-        </listitem>
-      </itemizedlist>
-      <para>In a strict sense, only the first component implements the processing model specification. The larger part of the application deals with graphical user interface components, adding pagination, navigation and search features.</para>
-    </section>
-    <section>
-      <title>New in Version 4.0</title>
-      <para>Version 4.0 of TEI Publisher features a complete redesign of the user interface. Most of this has happened behind the scenes and may not be
-        immediately visible. The workflow and ODD processing remain the same, so nearly everything in this documentation applies unchanged.</para>
-      <para>The goal of the redesign was to allow users to realize more complex user interfaces and application layouts as demonstrated by the various examples:
-        parallel view of transcription and translation, showing a map for geo coordinates, presenting a facsimile image. Previously implementing such features
-        required some XQuery, Javascript and CSS coding skills. This is no longer required: all the new layout examples were created by applying small
-        modifications to an HTML template file.</para>
-      <para>This became possible thanks to a new web technology called <link xlink:href="https://www.webcomponents.org/">webcomponents</link>. Webcomponents are
-        small self-contained building blocks. TEI Publisher provides webcomponents for the most frequently needed actions like showing a TEI fragment after
-        transforming it to HTML, adding navigation buttons, table of contents etc. The goal is to make the creation of a custom page as simple as playing with
-        lego blocks.</para>
-      <para>Webcomponents are part of the W3C HTML5 standard and should thus be supported by all major browsers in the future. Right now Chrome offers best
-        support as it implements the standard natively. Safari is close behind. Firefox and Edge need fallback libraries for missing functionality, but in
-        particular Firefox is catching up.</para>
-      <para>To summarize the main changes:</para>
-      <itemizedlist>
-        <listitem>
-          <para>the user interface is now completely based on webcomponents, using <link
-              xlink:href="https://www.polymer-project.org/2.0/docs/devguide/feature-overview">polymer</link> as supporting library. Bootstrap has been
-            dropped.</para>
-        </listitem>
-        <listitem>
-          <para>TEI Publisher ships with a set of HTML templates which should serve as a starting point for different types of view layouts. These replace the
-            single template <code>view.html</code> used before.</para>
-        </listitem>
-        <listitem>
-          <para>TEI documents can select an HTML template via the <code>teipublisher</code> processing instruction. See the corresponding <link linkend="pi-config">section of the
-            documentation</link>.</para>
-        </listitem>
-      </itemizedlist>
-      <para>Look at the provided HTML template files: <code>view.html</code>, <code>translation.html</code>, <code>letter.html</code> and
-          <code>facsimile.html</code> to see how components are used. You will find two sets of components:</para>
-      <orderedlist>
-        <listitem>
-          <para>custom elements starting with <code>pb-</code>: those are components provided by TEI Publisher. They implement the core functionality of the UI.
-            As of the 4.0.0RC1 version of TEI Publisher, these components are not fully documented yet, but you should get an idea by looking at the
-            code.</para>
-        </listitem>
-        <listitem>
-          <para>all other custom elements are off-the-shelf components which can be found on <link xlink:href="https://www.webcomponents.org/"
-              >webcomponents.org</link></para>
-        </listitem>
-      </orderedlist>
-    </section>
-    <section xml:id="quickstart">
-      <title>Getting Started</title>
-      <para>TEI Publisher is distributed as two eXist application packages, making it easy to install on any local or remote eXist database instance. Just go to the dashboard, open the package manager and install the TEI Publisher application package from the public repository. The TEI Publisher library package will be installed automatically as a dependency.</para>
-      <note>
-        <title>Note</title>
-        <para>You need at least
-           <link xlink:href="http://exist-db.org">eXist 3.0.3</link> to run TEI Publisher. eXist's package manager will not show you the newest version of TEI Publisher unless your eXist version meets the requirements.</para>
-      </note>
-      <para>Once installed, play around with the provided documents or upload your own via the file upload panel in the right sidebar. You may modify any of the supplied ODD files and see how the rendering changes.</para>
-      <para>To create your own custom ODD, tailored to the data set you are working on, the general procedure is as follows:</para>
-      <itemizedlist>
-        <listitem>
-          <para>Create a new customization</para>
-        </listitem>
-        <listitem>
-          <para>Overwrite the standard processing model rules for selected TEI elements or add model rules for elements not handled by the standard ODD.</para>
-        </listitem>
-        <listitem>
-          <para>Test your modifications by applying the ODD and rendering a few documents.</para>
-        </listitem>
-      </itemizedlist>
-      <para>The steps will be described in detail in the following sections.</para>
-      <section>
-        <title>Create a New Customization</title>
-        <para>There are two ways to start a new ODD file. You can create a new "blank" customization or build a "full" ODD based on an existing corputs of TEI tiles. Create a blank customization by entering a name and clicking <guibutton>Create</guibutton> at the bottom of the right sidebar panel listing the available ODDs. Reload the page to see the new ODD appear in the list.</para>
-        <para>Open the created ODD using the "source" button. This will create a new browser tab showing the editor which is part of eXist, called "eXide". The ODD will be loaded into it.</para>
-        <para>As you can see, the ODD is nearly empty, containing just boilerplate code. However, it imports the standard
-          <filename>teipublisher.odd</filename>
-          within the
-          <tag>schemaSpec</tag>
-          element:</para>
-        <synopsis language="xml">&lt;schemaSpec ident="myteisimple" start="TEI teiCorpus" source="teipublisher.odd"&gt;</synopsis>
-        <para>This means your new ODD extends the standard <filename>teipublisher.odd</filename>, which provides useful defaults for the TEI core elements. In general, most of those defaults should not require any adjustments and you only need to overwrite a handful of selected mappings within your own ODD.</para>
-        <figure xml:id="create-odd">
-          <title>Create a Custom ODD</title>
-          <mediaobject>
-            <imageobject>
-              <imagedata fileref="CreateODD.gif"/>
-            </imageobject>
-          </mediaobject>
-        </figure>
-      </section>
-      <section>
-        <title>Building a Sample-Based ODD</title>
-        <para>If you do not want to start a customized ODD from a blank template, you can alternatively generate one that covers the classes and elements of a selection of TEI files stored in tei-publisher's default data collection. Simply select one or more sample documents in the list to the left, enter a name and title into the form and click on <guibutton>Build from TEI examples</guibutton>. Note that if you haven't removed the default examples TEI files that shipped with tei-publisher their markup will be included in the constructed ODD as well.</para>
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="BuildODD.gif"/>
-          </imageobject>
-        </mediaobject>
-        <para>This method uses the <filename>oddbyexample.xsl</filename> stylesheet that is part of the TEI consortium's <link xlink:href="https://github.com/TEIC/Stylesheets">stylesheets</link>. Users with a corpus of one or more TEI files can generated a custom odd that contains explicit additions and deletions for all possible TEI modules, as well as, <tag>valList</tag> for attribute values in the input corpus.</para>
-        <para>By default the basis of the comparison for which elements have been modified in the examples is the full <filename>tei_all.odd</filename>.</para>
-        <section>
-          <title>Advanced Use</title>
-          <para>To further tweak the building process you can call the functions of the <filename>odd-by-example.xql</filename> module from your own XQuery code. If you wish to generate your own basis for the comparison you can call the following function to store a compiled ODD in the default odd location of tei-pubisher:</para>
-          <programlisting language="XQuery" xml:space="preserve">obe:compile-odd(doc('../odd/my-file.odd'), 'my-file-name')</programlisting>
-          <note>
-            <title>Note</title>
-            <para>Do to a bug in the <filename>odd2odd.xsl</filename> stylesheet the output of this function is not always valid. To use it for further processing you need to make sure that only valid documents are used for further processing</para>
-          </note>
-          <para>You can also modify the transformation parameters of:</para>
-          <programlisting language="XQuery">obe:process-example(doc('../data/test/myTEI.xml'), 'odd-name', 'simplePrint')</programlisting>
-          <para>The above example uses simplePrint as a basis for building the new ODD. The full list of configurable options are:</para>
-          <programlisting language="xml" xml:space="preserve">&lt;parameters&gt;
-  &lt;!-- the document corpus --&gt;
-  &lt;param name="corpus" value="."/&gt;
-  &lt;!-- name of odd --&gt;
-  &lt;param name="schema" value="{substring-before($output, '.odd')}"/&gt;
-  &lt;!-- the source of the TEI (just needs *Spec)--&gt;
-  &lt;param name="defaultSource" value="{$base}"/&gt;
-  &lt;!-- should we make valList for @rend and @rendition --&gt;
-  &lt;param name="enumerateRend" value="false"/&gt;
-  &lt;!-- whether to do all the global attributes --&gt;
-  &lt;param name="keepGlobals" value="true"/&gt;
-  &lt;!-- should elements in teiHeader be included?--&gt;
-  &lt;param name="includeHeader" value="true"/&gt;
-  &lt;!-- should we make valList for @type --&gt;
-  &lt;param name="enumerateType" value="true"/&gt;
-  &lt;!-- should we deal with non-TEI namespaces --&gt;
-  &lt;param name="processNonTEI" value="false"/&gt;
-  &lt;!-- do you want moduleRef generated with @include or @except? --&gt;
-  &lt;!-- seems broken see https://github.com/TEIC/Stylesheets/issues/212 --&gt;
-  &lt;param name="method" value="include"/&gt;
-  &lt;!-- turn on debug messages --&gt;
-  &lt;param name="debug" value="false"/&gt;
-  &lt;!-- turn on messages --&gt;
-  &lt;param name="verbose" value="false"/&gt;
-  &lt;!-- which files to look at? provide suffix --&gt;
-  &lt;param name="suffix" value="xml"/&gt;
-  &lt;!-- should P4 files be considered? --&gt;
-  &lt;param name="processP4" value="false"/&gt;
-  &lt;!-- should P5 files be considered? --&gt;
-  &lt;param name="processP5" value="true"/&gt;
-&lt;/parameters&gt;
-          </programlisting>
-        </section>
-      </section>
       <section>
         <title>Modify the ODD</title>
-        <para>Now we created a custom ODD, we can make a first modification. We'll use the <citetitle>Letter #6 from Robert Graves to William Graves</citetitle> as an example. Rendered through the standard
-          <filename>teipublisher.odd</filename>, it is definitely missing some styling to look more like a letter. For example, we may want to move the <tag>dateline</tag> in the <tag>opener</tag> to the right and get rid of the <tag>pb</tag> label which currently sits there.
-        </para>
-        <para>Beginning with version 3.0 of TEI Publisher, you have the choice between writing the ODD by hand or using a <link linkend="visualodd">visual editor</link>. The visual editor should be considered <emphasis>beta</emphasis>: it does work but may have some bugs.</para>
-        <para>The visual editor saves the ODD in a non-destructive way, preserving any information not related to the processing model. It is thus be save to switch between hand-editing the ODD and using the visual editor.</para>
+        <para>Beginning with version 3.0 of TEI Publisher, you have the choice between writing the ODD by hand or using a <link linkend="visualodd">visual
+          editor</link>. Both approaches can be combined and mixed. The visual editor saves the ODD in a non-destructive way, preserving any information not
+        related to the processing model. It is thus be save to switch between hand-editing the ODD and using the visual editor. Just make sure you reload the
+        visual editor view after modifying the source XML and vice versa.</para>
+        <para>For a start, we may want to move the <tag>dateline</tag> in the <tag>opener</tag> to the right and get rid of the <tag>pb</tag> label which
+        currently sits there. We'll describe the visual editor first, then explain the same steps using <link linkend="oddxml">plain XML editing</link>.</para>
         <section xml:id="visualodd">
           <title>Use the Visual ODD Editor</title>
-          <para>Open the visual ODD editor by clicking on your newly created ODD on the start page. A new tab opens, showing an action panel to the left, and the title of your ODD to the right.</para>
+          <para>The visual ODD editor opens if you select &lt;guimenu>Admin&lt;/guimenu> / &lt;guimenuitem>Edit ODD&lt;/guimenuitem> from the menu while viewing
+          a document. Alternatively you can click on the name of an ODD in the list of ODDs on the TEI Publisher entry page. A new tab opens, showing an action
+          panel to the left, and the title of your ODD to the right.</para>
           <note>
             <title>Hint</title>
             <para>You can also use the visual editor to modify an ODD stored in a generated app outside TEI Publisher. Just pass an additional parameter <parameter>root</parameter> containing the path to the eXist collection in which your ODDs are stored:</para>
@@ -400,10 +217,20 @@
               </imageobject>
             </mediaobject>
           </figure>
-          <para>To test your change, click on
-            <guibutton>Save</guibutton>
-            in the left panel and wait a second until a popup appears. In your other tab, select the letter (make sure the correct ODD is selected) and view it.</para>
-          <para>The screencast below provides further information:</para>
+          <para>To test your change, click on <guibutton>Save</guibutton> in the left panel and wait a second until a popup appears. Switch back to the tab with
+          Graves' letter from which you opened the editor and refresh the browser window to see your changes applied. In case you do not see any change, make
+          sure</para>
+        <orderedlist>
+          <listitem>
+            <para>you selected the correct ODD for viewing (check the settings drawer)</para>
+          </listitem>
+          <listitem>
+            <para>if you made changes to outputRenditions only, you may need to clear your browser's cached version. For most browsers, holding the shift key
+              while clicking on the reload button does the job.</para>
+          </listitem>
+        </orderedlist>
+          <para>The screencast below provides further information. It uses an older version of TEI Publisher, but the basic concepts and controls are still the
+          same:</para>
           <figure xml:id="edit-odd">
             <title>Screencast</title>
             <mediaobject>
@@ -413,8 +240,11 @@
             </mediaobject>
           </figure>
         </section>
-        <section>
+        <section xml:id="oddxml">
           <title>Edit the ODD XML</title>
+        <para>To switch to the XML source code of the currently edited ODD, click on the button with the angle brackets in the toolbar of the left side panel.
+          If you made changes in the form, you need to save first to update the ODD. The ODD XML will be opened in a new tab, showing eXist's browser-based
+          editor, eXide.</para>
           <para>We need to overwrite the processing model rule for
             <tag>dateline</tag>. The easiest way to do this is to:</para>
           <itemizedlist>
@@ -469,7 +299,9 @@
             recognize the change to the ODD when you try to view the letter and regenerate automatically. However, if you made mistakes in the ODD, the regenerate will just fail silently. So during development, it is advisable to regenerate manually.</para>
         </section>
       </section>
-    </section>
+      </section>
+    <section>
+      <title>Advanced Customization</title>
     <section>
       <title>Processing Model syntax</title>
       <section>
@@ -1700,6 +1532,197 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           it stores this extra paramter as a key/value pair into the map <varname>$optional</varname>.</para>
     </section>
   </section>
+      
+    </section>
+    <section>
+      <title>Introduction</title>
+      <para>The TEI Processing Model (PM) extends the TEI ODD specification format with a processing model for documents. That way intended processing for all elements can be expressed within the TEI vocubulary itself. It aims at the XML-savvy editor who is familiar with TEI but is not necessarily a developer. The editor knows the logical structure of the text and maps it to a small set of abstract transformation functions, called <emphasis>behaviours</emphasis>. Predefined behaviours are, for example, <code>paragraph</code>, <code>heading</code> or <code>note</code>.</para>
+      <note>
+        <title>New</title>
+        <para>Starting with TEI Publisher 3.0, the processing model can also be used to transform non-TEI documents! For example, this documentation is written in <emphasis>docbook</emphasis>.</para>
+      </note>
+      <para>Basic styling features can be set directly within the ODD using CSS. The processing model is media-agnostic: rendition styles are transparently translated into the different output media types like HTML, XSL-FO, LaTeX, or ePUB.</para>
+      <para>At the same time, the processing model implements a clean separation of concerns to improve the workflow between editors, designers and developers. The editor defines how elements are mapped to behavior functions and specifies basic styling rules, the designer controls the overall presentation of the material, and the developer concentrates on the general application framework and—if necessary—supports the editor by providing custom behavior functions as <link linkend="extension-modules">extension modules</link>.</para>
+      <informalfigure>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="rahtzrationale.png"/>
+          </imageobject>
+        </mediaobject>
+      </informalfigure>
+      <para>A word of warning though: while the processing model was developed as part of the TEI Simple initiative, it is not necessarily trivial to comprehend
+        nor "simple" regarding the complexity of documents it can process. In fact, the TEI processing model has proved to be a truly universal tool. It's goal
+        was to improve workflows and interoperability by providing a minimal abstraction for the processing rules applied to a document. Using the processing
+        model definitely simplifies the life of the developer, who often has to write a few thousand lines of code just to render a particular TEI document into
+        HTML, only to repeat the same tedious process for PDF output. Last but not least the processing model empowers the scholary editor to create
+        high-quality prototype websites from a given data set without even relying on a developer.</para>
+    </section>
+    <section>
+      <title>The TEI Publisher Environment</title>
+      <para>TEI Publisher does a lot more than just implement the TEI processing model. It consists of the following components:</para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            A set of library modules to render a TEI document into various output formats, which can be imported into other applications. This corresponds to the TEI Publisher library package.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            The core application to work and experiment with various source documents and processing model instances. This is the main TEI Publisher app.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            An application generator, which takes a processing model instance and creates a user interface around it, resulting in a standalone web application for a certain corpus of documents. The generated application shares most of its XQuery code and
+            interface with the main TEI Publisher app, but can be customized to meet your needs.
+          </para>
+        </listitem>
+      </itemizedlist>
+      <para>In a strict sense, only the first component implements the processing model specification. The larger part of the application deals with graphical user interface components, adding pagination, navigation and search features.</para>
+    </section>
+    <section>
+      <title>New in Version 4.0</title>
+      <para>Version 4.0 of TEI Publisher features a complete redesign of the user interface. Most of this has happened behind the scenes and may not be
+        immediately visible. The workflow and ODD processing remain the same, so nearly everything in this documentation applies unchanged.</para>
+      <para>The goal of the redesign was to allow users to realize more complex user interfaces and application layouts as demonstrated by the various examples:
+        parallel view of transcription and translation, showing a map for geo coordinates, presenting a facsimile image. Previously implementing such features
+        required some XQuery, Javascript and CSS coding skills. This is no longer required: all the new layout examples were created by applying small
+        modifications to an HTML template file.</para>
+      <para>This became possible thanks to a new web technology called <link xlink:href="https://www.webcomponents.org/">webcomponents</link>. Webcomponents are
+        small self-contained building blocks. TEI Publisher provides webcomponents for the most frequently needed actions like showing a TEI fragment after
+        transforming it to HTML, adding navigation buttons, table of contents etc. The goal is to make the creation of a custom page as simple as playing with
+        lego blocks.</para>
+      <para>Webcomponents are part of the W3C HTML5 standard and should thus be supported by all major browsers in the future. Right now Chrome offers best
+        support as it implements the standard natively. Safari is close behind. Firefox and Edge need fallback libraries for missing functionality, but in
+        particular Firefox is catching up.</para>
+      <para>To summarize the main changes:</para>
+      <itemizedlist>
+        <listitem>
+          <para>the user interface is now completely based on webcomponents, using <link
+              xlink:href="https://www.polymer-project.org/2.0/docs/devguide/feature-overview">polymer</link> as supporting library. Bootstrap has been
+            dropped.</para>
+        </listitem>
+        <listitem>
+          <para>TEI Publisher ships with a set of HTML templates which should serve as a starting point for different types of view layouts. These replace the
+            single template <code>view.html</code> used before.</para>
+        </listitem>
+        <listitem>
+          <para>TEI documents can select an HTML template via the <code>teipublisher</code> processing instruction. See the corresponding <link linkend="pi-config">section of the
+            documentation</link>.</para>
+        </listitem>
+      </itemizedlist>
+      <para>Look at the provided HTML template files: <code>view.html</code>, <code>translation.html</code>, <code>letter.html</code> and
+          <code>facsimile.html</code> to see how components are used. You will find two sets of components:</para>
+      <orderedlist>
+        <listitem>
+          <para>custom elements starting with <code>pb-</code>: those are components provided by TEI Publisher. They implement the core functionality of the UI.
+            As of the 4.0.0RC1 version of TEI Publisher, these components are not fully documented yet, but you should get an idea by looking at the
+            code.</para>
+        </listitem>
+        <listitem>
+          <para>all other custom elements are off-the-shelf components which can be found on <link xlink:href="https://www.webcomponents.org/"
+              >webcomponents.org</link></para>
+        </listitem>
+      </orderedlist>
+    </section>
+    <section xml:id="quickstart">
+      <title>Getting Started</title>
+      <para>TEI Publisher is distributed as two eXist application packages, making it easy to install on any local or remote eXist database instance. Just go to the dashboard, open the package manager and install the TEI Publisher application package from the public repository. The TEI Publisher library package will be installed automatically as a dependency.</para>
+      <note>
+        <title>Note</title>
+        <para>You need at least
+           <link xlink:href="http://exist-db.org">eXist 3.0.3</link> to run TEI Publisher. eXist's package manager will not show you the newest version of TEI Publisher unless your eXist version meets the requirements.</para>
+      </note>
+      <para>Once installed, play around with the provided documents or upload your own via the file upload panel in the right sidebar. You may modify any of the supplied ODD files and see how the rendering changes.</para>
+      <para>To create your own custom ODD, tailored to the data set you are working on, the general procedure is as follows:</para>
+      <itemizedlist>
+        <listitem>
+          <para>Create a new customization</para>
+        </listitem>
+        <listitem>
+          <para>Overwrite the standard processing model rules for selected TEI elements or add model rules for elements not handled by the standard ODD.</para>
+        </listitem>
+        <listitem>
+          <para>Test your modifications by applying the ODD and rendering a few documents.</para>
+        </listitem>
+      </itemizedlist>
+      <para>The steps will be described in detail in the following sections.</para>
+      <section>
+        <title>Create a New Customization</title>
+        <para>There are two ways to start a new ODD file. You can create a new "blank" customization or build a "full" ODD based on an existing corputs of TEI tiles. Create a blank customization by entering a name and clicking <guibutton>Create</guibutton> at the bottom of the right sidebar panel listing the available ODDs. Reload the page to see the new ODD appear in the list.</para>
+        <para>Open the created ODD using the "source" button. This will create a new browser tab showing the editor which is part of eXist, called "eXide". The ODD will be loaded into it.</para>
+        <para>As you can see, the ODD is nearly empty, containing just boilerplate code. However, it imports the standard
+          <filename>teipublisher.odd</filename>
+          within the
+          <tag>schemaSpec</tag>
+          element:</para>
+        <synopsis language="xml">&lt;schemaSpec ident="myteisimple" start="TEI teiCorpus" source="teipublisher.odd"&gt;</synopsis>
+        <para>This means your new ODD extends the standard <filename>teipublisher.odd</filename>, which provides useful defaults for the TEI core elements. In general, most of those defaults should not require any adjustments and you only need to overwrite a handful of selected mappings within your own ODD.</para>
+        <figure xml:id="create-odd">
+          <title>Create a Custom ODD</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="CreateODD.gif"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+      <section>
+        <title>Building a Sample-Based ODD</title>
+        <para>If you do not want to start a customized ODD from a blank template, you can alternatively generate one that covers the classes and elements of a selection of TEI files stored in tei-publisher's default data collection. Simply select one or more sample documents in the list to the left, enter a name and title into the form and click on <guibutton>Build from TEI examples</guibutton>. Note that if you haven't removed the default examples TEI files that shipped with tei-publisher their markup will be included in the constructed ODD as well.</para>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="BuildODD.gif"/>
+          </imageobject>
+        </mediaobject>
+        <para>This method uses the <filename>oddbyexample.xsl</filename> stylesheet that is part of the TEI consortium's <link xlink:href="https://github.com/TEIC/Stylesheets">stylesheets</link>. Users with a corpus of one or more TEI files can generated a custom odd that contains explicit additions and deletions for all possible TEI modules, as well as, <tag>valList</tag> for attribute values in the input corpus.</para>
+        <para>By default the basis of the comparison for which elements have been modified in the examples is the full <filename>tei_all.odd</filename>.</para>
+        <section>
+          <title>Advanced Use</title>
+          <para>To further tweak the building process you can call the functions of the <filename>odd-by-example.xql</filename> module from your own XQuery code. If you wish to generate your own basis for the comparison you can call the following function to store a compiled ODD in the default odd location of tei-pubisher:</para>
+          <programlisting language="XQuery" xml:space="preserve">obe:compile-odd(doc('../odd/my-file.odd'), 'my-file-name')</programlisting>
+          <note>
+            <title>Note</title>
+            <para>Do to a bug in the <filename>odd2odd.xsl</filename> stylesheet the output of this function is not always valid. To use it for further processing you need to make sure that only valid documents are used for further processing</para>
+          </note>
+          <para>You can also modify the transformation parameters of:</para>
+          <programlisting language="XQuery">obe:process-example(doc('../data/test/myTEI.xml'), 'odd-name', 'simplePrint')</programlisting>
+          <para>The above example uses simplePrint as a basis for building the new ODD. The full list of configurable options are:</para>
+          <programlisting language="xml" xml:space="preserve">&lt;parameters&gt;
+  &lt;!-- the document corpus --&gt;
+  &lt;param name="corpus" value="."/&gt;
+  &lt;!-- name of odd --&gt;
+  &lt;param name="schema" value="{substring-before($output, '.odd')}"/&gt;
+  &lt;!-- the source of the TEI (just needs *Spec)--&gt;
+  &lt;param name="defaultSource" value="{$base}"/&gt;
+  &lt;!-- should we make valList for @rend and @rendition --&gt;
+  &lt;param name="enumerateRend" value="false"/&gt;
+  &lt;!-- whether to do all the global attributes --&gt;
+  &lt;param name="keepGlobals" value="true"/&gt;
+  &lt;!-- should elements in teiHeader be included?--&gt;
+  &lt;param name="includeHeader" value="true"/&gt;
+  &lt;!-- should we make valList for @type --&gt;
+  &lt;param name="enumerateType" value="true"/&gt;
+  &lt;!-- should we deal with non-TEI namespaces --&gt;
+  &lt;param name="processNonTEI" value="false"/&gt;
+  &lt;!-- do you want moduleRef generated with @include or @except? --&gt;
+  &lt;!-- seems broken see https://github.com/TEIC/Stylesheets/issues/212 --&gt;
+  &lt;param name="method" value="include"/&gt;
+  &lt;!-- turn on debug messages --&gt;
+  &lt;param name="debug" value="false"/&gt;
+  &lt;!-- turn on messages --&gt;
+  &lt;param name="verbose" value="false"/&gt;
+  &lt;!-- which files to look at? provide suffix --&gt;
+  &lt;param name="suffix" value="xml"/&gt;
+  &lt;!-- should P4 files be considered? --&gt;
+  &lt;param name="processP4" value="false"/&gt;
+  &lt;!-- should P5 files be considered? --&gt;
+  &lt;param name="processP5" value="true"/&gt;
+&lt;/parameters&gt;
+          </programlisting>
+        </section>
+      </section>
+    </section>
   <section xml:id="faq">
     <title>Frequently Asked Questions</title>
     <section>
