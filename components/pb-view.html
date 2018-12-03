@@ -285,7 +285,12 @@ as defined by the properties `xmlId`, `nodeId` or `xpath`.
                         this.columnSeparator = ev.detail.columnSeparator;
                     }
                     this.view = ev.detail.view || this.view;
-                    this.nodeId = ev.detail.position || this.nodeId;
+                    // clear nodeId if set to null
+                    if (ev.detail.position == null) {
+                        this.nodeId = null;
+                    } else {
+                        this.nodeId = ev.detail.position || this.nodeId;
+                    }
                 }
                 this._updateStyles();
                 this._load(this.nodeId);

@@ -1,3 +1,5 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
 <dom-module id="pb-media-query">
     <template>
         <style>
@@ -19,11 +21,8 @@
 
     <script>
         /**
-         * `pb-media-query`
-         * a element that applies a media-query on its content
-         *
-         * todo: check - do we need this element? Seems to just add an 'active' class that is used by pb-paginate. This
-         * seems like a rather weak link and probably pb-paginate would be better of not relying on it.
+         * Show or hide contents depending on a media query. This is used to toggle the menubar and drawer.
+         * On small displays, the menu will move into the drawer.
          *
          * @customElement
          * @polymer
