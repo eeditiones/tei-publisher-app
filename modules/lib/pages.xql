@@ -231,7 +231,7 @@ declare function pages:single-page-link($node as node(), $model as map(*), $doc 
 };
 
 declare function pages:edit-odd-link($node as node(), $model as map(*)) {
-    <pb-download file="{$pages:EDIT_ODD_LINK}" source="source"
+    <pb-download url="{$pages:EDIT_ODD_LINK}" source="source"
         params="root={$config:odd-root}&amp;output-root={$config:output-root}&amp;output={$config:output}">
         {$node/@*, $node/node()}
     </pb-download>
