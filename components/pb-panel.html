@@ -18,7 +18,7 @@
         <slot></slot>
         <app-toolbar>
             <paper-dropdown-menu id="menu" label="[[label]]">
-                <paper-listbox slot="dropdown-content" class="dropdown-content" selected="{{active}}">
+                <paper-listbox slot="dropdown-content" class="dropdown-content" selected="{{_active}}">
                     <template id="repeat" is="dom-repeat" items="[[panels]]">
                         <paper-item>[[item]]</paper-item>
                     </template>
@@ -31,13 +31,14 @@
 
     <script>
         /**
-         * `pb-panel`
-         *
-         * a panel with dropdown at top to switch between views.
+         * A container for different views. Only one view will be shown at a time.
+         * Provides a dropdown for the user to switch between views. Views are
+         * lazy loaded and should be provided as one or more `<template>` elements.
          *
          * @customElement
          * @appliesMixin PbMixin
          * @polymer
+         * @demo demo/pb-grid.html
          */
         class PbPanel extends PbMixin(Polymer.Element) {
             static get is() {
@@ -49,26 +50,23 @@
                     /**
                      * the index of the active view
                      */
-                    active:{
+                    _active: {
                         type: Number,
-                        notify: true,
+                        value: 0,
                         observer: '_update'
                     },
                     /**
-                     * the label for the current view
+                     * the label displayed above the dropdown for selecting the view to show
                      */
                     label: {
                         type: String,
-                        value: 'Panel'
+                        value: 'View'
                     },
                     /**
-                     * the array of available panels
+                     * a name for each available panel, to be displayed in the dropdown
                      */
                     panels: {
                         type: Array
-                    },
-                    target: {
-                        type: String
                     }
                 };
             }
@@ -86,26 +84,25 @@
             }
 
             _show(update) {
-                console.log('<pb-panel> showing panel %s', this.active);
+                console.log('<pb-panel> showing panel %s', this._active);
                 this.$.content.querySelectorAll('._pb_panel').forEach(div => div.style.display = 'none');
-                const existingPanel = this.$.content.querySelector('._pb_panel' + this.active);
+                const existingPanel = this.$.content.querySelector('._pb_panel' + this._active);
                 if (existingPanel) {
                     existingPanel.style.display = '';
                 } else {
                     const template = this._getActivePanel();
                     const clone = document.importNode(template.content, true);
                     const div = document.createElement('div');
-                    div.className = '_pb_panel _pb_panel' + this.active;
+                    div.className = '_pb_panel _pb_panel' + this._active;
                     div.appendChild(clone);
                     this.$.content.appendChild(div);
 
                     this.emitTo('pb-panel', {
                         panel: this,
-                        active: this.active
+                        active: this._active
                     });
 
                     if (update) {
-                        console.log('<pb-panel> triggering refresh of target %s', this.target);
                         this.refresh();
                     }
                 }
@@ -113,16 +110,11 @@
 
             _getActivePanel() {
                 const templates = this.querySelectorAll('template');
-                return templates[this.active];
+                return templates[this._active];
             }
 
             refresh() {
                 this.emitTo('pb-refresh', null);
-                // const transcript = document.querySelector(this.target);
-                // if (!(transcript && transcript.update)) {
-                //     console.error('<pb-panel> target %s not found', this.target);
-                // }
-                // transcript.update();
             }
         }
 

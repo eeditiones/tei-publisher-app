@@ -10,8 +10,8 @@
 
             #grid {
                 display: grid;
-                grid-template-columns: var(--pb-column-widths);
-                grid-column-gap: 20px;
+                grid-template-columns: var(--pb-column-widths, '1fr');
+                grid-column-gap: var(--pb-column-gap, 20px);
             }
         </style>
 
@@ -105,7 +105,7 @@
 
             _insertPanel(active) {
                 const clone = document.importNode(this.template.content.firstElementChild, true);
-                clone.setAttribute('active', active);
+                clone.setAttribute('_active', active);
                 if (this.$.grid.children.length === 0) {
                     this.$.grid.appendChild(clone);
                 } else {
@@ -114,8 +114,7 @@
             }
 
             _update() {
-                const colWidth = Math.floor(100 / this._columns);
-                this.updateStyles({'--pb-column-widths': (colWidth + '%').repeat(this._columns)});
+                this.updateStyles({'--pb-column-widths': '1fr '.repeat(this._columns)});
             }
 
         }
