@@ -1,17 +1,16 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
-<!--
-<link rel="import" href="mishnah-common-styles.html">
--->
+<link rel="import" href="pb-mixin.html">
 
 <dom-module id="pb-panel">
     <template>
-        <style include="mishnah-common-styles">
+        <style>
             :host {
                 display: block;
             }
 
             app-toolbar {
                 padding: 0;
+                justify-content: space-between;
             }
 
         </style>
@@ -37,6 +36,7 @@
          * a panel with dropdown at top to switch between views.
          *
          * @customElement
+         * @appliesMixin PbMixin
          * @polymer
          */
         class PbPanel extends PbMixin(Polymer.Element) {

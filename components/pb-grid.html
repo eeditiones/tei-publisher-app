@@ -1,4 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-mixin.html">
 
 <dom-module id="pb-grid">
     <template>
@@ -24,10 +25,10 @@
          * A component to create a column layout based upon CSS grid. It offers methods for dynamically changing
          * the layout by adding or removing panels at runtime.
          *
-         * todo: unused - still needed here?
-         *
          * @customElement
          * @polymer
+         * @appliesMixin PbMixin
+         * @demo demo/pb-grid.html
          */
         class PbGrid extends PbMixin(Polymer.Element) {
             static get is() {
@@ -37,16 +38,16 @@
             static get properties() {
                 return {
                     /**
-                     * the number of columns
-                     */
-                    columns: {
-                        type: Number
-                    },
-                    /**
-                     * an array of panels to display as columns
+                     * an array of panel items to display as columns
                      */
                     panels: {
                         type: Array
+                    },
+                    /**
+                     * the number of columns
+                     */
+                    _columns: {
+                        type: Number
                     }
                 };
             }
@@ -70,14 +71,14 @@
                 if (panelsParam) {
                     this.panels = panelsParam.split('.').map(param => parseInt(param));
                 }
-                this.columns = this.panels.length;
+                this._columns = this.panels.length;
                 this.template = this.querySelector('template');
                 this._update();
                 this.panels.forEach(panelNum => this._insertPanel(panelNum));
             }
 
             addPanel(initial) {
-                this.columns++;
+                this._columns++;
                 this._update();
                 this.panels.push(initial);
 
@@ -98,7 +99,7 @@
                 this.pushHistory('removed panel');
 
                 panel.parentNode.removeChild(panel);
-                this.columns--;
+                this._columns--;
                 this._update();
             }
 
@@ -113,8 +114,8 @@
             }
 
             _update() {
-                const colWidth = Math.floor(100 / this.columns);
-                this.updateStyles({'--pb-column-widths': (colWidth + '%').repeat(this.columns)});
+                const colWidth = Math.floor(100 / this._columns);
+                this.updateStyles({'--pb-column-widths': (colWidth + '%').repeat(this._columns)});
             }
 
         }

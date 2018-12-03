@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+        <title>pb-document Demo</title>
+        <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+        <link rel="import" href="../dependencies-dev.html">
+        <custom-style>
+            <style is="custom-style" include="demo-pages-shared-styles">
+                pb-facsimile {
+                    --pb-facsimile-height: 480px;
+                }
+            </style>
+        </custom-style>
+    </head>
+
+    <body>
+        <demo-snippet>
+            <template>
+                <pb-document id="document1" path="test/orlik_to_serafin.xml" odd="serafin" view="single"></pb-document>
+
+                <pb-grid-action action="add" class="grid-add" grid="#grid" initial="2">
+                    <paper-button><iron-icon icon="icons:add"></iron-icon> Add Column</paper-button>
+                </pb-grid-action>
+                <!-- Define the grid with one initial column -->
+                <pb-grid id="grid" panels="[0]">
+                    <!-- For every grid column, the following template will be stamped into the page -->
+                    <template>
+                        <pb-panel panels='["Transcription", "Translation", "Facsimile"]' active="0" emit="transcription">
+                            <!-- Added to the toolbar -->
+                            <pb-grid-action grid="#grid" slot="toolbar" action="remove">
+                                <paper-icon-button icon="icons:close"></paper-icon-button>
+                            </pb-grid-action>
+                            <template>
+                                <pb-view src="document1" xpath="! (.//text[@xml:lang = 'la']/body | .//text/body)[1]" emit="transcription"></pb-view>
+                            </template>
+                            <template>
+                                <pb-view src="document1" xpath="//text[@xml:lang='pl']/body" subscribe="transcription"></pb-view>
+                            </template>
+                            <template>
+                                <pb-facsimile base-uri="http://apps.existsolutions.com/cantaloupe/iiif/2/"
+                                    facsimiles='["15929_000_IDL5772_BOss12034_IIIp79.jpg"]'
+                                    default-zoom-level="0" show-navigator="show-navigator"
+                                    show-navigation-control="show-navigation-control"></pb-facsimile>
+                            </template>
+                        </pb-panel>
+                    </template>
+                </pb-grid>
+            </template>
+        </demo-snippet>
+    </body>
+</html>
