@@ -1,3 +1,6 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-mixin.html">
+
 <dom-module id="pb-download">
     <template>
         <style>
@@ -9,18 +12,19 @@
                 @apply --pb-download;
             }
         </style>
-        <a id="button" on-click="_handleClick" title="[[title]]" target="[[_target]]" href="[[_url]]"><slot></slot></a>
+        <a id="button" on-click="_handleClick" title="[[title]]" target="[[_target]]" href="[[_href]]"><slot></slot></a>
     </template>
 
     <script>
         /**
-         * a download link for given href. Will display a dialog while downloading. This must be given by id reference.
-         *
+         * Generate a link to download a resource. Optionally shows a dialog during the download.
+         * This component is mainly used for creating the links for downloading PDFs, epubs etc.
          *
          * @customElement
          * @polymer
+         * @appliesMixin PbMixin
          */
-        class PbDownload extends Polymer.Element {
+        class PbDownload extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'pb-download';
             }
@@ -35,41 +39,46 @@
                         type: String
                     },
                     /**
-                     * todo clarify: not currently used.
+                     * the base URL to construct the link from. If not specified, the path to the document will be used.
                      */
-                    file: {
+                    url: {
                         type: String
                     },
                     /**
-                     * the document type as given by file extension e.g. .pdf
+                     * optional suffix to append to the constructed URL. Use for getting a PDF, epub or similar.
                      */
                     type: {
                         type: String
                     },
                     /**
-                     * todo - clarify: can't find any usage of the odd param in the current code. What's the purpose?
+                     * extra odd parameter to be added. This will correspond to the ODD used by the document, if given.
                      */
                     odd: {
                         type: String
                     },
                     /**
-                     * id of dialog component to show when downloading
+                     * id of dialog component to show when downloading. A paper-dialog component with this id must
+                     * exist.
                      */
                     dialog: {
                         type: String
                     },
                     /**
-                     * HTML title to show for this pb-download
+                     * title to show in the dialog while download is in progress
                      */
                     title: {
                         type: String
                     },
+                    /**
+                     * add a special parameter 'source=yes' if true. For PDF this will result
+                     * in generated source code to be displayed
+                     */
                     source: {
                         type: Boolean,
                         value: false
                     },
                     /**
-                     *  request params given on URL
+                     *  extra params to be added
                      */
                     params: {
                         type: String
@@ -79,7 +88,7 @@
                         value: false,
                         computed: '_computeTarget(source)'
                     },
-                    _url: {
+                    _href: {
                         type: String,
                         computed: '_computeURL(src, type, file, odd, params)'
                     },
@@ -89,6 +98,18 @@
                 };
             }
 
+            ready() {
+                super.ready();
+
+                if (this.src) {
+                    this.subscribeTo('pb-document', (ev) => {
+                        if (ev.detail.id === this.src) {
+                            this.odd = ev.detail.odd;
+                        }
+                    });
+                }
+            }
+
             _computeTarget(source) {
                 return source ? '_blank' : '_self';
             }
@@ -96,12 +117,12 @@
             _computeURL(src, type, file, odd, params) {
                 this._token = new Date().getTime() * 797;
                 let url;
-                if (this.src) {
-                    const doc = document.getElementById(this.src);
-                    const file = this.file ? this.file : doc.getFileName();
+                const doc = this.getDocument();
+                if (doc) {
+                    const file = this.url ? this.url : doc.getFileName();
                     url = file + (this.type ?'.' + this.type : '') + '?odd=' + doc.odd + '.odd&cache=no&token=' + this._token;
                 } else {
-                    url = this.file + (this.type ?'.' + this.type : '') + '?odd=' + this.odd + '&cache=no&token=' + this._token;
+                    url = this.url + (this.type ?'.' + this.type : '') + '?odd=' + this.odd + '&cache=no&token=' + this._token;
                 }
 
                 if (this.params) {
@@ -121,11 +142,6 @@
              * @private
              */
             _handleClick(ev) {
-                if (this.source) {
-                    this._url = url;
-                    return;
-                }
-
                 ev.preventDefault();
                 if (this.dialog) {
                     const dialog = document.getElementById(this.dialog);
@@ -142,7 +158,7 @@
                         }
                     });
                 }
-                window.location = this._url;
+                window.location = this._href;
             }
         }
 

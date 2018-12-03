@@ -254,18 +254,6 @@ as defined by the properties `xmlId`, `nodeId` or `xpath`.
             }
 
             /**
-             * Returns the `pb-document` element this `pb-view` is connected to
-             */
-            getDocument() {
-                const doc = document.getElementById(this.src);
-                if (doc) {
-                    return doc;
-                }
-
-                console.error('<pb-view> src document not found: %s', this.src);
-            }
-
-            /**
              * Returns the ODD used to render content.
              */
             getOdd() {

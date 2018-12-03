@@ -157,8 +157,8 @@
                     }
                 }
 
-                if (this.src) {
-                    const doc = document.getElementById(this.src);
+                const doc = this.getDocument();
+                if (doc) {
                     params.doc = doc.path;
                 }
 

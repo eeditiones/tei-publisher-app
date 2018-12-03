@@ -1,13 +1,6 @@
-<!--
-    Represents a Publisher document. It has no visual presentation but holds meta-data
-    about the document to be used by other components like `pb-view`. Every `pb-view`
-    references a `pb-document`.
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-mixin.html">
 
-    pb-document requires an id attribute to allow other components to access it.
-
-    @customElement
-    @polymer
--->
 <dom-module id="pb-document">
     <template>
         <style>
@@ -18,9 +11,17 @@
     </template>
     <script>
         /**
+         * Represents a Publisher document. It has no visual presentation but holds meta-data
+         * about the document to be used by other components like `pb-view`. Every `pb-view`
+         * references a `pb-document`.
+         * `pb-document` requires an id attribute to allow other components to access it.
+         *
+         * @customElement
+         * @polymer
          * @demo demo/pb-document.html
+         * @appliesMixin PbMixin
          */
-        class PbDocument extends Polymer.Element {
+        class PbDocument extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'pb-document';
             }
@@ -33,8 +34,7 @@
                     path: {
                         type: String,
                         value: '',
-                        notify: true,
-                        observer: '_update'
+                        reflectToAttribute: true
                     },
                     /**
                      * The root collection which will be used to resolve relative paths
@@ -50,7 +50,8 @@
                      * or the `.odd` suffix.
                      */
                     odd: {
-                        type: String
+                        type: String,
+                        reflectToAttribute: true
                     },
                     /**
                      * The default view to be used for displaying this document. Can be either `page`, `div` or `simple`.
@@ -63,12 +64,19 @@
                      * `single` | do not paginate but display entire content at once
                      */
                     view: {
-                        type: String
+                        type: String,
+                        reflectToAttribute: true
                     },
                     sourceView: {
                         type: String
                     }
                 };
+            }
+
+            static get observers() {
+                return [
+                    '_update(path, odd, view)'
+                ]
             }
 
             connectedCallback() {
@@ -80,7 +88,8 @@
             }
 
             _update() {
-                this.dispatchEvent(new CustomEvent('update', {detail: {path: this.path}}));
+                console.log('<pb-document> Emit update event');
+                this.emitTo('pb-document', this);
             }
 
             /**

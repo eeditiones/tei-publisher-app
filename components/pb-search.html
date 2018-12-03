@@ -33,8 +33,6 @@
     </template>
     <script>
         /**
-         * `pb-search`
-         *
          * Search field e.g. used in app header
          *
          * @customElement
@@ -113,6 +111,13 @@
             _doSubmit(){
                 this.$.ironform.submit();
             }
+
+            /**
+             * Fired to perform the actual search
+             *
+             * @event pb-load
+             * @param {object} Parameters to be passed to the request
+             */
         }
 
         window.customElements.define(PbSearch.is, PbSearch);

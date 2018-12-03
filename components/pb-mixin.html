@@ -1,7 +1,7 @@
 <script>
     if (!window.TeiPublisher) {
         window.TeiPublisher = {};
-        
+
         TeiPublisher.url = new URL(window.location.href);
     }
 
@@ -20,7 +20,7 @@
      * @polymer
      * @mixinFunction
      */
-    PbMixin = Polymer.dedupingMixin((superclass) => 
+    PbMixin = Polymer.dedupingMixin((superclass) =>
 
     /**
      * @polymer
@@ -152,6 +152,22 @@
                     });
                     document.dispatchEvent(ev);
                 });
+            }
+        }
+
+        /**
+         * Returns the `pb-document` element this component is connected to.
+         *
+         * @returns the document component or undefined if not set/found
+         */
+        getDocument() {
+            if (this.src) {
+                const doc = document.getElementById(this.src);
+                if (doc) {
+                    return doc;
+                }
+
+                console.error('<pb-view> src document not found: %s', this.src);
             }
         }
 

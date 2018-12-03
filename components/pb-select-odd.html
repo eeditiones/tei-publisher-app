@@ -1,4 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-mixin.html">
 
 <dom-module id="pb-select-odd">
     <template>
@@ -39,6 +40,8 @@
          *
          * @customElement
          * @polymer
+         * @appliesMixin PbMixin
+         * @demo demo/pb-select-odd.html
          */
         class PbSelectOdd extends PbMixin(Polymer.Element) {
             static get is() {
@@ -47,6 +50,10 @@
 
             static get properties() {
                 return {
+                    /** Id of the document component on which the ODD should be changed */
+                    src: {
+                        type: String
+                    },
                     /** The label to show on top of the dropdown menu */
                     label: {
                         type: String,
@@ -87,8 +94,12 @@
             _selected(newOdd, oldOdd) {
                 if (typeof oldOdd !== 'undefined' && newOdd !== oldOdd) {
                     console.log('<pb-select-odd> Switching to ODD %s from %s', this.odd, oldOdd);
+                    const doc = this.getDocument();
+                    if (doc) {
+                        doc.odd = this.odd;
+                    }
                     this.setParameter('odd', this.odd + '.odd');
-                    this.pushHistory('Set ODD: %s', this.odd);
+                    this.pushHistory('changed odd', {odd: this.odd});
                     this.emitTo('pb-refresh', {
                         odd: this.odd
                     });
