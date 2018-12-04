@@ -161,7 +161,7 @@ function pages:load($node as node(), $model as map(*), $doc as xs:string, $root 
 };
 
 declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc as xs:string) {
-    let $data := pages:get-document($doc)
+    for $data in pages:get-document($doc)
     return
         pages:load-xml($data, $view, $root, $doc)
 };

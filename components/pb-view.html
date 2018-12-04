@@ -112,9 +112,12 @@ as defined by the properties `xmlId`, `nodeId` or `xpath`.
                      *
                      * This property is **required** and **must** point to an existing `pb-document` with
                      * the given id.
+                     *
+                     * Setting the property after initialization will clear the properties xmlId, nodeId and odd.
                      */
                     src: {
-                        type: String
+                        type: String,
+                        observer: '_updateSource'
                     },
                     /**
                      * The ODD to use for rendering the document. Overwrites an ODD defined on
@@ -352,6 +355,7 @@ as defined by the properties `xmlId`, `nodeId` or `xpath`.
                     if (this.notFound) {
                         this.$.content.innerHTML = this.notFound;
                     }
+                    this.emitTo('pb-end-update', null);
                     return;
                 }
 
@@ -550,6 +554,15 @@ as defined by the properties `xmlId`, `nodeId` or `xpath`.
                 range.setEndAfter(node);
 
                 return range.cloneContents();
+            }
+
+            _updateSource(newVal, oldVal) {
+                if (typeof oldVal !== 'undefined' && newVal !== oldVal) {
+                    this.xpath = null;
+                    this.odd = null;
+                    this.xmlId = null;
+                    this.nodeId = null;
+                }
             }
 
             /**
