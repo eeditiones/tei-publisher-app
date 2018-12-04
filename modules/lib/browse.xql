@@ -315,7 +315,7 @@ declare function app:download-link($node as node(), $model as map(*),
     return
         element { node-name($node) } {
             $node/@*,
-            attribute file { $file },
+            attribute url { $file },
             attribute odd { ($model?config?odd, $config:odd)[1] },
             $node/node()
         }
