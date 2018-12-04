@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+        <title>pb-view test</title>
+
+        <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+        <script src="../bower_components/web-component-tester/browser.js"></script>
+        <link rel="import" href="../dependencies-dev.html">
+    </head>
+    <body>
+
+        <pb-document id="document1" path="doc/documentation.xml" odd="docbook" view="div"></pb-document>
+        <pb-view id="view1" src="document1"></pb-view>
+
+        <script>
+          
+          suite('test-pb-view', () => {
+              const view = document.getElementById('view1');
+              
+              test('instantiating element', () => {
+                  const doc = view.getDocument();
+                  assert.isOk(doc);
+                  assert.instanceOf(doc, PbDocument);
+                  assert.equal(view.getOdd(), 'docbook');
+                  assert.equal(view.getView(), 'div');
+              });
+              
+              test('retrieve content', (done) => {
+                  const handler = (ev) => {
+                      const content = view.shadowRoot.querySelector('h1');
+                      assert.isOk(content);
+                      assert.equal(content.innerHTML, 'Quickstart');
+                      document.removeEventListener('pb-end-update', handler);
+                      done();
+                  };
+                  document.addEventListener('pb-end-update', handler);
+              });
+              
+              test('navigate forward', (done) => {
+                  const handler = (ev) => {
+                      const content = view.shadowRoot.querySelector('h2');
+                      assert.isOk(content);
+                      assert.equal(content.innerHTML, 'Installation');
+                      document.removeEventListener('pb-end-update', handler);
+                      done();
+                  };
+                  document.addEventListener('pb-end-update', handler);
+                  
+                  view.navigate('forward');
+              });
+              
+              test('navigate backward', (done) => {
+                  const handler = (ev) => {
+                      const content = view.shadowRoot.querySelector('h1');
+                      assert.isOk(content);
+                      assert.equal(content.innerHTML, 'Quickstart');
+                      document.removeEventListener('pb-end-update', handler);
+                      done();
+                  };
+                  document.addEventListener('pb-end-update', handler);
+                  
+                  document.dispatchEvent(new CustomEvent('pb-navigate', {detail: {direction: 'backward'}}));
+              });
+              
+              test('refresh and navigate to xml:id', (done) => {
+                  const handler = (ev) => {
+                      const content = view.shadowRoot.querySelector('h2');
+                      assert.isOk(content);
+                      assert.equal(content.innerHTML, 'Configure the ODD via processing instructions');
+                      document.removeEventListener('pb-end-update', handler);
+                      done();
+                  };
+                  document.addEventListener('pb-end-update', handler);
+                  
+                  document.dispatchEvent(new CustomEvent('pb-refresh', {detail: {id: 'pi-config'}}));
+              });
+              
+              test('refresh and navigate to a document', (done) => {
+                  const handler = (ev) => {
+                      const elem = view.shadowRoot.querySelector('pb-geolocation[key=CanFloque]');
+                      assert.isOk(elem);
+                      assert.instanceOf(elem, PbGeolocation);
+                      document.removeEventListener('pb-end-update', handler);
+                      done();
+                  };
+                  document.addEventListener('pb-end-update', handler);
+                  
+                  document.dispatchEvent(new CustomEvent('pb-refresh', {
+                      detail: {
+                          path: 'test/graves6.xml',
+                          odd: 'graves'
+                      }
+                  }));
+              });
+              
+              test('update event', (done) => {
+                  const handler = (ev) => {
+                      assert.isOk(ev.detail.root);
+                      assert.instanceOf(ev.detail.root, HTMLElement, 'root should be an element');
+                      assert.equal(ev.detail.root.nodeName, 'DIV', 'root should be a div element');
+                      assert.isOk(ev.detail.data);
+                      assert.isOk(ev.detail.params);
+                      document.removeEventListener('pb-update', handler);
+                      done();
+                  };
+                  document.addEventListener('pb-update', handler);
+                  
+                  document.dispatchEvent(new CustomEvent('pb-refresh'));
+              });
+          });
+        </script>
+    </body>
+</html>
