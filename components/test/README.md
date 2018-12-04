@@ -10,10 +10,10 @@ Further information on [WCT](https://github.com/Polymer/tools/tree/master/packag
 
 ## Running the Test
 
-To use a non standard Chrome binary use the `WDIO_CHROME_BINARY` shell  variable:
+To use a non standard Chrome binary use the `WDIO_CHROME_BINARY` shell variable (example for macOS):
 
 ```shell
-export WDIO_CHROME_BINARY="/usr/bin/google-chrome-beta"
+export WDIO_CHROME_BINARY="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 ```
 
 Run wct test:
