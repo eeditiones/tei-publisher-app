@@ -1,0 +1,29 @@
+{
+  "name": "tei-publisher-app",
+  "version": "4.0.0-RC1",
+  "description": "TEI Publisher facilitates the integration of the TEI Processing Model into exist-db applications",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "./node_modules/.bin/wdio wdio.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.existsolutions.com:tei-publisher/tei-publisher-app.git"
+  },
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@existdb/gulp-exist": "^3.0.0",
+    "@existdb/node-exist": "^1.0.4",
+    "chai": "^4.2.0",
+    "chromedriver": "^2.44.1",
+    "mocha": "^5.2.0",
+    "wdio": "^3.0.0",
+    "wdio-chromedriver-service": "^0.1.5",
+    "wdio-dot-reporter": "0.0.10",
+    "wdio-junit-reporter": "^0.4.4",
+    "wdio-mocha-framework": "^0.6.4",
+    "web-component-tester": "^6.9.0",
+    "webdriverio": "^4.14.1",
+    "xml-writer": "^1.7.0"
+  }
+}
