@@ -16,6 +16,8 @@ To use a non standard Chrome binary use the `WDIO_CHROME_BINARY` shell variable 
 export WDIO_CHROME_BINARY="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 ```
 
+> tip: add above export to .profile for global availability on OSX.
+
 Run wct test:
 
 ```shell
