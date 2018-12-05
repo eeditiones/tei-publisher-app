@@ -58,10 +58,10 @@
         pagination, search, facsimile display and so on. The larger part of TEI Publisher deals with those aspects, providing all the necessary building blocks
         for an online edition.</para>
       <para>Staying true to the spirit of code reuse and interoperability, TEI Publisher 4.0 implements all functionality as small "lego" blocks to be freely
-        arranged and recombined. The technology making this possible is called <emphasis>webcomponents</emphasis>. It is part of the HTML5 specification and
+        arranged and recombined. The technology making this possible is called <emphasis>Web Components</emphasis>. It is part of the HTML5 specification and
         natively implemented by many browsers. Users don't need to dive into the details of this standard though: all you need to modify the example pages is a
         bit of basic HTML knowledge. Only where the <link xlink:href="../components/docs.html">available components</link> are not enough, a new use case needs
-        to be described and suitable new components implemented but then they can be incorporated into existing component pool for everyone else to use. 
+        to be described and suitable new components implemented but then they can be incorporated into existing component pool for everyone else to use.
         After all, our mantra is reuse, reuse, reuse and we want to turn TEI Publisher into a box of tools the entire community can benefit from.</para>
       </section>
     <section>
@@ -138,44 +138,119 @@
       </section>
     </section>
     <section>
-        <title>Chosen Use Cases</title>
-        <para>As we have already mentioned, the document view can vary, sometimes substantially, depending on the sample document you are looking at. 
-        This is a natural consequence of TEI's versatility and broad scope of its application. What follows, requirements for the document view - 
-        both its layout and composition as well as processing rules governing the transformation of the text of the document itself - will differ 
+        <title>Selected Use Cases</title>
+        <para>As we have already mentioned, the document view can vary, sometimes substantially, depending on the sample document you are looking at.
+        This is a natural consequence of TEI's versatility and broad scope of its application. What follows, requirements for the document view -
+        both its layout and composition as well as processing rules governing the transformation of the text of the document itself - will differ
         to a great extent. Sample documents which are included in TEI Publisher's installation package do not exhaust its applications but rather
         aim to present some chosen use cases:</para>
         <itemizedlist>
             <listitem>
               <para>
-                        <emphasis>Critik der reinen Vernunft</emphasis> from the <emphasis>Deutsches Textarchiv</emphasis> corpus presents a philosophical tractate, originally published in print, thus following 'traditional' book structure with front pages, foreword and chapters. It can nevertheless demonstrate very well Publisher's capacities in typesetting, switching between physical and logical structure of the document (just toggle <guibutton>Page View</guibutton> in the <parameter>Settings</parameter> panel) as well as generation of multiple output formats from single set of processing models in the ODD (try choosing <parameter>PDF</parameter> or <parameter>ePub</parameter> options in the <guibutton>Download</guibutton>). 
+                <emphasis>Critik der reinen Vernunft</emphasis> from the <emphasis>Deutsches Textarchiv</emphasis> corpus presents a philosophical tractate, originally published in print, thus following 'traditional' book structure with front pages, foreword and chapters. It can nevertheless demonstrate very well Publisher's capacities in typesetting, switching between physical and logical structure of the document (just toggle <guibutton>Page View</guibutton> in the <parameter>Settings</parameter> panel) as well as generation of multiple output formats from single set of processing models in the ODD (try choosing <parameter>PDF</parameter> or <parameter>ePub</parameter> options in the <guibutton>Download</guibutton>).
               <emphasis>Purchas his pilgrimages</emphasis>, from the <emphasis>EEBO-TCP</emphasis> project, while roughly similar in structure is much earlier work (1613) and demonstrates extensive use of marginal notes.</para>
             </listitem>
             <listitem>
-              <para>Shakespeare's <emphasis>Romeo and Juliet</emphasis>, from <emphasis>Bodleian First Folio</emphasis> project uses dedicated TEI elements to 
-              encode structure of the play but it also showcases the parallel transcription and facsimile alignment for its presentation which is obviously 
+              <para>Shakespeare's <emphasis>Romeo and Juliet</emphasis>, from <emphasis>Bodleian First Folio</emphasis> project uses dedicated TEI elements to
+              encode structure of the play but it also showcases the parallel transcription and facsimile alignment for its presentation which is obviously
               of general application and could be used for any genre, not limited to dramatic texts.</para>
             </listitem>
             <listitem>
-              <para>Correspondence corpora are common, yet very interesting, subjects for digital editions. Despite basic similarities in structure, 
+              <para>Correspondence corpora are common, yet very interesting, subjects for digital editions. Despite basic similarities in structure,
               depending on the period, scope and particular research perspective, intended presentation may vary enormously. We are presenting samples of:</para>
               <itemizedlist>
                 <listitem>15th century manuscript letter to <emphasis>Mikołaj Orlik</emphasis> demonstrating alignment between Latin original and parallel Polish translation,</listitem>
                 <listitem>16th century manuscript letter of <emphasis>Hernán Cortés</emphasis> showcasing parallel facsimile view and transcription
                 enhanced with commentaries and explicitly encoded transcriptional features,</listitem>
-                <listitem>20th century manuscript letter from <emphasis>Robert Graves</emphasis> where emphasis have been put on visualizing rich 
+                <listitem>20th century manuscript letter from <emphasis>Robert Graves</emphasis> where emphasis have been put on visualizing rich
                 encoding of semantic information in the letter, in particular geographic and prosopographical data.</listitem>
-              </itemizedlist>    
+              </itemizedlist>
             </listitem>
           </itemizedlist>
         <note>
             <title>Note</title>
             <para>List of samples is expected to grow and we'd like to encourage contributions illustrating other genres and perspectives.</para>
-            <para>We'd like to stress that preparing showcases above has been only possible thanks to numerous projects releasing their sources openly, 
-            in particular the <link xlink:href="http://firstfolio.bodleian.ox.ac.uk">Bodleian First Folio</link>, 
-            <link xlink:href="http://www.deutschestextarchiv.de">Deutsches Textarchiv</link> and 
+            <para>We'd like to stress that preparing showcases above has been only possible thanks to numerous projects releasing their sources openly,
+            in particular the <link xlink:href="http://firstfolio.bodleian.ox.ac.uk">Bodleian First Folio</link>,
+            <link xlink:href="http://www.deutschestextarchiv.de">Deutsches Textarchiv</link> and
             <link xlink:href="https://www.textcreationpartnership.org/tcp-eebo">EEBO-TCP</link>. We'd also like to thank William Graves and Anna Skolimowska
             for sharing their correspondence material.</para>
-      </note>  
+      </note>
+    </section>
+    <section>
+        <title>Experimenting with ODDs and page templates</title>
+        <para>All TEI Publisher's sample documents are TEI XML files which are transformed into a HTML webpage for display in the browser.
+          Two major factors determine how the final page is going to look like: an <emphasis role="bold">ODD</emphasis> and a
+          <emphasis role="bold">page template</emphasis>.
+        </para>
+        <para>We have already mentioned in the very first section that the TEI Processing Model lies at the heart of the Publisher -
+          the ODD file associated with a document defines the rules of transformation of the XML source file into HTML. Detailed discussion
+          of the Processing Model can be found in following chapters, for now it is sufficient to say this is where decisions if a TEI element should
+          be rendered inline, with a tooltip or as a marginal note are made. Simplifying things a bit the <emphasis>text</emphasis> of the
+          document that you see rendered in your browser is an effect of applying the rules from ODD file to the source document.
+          </para>
+          <para>Nevertheless, as we demonstrated in the section on selected sample documents, in the application context we certainly want more than
+          just text, however nicely typeset. From basic navigation controls, table of content, to facsimile display, critical apparatus, glossaries
+           and maps - all of this and much more could be included in the final webpage. Following <emphasis>divide and conquer</emphasis> approach
+           the TEI Publisher defines such specialized page elements as small, reusable blocks, using the Web Components technology.
+           Components can be used like common HTML elements, thus a page template is just an HTML fragment which organizes the building blocks
+           needed for a specific page.
+          </para>
+        <para>Looking more closely again at the TEI Publisher's <guibutton>Start</guibutton> page, we can now give more detail what is happening
+        when any of the sample documents is loaded. On the right hand side there is a panel listing all ODD files available. Each of the sample
+        documents includes a processing instruction which specifies default ODD and page template for this document. You can check
+        what they are in <guibutton>Settings</guibutton> panel. For the Graves letter it would be <parameter>Graves' Letters</parameter> ODD
+        and <parameter>Letter with map/facets</parameter> template.</para>
+
+        <figure>
+          <title>The Settings Panel for the Graves Letter</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="odd-page-template-settings.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para>It is easy to experiment with different page templates and ODDs just changing these options in the
+          <guibutton>Settings</guibutton> panel. An important caveat though is that not every page template
+          makes sense for every document - after all parallel alignment can only be successful if there is something to align,
+          map needs coordinates to display, page view needs information about page breaks and so on.</para>
+    </section>
+    <section>
+      <title>Uploading your own documents</title>
+      <para>If you read this, in all likelihood you already have some documents of your own you might want published.
+        First step is to upload them into the database. You need to be <emphasis role="bold">logged in</emphasis>
+        to do it (check the short info on the <guibutton>Start</guibutton> page for user name and password).
+        Then uploading is just a question of dragging your documents onto the <guibutton>Upload</guibutton> area.
+        They will become available in the document list immediately after upload is completed.</para>
+        <figure>
+          <title>The Upload Panel</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="upload.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para>Congratulations, now you can view your documents! Try to experiment and find the ODD and page template
+        that best fits your needs and use it as a starting point for your own customization if necessary. Once
+        you are ready with these you can generate your own application for your documents only, which packs away
+        all the sandbox features of TEI Publisher and leaves just what is needed for publishing.</para>
+        <note>
+            <title>Note</title>
+            <para>Please bear in mind that while TEI Publisher aims to be a universal tool, the specific components
+              may make certain assumptions about data they are getting and if your documents do not follow same
+              conventions it may be required to adjust parameters passed to the components from the page template
+              or the component logic.</para>
+              <para> By means of example - table of content component assumes that the
+              document structure is represented by means of nested <parameter>div</parameter> elements and
+              section titles are given in <parameter>head</parameter> element. If your project rather chooses
+              numbered divisions (<parameter>div1</parameter>, <parameter>div2</parameter> etc it may be advisable
+              to adjust this to avoid customizing all navigation, table of contents and so on, but it is one of
+              very rare cases where TEI Publisher exposes any predilection for a particular flavour of TEI.</para>
+              <para>Similarly, template for aligned transcription and translation is parametrized to accept an
+                XPath expression pointing to the location of the transcription and aligned translation, likely
+                for your documents this expression would have to be adjusted (unless of course you also have Latin texts
+                with Polish translation structured in a similar way).</para>
+          </note>
     </section>
     </section>
       <section>
