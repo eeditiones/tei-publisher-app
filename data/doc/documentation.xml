@@ -28,19 +28,17 @@
         <title>What TEI Publisher does ...</title>
       <para>The vision behind TEI Publisher is to provide a tool which enables scholars and editors to publish their materials without becoming programmers, but
         also does not force them into a one-size-fits-it-all framework. Experienced developers will benefit as well by writing less code, avoiding redundancy,
-        improve maintenance and interoperability - to just name a few. TEI Publisher is all about <emphasis role="bold">standards</emphasis>, <emphasis
-          role="bold">reusability</emphasis> and <emphasis role="bold">sustainability</emphasis>!</para>
-        <para>At the heart of TEI Publisher is the TEI Processing Model (PM). This is described in the <link
-          xlink:href="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/TD.html#TDPM">TEI P5 guidelines</link> and forms part of the ODD specification format:
-        it defines how a TEI document should be rendered to different output formats.</para>
-      <para>TEI gives users a lot of freedom in encoding: there's always more than one way!  To maintain interoperability and sustainability, you need a way to
-        formally describe the encoding used, document editorial guidelines and transcription processes.  TEI ODD was designed for this purpose. But how a
-        document should be rendered was previously still determined by external software and could not be described within the ODD itself. The TEI Processing
-        Model changes this!</para>
-      <para>The intended processing for all elements can now be expressed within the TEI vocabulary as part of the ODD. The logical structure of the text is
+        improve maintenance and interoperability - to just name a few. TEI Publisher is all about <emphasis role="bold">standards</emphasis>, <emphasis role="bold">modularity</emphasis>, <emphasis role="bold">reusability</emphasis> and <emphasis role="bold">sustainability</emphasis>!</para>
+        <para>At the heart of TEI Publisher lies the TEI Processing Model (PM). This is described in the <link xlink:href="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/TD.html#TDPM">TEI P5 guidelines</link> as well as in further chapters here and forms part of the ODD specification format:
+        it defines how a TEI document should be rendered in different output formats.</para>
+      <para>TEI gives users a lot of freedom: there's always more than one way to encode your material! To maintain interoperability and sustainability, 
+        you need a way to formally describe the schema used as well as document editorial guidelines and transcription processes. TEI ODD was designed for the
+        purpose of expressing all this in the TEI language itself. But how a document should be rendered was previously still considered to be the responsibility of          external publishing software and could not be described within the ODD.</para>
+      <para>The advent of the TEI Processing  Model changed this! The intended processing for all elements can now be expressed within the TEI vocabulary 
+        as part of the ODD thus fulfilling its promise of <emphasis>One Document Does It All</emphasis>. Markup elements are
         mapped to a small set of abstract transformation functions, called <emphasis>behaviours</emphasis>. Basic styling features can be set directly within
-        the ODD using CSS. The processing model is media-agnostic: rendition styles are transparently translated into the different output media types like
-        HTML, XSL-FO, LaTeX, or ePUB. A single ODD can handle a multitude of output media types with just a few small adjustments.</para>
+        the ODD using CSS. The processing model is media-agnostic: behaviours and rendition styles are transparently translated into different output 
+        media types like HTML, XSL-FO, LaTeX, or ePUB. A single ODD can handle a multitude of output media types with just a few small adjustments.</para>
       <para>Despite it's elegant simplicity, various projects we realized in the past prove that the TEI Processing Model is:</para>
       <orderedlist>
         <listitem>
@@ -62,9 +60,9 @@
       <para>Staying true to the spirit of code reuse and interoperability, TEI Publisher 4.0 implements all functionality as small "lego" blocks to be freely
         arranged and recombined. The technology making this possible is called <emphasis>webcomponents</emphasis>. It is part of the HTML5 specification and
         natively implemented by many browsers. Users don't need to dive into the details of this standard though: all you need to modify the example pages is a
-        bit of basic HTML knowledge. Where the <link xlink:href="../components/docs.html">available components</link> are not enough, feel free to describe your
-        use case and propose new components. After all, our mantra is reuse, reuse, reuse and we want to turn TEI Publisher into a box of tools the entire
-        community can benefit from.</para>
+        bit of basic HTML knowledge. Only where the <link xlink:href="../components/docs.html">available components</link> are not enough, a new use case needs
+        to be described and suitable new components implemented but then they can be incorporated into existing component pool for everyone else to use. 
+        After all, our mantra is reuse, reuse, reuse and we want to turn TEI Publisher into a box of tools the entire community can benefit from.</para>
       </section>
     <section>
       <title>Installation</title>
@@ -76,7 +74,15 @@
         <para>You need at least
           <link xlink:href="http://exist-db.org">eXist 3.6.0</link> to run the latest version of TEI Publisher. eXist's package manager will not show you the newest version of TEI Publisher unless your eXist version meets the requirements.</para>
       </note>
-      <para>After installing you will find the TEI Publisher icon on your dashboard. Click on it to open the starting page of TEI Publisher.</para>
+      <para>After installing you will find the TEI Publisher icon on your dashboard. Click on it to open the starting page of the TEI Publisher.</para>
+      <figure>
+        <title>Installing <emphasis>TEI Publisher</emphasis> from the Package Manager</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="install-publisher-package.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
     </section>
     <section>
       <title>Browsing Documents</title>
@@ -92,20 +98,22 @@
             <listitem>
               <para>an upload box to upload new documents</para>
             </listitem>
-          </orderedlist></para>
+          </orderedlist>
+                </para>
         <para>You can upload your own TEI documents by either clicking on the <guibutton>upload</guibutton> button or dragging and dropping files onto the
           upload panel.</para>
         <para>The sample documents installed by default showcase various customization aspects using different ODDs and view templates. We suggest to have a
           look at each of them to see what TEI Publisher can do.</para>
+        <note>
+            <title>Note</title>
+            <para>You need to be <emphasis role="bold">logged in</emphasis> for most advanced actions like creating or editing ODDs. The login button to the right of the menu bar 
+            allows you to log in. By default, there's a user named <parameter>tei</parameter> with password <parameter>simple</parameter>.</para>
+        </note>  
       </section>
       <section>
         <title>Document View</title>
-        <para>The document view varies slightly depending on the sample document you are looking at. For now, it is sufficient to know some default functionality:</para>
+        <para>The document view can vary, depending on the sample document you are looking at. Nevertheless some default functionality will be shared:</para>
         <itemizedlist>
-            <listitem>
-              <para>the login button to the right of the menu bar allows you to log in. By default, there's a user named <parameter>tei</parameter> with
-                password <parameter>simple</parameter>. You need to be logged in for most advanced actions like creating or editing ODDs.</para>
-            </listitem>
             <listitem>
               <para>the rightmost button in the toolbar opens the settings panel. Here you can change the ODD being used for display as well as the view
                 template (more about this later). By default, all sample documents apply the specific ODD which fits them best, but you can play around and
@@ -129,6 +137,46 @@
           </itemizedlist>
       </section>
     </section>
+    <section>
+        <title>Chosen Use Cases</title>
+        <para>As we have already mentioned, the document view can vary, sometimes substantially, depending on the sample document you are looking at. 
+        This is a natural consequence of TEI's versatility and broad scope of its application. What follows, requirements for the document view - 
+        both its layout and composition as well as processing rules governing the transformation of the text of the document itself - will differ 
+        to a great extent. Sample documents which are included in TEI Publisher's installation package do not exhaust its applications but rather
+        aim to present some chosen use cases:</para>
+        <itemizedlist>
+            <listitem>
+              <para>
+                        <emphasis>Critik der reinen Vernunft</emphasis> from the <emphasis>Deutsches Textarchiv</emphasis> corpus presents a philosophical tractate, originally published in print, thus following 'traditional' book structure with front pages, foreword and chapters. It can nevertheless demonstrate very well Publisher's capacities in typesetting, switching between physical and logical structure of the document (just toggle <guibutton>Page View</guibutton> in the <parameter>Settings</parameter> panel) as well as generation of multiple output formats from single set of processing models in the ODD (try choosing <parameter>PDF</parameter> or <parameter>ePub</parameter> options in the <guibutton>Download</guibutton>). 
+              <emphasis>Purchas his pilgrimages</emphasis>, from the <emphasis>EEBO-TCP</emphasis> project, while roughly similar in structure is much earlier work (1613) and demonstrates extensive use of marginal notes.</para>
+            </listitem>
+            <listitem>
+              <para>Shakespeare's <emphasis>Romeo and Juliet</emphasis>, from <emphasis>Bodleian First Folio</emphasis> project uses dedicated TEI elements to 
+              encode structure of the play but it also showcases the parallel transcription and facsimile alignment for its presentation which is obviously 
+              of general application and could be used for any genre, not limited to dramatic texts.</para>
+            </listitem>
+            <listitem>
+              <para>Correspondence corpora are common, yet very interesting, subjects for digital editions. Despite basic similarities in structure, 
+              depending on the period, scope and particular research perspective, intended presentation may vary enormously. We are presenting samples of:</para>
+              <itemizedlist>
+                <listitem>15th century manuscript letter to <emphasis>Mikołaj Orlik</emphasis> demonstrating alignment between Latin original and parallel Polish translation,</listitem>
+                <listitem>16th century manuscript letter of <emphasis>Hernán Cortés</emphasis> showcasing parallel facsimile view and transcription
+                enhanced with commentaries and explicitly encoded transcriptional features,</listitem>
+                <listitem>20th century manuscript letter from <emphasis>Robert Graves</emphasis> where emphasis have been put on visualizing rich 
+                encoding of semantic information in the letter, in particular geographic and prosopographical data.</listitem>
+              </itemizedlist>    
+            </listitem>
+          </itemizedlist>
+        <note>
+            <title>Note</title>
+            <para>List of samples is expected to grow and we'd like to encourage contributions illustrating other genres and perspectives.</para>
+            <para>We'd like to stress that preparing showcases above has been only possible thanks to numerous projects releasing their sources openly, 
+            in particular the <link xlink:href="http://firstfolio.bodleian.ox.ac.uk">Bodleian First Folio</link>, 
+            <link xlink:href="http://www.deutschestextarchiv.de">Deutsches Textarchiv</link> and 
+            <link xlink:href="https://www.textcreationpartnership.org/tcp-eebo">EEBO-TCP</link>. We'd also like to thank William Graves and Anna Skolimowska
+            for sharing their correspondence material.</para>
+      </note>  
+    </section>
     </section>
       <section>
         <title>Basic Customization</title>
@@ -144,7 +192,8 @@
           <listitem>
             <para>modify the ODD to match your requirements</para>
           </listitem>
-        </orderedlist></para>
+        </orderedlist>
+            </para>
       <para>For the purpose of this quickstart, we will reuse one of the pre-installed sample documents, but create a new ODD for it:</para>
       <procedure>
         <step>
@@ -283,13 +332,13 @@
             </mediaobject>
           </figure>
           <para>And the XML for the entire <tag>elementSpec</tag>:</para>
-          <programlisting language="xml" xml:space="preserve"><![CDATA[<elementSpec ident="name" mode="change">
-    <model behaviour="inline">
-        <outputRendition xml:space="preserve">
+          <programlisting language="xml" xml:space="preserve">&amp;lt;elementSpec ident="name" mode="change"&amp;gt;
+    &amp;lt;model behaviour="inline"&amp;gt;
+        &amp;lt;outputRendition xml:space="preserve"&amp;gt;
         color: #FF9900;
-        </outputRendition>
-    </model>
-</elementSpec>]]></programlisting>
+        &amp;lt;/outputRendition&amp;gt;
+    &amp;lt;/model&amp;gt;
+&amp;lt;/elementSpec&amp;gt;</programlisting>
           <para>This colors places and people alike, but we may want to distinguish between the two. We thus need another model just for places. The processing
           model uses <option>predicate</option> to make such distinctions: a model rule will only be considered if the XPath expression in its predicate matches
           the current node being processed. Let's add another model and give it a predicate:</para>
@@ -301,18 +350,18 @@
               </imageobject>
             </mediaobject>
           </figure>
-          <programlisting language="xml" xml:space="preserve"><![CDATA[<elementSpec ident="name" mode="change">
-    <model predicate="@type='place'" behaviour="inline">
-        <outputRendition xml:space="preserve">
+          <programlisting language="xml" xml:space="preserve">&amp;lt;elementSpec ident="name" mode="change"&amp;gt;
+    &amp;lt;model predicate="@type='place'" behaviour="inline"&amp;gt;
+        &amp;lt;outputRendition xml:space="preserve"&amp;gt;
         color: #0077FF;
-        </outputRendition>
-    </model>
-    <model behaviour="inline">
-        <outputRendition xml:space="preserve">
+        &amp;lt;/outputRendition&amp;gt;
+    &amp;lt;/model&amp;gt;
+    &amp;lt;model behaviour="inline"&amp;gt;
+        &amp;lt;outputRendition xml:space="preserve"&amp;gt;
         color: #FF9900;
-        </outputRendition>
-    </model>
-</elementSpec>]]></programlisting>
+        &amp;lt;/outputRendition&amp;gt;
+    &amp;lt;/model&amp;gt;
+&amp;lt;/elementSpec&amp;gt;</programlisting>
           <note>
             <title>Important</title>
             <para>The order of models within the element spec is important. If you move the model with the predicate to the end, all names will appear in the
@@ -337,24 +386,25 @@
           indeed use behaviour <function>alternate</function>, which is exactly what we want. Change the parameter value for <parameter>alternate</parameter> to
           format the date:</para>
           <figure>
-            <title>Format the normalized date in <parameter>@when</parameter></title>
+            <title>Format the normalized date in <parameter>@when</parameter>
+                    </title>
             <mediaobject>
               <imageobject>
                 <imagedata fileref="editor-screen6.png"/>
               </imageobject>
             </mediaobject>
           </figure>
-          <programlisting language="xml" xml:space="preserve"><![CDATA[<elementSpec ident="date" mode="change">
-    <model output="print" predicate="text()" behaviour="inline"/>
-    <model output="print" predicate="@when and not(text())" behaviour="inline">
-        <param name="content" value="@when"/>
-    </model>
-    <model output="web" predicate="@when" behaviour="alternate">
-        <param name="default" value="."/>
-        <param name="alternate" value="format-date(@when, '[FNn], [D1o] [MNn], [Y]')"/>
-    </model>
-    <model predicate="text()" behaviour="inline"/>
-</elementSpec>]]></programlisting>
+          <programlisting language="xml" xml:space="preserve">&amp;lt;elementSpec ident="date" mode="change"&amp;gt;
+    &amp;lt;model output="print" predicate="text()" behaviour="inline"/&amp;gt;
+    &amp;lt;model output="print" predicate="@when and not(text())" behaviour="inline"&amp;gt;
+        &amp;lt;param name="content" value="@when"/&amp;gt;
+    &amp;lt;/model&amp;gt;
+    &amp;lt;model output="web" predicate="@when" behaviour="alternate"&amp;gt;
+        &amp;lt;param name="default" value="."/&amp;gt;
+        &amp;lt;param name="alternate" value="format-date(@when, '[FNn], [D1o] [MNn], [Y]')"/&amp;gt;
+    &amp;lt;/model&amp;gt;
+    &amp;lt;model predicate="text()" behaviour="inline"/&amp;gt;
+&amp;lt;/elementSpec&amp;gt;</programlisting>
         </section>
         <section>
           <title>Screencast</title>
@@ -1282,9 +1332,15 @@
           </para>
           <para>For a function to be chosen, the following conditions have to hold:</para>
           <itemizedlist>
-            <listitem><para>local name of the function matches name of behaviour</para></listitem>
-            <listitem><para>takes at least 3 default parameters</para></listitem>
-            <listitem><para>the remaining parameters match those in the behaviour</para></listitem>
+            <listitem>
+                            <para>local name of the function matches name of behaviour</para>
+                        </listitem>
+            <listitem>
+                            <para>takes at least 3 default parameters</para>
+                        </listitem>
+            <listitem>
+                            <para>the remaining parameters match those in the behaviour</para>
+                        </listitem>
           </itemizedlist>
           <para>thus: arity of the function = behaviour parameter count + 3</para>
           <synopsis>declare function pmf:paragraph($config as map(*), $node as element(), $class as xs:string+, $content)</synopsis>
@@ -1543,20 +1599,20 @@
         optionally be limited to a specific ODD, whose name is specified in the
         <varname>@odd</varname>
         attribute.</para>
-      <programlisting language="xml" xml:space="preserve"><![CDATA[<modules>
-    <!-- functions or behaviours common to all output modes -->
-    <output>
-      <module uri="http://www.tei-c.org/tei-simple/xquery/common-functions" prefix="tc" at="xmldb:exist:///db/apps/my-app/modules/common.xql"/>
-    </output>
-    <!-- General fo extension functions --> 
-    <output mode="print">
-      <module uri="http://www.tei-c.org/tei-simple/xquery/ext-fo" prefix="ext-fo" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-fo.xql"/>
-    </output> 
-    <!-- Special web configuration for the documentation (to handle <code>) --> 
-    <output mode="web" odd="documentation"> 
-      <module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql"/>
-    </output> 
-</modules>]]></programlisting>
+      <programlisting language="xml" xml:space="preserve">&amp;lt;modules&amp;gt;
+    &amp;lt;!-- functions or behaviours common to all output modes --&amp;gt;
+    &amp;lt;output&amp;gt;
+      &amp;lt;module uri="http://www.tei-c.org/tei-simple/xquery/common-functions" prefix="tc" at="xmldb:exist:///db/apps/my-app/modules/common.xql"/&amp;gt;
+    &amp;lt;/output&amp;gt;
+    &amp;lt;!-- General fo extension functions --&amp;gt; 
+    &amp;lt;output mode="print"&amp;gt;
+      &amp;lt;module uri="http://www.tei-c.org/tei-simple/xquery/ext-fo" prefix="ext-fo" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-fo.xql"/&amp;gt;
+    &amp;lt;/output&amp;gt; 
+    &amp;lt;!-- Special web configuration for the documentation (to handle &amp;lt;code&amp;gt;) --&amp;gt; 
+    &amp;lt;output mode="web" odd="documentation"&amp;gt; 
+      &amp;lt;module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql"/&amp;gt;
+    &amp;lt;/output&amp;gt; 
+&amp;lt;/modules&amp;gt;</programlisting>
       
       <para>Whenever the library tries to locate a processing model function for a given behaviour, it will
         <emphasis role="bold">first</emphasis>
@@ -1600,16 +1656,16 @@
       </variablelist>
         <para>For all additional parameters, the processing model implementation tries to fill each custom parameter with a corresponding value by looking through the <tag>param</tag> tags in the ODD to find one with a name matching the variable name. If no matching parameter can be found, the function argument will be set to the empty sequence. You should not enforce a type or cardinality for any of the custom parameters as this may lead to unexpected errors. The parameters may be empty or contain more than one item.</para>
       <para>For example, our extension module <filename>ext-html.xql</filename> may look as follows:</para>
-      <programlisting language="xquery" xml:space="preserve"><![CDATA[xquery version "3.1"; 
+      <programlisting language="xquery" xml:space="preserve">xquery version "3.1"; 
 (:~ : Non-standard extension functions, mainly used for the documentation. :) 
 module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-html";
 declare namespace tei="http://www.tei-c.org/ns/1.0"; 
 
 declare function pmf:code($config as map(*), $node as element(), $class as xs:string+, $content as node()*, $lang as item()?) {
-    <pre class="code {$class}" data-language="{if ($lang) then $lang else 'xquery'}">
+    &amp;lt;pre class="code {$class}" data-language="{if ($lang) then $lang else 'xquery'}"&amp;gt;
     {replace(string-join($content/node()), "^\s+?(.*)\s+$", "$1")}
-    </pre>
-};]]></programlisting>
+    &amp;lt;/pre&amp;gt;
+};</programlisting>
       <para>It defines one function,
         <function>pmf:code</function>, which can be called from the ODD as follows:</para>
       <programlisting language="xml">
@@ -1690,8 +1746,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <para>To summarize the main changes:</para>
       <itemizedlist>
         <listitem>
-          <para>the user interface is now completely based on webcomponents, using <link
-              xlink:href="https://www.polymer-project.org/2.0/docs/devguide/feature-overview">polymer</link> as supporting library. Bootstrap has been
+          <para>the user interface is now completely based on webcomponents, using <link xlink:href="https://www.polymer-project.org/2.0/docs/devguide/feature-overview">polymer</link> as supporting library. Bootstrap has been
             dropped.</para>
         </listitem>
         <listitem>
@@ -1712,8 +1767,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
             code.</para>
         </listitem>
         <listitem>
-          <para>all other custom elements are off-the-shelf components which can be found on <link xlink:href="https://www.webcomponents.org/"
-              >webcomponents.org</link></para>
+          <para>all other custom elements are off-the-shelf components which can be found on <link xlink:href="https://www.webcomponents.org/">webcomponents.org</link>
+                </para>
         </listitem>
       </orderedlist>
     </section>
