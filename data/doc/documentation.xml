@@ -41,7 +41,7 @@
         mapped to a small set of abstract transformation functions, called <emphasis>behaviours</emphasis>. Basic styling features can be set directly within
         the ODD using CSS. The processing model is media-agnostic: rendition styles are transparently translated into the different output media types like
         HTML, XSL-FO, LaTeX, or ePUB. A single ODD can handle a multitude of output media types with just a few small adjustments.</para>
-      <para>Despite it's elegant simplicity, various projects we realized in the past prove that the TEI Processing Model is:</para>
+      <para>Despite its elegant simplicity, various projects we realized in the past prove that the TEI Processing Model is:</para>
       <orderedlist>
         <listitem>
           <para>powerful enough to cover complex transformation needs</para>
@@ -174,10 +174,10 @@
       </section>
       <section>
         <title>Modify the ODD</title>
-        <para>Beginning with version 3.0 of TEI Publisher, you have the choice between writing the ODD by hand or using a visual
-          editor. Both approaches can be combined and mixed. The visual editor saves the ODD in a non-destructive way, preserving any information not
-        related to the processing model. It is thus be save to switch between hand-editing the ODD and using the visual editor. Just make sure you reload the
-        visual editor view after modifying the source XML and vice versa.</para>
+        <para>Beginning with version 3.0 of TEI Publisher, you have the choice between writing the ODD by hand or using a visual editor. Both approaches can be
+        combined and mixed. The visual editor saves the ODD in a non-destructive way, preserving any information not related to the processing model. It is thus
+        save to switch between hand-editing the ODD and using the visual editor. Just make sure you reload the visual editor view after modifying the source XML
+        and vice versa.</para>
         <para>For a start, we may want to move the <tag>dateline</tag> in the <tag>opener</tag> to the right and get rid of the <tag>pb</tag> label which
         currently sits there. We'll use the visual editor, but show the corresponding ODD XML below each screenshot. At the end of this chapter we'll describe
         how to edit the ODD XML <link linkend="oddxml">by hand</link>.</para>
@@ -211,9 +211,10 @@
           model. As the name says, it specifies an element and may contain other, mostly schema-related definitions which are not relevant for the discussion
           here. The attribute <parameter>@ident</parameter> of the <tag>elementSpec</tag> identifies the name of the element to which the spec applies.</para>
         <para>An <tag>elementSpec</tag> may contain one or more <tag>model</tag> elements to define the processing model for this element. Every model maps the
-          element to a <option>behaviour</option>. A behaviour denotes an abstract formatting action to be applied. How exactly a behaviour translates into the
-          target output media may differ depending on media features and design decisions. TEI Publisher tries to implement them as generic as possible. The TEI
-          guidelines currently list two dozen behaviours, e.g. paragraph, heading, note, inline, block. The last two are the most frequently used.</para>
+          element to a <option>behaviour</option>. A behaviour denotes an abstract transformation function to be applied. How exactly a behaviour translates
+          into the target output media may differ depending on media features and design decisions. TEI Publisher tries to implement them as generic as
+          possible. The TEI guidelines currently list two dozen behaviours, e.g. paragraph, heading, note, inline, block. The last two are the most frequently
+          used.</para>
           <para>Expand the model by clicking on the arrow to the left of the grey box. A form appears, allowing you to change all relevant settings on this
           model. We would like to add an <tag>outputRendition</tag>, so click on the <guibutton>+</guibutton> button next to <guilabel>Renditions</guilabel>. In
           the form input being inserted below, enter your css.</para>
