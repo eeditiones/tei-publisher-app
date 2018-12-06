@@ -64,15 +64,9 @@
         arranged and recombined. The technology making this possible is called <emphasis>Web Components</emphasis>. It is part of the HTML5 specification and
         natively implemented by many browsers. Users don't need to dive into the details of this standard though: all you need to modify the example pages is a
         bit of basic HTML knowledge. Only where the <link xlink:href="../components/docs.html">available components</link> are not enough, a new use case needs
-<<<<<<< HEAD
         to be described and suitable new components implemented but then they can be incorporated into existing component pool for everyone else to use.
         After all, our mantra is reuse, reuse, reuse and we want to turn TEI Publisher into a box of tools the entire community can benefit from.</para>
       </section>
-=======
-        to be described and suitable new components implemented but then they can be incorporated into existing component pool for everyone else to use. After
-        all, our mantra is reuse, reuse, reuse and we want to turn TEI Publisher into a box of tools the entire community can benefit from.</para>
-    </section>
->>>>>>> ca0b2272a5bbaf31f5189bc9072828cc06c30dd5
     <section>
       <title>Installation</title>
       <para>TEI Publisher runs on top of the <link xlink:href="http://exist-db.org">eXist XML database</link>. It is distributed as an eXist application
@@ -148,7 +142,6 @@
       </section>
     </section>
     <section>
-<<<<<<< HEAD
         <title>Selected Use Cases</title>
         <para>As we have already mentioned, the document view can vary, sometimes substantially, depending on the sample document you are looking at.
         This is a natural consequence of TEI's versatility and broad scope of its application. What follows, requirements for the document view -
@@ -263,51 +256,6 @@
                 with Polish translation structured in a similar way).</para>
           </note>
     </section>
-=======
-      <title>Chosen Use Cases</title>
-      <para>As we have already mentioned, the document view can vary, sometimes substantially, depending on the sample document you are looking at. This is a
-        natural consequence of TEI's versatility and broad scope of its application. What follows, requirements for the document view - both its layout and
-        composition as well as processing rules governing the transformation of the text of the document itself - will differ to a great extent. Sample
-        documents which are included in TEI Publisher's installation package do not exhaust its applications but rather aim to present some chosen use
-        cases:</para>
-      <itemizedlist>
-        <listitem>
-          <para>
-            <emphasis>Critik der reinen Vernunft</emphasis> from the <emphasis>Deutsches Textarchiv</emphasis> corpus presents a philosophical tractate,
-            originally published in print, thus following 'traditional' book structure with front pages, foreword and chapters. It can nevertheless demonstrate
-            very well Publisher's capacities in typesetting, switching between physical and logical structure of the document (just toggle <guibutton>Page
-              View</guibutton> in the <parameter>Settings</parameter> panel) as well as generation of multiple output formats from single set of processing
-            models in the ODD (try choosing <parameter>PDF</parameter> or <parameter>ePub</parameter> options in the <guibutton>Download</guibutton>).
-              <emphasis>Purchas his pilgrimages</emphasis>, from the <emphasis>EEBO-TCP</emphasis> project, while roughly similar in structure is much earlier
-            work (1613) and demonstrates extensive use of marginal notes.</para>
-        </listitem>
-        <listitem>
-          <para>Shakespeare's <emphasis>Romeo and Juliet</emphasis>, from <emphasis>Bodleian First Folio</emphasis> project uses dedicated TEI elements to
-            encode structure of the play but it also showcases the parallel transcription and facsimile alignment for its presentation which is obviously of
-            general application and could be used for any genre, not limited to dramatic texts.</para>
-        </listitem>
-        <listitem>
-          <para>Correspondence corpora are common, yet very interesting, subjects for digital editions. Despite basic similarities in structure, depending on
-            the period, scope and particular research perspective, intended presentation may vary enormously. We are presenting samples of:</para>
-          <itemizedlist>
-            <listitem>15th century manuscript letter to <emphasis>Mikołaj Orlik</emphasis> demonstrating alignment between Latin original and parallel Polish
-              translation,</listitem>
-            <listitem>16th century manuscript letter of <emphasis>Hernán Cortés</emphasis> showcasing parallel facsimile view and transcription enhanced with
-              commentaries and explicitly encoded transcriptional features,</listitem>
-            <listitem>20th century manuscript letter from <emphasis>Robert Graves</emphasis> where emphasis have been put on visualizing rich encoding of
-              semantic information in the letter, in particular geographic and prosopographical data.</listitem>
-          </itemizedlist>
-        </listitem>
-      </itemizedlist>
-      <note>
-        <title>Note</title>
-        <para>List of samples is expected to grow and we'd like to encourage contributions illustrating other genres and perspectives.</para>
-        <para>We'd like to stress that preparing showcases above has been only possible thanks to numerous projects releasing their sources openly, in
-          particular the <link xlink:href="http://firstfolio.bodleian.ox.ac.uk">Bodleian First Folio</link>, <link
-            xlink:href="http://www.deutschestextarchiv.de">Deutsches Textarchiv</link> and <link xlink:href="https://www.textcreationpartnership.org/tcp-eebo"
-            >EEBO-TCP</link>. We'd also like to thank William Graves and Anna Skolimowska for sharing their correspondence material.</para>
-      </note>
->>>>>>> ca0b2272a5bbaf31f5189bc9072828cc06c30dd5
     </section>
   </section>
   <section>
