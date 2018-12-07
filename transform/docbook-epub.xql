@@ -52,6 +52,12 @@ declare %private function model:iframe($config as map(*), $node as node()*, $cla
 declare %private function model:template1($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><h1><pb-link path="{$config?apply-children($config, $node, $params?path)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-link></h1></t>/*
 };
+(: generated template function for element spec: link :)
+declare %private function model:template2($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><pb-edit-xml path="/db/apps/tei-publisher/{$config?apply-children($config, $node, $params?path)}">
+  {$config?apply-children($config, $node, $params?content)} <iron-icon icon="icons:open-in-new"/>
+</pb-edit-xml></t>/*
+};
 (:~
 
     Main entry point for the transformation.
@@ -221,10 +227,25 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(tag) return
                         html:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return
-                        if (@linkend) then
-                            html:link($config, ., ("tei-link1"), ., concat('?odd=', request:get-parameter('odd', ()), '&amp;view=',                             request:get-parameter('view', ()), '&amp;id=', @linkend))
+                        if (@role='source') then
+                            html:inline($config, ., ("tei-link1"), .)
                         else
-                            html:link($config, ., ("tei-link2"), ., @xlink:href)
+                            if (@role='source') then
+                                let $params := 
+                                    map {
+                                        "path": @xlink:href,
+                                        "content": .
+                                    }
+
+                                                                let $content := 
+                                    model:template2($config, ., $params)
+                                return
+                                                                html:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-link2"), $content)
+                            else
+                                if (@linkend) then
+                                    html:link($config, ., ("tei-link3"), ., concat('?odd=', request:get-parameter('odd', ()), '&amp;view=',                             request:get-parameter('view', ()), '&amp;id=', @linkend))
+                                else
+                                    html:link($config, ., ("tei-link4"), ., @xlink:href)
                     case element(guibutton) return
                         html:inline($config, ., ("tei-guibutton"), .)
                     case element(guilabel) return

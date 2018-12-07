@@ -232,9 +232,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return
                         if (@linkend) then
-                            fo:link($config, ., ("tei-link1"), ., concat('?odd=', request:get-parameter('odd', ()), '&amp;view=',                             request:get-parameter('view', ()), '&amp;id=', @linkend))
+                            fo:link($config, ., ("tei-link3"), ., concat('?odd=', request:get-parameter('odd', ()), '&amp;view=',                             request:get-parameter('view', ()), '&amp;id=', @linkend))
                         else
-                            fo:link($config, ., ("tei-link2"), ., @xlink:href)
+                            fo:link($config, ., ("tei-link4"), ., @xlink:href)
                     case element(guibutton) return
                         fo:inline($config, ., ("tei-guibutton"), .)
                     case element(guilabel) return

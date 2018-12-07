@@ -7,6 +7,7 @@
                  
                  
                  
+                 
                  <desc>Processing of Docbook format</desc>
                 </title>
                 <title type="short">Docbook v5 </title>
@@ -217,9 +218,11 @@
             
             
             
+            
                             content: ' &gt; ';
                             color: #607d8b;
                         
+            
             
             
             
@@ -358,10 +361,12 @@
                     <model output="epub" behaviour="block">
             <param name="content" value="text()"/>
             <outputRendition xml:space="preserve">
+            
             font-family: monospace;
 margin: 1em 0 1em .5em;
 padding: 1em 0 1em .5em;
 white-space: pre-wrap;
+            
             </outputRendition>
         </model>
                     <model output="latex" behaviour="code">
@@ -381,10 +386,12 @@ white-space: pre-wrap;
                     <model output="epub" behaviour="block">
             <param name="content" value="text()"/>
             <outputRendition xml:space="preserve">
+            
             font-family: monospace;
 margin: 1em 0 1em .5em;
 padding: 1em 0 1em .5em;
 white-space: pre-wrap;
+            
             </outputRendition>
         </model>
                     <model output="latex" behaviour="code"/>
@@ -416,6 +423,7 @@ white-space: pre-wrap;
                     <model output="epub" behaviour="block">
             <outputRendition xml:space="preserve">
             
+            
             border-top: 1px solid #C0C4C0;
 border-bottom: 1px solid #C0C4C0;
 margin: 1em 0 1em .5em;
@@ -423,6 +431,7 @@ padding: 1em 0 1em .5em;
 -webkit-column-break-inside: avoid; /* Chrome, Safari, Opera */
           page-break-inside: avoid; /* Firefox */
                break-inside: avoid; /* IE 10+ */
+            
             
             </outputRendition>
         </model>
@@ -451,6 +460,21 @@ padding: 1em 0 1em .5em;
         </model>
                 </elementSpec>
                 <elementSpec ident="link">
+                    <model output="epub" predicate="@role='source'" behaviour="inline">
+            <param name="link" value="@xlink:href"/>
+        </model>
+                    <model output="web" predicate="@role='source'" behaviour="inline">
+            <param name="path" value="@xlink:href"/>
+            <pb:template xmlns="" xml:space="preserve"><pb-edit-xml path="/db/apps/tei-publisher/[[path]]">
+  [[content]] <iron-icon icon="icons:open-in-new"/>
+</pb-edit-xml></pb:template>
+            <outputRendition xml:space="preserve">
+            text-decoration: underline;
+--iron-icon-height: 16px;
+vertical-align: top;
+cursor: pointer;
+            </outputRendition>
+        </model>
                     <model predicate="@linkend" behaviour="link">
             <param name="link" value="concat('?odd=', request:get-parameter('odd', ()), '&amp;amp;view=',                             request:get-parameter('view', ()), '&amp;amp;id=', @linkend)"/>
         </model>
@@ -468,12 +492,14 @@ padding: 1em 0 1em .5em;
             
             
             
+            
                             color: #fff;
                             background-color: #909090;
                             padding-left: 4px;
                             padding-right: 4px;
                             border: 1px solid #707070;
                         
+            
             
             
             
@@ -512,9 +538,11 @@ Not available in PDF edition. Go to \url{[[content]]} to view.
             <outputRendition xml:space="preserve">
             
             
+            
             color: #909090;
 padding-left: 10px;
 border-left: 3px solid #c0c0c0;
+            
             
             
             </outputRendition>
@@ -528,10 +556,12 @@ border-left: 3px solid #c0c0c0;
             
             
             
+            
                         content: '\00B7';
                         padding-right: 8px;
                         padding-left: 8px;
                         
+            
             
             
             

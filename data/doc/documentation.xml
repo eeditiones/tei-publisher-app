@@ -324,7 +324,7 @@
         at a particular XML element and sometimes is only meant for a specific XML context - let's say we might want to distinguish between
         headings of first and second level of nested divisions as they often represent titles of different text units: acts and scenes or books and chapters.</para>
       <para>Thus before we begin, you should familiarize yourself with the XML structure of the letter. On the tab displaying the letter, select
-          <guimenuitem>Download</guimenuitem> / <guimenuitem>XML </guimenuitem>to open <filename>graves6.xml</filename> in eXide.</para>
+          <guimenuitem>Download</guimenuitem> / <guimenuitem>XML </guimenuitem>to open <link xlink:href="data/test/graves6.xml" role="source"><filename>graves6.xml</filename></link> in eXide.</para>
       <para>For a start, we may want to move the <tag>dateline</tag> in the <tag>opener</tag> to the right and get rid of the <tag>pb</tag> label which
         currently sits there. We'll use the visual editor, but show the corresponding ODD XML below each screenshot. At the end of this chapter we'll describe
         how to edit the ODD XML <link linkend="oddxml">by hand</link>.</para>
@@ -519,10 +519,16 @@
           in eXist using Oxygen's webdav support or the eXist data source.</para>
         <note>
           <title>Important</title>
-          <para>If you edit the ODD XML by hand, there are some caveats you need to be aware of: the visual editor will automatically check if there are
-            existing elementSpecs for a new element in any of the ODDs your ODD inherits from. When editing by hand, you need to do this yourself. It's best to
-            always have the base ODDs: <filename>tei_simplePrint.odd</filename> and <filename>teipublisher.odd</filename> open on the side. Both are located in
-            the same collection as your odd, i.e. <filename>/db/apps/tei-publisher/odd</filename>.</para>
+          <para>If you edit the ODD XML by hand, there are some caveats you need to be aware of: the
+            visual editor will automatically check if there are existing elementSpecs for a new
+            element in any of the ODDs your ODD inherits from. When editing by hand, you need to do
+            this yourself. It's best to always have the base ODDs: <link
+              xlink:href="odd/tei_simplePrint.odd" role="source"
+                ><filename>tei_simplePrint.odd</filename></link> and <link
+              xlink:href="odd/teipublisher.odd" role="source"
+              ><filename>teipublisher.odd</filename></link> open on the side. Both are located in
+            the same collection as your odd, i.e.
+            <filename>/db/apps/tei-publisher/odd</filename>.</para>
           <para>For example, to modify the element spec for <tag>dateline</tag>, check <filename>tei_simplePrint.odd</filename>, where you'll find a definition
             already. Copy it over to your ODD and start modifying it.</para>
           <para>Pay attention to the <option>@mode</option> attribute on <tag>elementSpec</tag>. You must set this to "change" if you are overwriting an
@@ -672,25 +678,28 @@
         <para>The following page templates are currently available in TEI Publisher:</para>
         <variablelist>
           <varlistentry>
-            <term>view.html</term>
+            <term><link xlink:href="templates/pages/view.html" role="source">view.html</link></term>
             <listitem>
               <para>the default template showing a single text view at the center</para>
             </listitem>
           </varlistentry>
           <varlistentry>
-            <term>facsimile.html</term>
+            <term><link xlink:href="templates/pages/facsimile.html" role="source"
+                >facsimile.html</link></term>
             <listitem>
               <para>a template featuring a facsimile view to the right, retrieving images from a IIIF server</para>
             </listitem>
           </varlistentry>
           <varlistentry>
-            <term>letter.html</term>
+            <term><link xlink:href="templates/pages/letter.html" role="source"
+              >letter.html</link></term>
             <listitem>
               <para>used for Graves' letter, this template displays an additional map to the right and a list of places, people and organizations</para>
             </listitem>
           </varlistentry>
           <varlistentry>
-            <term>translation.html</term>
+            <term><link xlink:href="templates/pages/translation.html" role="source"
+                >translation.html</link></term>
             <listitem>
               <para>shows a transcription and its translation side by side. Both are contained in the same TEI document and extracted via an XPath expression
                 passed to <tag>pb-view</tag>.</para>

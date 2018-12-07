@@ -373,9 +373,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return
                         if (@linkend) then
-                            latex:link($config, ., ("tei-link1"), ., concat('?odd=', request:get-parameter('odd', ()), '&amp;view=',                             request:get-parameter('view', ()), '&amp;id=', @linkend))
+                            latex:link($config, ., ("tei-link3"), ., concat('?odd=', request:get-parameter('odd', ()), '&amp;view=',                             request:get-parameter('view', ()), '&amp;id=', @linkend))
                         else
-                            latex:link($config, ., ("tei-link2"), ., @xlink:href)
+                            latex:link($config, ., ("tei-link4"), ., @xlink:href)
                     case element(guibutton) return
                         latex:inline($config, ., ("tei-guibutton"), .)
                     case element(guilabel) return
