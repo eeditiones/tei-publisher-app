@@ -8,11 +8,15 @@
             <title type="s">Corpus of Texts and Correspondence of Ioannes Dantiscus</title>
             <editor>Anna Skolimowska et al.</editor>
             <respStmt>
-               <resp>TEI transcription</resp>
+               <resp>transcription</resp>
                <persName>Jerzy Axer</persName>
             </respStmt>
             <respStmt>
                <resp>initial TEI transcription</resp>
+               <persName>Anna Skolimowska</persName>
+            </respStmt>
+            <respStmt>
+               <resp>Polish translation</resp>
                <persName>Anna Skolimowska</persName>
             </respStmt>
             <respStmt>
@@ -28,7 +32,7 @@
          <sourceDesc>
             <msDesc type="fair-copy">
                <msIdentifier>
-                  <institution>B. Ossol. </institution>
+                  <institution>B. Ossol.</institution>
                   <idno>12034/III, p. 79-82</idno>
                </msIdentifier>
                <msContents>
@@ -82,9 +86,7 @@
                   <note>(1485 – 1547-12-02); Spanish conquistador and Dantiscus' friend</note>
                </person>
             </listPerson>
-
          </particDesc>
-
 
          <settingDesc>
             <listPlace>
@@ -128,101 +130,182 @@
          </listChange>
       </revisionDesc>
    </teiHeader>
+   <text>
+      <group>
+         <text type="source" xml:lang="es">
+            <front xml:id="s.1">
+               <div xml:id="s.1.1">
+                  <p xml:id="s.1.1.1">
+                     <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp82.jpg"/>
+                     <seg type="address" xml:id="s.1.1.1.1"> Al muy Magnifico Señor <name type="person" ref="#IDPe1">Johanes Dantiscus</name> enbajador de <name type="place" ref="#IDPl562">Polonia</name> en la corte del <rs type="person" ref="#IDPe30">enperador</rs> nuestro señor. </seg>
+                  </p>
+               </div>
+            </front>
+            <body xml:id="s.2">
+               <div xml:id="s.2.1">
+                  <p xml:id="s.2.1.1">
+                     <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp79.jpg"/>
+                     <seg type="salutation" xml:id="s.2.1.1.1"> Muy Magnifico Señor </seg>
+                  </p>
+                  <p xml:id="s.2.1.2">
+                     <seg xml:id="s.2.1.2.1">
+                        <lb/>
+                        <seg type="incipit"> No quisiera que <choice>
+                              <expan>V<ex>uestra</ex>
+                              </expan>
+                              <abbr>V.</abbr>
+                           </choice>
+                           <choice>
+                              <expan>S<ex>eñoria</ex>
+                              </expan>
+                              <abbr>S.</abbr>
+                           </choice> fuera el primero que co<lb/>mencara</seg> por mucho aunque lo
+                        pudiera <lb/> aver hecho muy bien sin perjuyzio de <lb/>mi honrra por averse co<choice>
+                           <corr type="lemma">n</corr>
+                           <sic/>
+                        </choice>fichado de alla <lb/>mensajero primero que de aca. </seg>
+                     <seg xml:id="s.2.1.2.2">Mas tan<lb/>bien digo que no querria ganar tanta
+                        hon<lb/>rra que me dexase de escrivir porque se<lb/>ria muy mayor el deseo
+                        de saber de <lb/>su muy magnifica persona y la perdi<lb/>da del rregozijo de
+                        sus cartas y el <lb/>dolor de pensar que ya no se acuer<lb/>da de sus
+                        seruvidores.</seg>
+                     <seg xml:id="s.2.1.2.3"> Mas si <foreign xml:lang="la">amor est <lb/>doctor
+                           amoris</foreign>, yo estoy desto satisfecho.</seg>
+                        </p>
+                  <p xml:id="s.2.1.3">
+                     <seg xml:id="s.2.1.3.1">
+                        <lb/>Yo estoy muy bueno ytem su servidor <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp80.jpg"/> como sienpre de mi
+                        corason y pretesto que <lb/>sienpre terne este cuydado de escrivir <lb/>a <choice>
+                           <expan>V<ex>uestra</ex>
+                           </expan>
+                           <abbr>V.</abbr>
+                        </choice>
+                        <choice>
+                           <expan>S<ex>eñoria</ex>
+                           </expan>
+                           <abbr>S.</abbr>
+                        </choice> desde aqui y desde la <name type="place" ref="#IDPl726">Nueva
+                           Es<lb/>paña</name> y de mas adelante si pasare.</seg>
+                     <seg xml:id="s.2.1.3.2">
+                        <choice>
+                           <expan>V<ex>uestra</ex>
+                           </expan>
+                           <abbr>V.</abbr>
+                        </choice>
+                        <lb/>
+                        <choice>
+                           <expan>S<ex>eñoria</ex>
+                           </expan>
+                           <abbr>S.</abbr>
+                        </choice> me haga merced de pagarme en la mis<lb/>ma moneda.</seg>
+                     <seg xml:id="s.2.3.3.3">Y sea mas largo que yo escri<lb/>vo a lo menos agora
+                        porque quando este <lb/>donde aya que escrivir yo lo hare y tan<lb/>to que
+                        antes de trabajo que no me rreprehenda <lb/>de acto y de alla sienpre avra
+                        que escrivir.</seg>
+                     <seg xml:id="s.2.3.3.4">
+                                <lb/>Quando me escriviere venga dirigido <lb/>a miçer <name type="person" ref="#IDPe156">Geronimo</name> y a miçer <name type="person" ref="#IDPe968">Enrrique</name> por<lb/>que ellos por me
+                        fazer merced me encamina<lb/>ran los despachos y asi va este por su
+                        mano.</seg>
+                        </p>
+                  <p xml:id="s.2.1.4">
+                    <seg xml:id="s.2.1.4.1">
+                        <lb/>Nuestro Señor guarde y prospere la muy magnifica
+                        <lb/>persona y esta<choice>
+                           <corr type="lemma">do</corr>
+                           <sic/>
+                        </choice> de <choice>
+                           <expan>V<ex>uestra</ex>
+                           </expan>
+                           <abbr>V.</abbr>
+                        </choice>
+                        <choice>
+                           <expan>S<ex>eñoria</ex>
+                           </expan>
+                           <abbr>S.</abbr>
+                        </choice> como desea.
+                    </seg>
+                  </p>
+                  <closer xml:id="s.2.1.5">
+                    <seg xml:id="s.2.1.5.1">De <name type="place" ref="#IDPl45">Madrid</name>, <lb/>XI de setienbre. </seg>
+                  </closer>
+                  <closer xml:id="s.2.1.6">
+                    <seg xml:id="s.2.1.6.1">
+                        <salute>Servidor de a 
+                          <choice>
+                            <expan>V<ex>uest</ex>ra</expan>
+                              <abbr>V.</abbr>
+                          </choice> Señoria 
+                          <name type="person" ref="#IDPe437">Hernando Cortes</name>
+                        </salute>
+                    </seg>
+                  </closer>
+                  <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp81.jpg"/>
+                  <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp82.jpg"/>
+               </div>
+            </body>
+         </text>
+         <text type="translation" xml:lang="pl">
+            <front xml:id="t.1">
+               <div xml:id="t.1.1">
+                  <p xml:id="t.1.1.1">
+                     <seg type="address" xml:id="t.1.1.1.1">Do Jaśnie Wielmożnego Pana <name type="person" ref="#IDPe1">Jana Dantyszka</name> ambasadora <name type="place" ref="#IDPl562">Polski</name> na dworze <rs type="person" ref="#IDPe30">Cesarza</rs> Naszego Pana.</seg>
+                  </p>
+               </div>
+            </front>
+            <body xml:id="t.2">
+               <div xml:id="t.2.1">
+                  <p xml:id="t.2.1.1">
+                     <seg type="salutation" xml:id="t.2.1.1.1">Wielce Znakomity Panie,</seg>
+                  </p>
+                  <p xml:id="t.2.1.2">
+                     <seg xml:id="t.2.1.2.1">
+                        <seg type="incipit">Nie chciałbym, aby Wasza Wielmożność był pierwszym,
+                           który rozpocznie</seg> korespondencję, chociaż ja mógłbym to doskonale
+                        uczynić bez ujmy na moim honorze, gdyby data wskazywała, że posłaniec
+                        wcześniej wyruszył stamtąd niż stąd.</seg>
+                     <seg xml:id="t.2.1.2.2">Powiem więcej - nie chciałbym przez dbałość o
+                        konwenanse zaniechać korespondencji, zanadto bowiem pragnąłbym wiadomości o
+                        Jej Najznakomitszej Osobie i zbyt wielka byłaby strata radości z Jej listów
+                        i ból wywołany myślą, że nie dba już o swoje sługi.</seg>
+                     <seg xml:id="t.2.1.2.3">Zresztą, <foreign xml:lang="la">si amor est <lb/>doctor
+                           amoris</foreign>, jestem zadowolony z tego, co jest.</seg>
+                  </p>
+                  <p xml:id="t.2.1.3">
+                     <seg xml:id="t.2.1.3.1">Ja pozostaję nadal Waszym najlepszym sługą, jak zawsze
+                        z serca, i oświadczam, że zawsze będę dbał, aby pisać do Waszej Wielmożności
+                        stąd i z <name type="place" ref="#IDPl726">Nowej Hiszpanii</name>, i z
+                        jeszcze dalszych okolic, jeżeli tam dotrę.</seg>
+                     <seg xml:id="t.2.1.3.2">Wasza Wielmożność będzie łaskawa odpłacić mi tą samą
+                        monetą.</seg>
+                     <seg xml:id="t.2.3.3.3">I niech będzie hojniejsza niż ja pisząc, w każdym razie
+                        teraz, ponieważ kiedy będę tam, gdzie jest o czym pisać, będę to czynił, a
+                        najwcześniej o trudzie, który mnie nie powstrzymuje od działania; stamtąd
+                        zawsze będzie o czym pisać.</seg>
+                     <seg xml:id="t.2.3.3.4">Kiedy Wasza Wielmożność do mnie napisze, niech prześle
+                        list do pana<name type="person" ref="#IDPe156">Hieronima</name> i do pana
+                           <name type="person" ref="#IDPe968">Henryka</name>, są oni bowiem tak
+                        uprzejmi, że przesyłają moje listy; tą też drogą wędruje ten list do rąk
+                        Waszej Wielmożności.</seg>
+                  </p>
+                  <p xml:id="t.2.1.4">
+                     <seg xml:id="t.2.1.4.1"> Niech Pan Bóg strzeże i sprzyja Najznakomitszej Osobie
+                        Waszej Wielmożności i Jej położeniu wedle Jej życzeń.</seg>
+                  </p>
 
-   <text xml:lang="es">
-      <front>
-         <div>
-            <p>
-               <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp82.jpg"/>
-               <seg type="address"> Al muy Magnifico Señor <name type="person" ref="#IDPe1">Johanes
-                     Dantiscus</name> enbajador de <name type="place" ref="#IDPl562">Polonia</name>
-                  en la corte del <rs type="person" ref="#IDPe30">enperador</rs> nuestro señor.
-               </seg>
-            </p>
-         </div>
-      </front>
-      <body>
-         <div>
-            <p>
-               <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp79.jpg"/>
-               <seg type="salutation"> Muy Magnifico Señor </seg>
-            </p>
-            <p>
-               <lb/>
-               <seg type="incipit"> No quisiera que <choice>
-                     <expan>V<ex>uestra</ex>
-                     </expan>
-                     <abbr>V.</abbr>
-                  </choice>
-                  <choice>
-                     <expan>S<ex>eñoria</ex>
-                     </expan>
-                     <abbr>S.</abbr>
-                  </choice> fuera el primero que co<lb/>mencara</seg> por mucho aunque lo pudiera
-               <lb/> aver hecho muy bien sin perjuyzio de <lb/>mi honrra por averse co<choice>
-                  <corr type="lemma">n</corr>
-                  <sic/>
-               </choice>fichado de alla <lb/>mensajero primero que de aca. Mas tan<lb/>bien digo que
-               no querria ganar tanta hon<lb/>rra que me dexase de escrivir porque se<lb/>ria muy
-               mayor el deseo de saber de <lb/>su muy magnifica persona y la perdi<lb/>da del
-               rregozijo de sus cartas y el <lb/>dolor de pensar que ya no se acuer<lb/>da de sus
-               seruvidores. Mas si <foreign xml:lang="la">amor est <lb/>doctor amoris</foreign>, yo
-               estoy desto satisfecho. </p>
-            <p>
-               <lb/>Yo estoy muy bueno ytem su servidor <pb
-                  facs="iiif:15929_000_IDL5772_BOss12034_IIIp80.jpg"/> como sienpre de mi corason y
-               pretesto que <lb/>sienpre terne este cuydado de escrivir <lb/>a <choice>
-                  <expan>V<ex>uestra</ex>
-                  </expan>
-                  <abbr>V.</abbr>
-               </choice>
-               <choice>
-                  <expan>S<ex>eñoria</ex>
-                  </expan>
-                  <abbr>S.</abbr>
-               </choice> desde aqui y desde la <name type="place" ref="#IDPl726">Nueva
-                  Es<lb/>paña</name> y de mas adelante si pasare. <choice>
-                  <expan>V<ex>uestra</ex>
-                  </expan>
-                  <abbr>V.</abbr>
-               </choice>
-               <lb/>
-               <choice>
-                  <expan>S<ex>eñoria</ex>
-                  </expan>
-                  <abbr>S.</abbr>
-               </choice> me haga merced de pagarme en la mis<lb/>ma moneda. Y sea mas largo que yo
-               escri<lb/>vo a lo menos agora porque quando este <lb/>donde aya que escrivir yo lo
-               hare y tan<lb/>to que antes de trabajo que no me rreprehenda <lb/>de acto y de alla
-               sienpre avra que escrivir. <lb/>Quando me escriviere venga dirigido <lb/>a miçer
-                  <name type="person" ref="#IDPe156">Geronimo</name> y a miçer <name type="person"
-                  ref="#IDPe968">Enrrique</name> por<lb/>que ellos por me fazer merced me
-               encamina<lb/>ran los despachos y asi va este por su mano.</p>
-            <p>
-               <lb/>Nuestro Señor guarde y prospere la muy magnifica <lb/>persona y esta<choice>
-                  <corr type="lemma">do</corr>
-                  <sic/>
-               </choice> de <choice>
-                  <expan>V<ex>uestra</ex>
-                  </expan>
-                  <abbr>V.</abbr>
-               </choice>
-               <choice>
-                  <expan>S<ex>eñoria</ex>
-                  </expan>
-                  <abbr>S.</abbr>
-               </choice> como desea. </p>
-            <closer>De <name type="place" ref="#IDPl45">Madrid</name>, <lb/>XI de setienbre. </closer>
-            <closer>
-               <salute>Servidor de a <choice>
-                     <expan>V<ex>uest</ex>ra</expan>
-                     <abbr>V.</abbr>
-                  </choice> Señoria <name type="person" ref="#IDPe437">Hernando Cortes</name>
-               </salute>
-            </closer>
-            <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp81.jpg"/>
-            <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp82.jpg"/>
-         </div>
-      </body>
+                  <closer xml:id="t.2.1.5">
+                     <seg xml:id="s.2.1.5.1">Z <name type="place" ref="#IDPl45">Madrytu</name>,
+                        <lb/>11 września. </seg>
+                        </closer>
+                  <closer xml:id="t.2.1.6">
+                     <seg xml:id="t.2.1.6.1">
+                        <salute>Sługa Waszej Wielmożności 
+                           <name type="person" ref="#IDPe437">Ferdynand Cortez</name>
+                        </salute>
+                     </seg>
+                  </closer>
+               </div>
+            </body>
+         </text>
+      </group>
    </text>
 </TEI>
