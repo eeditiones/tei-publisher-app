@@ -12,7 +12,7 @@
                 @apply --pb-download;
             }
         </style>
-        <a id="button" on-click="_handleClick" title="[[title]]" target="[[_target]]" href="[[_href]]"><slot></slot></a>
+        <a id="button" title="[[title]]" target="[[_target]]" href="[[_href]]"><slot></slot></a>
     </template>
 
     <script>
@@ -108,6 +108,8 @@
                         }
                     });
                 }
+                
+                this.$.button.addEventListener('click', this._handleClick.bind(this));
             }
 
             _computeTarget(source) {
@@ -142,7 +144,6 @@
              * @private
              */
             _handleClick(ev) {
-                ev.preventDefault();
                 if (this.dialog) {
                     const dialog = document.getElementById(this.dialog);
 
@@ -158,7 +159,10 @@
                         }
                     });
                 }
-                window.location = this._href;
+                if (this._target === '_self') {
+                    ev.preventDefault();
+                    window.location = this._href;
+                }
             }
         }
 
