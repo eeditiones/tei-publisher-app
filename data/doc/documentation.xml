@@ -545,7 +545,8 @@
           <filename>templates/pages</filename> collection of the TEI Publisher app. Each template assembles various building blocks in a slightly different way.
         While the <emphasis>Shakespeare</emphasis> example shows a facsimile view next to the text, <emphasis>Serafin's</emphasis> letter to <emphasis
           role="italic">Mikołaj Orlik</emphasis> features a parallel display of Latin transcription and Polish translation, and <emphasis>Graves'</emphasis>
-        letter includes a map and a sidebar with additional information on semantic items in the letter.</para>
+        letter includes a map and a sidebar with additional information on semantic items in the letter. Which template is being used is determined by a <link
+          linkend="pi-config">processing instruction</link> in the TEI sources of those examples.</para>
       <para>All those building blocks come as custom HTML elements, which are easy to write and modify. Each of them encapsulates a certain functionality and
         appearance. The map, the facsimile, but also the text view itself and all controls are custom HTML elements. They are like "Lego" blocks which can be
         freely moved around and rearranged without knowing anything about the internal logic or complexity of the component.</para>
@@ -665,6 +666,32 @@
         </variablelist>
       </section>
       <section>
+        <title>Communication between Components</title>
+        <para>To allow for maximum flexibility, nearly all of the TEI Publisher webcomponents communicate via events: this way there's no hard wiring and
+          components may appear anywhere on the page. For example, the controls for paginating through a document do not directly talk to the document view:
+          they just send an <emphasis>event</emphasis>, indicating the users' wish to navigate backward or forward. Components listening to this event may then
+          react to it by refreshing the text being displayed.</para>
+        <para>Since you can have multiple text views showing content from different sources, every event can be targetted at a specific
+            <emphasis>channel</emphasis>. This allows us to distinguish between different sources, e.g. two transcriptions being shown side by side. Most TEI
+          Publisher components therefore accept two properties to configure the channel they are listening or sending events to:</para>
+        <variablelist>
+          <varlistentry>
+            <term>subscribe</term>
+            <listitem>
+              <para>name of the channel to which this component subscribes to. It will only react to events coming in via this channel.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>emit</term>
+            <listitem>
+              <para>name of the channel to which this components sends events.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+        <para>If neither of these properties is given, the component will subscribe and emit to the global default channel. A component may also emit to a
+          different channel than it subscribes to, allowing chains of events.</para>
+      </section>
+      <section>
         <title>Page Templates</title>
         <para>Excluding the documentation, TEI Publisher currently includes 4 page templates, which combine the building blocks described above with
           off-the-shelf components to achieve a certain page layout and composition. If you look at the HTML code, you'll see a mix of
@@ -707,6 +734,24 @@
           </varlistentry>
         </variablelist>
       </section>
+    </section>
+    <section>
+      <title>Create your own Template</title>
+      <para>To create your own template, just open one of the existing templates in e.g. eXide (by clicking the links in the list above), save it under a
+        different name into the same collection (<filename>templates/pages</filename>) and reload the document view it should apply to. You can now switch to
+        your new template, either by</para>
+      <orderedlist>
+        <listitem>
+          <para>using the <guimenuitem>template</guimenuitem> dropdown in the settings panel</para>
+        </listitem>
+        <listitem>
+          <para>adding a parameter <parameter>template=mytemplate.html</parameter> to the URL showed by the browser</para>
+        </listitem>
+        <listitem>
+          <para>adding a <link linkend="pi-config">processing instruction</link> to a TEI document to make a specific template the default:</para>
+          <synopsis>&lt;?teipublisher template="translation.html" odd="dantiscus.odd" view="page"?></synopsis>
+        </listitem>
+      </orderedlist>
     </section>
   </section>
   <section>
