@@ -1195,7 +1195,28 @@
                   metadata.</para>
               </listitem>
             </varlistentry>
+            <varlistentry>
+              <term>webcomponent (TEI Publisher extension)</term>
+              <listitem>
+                <para>Outputs a custom HTML element (usually referencing a webcomponent) using the value of parameter <parameter>name</parameter> as tag name. All other parameters are copied into corresponding attributes (properties of the webcomponent).</para>
+                <informaltable>
+                  <thead>
+                    <tr>
+                      <td>Parameter</td>
+                      <td>Description</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>name</td>
+                      <td>the tag name to use for the custom element. Must be a string value.</td>
+                    </tr>
+                  </tbody>
+                </informaltable>
+              </listitem>
+            </varlistentry>
           </variablelist>
+          
         </section>
       </section>
       <section>
@@ -1235,10 +1256,12 @@
           <programlisting>&lt;elementSpec ident="*"&gt; &lt;model behaviour="omit"/&gt; &lt;/elementSpec&gt;</programlisting>
           <para>You can also define models to be applied to all text nodes, e.g. if you need to normalize certain nodes:</para>
           <programlisting xml:space="preserve">&lt;elementSpec ident="text()"&gt; &lt;
-  model behaviour="text"/&gt;
+  &lt;model behaviour="text"/&gt;
 &lt;/elementSpec&gt;</programlisting>
+          <para>Note that outputting text nodes is a performance critical operation, so use with care. Too complex processing will likely slow down
+            rendering dramatically.</para>
         </section>
-        <section>
+        <section xml:id="external-parameters">
           <title>External Parameters</title>
           <para>The script calling the processing model may pass external parameters into the ODD. They will be available in the variable
               <varname>$parameters</varname>, which is an XQuery map. Access parameters using the XQuery lookup operator.</para>
@@ -1256,6 +1279,15 @@
   &lt;/modelSequence&gt;
   ...
 &lt;/elementSpec&gt;</programlisting>
+          <para>The <tag>pb-view</tag> webcomponent also lets you define parameters to be passed to the ODD. For example, the breadcrumbs shown above this
+            documentation page are realized by setting a parameter <parameter>mode</parameter>:</para>
+          <programlisting>&lt;section class="breadcrumbs">
+    &lt;pb-view id="title-view1" src="document1" data-template="pages:pb-view" subscribe="transcription">
+        &lt;pb-param name="mode" value="breadcrumbs"/>
+    &lt;/pb-view>
+&lt;/section></programlisting>
+          <para>If the parameter is set, the processing model rules in the ODD will output the headings of all ancestor sections of the current division only,
+            ignoring everything else. This approach helps to reuse the same ODD for viewing specific aspects of the document.</para>
         </section>
         <section>
           <title>Define Additional CSS Classes</title>

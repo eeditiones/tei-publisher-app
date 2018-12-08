@@ -1,24 +1,6 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 <link rel="import" href="pb-mixin.html">
 
-<!--
-This is the main component for viewing text which has been transformed via an ODD.
-The document to be viewed is determined by the `pb-document` element the property
-`src` points to. `pb-view` can display an entire document or just a fragment of it
-as defined by the properties `xmlId`, `nodeId` or `xpath`.
-
-## CSS Mixins
-
-| Custom property | Description | Default|
-| ----------------|-------------|--------|
-|--pb-content-theme | Mixin applied to the content view | {}|
-|--pb-footnotes | Mixin for formatting footnotes | {}|
-|--pb-footnote-ref | Mixin for formatting footnote references | {}|
-|--pb-highlight-theme | Mixin applied to matches in the text when displaying search results | {}|
-
-@customElement
-@polymer
--->
 <dom-module id="pb-view">
     <template>
         <style>
@@ -94,6 +76,35 @@ as defined by the properties `xmlId`, `nodeId` or `xpath`.
 
     <script>
         /**
+         * This is the main component for viewing text which has been transformed via an ODD.
+         * The document to be viewed is determined by the `pb-document` element the property
+         * `src` points to. `pb-view` can display an entire document or just a fragment of it
+         * as defined by the properties `xmlId`, `nodeId` or `xpath`.
+         *
+         * You may also define optional parameters to be passed to the ODD in nested `pb-param`
+         * tags. These parameters can be accessed within the ODD via the `$parameters` map. For
+         * example, the following snippet is being used to output breadcrumbs above the main text
+         * in the documentation view:
+         *
+         * ```xml
+         * <section class="breadcrumbs">
+         *      <pb-view id="title-view1" src="document1" data-template="pages:pb-view" subscribe="transcription">
+         *          <pb-param name="mode" value="breadcrumbs"/>
+         *      </pb-view>
+         * </section>
+         * ```
+         *
+         * ## CSS Mixins
+         *
+         * | Custom property | Description | Default|
+         * | ----------------|-------------|--------|
+         * |--pb-content-theme | Mixin applied to the content view | {}|
+         * |--pb-footnotes | Mixin for formatting footnotes | {}|
+         * |--pb-footnote-ref | Mixin for formatting footnote references | {}|
+         * |--pb-highlight-theme | Mixin applied to matches in the text when displaying search results | {}|
+         *
+         * @customElement
+         * @polymer
          * @appliesMixin PbMixin
          * @demo demo/pb-view.html
          */
