@@ -1304,16 +1304,15 @@
       </section>
     </section>
     <section xml:id="pi-config">
-      <title>Configure the ODD via processing instructions</title>
-      <para>Sometimes you want to use a different ODD for a specific TEI document. Before displaying a document, TEI publisher will check if a processing
-        instruction exists at the start of the document, telling it which ODD to use (along with other configuration parameters). For example, the following
-        processing instruction associates the document with the <filename>dta.odd</filename> ODD and switches to a page-by-page display (along TEI page break
-        boundaries):</para>
+      <title>Configure Default Document View via Processing Instructions</title>
+      <para>The default view for a specific  document can be configured via a processing instruction. Before displaying a document, TEI publisher will check if
+        a processing instruction exists at the start of the document, telling it which ODD and view template to use (along with other configuration parameters).
+        For example, the following processing instruction associates the document with the view template <filename>translation.html</filename>, the ODD
+          <filename>dantiscus.odd</filename>, and switches to a page-by-page display (along TEI page break boundaries):</para>
 
-      <synopsis language="xml">&lt;?teipublisher view="page" odd="dta.odd"?&gt;</synopsis>
+      <synopsis language="xml">&lt;?teipublisher template="translation.html" odd="dantiscus.odd" view="page"?></synopsis>
 
-      <para>If your document does not have page breaks or you want to display entire divisions instead, there are two additional settings which control the
-        amount of content displayed at a time:</para>
+      <para>When viewing the document by structural divisions, two additional settings control the amount of content displayed at a time:</para>
       <synopsis>&lt;?teipublisher depth="2" fill="6" odd="dta.odd"&gt;</synopsis>
       <variablelist>
         <varlistentry>
@@ -1325,13 +1324,25 @@
         <varlistentry>
           <term>template</term>
           <listitem>
-            <para>The HTML template to use. Default is <code>view.html</code>.</para>
+            <para>The HTML view template to use. Default is <code>view.html</code> as configured in <filename>modules/config.xqm</filename>.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
           <term>view</term>
           <listitem>
-            <para>Default view to show when browsing the document. Supported values are <tag>div</tag> or <tag>page</tag>.</para>
+            <para>Default view to show when browsing the document. Supported values are <parameter>div</parameter>, <parameter>page</parameter> or <parameter>single</parameter>:</para>
+            <orderedlist>
+              <listitem>
+                <para><parameter>div</parameter>: displays one structural division (TEI div, docbook section …) at a time</para>
+              </listitem>
+              <listitem>
+                <para><parameter>page</parameter>: displays the document page by page. This requires page break indicators to be present (<tag>pb</tag> in
+                  TEI, not supported for docbook).</para>
+              </listitem>
+              <listitem>
+                <para><parameter>single</parameter>: the entire document (or a selected fragment of it) is displayed at once</para>
+              </listitem>
+            </orderedlist>
           </listitem>
         </varlistentry>
         <varlistentry>
