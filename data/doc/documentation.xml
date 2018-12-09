@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?teipublisher odd="docbook.odd" template="documentation.html" depth="2"?>
+<?teipublisher odd="docbook.odd" template="documentation.html" depth="3"?>
 <article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>TEI Publisher</title>
@@ -734,7 +734,6 @@
           </varlistentry>
         </variablelist>
       </section>
-    </section>
     <section>
       <title>Create your own Template</title>
       <para>To create your own template, just open one of the existing templates in e.g. eXide (by clicking the links in the list above), save it under a
@@ -752,6 +751,7 @@
           <synopsis>&lt;?teipublisher template="translation.html" odd="dantiscus.odd" view="page"?></synopsis>
         </listitem>
       </orderedlist>
+    </section>
     </section>
   </section>
   <section>

@@ -87,7 +87,14 @@ else if (matches($exist:path, "^.*/(resources|transform)/.*$")) then
     let $dir := replace($exist:path, "^.*/(resources|transform)/.*$", "$1")
     return
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-            <forward url="{$exist:controller}/{$dir}/{substring-after($exist:path, '/' || $dir || '/')}"/>
+            <forward url="{$exist:controller}/{$dir}/{substring-after($exist:path, '/' || $dir || '/')}">
+            {
+                if ($dir = "transform") then
+                    <set-header name="Cache-Control" value="no-cache"/>
+                else
+                    ()
+            }
+            </forward>
         </dispatch>
 
 else if (contains($exist:path, "/images/")) then
