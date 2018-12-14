@@ -7,8 +7,24 @@
             :host {
                 display: block;
             }
+
+            .toolbar {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .hidden {
+                display: none;
+            }
         </style>
 
+        <div class="toolbar">
+            <slot name="toolbar"></slot>
+            <paper-button id="delete" title="i18n(delete)" class$="[[_canModify(_allowModification)]]">
+                <iron-icon icon="delete"></iron-icon>
+                <span class="label"><i18n:text key="delete">Delete</i18n:text></span>
+            </paper-button>
+        </div>
         <div id="content"><slot></slot></div>
 
         <iron-ajax
@@ -49,17 +65,44 @@
 
             static get properties() {
                 return {
+                    /** Id of the pb-login element to connect to */
+                    login: {
+                        type: String
+                    },
+                    /**
+                     * If set, requires the logged in user to be member of
+                     * the given group.
+                     */
+                    group: {
+                        type: String
+                    },
                     _file: {
                         type: String
                     },
                     _selected: {
                         type: Array
+                    },
+                    _allowModification: {
+                        type: Boolean,
+                        value: false
                     }
                 };
             }
 
             connectedCallback() {
                 super.connectedCallback();
+
+                Polymer.RenderStatus.afterNextRender(this, () => {
+                    const login = document.getElementById(this.login);
+                    if (!login) {
+                        console.error('<pb-restricted> connected pb-login element not found!');
+                        return;
+                    }
+                    this.subscribeTo('pb-login', (ev) => {
+                        this._allowModification = this._loggedIn(ev.detail.user, ev.detail.group);
+                    });
+                    this._allowModification = login.loggedIn && this._loggedIn(login.user, login.groups);
+                });
             }
 
             /**
@@ -85,19 +128,15 @@
 
 
             _onLoad(content) {
-                content.querySelectorAll('.delete').forEach((elem) => {
-                    elem.addEventListener('click', this._handleDelete.bind(this));
-                });
+                this.$.delete.addEventListener('click', this._handleDelete.bind(this));
             }
 
-            _handleDelete(ev) {
+            _handleDelete(target, ev) {
                 const selected = this.getSelected();
-                if (selected.length === 0) {
-                    this._file = ev.target.getAttribute('data-path').toString();
-                } else {
+                if (selected.length > 0) {
                     this._selected = selected;
+                    this.$.deleteDialog.open();
                 }
-                this.$.deleteDialog.open();
             }
 
             _hasMultipleSelected(_file, _selected) {
@@ -129,6 +168,22 @@
                 this.load(params);
             }
 
+            _loggedIn(user, groups) {
+                if (user == null) {
+                    return false;
+                }
+                if (this.group) {
+                    if (!groups) {
+                        return false;
+                    }
+                    return groups.indexOf(this.group) > -1;
+                }
+                return true;
+            }
+
+            _canModify(allowModification) {
+                return allowModification ? '' : 'hidden';
+            }
         }
 
         window.customElements.define(PbBrowseDocs.is, PbBrowseDocs);

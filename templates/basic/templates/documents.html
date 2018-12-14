@@ -49,10 +49,12 @@
                                 </paper-item>
                             </paper-listbox>
                         </paper-menu-button>
-                        <paper-button class="delete" title="i18n(delete)" data-template="pages:parse-params" data-path="${ident}">
-                            <iron-icon icon="delete"></iron-icon>
-                            <i18n:text key="delete">Delete</i18n:text>
-                        </paper-button>
+                        <pb-restricted login="login">
+                            <paper-button class="delete" title="i18n(delete)" data-template="pages:parse-params" data-path="${ident}">
+                                <iron-icon icon="delete"></iron-icon>
+                                <i18n:text key="delete">Delete</i18n:text>
+                            </paper-button>
+                        </pb-restricted>
                     </app-toolbar>
                 </div>
             </li>
