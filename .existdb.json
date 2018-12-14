@@ -8,8 +8,10 @@
     },
     "sync": {
         "server": "localhost",
+        "user": "tei",
+        "password": "simple",
         "root": "/db/apps/tei-publisher",
-        "active": false,
+        "active": true,
         "ignore": [
             ".existdb.json",
             ".git/**",
