@@ -569,10 +569,16 @@
     &lt;pb-view id="view2" src="document2"&gt;&lt;/pb-view&gt;
 &lt;/main&gt;</programlisting>
         <para>
-          <tag>pb-document</tag> and <tag>pb-view</tag> are two webcomponents provided by TEI Publisher, while <tag>main</tag> is a standard HTML5 tag. The
+          <tag>pb-document</tag> and <tag>pb-view</tag> are two web components provided by TEI Publisher, while <tag>main</tag> is a standard HTML5 tag. The
           custom element of a webcomponent <emphasis role="bold">must</emphasis> start with a prefix to distinguish it from standard HTML. This concept should
           be familiar to XML people. For TEI Publisher components, the prefix is always <code>pb-</code>. Components from other sources will use different
           prefixes, e.g. <code>paper-</code> and <code>iron-</code> for the Polymer collection.</para>
+        <note>
+          <title>Caveat</title>
+          <para>Some properties of pb-view and other components are boolean properties. In HTML5 this corresponds to an attribute without value, which is
+            illegal in XML. If you want to preserve valid XML, just write the attribute with the same name and value, e.g.
+              <code>append-footnotes="append-footnotes"</code>.</para>
+        </note>
         <para>
           <tag>pb-document</tag> states some metadata about a document source, which can then be referenced by id from other components. In the example above,
           we define three properties for each document:</para>
