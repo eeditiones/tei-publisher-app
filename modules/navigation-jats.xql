@@ -44,6 +44,16 @@ declare function nav:get-document-metadata($config as map(*), $root as element()
     }
 };
 
+declare function nav:get-metadata($config as map(*), $root as element(), $field as xs:string) {
+    switch ($field)
+        case "title" return
+            nav:get-document-title($config, $root)
+        case "language" return
+            ($root/@xml:lang/string(), "en")[1]
+        default return
+            ()
+};
+
 declare function nav:get-content($config as map(*), $div as element()) {
     typeswitch($div)
         case element(sec) return
@@ -121,6 +131,6 @@ declare %private function nav:get-previous-recursive($config as map(*), $div as 
             $div
 };
 
-declare function nav:index($root) {
+declare function nav:index($config as map(*), $root) {
     ()
 };

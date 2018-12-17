@@ -19,6 +19,13 @@
         </style>
 
         <div class="toolbar">
+            <paper-dropdown-menu id="sort" label="[[sortLabel]]">
+                <paper-listbox selected="{{sortBy}}" slot="dropdown-content" class="dropdown-content" attr-for-selected="value">
+                    <template id="repeat" is="dom-repeat" items="[[sortOptions]]">
+                        <paper-item value="[[item.value]]">[[item.label]]</paper-item>
+                    </template>
+                </paper-listbox>
+            </paper-dropdown-menu>
             <slot name="toolbar"></slot>
             <paper-button id="delete" title="i18n(delete)" class$="[[_canModify(_allowModification)]]">
                 <iron-icon icon="delete"></iron-icon>
@@ -65,6 +72,25 @@
 
             static get properties() {
                 return {
+                    sortBy: {
+                        type: String,
+                        value: 'default',
+                        reflectToAttribute: true,
+                        observer: '_sort'
+                    },
+                    sortOptions: {
+                        type: Array,
+                        value: [
+                            {
+                                label: 'Modification Date',
+                                value: 'default'
+                            }
+                        ]
+                    },
+                    sortLabel: {
+                        type: String,
+                        value: 'Sort'
+                    },
                     /** Id of the pb-login element to connect to */
                     login: {
                         type: String
@@ -89,6 +115,14 @@
                 };
             }
 
+            constructor() {
+                super();
+                const sortParam = this.getParameter('sort');
+                if (sortParam) {
+                    this.sortBy = sortParam;
+                }
+            }
+
             connectedCallback() {
                 super.connectedCallback();
 
@@ -103,6 +137,11 @@
                     });
                     this._allowModification = login.loggedIn && this._loggedIn(login.user, login.groups);
                 });
+            }
+
+            getParameters(params) {
+                params.sort = this.sortBy;
+                return params;
             }
 
             /**
@@ -126,6 +165,15 @@
                 return selected;
             }
 
+            _sort(newValue, oldValue) {
+                if (typeof oldValue == 'undefined' || typeof newValue == 'undefined') {
+                    return;
+                }
+                this.setParameter('sort', newValue);
+                this.pushHistory('sorting', {sort: newValue});
+
+                this.load();
+            }
 
             _onLoad(content) {
                 this.$.delete.addEventListener('click', this._handleDelete.bind(this));

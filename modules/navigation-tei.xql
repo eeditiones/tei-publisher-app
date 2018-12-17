@@ -49,17 +49,26 @@ declare function nav:get-section($config as map(*), $doc) {
 };
 
 declare function nav:get-document-title($config as map(*), $root as element()) {
-    let $main-title := $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'main']/string()
-    return
-        if ($main-title) then $main-title else $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/string()
+    nav:get-metadata($config, $root, "title")
 };
 
-declare function nav:get-document-metadata($config as map(*), $root as element()) {
-    map {
-        "title": nav:get-document-title($config, $root),
-        "author": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:author/string(),
-        "language": ($root/@xml:lang/string(), $root/tei:teiHeader/@xml:lang/string(), "en")[1]
-    }
+declare function nav:get-metadata($config as map(*), $root as element(), $field as xs:string) {
+    switch ($field)
+        case "title" return
+            let $header := $root/tei:teiHeader
+            return
+            (
+                $header//tei:msDesc/tei:head, $header//tei:titleStmt/tei:title[@type = 'main'],
+                $header//tei:titleStmt/tei:title
+            )[1]
+        case "author" return (
+            $root/tei:teiHeader//tei:titleStmt/tei:author,
+            $root/tei:teiHeader//tei:correspDesc/tei:correspAction/tei:persName
+        )
+        case "language" return
+            ($root/@xml:lang/string(), $root/tei:teiHeader/@xml:lang/string(), "en")[1]
+        default return
+            ()
 };
 
 declare function nav:get-content($config as map(*), $div as element()) {
@@ -194,23 +203,20 @@ declare function nav:milestone-chunk($ms1 as element(), $ms2 as element()?, $nod
             else ()
 };
 
-declare function nav:index($root) {
-    let $header := root($root)//tei:teiHeader
-    let $titleStmt := ($header//tei:msDesc/tei:head, $header//tei:titleStmt/tei:title)[1]
-    return
-        <doc>
-            {
-                for $title in $titleStmt/tei:title
-                return
-                    <field name="title" store="yes">{replace(string-join($title//text(), " "), "^\s*(.*)$", "$1", "m")}</field>
-            }
-            {
-                for $author in $titleStmt/tei:author
-                let $normalized := replace($author/string(), "^([^,]*,[^,]*),?.*$", "$1")
-                return
-                    <field name="author" store="yes">{$normalized}</field>
-            }
-            <field name="year" store="yes">{root($root)//tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:edition/tei:date/text()}</field>
-            <field name="file" store="yes">{substring-before(util:document-name($root), ".xml")}</field>
-        </doc>
+declare function nav:index($config as map(*), $root) {
+    <doc>
+        {
+            for $title in nav:get-document-title($config, $root)
+            return
+                <field name="title" store="yes">{replace(string-join($title//text(), " "), "^\s*(.*)$", "$1", "m")}</field>
+        }
+        {
+            for $author in nav:get-metadata($config, $root, "author")
+            let $normalized := replace($author/string(), "^([^,]*,[^,]*),?.*$", "$1")
+            return
+                <field name="author" store="yes">{$normalized}</field>
+        }
+        <field name="year" store="yes">{root($root)//tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:edition/tei:date/text()}</field>
+        <field name="file" store="yes">{substring-before(util:document-name($root), ".xml")}</field>
+    </doc>
 };

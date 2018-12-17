@@ -39,12 +39,16 @@ declare function nav:get-document-title($config as map(*), $root as element()) {
     $root/dbk:info/dbk:title/string()
 };
 
-declare function nav:get-document-metadata($config as map(*), $root as element()) {
-    map {
-        "title": nav:get-document-title($config, $root),
-        "author": $root/dbk:info/dbk:author/string(),
-        "language": ($root/@xml:lang/string(), "en")[1]
-    }
+declare function nav:get-metadata($config as map(*), $root as element(), $field as xs:string) {
+    switch ($field)
+        case "title" return
+            nav:get-document-title($config, $root)
+        case "author" return
+            $root/dbk:info/dbk:author/string()
+        case "language" return
+            ($root/@xml:lang/string(), "en")[1]
+        default return
+            ()
 };
 
 declare function nav:get-content($config as map(*), $div as element()) {
@@ -124,7 +128,7 @@ declare %private function nav:get-previous-recursive($config as map(*), $div as 
             $div
 };
 
-declare function nav:index($root) {
+declare function nav:index($config as map(*), $root) {
     let $header := root($root)/*/dbk:info
     return
         <doc>

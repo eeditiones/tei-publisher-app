@@ -61,4 +61,5 @@
     <msg key="odd-build-title">ODD aus ausgewählten Beispielen oder gesamtem Bestand erstellen</msg>
     <msg key="new-odd-name">Dateiname des ODD</msg>
     <msg key="new-odd-title">Titel zur Anzeige</msg>
+    <msg key="sort-by">Sortierung</msg>
 </catalogue>

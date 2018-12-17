@@ -75,31 +75,27 @@ declare function app:current-user($node as node(), $model as map(*)) {
 declare
     %templates:wrap
 function app:sort($items as element()*, $sortBy as xs:string?) {
-    console:log("sort by " || $sortBy),
-    switch ($sortBy)
-        case "title" return
-            for $item in
-                if (count($config:data-exclude) = 1) then
-                    $items[not(matches(util:collection-name(.), $config:data-exclude))]
+    let $items :=
+        if (count($config:data-exclude) = 1) then
+            $items[not(matches(util:collection-name(.), $config:data-exclude))]
+        else
+            $items
+    return
+        if ($sortBy) then
+            for $item in $items
+            let $field := ft:get-field(document-uri(root($item)), $sortBy)
+            let $content :=
+                if (exists($field)) then
+                    $field
                 else
-                    $items
-            let $titleFromIndex := ft:get-field(document-uri(root($item)), "title")
-            let $title :=
-                if (exists($titleFromIndex)) then
-                    $titleFromIndex
-                else
-                    let $header := root($item)//tei:teiHeader
-                    let $title := ($header//tei:msDesc/tei:head, $header//tei:titleStmt/tei:title)[1]
+                    let $data := nav:get-metadata(map { "type": nav:document-type($item) }, $item, $sortBy)
                     return
-                        replace(string-join($title//text(), " "), "^\s*(.*)$", "$1", "m")
-            order by $title
+                        replace(string-join($data//text(), " "), "^\s*(.*)$", "$1", "m")
+            order by $content
             return
                 $item
-        default return
-            if (count($config:data-exclude) = 1) then
-                $items[not(matches(util:collection-name(.), $config:data-exclude))]
-            else
-                $items
+        else
+            $items
 };
 
 

@@ -166,6 +166,9 @@
                 if (this.start && !params.start) {
                     params.start = this.start;
                 }
+
+                params = this.getParameters(params);
+
                 console.log("<pb-load> Loading %s with parameters %o", this.url, params);
                 this.$.loadContent.params = params;
                 this.$.loadContent.url = url;
@@ -174,6 +177,16 @@
                 if (this.loadOnce) {
                     this.loaded = true;
                 }
+            }
+
+            /**
+             * Allow subclasses to set parameters before the request is being sent.
+             *
+             * @param parameters Map of parameters
+             * @return new or modified parameters map
+             */
+            getParameters(params) {
+                return params;
             }
 
             _handleContent(ev) {

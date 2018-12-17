@@ -54,12 +54,12 @@ declare function nav:get-section($config as map(*), $doc as node()) {
     nav:dispatch($config, "get-section", [$config, $doc])
 };
 
-declare function nav:get-document-title($config as map(*), $root as element()) {
-    nav:dispatch($config, "get-document-title", [$config, $root])
+declare function nav:get-metadata($config as map(*), $root as element(), $field as xs:string) {
+    nav:dispatch($config, "get-metadata", [$config, $root, $field])
 };
 
-declare function nav:get-document-metadata($config as map(*), $root as element()) {
-    nav:dispatch($config, "get-document-metadata", [$config, $root])
+declare function nav:get-document-title($config as map(*), $root as element()) {
+    nav:dispatch($config, "get-document-title", [$config, $root])
 };
 
 declare function nav:get-subsections($config as map(*), $root as node()) {
@@ -100,5 +100,5 @@ declare function nav:output-footnotes($footnotes as element()*) {
 };
 
 declare function nav:index($config as map(*), $root) {
-    nav:dispatch($config, "index", [$root])
+    nav:dispatch($config, "index", [$config, $root])
 };

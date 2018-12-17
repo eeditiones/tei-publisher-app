@@ -33,7 +33,7 @@
     <msg key="browse-author">Autor</msg>
     <msg key="browse-title">Tytuł</msg>
     <msg key="browse-filename">Nazwa pliku</msg>
-    <msg key="browsing">Przeglądanie</msg>
+    <msg key="browsing">Wyniki</msg>
     <msg key="login-message">Proszę się zalogować aby przesłać nowe dokumenty!</msg>
     <msg key="contents">Treść</msg>
     <msg key="previous-page">Poprzednia strona [strzałka w lewo na klawiaturze]</msg>
@@ -59,4 +59,5 @@
     <msg key="odd-build-title">Utwórz ODD na podstawie próbki dokumentów TEI documents lub całego korpusu</msg>
     <msg key="new-odd-name">Nazwa nowego pliku ODD</msg>
     <msg key="new-odd-title">Etykieta do wyświetlania</msg>
+    <msg key="sort-by">Sortuj</msg>
 </catalogue>
