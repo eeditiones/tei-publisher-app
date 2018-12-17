@@ -119,6 +119,7 @@
 
                 aside .upload {
                     margin-top: 20px;
+                    width: 100%;
                 }
 
                 .documents ul {
@@ -307,11 +308,13 @@
                                         <pb-manage-odds id="manage-odds" target="document-loader" login="login"></pb-manage-odds>
                                     </div>
                                 </paper-card>
-                                <paper-card class="upload" heading="i18n(upload)">
-                                    <div class="card-content">
-                                        <pb-upload id="upload" target="test"></pb-upload>
-                                    </div>
-                                </paper-card>
+                                <pb-restricted login="login">
+                                    <paper-card class="upload" heading="i18n(upload)">
+                                        <div class="card-content">
+                                            <pb-upload id="upload" target="test"></pb-upload>
+                                        </div>
+                                    </paper-card>
+                                </pb-restricted>
                             </aside>
                         </section>
                     </main>
