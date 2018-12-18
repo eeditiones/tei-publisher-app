@@ -283,6 +283,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         else
             '\$config:app-root || "/' || $dataRoot || '"'
     let $replacements := map {
+        "^(.*\$config:default-template :=).*;$": '"' || $json?template || '"',
         "^(.*\$config:default-view :=).*;$": '"' || $json?default-view || '"',
         "^(.*\$config:search-default :=).*;$": '"' || $json?index || '"',
         "^(.*\$config:data-root\s*:=).*;$": $dataRoot,

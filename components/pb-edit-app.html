@@ -58,6 +58,16 @@
                 <paper-input name="title" required placeholder="Title of the app"
                     label="Title of the app which will be shown e.g. in the dashboard"></paper-input>
                 <fieldset>
+                    <legend>Choose the HTML template to be used as default</legend>
+                    <paper-dropdown-menu id="template" label="HTML Template" name="template">
+                        <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" selected="view.html">
+                            <template is="dom-repeat" items="[[templates]]">
+                                <paper-item value$="[[item.name]]">[[item.title]]</paper-item>
+                            </template>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+                </fieldset>
+                <fieldset>
                     <legend>Choose what is shown by default when browsing text: a single page
                     or an entire division. Display by page requires that the TEI is properly marked up
                     with &lt;tei:pb&gt; tags.</legend>
@@ -106,6 +116,10 @@
                 <paper-button dialog-dismiss autofocus>Close</paper-button>
             </div>
         </paper-dialog>
+
+        <iron-ajax id="getTemplates" url="modules/lib/components-list-templates.xql"
+            handle-as="json" on-response="_handleTemplatesResponse"
+            method="GET" auto></iron-ajax>
     </template>
 
     <script>
@@ -129,6 +143,9 @@
                     },
                     url: {
                         type: String
+                    },
+                    templates: {
+                        type: Array
                     }
                 };
             }
@@ -146,6 +163,7 @@
                     const index = self.$.index.selectedItem.getAttribute('value');
                     this.request.body['index'] = index;
                     this.request.body['odd'] = self.$.odd.odd;
+                    this.request.body['template'] = self.$.template.selectedItem.getAttribute('value');
                 });
                 this.$.form.addEventListener('iron-form-response', (event) =>
                     event.detail.completes.then((r) => {
@@ -170,6 +188,10 @@
             _doSubmit() {
                 this.emitTo('pb-start-update');
                 this.$.form.submit();
+            }
+
+            _handleTemplatesResponse() {
+                this.templates = this.$.getTemplates.lastResponse;
             }
         }
 
