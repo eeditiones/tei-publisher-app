@@ -72,15 +72,10 @@ declare function deploy:expand-ant($nodes as node()*, $json as map(*)) {
     return
         typeswitch($node)
             case element(project) return
-                <project name="{$json?abbr}">
+                <project name="{$json?abbrev}">
                     { $node/@* except $node/@name }
                     { deploy:expand-ant($node/node(), $json) }
                 </project>
-            case element(property) return
-                if ($node/@name = "project.app") then
-                    <property name="project.app" value="{$json?abbr}"/>
-                else
-                    $node
             case element() return
                 element { node-name($node) } {
                     $node/@*,
