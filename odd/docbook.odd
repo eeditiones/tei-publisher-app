@@ -286,6 +286,12 @@
                     <model behaviour="figure" cssClass="figure"/>
                 </elementSpec>
                 <elementSpec ident="imagedata">
+                    <model output="latex" behaviour="graphic">
+            <param name="url" value="@fileref"/>
+            <outputRendition xml:space="preserve">
+            max-width: 100%;
+            </outputRendition>
+        </model>
                     <model behaviour="graphic">
             <param name="url" value="@fileref"/>
             <param name="width" value="@width"/>

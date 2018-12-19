@@ -313,7 +313,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             latex:figure($config, ., ("tei-informalfigure2", "figure"), ., ())
                     case element(imagedata) return
-                        latex:graphic($config, ., ("tei-imagedata"), ., @fileref, @width, (), (), ())
+                        latex:graphic($config, ., ("tei-imagedata1"), ., @fileref, (), (), (), ())
                     case element(itemizedlist) return
                         latex:list($config, ., ("tei-itemizedlist"), listitem)
                     case element(listitem) return

@@ -181,7 +181,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             fo:figure($config, ., ("tei-informalfigure2", "figure"), ., ())
                     case element(imagedata) return
-                        fo:graphic($config, ., ("tei-imagedata"), ., @fileref, @width, (), (), ())
+                        fo:graphic($config, ., ("tei-imagedata2"), ., @fileref, @width, (), (), ())
                     case element(itemizedlist) return
                         fo:list($config, ., ("tei-itemizedlist"), listitem)
                     case element(listitem) return

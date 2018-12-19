@@ -62,7 +62,8 @@ dt {
 .tei-title3:before { content: ' > '; color: #607d8b; }
 .tei-emphasis1 { font-weight: bold; }
 .tei-emphasis2 { font-style: italic; }
-.tei-imagedata { max-width: 100%; }
+.tei-imagedata1 { max-width: 100%; }
+.tei-imagedata2 { max-width: 100%; }
 .tei-td1 { font-weight: bold; }
 .tei-programlisting1 { font-family: monospace; margin: 1em 0 1em .5em; padding: 1em 0 1em .5em; white-space: pre-wrap; }
 .tei-synopsis1 { font-family: monospace; margin: 1em 0 1em .5em; padding: 1em 0 1em .5em; white-space: pre-wrap; }
