@@ -214,6 +214,7 @@
             pb-drawer {
                 top: 128px;
                 background-color: #F0F0F0;
+                overflow: scroll;
             }
 
             .tocDrawer {
@@ -227,11 +228,25 @@
             }
 
             #toc ul ul {
-                margin-left: 20px;
+                margin-left: 28px;
             }
 
             #toc li {
                 margin-bottom: .5em;
+            }
+
+            #toc li:first-child {
+                margin-top: .5em;
+            }
+
+            #toc li > pb-link {
+                margin-left: 28px;
+                display: block;
+            }
+
+            #toc [slot=collapse-trigger] pb-link {
+                margin-left: 0px;
+                display: inline;
             }
         </style>
     </template>
