@@ -1,4 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-mixin.html">
 
 <dom-module id="seed-element">
     <template>
@@ -18,9 +19,10 @@
          *
          * @customElement
          * @polymer
-         * @demo demo/index.html
+         * @demo demo/seed-element.html
+         * @appliesMixin PbMixin
          */
-        class SeedElement extends Polymer.Element {
+        class SeedElement extends PbMixin(Polymer.Element) {
             static get is() {
                 return 'seed-element';
             }
