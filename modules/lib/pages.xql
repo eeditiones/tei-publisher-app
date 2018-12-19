@@ -88,18 +88,6 @@ declare function pages:pb-view($node as node(), $model as map(*), $root as xs:st
     }
 };
 
-declare function pages:pb-select-template($node as node(), $model as map(*), $template as xs:string?) {
-    <pb-select-template template="{$template}">
-    {
-        $node/@*,
-        for $html in collection($config:app-root || "/templates/pages")/*
-        let $description := $html//meta[@name="description"]/@content/string()
-        return
-            <paper-item value="{util:document-name($html)}">{($description, util:document-name($html))[1]}</paper-item>
-        }
-    </pb-select-template>
-};
-
 
 declare function pages:current-language($node as node(), $model as map(*), $lang as xs:string?) {
     let $selected := count($node/*[. = $lang]/preceding-sibling::*)
@@ -489,7 +477,7 @@ declare function pages:navigation-link($node as node(), $model as map(*), $direc
                     data-doc="{$doc}">{$node/@class, $node/node()}</a>
 };
 
-declare function pages:app-root($node as node(), $model as map(*)) {
+declare function pages:pb-page($node as node(), $model as map(*), $template as xs:string?) {
     let $model := map:merge(
         (
             $model,
@@ -499,7 +487,8 @@ declare function pages:app-root($node as node(), $model as map(*)) {
     return
         element { node-name($node) } {
             $node/@*,
-            attribute data-app { request:get-context-path() || substring-after($config:app-root, "/db") },
+            attribute app-root { request:get-context-path() || substring-after($config:app-root, "/db") },
+            attribute template { $template },
             templates:process($node/*, $model)
         }
 };

@@ -13,8 +13,8 @@
         </author>
         <pubdate>2018-10-25</pubdate>
         <abstract>
-            <para>Since a while we planned to set up a blog to publish news and articles about TEI Publisher. 
-                Instead of using one of the well-known software packages, we decided to go with the technologies 
+            <para>Since a while we planned to set up a blog to publish news and articles about TEI Publisher.
+                Instead of using one of the well-known software packages, we decided to go with the technologies
                 TEI Publisher 4.0 provides.</para>
         </abstract>
     </info>
@@ -22,7 +22,7 @@
         <title>Docbook instead of TEI</title>
         <para>Articles are written in Docbook 5 and transformed to HTML via <link xlink:href="https://gitlab.existsolutions.com/tei-publisher/tei-publisher-app/blob/master/odd/docbook.odd">docbook.odd</link>, which is
             also used for the TEI Publisher documentation. While we could have used TEI, embedding source code or media
-            feels easier in docbook, which has dedicated elements for those purposes. We also wanted to show that the 
+            feels easier in docbook, which has dedicated elements for those purposes. We also wanted to show that the
             TEI Processing Model is a universal technology and should not be limited to TEI!</para>
     </section>
     <section>
@@ -44,7 +44,7 @@
         </orderedlist>
         <para>The only custom code I had to write for the page you are reading is a small XQuery script to retrieve the list
             of blog articles and order them by publication date. All the rest of the page is based on standard components
-            which will be part of TEI Publisher 4.0. To wet your appetite, the HTML producing the body of this page looks like 
+            which will be part of TEI Publisher 4.0. To wet your appetite, the HTML producing the body of this page looks like
             this:</para>
         <programlisting language="xml"><![CDATA[<main class="content-body">
     <aside>
@@ -54,7 +54,7 @@
         <div class="summary"></div>
     </aside>
     <div class="content">
-        <pb-view id="view1" src="document1" data-template="pages:pb-view" view="single" subscribe="transcription"
+        <pb-view id="view1" src="document1" view="single" subscribe="transcription"
             emit="transcription"
             history="history" append-footnotes="append-footnotes" odd="docbook"/>
     </div>

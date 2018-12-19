@@ -15,9 +15,15 @@
 
         <paper-dropdown-menu id="menu" label="[[label]]" name="[[name]]">
             <paper-listbox slot="dropdown-content" class="dropdown-content" selected="{{template}}" attr-for-selected="value">
-                <slot></slot>
+                <template is="dom-repeat" items="[[_templates]]">
+                    <paper-item value$="[[item.name]]">[[item.title]]</paper-item>
+                </template>
             </paper-listbox>
         </paper-dropdown-menu>
+
+        <iron-ajax id="getTemplates" url="modules/lib/components-list-templates.xql"
+            handle-as="json" on-response="_handleTemplatesResponse"
+            method="GET" auto></iron-ajax>
     </template>
 
     <script>
@@ -49,12 +55,20 @@
                     template: {
                         type: String,
                         observer: '_selected'
+                    },
+                    _templates: {
+                        type: Array
                     }
                 };
             }
 
             connectedCallback() {
-                super.connectedCallback() ;
+                super.connectedCallback();
+
+                const page = document.querySelector('pb-page');
+                if (page) {
+                    this.template = page.template;
+                }
             }
 
             ready() {
@@ -66,6 +80,10 @@
                     this.setParameter('template', newTemplate);
                     window.location = this.getUrl().toString();
                 }
+            }
+
+            _handleTemplatesResponse() {
+                this._templates = this.$.getTemplates.lastResponse;
             }
         }
 

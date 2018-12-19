@@ -1312,7 +1312,7 @@
         <para>The <tag>pb-view</tag> webcomponent also lets you define parameters to be passed to the ODD. For example, the breadcrumbs shown above this
           documentation page are realized by setting a parameter <parameter>mode</parameter>:</para>
         <programlisting>&lt;section class="breadcrumbs"&gt;
-    &lt;pb-view id="title-view1" src="document1" data-template="pages:pb-view" subscribe="transcription"&gt;
+    &lt;pb-view id="title-view1" src="document1" subscribe="transcription"&gt;
         &lt;pb-param name="mode" value="breadcrumbs"/&gt;
     &lt;/pb-view&gt;
 &lt;/section&gt;</programlisting>
@@ -1369,7 +1369,7 @@
             Within the ODD, a <tag>model</tag> may define a <tag>pb:template</tag> element containing a code template. The template is
             expanded first and the result is passed into the behaviour specified for the model, replacing the default <parameter>content</parameter>
             parameter accepted by all behaviours. The very simple case of outputting a <tag>persName</tag> in LaTeX could thus be written as:</para>
-          
+
           <programlisting language="xml" xml:space="preserve"><![CDATA[<elementSpec ident="persName" mode="add">
     <model behaviour="inline" output="latex">
         <pb:template>\persName{[[content]]}</pb:template>
@@ -1416,7 +1416,7 @@
           in the page. We can achieve this with a <tag>pb:template</tag> as sketched in the previous section, but it would be nice to
           turn this into a general-purpose behaviour, which we can re-use in other situations requiring an iframe. The TEI Publisher
           library allows us to define a behaviour right inside the ODD as follows:</para>
-        
+
         <programlisting xml:space="preserve"><![CDATA[<pb:behaviour ident="iframe" output="web">
     <pb:param name="src"/>
     <pb:param name="width"/>
@@ -1425,7 +1425,7 @@
         <iframe src="[[src]]" width="[[width]]" height="[[height]]" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"></iframe>
     </pb:template>
 </pb:behaviour>]]></programlisting>
-        
+
         <note>
           <para>Note how we have to reset the namespace on the <tag>pb:template</tag>? This is required because the default
             namespace in an ODD document is the TEI namespace. You thus need to reset it whenever you want to output elements
@@ -1457,7 +1457,7 @@
         </note>
       </section>
     </section>
-    
+
     <section xml:id="odd-by-example">
       <title>Building a Sample-Based ODD</title>
       <para>If you do not want to start a customized ODD from a blank template, you can alternatively generate one that covers the classes and elements of a

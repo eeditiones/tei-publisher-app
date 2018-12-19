@@ -137,7 +137,11 @@
 
                 this.emitTo('pb-start-update');
 
-                const appRoot = document.documentElement.getAttribute('data-app');
+                const page = document.querySelector('pb-page');
+                let appRoot;
+                if (page) {
+                    appRoot = page.appRoot;
+                }
                 let url;
                 if (appRoot) {
                     url = [appRoot, this.url].join('/');

@@ -88,7 +88,7 @@
          *
          * ```xml
          * <section class="breadcrumbs">
-         *      <pb-view id="title-view1" src="document1" data-template="pages:pb-view" subscribe="transcription">
+         *      <pb-view id="title-view1" src="document1" subscribe="transcription">
          *          <pb-param name="mode" value="breadcrumbs"/>
          *      </pb-view>
          * </section>
@@ -216,7 +216,8 @@
                      */
                     highlight: {
                         type: Boolean,
-                        value: false
+                        value: false,
+                        reflectToAttribute: true
                     },
                     /**
                      * CSS selector to find column breaks in the content returned
@@ -245,6 +246,20 @@
 
             constructor() {
                 super();
+                const id = this.getParameter('id');
+                if (id && !this.xmlId) {
+                    this.xmlId = id;
+                }
+
+                const nodeId = this.getParameter('root');
+                if (nodeId && !this.nodeId) {
+                    this.nonodeId = nodeId;
+                }
+
+                const action = this.getParameter('action');
+                if (action && action === 'search') {
+                    this.highlight = true;
+                }
             }
 
             connectedCallback() {

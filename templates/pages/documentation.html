@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="pages:app-root">
+<html xmlns:i18n="http://exist-db.org/xquery/i18n">
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
@@ -88,7 +88,7 @@
     </head>
 
     <body unresolved="unresolved" data-template="i18n:translate" data-catalogues="resources/i18n">
-        <pb-page>
+        <pb-page data-template="pages:pb-page">
             <pb-document id="document1" data-template="pages:pb-document"/>
             <app-drawer-layout force-narrow="force-narrow">
                 <app-drawer data-template="templates:include" data-template-path="templates/drawer.html"/>
@@ -109,7 +109,7 @@
                     </pb-drawer>
 
                     <section class="breadcrumbs">
-                        <pb-view id="title-view1" src="document1" data-template="pages:pb-view" subscribe="transcription">
+                        <pb-view id="title-view1" src="document1" subscribe="transcription">
                             <pb-param name="mode" value="breadcrumbs"/>
                         </pb-view>
                     </section>
@@ -119,7 +119,7 @@
                             subscribe="transcription">
                             <paper-fab icon="icons:chevron-left"/>
                         </pb-navigation>
-                        <pb-view id="view1" src="document1" data-template="pages:pb-view"
+                        <pb-view id="view1" src="document1"
                             column-separator=".tei-cb" history="history" append-footnotes="append-footnotes"
                             subscribe="transcription" emit="transcription"/>
                         <pb-navigation direction="forward" unit="page" keyboard="right" emit="transcription"
