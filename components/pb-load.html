@@ -194,8 +194,6 @@
             }
 
             _handleContent(ev) {
-                this.emitTo('pb-end-update');
-
                 this._parseHeaders(ev.detail.xhr);
 
                 const resp = this.$.loadContent.lastResponse;
@@ -210,6 +208,8 @@
                     this.$.content.innerHTML = resp;
                     this._onLoad(this.$.content);
                 }
+
+                this.emitTo('pb-end-update');
             }
 
             _handleError(ev) {

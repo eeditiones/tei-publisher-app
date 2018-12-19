@@ -107,7 +107,7 @@
                   const handler = (ev) => {
                       const content = view.shadowRoot.querySelector('h2');
                       assert.isOk(content);
-                      assert.equal(content.innerHTML, 'Configure the ODD via processing instructions');
+                      assert.equal(content.innerHTML, 'Configure default view via processing instructions');
                       document.removeEventListener('pb-end-update', handler);
                       done();
                   };

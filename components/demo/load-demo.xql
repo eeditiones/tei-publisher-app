@@ -9,13 +9,14 @@ let $document := pages:get-document($doc)
 return
     <aside>
         <h2>Parameters passed to pb-load</h2>
-        <table>
+        <table class="parameters">
             <tr>
                 <th>Parameter</th>
                 <th>Value</th>
             </tr>
         {
             for $param in request:get-parameter-names()
+            order by $param
             return
                 <tr>
                     <td>{$param}</td>
@@ -24,9 +25,10 @@ return
         }
         </table>
         <h2>Actors in the play</h2>
-        <ul>
+        <ul class="people">
         {
             for $speaker in $document//tei:listPerson/tei:person
+            order by $speaker
             return
                 <li>{$speaker/tei:persName[@type="standard"]/string()}</li>
         }
