@@ -788,6 +788,27 @@
             <synopsis>&lt;?teipublisher template="translation.html" odd="dantiscus.odd" view="page"?&gt;</synopsis>
           </listitem>
         </orderedlist>
+        <para>Global CSS styling in the template should be written into a <tag>custom-style</tag> element wrapping around a <tag>style</tag> element which
+          includes <parameter>pb-common-styles</parameter>. This special construct is needed so we can use properties and mixins exposed by the web components.
+          As described above, a web component completely encapsulates its content, so it cannot be styled from outside. It may expose custom style variables and
+          mixins as variables to the outside world though. For example, we may style the appearance of the footnote section below the main text as
+          follows:</para>
+        <programlisting>&lt;custom-style>
+    &lt;style include="pb-common-styles">
+        body {
+             --pb-footnotes: {
+                 padding-top: 10px;
+                 margin-top: 20px;
+                 border-top: 1px solid #C0C0C0;
+             };
+        }
+    &lt;/style>
+&lt;/custom-style></programlisting>
+        <para>--pb-footnotes is a <link xlink:href="https://polymer-library.polymer-project.org/2.0/docs/devguide/custom-css-properties">custom CSS
+          mixin</link>. The <tag>pb-view</tag> component defines it in its API and will <emphasis>mix in</emphasis> the contained CSS rules into the styles for
+          the footnotes section.</para>
+        <para>While you cannot change the inner appearance of a component except by setting its custom CSS properties, you can style the component itself within
+          the HTML template, e.g. to position it within the layout of the page etc.</para>
       </section>
     </section>
   </section>
