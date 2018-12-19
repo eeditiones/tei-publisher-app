@@ -181,7 +181,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             fo:figure($config, ., ("tei-informalfigure2", "figure"), ., ())
                     case element(imagedata) return
-                        fo:graphic($config, ., ("tei-imagedata"), ., @fileref, (), (), (), ())
+                        fo:graphic($config, ., ("tei-imagedata"), ., @fileref, @width, (), (), ())
                     case element(itemizedlist) return
                         fo:list($config, ., ("tei-itemizedlist"), listitem)
                     case element(listitem) return
@@ -250,6 +250,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                             fo:block($config, ., ("tei-abstract2"), .)
                     case element(pubdate) return
                         fo:inline($config, ., ("tei-pubdate", "pubdate"), format-date(., '[MNn] [D1], [Y0001]', 'en_US', (), ()))
+                    case element(footnote) return
+                        fo:note($config, ., ("tei-footnote"), ., (), ())
                     case element() return
                         fo:inline($config, ., ("tei--element"), .)
                     case text() | xs:anyAtomicType return

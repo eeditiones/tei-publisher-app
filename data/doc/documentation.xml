@@ -191,10 +191,10 @@
       <para>All TEI Publisher's sample documents are TEI XML files which are transformed into a HTML webpage for display in the browser. Two major factors
         determine how the final page is going to look like: an <emphasis role="bold">ODD</emphasis> and a <emphasis role="bold">page template</emphasis>. </para>
       <para>We have already mentioned in the very first section that the TEI Processing Model lies at the heart of the Publisher - the ODD file associated with
-        a document defines the rules of transformation of the XML source file into HTML. Detailed discussion of the Processing Model can be found in following
-        chapters, for now it is sufficient to say this is where decisions if a TEI element should be rendered inline, with a tooltip or as a marginal note are
-        made. Simplifying things a bit the <emphasis>text</emphasis> of the document that you see rendered in your browser is an effect of applying the rules
-        from ODD file to the source document. </para>
+        a document defines the rules of transformation of the XML source file into HTML. Detailed discussion of the Processing Model can be found in <link
+          linkend="pm-syntax">following chapters</link>, for now it is sufficient to say this is where decisions if a TEI element should be rendered inline,
+        with a tooltip or as a marginal note are made. Simplifying things a bit the <emphasis>text</emphasis> of the document that you see rendered in your
+        browser is an effect of applying the rules from ODD file to the source document. </para>
       <para>Nevertheless, as we demonstrated in the section on selected sample documents, in the application context we certainly want more than just text,
         however nicely typeset. From basic navigation controls, table of content, to facsimile display, critical apparatus, glossaries and maps - all of this
         and much more could be included in the final webpage. Following <emphasis>divide and conquer</emphasis> approach the TEI Publisher defines such
@@ -240,7 +240,7 @@
           or the component logic.</para>
         <para> By means of example - table of content component assumes that the document structure is represented by means of nested <parameter>div</parameter>
           elements and section titles are given in <parameter>head</parameter> element. If your project rather chooses numbered divisions
-            (<parameter>div1</parameter>, <parameter>div2</parameter> etc it may be advisable to adjust this to avoid customizing all navigation, table of
+            (<parameter>div1</parameter>, <parameter>div2</parameter>) etc it may be advisable to adjust this to avoid customizing all navigation, table of
           contents and so on, but it is one of very rare cases where TEI Publisher exposes any predilection for a particular flavour of TEI.</para>
         <para>Similarly, template for aligned transcription and translation is parametrized to accept an XPath expression pointing to the location of the
           transcription and aligned translation, likely for your documents this expression would have to be adjusted (unless of course you also have Latin texts
@@ -793,7 +793,7 @@
   </section>
   <section>
     <title>Advanced Customization</title>
-    <section>
+    <section xml:id="pm-syntax">
       <title>Processing Model syntax</title>
       <section>
         <title>
@@ -1564,6 +1564,12 @@
         </itemizedlist>
         <para>To create arbitary complex LaTeX output, you may want to use the <link linkend="pb-template"><tag>pb-template</tag> extension</link> to the ODD
           syntax. It is heavily used to e.g. generate the LaTeX version of this documentation.</para>
+      </section>
+      <section>
+        <title>ePub Output</title>
+        <para>The <parameter>epub</parameter> output mode extends the HTML mode. You may define general styling in an extra CSS file, located in
+            <filename>resources/css/epub.css</filename>. This external stylesheet is included into all generated epub files and may be used to configure general
+          settings like page breaks, hyphenation, font sizes etc.</para>
       </section>
     </section>
     <section xml:id="pi-config">

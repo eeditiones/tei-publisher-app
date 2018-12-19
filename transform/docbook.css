@@ -2,6 +2,11 @@
 /* Generated from /db/apps/tei-publisher/odd/docbook.odd */
 
 /* Global styles */
+h3 {
+	font-family: serif;
+	font-weight: 400;
+	}
+
 
 /* external styles loaded from docbook.css */
 

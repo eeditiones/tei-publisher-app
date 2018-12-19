@@ -313,7 +313,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             latex:figure($config, ., ("tei-informalfigure2", "figure"), ., ())
                     case element(imagedata) return
-                        latex:graphic($config, ., ("tei-imagedata"), ., @fileref, (), (), (), ())
+                        latex:graphic($config, ., ("tei-imagedata"), ., @fileref, @width, (), (), ())
                     case element(itemizedlist) return
                         latex:list($config, ., ("tei-itemizedlist"), listitem)
                     case element(listitem) return
@@ -404,6 +404,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                             latex:block($config, ., ("tei-abstract2"), .)
                     case element(pubdate) return
                         latex:inline($config, ., ("tei-pubdate", "pubdate"), format-date(., '[MNn] [D1], [Y0001]', 'en_US', (), ()))
+                    case element(footnote) return
+                        latex:note($config, ., ("tei-footnote"), ., (), ())
                     case element() return
                         latex:inline($config, ., ("tei--element"), .)
                     case text() | xs:anyAtomicType return

@@ -174,7 +174,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             html:figure($config, ., ("tei-informalfigure2", "figure"), ., ())
                     case element(imagedata) return
-                        html:graphic($config, ., ("tei-imagedata"), ., @fileref, (), (), (), ())
+                        html:graphic($config, ., ("tei-imagedata"), ., @fileref, @width, (), (), ())
                     case element(itemizedlist) return
                         html:list($config, ., ("tei-itemizedlist"), listitem, ())
                     case element(listitem) return
@@ -258,6 +258,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:block($config, ., ("tei-abstract2"), .)
                     case element(pubdate) return
                         html:inline($config, ., ("tei-pubdate", "pubdate"), format-date(., '[MNn] [D1], [Y0001]', 'en_US', (), ()))
+                    case element(footnote) return
+                        html:note($config, ., ("tei-footnote"), ., (), ())
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return
