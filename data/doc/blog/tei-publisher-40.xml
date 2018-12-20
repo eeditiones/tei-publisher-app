@@ -58,8 +58,8 @@
                     a central management shell</para>
             </listitem>
             <listitem>
-                <para>further abstractions to cover more types of TEI documents out of the box
-                    concerning navigation, alignment of views etc.</para>
+                <para>further abstractions and components to cover more types of TEI documents out of the box
+                    concerning navigation, alignment of views, search etc.</para>
             </listitem>
             <listitem>
                 <para>improved workflow support with annotations, forms, customization wizards ...</para>
@@ -71,7 +71,7 @@
     </section>
     <section>
         <title>Get It!</title>
-        <para>TEI Publisher 4.0 is available as an application package on top of the eXist XML Database. Install it
+        <para>TEI Publisher 4.0 is available as an application package on top of the <link xlink:href="https://exist-db.org">eXist XML Database</link>. Install it
             into a recent eXist (4.x.x series) by going to the dashboard and selecting TEI Publisher from the package
             manager.</para>
         <para>For more information refer to the <link xlink:href="https://teipublisher.com/exist/apps/tei-publisher/doc/documentation.xml">documentation</link> or visit the <link xlink:href="https://teipublisher.com">homepage</link> to play around with it.</para>
