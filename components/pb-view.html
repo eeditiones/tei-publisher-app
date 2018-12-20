@@ -279,7 +279,7 @@
                     this.zoom(ev.detail.direction);
                 });
 
-                Polymer.RenderStatus.afterNextRender(this, () => this._refresh());
+                this.wait(() => Polymer.RenderStatus.afterNextRender(this, () => this._refresh()));
             }
 
             /**

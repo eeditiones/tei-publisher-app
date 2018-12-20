@@ -285,6 +285,7 @@
 
                 this._initOpenSeadragon();
 
+                this.signalReady();
 /*
                 window.addEventListener('WebComponentsReady', function (e) {
                     console.log('onload overlay ', this.overlay);
@@ -330,6 +331,7 @@
 
                 this.init = true;
 
+                this.viewer.addHandler('open', this.resetZoom.bind(this));
                 console.log("viewer: ", this.viewer);
             }
 
@@ -479,7 +481,6 @@
 
             _fragmentUpdateListener(event) {
               this.set('loaded', false)
-              this.resetZoom()
               this.set('facsimiles', this._getFacsimilesFromData(event.detail.root))
               console.log('_boundFragmentUpdateListener', event.detail.content, this.facsimiles)
               this.set('loaded', true)

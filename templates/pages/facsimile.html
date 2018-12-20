@@ -29,7 +29,7 @@
                         color: black;
                     };
 
-                    --pb-view-height: calc(100vh - 192px);
+                    --pb-view-height: calc(100vh - 212px);
                 }
 
                 #view1 {
@@ -51,6 +51,7 @@
 
                 .content-body pb-facsimile {
                     flex: 1 1;
+                    height: var(--pb-view-height);
                 }
 
                 @media (max-width: 769px) {
@@ -89,9 +90,10 @@
                     <main class="content-body">
                         <pb-view id="view1" src="document1"
                             column-separator=".tei-cb" history="history" append-footnotes="append-footnotes"
-                            subscribe="transcription" emit="transcription"/>
-                        <pb-facsimile base-uri="http://apps.existsolutions.com/cantaloupe/iiif/2/" default-zoom-level="0"
-                            show-navigation-control="show-navigation-control" show-navigator="show-navigator" subscribe="transcription"/>
+                            subscribe="transcription" emit="transcription" wait-for="#facsimile"/>
+                        <pb-facsimile id="facsimile" base-uri="http://apps.existsolutions.com/cantaloupe/iiif/2/" default-zoom-level="0"
+                            show-navigation-control="show-navigation-control" show-navigator="show-navigator" 
+                            subscribe="transcription"/>
                     </main>
                 </app-header-layout>
             </app-drawer-layout>

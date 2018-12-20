@@ -57,6 +57,19 @@
                  */
                 emitConfig: {
                     type: Object
+                },
+                /**
+                 * A selector pointing to other components this component depends on.
+                 * When method `wait` is called, it will wait until all referenced
+                 * components signal with a `pb-ready` event that they are ready and listening
+                 * to events.
+                 */
+                waitFor: {
+                    type: String
+                },
+                _isReady: {
+                    type: Boolean,
+                    value: false
                 }
             }
         }
@@ -66,6 +79,46 @@
         }
 
 
+        /**
+         * Wait for the components referenced by the selector given in property `waitFor`
+         * to signal that they are ready to respond to events.
+         *
+         * @param callback function to be called when all components are ready
+         */
+        wait(callback) {
+            if (this.waitFor) {
+                const targets = document.querySelectorAll(this.waitFor);
+                const targetCount = targets.length;
+                let count = 0;
+                targets.forEach((target) => {
+                    if (target._isReady) {
+                        count++;
+                        if (targetCount === count) {
+                            callback();
+                        }
+                    } else {
+                        const handler = target.addEventListener('pb-ready', (ev) => {
+                            count++;
+                            if (targetCount === count) {
+                                target.removeEventListener('pb-ready', handler);
+                                callback();
+                            }
+                        });
+                    }
+                });
+            } else {
+                callback();
+            }
+        }
+        
+        /**
+         * Signal that the component is ready to respond to events.
+         */
+        signalReady() {
+            this._isReady = true;
+            this.dispatchEvent(new CustomEvent('pb-ready'));
+        }
+        
         /**
          * Listen to the event defined by type. If property `subscribe` or `subscribe-config`
          * is defined, this method will trigger the listener only if the event has a key
