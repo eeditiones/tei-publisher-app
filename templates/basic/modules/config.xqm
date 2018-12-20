@@ -157,26 +157,27 @@ declare variable $config:tex-command := function($file) {
 (:~
  : Configuration for epub files.
  :)
- declare variable $config:epub-config := function($root as element(), $langParameter as xs:string?) {
-     let $properties := tpu:parse-pi(root($root), ())
-     return
-         map {
-             "metadata": map {
-                 "title": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title/string(),
-                 "creator": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:author/string(),
-                 "urn": util:uuid(),
-                 "language": ($langParameter, $root/@xml:lang/string(), $root/tei:teiHeader/@xml:lang/string(), "en")[1]
-             },
-             "odd": $properties?odd,
-             "output-root": $config:odd-root,
-             "fonts": [
-                 $config:app-root || "/resources/fonts/Junicode.ttf",
-                 $config:app-root || "/resources/fonts/Junicode-Bold.ttf",
-                 $config:app-root || "/resources/fonts/Junicode-BoldItalic.ttf",
-                 $config:app-root || "/resources/fonts/Junicode-Italic.ttf"
-             ]
-         }
- };
+declare variable $config:epub-config := function ($doc as document-node(), $langParameter as xs:string?) {
+    let $root := $doc/*
+    let $properties := tpu:parse-pi($doc, ())
+    return
+        map {
+            "metadata": map {
+                "title": nav:get-metadata($properties, $root, "title"),
+                "creator": string-join(nav:get-metadata($properties, $root, "author"), ", "),
+                "urn": util:uuid(),
+                "language": nav:get-metadata($properties, $root, "language")
+            },
+            "odd": $properties?odd,
+            "output-root": $config:odd-root,
+            "fonts": [
+                $config:app-root || "/resources/fonts/Junicode.ttf",
+                $config:app-root || "/resources/fonts/Junicode-Bold.ttf",
+                $config:app-root || "/resources/fonts/Junicode-BoldItalic.ttf",
+                $config:app-root || "/resources/fonts/Junicode-Italic.ttf"
+            ]
+        }
+};
 
 (:~
  : Root path where images to be included in the epub can be found.
