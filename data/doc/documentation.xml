@@ -551,7 +551,7 @@
       <para>All those building blocks come as custom HTML elements, which are easy to write and modify. Each of them encapsulates a certain functionality and
         appearance. The map, the facsimile, but also the text view itself and all controls are custom HTML elements. They are like "Lego" blocks which can be
         freely moved around and rearranged without knowing anything about the internal logic or complexity of the component.</para>
-      <section>
+      <section xml:id="webcomponents">
         <title>Web Components</title>
         <para>The technology enabling this is an upcoming W3C standard called <emphasis>Web Components</emphasis>. It is already built into many browsers and
           support is improving quickly, reducing the need for external frameworks. There's a growing collection of ready-to-use components available, e.g. the
