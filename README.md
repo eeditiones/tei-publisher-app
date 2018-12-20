@@ -32,8 +32,11 @@ For an overview of the app and library, please refer to the [documentation](http
 
 ## Building
 
-Run Apache ant in the cloned directory to get a .xar file in build/, which can be uploaded
-via the dashboard.
+Run Apache `ant` in the cloned directory to get a `.xar` file in `build/`, which can be uploaded
+via the dashboard. This creates a version suitable for development, but runs slower on most browsers.
+
+For deployment on a production server, run `ant production-xar` instead of just `ant`.
+This creates a `.xar` with all webcomponents bundled and compressed. You need the [polymer CLI](https://polymer-library.polymer-project.org/2.0/docs/tools/polymer-cli) tools for this.
 
 ## License
 
@@ -47,7 +50,11 @@ All resources can either be edited live via eXist-db's XML editor eXide or via l
 
 ## Development
 
-Following instructions are only relevant for developers who want to contribute further web components.
+Following instructions are only relevant for developers who want to contribute to TEI Publisher. There are at least three different approaches:
+
+1. use eXide to directly change resources inside the database, then sync them to a local directory where you have checked out the code from gitlab
+2. use the Atom editor with the eXistdb package and open a local copy of the TEI Publisher repository as a project in Atom. Atom will make sure to sync your local modifications into the database. This is the most convenient and recommended method
+3. use gulp and its watch task as described below
 
 ### Prerequisites
 *   Install npm: [https://www.npmjs.com/get-npm](https://www.npmjs.com/get-npm)
@@ -65,11 +72,6 @@ Install node modules by running
 `gulp watch` will upload files to the local exist-db instance whenever a source file changes.
 
 **NOTE:** For the deploy and watch task you may have to edit the DB credentials in `gulpfile.js`.
-
-### Testing
-`gulp test` currently contains just a placeholder message, while integrating the test suite is work in progress.
-
-Please follow these instructions [here](http://gitlab.existsolutions.com/tei-publisher/tei-publisher-app/tree/master/webtest), for running the test-suite.
 
 ### Web Components Testing
 
