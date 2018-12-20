@@ -22,7 +22,7 @@
     <section>
         <title>TEI Publisher goes Web Components</title>
         <para>Past projects we realized could prove that the
-            <link xlink:href="https://teipublisher.com/exist/apps/tei-publisher/doc/documentation.xml?id=webcomponents">TEI Processing Model</link> is indeed a truly universal and powerful tool for any kind of  XML,
+            <link xlink:href="http://www.tei-c.org/release/doc/tei-p5-doc/de/html/TD.html#TDPM">TEI Processing Model</link> is indeed a truly universal and powerful tool for any kind of  XML,
             not just TEI. However, creating an online edition requires more than just text
             transformation: the text needs to be embedded into an application context, adding
             navigation, pagination, search, facsimiles and so on. Moving towards the emerging
@@ -30,7 +30,7 @@
             "lego" blocks to be freely arranged, recombined and extended.</para>
         <para>Earlier versions of TEI Publisher were limited to showing a single text view by
             default. Creating more complex layouts required at least basic XQuery, HTML and CSS
-            skills. As <link xlink:href="http://teipublisher.com/exist/apps/tei-publisher/index.html">showcased</link> by the example documents, the new version allows users to realize
+            skills. As <link xlink:href="https://teipublisher.com/exist/apps/tei-publisher/index.html">showcased</link> by the example documents, the new version allows users to realize
             custom views without actually writing code. Users can pick from a toolbox of ready-made
             components, including text views based on an ODD transformation, IIIF-powered image
             viewers, maps and many more. All those building blocks come as custom HTML elements,
@@ -46,28 +46,6 @@
             major milestone towards our vision, but there's always more to be done and we would like
             to invite the community to contribute ideas, goals and implementations. Missing a
             certain functionality or component? Tell us.</para>
-        <para>Some of the items on our wish list for 5.0 are: </para>
-        <itemizedlist>
-            <listitem>
-                <para>an implementation of the Distributed Text Services specification, turning any
-                    TEI Publisher instance into an endpoint as well as client to browse remote
-                    corpora</para>
-            </listitem>
-            <listitem>
-                <para>better support for creating and managing apps generated from TEI Publisher via
-                    a central management shell</para>
-            </listitem>
-            <listitem>
-                <para>further abstractions and components to cover more types of TEI documents out of the box
-                    concerning navigation, alignment of views, search etc.</para>
-            </listitem>
-            <listitem>
-                <para>improved workflow support with annotations, forms, customization wizards ...</para>
-            </listitem>
-            <listitem>
-                <para>… your ideas here ...</para>
-            </listitem>
-        </itemizedlist>
     </section>
     <section>
         <title>Get It!</title>
