@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="pages:app-root">
+<html xmlns:i18n="http://exist-db.org/xquery/i18n">
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
@@ -109,83 +109,85 @@
     </head>
 
     <body unresolved="unresolved" data-template="i18n:translate" data-catalogues="resources/i18n">
-        <app-header-layout>
-            <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
-                <app-toolbar class="menubar">
-                    <a href="$app/index.html">
-                        <img src="resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
-                    </a>
-                    <a href="$app/index.html">Start</a>
-                    <paper-menu-button>
-                        <a href="#" slot="dropdown-trigger">
-                            <i18n:text key="documentation"/>
+        <pb-page data-template="pages:pb-page">
+            <app-header-layout>
+                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                    <app-toolbar class="menubar">
+                        <a href="$app/index.html">
+                            <img src="resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
                         </a>
-                        <paper-listbox slot="dropdown-content">
-                            <paper-item>
-                                <a href="$app/doc/documentation.xml?odd=docbook.odd">
-                                    <i18n:text key="documentation"/>
-                                </a>
-                            </paper-item>
-                            <paper-item>
-                                <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
-                            </paper-item>
-                        </paper-listbox>
-                    </paper-menu-button>
-                    <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
-                        <img src="resources/images/wm_no_bg.svg" height="20"/>
-                    </a>
+                        <a href="$app/index.html">Start</a>
+                        <paper-menu-button>
+                            <a href="#" slot="dropdown-trigger">
+                                <i18n:text key="documentation"/>
+                            </a>
+                            <paper-listbox slot="dropdown-content">
+                                <paper-item>
+                                    <a href="$app/doc/documentation.xml?odd=docbook.odd">
+                                        <i18n:text key="documentation"/>
+                                    </a>
+                                </paper-item>
+                                <paper-item>
+                                    <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
+                                </paper-item>
+                            </paper-listbox>
+                        </paper-menu-button>
+                        <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
+                            <img src="resources/images/wm_no_bg.svg" height="20"/>
+                        </a>
 
-                    <!-- Search input -->
-                    <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
-                               place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
+                        <!-- Search input -->
+                        <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
+                                   place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
 
-                    <!-- language selector -->
-                    <pb-lang name="lang" label="Language" data-template="pages:current-language">
-                        <paper-item>en</paper-item>
-                        <paper-item>de</paper-item>
-                        <paper-item>fr</paper-item>
-                        <paper-item>gr</paper-item>
-                        <paper-item>it</paper-item>
-                        <paper-item>pl</paper-item>
-                    </pb-lang>
-                    <pb-login login-label="i18n(login)" logout-label="i18n(logout)" group="tei" data-template="browse:current-user">
-                        <iron-icon slot="icon" icon="account-circle"></iron-icon>
-                    </pb-login>
-                </app-toolbar>
-                <app-toolbar>
-                    <pb-paginate per-page="10" range="5" found-label="i18n(found)"></pb-paginate>
-                    <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
-                </app-toolbar>
-            </app-header>
+                        <!-- language selector -->
+                        <pb-lang name="lang" label="Language" data-template="pages:current-language">
+                            <paper-item>en</paper-item>
+                            <paper-item>de</paper-item>
+                            <paper-item>fr</paper-item>
+                            <paper-item>gr</paper-item>
+                            <paper-item>it</paper-item>
+                            <paper-item>pl</paper-item>
+                        </pb-lang>
+                        <pb-login login-label="i18n(login)" logout-label="i18n(logout)" group="tei" data-template="browse:current-user">
+                            <iron-icon slot="icon" icon="account-circle"></iron-icon>
+                        </pb-login>
+                    </app-toolbar>
+                    <app-toolbar>
+                        <pb-paginate per-page="10" range="5" found-label="i18n(found)"></pb-paginate>
+                        <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
+                    </app-toolbar>
+                </app-header>
 
-            <main>
-                <pb-load url="templates/search-results.html" container="#results"></pb-load>
-                <existdb-column-layout column-widths="70% 30%">
-                    <div id="results"></div>
-                    <div class="search-panel">
-                        <paper-card>
-                            <div class="card-content">
-                                <pb-search id="search-form" place-holder="i18n(search-query-attr)"
-                                    data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load">
-                                    <div class="targets">
-                                        <paper-checkbox name="tei-target" value="tei-text">Search sections</paper-checkbox>
-                                        <paper-checkbox name="tei-target" value="tei-head">Search headings</paper-checkbox>
-                                    </div>
-                                </pb-search>
-                            </div>
-                        </paper-card>
-                    </div>
-                </existdb-column-layout>
-            </main>
-        </app-header-layout>
-        <paper-dialog id="errorDialog">
-            <h2>Error</h2>
-            <paper-dialog-scrollable/>
-            <div class="buttons">
-                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
-                    <i18n:text key="close">Close</i18n:text>
-                </paper-button>
-            </div>
-        </paper-dialog>
+                <main>
+                    <pb-load url="templates/search-results.html" container="#results"></pb-load>
+                    <existdb-column-layout column-widths="70% 30%">
+                        <div id="results"></div>
+                        <div class="search-panel">
+                            <paper-card>
+                                <div class="card-content">
+                                    <pb-search id="search-form" place-holder="i18n(search-query-attr)"
+                                        data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load">
+                                        <div class="targets">
+                                            <paper-checkbox name="tei-target" value="tei-text">Search sections</paper-checkbox>
+                                            <paper-checkbox name="tei-target" value="tei-head">Search headings</paper-checkbox>
+                                        </div>
+                                    </pb-search>
+                                </div>
+                            </paper-card>
+                        </div>
+                    </existdb-column-layout>
+                </main>
+            </app-header-layout>
+            <paper-dialog id="errorDialog">
+                <h2>Error</h2>
+                <paper-dialog-scrollable/>
+                <div class="buttons">
+                    <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                        <i18n:text key="close">Close</i18n:text>
+                    </paper-button>
+                </div>
+            </paper-dialog>
+        </pb-page>
     </body>
 </html>
