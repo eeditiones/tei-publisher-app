@@ -7,13 +7,18 @@
             :host{
             }
 
-            paper-input{
+            paper-input {
                 --paper-input-container-input:{
                     color: var(--pb-search-input, --paper-black);
                     border: white;
                 };
                 --paper-input-container-label: {
                     color:var(--pb-search-label, --paper-grey-500);
+                };
+            }
+            paper-autocomplete-suggestions {
+                --suggestions-item: {
+                    color: var(--pb-search-label, --paper-grey-500)
                 };
             }
 
@@ -23,13 +28,18 @@
                 <paper-input id="search" type="search" name="query" on-keyup="_handleEnter" label="[[placeHolder]]" no-label-float value="[[value]]">
                     <iron-icon icon="search" on-click="_doSearch" slot="prefix"></iron-icon>
                 </paper-input>
-
+                <paper-autocomplete-suggestions id="autocomplete" for="search" source="[[_suggestions]]" remote-source></paper-autocomplete-suggestions>
                 <slot></slot>
-                <!--<input value="{{myValue::input}}" type="search" class="search-input" autocomplete="off" placeholder="[[placeHolder]]" name="query">-->
-                <input type="hidden" name="doc" data-template="search:form-current-doc">
-                <input type="hidden" name="field" value="text"/>
+                <input type="hidden" name="doc">
             </form>
         </iron-form>
+        <iron-ajax
+            id="autocompleteLoader"
+            url="modules/autocomplete.xql"
+            verbose
+            handle-as="json"
+            method="get"
+            on-response="_updateSuggestions"></iron-ajax>
     </template>
     <script>
         /**
@@ -75,6 +85,7 @@
 
             connectedCallback() {
                 super.connectedCallback();
+                this.$.autocomplete.addEventListener('autocomplete-change', this._autocomplete.bind(this));
                 this.$.ironform.addEventListener('iron-form-response', (event) =>
                     event.detail.completes.then((r) => this.emitTo('pb-search', r.parseResponse()))
                 );
@@ -110,6 +121,16 @@
 
             _doSubmit(){
                 this.$.ironform.submit();
+            }
+
+            _autocomplete(ev) {
+                const params = this.$.ironform.serializeForm();
+                this.$.autocompleteLoader.params = params;
+                this.$.autocompleteLoader.generateRequest();
+            }
+
+            _updateSuggestions() {
+                this.$.autocomplete.suggestions(this.$.autocompleteLoader.lastResponse);
             }
 
             /**

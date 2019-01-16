@@ -3,12 +3,16 @@
     <index xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:dbk="http://docbook.org/ns/docbook" xmlns:xs="http://www.w3.org/2001/XMLSchema">
         <fulltext default="none" attributes="false"/>
         <lucene>
+            <text qname="tei:body">
+                <ignore qname="tei:div"/>
+            </text>
             <text qname="tei:div">
                 <!-- exclude nested divs which are indexed separately -->
                 <ignore qname="tei:div"/>
             </text>
             <text qname="tei:head"/>
-            <text match="//tei:sourceDesc/tei:biblFull/tei:titleStmt/tei:title"/>
+            <text match="//tei:titleStmt/tei:title"/>
+            <text match="//tei:msDesc/tei:head"/>
             <!--text match="//tei:sourceDesc/tei:biblFull/tei:titleStmt/tei:author"/-->
             <text qname="dbk:section"/>
             <text qname="dbk:title"/>

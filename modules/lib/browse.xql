@@ -26,6 +26,7 @@ import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/ut
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
+import module namespace query="http://www.tei-c.org/tei-simple/query" at "../query.xql";
 
 declare namespace expath="http://expath.org/ns/pkg";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -90,7 +91,7 @@ function app:sort($items as element()*, $sortBy as xs:string?) {
                 else
                     let $data := nav:get-metadata(map { "type": nav:document-type($item) }, $item, $sortBy)
                     return
-                        replace(string-join($data//text(), " "), "^\s*(.*)$", "$1", "m")
+                        replace(string-join($data, " "), "^\s*(.*)$", "$1", "m")
             order by $content
             return
                 $item
@@ -107,33 +108,23 @@ declare
     %templates:default("sort", "title")
 function app:list-works($node as node(), $model as map(*), $filter as xs:string?, $root as xs:string,
     $browse as xs:string?, $odd as xs:string?, $sort as xs:string) {
-    let $odd := ($odd, session:get-attribute("odd"))[1]
+    let $odd := ($odd, session:get-attribute("teipublisher.odd"))[1]
     let $oddAvailable := $odd and doc-available($config:odd-root || "/" || $odd)
     let $odd := if ($oddAvailable) then $odd else $config:default-odd
-    let $cached := session:get-attribute("simple.works")
+    let $cached := session:get-attribute("teipublisher.works")
     let $filtered :=
         if (exists($filter)) then
-            let $ordered :=
-                for $rootCol in $config:data-root
-                for $item in
-                    ft:search($rootCol || "/" || $root, $browse || ":" || $filter, ("author", "title"))/search
-                let $author := $item/field[@name = "author"]
-                order by $author[1], $author[2], $author[3]
-                return
-                    $item
-            for $doc in $ordered
-            return
-                doc($doc/@uri)/*
-        else if (exists($cached) and $filter != "") then
+            query:query-metadata($browse, $filter)
+        else if (exists($cached) and $filter = session:get-attribute("teipublisher.filter")) then
             $cached
         else
             $config:data-root ! collection(. || "/" || $root)/*
     let $sorted := app:sort($filtered, $sort)
     return (
-        session:set-attribute("simple.works", $sorted),
-        session:set-attribute("browse", $browse),
-        session:set-attribute("filter", $filter),
-        session:set-attribute("odd", $odd),
+        session:set-attribute("teipublisher.works", $sorted),
+        session:set-attribute("teipublisher.browse", $browse),
+        session:set-attribute("teipublisher.filter", $filter),
+        session:set-attribute("teipublisher.odd", $odd),
         map {
             "all" : $sorted,
             "mode": "browse"

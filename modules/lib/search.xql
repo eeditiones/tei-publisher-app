@@ -49,8 +49,8 @@ import module namespace console="http://exist-db.org/xquery/console" at "java:or
 : @return The function returns a map containing the $hits and the $query. The search results are output through the nested templates, browse:hit-count, browse:paginate, and browse:show-hits.
 :)
 declare
-    %templates:default("tei-target", "tei-text")
-function search:query($node as node()*, $model as map(*), $query as xs:string?, $tei-target as xs:string+, $doc as xs:string*) as map(*) {
+    %templates:default("field", "text")
+function search:query($node as node()*, $model as map(*), $query as xs:string?, $field as xs:string+, $doc as xs:string*) as map(*) {
         (:If there is no query string, fill up the map with existing values:)
         if (empty($query))
         then
@@ -66,7 +66,7 @@ function search:query($node as node()*, $model as map(*), $query as xs:string?, 
             (:The query passed to a Luecene query in ft:query is an XML element <query> containing one or two <bool>. The <bool> contain the original query and the transliterated query, as indicated by the user in $query-scripts.:)
             let $hits :=
                     (:If the $query-scope is narrow, query the elements immediately below the lowest div in tei:text and the four major element below tei:teiHeader.:)
-                    for $hit in query:query-default($tei-target, $query, $doc)
+                    for $hit in query:query-default($field, $query, $doc)
                     order by ft:score($hit) descending
                     return $hit
             let $hitCount := count($hits)
@@ -76,6 +76,7 @@ function search:query($node as node()*, $model as map(*), $query as xs:string?, 
                 session:set-attribute("apps.simple", $hits),
                 session:set-attribute("apps.simple.hitCount", $hitCount),
                 session:set-attribute("apps.simple.query", $query),
+                session:set-attribute("apps.simple.field", $field),
                 session:set-attribute("apps.simple.docs", $doc)
             )
             return

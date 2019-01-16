@@ -22,7 +22,7 @@ return
 declare
 %templates:wrap
 function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
-    let $odd := ($odd, session:get-attribute("odd"), $config:odd)[1]
+    let $odd := ($odd, session:get-attribute("teipublisher.odd"), $config:odd)[1]
     let $user := request:get-attribute($config:login-domain || ".user")
     return
         dbutil:scan-resources(xs:anyURI($config:odd-root), function ($resource) {

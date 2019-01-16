@@ -13,6 +13,20 @@
                 justify-content: space-between;
             }
 
+            [name="toolbar"] {
+                flex: 1 0;
+            }
+
+            #sort {
+                display: block;
+            }
+
+            #filterString {
+                position: relative;
+                display: inline-block;
+                vertical-align: bottom;
+            }
+
             .hidden {
                 display: none;
             }
@@ -26,6 +40,22 @@
                     </template>
                 </paper-listbox>
             </paper-dropdown-menu>
+            <div>
+                <paper-dropdown-menu id="filterSelect" label="Filter by">
+                    <paper-listbox selected="{{filterBy}}" slot="dropdown-content" class="dropdown-content" attr-for-selected="value">
+                        <template id="repeat" is="dom-repeat" items="[[filterOptions]]">
+                            <paper-item value="[[item.value]]">[[item.label]]</paper-item>
+                        </template>
+                    </paper-listbox>
+                </paper-dropdown-menu>
+                <paper-input id="filterString" type="search" name="filter" label="Filter" no-label-float value="{{filter}}"
+                    on-keyup="_handleEnter">
+                    <iron-icon icon="search" on-click="_filter" slot="prefix"></iron-icon>
+                </paper-input>
+                <paper-autocomplete-suggestions id="autocomplete" for="filterString" source="[[_suggestions]]" remote-source></paper-autocomplete-suggestions>
+            </div>
+        </div>
+        <div class="toolbar">
             <slot name="toolbar"></slot>
             <paper-button id="delete" title="i18n(delete)" class$="[[_canModify(_allowModification)]]">
                 <iron-icon icon="delete"></iron-icon>
@@ -41,6 +71,13 @@
             method="get"
             on-response="_handleContent"
             on-error="_handleError"></iron-ajax>
+        <iron-ajax
+            id="autocompleteLoader"
+            url="modules/autocomplete.xql"
+            verbose
+            handle-as="json"
+            method="get"
+            on-response="_updateSuggestions"></iron-ajax>
 
         <paper-dialog id="deleteDialog">
             <h2>Delete</h2>
@@ -91,6 +128,22 @@
                         type: String,
                         value: 'Sort'
                     },
+                    filter: {
+                        type: String
+                    },
+                    filterBy: {
+                        type: String,
+                        value: 'title'
+                    },
+                    filterOptions: {
+                        type: Array,
+                        value: [
+                            {
+                                label: 'Title',
+                                value: 'title'
+                            }
+                        ]
+                    },
                     /** Id of the pb-login element to connect to */
                     login: {
                         type: String
@@ -111,21 +164,33 @@
                     _allowModification: {
                         type: Boolean,
                         value: false
+                    },
+                    _suggestions: {
+                        type: Array,
+                        value: []
                     }
                 };
             }
 
             constructor() {
                 super();
+
                 const sortParam = this.getParameter('sort');
                 if (sortParam) {
                     this.sortBy = sortParam;
+                }
+
+                const filterParam = this.getParameter('filter');
+                if (filterParam) {
+                    this.filter = filterParam;
+                    this.filterBy = this.getParameter('filterBy', this.filterBy);
                 }
             }
 
             connectedCallback() {
                 super.connectedCallback();
 
+                this.$.autocomplete.addEventListener('autocomplete-change', this._autocomplete.bind(this));
                 Polymer.RenderStatus.afterNextRender(this, () => {
                     const login = document.getElementById(this.login);
                     if (!login) {
@@ -141,6 +206,11 @@
 
             getParameters(params) {
                 params.sort = this.sortBy;
+                if (this.filter) {
+                    params.filter = this.filter;
+                    params.browse = this.filterBy;
+                }
+
                 return params;
             }
 
@@ -165,12 +235,21 @@
                 return selected;
             }
 
+            _filter() {
+                this.setParameter('filter', this.filter);
+                this.setParameter('filterBy', this.filterBy);
+                this.pushHistory('filter docs');
+
+                this.load();
+            }
+
             _sort(newValue, oldValue) {
                 if (typeof oldValue == 'undefined' || typeof newValue == 'undefined') {
                     return;
                 }
-                this.setParameter('sort', newValue);
-                this.pushHistory('sorting', {sort: newValue});
+
+                this.setParameter('sort', this.sortBy);
+                this.pushHistory('sort docs');
 
                 this.load();
             }
@@ -231,6 +310,24 @@
 
             _canModify(allowModification) {
                 return allowModification ? '' : 'hidden';
+            }
+
+            _autocomplete(ev) {
+                this.$.autocompleteLoader.params = {
+                    query: ev.detail.option.text,
+                    field: this.filterBy
+                };
+                this.$.autocompleteLoader.generateRequest();
+            }
+
+            _updateSuggestions() {
+                this.$.autocomplete.suggestions(this.$.autocompleteLoader.lastResponse);
+            }
+
+            _handleEnter(e){
+                if(e.keyCode == 13){
+                    this._filter();
+                }
             }
         }
 

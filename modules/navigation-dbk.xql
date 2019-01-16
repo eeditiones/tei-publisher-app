@@ -45,6 +45,8 @@ declare function nav:get-metadata($config as map(*), $root as element(), $field 
             nav:get-document-title($config, $root)
         case "author" return
             $root/dbk:info/dbk:author/string()
+        case "date" return
+            $root/dbk:info/(dbk:pubdate|dbk:copyright/dbk:year|dbk:date)[1]
         case "language" return
             ($root/@xml:lang/string(), "en")[1]
         default return
@@ -133,9 +135,17 @@ declare function nav:index($config as map(*), $root) {
     return
         <doc>
             {
-                for $title in $header/dbk:title
+                for $title in nav:get-document-title($config, $root)
                 return
-                    <field name="title" store="yes">{replace(string-join($title//text(), " "), "^\s*(.*)$", "$1", "m")}</field>
+                    <field name="title" store="yes">{replace(string-join($title, " "), "^\s*(.*)$", "$1", "m")}</field>
             }
+            {
+                for $author in nav:get-metadata($config, $root, "author")
+                let $normalized := replace($author, "^([^,]*,[^,]*),?.*$", "$1")
+                return
+                    <field name="author" store="yes">{$normalized}</field>
+            }
+            <field name="year" store="yes">{nav:get-metadata($config, $root, 'date')}</field>
+            <field name="file" store="yes">{util:document-name($root)}</field>
         </doc>
 };

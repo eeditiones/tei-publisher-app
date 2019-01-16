@@ -44,6 +44,11 @@ declare function query:query-default($fields as xs:string+, $query as xs:string,
     docbook-query:query-default($fields, $query, $target-texts)
 };
 
+declare function query:query-metadata($field as xs:string, $query as xs:string) {
+    tei-query:query-metadata($field, $query),
+    docbook-query:query-metadata($field, $query)
+};
+
 declare function query:get-parent-section($config as map(*), $node as node()) {
     query:dispatch($config, "get-parent-section", [$node])
 };
@@ -58,4 +63,9 @@ declare function query:expand($config as map(*), $data as element()) {
 
 declare function query:get-current($config as map(*), $div as element()?) {
     query:dispatch($config, "get-current", [$config, $div])
+};
+
+declare function query:autocomplete($doc as xs:string?, $fields as xs:string+, $q as xs:string) {
+    tei-query:autocomplete($doc, $fields, $q),
+    docbook-query:autocomplete($doc, $fields, $q)
 };

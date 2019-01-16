@@ -67,6 +67,10 @@ declare function nav:get-metadata($config as map(*), $root as element(), $field 
         )
         case "language" return
             ($root/@xml:lang/string(), $root/tei:teiHeader/@xml:lang/string(), "en")[1]
+        case "date" return (
+            $root/tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:edition/tei:date,
+            $root/tei:teiHeader/tei:publicationStmt/tei:date
+        )[1]
         default return
             ()
 };
@@ -216,7 +220,7 @@ declare function nav:index($config as map(*), $root) {
             return
                 <field name="author" store="yes">{$normalized}</field>
         }
-        <field name="year" store="yes">{root($root)//tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:edition/tei:date/text()}</field>
-        <field name="file" store="yes">{substring-before(util:document-name($root), ".xml")}</field>
+        <field name="year" store="yes">{nav:get-metadata($config, $root, 'date')}</field>
+        <field name="file" store="yes">{util:document-name($root)}</field>
     </doc>
 };
