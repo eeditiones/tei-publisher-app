@@ -119,21 +119,28 @@
             }
 
             .menubar pb-media-query {
-                flex: 2 0;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
+                flex: 1 0;
             }
 
             .menubar a, .menubar paper-menu-button {
-                margin: 0 8px;
+                margin: 8px 8px;
                 display: block;
                 color: white;
                 text-decoration: none;
             }
 
-            .menubar a:first-child {
-                margin: 0 8px 0 0;
+            .menubar .logo {
+                margin: 0 16px 0 0;
+            }
+
+            .menubar .gitlab {
+                margin-left: 16px;
+                margin-right: 16px;
+            }
+
+            .menubar .gitlab img {
+                background-size: 100% 100%;
+                height: 40px;
             }
 
             .menubar pb-login {
@@ -160,7 +167,7 @@
                 display: inline-block;
             }
 
-            .logo {
+            .logo img {
                 width: 140px;
                 height: 60px;
                 background-size: 100% 100%;

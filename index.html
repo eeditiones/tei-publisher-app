@@ -212,8 +212,8 @@
                 <app-header-layout>
                     <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
                         <app-toolbar class="menubar">
-                            <a href="$app/index.html">
-                                <img src="resources/images/tei-publisher-logo-contrast-color.svg" class="logo"/>
+                            <a href="$app/index.html" class="logo">
+                                <img src="resources/images/tei-publisher-logo-contrast-color.svg"/>
                             </a>
                             <pb-media-query query="(min-width: 1024px)">
                                 <a href="$app/index.html">Start</a>
@@ -251,8 +251,8 @@
                                         </paper-listbox>
                                     </paper-menu-button>
                                 </pb-restricted>
-                                <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
-                                    <img src="resources/images/wm_no_bg.svg" height="20"/>
+                                <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab" class="gitlab">
+                                    <img src="resources/images/wm_no_bg.svg"/>
                                 </a>
                                 <!-- Search input -->
                                 <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
