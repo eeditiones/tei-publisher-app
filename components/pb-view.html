@@ -251,11 +251,6 @@
                     this.xmlId = id;
                 }
 
-                const nodeId = this.getParameter('root');
-                if (nodeId && !this.nodeId) {
-                    this.nodeId = nodeId;
-                }
-
                 const action = this.getParameter('action');
                 if (action && action === 'search') {
                     this.highlight = true;
@@ -264,6 +259,14 @@
 
             connectedCallback() {
                 super.connectedCallback();
+                
+                const nodeId = this.getParameter('root');
+                if (this.view === 'single') {
+                    console.log("Clearing node id");
+                    this.nodeId = null;
+                } else if (nodeId && !this.nodeId) {
+                    this.nodeId = nodeId;
+                }
             }
 
             ready() {
@@ -529,13 +532,17 @@
              */
             navigate(direction) {
                 if (direction === 'backward') {
-                    this.setParameter('root', this.previous);
-                    this.pushHistory('Navigate backward');
-                    this._load(this.previous);
+                    if (this.previous) {
+                        this.setParameter('root', this.previous);
+                        this.pushHistory('Navigate backward');
+                        this._load(this.previous);
+                    }
                 } else {
-                    this.setParameter('root', this.next);
-                    this.pushHistory('Navigate forward');
-                    this._load(this.next);
+                    if (this.next) {
+                        this.setParameter('root', this.next);
+                        this.pushHistory('Navigate forward');
+                        this._load(this.next);
+                    }
                 }
             }
 

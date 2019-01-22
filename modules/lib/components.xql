@@ -62,7 +62,7 @@ let $xml :=
         let $data := util:eval($xquery)
         return
             if ($data) then
-                pages:load-xml($data, $view, (), $doc)
+                pages:load-xml($data, $view, $root, $doc)
             else
                 ()
 

@@ -87,7 +87,12 @@ declare function nav:get-section-heading($config as map(*), $section as node()) 
 };
 
 declare function nav:get-next($config as map(*), $div as element(), $view as xs:string) {
-    nav:get-next($config, $div)
+    let $next := nav:get-next($config, $div)
+    return
+        if ($config?context instance of document-node() or $next/ancestor::*[. is $config?context]) then
+            $next
+        else
+            ()
 };
 
 
@@ -102,7 +107,12 @@ declare function nav:get-next($config as map(*), $div as element()) {
 };
 
 declare function nav:get-previous($config as map(*), $div as element(), $view as xs:string) {
-    nav:get-previous-div($config, $div)
+    let $previous := nav:get-previous-div($config, $div)
+    return
+        if ($config?context instance of document-node() or $previous/ancestor::*[. is $config?context]) then
+            $previous
+        else
+            ()
 };
 
 declare function nav:get-previous-div($config as map(*), $div as element()) {
