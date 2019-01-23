@@ -203,7 +203,7 @@
 
             _checkGroup(info) {
                 if (this.group) {
-                    return info.group && info.group.indexOf(this.group) > -1;
+                    return info.groups && info.groups.indexOf(this.group) > -1;
                 }
                 return true;
             }

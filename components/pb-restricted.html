@@ -62,7 +62,7 @@
                         return;
                     }
                     this.subscribeTo('pb-login', (ev) => {
-                        this.show = this._loggedIn(ev.detail.user, ev.detail.group);
+                        this.show = this._loggedIn(ev.detail.user, ev.detail.groups);
                     });
                     this.show = login.loggedIn && this._loggedIn(login.user, login.groups);
                 });
