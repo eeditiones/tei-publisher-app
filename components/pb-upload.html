@@ -55,8 +55,19 @@
                     }
                 }.bind(this));
                 this.$.uploader.addEventListener('upload-success', function (event) {
-                    this.emitTo('pb-end-update');
-                    this.emitTo('pb-load');
+                    let done = true;
+                    this.$.uploader.files.forEach(function(file) {
+                        if (!(file.complete || file.error || file.aborted)) {
+                            done = false;
+                        }
+                    });
+                    if (done) {
+                        this.emitTo('pb-end-update');
+                        this.emitTo('pb-load');
+                        fetch("modules/index.xql").then(function() {
+                            console.log("Reindex done.");
+                        }.bind(this));
+                    }
                 }.bind(this));
             }
 
