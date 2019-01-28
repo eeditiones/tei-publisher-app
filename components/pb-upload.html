@@ -54,6 +54,10 @@
                         event.detail.formData.append('root', this.target);
                     }
                 }.bind(this));
+                this.$.uploader.addEventListener('upload-error', function(event) {
+                    event.detail.file.error = event.detail.xhr.responseText;
+                    this.emitTo('pb-end-update');
+                });
                 this.$.uploader.addEventListener('upload-success', function (event) {
                     let done = true;
                     this.$.uploader.files.forEach(function(file) {

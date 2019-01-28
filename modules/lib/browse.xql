@@ -398,9 +398,12 @@ declare function app:dispatch-action($node as node(), $model as map(*), $action 
                     <p>Removed {count($docs)} documents.</p>
                     {
                         for $path in $docs
-                        let $doc := pages:get-document($path)
+                        let $doc := pages:get-document(xmldb:decode($path))
                         return
-                            xmldb:remove(util:collection-name($doc), util:document-name($doc))
+                            if ($doc) then
+                                xmldb:remove(util:collection-name($doc), util:document-name($doc))
+                            else
+                                <p>Failed to remove document {$path}</p>
                     }
                 </div>
         case "delete-odd" return
