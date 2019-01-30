@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns:i18n="http://exist-db.org/xquery/i18n">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+        <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
+
+        <title data-template="config:app-title"/>
+        <meta name="description" content="Van Gogh Letter"/>
+        <meta name="pb-template" content="vangogh.html"/>
+
+        <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
+        <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
+        <link rel="import" href="components/dependencies-dev.html"/>
+
+        <style>
+            [unresolved] {
+                display:none;
+            }
+        </style>
+        <custom-style>
+            <style include="pb-common-styles">
+                body {
+                    --pb-link-theme: {
+                        font-family: "Junicode",Georgia,"Times New Roman",serif;
+                        text-decoration: none;
+                        color: black;
+                    };
+
+                    --pb-alternate-inline: var(--paper-blue-800);
+
+                    --pb-view-height: calc(100vh - 192px);
+
+                    --pb-footnote-ref: {
+                        font-size: .85em;
+                        background-color: #C0C0C0;
+                        text-decoration: none;
+                        text-indent: 0;
+                    };
+
+                    --pb-footnote-number: {
+                        font-size: .75em;
+                    };
+
+                    --pb-panel-max-height: var(--pb-view-height);
+                }
+
+
+                pb-grid {
+                    --pb-content-theme: {
+                        font-family: "Junicode", Georgia, "Times New Roman", serif;
+                        font-size: 14pt;
+                        line-height: 1.42857143;
+                        margin: 0 16px;
+                    };
+                }
+
+                .content-body {
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    padding: 0 20px;
+                }
+
+                .content-body pb-view {
+                    flex: 1 1;
+                }
+
+                .toc-toggle {
+                    display: none;
+                }
+
+                .breadcrumbs {
+                    display: flex;
+                    justify-content: space-between;
+                    align-self: center;
+                }
+            </style>
+        </custom-style>
+    </head>
+
+    <body unresolved="unresolved" data-template="i18n:translate" data-catalogues="resources/i18n">
+        <pb-page data-template="pages:pb-page">
+            <pb-document id="document1" data-template="pages:pb-document"/>
+            <app-drawer-layout force-narrow="force-narrow">
+                <app-drawer data-template="templates:include" data-template-path="templates/drawer.html"/>
+                <app-header-layout>
+                    <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                        <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
+                        <app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/>
+                    </app-header>
+
+                    <section class="breadcrumbs">
+                        <pb-view id="title-view1" src="document1" xpath="//teiHeader" view="single">
+                            <pb-param name="header" value="letter"/>
+                        </pb-view>
+                        <pb-grid-action action="add" class="grid-add" grid="#grid" initial="3">
+                            <paper-button><iron-icon icon="icons:add"></iron-icon> Add Column</paper-button>
+                        </pb-grid-action>
+                    </section>
+                    <main class="content-body">
+                        <pb-grid id="grid" panels="[0,2]">
+                            <template>
+                                <pb-panel panels="[&quot;Original text&quot;, &quot;Original text + line endings&quot;, &quot;Translation&quot;, &quot;Notes&quot;]" emit="transcription">
+                                    <!-- Added to the toolbar -->
+                                    <pb-grid-action grid="#grid" slot="toolbar" action="remove">
+                                        <paper-icon-button icon="icons:close"></paper-icon-button>
+                                    </pb-grid-action>
+                                    <template>
+                                        <pb-view src="document1"
+                                            xpath="//div[@type='original']"
+                                            column-separator=".tei-cb" history="history"
+                                            subscribe="transcription" emit="transcription">
+                                            <pb-param name="view" value="normalized"/>
+                                        </pb-view>
+                                    </template>
+                                    <template>
+                                        <pb-view src="document1"
+                                            xpath="//div[@type='original']"
+                                            column-separator=".tei-cb" history="history"
+                                            subscribe="transcription" emit="transcription"/>
+                                    </template>
+                                    <template>
+                                        <pb-view src="document1" map="vg-translation"
+                                            xpath="//div[@type='original']" subscribe="transcription"
+                                            column-separator=".tei-cb"/>
+                                    </template>
+                                    <template>
+                                        <pb-view src="document1"
+                                            xpath="//div[@type='original']" subscribe="transcription">
+                                            <pb-param name="view" value="notes"/>
+                                        </pb-view>
+                                    </template>
+                                </pb-panel>
+                            </template>
+                        </pb-grid>
+                    </main>
+                </app-header-layout>
+            </app-drawer-layout>
+        </pb-page>
+    </body>
+</html>

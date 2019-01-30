@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?teipublisher template="translation.html" odd="dantiscus.odd" view="page"?>
+<?teipublisher template="cortez.html" odd="dantiscus.odd" view="page"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="CIDTC3823">
    <teiHeader>
       <fileDesc>
@@ -171,8 +171,8 @@
             </front>
             <body xml:id="s.2">
                <div xml:id="s.2.1">
+                  <pb n="BCz, 1596, p. 301" facs="iiif:12446_000_BCz_1596p301.jpg"/>
                   <p xml:id="s.2.1.1">
-                     <pb n="BCz, 1596, p. 301" facs="iiif:12446_000_BCz_1596p301.jpg"/>
                      <seg xml:id="s.2.1.1.1"><seg type="incipit">Dos Cartas De Vuestra Señoría, una
                            duplicada de otra, he rreceuido</seg>, y en cada una dellas los versos
                         que Vuestra Señoría hizo intitulados a la <rs type="person" ref="#IDPe30"
@@ -250,7 +250,6 @@
             <front xml:id="t.1">
                <div xml:id="t.1.1">
                   <p xml:id="t.1.1.1">
-                     <pb/>
                      <seg type="address" xml:id="t.1.1.1.1">Do Jaśnie Wielmożnego i Wielce
                         Czcigodnego Pana a Pana <rs type="person" ref="#IDPe1">biskupa diecezji
                            chełmińskiej</rs> etc., ambasadora Najjaśniejszego Pana <rs type="person"
@@ -261,7 +260,6 @@
             <body xml:id="t.2">
                <div xml:id="t.2.1">
                   <p xml:id="t.2.1.1">
-                     <pb/>
                      <seg xml:id="t.2.1.1.1"><seg type="incipit">Otrzymałem od Waszej Wielmożności
                            dwa listy, jeden jest kopią drugiego</seg>, a w każdym z nich wiersze,
                         które Wasza Wielmożność napisała, zadedykowane <rs type="person"
