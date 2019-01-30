@@ -88,14 +88,12 @@ declare function nav:get-previous-div($config as map(*), $div as element()) {
 
 declare function nav:output-footnotes($footnotes as element()*) {
     <div class="footnotes">
-        <ol>
-        {
-            for $note in $footnotes
-            order by number($note/@value)
-            return
-                $note
-        }
-        </ol>
+    {
+        for $note in $footnotes
+        order by number($note/@value)
+        return
+            $note
+    }
     </div>
 };
 

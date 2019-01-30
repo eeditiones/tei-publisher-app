@@ -295,8 +295,8 @@ declare function pages:process-content($xml as node()*, $root as node()*, $confi
         <div class="{$config:css-content-class} {$class}">
         {
             $body,
-            if ($html//li[@class="footnote"]) then
-                nav:output-footnotes($html//li[@class = "footnote"])
+            if ($html//*[@class="footnote"]) then
+                nav:output-footnotes($html//*[@class = "footnote"])
             else
                 ()
             ,
@@ -309,7 +309,9 @@ declare function pages:clean-footnotes($nodes as node()*) {
     for $node in $nodes
     return
         typeswitch($node)
-            case element(li) return
+            case element(paper-tooltip) return
+		()
+            case element() return
                 if ($node/@class = "footnote") then
                     ()
                 else
@@ -317,13 +319,6 @@ declare function pages:clean-footnotes($nodes as node()*) {
                         $node/@*,
                         pages:clean-footnotes($node/node())
                     }
-            case element(paper-tooltip) return
-		()
-            case element() return
-                element { node-name($node) } {
-                    $node/@*,
-                    pages:clean-footnotes($node/node())
-                }
             default return
                 $node
 };
