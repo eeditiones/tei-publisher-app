@@ -43,6 +43,10 @@
                     panels: {
                         type: Array
                     },
+                    direction: {
+                        type: String,
+                        value: 'ltr'
+                    },
                     /**
                      * the number of columns
                      */
@@ -106,7 +110,7 @@
             _insertPanel(active) {
                 const clone = document.importNode(this.template.content.firstElementChild, true);
                 clone.setAttribute('_active', active);
-                if (this.$.grid.children.length === 0) {
+                if (this.direction === 'ltr' || this.$.grid.children.length === 0) {
                     this.$.grid.appendChild(clone);
                 } else {
                     this.$.grid.insertBefore(clone, this.$.grid.firstElementChild);

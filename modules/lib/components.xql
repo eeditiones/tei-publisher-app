@@ -26,6 +26,7 @@ import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/ut
 import module namespace nav-tei="http://www.tei-c.org/tei-simple/navigation/tei" at "../navigation-tei.xql";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 import module namespace query="http://www.tei-c.org/tei-simple/query" at "../query.xql";
+import module namespace mapping="http://www.tei-c.org/tei-simple/components/map" at "../map.xql";
 
 declare boundary-space strip;
 
@@ -53,6 +54,7 @@ let $id := request:get-parameter("id", () )
 let $view := request:get-parameter("view", $config:default-view)
 let $xpath := request:get-parameter("xpath", ())
 let $debug := request:get-parameter("debug", ())
+let $mapping := request:get-parameter("map", ())
 let $highlight := request:get-parameter("highlight", ())
 let $xml :=
     if ($xpath) then
@@ -91,11 +93,19 @@ let $xml :=
         pages:load-xml($view, $root, $doc)
 return
     if ($xml?data) then
-        let $data :=
-            if (empty($xpath) and $highlight and exists(session:get-attribute("apps.simple.query"))) then
-                query:expand($xml?config, $xml?data)[1]
+        let $mapped :=
+            if ($mapping) then
+                let $mapFun := function-lookup(xs:QName("mapping:" || $mapping), 1)
+                let $mapped := $mapFun($xml?data)
+                return
+                    $mapped
             else
                 $xml?data
+        let $data :=
+            if (empty($xpath) and $highlight and exists(session:get-attribute("apps.simple.query"))) then
+                query:expand($xml?config, $mapped)[1]
+            else
+                $mapped
         let $content :=
             if (not($view = "single")) then
                 pages:get-content($xml?config, $data)
@@ -107,9 +117,9 @@ return
                 map { "webcomponents": true() }
             ))
         let $html :=
-            typeswitch ($xml?data)
+            typeswitch ($mapped)
                 case element() | document-node() return
-                    pages:process-content($content, $xml?data, $xml?config, $userParams)
+                    pages:process-content($content, $mapped, $xml?config, $userParams)
                 default return
                     $content
         let $transformed := local:extract-footnotes($html[1])
@@ -121,45 +131,45 @@ return
                 $transformed?content
             ) else
                 map {
-                "view": $view,
-                "doc": $doc,
-                "root": $root,
-                "odd": $xml?config?odd,
-                "next":
-                    if ($view != "single") then
-                        let $next := $config:next-page($xml?config, $xml?data, $view)
-                        return
-                            if ($next) then
-                                util:node-id($next)
-                            else ()
-                    else
-                        (),
-                "previous":
-                    if ($view != "single") then
-                        let $prev := $config:previous-page($xml?config, $xml?data, $view)
-                        return
-                            if ($prev) then
-                                util:node-id($prev)
-                            else
-                                ()
-                    else
-                        (),
-                "switchView":
-                    if ($view != "single") then
-                        let $node := pages:switch-view-id($xml?data, $view)
-                        return
-                            if ($node) then
-                                util:node-id($node)
-                            else
-                                ()
-                    else
-                        (),
-                "content": serialize($transformed?content,
-                    <output:serialization-parameters xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
-                      <output:indent>no</output:indent>
-                    <output:method>html5</output:method>
-                        </output:serialization-parameters>),
-                "footnotes": $transformed?footnotes
-            }
+                    "view": $view,
+                    "doc": $doc,
+                    "root": $root,
+                    "odd": $xml?config?odd,
+                    "next":
+                        if ($view != "single") then
+                            let $next := $config:next-page($xml?config, $xml?data, $view)
+                            return
+                                if ($next) then
+                                    util:node-id($next)
+                                else ()
+                        else
+                            (),
+                    "previous":
+                        if ($view != "single") then
+                            let $prev := $config:previous-page($xml?config, $xml?data, $view)
+                            return
+                                if ($prev) then
+                                    util:node-id($prev)
+                                else
+                                    ()
+                        else
+                            (),
+                    "switchView":
+                        if ($view != "single") then
+                            let $node := pages:switch-view-id($xml?data, $view)
+                            return
+                                if ($node) then
+                                    util:node-id($node)
+                                else
+                                    ()
+                        else
+                            (),
+                    "content": serialize($transformed?content,
+                        <output:serialization-parameters xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                          <output:indent>no</output:indent>
+                        <output:method>html5</output:method>
+                            </output:serialization-parameters>),
+                    "footnotes": $transformed?footnotes
+                }
     else
         map { "error": "Not found" }

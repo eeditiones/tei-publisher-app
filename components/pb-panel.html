@@ -13,6 +13,10 @@
                 justify-content: space-between;
             }
 
+            #content {
+                overflow: auto;
+                max-height: calc(var(--pb-panel-max-height) - 72px);
+            }
         </style>
 
         <slot></slot>

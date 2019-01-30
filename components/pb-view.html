@@ -48,6 +48,16 @@
                 @apply --pb-footnotes;
             }
 
+            .list dt {
+                float: left;
+            }
+
+            .footnote .fn-number {
+                float: left;
+
+                @apply --pb-footnote-number;
+            }
+
             .content {
                 @apply --pb-content-theme;
             }
@@ -170,14 +180,26 @@
                         reflectToAttribute: true
                     },
                     /**
-                     * An optional XPath expression: the root of the fragment to be displayed is determined
+                     * An optional XPath expression: the root of the fragment to be processed is determined
                      * by evaluating the given XPath expression. The XPath expression should be absolute.
                      * The namespace of the document is declared as default namespace, so no prefixes should
                      * be used.
+                     *
+                     * If the `map` property is used, it may change scope for the displayed fragment.
                      */
                     xpath: {
                         type: String,
                         reflectToAttribute: true
+                    },
+                    /**
+                     * If defined denotes the local name of an XQuery function in modules/map.xql, which needs to be called
+                     * with the current root node and returns the node of a mapped fragment, eg. translation.
+                     *
+                     * Navigation in the document is still determined by the current root as defined through the `root`, `xpath`
+                     * and `xmlId` properties.
+                     */
+                    map: {
+                        type: String
                     },
                     /**
                      * Message to display if no content was returned by the server.
@@ -259,7 +281,7 @@
 
             connectedCallback() {
                 super.connectedCallback();
-                
+
                 const nodeId = this.getParameter('root');
                 if (this.view === 'single') {
                     console.log("Clearing node id");
@@ -332,22 +354,17 @@
                 const doc = this.getDocument();
 
                 if (!doc.path) {
+                    console.log("No path");
                     return;
                 }
 
                 const params = this.getParameters(pos);
 
+                this._doLoad(params);
+            }
+
+            _doLoad(params) {
                 this.emitTo('pb-start-update', params);
-
-                let url = doc.getFileName() + '?odd=' + params.odd + '&view=' + params.view;
-                if (params.root) {
-                    url += '&root=' + params.root;
-                }
-
-                // if (this.history && !init) {
-                //     console.log("<pb-view> Pushing to history: %o", this);
-                //     history.pushState(params, "Navigate page", url);
-                // }
 
                 console.log("<pb-view> Loading view with params %o", params);
                 this._clear();
@@ -393,7 +410,7 @@
                 this.next = resp.next;
                 this.previous = resp.previous;
                 this.nodeId = resp.root;
-                if (this.xmlId) {
+                if (this.xmlId && !this.map) {
                     this.setParameter('root', this.nodeId);
                     this.pushHistory('Navigate to xml:id');
                 }
@@ -501,6 +518,9 @@
                 if (this.highlight) {
                     params.highlight = "yes";
                 }
+                if (this.map) {
+                    params.map = this.map;
+                }
 
                 return params;
             }
@@ -533,14 +553,18 @@
             navigate(direction) {
                 if (direction === 'backward') {
                     if (this.previous) {
-                        this.setParameter('root', this.previous);
-                        this.pushHistory('Navigate backward');
+                        if (!this.map) {
+                            this.setParameter('root', this.previous);
+                            this.pushHistory('Navigate backward');
+                        }
                         this._load(this.previous);
                     }
                 } else {
                     if (this.next) {
-                        this.setParameter('root', this.next);
-                        this.pushHistory('Navigate forward');
+                        if (!this.map) {
+                            this.setParameter('root', this.next);
+                            this.pushHistory('Navigate forward');
+                        }
                         this._load(this.next);
                     }
                 }
