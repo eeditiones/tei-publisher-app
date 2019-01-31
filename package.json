@@ -21,7 +21,7 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "polymer-build": "^3.0.4",
-    "web-component-tester": "^6.8.0"
+    "web-component-tester": "^6.9.0"
   },
   "dependencies": {
     "@existdb/gulp-exist": "^3.0.0",
@@ -43,7 +43,6 @@
     "wdio-dot-reporter": "0.0.10",
     "wdio-junit-reporter": "^0.4.4",
     "wdio-mocha-framework": "^0.6.4",
-    "web-component-tester": "^6.9.0",
     "webdriverio": "^4.14.1",
     "xml-writer": "^1.7.0"
   }

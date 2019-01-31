@@ -1,21 +1,9 @@
-# \<existdb-document\>
+# Polymer 3 migration
+
+## step by step
+
+Make sure to use npm version of 8.x or 10.x.
+
+Follow upgrade guide at https://polymer-library.polymer-project.org/3.0/docs/upgrade.
 
 
-
-## Install the Polymer-CLI
-
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
-
-## Viewing Your Element
-
-```
-$ polymer serve
-```
-
-## Running Tests
-
-```
-$ polymer test
-```
-
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
