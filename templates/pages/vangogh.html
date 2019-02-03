@@ -60,6 +60,10 @@
                     };
                 }
 
+                pb-panel.metadata {
+                    max-width: 400px;
+                }
+
                 .content-body {
                     position: relative;
                     display: flex;
@@ -96,45 +100,58 @@
                     </app-header>
 
                     <section class="breadcrumbs">
-                        <pb-view id="title-view1" src="document1" xpath="//teiHeader" view="single">
-                            <pb-param name="header" value="letter"/>
-                        </pb-view>
-                        <pb-grid-action action="add" class="grid-add" grid="#grid" initial="3">
-                            <paper-button><iron-icon icon="icons:add"></iron-icon> Add Column</paper-button>
+                        <div>
+                            <pb-view id="title-view1" src="document1" xpath="//teiHeader" view="single">
+                                <pb-param name="header" value="letter"/>
+                            </pb-view>
+                        </div>
+                        <pb-grid-action action="add" class="grid-add" grid="#grid" initial="4">
+                            <paper-button><iron-icon icon="icons:view-carousel"></iron-icon> Add</paper-button>
                         </pb-grid-action>
                     </section>
                     <main class="content-body">
-                        <pb-grid id="grid" panels="[0,2]">
+                        <pb-grid id="grid" panels="[0,2,3]" subscribe="transcription">
                             <template>
-                                <pb-panel panels="[&quot;Original text&quot;, &quot;Original text + line endings&quot;, &quot;Translation&quot;, &quot;Notes&quot;]" emit="transcription">
+                                <pb-panel emit="transcription">
                                     <!-- Added to the toolbar -->
                                     <pb-grid-action grid="#grid" slot="toolbar" action="remove">
                                         <paper-icon-button icon="icons:close"></paper-icon-button>
                                     </pb-grid-action>
-                                    <template>
-                                        <pb-view src="document1"
+                                    <template class="metadata" title="Metadata">
+                                        <pb-view src="document1" xpath="//teiHeader" view="single"
+                                            subscribe="transcription" emit="transcription">
+                                            <pb-param name="view" value="metadata"/>
+                                        </pb-view>
+                                    </template>
+                                    <template title="Original text">
+                                        <pb-view src="document1" class=".transcription"
                                             xpath="//div[@type='original']"
                                             column-separator=".tei-cb" history="history"
                                             subscribe="transcription" emit="transcription">
                                             <pb-param name="view" value="normalized"/>
                                         </pb-view>
                                     </template>
-                                    <template>
-                                        <pb-view src="document1"
+                                    <template title="Original text + line endings">
+                                        <pb-view src="document1" class=".transcription"
                                             xpath="//div[@type='original']"
                                             column-separator=".tei-cb" history="history"
                                             subscribe="transcription" emit="transcription"/>
                                     </template>
-                                    <template>
+                                    <template title="Translation">
                                         <pb-view src="document1" map="vg-translation"
                                             xpath="//div[@type='original']" subscribe="transcription"
                                             column-separator=".tei-cb"/>
                                     </template>
-                                    <template>
+                                    <template title="Notes">
                                         <pb-view src="document1"
                                             xpath="//div[@type='original']" subscribe="transcription">
                                             <pb-param name="view" value="notes"/>
                                         </pb-view>
+                                    </template>
+                                    <template title="Facsimile">
+                                        <pb-image subscribe="transcription" wait-for=".transcription">
+                                            <span slot="caption">Images hosted by <a href="http://vangoghletters.org">Van Gogh Museum, Amsterdam, Huygens ING, The Hague</a></span>
+                                        </pb-image>
                                     </template>
                                 </pb-panel>
                             </template>

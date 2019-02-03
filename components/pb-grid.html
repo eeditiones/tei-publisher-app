@@ -5,17 +5,14 @@
     <template>
         <style>
             :host {
-                display: block;
-            }
-
-            #grid {
                 display: grid;
                 grid-template-columns: var(--pb-column-widths, '1fr');
                 grid-column-gap: var(--pb-column-gap, 20px);
+                justify-content: space-between;
             }
         </style>
 
-        <div id="grid"></div>
+        <slot></slot>
     </template>
 
     <script>
@@ -60,7 +57,7 @@
                 super.connectedCallback();
 
                 this.subscribeTo('pb-panel', ev => {
-                    const idx = Array.from(this.$.grid.children).reverse().indexOf(ev.detail.panel);
+                    const idx = Array.from(this.querySelectorAll('pb-panel')).indexOf(ev.detail.panel);
                     console.log('<pb-grid> Updating panel %d to show %s', idx, ev.detail.active);
                     this.panels[idx] = ev.detail.active;
 
@@ -77,13 +74,13 @@
                 }
                 this._columns = this.panels.length;
                 this.template = this.querySelector('template');
-                this._update();
                 this.panels.forEach(panelNum => this._insertPanel(panelNum));
+
+                this._update();
             }
 
             addPanel(initial) {
                 this._columns++;
-                this._update();
                 this.panels.push(initial);
 
                 this.setParameter('panels', this.panels.join('.'));
@@ -91,11 +88,13 @@
 
                 this._insertPanel(initial);
 
+                this._update();
+
                 this.emitTo('pb-refresh', null);
             }
 
             removePanel(panel) {
-                const idx = Array.from(this.$.grid.children).reverse().indexOf(panel);
+                const idx = Array.from(this.querySelectorAll('pb-panel')).indexOf(panel);
                 console.log('<pb-grid> Removing panel %d', idx);
                 this.panels.splice(idx, 1);
 
@@ -109,16 +108,27 @@
 
             _insertPanel(active) {
                 const clone = document.importNode(this.template.content.firstElementChild, true);
-                clone.setAttribute('_active', active);
-                if (this.direction === 'ltr' || this.$.grid.children.length === 0) {
-                    this.$.grid.appendChild(clone);
+                clone.setAttribute('active', active);
+                if (this.direction === 'ltr' || this.querySelectorAll('pb-panel').length === 0) {
+                    this.appendChild(clone);
                 } else {
-                    this.$.grid.insertBefore(clone, this.$.grid.firstElementChild);
+                    this.insertBefore(clone, this.firstElementChild);
                 }
             }
 
             _update() {
-                this.updateStyles({'--pb-column-widths': '1fr '.repeat(this._columns)});
+                let widths = [];
+                this.querySelectorAll('pb-panel').forEach((child) => {
+                    const styles = window.getComputedStyle(child);
+                    const width = styles.getPropertyValue('max-width');
+                    if (width && width !== 'none') {
+                        widths.push(width);
+                    } else {
+                        widths.push('auto');
+                    }
+                });
+                console.log('column-widths: %s', widths.join(' '));
+                this.updateStyles({'--pb-column-widths': widths.join(' ')});
             }
 
         }

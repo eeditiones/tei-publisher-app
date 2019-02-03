@@ -13,16 +13,19 @@
                 justify-content: space-between;
             }
 
-            #content {
+            ::slotted(div) {
                 overflow: auto;
                 max-height: calc(var(--pb-panel-max-height) - 72px);
             }
+
+            app-toolbar {
+                font-size: 75%;
+            }
         </style>
 
-        <slot></slot>
         <app-toolbar>
             <paper-dropdown-menu id="menu" label="[[label]]">
-                <paper-listbox slot="dropdown-content" class="dropdown-content" selected="{{_active}}">
+                <paper-listbox slot="dropdown-content" class="dropdown-content" selected="{{active}}">
                     <template id="repeat" is="dom-repeat" items="[[panels]]">
                         <paper-item>[[item]]</paper-item>
                     </template>
@@ -30,7 +33,7 @@
             </paper-dropdown-menu>
             <slot name="toolbar"></slot>
         </app-toolbar>
-        <div id="content" class="panel"></div>
+        <slot></slot>
     </template>
 
     <script>
@@ -54,10 +57,11 @@
                     /**
                      * the index of the active view
                      */
-                    _active: {
+                    active: {
                         type: Number,
                         value: 0,
-                        observer: '_update'
+                        observer: '_update',
+                        reflectToAttribute: true
                     },
                     /**
                      * the label displayed above the dropdown for selecting the view to show
@@ -70,13 +74,20 @@
                      * a name for each available panel, to be displayed in the dropdown
                      */
                     panels: {
-                        type: Array
+                        type: Array,
+                        reflectToAttribute: true
                     }
                 };
             }
 
             connectedCallback() {
                 super.connectedCallback();
+
+                if (!this.panels) {
+                    const titles = [];
+                    this.querySelectorAll('template').forEach(template => titles.push(template.title));
+                    this.panels = titles;
+                }
             }
 
             ready() {
@@ -88,22 +99,25 @@
             }
 
             _show(update) {
-                console.log('<pb-panel> showing panel %s', this._active);
-                this.$.content.querySelectorAll('._pb_panel').forEach(div => div.style.display = 'none');
-                const existingPanel = this.$.content.querySelector('._pb_panel' + this._active);
+                console.log('<pb-panel> showing panel %s', this.active);
+                this.querySelectorAll('._pb_panel').forEach(div => div.style.display = 'none');
+                const existingPanel = this.querySelector('._pb_panel' + this.active);
                 if (existingPanel) {
                     existingPanel.style.display = '';
                 } else {
                     const template = this._getActivePanel();
+                    if (template.className) {
+                        this.className = template.className;
+                    }
                     const clone = document.importNode(template.content, true);
                     const div = document.createElement('div');
-                    div.className = '_pb_panel _pb_panel' + this._active;
+                    div.className = '_pb_panel _pb_panel' + this.active;
                     div.appendChild(clone);
-                    this.$.content.appendChild(div);
+                    this.appendChild(div);
 
                     this.emitTo('pb-panel', {
                         panel: this,
-                        active: this._active
+                        active: this.active
                     });
 
                     if (update) {
@@ -114,7 +128,7 @@
 
             _getActivePanel() {
                 const templates = this.querySelectorAll('template');
-                return templates[this._active];
+                return templates[this.active];
             }
 
             refresh() {
