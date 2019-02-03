@@ -1,0 +1,82 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-mixin.html">
+
+<dom-module id="pb-image">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            img {
+                width: 100%;
+            }
+
+            figcaption {
+                font-size: .75em;
+
+                @apply --pb-image-caption;
+            }
+        </style>
+
+        <template is="dom-if" if="[[src]]">
+            <figure>
+                <img src="[[src]]">
+                <figcaption><slot name="caption"></slot></figcaption>
+            </figure>
+        </template>
+    </template>
+
+    <script>
+        /**
+         * `seed-element`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/seed-element.html
+         * @appliesMixin PbMixin
+         */
+        class PbImage extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'pb-image';
+            }
+
+            static get properties() {
+                return {
+                    /** Image source */
+                    src: {
+                        type: String,
+                        reflectToAttribute: true
+                    },
+                    caption: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+
+                this.subscribeTo('pb-show-annotation', this._show.bind(this));
+                this.subscribeTo('pb-update', this._update.bind(this));
+            }
+
+            _show(ev) {
+                this.src = ev.detail.file;
+            }
+
+            _update(ev) {
+                const facsimiles = [];
+                ev.detail.root.querySelectorAll('pb-facs-link').forEach(cb => {
+                    if (cb.facs) {
+                        facsimiles.push(cb.facs);
+                    }
+                });
+                this.src = facsimiles.length == 0 ? null : facsimiles[0];
+            }
+        }
+
+        window.customElements.define(PbImage.is, PbImage);
+    </script>
+</dom-module>

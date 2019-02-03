@@ -1,4 +1,20 @@
+.content {
+    margin: 0;
+}
+
+.metadata {
+    max-width: 400px;
+}
+
 .list dt {
     font-size: 75%;
     vertical-align: top;
+}
+
+.metadata h5 {
+    margin-bottom: 0;
+}
+
+.metadata p {
+    margin-top: 0;
 }

@@ -1,4 +1,4 @@
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:vg="http://www.vangoghletters.org/ns/" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -38,15 +38,21 @@
     <text>
         <body>
             <schemaSpec start="TEI teiCorpus" ident="vangogh" source="teipublisher.odd"> <elementSpec ident="pb" mode="change">
-                    <model behaviour="break" useSourceRendition="true">
-            <param name="label" value="@f || ':' || @n"/>
-            <param name="type" value="'page'"/>
+                    <model behaviour="webcomponent" useSourceRendition="true">
+            <param name="content" value="@f || ':' || @n"/>
+            <param name="facs" value="let $zone := id(substring-after(@facs, '#'), root($parameters?root)) return  'http://vangoghletters.org/vg/facsimiles/' ||     $zone/graphic[@mimeType=&#34;image/png&#34;]/@url"/>
+            <param name="name" value="'pb-facs-link'"/>
+            <param name="emit" value="'transcription'"/>
             <outputRendition xml:space="preserve">
+
+
             font-size: .85em;
 background-color: #C0C0C0;
 border-left: 1px solid black;
 border-right: 1px solid black;
 padding: 0 1em;
+
+
             </outputRendition>
         </model>
                 </elementSpec>
@@ -59,8 +65,14 @@ padding: 0 1em;
                     <model predicate="ancestor::div[@type='translation'] or $parameters?view='normalized'" behaviour="paragraph"/>
                     <model predicate="@rend='indent'" behaviour="inline">
             <outputRendition xml:space="preserve">
+
+
+
             display: inline-block;
 text-indent: 20px;
+
+
+
             </outputRendition>
         </model>
                     <model behaviour="inline"/>
@@ -79,20 +91,32 @@ text-indent: 20px;
             <param name="label" value="@n/string()"/>
             <param name="content" value="let $n := @n return $get(.)/ancestor::TEI//div[@type='notes']//note[@n=$n]/node()"/>
             <outputRendition xml:space="preserve">
+
+
+
             font-size: .85em;
 background-color: #C0C0C0;
 padding: 0 .25em;
 border-right: 1px solid black;
 text-indent: 0;
 margin: 0 .25em;
+
+
+
             </outputRendition>
         </model>
                 </elementSpec>
                 <elementSpec ident="teiHeader" mode="change">
+                    <model predicate="$parameters?view='metadata'" behaviour="block" cssClass="metadata">
+            <param name="content" value=".//sourceDesc//vg:letDesc"/>
+            <outputRendition xml:space="preserve">
+            font-size: .85em;
+            </outputRendition>
+        </model>
                     <model output="latex" behaviour="metadata"/>
                     <model output="fo" behaviour="omit"/>
                     <model output="web" predicate="$parameters?header='short'" behaviour="block"/>
-                    <model output="web" predicate="$parameters?header='letter'" behaviour="heading">
+                    <model output="web" predicate="$parameters?header='letter'" behaviour="inline">
             <param name="content" value="fileDesc/titleStmt/title"/>
             <param name="level" value="5"/>
         </model>
@@ -108,6 +132,7 @@ margin: 0 .25em;
             <param name="content" value="for $anchor in .//anchor/@n return  root($parameters?root)//div[@type='notes']//note[@n=$anchor]"/>
             <param name="type" value="'custom'"/>
         </model>
+                    <model predicate="@type='textualNotes'" behaviour="omit"/>
                     <model predicate="@type='title_page'" behaviour="block">
             <outputRendition xml:space="preserve">
             border: 1px solid black; padding: 5px;
@@ -122,6 +147,47 @@ margin: 0 .25em;
             <param name="type" value="'line'"/>
             <param name="label" value="@n"/>
         </model>
+                </elementSpec>
+            <elementSpec ident="ref" mode="change">
+                    <model predicate="not(@target)" behaviour="inline"/>
+                    <model behaviour="inline">
+            <outputRendition xml:space="preserve">
+            text-decoration: underline;
+            </outputRendition>
+        </model>
+                </elementSpec>
+            <elementSpec ident="vg:letHeading" mode="add"/>
+                <elementSpec ident="vg:letDesc" mode="add">
+                    <modelSequence>
+            <model behaviour="heading">
+                <param name="content" value="'Source status:'"/>
+                <param name="level" value="5"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="note[@type='sourceStatus']/node()"/>
+            </model>
+            <model behaviour="heading">
+                <param name="content" value="'Location:'"/>
+                <param name="level" value="5"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="note[@type='location']/node()"/>
+            </model>
+            <model behaviour="heading">
+                <param name="content" value="'Date:'"/>
+                <param name="level" value="5"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="note[@type='date']/node()"/>
+            </model>
+            <model behaviour="heading">
+                <param name="content" value="'Additional:'"/>
+                <param name="level" value="5"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="note[@type='additionalDetail']/node()"/>
+            </model>
+        </modelSequence>
                 </elementSpec>
             </schemaSpec>
         </body>
