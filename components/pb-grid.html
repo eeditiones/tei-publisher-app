@@ -35,7 +35,12 @@
             static get properties() {
                 return {
                     /**
-                     * an array of panel items to display as columns
+                     * an array of panel items to display when the component is loaded. It should contain a
+                     * number for each panel to show, indicating the ordinal position of the template within the `<pb-panel>`
+                     * to initialize. For example, if you have two templates in `<pb-panel>`: "transcription" and "translation",
+                     * setting `panels="[0, 1]"` will show two columns, one with the transcription, the other with the translation.
+                     *
+                     * Passing in a browser parameter `panels` with a comma-separated list will set this property as well.
                      */
                     panels: {
                         type: Array

@@ -41,6 +41,8 @@
          * A container for different views. Only one view will be shown at a time.
          * Provides a dropdown for the user to switch between views. Views are
          * lazy loaded and should be provided as one or more `<template>` elements.
+         * Each `<template>` may have a title attribute to specify the title to be shown
+         * for it in the dropdown.
          *
          * @customElement
          * @appliesMixin PbMixin
@@ -71,7 +73,8 @@
                         value: 'View'
                     },
                     /**
-                     * a name for each available panel, to be displayed in the dropdown
+                     * a name for each available panel, to be displayed in the dropdown. If not set,
+                     * each template will be checked for a title attribute, which will be taken as name.
                      */
                     panels: {
                         type: Array,
