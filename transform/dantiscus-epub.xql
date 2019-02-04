@@ -50,6 +50,8 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $get := 
+        model:source($parameters, ?)
     return
     $input !         (
             let $node := 
@@ -196,7 +198,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             html:title($config, ., ("tei-fileDesc4"), titleStmt)
                     case element(seg) return
-                        html:inline($config, ., css:get-rendition(., ("tei-seg")), .)
+                        html:webcomponent($config, ., ("tei-seg1"), ., 'pb-highlight', map {"key": replace(@xml:id, '^s\.(.*)$', 't.$1')})
                     case element(profileDesc) return
                         html:omit($config, ., ("tei-profileDesc"), .)
                     case element(email) return
@@ -562,5 +564,15 @@ declare function model:apply-children($config as map(*), $node as element(), $co
                 default return
                     html:escapeChars(.)
         )
+};
+
+declare function model:source($parameters as map(*), $elem as element()) {
+        
+    let $id := $elem/@exist:id
+    return
+        if ($id and $parameters?root) then
+            util:node-by-id($parameters?root, $id)
+        else
+            $elem
 };
 

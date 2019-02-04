@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
                 <title>Dantiscus' Letters
-                    
+
+
                  <desc>16th c. correspondence with facsimile and encoding of transcriptional features and prosopographical information</desc>
                 </title>
             </titleStmt>
@@ -44,18 +44,19 @@
     </teiHeader>
     <text>
         <body>
-            <schemaSpec start="TEI teiCorpus" ident="dantiscus" source="teipublisher.odd"> 
+            <schemaSpec start="TEI teiCorpus" ident="dantiscus" source="teipublisher.odd">
                                 <elementSpec ident="pb" mode="change">
                     <model predicate="starts-with(@facs, 'iiif:')" behaviour="webcomponent" cssClass="facs">
             <param name="name" value="'pb-facs-link'"/>
             <param name="content" value="@n"/>
             <param name="facs" value="replace(@facs, '^iiif:(.*)$', '$1')"/>
             <outputRendition xml:space="preserve">
-            
-            
-            
-            
-                            
+
+
+
+
+
+
                             font-size: 16px;
                             color: #888888;
                             cursor: pointer;
@@ -63,11 +64,12 @@
                             display: block;
                             margin-right: -32px;
                             float: right;
-                            
-                        
-            
-            
-            
+
+
+
+
+
+
             </outputRendition>
         </model>
                     <model behaviour="omit">
@@ -86,7 +88,7 @@
                 </elementSpec>
 
 
-                
+
             <elementSpec ident="choice" mode="change">
                     <model output="plain" predicate="sic and corr" behaviour="inline">
             <param name="content" value="corr[1]"/>
@@ -141,14 +143,16 @@
         </model>
                     <model predicate="parent::div and not(@place)" behaviour="block">
             <outputRendition xml:space="preserve">
-            
-            
-            
+
+
+
+
             margin-left: 10px;margin-right: 10px;
                   font-size:smaller;
-            
-            
-            
+
+
+
+
             </outputRendition>
         </model>
                     <model predicate="not(@place)" behaviour="inline">
@@ -172,6 +176,13 @@
             </outputRendition>
         </model>
                 </elementSpec>
+            <elementSpec ident="seg" mode="change">
+        <model output="web" behaviour="webcomponent">
+            <param name="name" value="'pb-highlight'"/>
+            <param name="key" value="replace(@xml:id, '^s\.(.*)$', 't.$1')"/>
+        </model>
+        <model behaviour="inline" useSourceRendition="true"/>
+    </elementSpec>
             </schemaSpec>
         </body>
     </text>
