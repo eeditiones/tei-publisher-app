@@ -339,7 +339,7 @@
                     }
                     this.view = ev.detail.view || this.view;
                     // clear nodeId if set to null
-                    if (ev.detail.position == null) {
+                    if (ev.detail.position === null) {
                         this.nodeId = null;
                     } else {
                         this.nodeId = ev.detail.position || this.nodeId;

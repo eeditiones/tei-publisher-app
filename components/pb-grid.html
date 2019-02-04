@@ -62,12 +62,14 @@
                 super.connectedCallback();
 
                 this.subscribeTo('pb-panel', ev => {
-                    const idx = Array.from(this.querySelectorAll('pb-panel')).indexOf(ev.detail.panel);
-                    console.log('<pb-grid> Updating panel %d to show %s', idx, ev.detail.active);
-                    this.panels[idx] = ev.detail.active;
+                    const idx = Array.from(this.querySelectorAll('._grid_panel')).indexOf(ev.detail.panel);
+                    if (idx > 0) {
+                        console.log('<pb-grid> Updating panel %d to show %s', idx, ev.detail.active);
+                        this.panels[idx] = ev.detail.active;
 
-                    this.setParameter('panels', this.panels.join('.'));
-                    this.pushHistory('added panel');
+                        this.setParameter('panels', this.panels.join('.'));
+                        this.pushHistory('added panel');
+                    }
                 });
             }
 
@@ -77,6 +79,7 @@
                 if (panelsParam) {
                     this.panels = panelsParam.split('.').map(param => parseInt(param));
                 }
+
                 this._columns = this.panels.length;
                 this.template = this.querySelector('template');
                 this.panels.forEach(panelNum => this._insertPanel(panelNum));
@@ -85,6 +88,16 @@
             }
 
             addPanel(initial) {
+                if (!initial) {
+                    if (this.panels.length > 0) {
+                        var max = this.panels.reduce(function(a, b) {
+                            return Math.max(a, b);
+                        });
+                        initial = max + 1;
+                    } else {
+                        initial = 0;
+                    }
+                }
                 this._columns++;
                 this.panels.push(initial);
 
@@ -99,7 +112,7 @@
             }
 
             removePanel(panel) {
-                const idx = Array.from(this.querySelectorAll('pb-panel')).indexOf(panel);
+                const idx = Array.from(this.querySelectorAll('._grid_panel')).indexOf(panel);
                 console.log('<pb-grid> Removing panel %d', idx);
                 this.panels.splice(idx, 1);
 
@@ -114,16 +127,20 @@
             _insertPanel(active) {
                 const clone = document.importNode(this.template.content.firstElementChild, true);
                 clone.setAttribute('active', active);
-                if (this.direction === 'ltr' || this.querySelectorAll('pb-panel').length === 0) {
+                if (this.direction === 'ltr' || this.querySelectorAll('._grid_panel').length === 0) {
                     this.appendChild(clone);
                 } else {
                     this.insertBefore(clone, this.firstElementChild);
                 }
+                clone.classList.add('_grid_panel');
             }
 
             _update() {
                 let widths = [];
-                this.querySelectorAll('pb-panel').forEach((child) => {
+                Array.from(this.children).forEach((child) => {
+                    if (child instanceof HTMLTemplateElement) {
+                        return;
+                    }
                     const styles = window.getComputedStyle(child);
                     const width = styles.getPropertyValue('max-width');
                     if (width && width !== 'none') {
@@ -132,7 +149,6 @@
                         widths.push('auto');
                     }
                 });
-                console.log('column-widths: %s', widths.join(' '));
                 this.updateStyles({'--pb-column-widths': widths.join(' ')});
             }
 
