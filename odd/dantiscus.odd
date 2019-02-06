@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
@@ -180,9 +181,47 @@
         <model output="web" behaviour="webcomponent">
             <param name="name" value="'pb-highlight'"/>
             <param name="key" value="replace(@xml:id, '^s\.(.*)$', 't.$1')"/>
+            <param name="highlight-self" value="'highlight-self'"/>
         </model>
         <model behaviour="inline" useSourceRendition="true"/>
     </elementSpec>
+                <elementSpec ident="titleStmt" mode="change">
+                    <model output="latex" behaviour="meta">
+                        <param name="content" value="."/>
+                    </model>
+                    <model output="fo" behaviour="heading"/>
+                    <modelSequence output="web" predicate="$parameters?header='short'">
+                        <model behaviour="link">
+                            <param name="content" value="title[1]"/>
+                            <param name="link" value="$parameters?doc"/>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="subsequence(title, 2)"/>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="author"/>
+                        </model>
+                    </modelSequence>
+                    <model output="web" predicate="$parameters?mode='title'" behaviour="inline">
+                        <param name="content" value="title[not(@type)]"/>
+                    </model>
+                    <model output="web" behaviour="heading">
+                        <param name="level" value="4"/>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="teiHeader" mode="change">
+                    <model output="latex" behaviour="block">
+                        <param name="content" value="(fileDesc/titleStmt/title[not(@type)], profileDesc/correspDesc)"/>
+                        <pb:template>\def\volume{[[content]]}</pb:template>
+                    </model>
+                    <model output="fo" behaviour="omit"/>
+                    <model output="web" predicate="$parameters?header='short'" behaviour="block"/>
+                    <model output="web" predicate="$parameters?mode='title'" behaviour="heading">
+                        <param name="content" value="(fileDesc/titleStmt/title[not(@type)])"/>
+                        <param name="level" value="5"/>
+                    </model>
+                    <model output="web" behaviour="metadata"/>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>

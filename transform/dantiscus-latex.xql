@@ -19,6 +19,10 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
+(: generated template function for element spec: teiHeader :)
+declare %private function model:template1($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\def\volume{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+};
 (:~
 
     Main entry point for the transformation.
@@ -67,7 +71,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             latex:inline($config, ., ("tei-figure2"), .)
                     case element(teiHeader) return
-                        latex:metadata($config, ., ("tei-teiHeader1"), .)
+                        let $params := 
+                            map {
+                                "content": (fileDesc/titleStmt/title[not(@type)], profileDesc/correspDesc)
+                            }
+
+                                                let $content := 
+                            model:template1($config, ., $params)
+                        return
+                                                latex:block(map:merge(($config, map:entry("template", true()))), ., ("tei-teiHeader1"), $content)
                     case element(supplied) return
                         if (parent::choice) then
                             latex:inline($config, ., ("tei-supplied1"), .)
