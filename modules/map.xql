@@ -1,3 +1,8 @@
+(:~
+ : Implements a mechanism to replace a fragment shown by `pb-view` with another, aligned fragment, e.g. the translation
+ : corresponding to a page of the transcription. The local name of a function in this module can be passed to the
+ : `map` property of the `pb-view`.
+ :)
 module namespace mapping="http://www.tei-c.org/tei-simple/components/map";
 
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xql";
@@ -24,7 +29,7 @@ declare function mapping:cortez-translation($root as element()) {
     let $mappedStart := root($root)/id(translate($first/@xml:id, "s", "t"))
     let $mappedEnd := root($root)/id(translate($firstExcluded/@xml:id, "s", "t"))
     let $context := root($root)//tei:text[@type='translation']
-    
+
     return
         nav:milestone-chunk($mappedStart, $mappedEnd, $context)
 };

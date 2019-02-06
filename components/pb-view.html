@@ -192,8 +192,11 @@
                         reflectToAttribute: true
                     },
                     /**
-                     * If defined denotes the local name of an XQuery function in modules/map.xql, which needs to be called
-                     * with the current root node and returns the node of a mapped fragment, eg. translation.
+                     * If defined denotes the local name of an XQuery function in `modules/map.xql`, which will be called
+                     * with the current root node and should return the node of a mapped fragment. This is helpful if one
+                     * wants, for example, to show a translation fragment aligned with the part of the transcription currently
+                     * shown. In this case, the properties of the `pb-view` would still point to the transcription, but the function
+                     * identified by map would return the corresponding fragment from the translation to be processed.
                      *
                      * Navigation in the document is still determined by the current root as defined through the `root`, `xpath`
                      * and `xmlId` properties.

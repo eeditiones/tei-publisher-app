@@ -44,6 +44,12 @@
          * Each `<template>` may have a title attribute to specify the title to be shown
          * for it in the dropdown.
          *
+         * ## CSS Mixins
+         *
+         * | Custom property | Description | Default|
+         * | ----------------|-------------|--------|
+         * |--pb-panel-max-height | The max height to be used for a panel | {}|
+         *
          * @customElement
          * @appliesMixin PbMixin
          * @polymer
@@ -133,6 +139,19 @@
             refresh() {
                 this.emitTo('pb-refresh', null);
             }
+
+            /**
+             * Fired whenever the component switches to a different content panel. Used by `pb-grid`
+             * to update its state.
+             *
+             * @event pb-panel
+             */
+
+             /**
+              * Fired after a new content panel is shown to allow connected components to refresh.
+              *
+              * @event pb-refresh
+              */
         }
 
         window.customElements.define(PbPanel.is, PbPanel);

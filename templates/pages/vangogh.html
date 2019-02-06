@@ -114,6 +114,7 @@
                     <main class="content-body">
                         <pb-grid id="grid" panels="[0]" subscribe="transcription" emit="transcription">
                             <template>
+                                <!-- template used for adding a new column: user can choose between translation, facsimile and notes -->
                                 <pb-panel emit="transcription">
                                     <!-- Added to the toolbar -->
                                     <pb-grid-action grid="#grid" slot="toolbar" action="remove">
@@ -121,8 +122,7 @@
                                     </pb-grid-action>
                                     <template title="Translation">
                                         <pb-view src="document1" map="vg-translation"
-                                            xpath="//div[@type='original']" subscribe="transcription"
-                                            column-separator=".tei-cb"/>
+                                            xpath="//div[@type='original']" subscribe="transcription"/>
                                     </template>
                                     <template title="Facsimile">
                                         <pb-image subscribe="transcription">
@@ -137,15 +137,17 @@
                                     </template>
                                 </pb-panel>
                             </template>
+                            <!-- Metadata and transcription are always shown -->
                             <pb-view src="document1" xpath="//teiHeader" view="single" class="metadata"
                                 subscribe="transcription" emit="transcription">
                                 <pb-param name="view" value="metadata"/>
                             </pb-view>
+                            <!-- For the transcription, users can choose between diplomatic and normalized view -->
                             <pb-panel emit="transcription">
                                 <template title="Original text">
                                     <pb-view src="document1" class=".transcription"
                                         xpath="//div[@type='original']"
-                                        column-separator=".tei-cb" history="history"
+                                        history="history"
                                         subscribe="transcription" emit="transcription">
                                         <pb-param name="view" value="normalized"/>
                                     </pb-view>
@@ -153,7 +155,7 @@
                                 <template title="Original text + line endings">
                                     <pb-view src="document1" class=".transcription"
                                         xpath="//div[@type='original']"
-                                        column-separator=".tei-cb" history="history"
+                                        history="history"
                                         subscribe="transcription" emit="transcription"/>
                                 </template>
                             </pb-panel>

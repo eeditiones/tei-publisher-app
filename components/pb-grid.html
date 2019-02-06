@@ -152,6 +152,11 @@
                 this.updateStyles({'--pb-column-widths': widths.join(' ')});
             }
 
+            /**
+             * Fired after a new column has been added to allow connected components to refresh.
+             *
+             * @event pb-refresh
+             */
         }
 
         window.customElements.define(PbGrid.is, PbGrid);
