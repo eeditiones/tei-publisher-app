@@ -15,7 +15,7 @@
     <pb-document id="document1" path="test/F-rom.xml" odd="shakespeare"></pb-document>
 
     <main>
-        <pb-load id="load" src="document1" url="demo/load-demo.xql" auto="auto"></pb-load>
+        <pb-load id="load" src="document1" url="demo/load-demo.xql"></pb-load>
     </main>
 
   <script>
@@ -32,6 +32,8 @@
                   done();
               };
               document.addEventListener('pb-end-update', handler);
+
+              document.dispatchEvent(new CustomEvent('pb-load'));
           });
 
           test('send pb-update event', (done) => {

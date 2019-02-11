@@ -42,14 +42,15 @@
                       done();
                   };
                   document.addEventListener('pb-end-update', handler);
+                  document.dispatchEvent(new CustomEvent('pb-refresh'));
               });
 
               test('navigate forward', (done) => {
                   const handler = (ev) => {
+                      document.removeEventListener('pb-end-update', handler);
                       const content = view.shadowRoot.querySelector('h2');
                       assert.isOk(content);
                       assert.equal(content.innerHTML, 'Installation');
-                      document.removeEventListener('pb-end-update', handler);
                       done();
                   };
                   document.addEventListener('pb-end-update', handler);
@@ -59,10 +60,10 @@
 
               test('navigate backward', (done) => {
                   const handler = (ev) => {
+                      document.removeEventListener('pb-end-update', handler);
                       const content = view.shadowRoot.querySelector('h1');
                       assert.isOk(content);
                       assert.equal(content.innerHTML, 'Quickstart');
-                      document.removeEventListener('pb-end-update', handler);
                       done();
                   };
                   document.addEventListener('pb-end-update', handler);
@@ -75,6 +76,7 @@
 
               test('check update event details', (done) => {
                   const handler = (ev) => {
+                      document.removeEventListener('pb-update', handler);
                       assert.isOk(ev.detail.root);
                       assert.instanceOf(ev.detail.root, HTMLElement, 'root should be an element');
                       assert.equal(ev.detail.root.nodeName, 'DIV', 'root should be a div element');
@@ -82,7 +84,6 @@
                       assert.property(ev.detail.data, 'next');
                       next = ev.detail.data.next;
                       assert.isOk(ev.detail.params);
-                      document.removeEventListener('pb-update', handler);
                       done();
                   };
                   document.addEventListener('pb-update', handler);
@@ -92,10 +93,10 @@
 
               test('refresh and navigate to next page using eXist node id', (done) => {
                   const handler = (ev) => {
+                      document.removeEventListener('pb-end-update', handler);
                       const content = view.shadowRoot.querySelector('h2');
                       assert.isOk(content);
                       assert.equal(content.innerHTML, 'Installation');
-                      document.removeEventListener('pb-end-update', handler);
                       done();
                   };
                   document.addEventListener('pb-end-update', handler);
@@ -105,10 +106,10 @@
 
               test('refresh and navigate to xml:id', (done) => {
                   const handler = (ev) => {
+                      document.removeEventListener('pb-end-update', handler);
                       const content = view.shadowRoot.querySelector('h2');
                       assert.isOk(content);
                       assert.equal(content.innerHTML, 'Configure default view via processing instructions');
-                      document.removeEventListener('pb-end-update', handler);
                       done();
                   };
                   document.addEventListener('pb-end-update', handler);
@@ -116,12 +117,27 @@
                   document.dispatchEvent(new CustomEvent('pb-refresh', {detail: {id: 'pi-config'}}));
               });
 
+              test('navigate forward should clear id', (done) => {
+                  const handler = (ev) => {
+                      document.removeEventListener('pb-end-update', handler);
+                      const content = view.shadowRoot.querySelector('h2');
+                      assert.isOk(content);
+                      assert.equal(content.innerHTML, 'Building a Sample-Based ODD');
+                      const url = new URL(window.location.href);
+                      assert.isUndefined(url.searchParams.id);
+                      done();
+                  };
+                  document.addEventListener('pb-end-update', handler);
+
+                  view.navigate('forward');
+              });
+
               test('refresh and navigate to a document', (done) => {
                   const handler = (ev) => {
+                      document.removeEventListener('pb-end-update', handler);
                       const elem = view.shadowRoot.querySelector('pb-geolocation[key=CanFloque]');
                       assert.isOk(elem);
                       assert.instanceOf(elem, PbGeolocation);
-                      document.removeEventListener('pb-end-update', handler);
                       done();
                   };
                   document.addEventListener('pb-end-update', handler);
@@ -129,18 +145,19 @@
                   document.dispatchEvent(new CustomEvent('pb-refresh', {
                       detail: {
                           path: 'test/graves6.xml',
-                          odd: 'graves'
+                          odd: 'graves',
+                          position: null
                       }
                   }));
               });
 
               test('refresh and test two column layout', (done) => {
                   const handler = (ev) => {
+                      document.removeEventListener('pb-end-update', handler);
                       const elem = view.shadowRoot.querySelector('#column2 .tei-speaker');
                       assert.isOk(elem, 'should have speaker in 2nd column');
                       assert.instanceOf(elem, HTMLElement);
                       assert.equal(elem.innerHTML, 'Sam.');
-                      document.removeEventListener('pb-end-update', handler);
                       done();
                   };
                   document.addEventListener('pb-end-update', handler);
