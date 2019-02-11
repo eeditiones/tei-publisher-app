@@ -84,7 +84,7 @@ let $xml :=
                         ()
         return
             map {
-                "config": $config,
+                "config": map:merge(($config, map { "context": $document })),
                 "odd": $config?odd,
                 "view": $config?view,
                 "data": $data

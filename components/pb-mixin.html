@@ -110,7 +110,7 @@
                 callback();
             }
         }
-        
+
         /**
          * Signal that the component is ready to respond to events.
          */
@@ -118,7 +118,7 @@
             this._isReady = true;
             this.dispatchEvent(new CustomEvent('pb-ready'));
         }
-        
+
         /**
          * Listen to the event defined by type. If property `subscribe` or `subscribe-config`
          * is defined, this method will trigger the listener only if the event has a key
@@ -237,7 +237,11 @@
         }
 
         setParameter(name, value) {
-            TeiPublisher.url.searchParams.set(name, value);
+            if (typeof value === 'undefined') {
+                TeiPublisher.url.searchParams.delete(name);
+            } else {
+                TeiPublisher.url.searchParams.set(name, value);
+            }
         }
 
         getUrl() {

@@ -557,6 +557,7 @@
                     if (this.previous) {
                         if (!this.map) {
                             this.setParameter('root', this.previous);
+                            this.setParameter('id');
                             this.pushHistory('Navigate backward');
                         }
                         this._load(this.previous);
@@ -565,6 +566,7 @@
                     if (this.next) {
                         if (!this.map) {
                             this.setParameter('root', this.next);
+                            this.setParameter('id');
                             this.pushHistory('Navigate forward');
                         }
                         this._load(this.next);
