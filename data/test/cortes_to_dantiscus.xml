@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?teipublisher template="facsimile.html" odd="dantiscus.odd" view="page"?>
+<?teipublisher template="cortez-with-translation.html" odd="dantiscus.odd" view="page"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="CIDTC5772">
    <teiHeader>
       <fileDesc>
@@ -239,8 +239,10 @@
                         </salute>
                     </seg>
                   </closer>
-                  <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp81.jpg"/>
-                  <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp82.jpg"/>
+                  <p xml:id="s.2.1.7">
+                    <pb facs="iiif:15929_000_IDL5772_BOss12034_IIIp81.jpg"/>
+                    <seg xml:id="s.2.1.7.1">[verso page]</seg>
+                  </p>
                </div>
             </body>
          </text>
@@ -282,7 +284,7 @@
                         najwcześniej o trudzie, który mnie nie powstrzymuje od działania; stamtąd
                         zawsze będzie o czym pisać.</seg>
                      <seg xml:id="t.2.3.3.4">Kiedy Wasza Wielmożność do mnie napisze, niech prześle
-                        list do pana<name type="person" ref="#IDPe156">Hieronima</name> i do pana
+                        list do pana <name type="person" ref="#IDPe156">Hieronima</name> i do pana
                            <name type="person" ref="#IDPe968">Henryka</name>, są oni bowiem tak
                         uprzejmi, że przesyłają moje listy; tą też drogą wędruje ten list do rąk
                         Waszej Wielmożności.</seg>
@@ -303,6 +305,9 @@
                         </salute>
                      </seg>
                   </closer>
+                  <p xml:id="t.2.1.7">
+                    <seg xml:id="t.2.1.7.1">[rewers]</seg>
+                  </p>
                </div>
             </body>
          </text>
