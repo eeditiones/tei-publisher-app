@@ -162,9 +162,10 @@
                <div xml:id="s.1.1">
                   <p xml:id="s.1.1.1">
                      <pb n="BCz, 1596, p. 302" facs="iiif:12446_000_BCz_1596p302.jpg"/>
-                     <seg type="address" xml:id="s.1.1.1.1"> Al muy Magnifico y muy Reverendo Señor
-                        el Señor <rs type="person" ref="#IDPe1">obispo diócesis Colmensis</rs> etc.,
-                        enbaxador del Sereníssimo Señor <rs type="person" ref="#IDPe24">rrey de
+                     <seg type="address" xml:id="s.1.1.1.1">
+                                <lb/>Al muy Magnifico y muy Reverendo Señor
+                        <lb/>el Señor <rs type="person" ref="#IDPe1">obispo diócesis Colmensis</rs> <lb/>etc.,
+                        enbaxador del Sereníssimo Señor<lb/> <rs type="person" ref="#IDPe24">rrey de
                            Polonia</rs> etc.</seg>
                   </p>
                </div>
@@ -173,10 +174,10 @@
                <div xml:id="s.2.1">
                   <pb n="BCz, 1596, p. 301" facs="iiif:12446_000_BCz_1596p301.jpg"/>
                   <p xml:id="s.2.1.1">
-                     <seg xml:id="s.2.1.1.1"><seg type="incipit">Dos Cartas De Vuestra Señoría, una
+                     <seg xml:id="s.2.1.1.1">
+                                <seg type="incipit">Dos Cartas De Vuestra Señoría, una
                            duplicada de otra, he rreceuido</seg>, y en cada una dellas los versos
-                        que Vuestra Señoría hizo intitulados a la <rs type="person" ref="#IDPe30"
-                           >magestad cesárea</rs>, y leílos muchas vezes por bien
+                        que Vuestra Señoría hizo intitulados a la <rs type="person" ref="#IDPe30">magestad cesárea</rs>, y leílos muchas vezes por bien
                         comprehenderlos.</seg>
                      <seg xml:id="s.2.1.1.2">Pareciéronme en su brevedad y mucha sentencia bien ser
                         hechos de la mano de Vuestra Señoría, porque de otra no era bastante.</seg>
@@ -191,29 +192,21 @@
                      <seg xml:id="s.2.1.2.1">Yo rrecibo tanta merced con las cartas de Vuestra
                         Señoría que querría que, aunque la distancia del largo camino estorva mi
                         deseo, se diese orden como se hiziese lo posible.</seg>
-                     <seg xml:id="s.2.1.2.2">Y pues <name type="person" ref="#IDPe156"
-                           >Gerónimo</name> rreside en la corte de <name type="place" ref="#IDPl729"
-                           >Castilla</name>, por la vía suya podrá Vuestra Señoría escrevirme.</seg>
+                     <seg xml:id="s.2.1.2.2">Y pues <name type="person" ref="#IDPe156">Gerónimo</name> rreside en la corte de <name type="place" ref="#IDPl729">Castilla</name>, por la vía suya podrá Vuestra Señoría escrevirme.</seg>
                      <seg xml:id="s.2.1.2.3">Suplico a Vuestra Señoría lo haga y me escriva siempre
-                        de su salud y prosperidad y de todo lo que sucediere en la estada de la <rs
-                           type="person" ref="#IDPe30">magestad cesárea</rs> allá, asi en lo del <rs
-                           type="person" ref="#IDPe1091">Turco</rs> como en lo del <name
-                           type="person" ref="#IDPe1223">Luterio</name> (que Dios confunda), y
+                        de su salud y prosperidad y de todo lo que sucediere en la estada de la <rs type="person" ref="#IDPe30">magestad cesárea</rs> allá, asi en lo del <rs type="person" ref="#IDPe1091">Turco</rs> como en lo del <name type="person" ref="#IDPe1223">Luterio</name> (que Dios confunda), y
                         mandándome en las cosas que yo pueda hazerle servicio, que esto es lo que yo
                         más deseo.</seg>
-                     <seg xml:id="s.2.1.2.4">Bien querría que la conversación de la corte de <rs
-                           type="person" ref="#IDPe30">Su Magestad</rs> continuase Vuestra Señoría,
+                     <seg xml:id="s.2.1.2.4">Bien querría que la conversación de la corte de <rs type="person" ref="#IDPe30">Su Magestad</rs> continuase Vuestra Señoría,
                         por gozar de más cerca de su conversación.</seg>
                   </p>
                   <p xml:id="s.2.1.3">
                      <seg xml:id="s.2.1.3.1">Yo llegué bueno de salud a estas partes y lo mismo la
-                           <rs type="person" ref="#IDPe2777">marquesa</rs> que parió un <rs
-                           type="person" ref="#IDPe2778">hijo</rs>, y no bivió sino quinze días, el
+                           <rs type="person" ref="#IDPe2777">marquesa</rs> que parió un <rs type="person" ref="#IDPe2778">hijo</rs>, y no bivió sino quinze días, el
                         qual trocamos por una <rs type="person" ref="#IDPe2779">hija</rs> de que
                         ahora está parida.</seg>
                      <seg xml:id="s.2.1.3.2">Y no hay nuevas de la tierra que poder dezir a Vuestra
-                        Señoría porque de nuevo no ha havido conquista, aunque hoy parte un <rs
-                           type="person" ref="#IDPe2776" cert="low">cavallero</rs> por mí teniente
+                        Señoría porque de nuevo no ha havido conquista, aunque hoy parte un <rs type="person" ref="#IDPe2776" cert="low">cavallero</rs> por mí teniente
                         de capitán general con gente a conquistar cierta gente y tierra y a
                         poblarla, que creo que será próspera y hará bien mis hechos según la
                         disposicion della.</seg>
@@ -231,15 +224,15 @@
                   </p>
                   <p xml:id="s.2.1.4">
                      <seg xml:id="s.2.1.4.1">Nuestro Señor la muy Reverenda y muy Magnifica Persona
-                        de Vuestra Señoría y estado guarde y acresciente.</seg></p>
+                        de Vuestra Señoría y estado guarde y acresciente.</seg>
+                        </p>
                   <closer xml:id="s.2.1.5">
                      <seg xml:id="s.2.1.5.1">De esta <name type="place" ref="#IDPl323">gran ciudad
                            de México</name>, primero de agosto de 1531.</seg>
                   </closer>
                   <closer xml:id="s.2.1.6">
                      <salute xml:id="s.2.1.6.1">
-                        <seg xml:id="s.2.1.6.1.1">Servidor de Vuestra Señoría, el <rs type="person"
-                              ref="#IDPe437">marques del Valle</rs>
+                        <seg xml:id="s.2.1.6.1.1">Servidor de Vuestra Señoría, el <rs type="person" ref="#IDPe437">marques del Valle</rs>
                         </seg>
                      </salute>
                   </closer>
@@ -252,18 +245,17 @@
                   <p xml:id="t.1.1.1">
                      <seg type="address" xml:id="t.1.1.1.1">Do Jaśnie Wielmożnego i Wielce
                         Czcigodnego Pana a Pana <rs type="person" ref="#IDPe1">biskupa diecezji
-                           chełmińskiej</rs> etc., ambasadora Najjaśniejszego Pana <rs type="person"
-                           ref="#IDPe24">króla Polski</rs> etc.</seg>
+                           chełmińskiej</rs> etc., ambasadora Najjaśniejszego Pana <rs type="person" ref="#IDPe24">króla Polski</rs> etc.</seg>
                   </p>
                </div>
             </front>
             <body xml:id="t.2">
                <div xml:id="t.2.1">
                   <p xml:id="t.2.1.1">
-                     <seg xml:id="t.2.1.1.1"><seg type="incipit">Otrzymałem od Waszej Wielmożności
+                     <seg xml:id="t.2.1.1.1">
+                                <seg type="incipit">Otrzymałem od Waszej Wielmożności
                            dwa listy, jeden jest kopią drugiego</seg>, a w każdym z nich wiersze,
-                        które Wasza Wielmożność napisała, zadedykowane <rs type="person"
-                           ref="#IDPe30">Cesarzowi</rs>. Czytałem je wielokrotnie, aby je dobrze
+                        które Wasza Wielmożność napisała, zadedykowane <rs type="person" ref="#IDPe30">Cesarzowi</rs>. Czytałem je wielokrotnie, aby je dobrze
                         zrozumieć.</seg>
                      <seg xml:id="t.2.1.1.2">Ich zwięzłość i głębokie znaczenie poświadczają, że są
                         dziełem Waszej Wielmożności, ponieważ kto inny by tak nie potrafił.</seg>
@@ -279,9 +271,7 @@
                      <seg xml:id="t.2.1.2.1">Listy Waszej Wielmożności to dla mnie taka łaska, że
                         chciałbym aby powtarzała się stale, na ile to możliwe, chociaż na
                         przeszkodzie mojemu pragnieniu stoi wielkość dzielącej nas drogi.</seg>
-                     <seg xml:id="t.2.1.2.2">A ponieważ <name type="person" ref="#IDPe156"
-                           >Hieronim</name> przebywa na Dworze <name type="place" ref="#IDPl729"
-                           >Kastylijskim</name>, za jego pośrednictwem może Wasza Wielmożność do
+                     <seg xml:id="t.2.1.2.2">A ponieważ <name type="person" ref="#IDPe156">Hieronim</name> przebywa na Dworze <name type="place" ref="#IDPl729">Kastylijskim</name>, za jego pośrednictwem może Wasza Wielmożność do
                         mnie pisać.</seg>
                      <seg xml:id="t.2.1.2.3"> Błagam, aby Wasza Wielmożność to czyniła i pisała mi
                         zawsze o swoim zdrowiu i pomyślności, i o wszystkim, co dzieje się tam,
@@ -296,14 +286,12 @@
                   </p>
                   <p xml:id="t.2.1.3">
                      <seg xml:id="t.2.1.3.1">Ja przybyłem w te strony w dobrym zdrowiu i tak samo
-                           <rs type="person" ref="#IDPe2777">Markiza</rs>, która urodziła <rs
-                           type="person" ref="#IDPe2778">syna</rs>. Żył jednak zaledwie piętnaście
+                           <rs type="person" ref="#IDPe2777">Markiza</rs>, która urodziła <rs type="person" ref="#IDPe2778">syna</rs>. Żył jednak zaledwie piętnaście
                         dni. Zamieniliśmy go na <rs type="person" ref="#IDPe2779">córkę</rs>, która
                         się właśnie urodziła.</seg>
                      <seg xml:id="t.2.1.3.2">Nie mam nowin z głębi lądu, które mógłbym przekazać
                         Waszej Wielmożności, ponieważ nie zaczął się jeszcze nowy podbój, chociaż
-                        dzisiaj wyrusza pewien <rs type="person" ref="#IDPe2776" cert="low"
-                           >szlachcic</rs> z wojskiem jako mój zastępca w roli kapitana generalnego,
+                        dzisiaj wyrusza pewien <rs type="person" ref="#IDPe2776" cert="low">szlachcic</rs> z wojskiem jako mój zastępca w roli kapitana generalnego,
                         aby podbić pewne plemię i jego ziemie i zasiedlić je, co się powiedzie, jak
                         sądzę, i pomoże moim działaniom ze względu na położenia tego obszaru.</seg>
                      <seg xml:id="t.2.1.3.3">Mam także przygotowaną pewną liczbę okrętów i ludzi do
@@ -311,8 +299,7 @@
                         wsparcie dla innych okrętów i załóg, które posłałem po przyprawy korzenne;
                         trzeba pospieszyć im na ratunek.</seg>
                      <seg xml:id="t.2.1.3.4">Spodziewam się, że to będzie wielka sprawa, dam znać
-                        Waszej Wielmożności za pośrednictwem <name type="person" ref="#IDPe156"
-                           >Hieronima</name> o tym, co się wydarzy.</seg>
+                        Waszej Wielmożności za pośrednictwem <name type="person" ref="#IDPe156">Hieronima</name> o tym, co się wydarzy.</seg>
                      <seg xml:id="t.2.1.3.5"> Codziennie myślę o odkrywaniu, więc będę miał nowiny,
                         żeby je spisać i wysłać Waszej Wielmożności. Chciałbym wprawdzie uczynić to
                         już teraz, ale to się tutaj kończy, bo ludzie zajmują się uprawą roli, gdyż
@@ -328,8 +315,7 @@
                   </closer>
                   <closer xml:id="t.2.1.6">
                      <salute xml:id="t.2.1.6.1">
-                        <seg xml:id="t.2.1.6.1.1">Sługa Waszej Wielmożności <rs type="person"
-                              ref="#IDPe437">Markiz del Valle</rs>
+                        <seg xml:id="t.2.1.6.1.1">Sługa Waszej Wielmożności <rs type="person" ref="#IDPe437">Markiz del Valle</rs>
                         </seg>
                      </salute>
                   </closer>
