@@ -10,8 +10,8 @@
 
             .columns {
                 display: grid;
-                grid-template-columns: 50% 50%;
-                grid-column-gap: 10px;
+                grid-template-columns: calc(50% - var(--pb-view-column-gap, 10px) / 2) calc(50% - var(--pb-view-column-gap, 10px) / 2);
+                grid-column-gap: var(--pb-view-column-gap, 10px);
             }
 
             .margin-note {
@@ -109,6 +109,7 @@
          * | Custom property | Description | Default|
          * | ----------------|-------------|--------|
          * |--pb-content-theme | Mixin applied to the content view | {}|
+         * |--pb-view-column-gap | Column gap in two-column mode | 10px |
          * |--pb-footnotes | Mixin for formatting footnotes | {}|
          * |--pb-footnote-ref | Mixin for formatting footnote references | {}|
          * |--pb-highlight-theme | Mixin applied to matches in the text when displaying search results | {}|
