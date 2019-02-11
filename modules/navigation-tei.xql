@@ -23,6 +23,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
+
 declare function nav:get-header($config as map(*), $node as element()) {
     $node/tei:teiHeader
 };
@@ -200,14 +201,14 @@ declare function nav:milestone-chunk($ms1 as element(), $ms2 as element()?, $nod
 {
     typeswitch ($node)
         case element() return
-            if ($node is $ms1) then
-                util:expand($node, "add-exist-id=all")
-            else if ( some $n in $node/descendant::* satisfies ($n is $ms1 or $n is $ms2) ) then
+            if ( some $n in $node/descendant::* satisfies ($n is $ms1 or $n is $ms2) ) then
                 element { node-name($node) } {
                     $node/@*,
                     for $i in ( $node/node() )
                     return nav:milestone-chunk($ms1, $ms2, $i)
                 }
+            else if ($node is $ms1) then
+                util:expand($node, "add-exist-id=all")
             else if ($node >> $ms1 and (empty($ms2) or $node << $ms2)) then
                 util:expand($node, "add-exist-id=all")
             else
