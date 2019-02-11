@@ -845,39 +845,41 @@
       </section>
       <section>
         <title>Handling Complex Alignments</title>
-        <para>It is often desirable to show two or more aligned views on a document at the same time, for example to display the translation for a given source
+        <para>It is often desirable to show two or more views of a document at the same time, for example to display the translation aligned with a given source
           fragment. In the simplest case, the transcription and translation may be aligned on the level of divisions or page breaks and one can simply use two
-            <tag>pb-view</tag> referencing different start points in the TEI document (this approach is implemented by the <link
-            xlink:href="templates/pages/translation.html" role="source">translation.html</link> template for Serafin's letter.</para>
-        <para>Unfortunately things are not always as simple as that. For example, while the transcription may contain page breaks or milestones which can be
-          used to display a single page, the translation may not. One thus needs a different approach to compute the alignment between fragments, but the logic
-          will highly depend on the conventions used by the encoder of the text. TEI basically allows a wide variety of alignment mechanisms and we do not want
-          to limit the freedom of the editor by prescribing a particular method.</para>
-        <para>TEI Publisher thus implements a rather simple, generic way to plug an XQuery function into the processing pipeline. The function takes the source
-          element being processed as input and may replace it by another element or fragment from the same or a different document. The source element will
-          usually point to the part of the transcription being displayed. The mapping function uses this as starting point to compute an aligned fragment and
-          returns it. The returned fragment will then be further passed through the processing model as if it were the original element selected.</para>
-        <para>The XQuery mapping function should be defined in the module <filename>modules/map.xql</filename>. It should take an element as single argument and
-          may return any valid TEI, which will become the input for futher processing through the processing model.</para>
-        <para>The local name of the function can then be supplied in the attribute <parameter>map</parameter> of <tag>pb-view</tag>. For example, the Van Gogh
-          example includes the following <code>pb-view</code> for displaying the translation:</para>
+            <tag>pb-view</tag> referencing different starting points in the TEI document (this approach is implemented by the <link
+            xlink:href="templates/pages/translation.html" role="source">translation.html</link> template for Serafin's letter).</para>
+        <para>Unfortunately things are not always as simple as that. For example, even if the transcription contains page breaks or milestones which can be used
+          to display a single page, the translation might not. One thus needs a different approach to compute the alignment between fragments. Nevertheless, the
+          logic of the alignment algorithm will highly depend on the conventions used in the encoding. TEI allows a wide variety of alignment mechanisms and we
+          do not want to limit the freedom of the editor by prescribing a particular method.</para>
+        <para>TEI Publisher thus implements a generic way to plug an XQuery function into the processing pipeline. The function takes the source element being
+          processed as input and may replace it by its aligned equivalent. Such an equivalent may be another element or fragment from the same or a different
+          document. The source element will usually point to the part of the transcription being displayed. The mapping function uses this as starting point to
+          determine an aligned fragment and returns it. The returned fragment will then be further passed through the processing model.</para>
+        <para>The XQuery mapping function should be defined in the module <filename>modules/map.xql</filename>. It takes an element as its only argument and may
+          return any valid TEI fragment, which will become the input for futher processing through the processing model.</para>
+        <para>The local name of the mapping function can then be supplied in the attribute <parameter>map</parameter> of <tag>pb-view</tag>. As an illustration,
+          the Van Gogh example includes the following <code>pb-view</code> for displaying the translation:</para>
         <programlisting language="xquery">&lt;pb-view src="document1" map="vg-translation" xpath="//div[@type='original']" 
     subscribe="transcription"/></programlisting>
-        <para>In the Van Gogh letters, the translation contains page breaks, but they are using a different prefix for the xml:id. To align the translation with
-          the transcription, we thus need to adjust the id, retrieve the corresponding page break and we're done. The XQuery function is thus rather
-          simple:</para>
+        <para>In the Van Gogh letters, the translation contains page breaks corresponding to page breaks in the original letter, but these are using a different
+          prefix for the xml:id. To align the translation with the transcription, we only need to adjust the id, and retrieve the corresponding page break to be
+          done. The XQuery mapping function is thus rather simple:</para>
         <programlisting language="xquery">declare function mapping:vg-translation($root as element()) {
     let $id := ``[pb-trans-`{$root/@f}`-`{$root/@n}`]``
     let $node := root($root)/id($id)
     return
         $node
 };</programlisting>
-        <para>Note that returning the corresponding <tag>pb</tag> of the translation is sufficient here as further processing will automatically extract the
-          page fragment up to the next <tag>pb</tag>. More complex examples may return arbitrary TEI though. Also note that the <tag>pb-view</tag> itself does
-          and must still point to the source transcription (via its <parameter>xpath</parameter> attribute). It's just the mapping function which translates a
-          position in the source transcription to a corresponding fragment in the translation.</para>
+        <para>Note that returning the corresponding <tag>pb</tag> node of the translation is sufficient here as further processing will automatically extract
+          the page fragment up to the next <tag>pb</tag>. More complex cases may require that mapping function returns arbitrary TEI fragment. Also note that
+          the <parameter>xpath</parameter> attribute of the <tag>pb-view</tag> element in the template must still point to the source transcription
+            (<parameter>div[@type='original']</parameter> in this case). It's just the mapping function which translates a position in the source transcription
+          to a corresponding fragment in the translation.</para>
         <para>The letter by Cortez to Dantiscus sent from Mexico demonstrates a much more sophisticated alignment, determining the translation fragment to be
-          shown by inspecting the ID range of the transcription.</para>
+          shown by inspecting the ID range of the transcription. It illustrates the case where no milestone elements exist in the translation to explicitly mark
+          page boundaries of the original, thus mapping algorithm aims to display closest corresponding fragment of the translated text.</para>
       </section>
     </section>
   </section>
