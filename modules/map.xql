@@ -22,9 +22,9 @@ declare function mapping:vg-translation($root as element()) {
 };
 
 declare function mapping:cortez-translation($root as element()) {
-    let $first := ($root/following-sibling::*[@xml:id], $root/following::*[@xml:id])[1]
+    let $first := (($root/following-sibling::text()/ancestor::*[@xml:id])[last()], $root/following-sibling::*[@xml:id], ($root/ancestor::*[@xml:id])[last()])[1]
     let $last := $root/following::tei:pb[1]
-    let $firstExcluded := ($last/following-sibling::*[@xml:id], $last/following::*[@xml:id], ($root/ancestor::tei:text[1]//*[@xml:id])[last()])[1]
+    let $firstExcluded := ($last/following-sibling::*[@xml:id], $last/following::*[@xml:id])[1]
 
     let $mappedStart := root($root)/id(translate($first/@xml:id, "s", "t"))
     let $mappedEnd := root($root)/id(translate($firstExcluded/@xml:id, "s", "t"))
