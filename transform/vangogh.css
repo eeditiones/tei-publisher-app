@@ -76,7 +76,7 @@
 .tei-supplied5:after { content:"}"; }
 .tei-signed1 { text-align: right; }
 .tei-signed2 { font-style: italic; }
-.tei-pb { font-size: .85em; background-color: #C0C0C0; border-left: 1px solid black; border-right: 1px solid black; padding: 0 1em; }
+.tei-pb2 { font-size: .85em; background-color: #C0C0C0; border-left: 1px solid black; border-right: 1px solid black; padding: 0 1em; }
 .tei-anchor { font-size: .85em; background-color: #C0C0C0; padding: 0 .25em; border-right: 1px solid black; text-indent: 0; margin: 0 .25em; }
 .tei-hi1 { font-style: italic; }
 .tei-hi2 { font-style: italic; }

@@ -105,7 +105,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             html:inline($config, ., ("tei-signed2"), .)
                     case element(pb) return
-                        html:webcomponent($config, ., css:get-rendition(., ("tei-pb")), @f || ':' || @n, 'pb-facs-link', map {"facs": let $zone := id(substring-after(@facs, '#'), root($parameters?root)) return  'http://vangoghletters.org/vg/facsimiles/' ||     $zone/graphic[@mimeType="image/png"]/@url, "emit": 'transcription'})
+                        html:webcomponent($config, ., css:get-rendition(., ("tei-pb2")), @f || ':' || @n, 'pb-facs-link', map {"facs": let $zone := id(substring-after(@facs, '#'), root($parameters?root)) return  'http://vangoghletters.org/vg/facsimiles/' ||     $zone/graphic[@mimeType="image/png"]/@url, "emit": 'transcription'})
                     case element(pc) return
                         html:inline($config, ., ("tei-pc"), .)
                     case element(anchor) return

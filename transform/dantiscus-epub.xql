@@ -187,7 +187,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(figDesc) return
                         html:inline($config, ., ("tei-figDesc"), .)
                     case element(rs) return
-                        epub:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root)))
+                        epub:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
                     case element(foreign) return
                         html:inline($config, ., ("tei-foreign"), .)
                     case element(fileDesc) return
@@ -297,7 +297,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(titlePage) return
                         epub:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                     case element(name) return
-                        epub:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root)))
+                        epub:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
                     case element(front) return
                         epub:block($config, ., ("tei-front"), .)
                     case element(lg) return

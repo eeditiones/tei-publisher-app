@@ -97,8 +97,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             fo:inline($config, ., ("tei-signed2"), .)
                     case element(pb) return
-                        (: No function found for behavior: webcomponent :)
-                        $config?apply($config, ./node())
+                        fo:inline($config, ., ("tei-pb1"), '[' || @f || ':' || @n || ']')
                     case element(pc) return
                         fo:inline($config, ., ("tei-pc"), .)
                     case element(anchor) return
@@ -540,6 +539,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                             fo:block($config, ., ("tei-vg:letDesc8"), note[@type='additionalDetail']/node())
                         )
 
+                    case element(surface) return
+                        fo:omit($config, ., ("tei-surface"), .)
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

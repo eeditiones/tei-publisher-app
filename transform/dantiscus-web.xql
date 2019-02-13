@@ -185,7 +185,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(figDesc) return
                         html:inline($config, ., ("tei-figDesc"), .)
                     case element(rs) return
-                        html:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root)))
+                        html:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
                     case element(foreign) return
                         html:inline($config, ., ("tei-foreign"), .)
                     case element(fileDesc) return
@@ -295,7 +295,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(titlePage) return
                         html:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                     case element(name) return
-                        html:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root)))
+                        html:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
                     case element(front) return
                         html:block($config, ., ("tei-front"), .)
                     case element(lg) return

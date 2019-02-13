@@ -104,11 +104,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             latex:inline($config, ., ("tei-signed2"), .)
                     case element(pb) return
-                        if (starts-with(@facs, 'iiif:')) then
-                            (: No function found for behavior: webcomponent :)
-                            $config?apply($config, ./node())
-                        else
-                            latex:omit($config, ., ("tei-pb2"), .)
+                        latex:omit($config, ., ("tei-pb2"), .)
                     case element(pc) return
                         latex:inline($config, ., ("tei-pc"), .)
                     case element(anchor) return
@@ -192,7 +188,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(figDesc) return
                         latex:inline($config, ., ("tei-figDesc"), .)
                     case element(rs) return
-                        latex:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root)))
+                        latex:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
                     case element(foreign) return
                         latex:inline($config, ., ("tei-foreign"), .)
                     case element(fileDesc) return
@@ -299,7 +295,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(titlePage) return
                         latex:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                     case element(name) return
-                        latex:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root)))
+                        latex:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
                     case element(front) return
                         latex:block($config, ., ("tei-front"), .)
                     case element(lg) return

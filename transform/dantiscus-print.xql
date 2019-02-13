@@ -92,11 +92,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             fo:inline($config, ., ("tei-signed2"), .)
                     case element(pb) return
-                        if (starts-with(@facs, 'iiif:')) then
-                            (: No function found for behavior: webcomponent :)
-                            $config?apply($config, ./node())
-                        else
-                            fo:omit($config, ., ("tei-pb2"), .)
+                        fo:omit($config, ., ("tei-pb2"), .)
                     case element(pc) return
                         fo:inline($config, ., ("tei-pc"), .)
                     case element(anchor) return
@@ -180,7 +176,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(figDesc) return
                         fo:inline($config, ., ("tei-figDesc"), .)
                     case element(rs) return
-                        fo:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root)))
+                        fo:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
                     case element(foreign) return
                         fo:inline($config, ., ("tei-foreign"), .)
                     case element(fileDesc) return
@@ -287,7 +283,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(titlePage) return
                         fo:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                     case element(name) return
-                        fo:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root)))
+                        fo:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
                     case element(front) return
                         fo:block($config, ., ("tei-front"), .)
                     case element(lg) return
