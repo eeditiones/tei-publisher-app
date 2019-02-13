@@ -170,10 +170,11 @@
           <itemizedlist>
             <listitem><para>15th century manuscript letter to <emphasis>Mikołaj Orlik</emphasis> demonstrating alignment between Latin original and parallel Polish
               translation,</para></listitem>
-            <listitem><para>16th century manuscript letter of <emphasis>Hernán Cortés</emphasis> showcasing parallel facsimile view and transcription enhanced with
-              commentaries and explicitly encoded transcriptional features,</para></listitem>
+            <listitem><para>16th century manuscript letter of <emphasis>Hernán Cortés</emphasis> showcasing parallel transcription/translation
+                and facsimile view and transcription enhanced with
+             commentaries and explicitly encoded transcriptional features,</para></listitem>
             <listitem>
-              <para>A letter from Van Gogh to Paul Gaugin written in 1888. This intentionally reproduces the flexible column layout pioneered by the <link
+              <para>A letter from Van Gogh to Paul Gauguin written in 1888. This intentionally reproduces the flexible column layout pioneered by the <link
                 xlink:href="http://vangoghletters.org">Vincent Van Gogh Letters</link> online edition, which is a model example for correspondence.</para>
             </listitem>
             <listitem><para>20th century manuscript letter from <emphasis>Robert Graves</emphasis> where emphasis has been put on visualizing rich encoding of
@@ -249,7 +250,9 @@
           contents and so on, but it is one of very rare cases where TEI Publisher exposes any predilection for a particular flavour of TEI.</para>
         <para>Similarly, template for aligned transcription and translation is parametrized to accept an XPath expression pointing to the location of the
           transcription and aligned translation, likely for your documents this expression would have to be adjusted (unless of course you also have Latin texts
-          with Polish translation structured in a similar way).</para>
+          with Polish translation structured in a similar way). Furthermore, to correctly display corresponding translation fragment a custom mapping function may need to be passed to the translation view (cf.
+        <link xlink:href="templates/pages/vangogh.html" role="source"><filename>Van Gogh</filename></link>  or
+        <link xlink:href="templates/pages/cortez.html" role="source"><filename>Cortés</filename></link> letter templates for examples)</para>
       </note>
     </section>
   </section>
@@ -771,25 +774,34 @@
             </term>
             <listitem>
               <para>shows a transcription and its translation side by side. Both are contained in the same TEI document and extracted via an XPath expression
-                passed to <tag>pb-view</tag>.</para>
+                passed to <tag>pb-view</tag></para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>
-              <link xlink:href="templates/pages/cortez.html" role="source">cortez.html</link>
+              <link xlink:href="templates/pages/cortez-with-translation.html" role="source">cortez-with-translation.html</link>
             </term>
             <listitem>
               <para>similar to <filename>translation.html</filename> but the alignment between
-              transcription and translation is more complex as the translation contains no page 
-              breaks. The part of the translation corresponding to a given fragment of the 
+              transcription and translation is more complex as the translation contains no page
+              breaks. The part of the translation corresponding to a given fragment of the
               transcription thus needs to be computed dynamically for each page, using an XQuery
               function (defined by the <parameter>map</parameter> on <tag>pb-view</tag>.</para>
             </listitem>
           </varlistentry>
           <varlistentry>
+            <term>
+              <link xlink:href="templates/pages/cortez" role="source">cortez.html</link>
+            </term>
+            <listitem>
+              <para>like above but with additional facsimile panel</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
             <term><link xlink:href="templates/pages/vangogh.html" role="source">vangogh.html</link></term>
             <listitem>
-              <para>demonstrates three columns by default: a metadata column, a transcription which can be switched to a diplomatic view including line endings, and a translation. More columns can be added dynamically.</para>
+              <para>demonstrates three columns by default: a metadata column, a transcription which can be switched
+                to a diplomatic view including line endings, and a translation. Other columns, e.g. facsimile or commentary can be added dynamically.</para>
             </listitem>
           </varlistentry>
         </variablelist>
@@ -861,7 +873,7 @@
           return any valid TEI fragment, which will become the input for futher processing through the processing model.</para>
         <para>The local name of the mapping function can then be supplied in the attribute <parameter>map</parameter> of <tag>pb-view</tag>. As an illustration,
           the Van Gogh example includes the following <code>pb-view</code> for displaying the translation:</para>
-        <programlisting language="xquery">&lt;pb-view src="document1" map="vg-translation" xpath="//div[@type='original']" 
+        <programlisting language="xquery">&lt;pb-view src="document1" map="vg-translation" xpath="//div[@type='original']"
     subscribe="transcription"/></programlisting>
         <para>In the Van Gogh letters, the translation contains page breaks corresponding to page breaks in the original letter, but these are using a different
           prefix for the xml:id. To align the translation with the transcription, we only need to adjust the id, and retrieve the corresponding page break to be
@@ -1806,7 +1818,7 @@
           a smooth upgrade path.</para>
       </note>
       <para>To get started, click on <guimenuitem>App Generator</guimenuitem> in the menu bar and fill out the form.</para>
-      
+
       <para>The following form fields are important:</para>
       <variablelist>
         <varlistentry>
@@ -2193,10 +2205,10 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       </section>
     </section>
   </section>
-  
-  
-  
-  
+
+
+
+
   <section xml:id="faq">
     <title>Frequently Asked Questions</title>
     <section>
