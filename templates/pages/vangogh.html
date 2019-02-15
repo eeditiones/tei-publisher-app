@@ -58,6 +58,10 @@
                     };
                 }
 
+                pb-facsimile {
+                    min-width: 480px;
+                }
+
                 .metadata {
                     max-width: 20vw;
                 }
@@ -121,9 +125,8 @@
                                             xpath="//div[@type='original']" subscribe="transcription"/>
                                     </template>
                                     <template title="Facsimile">
-                                        <pb-image subscribe="transcription">
-                                            <span slot="caption">Images hosted by <a href="http://vangoghletters.org">Van Gogh Museum, Amsterdam, Huygens ING, The Hague</a></span>
-                                        </pb-image>
+                                        <pb-facsimile subscribe="transcription" type="image">
+                                        </pb-facsimile>
                                     </template>
                                     <template title="Notes">
                                         <pb-view src="document1"

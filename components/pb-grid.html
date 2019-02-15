@@ -146,7 +146,7 @@
                     if (width && width !== 'none') {
                         widths.push(width);
                     } else {
-                        widths.push('auto');
+                        widths.push('1fr');
                     }
                 });
                 this.updateStyles({'--pb-column-widths': widths.join(' ')});
