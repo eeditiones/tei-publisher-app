@@ -104,7 +104,7 @@
                             column-separator=".tei-cb" history="history" append-footnotes="append-footnotes"
                             subscribe="transcription" emit="transcription"/>
                         <aside class="places">
-                            <pb-view src="document1" odd="graves" subscribe="transcription" emit="letter">
+                            <pb-view src="document1" odd="graves" subscribe="transcription" emit="letter" wait-for="pb-leaflet-map">
                                 <pb-param name="mode" value="facets"/>
                             </pb-view>
                         </aside>
