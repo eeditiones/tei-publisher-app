@@ -8,6 +8,11 @@
     margin: 0;
 }
 
+p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 .metadata {
     max-width: 400px;
 }
@@ -17,7 +22,7 @@
     vertical-align: top;
 }
 
-.metadata h5 {
+.metadata h3 {
     margin-bottom: 0;
 }
 
@@ -65,7 +70,7 @@
 
 /* Model rendition styles */
 
-.tei-teiHeader1 { font-size: .85em; }
+.tei-teiHeader5 { font-size: .85em; }
 .tei-supplied2:before { content:"<"; }
 .tei-supplied2:after { content:">"; }
 .tei-supplied3:before { content:"["; }
@@ -76,15 +81,16 @@
 .tei-supplied5:after { content:"}"; }
 .tei-signed1 { text-align: right; }
 .tei-signed2 { font-style: italic; }
-.tei-pb2 { font-size: .85em; background-color: #C0C0C0; border-left: 1px solid black; border-right: 1px solid black; padding: 0 1em; }
+.tei-pb3 { font-size: .85em; background-color: #C0C0C0; border-left: 1px solid black; border-right: 1px solid black; padding: 0 1em; }
 .tei-anchor { font-size: .85em; background-color: #C0C0C0; padding: 0 .25em; border-right: 1px solid black; text-indent: 0; margin: 0 .25em; }
 .tei-hi1 { font-style: italic; }
 .tei-hi2 { font-style: italic; }
 .tei-code { font-family:monospace }
 .tei-del { text-decoration: line-through; }
 .tei-trailer { color: green; }
-.tei-ab1 { text-indent: 20px; }
-.tei-ab3 { display: inline-block; text-indent: 20px; }
+.tei-ab1 { text-indent: 5mm; }
+.tei-ab3 { text-indent: 20px; }
+.tei-ab5 { display: inline-block; text-indent: 20px; }
 .tei-speaker { font-style:italic; }
 .tei-figDesc:before { content: '[..'; }
 .tei-figDesc:after { content: '..]'; }
@@ -107,7 +113,7 @@
 .tei-stage { font-style: italic; }
 .tei-titlePage { text-align: center; }
 .tei-edition:before { content: 'Edition: '; }
-.tei-div3 { border: 1px solid black; padding: 5px; }
+.tei-div7 { border: 1px solid black; padding: 5px; }
 .tei-ref2 { text-decoration: underline; }
 .tei-add { color: green; text-decoration: underline; }
 .tei-head2 { font-style: italic; }

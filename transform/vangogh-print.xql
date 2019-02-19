@@ -60,19 +60,21 @@ declare function model:apply($config as map(*), $input as node()*) {
                             typeswitch(.)
                     case element(castItem) return
                         (: Insert item, rendered as described in parent list rendition. :)
-                        fo:listItem($config, ., ("tei-castItem"), .)
+                        fo:listItem($config, ., ("tei-castItem"), ., ())
                     case element(item) return
-                        fo:listItem($config, ., ("tei-item"), .)
+                        fo:listItem($config, ., ("tei-item"), ., ())
                     case element(figure) return
                         if (head or @rendition='simple:display') then
                             fo:block($config, ., ("tei-figure1"), .)
                         else
                             fo:inline($config, ., ("tei-figure2"), .)
                     case element(teiHeader) return
-                        if ($parameters?view='metadata') then
-                            fo:block($config, ., ("tei-teiHeader1", "metadata"), .//sourceDesc//vg:letDesc)
-                        else
-                            fo:omit($config, ., ("tei-teiHeader3"), .)
+                        (
+                            fo:heading($config, ., ("tei-teiHeader2"), fileDesc/titleStmt/title, 1),
+                            fo:heading($config, ., ("tei-teiHeader3"), 'Metadata', 2),
+                            fo:block($config, ., ("tei-teiHeader4"), .//sourceDesc//vg:letDesc)
+                        )
+
                     case element(supplied) return
                         if (parent::choice) then
                             fo:inline($config, ., ("tei-supplied1"), .)
@@ -97,13 +99,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             fo:inline($config, ., ("tei-signed2"), .)
                     case element(pb) return
-                        fo:inline($config, ., ("tei-pb1"), '[' || @f || ':' || @n || ']')
+                        fo:inline($config, ., ("tei-pb2"), '[' || @f || ':' || @n || ']')
                     case element(pc) return
                         fo:inline($config, ., ("tei-pc"), .)
                     case element(anchor) return
                         fo:note($config, ., ("tei-anchor"), let $n := @n return $get(.)/ancestor::TEI//div[@type='notes']//note[@n=$n]/node(), (), @n/string())
                     case element(TEI) return
-                        fo:document($config, ., ("tei-TEI"), .)
+                        fo:document($config, ., ("tei-TEI2"), (teiHeader,.//div[@type='original'], .//div[@type='translation']))
                     case element(formula) return
                         if (@rendition='simple:display') then
                             fo:block($config, ., ("tei-formula1"), .)
@@ -132,7 +134,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:inline($config, ., ("tei-code"), .)
                     case element(note) return
                         if ($parameters?view='notes') then
-                            fo:listItem($config, ., ("tei-note1"), .)
+                            fo:listItem($config, ., ("tei-note1"), ., @n)
                         else
                             fo:block($config, ., ("tei-note2"), .)
                     case element(dateline) return
@@ -146,16 +148,20 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(titlePart) return
                         fo:block($config, ., css:get-rendition(., ("tei-titlePart")), .)
                     case element(ab) return
-                        if ((ancestor::div[@type='translation'] or $parameters?view='normalized') and @rend='indent') then
+                        if (@rend='indent') then
                             fo:paragraph($config, ., ("tei-ab1"), .)
                         else
-                            if (ancestor::div[@type='translation'] or $parameters?view='normalized') then
-                                fo:paragraph($config, ., ("tei-ab2"), .)
+                            if ((ancestor::div[@type='translation'] or $parameters?view='normalized') and @rend='indent') then
+                                fo:paragraph($config, ., ("tei-ab3"), .)
                             else
-                                if (@rend='indent') then
-                                    fo:inline($config, ., ("tei-ab3"), .)
+                                if (ancestor::div[@type='translation'] or $parameters?view='normalized') then
+                                    fo:paragraph($config, ., ("tei-ab4"), .)
                                 else
-                                    fo:inline($config, ., ("tei-ab4"), .)
+                                    if (@rend='indent') then
+                                        fo:inline($config, ., ("tei-ab5"), .)
+                                    else
+                                        (: More than one model without predicate found for ident ab. Choosing first one. :)
+                                        fo:paragraph($config, ., ("tei-ab2"), .)
                     case element(revisionDesc) return
                         fo:omit($config, ., ("tei-revisionDesc"), .)
                     case element(am) return
@@ -231,7 +237,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 fo:inline($config, ., ("tei-c3"), .)
                     case element(listBibl) return
                         if (bibl) then
-                            fo:list($config, ., ("tei-listBibl1"), bibl)
+                            fo:list($config, ., ("tei-listBibl1"), bibl, ())
                         else
                             fo:block($config, ., ("tei-listBibl2"), .)
                     case element(address) return
@@ -248,7 +254,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             fo:inline($config, ., ("tei-author2"), .)
                     case element(castList) return
                         if (child::*) then
-                            fo:list($config, ., css:get-rendition(., ("tei-castList")), castItem)
+                            fo:list($config, ., css:get-rendition(., ("tei-castList")), castItem, ())
                         else
                             $config?apply($config, ./node())
                     case element(l) return
@@ -259,10 +265,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:inline($config, ., ("tei-rhyme"), .)
                     case element(list) return
                         if (@rendition) then
-                            fo:list($config, ., css:get-rendition(., ("tei-list1")), item)
+                            fo:list($config, ., css:get-rendition(., ("tei-list1")), item, ())
                         else
                             if (not(@rendition)) then
-                                fo:list($config, ., ("tei-list2"), item)
+                                fo:list($config, ., ("tei-list2"), item, ())
                             else
                                 $config?apply($config, ./node())
                     case element(p) return
@@ -287,9 +293,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:block($config, ., css:get-rendition(., ("tei-docTitle")), .)
                     case element(lb) return
                         if ($parameters?view='normalized') then
-                            fo:omit($config, ., ("tei-lb1"), .)
+                            fo:omit($config, ., ("tei-lb2"), .)
                         else
-                            fo:break($config, ., css:get-rendition(., ("tei-lb2")), ., 'line', @n)
+                            fo:break($config, ., css:get-rendition(., ("tei-lb3")), ., 'line', @n)
                     case element(w) return
                         fo:inline($config, ., ("tei-w"), .)
                     case element(stage) return
@@ -329,19 +335,33 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(relatedItem) return
                         fo:inline($config, ., ("tei-relatedItem"), .)
                     case element(div) return
-                        if ($parameters?view='notes') then
-                            fo:list($config, ., ("tei-div1"), for $anchor in .//anchor/@n return  root($parameters?root)//div[@type='notes']//note[@n=$anchor])
+                        if (@type='original') then
+                            (
+                                fo:heading($config, ., ("tei-div1"), 'Original', 2),
+                                fo:block($config, ., ("tei-div2"), .)
+                            )
+
                         else
-                            if (@type='textualNotes') then
-                                fo:omit($config, ., ("tei-div2"), .)
+                            if (@type='translation') then
+                                (
+                                    fo:heading($config, ., ("tei-div3"), 'Translation', 2),
+                                    fo:block($config, ., ("tei-div4"), .)
+                                )
+
                             else
-                                if (@type='title_page') then
-                                    fo:block($config, ., ("tei-div3"), .)
+                                if ($parameters?view='notes') then
+                                    fo:list($config, ., ("tei-div5"), for $anchor in .//anchor/@n return  root($parameters?root)//div[@type='notes']//note[@n=$anchor], 'custom')
                                 else
-                                    if (parent::body or parent::front or parent::back) then
-                                        fo:section($config, ., ("tei-div4"), .)
+                                    if (@type='textualNotes') then
+                                        fo:omit($config, ., ("tei-div6"), .)
                                     else
-                                        fo:block($config, ., ("tei-div5"), .)
+                                        if (@type='title_page') then
+                                            fo:block($config, ., ("tei-div7"), .)
+                                        else
+                                            if (parent::body or parent::front or parent::back) then
+                                                fo:section($config, ., ("tei-div8"), .)
+                                            else
+                                                fo:block($config, ., ("tei-div9"), .)
                     case element(graphic) return
                         fo:graphic($config, ., ("tei-graphic"), ., @url, @width, @height, @scale, desc)
                     case element(reg) return
@@ -378,7 +398,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                             fo:block($config, ., ("tei-head5"), .)
                                         else
                                             if (parent::div) then
-                                                fo:heading($config, ., ("tei-head6"), .)
+                                                fo:heading($config, ., ("tei-head6"), ., count(ancestor::div))
                                             else
                                                 fo:block($config, ., ("tei-head7"), .)
                     case element(ex) return
@@ -386,14 +406,14 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(castGroup) return
                         if (child::*) then
                             (: Insert list. :)
-                            fo:list($config, ., ("tei-castGroup"), castItem|castGroup)
+                            fo:list($config, ., ("tei-castGroup"), castItem|castGroup, ())
                         else
                             $config?apply($config, ./node())
                     case element(time) return
                         fo:inline($config, ., ("tei-time"), .)
                     case element(bibl) return
                         if (parent::listBibl) then
-                            fo:listItem($config, ., ("tei-bibl1"), .)
+                            fo:listItem($config, ., ("tei-bibl1"), ., ())
                         else
                             fo:inline($config, ., ("tei-bibl2"), .)
                     case element(salute) return
@@ -418,7 +438,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     $config?apply($config, ./node())
                     case element(title) return
                         if ($parameters?header='short') then
-                            fo:heading($config, ., ("tei-title1"), .)
+                            fo:heading($config, ., ("tei-title1"), ., 5)
                         else
                             if (parent::titleStmt/parent::fileDesc) then
                                 (
@@ -477,7 +497,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             $config?apply($config, ./node())
                     case element(titleStmt) return
-                        fo:heading($config, ., ("tei-titleStmt2"), .)
+                        fo:heading($config, ., ("tei-titleStmt2"), ., ())
                     case element(sic) return
                         if (parent::choice and count(parent::*/*) gt 1) then
                             fo:inline($config, ., ("tei-sic1"), .)
@@ -529,18 +549,20 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:block($config, ., ("tei-byline"), .)
                     case element(vg:letDesc) return
                         (
-                            fo:heading($config, ., ("tei-vg:letDesc1"), 'Source status:'),
+                            fo:heading($config, ., ("tei-vg:letDesc1"), 'Source status:', 3),
                             fo:block($config, ., ("tei-vg:letDesc2"), note[@type='sourceStatus']/node()),
-                            fo:heading($config, ., ("tei-vg:letDesc3"), 'Location:'),
+                            fo:heading($config, ., ("tei-vg:letDesc3"), 'Location:', 3),
                             fo:block($config, ., ("tei-vg:letDesc4"), note[@type='location']/node()),
-                            fo:heading($config, ., ("tei-vg:letDesc5"), 'Date:'),
+                            fo:heading($config, ., ("tei-vg:letDesc5"), 'Date:', 3),
                             fo:block($config, ., ("tei-vg:letDesc6"), note[@type='date']/node()),
-                            fo:heading($config, ., ("tei-vg:letDesc7"), 'Additional:'),
+                            fo:heading($config, ., ("tei-vg:letDesc7"), 'Additional:', 3),
                             fo:block($config, ., ("tei-vg:letDesc8"), note[@type='additionalDetail']/node())
                         )
 
                     case element(surface) return
                         fo:omit($config, ., ("tei-surface"), .)
+                    case element(vg:whiteline) return
+                        fo:break($config, ., ("tei-vg:whiteline"), ., 'column', ())
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

@@ -72,13 +72,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:inline($config, ., ("tei-figure2"), .)
                     case element(teiHeader) return
                         if ($parameters?view='metadata') then
-                            epub:block($config, ., ("tei-teiHeader1", "metadata"), .//sourceDesc//vg:letDesc)
+                            epub:block($config, ., ("tei-teiHeader5", "metadata"), .//sourceDesc//vg:letDesc)
                         else
                             if ($parameters?header='short') then
-                                epub:block($config, ., ("tei-teiHeader4"), .)
+                                epub:block($config, ., ("tei-teiHeader6"), .)
                             else
                                 if ($parameters?header='letter') then
-                                    html:inline($config, ., ("tei-teiHeader5"), fileDesc/titleStmt/title)
+                                    html:inline($config, ., ("tei-teiHeader7"), fileDesc/titleStmt/title)
                                 else
                                     $config?apply($config, ./node())
                     case element(supplied) return
@@ -105,13 +105,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             html:inline($config, ., ("tei-signed2"), .)
                     case element(pb) return
-                        html:webcomponent($config, ., css:get-rendition(., ("tei-pb2")), @f || ':' || @n, 'pb-facs-link', map {"facs": let $zone := id(substring-after(@facs, '#'), root($parameters?root)) return  'http://vangoghletters.org/vg/facsimiles/' ||     $zone/graphic[@mimeType="image/png"]/@url, "emit": 'transcription'})
+                        html:webcomponent($config, ., css:get-rendition(., ("tei-pb3")), @f || ':' || @n, 'pb-facs-link', map {"facs": let $zone := id(substring-after(@facs, '#'), root($parameters?root)) return  'http://vangoghletters.org/vg/facsimiles/' ||     $zone/graphic[@mimeType="image/png"]/@url, "emit": 'transcription'})
                     case element(pc) return
                         html:inline($config, ., ("tei-pc"), .)
                     case element(anchor) return
                         epub:note($config, ., ("tei-anchor"), let $n := @n return $get(.)/ancestor::TEI//div[@type='notes']//note[@n=$n]/node(), (), @n/string())
                     case element(TEI) return
-                        html:document($config, ., ("tei-TEI"), .)
+                        html:document($config, ., ("tei-TEI3"), .)
                     case element(formula) return
                         if (@rendition='simple:display') then
                             epub:block($config, ., ("tei-formula1"), .)
@@ -155,15 +155,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                         epub:block($config, ., css:get-rendition(., ("tei-titlePart")), .)
                     case element(ab) return
                         if ((ancestor::div[@type='translation'] or $parameters?view='normalized') and @rend='indent') then
-                            html:paragraph($config, ., ("tei-ab1"), .)
+                            html:paragraph($config, ., ("tei-ab3"), .)
                         else
                             if (ancestor::div[@type='translation'] or $parameters?view='normalized') then
-                                html:paragraph($config, ., ("tei-ab2"), .)
+                                html:paragraph($config, ., ("tei-ab4"), .)
                             else
                                 if (@rend='indent') then
-                                    html:inline($config, ., ("tei-ab3"), .)
+                                    html:inline($config, ., ("tei-ab5"), .)
                                 else
-                                    html:inline($config, ., ("tei-ab4"), .)
+                                    html:inline($config, ., ("tei-ab6"), .)
                     case element(revisionDesc) return
                         html:omit($config, ., ("tei-revisionDesc"), .)
                     case element(am) return
@@ -298,9 +298,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                         epub:block($config, ., css:get-rendition(., ("tei-docTitle")), .)
                     case element(lb) return
                         if ($parameters?view='normalized') then
-                            html:omit($config, ., ("tei-lb1"), .)
+                            html:omit($config, ., ("tei-lb2"), .)
                         else
-                            epub:break($config, ., css:get-rendition(., ("tei-lb2")), ., 'line', @n)
+                            epub:break($config, ., css:get-rendition(., ("tei-lb3")), ., 'line', @n)
                     case element(w) return
                         html:inline($config, ., ("tei-w"), .)
                     case element(stage) return
@@ -341,18 +341,18 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:inline($config, ., ("tei-relatedItem"), .)
                     case element(div) return
                         if ($parameters?view='notes') then
-                            html:list($config, ., ("tei-div1"), for $anchor in .//anchor/@n return  root($parameters?root)//div[@type='notes']//note[@n=$anchor], 'custom')
+                            html:list($config, ., ("tei-div5"), for $anchor in .//anchor/@n return  root($parameters?root)//div[@type='notes']//note[@n=$anchor], 'custom')
                         else
                             if (@type='textualNotes') then
-                                html:omit($config, ., ("tei-div2"), .)
+                                html:omit($config, ., ("tei-div6"), .)
                             else
                                 if (@type='title_page') then
-                                    epub:block($config, ., ("tei-div3"), .)
+                                    epub:block($config, ., ("tei-div7"), .)
                                 else
                                     if (parent::body or parent::front or parent::back) then
-                                        html:section($config, ., ("tei-div4"), .)
+                                        html:section($config, ., ("tei-div8"), .)
                                     else
-                                        epub:block($config, ., ("tei-div5"), .)
+                                        epub:block($config, ., ("tei-div9"), .)
                     case element(graphic) return
                         html:graphic($config, ., ("tei-graphic"), ., @url, @width, @height, @scale, desc)
                     case element(reg) return
@@ -548,16 +548,18 @@ declare function model:apply($config as map(*), $input as node()*) {
                         epub:block($config, ., ("tei-byline"), .)
                     case element(vg:letDesc) return
                         (
-                            html:heading($config, ., ("tei-vg:letDesc1"), 'Source status:', 5),
+                            html:heading($config, ., ("tei-vg:letDesc1"), 'Source status:', 3),
                             epub:block($config, ., ("tei-vg:letDesc2"), note[@type='sourceStatus']/node()),
-                            html:heading($config, ., ("tei-vg:letDesc3"), 'Location:', 5),
+                            html:heading($config, ., ("tei-vg:letDesc3"), 'Location:', 3),
                             epub:block($config, ., ("tei-vg:letDesc4"), note[@type='location']/node()),
-                            html:heading($config, ., ("tei-vg:letDesc5"), 'Date:', 5),
+                            html:heading($config, ., ("tei-vg:letDesc5"), 'Date:', 3),
                             epub:block($config, ., ("tei-vg:letDesc6"), note[@type='date']/node()),
-                            html:heading($config, ., ("tei-vg:letDesc7"), 'Additional:', 5),
+                            html:heading($config, ., ("tei-vg:letDesc7"), 'Additional:', 3),
                             epub:block($config, ., ("tei-vg:letDesc8"), note[@type='additionalDetail']/node())
                         )
 
+                    case element(vg:whiteline) return
+                        epub:break($config, ., ("tei-vg:whiteline"), ., 'column', ())
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return
