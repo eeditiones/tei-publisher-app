@@ -51,6 +51,7 @@ declare %private function model:template2($config as map(*), $node as node()*, $
 \fancyhf{}
 \fancyhead[LO,RE]{\footnotesize\volume}
 \fancyhead[LE,RO]{\footnotesize\thepage}
+`{string-join($config?apply-children($config, $node, $params?styles))}`
 `{string-join($config?apply-children($config, $node, $params?glossary))}`
 \begin{document}
 \setlength{\columnrulewidth}{0.2pt}
@@ -182,7 +183,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 "title": teiHeader/fileDesc/titleStmt/title/node(),
                                 "content": .//text[@type='source']/body,
                                 "translation": .//text[@xml:lang='pl'],
-                                "glossary": (teiHeader//particDesc/listPerson/person, teiHeader//settingDesc/listPlace/place)
+                                "glossary": (teiHeader//particDesc/listPerson/person, teiHeader//settingDesc/listPlace/place),
+                                "styles": $config('latex-styles')
                             }
 
                                                 let $content := 

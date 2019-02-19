@@ -57,6 +57,7 @@
             <param name="content" value=".//text[@type='source']/body"/>
             <param name="translation" value=".//text[@xml:lang='pl']"/>
             <param name="glossary" value="(teiHeader//particDesc/listPerson/person, teiHeader//settingDesc/listPlace/place)"/>
+            <param name="styles" value="$config('latex-styles')"/>
             <pb:template>\documentclass[10pt,a4paper,twoside]{article}
                             
 \usepackage[latin,polish]{babel}
@@ -72,6 +73,8 @@
 \fancyhf{}
 \fancyhead[LO,RE]{\footnotesize\volume}
 \fancyhead[LE,RO]{\footnotesize\thepage}
+
+[[styles]]
 
 [[glossary]]
 
