@@ -1668,8 +1668,7 @@
       </section>
       <section>
         <title>LaTeX Output</title>
-        <para>The latex output mode produces good results for longer texts which fit well into the pre-defined LaTeX environments. The number of supported CSS
-          properties is limited though:</para>
+        <para>The latex output mode produces good results for longer texts which fit well into the pre-defined LaTeX environments. The number of supported CSS properties is limited though:</para>
         <itemizedlist>
           <listitem>
             <para>font-weight</para>
@@ -1697,7 +1696,20 @@
           </listitem>
         </itemizedlist>
         <para>To create arbitary complex LaTeX output, you may want to use the <link linkend="pb-template"><tag>pb-template</tag> extension</link> to the ODD
-          syntax. It is heavily used to e.g. generate the LaTeX version of this documentation.</para>
+          syntax. It is heavily used to e.g. generate the LaTeX version of this documentation. See also
+          <link xlink:href="odd/serafin.odd" role="source">serafin.odd</link> or 
+          <link xlink:href="odd/vangogh.odd" role="source">vangogh.odd</link> for examples.</para>
+        <para>TEI Publisher creates a default LaTeX prolog based on standard packages and settings. You may overwrite
+        the defaults by providing your own template within the ODD element spec for the TEI root element. See the example
+        ODDs mentioned above. Note that TEI Publisher will generate some LaTeX macros for styles defined in <tag>outputRendition</tag> which should be imported into the prolog. The styles are added to the default
+          configuration map and can be accessed via <command>$config('latex-styles')</command>. Refer to the
+        example ODDs and just copy/paste the corresponding lines.</para>
+        <para>This output mode requires a local installation of LaTeX on the machine running TEI Publisher.
+          The examples have been tested on a default installation of MacTeX 2018. If you are not running
+        MacTeX, you likely need to adjust the path to the LaTeX binary in the XQuery configuration module
+          <filename>modules/config.xqm</filename>. Search for the variable <varname>$config:tex-command</varname>
+        and adjust it to point to a binary of <command>xelatex</command>, <command>pdflatex</command> or
+        <command>lualatex</command>.</para>
       </section>
       <section>
         <title>ePub Output</title>
