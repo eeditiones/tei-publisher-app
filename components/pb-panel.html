@@ -13,7 +13,7 @@
                 justify-content: space-between;
             }
 
-            ::slotted(div) {
+            ::slotted(._pb_panel) {
                 overflow: auto;
                 max-height: calc(var(--pb-panel-max-height) - 72px);
             }
@@ -48,7 +48,7 @@
          *
          * | Custom property | Description | Default|
          * | ----------------|-------------|--------|
-         * |--pb-panel-max-height | The max height to be used for a panel | {}|
+         * |--pb-panel-max-height | The max height of the panel content. Set to enable scrolling. | {}|
          *
          * @customElement
          * @appliesMixin PbMixin

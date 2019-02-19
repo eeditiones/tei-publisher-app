@@ -46,6 +46,10 @@
                     --pb-footnote-number: {
                         font-size: .75em;
                     };
+
+                    --pb-facsimile-height: calc(var(--pb-view-height) - 89px);
+
+                    /* --pb-panel-max-height: var(--pb-view-height); */
                 }
 
 
@@ -60,6 +64,11 @@
 
                 pb-facsimile {
                     min-width: 480px;
+                }
+
+                .facscaption {
+                    font-size: 75%;
+                    text-align: right;
                 }
 
                 .metadata {
@@ -127,6 +136,7 @@
                                     <template title="Facsimile">
                                         <pb-facsimile subscribe="transcription" type="image">
                                         </pb-facsimile>
+                                        <div class="facscaption">Images hosted by <a href="http://vangoghletters.org">Van Gogh Museum, Amsterdam, Huygens ING, The Hague</a></div>
                                     </template>
                                     <template title="Notes">
                                         <pb-view src="document1"
