@@ -1271,12 +1271,42 @@
             <listitem>
               <para>Creates an ordered or unordered list, depending on the type attribute (e.g. <parameter>type="ordered"</parameter>). If a label is present
                 before each item, a description list is output instead, using the label as definition term.</para>
+              <informaltable>
+                <thead>
+                  <tr>
+                    <td>Parameter</td>
+                    <td>Description</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>type</td>
+                    <td>The type of list: use "ordered" for an enumerated list, or "custom" to specify item labels
+                    in combination with the <option>n</option> parameter on each <command>listItem</command>. The default
+                    is "unordered" for a list of bullet points.</td>
+                  </tr>
+                </tbody>
+              </informaltable>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>listItem</term>
             <listitem>
               <para>Outputs an item in a list.</para>
+              <informaltable>
+                <thead>
+                  <tr>
+                    <td>Parameter</td>
+                    <td>Description</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>n</td>
+                    <td>a label to use for the item</td>
+                  </tr>
+                </tbody>
+              </informaltable>
             </listitem>
           </varlistentry>
           <varlistentry>
