@@ -138,7 +138,7 @@ declare function nav:get-next($config as map(*), $div as element(), $view as xs:
             default return
                 nav:get-next($config, $div)
     return
-        if ($config?context instance of document-node() or $next/ancestor::*[. is $config?context]) then
+        if (empty($config?context) or $config?context instance of document-node() or $next/ancestor::*[. is $config?context]) then
             $next
         else
             ()
