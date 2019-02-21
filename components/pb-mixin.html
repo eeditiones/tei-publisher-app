@@ -243,6 +243,15 @@
                 TeiPublisher.url.searchParams.set(name, value);
             }
         }
+        
+        setPath(path) {
+            const page = document.querySelector('pb-page');
+            if (page) {
+                const appRoot = page.appRoot;
+                
+                this.getUrl().pathname = appRoot + '/' + path;
+            }
+        }
 
         getUrl() {
             return TeiPublisher.url;

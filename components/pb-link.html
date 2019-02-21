@@ -49,7 +49,16 @@
                     /** Switch the ODD to use for display */
                     odd: {
                         type: String
-                    }
+                    },
+                    /**
+                     * Modify browser history: if set, clicking this
+                     * element will generate a new history entry in the browser's history.
+                     * Only use this on one element on the page.
+                     */
+                    history: {
+                        type: Boolean,
+                        value: true
+                    },
                 };
             }
 
@@ -70,14 +79,18 @@
                 };
                 if (this.xmlId) {
                     params.id = this.xmlId;
+                    this.history && this.setParameter('id', this.xmlId);
                 } else if (this.nodeId) {
                     params.position = this.nodeId;
+                    this.history && this.setParameter('root', this.nodeId);
                 }
                 if (this.path) {
                     params.path = this.path;
+                    this.history && this.setPath(this.path);
                 }
                 if (this.odd) {
                     params.odd = this.odd;
+                    this.history && this.setParameter('odd', this.odd);
                 }
                 this.pushHistory('table of contents click');
 

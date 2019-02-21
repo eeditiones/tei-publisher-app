@@ -55,8 +55,7 @@
     </aside>
     <div class="content">
         <pb-view id="view1" src="document1" view="single" subscribe="transcription"
-            emit="transcription"
-            history="history" append-footnotes="append-footnotes" odd="docbook"/>
+            emit="transcription" append-footnotes="append-footnotes" odd="docbook"/>
     </div>
 </main>]]></programlisting>
     </section>
