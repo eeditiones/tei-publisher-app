@@ -33,8 +33,8 @@ declare function local:get-template($doc as xs:string) {
 declare function local:last-blog-entry() {
     util:document-name(
         head(
-            for $article in collection($config:data-root || "/doc/blog")
-            let $published := $article/*/dbk:info/dbk:pubdate
+            for $article in collection($config:data-root || "/doc/blog")/dbk:article
+            let $published := $article/dbk:info/dbk:pubdate
             order by xs:date($published) descending
             return
                 $article
