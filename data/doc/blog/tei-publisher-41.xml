@@ -16,9 +16,9 @@
         </abstract>
     </info>
     <section>
-        <title>Release highlights: dynamic layout and custom translation alignment</title>
+        <title>Release Highlights: Dynamic Layout and Custom Translation Alignment</title>
         <para>Many users were interested in the correspondence examples, in particular the Serafin
-            and Cortez letters showing transcription and translation side by side. We have
+            and Cortés letters showing transcription and translation side by side. We have
             focused on enhancing those use cases and close some gaps in functionality. One problem
             arising in many TEI projects is how to align two or more texts, e.g. a transcription and
             a translation. In the simplest case, the texts may be aligned on the level of divisions
