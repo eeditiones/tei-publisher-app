@@ -303,7 +303,7 @@
               "column": 12
             },
             "end": {
-              "line": 124,
+              "line": 128,
               "column": 13
             }
           },
@@ -319,11 +319,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 126,
+              "line": 130,
               "column": 12
             },
             "end": {
-              "line": 130,
+              "line": 134,
               "column": 13
             }
           },
@@ -339,11 +339,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 132,
+              "line": 136,
               "column": 12
             },
             "end": {
-              "line": 168,
+              "line": 175,
               "column": 13
             }
           },
@@ -359,11 +359,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 170,
+              "line": 177,
               "column": 12
             },
             "end": {
-              "line": 182,
+              "line": 189,
               "column": 13
             }
           },
@@ -398,7 +398,7 @@
           "column": 8
         },
         "end": {
-          "line": 183,
+          "line": 190,
           "column": 9
         }
       },
@@ -1176,7 +1176,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -1201,11 +1201,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -1220,11 +1220,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -2108,7 +2108,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -2133,11 +2133,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -2152,11 +2152,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -2482,7 +2482,7 @@
       ]
     },
     {
-      "description": "This is the main component for viewing text which has been transformed via an ODD.\nThe document to be viewed is determined by the `pb-document` element the property\n`src` points to. `pb-view` can display an entire document or just a fragment of it\nas defined by the properties `xmlId`, `nodeId` or `xpath`.\n\nYou may also define optional parameters to be passed to the ODD in nested `pb-param`\ntags. These parameters can be accessed within the ODD via the `$parameters` map. For\nexample, the following snippet is being used to output breadcrumbs above the main text\nin the documentation view:\n\n```xml\n<section class=\"breadcrumbs\">\n     <pb-view id=\"title-view1\" src=\"document1\" subscribe=\"transcription\">\n         <pb-param name=\"mode\" value=\"breadcrumbs\"/>\n     </pb-view>\n</section>\n```\n\n## CSS Mixins\n\n| Custom property | Description | Default|\n| ----------------|-------------|--------|\n|--pb-content-theme | Mixin applied to the content view | {}|\n|--pb-footnotes | Mixin for formatting footnotes | {}|\n|--pb-footnote-ref | Mixin for formatting footnote references | {}|\n|--pb-highlight-theme | Mixin applied to matches in the text when displaying search results | {}|",
+      "description": "This is the main component for viewing text which has been transformed via an ODD.\nThe document to be viewed is determined by the `pb-document` element the property\n`src` points to. `pb-view` can display an entire document or just a fragment of it\nas defined by the properties `xmlId`, `nodeId` or `xpath`.\n\nYou may also define optional parameters to be passed to the ODD in nested `pb-param`\ntags. These parameters can be accessed within the ODD via the `$parameters` map. For\nexample, the following snippet is being used to output breadcrumbs above the main text\nin the documentation view:\n\n```xml\n<section class=\"breadcrumbs\">\n     <pb-view id=\"title-view1\" src=\"document1\" subscribe=\"transcription\">\n         <pb-param name=\"mode\" value=\"breadcrumbs\"/>\n     </pb-view>\n</section>\n```\n\n## CSS Mixins\n\n| Custom property | Description | Default|\n| ----------------|-------------|--------|\n|--pb-content-theme | Mixin applied to the content view | {}|\n|--pb-view-column-gap | Column gap in two-column mode | 10px |\n|--pb-footnotes | Mixin for formatting footnotes | {}|\n|--pb-footnote-ref | Mixin for formatting footnote references | {}|\n|--pb-highlight-theme | Mixin applied to matches in the text when displaying search results | {}|",
       "summary": "",
       "path": "pb-view.html",
       "properties": [
@@ -2632,11 +2632,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 138,
+              "line": 139,
               "column": 20
             },
             "end": {
-              "line": 141,
+              "line": 142,
               "column": 21
             }
           },
@@ -2654,11 +2654,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 147,
+              "line": 148,
               "column": 20
             },
             "end": {
-              "line": 150,
+              "line": 151,
               "column": 21
             }
           },
@@ -2675,11 +2675,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 161,
+              "line": 162,
               "column": 20
             },
             "end": {
-              "line": 164,
+              "line": 165,
               "column": 21
             }
           },
@@ -2696,11 +2696,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 169,
+              "line": 170,
               "column": 20
             },
             "end": {
-              "line": 172,
+              "line": 173,
               "column": 21
             }
           },
@@ -2717,11 +2717,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 177,
+              "line": 178,
               "column": 20
             },
             "end": {
-              "line": 180,
+              "line": 181,
               "column": 21
             }
           },
@@ -2738,11 +2738,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 189,
+              "line": 190,
               "column": 20
             },
             "end": {
-              "line": 192,
+              "line": 193,
               "column": 21
             }
           },
@@ -2755,15 +2755,15 @@
         {
           "name": "map",
           "type": "string | null | undefined",
-          "description": "If defined denotes the local name of an XQuery function in modules/map.xql, which needs to be called\nwith the current root node and returns the node of a mapped fragment, eg. translation.\n\nNavigation in the document is still determined by the current root as defined through the `root`, `xpath`\nand `xmlId` properties.",
+          "description": "If defined denotes the local name of an XQuery function in `modules/map.xql`, which will be called\nwith the current root node and should return the node of a mapped fragment. This is helpful if one\nwants, for example, to show a translation fragment aligned with the part of the transcription currently\nshown. In this case, the properties of the `pb-view` would still point to the transcription, but the function\nidentified by map would return the corresponding fragment from the translation to be processed.\n\nNavigation in the document is still determined by the current root as defined through the `root`, `xpath`\nand `xmlId` properties.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 200,
+              "line": 204,
               "column": 20
             },
             "end": {
-              "line": 202,
+              "line": 206,
               "column": 21
             }
           },
@@ -2780,11 +2780,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 207,
+              "line": 211,
               "column": 20
             },
             "end": {
-              "line": 210,
+              "line": 214,
               "column": 21
             }
           },
@@ -2802,11 +2802,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 216,
+              "line": 220,
               "column": 20
             },
             "end": {
-              "line": 219,
+              "line": 223,
               "column": 21
             }
           },
@@ -2824,11 +2824,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 223,
+              "line": 227,
               "column": 20
             },
             "end": {
-              "line": 226,
+              "line": 230,
               "column": 21
             }
           },
@@ -2846,11 +2846,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 231,
+              "line": 235,
               "column": 20
             },
             "end": {
-              "line": 234,
+              "line": 238,
               "column": 21
             }
           },
@@ -2868,11 +2868,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 238,
+              "line": 242,
               "column": 20
             },
             "end": {
-              "line": 242,
+              "line": 246,
               "column": 21
             }
           },
@@ -2890,11 +2890,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 248,
+              "line": 252,
               "column": 20
             },
             "end": {
-              "line": 250,
+              "line": 254,
               "column": 21
             }
           },
@@ -2911,11 +2911,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 254,
+              "line": 258,
               "column": 20
             },
             "end": {
-              "line": 257,
+              "line": 261,
               "column": 21
             }
           },
@@ -2933,11 +2933,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 258,
+              "line": 262,
               "column": 20
             },
             "end": {
-              "line": 264,
+              "line": 268,
               "column": 21
             }
           },
@@ -3148,7 +3148,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -3173,11 +3173,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -3192,11 +3192,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -3220,11 +3220,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 281,
+              "line": 285,
               "column": 12
             },
             "end": {
-              "line": 290,
+              "line": 294,
               "column": 13
             }
           },
@@ -3240,11 +3240,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 292,
+              "line": 296,
               "column": 12
             },
             "end": {
-              "line": 306,
+              "line": 310,
               "column": 13
             }
           },
@@ -3260,23 +3260,6 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 311,
-              "column": 12
-            },
-            "end": {
-              "line": 313,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": []
-        },
-        {
-          "name": "getView",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
               "line": 315,
               "column": 12
             },
@@ -3289,16 +3272,33 @@
           "params": []
         },
         {
+          "name": "getView",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 319,
+              "column": 12
+            },
+            "end": {
+              "line": 321,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
           "name": "update",
           "description": "Trigger an update of this element's content",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 322,
+              "line": 326,
               "column": 12
             },
             "end": {
-              "line": 324,
+              "line": 328,
               "column": 13
             }
           },
@@ -3314,11 +3314,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 326,
+              "line": 330,
               "column": 12
             },
             "end": {
-              "line": 349,
+              "line": 353,
               "column": 13
             }
           },
@@ -3338,11 +3338,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 351,
+              "line": 355,
               "column": 12
             },
             "end": {
-              "line": 362,
+              "line": 366,
               "column": 13
             }
           },
@@ -3362,11 +3362,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 364,
+              "line": 368,
               "column": 12
             },
             "end": {
-              "line": 371,
+              "line": 375,
               "column": 13
             }
           },
@@ -3386,11 +3386,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 373,
+              "line": 377,
               "column": 12
             },
             "end": {
-              "line": 384,
+              "line": 388,
               "column": 13
             }
           },
@@ -3406,11 +3406,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 386,
+              "line": 390,
               "column": 12
             },
             "end": {
-              "line": 390,
+              "line": 394,
               "column": 13
             }
           },
@@ -3426,11 +3426,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 392,
+              "line": 396,
               "column": 12
             },
             "end": {
-              "line": 423,
+              "line": 427,
               "column": 13
             }
           },
@@ -3446,11 +3446,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 425,
+              "line": 429,
               "column": 12
             },
             "end": {
-              "line": 450,
+              "line": 454,
               "column": 13
             }
           },
@@ -3467,11 +3467,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 452,
+              "line": 456,
               "column": 12
             },
             "end": {
-              "line": 475,
+              "line": 479,
               "column": 13
             }
           },
@@ -3491,11 +3491,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 477,
+              "line": 481,
               "column": 12
             },
             "end": {
-              "line": 487,
+              "line": 491,
               "column": 13
             }
           },
@@ -3515,11 +3515,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 489,
+              "line": 493,
               "column": 12
             },
             "end": {
-              "line": 495,
+              "line": 499,
               "column": 13
             }
           },
@@ -3532,11 +3532,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 500,
+              "line": 504,
               "column": 12
             },
             "end": {
-              "line": 524,
+              "line": 528,
               "column": 13
             }
           },
@@ -3553,11 +3553,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 531,
+              "line": 535,
               "column": 12
             },
             "end": {
-              "line": 533,
+              "line": 537,
               "column": 13
             }
           },
@@ -3579,11 +3579,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 540,
+              "line": 544,
               "column": 12
             },
             "end": {
-              "line": 543,
+              "line": 547,
               "column": 13
             }
           },
@@ -3605,11 +3605,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 551,
+              "line": 555,
               "column": 12
             },
             "end": {
-              "line": 569,
+              "line": 575,
               "column": 13
             }
           },
@@ -3631,11 +3631,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 576,
+              "line": 582,
               "column": 12
             },
             "end": {
-              "line": 585,
+              "line": 591,
               "column": 13
             }
           },
@@ -3657,11 +3657,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 587,
+              "line": 593,
               "column": 12
             },
             "end": {
-              "line": 590,
+              "line": 596,
               "column": 13
             }
           },
@@ -3684,11 +3684,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 592,
+              "line": 598,
               "column": 12
             },
             "end": {
-              "line": 596,
+              "line": 602,
               "column": 13
             }
           },
@@ -3704,11 +3704,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 598,
+              "line": 604,
               "column": 12
             },
             "end": {
-              "line": 604,
+              "line": 610,
               "column": 13
             }
           },
@@ -3728,11 +3728,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 606,
+              "line": 612,
               "column": 12
             },
             "end": {
-              "line": 612,
+              "line": 618,
               "column": 13
             }
           },
@@ -3752,11 +3752,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 614,
+              "line": 620,
               "column": 12
             },
             "end": {
-              "line": 621,
+              "line": 627,
               "column": 13
             }
           },
@@ -3784,11 +3784,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 120,
+          "line": 121,
           "column": 8
         },
         "end": {
-          "line": 663,
+          "line": 669,
           "column": 9
         }
       },
@@ -3891,11 +3891,11 @@
           "description": "The id of a `pb-document` element this view should display.\nSettings like `odd` or `view` will be taken from the `pb-document`\nunless overwritten by properties in this component.\n\nThis property is **required** and **must** point to an existing `pb-document` with\nthe given id.\n\nSetting the property after initialization will clear the properties xmlId, nodeId and odd.",
           "sourceRange": {
             "start": {
-              "line": 138,
+              "line": 139,
               "column": 20
             },
             "end": {
-              "line": 141,
+              "line": 142,
               "column": 21
             }
           },
@@ -3907,11 +3907,11 @@
           "description": "The ODD to use for rendering the document. Overwrites an ODD defined on\n`pb-document`. The odd should be specified by its name without path\nor the `.odd` suffix.",
           "sourceRange": {
             "start": {
-              "line": 147,
+              "line": 148,
               "column": 20
             },
             "end": {
-              "line": 150,
+              "line": 151,
               "column": 21
             }
           },
@@ -3923,11 +3923,11 @@
           "description": "The view type to use for paginating the document. Either `page`, `div` or `single`.\nOverwrites the same property specified on `pb-document`. Values have the following meaning:\n\nValue | Displayed content\n------|------------------\n`page` | content is displayed page by page as determined by tei:pb\n`div` | content is displayed by divisions\n`single` | do not paginate but display entire content at once",
           "sourceRange": {
             "start": {
-              "line": 161,
+              "line": 162,
               "column": 20
             },
             "end": {
-              "line": 164,
+              "line": 165,
               "column": 21
             }
           },
@@ -3939,11 +3939,11 @@
           "description": "An eXist nodeId. If specified, selects the root of the fragment of the document\nwhich should be displayed. Normally this property is set automatically by pagination.",
           "sourceRange": {
             "start": {
-              "line": 169,
+              "line": 170,
               "column": 20
             },
             "end": {
-              "line": 172,
+              "line": 173,
               "column": 21
             }
           },
@@ -3955,11 +3955,11 @@
           "description": "An xml:id to be displayed. If specified, this determines the root of the fragment to be\ndisplayed. Use to directly navigate to a specific section.",
           "sourceRange": {
             "start": {
-              "line": 177,
+              "line": 178,
               "column": 20
             },
             "end": {
-              "line": 180,
+              "line": 181,
               "column": 21
             }
           },
@@ -3971,11 +3971,11 @@
           "description": "An optional XPath expression: the root of the fragment to be processed is determined\nby evaluating the given XPath expression. The XPath expression should be absolute.\nThe namespace of the document is declared as default namespace, so no prefixes should\nbe used.\n\nIf the `map` property is used, it may change scope for the displayed fragment.",
           "sourceRange": {
             "start": {
-              "line": 189,
+              "line": 190,
               "column": 20
             },
             "end": {
-              "line": 192,
+              "line": 193,
               "column": 21
             }
           },
@@ -3984,14 +3984,14 @@
         },
         {
           "name": "map",
-          "description": "If defined denotes the local name of an XQuery function in modules/map.xql, which needs to be called\nwith the current root node and returns the node of a mapped fragment, eg. translation.\n\nNavigation in the document is still determined by the current root as defined through the `root`, `xpath`\nand `xmlId` properties.",
+          "description": "If defined denotes the local name of an XQuery function in `modules/map.xql`, which will be called\nwith the current root node and should return the node of a mapped fragment. This is helpful if one\nwants, for example, to show a translation fragment aligned with the part of the transcription currently\nshown. In this case, the properties of the `pb-view` would still point to the transcription, but the function\nidentified by map would return the corresponding fragment from the translation to be processed.\n\nNavigation in the document is still determined by the current root as defined through the `root`, `xpath`\nand `xmlId` properties.",
           "sourceRange": {
             "start": {
-              "line": 200,
+              "line": 204,
               "column": 20
             },
             "end": {
-              "line": 202,
+              "line": 206,
               "column": 21
             }
           },
@@ -4003,11 +4003,11 @@
           "description": "Message to display if no content was returned by the server.\nSet to empty string to show nothing.",
           "sourceRange": {
             "start": {
-              "line": 207,
+              "line": 211,
               "column": 20
             },
             "end": {
-              "line": 210,
+              "line": 214,
               "column": 21
             }
           },
@@ -4019,11 +4019,11 @@
           "description": "Modify browser history: if set, any load operation performed by this\nelement will generate a new history entry in the browser's history.\nOnly use this on one element on the page.",
           "sourceRange": {
             "start": {
-              "line": 216,
+              "line": 220,
               "column": 20
             },
             "end": {
-              "line": 219,
+              "line": 223,
               "column": 21
             }
           },
@@ -4035,11 +4035,11 @@
           "description": "The relative URL to the script on the server which will be called for loading content.",
           "sourceRange": {
             "start": {
-              "line": 223,
+              "line": 227,
               "column": 20
             },
             "end": {
-              "line": 226,
+              "line": 230,
               "column": 21
             }
           },
@@ -4051,11 +4051,11 @@
           "description": "The server returns footnotes separately. Set this property\nif you wish to append them to the main text.",
           "sourceRange": {
             "start": {
-              "line": 231,
+              "line": 235,
               "column": 20
             },
             "end": {
-              "line": 234,
+              "line": 238,
               "column": 21
             }
           },
@@ -4067,11 +4067,11 @@
           "description": "Should matches be highlighted if a search has been executed?",
           "sourceRange": {
             "start": {
-              "line": 238,
+              "line": 242,
               "column": 20
             },
             "end": {
-              "line": 242,
+              "line": 246,
               "column": 21
             }
           },
@@ -4083,11 +4083,11 @@
           "description": "CSS selector to find column breaks in the content returned\nfrom the server. If this property is set and column breaks\nare found, the component will display two columns side by side.",
           "sourceRange": {
             "start": {
-              "line": 248,
+              "line": 252,
               "column": 20
             },
             "end": {
-              "line": 250,
+              "line": 254,
               "column": 21
             }
           },
@@ -4099,11 +4099,11 @@
           "description": "The reading direction, i.e. 'ltr' or 'rtl'.",
           "sourceRange": {
             "start": {
-              "line": 254,
+              "line": 258,
               "column": 20
             },
             "end": {
-              "line": 257,
+              "line": 261,
               "column": 21
             }
           },
@@ -4115,11 +4115,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 258,
+              "line": 262,
               "column": 20
             },
             "end": {
-              "line": 264,
+              "line": 268,
               "column": 21
             }
           },
@@ -4582,7 +4582,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -4607,11 +4607,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -4626,11 +4626,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -5307,7 +5307,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -5332,11 +5332,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -5351,11 +5351,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -5980,7 +5980,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -6005,11 +6005,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -6024,11 +6024,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -7202,7 +7202,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -7227,11 +7227,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -7246,11 +7246,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -8301,7 +8301,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -8326,11 +8326,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -8345,11 +8345,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -9391,7 +9391,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -9416,11 +9416,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -9435,11 +9435,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -10258,7 +10258,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -10283,11 +10283,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -10302,11 +10302,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -11042,7 +11042,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -11067,11 +11067,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -11086,11 +11086,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -11880,7 +11880,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -11905,11 +11905,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -11924,11 +11924,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -13242,7 +13242,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -13267,11 +13267,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -13286,11 +13286,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -14615,7 +14615,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -14640,11 +14640,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -14659,11 +14659,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -15722,17 +15722,17 @@
           "defaultValue": "1"
         },
         {
-          "name": "baseUri",
+          "name": "type",
           "type": "string | null | undefined",
-          "description": "",
+          "description": "Type of the source of the image to display: either 'iiif' or 'image'\n(for simple image links not served via IIIF).",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 228,
+              "line": 232,
               "column": 20
             },
             "end": {
-              "line": 231,
+              "line": 235,
               "column": 21
             }
           },
@@ -15741,12 +15741,12 @@
               "attributeType": "String"
             }
           },
-          "defaultValue": "\"http://apps.existsolutions.com:8182/iiif/2/\""
+          "defaultValue": "\"iiif\""
         },
         {
-          "name": "facsimiles",
-          "type": "Array | null | undefined",
-          "description": "Array of facsimiles",
+          "name": "baseUri",
+          "type": "string | null | undefined",
+          "description": "",
           "privacy": "public",
           "sourceRange": {
             "start": {
@@ -15755,6 +15755,28 @@
             },
             "end": {
               "line": 239,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "defaultValue": "\"\""
+        },
+        {
+          "name": "facsimiles",
+          "type": "Array | null | undefined",
+          "description": "Array of facsimiles",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 244,
+              "column": 20
+            },
+            "end": {
+              "line": 247,
               "column": 21
             }
           },
@@ -15773,11 +15795,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 254,
+              "line": 262,
               "column": 12
             },
             "end": {
-              "line": 262,
+              "line": 270,
               "column": 13
             }
           },
@@ -15793,11 +15815,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 264,
+              "line": 272,
               "column": 12
             },
             "end": {
-              "line": 273,
+              "line": 281,
               "column": 13
             }
           },
@@ -15813,11 +15835,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 275,
+              "line": 283,
               "column": 12
             },
             "end": {
-              "line": 298,
+              "line": 306,
               "column": 13
             }
           },
@@ -15833,11 +15855,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 301,
+              "line": 309,
               "column": 12
             },
             "end": {
-              "line": 335,
+              "line": 343,
               "column": 13
             }
           },
@@ -15853,11 +15875,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 337,
+              "line": 345,
               "column": 12
             },
             "end": {
-              "line": 341,
+              "line": 349,
               "column": 13
             }
           },
@@ -15877,11 +15899,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 344,
+              "line": 352,
               "column": 12
             },
             "end": {
-              "line": 347,
+              "line": 355,
               "column": 13
             }
           },
@@ -15897,11 +15919,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 350,
+              "line": 358,
               "column": 12
             },
             "end": {
-              "line": 358,
+              "line": 366,
               "column": 13
             }
           },
@@ -15917,11 +15939,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 361,
+              "line": 369,
               "column": 12
             },
             "end": {
-              "line": 373,
+              "line": 381,
               "column": 13
             }
           },
@@ -15937,11 +15959,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 376,
+              "line": 384,
               "column": 12
             },
             "end": {
-              "line": 378,
+              "line": 386,
               "column": 13
             }
           },
@@ -15957,11 +15979,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 381,
+              "line": 389,
               "column": 12
             },
             "end": {
-              "line": 383,
+              "line": 391,
               "column": 13
             }
           },
@@ -15974,11 +15996,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 385,
+              "line": 393,
               "column": 12
             },
             "end": {
-              "line": 389,
+              "line": 397,
               "column": 13
             }
           },
@@ -15994,11 +16016,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 391,
+              "line": 399,
               "column": 12
             },
             "end": {
-              "line": 396,
+              "line": 404,
               "column": 13
             }
           },
@@ -16014,11 +16036,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 399,
+              "line": 407,
               "column": 12
             },
             "end": {
-              "line": 407,
+              "line": 415,
               "column": 13
             }
           },
@@ -16034,11 +16056,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 409,
+              "line": 417,
               "column": 12
             },
             "end": {
-              "line": 411,
+              "line": 419,
               "column": 13
             }
           },
@@ -16054,11 +16076,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 413,
+              "line": 421,
               "column": 12
             },
             "end": {
-              "line": 415,
+              "line": 423,
               "column": 13
             }
           },
@@ -16074,11 +16096,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 417,
+              "line": 425,
               "column": 12
             },
             "end": {
-              "line": 419,
+              "line": 427,
               "column": 13
             }
           },
@@ -16095,11 +16117,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 421,
+              "line": 429,
               "column": 12
             },
             "end": {
-              "line": 479,
+              "line": 487,
               "column": 13
             }
           },
@@ -16116,11 +16138,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 481,
+              "line": 489,
               "column": 12
             },
             "end": {
-              "line": 486,
+              "line": 494,
               "column": 13
             }
           },
@@ -16140,11 +16162,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 488,
+              "line": 496,
               "column": 12
             },
             "end": {
-              "line": 497,
+              "line": 505,
               "column": 13
             }
           },
@@ -16161,11 +16183,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 499,
+              "line": 507,
               "column": 12
             },
             "end": {
-              "line": 502,
+              "line": 510,
               "column": 13
             }
           },
@@ -16185,11 +16207,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 504,
+              "line": 512,
               "column": 12
             },
             "end": {
-              "line": 512,
+              "line": 533,
               "column": 13
             }
           },
@@ -16218,7 +16240,7 @@
           "column": 8
         },
         "end": {
-          "line": 513,
+          "line": 534,
           "column": 9
         }
       },
@@ -16547,15 +16569,31 @@
           "type": "number | null | undefined"
         },
         {
+          "name": "type",
+          "description": "Type of the source of the image to display: either 'iiif' or 'image'\n(for simple image links not served via IIIF).",
+          "sourceRange": {
+            "start": {
+              "line": 232,
+              "column": 20
+            },
+            "end": {
+              "line": 235,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
           "name": "base-uri",
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 228,
+              "line": 236,
               "column": 20
             },
             "end": {
-              "line": 231,
+              "line": 239,
               "column": 21
             }
           },
@@ -16567,11 +16605,11 @@
           "description": "Array of facsimiles",
           "sourceRange": {
             "start": {
-              "line": 236,
+              "line": 244,
               "column": 20
             },
             "end": {
-              "line": 239,
+              "line": 247,
               "column": 21
             }
           },
@@ -17328,7 +17366,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -17353,11 +17391,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -17372,11 +17410,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -17620,7 +17658,7 @@
       ]
     },
     {
-      "description": "A container for different views. Only one view will be shown at a time.\nProvides a dropdown for the user to switch between views. Views are\nlazy loaded and should be provided as one or more `<template>` elements.\nEach `<template>` may have a title attribute to specify the title to be shown\nfor it in the dropdown.",
+      "description": "A container for different views. Only one view will be shown at a time.\nProvides a dropdown for the user to switch between views. Views are\nlazy loaded and should be provided as one or more `<template>` elements.\nEach `<template>` may have a title attribute to specify the title to be shown\nfor it in the dropdown.\n\n## CSS Mixins\n\n| Custom property | Description | Default|\n| ----------------|-------------|--------|\n|--pb-panel-max-height | The max height of the panel content. Set to enable scrolling. | {}|",
       "summary": "",
       "path": "pb-panel.html",
       "properties": [
@@ -17770,11 +17808,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 61,
+              "line": 67,
               "column": 20
             },
             "end": {
-              "line": 66,
+              "line": 72,
               "column": 21
             }
           },
@@ -17793,11 +17831,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 70,
+              "line": 76,
               "column": 20
             },
             "end": {
-              "line": 73,
+              "line": 79,
               "column": 21
             }
           },
@@ -17815,11 +17853,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 78,
+              "line": 84,
               "column": 20
             },
             "end": {
-              "line": 81,
+              "line": 87,
               "column": 21
             }
           },
@@ -18028,7 +18066,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -18053,11 +18091,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -18072,11 +18110,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -18100,11 +18138,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 85,
+              "line": 91,
               "column": 12
             },
             "end": {
-              "line": 93,
+              "line": 99,
               "column": 13
             }
           },
@@ -18120,11 +18158,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 95,
+              "line": 101,
               "column": 12
             },
             "end": {
-              "line": 97,
+              "line": 103,
               "column": 13
             }
           },
@@ -18140,11 +18178,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 99,
+              "line": 105,
               "column": 12
             },
             "end": {
-              "line": 101,
+              "line": 107,
               "column": 13
             }
           },
@@ -18167,11 +18205,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 103,
+              "line": 109,
               "column": 12
             },
             "end": {
-              "line": 129,
+              "line": 136,
               "column": 13
             }
           },
@@ -18186,33 +18224,16 @@
           }
         },
         {
-          "name": "_getActivePanel",
-          "description": "",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 131,
-              "column": 12
-            },
-            "end": {
-              "line": 134,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": []
-        },
-        {
           "name": "refresh",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 136,
+              "line": 138,
               "column": 12
             },
             "end": {
-              "line": 138,
+              "line": 140,
               "column": 13
             }
           },
@@ -18233,11 +18254,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 51,
+          "line": 57,
           "column": 8
         },
         "end": {
-          "line": 139,
+          "line": 154,
           "column": 9
         }
       },
@@ -18340,11 +18361,11 @@
           "description": "the index of the active view",
           "sourceRange": {
             "start": {
-              "line": 61,
+              "line": 67,
               "column": 20
             },
             "end": {
-              "line": 66,
+              "line": 72,
               "column": 21
             }
           },
@@ -18356,11 +18377,11 @@
           "description": "the label displayed above the dropdown for selecting the view to show",
           "sourceRange": {
             "start": {
-              "line": 70,
+              "line": 76,
               "column": 20
             },
             "end": {
-              "line": 73,
+              "line": 79,
               "column": 21
             }
           },
@@ -18372,11 +18393,11 @@
           "description": "a name for each available panel, to be displayed in the dropdown. If not set,\neach template will be checked for a title attribute, which will be taken as name.",
           "sourceRange": {
             "start": {
-              "line": 78,
+              "line": 84,
               "column": 20
             },
             "end": {
-              "line": 81,
+              "line": 87,
               "column": 21
             }
           },
@@ -18384,7 +18405,20 @@
           "type": "Array | null | undefined"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "type": "CustomEvent",
+          "name": "pb-panel",
+          "description": "Fired whenever the component switches to a different content panel. Used by `pb-grid`\nto update its state.",
+          "metadata": {}
+        },
+        {
+          "type": "CustomEvent",
+          "name": "pb-refresh",
+          "description": "Fired after a new content panel is shown to allow connected components to refresh.",
+          "metadata": {}
+        }
+      ],
       "styling": {
         "cssVariables": [],
         "selectors": []
@@ -18831,7 +18865,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -18856,11 +18890,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -18875,11 +18909,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -18907,7 +18941,7 @@
               "column": 12
             },
             "end": {
-              "line": 71,
+              "line": 73,
               "column": 13
             }
           },
@@ -18923,11 +18957,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 73,
+              "line": 75,
               "column": 12
             },
             "end": {
-              "line": 84,
+              "line": 87,
               "column": 13
             }
           },
@@ -18943,11 +18977,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 86,
+              "line": 89,
               "column": 12
             },
             "end": {
-              "line": 98,
+              "line": 111,
               "column": 13
             }
           },
@@ -18967,11 +19001,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 100,
+              "line": 113,
               "column": 12
             },
             "end": {
-              "line": 111,
+              "line": 124,
               "column": 13
             }
           },
@@ -18991,11 +19025,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 113,
+              "line": 126,
               "column": 12
             },
             "end": {
-              "line": 121,
+              "line": 135,
               "column": 13
             }
           },
@@ -19015,11 +19049,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 123,
+              "line": 137,
               "column": 12
             },
             "end": {
-              "line": 136,
+              "line": 152,
               "column": 13
             }
           },
@@ -19044,7 +19078,7 @@
           "column": 8
         },
         "end": {
-          "line": 138,
+          "line": 159,
           "column": 9
         }
       },
@@ -19175,7 +19209,14 @@
           "type": "string | null | undefined"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "type": "CustomEvent",
+          "name": "pb-refresh",
+          "description": "Fired after a new column has been added to allow connected components to refresh.",
+          "metadata": {}
+        }
+      ],
       "styling": {
         "cssVariables": [],
         "selectors": []
@@ -19260,7 +19301,7 @@
               "column": 20
             },
             "end": {
-              "line": 45,
+              "line": 46,
               "column": 21
             }
           },
@@ -19268,7 +19309,8 @@
             "polymer": {
               "attributeType": "Number"
             }
-          }
+          },
+          "defaultValue": "0"
         }
       ],
       "methods": [
@@ -19278,11 +19320,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 49,
+              "line": 50,
               "column": 12
             },
             "end": {
-              "line": 51,
+              "line": 52,
               "column": 13
             }
           },
@@ -19298,11 +19340,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 53,
+              "line": 54,
               "column": 12
             },
             "end": {
-              "line": 55,
+              "line": 56,
               "column": 13
             }
           },
@@ -19318,11 +19360,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 57,
+              "line": 58,
               "column": 12
             },
             "end": {
-              "line": 68,
+              "line": 69,
               "column": 13
             }
           },
@@ -19344,7 +19386,7 @@
           "column": 8
         },
         "end": {
-          "line": 69,
+          "line": 70,
           "column": 9
         }
       },
@@ -19393,7 +19435,7 @@
               "column": 20
             },
             "end": {
-              "line": 45,
+              "line": 46,
               "column": 21
             }
           },
@@ -20152,7 +20194,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -20177,11 +20219,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -20196,11 +20238,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -21024,7 +21066,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -21049,11 +21091,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -21068,11 +21110,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -21911,7 +21953,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -21936,11 +21978,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -21955,11 +21997,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -22952,7 +22994,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -22977,11 +23019,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -22996,11 +23038,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -58275,7 +58317,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -58298,11 +58340,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 242,
+              "line": 246,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 248,
               "column": 9
             }
           },
@@ -58315,11 +58357,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 246,
+              "line": 250,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 252,
               "column": 9
             }
           },
@@ -58346,7 +58388,7 @@
           "column": 4
         },
         "end": {
-          "line": 249,
+          "line": 253,
           "column": 6
         }
       },
