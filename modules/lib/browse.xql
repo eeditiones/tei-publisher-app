@@ -25,7 +25,6 @@ import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
-import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 import module namespace query="http://www.tei-c.org/tei-simple/query" at "../query.xql";
 
 declare namespace expath="http://expath.org/ns/pkg";

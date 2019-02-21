@@ -32,7 +32,6 @@ import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "util.x
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "browse.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
-import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
 (:~
 : Execute the query. The search results are not output immediately. Instead they
