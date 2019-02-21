@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<article xmlns="http://docbook.org/ns/docbook"
-    xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
         <title>TEI Publisher 4.1.0</title>
         <author>
@@ -18,19 +16,38 @@
         </abstract>
     </info>
     <section>
-        <title>New Features and Bug Fixes</title>
+        <title>Release highlights: dynamic layout and custom translation alignment</title>
         <para>Many users were interested in the correspondence examples, in particular the Serafin
-            and Cortez letters showing transcription and translation side by side. We have thus
+            and Cortez letters showing transcription and translation side by side. We have
             focused on enhancing those use cases and close some gaps in functionality. One problem
             arising in many TEI projects is how to align two or more texts, e.g. a transcription and
             a translation. In the simplest case, the texts may be aligned on the level of divisions
             or page breaks. Unfortunately things are not always as simple as that. TEI allows a wide
             variety of alignment mechanisms, some more complex than others. TEI Publisher 4.1.0 thus
             implements a generic mechanism to define a <link xlink:href="../documentation.xml?id=alignment">mapping function</link> written in XQuery. This is a
-            simple, yet powerful approach. The letter from <link
-                xlink:href="../../test/cortes_to_dantiscus_Mexico.xml">Cortés to Dantiscus (Mexico)</link>
+            simple, yet powerful approach. The letter from <link xlink:href="../../test/cortes_to_dantiscus_Mexico.xml">Cortés to Dantiscus (Mexico)</link>
             showcases a rather complex mapping.</para>
-        <para>Other notable changes include:</para>
+    </section>
+    <section>
+        <title>Van Gogh: Dynamic, Multi Column Example</title>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="VanGogh.png"/>
+                </imageobject>
+            </mediaobject>
+        </informalfigure>
+        <para>The <link xlink:href="http://vangoghletters.org/vg/">Van Gogh edition</link> is often
+            considered a
+            model example for correspondence and several users expressed their wish to create
+            something similar with TEI Publisher. With recent release of XML sources for all the letters
+            we've decided to use one letter from <link xlink:href="../../test/let695.xml">Van Gogh to Gauguin</link> and try to reproduce
+            the dynamic, user configurable, multi column display of the original Van Gogh website
+            using the webcomponents provided by TEI Publisher. The corresponding webcomponents
+            (<tag>pb-grid</tag>/<tag>pb-panel</tag>) have been reworked to make this possible.</para>
+    </section>
+    <section>
+        <title>Other New Features and Bug Fixes</title>
         <itemizedlist>
             <listitem>
                 <para>Sort and filter documents by title, author or file name</para>
@@ -50,26 +67,8 @@
         </itemizedlist>
     </section>
     <section>
-        <title>Van Gogh: Dynamic, Multi Column Example</title>
-        <informalfigure>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="VanGogh.png"/>
-                </imageobject>
-            </mediaobject>
-        </informalfigure>
-        <para>The <link xlink:href="http://vangoghletters.org/vg/">Van Gogh edition</link> is a
-            model example for correspondence and several users expressed their wish to create
-            something similar with TEI Publisher. We thus took one letter from <link
-                xlink:href="../../test/let695.xml">Van Gogh to Gaugin</link> and tried to reproduce
-            the dynamic, user configurable, multi column display of the original Van Gogh website
-            using the webcomponents provided by TEI Publisher. The corresponding webcomponents
-            (<tag>pb-grid</tag>/<tag>pb-panel</tag>) have been reworked to make this possible.</para>
-    </section>
-    <section>
         <title>Get It!</title>
-        <para>TEI Publisher 4.1.0 is available as an application package on top of the <link
-                xlink:href="https://exist-db.org">eXist XML Database</link>. Install it into a
+        <para>TEI Publisher 4.1.0 is available as an application package on top of the <link xlink:href="https://exist-db.org">eXist XML Database</link>. Install it into a
             recent eXist (4.x.x series) by going to the dashboard and selecting TEI Publisher from
             the package manager.</para>
         <para>For more information refer to the <link xlink:href="https://teipublisher.com/exist/apps/tei-publisher/doc/documentation.xml">documentation</link> or visit the <link xlink:href="https://teipublisher.com">homepage</link> to play around with it.</para>
