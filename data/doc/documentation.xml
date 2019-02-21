@@ -855,7 +855,7 @@
         <para>While you cannot change the inner appearance of a component except by setting its custom CSS properties, you can style the component itself within
           the HTML template, e.g. to position it within the layout of the page etc.</para>
       </section>
-      <section>
+      <section xml:id="alignment">
         <title>Handling Complex Alignments</title>
         <para>It is often desirable to show two or more views of a document at the same time, for example to display the translation aligned with a given source
           fragment. In the simplest case, the transcription and translation may be aligned on the level of divisions or page breaks and one can simply use two
