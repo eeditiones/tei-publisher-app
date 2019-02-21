@@ -1195,7 +1195,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -1205,7 +1205,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -1220,11 +1246,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -2127,7 +2153,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -2137,7 +2163,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -2152,11 +2204,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -2796,39 +2848,17 @@
           "defaultValue": "\"the server did not return any content\""
         },
         {
-          "name": "history",
-          "type": "boolean | null | undefined",
-          "description": "Modify browser history: if set, any load operation performed by this\nelement will generate a new history entry in the browser's history.\nOnly use this on one element on the page.",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 220,
-              "column": 20
-            },
-            "end": {
-              "line": 223,
-              "column": 21
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "Boolean"
-            }
-          },
-          "defaultValue": "false"
-        },
-        {
           "name": "url",
           "type": "string | null | undefined",
           "description": "The relative URL to the script on the server which will be called for loading content.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 227,
+              "line": 218,
               "column": 20
             },
             "end": {
-              "line": 230,
+              "line": 221,
               "column": 21
             }
           },
@@ -2846,11 +2876,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 235,
+              "line": 226,
               "column": 20
             },
             "end": {
-              "line": 238,
+              "line": 229,
               "column": 21
             }
           },
@@ -2868,11 +2898,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 242,
+              "line": 233,
               "column": 20
             },
             "end": {
-              "line": 246,
+              "line": 237,
               "column": 21
             }
           },
@@ -2890,11 +2920,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 252,
+              "line": 243,
               "column": 20
             },
             "end": {
-              "line": 254,
+              "line": 245,
               "column": 21
             }
           },
@@ -2911,11 +2941,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 258,
+              "line": 249,
               "column": 20
             },
             "end": {
-              "line": 261,
+              "line": 252,
               "column": 21
             }
           },
@@ -2933,11 +2963,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 262,
+              "line": 253,
               "column": 20
             },
             "end": {
-              "line": 268,
+              "line": 259,
               "column": 21
             }
           },
@@ -3167,7 +3197,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -3177,7 +3207,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -3192,11 +3248,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -3220,11 +3276,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 285,
+              "line": 276,
               "column": 12
             },
             "end": {
-              "line": 294,
+              "line": 285,
               "column": 13
             }
           },
@@ -3240,11 +3296,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 296,
+              "line": 287,
               "column": 12
             },
             "end": {
-              "line": 310,
+              "line": 301,
               "column": 13
             }
           },
@@ -3260,11 +3316,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 315,
+              "line": 306,
               "column": 12
             },
             "end": {
-              "line": 317,
+              "line": 308,
               "column": 13
             }
           },
@@ -3277,11 +3333,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 319,
+              "line": 310,
               "column": 12
             },
             "end": {
-              "line": 321,
+              "line": 312,
               "column": 13
             }
           },
@@ -3294,11 +3350,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 326,
+              "line": 317,
               "column": 12
             },
             "end": {
-              "line": 328,
+              "line": 319,
               "column": 13
             }
           },
@@ -3314,11 +3370,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 330,
+              "line": 321,
               "column": 12
             },
             "end": {
-              "line": 353,
+              "line": 344,
               "column": 13
             }
           },
@@ -3338,11 +3394,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 355,
+              "line": 346,
               "column": 12
             },
             "end": {
-              "line": 366,
+              "line": 357,
               "column": 13
             }
           },
@@ -3362,11 +3418,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 368,
+              "line": 359,
               "column": 12
             },
             "end": {
-              "line": 375,
+              "line": 366,
               "column": 13
             }
           },
@@ -3386,11 +3442,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 377,
+              "line": 368,
               "column": 12
             },
             "end": {
-              "line": 388,
+              "line": 379,
               "column": 13
             }
           },
@@ -3406,11 +3462,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 390,
+              "line": 381,
               "column": 12
             },
             "end": {
-              "line": 394,
+              "line": 385,
               "column": 13
             }
           },
@@ -3426,11 +3482,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 396,
+              "line": 387,
               "column": 12
             },
             "end": {
-              "line": 427,
+              "line": 418,
               "column": 13
             }
           },
@@ -3446,11 +3502,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 429,
+              "line": 420,
               "column": 12
             },
             "end": {
-              "line": 454,
+              "line": 445,
               "column": 13
             }
           },
@@ -3467,11 +3523,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 456,
+              "line": 447,
               "column": 12
             },
             "end": {
-              "line": 479,
+              "line": 470,
               "column": 13
             }
           },
@@ -3491,11 +3547,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 481,
+              "line": 472,
               "column": 12
             },
             "end": {
-              "line": 491,
+              "line": 482,
               "column": 13
             }
           },
@@ -3515,11 +3571,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 493,
+              "line": 484,
               "column": 12
             },
             "end": {
-              "line": 499,
+              "line": 490,
               "column": 13
             }
           },
@@ -3532,11 +3588,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 504,
+              "line": 495,
               "column": 12
             },
             "end": {
-              "line": 528,
+              "line": 519,
               "column": 13
             }
           },
@@ -3553,11 +3609,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 535,
+              "line": 526,
               "column": 12
             },
             "end": {
-              "line": 537,
+              "line": 528,
               "column": 13
             }
           },
@@ -3579,11 +3635,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 544,
+              "line": 535,
               "column": 12
             },
             "end": {
-              "line": 547,
+              "line": 538,
               "column": 13
             }
           },
@@ -3605,11 +3661,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 555,
+              "line": 546,
               "column": 12
             },
             "end": {
-              "line": 575,
+              "line": 566,
               "column": 13
             }
           },
@@ -3631,11 +3687,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 582,
+              "line": 573,
               "column": 12
             },
             "end": {
-              "line": 591,
+              "line": 582,
               "column": 13
             }
           },
@@ -3657,11 +3713,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 593,
+              "line": 584,
               "column": 12
             },
             "end": {
-              "line": 596,
+              "line": 587,
               "column": 13
             }
           },
@@ -3684,11 +3740,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 598,
+              "line": 589,
               "column": 12
             },
             "end": {
-              "line": 602,
+              "line": 593,
               "column": 13
             }
           },
@@ -3704,11 +3760,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 604,
+              "line": 595,
               "column": 12
             },
             "end": {
-              "line": 610,
+              "line": 601,
               "column": 13
             }
           },
@@ -3728,11 +3784,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 612,
+              "line": 603,
               "column": 12
             },
             "end": {
-              "line": 618,
+              "line": 609,
               "column": 13
             }
           },
@@ -3752,11 +3808,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 620,
+              "line": 611,
               "column": 12
             },
             "end": {
-              "line": 627,
+              "line": 618,
               "column": 13
             }
           },
@@ -3788,7 +3844,7 @@
           "column": 8
         },
         "end": {
-          "line": 669,
+          "line": 660,
           "column": 9
         }
       },
@@ -4015,31 +4071,15 @@
           "type": "string | null | undefined"
         },
         {
-          "name": "history",
-          "description": "Modify browser history: if set, any load operation performed by this\nelement will generate a new history entry in the browser's history.\nOnly use this on one element on the page.",
-          "sourceRange": {
-            "start": {
-              "line": 220,
-              "column": 20
-            },
-            "end": {
-              "line": 223,
-              "column": 21
-            }
-          },
-          "metadata": {},
-          "type": "boolean | null | undefined"
-        },
-        {
           "name": "url",
           "description": "The relative URL to the script on the server which will be called for loading content.",
           "sourceRange": {
             "start": {
-              "line": 227,
+              "line": 218,
               "column": 20
             },
             "end": {
-              "line": 230,
+              "line": 221,
               "column": 21
             }
           },
@@ -4051,11 +4091,11 @@
           "description": "The server returns footnotes separately. Set this property\nif you wish to append them to the main text.",
           "sourceRange": {
             "start": {
-              "line": 235,
+              "line": 226,
               "column": 20
             },
             "end": {
-              "line": 238,
+              "line": 229,
               "column": 21
             }
           },
@@ -4067,11 +4107,11 @@
           "description": "Should matches be highlighted if a search has been executed?",
           "sourceRange": {
             "start": {
-              "line": 242,
+              "line": 233,
               "column": 20
             },
             "end": {
-              "line": 246,
+              "line": 237,
               "column": 21
             }
           },
@@ -4083,11 +4123,11 @@
           "description": "CSS selector to find column breaks in the content returned\nfrom the server. If this property is set and column breaks\nare found, the component will display two columns side by side.",
           "sourceRange": {
             "start": {
-              "line": 252,
+              "line": 243,
               "column": 20
             },
             "end": {
-              "line": 254,
+              "line": 245,
               "column": 21
             }
           },
@@ -4099,11 +4139,11 @@
           "description": "The reading direction, i.e. 'ltr' or 'rtl'.",
           "sourceRange": {
             "start": {
-              "line": 258,
+              "line": 249,
               "column": 20
             },
             "end": {
-              "line": 261,
+              "line": 252,
               "column": 21
             }
           },
@@ -4115,11 +4155,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 262,
+              "line": 253,
               "column": 20
             },
             "end": {
-              "line": 268,
+              "line": 259,
               "column": 21
             }
           },
@@ -4601,7 +4641,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -4611,7 +4651,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -4626,11 +4692,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -5326,7 +5392,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -5336,7 +5402,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -5351,11 +5443,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -5999,7 +6091,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -6009,7 +6101,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -6024,11 +6142,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -7221,7 +7339,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -7231,7 +7349,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -7246,11 +7390,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -8320,7 +8464,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -8330,7 +8474,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -8345,11 +8515,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -9410,7 +9580,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -9420,7 +9590,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -9435,11 +9631,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -10277,7 +10473,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -10287,7 +10483,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -10302,11 +10524,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -10842,6 +11064,28 @@
               "attributeType": "String"
             }
           }
+        },
+        {
+          "name": "history",
+          "type": "boolean | null | undefined",
+          "description": "Modify browser history: if set, clicking this\nelement will generate a new history entry in the browser's history.\nOnly use this on one element on the page.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 57,
+              "column": 20
+            },
+            "end": {
+              "line": 60,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          },
+          "defaultValue": "true"
         }
       ],
       "methods": [
@@ -11061,7 +11305,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -11071,7 +11315,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -11086,11 +11356,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -11114,11 +11384,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 55,
+              "line": 64,
               "column": 12
             },
             "end": {
-              "line": 57,
+              "line": 66,
               "column": 13
             }
           },
@@ -11134,11 +11404,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 59,
+              "line": 68,
               "column": 12
             },
             "end": {
-              "line": 61,
+              "line": 70,
               "column": 13
             }
           },
@@ -11154,11 +11424,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 63,
+              "line": 72,
               "column": 12
             },
             "end": {
-              "line": 84,
+              "line": 97,
               "column": 13
             }
           },
@@ -11187,7 +11457,7 @@
           "column": 8
         },
         "end": {
-          "line": 92,
+          "line": 105,
           "column": 9
         }
       },
@@ -11348,6 +11618,22 @@
           },
           "metadata": {},
           "type": "string | null | undefined"
+        },
+        {
+          "name": "history",
+          "description": "Modify browser history: if set, clicking this\nelement will generate a new history entry in the browser's history.\nOnly use this on one element on the page.",
+          "sourceRange": {
+            "start": {
+              "line": 57,
+              "column": 20
+            },
+            "end": {
+              "line": 60,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "boolean | null | undefined"
         }
       ],
       "events": [
@@ -11899,7 +12185,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -11909,7 +12195,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -11924,11 +12236,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -13261,7 +13573,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -13271,7 +13583,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -13286,11 +13624,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -14634,7 +14972,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -14644,7 +14982,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -14659,11 +15023,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -17385,7 +17749,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -17395,7 +17759,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -17410,11 +17800,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -18085,7 +18475,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -18095,7 +18485,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -18110,11 +18526,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -18884,7 +19300,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -18894,7 +19310,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -18909,11 +19351,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -20213,7 +20655,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -20223,7 +20665,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -20238,11 +20706,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -21085,7 +21553,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -21095,7 +21563,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -21110,11 +21604,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -21972,7 +22466,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -21982,7 +22476,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -21997,11 +22517,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -23013,7 +23533,7 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -23023,7 +23543,33 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -23038,11 +23584,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -58335,7 +58881,7 @@
           }
         },
         {
-          "name": "getUrl",
+          "name": "setPath",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -58344,7 +58890,31 @@
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
               "column": 9
             }
           },
@@ -58357,11 +58927,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 250,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 252,
+              "line": 261,
               "column": 9
             }
           },
@@ -58388,7 +58958,7 @@
           "column": 4
         },
         "end": {
-          "line": 253,
+          "line": 262,
           "column": 6
         }
       },
