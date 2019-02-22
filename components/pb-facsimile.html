@@ -317,10 +317,9 @@
                 //         buildPyramid: false
                 //     }
                 // }
-
                 this.viewer = OpenSeadragon({
                     element:            this.$.viewer,
-                    prefixUrl:          "resources/images/seadragon/",
+                    prefixUrl:          this.resolveUrl("../../tei-publisher/resources/images/seadragon/"),
                     preserveViewport:   true,
                     sequenceMode:       true,
                     showZoomControl:    true,
