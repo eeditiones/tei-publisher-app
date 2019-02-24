@@ -81,10 +81,12 @@
                 }
 
                 this._columns = this.panels.length;
-                this.template = this.querySelector('template');
-                this.panels.forEach(panelNum => this._insertPanel(panelNum));
+                Polymer.RenderStatus.afterNextRender(this, () => {
+                    this.template = this.querySelector('template');
+                    this.panels.forEach(panelNum => this._insertPanel(panelNum));
 
-                this._update();
+                    this._update();
+                });
             }
 
             addPanel(initial) {
