@@ -70,6 +70,10 @@ declare function nav:get-section-heading($config as map(*), $section as node()) 
     nav:dispatch($config, "get-section-heading", [$config, $section])
 };
 
+declare function nav:get-first-page-start($config as map(*), $data as node()) {
+    nav:dispatch($config, "get-first-page-start", [$config, $data])
+};
+
 declare function nav:get-content($config as map(*), $div as element()) {
     nav:dispatch($config, "get-content", [$config, $div])
 };

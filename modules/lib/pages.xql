@@ -173,12 +173,7 @@ declare function pages:load-xml($data as node()*, $view as xs:string?, $root as 
                         if ($root) then
                             util:node-by-id($data, $root)
                         else
-                            let $div := ($data//tei:pb)[1]
-                            return
-                                if ($div) then
-                                    $div
-                                else
-                                    $data/tei:TEI//tei:body
+                            nav:get-first-page-start($config, $data)
                     case "single" return
                         if ($root) then
                             util:node-by-id($data, $root)

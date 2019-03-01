@@ -76,6 +76,16 @@ declare function nav:get-metadata($config as map(*), $root as element(), $field 
             ()
 };
 
+declare function nav:get-first-page-start($config as map(*), $data as element()) {
+    let $pb := ($data//tei:pb)[1]
+    return
+        if ($pb) then
+            $pb
+        else
+            $data/tei:TEI//tei:body
+};
+
+
 declare function nav:get-content($config as map(*), $div as element()) {
     typeswitch ($div)
         case element(tei:teiHeader) return
