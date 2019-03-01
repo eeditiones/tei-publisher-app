@@ -68,7 +68,8 @@
 
         <iron-ajax id="checkLogin" url="/exist/apps/tei-publisher/login"
                 handle-as="json" on-response="_handleResponse"
-                method="GET"></iron-ajax>
+                content-type="application/x-www-form-urlencoded"
+                method="POST"></iron-ajax>
     </template>
 
     <script>
@@ -153,7 +154,7 @@
                 window.addEventListener('focus', () => {
                     if (!this._hasFocus) {
                         this._hasFocus = true;
-                        this.$.checkLogin.params = null;
+                        this.$.checkLogin.body = null;
                         this.$.checkLogin.generateRequest();
                     }
                 });
@@ -166,7 +167,7 @@
             _show(ev) {
                 ev.preventDefault();
                 if (this.loggedIn) {
-                    this.$.checkLogin.params = {
+                    this.$.checkLogin.body = {
                         logout: this.user
                     };
                     this.$.checkLogin.generateRequest();
@@ -176,7 +177,7 @@
             }
 
             _confirmLogin() {
-                this.$.checkLogin.params = {
+                this.$.checkLogin.body = {
                     user: this.user,
                     password: this.password
                 };
@@ -207,7 +208,7 @@
                 }
                 return true;
             }
-            
+
             /**
              * Fired on successful login.
              *
