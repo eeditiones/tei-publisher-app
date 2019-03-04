@@ -3,6 +3,13 @@
 
 <dom-module id="pb-navigation">
     <template>
+        <style>
+            .inactive {
+                visibility: hidden;
+
+                @apply --pb-navigation-hidden;
+            }
+        </style>
         <a id="button" on-click="_handleClick"><slot></slot></a>
     </template>
 
@@ -10,6 +17,12 @@
         /**
          * Navigate backward/forward in a document. This component does not implement any functionality itself.
          * It just sends a `pb-navigate` event when clicked.
+         *
+         * ## CSS Mixins
+         *
+         * | Custom property | Description | Default|
+         * | ----------------|-------------|--------|
+         * |--pb-navigation-hidden | Mixin applied if navigation is not available (because there's no next/previous page) | {visibility: hidden,}|
          *
          * @customElement
          * @polymer
@@ -65,9 +78,17 @@
 
             _update(ev) {
                 if (this.direction === 'forward') {
-                    this.$.button.disabled = !ev.detail.data.next;
+                    if (ev.detail.data.next) {
+                        this.$.button.className = '';
+                    } else {
+                        this.$.button.className = 'inactive';
+                    }
                 } else {
-                    this.$.button.disabled = !ev.detail.data.previous;
+                    if (ev.detail.data.previous) {
+                        this.$.button.className = '';
+                    } else {
+                        this.$.button.className = 'inactive';
+                    }
                 }
             }
         }
