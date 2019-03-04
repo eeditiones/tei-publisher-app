@@ -47,7 +47,7 @@
             </template>
         </a>
 
-        <paper-dialog id="loginDialog">
+        <paper-dialog id="loginDialog" no-cancel-on-outside-click no-cancel-on-esc-key>
             <h2>Login</h2>
             <paper-dialog-scrollable>
                 <form action="login">
@@ -114,6 +114,13 @@
                         value: []
                     },
                     /**
+                     * If set to true, automatically show login dialog if user is not logged in
+                     */
+                    auto: {
+                        type: Boolean,
+                        value: false
+                    },
+                    /**
                      * Label to show if not logged in
                      */
                     loginLabel: {
@@ -162,6 +169,11 @@
 
             ready(){
                 super.ready();
+
+                Polymer.RenderStatus.afterNextRender(this, () => {
+                    this.$.checkLogin.body = null;
+                    this.$.checkLogin.generateRequest();
+                });
             }
 
             _show(ev) {
@@ -197,6 +209,8 @@
                     this.password = null;
                     if (this.$.loginDialog.opened) {
                         this._invalid = true;
+                    } else if (this.auto) {
+                        this.$.loginDialog.open();
                     }
                 }
                 this.emitTo('pb-login', resp);

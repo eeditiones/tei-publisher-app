@@ -51,27 +51,6 @@ function app:check-login($node as node(), $model as map(*)) {
             templates:process($node/*[1], $model)
 };
 
-declare function app:current-user($node as node(), $model as map(*)) {
-    let $user := request:get-attribute($config:login-domain || ".user")
-    let $loggedIn := exists($user)
-    return
-        element { node-name($node) } {
-            $node/@*,
-            if ($loggedIn) then
-                attribute logged-in { "logged-in" }
-            else
-                (),
-            attribute user { $user },
-            attribute groups {
-                if ($user) then
-                    '[' || string-join(sm:get-user-groups($user) ! ('"' || . || '"'), ',') || ']'
-                else
-                    '[]'
-            },
-            templates:process($node/node(), $model)
-        }
-};
-
 declare
     %templates:wrap
 function app:sort($items as element()*, $sortBy as xs:string?) {
