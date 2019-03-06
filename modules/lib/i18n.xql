@@ -53,7 +53,7 @@ declare function i18n:process($nodes as node()*, $selectedLang as xs:string?, $p
  : @param $model a sequence of items which will be passed to all called template functions. Use this to pass
  : information between templating instructions.
 :)
-declare function i18n:process($node as node(), $selectedCatalogue as node()) {  
+declare function i18n:process($node as node(), $selectedCatalogue as node()+) {  
     typeswitch ($node)
         case document-node() return
             for $child in $node/node() return i18n:process($child, $selectedCatalogue)     
@@ -76,12 +76,12 @@ declare function i18n:process($node as node(), $selectedCatalogue as node()) {
             $node            
 };
 
-declare function i18n:translateAttributes($node as node(), $selectedCatalogue as node()){
+declare function i18n:translateAttributes($node as node(), $selectedCatalogue as node()+){
     for $attribute in $node/@*
         return i18n:translateAttribute($attribute, $node, $selectedCatalogue)
 };
 
-declare function i18n:translateAttribute($attribute as attribute(), $node as node(),$selectedCatalogue as node()){
+declare function i18n:translateAttribute($attribute as attribute(), $node as node(),$selectedCatalogue as node()+){
     if(starts-with($attribute, 'i18n(')) then
         let $key := 
             if(contains($attribute, ",")) then
@@ -109,7 +109,7 @@ declare %private function i18n:get-display-value-for-key($key, $catalog-working)
  : Get the localized value for a given key from the given catalgue 
  : if no localized value is available, the default value is used
 :)
-declare function i18n:getLocalizedText($textNode as node(), $selectedCatalogue as node()){
+declare function i18n:getLocalizedText($textNode as node(), $selectedCatalogue as node()+){
     if(exists($selectedCatalogue//msg[@key eq $textNode/@key])) then (
         i18n:get-display-value-for-key($textNode/@key, $selectedCatalogue)
     )
@@ -124,7 +124,7 @@ declare function i18n:getLocalizedText($textNode as node(), $selectedCatalogue a
  : @param $node i18n:translate node eclosing i18n:text and parameters to substitute  
  : @param $text the processed(!) content of i18n:text    
 :)
-declare function i18n:translate($node as node(),$text as xs:string,$selectedCatalogue as node()) {  
+declare function i18n:translate($node as node(),$text as xs:string,$selectedCatalogue as node()+) {  
     if(contains($text,'{')) then 
         (: text contains parameters to substitute :)
         let $params := $node//i18n:param
@@ -156,7 +156,7 @@ declare function i18n:translate($node as node(),$text as xs:string,$selectedCata
  : @param $paramKey currently processed parameterKey (numerical or alphabetical)
  : @param $text     the processed(!) content of i18n:text    
 :)
-declare function i18n:replaceParam($node as node(), $param as node(),$paramKey as xs:string, $text as xs:string,$selectedCatalogue as node()) {  
+declare function i18n:replaceParam($node as node(), $param as node(),$paramKey as xs:string, $text as xs:string,$selectedCatalogue as node()+) {  
     if(exists($param/i18n:text)) then
         (: the parameter has to be translated as well :)         
         let $translatedParam := i18n:getLocalizedText($param/i18n:text, $selectedCatalogue)
