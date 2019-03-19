@@ -2094,7 +2094,7 @@
         <para>In order to use the element, you need to import it into your HTML template. Make sure it is imported after
             <filename>dependencies-dev.html</filename>, which loads the default TEI Publisher components:</para>
         <programlisting>&lt;link rel="import" href="components/dependencies-dev.html"/>
-&lt;link rel="import" href="components/my-component.html"/></programlisting>
+&lt;link rel="import" href="webcomponents/my-component.html"/></programlisting>
         <para>A component may also extend one of the existing components provided by TEI Publisher. For example, the component showing the list of available
           documents on the index page extends <tag>pb-load</tag>:</para>
         <synopsis language="javascript">class PbBrowseDocs extends PbMixin(PbLoad) {</synopsis>
