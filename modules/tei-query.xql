@@ -114,7 +114,7 @@ declare function teis:get-parent-section($node as node()) {
 
 declare function teis:get-breadcrumbs($config as map(*), $hit as element(), $parent-id as xs:string) {
     let $work := root($hit)/*
-    let $work-title := nav:get-document-title($config, $work)
+    let $work-title := nav:get-document-title($config, $work)/string()
     return
         <div class="breadcrumbs">
             <a class="breadcrumb" href="{$parent-id}">{$work-title}</a>
