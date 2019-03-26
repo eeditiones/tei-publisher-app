@@ -67,6 +67,7 @@
                         console.log('<pb-grid> Updating panel %d to show %s', idx, ev.detail.active);
                         this.panels[idx] = ev.detail.active;
 
+                        localStorage.setItem('pb-grid.panels', this.panels.join('.'));
                         this.setParameter('panels', this.panels.join('.'));
                         this.pushHistory('added panel');
                     }
@@ -78,6 +79,12 @@
                 const panelsParam = this.getParameter('panels');
                 if (panelsParam) {
                     this.panels = panelsParam.split('.').map(param => parseInt(param));
+                    localStorage.setItem('pb-grid.panels', this.panels.join('.'));
+                } else {
+                    const panelsStored = localStorage.getItem('pb-grid.panels');
+                    if (panelsStored) {
+                        this.panels = panelsStored.split('.').map(param => parseInt(param));
+                    }
                 }
 
                 this._columns = this.panels.length;
@@ -103,6 +110,7 @@
                 this._columns++;
                 this.panels.push(initial);
 
+                localStorage.setItem('pb-grid.panels', this.panels.join('.'));
                 this.setParameter('panels', this.panels.join('.'));
                 this.pushHistory('added panel');
 
@@ -119,6 +127,7 @@
                 this.panels.splice(idx, 1);
 
                 this.setParameter('panels', this.panels.join('.'));
+                localStorage.setItem('pb-grid.panels', this.panels.join('.'));
                 this.pushHistory('removed panel');
 
                 panel.parentNode.removeChild(panel);
