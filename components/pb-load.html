@@ -82,6 +82,10 @@
                     history: {
                         type: Boolean,
                         value: false
+                    },
+                    event: {
+                        type: String,
+                        value: 'pb-load'
                     }
                 };
             }
@@ -95,7 +99,7 @@
             connectedCallback() {
                 super.connectedCallback();
 
-                this.subscribeTo('pb-load', function(ev) {
+                this.subscribeTo(this.event, function(ev) {
                     if (this.history && ev.detail && ev.detail.params) {
                         const start = ev.detail.params.start;
                         if (start) {
@@ -234,7 +238,8 @@
                 }
                 this.emitTo('pb-results-received', {
                     "count": parseInt(total),
-                    "start": this.start
+                    "start": this.start,
+                    "params": this.$.loadContent.params
                 });
             }
 

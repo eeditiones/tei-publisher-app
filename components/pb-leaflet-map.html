@@ -91,6 +91,8 @@
                     this._markers = markers;
                     if (markers.length > 1) {
                         this._map.fitBounds(bounds);
+                    } else {
+                        this._map.setZoom(this.zoom);
                     }
                 });
 
@@ -107,10 +109,12 @@
                         bounds.extend([loc.latitude, loc.longitude]);
                     }.bind(this));
                     this._markers = markers;
-                    if (markers.length > 0) {
+                    if (markers.length > 1) {
                         this._map.fitBounds(bounds);
+                    } else if (markers.length === 1) {
+                        this._map.setView(markers[0].getLatLng(), this.zoom);
                     } else {
-                        this._map.setZoom(this.zoom);
+                        this._map.fitWorld();
                     }
                 }.bind(this));
 
@@ -151,6 +155,9 @@
                     center: L.latLng([this.latitude, this.longitude]),
                     crs: crs
                 });
+
+                this.signalReady();
+
                 // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 // 	maxZoom: 18,
                 // 	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'

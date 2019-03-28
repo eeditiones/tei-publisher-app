@@ -168,12 +168,17 @@
           <para>Correspondence corpora are common, yet very interesting, subjects for digital editions. Despite basic similarities in structure, depending on
             the period, scope and particular research perspective, intended presentation may vary enormously. We are presenting samples of:</para>
           <itemizedlist>
-            <listitem>15th century manuscript letter to <emphasis>Mikołaj Orlik</emphasis> demonstrating alignment between Latin original and parallel Polish
-              translation,</listitem>
-            <listitem>16th century manuscript letter of <emphasis>Hernán Cortés</emphasis> showcasing parallel facsimile view and transcription enhanced with
-              commentaries and explicitly encoded transcriptional features,</listitem>
-            <listitem>20th century manuscript letter from <emphasis>Robert Graves</emphasis> where emphasis has been put on visualizing rich encoding of
-              semantic information in the letter, in particular geographic and prosopographical data.</listitem>
+            <listitem><para>15th century manuscript letter to <emphasis>Mikołaj Orlik</emphasis> demonstrating alignment between Latin original and parallel Polish
+              translation,</para></listitem>
+            <listitem><para>16th century manuscript letter of <emphasis>Hernán Cortés</emphasis> showcasing parallel transcription/translation
+                and facsimile view and transcription enhanced with
+             commentaries and explicitly encoded transcriptional features,</para></listitem>
+            <listitem>
+              <para>A letter from Van Gogh to Paul Gauguin written in 1888. This intentionally reproduces the flexible column layout pioneered by the <link
+                xlink:href="http://vangoghletters.org">Vincent Van Gogh Letters</link> online edition, which is a model example for correspondence.</para>
+            </listitem>
+            <listitem><para>20th century manuscript letter from <emphasis>Robert Graves</emphasis> where emphasis has been put on visualizing rich encoding of
+              semantic information in the letter, in particular geographic and prosopographical data.</para></listitem>
           </itemizedlist>
         </listitem>
       </itemizedlist>
@@ -182,7 +187,8 @@
         <para>List of samples is expected to grow and we'd like to encourage contributions illustrating other genres and perspectives.</para>
         <para>We'd like to stress that preparing showcases above has been only possible thanks to numerous projects releasing their sources openly, in
           particular the <link xlink:href="http://firstfolio.bodleian.ox.ac.uk">Bodleian First Folio</link>, <link
-            xlink:href="http://www.deutschestextarchiv.de">Deutsches Textarchiv</link> and <link xlink:href="https://www.textcreationpartnership.org/tcp-eebo"
+            xlink:href="http://www.deutschestextarchiv.de">Deutsches Textarchiv</link>,
+          <link xlink:href="http://vangoghletters.org">Vincent Van Gogh Museum</link> and <link xlink:href="https://www.textcreationpartnership.org/tcp-eebo"
             >EEBO-TCP</link>. We'd also like to thank William Graves and Anna Skolimowska for sharing their correspondence material.</para>
       </note>
     </section>
@@ -244,7 +250,9 @@
           contents and so on, but it is one of very rare cases where TEI Publisher exposes any predilection for a particular flavour of TEI.</para>
         <para>Similarly, template for aligned transcription and translation is parametrized to accept an XPath expression pointing to the location of the
           transcription and aligned translation, likely for your documents this expression would have to be adjusted (unless of course you also have Latin texts
-          with Polish translation structured in a similar way).</para>
+          with Polish translation structured in a similar way). Furthermore, to correctly display corresponding translation fragment a custom mapping function may need to be passed to the translation view (cf.
+        <link xlink:href="templates/pages/vangogh.html" role="source"><filename>Van Gogh</filename></link>  or
+        <link xlink:href="templates/pages/cortez.html" role="source"><filename>Cortés</filename></link> letter templates for examples)</para>
       </note>
     </section>
   </section>
@@ -725,7 +733,7 @@
       </section>
       <section>
         <title>Page Templates</title>
-        <para>Excluding the documentation, TEI Publisher currently includes 4 page templates, which combine the building blocks described above with
+        <para>Excluding the documentation, TEI Publisher currently includes 6 page templates, which combine the building blocks described above with
           off-the-shelf components to achieve a certain page layout and composition. If you look at the HTML code, you'll see a mix of
             <parameter>pb-</parameter> elements and <parameter>app-</parameter>, <parameter>paper-</parameter>, <parameter>iron-</parameter> elements. The last
           three belong to the Polymer collection and you can find them documented in the public <link xlink:href="https://www.webcomponents.org/">webcomponent
@@ -766,10 +774,47 @@
             </term>
             <listitem>
               <para>shows a transcription and its translation side by side. Both are contained in the same TEI document and extracted via an XPath expression
-                passed to <tag>pb-view</tag>.</para>
+                passed to <tag>pb-view</tag></para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>
+              <link xlink:href="templates/pages/cortez-with-translation.html" role="source">cortez-with-translation.html</link>
+            </term>
+            <listitem>
+              <para>similar to <filename>translation.html</filename> but the alignment between
+              transcription and translation is more complex as the translation contains no page
+              breaks. The part of the translation corresponding to a given fragment of the
+              transcription thus needs to be computed dynamically for each page, using an XQuery
+              function (defined by the <parameter>map</parameter> on <tag>pb-view</tag>.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>
+              <link xlink:href="templates/pages/cortez" role="source">cortez.html</link>
+            </term>
+            <listitem>
+              <para>like above but with additional facsimile panel</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><link xlink:href="templates/pages/vangogh.html" role="source">vangogh.html</link></term>
+            <listitem>
+              <para>demonstrates three columns by default: a metadata column, a transcription which can be switched
+                to a diplomatic view including line endings, and a translation. Other columns, e.g. facsimile or commentary can be added dynamically.</para>
             </listitem>
           </varlistentry>
         </variablelist>
+        <note>
+          <title>Important Note</title>
+          <para>The page templates are meant as examples to be copied and modified by users.
+          They were written to match the concrete example and do not intend to be universal.
+          TEI is too heterogenous to provide a one-size-matches-all solution. We thus believe that
+          providing a wide range of practical examples is the best way to help users realize their
+          own project.</para>
+          <para>Only the generic
+          template, <filename>view.html</filename> should work with all example TEI documents.</para>
+        </note>
       </section>
       <section>
         <title>Create your own Template</title>
@@ -809,6 +854,44 @@
           the footnotes section.</para>
         <para>While you cannot change the inner appearance of a component except by setting its custom CSS properties, you can style the component itself within
           the HTML template, e.g. to position it within the layout of the page etc.</para>
+      </section>
+      <section xml:id="alignment">
+        <title>Handling Complex Alignments</title>
+        <para>It is often desirable to show two or more views of a document at the same time, for example to display the translation aligned with a given source
+          fragment. In the simplest case, the transcription and translation may be aligned on the level of divisions or page breaks and one can simply use two
+            <tag>pb-view</tag> referencing different starting points in the TEI document (this approach is implemented by the <link
+            xlink:href="templates/pages/translation.html" role="source">translation.html</link> template for Serafin's letter).</para>
+        <para>Unfortunately things are not always as simple as that. For example, even if the transcription contains page breaks or milestones which can be used
+          to display a single page, the translation might not. One thus needs a different approach to compute the alignment between fragments. Nevertheless, the
+          logic of the alignment algorithm will highly depend on the conventions used in the encoding. TEI allows a wide variety of alignment mechanisms and we
+          do not want to limit the freedom of the editor by prescribing a particular method.</para>
+        <para>TEI Publisher thus implements a generic way to plug an XQuery function into the processing pipeline. The function takes the source element being
+          processed as input and may replace it by its aligned equivalent. Such an equivalent may be another element or fragment from the same or a different
+          document. The source element will usually point to the part of the transcription being displayed. The mapping function uses this as starting point to
+          determine an aligned fragment and returns it. The returned fragment will then be further passed through the processing model.</para>
+        <para>The XQuery mapping function should be defined in the module <filename>modules/map.xql</filename>. It takes an element as its only argument and may
+          return any valid TEI fragment, which will become the input for futher processing through the processing model.</para>
+        <para>The local name of the mapping function can then be supplied in the attribute <parameter>map</parameter> of <tag>pb-view</tag>. As an illustration,
+          the Van Gogh example includes the following <code>pb-view</code> for displaying the translation:</para>
+        <programlisting language="xquery">&lt;pb-view src="document1" map="vg-translation" xpath="//div[@type='original']"
+    subscribe="transcription"/></programlisting>
+        <para>In the Van Gogh letters, the translation contains page breaks corresponding to page breaks in the original letter, but these are using a different
+          prefix for the xml:id. To align the translation with the transcription, we only need to adjust the id, and retrieve the corresponding page break to be
+          done. The XQuery mapping function is thus rather simple:</para>
+        <programlisting language="xquery">declare function mapping:vg-translation($root as element()) {
+    let $id := ``[pb-trans-`{$root/@f}`-`{$root/@n}`]``
+    let $node := root($root)/id($id)
+    return
+        $node
+};</programlisting>
+        <para>Note that returning the corresponding <tag>pb</tag> node of the translation is sufficient here as further processing will automatically extract
+          the page fragment up to the next <tag>pb</tag>. More complex cases may require that mapping function returns arbitrary TEI fragment. Also note that
+          the <parameter>xpath</parameter> attribute of the <tag>pb-view</tag> element in the template must still point to the source transcription
+            (<parameter>div[@type='original']</parameter> in this case). It's just the mapping function which translates a position in the source transcription
+          to a corresponding fragment in the translation.</para>
+        <para>The letter by Cortez to Dantiscus sent from Mexico demonstrates a much more sophisticated alignment, determining the translation fragment to be
+          shown by inspecting the ID range of the transcription. It illustrates the case where no milestone elements exist in the translation to explicitly mark
+          page boundaries of the original, thus mapping algorithm aims to display closest corresponding fragment of the translated text.</para>
       </section>
     </section>
   </section>
@@ -1188,12 +1271,42 @@
             <listitem>
               <para>Creates an ordered or unordered list, depending on the type attribute (e.g. <parameter>type="ordered"</parameter>). If a label is present
                 before each item, a description list is output instead, using the label as definition term.</para>
+              <informaltable>
+                <thead>
+                  <tr>
+                    <td>Parameter</td>
+                    <td>Description</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>type</td>
+                    <td>The type of list: use "ordered" for an enumerated list, or "custom" to specify item labels
+                    in combination with the <option>n</option> parameter on each <command>listItem</command>. The default
+                    is "unordered" for a list of bullet points.</td>
+                  </tr>
+                </tbody>
+              </informaltable>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>listItem</term>
             <listitem>
               <para>Outputs an item in a list.</para>
+              <informaltable>
+                <thead>
+                  <tr>
+                    <td>Parameter</td>
+                    <td>Description</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>n</td>
+                    <td>a label to use for the item</td>
+                  </tr>
+                </tbody>
+              </informaltable>
             </listitem>
           </varlistentry>
           <varlistentry>
@@ -1555,8 +1668,7 @@
       </section>
       <section>
         <title>LaTeX Output</title>
-        <para>The latex output mode produces good results for longer texts which fit well into the pre-defined LaTeX environments. The number of supported CSS
-          properties is limited though:</para>
+        <para>The latex output mode produces good results for longer texts which fit well into the pre-defined LaTeX environments. The number of supported CSS properties is limited though:</para>
         <itemizedlist>
           <listitem>
             <para>font-weight</para>
@@ -1584,7 +1696,20 @@
           </listitem>
         </itemizedlist>
         <para>To create arbitary complex LaTeX output, you may want to use the <link linkend="pb-template"><tag>pb-template</tag> extension</link> to the ODD
-          syntax. It is heavily used to e.g. generate the LaTeX version of this documentation.</para>
+          syntax. It is heavily used to e.g. generate the LaTeX version of this documentation. See also
+          <link xlink:href="odd/serafin.odd" role="source">serafin.odd</link> or 
+          <link xlink:href="odd/vangogh.odd" role="source">vangogh.odd</link> for examples.</para>
+        <para>TEI Publisher creates a default LaTeX prolog based on standard packages and settings. You may overwrite
+        the defaults by providing your own template within the ODD element spec for the TEI root element. See the example
+        ODDs mentioned above. Note that TEI Publisher will generate some LaTeX macros for styles defined in <tag>outputRendition</tag> which should be imported into the prolog. The styles are added to the default
+          configuration map and can be accessed via <command>$config('latex-styles')</command>. Refer to the
+        example ODDs and just copy/paste the corresponding lines.</para>
+        <para>This output mode requires a local installation of LaTeX on the machine running TEI Publisher.
+          The examples have been tested on a default installation of MacTeX 2018. If you are not running
+        MacTeX, you likely need to adjust the path to the LaTeX binary in the XQuery configuration module
+          <filename>modules/config.xqm</filename>. Search for the variable <varname>$config:tex-command</varname>
+        and adjust it to point to a binary of <command>xelatex</command>, <command>pdflatex</command> or
+        <command>lualatex</command>.</para>
       </section>
       <section>
         <title>ePub Output</title>
@@ -1735,7 +1860,7 @@
           a smooth upgrade path.</para>
       </note>
       <para>To get started, click on <guimenuitem>App Generator</guimenuitem> in the menu bar and fill out the form.</para>
-      
+
       <para>The following form fields are important:</para>
       <variablelist>
         <varlistentry>
@@ -1969,7 +2094,7 @@
         <para>In order to use the element, you need to import it into your HTML template. Make sure it is imported after
             <filename>dependencies-dev.html</filename>, which loads the default TEI Publisher components:</para>
         <programlisting>&lt;link rel="import" href="components/dependencies-dev.html"/>
-&lt;link rel="import" href="components/my-component.html"/></programlisting>
+&lt;link rel="import" href="webcomponents/my-component.html"/></programlisting>
         <para>A component may also extend one of the existing components provided by TEI Publisher. For example, the component showing the list of available
           documents on the index page extends <tag>pb-load</tag>:</para>
         <synopsis language="javascript">class PbBrowseDocs extends PbMixin(PbLoad) {</synopsis>
@@ -2122,10 +2247,10 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       </section>
     </section>
   </section>
-  
-  
-  
-  
+
+
+
+
   <section xml:id="faq">
     <title>Frequently Asked Questions</title>
     <section>

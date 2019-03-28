@@ -237,7 +237,7 @@ declare function deploy:expand($collection as xs:string, $resource as xs:string,
 
 declare function deploy:store-libs($target as xs:string, $userData as xs:string+, $permissions as xs:string) {
     let $path := system:get-module-load-path()
-    for $lib in ("autocomplete.xql", "index.xql", "view.xql", xmldb:get-child-resources($path)[starts-with(., "navigation")],
+    for $lib in ("autocomplete.xql", "index.xql", "view.xql", "map.xql", xmldb:get-child-resources($path)[starts-with(., "navigation")],
         xmldb:get-child-resources($path)[ends-with(., "query.xql")])
     return (
         xmldb:copy($path, $target || "/modules", $lib)

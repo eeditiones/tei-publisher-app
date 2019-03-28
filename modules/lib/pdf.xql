@@ -2,7 +2,6 @@ xquery version "3.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
-import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
 import module namespace xslfo="http://exist-db.org/xquery/xslfo" at "java:org.exist.xquery.modules.xslfo.XSLFOModule";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
@@ -31,9 +30,7 @@ declare function local:prepare-cache-collection() {
 };
 
 declare function local:fop($id as xs:string, $fontsDir as xs:string?, $fo as element()) {
-    let $log := console:log("Calling fop ...")
-    return
-        xslfo:render($fo, "application/pdf", (), $config:fop-config)
+    xslfo:render($fo, "application/pdf", (), $config:fop-config)
 };
 
 declare function local:antenna-house($id as xs:string, $fo as element()) {
@@ -46,7 +43,6 @@ declare function local:antenna-house($id as xs:string, $fo as element()) {
             <workingDir>{system:get-exist-home()}</workingDir>
         </option>
     let $result := (
-        console:log("Calling AntennaHouse ..."),
         process:execute(
             (
                 "sh", "/usr/AHFormatterV6_64/run.sh", "-d", $file || ".fo", "-o", $file || ".pdf", "-x", "2",
@@ -57,7 +53,6 @@ declare function local:antenna-house($id as xs:string, $fo as element()) {
         )
     )
     return (
-        console:log("sarit", $result),
         if ($result/@exitCode = 0) then
             let $pdf := file:read-binary($file || ".pdf")
             return
@@ -94,7 +89,6 @@ let $useCache := request:get-parameter("cache", "yes")
 let $id := replace($path, "^(.*)\..*", "$1")
 let $doc := root(pages:get-document($id))
 let $config := tpu:parse-pi(root($doc), ())
-let $log := console:log("Generating PDF for " || $path)
 let $name := util:document-name($doc)
 return
     if ($doc) then
@@ -102,13 +96,11 @@ return
         return (
             response:set-cookie("simple.token", $token),
             if (not($source) and exists($cached)) then (
-                console:log("Reading " || $name || " pdf from cache"),
                 response:stream-binary($cached, "media-type=application/pdf", $id || ".pdf")
             ) else
                 let $start := util:system-time()
                 let $fo := $pm-config:print-transform($doc, map { "root": $doc }, $config?odd)
                 return (
-                    console:log("Generated fo for " || $name || " in " || util:system-time() - $start),
                     if ($source) then
                         $fo
                     else

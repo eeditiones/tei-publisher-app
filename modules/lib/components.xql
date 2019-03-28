@@ -84,7 +84,7 @@ let $xml :=
                         ()
         return
             map {
-                "config": $config,
+                "config": map:merge(($config, map { "context": $document })),
                 "odd": $config?odd,
                 "view": $config?view,
                 "data": $data
@@ -119,7 +119,7 @@ return
         let $html :=
             typeswitch ($mapped)
                 case element() | document-node() return
-                    pages:process-content($content, $mapped, $xml?config, $userParams)
+                    pages:process-content($content, $xml?data, $xml?config, $userParams)
                 default return
                     $content
         let $transformed := local:extract-footnotes($html[1])

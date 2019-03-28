@@ -111,7 +111,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             if ($parameters?header='short') then
                                 (
-                                    fo:heading($config, ., ("tei-info4"), title),
+                                    fo:heading($config, ., ("tei-info4"), title, 5),
                                     if (author) then
                                         fo:block($config, ., ("tei-info5"), author)
                                     else
@@ -151,7 +151,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     if (parent::info and $parameters?header='short') then
                                         fo:link($config, ., ("tei-title5"), ., $parameters?doc)
                                     else
-                                        fo:heading($config, ., ("tei-title6", "title"), .)
+                                        fo:heading($config, ., ("tei-title6", "title"), ., if ($parameters?view='single') then count(ancestor::section) + 1 else count($get(.)/ancestor::section))
                     case element(section) return
                         if ($parameters?mode='breadcrumbs') then
                             (
@@ -183,15 +183,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(imagedata) return
                         fo:graphic($config, ., ("tei-imagedata2"), ., @fileref, @width, (), (), ())
                     case element(itemizedlist) return
-                        fo:list($config, ., ("tei-itemizedlist"), listitem)
+                        fo:list($config, ., ("tei-itemizedlist"), listitem, ())
                     case element(listitem) return
-                        fo:listItem($config, ., ("tei-listitem"), .)
+                        fo:listItem($config, ., ("tei-listitem"), ., ())
                     case element(orderedlist) return
-                        fo:list($config, ., ("tei-orderedlist"), listitem)
+                        fo:list($config, ., ("tei-orderedlist"), listitem, 'ordered')
                     case element(procedure) return
-                        fo:list($config, ., ("tei-procedure"), step)
+                        fo:list($config, ., ("tei-procedure"), step, 'ordered')
                     case element(step) return
-                        fo:listItem($config, ., ("tei-step"), .)
+                        fo:listItem($config, ., ("tei-step"), ., ())
                     case element(variablelist) return
                         model:definitionList($config, ., ("tei-variablelist"), varlistentry)
                     case element(varlistentry) return
@@ -199,7 +199,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(table) return
                         if (title) then
                             (
-                                fo:heading($config, ., ("tei-table1"), title),
+                                fo:heading($config, ., ("tei-table1"), title, ()),
                                 fo:table($config, ., ("tei-table2"), .//tr)
                             )
 

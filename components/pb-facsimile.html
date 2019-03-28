@@ -226,9 +226,17 @@
                         type: Number,
                         value: 1
                     },
+                    /**
+                     * Type of the source of the image to display: either 'iiif' or 'image'
+                     * (for simple image links not served via IIIF).
+                     */
+                    type: {
+                        type: String,
+                        value: 'iiif'
+                    },
                     baseUri: {
                         type: String,
-                        value: 'http://apps.existsolutions.com:8182/iiif/2/'
+                        value: ''
                     },
                     /**
                      * Array of facsimiles
@@ -309,10 +317,9 @@
                 //         buildPyramid: false
                 //     }
                 // }
-
                 this.viewer = OpenSeadragon({
                     element:            this.$.viewer,
-                    prefixUrl:          "resources/images/seadragon/",
+                    prefixUrl:          this.resolveUrl("../../tei-publisher/resources/images/seadragon/"),
                     preserveViewport:   true,
                     sequenceMode:       true,
                     showZoomControl:    true,
@@ -506,7 +513,20 @@
               console.log(init,facsimiles)
               if (!init) { return }
               if (facsimiles.length === 0) { return this.viewer.close() }
-              const uris = this.facsimiles.map(fac => `${this.baseUri}${fac}/info.json`)
+              const uris = this.facsimiles.map(fac => {
+                  if (this.type === 'iiif') {
+                      return `${this.baseUri}${fac}/info.json`;
+                  } else {
+                      return {
+                          tileSource: {
+                              type: 'image',
+                              url: `${this.baseUri}${fac}`,
+                              buildPyramid: false
+                          }
+                      }
+                  }
+              });
+
               // console.log(uris)
               this.viewer.open(uris)
               this.viewer.goToPage(0)

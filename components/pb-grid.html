@@ -5,17 +5,14 @@
     <template>
         <style>
             :host {
-                display: block;
-            }
-
-            #grid {
                 display: grid;
                 grid-template-columns: var(--pb-column-widths, '1fr');
                 grid-column-gap: var(--pb-column-gap, 20px);
+                justify-content: space-between;
             }
         </style>
 
-        <div id="grid"></div>
+        <slot></slot>
     </template>
 
     <script>
@@ -38,7 +35,12 @@
             static get properties() {
                 return {
                     /**
-                     * an array of panel items to display as columns
+                     * an array of panel items to display when the component is loaded. It should contain a
+                     * number for each panel to show, indicating the ordinal position of the template within the `<pb-panel>`
+                     * to initialize. For example, if you have two templates in `<pb-panel>`: "transcription" and "translation",
+                     * setting `panels="[0, 1]"` will show two columns, one with the transcription, the other with the translation.
+                     *
+                     * Passing in a browser parameter `panels` with a comma-separated list will set this property as well.
                      */
                     panels: {
                         type: Array
@@ -60,12 +62,15 @@
                 super.connectedCallback();
 
                 this.subscribeTo('pb-panel', ev => {
-                    const idx = Array.from(this.$.grid.children).reverse().indexOf(ev.detail.panel);
-                    console.log('<pb-grid> Updating panel %d to show %s', idx, ev.detail.active);
-                    this.panels[idx] = ev.detail.active;
+                    const idx = Array.from(this.querySelectorAll('._grid_panel')).indexOf(ev.detail.panel);
+                    if (idx > 0) {
+                        console.log('<pb-grid> Updating panel %d to show %s', idx, ev.detail.active);
+                        this.panels[idx] = ev.detail.active;
 
-                    this.setParameter('panels', this.panels.join('.'));
-                    this.pushHistory('added panel');
+                        localStorage.setItem('pb-grid.panels', this.panels.join('.'));
+                        this.setParameter('panels', this.panels.join('.'));
+                        this.pushHistory('added panel');
+                    }
                 });
             }
 
@@ -74,32 +79,55 @@
                 const panelsParam = this.getParameter('panels');
                 if (panelsParam) {
                     this.panels = panelsParam.split('.').map(param => parseInt(param));
+                    localStorage.setItem('pb-grid.panels', this.panels.join('.'));
+                } else {
+                    const panelsStored = localStorage.getItem('pb-grid.panels');
+                    if (panelsStored) {
+                        this.panels = panelsStored.split('.').map(param => parseInt(param));
+                    }
                 }
+
                 this._columns = this.panels.length;
-                this.template = this.querySelector('template');
-                this._update();
-                this.panels.forEach(panelNum => this._insertPanel(panelNum));
+                Polymer.RenderStatus.afterNextRender(this, () => {
+                    this.template = this.querySelector('template');
+                    this.panels.forEach(panelNum => this._insertPanel(panelNum));
+
+                    this._update();
+                });
             }
 
             addPanel(initial) {
+                if (!initial) {
+                    if (this.panels.length > 0) {
+                        var max = this.panels.reduce(function(a, b) {
+                            return Math.max(a, b);
+                        });
+                        initial = max + 1;
+                    } else {
+                        initial = 0;
+                    }
+                }
                 this._columns++;
-                this._update();
                 this.panels.push(initial);
 
+                localStorage.setItem('pb-grid.panels', this.panels.join('.'));
                 this.setParameter('panels', this.panels.join('.'));
                 this.pushHistory('added panel');
 
                 this._insertPanel(initial);
 
+                this._update();
+
                 this.emitTo('pb-refresh', null);
             }
 
             removePanel(panel) {
-                const idx = Array.from(this.$.grid.children).reverse().indexOf(panel);
+                const idx = Array.from(this.querySelectorAll('._grid_panel')).indexOf(panel);
                 console.log('<pb-grid> Removing panel %d', idx);
                 this.panels.splice(idx, 1);
 
                 this.setParameter('panels', this.panels.join('.'));
+                localStorage.setItem('pb-grid.panels', this.panels.join('.'));
                 this.pushHistory('removed panel');
 
                 panel.parentNode.removeChild(panel);
@@ -109,18 +137,37 @@
 
             _insertPanel(active) {
                 const clone = document.importNode(this.template.content.firstElementChild, true);
-                clone.setAttribute('_active', active);
-                if (this.direction === 'ltr' || this.$.grid.children.length === 0) {
-                    this.$.grid.appendChild(clone);
+                clone.setAttribute('active', active);
+                if (this.direction === 'ltr' || this.querySelectorAll('._grid_panel').length === 0) {
+                    this.appendChild(clone);
                 } else {
-                    this.$.grid.insertBefore(clone, this.$.grid.firstElementChild);
+                    this.insertBefore(clone, this.firstElementChild);
                 }
+                clone.classList.add('_grid_panel');
             }
 
             _update() {
-                this.updateStyles({'--pb-column-widths': '1fr '.repeat(this._columns)});
+                let widths = [];
+                Array.from(this.children).forEach((child) => {
+                    if (child instanceof HTMLTemplateElement) {
+                        return;
+                    }
+                    const styles = window.getComputedStyle(child);
+                    const width = styles.getPropertyValue('max-width');
+                    if (width && width !== 'none') {
+                        widths.push(width);
+                    } else {
+                        widths.push('1fr');
+                    }
+                });
+                this.updateStyles({'--pb-column-widths': widths.join(' ')});
             }
 
+            /**
+             * Fired after a new column has been added to allow connected components to refresh.
+             *
+             * @event pb-refresh
+             */
         }
 
         window.customElements.define(PbGrid.is, PbGrid);

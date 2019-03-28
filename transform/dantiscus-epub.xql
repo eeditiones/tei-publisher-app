@@ -50,6 +50,8 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $get := 
+        model:source($parameters, ?)
     return
     $input !         (
             let $node := 
@@ -70,7 +72,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if ($parameters?header='short') then
                             epub:block($config, ., ("tei-teiHeader3"), .)
                         else
-                            html:metadata($config, ., ("tei-teiHeader4"), .)
+                            if ($parameters?mode='title') then
+                                html:heading($config, ., ("tei-teiHeader4"), (fileDesc/titleStmt/title[not(@type)]), 5)
+                            else
+                                html:metadata($config, ., ("tei-teiHeader5"), .)
                     case element(supplied) return
                         if (parent::choice) then
                             html:inline($config, ., ("tei-supplied1"), .)
@@ -182,7 +187,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(figDesc) return
                         html:inline($config, ., ("tei-figDesc"), .)
                     case element(rs) return
-                        epub:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root)))
+                        epub:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
                     case element(foreign) return
                         html:inline($config, ., ("tei-foreign"), .)
                     case element(fileDesc) return
@@ -196,7 +201,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             html:title($config, ., ("tei-fileDesc4"), titleStmt)
                     case element(seg) return
-                        html:inline($config, ., css:get-rendition(., ("tei-seg")), .)
+                        html:webcomponent($config, ., ("tei-seg1"), ., 'pb-highlight', map {"key": replace(@xml:id, '^s\.(.*)$', 't.$1'), "highlight-self": 'highlight-self'})
                     case element(profileDesc) return
                         html:omit($config, ., ("tei-profileDesc"), .)
                     case element(email) return
@@ -292,7 +297,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(titlePage) return
                         epub:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                     case element(name) return
-                        epub:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root)))
+                        epub:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
                     case element(front) return
                         epub:block($config, ., ("tei-front"), .)
                     case element(lg) return
@@ -466,18 +471,18 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             $config?apply($config, ./node())
                     case element(titleStmt) return
-                        if ($parameters?mode='title') then
-                            html:heading($config, ., ("tei-titleStmt3"), title[not(@type)], 5)
-                        else
-                            if ($parameters?header='short') then
-                                (
-                                    html:link($config, ., ("tei-titleStmt4"), title[1], $parameters?doc),
-                                    epub:block($config, ., ("tei-titleStmt5"), subsequence(title, 2)),
-                                    epub:block($config, ., ("tei-titleStmt6"), author)
-                                )
+                        if ($parameters?header='short') then
+                            (
+                                html:link($config, ., ("tei-titleStmt3"), title[1], $parameters?doc),
+                                epub:block($config, ., ("tei-titleStmt4"), subsequence(title, 2)),
+                                epub:block($config, ., ("tei-titleStmt5"), author)
+                            )
 
+                        else
+                            if ($parameters?mode='title') then
+                                html:inline($config, ., ("tei-titleStmt6"), title[not(@type)])
                             else
-                                epub:block($config, ., ("tei-titleStmt7"), .)
+                                html:heading($config, ., ("tei-titleStmt7"), ., 4)
                     case element(sic) return
                         if (parent::choice and count(parent::*/*) gt 1) then
                             html:inline($config, ., ("tei-sic1"), .)
@@ -562,5 +567,15 @@ declare function model:apply-children($config as map(*), $node as element(), $co
                 default return
                     html:escapeChars(.)
         )
+};
+
+declare function model:source($parameters as map(*), $elem as element()) {
+        
+    let $id := $elem/@exist:id
+    return
+        if ($id and $parameters?root) then
+            util:node-by-id($parameters?root, $id)
+        else
+            $elem
 };
 

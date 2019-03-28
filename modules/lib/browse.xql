@@ -25,7 +25,6 @@ import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
-import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 import module namespace query="http://www.tei-c.org/tei-simple/query" at "../query.xql";
 
 declare namespace expath="http://expath.org/ns/pkg";
@@ -50,27 +49,6 @@ function app:check-login($node as node(), $model as map(*)) {
             templates:process($node/*[2], $model)
         else
             templates:process($node/*[1], $model)
-};
-
-declare function app:current-user($node as node(), $model as map(*)) {
-    let $user := request:get-attribute($config:login-domain || ".user")
-    let $loggedIn := exists($user)
-    return
-        element { node-name($node) } {
-            $node/@*,
-            if ($loggedIn) then
-                attribute logged-in { "logged-in" }
-            else
-                (),
-            attribute user { $user },
-            attribute groups {
-                if ($user) then
-                    '[' || string-join(sm:get-user-groups($user) ! ('"' || . || '"'), ',') || ']'
-                else
-                    '[]'
-            },
-            templates:process($node/node(), $model)
-        }
 };
 
 declare

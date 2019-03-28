@@ -12,20 +12,16 @@
 </head>
 <body>
 
-  <test-fixture id="PbDocumentTestFixture">
-    <template>
-      <pb-document id="document1" path="test/kant_rvernunft_1781.TEI-P5.xml" odd="dta" view="page"></pb-document>
-    </template>
-  </test-fixture>
+  <pb-document id="document1" path="test/kant_rvernunft_1781.TEI-P5.xml" odd="dta" view="page"></pb-document>
 
   <script>
       suite('test-pb-document', () => {
-          const doc = fixture('PbDocumentTestFixture');
-          
+          const doc = document.getElementById('document1');
+
           test('instantiating element', () => {
               assert.equal(doc.getFileName(), 'kant_rvernunft_1781.TEI-P5.xml');
           });
-          
+
           test('check events', (done) => {
               const handler = (ev) => {
                   assert.equal(ev.detail.getFileName(), 'graves6.xml');
@@ -33,7 +29,7 @@
                   done();
               };
               document.addEventListener('pb-document', handler);
-              
+
               doc.path = 'test/graves6.xml';
           });
       });

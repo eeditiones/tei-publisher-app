@@ -10,7 +10,7 @@
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
 
         <title data-template="config:app-title"/>
-        <meta name="description" content="Letter with map/facets"/>
+        <meta name="description" content="Graves' Letter"/>
 
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
@@ -101,10 +101,10 @@
                     </section>
                     <section class="content-body">
                         <pb-view id="view1" src="document1"
-                            column-separator=".tei-cb" history="history" append-footnotes="append-footnotes"
+                            column-separator=".tei-cb" append-footnotes="append-footnotes"
                             subscribe="transcription" emit="transcription"/>
                         <aside class="places">
-                            <pb-view src="document1" odd="graves" subscribe="transcription" emit="letter">
+                            <pb-view src="document1" odd="graves" subscribe="transcription" emit="letter" wait-for="pb-leaflet-map">
                                 <pb-param name="mode" value="facets"/>
                             </pb-view>
                         </aside>

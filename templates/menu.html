@@ -10,16 +10,6 @@
             </a>
             <paper-listbox slot="dropdown-content">
                 <paper-item>
-                    <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)">
-                        <i18n:text key="pdf-fo"/>
-                    </pb-download>
-                </paper-item>
-                <paper-item>
-                    <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)" source="source">
-                        <i18n:text key="fo-source"/>
-                    </pb-download>
-                </paper-item>
-                <paper-item>
                     <pb-download type="tex" src="document1" dialog="downloadDialog" title="i18n(pdf-latex)">
                         <i18n:text key="pdf-latex"/>
                     </pb-download>
@@ -27,6 +17,16 @@
                 <paper-item>
                     <pb-download type="tex" src="document1" dialog="downloadDialog" title="i18n(pdf-latex)" source="source">
                         <i18n:text key="latex-source"/>
+                    </pb-download>
+                </paper-item>
+                <paper-item>
+                    <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)">
+                        <i18n:text key="pdf-fo"/>
+                    </pb-download>
+                </paper-item>
+                <paper-item>
+                    <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)" source="source">
+                        <i18n:text key="fo-source"/>
                     </pb-download>
                 </paper-item>
                 <paper-item>
@@ -105,7 +105,7 @@
            <paper-item>pl</paper-item>
        </pb-lang>
     </pb-media-query>
-    <pb-login id="login" login-label="i18n(login)" logout-label="i18n(logout)" group="tei" data-template="browse:current-user">
+    <pb-login id="login" login-label="i18n(login)" logout-label="i18n(logout)" group="tei">
     </pb-login>
     <paper-dialog id="downloadDialog">
         <h2>

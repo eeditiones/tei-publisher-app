@@ -39,6 +39,10 @@
                     /** An array of coordinates describing a rectangle to highlight */
                     coordinates: {
                         type: Array
+                    },
+                    emitOnLoad: {
+                        type: Boolean,
+                        value: false
                     }
                 };
             }
@@ -49,11 +53,19 @@
 
             ready(){
                 super.ready();
+
+                if (this.emitOnLoad) {
+                    Polymer.RenderStatus.afterNextRender(this, this._trigger.bind(this));
+                }
             }
 
             _mouseoverListener(ev) {
                 ev.preventDefault();
-                console.log("facs-link: %s %o", this.facs, this.coordinates);
+                this._trigger();
+            }
+
+            _trigger() {
+                console.log("<facs-link> %s %o", this.facs, this.coordinates);
                 this.emitTo('pb-show-annotation', {
                     file: this.facs,
                     coordinates: this.coordinates

@@ -23,7 +23,6 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xql";
-import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
 declare variable $teis:QUERY_OPTIONS :=
     <options>
@@ -115,7 +114,7 @@ declare function teis:get-parent-section($node as node()) {
 
 declare function teis:get-breadcrumbs($config as map(*), $hit as element(), $parent-id as xs:string) {
     let $work := root($hit)/*
-    let $work-title := nav:get-document-title($config, $work)
+    let $work-title := nav:get-document-title($config, $work)/string()
     return
         <div class="breadcrumbs">
             <a class="breadcrumb" href="{$parent-id}">{$work-title}</a>

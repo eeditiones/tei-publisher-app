@@ -10,8 +10,8 @@
 
             .columns {
                 display: grid;
-                grid-template-columns: 50% 50%;
-                grid-column-gap: 10px;
+                grid-template-columns: calc(50% - var(--pb-view-column-gap, 10px) / 2) calc(50% - var(--pb-view-column-gap, 10px) / 2);
+                grid-column-gap: var(--pb-view-column-gap, 10px);
             }
 
             .margin-note {
@@ -109,6 +109,7 @@
          * | Custom property | Description | Default|
          * | ----------------|-------------|--------|
          * |--pb-content-theme | Mixin applied to the content view | {}|
+         * |--pb-view-column-gap | Column gap in two-column mode | 10px |
          * |--pb-footnotes | Mixin for formatting footnotes | {}|
          * |--pb-footnote-ref | Mixin for formatting footnote references | {}|
          * |--pb-highlight-theme | Mixin applied to matches in the text when displaying search results | {}|
@@ -192,8 +193,11 @@
                         reflectToAttribute: true
                     },
                     /**
-                     * If defined denotes the local name of an XQuery function in modules/map.xql, which needs to be called
-                     * with the current root node and returns the node of a mapped fragment, eg. translation.
+                     * If defined denotes the local name of an XQuery function in `modules/map.xql`, which will be called
+                     * with the current root node and should return the node of a mapped fragment. This is helpful if one
+                     * wants, for example, to show a translation fragment aligned with the part of the transcription currently
+                     * shown. In this case, the properties of the `pb-view` would still point to the transcription, but the function
+                     * identified by map would return the corresponding fragment from the translation to be processed.
                      *
                      * Navigation in the document is still determined by the current root as defined through the `root`, `xpath`
                      * and `xmlId` properties.
@@ -208,15 +212,6 @@
                     notFound: {
                         type: String,
                         value: "the server did not return any content"
-                    },
-                    /**
-                     * Modify browser history: if set, any load operation performed by this
-                     * element will generate a new history entry in the browser's history.
-                     * Only use this on one element on the page.
-                     */
-                    history: {
-                        type: Boolean,
-                        value: false
                     },
                     /**
                      * The relative URL to the script on the server which will be called for loading content.
@@ -284,7 +279,6 @@
 
                 const nodeId = this.getParameter('root');
                 if (this.view === 'single') {
-                    console.log("Clearing node id");
                     this.nodeId = null;
                 } else if (nodeId && !this.nodeId) {
                     this.nodeId = nodeId;
@@ -340,7 +334,7 @@
                     }
                     this.view = ev.detail.view || this.view;
                     // clear nodeId if set to null
-                    if (ev.detail.position == null) {
+                    if (ev.detail.position === null) {
                         this.nodeId = null;
                     } else {
                         this.nodeId = ev.detail.position || this.nodeId;
@@ -555,6 +549,7 @@
                     if (this.previous) {
                         if (!this.map) {
                             this.setParameter('root', this.previous);
+                            this.setParameter('id');
                             this.pushHistory('Navigate backward');
                         }
                         this._load(this.previous);
@@ -563,6 +558,7 @@
                     if (this.next) {
                         if (!this.map) {
                             this.setParameter('root', this.next);
+                            this.setParameter('id');
                             this.pushHistory('Navigate forward');
                         }
                         this._load(this.next);

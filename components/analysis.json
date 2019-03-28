@@ -303,7 +303,7 @@
               "column": 12
             },
             "end": {
-              "line": 124,
+              "line": 128,
               "column": 13
             }
           },
@@ -319,11 +319,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 126,
+              "line": 130,
               "column": 12
             },
             "end": {
-              "line": 130,
+              "line": 134,
               "column": 13
             }
           },
@@ -339,11 +339,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 132,
+              "line": 136,
               "column": 12
             },
             "end": {
-              "line": 168,
+              "line": 175,
               "column": 13
             }
           },
@@ -359,11 +359,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 170,
+              "line": 177,
               "column": 12
             },
             "end": {
-              "line": 182,
+              "line": 189,
               "column": 13
             }
           },
@@ -398,7 +398,7 @@
           "column": 8
         },
         "end": {
-          "line": 183,
+          "line": 190,
           "column": 9
         }
       },
@@ -1176,7 +1176,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -1195,17 +1195,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -1220,11 +1246,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -2108,7 +2134,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -2127,17 +2153,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -2152,11 +2204,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -2482,7 +2534,7 @@
       ]
     },
     {
-      "description": "This is the main component for viewing text which has been transformed via an ODD.\nThe document to be viewed is determined by the `pb-document` element the property\n`src` points to. `pb-view` can display an entire document or just a fragment of it\nas defined by the properties `xmlId`, `nodeId` or `xpath`.\n\nYou may also define optional parameters to be passed to the ODD in nested `pb-param`\ntags. These parameters can be accessed within the ODD via the `$parameters` map. For\nexample, the following snippet is being used to output breadcrumbs above the main text\nin the documentation view:\n\n```xml\n<section class=\"breadcrumbs\">\n     <pb-view id=\"title-view1\" src=\"document1\" subscribe=\"transcription\">\n         <pb-param name=\"mode\" value=\"breadcrumbs\"/>\n     </pb-view>\n</section>\n```\n\n## CSS Mixins\n\n| Custom property | Description | Default|\n| ----------------|-------------|--------|\n|--pb-content-theme | Mixin applied to the content view | {}|\n|--pb-footnotes | Mixin for formatting footnotes | {}|\n|--pb-footnote-ref | Mixin for formatting footnote references | {}|\n|--pb-highlight-theme | Mixin applied to matches in the text when displaying search results | {}|",
+      "description": "This is the main component for viewing text which has been transformed via an ODD.\nThe document to be viewed is determined by the `pb-document` element the property\n`src` points to. `pb-view` can display an entire document or just a fragment of it\nas defined by the properties `xmlId`, `nodeId` or `xpath`.\n\nYou may also define optional parameters to be passed to the ODD in nested `pb-param`\ntags. These parameters can be accessed within the ODD via the `$parameters` map. For\nexample, the following snippet is being used to output breadcrumbs above the main text\nin the documentation view:\n\n```xml\n<section class=\"breadcrumbs\">\n     <pb-view id=\"title-view1\" src=\"document1\" subscribe=\"transcription\">\n         <pb-param name=\"mode\" value=\"breadcrumbs\"/>\n     </pb-view>\n</section>\n```\n\n## CSS Mixins\n\n| Custom property | Description | Default|\n| ----------------|-------------|--------|\n|--pb-content-theme | Mixin applied to the content view | {}|\n|--pb-view-column-gap | Column gap in two-column mode | 10px |\n|--pb-footnotes | Mixin for formatting footnotes | {}|\n|--pb-footnote-ref | Mixin for formatting footnote references | {}|\n|--pb-highlight-theme | Mixin applied to matches in the text when displaying search results | {}|",
       "summary": "",
       "path": "pb-view.html",
       "properties": [
@@ -2632,11 +2684,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 128,
+              "line": 139,
               "column": 20
             },
             "end": {
-              "line": 131,
+              "line": 142,
               "column": 21
             }
           },
@@ -2654,11 +2706,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 137,
+              "line": 148,
               "column": 20
             },
             "end": {
-              "line": 140,
+              "line": 151,
               "column": 21
             }
           },
@@ -2675,11 +2727,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 151,
+              "line": 162,
               "column": 20
             },
             "end": {
-              "line": 154,
+              "line": 165,
               "column": 21
             }
           },
@@ -2696,11 +2748,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 159,
+              "line": 170,
               "column": 20
             },
             "end": {
-              "line": 162,
+              "line": 173,
               "column": 21
             }
           },
@@ -2717,11 +2769,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 167,
+              "line": 178,
               "column": 20
             },
             "end": {
-              "line": 170,
+              "line": 181,
               "column": 21
             }
           },
@@ -2734,15 +2786,36 @@
         {
           "name": "xpath",
           "type": "string | null | undefined",
-          "description": "An optional XPath expression: the root of the fragment to be displayed is determined\nby evaluating the given XPath expression. The XPath expression should be absolute.\nThe namespace of the document is declared as default namespace, so no prefixes should\nbe used.",
+          "description": "An optional XPath expression: the root of the fragment to be processed is determined\nby evaluating the given XPath expression. The XPath expression should be absolute.\nThe namespace of the document is declared as default namespace, so no prefixes should\nbe used.\n\nIf the `map` property is used, it may change scope for the displayed fragment.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 177,
+              "line": 190,
               "column": 20
             },
             "end": {
-              "line": 180,
+              "line": 193,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          }
+        },
+        {
+          "name": "map",
+          "type": "string | null | undefined",
+          "description": "If defined denotes the local name of an XQuery function in `modules/map.xql`, which will be called\nwith the current root node and should return the node of a mapped fragment. This is helpful if one\nwants, for example, to show a translation fragment aligned with the part of the transcription currently\nshown. In this case, the properties of the `pb-view` would still point to the transcription, but the function\nidentified by map would return the corresponding fragment from the translation to be processed.\n\nNavigation in the document is still determined by the current root as defined through the `root`, `xpath`\nand `xmlId` properties.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 204,
+              "column": 20
+            },
+            "end": {
+              "line": 206,
               "column": 21
             }
           },
@@ -2759,11 +2832,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 185,
+              "line": 211,
               "column": 20
             },
             "end": {
-              "line": 188,
+              "line": 214,
               "column": 21
             }
           },
@@ -2775,39 +2848,17 @@
           "defaultValue": "\"the server did not return any content\""
         },
         {
-          "name": "history",
-          "type": "boolean | null | undefined",
-          "description": "Modify browser history: if set, any load operation performed by this\nelement will generate a new history entry in the browser's history.\nOnly use this on one element on the page.",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 194,
-              "column": 20
-            },
-            "end": {
-              "line": 197,
-              "column": 21
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "Boolean"
-            }
-          },
-          "defaultValue": "false"
-        },
-        {
           "name": "url",
           "type": "string | null | undefined",
           "description": "The relative URL to the script on the server which will be called for loading content.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 201,
+              "line": 218,
               "column": 20
             },
             "end": {
-              "line": 204,
+              "line": 221,
               "column": 21
             }
           },
@@ -2825,11 +2876,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 209,
+              "line": 226,
               "column": 20
             },
             "end": {
-              "line": 212,
+              "line": 229,
               "column": 21
             }
           },
@@ -2847,11 +2898,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 216,
+              "line": 233,
               "column": 20
             },
             "end": {
-              "line": 220,
+              "line": 237,
               "column": 21
             }
           },
@@ -2869,11 +2920,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 226,
+              "line": 243,
               "column": 20
             },
             "end": {
-              "line": 228,
+              "line": 245,
               "column": 21
             }
           },
@@ -2890,11 +2941,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 232,
+              "line": 249,
               "column": 20
             },
             "end": {
-              "line": 235,
+              "line": 252,
               "column": 21
             }
           },
@@ -2912,11 +2963,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 236,
+              "line": 253,
               "column": 20
             },
             "end": {
-              "line": 242,
+              "line": 259,
               "column": 21
             }
           },
@@ -3127,7 +3178,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -3146,17 +3197,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -3171,11 +3248,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -3199,11 +3276,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 264,
+              "line": 276,
               "column": 12
             },
             "end": {
-              "line": 266,
+              "line": 285,
               "column": 13
             }
           },
@@ -3219,11 +3296,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 268,
+              "line": 287,
               "column": 12
             },
             "end": {
-              "line": 282,
+              "line": 301,
               "column": 13
             }
           },
@@ -3239,11 +3316,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 287,
+              "line": 306,
               "column": 12
             },
             "end": {
-              "line": 289,
+              "line": 308,
               "column": 13
             }
           },
@@ -3256,11 +3333,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 291,
+              "line": 310,
               "column": 12
             },
             "end": {
-              "line": 293,
+              "line": 312,
               "column": 13
             }
           },
@@ -3273,11 +3350,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 298,
+              "line": 317,
               "column": 12
             },
             "end": {
-              "line": 300,
+              "line": 319,
               "column": 13
             }
           },
@@ -3293,11 +3370,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 302,
+              "line": 321,
               "column": 12
             },
             "end": {
-              "line": 325,
+              "line": 344,
               "column": 13
             }
           },
@@ -3317,11 +3394,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 327,
+              "line": 346,
               "column": 12
             },
             "end": {
-              "line": 352,
+              "line": 357,
               "column": 13
             }
           },
@@ -3336,16 +3413,40 @@
           }
         },
         {
+          "name": "_doLoad",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 359,
+              "column": 12
+            },
+            "end": {
+              "line": 366,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "params"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
           "name": "_updateStyles",
           "description": "",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 354,
+              "line": 368,
               "column": 12
             },
             "end": {
-              "line": 365,
+              "line": 379,
               "column": 13
             }
           },
@@ -3361,11 +3462,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 367,
+              "line": 381,
               "column": 12
             },
             "end": {
-              "line": 371,
+              "line": 385,
               "column": 13
             }
           },
@@ -3381,11 +3482,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 373,
+              "line": 387,
               "column": 12
             },
             "end": {
-              "line": 404,
+              "line": 418,
               "column": 13
             }
           },
@@ -3401,11 +3502,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 406,
+              "line": 420,
               "column": 12
             },
             "end": {
-              "line": 431,
+              "line": 445,
               "column": 13
             }
           },
@@ -3422,11 +3523,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 433,
+              "line": 447,
               "column": 12
             },
             "end": {
-              "line": 456,
+              "line": 470,
               "column": 13
             }
           },
@@ -3446,11 +3547,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 458,
+              "line": 472,
               "column": 12
             },
             "end": {
-              "line": 468,
+              "line": 482,
               "column": 13
             }
           },
@@ -3470,11 +3571,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 470,
+              "line": 484,
               "column": 12
             },
             "end": {
-              "line": 476,
+              "line": 490,
               "column": 13
             }
           },
@@ -3487,11 +3588,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 481,
+              "line": 495,
               "column": 12
             },
             "end": {
-              "line": 502,
+              "line": 519,
               "column": 13
             }
           },
@@ -3508,11 +3609,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 509,
+              "line": 526,
               "column": 12
             },
             "end": {
-              "line": 511,
+              "line": 528,
               "column": 13
             }
           },
@@ -3534,11 +3635,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 518,
+              "line": 535,
               "column": 12
             },
             "end": {
-              "line": 521,
+              "line": 538,
               "column": 13
             }
           },
@@ -3560,11 +3661,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 529,
+              "line": 546,
               "column": 12
             },
             "end": {
-              "line": 539,
+              "line": 566,
               "column": 13
             }
           },
@@ -3586,11 +3687,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 546,
+              "line": 573,
               "column": 12
             },
             "end": {
-              "line": 555,
+              "line": 582,
               "column": 13
             }
           },
@@ -3612,11 +3713,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 557,
+              "line": 584,
               "column": 12
             },
             "end": {
-              "line": 560,
+              "line": 587,
               "column": 13
             }
           },
@@ -3639,11 +3740,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 562,
+              "line": 589,
               "column": 12
             },
             "end": {
-              "line": 566,
+              "line": 593,
               "column": 13
             }
           },
@@ -3659,11 +3760,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 568,
+              "line": 595,
               "column": 12
             },
             "end": {
-              "line": 574,
+              "line": 601,
               "column": 13
             }
           },
@@ -3683,11 +3784,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 576,
+              "line": 603,
               "column": 12
             },
             "end": {
-              "line": 582,
+              "line": 609,
               "column": 13
             }
           },
@@ -3707,11 +3808,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 584,
+              "line": 611,
               "column": 12
             },
             "end": {
-              "line": 591,
+              "line": 618,
               "column": 13
             }
           },
@@ -3739,11 +3840,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 110,
+          "line": 121,
           "column": 8
         },
         "end": {
-          "line": 633,
+          "line": 660,
           "column": 9
         }
       },
@@ -3846,11 +3947,11 @@
           "description": "The id of a `pb-document` element this view should display.\nSettings like `odd` or `view` will be taken from the `pb-document`\nunless overwritten by properties in this component.\n\nThis property is **required** and **must** point to an existing `pb-document` with\nthe given id.\n\nSetting the property after initialization will clear the properties xmlId, nodeId and odd.",
           "sourceRange": {
             "start": {
-              "line": 128,
+              "line": 139,
               "column": 20
             },
             "end": {
-              "line": 131,
+              "line": 142,
               "column": 21
             }
           },
@@ -3862,11 +3963,11 @@
           "description": "The ODD to use for rendering the document. Overwrites an ODD defined on\n`pb-document`. The odd should be specified by its name without path\nor the `.odd` suffix.",
           "sourceRange": {
             "start": {
-              "line": 137,
+              "line": 148,
               "column": 20
             },
             "end": {
-              "line": 140,
+              "line": 151,
               "column": 21
             }
           },
@@ -3878,11 +3979,11 @@
           "description": "The view type to use for paginating the document. Either `page`, `div` or `single`.\nOverwrites the same property specified on `pb-document`. Values have the following meaning:\n\nValue | Displayed content\n------|------------------\n`page` | content is displayed page by page as determined by tei:pb\n`div` | content is displayed by divisions\n`single` | do not paginate but display entire content at once",
           "sourceRange": {
             "start": {
-              "line": 151,
+              "line": 162,
               "column": 20
             },
             "end": {
-              "line": 154,
+              "line": 165,
               "column": 21
             }
           },
@@ -3894,11 +3995,11 @@
           "description": "An eXist nodeId. If specified, selects the root of the fragment of the document\nwhich should be displayed. Normally this property is set automatically by pagination.",
           "sourceRange": {
             "start": {
-              "line": 159,
+              "line": 170,
               "column": 20
             },
             "end": {
-              "line": 162,
+              "line": 173,
               "column": 21
             }
           },
@@ -3910,11 +4011,11 @@
           "description": "An xml:id to be displayed. If specified, this determines the root of the fragment to be\ndisplayed. Use to directly navigate to a specific section.",
           "sourceRange": {
             "start": {
-              "line": 167,
+              "line": 178,
               "column": 20
             },
             "end": {
-              "line": 170,
+              "line": 181,
               "column": 21
             }
           },
@@ -3923,14 +4024,30 @@
         },
         {
           "name": "xpath",
-          "description": "An optional XPath expression: the root of the fragment to be displayed is determined\nby evaluating the given XPath expression. The XPath expression should be absolute.\nThe namespace of the document is declared as default namespace, so no prefixes should\nbe used.",
+          "description": "An optional XPath expression: the root of the fragment to be processed is determined\nby evaluating the given XPath expression. The XPath expression should be absolute.\nThe namespace of the document is declared as default namespace, so no prefixes should\nbe used.\n\nIf the `map` property is used, it may change scope for the displayed fragment.",
           "sourceRange": {
             "start": {
-              "line": 177,
+              "line": 190,
               "column": 20
             },
             "end": {
-              "line": 180,
+              "line": 193,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
+          "name": "map",
+          "description": "If defined denotes the local name of an XQuery function in `modules/map.xql`, which will be called\nwith the current root node and should return the node of a mapped fragment. This is helpful if one\nwants, for example, to show a translation fragment aligned with the part of the transcription currently\nshown. In this case, the properties of the `pb-view` would still point to the transcription, but the function\nidentified by map would return the corresponding fragment from the translation to be processed.\n\nNavigation in the document is still determined by the current root as defined through the `root`, `xpath`\nand `xmlId` properties.",
+          "sourceRange": {
+            "start": {
+              "line": 204,
+              "column": 20
+            },
+            "end": {
+              "line": 206,
               "column": 21
             }
           },
@@ -3942,11 +4059,11 @@
           "description": "Message to display if no content was returned by the server.\nSet to empty string to show nothing.",
           "sourceRange": {
             "start": {
-              "line": 185,
+              "line": 211,
               "column": 20
             },
             "end": {
-              "line": 188,
+              "line": 214,
               "column": 21
             }
           },
@@ -3954,31 +4071,15 @@
           "type": "string | null | undefined"
         },
         {
-          "name": "history",
-          "description": "Modify browser history: if set, any load operation performed by this\nelement will generate a new history entry in the browser's history.\nOnly use this on one element on the page.",
-          "sourceRange": {
-            "start": {
-              "line": 194,
-              "column": 20
-            },
-            "end": {
-              "line": 197,
-              "column": 21
-            }
-          },
-          "metadata": {},
-          "type": "boolean | null | undefined"
-        },
-        {
           "name": "url",
           "description": "The relative URL to the script on the server which will be called for loading content.",
           "sourceRange": {
             "start": {
-              "line": 201,
+              "line": 218,
               "column": 20
             },
             "end": {
-              "line": 204,
+              "line": 221,
               "column": 21
             }
           },
@@ -3990,11 +4091,11 @@
           "description": "The server returns footnotes separately. Set this property\nif you wish to append them to the main text.",
           "sourceRange": {
             "start": {
-              "line": 209,
+              "line": 226,
               "column": 20
             },
             "end": {
-              "line": 212,
+              "line": 229,
               "column": 21
             }
           },
@@ -4006,11 +4107,11 @@
           "description": "Should matches be highlighted if a search has been executed?",
           "sourceRange": {
             "start": {
-              "line": 216,
+              "line": 233,
               "column": 20
             },
             "end": {
-              "line": 220,
+              "line": 237,
               "column": 21
             }
           },
@@ -4022,11 +4123,11 @@
           "description": "CSS selector to find column breaks in the content returned\nfrom the server. If this property is set and column breaks\nare found, the component will display two columns side by side.",
           "sourceRange": {
             "start": {
-              "line": 226,
+              "line": 243,
               "column": 20
             },
             "end": {
-              "line": 228,
+              "line": 245,
               "column": 21
             }
           },
@@ -4038,11 +4139,11 @@
           "description": "The reading direction, i.e. 'ltr' or 'rtl'.",
           "sourceRange": {
             "start": {
-              "line": 232,
+              "line": 249,
               "column": 20
             },
             "end": {
-              "line": 235,
+              "line": 252,
               "column": 21
             }
           },
@@ -4054,11 +4155,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 236,
+              "line": 253,
               "column": 20
             },
             "end": {
-              "line": 242,
+              "line": 259,
               "column": 21
             }
           },
@@ -4115,7 +4216,7 @@
       ]
     },
     {
-      "description": "Navigate backward/forward in a document. This component does not implement any functionality itself.\nIt just sends a `pb-navigate` event when clicked.",
+      "description": "Navigate backward/forward in a document. This component does not implement any functionality itself.\nIt just sends a `pb-navigate` event when clicked.\n\n## CSS Mixins\n\n| Custom property | Description | Default|\n| ----------------|-------------|--------|\n|--pb-navigation-hidden | Mixin applied if navigation is not available (because there's no next/previous page) | {visibility: hidden,}|",
       "summary": "",
       "path": "pb-navigation.html",
       "properties": [
@@ -4265,11 +4366,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 28,
+              "line": 41,
               "column": 20
             },
             "end": {
-              "line": 31,
+              "line": 44,
               "column": 21
             }
           },
@@ -4287,11 +4388,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 35,
+              "line": 48,
               "column": 20
             },
             "end": {
-              "line": 37,
+              "line": 50,
               "column": 21
             }
           },
@@ -4308,11 +4409,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 38,
+              "line": 51,
               "column": 20
             },
             "end": {
-              "line": 43,
+              "line": 56,
               "column": 21
             }
           },
@@ -4521,7 +4622,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -4540,17 +4641,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -4565,11 +4692,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -4593,11 +4720,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 47,
+              "line": 60,
               "column": 12
             },
             "end": {
-              "line": 49,
+              "line": 62,
               "column": 13
             }
           },
@@ -4613,11 +4740,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 51,
+              "line": 64,
               "column": 12
             },
             "end": {
-              "line": 59,
+              "line": 72,
               "column": 13
             }
           },
@@ -4633,11 +4760,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 61,
+              "line": 74,
               "column": 12
             },
             "end": {
-              "line": 63,
+              "line": 76,
               "column": 13
             }
           },
@@ -4653,11 +4780,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 65,
+              "line": 78,
               "column": 12
             },
             "end": {
-              "line": 71,
+              "line": 92,
               "column": 13
             }
           },
@@ -4682,11 +4809,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 18,
+          "line": 31,
           "column": 8
         },
         "end": {
-          "line": 72,
+          "line": 93,
           "column": 9
         }
       },
@@ -4789,11 +4916,11 @@
           "description": "The direction to navigate in, either `forward` or `backward`",
           "sourceRange": {
             "start": {
-              "line": 28,
+              "line": 41,
               "column": 20
             },
             "end": {
-              "line": 31,
+              "line": 44,
               "column": 21
             }
           },
@@ -4805,11 +4932,11 @@
           "description": "Enable keyboard shortcuts: press left for backward, right for forward",
           "sourceRange": {
             "start": {
-              "line": 35,
+              "line": 48,
               "column": 20
             },
             "end": {
-              "line": 37,
+              "line": 50,
               "column": 21
             }
           },
@@ -4821,11 +4948,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 38,
+              "line": 51,
               "column": 20
             },
             "end": {
-              "line": 43,
+              "line": 56,
               "column": 21
             }
           },
@@ -4844,11 +4971,11 @@
           "name": "",
           "range": {
             "start": {
-              "line": 5,
+              "line": 12,
               "column": 47
             },
             "end": {
-              "line": 5,
+              "line": 12,
               "column": 60
             }
           }
@@ -5246,7 +5373,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -5265,17 +5392,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -5290,11 +5443,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -5919,7 +6072,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -5938,17 +6091,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -5963,11 +6142,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -7141,7 +7320,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -7160,17 +7339,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -7185,11 +7390,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -8240,7 +8445,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -8259,17 +8464,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -8284,11 +8515,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -9010,11 +9241,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 49,
+              "line": 59,
               "column": 20
             },
             "end": {
-              "line": 52,
+              "line": 62,
               "column": 21
             }
           },
@@ -9031,11 +9262,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 53,
+              "line": 63,
               "column": 20
             },
             "end": {
-              "line": 56,
+              "line": 66,
               "column": 21
             }
           },
@@ -9052,11 +9283,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 57,
+              "line": 67,
               "column": 20
             },
             "end": {
-              "line": 60,
+              "line": 70,
               "column": 21
             }
           },
@@ -9073,11 +9304,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 61,
+              "line": 71,
               "column": 20
             },
             "end": {
-              "line": 64,
+              "line": 74,
               "column": 21
             }
           },
@@ -9095,11 +9326,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 65,
+              "line": 75,
               "column": 20
             },
             "end": {
-              "line": 67,
+              "line": 77,
               "column": 21
             }
           },
@@ -9116,11 +9347,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 68,
+              "line": 78,
               "column": 20
             },
             "end": {
-              "line": 71,
+              "line": 81,
               "column": 21
             }
           },
@@ -9330,7 +9561,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -9349,17 +9580,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -9374,11 +9631,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -9402,11 +9659,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 75,
+              "line": 85,
               "column": 12
             },
             "end": {
-              "line": 80,
+              "line": 91,
               "column": 13
             }
           },
@@ -9422,11 +9679,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 82,
+              "line": 93,
               "column": 12
             },
             "end": {
-              "line": 88,
+              "line": 99,
               "column": 13
             }
           },
@@ -9442,11 +9699,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 90,
+              "line": 101,
               "column": 12
             },
             "end": {
-              "line": 102,
+              "line": 113,
               "column": 13
             }
           },
@@ -9466,11 +9723,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 104,
+              "line": 115,
               "column": 12
             },
             "end": {
-              "line": 108,
+              "line": 119,
               "column": 13
             }
           },
@@ -9490,11 +9747,55 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 110,
+              "line": 121,
               "column": 12
             },
             "end": {
-              "line": 112,
+              "line": 123,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_autocomplete",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 125,
+              "column": 12
+            },
+            "end": {
+              "line": 129,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "ev"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_updateSuggestions",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 131,
+              "column": 12
+            },
+            "end": {
+              "line": 133,
               "column": 13
             }
           },
@@ -9515,11 +9816,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 42,
+          "line": 52,
           "column": 8
         },
         "end": {
-          "line": 120,
+          "line": 141,
           "column": 9
         }
       },
@@ -9622,11 +9923,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 49,
+              "line": 59,
               "column": 20
             },
             "end": {
-              "line": 52,
+              "line": 62,
               "column": 21
             }
           },
@@ -9638,11 +9939,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 53,
+              "line": 63,
               "column": 20
             },
             "end": {
-              "line": 56,
+              "line": 66,
               "column": 21
             }
           },
@@ -9654,11 +9955,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 57,
+              "line": 67,
               "column": 20
             },
             "end": {
-              "line": 60,
+              "line": 70,
               "column": 21
             }
           },
@@ -9670,11 +9971,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 61,
+              "line": 71,
               "column": 20
             },
             "end": {
-              "line": 64,
+              "line": 74,
               "column": 21
             }
           },
@@ -9686,11 +9987,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 65,
+              "line": 75,
               "column": 20
             },
             "end": {
-              "line": 67,
+              "line": 77,
               "column": 21
             }
           },
@@ -9702,11 +10003,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 68,
+              "line": 78,
               "column": 20
             },
             "end": {
-              "line": 71,
+              "line": 81,
               "column": 21
             }
           },
@@ -9732,11 +10033,11 @@
           "name": "",
           "range": {
             "start": {
-              "line": 26,
+              "line": 31,
               "column": 16
             },
             "end": {
-              "line": 26,
+              "line": 31,
               "column": 29
             }
           }
@@ -10153,7 +10454,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -10172,17 +10473,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -10197,11 +10524,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -10737,6 +11064,28 @@
               "attributeType": "String"
             }
           }
+        },
+        {
+          "name": "history",
+          "type": "boolean | null | undefined",
+          "description": "Modify browser history: if set, clicking this\nelement will generate a new history entry in the browser's history.\nOnly use this on one element on the page.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 57,
+              "column": 20
+            },
+            "end": {
+              "line": 60,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          },
+          "defaultValue": "true"
         }
       ],
       "methods": [
@@ -10937,7 +11286,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -10956,17 +11305,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -10981,11 +11356,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -11009,11 +11384,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 55,
+              "line": 64,
               "column": 12
             },
             "end": {
-              "line": 57,
+              "line": 66,
               "column": 13
             }
           },
@@ -11029,11 +11404,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 59,
+              "line": 68,
               "column": 12
             },
             "end": {
-              "line": 61,
+              "line": 70,
               "column": 13
             }
           },
@@ -11049,11 +11424,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 63,
+              "line": 72,
               "column": 12
             },
             "end": {
-              "line": 84,
+              "line": 97,
               "column": 13
             }
           },
@@ -11082,7 +11457,7 @@
           "column": 8
         },
         "end": {
-          "line": 92,
+          "line": 105,
           "column": 9
         }
       },
@@ -11243,6 +11618,22 @@
           },
           "metadata": {},
           "type": "string | null | undefined"
+        },
+        {
+          "name": "history",
+          "description": "Modify browser history: if set, clicking this\nelement will generate a new history entry in the browser's history.\nOnly use this on one element on the page.",
+          "sourceRange": {
+            "start": {
+              "line": 57,
+              "column": 20
+            },
+            "end": {
+              "line": 60,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "boolean | null | undefined"
         }
       ],
       "events": [
@@ -11775,7 +12166,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -11794,17 +12185,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -11819,11 +12236,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -12685,11 +13102,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 74,
+              "line": 111,
               "column": 20
             },
             "end": {
-              "line": 79,
+              "line": 116,
               "column": 21
             }
           },
@@ -12708,11 +13125,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 80,
+              "line": 117,
               "column": 20
             },
             "end": {
-              "line": 88,
+              "line": 125,
               "column": 21
             }
           },
@@ -12730,11 +13147,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 89,
+              "line": 126,
               "column": 20
             },
             "end": {
-              "line": 92,
+              "line": 129,
               "column": 21
             }
           },
@@ -12746,17 +13163,82 @@
           "defaultValue": "\"Sort\""
         },
         {
+          "name": "filter",
+          "type": "string | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 130,
+              "column": 20
+            },
+            "end": {
+              "line": 132,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          }
+        },
+        {
+          "name": "filterBy",
+          "type": "string | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 133,
+              "column": 20
+            },
+            "end": {
+              "line": 136,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "defaultValue": "\"title\""
+        },
+        {
+          "name": "filterOptions",
+          "type": "Array | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 137,
+              "column": 20
+            },
+            "end": {
+              "line": 145,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Array"
+            }
+          },
+          "defaultValue": "[{\"label\":\"Title\",\"value\":\"title\"}]"
+        },
+        {
           "name": "login",
           "type": "string | null | undefined",
           "description": "Id of the pb-login element to connect to",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 94,
+              "line": 147,
               "column": 20
             },
             "end": {
-              "line": 96,
+              "line": 149,
               "column": 21
             }
           },
@@ -12773,11 +13255,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 101,
+              "line": 154,
               "column": 20
             },
             "end": {
-              "line": 103,
+              "line": 156,
               "column": 21
             }
           },
@@ -12794,11 +13276,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 104,
+              "line": 157,
               "column": 20
             },
             "end": {
-              "line": 106,
+              "line": 159,
               "column": 21
             }
           },
@@ -12815,11 +13297,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 107,
+              "line": 160,
               "column": 20
             },
             "end": {
-              "line": 109,
+              "line": 162,
               "column": 21
             }
           },
@@ -12836,11 +13318,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 110,
+              "line": 163,
               "column": 20
             },
             "end": {
-              "line": 113,
+              "line": 166,
               "column": 21
             }
           },
@@ -12850,6 +13332,28 @@
             }
           },
           "defaultValue": "false"
+        },
+        {
+          "name": "_suggestions",
+          "type": "Array | null | undefined",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 167,
+              "column": 20
+            },
+            "end": {
+              "line": 170,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Array"
+            }
+          },
+          "defaultValue": "[]"
         }
       ],
       "methods": [
@@ -13050,7 +13554,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -13069,17 +13573,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -13094,11 +13624,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -13122,11 +13652,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 125,
+              "line": 189,
               "column": 12
             },
             "end": {
-              "line": 139,
+              "line": 204,
               "column": 13
             }
           },
@@ -13142,11 +13672,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 141,
+              "line": 206,
               "column": 12
             },
             "end": {
-              "line": 144,
+              "line": 214,
               "column": 13
             }
           },
@@ -13163,11 +13693,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 151,
+              "line": 221,
               "column": 12
             },
             "end": {
-              "line": 165,
+              "line": 235,
               "column": 13
             }
           },
@@ -13178,16 +13708,36 @@
           }
         },
         {
+          "name": "_filter",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 237,
+              "column": 12
+            },
+            "end": {
+              "line": 243,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
           "name": "_sort",
           "description": "",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 167,
+              "line": 245,
               "column": 12
             },
             "end": {
-              "line": 175,
+              "line": 254,
               "column": 13
             }
           },
@@ -13210,11 +13760,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 177,
+              "line": 256,
               "column": 12
             },
             "end": {
-              "line": 179,
+              "line": 258,
               "column": 13
             }
           },
@@ -13234,11 +13784,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 181,
+              "line": 260,
               "column": 12
             },
             "end": {
-              "line": 187,
+              "line": 266,
               "column": 13
             }
           },
@@ -13261,11 +13811,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 189,
+              "line": 268,
               "column": 12
             },
             "end": {
-              "line": 191,
+              "line": 270,
               "column": 13
             }
           },
@@ -13285,11 +13835,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 193,
+              "line": 272,
               "column": 12
             },
             "end": {
-              "line": 195,
+              "line": 274,
               "column": 13
             }
           },
@@ -13309,11 +13859,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 197,
+              "line": 276,
               "column": 12
             },
             "end": {
-              "line": 216,
+              "line": 295,
               "column": 13
             }
           },
@@ -13329,11 +13879,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 218,
+              "line": 297,
               "column": 12
             },
             "end": {
-              "line": 229,
+              "line": 308,
               "column": 13
             }
           },
@@ -13353,11 +13903,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 231,
+              "line": 310,
               "column": 12
             },
             "end": {
-              "line": 233,
+              "line": 312,
               "column": 13
             }
           },
@@ -13367,6 +13917,74 @@
               "name": "allowModification"
             }
           ]
+        },
+        {
+          "name": "_autocomplete",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 314,
+              "column": 12
+            },
+            "end": {
+              "line": 320,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "ev"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_updateSuggestions",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 322,
+              "column": 12
+            },
+            "end": {
+              "line": 324,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_handleEnter",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 326,
+              "column": 12
+            },
+            "end": {
+              "line": 330,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "e"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
         }
       ],
       "staticMethods": [],
@@ -13374,11 +13992,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 67,
+          "line": 104,
           "column": 8
         },
         "end": {
-          "line": 234,
+          "line": 331,
           "column": 9
         }
       },
@@ -13481,11 +14099,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 74,
+              "line": 111,
               "column": 20
             },
             "end": {
-              "line": 79,
+              "line": 116,
               "column": 21
             }
           },
@@ -13497,11 +14115,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 80,
+              "line": 117,
               "column": 20
             },
             "end": {
-              "line": 88,
+              "line": 125,
               "column": 21
             }
           },
@@ -13513,11 +14131,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 89,
+              "line": 126,
               "column": 20
             },
             "end": {
-              "line": 92,
+              "line": 129,
               "column": 21
             }
           },
@@ -13525,15 +14143,63 @@
           "type": "string | null | undefined"
         },
         {
+          "name": "filter",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 130,
+              "column": 20
+            },
+            "end": {
+              "line": 132,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
+          "name": "filter-by",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 133,
+              "column": 20
+            },
+            "end": {
+              "line": 136,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
+          "name": "filter-options",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 137,
+              "column": 20
+            },
+            "end": {
+              "line": 145,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "Array | null | undefined"
+        },
+        {
           "name": "login",
           "description": "Id of the pb-login element to connect to",
           "sourceRange": {
             "start": {
-              "line": 94,
+              "line": 147,
               "column": 20
             },
             "end": {
-              "line": 96,
+              "line": 149,
               "column": 21
             }
           },
@@ -13545,11 +14211,11 @@
           "description": "If set, requires the logged in user to be member of\nthe given group.",
           "sourceRange": {
             "start": {
-              "line": 101,
+              "line": 154,
               "column": 20
             },
             "end": {
-              "line": 103,
+              "line": 156,
               "column": 21
             }
           },
@@ -13568,11 +14234,11 @@
           "name": "toolbar",
           "range": {
             "start": {
-              "line": 28,
+              "line": 58,
               "column": 12
             },
             "end": {
-              "line": 28,
+              "line": 58,
               "column": 40
             }
           }
@@ -13582,11 +14248,11 @@
           "name": "",
           "range": {
             "start": {
-              "line": 34,
+              "line": 64,
               "column": 26
             },
             "end": {
-              "line": 34,
+              "line": 64,
               "column": 39
             }
           }
@@ -13635,7 +14301,7 @@
               "column": 12
             },
             "end": {
-              "line": 60,
+              "line": 75,
               "column": 13
             }
           },
@@ -13651,11 +14317,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 62,
+              "line": 77,
               "column": 12
             },
             "end": {
-              "line": 64,
+              "line": 79,
               "column": 13
             }
           },
@@ -13675,7 +14341,7 @@
           "column": 8
         },
         "end": {
-          "line": 66,
+          "line": 81,
           "column": 9
         }
       },
@@ -13859,11 +14525,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 90,
+              "line": 91,
               "column": 20
             },
             "end": {
-              "line": 93,
+              "line": 94,
               "column": 21
             }
           },
@@ -13881,11 +14547,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 97,
+              "line": 98,
               "column": 20
             },
             "end": {
-              "line": 99,
+              "line": 100,
               "column": 21
             }
           },
@@ -13902,11 +14568,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 104,
+              "line": 105,
               "column": 20
             },
             "end": {
-              "line": 106,
+              "line": 107,
               "column": 21
             }
           },
@@ -13923,11 +14589,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 110,
+              "line": 111,
               "column": 20
             },
             "end": {
-              "line": 113,
+              "line": 114,
               "column": 21
             }
           },
@@ -13939,17 +14605,39 @@
           "defaultValue": "[]"
         },
         {
+          "name": "auto",
+          "type": "boolean | null | undefined",
+          "description": "If set to true, automatically show login dialog if user is not logged in",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 118,
+              "column": 20
+            },
+            "end": {
+              "line": 121,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          },
+          "defaultValue": "false"
+        },
+        {
           "name": "loginLabel",
           "type": "string | null | undefined",
           "description": "Label to show if not logged in",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 117,
+              "line": 125,
               "column": 20
             },
             "end": {
-              "line": 119,
+              "line": 127,
               "column": 21
             }
           },
@@ -13966,11 +14654,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 123,
+              "line": 131,
               "column": 20
             },
             "end": {
-              "line": 125,
+              "line": 133,
               "column": 21
             }
           },
@@ -13987,11 +14675,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 126,
+              "line": 134,
               "column": 20
             },
             "end": {
-              "line": 129,
+              "line": 137,
               "column": 21
             }
           },
@@ -14009,11 +14697,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 130,
+              "line": 138,
               "column": 20
             },
             "end": {
-              "line": 133,
+              "line": 141,
               "column": 21
             }
           },
@@ -14031,11 +14719,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 134,
+              "line": 142,
               "column": 20
             },
             "end": {
-              "line": 136,
+              "line": 144,
               "column": 21
             }
           },
@@ -14052,11 +14740,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 137,
+              "line": 145,
               "column": 20
             },
             "end": {
-              "line": 139,
+              "line": 147,
               "column": 21
             }
           },
@@ -14073,11 +14761,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 140,
+              "line": 148,
               "column": 20
             },
             "end": {
-              "line": 143,
+              "line": 151,
               "column": 21
             }
           },
@@ -14287,7 +14975,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -14306,17 +14994,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -14331,11 +15045,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -14359,11 +15073,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 147,
+              "line": 155,
               "column": 12
             },
             "end": {
-              "line": 159,
+              "line": 167,
               "column": 13
             }
           },
@@ -14379,11 +15093,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 161,
+              "line": 169,
               "column": 12
             },
             "end": {
-              "line": 163,
+              "line": 176,
               "column": 13
             }
           },
@@ -14399,11 +15113,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 165,
+              "line": 178,
               "column": 12
             },
             "end": {
-              "line": 175,
+              "line": 188,
               "column": 13
             }
           },
@@ -14423,11 +15137,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 177,
+              "line": 190,
               "column": 12
             },
             "end": {
-              "line": 183,
+              "line": 196,
               "column": 13
             }
           },
@@ -14443,11 +15157,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 185,
+              "line": 198,
               "column": 12
             },
             "end": {
-              "line": 201,
+              "line": 216,
               "column": 13
             }
           },
@@ -14463,11 +15177,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 203,
+              "line": 218,
               "column": 12
             },
             "end": {
-              "line": 208,
+              "line": 223,
               "column": 13
             }
           },
@@ -14484,11 +15198,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 82,
+          "line": 83,
           "column": 8
         },
         "end": {
-          "line": 217,
+          "line": 232,
           "column": 9
         }
       },
@@ -14591,11 +15305,11 @@
           "description": "True if user is currently logged in",
           "sourceRange": {
             "start": {
-              "line": 90,
+              "line": 91,
               "column": 20
             },
             "end": {
-              "line": 93,
+              "line": 94,
               "column": 21
             }
           },
@@ -14607,11 +15321,11 @@
           "description": "The currently logged in user.",
           "sourceRange": {
             "start": {
-              "line": 97,
+              "line": 98,
               "column": 20
             },
             "end": {
-              "line": 99,
+              "line": 100,
               "column": 21
             }
           },
@@ -14623,11 +15337,11 @@
           "description": "If set, only users being members of the specified group are\nallowed to log in.",
           "sourceRange": {
             "start": {
-              "line": 104,
+              "line": 105,
               "column": 20
             },
             "end": {
-              "line": 106,
+              "line": 107,
               "column": 21
             }
           },
@@ -14639,11 +15353,11 @@
           "description": "Array of groups the current user is a member of.",
           "sourceRange": {
             "start": {
-              "line": 110,
+              "line": 111,
               "column": 20
             },
             "end": {
-              "line": 113,
+              "line": 114,
               "column": 21
             }
           },
@@ -14651,15 +15365,31 @@
           "type": "Array | null | undefined"
         },
         {
+          "name": "auto",
+          "description": "If set to true, automatically show login dialog if user is not logged in",
+          "sourceRange": {
+            "start": {
+              "line": 118,
+              "column": 20
+            },
+            "end": {
+              "line": 121,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "boolean | null | undefined"
+        },
+        {
           "name": "login-label",
           "description": "Label to show if not logged in",
           "sourceRange": {
             "start": {
-              "line": 117,
+              "line": 125,
               "column": 20
             },
             "end": {
-              "line": 119,
+              "line": 127,
               "column": 21
             }
           },
@@ -14671,39 +15401,7 @@
           "description": "Label to show before user name if logged in",
           "sourceRange": {
             "start": {
-              "line": 123,
-              "column": 20
-            },
-            "end": {
-              "line": 125,
-              "column": 21
-            }
-          },
-          "metadata": {},
-          "type": "string | null | undefined"
-        },
-        {
-          "name": "login-icon",
-          "description": "",
-          "sourceRange": {
-            "start": {
-              "line": 126,
-              "column": 20
-            },
-            "end": {
-              "line": 129,
-              "column": 21
-            }
-          },
-          "metadata": {},
-          "type": "string | null | undefined"
-        },
-        {
-          "name": "logout-icon",
-          "description": "",
-          "sourceRange": {
-            "start": {
-              "line": 130,
+              "line": 131,
               "column": 20
             },
             "end": {
@@ -14715,7 +15413,7 @@
           "type": "string | null | undefined"
         },
         {
-          "name": "password",
+          "name": "login-icon",
           "description": "",
           "sourceRange": {
             "start": {
@@ -14723,7 +15421,39 @@
               "column": 20
             },
             "end": {
-              "line": 136,
+              "line": 137,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
+          "name": "logout-icon",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 138,
+              "column": 20
+            },
+            "end": {
+              "line": 141,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
+          "name": "password",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 142,
+              "column": 20
+            },
+            "end": {
+              "line": 144,
               "column": 21
             }
           },
@@ -14795,6 +15525,28 @@
               "attributeType": "Array"
             }
           }
+        },
+        {
+          "name": "emitOnLoad",
+          "type": "boolean | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 42,
+              "column": 20
+            },
+            "end": {
+              "line": 45,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          },
+          "defaultValue": "false"
         }
       ],
       "methods": [
@@ -14802,26 +15554,6 @@
           "name": "connectedCallback",
           "description": "",
           "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 45,
-              "column": 12
-            },
-            "end": {
-              "line": 47,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": [],
-          "return": {
-            "type": "void"
-          }
-        },
-        {
-          "name": "ready",
-          "description": "",
-          "privacy": "protected",
           "sourceRange": {
             "start": {
               "line": 49,
@@ -14839,7 +15571,7 @@
           }
         },
         {
-          "name": "_mouseoverListener",
+          "name": "ready",
           "description": "",
           "privacy": "protected",
           "sourceRange": {
@@ -14848,7 +15580,27 @@
               "column": 12
             },
             "end": {
-              "line": 60,
+              "line": 59,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_mouseoverListener",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 61,
+              "column": 12
+            },
+            "end": {
+              "line": 64,
               "column": 13
             }
           },
@@ -14858,6 +15610,26 @@
               "name": "ev"
             }
           ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_trigger",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 66,
+              "column": 12
+            },
+            "end": {
+              "line": 72,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [],
           "return": {
             "type": "void"
           }
@@ -14877,7 +15649,7 @@
           "column": 8
         },
         "end": {
-          "line": 70,
+          "line": 82,
           "column": 9
         }
       },
@@ -14916,6 +15688,22 @@
           },
           "metadata": {},
           "type": "Array | null | undefined"
+        },
+        {
+          "name": "emit-on-load",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 42,
+              "column": 20
+            },
+            "end": {
+              "line": 45,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "boolean | null | undefined"
         }
       ],
       "events": [
@@ -15394,17 +16182,17 @@
           "defaultValue": "1"
         },
         {
-          "name": "baseUri",
+          "name": "type",
           "type": "string | null | undefined",
-          "description": "",
+          "description": "Type of the source of the image to display: either 'iiif' or 'image'\n(for simple image links not served via IIIF).",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 228,
+              "line": 232,
               "column": 20
             },
             "end": {
-              "line": 231,
+              "line": 235,
               "column": 21
             }
           },
@@ -15413,12 +16201,12 @@
               "attributeType": "String"
             }
           },
-          "defaultValue": "\"http://apps.existsolutions.com:8182/iiif/2/\""
+          "defaultValue": "\"iiif\""
         },
         {
-          "name": "facsimiles",
-          "type": "Array | null | undefined",
-          "description": "Array of facsimiles",
+          "name": "baseUri",
+          "type": "string | null | undefined",
+          "description": "",
           "privacy": "public",
           "sourceRange": {
             "start": {
@@ -15427,6 +16215,28 @@
             },
             "end": {
               "line": 239,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "defaultValue": "\"\""
+        },
+        {
+          "name": "facsimiles",
+          "type": "Array | null | undefined",
+          "description": "Array of facsimiles",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 244,
+              "column": 20
+            },
+            "end": {
+              "line": 247,
               "column": 21
             }
           },
@@ -15445,11 +16255,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 254,
+              "line": 262,
               "column": 12
             },
             "end": {
-              "line": 262,
+              "line": 270,
               "column": 13
             }
           },
@@ -15465,11 +16275,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 264,
+              "line": 272,
               "column": 12
             },
             "end": {
-              "line": 273,
+              "line": 281,
               "column": 13
             }
           },
@@ -15485,11 +16295,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 275,
+              "line": 283,
               "column": 12
             },
             "end": {
-              "line": 298,
+              "line": 306,
               "column": 13
             }
           },
@@ -15505,11 +16315,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 301,
+              "line": 309,
               "column": 12
             },
             "end": {
-              "line": 335,
+              "line": 342,
               "column": 13
             }
           },
@@ -15525,11 +16335,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 337,
+              "line": 344,
               "column": 12
             },
             "end": {
-              "line": 341,
+              "line": 348,
               "column": 13
             }
           },
@@ -15549,11 +16359,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 344,
+              "line": 351,
               "column": 12
             },
             "end": {
-              "line": 347,
+              "line": 354,
               "column": 13
             }
           },
@@ -15569,11 +16379,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 350,
+              "line": 357,
               "column": 12
             },
             "end": {
-              "line": 358,
+              "line": 365,
               "column": 13
             }
           },
@@ -15589,11 +16399,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 361,
+              "line": 368,
               "column": 12
             },
             "end": {
-              "line": 373,
+              "line": 380,
               "column": 13
             }
           },
@@ -15609,11 +16419,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 376,
+              "line": 383,
               "column": 12
             },
             "end": {
-              "line": 378,
+              "line": 385,
               "column": 13
             }
           },
@@ -15629,11 +16439,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 381,
+              "line": 388,
               "column": 12
             },
             "end": {
-              "line": 383,
+              "line": 390,
               "column": 13
             }
           },
@@ -15646,11 +16456,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 385,
+              "line": 392,
               "column": 12
             },
             "end": {
-              "line": 389,
+              "line": 396,
               "column": 13
             }
           },
@@ -15666,11 +16476,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 391,
+              "line": 398,
               "column": 12
             },
             "end": {
-              "line": 396,
+              "line": 403,
               "column": 13
             }
           },
@@ -15686,11 +16496,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 399,
+              "line": 406,
               "column": 12
             },
             "end": {
-              "line": 407,
+              "line": 414,
               "column": 13
             }
           },
@@ -15706,11 +16516,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 409,
+              "line": 416,
               "column": 12
             },
             "end": {
-              "line": 411,
+              "line": 418,
               "column": 13
             }
           },
@@ -15726,11 +16536,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 413,
+              "line": 420,
               "column": 12
             },
             "end": {
-              "line": 415,
+              "line": 422,
               "column": 13
             }
           },
@@ -15746,11 +16556,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 417,
+              "line": 424,
               "column": 12
             },
             "end": {
-              "line": 419,
+              "line": 426,
               "column": 13
             }
           },
@@ -15767,11 +16577,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 421,
+              "line": 428,
               "column": 12
             },
             "end": {
-              "line": 479,
+              "line": 486,
               "column": 13
             }
           },
@@ -15788,11 +16598,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 481,
+              "line": 488,
               "column": 12
             },
             "end": {
-              "line": 486,
+              "line": 493,
               "column": 13
             }
           },
@@ -15812,11 +16622,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 488,
+              "line": 495,
               "column": 12
             },
             "end": {
-              "line": 497,
+              "line": 504,
               "column": 13
             }
           },
@@ -15833,11 +16643,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 499,
+              "line": 506,
               "column": 12
             },
             "end": {
-              "line": 502,
+              "line": 509,
               "column": 13
             }
           },
@@ -15857,11 +16667,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 504,
+              "line": 511,
               "column": 12
             },
             "end": {
-              "line": 512,
+              "line": 532,
               "column": 13
             }
           },
@@ -15890,7 +16700,7 @@
           "column": 8
         },
         "end": {
-          "line": 513,
+          "line": 533,
           "column": 9
         }
       },
@@ -16219,15 +17029,31 @@
           "type": "number | null | undefined"
         },
         {
+          "name": "type",
+          "description": "Type of the source of the image to display: either 'iiif' or 'image'\n(for simple image links not served via IIIF).",
+          "sourceRange": {
+            "start": {
+              "line": 232,
+              "column": 20
+            },
+            "end": {
+              "line": 235,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
           "name": "base-uri",
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 228,
+              "line": 236,
               "column": 20
             },
             "end": {
-              "line": 231,
+              "line": 239,
               "column": 21
             }
           },
@@ -16239,11 +17065,11 @@
           "description": "Array of facsimiles",
           "sourceRange": {
             "start": {
-              "line": 236,
+              "line": 244,
               "column": 20
             },
             "end": {
-              "line": 239,
+              "line": 247,
               "column": 21
             }
           },
@@ -16616,7 +17442,709 @@
       "tagname": "pb-facsimile-loader"
     },
     {
-      "description": "A container for different views. Only one view will be shown at a time.\nProvides a dropdown for the user to switch between views. Views are\nlazy loaded and should be provided as one or more `<template>` elements.",
+      "description": "`seed-element`",
+      "summary": "",
+      "path": "pb-image.html",
+      "properties": [
+        {
+          "name": "subscribe",
+          "type": "string | null | undefined",
+          "description": "The name of the channel to subscribe to. Only events on a channel corresponding\nto this property are listened to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 35,
+              "column": 16
+            },
+            "end": {
+              "line": 37,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "subscribeConfig",
+          "type": "Object | null | undefined",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to listen to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 43,
+              "column": 16
+            },
+            "end": {
+              "line": 45,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Object"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emit",
+          "type": "string | null | undefined",
+          "description": "The name of the channel to send events to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 49,
+              "column": 16
+            },
+            "end": {
+              "line": 51,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emitConfig",
+          "type": "Object | null | undefined",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to be dispatched.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 57,
+              "column": 16
+            },
+            "end": {
+              "line": 59,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Object"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "waitFor",
+          "type": "string | null | undefined",
+          "description": "A selector pointing to other components this component depends on.\nWhen method `wait` is called, it will wait until all referenced\ncomponents signal with a `pb-ready` event that they are ready and listening\nto events.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 66,
+              "column": 16
+            },
+            "end": {
+              "line": 68,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "_isReady",
+          "type": "boolean | null | undefined",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 69,
+              "column": 16
+            },
+            "end": {
+              "line": 72,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          },
+          "defaultValue": "false",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "src",
+          "type": "string | null | undefined",
+          "description": "Image source",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 47,
+              "column": 20
+            },
+            "end": {
+              "line": 50,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          }
+        },
+        {
+          "name": "caption",
+          "type": "string | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 51,
+              "column": 20
+            },
+            "end": {
+              "line": 53,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          }
+        }
+      ],
+      "methods": [
+        {
+          "name": "wait",
+          "description": "Wait for the components referenced by the selector given in property `waitFor`\nto signal that they are ready to respond to events.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 87,
+              "column": 8
+            },
+            "end": {
+              "line": 111,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "callback",
+              "description": "function to be called when all components are ready"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "signalReady",
+          "description": "Signal that the component is ready to respond to events.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 116,
+              "column": 8
+            },
+            "end": {
+              "line": 119,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "subscribeTo",
+          "description": "Listen to the event defined by type. If property `subscribe` or `subscribe-config`\nis defined, this method will trigger the listener only if the event has a key\nequal to the key defined in `subscribe` or `subscribe-config`.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 129,
+              "column": 8
+            },
+            "end": {
+              "line": 159,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "type",
+              "type": "String",
+              "description": "Name of the event, usually starting with `pb-`"
+            },
+            {
+              "name": "listener",
+              "type": "Function",
+              "description": "Callback function"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emitTo",
+          "description": "Dispatch an event of the given type. If the properties `emit` or `emit-config`\nare defined, the event will be limited to the channel specified there.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 168,
+              "column": 8
+            },
+            "end": {
+              "line": 208,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "type",
+              "type": "String",
+              "description": "Name of the event, usually starting with `pb-`"
+            },
+            {
+              "name": "options",
+              "type": "Object",
+              "description": "Options to be passed in ev.detail"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getDocument",
+          "description": "Returns the `pb-document` element this component is connected to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 215,
+              "column": 8
+            },
+            "end": {
+              "line": 224,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "desc": "the document component or undefined if not set/found"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getParameter",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 226,
+              "column": 8
+            },
+            "end": {
+              "line": 232,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "fallback"
+            }
+          ],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getParameterValues",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 234,
+              "column": 8
+            },
+            "end": {
+              "line": 236,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name"
+            }
+          ],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "setParameter",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 238,
+              "column": 8
+            },
+            "end": {
+              "line": 244,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 255,
+              "column": 8
+            },
+            "end": {
+              "line": 257,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "pushHistory",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 259,
+              "column": 8
+            },
+            "end": {
+              "line": 261,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "msg"
+            },
+            {
+              "name": "state"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "connectedCallback",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 57,
+              "column": 12
+            },
+            "end": {
+              "line": 62,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_show",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 64,
+              "column": 12
+            },
+            "end": {
+              "line": 66,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "ev"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_update",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 68,
+              "column": 12
+            },
+            "end": {
+              "line": 76,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "ev"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        }
+      ],
+      "staticMethods": [],
+      "demos": [
+        {
+          "url": "demo/seed-element.html",
+          "description": ""
+        }
+      ],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 39,
+          "column": 8
+        },
+        "end": {
+          "line": 77,
+          "column": 9
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "name": "PbImage",
+      "attributes": [
+        {
+          "name": "subscribe",
+          "description": "The name of the channel to subscribe to. Only events on a channel corresponding\nto this property are listened to.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 35,
+              "column": 16
+            },
+            "end": {
+              "line": 37,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "subscribe-config",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to listen to.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 43,
+              "column": 16
+            },
+            "end": {
+              "line": 45,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "Object | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emit",
+          "description": "The name of the channel to send events to.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 49,
+              "column": 16
+            },
+            "end": {
+              "line": 51,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emit-config",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to be dispatched.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 57,
+              "column": 16
+            },
+            "end": {
+              "line": 59,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "Object | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "wait-for",
+          "description": "A selector pointing to other components this component depends on.\nWhen method `wait` is called, it will wait until all referenced\ncomponents signal with a `pb-ready` event that they are ready and listening\nto events.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 66,
+              "column": 16
+            },
+            "end": {
+              "line": 68,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "src",
+          "description": "Image source",
+          "sourceRange": {
+            "start": {
+              "line": 47,
+              "column": 20
+            },
+            "end": {
+              "line": 50,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
+          "name": "caption",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 51,
+              "column": 20
+            },
+            "end": {
+              "line": 53,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        }
+      ],
+      "events": [],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "pb-image",
+      "mixins": [
+        "PbMixin"
+      ]
+    },
+    {
+      "description": "A container for different views. Only one view will be shown at a time.\nProvides a dropdown for the user to switch between views. Views are\nlazy loaded and should be provided as one or more `<template>` elements.\nEach `<template>` may have a title attribute to specify the title to be shown\nfor it in the dropdown.\n\n## CSS Mixins\n\n| Custom property | Description | Default|\n| ----------------|-------------|--------|\n|--pb-panel-max-height | The max height of the panel content. Set to enable scrolling. | {}|",
       "summary": "",
       "path": "pb-panel.html",
       "properties": [
@@ -16760,17 +18288,17 @@
           "inheritedFrom": "PbMixin"
         },
         {
-          "name": "_active",
+          "name": "active",
           "type": "number | null | undefined",
           "description": "the index of the active view",
-          "privacy": "protected",
+          "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 52,
+              "line": 67,
               "column": 20
             },
             "end": {
-              "line": 56,
+              "line": 72,
               "column": 21
             }
           },
@@ -16789,11 +18317,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 60,
+              "line": 76,
               "column": 20
             },
             "end": {
-              "line": 63,
+              "line": 79,
               "column": 21
             }
           },
@@ -16807,15 +18335,15 @@
         {
           "name": "panels",
           "type": "Array | null | undefined",
-          "description": "a name for each available panel, to be displayed in the dropdown",
+          "description": "a name for each available panel, to be displayed in the dropdown. If not set,\neach template will be checked for a title attribute, which will be taken as name.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 67,
+              "line": 84,
               "column": 20
             },
             "end": {
-              "line": 69,
+              "line": 87,
               "column": 21
             }
           },
@@ -17024,7 +18552,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -17043,17 +18571,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -17068,11 +18622,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -17096,11 +18650,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 73,
+              "line": 91,
               "column": 12
             },
             "end": {
-              "line": 75,
+              "line": 99,
               "column": 13
             }
           },
@@ -17116,11 +18670,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 77,
+              "line": 101,
               "column": 12
             },
             "end": {
-              "line": 79,
+              "line": 103,
               "column": 13
             }
           },
@@ -17136,11 +18690,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 81,
+              "line": 105,
               "column": 12
             },
             "end": {
-              "line": 83,
+              "line": 107,
               "column": 13
             }
           },
@@ -17163,11 +18717,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 85,
+              "line": 109,
               "column": 12
             },
             "end": {
-              "line": 108,
+              "line": 136,
               "column": 13
             }
           },
@@ -17182,33 +18736,16 @@
           }
         },
         {
-          "name": "_getActivePanel",
-          "description": "",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 110,
-              "column": 12
-            },
-            "end": {
-              "line": 113,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": []
-        },
-        {
           "name": "refresh",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 115,
+              "line": 138,
               "column": 12
             },
             "end": {
-              "line": 117,
+              "line": 140,
               "column": 13
             }
           },
@@ -17229,11 +18766,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 42,
+          "line": 57,
           "column": 8
         },
         "end": {
-          "line": 118,
+          "line": 154,
           "column": 9
         }
       },
@@ -17332,15 +18869,31 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "active",
+          "description": "the index of the active view",
+          "sourceRange": {
+            "start": {
+              "line": 67,
+              "column": 20
+            },
+            "end": {
+              "line": 72,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "number | null | undefined"
+        },
+        {
           "name": "label",
           "description": "the label displayed above the dropdown for selecting the view to show",
           "sourceRange": {
             "start": {
-              "line": 60,
+              "line": 76,
               "column": 20
             },
             "end": {
-              "line": 63,
+              "line": 79,
               "column": 21
             }
           },
@@ -17349,14 +18902,14 @@
         },
         {
           "name": "panels",
-          "description": "a name for each available panel, to be displayed in the dropdown",
+          "description": "a name for each available panel, to be displayed in the dropdown. If not set,\neach template will be checked for a title attribute, which will be taken as name.",
           "sourceRange": {
             "start": {
-              "line": 67,
+              "line": 84,
               "column": 20
             },
             "end": {
-              "line": 69,
+              "line": 87,
               "column": 21
             }
           },
@@ -17364,7 +18917,20 @@
           "type": "Array | null | undefined"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "type": "CustomEvent",
+          "name": "pb-panel",
+          "description": "Fired whenever the component switches to a different content panel. Used by `pb-grid`\nto update its state.",
+          "metadata": {}
+        },
+        {
+          "type": "CustomEvent",
+          "name": "pb-refresh",
+          "description": "Fired after a new content panel is shown to allow connected components to refresh.",
+          "metadata": {}
+        }
+      ],
       "styling": {
         "cssVariables": [],
         "selectors": []
@@ -17372,29 +18938,29 @@
       "slots": [
         {
           "description": "",
-          "name": "",
+          "name": "toolbar",
           "range": {
             "start": {
-              "line": 17,
-              "column": 8
+              "line": 33,
+              "column": 12
             },
             "end": {
-              "line": 17,
-              "column": 21
+              "line": 33,
+              "column": 40
             }
           }
         },
         {
           "description": "",
-          "name": "toolbar",
+          "name": "",
           "range": {
             "start": {
-              "line": 26,
-              "column": 12
+              "line": 35,
+              "column": 8
             },
             "end": {
-              "line": 26,
-              "column": 40
+              "line": 35,
+              "column": 21
             }
           }
         }
@@ -17551,15 +19117,15 @@
         {
           "name": "panels",
           "type": "Array | null | undefined",
-          "description": "an array of panel items to display as columns",
+          "description": "an array of panel items to display when the component is loaded. It should contain a\nnumber for each panel to show, indicating the ordinal position of the template within the `<pb-panel>`\nto initialize. For example, if you have two templates in `<pb-panel>`: \"transcription\" and \"translation\",\nsetting `panels=\"[0, 1]\"` will show two columns, one with the transcription, the other with the translation.\n\nPassing in a browser parameter `panels` with a comma-separated list will set this property as well.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 42,
+              "line": 44,
               "column": 20
             },
             "end": {
-              "line": 44,
+              "line": 46,
               "column": 21
             }
           },
@@ -17570,17 +19136,39 @@
           }
         },
         {
+          "name": "direction",
+          "type": "string | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 47,
+              "column": 20
+            },
+            "end": {
+              "line": 50,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "defaultValue": "\"ltr\""
+        },
+        {
           "name": "_columns",
           "type": "number | null | undefined",
           "description": "the number of columns",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 48,
+              "line": 54,
               "column": 20
             },
             "end": {
-              "line": 50,
+              "line": 56,
               "column": 21
             }
           },
@@ -17789,7 +19377,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -17808,17 +19396,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -17833,11 +19447,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -17861,11 +19475,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 54,
+              "line": 60,
               "column": 12
             },
             "end": {
-              "line": 65,
+              "line": 74,
               "column": 13
             }
           },
@@ -17881,11 +19495,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 67,
+              "line": 76,
               "column": 12
             },
             "end": {
-              "line": 77,
+              "line": 96,
               "column": 13
             }
           },
@@ -17901,11 +19515,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 79,
+              "line": 98,
               "column": 12
             },
             "end": {
-              "line": 90,
+              "line": 121,
               "column": 13
             }
           },
@@ -17925,11 +19539,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 92,
+              "line": 123,
               "column": 12
             },
             "end": {
-              "line": 103,
+              "line": 135,
               "column": 13
             }
           },
@@ -17949,11 +19563,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 105,
+              "line": 137,
               "column": 12
             },
             "end": {
-              "line": 113,
+              "line": 146,
               "column": 13
             }
           },
@@ -17973,11 +19587,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 115,
+              "line": 148,
               "column": 12
             },
             "end": {
-              "line": 117,
+              "line": 163,
               "column": 13
             }
           },
@@ -17998,11 +19612,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 32,
+          "line": 29,
           "column": 8
         },
         "end": {
-          "line": 119,
+          "line": 170,
           "column": 9
         }
       },
@@ -18102,27 +19716,65 @@
         },
         {
           "name": "panels",
-          "description": "an array of panel items to display as columns",
+          "description": "an array of panel items to display when the component is loaded. It should contain a\nnumber for each panel to show, indicating the ordinal position of the template within the `<pb-panel>`\nto initialize. For example, if you have two templates in `<pb-panel>`: \"transcription\" and \"translation\",\nsetting `panels=\"[0, 1]\"` will show two columns, one with the transcription, the other with the translation.\n\nPassing in a browser parameter `panels` with a comma-separated list will set this property as well.",
           "sourceRange": {
             "start": {
-              "line": 42,
+              "line": 44,
               "column": 20
             },
             "end": {
-              "line": 44,
+              "line": 46,
               "column": 21
             }
           },
           "metadata": {},
           "type": "Array | null | undefined"
+        },
+        {
+          "name": "direction",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 47,
+              "column": 20
+            },
+            "end": {
+              "line": 50,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "type": "CustomEvent",
+          "name": "pb-refresh",
+          "description": "Fired after a new column has been added to allow connected components to refresh.",
+          "metadata": {}
+        }
+      ],
       "styling": {
         "cssVariables": [],
         "selectors": []
       },
-      "slots": [],
+      "slots": [
+        {
+          "description": "",
+          "name": "",
+          "range": {
+            "start": {
+              "line": 14,
+              "column": 8
+            },
+            "end": {
+              "line": 14,
+              "column": 21
+            }
+          }
+        }
+      ],
       "tagname": "pb-grid",
       "mixins": [
         "PbMixin"
@@ -18187,7 +19839,7 @@
               "column": 20
             },
             "end": {
-              "line": 45,
+              "line": 46,
               "column": 21
             }
           },
@@ -18195,7 +19847,8 @@
             "polymer": {
               "attributeType": "Number"
             }
-          }
+          },
+          "defaultValue": "0"
         }
       ],
       "methods": [
@@ -18205,11 +19858,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 49,
+              "line": 50,
               "column": 12
             },
             "end": {
-              "line": 51,
+              "line": 52,
               "column": 13
             }
           },
@@ -18225,11 +19878,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 53,
+              "line": 54,
               "column": 12
             },
             "end": {
-              "line": 55,
+              "line": 56,
               "column": 13
             }
           },
@@ -18245,11 +19898,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 57,
+              "line": 58,
               "column": 12
             },
             "end": {
-              "line": 68,
+              "line": 69,
               "column": 13
             }
           },
@@ -18271,7 +19924,7 @@
           "column": 8
         },
         "end": {
-          "line": 69,
+          "line": 70,
           "column": 9
         }
       },
@@ -18320,7 +19973,7 @@
               "column": 20
             },
             "end": {
-              "line": 45,
+              "line": 46,
               "column": 21
             }
           },
@@ -19079,7 +20732,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -19098,17 +20751,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -19123,11 +20802,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -19951,7 +21630,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -19970,17 +21649,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -19995,11 +21700,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -20838,7 +22543,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -20857,17 +22562,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -20882,11 +22613,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -21879,7 +23610,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -21898,17 +23629,43 @@
           "inheritedFrom": "PbMixin"
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -21923,11 +23680,11 @@
           "sourceRange": {
             "file": "pb-mixin.html",
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -26413,6 +28170,121 @@
         }
       ],
       "tagname": "pb-drawer"
+    },
+    {
+      "description": "Show an SVG image with zoom and pan functionality. The image URL may\neither be specified via the `url` property or an `pb-show-annotation` event\nsent to this component.\n\n## CSS Mixins\n\n| Custom property | Description | Default|\n| ----------------|-------------|--------|\n|--pb-svg-height | Desired height of the SVG image | 500px |",
+      "summary": "",
+      "path": "pb-svg.html",
+      "properties": [
+        {
+          "name": "url",
+          "type": "string | null | undefined",
+          "description": "The URL to load the SVG image from",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 42,
+              "column": 20
+            },
+            "end": {
+              "line": 44,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          }
+        },
+        {
+          "name": "_pan",
+          "type": "Object | null | undefined",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 45,
+              "column": 20
+            },
+            "end": {
+              "line": 47,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Object"
+            }
+          }
+        }
+      ],
+      "methods": [
+        {
+          "name": "connectedCallback",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 51,
+              "column": 12
+            },
+            "end": {
+              "line": 69,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 34,
+          "column": 8
+        },
+        "end": {
+          "line": 70,
+          "column": 9
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "name": "PbSvg",
+      "attributes": [
+        {
+          "name": "url",
+          "description": "The URL to load the SVG image from",
+          "sourceRange": {
+            "start": {
+              "line": 42,
+              "column": 20
+            },
+            "end": {
+              "line": 44,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        }
+      ],
+      "events": [],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "pb-svg",
+      "mixins": [
+        "PbMixin"
+      ]
     },
     {
       "description": "`odd-selector`",
@@ -57202,7 +59074,7 @@
               "column": 8
             },
             "end": {
-              "line": 240,
+              "line": 244,
               "column": 9
             }
           },
@@ -57220,16 +59092,40 @@
           }
         },
         {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 253,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
           "name": "getUrl",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 242,
+              "line": 255,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 257,
               "column": 9
             }
           },
@@ -57242,11 +59138,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 246,
+              "line": 259,
               "column": 8
             },
             "end": {
-              "line": 248,
+              "line": 261,
               "column": 9
             }
           },
@@ -57273,7 +59169,7 @@
           "column": 4
         },
         "end": {
-          "line": 249,
+          "line": 262,
           "column": 6
         }
       },

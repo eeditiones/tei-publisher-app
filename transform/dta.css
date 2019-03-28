@@ -1,6 +1,4 @@
 /* Generated stylesheet. Do not edit. */
-/* Generated from  */
-
 /* Global styles */
 
 .simple_allcaps { text-transform: uppercase; }
@@ -53,7 +51,7 @@
 .tei-supplied5:after { content:"}"; }
 .tei-signed1 { text-align: right; }
 .tei-signed2 { font-style: italic; }
-.tei-pb1 { color: #CCC; }
+.tei-pb2 { color: #CCC; }
 .tei-hi1 { font-style: italic; }
 .tei-hi2 { font-style: italic; }
 .tei-code { font-family:monospace }

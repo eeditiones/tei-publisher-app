@@ -23,6 +23,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
+
 declare function nav:get-header($config as map(*), $node as element()) {
     $node/tei:teiHeader
 };
@@ -74,6 +75,16 @@ declare function nav:get-metadata($config as map(*), $root as element(), $field 
         default return
             ()
 };
+
+declare function nav:get-first-page-start($config as map(*), $data as element()) {
+    let $pb := ($data//tei:pb)[1]
+    return
+        if ($pb) then
+            $pb
+        else
+            $data/tei:TEI//tei:body
+};
+
 
 declare function nav:get-content($config as map(*), $div as element()) {
     typeswitch ($div)
@@ -137,7 +148,7 @@ declare function nav:get-next($config as map(*), $div as element(), $view as xs:
             default return
                 nav:get-next($config, $div)
     return
-        if ($config?context instance of document-node() or $next/ancestor::*[. is $config?context]) then
+        if (empty($config?context) or $config?context instance of document-node() or $next/ancestor::*[. is $config?context]) then
             $next
         else
             ()
@@ -200,14 +211,14 @@ declare function nav:milestone-chunk($ms1 as element(), $ms2 as element()?, $nod
 {
     typeswitch ($node)
         case element() return
-            if ($node is $ms1) then
-                util:expand($node, "add-exist-id=all")
-            else if ( some $n in $node/descendant::* satisfies ($n is $ms1 or $n is $ms2) ) then
+            if ( some $n in $node/descendant::* satisfies ($n is $ms1 or $n is $ms2) ) then
                 element { node-name($node) } {
                     $node/@*,
                     for $i in ( $node/node() )
                     return nav:milestone-chunk($ms1, $ms2, $i)
                 }
+            else if ($node is $ms1) then
+                util:expand($node, "add-exist-id=all")
             else if ($node >> $ms1 and (empty($ms2) or $node << $ms2)) then
                 util:expand($node, "add-exist-id=all")
             else

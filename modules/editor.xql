@@ -6,7 +6,6 @@ declare namespace pb="http://teipublisher.com/1.0";
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "/db/apps/tei-publisher/modules/config.xqm";
-import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 

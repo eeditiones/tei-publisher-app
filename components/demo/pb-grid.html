@@ -24,21 +24,21 @@
                     <paper-button><iron-icon icon="icons:add"></iron-icon> Add Column</paper-button>
                 </pb-grid-action>
                 <!-- Define the grid with one initial column -->
-                <pb-grid id="grid" panels="[0]">
+                <pb-grid id="grid" panels="[0]" subscribe="transcription">
                     <!-- For every grid column, the following template will be stamped into the page -->
                     <template>
-                        <pb-panel panels='["Transcription", "Translation", "Facsimile"]' emit="transcription">
+                        <pb-panel emit="transcription">
                             <!-- Added to the toolbar -->
                             <pb-grid-action grid="#grid" slot="toolbar" action="remove">
                                 <paper-icon-button icon="icons:close"></paper-icon-button>
                             </pb-grid-action>
-                            <template>
+                            <template title="Transcription">
                                 <pb-view src="document1" xpath="! (.//text[@xml:lang = 'la']/body | .//text/body)[1]" emit="transcription"></pb-view>
                             </template>
-                            <template>
+                            <template title="Translation">
                                 <pb-view src="document1" xpath="//text[@xml:lang='pl']/body" subscribe="transcription"></pb-view>
                             </template>
-                            <template>
+                            <template title="Facsimile">
                                 <pb-facsimile base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/"
                                     facsimiles='["15929_000_IDL5772_BOss12034_IIIp79.jpg"]'
                                     default-zoom-level="0" show-navigator="show-navigator"

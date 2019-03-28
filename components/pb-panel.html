@@ -13,16 +13,19 @@
                 justify-content: space-between;
             }
 
-            #content {
+            ::slotted(._pb_panel) {
                 overflow: auto;
                 max-height: calc(var(--pb-panel-max-height) - 72px);
             }
+
+            app-toolbar {
+                font-size: 75%;
+            }
         </style>
 
-        <slot></slot>
         <app-toolbar>
             <paper-dropdown-menu id="menu" label="[[label]]">
-                <paper-listbox slot="dropdown-content" class="dropdown-content" selected="{{_active}}">
+                <paper-listbox slot="dropdown-content" class="dropdown-content" selected="{{active}}">
                     <template id="repeat" is="dom-repeat" items="[[panels]]">
                         <paper-item>[[item]]</paper-item>
                     </template>
@@ -30,7 +33,7 @@
             </paper-dropdown-menu>
             <slot name="toolbar"></slot>
         </app-toolbar>
-        <div id="content" class="panel"></div>
+        <slot></slot>
     </template>
 
     <script>
@@ -38,6 +41,14 @@
          * A container for different views. Only one view will be shown at a time.
          * Provides a dropdown for the user to switch between views. Views are
          * lazy loaded and should be provided as one or more `<template>` elements.
+         * Each `<template>` may have a title attribute to specify the title to be shown
+         * for it in the dropdown.
+         *
+         * ## CSS Mixins
+         *
+         * | Custom property | Description | Default|
+         * | ----------------|-------------|--------|
+         * |--pb-panel-max-height | The max height of the panel content. Set to enable scrolling. | {}|
          *
          * @customElement
          * @appliesMixin PbMixin
@@ -54,10 +65,11 @@
                     /**
                      * the index of the active view
                      */
-                    _active: {
+                    active: {
                         type: Number,
                         value: 0,
-                        observer: '_update'
+                        observer: '_update',
+                        reflectToAttribute: true
                     },
                     /**
                      * the label displayed above the dropdown for selecting the view to show
@@ -67,16 +79,24 @@
                         value: 'View'
                     },
                     /**
-                     * a name for each available panel, to be displayed in the dropdown
+                     * a name for each available panel, to be displayed in the dropdown. If not set,
+                     * each template will be checked for a title attribute, which will be taken as name.
                      */
                     panels: {
-                        type: Array
+                        type: Array,
+                        reflectToAttribute: true
                     }
                 };
             }
 
             connectedCallback() {
                 super.connectedCallback();
+
+                if (!this.panels) {
+                    const titles = [];
+                    this.querySelectorAll('template').forEach(template => titles.push(template.title));
+                    this.panels = titles;
+                }
             }
 
             ready() {
@@ -88,22 +108,26 @@
             }
 
             _show(update) {
-                console.log('<pb-panel> showing panel %s', this._active);
-                this.$.content.querySelectorAll('._pb_panel').forEach(div => div.style.display = 'none');
-                const existingPanel = this.$.content.querySelector('._pb_panel' + this._active);
+                const templates = this.querySelectorAll('template');
+                if (this.active >= templates.length) {
+                    this.active = templates.length - 1;
+                }
+                console.log('<pb-panel> showing panel %s', this.active);
+                this.querySelectorAll('._pb_panel').forEach(div => div.style.display = 'none');
+                const existingPanel = this.querySelector('._pb_panel' + this.active);
                 if (existingPanel) {
                     existingPanel.style.display = '';
                 } else {
-                    const template = this._getActivePanel();
+                    const template = templates[this.active];
                     const clone = document.importNode(template.content, true);
                     const div = document.createElement('div');
-                    div.className = '_pb_panel _pb_panel' + this._active;
+                    div.className = '_pb_panel _pb_panel' + this.active;
                     div.appendChild(clone);
-                    this.$.content.appendChild(div);
+                    this.appendChild(div);
 
                     this.emitTo('pb-panel', {
                         panel: this,
-                        active: this._active
+                        active: this.active
                     });
 
                     if (update) {
@@ -112,14 +136,22 @@
                 }
             }
 
-            _getActivePanel() {
-                const templates = this.querySelectorAll('template');
-                return templates[this._active];
-            }
-
             refresh() {
                 this.emitTo('pb-refresh', null);
             }
+
+            /**
+             * Fired whenever the component switches to a different content panel. Used by `pb-grid`
+             * to update its state.
+             *
+             * @event pb-panel
+             */
+
+             /**
+              * Fired after a new content panel is shown to allow connected components to refresh.
+              *
+              * @event pb-refresh
+              */
         }
 
         window.customElements.define(PbPanel.is, PbPanel);

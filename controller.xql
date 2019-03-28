@@ -33,8 +33,8 @@ declare function local:get-template($doc as xs:string) {
 declare function local:last-blog-entry() {
     util:document-name(
         head(
-            for $article in collection($config:data-root || "/doc/blog")
-            let $published := $article/*/dbk:info/dbk:pubdate
+            for $article in collection($config:data-root || "/doc/blog")/dbk:article
+            let $published := $article/dbk:info/dbk:pubdate
             order by xs:date($published) descending
             return
                 $article
@@ -234,7 +234,7 @@ else if (matches($exist:path, "/(" || string-join($data-collections, "|") || ")/
                     <forward url="{$exist:controller}/modules/view.xql"/>
                 </error-handler>
             </dispatch>
-        else if (ends-with($exist:resource, ".xml")) then
+        else if (matches($exist:resource, ".xml$", "i")) then
             let $docPath := $path || $id
             let $template :=
                 if ($html) then $html else (local:get-template($docPath), $config:default-template)[1]

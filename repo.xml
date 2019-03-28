@@ -10,9 +10,18 @@
     <target>tei-publisher</target>
     <prepare>pre-install.xql</prepare>
     <finish>post-install.xql</finish>
-    <note>This RC may not work 100% with all browsers yet. Use Chrome for the complete set of features.
-        Safari, Firefox and Edge work fine with some limitations.</note>
     <changelog>
+        <change version="4.1.0">
+            <ul xmlns="http://www.w3.org/1999/xhtml">
+                <li>new correspondence example: Van Gogh letter with dynamic layout</li>
+                <li>mechanism for aligning multiple texts</li>
+                <li>Sort and filter documents by title, author or file name</li>
+                <li>Autocomplete suggestions are now displayed for all search boxes</li>
+                <li>Allow arbitrary footnote labels to be passed via the @n parameter of the note behaviour</li>
+                <li>Support plain images to be displayed by pb-facsimile - if a IIIF server is not needed or available</li>
+                <li>Fix uploads of files containing spaces in their names</li>
+            </ul>
+        </change>
         <change version="4.0.0">
             <ul xmlns="http://www.w3.org/1999/xhtml">
                 <li>complete rewrite of TEI Publisher based on webcomponents</li>
