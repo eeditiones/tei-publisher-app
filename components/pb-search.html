@@ -89,6 +89,7 @@
                 this.$.ironform.addEventListener('iron-form-response', (event) =>
                     event.detail.completes.then((r) => this.emitTo('pb-search', r.parseResponse()))
                 );
+                this.subscribeTo('pb-search-resubmit', this._doSearch.bind(this));
             }
 
             ready() {
@@ -99,7 +100,7 @@
                 }
             }
 
-            _doSearch(e){
+            _doSearch(ev) {
                 const json = this.$.ironform.serializeForm();
                 // always start on first result after submitting new search
                 json.start = 1;

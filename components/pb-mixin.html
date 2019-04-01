@@ -243,12 +243,22 @@
                 TeiPublisher.url.searchParams.set(name, value);
             }
         }
-        
+
+        getParametersMatching(regex) {
+            const params = {};
+            for(let pair of TeiPublisher.url.searchParams.entries()) {
+                if (regex.test(pair[0])) {
+                    params[pair[0]] = pair[1];
+                }
+            }
+            return params;
+        }
+
         setPath(path) {
             const page = document.querySelector('pb-page');
             if (page) {
                 const appRoot = page.appRoot;
-                
+
                 this.getUrl().pathname = appRoot + '/' + path;
             }
         }

@@ -62,7 +62,7 @@
                 <span class="label"><i18n:text key="delete">Delete</i18n:text></span>
             </paper-button>
         </div>
-        <div id="content"><slot></slot></div>
+        <slot></slot>
 
         <iron-ajax
             id="loadContent"
@@ -144,6 +144,9 @@
                             }
                         ]
                     },
+                    facets: {
+                        type: Object
+                    },
                     /** Id of the pb-login element to connect to */
                     login: {
                         type: String
@@ -185,12 +188,15 @@
                     this.filter = filterParam;
                     this.filterBy = this.getParameter('filterBy', this.filterBy);
                 }
+
+                this.facets = this.getParametersMatching(/^facet-.*$/);
             }
 
             connectedCallback() {
                 super.connectedCallback();
 
                 this.$.autocomplete.addEventListener('autocomplete-change', this._autocomplete.bind(this));
+                this.subscribeTo('pb-search-resubmit', this._facets.bind(this));
                 Polymer.RenderStatus.afterNextRender(this, () => {
                     const login = document.getElementById(this.login);
                     if (!login) {
@@ -210,7 +216,9 @@
                     params.filter = this.filter;
                     params.browse = this.filterBy;
                 }
-
+                if (this.facets) {
+                    params = Object.assign(params, this.facets);
+                }
                 return params;
             }
 
@@ -228,7 +236,7 @@
                         })
                     );
                 } else {
-                    this.$.content.querySelectorAll('.document-select paper-checkbox[checked]').forEach((checkbox) => {
+                    this.querySelectorAll('.document-select paper-checkbox[checked]').forEach((checkbox) => {
                         selected.push(checkbox.value);
                     });
                 }
@@ -251,6 +259,18 @@
                 this.setParameter('sort', this.sortBy);
                 this.pushHistory('sort docs');
 
+                this.load();
+            }
+
+            _facets(ev) {
+                if (ev.detail && ev.detail.params) {
+                    for (let param in ev.detail.params) {
+                        this.setParameter(param, ev.detail.params[param]);
+                    }
+                    this.facets = ev.detail.params;
+                    this.start = 1;
+                    this.pushHistory('facets');
+                }
                 this.load();
             }
 
