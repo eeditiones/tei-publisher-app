@@ -49,9 +49,8 @@
         <programlisting language="xml"><![CDATA[<main class="content-body">
     <aside>
         <h1>Blog</h1>
-        <pb-load url="modules/blog.xql?doc=${doc}" auto="auto" container=".summary" emit="transcription"
+        <pb-load url="modules/blog.xql?doc=${doc}" auto="auto" emit="transcription"
             data-template="pages:parse-params"/>
-        <div class="summary"></div>
     </aside>
     <div class="content">
         <pb-view id="view1" src="document1" view="single" subscribe="transcription"

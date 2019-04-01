@@ -113,7 +113,7 @@
                 .toc-toggle {
                     display: none;
                 }
-                
+
                 pb-link {
                     margin-left: 0;
                 }
@@ -140,9 +140,8 @@
                             <pb-collapse>
                                 <h3 slot="collapse-trigger">Articles</h3>
                                 <div slot="collapse-content">
-                                    <pb-load url="modules/blog.xql?doc=${doc}" auto="auto" container=".summary" emit="transcription"
+                                    <pb-load class="summary" url="modules/blog.xql?doc=${doc}" auto="auto" emit="transcription"
                                         data-template="pages:parse-params"/>
-                                    <div class="summary"></div>
                                 </div>
                             </pb-collapse>
                             <pb-collapse>
@@ -235,9 +234,8 @@
                         <pb-media-query query="min-width: 1024px">
                             <aside>
                                 <h1>Blog</h1>
-                                <pb-load url="modules/blog.xql?doc=${doc}" auto="auto" container=".summary" emit="transcription"
+                                <pb-load class="summary" url="modules/blog.xql?doc=${doc}" auto="auto" emit="transcription"
                                     data-template="pages:parse-params"/>
-                                <div class="summary"></div>
                             </aside>
                         </pb-media-query>
                         <div class="content">
