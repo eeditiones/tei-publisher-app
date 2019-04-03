@@ -244,6 +244,23 @@
             }
         }
 
+        setParameters(obj) {
+            TeiPublisher.url.search = '';
+            for (let key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    TeiPublisher.url.searchParams.set(key, obj[key]);
+                }
+            }
+        }
+        
+        getParameters() {
+            const params = {};
+            for (let entry of TeiPublisher.url.searchParams) {
+                params[entry[0]] = entry[1];
+            }
+            return params;
+        }
+        
         getParametersMatching(regex) {
             const params = {};
             for(let pair of TeiPublisher.url.searchParams.entries()) {

@@ -96,7 +96,13 @@
                 super.ready();
 
                 if (this.submitOnLoad) {
-                    Polymer.RenderStatus.afterNextRender(this, () => this._doSearch());
+                    Polymer.RenderStatus.afterNextRender(this, () => {
+                        const params = this.getParameters();
+                        this.emitTo('pb-load', {
+                            "url": this.action,
+                            "params": params
+                        });
+                    });
                 }
             }
 
@@ -107,6 +113,8 @@
                 if (this.redirect) {
                     this._doSubmit();
                 } else {
+                    this.setParameters(json);
+                    this.pushHistory('search');
                     this.emitTo('pb-load', {
                         "url": this.action,
                         "params": json
