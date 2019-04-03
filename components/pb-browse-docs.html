@@ -264,6 +264,7 @@
 
             _facets(ev) {
                 if (ev.detail && ev.detail.params) {
+                    this.clearParametersMatching(/^(all-|facet-).*/);
                     for (let param in ev.detail.params) {
                         this.setParameter(param, ev.detail.params[param]);
                     }

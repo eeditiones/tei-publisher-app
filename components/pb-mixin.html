@@ -253,6 +253,14 @@
             }
             return params;
         }
+        
+        clearParametersMatching(regex) {
+            for(let pair of TeiPublisher.url.searchParams.entries()) {
+                if (regex.test(pair[0])) {
+                    TeiPublisher.url.searchParams.delete(pair[0]);
+                }
+            }
+        }
 
         setPath(path) {
             const page = document.querySelector('pb-page');
