@@ -243,12 +243,47 @@
                 TeiPublisher.url.searchParams.set(name, value);
             }
         }
+
+        setParameters(obj) {
+            TeiPublisher.url.search = '';
+            for (let key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    TeiPublisher.url.searchParams.set(key, obj[key]);
+                }
+            }
+        }
         
+        getParameters() {
+            const params = {};
+            for (let entry of TeiPublisher.url.searchParams) {
+                params[entry[0]] = entry[1];
+            }
+            return params;
+        }
+        
+        getParametersMatching(regex) {
+            const params = {};
+            for(let pair of TeiPublisher.url.searchParams.entries()) {
+                if (regex.test(pair[0])) {
+                    params[pair[0]] = pair[1];
+                }
+            }
+            return params;
+        }
+        
+        clearParametersMatching(regex) {
+            for(let pair of TeiPublisher.url.searchParams.entries()) {
+                if (regex.test(pair[0])) {
+                    TeiPublisher.url.searchParams.delete(pair[0]);
+                }
+            }
+        }
+
         setPath(path) {
             const page = document.querySelector('pb-page');
             if (page) {
                 const appRoot = page.appRoot;
-                
+
                 this.getUrl().pathname = appRoot + '/' + path;
             }
         }

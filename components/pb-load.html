@@ -9,7 +9,7 @@
             }
         </style>
 
-        <div id="content"><slot></slot></div>
+        <slot></slot>
 
         <iron-ajax
             id="loadContent"
@@ -202,15 +202,21 @@
 
                 const resp = this.$.loadContent.lastResponse;
                 if (this.container) {
-                    this.$.content.style.display = 'none';
+                    this.style.display = 'none';
                     document.querySelectorAll(this.container).forEach((elem) => {
                         elem.innerHTML = resp
                         this._onLoad(elem);
                     });
                 } else {
-                    this.$.content.style.display = '';
-                    this.$.content.innerHTML = resp;
-                    this._onLoad(this.$.content);
+                    this.style.display = '';
+                    this.querySelectorAll('._contentSlot').forEach((div) => div.parentNode.removeChild(div));
+                    
+                    const div = document.createElement('div');
+                    div.innerHTML = resp;
+                    div.className = '_contentSlot';
+                    div.slot = '';
+                    this.appendChild(div);
+                    this._onLoad(this);
                 }
 
                 this.emitTo('pb-end-update');

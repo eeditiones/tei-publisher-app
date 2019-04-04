@@ -89,23 +89,32 @@
                 this.$.ironform.addEventListener('iron-form-response', (event) =>
                     event.detail.completes.then((r) => this.emitTo('pb-search', r.parseResponse()))
                 );
+                this.subscribeTo('pb-search-resubmit', this._doSearch.bind(this));
             }
 
             ready() {
                 super.ready();
 
                 if (this.submitOnLoad) {
-                    Polymer.RenderStatus.afterNextRender(this, () => this._doSearch());
+                    Polymer.RenderStatus.afterNextRender(this, () => {
+                        const params = this.getParameters();
+                        this.emitTo('pb-load', {
+                            "url": this.action,
+                            "params": params
+                        });
+                    });
                 }
             }
 
-            _doSearch(e){
+            _doSearch(ev) {
                 const json = this.$.ironform.serializeForm();
                 // always start on first result after submitting new search
                 json.start = 1;
                 if (this.redirect) {
                     this._doSubmit();
                 } else {
+                    this.setParameters(json);
+                    this.pushHistory('search');
                     this.emitTo('pb-load', {
                         "url": this.action,
                         "params": json

@@ -121,24 +121,6 @@
                             <img src="resources/images/tei-publisher-logo-contrast-color.svg"/>
                         </a>
                         <a href="$app/index.html">Start</a>
-                        <paper-menu-button>
-                            <a href="#" slot="dropdown-trigger">
-                                <i18n:text key="documentation"/>
-                            </a>
-                            <paper-listbox slot="dropdown-content">
-                                <paper-item>
-                                    <a href="$app/doc/documentation.xml?odd=docbook.odd">
-                                        <i18n:text key="documentation"/>
-                                    </a>
-                                </paper-item>
-                                <paper-item>
-                                    <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
-                                </paper-item>
-                            </paper-listbox>
-                        </paper-menu-button>
-                        <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
-                            <img src="resources/images/wm_no_bg.svg" height="20"/>
-                        </a>
 
                         <!-- Search input -->
                         <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
@@ -165,8 +147,7 @@
                 </app-header>
 
                 <main>
-                    <pb-load url="templates/search-results.html" container="#results"></pb-load>
-                    <div id="results"></div>
+                    <pb-load id="results" url="templates/search-results.html"></pb-load>
                     <div class="search-panel">
                         <paper-card>
                             <div class="card-content">

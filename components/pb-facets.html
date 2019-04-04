@@ -1,0 +1,65 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-mixin.html">
+
+<dom-module id="pb-facets">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <iron-form id="ironform">
+            <form action="" accept="text/html" method="get">
+                <slot></slot>
+            </form>
+        </iron-form>
+
+        <iron-ajax
+            id="loadContent"
+            verbose
+            handle-as="text"
+            method="get"
+            on-response="_handleContent"
+            on-error="_handleError"></iron-ajax>
+    </template>
+
+    <script>
+        /**
+         * `seed-element`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/seed-element.html
+         * @appliesMixin PbMixin
+         */
+        class PbFacets extends PbLoad {
+            static get is() {
+                return 'pb-facets';
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            _onLoad() {
+                this.querySelectorAll('.facet').forEach(elem => {
+                    elem.addEventListener('change', () => this._submit());
+                });
+            }
+
+            _submit() {
+                const json = this.$.ironform.serializeForm();
+                console.log('<pb-facets> Resubmit search: %o', json);
+                this.emitTo('pb-search-resubmit', {'params': json});
+            }
+
+            _parseHeaders(xhr) {
+                // overwrite to avoid `pb-results-recieved` event being sent
+            }
+        }
+
+        window.customElements.define(PbFacets.is, PbFacets);
+    </script>
+</dom-module>
