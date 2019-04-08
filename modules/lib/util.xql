@@ -36,7 +36,7 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd
         "type": nav:document-type($doc/*)
     }
     let $pis :=
-        map:new(
+        map:merge(
             for $pi in $doc/processing-instruction("teipublisher")
             let $analyzed := analyze-string($pi, '([^\s]+)\s*=\s*"(.*?)"')
             for $match in $analyzed/fn:match
@@ -59,11 +59,11 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd
     (: ODD from parameter should overwrite ODD defined in PI :)
     let $config :=
         if ($odd) then
-            map:new(($pis, map { "odd": $odd }))
+            map:merge(($pis, map { "odd": $odd }))
         else if ($cfgOddAvail) then
             $pis
         else
-            map:new(($pis, map { "odd": $config:default-odd }))
+            map:merge(($pis, map { "odd": $config:default-odd }))
     return
-        map:new(($default, $config))
+        map:merge(($default, $config))
 };
