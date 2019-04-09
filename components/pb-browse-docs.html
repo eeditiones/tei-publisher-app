@@ -6,11 +6,14 @@
         <style>
             :host {
                 display: block;
+
+                --justify-toolbar-content:space-between;
+                --display-toolbar:flex;
             }
 
             .toolbar {
-                display: flex;
-                justify-content: space-between;
+                display: var(--display-toolbar);
+                justify-content: var(--justify-toolbar-content);
             }
 
             [name="toolbar"] {
