@@ -33,6 +33,22 @@
             .hidden {
                 display: none;
             }
+
+            paper-autocomplete-suggestions {
+                --suggestions-item: {
+                    color: var(--pb-search-suggestions, #000000);
+                };
+            }
+
+            paper-dropdown-menu, paper-input {
+                --paper-input-container-input:{
+                    color: var(--pb-search-input, #000000);
+                    border: white;
+                };
+                --paper-input-container-label: {
+                    color:var(--pb-search-label, --paper-grey-500);
+                };
+            }
         </style>
 
         <div class="toolbar">
@@ -51,7 +67,7 @@
                         </template>
                     </paper-listbox>
                 </paper-dropdown-menu>
-                <paper-input id="filterString" type="search" name="filter" label="Filter" no-label-float value="{{filter}}"
+                <paper-input id="filterString" type="search" name="filter" label="Filter" value="{{filter}}"
                     on-keyup="_handleEnter">
                     <iron-icon icon="search" on-click="_filter" slot="prefix"></iron-icon>
                 </paper-input>

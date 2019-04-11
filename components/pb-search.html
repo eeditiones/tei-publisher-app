@@ -9,7 +9,7 @@
 
             paper-input {
                 --paper-input-container-input:{
-                    color: var(--pb-search-input, --paper-black);
+                    color: var(--pb-search-input, #000000);
                     border: white;
                 };
                 --paper-input-container-label: {
@@ -18,14 +18,14 @@
             }
             paper-autocomplete-suggestions {
                 --suggestions-item: {
-                    color: var(--pb-search-label, --paper-grey-500)
+                    color: var(--pb-search-suggestions, #000000);
                 };
             }
 
         </style>
         <iron-form id="ironform" allow-redirect="[[redirect]]">
             <form id="searchPageForm" method="get" action="{{action}}" accept="text/html">
-                <paper-input id="search" type="search" name="query" on-keyup="_handleEnter" label="[[placeHolder]]" no-label-float value="[[value]]">
+                <paper-input id="search" type="search" name="query" on-keyup="_handleEnter" label="[[placeHolder]]" value="[[value]]">
                     <iron-icon icon="search" on-click="_doSearch" slot="prefix"></iron-icon>
                 </paper-input>
                 <paper-autocomplete-suggestions id="autocomplete" for="search" source="[[_suggestions]]" remote-source></paper-autocomplete-suggestions>

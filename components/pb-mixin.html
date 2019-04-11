@@ -239,6 +239,11 @@
         setParameter(name, value) {
             if (typeof value === 'undefined') {
                 TeiPublisher.url.searchParams.delete(name);
+            } else if (Array.isArray(value)) {
+                TeiPublisher.url.searchParams.delete(name);
+                value.forEach(function(val) {
+                    TeiPublisher.url.searchParams.append(name, val);
+                });
             } else {
                 TeiPublisher.url.searchParams.set(name, value);
             }
@@ -252,7 +257,7 @@
                 }
             }
         }
-        
+
         getParameters() {
             const params = {};
             for (let entry of TeiPublisher.url.searchParams) {
@@ -260,17 +265,22 @@
             }
             return params;
         }
-        
+
         getParametersMatching(regex) {
             const params = {};
             for(let pair of TeiPublisher.url.searchParams.entries()) {
                 if (regex.test(pair[0])) {
-                    params[pair[0]] = pair[1];
+                    const param = params[pair[0]];
+                    if (param) {
+                        param.push(pair[1]);
+                    } else {
+                        params[pair[0]] = [pair[1]];
+                    }
                 }
             }
             return params;
         }
-        
+
         clearParametersMatching(regex) {
             for(let pair of TeiPublisher.url.searchParams.entries()) {
                 if (regex.test(pair[0])) {
