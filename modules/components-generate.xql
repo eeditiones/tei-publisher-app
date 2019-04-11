@@ -107,13 +107,13 @@ declare function deploy:check-user($json as map(*)) as xs:string+ {
     let $user := $json?owner
     let $group := "tei"
     let $create :=
-        if (xmldb:exists-user($user)) then
-            if (index-of(xmldb:get-user-groups($user), $group)) then
+        if (sm:user-exists($user)) then
+            if ($group = sm:get-user-groups($user)) then
                 ()
             else
-                xmldb:add-user-to-group($user, $group)
+                sm:add-group-member($group, $user)
         else
-            xmldb:create-user($user, $json?password, $group, ())
+            sm:create-account($user, $json?password, $group, ())
     return
         ($user, $group)
 };
@@ -163,7 +163,7 @@ declare function deploy:copy-collection($target as xs:string, $source as xs:stri
         for $resource in xmldb:get-child-resources($source)
         let $targetPath := xs:anyURI(concat($target, "/", $resource))
         return (
-            xmldb:copy($source, $target, $resource)
+            xmldb:copy-resource($source, $resource, $target, $resource)
         ),
         for $childColl in xmldb:get-child-collections($source)
         return
@@ -240,7 +240,7 @@ declare function deploy:store-libs($target as xs:string, $userData as xs:string+
     for $lib in ("autocomplete.xql", "index.xql", "view.xql", "map.xql", xmldb:get-child-resources($path)[starts-with(., "navigation")],
         xmldb:get-child-resources($path)[ends-with(., "query.xql")])
     return (
-        xmldb:copy($path, $target || "/modules", $lib)
+        xmldb:copy-resource($path, $lib, $target || "/modules", $lib)
     ),
     let $target := $target || "/modules/lib"
     let $source := system:get-module-load-path() || "/lib"
