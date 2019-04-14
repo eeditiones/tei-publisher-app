@@ -27,7 +27,7 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 declare function model:transform($options as map(*), $input as node()*) {
         
     let $config :=
-        map:new(($options,
+        map:merge(($options,
             map {
                 "output": ["web"],
                 "odd": "/db/apps/tei-publisher/odd/graves.odd",

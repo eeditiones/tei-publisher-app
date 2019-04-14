@@ -64,7 +64,7 @@ declare %private function model:template2($config as map(*), $node as node()*, $
 declare function model:transform($options as map(*), $input as node()*) {
         
     let $config :=
-        map:new(($options,
+        map:merge(($options,
             map {
                 "output": ["web"],
                 "odd": "/db/apps/tei-publisher/odd/docbook.odd",
