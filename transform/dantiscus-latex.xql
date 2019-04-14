@@ -31,7 +31,7 @@ declare %private function model:template1($config as map(*), $node as node()*, $
 declare function model:transform($options as map(*), $input as node()*) {
         
     let $config :=
-        map:new(($options,
+        map:merge(($options,
             map {
                 "output": ["latex","print"],
                 "odd": "/db/apps/tei-publisher/odd/dantiscus.odd",

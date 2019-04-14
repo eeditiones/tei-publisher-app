@@ -140,7 +140,7 @@ Not available in PDF edition. Go to \url{`{string-join($config?apply-children($c
 declare function model:transform($options as map(*), $input as node()*) {
         
     let $config :=
-        map:new(($options,
+        map:merge(($options,
             map {
                 "output": ["latex","print"],
                 "odd": "/db/apps/tei-publisher/odd/docbook.odd",
@@ -218,7 +218,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 }
 
                                                         let $content := 
-                                model:template3($config, ., $params)
+                                model:template1($config, ., $params)
                             return
                                                         latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-author1"), $content)
                         else
@@ -247,7 +247,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 }
 
                                                         let $content := 
-                                model:template5($config, ., $params)
+                                model:template1($config, ., $params)
                             return
                                                         latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-title1"), $content)
                         else
