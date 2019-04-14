@@ -25,7 +25,8 @@
         </style>
         <iron-form id="ironform" allow-redirect="[[redirect]]">
             <form id="searchPageForm" method="get" action="{{action}}" accept="text/html">
-                <paper-input id="search" type="search" name="query" on-keyup="_handleEnter" label="[[placeHolder]]" value="[[value]]">
+                <paper-input id="search" type="search" name="query" on-keyup="_handleEnter" label="[[placeHolder]]"
+                    value="[[value]]" always-float-label>
                     <iron-icon icon="search" on-click="_doSearch" slot="prefix"></iron-icon>
                 </paper-input>
                 <paper-autocomplete-suggestions id="autocomplete" for="search" source="[[_suggestions]]" remote-source></paper-autocomplete-suggestions>

@@ -41,22 +41,36 @@
 
             connectedCallback() {
                 super.connectedCallback();
+
+                this.$.ironform.addEventListener('iron-form-presubmit', (ev) => {
+                    ev.preventDefault();
+                    this._submit();
+                })
             }
 
-            _onLoad() {
-                this.querySelectorAll('.facet').forEach(elem => {
-                    elem.addEventListener('change', () => this._submit());
-                });
+            submit() {
+                this.$.ironform.submit();
             }
-
+            
             _submit() {
                 const json = this.$.ironform.serializeForm();
-                console.log('<pb-facets> Resubmit search: %o', json);
                 this.emitTo('pb-search-resubmit', {'params': json});
             }
 
             _parseHeaders(xhr) {
                 // overwrite to avoid `pb-results-recieved` event being sent
+            }
+
+            _onLoad(content) {
+                super._onLoad(content);
+
+                this.dispatchEvent(new CustomEvent('pb-facets-loaded', {
+                    detail: {
+                        "form": this.$.ironform
+                    },
+                    composed: true,
+                    bubbles: true
+                }));
             }
         }
 
