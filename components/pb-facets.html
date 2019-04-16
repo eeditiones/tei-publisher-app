@@ -51,7 +51,7 @@
             submit() {
                 this.$.ironform.submit();
             }
-            
+
             _submit() {
                 const json = this.$.ironform.serializeForm();
                 this.emitTo('pb-search-resubmit', {'params': json});
@@ -64,13 +64,7 @@
             _onLoad(content) {
                 super._onLoad(content);
 
-                this.dispatchEvent(new CustomEvent('pb-facets-loaded', {
-                    detail: {
-                        "form": this.$.ironform
-                    },
-                    composed: true,
-                    bubbles: true
-                }));
+                this.dispatchEvent(new CustomEvent('pb-facets-loaded', { detail: content }));
             }
         }
 
