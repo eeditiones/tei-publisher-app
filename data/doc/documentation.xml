@@ -1800,7 +1800,7 @@
         <title>Advanced Use</title>
         <para>To further tweak the building process you can call the functions of the <filename>odd-by-example.xql</filename> module from your own XQuery code.
           If you wish to generate your own basis for the comparison you can call the following function to store a compiled ODD in the default odd location of
-          tei-pubisher:</para>
+          tei-publisher:</para>
         <programlisting language="XQuery" xml:space="preserve">obe:compile-odd(doc('../odd/my-file.odd'), 'my-file-name')</programlisting>
         <note>
           <title>Note</title>
