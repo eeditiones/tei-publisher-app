@@ -23,6 +23,9 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
+declare function nav:get-root($root as xs:string?, $options as map(*)?) {
+    $config:data-root ! collection(. || "/" || $root)//tei:body[ft:query(., (), $options)]/ancestor::tei:TEI
+};
 
 declare function nav:get-header($config as map(*), $node as element()) {
     $node/tei:teiHeader
@@ -75,6 +78,15 @@ declare function nav:get-metadata($config as map(*), $root as element(), $field 
         default return
             ()
 };
+
+declare function nav:sort($sortBy as xs:string, $items as element()*) {
+    switch ($sortBy)
+        case "date" return
+            sort($items, (), ft:field(?, "date", "xs:date"))
+        default return
+            sort($items, (), ft:field(?, $sortBy))
+};
+
 
 declare function nav:get-first-page-start($config as map(*), $data as element()) {
     let $pb := ($data//tei:pb)[1]

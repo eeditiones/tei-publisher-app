@@ -15,7 +15,7 @@
  :  You should have received a copy of the GNU General Public License
  :  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  :)
-xquery version "3.0";
+xquery version "3.1";
 
 module namespace app="http://www.tei-c.org/tei-simple/templates";
 
@@ -61,18 +61,7 @@ function app:sort($items as element()*, $sortBy as xs:string?) {
             $items
     return
         if ($sortBy) then
-            for $item in $items
-            let $field := ft:get-field(document-uri(root($item)), $sortBy)
-            let $content :=
-                if (exists($field)) then
-                    $field
-                else
-                    let $data := nav:get-metadata(map { "type": nav:document-type($item) }, $item, $sortBy)
-                    return
-                        replace(string-join($data, " "), "^\s*(.*)$", "$1", "m")
-            order by $content
-            return
-                $item
+            nav:sort($sortBy, $items)
         else
             $items
 };
@@ -92,13 +81,16 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
     let $cached := session:get-attribute("teipublisher.works")
     let $filtered :=
         if (exists($filter)) then
-            query:query-metadata($browse, $filter)
+            query:query-metadata($browse, $filter, $sort)
         else if (exists($cached) and $filter = session:get-attribute("teipublisher.filter")) then
             $cached
         else
-            $config:data-root ! collection(. || "/" || $root)/*
+            let $options := app:options($sort)
+            return
+                nav:get-root($root, $options)
     let $sorted := app:sort($filtered, $sort)
     return (
+        session:set-attribute('apps.simple', $filtered),
         session:set-attribute("teipublisher.works", $sorted),
         session:set-attribute("teipublisher.browse", $browse),
         session:set-attribute("teipublisher.filter", $filter),
@@ -108,6 +100,21 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
             "mode": "browse"
         }
     )
+};
+
+declare function app:options($sortBy as xs:string) {
+    map {
+        "facets":
+            map:merge((
+                for $param in request:get-parameter-names()[starts-with(., 'facet-')]
+                let $dimension := substring-after($param, 'facet-')
+                return
+                    map {
+                        $dimension: request:get-parameter($param, ())
+                    }
+            )),
+        "fields": $sortBy
+    }
 };
 
 declare

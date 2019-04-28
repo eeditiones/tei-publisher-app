@@ -59,9 +59,15 @@ declare function dbs:autocomplete($doc as xs:string?, $fields as xs:string+, $q 
     return
         switch ($field)
             case "author" return
-                distinct-values(ft:search($config:data-root, "author:" || $q || "*", "author")//field)
+                collection($config:data-root)/ft:index-keys-for-field("author", $q,
+                    function($key, $count) {
+                        $key
+                    }, 30)
             case "file" return
-                distinct-values(ft:search($config:data-root, "file:" || $q || "*", "file")//field)
+                collection($config:data-root)/ft:index-keys-for-field("file", $q,
+                    function($key, $count) {
+                        $key
+                    }, 30)
             case "text" return
                 if ($doc) then (
                     doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("db:section"), $q,
@@ -94,17 +100,16 @@ declare function dbs:autocomplete($doc as xs:string?, $fields as xs:string+, $q 
                             $key
                         }, 30, "lucene-index")
             default return
-                collection($config:data-root)/util:index-keys-by-qname(xs:QName("db:title"), $q,
+                collection($config:data-root)/ft:index-keys-for-field("title", $q,
                     function($key, $count) {
                         $key
-                    }, -1, "lucene-index")
+                    }, 30)
 };
 
-declare function dbs:query-metadata($field as xs:string, $query as xs:string) {
-    for $rootCol in $config:data-root
-    for $doc in ft:search($rootCol, $field || ":" || $query, ())/search
-    return
-        doc($doc/@uri)/db:*
+declare function dbs:query-metadata($field as xs:string, $query as xs:string, $sort as xs:string) {
+    for $doc in collection($config:data-root)//db:section[ft:query(., $field || ":" || $query, map { "fields": $sort
+})]     return
+        root($doc)/*
 };
 
 declare function dbs:get-parent-section($node as node()) {

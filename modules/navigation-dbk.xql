@@ -23,6 +23,11 @@ declare namespace dbk="http://docbook.org/ns/docbook";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
+declare function nav:get-root($root as xs:string?, $options as map(*)?) {
+    $config:data-root !
+        collection(. || "/" || $root)//dbk:section[ft:query(., (), $options)]/ancestor::dbk:article
+};
+
 declare function nav:get-header($config as map(*), $node as element()) {
     $node/dbk:info
 };

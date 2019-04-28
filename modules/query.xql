@@ -44,9 +44,9 @@ declare function query:query-default($fields as xs:string+, $query as xs:string,
     docbook-query:query-default($fields, $query, $target-texts)
 };
 
-declare function query:query-metadata($field as xs:string, $query as xs:string) {
-    tei-query:query-metadata($field, $query),
-    docbook-query:query-metadata($field, $query)
+declare function query:query-metadata($field as xs:string, $query as xs:string, $sort as xs:string) {
+    tei-query:query-metadata($field, $query, $sort),
+    docbook-query:query-metadata($field, $query, $sort)
 };
 
 declare function query:get-parent-section($config as map(*), $node as node()) {

@@ -68,9 +68,9 @@
                     if (done) {
                         this.emitTo('pb-end-update');
                         this.emitTo('pb-load');
-                        fetch("modules/index.xql").then(function() {
-                            console.log("Reindex done.");
-                        }.bind(this));
+                        // fetch("modules/index.xql").then(function() {
+                        //     console.log("Reindex done.");
+                        // }.bind(this));
                     }
                 }.bind(this));
             }
