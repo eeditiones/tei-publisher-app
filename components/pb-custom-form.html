@@ -1,7 +1,7 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 <link rel="import" href="pb-mixin.html">
 
-<dom-module id="pb-facets">
+<dom-module id="pb-custom-form">
     <template>
         <style>
             :host {
@@ -26,17 +26,19 @@
 
     <script>
         /**
-         * `seed-element`
+         * A custom form element which loads the actual form from a server-side script using AJAX.
+         * Emits a `pb-search-resubmit` event when the form is submitted, signalling `pb-search` that
+         * a search should be redone using the parameters passed.
          *
+         * The component is currently used to implement the additional search facets on the start page and
+         * search result page.
          *
          * @customElement
          * @polymer
-         * @demo demo/seed-element.html
-         * @appliesMixin PbMixin
          */
-        class PbFacets extends PbLoad {
+        class PbCustomForm extends PbLoad {
             static get is() {
-                return 'pb-facets';
+                return 'pb-custom-form';
             }
 
             connectedCallback() {
@@ -58,16 +60,30 @@
             }
 
             _parseHeaders(xhr) {
-                // overwrite to avoid `pb-results-recieved` event being sent
+                // overwrite to avoid `pb-results-received` event being sent
             }
 
             _onLoad(content) {
                 super._onLoad(content);
 
-                this.dispatchEvent(new CustomEvent('pb-facets-loaded', { detail: content }));
+                this.dispatchEvent(new CustomEvent('pb-custom-form-loaded', { detail: content }));
             }
+
+            /**
+             * Fired before the element updates its content
+             *
+             * @event pb-custom-form-loaded
+             * @param {string} the loaded content
+             */
+
+            /**
+             * Fired when form is submitted
+             *
+             * @event pb-search-resubmit
+             * @param {object} params: serialized form parameters as json object
+             */
         }
 
-        window.customElements.define(PbFacets.is, PbFacets);
+        window.customElements.define(PbCustomForm.is, PbCustomForm);
     </script>
 </dom-module>
