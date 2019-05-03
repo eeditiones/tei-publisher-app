@@ -20,11 +20,12 @@
   },
   "license": "GPL-3.0",
   "devDependencies": {
+    "@existdb/gulp-exist": "^3.0.0",
+    "gulp-exist": "^3.0.0",
     "polymer-build": "^3.0.4",
     "web-component-tester": "^6.9.0"
   },
   "dependencies": {
-    "@existdb/gulp-exist": "^3.0.0",
     "@existdb/node-exist": "^1.0.4",
     "chai": "^4.2.0",
     "chromedriver": "^2.44.1",

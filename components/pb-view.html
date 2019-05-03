@@ -1,3 +1,4 @@
+<script src="../../../Downloads/GridLoadingAnimations/js/main.js"></script>
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 <link rel="import" href="pb-mixin.html">
 
@@ -6,6 +7,7 @@
         <style>
             :host {
                 display: block;
+                background: transparent;
             }
 
             .columns {
@@ -65,6 +67,7 @@
             .highlight {
                 @apply --pb-highlight-theme;
             }
+
         </style>
 
         <div id="view">
@@ -83,6 +86,7 @@
             method="get"
             on-response="_handleContent"></iron-ajax>
     </template>
+
 
     <script>
         /**
@@ -257,6 +261,14 @@
                         value: function() {
                             return {};
                         }
+                    },
+                    /**
+                     * wether to animate the view when new page is loaded. Defaults to 'false' meaning that no
+                     * animation takes place. If 'true' will apply a translateX transistion in forward/backward direction.
+                     */
+                    animation: {
+                        type:Boolean,
+                        value:false
                     }
                 };
             }
@@ -272,10 +284,19 @@
                 if (action && action === 'search') {
                     this.highlight = true;
                 }
+
+                /*
+                 * check if animejs is loaded and defined - if not we just skip animation
+                 */
+                if('anime' in window){
+                    console.log('animejs is not defined');
+                    this.animation = false;
+                }
             }
 
             connectedCallback() {
                 super.connectedCallback();
+
 
                 const nodeId = this.getParameter('root');
                 if (this.view === 'single') {
@@ -283,6 +304,8 @@
                 } else if (nodeId && !this.nodeId) {
                     this.nodeId = nodeId;
                 }
+
+
             }
 
             ready() {
@@ -317,6 +340,30 @@
              */
             update() {
                 this._load(this.nodeId);
+
+            }
+
+            animate(){
+                // animate new element if 'animation' property is 'true'
+                if(this.animation){
+                    if(this.lastDirection == 'forward'){
+                        anime({
+                            targets: this.$.view,
+                            opacity:[0,1],
+                            translateX:[1000,0],
+                            duration: 300,
+                            easing:'linear'
+                        });
+                    }else{
+                        anime({
+                            targets: this.$.view,
+                            opacity:[0,1],
+                            translateX:[-1000,0],
+                            duration: 300,
+                            easing:'linear'
+                        });
+                    }
+                }
             }
 
             _refresh(ev) {
@@ -353,6 +400,8 @@
                 }
 
                 const params = this.getParameters(pos);
+
+                // this.$.view.style.opacity=0;
 
                 this._doLoad(params);
             }
@@ -401,6 +450,9 @@
 
                 const elem = this._replaceContent(resp);
 
+                this.animate();
+
+
                 this.next = resp.next;
                 this.previous = resp.previous;
                 this.nodeId = resp.root;
@@ -421,6 +473,7 @@
             _replaceContent(resp) {
                 const fragment = document.createDocumentFragment();
                 const elem = document.createElement('div');
+                // elem.style.opacity = 0; //hide it - animation has to make sure to blend it in
                 fragment.appendChild(elem);
                 elem.innerHTML = resp.content;
 
@@ -429,6 +482,7 @@
                 } else {
                     this.$.content.appendChild(elem);
                 }
+
 
                 if (this.appendFootnotes) {
                     const footnotes = document.createElement('div');
@@ -545,6 +599,9 @@
              * @param {string} direction either `backward` or `forward`
              */
             navigate(direction) {
+                console.log('navigate ', direction);
+                this.lastDirection = direction;
+
                 if (direction === 'backward') {
                     if (this.previous) {
                         if (!this.map) {

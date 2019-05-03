@@ -33,7 +33,8 @@
     "paper-autocomplete": "ellipticaljs/paper-autocomplete#^3.7.0",
     "google-map": "GoogleWebComponents/google-map#^2.0.5",
     "codemirror": "^5.40.0",
-    "paper-toast": "PolymerElements/paper-toast#^2.0.0"
+    "paper-toast": "PolymerElements/paper-toast#^2.0.0",
+    "animejs": "^3.0.1"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
