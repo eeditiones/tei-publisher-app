@@ -21,6 +21,9 @@
         <orgname>eXist Solutions GmbH</orgname>
       </affiliation>
     </author>
+    <keywordset vocab="#genre">
+      <keyword>Documentation</keyword>
+    </keywordset>
   </info>
   <section>
     <title>Quickstart</title>

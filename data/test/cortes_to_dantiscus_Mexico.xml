@@ -46,6 +46,13 @@
          </sourceDesc>
       </fileDesc>
       <profileDesc>
+         <textClass>
+            <catRef scheme="#genre" target="#correspondence"/>
+            <catRef scheme="#form" target="#manuscript"/>
+         </textClass>
+         <langUsage>
+            <language ident="es">Spanish</language>
+         </langUsage>
          <particDesc>
             <listPerson>
                <person xml:id="IDPe2777">

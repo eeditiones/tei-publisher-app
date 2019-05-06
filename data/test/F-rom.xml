@@ -294,6 +294,13 @@
             </sourceDesc>
         </fileDesc>
         <profileDesc>
+            <textClass>
+                <catRef scheme="#genre" target="#drama"/>
+                <catRef scheme="#form" target="#print"/>
+            </textClass>
+            <langUsage>
+                <language ident="en">English</language>
+            </langUsage>
          <particDesc>
             <listPerson>
                <person xml:id="F-rom-cap.1">

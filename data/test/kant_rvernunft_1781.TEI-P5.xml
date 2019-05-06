@@ -183,9 +183,11 @@
         </encodingDesc>
         <profileDesc>
             <langUsage>
-                <language ident="deu">German</language>
+                <language ident="de">German</language>
             </langUsage>
             <textClass>
+                <catRef scheme="#genre" target="#philosophy"/>
+                <catRef scheme="#form" target="#print"/>
                 <classCode scheme="http://www.deutschestextarchiv.de/doku/klassifikation#dtamain"
                     >Fachtext</classCode>
                 <classCode scheme="http://www.deutschestextarchiv.de/doku/klassifikation#dtasub"
