@@ -42,9 +42,9 @@ declare variable $config:default-view := "div";
 declare variable $config:default-template := "view.html";
 
 (:
- : The element to search by default, either 'tei:div' or 'tei:body'.
+ : The element to search by default, either 'tei:div' or 'tei:text'.
  :)
-declare variable $config:search-default := "tei:div";
+declare variable $config:search-default := "tei:text";
 
 (:
  : Defines which nested divs will be displayed as single units on one
@@ -64,6 +64,34 @@ declare variable $config:pagination-depth := 10;
  : attempt to fill up the page.
  :)
 declare variable $config:pagination-fill := 5;
+
+(:
+ : Display configuration for facets to be shown in the sidebar. The facets themselves
+ : are configured in the index configuration, collection.xconf.
+ :)
+declare variable $config:facets := [
+    map {
+        "dimension": "genre",
+        "heading": "Genre",
+        "max": 5,
+        "hierarchical": true()
+    },
+    map {
+        "dimension": "language",
+        "heading": "Language",
+        "max": 5,
+        "hierarchical": false(),
+        "output": function($label) {
+            switch($label)
+                case "de" return "German"
+                case "es" return "Spanish"
+                case "la" return "Latin"
+                case "fr" return "French"
+                case "en" return "English"
+                default return $label
+        }
+    }
+];
 
 (:
  : The function to be called to determine the next content chunk to display.
@@ -212,7 +240,7 @@ declare variable $config:data-root := $config:app-root || "/data";
 
 declare variable $config:data-default := $config:data-root || "/test";
 
-declare variable $config:data-exclude := "/doc(/blog)?";
+declare variable $config:data-exclude := "(taxonomy.xml|/doc(/blog)?)";
 
 declare variable $config:default-odd := "teipublisher.odd";
 

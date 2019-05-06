@@ -42,7 +42,7 @@ declare variable $config:default-view := "$$default-view$$";
 declare variable $config:default-template := "view.html";
 
 (:
- : The element to search by default, either 'tei:div' or 'tei:body'.
+ : The element to search by default, either 'tei:div' or 'tei:text'.
  :)
 declare variable $config:search-default := "$$default-search$$";
 

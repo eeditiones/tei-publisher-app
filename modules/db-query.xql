@@ -24,11 +24,10 @@ declare namespace db="http://docbook.org/ns/docbook";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation/docbook" at "navigation-dbk.xql";
 
-declare variable $dbs:QUERY_OPTIONS :=
-    <options>
-        <leading-wildcard>yes</leading-wildcard>
-        <filter-rewrite>yes</filter-rewrite>
-    </options>;
+declare variable $dbs:QUERY_OPTIONS := map {
+    "leading-wildcard": "yes",
+    "filter-rewrite": "yes"
+};
 
 declare function dbs:query-default($fields as xs:string+, $query as xs:string, $target-texts as xs:string*) {
     if(string($query)) then
@@ -39,19 +38,36 @@ declare function dbs:query-default($fields as xs:string+, $query as xs:string, $
                     if ($target-texts) then
                         for $text in $target-texts
                         return
-                            $config:data-root ! doc(. || "/" || $text)//db:title[ft:query(., $query, $dbs:QUERY_OPTIONS)]
+                            $config:data-root ! doc(. || "/" || $text)//db:title[ft:query(., $query, dbs:options())]
                     else
                         collection($config:data-root)//db:title[ft:query(., $query, $dbs:QUERY_OPTIONS)]
                 default return
                     if ($target-texts) then
                         for $text in $target-texts
                         return
-                            $config:data-root ! doc(. || "/" || $text)//db:section[ft:query(., $query, $dbs:QUERY_OPTIONS)] |
-                            $config:data-root ! doc(. || "/" || $text)//db:article[ft:query(., $query, $dbs:QUERY_OPTIONS)]
+                            $config:data-root ! doc(. || "/" || $text)//db:section[ft:query(., $query, dbs:options())] |
+                            $config:data-root ! doc(. || "/" || $text)//db:article[ft:query(., $query, dbs:options())]
                     else
-                        collection($config:data-root)//db:section[ft:query(., $query, $dbs:QUERY_OPTIONS)] |
-                        collection($config:data-root)//db:article[ft:query(., $query, $dbs:QUERY_OPTIONS)]
+                        collection($config:data-root)//db:section[ft:query(., $query, dbs:options())] |
+                        collection($config:data-root)//db:article[ft:query(., $query, dbs:options())]
     else ()
+};
+
+declare function dbs:options() {
+    map:merge((
+        $dbs:QUERY_OPTIONS,
+        map {
+            "facets":
+                map:merge((
+                    for $param in request:get-parameter-names()[starts-with(., 'facet-')]
+                    let $dimension := substring-after($param, 'facet-')
+                    return
+                        map {
+                            $dimension: request:get-parameter($param, ())
+                        }
+                ))
+        }
+    ))
 };
 
 declare function dbs:autocomplete($doc as xs:string?, $fields as xs:string+, $q as xs:string) {

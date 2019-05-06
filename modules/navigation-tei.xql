@@ -24,7 +24,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
 declare function nav:get-root($root as xs:string?, $options as map(*)?) {
-    $config:data-root ! collection(. || "/" || $root)//tei:body[ft:query(., (), $options)]/ancestor::tei:TEI
+    $config:data-root ! collection(. || "/" || $root)//tei:text[ft:query(., "file:*", $options)]/ancestor::tei:TEI
 };
 
 declare function nav:get-header($config as map(*), $node as element()) {
@@ -94,7 +94,7 @@ declare function nav:get-first-page-start($config as map(*), $data as element())
         if ($pb) then
             $pb
         else
-            $data/tei:TEI//tei:body
+            $data/tei:TEI//tei:text
 };
 
 
@@ -109,7 +109,7 @@ declare function nav:get-content($config as map(*), $div as element()) {
                     if ($nextPage) then
                         ($div/ancestor::* intersect $nextPage/ancestor::*)[last()]
                     else
-                        ($div/ancestor::tei:div, $div/ancestor::tei:body)[1]
+                        ($div/ancestor::tei:div, $div/ancestor::tei:text)[1]
                 )
             return
                 $chunk

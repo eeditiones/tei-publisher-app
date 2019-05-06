@@ -46,7 +46,7 @@ declare function teis:query-default($fields as xs:string+, $query as xs:string, 
                         for $text in $target-texts
                         return
                             $config:data-root ! doc(. || "/" || $text)//tei:div[ft:query(., $query, teis:options())] |
-                            $config:data-root ! doc(. || "/" || $text)//tei:body[ft:query(., $query, teis:options())]
+                            $config:data-root ! doc(. || "/" || $text)//tei:text[ft:query(., $query, teis:options())]
                     else
                         collection($config:data-root)//tei:div[ft:query(., $query, teis:options())] |
                         collection($config:data-root)//tei:body[ft:query(., $query, teis:options())]
@@ -73,7 +73,7 @@ declare function teis:options() {
 declare function teis:query-metadata($field as xs:string, $query as xs:string, $sort as xs:string) {
     let $options := map:merge((teis:options(), map { "fields": $sort }))
     for $rootCol in $config:data-root
-    for $doc in collection($rootCol)//tei:body[ft:query(., $field || ":(" || $query || ")", $options)]
+    for $doc in collection($rootCol)//tei:text[ft:query(., $field || ":(" || $query || ")", $options)]
     return
         $doc/ancestor::tei:TEI
 };
@@ -107,7 +107,7 @@ declare function teis:autocomplete($doc as xs:string?, $fields as xs:string+, $q
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index"),
-                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:body"), $q,
+                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:text"), $q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index")
@@ -169,12 +169,12 @@ declare function teis:expand($data as element()) {
                     if ($field = "text") then
                         (
                             ($data/ancestor::tei:div intersect $nextPage/ancestor::tei:div)[last()],
-                            $data/ancestor::tei:body
+                            $data/ancestor::tei:text
                         )[1]
                     else
-                        $data/ancestor::tei:body
+                        $data/ancestor::tei:text
                 else
-                    ($data/ancestor::tei:div, $data/ancestor::tei:body)[1]
+                    ($data/ancestor::tei:div, $data/ancestor::tei:text)[1]
         else
             $data
     let $expanded :=
@@ -195,7 +195,7 @@ declare %private function teis:query-default-view($context as element()*, $query
                 $context[./descendant-or-self::tei:head[ft:query(., $query, $teis:QUERY_OPTIONS)]]
             default return
                 $context[./descendant-or-self::tei:div[ft:query(., $query, $teis:QUERY_OPTIONS)]] |
-                $context[./descendant-or-self::tei:body[ft:query(., $query, $teis:QUERY_OPTIONS)]]
+                $context[./descendant-or-self::tei:text[ft:query(., $query, $teis:QUERY_OPTIONS)]]
 };
 
 declare function teis:get-current($config as map(*), $div as element()?) {

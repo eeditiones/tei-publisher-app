@@ -56,7 +56,7 @@ declare
 function app:sort($items as element()*, $sortBy as xs:string?) {
     let $items :=
         if (count($config:data-exclude) = 1) then
-            $items[not(matches(util:collection-name(.), $config:data-exclude))]
+            $items[not(matches(document-uri(root(.)), $config:data-exclude))]
         else
             $items
     return
@@ -91,6 +91,7 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
     let $sorted := app:sort($filtered, $sort)
     return (
         session:set-attribute('apps.simple', $filtered),
+        session:set-attribute('teipublisher.docs', $filtered),
         session:set-attribute("teipublisher.works", $sorted),
         session:set-attribute("teipublisher.browse", $browse),
         session:set-attribute("teipublisher.filter", $filter),
@@ -113,7 +114,9 @@ declare function app:options($sortBy as xs:string) {
                         $dimension: request:get-parameter($param, ())
                     }
             )),
-        "fields": $sortBy
+        "fields": $sortBy,
+        "leading-wildcard": "yes",
+        "filter-rewrite": "yes"
     }
 };
 

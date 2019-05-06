@@ -45,6 +45,10 @@
                     .toolbar pb-search {
                         padding-left: 0;
                     }
+
+                    #facets {
+                        display: none;
+                    }
                 }
 
                 .tp-title {
@@ -97,8 +101,17 @@
                     };
                 }
 
+                .panels .doclist .card-content {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                }
+
+                #document-list {
+                    flex: 2;
+                }
+
                 aside {
-                    flex: 1 0 auto;
                     display: flex;
                     flex-direction: column;
                     max-width: 480px;
@@ -167,6 +180,43 @@
                 h5 {
                     font-size: 16px;
                     margin: 0;
+                }
+
+                #facets {
+                    flex: 0;
+                    min-width: 220px;
+                    margin-right: 20px;
+                }
+
+                #facets h3 {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                }
+
+                #facets h3 paper-checkbox {
+                    margin-left: 16px;
+                    font-size: 11px;
+                }
+
+                #facets table {
+                    font-size: 14px;
+                }
+
+                #facets table table {
+                    padding-left: 16px;
+                    width: 100%;
+                }
+
+                #facets table td{
+                    padding:4px 0;
+                }
+
+                #facets table td:nth-child(2) {
+                    color: #808080;
+                    text-align: right;
+                    padding-left: 1em;
+                    vertical-align: middle;
                 }
             </style>
         </custom-style>
@@ -288,13 +338,16 @@
                         <section class="panels">
                             <paper-card class="doclist" heading="i18n(documents)">
                                 <div class="card-content">
+                                    <pb-custom-form id="facets" url="modules/facets.xql" event="pb-results-received" subscribe="docs" emit="docs"/>
                                     <pb-browse-docs id="document-list" url="templates/documents.html" sort-label="i18n(sort-by)"
                                         sort-options='[{"label": "Title", "value": "title"},{"label": "Author", "value": "author"},{"label": "Modification Date", "value": "default"}]'
                                         sort-by="title"
                                         filter-options='[{"label": "Title", "value": "title"},{"label": "Author", "value": "author"},{"label": "File name", "value": "file"}]'
                                         filter-by="title"
-                                        auto="auto" history="history" login="login">
-                                        <pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" found-label="i18n(browsing)"></pb-paginate>
+                                        auto="auto" history="history" login="login"
+                                        emit="docs" subscribe="docs">
+                                        <pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" found-label="i18n(browsing)"
+                                            emit="docs" subscribe="docs"></pb-paginate>
                                     </pb-browse-docs>
                                 </div>
                             </paper-card>
@@ -349,5 +402,24 @@
                 </div>
             </paper-dialog>
         </pb-page>
+        <script>
+            const facets = document.getElementById('facets');
+            facets.addEventListener('pb-custom-form-loaded', function(ev) {
+                const elems = ev.detail.querySelectorAll('.facet');
+                elems.forEach(facet => {
+                    facet.addEventListener('change', () => {
+                        const table = facet.closest('table');
+                        if (table) {
+                            const nested = table.querySelectorAll('.nested .facet').forEach(nested => {
+                                if (nested != facet) {
+                                    nested.checked = false;
+                                }
+                            });
+                        }
+                        facets.submit();
+                    });
+                });
+            });
+        </script>
     </body>
 </html>
