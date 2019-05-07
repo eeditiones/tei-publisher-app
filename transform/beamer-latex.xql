@@ -31,7 +31,7 @@ import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-la
 declare function model:transform($options as map(*), $input as node()*) {
         
     let $config :=
-        map:new(($options,
+        map:merge(($options,
             map {
                 "output": ["latex","print"],
                 "odd": "/db/apps/tei-publisher/odd/beamer.odd",
