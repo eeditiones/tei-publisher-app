@@ -80,12 +80,12 @@
                 </fieldset>
                 <fieldset>
                     <legend>Define the smallest block on which a full text index is created. For documents
-                    organized into divisions, choosing tei:div is usually best. If there are no divisions,
-                    choose body.</legend>
+                    organized into divisions, choosing 'Create on division' is usually best. If there are no divisions,
+                    choose 'Create on text'.</legend>
                     <paper-dropdown-menu id="index" label="Default Full Text Index" name="index">
                         <paper-listbox slot="dropdown-content" class="dropdown-content" selected="tei:div" attr-for-selected="value">
                             <paper-item value="tei:div">Create on division</paper-item>
-                            <paper-item value="tei:body">Create on body</paper-item>
+                            <paper-item value="tei:text">Create on text</paper-item>
                         </paper-listbox>
                     </paper-dropdown-menu>
                 </fieldset>

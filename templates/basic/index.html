@@ -12,10 +12,9 @@
 
         <title data-template="config:app-title"/>
         <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
-        <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
         <link rel="import" href="components/dependencies-dev.html"/>
         <style>
-            [unresolved]{
+            [unresolved] {
                 display:none;
             }
         </style>
@@ -26,9 +25,13 @@
                     margin: 0 20px 0 20px;
                 }
 
-                @media (max-width: 768px) {
+                @media (max-width: 1023px) {
                     main {
                         margin: 0 8px 0 8px;
+                    }
+
+                    .doclist {
+                        margin-bottom: 20px;
                     }
 
                     .documents {
@@ -41,6 +44,10 @@
 
                     .toolbar pb-search {
                         padding-left: 0;
+                    }
+
+                    #facets {
+                        display: none;
                     }
                 }
 
@@ -64,12 +71,15 @@
                 }
 
                 @media (min-width: 1024px) {
+                    .toolbar {
+                        display: none;
+                    }
                     .panels {
                         display: flex;
                         flex-direction: row;
                     }
 
-                    .panels .documents {
+                    .panels .doclist {
                         flex: 2 auto;
                         margin-right: 20px;
                     }
@@ -79,7 +89,7 @@
                     margin-bottom: 40px;
                 }
 
-                .panels .documents {
+                .panels .doclist {
                     --paper-card-header: {
                         background-color: #d1dae0;
                     };
@@ -91,8 +101,14 @@
                     };
                 }
 
-                .panels aside {
-                    flex: 1 0 auto;
+                .panels .doclist .card-content {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                }
+
+                #document-list {
+                    flex: 2;
                 }
 
                 aside {
@@ -111,6 +127,11 @@
                         font-weight: 400;
                         color: white;
                     };
+                }
+
+                aside .upload {
+                    width: 100%;
+                    min-width: 360px;
                 }
 
                 .documents ul {
@@ -137,7 +158,13 @@
                     display: flex;
                     flex-direction: row;
                     margin-bottom: 10px;
+                    padding:6px 0;
+                    border-bottom:thin solid var(--paper-grey-300);
                 }
+                .documents li:last-child{
+                    border:none;
+                }
+
 
                 .documents .document-select {
                     flex: 0 0;
@@ -153,15 +180,53 @@
                     font-size: 16px;
                     margin: 0;
                 }
+
+                #facets {
+                    flex: 0;
+                    min-width: 220px;
+                    margin-right: 20px;
+                }
+
+                #facets h3 {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                }
+
+                #facets h3 paper-checkbox {
+                    margin-left: 16px;
+                    font-size: 11px;
+                }
+
+                #facets table {
+                    font-size: 14px;
+                }
+
+                #facets table table {
+                    padding-left: 16px;
+                    width: 100%;
+                }
+
+                #facets table td{
+                    padding:4px 0;
+                }
+
+                #facets table td:nth-child(2) {
+                    color: #808080;
+                    text-align: right;
+                    padding-left: 1em;
+                    vertical-align: middle;
+                }
             </style>
         </custom-style>
     </head>
-    <body data-template="i18n:translate" data-catalogues="resources/i18n">
+
+    <body unresolved="unresolved" data-template="i18n:translate" data-catalogues="resources/i18n">
         <pb-page data-template="pages:pb-page">
             <app-drawer-layout force-narrow="force-narrow">
                 <app-drawer slot="drawer" align="right" xmlns:i18n="http://exist-db.org/xquery/i18n">
                     <div class="drawer-content">
-                        <pb-media-query query="max-width: 1023px">
+                        <pb-media-query query="(max-width: 1023px)">
                             <!-- language selector -->
                             <pb-lang name="lang" label="Language" data-template="pages:current-language">
                                 <paper-item>en</paper-item>
@@ -180,14 +245,12 @@
                             <a href="$app/index.html" class="logo">
                                 <img src="resources/images/tei-publisher-logo-contrast-color.svg"/>
                             </a>
-                            <pb-media-query query="min-width: 1024px">
+                            <pb-media-query query="(min-width: 1024px)">
                                 <a href="$app/index.html">Start</a>
                                 <!-- Search input -->
                                 <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
                                     place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
-                            </pb-media-query>
 
-                            <pb-media-query query="min-width: 1024px">
                                 <!-- language selector -->
                                 <pb-lang name="lang" label="Language" data-template="pages:current-language">
                                     <paper-item>en</paper-item>
@@ -198,13 +261,12 @@
                                     <paper-item>pl</paper-item>
                                 </pb-lang>
                             </pb-media-query>
-                            <pb-login id="login" login-label="i18n(login)" logout-label="i18n(logout)"
-                                group="tei">
+                            <pb-login id="login" login-label="i18n(login)" logout-label="i18n(logout)" group="tei" emit="docs">
                                 <iron-icon slot="icon" icon="account-circle"></iron-icon>
                             </pb-login>
                             <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
                         </app-toolbar>
-                        <pb-media-query query="max-width: 1023px">
+                        <pb-media-query query="(max-width: 1023px)">
                             <app-toolbar class="toolbar" sticky="sticky" xmlns:i18n="http://exist-db.org/xquery/i18n">
                                 <!-- Search input -->
                                 <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
@@ -219,24 +281,29 @@
                             <h1 class="tp-title" data-template="config:app-title"></h1>
                         </section>
                         <section class="panels">
-                            <paper-card class="documents" heading="i18n(documents)">
+                            <paper-card class="doclist" heading="i18n(documents)">
                                 <div class="card-content">
+                                    <pb-custom-form id="facets" url="modules/facets.xql" event="pb-results-received" subscribe="docs" emit="docs"/>
                                     <pb-browse-docs id="document-list" url="templates/documents.html" sort-label="i18n(sort-by)"
                                         sort-options='[{"label": "Title", "value": "title"},{"label": "Author", "value": "author"},{"label": "Modification Date", "value": "default"}]'
                                         sort-by="title"
                                         filter-options='[{"label": "Title", "value": "title"},{"label": "Author", "value": "author"},{"label": "File name", "value": "file"}]'
                                         filter-by="title"
-                                        auto="auto" history="history" login="login">
-                                        <pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" found-label="i18n(browsing)"></pb-paginate>
+                                        auto="auto" history="history" login="login"
+                                        emit="docs" subscribe="docs">
+                                        <pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" found-label="i18n(browsing)"
+                                            emit="docs" subscribe="docs"></pb-paginate>
                                     </pb-browse-docs>
                                 </div>
                             </paper-card>
                             <aside>
-                                <paper-card class="upload" heading="i18n(upload)">
-                                    <div class="card-content">
-                                        <pb-upload id="upload"></pb-upload>
-                                    </div>
-                                </paper-card>
+                                <pb-restricted login="login">
+                                    <paper-card class="upload" heading="i18n(upload)">
+                                        <div class="card-content">
+                                            <pb-upload id="upload"></pb-upload>
+                                        </div>
+                                    </paper-card>
+                                </pb-restricted>
                             </aside>
                         </section>
                     </main>
@@ -275,5 +342,24 @@
                 </div>
             </paper-dialog>
         </pb-page>
+        <script>
+            const facets = document.getElementById('facets');
+            facets.addEventListener('pb-custom-form-loaded', function(ev) {
+                const elems = ev.detail.querySelectorAll('.facet');
+                elems.forEach(facet => {
+                    facet.addEventListener('change', () => {
+                        const table = facet.closest('table');
+                        if (table) {
+                            const nested = table.querySelectorAll('.nested .facet').forEach(nested => {
+                                if (nested != facet) {
+                                    nested.checked = false;
+                                }
+                            });
+                        }
+                        facets.submit();
+                    });
+                });
+            });
+        </script>
     </body>
 </html>

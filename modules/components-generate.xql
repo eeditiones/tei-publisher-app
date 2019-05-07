@@ -161,7 +161,6 @@ declare function deploy:copy-collection($target as xs:string, $source as xs:stri
     return
     if (exists(collection($source))) then (
         for $resource in xmldb:get-child-resources($source)
-        let $targetPath := xs:anyURI(concat($target, "/", $resource))
         return (
             xmldb:copy-resource($source, $resource, $target, $resource)
         ),
@@ -172,19 +171,56 @@ declare function deploy:copy-collection($target as xs:string, $source as xs:stri
         ()
 };
 
+declare function deploy:copy-resource($target as xs:string, $source as xs:string, $name as xs:string, $userData as xs:string+, $permissions as xs:string) {
+    xmldb:copy-resource($source, $name, $target, $name),
+    let $path := xs:anyURI($target || "/" || $name)
+    return (
+        sm:chown($path, $userData[1]),
+        sm:chgrp($path, $userData[2]),
+        sm:chmod($path, $permissions)
+    )
+};
+
 declare function deploy:store-xconf($collection as xs:string?, $json as map(*)) {
-    let $xconf:=
+    let $xconf :=
         <collection xmlns="http://exist-db.org/collection-config/1.0">
-            <index xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <index xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dbk="http://docbook.org/ns/docbook">
                 <fulltext default="none" attributes="false"/>
                 <lucene>
-                    <text qname="{$json?index}">
-                        <ignore qname="{$json?index}"/>
+                    <module uri="http://teipublisher.com/index" prefix="nav" at="index.xql"/>
+                    <text match="/tei:TEI/tei:text">
+                        { 
+                            if ($json?index = "tei:div") then
+                                <ignore qname="tei:div"/>
+                            else
+                                ()
+                        }
+                        <field name="title" expression="nav:get-metadata(ancestor::tei:TEI, 'title')"/>
+                        <field name="author" expression="nav:get-metadata(ancestor::tei:TEI, 'author')"/>
+                        <field name="language" expression="nav:get-metadata(ancestor::tei:TEI, 'language')"/>
+                        <field name="date" expression="nav:get-metadata(ancestor::tei:TEI, 'date')"/>
+                        <field name="file" expression="util:document-name(.)"/>
+                        <facet dimension="genre" expression="nav:get-metadata(ancestor::tei:TEI, 'genre')" hierarchical="yes"/>
+                        <facet dimension="language" expression="nav:get-metadata(ancestor::tei:TEI, 'language')"/>
                     </text>
+                    {
+                        if ($json?index = "tei:div") then
+                            <text qname="{$json?index}">
+                                <ignore qname="{$json?index}"/>
+                                <facet dimension="genre" expression="nav:get-metadata(ancestor::tei:TEI, 'genre')" hierarchical="yes"/>
+                                <facet dimension="language" expression="nav:get-metadata(ancestor::tei:TEI, 'language')"/>
+                            </text>
+                        else
+                            ()
+                    }
                     <text qname="tei:head"/>
-                    <text match="//tei:sourceDesc/tei:biblFull/tei:titleStmt/tei:title"/>
-                    <text match="//tei:fileDesc/tei:titleStmt/tei:title"/>
-                    <text qname="dbk:section"/>
+                    <text match="//tei:titleStmt/tei:title"/>
+                    <text match="//tei:msDesc/tei:head"/>
+                    <text qname="dbk:section">
+                        <field name="title" expression="nav:get-metadata(ancestor::dbk:article, 'title')"/>
+                        <facet dimension="genre" expression="nav:get-metadata(ancestor::dbk:article, 'genre')" hierarchical="yes"/>
+                        <facet dimension="language" expression="nav:get-metadata(ancestor::dbk:article, 'language')"/>
+                    </text>
                     <text qname="dbk:title"/>
                 </lucene>
             </index>
@@ -237,7 +273,7 @@ declare function deploy:expand($collection as xs:string, $resource as xs:string,
 
 declare function deploy:store-libs($target as xs:string, $userData as xs:string+, $permissions as xs:string) {
     let $path := system:get-module-load-path()
-    for $lib in ("autocomplete.xql", "view.xql", "map.xql", xmldb:get-child-resources($path)[starts-with(., "navigation")],
+    for $lib in ("autocomplete.xql", "view.xql", "map.xql", "facets.xql", xmldb:get-child-resources($path)[starts-with(., "navigation")],
         xmldb:get-child-resources($path)[ends-with(., "query.xql")])
     return (
         xmldb:copy-resource($path, $lib, $target || "/modules", $lib)
@@ -303,7 +339,10 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:expand($collection || "/modules", "pm-config.xql", $replacements),
         deploy:store-libs($collection, ($json?owner, "tei"), "rw-rw-r--"),
         deploy:copy-odd($collection, $json),
-        deploy:create-transform($collection)
+        deploy:create-transform($collection),
+        deploy:copy-resource($collection, $base, "index.xql", ($json?owner, "tei"), "rw-rw-r--"),
+        deploy:mkcol($collection || "/data", ($json?owner, "tei"), "rw-rw-r--"),
+        deploy:copy-resource($collection || "/data", $base || "/data", "taxonomy.xml", ($json?owner, "tei"), "rw-rw-r--")
     )
     return
         $collection
@@ -332,17 +371,17 @@ declare function deploy:update-or-create($json as map(*)) {
         if (exists($existing)) then
             "found app"
         else
-            try {
+            (: try { :)
                 let $mkcol := deploy:mkcol("/db/system/repo", (), ())
                 let $target := deploy:create-app("/db/system/repo/" || $json?abbrev, $json)
                 return
                     deploy:deploy($target, doc($target || "/expath-pkg.xml")/*)
-            } catch * {
+            (: } catch * {
                 map {
                     "result": "error",
                     "message": ($err:description, $err:value, $err:additional)[1]
                 }
-            }
+            } :)
 };
 
 let $data := request:get-data()

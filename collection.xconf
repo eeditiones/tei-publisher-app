@@ -22,7 +22,6 @@
             <text qname="tei:head"/>
             <text match="//tei:titleStmt/tei:title"/>
             <text match="//tei:msDesc/tei:head"/>
-            <!--text match="//tei:sourceDesc/tei:biblFull/tei:titleStmt/tei:author"/-->
             <text qname="dbk:section">
                 <field name="title" expression="nav:get-metadata(ancestor::dbk:article, 'title')"/>
                 <facet dimension="genre" expression="nav:get-metadata(ancestor::dbk:article, 'genre')" hierarchical="yes"/>

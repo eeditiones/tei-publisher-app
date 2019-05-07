@@ -67,24 +67,26 @@ declare function local:print-table($config as map(*), $nodes as element()+, $val
 };
 
 declare function local:display($config as map(*), $nodes as element()+) {
-    <div>
-        <h3>{$config?heading}
-        {
-            if (exists($config?max)) then
-                <paper-checkbox class="facet" name="all-{$config?dimension}">
-                    { if (request:get-parameter("all-" || $config?dimension, ())) then attribute checked { "checked" } else () }
-                    Show all
-                </paper-checkbox>
-            else
-                ()
-        }
-        </h3>
-        {
-            let $params := request:get-parameter("facet-" || $config?dimension, ())
-            return
-                local:print-table($config, $nodes, (), $params)
-        }
-    </div>
+    let $params := request:get-parameter("facet-" || $config?dimension, ())
+    let $table := local:print-table($config, $nodes, (), $params)
+    where $table
+    return
+        <div>
+            <h3>{$config?heading}
+            {
+                if (exists($config?max)) then
+                    <paper-checkbox class="facet" name="all-{$config?dimension}">
+                        { if (request:get-parameter("all-" || $config?dimension, ())) then attribute checked { "checked" } else () }
+                        Show all
+                    </paper-checkbox>
+                else
+                    ()
+            }
+            </h3>
+            {
+                $table
+            }
+        </div>
 };
 
 let $hits := session:get-attribute("apps.simple")

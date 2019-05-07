@@ -66,6 +66,34 @@ declare variable $config:pagination-depth := 10;
 declare variable $config:pagination-fill := 5;
 
 (:
+ : Display configuration for facets to be shown in the sidebar. The facets themselves
+ : are configured in the index configuration, collection.xconf.
+ :)
+declare variable $config:facets := [
+    map {
+        "dimension": "genre",
+        "heading": "Genre",
+        "max": 5,
+        "hierarchical": true()
+    },
+    map {
+        "dimension": "language",
+        "heading": "Language",
+        "max": 5,
+        "hierarchical": false(),
+        "output": function($label) {
+            switch($label)
+                case "de" return "German"
+                case "es" return "Spanish"
+                case "la" return "Latin"
+                case "fr" return "French"
+                case "en" return "English"
+                default return $label
+        }
+    }
+];
+
+(:
  : The function to be called to determine the next content chunk to display.
  : It takes two parameters:
  :
@@ -206,7 +234,7 @@ declare variable $config:app-root :=
 
 declare variable $config:data-root := $$config-data$$;
 
-declare variable $config:data-exclude := ();
+declare variable $config:data-exclude := "taxonomy.xml";
 
 declare variable $config:default-odd := "$$config-odd$$";
 
