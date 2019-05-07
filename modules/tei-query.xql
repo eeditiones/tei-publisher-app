@@ -49,7 +49,7 @@ declare function teis:query-default($fields as xs:string+, $query as xs:string, 
                             $config:data-root ! doc(. || "/" || $text)//tei:text[ft:query(., $query, teis:options())]
                     else
                         collection($config:data-root)//tei:div[ft:query(., $query, teis:options())] |
-                        collection($config:data-root)//tei:body[ft:query(., $query, teis:options())]
+                        collection($config:data-root)//tei:text[ft:query(., $query, teis:options())]
     else ()
 };
 
@@ -98,7 +98,7 @@ declare function teis:autocomplete($doc as xs:string?, $fields as xs:string+, $q
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index"),
-                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:body"), $q,
+                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:text"), $q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index")
@@ -132,7 +132,7 @@ declare function teis:autocomplete($doc as xs:string?, $fields as xs:string+, $q
 
 
 declare function teis:get-parent-section($node as node()) {
-    ($node/self::tei:body, $node/ancestor-or-self::tei:div[1], $node)[1]
+    ($node/self::tei:text, $node/ancestor-or-self::tei:div[1], $node)[1]
 };
 
 declare function teis:get-breadcrumbs($config as map(*), $hit as element(), $parent-id as xs:string) {

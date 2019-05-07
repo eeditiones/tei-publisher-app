@@ -105,10 +105,12 @@
                     display: flex;
                     flex-direction: row;
                     justify-content: space-between;
+                    padding: 0;
                 }
 
                 #document-list {
                     flex: 2;
+                    margin-right: 20px;
                 }
 
                 aside {
@@ -185,6 +187,8 @@
                     flex: 0;
                     min-width: 220px;
                     margin-right: 20px;
+                    background-color: #F0F0F0;
+                    padding: 0 10px;
                 }
 
                 #facets h3 {
@@ -297,10 +301,10 @@
                                 </div>
                             </paper-card>
                             <aside>
-                                <pb-restricted login="login">
+                                <pb-restricted login="login" subscribe="docs">
                                     <paper-card class="upload" heading="i18n(upload)">
                                         <div class="card-content">
-                                            <pb-upload id="upload"></pb-upload>
+                                            <pb-upload id="upload" emit="docs"></pb-upload>
                                         </div>
                                     </paper-card>
                                 </pb-restricted>

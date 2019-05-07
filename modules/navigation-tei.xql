@@ -44,7 +44,7 @@ declare function nav:get-section($config as map(*), $doc) {
             if ($div) then
                 $div
             else
-                let $group := root($doc)/tei:TEI/tei:text/tei:group/tei:text/(tei:front|tei:body|tei:back)
+                let $group := root($doc)/tei:TEI/tei:text/tei:group/tei:text
                 return
                     if ($group) then
                         $group[1]
