@@ -215,6 +215,7 @@
                     div.innerHTML = resp;
                     div.className = '_contentSlot';
                     div.slot = '';
+                    this.innerHTML = '';
                     this.appendChild(div);
                     this._onLoad(this);
                 }
