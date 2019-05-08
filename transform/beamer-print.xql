@@ -29,7 +29,7 @@ import module namespace ext-fo="http://www.tei-c.org/tei-simple/xquery/ext-fo" a
 declare function model:transform($options as map(*), $input as node()*) {
         
     let $config :=
-        map:new(($options,
+        map:merge(($options,
             map {
                 "output": ["fo","print"],
                 "odd": "/db/apps/tei-publisher/odd/beamer.odd",
