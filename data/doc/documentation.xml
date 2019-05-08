@@ -1783,7 +1783,153 @@
         </varlistentry>
       </variablelist>
     </section>
-
+    <section xml:id="facets">
+      <title>Define Facets for Browsing and Search</title>
+      <para>Facets allow users to quickly navigate through a set of documents or query results by
+        selecting from predefined categories or properties. This way, users can "drill down" into
+        the set, reducing the number of displayed items with every step. For demonstration purposes,
+        TEI Publisher configures two facets by default: "Genre" and "Language". You can see those to
+        the left of the document list on the start page, or below the search box on the search
+        result page.</para>
+      <figure>
+        <title>Facets on the start page</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="facets.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>From a user perspective, the main concept behind facets is the <emphasis>drill
+          down</emphasis>: initially the user sees all facet values associated with the set of
+        documents or search results displayed. The number behind each value denotes the number of
+        items in the set having the particular facet set. As the user selects one facet, the set
+        necessarily becomes smaller, so non-matching facet values will disappear and the numbers
+        adjust accordingly.</para>
+      <para>Facets are a new feature in eXist 5.0. They are super fast because eXist will create
+        them when indexing the document. No extra computation is needed when the user clicks on a
+        facet to drill down into a displayed set: all information is already available in the index.
+        To see a more complex example of facets in action, visit our <link
+          xlink:href="https://teipublisher.com/exist/apps/vangogh/index.html">Van Gogh</link>
+        demo.</para>
+      <para>If you would like to configure other or additional facets, you need to edit three
+        files:</para>
+      <variablelist>
+        <varlistentry>
+          <term><filename>collection.xconf</filename></term>
+          <listitem>
+            <para>The <filename>collection.xconf</filename> tells eXist how to index the collection.
+              The default configuration in TEI Publisher creates two Lucene full-text indexes for
+              TEI on <tag>tei:text</tag> and <tag>tei:div</tag>. Each of those may have facets
+              attached. Every facet must have a <parameter>dimension</parameter> and an
+                <parameter>expression</parameter> attribute. The expression is an arbitrary
+              XPath/XQuery string. For every element being indexed, the expression is evaluated once
+              and the result defines the string values which will be associated with the specified
+              facet dimension.</para>
+            <para>For a description of how full-text indexes and facets are defined in the
+                <filename>collection.xconf</filename>, please refer to the <link
+                xlink:href="http://exist-db.org/exist/apps/doc/lucene">eXist
+              documentation</link>.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><filename>index.xql</filename></term>
+          <listitem>
+            <para>If you open the default <filename>collection.xconf</filename>, you'll see that
+              most facet expressions call a function <function>nav:get-metadata</function>. This
+              function is declared in <filename>index.xql</filename>. By externalizing most of the
+              code into a separate function, we can keep the index configuration clean and
+              short.</para>
+            <para>The default <filename>index.xql</filename> already does some advanced
+              preprocessing, in particular for the "genre" facet: each of the sample documents
+              references a central taxonomy (contained in <filename>data/taxonomy.xml</filename>).
+              The references are resolved at indexing time by following the <tag>catRef</tag>
+              element's <parameter>@target</parameter> attribute. Note that we create a hierarchical
+              facet, because e.g. "Philosophy" is a sub-category of "Prose". The code in function
+                <function>idx:get-genre</function> will automatically include the
+              super-category.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><filename>config.xqm</filename></term>
+          <listitem>
+            <para>While the other two files cover the server-side creation of facets, we also need a
+              place where we define how facets should be displayed in the user interface. The main
+              configuration module: <filename>config.xqm</filename> declares a variable
+                <varname>$config:facets</varname>. It should contain an array of maps, where each
+              map defines the settings for one dimension, e.g.:</para>
+            <programlisting language="xquery" xml:space="preserve">
+(:
+ : Display configuration for facets to be shown in the sidebar. The facets themselves
+ : are configured in the index configuration, collection.xconf.
+ :)
+declare variable $config:facets := [
+    map {
+        "dimension": "genre",
+        "heading": "Genre",
+        "max": 5,
+        "hierarchical": true()
+    },
+    map {
+        "dimension": "language",
+        "heading": "Language",
+        "max": 5,
+        "hierarchical": false(),
+        "output": function($label) {
+            switch($label)
+                case "de" return "German"
+                case "es" return "Spanish"
+                case "la" return "Latin"
+                case "fr" return "French"
+                case "en" return "English"
+                default return $label
+        }
+    }
+];
+</programlisting>
+            <para>The map properties are as follows:</para>
+            <variablelist>
+              <varlistentry>
+                <term>dimension</term>
+                <listitem>
+                  <para>The name of the dimension. Should correspond to the value of the <parameter>@dimension</parameter> attribute used in <filename>collection.xconf</filename></para>
+                </listitem>
+              </varlistentry>
+              <varlistentry>
+                <term>heading</term>
+                <listitem>
+                  <para>The heading to display above the facet values</para>
+                </listitem>
+              </varlistentry>
+              <varlistentry>
+                <term>max</term>
+                <listitem>
+                  <para>Maximum number of facet values to be displayed initially. More can be shown
+                    if the user clicks on the <guilabel>Show All</guilabel> checkbox. Pass an empty
+                    sequence, i.e. (), to not limit the number and hide the checkbox.</para>
+                </listitem>
+              </varlistentry>
+              <varlistentry>
+                <term>hierarchical</term>
+                <listitem>
+                  <para>Defines if the facet is hierarchical, which means that only the top-level
+                    facet values in the hierarchy will be shown initially. If the user selects one
+                    top-level value, the interface will expand and show the sub-categories. For this
+                    to work the facet must be configured as "hierarchical" in
+                      <filename>collection.xconf</filename></para>
+                </listitem>
+              </varlistentry>
+              <varlistentry>
+                <term>output</term>
+                <listitem>
+                  <para>A function which can be used to process the facet value before display. The
+                    facet label will be replaced by whatever the function returns.</para>
+                </listitem>
+              </varlistentry>
+            </variablelist>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </section>
     <section xml:id="odd-by-example">
       <title>Building a Sample-Based ODD</title>
       <para>If you do not want to start a customized ODD from a blank template, you can alternatively generate one that covers the classes and elements of a
