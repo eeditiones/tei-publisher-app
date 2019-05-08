@@ -74,9 +74,11 @@ var targetConfiguration = {
 };
 */
 
+/*
 exist.defineMimeTypes({
     'application/xml': ['odd']
 });
+*/
 
 var exClient = exist.createClient({
     host: 'localhost',

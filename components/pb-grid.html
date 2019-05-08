@@ -12,7 +12,7 @@
             }
         </style>
 
-        <slot></slot>
+        <slot id="default"></slot>
     </template>
 
     <script>
@@ -54,7 +54,23 @@
                      */
                     _columns: {
                         type: Number
+                    },
+                    /**
+                     * CSS Selektor to choose elements to animate. If not specified all 'pb-view' elements will be animated by default.
+                     */
+                    animated:{
+                        type: String,
+                        value:'pb-view'
+                    },
+                    /**
+                     * wether to animate the view when new page is loaded. Defaults to 'false' meaning that no
+                     * animation takes place.
+                     */
+                    animation: {
+                        type:Boolean,
+                        value:false
                     }
+
                 };
             }
 
@@ -74,6 +90,7 @@
                 });
             }
 
+
             ready() {
                 super.ready();
                 const panelsParam = this.getParameter('panels');
@@ -92,8 +109,47 @@
                     this.template = this.querySelector('template');
                     this.panels.forEach(panelNum => this._insertPanel(panelNum));
 
+                    this._animate();
                     this._update();
                 });
+
+            }
+
+
+            /**
+             * slides in all panels from left to right with a slight delay between the panels. If animejs is not
+             * loaded nothing happens and content is displayed as usual.
+             */
+            _animate(){
+                if(this.animation) {
+                    if (typeof anime && "anime" in window) {
+                        // console.log('animated elements', document.querySelectorAll('pb-panel'));
+                        const animated = document.querySelectorAll(this.animated);
+                        const anim = anime.timeline({
+                            easing: 'linear',
+                            duration: 400
+                        });
+                        anim.add({
+                            targets: animated,
+                            opacity: {
+                                value: [0, 0.6],
+                                duration: 200,
+                                delay: 100,
+                                easing: 'linear'
+                            },
+                            translateX: [2000, 0],
+                            duration: 400,
+                            delay: anime.stagger(100, {start: 100})
+                        });
+                        anim.add({
+                            targets: animated,
+                            opacity: [0.6, 1],
+                            duration: 200,
+                            delay: anime.stagger(50)
+                        });
+                        anim.play();
+                    }
+                }
             }
 
             addPanel(initial) {
