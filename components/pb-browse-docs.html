@@ -225,7 +225,7 @@
                     }
                     this.subscribeTo('pb-login', (ev) => {
                         this._allowModification = this._loggedIn(ev.detail.user, ev.detail.group);
-                    });
+                    }, []);
                     this._allowModification = login.loggedIn && this._loggedIn(login.user, login.groups);
                 });
             }
