@@ -61,4 +61,5 @@
     <msg key="new-odd-name">Name of new customization</msg>
     <msg key="new-odd-title">Title for display</msg>
     <msg key="sort-by">Sorting</msg>
+    <msg key="xar-download">Download entire app as xar</msg>
 </catalogue>

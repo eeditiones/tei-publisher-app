@@ -251,6 +251,18 @@
                             </a>
                             <pb-media-query query="(min-width: 1024px)">
                                 <a href="$app/index.html">Start</a>
+                                <pb-restricted login="login">
+                                    <paper-menu-button>
+                                        <a href="#" slot="dropdown-trigger"><i18n:text key="admin"/></a>
+                                        <paper-listbox slot="dropdown-content">
+                                            <paper-item>
+                                                <pb-download url="modules/lib/app-download.xql">
+                                                    <i18n:text key="xar-download"/>
+                                                </pb-download>
+                                            </paper-item>
+                                        </paper-listbox>
+                                    </paper-menu-button>
+                                </pb-restricted>
                                 <!-- Search input -->
                                 <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
                                     place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>

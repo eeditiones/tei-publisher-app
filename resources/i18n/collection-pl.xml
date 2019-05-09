@@ -60,4 +60,5 @@
     <msg key="new-odd-name">Nazwa nowego pliku ODD</msg>
     <msg key="new-odd-title">Etykieta do wyświetlania</msg>
     <msg key="sort-by">Sortuj</msg>
+    <msg key="xar-download">Download entire app as xar</msg>
 </catalogue>

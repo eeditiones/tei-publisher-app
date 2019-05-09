@@ -90,7 +90,7 @@
                     },
                     _href: {
                         type: String,
-                        computed: '_computeURL(src, type, file, odd, params)'
+                        computed: '_computeURL(src, type, file, odd, params, url)'
                     },
                     _token: {
                         type: String
@@ -133,6 +133,7 @@
                 if (this.source) {
                     url += '&source=yes';
                 }
+                console.log(url);
                 return url;
             }
 

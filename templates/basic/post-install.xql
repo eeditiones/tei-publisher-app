@@ -102,6 +102,7 @@ sm:chmod(xs:anyURI($target || "/modules/lib/get-epub.xql"), "rwsr-xr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/components.xql"), "rwsr-xr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/components-odd.xql"), "rwxr-Sr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/regenerate.xql"), "rwsr-xr-x"),
+sm:chmod(xs:anyURI($target || "/modules/lib/app-download.xql"), "rwsr-xr-x"),
 (: sm:chmod(xs:anyURI($target || "/modules/lib/upload.xql"), "rwsr-xr-x"), :)
 
 (: LaTeX requires dba permissions to execute shell process :)

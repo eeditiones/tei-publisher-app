@@ -55,4 +55,5 @@
     <msg key="yes">Sì</msg>
     <msg key="no">No</msg>
     <msg key="sort-by">Sorting</msg>
+    <msg key="xar-download">Download entire app as xar</msg>
 </catalogue>
