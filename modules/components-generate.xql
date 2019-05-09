@@ -343,7 +343,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:copy-resource($collection, $base, "index.xql", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:mkcol($collection || "/data", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:copy-resource($collection || "/data", $base || "/data", "taxonomy.xml", ($json?owner, "tei"), "rw-rw-r--"),
-        deploy:copy-collection($collection || "/resources/i18n", $base || "/resources/i18n", ($json?owner, "tei"), "rw-rw-r--"),
+        deploy:copy-collection($collection || "/resources/i18n", $base || "/resources/i18n", ($json?owner, "tei"), "rw-rw-r--")
     )
     return
         $collection
