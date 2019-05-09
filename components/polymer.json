@@ -5,6 +5,9 @@
       "./pb-*.html",
       "./editor/odd-*.html"
   ],
+  "extraDependencies": [
+    "bower_components/animejs/lib/anime.js"
+  ],
   "builds": [
     {
       "name": "production",
