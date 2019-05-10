@@ -9,7 +9,7 @@
             }
         </style>
 
-        <slot></slot>
+        <slot id="contentSlot"></slot>
 
         <iron-ajax
             id="loadContent"
@@ -209,13 +209,19 @@
                     });
                 } else {
                     this.style.display = '';
-                    this.querySelectorAll('._contentSlot').forEach((div) => div.parentNode.removeChild(div));
+                    const oldContent = this.querySelectorAll('._contentSlot');
+                    if (oldContent.length > 0) {
+                        // clear content inserted previously
+                        oldContent.forEach((node) => node.parentNode.removeChild(node));
+                    } else if (this.$.contentSlot) {
+                        // clear fallback content from slot
+                        this.$.contentSlot.assignedNodes().forEach((node) => node.parentNode.removeChild(node));
+                    }
                     
                     const div = document.createElement('div');
                     div.innerHTML = resp;
                     div.className = '_contentSlot';
                     div.slot = '';
-                    this.innerHTML = '';
                     this.appendChild(div);
                     this._onLoad(this);
                 }
