@@ -94,6 +94,11 @@ else if (contains($exist:path, "/components")) then
         <forward url="{$exist:controller}/../tei-publisher/components/{substring-after($exist:path, '/components/')}"/>
     </dispatch>
 
+else if (contains($exist:path, "/webcomponents")) then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/webcomponents/{substring-after($exist:path, '/webcomponents/')}"/>
+    </dispatch>
+
 else if ($logout or $login) then (
     login:set-user($config:login-domain, (), false()),
     (: redirect successful login attempts to the original page, but prevent redirection to non-local websites:)
