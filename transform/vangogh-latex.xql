@@ -22,11 +22,11 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
 (: generated template function for element spec: pb :)
-declare %private function model:template1($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-pb($config as map(*), $node as node()*, $params as map(*)) {
     ``[\marginpar{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (: generated template function for element spec: TEI :)
-declare %private function model:template2($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-TEI($config as map(*), $node as node()*, $params as map(*)) {
     ``[\documentclass[10pt,a4paper,twoside]{article}
 \usepackage[a4paper, twoside, top=25mm, bottom=35mm, outer=40mm, inner=20mm, heightrounded, marginparwidth=25mm, marginparsep=5mm]{geometry}
 \usepackage[french,english]{babel}
@@ -54,7 +54,7 @@ declare %private function model:template2($config as map(*), $node as node()*, $
 \end{document}]``
 };
 (: generated template function for element spec: lb :)
-declare %private function model:template3($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-lb($config as map(*), $node as node()*, $params as map(*)) {
     ``[\\]``
 };
 (:~
@@ -136,7 +136,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             }
 
                                                 let $content := 
-                            model:template1($config, ., $params)
+                            model:template-pb($config, ., $params)
                         return
                                                 latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-pb1"), $content)
                     case element(pc) return
@@ -155,7 +155,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             }
 
                                                 let $content := 
-                            model:template2($config, ., $params)
+                            model:template-TEI($config, ., $params)
                         return
                                                 latex:section(map:merge(($config, map:entry("template", true()))), ., ("tei-TEI1"), $content)
                     case element(formula) return
@@ -350,7 +350,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             }
 
                                                 let $content := 
-                            model:template3($config, ., $params)
+                            model:template-lb($config, ., $params)
                         return
                                                 latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-lb1"), $content)
                     case element(w) return

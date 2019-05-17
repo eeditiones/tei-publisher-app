@@ -69,7 +69,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(list-item) return
                         html:listItem($config, ., ("tei-list-item"), ., ())
                     case element(uri) return
-                        html:link($config, ., ("tei-uri"), ., @xlink:href)
+                        html:link($config, ., ("tei-uri"), ., @xlink:href, ())
                     case element(bold) return
                         html:inline($config, ., ("tei-bold"), .)
                     case element(italic) return
@@ -88,7 +88,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         epub:block($config, ., ("tei-article-meta"), title-group)
                     case element(title-group) return
                         (
-                            html:link($config, ., ("tei-title-group1"), article-title, $parameters?doc),
+                            html:link($config, ., ("tei-title-group1"), article-title, $parameters?doc, ()),
                             epub:block($config, ., ("tei-title-group2"), subtitle)
                         )
 

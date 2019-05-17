@@ -34,11 +34,11 @@ description={`{string-join($config?apply-children($config, $node, $note))}`}
 };
 
 (: generated template function for element spec: teiHeader :)
-declare %private function model:template1($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-teiHeader($config as map(*), $node as node()*, $params as map(*)) {
     ``[\def\volume{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (: generated template function for element spec: TEI :)
-declare %private function model:template2($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-TEI($config as map(*), $node as node()*, $params as map(*)) {
     ``[\documentclass[10pt,a4paper,fromalign=right]{scrlttr2}
 \usepackage[british]{babel}
 \usepackage{hyperref}
@@ -61,28 +61,28 @@ declare %private function model:template2($config as map(*), $node as node()*, $
 \end{document}]``
 };
 (: generated template function for element spec: opener :)
-declare %private function model:template3($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-opener($config as map(*), $node as node()*, $params as map(*)) {
     ``[\opening{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (: generated template function for element spec: closer :)
-declare %private function model:template4($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-closer($config as map(*), $node as node()*, $params as map(*)) {
     ``[\closing{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (: generated template function for element spec: name :)
-declare %private function model:template5($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-name($config as map(*), $node as node()*, $params as map(*)) {
     ``[\glslink{`{string-join($config?apply-children($config, $node, $params?id))}`}{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (: generated template function for element spec: postscript :)
-declare %private function model:template6($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-postscript($config as map(*), $node as node()*, $params as map(*)) {
     ``[\ps `{string-join($config?apply-children($config, $node, $params?content))}`]``
 };
 (: generated template function for element spec: correspAction :)
-declare %private function model:template7($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-correspAction($config as map(*), $node as node()*, $params as map(*)) {
     ``[\setkomavar{fromname}{`{string-join($config?apply-children($config, $node, $params?name))}`}
 \setkomavar{fromaddress}{`{string-join($config?apply-children($config, $node, $params?location))}`}]``
 };
 (: generated template function for element spec: correspAction :)
-declare %private function model:template8($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-correspAction2($config as map(*), $node as node()*, $params as map(*)) {
     ``[{`{string-join($config?apply-children($config, $node, $params?name))}`\\`{string-join($config?apply-children($config, $node, $params?location))}`}]``
 };
 (:~
@@ -139,7 +139,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             }
 
                                                 let $content := 
-                            model:template1($config, ., $params)
+                            model:template-teiHeader($config, ., $params)
                         return
                                                 latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-teiHeader1"), $content)
                     case element(supplied) return
@@ -183,7 +183,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             }
 
                                                 let $content := 
-                            model:template2($config, ., $params)
+                            model:template-TEI($config, ., $params)
                         return
                                                 latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-TEI1"), $content)
                     case element(formula) return
@@ -252,7 +252,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             }
 
                                                 let $content := 
-                            model:template3($config, ., $params)
+                            model:template-opener($config, ., $params)
                         return
                                                 latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-opener1"), $content)
                     case element(speaker) return
@@ -341,7 +341,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             }
 
                                                 let $content := 
-                            model:template4($config, ., $params)
+                            model:template-closer($config, ., $params)
                         return
                                                 latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-closer1"), $content)
                     case element(rhyme) return
@@ -390,7 +390,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             }
 
                                                 let $content := 
-                            model:template5($config, ., $params)
+                            model:template-name($config, ., $params)
                         return
                                                 latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-name1"), $content)
                     case element(front) return
@@ -418,7 +418,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             }
 
                                                 let $content := 
-                            model:template6($config, ., $params)
+                            model:template-postscript($config, ., $params)
                         return
                                                 latex:block(map:merge(($config, map:entry("template", true()))), ., ("tei-postscript1"), $content)
                     case element(edition) return
@@ -685,7 +685,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 }
 
                                                         let $content := 
-                                model:template7($config, ., $params)
+                                model:template-correspAction($config, ., $params)
                             return
                                                         latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-correspAction1"), $content)
                         else
@@ -698,7 +698,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     }
 
                                                                 let $content := 
-                                    model:template8($config, ., $params)
+                                    model:template-correspAction2($config, ., $params)
                                 return
                                                                 latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-correspAction2"), $content)
                             else

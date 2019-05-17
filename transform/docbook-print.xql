@@ -60,7 +60,7 @@ declare %private function model:iframe($config as map(*), $node as node()*, $cla
 };
 
 (: generated template function for element spec: title :)
-declare %private function model:template1($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-title2($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><h1><pb-link path="{$config?apply-children($config, $node, $params?path)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-link></h1></t>/*
 };
 (:~
@@ -138,7 +138,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 }
 
                                                         let $content := 
-                                model:template1($config, ., $params)
+                                model:template-title2($config, ., $params)
                             return
                                                         fo:block(map:merge(($config, map:entry("template", true()))), ., ("tei-title2", "articletitle"), $content)
                         else

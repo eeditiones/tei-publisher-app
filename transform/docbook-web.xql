@@ -47,11 +47,11 @@ declare %private function model:iframe($config as map(*), $node as node()*, $cla
 };
 
 (: generated template function for element spec: title :)
-declare %private function model:template1($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-title2($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><h1><pb-link path="{$config?apply-children($config, $node, $params?path)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-link></h1></t>/*
 };
 (: generated template function for element spec: link :)
-declare %private function model:template2($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-link2($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><pb-edit-xml path="/db/apps/tei-publisher/{$config?apply-children($config, $node, $params?path)}">
   {$config?apply-children($config, $node, $params?content)} <iron-icon icon="icons:open-in-new"/>
 </pb-edit-xml></t>/*
@@ -131,7 +131,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 }
 
                                                         let $content := 
-                                model:template1($config, ., $params)
+                                model:template-title2($config, ., $params)
                             return
                                                         html:block(map:merge(($config, map:entry("template", true()))), ., ("tei-title2", "articletitle"), $content)
                         else
@@ -142,7 +142,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     html:inline($config, ., ("tei-title4"), .)
                                 else
                                     if (parent::info and $parameters?header='short') then
-                                        html:link($config, ., ("tei-title5"), ., $parameters?doc)
+                                        html:link($config, ., ("tei-title5"), ., $parameters?doc, ())
                                     else
                                         html:heading($config, ., ("tei-title6", "title"), ., if ($parameters?view='single') then count(ancestor::section) + 1 else count($get(.)/ancestor::section))
                     case element(section) return
@@ -237,14 +237,14 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 }
 
                                                         let $content := 
-                                model:template2($config, ., $params)
+                                model:template-link2($config, ., $params)
                             return
                                                         html:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-link2"), $content)
                         else
                             if (@linkend) then
-                                html:link($config, ., ("tei-link3"), ., concat('?odd=', request:get-parameter('odd', ()), '&amp;view=',                             request:get-parameter('view', ()), '&amp;id=', @linkend))
+                                html:link($config, ., ("tei-link3"), ., concat('?odd=', request:get-parameter('odd', ()), '&amp;view=',                             request:get-parameter('view', ()), '&amp;id=', @linkend), ())
                             else
-                                html:link($config, ., ("tei-link4"), ., @xlink:href)
+                                html:link($config, ., ("tei-link4"), ., @xlink:href, ())
                     case element(guibutton) return
                         html:inline($config, ., ("tei-guibutton"), .)
                     case element(guilabel) return
