@@ -63,7 +63,7 @@ declare %private function model:iframe($config as map(*), $node as node()*, $cla
 };
 
 (: generated template function for element spec: article :)
-declare %private function model:template1($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-article($config as map(*), $node as node()*, $params as map(*)) {
     ``[\documentclass[english,a4paper,`{string-join($config?apply-children($config, $node, $params?fontSize))}`]{`{string-join($config?apply-children($config, $node, $params?class))}`}
 \usepackage[english]{babel}
 \usepackage{colortbl}
@@ -96,38 +96,38 @@ keywordstyle=\color{myblue}
 \end{document}]``
 };
 (: generated template function for element spec: info :)
-declare %private function model:template2($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-info($config as map(*), $node as node()*, $params as map(*)) {
     ``[`{string-join($config?apply-children($config, $node, $params?content))}` \author{`{string-join($config?apply-children($config, $node, $params?author))}`}
 \maketitle]``
 };
 (: generated template function for element spec: author :)
-declare %private function model:template3($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-author($config as map(*), $node as node()*, $params as map(*)) {
     ``[\and `{string-join($config?apply-children($config, $node, $params?content))}`]``
 };
 (: generated template function for element spec: author :)
-declare %private function model:template4($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-author2($config as map(*), $node as node()*, $params as map(*)) {
     ``[`{string-join($config?apply-children($config, $node, $params?content))}`]``
 };
 (: generated template function for element spec: title :)
-declare %private function model:template5($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-title($config as map(*), $node as node()*, $params as map(*)) {
     ``[\title{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (: generated template function for element spec: title :)
-declare %private function model:template6($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-title2($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><h1><pb-link path="{$config?apply-children($config, $node, $params?path)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-link></h1></t>/*
 };
 (: generated template function for element spec: code :)
-declare %private function model:template7($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-code($config as map(*), $node as node()*, $params as map(*)) {
     ``[\verb|`{string-join($config?apply-children($config, $node, $params?content))}`|]``
 };
 (: generated template function for element spec: note :)
-declare %private function model:template8($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-note2($config as map(*), $node as node()*, $params as map(*)) {
     ``[\begin{mdframed}[frametitle={`{string-join($config?apply-children($config, $node, $params?title))}`}]
 `{string-join($config?apply-children($config, $node, $params?content))}`
 \end{mdframed}]``
 };
 (: generated template function for element spec: videodata :)
-declare %private function model:template9($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-videodata($config as map(*), $node as node()*, $params as map(*)) {
     ``[\begin{center}
 Not available in PDF edition. Go to \url{`{string-join($config?apply-children($config, $node, $params?content))}`} to view.
 \end{center}]``
@@ -180,7 +180,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             }
 
                                                 let $content := 
-                            model:template1($config, ., $params)
+                            model:template-article($config, ., $params)
                         return
                                                 latex:block(map:merge(($config, map:entry("template", true()))), ., ("tei-article1"), $content)
                     case element(info) return
@@ -192,7 +192,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 }
 
                                                         let $content := 
-                                model:template2($config, ., $params)
+                                model:template-info($config, ., $params)
                             return
                                                         latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-info1"), $content)
                         else
@@ -218,7 +218,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 }
 
                                                         let $content := 
-                                model:template1($config, ., $params)
+                                model:template-author($config, ., $params)
                             return
                                                         latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-author1"), $content)
                         else
@@ -232,7 +232,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     }
 
                                                                 let $content := 
-                                    model:template4($config, ., $params)
+                                    model:template-author2($config, ., $params)
                                 return
                                                                 latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-author2"), $content)
                     case element(personname) return
@@ -247,7 +247,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 }
 
                                                         let $content := 
-                                model:template1($config, ., $params)
+                                model:template-title($config, ., $params)
                             return
                                                         latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-title1"), $content)
                         else
@@ -259,7 +259,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     }
 
                                                                 let $content := 
-                                    model:template6($config, ., $params)
+                                    model:template-title2($config, ., $params)
                                 return
                                                                 latex:block(map:merge(($config, map:entry("template", true()))), ., ("tei-title2", "articletitle"), $content)
                             else
@@ -296,7 +296,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             }
 
                                                 let $content := 
-                            model:template7($config, ., $params)
+                            model:template-code($config, ., $params)
                         return
                                                 latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-code1"), $content)
                     case element(figure) return
@@ -368,7 +368,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             }
 
                                                 let $content := 
-                            model:template8($config, ., $params)
+                            model:template-note2($config, ., $params)
                         return
                                                 latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-note2"), $content)
                     case element(tag) return
@@ -389,7 +389,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             }
 
                                                 let $content := 
-                            model:template9($config, ., $params)
+                            model:template-videodata($config, ., $params)
                         return
                                                 latex:block(map:merge(($config, map:entry("template", true()))), ., ("tei-videodata1"), $content)
                     case element(mediaobject) return

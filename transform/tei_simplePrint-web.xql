@@ -340,9 +340,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:inline($config, ., ("tei-ref1"), .)
                         else
                             if (not(text())) then
-                                html:link($config, ., ("tei-ref2"), @target, ())
+                                html:link($config, ., ("tei-ref2"), @target, (), ())
                             else
-                                html:link($config, ., ("tei-ref3"), ., ())
+                                html:link($config, ., ("tei-ref3"), ., (), ())
                     case element(reg) return
                         html:inline($config, ., ("tei-reg"), .)
                     case element(relatedItem) return

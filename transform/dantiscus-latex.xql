@@ -20,7 +20,7 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
 (: generated template function for element spec: teiHeader :)
-declare %private function model:template1($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-teiHeader($config as map(*), $node as node()*, $params as map(*)) {
     ``[\def\volume{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (:~
@@ -77,7 +77,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             }
 
                                                 let $content := 
-                            model:template1($config, ., $params)
+                            model:template-teiHeader($config, ., $params)
                         return
                                                 latex:block(map:merge(($config, map:entry("template", true()))), ., ("tei-teiHeader1"), $content)
                     case element(supplied) return
