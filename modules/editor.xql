@@ -119,7 +119,7 @@ declare function local:recompile($source as xs:string, $root as xs:string) {
     let $outputRoot := request:get-parameter("output-root", $config:output-root)
     let $outputPrefix := request:get-parameter("output-prefix", $config:output)
     let $config := doc($root || "/configuration.xml")/*
-    for $module in ("web", "print", "latex", "epub")
+    for $module in ("web", "print", "latex", "epub", "tei")
     return
         try {
             for $file in pmu:process-odd(

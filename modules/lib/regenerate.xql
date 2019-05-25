@@ -47,7 +47,7 @@ let $odd :=
         xmldb:get-child-resources($config:odd-root)[ends-with(., ".odd")]
 let $result :=
     for $source in $odd
-        for $module in ("web", "print", "latex", "epub")
+        for $module in ("web", "print", "latex", "epub", "tei")
         return
             try {
                 for $file in pmu:process-odd(
