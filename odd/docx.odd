@@ -1,3 +1,4 @@
+<?teipublisher output="tei"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:pb="http://teipublisher.com/1.0" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:lang="en">
     <teiHeader>
         <fileDesc>

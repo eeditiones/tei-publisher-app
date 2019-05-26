@@ -5,9 +5,10 @@ declare namespace pb="http://teipublisher.com/1.0";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
-import module namespace config="http://www.tei-c.org/tei-simple/config" at "/db/apps/tei-publisher/modules/config.xqm";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 
 declare option output:method "json";
 declare option output:media-type "application/json";
@@ -119,7 +120,13 @@ declare function local:recompile($source as xs:string, $root as xs:string) {
     let $outputRoot := request:get-parameter("output-root", $config:output-root)
     let $outputPrefix := request:get-parameter("output-prefix", $config:output)
     let $config := doc($root || "/configuration.xml")/*
-    for $module in ("web", "print", "latex", "epub", "tei")
+    let $odd := doc($config:odd-root || "/" || $source)
+    let $pi := tpu:parse-pi($odd, ())
+    for $module in
+        if ($pi?output) then
+            tokenize($pi?output)
+        else
+            ("web", "print", "latex", "epub")
     return
         try {
             for $file in pmu:process-odd(
