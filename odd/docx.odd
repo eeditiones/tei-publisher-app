@@ -1,14 +1,16 @@
 <?teipublisher output="tei"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:pb="http://teipublisher.com/1.0" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:lang="en">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
                 <title>Word DOCX
-
-
+                    
+                    
+                    
+                    
                     <desc>Convert DOCX via ODD</desc>
                 </title>
-                <title type="short">DOCX</title>
+                <title type="short">DOCX Import</title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>
@@ -45,6 +47,7 @@
                     <model predicate="$parameters?pstyle(.)/name[matches(@w:val, &#34;quote$&#34;, &#34;i&#34;)]" behaviour="cit"/>
                     <model predicate="pPr/numPr and $parameters?nstyle(.)/numFmt/@w:val = 'decimal'" behaviour="listItem">
                         <param name="n" value="$parameters?nstyle(.)/lvlText/@w:val/string()"/>
+                        <param name="type" value="'ordered'"/>
                     </model>
                     <model predicate="pPr/numPr and $parameters?nstyle(.)/numFmt/@w:val/string() = 'bullet'" behaviour="listItem"/>
                     <model predicate="$parameters?pstyle(.)/name[matches(@w:val, &#34;^(heading|title|subtitle)&#34;, &#34;i&#34;)]" behaviour="heading">
@@ -84,17 +87,20 @@
                 </elementSpec>
                 <elementSpec ident="hyperlink" mode="add">
                     <model predicate="@w:anchor" behaviour="link">
-                        <param name="link" value="'#' || @w:anchor"/>
+                        <param name="uri" value="'#' || @w:anchor"/>
+                    </model>
+                    <model behaviour="link">
+                        <param name="uri" value="$parameters?link(.)/@Target/string()"/>
                     </model>
                 </elementSpec>
                 <elementSpec ident="cp:coreProperties" mode="add">
                     <model behaviour="metadata">
-                        <param name="title" value="dc:title"/>
+                        <param name="title" value="if (dc:title) then dc:title else replace(util:collection-name(.), '^.*?/([^/]+)/docProps.*$', '$1')"/>
                         <param name="author" value="dc:creator"/>
                         <pb:template xmlns="" xml:space="preserve"><fileDesc xmlns="http://www.tei-c.org/ns/1.0">
   <titleStmt>
     <title>[[title]]</title>
-    <author>[[author]]</author>
+    [[author]]
   </titleStmt>
   <publicationStmt>
     <p>Information about publication or distribution</p>
@@ -103,6 +109,31 @@
     <p>Information about the source</p>
   </sourceDesc>
 </fileDesc></pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="dc:title" mode="add">
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="dc:author" mode="add"/>
+                <elementSpec ident="dc:creator" mode="add">
+                    <model behaviour="inline">
+                        <param name="tei_element" value="'author'"/>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="tbl" mode="add">
+                    <model behaviour="table">
+                        <param name="content" value="tr"/>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="tr" mode="add">
+                    <model behaviour="row">
+                        <param name="content" value="tc"/>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="tc" mode="add">
+                    <model behaviour="cell">
+                        <param name="content" value="p"/>
+                        <param name="cols" value="tcPr/gridSpan/@w:val"/>
                     </model>
                 </elementSpec>
             </schemaSpec>
