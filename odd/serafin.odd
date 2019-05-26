@@ -3,8 +3,8 @@
         <fileDesc>
             <titleStmt>
                 <title>Serafin Letters
-                    
-                   
+
+
                  <desc>15th c. manuscript correspondence with parallel translation</desc>
                 </title>
             </titleStmt>
@@ -32,11 +32,11 @@
         </fileDesc>
         <encodingDesc>
             <tagsDecl>
-                <pb:behaviour ident="glossary" output="latex"> 
+                <pb:behaviour ident="glossary" output="latex">
                     <pb:param name="id" value="@xml:id"/>
                     <pb:param name="name"/>
                     <pb:param name="note"/>
-                    <pb:template>\newglossaryentry{[[id]]} { 
+                    <pb:template>\newglossaryentry{[[id]]} {
                         name=[[name]],
                         description={[[note]]}
                     }</pb:template>
@@ -59,7 +59,7 @@
             <param name="glossary" value="(teiHeader//particDesc/listPerson/person, teiHeader//settingDesc/listPlace/place)"/>
             <param name="styles" value="$config('latex-styles')"/>
             <pb:template>\documentclass[10pt,a4paper,twoside]{article}
-                            
+
 \usepackage[latin,polish]{babel}
 \usepackage{reledmac}
 \usepackage{reledpar}
@@ -282,7 +282,7 @@
                     <modelSequence output="web" predicate="$parameters?header='short'">
             <model behaviour="link">
                 <param name="content" value="title[1]"/>
-                <param name="link" value="$parameters?doc"/>
+                <param name="uri" value="$parameters?doc"/>
             </model>
             <model behaviour="block">
                 <param name="content" value="subsequence(title, 2)"/>

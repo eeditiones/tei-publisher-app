@@ -44,7 +44,7 @@
                 </elementSpec>
                 <elementSpec ident="uri" mode="add">
                     <model behaviour="link">
-                        <param name="link" value="@xlink:href"/>
+                        <param name="uri" value="@xlink:href"/>
                     </model>
                 </elementSpec>
                 <elementSpec ident="bold" mode="add">
@@ -90,7 +90,7 @@
                     <modelSequence>
                         <model behaviour="link">
                             <param name="content" value="article-title"/>
-                            <param name="link" value="$parameters?doc"/>
+                            <param name="uri" value="$parameters?doc"/>
                         </model>
                         <model behaviour="block">
                             <param name="content" value="subtitle"/>
