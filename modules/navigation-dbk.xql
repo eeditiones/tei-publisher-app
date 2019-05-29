@@ -58,6 +58,14 @@ declare function nav:get-metadata($config as map(*), $root as element(), $field 
             ()
 };
 
+declare function nav:sort($sortBy as xs:string, $items as element()*) {
+    switch ($sortBy)
+        case "date" return
+            sort($items, (), ft:field(?, "date", "xs:date"))
+        default return
+            sort($items, (), ft:field(?, $sortBy))
+};
+
 declare function nav:get-first-page-start($config as map(*), $data as element()) {
     ()
 };

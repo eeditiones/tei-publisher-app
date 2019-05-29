@@ -189,7 +189,7 @@ declare function deploy:store-xconf($collection as xs:string?, $json as map(*)) 
                 <lucene>
                     <module uri="http://teipublisher.com/index" prefix="nav" at="index.xql"/>
                     <text match="/tei:TEI/tei:text">
-                        { 
+                        {
                             if ($json?index = "tei:div") then
                                 <ignore qname="tei:div"/>
                             else
@@ -218,6 +218,7 @@ declare function deploy:store-xconf($collection as xs:string?, $json as map(*)) 
                     <text match="//tei:msDesc/tei:head"/>
                     <text qname="dbk:section">
                         <field name="title" expression="nav:get-metadata(ancestor::dbk:article, 'title')"/>
+                        <field name="file" expression="util:document-name(.)"/>
                         <facet dimension="genre" expression="nav:get-metadata(ancestor::dbk:article, 'genre')" hierarchical="yes"/>
                         <facet dimension="language" expression="nav:get-metadata(ancestor::dbk:article, 'language')"/>
                     </text>
