@@ -13,9 +13,10 @@ declare function local:upload($root, $paths, $payloads) {
         try {
             let $path :=
                 if (ends-with($path, ".docx")) then
+                    let $mediaPath := $config:data-root || "/" || $root || "/" || $path || ".media"
                     let $stored := xmldb:store($config:data-root || "/" || $root, xmldb:encode($path), $data)
                     let $tei :=
-                        docx:process($stored, $config:data-root, $pm-config:tei-transform, "docx.odd")
+                        docx:process($stored, $config:data-root, $pm-config:tei-transform, "docx.odd", $mediaPath)
                     return
                         xmldb:store($config:data-root || "/" || $root, xmldb:encode($path) || ".xml", $tei)
                 else if (ends-with($path, ".odd")) then

@@ -1,9 +1,13 @@
 <?teipublisher output="tei"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:lang="en">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pb="http://teipublisher.com/1.0" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:rel="http://schemas.openxmlformats.org/package/2006/relationships" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
                 <title>Word DOCX
+                    
+                    
+                    
+                    
                     
                     
                     
@@ -48,17 +52,22 @@
             </elementSpec>
                 <elementSpec ident="p" mode="add">
                     <model predicate="$parameters?pstyle(.)/name[matches(@w:val, &#34;quote$&#34;, &#34;i&#34;)]" behaviour="cit"/>
-                    <model predicate="pPr/numPr and $parameters?nstyle(.)/numFmt/@w:val = 'decimal'" behaviour="listItem">
-                        <param name="n" value="$parameters?nstyle(.)/lvlText/@w:val/string()"/>
-                        <param name="type" value="'ordered'"/>
+                    <model predicate="$parameters?nstyle(.)/numFmt/@w:val = 'bullet'" behaviour="listItem">
+                        <param name="level" value="$parameters?nstyle(.)/@w:ilvl"/>
                     </model>
-                    <model predicate="pPr/numPr and $parameters?nstyle(.)/numFmt/@w:val/string() = 'bullet'" behaviour="listItem"/>
+                    <model predicate="$parameters?nstyle(.)/numFmt" behaviour="listItem">
+                        <param name="type" value="'ordered'"/>
+                        <param name="level" value="$parameters?nstyle(.)/@w:ilvl"/>
+                    </model>
                     <model predicate="$parameters?pstyle(.)/name[matches(@w:val, &#34;^(heading|title|subtitle)&#34;, &#34;i&#34;)]" behaviour="heading">
                         <param name="level" value="let $l := $parameters?pstyle(.)//outlineLvl/@w:val return  if ($l) then $l/number() + 1 else 1"/>
                     </model>
                     <model behaviour="paragraph"/>
                 </elementSpec>
                 <elementSpec ident="r" mode="add">
+                    <model predicate="drawing" behaviour="inline">
+                        <param name="content" value=".//pic:pic"/>
+                    </model>
                     <model predicate="footnoteReference" behaviour="note">
                         <param name="content" value="$parameters?footnote(.)"/>
                         <param name="place" value="'footnote'"/>
@@ -67,7 +76,7 @@
                         <param name="content" value="$parameters?endnote(.)"/>
                         <param name="place" value="'endnote'"/>
                     </model>
-                    <model predicate="starts-with($parameters?cstyle(.)/name/@w:val, 'tei:')" behaviour="inline">
+                    <model predicate="$parameters?cstyle(.)/name[starts-with(@w:val, 'tei:')]" behaviour="inline">
                         <param name="tei_element" value="substring-after($parameters?cstyle(.)/name/@w:val, 'tei:')"/>
                     </model>
                     <model predicate="rPr/u or $parameters?cstyle(.)/rPr/u" behaviour="inline">
@@ -147,6 +156,11 @@
                 </elementSpec>
                 <elementSpec ident="*" mode="add">
                     <model behaviour="omit"/>
+                </elementSpec>
+                <elementSpec ident="pic:pic" mode="add">
+                    <model behaviour="graphic">
+                        <param name="url" value="let $id := .//a:blip/@r:embed let $mediaColl := $parameters?filename || &#34;.media/&#34; let $target := $parameters?rels/rel:Relationship[@Id=$id]/@Target return  $mediaColl || substring-after($target, &#34;media/&#34;)"/>
+                    </model>
                 </elementSpec>
             </schemaSpec>
         </body>
