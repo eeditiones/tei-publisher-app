@@ -162,6 +162,9 @@
                         <param name="url" value="let $id := .//a:blip/@r:embed let $mediaColl := $parameters?filename || &#34;.media/&#34; let $target := $parameters?rels/rel:Relationship[@Id=$id]/@Target return  $mediaColl || substring-after($target, &#34;media/&#34;)"/>
                     </model>
                 </elementSpec>
+                <elementSpec ident="smartTag" mode="add">
+                    <model behaviour="inline"/>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>
