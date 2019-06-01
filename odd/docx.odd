@@ -1,9 +1,11 @@
 <?teipublisher output="tei"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pb="http://teipublisher.com/1.0" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:rel="http://schemas.openxmlformats.org/package/2006/relationships" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:lang="en">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pb="http://teipublisher.com/1.0" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:rel="http://schemas.openxmlformats.org/package/2006/relationships" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
                 <title>Word DOCX
+                    
+                    
                     
                     
                     
@@ -159,11 +161,21 @@
                 </elementSpec>
                 <elementSpec ident="pic:pic" mode="add">
                     <model behaviour="graphic">
-                        <param name="url" value="let $id := .//a:blip/@r:embed let $mediaColl := $parameters?filename || &#34;.media/&#34; let $target := $parameters?rels/rel:Relationship[@Id=$id]/@Target return  $mediaColl || substring-after($target, &#34;media/&#34;)"/>
+                        <param name="url" value="let $id := .//a:blip/@r:embed  let $mediaColl := $parameters?filename || &#34;.media/&#34;  let $target := $parameters?rels/rel:Relationship[@Id=$id]/@Target return  $mediaColl || substring-after($target, &#34;media/&#34;)"/>
                     </model>
                 </elementSpec>
                 <elementSpec ident="smartTag" mode="add">
                     <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="pict" mode="add">
+                    <model behaviour="inline">
+                        <param name="content" value=".//v:imagedata"/>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="v:imagedata" mode="add">
+                    <model behaviour="graphic">
+                        <param name="url" value="let $id := @r:id let $mediaColl := $parameters?filename || &#34;.media/&#34;  let $relationship := $parameters?rels/rel:Relationship[@Id=$id] let $target := $relationship/@Target return  if ($relationship/@TargetMode = &#34;External&#34;) then      $target     else   $mediaColl || substring-after($target, &#34;media/&#34;)"/>
+                    </model>
                 </elementSpec>
             </schemaSpec>
         </body>
