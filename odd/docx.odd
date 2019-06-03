@@ -54,12 +54,9 @@
             </elementSpec>
                 <elementSpec ident="p" mode="add">
                     <model predicate="$parameters?pstyle(.)/name[matches(@w:val, &#34;quote$&#34;, &#34;i&#34;)]" behaviour="cit"/>
-                    <model predicate="$parameters?nstyle(.)/numFmt/@w:val = 'bullet'" behaviour="listItem">
-                        <param name="level" value="$parameters?nstyle(.)/@w:ilvl"/>
-                    </model>
                     <model predicate="$parameters?nstyle(.)/numFmt" behaviour="listItem">
-                        <param name="type" value="'ordered'"/>
                         <param name="level" value="$parameters?nstyle(.)/@w:ilvl"/>
+                        <param name="type" value="if ($parameters?nstyle(.)/numFmt[@w:val = 'bullet']) then  () else  'ordered'"/>
                     </model>
                     <model predicate="$parameters?pstyle(.)/name[matches(@w:val, &#34;^(heading|title|subtitle)&#34;, &#34;i&#34;)]" behaviour="heading">
                         <param name="level" value="let $l := $parameters?pstyle(.)//outlineLvl/@w:val return  if ($l) then $l/number() + 1 else 1"/>
