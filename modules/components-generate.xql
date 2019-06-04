@@ -217,10 +217,10 @@ declare function deploy:store-xconf($collection as xs:string?, $json as map(*)) 
                     <text match="//tei:titleStmt/tei:title"/>
                     <text match="//tei:msDesc/tei:head"/>
                     <text qname="dbk:section">
-                        <field name="title" expression="nav:get-metadata(ancestor::dbk:article, 'title')"/>
                         <field name="file" expression="util:document-name(.)"/>
-                        <facet dimension="genre" expression="nav:get-metadata(ancestor::dbk:article, 'genre')" hierarchical="yes"/>
-                        <facet dimension="language" expression="nav:get-metadata(ancestor::dbk:article, 'language')"/>
+                        <field name="title" expression="nav:get-metadata((ancestor::dbk:book|ancestor::dbk:article)[1], 'title')"/>
+                        <facet dimension="genre" expression="nav:get-metadata((ancestor::dbk:book|ancestor::dbk:article)[1], 'genre')" hierarchical="yes"/>
+                        <facet dimension="language" expression="nav:get-metadata((ancestor::dbk:book|ancestor::dbk:article)[1], 'language')"/>
                     </text>
                     <text qname="dbk:title"/>
                 </lucene>
@@ -289,7 +289,7 @@ declare function deploy:copy-odd($collection as xs:string, $json as map(*)) {
     (:  Copy the selected ODD and its dependencies  :)
     let $target := $collection || "/resources/odd"
     let $mkcol := deploy:mkcol($target, ("tei", "tei"), "rwxr-x---")
-    for $file in ("tei_simplePrint.odd", "teipublisher.odd", $json?odd || ".odd")
+    for $file in ("docx.odd", "tei_simplePrint.odd", "teipublisher.odd", $json?odd || ".odd")
     let $source := doc($config:odd-root || "/" || $file)
     return
         xmldb:store($target, $file, $source, "application/xml")

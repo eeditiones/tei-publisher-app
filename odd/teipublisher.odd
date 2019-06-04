@@ -21,7 +21,7 @@
                     <p>This program is distributed in the hope that it will be useful,
                         but WITHOUT ANY WARRANTY; without even the implied warranty of
                         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                        GNU General Public License for more details.</p>                    
+                        GNU General Public License for more details.</p>
                 </availability>
             </publicationStmt>
             <sourceDesc>
@@ -107,7 +107,7 @@
                     <modelSequence output="web" predicate="$parameters?header='short'">
             <model behaviour="link">
                 <param name="content" value="title[1]"/>
-                <param name="link" value="$parameters?doc"/>
+                <param name="uri" value="$parameters?doc"/>
             </model>
             <model behaviour="block">
                 <param name="content" value="subsequence(title, 2)"/>
@@ -127,7 +127,7 @@
                 <elementSpec ident="licence" mode="add">
                     <model output="web" predicate="@target" behaviour="link" cssClass="licence">
             <param name="content" value="'Licence'"/>
-            <param name="link" value="@target"/>
+            <param name="uri" value="@target"/>
         </model>
                     <model behaviour="omit"/>
                 </elementSpec>

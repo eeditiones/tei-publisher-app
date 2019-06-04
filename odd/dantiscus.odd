@@ -3,9 +3,9 @@
         <fileDesc>
             <titleStmt>
                 <title>Dantiscus' Letters
-                    
-                    
-                    
+
+
+
                     <desc>16th c. correspondence with facsimile and encoding of transcriptional features and prosopographical information</desc>
                 </title>
             </titleStmt>
@@ -36,7 +36,7 @@
                 <rendition selector=".choice">
                     color: #888888;
                 </rendition>
-                
+
             </tagsDecl>
         </encodingDesc>
         <revisionDesc>
@@ -52,7 +52,7 @@
                         <param name="content" value="@n"/>
                         <param name="facs" value="replace(@facs, '^iiif:(.*)$', '$1')"/>
                         <outputRendition xml:space="preserve">
-            
+
 
 
 
@@ -72,7 +72,7 @@
 
 
 
-            
+
             </outputRendition>
                     </model>
                     <model behaviour="omit">
@@ -89,9 +89,9 @@
             </outputRendition>
                     </model>
                 </elementSpec>
-                
-                
-                
+
+
+
                 <elementSpec ident="choice" mode="change">
                     <model output="plain" predicate="sic and corr" behaviour="inline">
                         <param name="content" value="corr[1]"/>
@@ -187,7 +187,7 @@
                     <modelSequence output="web" predicate="$parameters?header='short'">
                         <model behaviour="link">
                             <param name="content" value="title[1]"/>
-                            <param name="link" value="$parameters?doc"/>
+                            <param name="uri" value="$parameters?doc"/>
                         </model>
                         <model behaviour="block">
                             <param name="content" value="subsequence(title, 2)"/>

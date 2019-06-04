@@ -2,8 +2,8 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Graves' Letters 
-                 
+                <title>Graves' Letters
+
                  <desc>Modern correspondence with visualization of prosopographical and geographical information</desc>
                 </title>
             </titleStmt>
@@ -31,11 +31,11 @@
         </fileDesc>
         <encodingDesc>
             <tagsDecl>
-                <pb:behaviour ident="glossary" output="latex"> 
+                <pb:behaviour ident="glossary" output="latex">
                     <pb:param name="id" value="@xml:id"/>
                     <pb:param name="name"/>
                     <pb:param name="note"/>
-                    <pb:template>\newglossaryentry{[[id]]} { 
+                    <pb:template>\newglossaryentry{[[id]]} {
                         name=[[name]],
                         description={[[note]]}
                         }</pb:template>
@@ -85,10 +85,10 @@
             <param name="emit" value="'letter'"/>
             <param name="duration" value="1000"/>
             <outputRendition>
-            
+
             color: #1565c0;
 cursor: pointer;
-            
+
             </outputRendition>
         </model>
                     <model predicate="@type='person' and id(substring-after(@ref, '#'), root($parameters?root))" behaviour="webcomponent">
@@ -98,10 +98,10 @@ cursor: pointer;
             <param name="scroll" value="true()"/>
             <param name="emit" value="'letter'"/>
             <outputRendition>
-            
+
             color: #bf360c;
 cursor: pointer;
-            
+
             </outputRendition>
         </model>
                     <model predicate="@type='place'" behaviour="inline">
@@ -150,9 +150,9 @@ cursor: pointer;
                 <param name="content" value="'Places'"/>
                 <param name="level" value="2"/>
                 <outputRendition>
-                
-                
-                
+
+
+
 
 
 
@@ -199,9 +199,9 @@ border-bottom: 1px solid #A0A0A0;
 
 
 
-                
-                
-                
+
+
+
                 </outputRendition>
             </model>
             <model behaviour="block">
@@ -211,9 +211,9 @@ border-bottom: 1px solid #A0A0A0;
                 <param name="content" value="'People'"/>
                 <param name="level" value="2"/>
                 <outputRendition>
-                
-                
-                
+
+
+
 
 
 
@@ -238,9 +238,9 @@ border-bottom: 1px solid #A0A0A0;
 
 
 
-                
-                
-                
+
+
+
                 </outputRendition>
             </model>
             <model behaviour="section">
@@ -296,10 +296,10 @@ border-bottom: 1px solid #A0A0A0;
                 <param name="content" value="."/>
                 <param name="emit" value="'letter'"/>
                 <outputRendition>
-                
+
                 color: #1565c0;
 cursor: pointer;
-                
+
                 </outputRendition>
             </model>
             <model behaviour="inline"/>
@@ -383,25 +383,25 @@ font-style: italic;
                 </elementSpec>
             <elementSpec ident="idno" mode="add">
                     <model predicate="@type='VIAF' and following-sibling::idno" behaviour="link">
-            <param name="link" value="'https://viaf.org/viaf/' || string() || '/'"/>
+            <param name="uri" value="'https://viaf.org/viaf/' || string() || '/'"/>
             <param name="content" value="'VIAF'"/>
             <outputRendition scope="after">
             content: ', ';
             </outputRendition>
         </model>
                     <model predicate="@type='VIAF'" behaviour="link">
-            <param name="link" value="'https://viaf.org/viaf/' || string() || '/'"/>
+            <param name="uri" value="'https://viaf.org/viaf/' || string() || '/'"/>
             <param name="content" value="'VIAF'"/>
         </model>
                     <model predicate="@type='LC-Name-Authority-File' and following-sibling::idno" behaviour="link">
-            <param name="link" value="'https://lccn.loc.gov/' || string()"/>
+            <param name="uri" value="'https://lccn.loc.gov/' || string()"/>
             <param name="content" value="'LoC Authority'"/>
             <outputRendition>
             content: ', ';
             </outputRendition>
         </model>
                     <model predicate="@type='LC-Name-Authority-File'" behaviour="link">
-            <param name="link" value="'https://lccn.loc.gov/' || string()"/>
+            <param name="uri" value="'https://lccn.loc.gov/' || string()"/>
             <param name="content" value="'LoC Authority'"/>
         </model>
                 </elementSpec>

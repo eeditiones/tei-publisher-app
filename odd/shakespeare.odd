@@ -33,15 +33,15 @@
     </teiHeader>
     <text>
         <body>
-            <schemaSpec start="TEI teiCorpus" ident="shakespare" source="teipublisher.odd"> 
+            <schemaSpec start="TEI teiCorpus" ident="shakespare" source="teipublisher.odd">
                 <elementSpec ident="pb" mode="change">
                     <model behaviour="webcomponent" cssClass="facs">
             <param name="name" value="'pb-facs-link'"/>
             <param name="content" value="@n"/>
             <param name="facs" value="replace(@facs, '^FFimg:(.*)$', '$1')"/>
             <outputRendition>
-            
-                            
+
+
                             font-size: 16px;
                             color: #888888;
                             cursor: pointer;
@@ -49,8 +49,8 @@
                             display: block;
                             margin-right: -32px;
                             float: right;
-                            
-                        
+
+
             </outputRendition>
         </model>
                 </elementSpec>
@@ -144,24 +144,24 @@
         </model>
                     <model output="web" predicate="@type='catchword'" behaviour="block" cssClass="catchword">
             <outputRendition>
-            
-                            
+
+
                             float: right;
                             margin-top: 1em;
                             color: #CCC;
-                            
-                        
+
+
             </outputRendition>
         </model>
                     <model output="web" predicate="@type='sig'" behaviour="block" cssClass="sig">
             <outputRendition>
-            
-                            
+
+
                             text-align: center;
                             margin-top: 1em;
                             color: #CCC;
-                            
-                        
+
+
             </outputRendition>
         </model>
                     <model behaviour="omit"/>
@@ -178,7 +178,7 @@
         <modelSequence output="web" predicate="$parameters?header='short'">
             <model behaviour="link">
                 <param name="content" value="title[1]"/>
-                <param name="link" value="$parameters?doc"/>
+                <param name="uri" value="$parameters?doc"/>
             </model>
             <model behaviour="block">
                 <param name="content" value="subsequence(title, 2)"/>
