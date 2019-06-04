@@ -217,10 +217,10 @@ declare function deploy:store-xconf($collection as xs:string?, $json as map(*)) 
                     <text match="//tei:titleStmt/tei:title"/>
                     <text match="//tei:msDesc/tei:head"/>
                     <text qname="dbk:section">
-                        <field name="title" expression="nav:get-metadata(ancestor::dbk:article, 'title')"/>
                         <field name="file" expression="util:document-name(.)"/>
-                        <facet dimension="genre" expression="nav:get-metadata(ancestor::dbk:article, 'genre')" hierarchical="yes"/>
-                        <facet dimension="language" expression="nav:get-metadata(ancestor::dbk:article, 'language')"/>
+                        <field name="title" expression="nav:get-metadata((ancestor::dbk:book|ancestor::dbk:article)[1], 'title')"/>
+                        <facet dimension="genre" expression="nav:get-metadata((ancestor::dbk:book|ancestor::dbk:article)[1], 'genre')" hierarchical="yes"/>
+                        <facet dimension="language" expression="nav:get-metadata((ancestor::dbk:book|ancestor::dbk:article)[1], 'language')"/>
                     </text>
                     <text qname="dbk:title"/>
                 </lucene>
