@@ -2,7 +2,9 @@ xquery version "3.1";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace docx="http://existsolutions.com/teipublisher/docx";
-import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
+import module namespace docx2tei="http://www.tei-c.org/pm/models/docx/tei/module"
+    at "../../transform/docx-tei-module.xql";
+
 
 declare namespace json="http://www.json.org";
 
@@ -16,7 +18,7 @@ declare function local:upload($root, $paths, $payloads) {
                     let $mediaPath := $config:data-root || "/" || $root || "/" || xmldb:encode($path) || ".media"
                     let $stored := xmldb:store($config:data-root || "/" || $root, xmldb:encode($path), $data)
                     let $tei :=
-                        docx:process($stored, $config:data-root, $pm-config:tei-transform, "docx.odd", $mediaPath)
+                        docx:process($stored, $config:data-root, docx2tei:transform#2, $mediaPath)
                     return
                         xmldb:store($config:data-root || "/" || $root, xmldb:encode($path) || ".xml", $tei)
                 else if (ends-with($path, ".odd")) then

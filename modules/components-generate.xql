@@ -289,7 +289,7 @@ declare function deploy:copy-odd($collection as xs:string, $json as map(*)) {
     (:  Copy the selected ODD and its dependencies  :)
     let $target := $collection || "/resources/odd"
     let $mkcol := deploy:mkcol($target, ("tei", "tei"), "rwxr-x---")
-    for $file in ("tei_simplePrint.odd", "teipublisher.odd", $json?odd || ".odd")
+    for $file in ("docx.odd", "tei_simplePrint.odd", "teipublisher.odd", $json?odd || ".odd")
     let $source := doc($config:odd-root || "/" || $file)
     return
         xmldb:store($target, $file, $source, "application/xml")
