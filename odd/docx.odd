@@ -4,20 +4,21 @@
         <fileDesc>
             <titleStmt>
                 <title>Word DOCX
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <desc>Convert DOCX via ODD</desc>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                 <desc>Convert DOCX via ODD</desc>
                 </title>
                 <title type="short">DOCX Import</title>
             </titleStmt>
@@ -50,68 +51,68 @@
     <text>
         <body>
             <schemaSpec start="TEI teiCorpus" ident="docx" ns="http://schemas.openxmlformats.org/wordprocessingml/2006/main"> <elementSpec ident="body" mode="add">
-                <model behaviour="body"/>
-            </elementSpec>
+                    <model behaviour="body"/>
+                </elementSpec>
                 <elementSpec ident="p" mode="add">
                     <model predicate="$parameters?pstyle(.)/name[matches(@w:val, &#34;quote$&#34;, &#34;i&#34;)]" behaviour="cit"/>
                     <model predicate="$parameters?nstyle(.)/numFmt" behaviour="listItem">
-                        <param name="level" value="$parameters?nstyle(.)/@w:ilvl"/>
-                        <param name="type" value="if ($parameters?nstyle(.)/numFmt[@w:val = 'bullet']) then  () else  'ordered'"/>
-                    </model>
+            <param name="level" value="$parameters?nstyle(.)/@w:ilvl"/>
+            <param name="type" value="if ($parameters?nstyle(.)/numFmt[@w:val = 'bullet']) then  () else  'ordered'"/>
+        </model>
                     <model predicate="$parameters?pstyle(.)/name[matches(@w:val, &#34;^(heading|title|subtitle)&#34;, &#34;i&#34;)]" behaviour="heading">
-                        <param name="level" value="let $l := $parameters?pstyle(.)//outlineLvl/@w:val return  if ($l) then $l/number() + 1 else 1"/>
-                    </model>
+            <param name="level" value="let $l := $parameters?pstyle(.)//outlineLvl/@w:val return  if ($l) then $l/number() + 1 else 0"/>
+        </model>
                     <model behaviour="paragraph"/>
                 </elementSpec>
                 <elementSpec ident="r" mode="add">
                     <model predicate="drawing" behaviour="inline">
-                        <param name="content" value=".//pic:pic"/>
-                    </model>
+            <param name="content" value=".//pic:pic"/>
+        </model>
                     <model predicate="footnoteReference" behaviour="note">
-                        <param name="content" value="$parameters?footnote(.)"/>
-                        <param name="place" value="'footnote'"/>
-                    </model>
+            <param name="content" value="$parameters?footnote(.)"/>
+            <param name="place" value="'footnote'"/>
+        </model>
                     <model predicate="endnoteReference" behaviour="note">
-                        <param name="content" value="$parameters?endnote(.)"/>
-                        <param name="place" value="'endnote'"/>
-                    </model>
+            <param name="content" value="$parameters?endnote(.)"/>
+            <param name="place" value="'endnote'"/>
+        </model>
                     <model predicate="$parameters?cstyle(.)/name[starts-with(@w:val, 'tei:')]" behaviour="inline">
-                        <param name="tei_element" value="substring-after($parameters?cstyle(.)/name/@w:val, 'tei:')"/>
-                    </model>
+            <param name="tei_element" value="substring-after($parameters?cstyle(.)/name/@w:val, 'tei:')"/>
+        </model>
                     <model predicate="rPr/u or $parameters?cstyle(.)/rPr/u" behaviour="inline">
-                        <pb:template xmlns="" xml:space="preserve"><hi xmlns="http://www.tei-c.org/ns/1.0" rend="underline">[[content]]</hi></pb:template>
-                    </model>
+            <pb:template xmlns="" xml:space="preserve"><hi xmlns="http://www.tei-c.org/ns/1.0" rend="underline">[[content]]</hi></pb:template>
+        </model>
                     <model predicate="rPr/b or $parameters?cstyle(.)/rPr/b" behaviour="inline">
-                        <pb:template xmlns="" xml:space="preserve"><hi xmlns="http://www.tei-c.org/ns/1.0" rend="bold">[[content]]</hi></pb:template>
-                    </model>
+            <pb:template xmlns="" xml:space="preserve"><hi xmlns="http://www.tei-c.org/ns/1.0" rend="bold">[[content]]</hi></pb:template>
+        </model>
                     <model predicate="rPr/(i|caps) or $parameters?cstyle(.)/rPr/(i|caps)" behaviour="inline">
-                        <pb:template xmlns="" xml:space="preserve"><hi xmlns="http://www.tei-c.org/ns/1.0">[[content]]</hi></pb:template>
-                    </model>
+            <pb:template xmlns="" xml:space="preserve"><hi xmlns="http://www.tei-c.org/ns/1.0">[[content]]</hi></pb:template>
+        </model>
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="document" mode="add">
                     <model behaviour="document">
-                        <param name="content" value="($parameters?properties, .)"/>
-                    </model>
+            <param name="content" value="($parameters?properties, .)"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="bookmarkStart" mode="add">
                     <model behaviour="anchor">
-                        <param name="id" value="@w:name"/>
-                    </model>
+            <param name="id" value="@w:name"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="hyperlink" mode="add">
                     <model predicate="@w:anchor" behaviour="link">
-                        <param name="uri" value="'#' || @w:anchor"/>
-                    </model>
+            <param name="uri" value="'#' || @w:anchor"/>
+        </model>
                     <model behaviour="link">
-                        <param name="uri" value="$parameters?link(.)/@Target/string()"/>
-                    </model>
+            <param name="uri" value="$parameters?link(.)/@Target/string()"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="cp:coreProperties" mode="add">
                     <model behaviour="metadata">
-                        <param name="title" value="if (dc:title/node()) then dc:title else replace(util:collection-name(.), '^.*?/([^/]+)/docProps.*$', '$1')"/>
-                        <param name="author" value="dc:creator"/>
-                        <pb:template xmlns="" xml:space="preserve"><fileDesc xmlns="http://www.tei-c.org/ns/1.0">
+            <param name="title" value="if (dc:title/node()) then dc:title else replace(util:collection-name(.), '^.*?/([^/]+)/docProps.*$', '$1')"/>
+            <param name="author" value="dc:creator"/>
+            <pb:template xmlns="" xml:space="preserve"><fileDesc xmlns="http://www.tei-c.org/ns/1.0">
   <titleStmt>
     <title>[[title]]</title>
     [[author]]
@@ -123,7 +124,7 @@
     <p>Information about the source</p>
   </sourceDesc>
 </fileDesc></pb:template>
-                    </model>
+        </model>
                 </elementSpec>
                 <elementSpec ident="dc:title" mode="add">
                     <model behaviour="inline"/>
@@ -131,24 +132,24 @@
                 <elementSpec ident="dc:author" mode="add"/>
                 <elementSpec ident="dc:creator" mode="add">
                     <model behaviour="inline">
-                        <param name="tei_element" value="'author'"/>
-                    </model>
+            <param name="tei_element" value="'author'"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="tbl" mode="add">
                     <model behaviour="table">
-                        <param name="content" value="tr"/>
-                    </model>
+            <param name="content" value="tr"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="tr" mode="add">
                     <model behaviour="row">
-                        <param name="content" value="tc"/>
-                    </model>
+            <param name="content" value="tc"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="tc" mode="add">
                     <model behaviour="cell">
-                        <param name="content" value="p"/>
-                        <param name="cols" value="tcPr/gridSpan/@w:val"/>
-                    </model>
+            <param name="content" value="p"/>
+            <param name="cols" value="tcPr/gridSpan/@w:val"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="t" mode="add">
                     <model behaviour="text"/>
@@ -158,21 +159,21 @@
                 </elementSpec>
                 <elementSpec ident="pic:pic" mode="add">
                     <model behaviour="graphic">
-                        <param name="url" value="let $id := .//a:blip/@r:embed  let $mediaColl := $parameters?filename || &#34;.media/&#34;  let $target := $parameters?rels/rel:Relationship[@Id=$id]/@Target return  $mediaColl || substring-after($target, &#34;media/&#34;)"/>
-                    </model>
+            <param name="url" value="let $id := .//a:blip/@r:embed  let $mediaColl := $parameters?filename || &#34;.media/&#34;  let $target := $parameters?rels/rel:Relationship[@Id=$id]/@Target return  $mediaColl || substring-after($target, &#34;media/&#34;)"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="smartTag" mode="add">
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="pict" mode="add">
                     <model behaviour="inline">
-                        <param name="content" value=".//v:imagedata"/>
-                    </model>
+            <param name="content" value=".//v:imagedata"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="v:imagedata" mode="add">
                     <model behaviour="graphic">
-                        <param name="url" value="let $id := @r:id let $mediaColl := $parameters?filename || &#34;.media/&#34;  let $relationship := $parameters?rels/rel:Relationship[@Id=$id] let $target := $relationship/@Target return  if ($relationship/@TargetMode = &#34;External&#34;) then      $target     else   $mediaColl || substring-after($target, &#34;media/&#34;)"/>
-                    </model>
+            <param name="url" value="let $id := @r:id let $mediaColl := $parameters?filename || &#34;.media/&#34;  let $relationship := $parameters?rels/rel:Relationship[@Id=$id] let $target := $relationship/@Target return  if ($relationship/@TargetMode = &#34;External&#34;) then      $target     else   $mediaColl || substring-after($target, &#34;media/&#34;)"/>
+        </model>
                 </elementSpec>
             </schemaSpec>
         </body>
