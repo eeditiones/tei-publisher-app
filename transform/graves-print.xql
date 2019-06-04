@@ -351,9 +351,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                             fo:inline($config, ., ("tei-ref1"), .)
                         else
                             if (not(text())) then
-                                fo:link($config, ., ("tei-ref2"), @target, ())
+                                fo:link($config, ., ("tei-ref2"), @target, @target, map {})
                             else
-                                fo:link($config, ., ("tei-ref3"), ., ())
+                                fo:link($config, ., ("tei-ref3"), ., @target, map {})
                     case element(pubPlace) return
                         if (ancestor::teiHeader) then
                             (: Omit if located in teiHeader. :)
@@ -586,16 +586,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:inline($config, ., ("tei-occupation"), (., ' '))
                     case element(idno) return
                         if (@type='VIAF' and following-sibling::idno) then
-                            fo:link($config, ., ("tei-idno1"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/')
+                            fo:link($config, ., ("tei-idno1"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/', map {})
                         else
                             if (@type='VIAF') then
-                                fo:link($config, ., ("tei-idno2"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/')
+                                fo:link($config, ., ("tei-idno2"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/', map {})
                             else
                                 if (@type='LC-Name-Authority-File' and following-sibling::idno) then
-                                    fo:link($config, ., ("tei-idno3"), 'LoC Authority', 'https://lccn.loc.gov/' || string())
+                                    fo:link($config, ., ("tei-idno3"), 'LoC Authority', 'https://lccn.loc.gov/' || string(), map {})
                                 else
                                     if (@type='LC-Name-Authority-File') then
-                                        fo:link($config, ., ("tei-idno4"), 'LoC Authority', 'https://lccn.loc.gov/' || string())
+                                        fo:link($config, ., ("tei-idno4"), 'LoC Authority', 'https://lccn.loc.gov/' || string(), map {})
                                     else
                                         $config?apply($config, ./node())
                     case element() return

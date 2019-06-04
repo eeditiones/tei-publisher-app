@@ -67,7 +67,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(list-item) return
                         fo:listItem($config, ., ("tei-list-item"), ., ())
                     case element(uri) return
-                        fo:link($config, ., ("tei-uri"), ., @xlink:href)
+                        fo:link($config, ., ("tei-uri"), ., @xlink:href, map {})
                     case element(bold) return
                         fo:inline($config, ., ("tei-bold"), .)
                     case element(italic) return
@@ -86,7 +86,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:block($config, ., ("tei-article-meta"), title-group)
                     case element(title-group) return
                         (
-                            fo:link($config, ., ("tei-title-group1"), article-title, $parameters?doc),
+                            fo:link($config, ., ("tei-title-group1"), article-title, $parameters?doc, map {}),
                             fo:block($config, ., ("tei-title-group2"), subtitle)
                         )
 

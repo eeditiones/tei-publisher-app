@@ -211,7 +211,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:block($config, ., ("tei-group"), .)
                     case element(licence) return
                         if (@target) then
-                            html:link($config, ., ("tei-licence1", "licence"), 'Licence', @target, ())
+                            html:link($config, ., ("tei-licence1", "licence"), 'Licence', @target, (), map {})
                         else
                             html:omit($config, ., ("tei-licence2"), .)
                     case element(editor) return
@@ -353,9 +353,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:inline($config, ., ("tei-ref1"), .)
                         else
                             if (not(text())) then
-                                html:link($config, ., ("tei-ref2"), @target, (), ())
+                                html:link($config, ., ("tei-ref2"), @target, @target, (), map {})
                             else
-                                html:link($config, ., ("tei-ref3"), ., (), ())
+                                html:link($config, ., ("tei-ref3"), ., @target, (), map {})
                     case element(pubPlace) return
                         if (ancestor::teiHeader) then
                             (: Omit if located in teiHeader. :)
@@ -484,7 +484,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             if ($parameters?header='short') then
                                 (
-                                    html:link($config, ., ("tei-titleStmt4"), title[1], $parameters?doc, ()),
+                                    html:link($config, ., ("tei-titleStmt4"), title[1], $parameters?doc, (), map {}),
                                     html:block($config, ., ("tei-titleStmt5"), subsequence(title, 2)),
                                     html:block($config, ., ("tei-titleStmt6"), author)
                                 )
@@ -597,16 +597,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:inline($config, ., ("tei-occupation"), (., ' '))
                     case element(idno) return
                         if (@type='VIAF' and following-sibling::idno) then
-                            html:link($config, ., ("tei-idno1"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/', ())
+                            html:link($config, ., ("tei-idno1"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/', (), map {})
                         else
                             if (@type='VIAF') then
-                                html:link($config, ., ("tei-idno2"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/', ())
+                                html:link($config, ., ("tei-idno2"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/', (), map {})
                             else
                                 if (@type='LC-Name-Authority-File' and following-sibling::idno) then
-                                    html:link($config, ., ("tei-idno3"), 'LoC Authority', 'https://lccn.loc.gov/' || string(), ())
+                                    html:link($config, ., ("tei-idno3"), 'LoC Authority', 'https://lccn.loc.gov/' || string(), (), map {})
                                 else
                                     if (@type='LC-Name-Authority-File') then
-                                        html:link($config, ., ("tei-idno4"), 'LoC Authority', 'https://lccn.loc.gov/' || string(), ())
+                                        html:link($config, ., ("tei-idno4"), 'LoC Authority', 'https://lccn.loc.gov/' || string(), (), map {})
                                     else
                                         $config?apply($config, ./node())
                     case element(exist:match) return

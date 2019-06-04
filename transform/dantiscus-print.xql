@@ -335,9 +335,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                             fo:inline($config, ., ("tei-ref1"), .)
                         else
                             if (not(text())) then
-                                fo:link($config, ., ("tei-ref2"), @target, ())
+                                fo:link($config, ., ("tei-ref2"), @target, @target, map {})
                             else
-                                fo:link($config, ., ("tei-ref3"), ., ())
+                                fo:link($config, ., ("tei-ref3"), ., @target, map {})
                     case element(pubPlace) return
                         if (ancestor::teiHeader) then
                             (: Omit if located in teiHeader. :)

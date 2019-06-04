@@ -343,9 +343,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                             latex:inline($config, ., ("tei-ref1"), .)
                         else
                             if (not(text())) then
-                                latex:link($config, ., ("tei-ref2"), @target, ())
+                                latex:link($config, ., ("tei-ref2"), @target, @target, map {})
                             else
-                                latex:link($config, ., ("tei-ref3"), ., ())
+                                latex:link($config, ., ("tei-ref3"), ., @target, map {})
                     case element(reg) return
                         latex:inline($config, ., ("tei-reg"), .)
                     case element(relatedItem) return

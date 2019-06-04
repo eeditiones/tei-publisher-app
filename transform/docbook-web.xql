@@ -142,7 +142,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     html:inline($config, ., ("tei-title4"), .)
                                 else
                                     if (parent::info and $parameters?header='short') then
-                                        html:link($config, ., ("tei-title5"), ., $parameters?doc, ())
+                                        html:link($config, ., ("tei-title5"), ., $parameters?doc, (), map {})
                                     else
                                         html:heading($config, ., ("tei-title6", "title"), ., if ($parameters?view='single') then count(ancestor::section) + 1 else count($get(.)/ancestor::section))
                     case element(section) return
@@ -242,9 +242,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                                                         html:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-link2"), $content)
                         else
                             if (@linkend) then
-                                html:link($config, ., ("tei-link3"), ., concat('?odd=', request:get-parameter('odd', ()), '&amp;view=',                             request:get-parameter('view', ()), '&amp;id=', @linkend), ())
+                                html:link($config, ., ("tei-link3"), ., concat('?odd=', request:get-parameter('odd', ()), '&amp;view=',                             request:get-parameter('view', ()), '&amp;id=', @linkend), (), map {})
                             else
-                                html:link($config, ., ("tei-link4"), ., @xlink:href, ())
+                                html:link($config, ., ("tei-link4"), ., @xlink:href, (), map {})
                     case element(guibutton) return
                         html:inline($config, ., ("tei-guibutton"), .)
                     case element(guilabel) return

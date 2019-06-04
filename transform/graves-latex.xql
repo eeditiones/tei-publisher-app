@@ -26,7 +26,7 @@ declare %private function model:glossary($config as map(*), $node as node()*, $c
 
         return
 
-        ``[\newglossaryentry{`{string-join($config?apply-children($config, $node, $id))}`} { 
+        ``[\newglossaryentry{`{string-join($config?apply-children($config, $node, $id))}`} {
 name=`{string-join($config?apply-children($config, $node, $name))}`,
 description={`{string-join($config?apply-children($config, $node, $note))}`}
 }]``
@@ -448,9 +448,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                             latex:inline($config, ., ("tei-ref1"), .)
                         else
                             if (not(text())) then
-                                latex:link($config, ., ("tei-ref2"), @target, ())
+                                latex:link($config, ., ("tei-ref2"), @target, @target, map {})
                             else
-                                latex:link($config, ., ("tei-ref3"), ., ())
+                                latex:link($config, ., ("tei-ref3"), ., @target, map {})
                     case element(pubPlace) return
                         if (ancestor::teiHeader) then
                             (: Omit if located in teiHeader. :)
@@ -663,16 +663,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:inline($config, ., ("tei-occupation"), (., ' '))
                     case element(idno) return
                         if (@type='VIAF' and following-sibling::idno) then
-                            latex:link($config, ., ("tei-idno1"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/')
+                            latex:link($config, ., ("tei-idno1"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/', map {})
                         else
                             if (@type='VIAF') then
-                                latex:link($config, ., ("tei-idno2"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/')
+                                latex:link($config, ., ("tei-idno2"), 'VIAF', 'https://viaf.org/viaf/' || string() || '/', map {})
                             else
                                 if (@type='LC-Name-Authority-File' and following-sibling::idno) then
-                                    latex:link($config, ., ("tei-idno3"), 'LoC Authority', 'https://lccn.loc.gov/' || string())
+                                    latex:link($config, ., ("tei-idno3"), 'LoC Authority', 'https://lccn.loc.gov/' || string(), map {})
                                 else
                                     if (@type='LC-Name-Authority-File') then
-                                        latex:link($config, ., ("tei-idno4"), 'LoC Authority', 'https://lccn.loc.gov/' || string())
+                                        latex:link($config, ., ("tei-idno4"), 'LoC Authority', 'https://lccn.loc.gov/' || string(), map {})
                                     else
                                         $config?apply($config, ./node())
                     case element(correspAction) return

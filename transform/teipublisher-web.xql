@@ -320,9 +320,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:inline($config, ., ("tei-ref1"), .)
                         else
                             if (not(text())) then
-                                html:link($config, ., ("tei-ref2"), @target, (), ())
+                                html:link($config, ., ("tei-ref2"), @target, @target, (), map {})
                             else
-                                html:link($config, ., ("tei-ref3"), ., (), ())
+                                html:link($config, ., ("tei-ref3"), ., @target, (), map {})
                     case element(pubPlace) return
                         if (ancestor::teiHeader) then
                             (: Omit if located in teiHeader. :)
@@ -500,7 +500,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             if ($parameters?header='short') then
                                 (
-                                    html:link($config, ., ("tei-titleStmt4"), title[1], $parameters?doc, ()),
+                                    html:link($config, ., ("tei-titleStmt4"), title[1], $parameters?doc, (), map {}),
                                     html:block($config, ., ("tei-titleStmt5"), subsequence(title, 2)),
                                     html:block($config, ., ("tei-titleStmt6"), author)
                                 )
@@ -511,7 +511,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:block($config, ., ("tei-publicationStmt1"), availability/licence)
                     case element(licence) return
                         if (@target) then
-                            html:link($config, ., ("tei-licence1", "licence"), 'Licence', @target, ())
+                            html:link($config, ., ("tei-licence1", "licence"), 'Licence', @target, (), map {})
                         else
                             html:omit($config, ., ("tei-licence2"), .)
                     case element(edition) return
