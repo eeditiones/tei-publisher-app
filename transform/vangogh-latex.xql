@@ -593,20 +593,20 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:block($config, ., ("tei-byline"), .)
                     case element(vg:letDesc) return
                         (
-                            latex:heading($config, ., ("tei-vg:letDesc1"), 'Source status:', 3),
-                            latex:block($config, ., ("tei-vg:letDesc2"), note[@type='sourceStatus']/node()),
-                            latex:heading($config, ., ("tei-vg:letDesc3"), 'Location:', 3),
-                            latex:block($config, ., ("tei-vg:letDesc4"), note[@type='location']/node()),
-                            latex:heading($config, ., ("tei-vg:letDesc5"), 'Date:', 3),
-                            latex:block($config, ., ("tei-vg:letDesc6"), note[@type='date']/node()),
-                            latex:heading($config, ., ("tei-vg:letDesc7"), 'Additional:', 3),
-                            latex:block($config, ., ("tei-vg:letDesc8"), note[@type='additionalDetail']/node())
+                            latex:heading($config, ., ("tei-vg_letDesc1"), 'Source status:', 3),
+                            latex:block($config, ., ("tei-vg_letDesc2"), note[@type='sourceStatus']/node()),
+                            latex:heading($config, ., ("tei-vg_letDesc3"), 'Location:', 3),
+                            latex:block($config, ., ("tei-vg_letDesc4"), note[@type='location']/node()),
+                            latex:heading($config, ., ("tei-vg_letDesc5"), 'Date:', 3),
+                            latex:block($config, ., ("tei-vg_letDesc6"), note[@type='date']/node()),
+                            latex:heading($config, ., ("tei-vg_letDesc7"), 'Additional:', 3),
+                            latex:block($config, ., ("tei-vg_letDesc8"), note[@type='additionalDetail']/node())
                         )
 
                     case element(surface) return
                         latex:omit($config, ., ("tei-surface"), .)
                     case element(vg:whiteline) return
-                        latex:break($config, ., ("tei-vg:whiteline"), ., 'column', ())
+                        latex:break($config, ., ("tei-vg_whiteline"), ., 'column', ())
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

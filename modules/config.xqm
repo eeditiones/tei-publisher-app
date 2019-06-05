@@ -183,8 +183,10 @@ return
  : arguments.
  :)
 declare variable $config:tex-command := function ($file) {
-    ("/usr/local/texlive/2018/bin/x86_64-darwin/xelatex", "-interaction=nonstopmode", $file)
+    ("/Library/TeX/texbin/pdflatex", "-interaction=nonstopmode", $file)
 };
+
+declare variable $config:tex-temp-dir := (("TEMP", "TMPDIR") ! environment-variable(.), "/tmp")[1];
 
 (:~
  : Configuration for epub files.

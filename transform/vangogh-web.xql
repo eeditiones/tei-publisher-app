@@ -546,18 +546,18 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:block($config, ., ("tei-byline"), .)
                     case element(vg:letDesc) return
                         (
-                            html:heading($config, ., ("tei-vg:letDesc1"), 'Source status:', 3),
-                            html:block($config, ., ("tei-vg:letDesc2"), note[@type='sourceStatus']/node()),
-                            html:heading($config, ., ("tei-vg:letDesc3"), 'Location:', 3),
-                            html:block($config, ., ("tei-vg:letDesc4"), note[@type='location']/node()),
-                            html:heading($config, ., ("tei-vg:letDesc5"), 'Date:', 3),
-                            html:block($config, ., ("tei-vg:letDesc6"), note[@type='date']/node()),
-                            html:heading($config, ., ("tei-vg:letDesc7"), 'Additional:', 3),
-                            html:block($config, ., ("tei-vg:letDesc8"), note[@type='additionalDetail']/node())
+                            html:heading($config, ., ("tei-vg_letDesc1"), 'Source status:', 3),
+                            html:block($config, ., ("tei-vg_letDesc2"), note[@type='sourceStatus']/node()),
+                            html:heading($config, ., ("tei-vg_letDesc3"), 'Location:', 3),
+                            html:block($config, ., ("tei-vg_letDesc4"), note[@type='location']/node()),
+                            html:heading($config, ., ("tei-vg_letDesc5"), 'Date:', 3),
+                            html:block($config, ., ("tei-vg_letDesc6"), note[@type='date']/node()),
+                            html:heading($config, ., ("tei-vg_letDesc7"), 'Additional:', 3),
+                            html:block($config, ., ("tei-vg_letDesc8"), note[@type='additionalDetail']/node())
                         )
 
                     case element(vg:whiteline) return
-                        html:break($config, ., ("tei-vg:whiteline"), ., 'column', ())
+                        html:break($config, ., ("tei-vg_whiteline"), ., 'column', ())
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return
