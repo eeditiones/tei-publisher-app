@@ -182,6 +182,8 @@ declare variable $config:tex-command := function($file) {
     ( "/usr/local/bin/pdflatex", "-interaction=nonstopmode", $file )
 };
 
+declare variable $config:tex-temp-dir := (("TEMP", "TMPDIR") ! environment-variable(.), "/tmp")[1];
+
 (:~
  : Configuration for epub files.
  :)
