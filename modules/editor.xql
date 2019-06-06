@@ -119,8 +119,9 @@ declare function local:get-line($src, $line as xs:int?) {
 declare function local:recompile($source as xs:string, $root as xs:string) {
     let $outputRoot := request:get-parameter("output-root", $config:output-root)
     let $outputPrefix := request:get-parameter("output-prefix", $config:output)
-    let $config := doc($root || "/configuration.xml")/*
-    let $odd := doc($config:odd-root || "/" || $source)
+    let $oddRoot := request:get-parameter("root", $config:odd-root)
+    let $config := doc($oddRoot || "/configuration.xml")/*
+    let $odd := doc($oddRoot || "/" || $source)
     let $pi := tpu:parse-pi($odd, ())
     for $module in
         if ($pi?output) then
