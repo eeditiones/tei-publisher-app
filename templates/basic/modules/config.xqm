@@ -182,7 +182,12 @@ declare variable $config:tex-command := function($file) {
     ( "/usr/local/bin/pdflatex", "-interaction=nonstopmode", $file )
 };
 
-declare variable $config:tex-temp-dir := (("TEMP", "TMPDIR") ! environment-variable(.), "/tmp")[1];
+(:
+ : Temporary directory to write .tex output to. The LaTeX process will receive this
+ : as working director.
+ :)
+declare variable $config:tex-temp-dir :=
+    util:system-property("java.io.tmpdir");
 
 (:~
  : Configuration for epub files.
