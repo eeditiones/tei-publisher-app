@@ -243,8 +243,15 @@ return
     substring-before($modulePath, "/modules")
 ;
 
+(:~
+ : The root of the collection hierarchy containing data.
+ :)
 declare variable $config:data-root := $config:app-root || "/data";
 
+(:~
+ : The root of the collection hierarchy whose files should be displayed
+ : on the entry page. Can be different from $config:data-root.
+ :)
 declare variable $config:data-default := $config:data-root || "/test";
 
 declare variable $config:data-exclude := "(taxonomy.xml|/doc(/blog)?)";
