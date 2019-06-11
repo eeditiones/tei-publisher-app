@@ -12,8 +12,8 @@
             }
         </style>
 
-        <vaadin-upload id="uploader" accept=".xml,.tei,.odd,.docx" method="post" target="modules/lib/upload.xql" tabindex="-1" form-data-name="files[]">
-            <span slot="drop-label">Drop files here.</span>
+        <vaadin-upload id="uploader" accept="[[accept]]" method="post" target="modules/lib/upload.xql" tabindex="-1" form-data-name="files[]">
+            <span slot="drop-label">Drop [[accept]] files here to upload.</span>
             <paper-button id="uploadBtn" slot="add-button">upload</paper-button>
         </vaadin-upload>
     </template>
@@ -38,6 +38,13 @@
                      * the server-side script to handle the upload
                      */
                     target: {
+                        type: String
+                    },
+                    /**
+                     * a comma-separated list of file suffixes to accept for upload
+                     * (by default: .xml,.tei,.odd,.docx)
+                     */
+                    accept: {
                         type: String
                     }
                 };
