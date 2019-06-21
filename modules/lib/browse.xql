@@ -75,15 +75,16 @@ declare
     %templates:default("sort", "title")
 function app:list-works($node as node(), $model as map(*), $filter as xs:string?, $root as xs:string,
     $browse as xs:string?, $odd as xs:string?, $sort as xs:string) {
+    let $params := app:params2string()
     let $odd := ($odd, session:get-attribute("teipublisher.odd"))[1]
     let $oddAvailable := $odd and doc-available($config:odd-root || "/" || $odd)
     let $odd := if ($oddAvailable) then $odd else $config:default-odd
     let $cached := session:get-attribute("teipublisher.works")
     let $filtered :=
-        if (exists($filter)) then
-            query:query-metadata($browse, $filter, $sort)
-        else if (exists($cached) and $filter = session:get-attribute("teipublisher.filter")) then
+        if (exists($cached) and deep-equal($params, session:get-attribute("teipublisher.params"))) then
             $cached
+        else if (exists($filter)) then
+            query:query-metadata($browse, $filter, $sort)
         else
             let $options := app:options($sort)
             return
@@ -91,15 +92,21 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
     let $sorted := app:sort($filtered, $sort)
     return (
         session:set-attribute('apps.simple', $filtered),
-        session:set-attribute('teipublisher.docs', $filtered),
+        session:set-attribute('teipublisher.params', $params),
         session:set-attribute("teipublisher.works", $sorted),
-        session:set-attribute("teipublisher.browse", $browse),
-        session:set-attribute("teipublisher.filter", $filter),
         session:set-attribute("teipublisher.odd", $odd),
         map {
             "all" : $sorted,
             "mode": "browse"
         }
+    )
+};
+
+declare %private function app:params2string() {
+    map:merge(
+        for $param in request:get-parameter-names()[not(. = ("start", "per-page"))]
+        return
+            map:entry($param, request:get-parameter($param, ()))
     )
 };
 
