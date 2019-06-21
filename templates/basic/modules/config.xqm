@@ -250,7 +250,9 @@ declare variable $config:data-root := $$config-data$$;
  :)
 declare variable $config:data-default := $config:data-root;
 
-declare variable $config:data-exclude := "taxonomy.xml";
+declare variable $config:data-exclude := (
+    doc($config:data-root || "/taxonomy.xml")
+);
 
 declare variable $config:default-odd := "$$config-odd$$";
 

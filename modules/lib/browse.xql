@@ -56,7 +56,11 @@ declare
 function app:sort($items as element()*, $sortBy as xs:string?) {
     let $items :=
         if (count($config:data-exclude) = 1) then
-            $items[not(matches(document-uri(root(.)), $config:data-exclude))]
+            typeswitch ($config:data-exclude)
+                case document-node() return
+                    $items except $config:data-exclude
+                default return
+                    $items[not(matches(document-uri(root(.)), $config:data-exclude))]
         else
             $items
     return

@@ -254,7 +254,10 @@ declare variable $config:data-root := $config:app-root || "/data";
  :)
 declare variable $config:data-default := $config:data-root || "/test";
 
-declare variable $config:data-exclude := "(taxonomy.xml|/doc(/blog)?)";
+declare variable $config:data-exclude := (
+    doc($config:data-root || "/taxonomy.xml"),
+    collection($config:data-root || "/doc")
+);
 
 declare variable $config:default-odd := "teipublisher.odd";
 
