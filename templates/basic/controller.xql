@@ -21,6 +21,7 @@ declare function local:get-template($doc as xs:string) {
             $template
         else
             let $document := pages:get-document($doc)
+            where exists($document)
             let $config := tpu:parse-pi($document, request:get-parameter("view", ()))
             return
                 $config?template
