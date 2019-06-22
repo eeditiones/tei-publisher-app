@@ -258,7 +258,7 @@ declare
 function pages:view($node as node(), $model as map(*), $action as xs:string) {
     let $view := pages:determine-view($model?config?view, $model?data)
     let $data :=
-        if ($action = "search" and exists(session:get-attribute("apps.simple.query"))) then
+        if ($action = "search" and exists(session:get-attribute($config:session-prefix || ".query"))) then
             query:expand($model?config, $model?data)
         else
             $model?data
@@ -528,7 +528,7 @@ declare function pages:parse-params($node as node(), $model as map(*)) {
                                     let $found := [
                                         request:get-parameter($paramName, $default),
                                         $model($paramName),
-                                        session:get-attribute("apps.simple." || $paramName)
+                                        session:get-attribute($config:session-prefix || "." || $paramName)
                                     ]
                                     return
                                         array:fold-right($found, (), function($in, $value) {

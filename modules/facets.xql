@@ -36,7 +36,7 @@ declare function local:sort($facets as map(*)?) {
 
 declare function local:print-table($config as map(*), $nodes as element()+, $values as xs:string*, $params as xs:string*) {
     let $all := exists($config?max) and request:get-parameter("all-" || $config?dimension, ())
-    let $count := if ($all) then () else $config?max
+    let $count := if ($all) then 50 else $config?max
     let $facets :=
         if (exists($values)) then
             ft:facets($nodes, $config?dimension, $count, $values)
@@ -94,8 +94,8 @@ declare function local:display($config as map(*), $nodes as element()+) {
                 if (exists($config?max)) then
                     <paper-checkbox class="facet" name="all-{$config?dimension}">
                         { if (request:get-parameter("all-" || $config?dimension, ())) then attribute checked { "checked" } else () }
-                        Show all
-                    </paper-checkbox>
+                        Show top
+50                     </paper-checkbox>
                 else
                     ()
             }
@@ -106,7 +106,7 @@ declare function local:display($config as map(*), $nodes as element()+) {
         </div>
 };
 
-let $hits := session:get-attribute("apps.simple")
+let $hits := session:get-attribute($config:session-prefix || ".hits")
 where count($hits) > 0
 return
     <div>

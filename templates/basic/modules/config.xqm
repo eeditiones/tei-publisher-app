@@ -250,9 +250,9 @@ declare variable $config:data-root := $$config-data$$;
  :)
 declare variable $config:data-default := $config:data-root;
 
-declare variable $config:data-exclude := (
-    doc($config:data-root || "/taxonomy.xml")
-);
+declare variable $config:data-exclude :=
+    doc($config:data-root || "/taxonomy.xml")/tei:TEI
+;
 
 declare variable $config:default-odd := "$$config-odd$$";
 
@@ -269,6 +269,8 @@ declare variable $config:module-config := doc($config:odd-root || "/configuratio
 declare variable $config:repo-descriptor := doc(concat($config:app-root, "/repo.xml"))/repo:meta;
 
 declare variable $config:expath-descriptor := doc(concat($config:app-root, "/expath-pkg.xml"))/expath:package;
+
+declare variable $config:session-prefix := $config:expath-descriptor/@abbrev/string();
 
 (:~
  : Return an ID which may be used to look up a document. Change this if the xml:id

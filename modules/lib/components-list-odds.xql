@@ -26,7 +26,7 @@ import module namespace dbutil = "http://exist-db.org/xquery/dbutil";
 declare option output:method "json";
 declare option output:media-type "application/json";
 
-let $odd := (request:get-parameter("odd", ()), session:get-attribute("teipublisher.odd"), $config:odd)[1]
+let $odd := (request:get-parameter("odd", ()), session:get-attribute($config:session-prefix || ".odd"), $config:odd)[1]
 let $allOdds :=
     dbutil:scan-resources(xs:anyURI($config:odd-root), function ($resource) {
         if (ends-with($resource, ".odd")) then

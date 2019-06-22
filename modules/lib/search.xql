@@ -54,10 +54,10 @@ function search:query($node as node()*, $model as map(*), $query as xs:string?, 
         if (empty($query))
         then
             map {
-                "hits" : session:get-attribute("apps.simple"),
-                "hitCount" : session:get-attribute("apps.simple.hitCount"),
-                "query" : session:get-attribute("apps.simple.query"),
-                "docs" : session:get-attribute("apps.simple.docs")
+                "hits" : session:get-attribute($config:session-prefix || ".hits"),
+                "hitCount" : session:get-attribute($config:session-prefix || ".hitCount"),
+                "query" : session:get-attribute($config:session-prefix || ".query"),
+                "docs" : session:get-attribute($config:session-prefix || ".docs")
             }
         else
             (:Otherwise, perform the query.:)
@@ -72,11 +72,11 @@ function search:query($node as node()*, $model as map(*), $query as xs:string?, 
             let $hits := if ($hitCount > 1000) then subsequence($hitsAll, 1, 1000) else $hitsAll
             (:Store the result in the session.:)
             let $store := (
-                session:set-attribute("apps.simple", $hitsAll),
-                session:set-attribute("apps.simple.hitCount", $hitCount),
-                session:set-attribute("apps.simple.query", $query),
-                session:set-attribute("apps.simple.field", $field),
-                session:set-attribute("apps.simple.docs", $doc)
+                session:set-attribute($config:session-prefix || ".hits", $hitsAll),
+                session:set-attribute($config:session-prefix || ".hitCount", $hitCount),
+                session:set-attribute($config:session-prefix || ".query", $query),
+                session:set-attribute($config:session-prefix || ".field", $field),
+                session:set-attribute($config:session-prefix || ".docs", $doc)
             )
             return
                 (: The hits are not returned directly, but processed by the nested templates :)
