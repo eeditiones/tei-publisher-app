@@ -11,6 +11,14 @@
     <prepare>pre-install.xql</prepare>
     <finish>post-install.xql</finish>
     <changelog>
+        <change version="5.0.0">
+            <ul xmlns="http://www.w3.org/1999/xhtml">
+                <li>Integrate sample facets for browsing and search</li>
+                <li>Allow upload of DOCX documents, converted to TEI via ODD</li>
+                <li>Update code for compliance with eXist 5.0.0</li>
+                <li>For generated apps: add an admin menu entry to package the entire app as xar</li>
+            </ul>
+        </change>
         <change version="4.1.0">
             <ul xmlns="http://www.w3.org/1999/xhtml">
                 <li>new correspondence example: Van Gogh letter with dynamic layout</li>
