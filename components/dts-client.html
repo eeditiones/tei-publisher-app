@@ -1,0 +1,161 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-mixin.html">
+
+<dom-module id="dts-client">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            .panels {
+                display: flex;
+            }
+            .members {
+
+            }
+        </style>
+
+        <h3>[[data.title]]: [[data.totalItems]]</h3>
+        <div class="panels">
+            <div class="members">
+                <template is="dom-repeat" items="[[data.member]]">
+                    <div class="member">
+                        <template is="dom-if" if="[[_isCollection(item)]]">
+                            <h4 class="collection"><a href="#" on-click="_navigate">[[item.title]]</a></h4>
+                        </template>
+                        <template is="dom-if" if="[[!_isCollection(item)]]">
+                            <h4><a href="#" on-click="_preview">[[item.title]]</a></h4>
+                        </template>
+                    </div>
+                </template>
+            </div>
+            <div id="preview"></div>
+        </div>
+
+        <iron-ajax
+            id="queryAPI"
+            verbose
+            handle-as="json"
+            method="get"
+            on-response="_handleResponse"
+            on-error="_handleError"></iron-ajax>
+        <iron-ajax
+            id="documentsAPI"
+            url="modules/lib/dts-client.xql"
+            verbose
+            handle-as="json"
+            method="get"
+            on-response="_handlePreview"
+            on-error="_handleError"></iron-ajax>
+    </template>
+
+    <script>
+        /**
+         * `dts-client`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @appliesMixin PbMixin
+         * @demo demo/dts-client.html
+         */
+        class DtsClient extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'dts-client';
+            }
+
+            static get properties() {
+                return {
+                    baseUri: {
+                        type: String,
+                    },
+                    data: {
+                        type: Object
+                    },
+                    collection: {
+                        type: String
+                    },
+                    _collectionEndpoint: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                Polymer.RenderStatus.afterNextRender(this, () => {
+                    this._configureEndpoint();
+                });
+            }
+
+            _isCollection(item) {
+                return item['@type'] == 'Collection';
+            }
+
+            _configureEndpoint() {
+                this.emitTo('pb-start-update');
+                this.$.queryAPI.url = this.baseUri;
+                this.$.queryAPI.generateRequest();
+            }
+
+            _navigate(ev) {
+                this.collection = ev.model.item['@id'];
+                console.log('<dts-client> navigating to collection %s', this.collection);
+                this._update();
+            }
+
+            _preview(ev) {
+                this.emitTo('pb-start-update');
+                const path = ev.model.item['dts:passage'] || ev.model.item['dts:download'];
+                const url = new URL(path, this.baseUri).toString();
+                console.log('<dts-client> downloading %s', url);
+                this.$.documentsAPI.params = {
+                    'uri': url,
+                    'id': ev.model.item['@id']
+                };
+                this.$.documentsAPI.generateRequest();
+            }
+
+            _update() {
+                this.emitTo('pb-start-update');
+                const params = {};
+                if (this.collection) {
+                    params.id = this.collection;
+                };
+                this.$.queryAPI.params = params;
+                this.$.queryAPI.url = this._collectionEndpoint;
+                this.$.queryAPI.generateRequest();
+            }
+
+            _handleResponse() {
+                const json = this.$.queryAPI.lastResponse;
+                if (json['@type'] === 'EntryPoint') {
+                    this._collectionEndpoint = new URL(json.collections, this.baseUri).toString();
+                    console.log('<dts-client> using collection endpoint: %s', this._collectionEndpoint);
+
+                    this._update();
+                } else {
+                    this.data = json;
+                    console.log('<dts-client> data: %o', this.data);
+                }
+                this.emitTo('pb-end-update');
+            }
+
+            _handlePreview() {
+                const json = this.$.documentsAPI.lastResponse;
+                this.emitTo('pb-end-update');
+                const url = new URL(json.path, window.location.href);
+                window.location = url;
+            }
+
+            _encodeParams(params) {
+                return Object.keys(params).map((key) => {
+                    return encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
+                }).join('&');
+            }
+        }
+
+        window.customElements.define(DtsClient.is, DtsClient);
+    </script>
+</dom-module>

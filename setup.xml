@@ -2,6 +2,7 @@
 <setup>
     <!-- collections containing TEI data to be displayed by the app -->
     <collections>
+        <path>dts</path>
         <path>test</path>
         <path>doc</path>
     </collections>

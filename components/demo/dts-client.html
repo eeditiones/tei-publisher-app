@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+
+        <title>pb-view Demo</title>
+        <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+        <link rel="import" href="../dependencies-dev.html"/>
+        <custom-style>
+            <style is="custom-style" include="demo-pages-shared-styles">
+                body {
+                    --paper-fab-background: #35424b;
+                }
+
+                demo-snippet {
+                    position: relative;
+                }
+
+                main {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+        </custom-style>
+    </head>
+
+    <body>
+        <demo-snippet>
+            <template>
+                <main>
+                    <dts-client base-uri="http://texts.alpheios.net/api/dts"/>
+                </main>
+            </template>
+        </demo-snippet>
+    </body>
+</html>

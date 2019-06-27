@@ -279,6 +279,25 @@ declare variable $config:session-prefix := $config:expath-descriptor/@abbrev/str
 
 declare variable $config:setup := doc($config:app-root || "/setup.xml")/setup;
 
+declare variable $config:dts-collections := map {
+    "default": map {
+        "title": "TEI Publisher Default Collection",
+        "path": $config:data-default,
+        "metadata": function($doc as document-node()) {
+            let $properties := tpu:parse-pi($doc, ())
+            return
+                map:merge((
+                    map:entry("title", nav:get-metadata($properties, $doc/*, "title")/string()),
+                    map {
+                        "dts:dublincore": map {
+                            "dc:creator": string-join(nav:get-metadata($properties, $doc/*, "author"), "; ")
+                        }
+                    }
+                ))
+        }
+    }
+};
+
 (:~
  : Return an ID which may be used to look up a document. Change this if the xml:id
  : which uniquely identifies a document is *not* attached to the root element.
