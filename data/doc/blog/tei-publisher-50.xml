@@ -11,17 +11,17 @@
         </author>
         <pubdate>2019-07-01</pubdate>
         <abstract>
-            <para>This is major release building on the features introduced in eXist-db 5.0.0 RC8.</para>
+            <para>This is major release building on the faceting feature added in eXist-db 5.0.0 RC8 and introducing Word document import.</para>
         </abstract>
     </info>
     <section>
         <title>Release Highlights: Facets</title>
-        <para>Facets allow users to quickly navigate through a result set by selecting from the list of predefined categoriess. 
-        This way, users can <emphasis>drill down</emphasis> into the set, reducing the number of displayed items with every step. 
+        <para>Facets allow users to quickly navigate through a result set by selecting from the list of predefined categoriess.
+        This way, users can <emphasis>drill down</emphasis> into the set, reducing the number of displayed items with every step.
         As the user chooses a facet, the set necessarily becomes smaller, so non-matching entries will disappear from sight.</para>
 
-        <para>Facets are a new feature in <emphasis role="bold">eXist 5.0.0</emphasis>. They are <emphasis role="bold">super fast</emphasis> because eXist will create them when indexing the document. 
-        No extra computation is needed when the user clicks on a facet to drill down into a displayed set: all information is already available in the index. 
+        <para>Facets are a new feature in <emphasis role="bold">eXist 5.0.0</emphasis>. They are <emphasis role="bold">super fast</emphasis> because eXist will create them when indexing the document.
+        No extra computation is needed when the user clicks on a facet to drill down into a displayed set: all information is already available in the index.
         By default TEI Publisher configures two facets: <emphasis>Genre</emphasis> and <emphasis>Language</emphasis> while <emphasis>Van Gogh demo</emphasis> presents a more elaborate example of facets in action.</para>
     </section>
     <section>
@@ -76,5 +76,16 @@
             recent eXist (5.0.0 RC8 or newer) by going to the dashboard and selecting TEI Publisher from
             the package manager.</para>
         <para>For more information refer to the <link xlink:href="https://teipublisher.com/exist/apps/tei-publisher/doc/documentation.xml">documentation</link> or visit the <link xlink:href="https://teipublisher.com">homepage</link> to play around with it.</para>
+    </section>
+    <section>
+      <title>Thanks</title>
+      <para>Our thanks go to <link xlink:href="https://history.state.gov">Office of the Historian of the United States Department of State</link> for funding
+      a large part of work on the faceting feature for eXist-db.</para>
+      <para>We are also grateful to the Van Gogh Museum &amp; Huygens ING for releasing <link xlink:href="http://vangoghletters.org/vg/about_6.html#intro.VI.6.4.">
+        XML source files of Vincent Van Gogh letters</link> under an open licence which allowed us to use this data as our demo samples.
+        Same goes for <link xlink:href="https://github.com/textcreationpartnership">EEBO-TCP</link> and
+        <link xlink:href="https://firstfolio.bodleian.ox.ac.uk">Bodleian First Folio</link>, already protagonists of
+        TEI Publisher demos for a longer time.
+      </para>
     </section>
 </article>
