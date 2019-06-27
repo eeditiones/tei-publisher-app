@@ -108,7 +108,7 @@ let $delete := request:get-parameter("delete", ())
 let $new_odd := request:get-parameter("new_odd", ())
 let $byExample := request:get-parameter("byExample", ())
 let $title := request:get-parameter("title", ())
-let $odd := (request:get-parameter("odd", ()), session:get-attribute("teipublisher.odd"), $config:odd)[1]
+let $odd := (request:get-parameter("odd", ()), session:get-attribute($config:session-prefix || ".odd"), $config:odd)[1]
 let $user := request:get-attribute($config:login-domain || ".user")
 return (
     if ($delete) then

@@ -154,8 +154,8 @@ declare function dbs:get-breadcrumbs($config as map(*), $hit as element(), $pare
  : on it.
  :)
 declare function dbs:expand($data as element()) {
-    let $query := session:get-attribute("apps.simple.query")
-    let $field := session:get-attribute("apps.simple.field")
+    let $query := session:get-attribute($config:session-prefix || ".query")
+    let $field := session:get-attribute($config:session-prefix || ".field")
     let $div := $data
     let $expanded :=
         util:expand(dbs:query-default-view($div, $query, $field), "add-exist-id=all")

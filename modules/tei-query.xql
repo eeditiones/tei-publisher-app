@@ -159,8 +159,8 @@ declare function teis:get-breadcrumbs($config as map(*), $hit as element(), $par
  : on it.
  :)
 declare function teis:expand($data as element()) {
-    let $query := session:get-attribute("apps.simple.query")
-    let $field := session:get-attribute("apps.simple.field")
+    let $query := session:get-attribute($config:session-prefix || ".query")
+    let $field := session:get-attribute($config:session-prefix || ".field")
     let $div :=
         if ($data instance of element(tei:pb)) then
             let $nextPage := $data/following::tei:pb[1]

@@ -32,7 +32,6 @@ import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
-import module namespace search="http://www.tei-c.org/tei-simple/search" at "search.xql";
 
 declare variable $pages:app-root := request:get-context-path() || substring-after($config:app-root, "/db");
 
@@ -258,7 +257,7 @@ declare
 function pages:view($node as node(), $model as map(*), $action as xs:string) {
     let $view := pages:determine-view($model?config?view, $model?data)
     let $data :=
-        if ($action = "search" and exists(session:get-attribute("apps.simple.query"))) then
+        if ($action = "search" and exists(session:get-attribute($config:session-prefix || ".query"))) then
             query:expand($model?config, $model?data)
         else
             $model?data
@@ -528,7 +527,7 @@ declare function pages:parse-params($node as node(), $model as map(*)) {
                                     let $found := [
                                         request:get-parameter($paramName, $default),
                                         $model($paramName),
-                                        session:get-attribute("apps.simple." || $paramName)
+                                        session:get-attribute($config:session-prefix || "." || $paramName)
                                     ]
                                     return
                                         array:fold-right($found, (), function($in, $value) {

@@ -107,7 +107,7 @@
                 .hi {
                     display: block;
                 }
-                
+
                 #facets h3 {
                     display: flex;
                     flex-direction: row;
@@ -168,8 +168,8 @@
                             <div class="card-content">
                                 <pb-search id="search-form" place-holder="i18n(search-query-attr)" data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load" subscribe="search">
                                     <div class="targets">
-                                        <paper-checkbox name="tei-target" value="tei-text">Search sections</paper-checkbox>
-                                        <paper-checkbox name="tei-target" value="tei-head">Search headings</paper-checkbox>
+                                        <paper-checkbox name="field" value="tei-text">Search sections</paper-checkbox>
+                                        <paper-checkbox name="field" value="tei-head">Search headings</paper-checkbox>
                                     </div>
                                     <pb-custom-form id="facets" url="modules/facets.xql" subscribe="results" event="pb-results-received" emit="search"/>
                                 </pb-search>
