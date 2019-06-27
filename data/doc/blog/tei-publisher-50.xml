@@ -35,7 +35,7 @@
         </informalfigure>
         <para>The <link xlink:href="http://vangoghletters.org/vg/">Van Gogh edition</link> is often
             considered a
-            model example for correspondence. Recent release of XML sources for all the letters
+            model example for correspondence. Following the recent release of XML sources for all the letters
             we've decided to use this excellent resource to showcase the new faceting feature of eXist 5.0.0 as well as
             the dynamic, user configurable, multi column display of the original Van Gogh website
             using the webcomponents provided by TEI Publisher in a playful styling.
