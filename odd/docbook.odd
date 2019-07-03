@@ -212,22 +212,8 @@
         </model>
                     <model predicate="$parameters?mode='breadcrumbs'" behaviour="inline">
             <outputRendition xml:space="preserve" scope="before">
-
-
-
-
-
-
-
                             content: ' &gt; ';
                             color: #607d8b;
-
-
-
-
-
-
-
             </outputRendition>
         </model>
                     <model predicate="parent::note" behaviour="inline"/>
