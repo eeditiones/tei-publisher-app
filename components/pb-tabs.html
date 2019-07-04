@@ -35,16 +35,25 @@
                 return {
                     selected: {
                         type: Number,
-                        value: 0
+                        observer: '_switchTab'
                     }
                 };
             }
 
             connectedCallback() {
                 super.connectedCallback();
+
+                this.selected = this.getParameter('tab', 0);
             }
 
-
+            _switchTab(newTab, oldTab) {
+                if (typeof oldTab !== 'undefined' && newTab !== oldTab) {
+                    this.setParameter('tab', newTab);
+                    this.pushHistory('browse', {
+                        tab: newTab
+                    });
+                }
+            }
         }
 
         window.customElements.define(PbTabs.is, PbTabs);

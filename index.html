@@ -91,7 +91,10 @@
 
                 .panels .doclist {
                     --paper-tabs-selection-bar-color: #607D8B;
-
+                    --paper-tab-content: {
+                        font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                        font-weight: 400;
+                    };
                     --paper-card-header: {
                         background-color: #d1dae0;
                     };
@@ -112,6 +115,10 @@
                     flex-direction: row;
                     justify-content: space-between;
                     padding: 0;
+                }
+
+                .panels .doclist dts-client {
+                    padding: 0 20px;
                 }
 
                 #document-list {
@@ -228,6 +235,10 @@
                     text-align: right;
                     padding-left: 1em;
                     vertical-align: middle;
+                }
+
+                dts-client pb-paginate {
+                    margin-bottom: 1em;
                 }
             </style>
         </custom-style>
@@ -351,8 +362,8 @@
                             <paper-card class="doclist" heading="i18n(documents)">
                                 <div class="card-content">
                                     <pb-tabs>
-                                        <paper-tab slot="tab">Local</paper-tab>
-                                        <paper-tab slot="tab">Remote</paper-tab>
+                                        <paper-tab slot="tab">Local Collection</paper-tab>
+                                        <paper-tab slot="tab">Distributed Text Services (Experimental)</paper-tab>
 
                                         <div class="browse" slot="page">
                                             <pb-custom-form id="facets" url="modules/facets.xql" event="pb-results-received" subscribe="docs" emit="docs"/>
@@ -367,7 +378,15 @@
                                                     emit="docs" subscribe="docs"></pb-paginate>
                                             </pb-browse-docs>
                                         </div>
-                                        <dts-client slot="page" base-uri="http://localhost:8080/exist/apps/tei-publisher/api/dts"/>
+                                        <dts-client slot="page" emit="dts">
+                                            <dts-select-endpoint slot="toolbar" label="Endpoint">
+                                                <paper-item value="http://localhost:8080/exist/apps/vangogh/api/dts">Van Gogh Letters</paper-item>
+                                                <paper-item value="http://localhost:8080/exist/apps/shakespeare-pm/api/dts">Shakespeare</paper-item>
+                                                <paper-item value="http://texts.alpheios.net/api/dts">Alpheios Project</paper-item>
+                                            </dts-select-endpoint>
+                                            <p class="dts-info" slot="toolbar">Experimental: access other editions which expose the DTS API</p>
+                                            <pb-paginate slot="pagination" per-page="10" range="5" found-label="i18n(found)" subscribe="dts"></pb-paginate>
+                                        </dts-client>
                                     </pb-tabs>
                                 </div>
                             </paper-card>

@@ -1,0 +1,63 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-mixin.html">
+
+<dom-module id="dts-select-endpoint">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <paper-dropdown-menu id="menu" label="[[label]]">
+            <paper-listbox id="endpoints" slot="dropdown-content" class="dropdown-content" selected="{{endpoint}}" attr-for-selected="value">
+                <slot></slot>
+            </paper-listbox>
+        </paper-dropdown-menu>
+    </template>
+
+    <script>
+        /**
+         * `dts-select-endpoint`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @appliesMixin PbMixin
+         */
+        class DtsSelectEndpoint extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'dts-select-endpoint';
+            }
+
+            static get properties() {
+                return {
+                    endpoint: {
+                        type: String,
+                        observer: '_selected'
+                    },
+                    label: {
+                        type: String
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+
+                this.endpoint = this.getParameter('endpoint');
+                console.log('<dts-select-endpoint> %s', this.endpoint);
+            }
+
+            _selected(newEndpoint, oldEndpoint) {
+                this.setParameter('endpoint', newEndpoint);
+                this.pushHistory('dts-endpoint');
+                this.emitTo('dts-endpoint', {
+                    endpoint: newEndpoint
+                });
+            }
+        }
+
+        window.customElements.define(DtsSelectEndpoint.is, DtsSelectEndpoint);
+    </script>
+</dom-module>

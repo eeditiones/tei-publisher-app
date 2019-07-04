@@ -283,6 +283,12 @@ declare variable $config:dts-collections := map {
     "default": map {
         "title": "TEI Publisher Default Collection",
         "path": $config:data-default,
+        "members": function() {
+            nav:get-root((), map {
+                "leading-wildcard": "yes",
+                "filter-rewrite": "yes"
+            })
+        },
         "metadata": function($doc as document-node()) {
             let $properties := tpu:parse-pi($doc, ())
             return
@@ -297,6 +303,8 @@ declare variable $config:dts-collections := map {
         }
     }
 };
+
+declare variable $config:dts-page-size := 10;
 
 (:~
  : Return an ID which may be used to look up a document. Change this if the xml:id

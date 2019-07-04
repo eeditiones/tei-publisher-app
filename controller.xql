@@ -143,10 +143,10 @@ else if ($logout or $login) then (
    </dispatch>
 
 else if (starts-with($exist:path, "/api/dts")) then
-    let $endpoint := tokenize($exist:path, "/")[last()]
+    let $endpoint := tokenize(substring-after($exist:path, "/api/dts/"), "/")[last()]
     return
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-           <forward url="{$exist:controller}/modules/lib/dts-api.xql">
+           <forward url="{$exist:controller}/modules/lib/dts.xql">
                <add-parameter name="endpoint" value="{$endpoint}"/>
            </forward>
        </dispatch>
