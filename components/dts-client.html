@@ -169,6 +169,7 @@
             }
 
             _preview(ev) {
+                ev.preventDefault();
                 this.emitTo('pb-start-update');
                 const path = ev.model.item['dts:passage'] || ev.model.item['dts:download'];
                 const url = new URL(path, this.baseUri).toString();

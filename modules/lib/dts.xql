@@ -71,7 +71,10 @@ declare function local:import($uri as xs:string, $id as xs:string, $toTemp as xs
 let $dtsConfig := map {
     "app-root": $config:app-root,
     "dts-collections": $config:dts-collections,
-    "dts-page-size": $config:dts-page-size
+    "dts-page-size": $config:dts-page-size,
+    "default-odd": $config:default-odd,
+    "view": $config:default-view,
+    "template": $config:default-template
 }
 let $preview := request:get-parameter("preview", ())
 let $import := request:get-parameter("import", ())
