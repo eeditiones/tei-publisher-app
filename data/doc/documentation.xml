@@ -1882,7 +1882,7 @@
           <filename>dantiscus.odd</filename>, and switches to a page-by-page display (along TEI page break boundaries):</para>
       <synopsis language="xml">&lt;?teipublisher template="translation.html" odd="dantiscus.odd" view="page"?&gt;</synopsis>
       <para>When viewing the document by structural divisions, two additional settings control the amount of content displayed at a time:</para>
-      <synopsis>&lt;?teipublisher depth="2" fill="6" odd="dta.odd"&gt;</synopsis>
+      <synopsis>&lt;?teipublisher depth="2" fill="6" odd="dta.odd"?&gt;</synopsis>
       <variablelist>
         <varlistentry>
           <term>odd</term>
