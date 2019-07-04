@@ -173,7 +173,8 @@
                 this.emitTo('pb-load', {
                     "params": {
                         "start": start,
-                        "per-page": this.perPage
+                        "per-page": this.perPage,
+                        "page": index - 1
                     }
                 });
             }
@@ -183,7 +184,8 @@
                 this.emitTo('pb-load', {
                     "params": {
                         "start": 1,
-                        "per-page": this.perPage
+                        "per-page": this.perPage,
+                        "page": 0
                     }
                 });
             }
@@ -195,7 +197,8 @@
                 this.emitTo('pb-load', {
                     "params": {
                         "start": start,
-                        "per-page": this.perPage
+                        "per-page": this.perPage,
+                        "page": this.pageCount - 1
                     }
                 });
             }

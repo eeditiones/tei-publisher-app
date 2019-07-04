@@ -31,6 +31,7 @@ sm:chmod(xs:anyURI($target || "/modules/lib/components.xql"), "rwsr-xr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/components-odd.xql"), "rwxr-Sr-x"),
 (: sm:chmod(xs:anyURI($target || "/modules/lib/upload.xql"), "rwsr-xr-x"), :)
 sm:chmod(xs:anyURI($target || "/modules/lib/regenerate.xql"), "rwsr-xr-x"),
+sm:chmod(xs:anyURI($target || "/modules/lib/dts.xql"), "rwsr-xr-x"),
 
 (: LaTeX requires dba permissions to execute shell process :)
 sm:chmod(xs:anyURI($target || "/modules/lib/latex.xql"), "rwsr-Sr-x"),
