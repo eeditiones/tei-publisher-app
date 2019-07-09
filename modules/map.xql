@@ -57,3 +57,15 @@ return
     $node
 };
 
+(:~  mapping by translating id prefix  ~:)
+declare function mapping:prefix-translation($root as element()) {
+    let $sourcePrefix := 's'
+    let $translationPrefix := 't1'
+    let $id := $root/@xml:id
+    
+    let $node := root($root)/id(translate($id, $sourcePrefix, $targetPrefix))
+
+    return
+        $node
+};
+
