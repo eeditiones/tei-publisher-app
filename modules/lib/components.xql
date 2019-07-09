@@ -93,9 +93,14 @@ let $xml :=
         pages:load-xml($view, $root, $doc)
 return
     if ($xml?data) then
+        let $userParams :=
+          map:merge((
+              request:get-parameter-names()[starts-with(., 'user')] ! map { substring-after(., 'user.'): request:get-parameter(., ()) },
+              map { "webcomponents": true() }
+          ))
         let $mapped :=
             if ($mapping) then
-                let $mapFun := function-lookup(xs:QName("mapping:" || $mapping), 1)
+                let $mapFun := function-lookup(xs:QName("mapping:" || $mapping), 2)
                 let $mapped := $mapFun($xml?data)
                 return
                     $mapped
@@ -111,11 +116,7 @@ return
                 pages:get-content($xml?config, $data)
             else
                 $data
-        let $userParams :=
-            map:merge((
-                request:get-parameter-names()[starts-with(., 'user')] ! map { substring-after(., 'user.'): request:get-parameter(., ()) },
-                map { "webcomponents": true() }
-            ))
+
         let $html :=
             typeswitch ($mapped)
                 case element() | document-node() return
@@ -169,7 +170,8 @@ return
                           <output:indent>no</output:indent>
                         <output:method>html5</output:method>
                             </output:serialization-parameters>),
-                    "footnotes": $transformed?footnotes
+                    "footnotes": $transformed?footnotes,
+                    "userParams": $userParams
                 }
     else
         map { "error": "Not found" }
