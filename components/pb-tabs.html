@@ -1,0 +1,61 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-mixin.html">
+
+<dom-module id="pb-tabs">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <paper-tabs selected="{{selected}}">
+            <slot name="tab"></slot>
+        </paper-tabs>
+        <iron-pages selected="{{selected}}">
+            <slot name="page"></slot>
+        </iron-pages>
+    </template>
+
+    <script>
+        /**
+         * `pb-tabs`
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/seed-element.html
+         * @appliesMixin PbMixin
+         */
+        class PbTabs extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'pb-tabs';
+            }
+
+            static get properties() {
+                return {
+                    selected: {
+                        type: Number,
+                        observer: '_switchTab'
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+
+                this.selected = this.getParameter('tab', 0);
+            }
+
+            _switchTab(newTab, oldTab) {
+                if (typeof oldTab !== 'undefined' && newTab !== oldTab) {
+                    this.setParameter('tab', newTab);
+                    this.pushHistory('browse', {
+                        tab: newTab
+                    });
+                }
+            }
+        }
+
+        window.customElements.define(PbTabs.is, PbTabs);
+    </script>
+</dom-module>
