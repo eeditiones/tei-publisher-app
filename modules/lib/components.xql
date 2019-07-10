@@ -101,7 +101,7 @@ return
         let $mapped :=
             if ($mapping) then
                 let $mapFun := function-lookup(xs:QName("mapping:" || $mapping), 2)
-                let $mapped := $mapFun($xml?data)
+                let $mapped := $mapFun($xml?data, $userParams)
                 return
                     $mapped
             else
