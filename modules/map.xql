@@ -13,14 +13,14 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
  : For the Van Gogh letters: find the page break in the translation corresponding
  : to the one shown in the transcription.
  :)
-declare function mapping:vg-translation($root as element()) {
+declare function mapping:vg-translation($root as element(), $userParams as map(*)) {
     let $id := ``[pb-trans-`{$root/@f}`-`{$root/@n}`]``
     let $node := root($root)/id($id)
     return
         $node
 };
 
-declare function mapping:cortez-translation($root as element()) {
+declare function mapping:cortez-translation($root as element(), $userParams as map(*)) {
     let $first := (($root/following-sibling::text()/ancestor::*[@xml:id])[last()], $root/following-sibling::*[@xml:id], ($root/ancestor::*[@xml:id])[last()])[1]
     let $last := $root/following::tei:pb[1]
     let $firstExcluded := ($last/following-sibling::*[@xml:id], $last/following::*[@xml:id])[1]
@@ -34,7 +34,7 @@ declare function mapping:cortez-translation($root as element()) {
 };
 
 (:~  mapping by retrieving same book number in the translation; assumes div view  ~:)
-declare function mapping:barum-book($root as element()) {
+declare function mapping:barum-book($root as element(), $userParams as map(*)) {
         let $bookNumber := $root/@n
         let $node := root($root)//tei:text[@type='translation']//tei:div[@type="book"][@n=$bookNumber]
 
@@ -42,30 +42,35 @@ declare function mapping:barum-book($root as element()) {
         $node
 };
 
-(:~  mapping trying to find a node in the same relation to the base of translation as current node to the base of transcription  ~:)
-declare function mapping:offset-translation($root as element()) {
-    
-let $node-id := util:node-id($root)
-let $source-root := util:node-id(root($root)//tei:text[@type='source']/tei:body)
-let $translation-root := util:node-id(root($root)//tei:text[@type='translation']/tei:body)
-
-let $offset := substring-after($node-id, $source-root)
-
-let $node := util:node-by-id(root($root), $translation-root || $offset)
-
-return 
-    $node
-};
-
-(:~  mapping by translating id prefix  ~:)
-declare function mapping:prefix-translation($root as element()) {
-    let $sourcePrefix := 's'
-    let $translationPrefix := 't1'
+(:~  mapping by translating id prefix, by default from prefix s to t1  ~:)
+declare function mapping:prefix-translation($root as element(), $userParams as map(*)) {
+    let $sourcePrefix := ($userParams?sourcePrefix, 's')[1]
+    let $targetPrefix := ($userParams?targetPrefix, 't1')[1]
+   
     let $id := $root/@xml:id
     
     let $node := root($root)/id(translate($id, $sourcePrefix, $targetPrefix))
 
     return
         $node
+};
+
+(:~  mapping trying to find a node in the same relation to the base of translation as current node to the base of transcription  ~:)
+declare function mapping:offset-translation($root as element(), $userParams as map(*)) {
+    
+let $language := ($userParams?language, 'en')[1]
+
+let $node-id := util:node-id($root)
+
+let $source-root := util:node-id(root($root)//tei:text[@type='source']/tei:body)
+let $translation-root := util:node-id(root($root)//tei:text[@type='translation'][@xml:lang=$language]/tei:body)
+
+let $offset := substring-after($node-id, $source-root)
+
+let $node := util:node-by-id(root($root), $translation-root || $offset) 
+
+return 
+    $node
+
 };
 

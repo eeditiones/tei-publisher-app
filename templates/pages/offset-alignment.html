@@ -84,7 +84,12 @@
                     </section>
                     <main class="content-body">
                         <pb-view id="view1" src="document1" xpath="//text[@type='source']/body" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
-                        <pb-view id="view2" src="document1" map="offset-translation" xpath="//text[@type='source']/body" subscribe="transcription" append-footnotes="append-footnotes"/>
+                        <pb-view id="view2" src="document1" map="offset-translation" xpath="//text[@type='source']/body" subscribe="transcription" append-footnotes="append-footnotes">
+                            <pb-param name="language" value="en"/>
+                        </pb-view>
+                        <pb-view id="view3" src="document1" map="offset-translation" xpath="//text[@type='source']/body" subscribe="transcription" append-footnotes="append-footnotes">
+                            <pb-param name="language" value="es"/>
+                        </pb-view>
                     </main>
                 </app-header-layout>
             </app-drawer-layout>
