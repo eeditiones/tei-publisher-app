@@ -79,6 +79,8 @@ declare function nav:get-metadata($config as map(*), $root as element(), $field 
             $root/tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:edition/tei:date,
             $root/tei:teiHeader/tei:publicationStmt/tei:date
         )[1]
+        case "license" return
+            $root/tei:teiHeader/tei:fileDesc/tei:publicationStmt//tei:licence/@target/string()
         default return
             ()
 };

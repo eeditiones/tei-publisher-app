@@ -20,6 +20,10 @@
                     display: flex;
                     justify-content: space-between;
                 }
+
+                pb-paginate {
+                    margin-bottom: 10px;
+                }
             </style>
         </custom-style>
     </head>
@@ -28,7 +32,9 @@
         <demo-snippet>
             <template>
                 <main>
-                    <dts-client base-uri="http://texts.alpheios.net/api/dts"/>
+                    <dts-client base-uri="https://teipublisher.com/exist/apps/vangogh/api/dts" emit="dts" subscribe="dts">
+                        <pb-paginate slot="pagination" per-page="10" range="5" found-label="Found" subscribe="dts" emit="dts"></pb-paginate>
+                    </dts-client>
                 </main>
             </template>
         </demo-snippet>
