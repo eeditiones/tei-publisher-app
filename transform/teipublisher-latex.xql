@@ -13,6 +13,8 @@ declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
 declare namespace xi='http://www.w3.org/2001/XInclude';
 
+declare namespace pb='http://teipublisher.com/1.0';
+
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
@@ -316,7 +318,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (not(@target)) then
                             latex:inline($config, ., ("tei-ref1"), .)
                         else
-                            if (not(text())) then
+                            if (not(node())) then
                                 latex:link($config, ., ("tei-ref2"), @target, @target, map {})
                             else
                                 latex:link($config, ., ("tei-ref3"), ., @target, map {})

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -49,22 +49,22 @@
             <param name="content" value="replace(string-join(.//text()[not(parent::ref)]), '^(.*?)[^\w]*$', '$1')"/>
         </model>
                     <model predicate="parent::figure" behaviour="block">
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             font-style: italic;
             </outputRendition>
         </model>
                     <model predicate="parent::table" behaviour="block">
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             font-style: italic;
             </outputRendition>
         </model>
                     <model predicate="parent::lg" behaviour="block">
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             font-style: italic;
             </outputRendition>
         </model>
                     <model predicate="parent::list" behaviour="block">
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             font-weight: bold;
             </outputRendition>
         </model>
@@ -144,7 +144,7 @@
                     <model predicate="not(@level) and parent::bibl" behaviour="inline"/>
                     <modelSequence predicate="@level='m' or not(@level)">
             <model behaviour="inline">
-                <outputRendition>
+                <outputRendition xml:space="preserve">
                 font-style: italic;
                 </outputRendition>
             </model>
@@ -154,7 +154,7 @@
         </modelSequence>
                     <modelSequence predicate="@level='s' or @level='j'">
             <model behaviour="inline">
-                <outputRendition>
+                <outputRendition xml:space="preserve">
                 font-style: italic;
                 </outputRendition>
             </model>
@@ -164,7 +164,7 @@
         </modelSequence>
                     <modelSequence predicate="@level='u' or @level='a'">
             <model behaviour="inline">
-                <outputRendition>
+                <outputRendition xml:space="preserve">
                 font-style: italic;
                 </outputRendition>
             </model>
@@ -173,14 +173,14 @@
             </model>
         </modelSequence>
                     <model behaviour="inline">
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             font-style: italic;
             </outputRendition>
         </model>
                 </elementSpec>
                 <elementSpec ident="author" mode="change">
                     <model predicate="ancestor::teiHeader" behaviour="block">
-            <outputRendition scope="before">
+            <outputRendition xml:space="preserve" scope="before">
             content: 'By ';
             </outputRendition>
         </model>
@@ -188,11 +188,21 @@
                 </elementSpec>
                 <elementSpec ident="edition" mode="change">
                     <model predicate="ancestor::teiHeader" behaviour="block">
-            <outputRendition scope="before">
+            <outputRendition xml:space="preserve" scope="before">
             content: 'Edition: ';
             </outputRendition>
         </model>
                 </elementSpec>
+            <elementSpec ident="ref" mode="change">
+        <model predicate="not(@target)" behaviour="inline"/>
+        <model predicate="not(node())" behaviour="link">
+            <param name="content" value="@target"/>
+            <param name="uri" value="@target"/>
+        </model>
+        <model behaviour="link">
+            <param name="uri" value="@target"/>
+        </model>
+    </elementSpec>
             </schemaSpec>
         </body>
     </text>
