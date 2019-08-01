@@ -1473,7 +1473,7 @@
               "column": 12
             },
             "end": {
-              "line": 178,
+              "line": 179,
               "column": 13
             }
           },
@@ -1493,11 +1493,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 180,
+              "line": 181,
               "column": 12
             },
             "end": {
-              "line": 188,
+              "line": 190,
               "column": 13
             }
           },
@@ -1517,11 +1517,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 190,
+              "line": 192,
               "column": 12
             },
             "end": {
-              "line": 200,
+              "line": 203,
               "column": 13
             }
           },
@@ -1550,7 +1550,7 @@
           "column": 8
         },
         "end": {
-          "line": 201,
+          "line": 204,
           "column": 9
         }
       },
@@ -3165,17 +3165,39 @@
           "defaultValue": "\"ltr\""
         },
         {
-          "name": "toggleStates",
-          "type": "Object | null | undefined",
-          "description": "",
+          "name": "animation",
+          "type": "boolean | null | undefined",
+          "description": "wether to animate the view when new page is loaded. Defaults to 'false' meaning that no\nanimation takes place. If 'true' will apply a translateX transistion in forward/backward direction.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 256,
+              "line": 260,
               "column": 20
             },
             "end": {
-              "line": 262,
+              "line": 263,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          },
+          "defaultValue": "false"
+        },
+        {
+          "name": "_features",
+          "type": "Object | null | undefined",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 264,
+              "column": 20
+            },
+            "end": {
+              "line": 270,
               "column": 21
             }
           },
@@ -3186,28 +3208,6 @@
             }
           },
           "defaultValue": "{}"
-        },
-        {
-          "name": "animation",
-          "type": "boolean | null | undefined",
-          "description": "wether to animate the view when new page is loaded. Defaults to 'false' meaning that no\nanimation takes place. If 'true' will apply a translateX transistion in forward/backward direction.",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 267,
-              "column": 20
-            },
-            "end": {
-              "line": 270,
-              "column": 21
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "Boolean"
-            }
-          },
-          "defaultValue": "false"
         }
       ],
       "methods": [
@@ -3468,11 +3468,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 548,
+              "line": 550,
               "column": 12
             },
             "end": {
-              "line": 572,
+              "line": 574,
               "column": 13
             }
           },
@@ -3862,7 +3862,7 @@
               "column": 12
             },
             "end": {
-              "line": 498,
+              "line": 496,
               "column": 13
             }
           },
@@ -3879,11 +3879,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 500,
+              "line": 498,
               "column": 12
             },
             "end": {
-              "line": 523,
+              "line": 521,
               "column": 13
             }
           },
@@ -3903,11 +3903,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 525,
+              "line": 523,
               "column": 12
             },
             "end": {
-              "line": 535,
+              "line": 533,
               "column": 13
             }
           },
@@ -3927,11 +3927,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 537,
+              "line": 535,
               "column": 12
             },
             "end": {
-              "line": 543,
+              "line": 545,
               "column": 13
             }
           },
@@ -3944,11 +3944,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 579,
+              "line": 581,
               "column": 12
             },
             "end": {
-              "line": 581,
+              "line": 583,
               "column": 13
             }
           },
@@ -3970,11 +3970,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 588,
+              "line": 590,
               "column": 12
             },
             "end": {
-              "line": 591,
+              "line": 593,
               "column": 13
             }
           },
@@ -3996,11 +3996,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 599,
+              "line": 601,
               "column": 12
             },
             "end": {
-              "line": 622,
+              "line": 624,
               "column": 13
             }
           },
@@ -4022,11 +4022,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 629,
+              "line": 631,
               "column": 12
             },
             "end": {
-              "line": 638,
+              "line": 640,
               "column": 13
             }
           },
@@ -4043,48 +4043,25 @@
           }
         },
         {
-          "name": "toggle",
+          "name": "toggleFeature",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 640,
+              "line": 642,
               "column": 12
             },
             "end": {
-              "line": 643,
+              "line": 645,
               "column": 13
             }
           },
           "metadata": {},
           "params": [
             {
-              "name": "selector"
-            },
-            {
-              "name": "state"
+              "name": "feature"
             }
           ],
-          "return": {
-            "type": "void"
-          }
-        },
-        {
-          "name": "_applyToggles",
-          "description": "",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 645,
-              "column": 12
-            },
-            "end": {
-              "line": 649,
-              "column": 13
-            }
-          },
-          "metadata": {},
-          "params": [],
           "return": {
             "type": "void"
           }
@@ -4095,11 +4072,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 651,
+              "line": 647,
               "column": 12
             },
             "end": {
-              "line": 657,
+              "line": 653,
               "column": 13
             }
           },
@@ -4119,11 +4096,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 659,
+              "line": 655,
               "column": 12
             },
             "end": {
-              "line": 665,
+              "line": 661,
               "column": 13
             }
           },
@@ -4143,11 +4120,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 667,
+              "line": 663,
               "column": 12
             },
             "end": {
-              "line": 674,
+              "line": 670,
               "column": 13
             }
           },
@@ -4179,7 +4156,7 @@
           "column": 8
         },
         "end": {
-          "line": 716,
+          "line": 712,
           "column": 9
         }
       },
@@ -4486,31 +4463,15 @@
           "type": "string | null | undefined"
         },
         {
-          "name": "toggle-states",
-          "description": "",
-          "sourceRange": {
-            "start": {
-              "line": 256,
-              "column": 20
-            },
-            "end": {
-              "line": 262,
-              "column": 21
-            }
-          },
-          "metadata": {},
-          "type": "Object | null | undefined"
-        },
-        {
           "name": "animation",
           "description": "wether to animate the view when new page is loaded. Defaults to 'false' meaning that no\nanimation takes place. If 'true' will apply a translateX transistion in forward/backward direction.",
           "sourceRange": {
             "start": {
-              "line": 267,
+              "line": 260,
               "column": 20
             },
             "end": {
-              "line": 270,
+              "line": 263,
               "column": 21
             }
           },
@@ -4562,6 +4523,882 @@
       },
       "slots": [],
       "tagname": "pb-view",
+      "mixins": [
+        "PbMixin"
+      ]
+    },
+    {
+      "description": "Enable or disable a particular display feature by setting a custom parameter\nwhich will be passed to the ODD by `pb-view`. This can be used to implement\ndifferent views on the text, e.g. a 'diplomatic' and a 'normalized' mode. Both\nviews would be backed by the same ODD and processing model, while the passed in parameter\ncan be used to distinguish the modes.\n\nFor example, the following snippet would result in a custom parameter called `mode` with\neither a value of `dipl` or `norm`. Within processing model predicates it could be queried as\n`$parameters?mode='norm'` to check if the normalized version should be output.\n\n```\n<pb-toggle-feature name=\"mode\" on=\"diplomatic\" off=\"norm\">Diplomatic View</pb-toggle-feature>\n```",
+      "summary": "",
+      "path": "pb-toggle-feature.html",
+      "properties": [
+        {
+          "name": "subscribe",
+          "type": "string | null | undefined",
+          "description": "The name of the channel to subscribe to. Only events on a channel corresponding\nto this property are listened to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 35,
+              "column": 16
+            },
+            "end": {
+              "line": 37,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "subscribeConfig",
+          "type": "Object | null | undefined",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to listen to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 43,
+              "column": 16
+            },
+            "end": {
+              "line": 45,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Object"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emit",
+          "type": "string | null | undefined",
+          "description": "The name of the channel to send events to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 49,
+              "column": 16
+            },
+            "end": {
+              "line": 51,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emitConfig",
+          "type": "Object | null | undefined",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to be dispatched.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 57,
+              "column": 16
+            },
+            "end": {
+              "line": 59,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Object"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "waitFor",
+          "type": "string | null | undefined",
+          "description": "A selector pointing to other components this component depends on.\nWhen method `wait` is called, it will wait until all referenced\ncomponents signal with a `pb-ready` event that they are ready and listening\nto events.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 66,
+              "column": 16
+            },
+            "end": {
+              "line": 68,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "_isReady",
+          "type": "boolean | null | undefined",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 69,
+              "column": 16
+            },
+            "end": {
+              "line": 72,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          },
+          "defaultValue": "false",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "name",
+          "type": "string | null | undefined",
+          "description": "The name of the feature (required). This will correspond to the name of the custom parameter\npassed to the ODD.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 46,
+              "column": 20
+            },
+            "end": {
+              "line": 48,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          }
+        },
+        {
+          "name": "on",
+          "type": "string | null | undefined",
+          "description": "Value to set the parameter to when the feature is enabled.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 52,
+              "column": 20
+            },
+            "end": {
+              "line": 54,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          }
+        },
+        {
+          "name": "off",
+          "type": "string | null | undefined",
+          "description": "Value to set the parameter to when the feature is disabled.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 58,
+              "column": 20
+            },
+            "end": {
+              "line": 60,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          }
+        },
+        {
+          "name": "checked",
+          "type": "boolean | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 61,
+              "column": 20
+            },
+            "end": {
+              "line": 65,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "observer": "\"_changed\"",
+              "attributeType": "Boolean"
+            }
+          },
+          "defaultValue": "true"
+        }
+      ],
+      "methods": [
+        {
+          "name": "wait",
+          "description": "Wait for the components referenced by the selector given in property `waitFor`\nto signal that they are ready to respond to events.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 87,
+              "column": 8
+            },
+            "end": {
+              "line": 111,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "callback",
+              "description": "function to be called when all components are ready"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "signalReady",
+          "description": "Signal that the component is ready to respond to events.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 116,
+              "column": 8
+            },
+            "end": {
+              "line": 119,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "subscribeTo",
+          "description": "Listen to the event defined by type. If property `subscribe` or `subscribe-config`\nis defined, this method will trigger the listener only if the event has a key\nequal to the key defined in `subscribe` or `subscribe-config`.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 131,
+              "column": 8
+            },
+            "end": {
+              "line": 165,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "type",
+              "type": "String",
+              "description": "Name of the event, usually starting with `pb-`"
+            },
+            {
+              "name": "listener",
+              "type": "Function",
+              "description": "Callback function"
+            },
+            {
+              "name": "channels",
+              "type": "Array",
+              "description": "Optional: explicitely specify the channels to emit to. This overwrites\n     the emit property. Pass empty array to target the default channel."
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emitTo",
+          "description": "Dispatch an event of the given type. If the properties `emit` or `emit-config`\nare defined, the event will be limited to the channel specified there.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 176,
+              "column": 8
+            },
+            "end": {
+              "line": 220,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "type",
+              "type": "String",
+              "description": "Name of the event, usually starting with `pb-`"
+            },
+            {
+              "name": "options",
+              "type": "Object",
+              "description": "Options to be passed in ev.detail"
+            },
+            {
+              "name": "channels",
+              "type": "Array",
+              "description": "Optional: explicitely specify the channels to emit to. This overwrites\n     the 'emit' property setting. Pass empty array to target the default channel."
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getDocument",
+          "description": "Returns the `pb-document` element this component is connected to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 227,
+              "column": 8
+            },
+            "end": {
+              "line": 236,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "desc": "the document component or undefined if not set/found"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getParameter",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 238,
+              "column": 8
+            },
+            "end": {
+              "line": 244,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "fallback"
+            }
+          ],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getParameterValues",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 248,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name"
+            }
+          ],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "setParameter",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 250,
+              "column": 8
+            },
+            "end": {
+              "line": 261,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "setParameters",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 263,
+              "column": 8
+            },
+            "end": {
+              "line": 270,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "obj"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getParameters",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 272,
+              "column": 8
+            },
+            "end": {
+              "line": 278,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getParametersMatching",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 280,
+              "column": 8
+            },
+            "end": {
+              "line": 293,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "regex"
+            }
+          ],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "clearParametersMatching",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 295,
+              "column": 8
+            },
+            "end": {
+              "line": 301,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "regex"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 303,
+              "column": 8
+            },
+            "end": {
+              "line": 310,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 312,
+              "column": 8
+            },
+            "end": {
+              "line": 314,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "pushHistory",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 316,
+              "column": 8
+            },
+            "end": {
+              "line": 318,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "msg"
+            },
+            {
+              "name": "state"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "connectedCallback",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 69,
+              "column": 12
+            },
+            "end": {
+              "line": 80,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_changed",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 82,
+              "column": 12
+            },
+            "end": {
+              "line": 97,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "newVal"
+            },
+            {
+              "name": "oldVal"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        }
+      ],
+      "staticMethods": [],
+      "demos": [
+        {
+          "url": "demo/pb-toggle-feature.html",
+          "description": ""
+        }
+      ],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 35,
+          "column": 8
+        },
+        "end": {
+          "line": 98,
+          "column": 9
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "name": "PbToggleFeature",
+      "attributes": [
+        {
+          "name": "subscribe",
+          "description": "The name of the channel to subscribe to. Only events on a channel corresponding\nto this property are listened to.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 35,
+              "column": 16
+            },
+            "end": {
+              "line": 37,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "subscribe-config",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to listen to.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 43,
+              "column": 16
+            },
+            "end": {
+              "line": 45,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "Object | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emit",
+          "description": "The name of the channel to send events to.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 49,
+              "column": 16
+            },
+            "end": {
+              "line": 51,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emit-config",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to be dispatched.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 57,
+              "column": 16
+            },
+            "end": {
+              "line": 59,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "Object | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "wait-for",
+          "description": "A selector pointing to other components this component depends on.\nWhen method `wait` is called, it will wait until all referenced\ncomponents signal with a `pb-ready` event that they are ready and listening\nto events.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 66,
+              "column": 16
+            },
+            "end": {
+              "line": 68,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "name",
+          "description": "The name of the feature (required). This will correspond to the name of the custom parameter\npassed to the ODD.",
+          "sourceRange": {
+            "start": {
+              "line": 46,
+              "column": 20
+            },
+            "end": {
+              "line": 48,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
+          "name": "on",
+          "description": "Value to set the parameter to when the feature is enabled.",
+          "sourceRange": {
+            "start": {
+              "line": 52,
+              "column": 20
+            },
+            "end": {
+              "line": 54,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
+          "name": "off",
+          "description": "Value to set the parameter to when the feature is disabled.",
+          "sourceRange": {
+            "start": {
+              "line": 58,
+              "column": 20
+            },
+            "end": {
+              "line": 60,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
+          "name": "checked",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 61,
+              "column": 20
+            },
+            "end": {
+              "line": 65,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "boolean | null | undefined"
+        }
+      ],
+      "events": [],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [
+        {
+          "description": "",
+          "name": "",
+          "range": {
+            "start": {
+              "line": 11,
+              "column": 46
+            },
+            "end": {
+              "line": 11,
+              "column": 59
+            }
+          }
+        }
+      ],
+      "tagname": "pb-toggle-feature",
       "mixins": [
         "PbMixin"
       ]
@@ -30886,6 +31723,784 @@
       ]
     },
     {
+      "description": "`pb-tabs`",
+      "summary": "",
+      "path": "pb-tabs.html",
+      "properties": [
+        {
+          "name": "subscribe",
+          "type": "string | null | undefined",
+          "description": "The name of the channel to subscribe to. Only events on a channel corresponding\nto this property are listened to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 35,
+              "column": 16
+            },
+            "end": {
+              "line": 37,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "subscribeConfig",
+          "type": "Object | null | undefined",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to listen to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 43,
+              "column": 16
+            },
+            "end": {
+              "line": 45,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Object"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emit",
+          "type": "string | null | undefined",
+          "description": "The name of the channel to send events to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 49,
+              "column": 16
+            },
+            "end": {
+              "line": 51,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emitConfig",
+          "type": "Object | null | undefined",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to be dispatched.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 57,
+              "column": 16
+            },
+            "end": {
+              "line": 59,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Object"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "waitFor",
+          "type": "string | null | undefined",
+          "description": "A selector pointing to other components this component depends on.\nWhen method `wait` is called, it will wait until all referenced\ncomponents signal with a `pb-ready` event that they are ready and listening\nto events.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 66,
+              "column": 16
+            },
+            "end": {
+              "line": 68,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "_isReady",
+          "type": "boolean | null | undefined",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 69,
+              "column": 16
+            },
+            "end": {
+              "line": 72,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          },
+          "defaultValue": "false",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "selected",
+          "type": "number | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 35,
+              "column": 20
+            },
+            "end": {
+              "line": 38,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "observer": "\"_switchTab\"",
+              "attributeType": "Number"
+            }
+          }
+        }
+      ],
+      "methods": [
+        {
+          "name": "wait",
+          "description": "Wait for the components referenced by the selector given in property `waitFor`\nto signal that they are ready to respond to events.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 87,
+              "column": 8
+            },
+            "end": {
+              "line": 111,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "callback",
+              "description": "function to be called when all components are ready"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "signalReady",
+          "description": "Signal that the component is ready to respond to events.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 116,
+              "column": 8
+            },
+            "end": {
+              "line": 119,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "subscribeTo",
+          "description": "Listen to the event defined by type. If property `subscribe` or `subscribe-config`\nis defined, this method will trigger the listener only if the event has a key\nequal to the key defined in `subscribe` or `subscribe-config`.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 131,
+              "column": 8
+            },
+            "end": {
+              "line": 165,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "type",
+              "type": "String",
+              "description": "Name of the event, usually starting with `pb-`"
+            },
+            {
+              "name": "listener",
+              "type": "Function",
+              "description": "Callback function"
+            },
+            {
+              "name": "channels",
+              "type": "Array",
+              "description": "Optional: explicitely specify the channels to emit to. This overwrites\n     the emit property. Pass empty array to target the default channel."
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emitTo",
+          "description": "Dispatch an event of the given type. If the properties `emit` or `emit-config`\nare defined, the event will be limited to the channel specified there.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 176,
+              "column": 8
+            },
+            "end": {
+              "line": 220,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "type",
+              "type": "String",
+              "description": "Name of the event, usually starting with `pb-`"
+            },
+            {
+              "name": "options",
+              "type": "Object",
+              "description": "Options to be passed in ev.detail"
+            },
+            {
+              "name": "channels",
+              "type": "Array",
+              "description": "Optional: explicitely specify the channels to emit to. This overwrites\n     the 'emit' property setting. Pass empty array to target the default channel."
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getDocument",
+          "description": "Returns the `pb-document` element this component is connected to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 227,
+              "column": 8
+            },
+            "end": {
+              "line": 236,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "desc": "the document component or undefined if not set/found"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getParameter",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 238,
+              "column": 8
+            },
+            "end": {
+              "line": 244,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "fallback"
+            }
+          ],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getParameterValues",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 248,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name"
+            }
+          ],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "setParameter",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 250,
+              "column": 8
+            },
+            "end": {
+              "line": 261,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "setParameters",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 263,
+              "column": 8
+            },
+            "end": {
+              "line": 270,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "obj"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getParameters",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 272,
+              "column": 8
+            },
+            "end": {
+              "line": 278,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getParametersMatching",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 280,
+              "column": 8
+            },
+            "end": {
+              "line": 293,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "regex"
+            }
+          ],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "clearParametersMatching",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 295,
+              "column": 8
+            },
+            "end": {
+              "line": 301,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "regex"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 303,
+              "column": 8
+            },
+            "end": {
+              "line": 310,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 312,
+              "column": 8
+            },
+            "end": {
+              "line": 314,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "pushHistory",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 316,
+              "column": 8
+            },
+            "end": {
+              "line": 318,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "msg"
+            },
+            {
+              "name": "state"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "connectedCallback",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 42,
+              "column": 12
+            },
+            "end": {
+              "line": 46,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_switchTab",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 48,
+              "column": 12
+            },
+            "end": {
+              "line": 55,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "newTab"
+            },
+            {
+              "name": "oldTab"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        }
+      ],
+      "staticMethods": [],
+      "demos": [
+        {
+          "url": "demo/seed-element.html",
+          "description": ""
+        }
+      ],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 28,
+          "column": 8
+        },
+        "end": {
+          "line": 56,
+          "column": 9
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "name": "PbTabs",
+      "attributes": [
+        {
+          "name": "subscribe",
+          "description": "The name of the channel to subscribe to. Only events on a channel corresponding\nto this property are listened to.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 35,
+              "column": 16
+            },
+            "end": {
+              "line": 37,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "subscribe-config",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to listen to.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 43,
+              "column": 16
+            },
+            "end": {
+              "line": 45,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "Object | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emit",
+          "description": "The name of the channel to send events to.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 49,
+              "column": 16
+            },
+            "end": {
+              "line": 51,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emit-config",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to be dispatched.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 57,
+              "column": 16
+            },
+            "end": {
+              "line": 59,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "Object | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "wait-for",
+          "description": "A selector pointing to other components this component depends on.\nWhen method `wait` is called, it will wait until all referenced\ncomponents signal with a `pb-ready` event that they are ready and listening\nto events.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 66,
+              "column": 16
+            },
+            "end": {
+              "line": 68,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "selected",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 35,
+              "column": 20
+            },
+            "end": {
+              "line": 38,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "number | null | undefined"
+        }
+      ],
+      "events": [],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [
+        {
+          "description": "",
+          "name": "tab",
+          "range": {
+            "start": {
+              "line": 12,
+              "column": 12
+            },
+            "end": {
+              "line": 12,
+              "column": 36
+            }
+          }
+        },
+        {
+          "description": "",
+          "name": "page",
+          "range": {
+            "start": {
+              "line": 15,
+              "column": 12
+            },
+            "end": {
+              "line": 15,
+              "column": 37
+            }
+          }
+        }
+      ],
+      "tagname": "pb-tabs",
+      "mixins": [
+        "PbMixin"
+      ]
+    },
+    {
       "description": "`dts-client`",
       "summary": "",
       "path": "dts-client.html",
@@ -31036,16 +32651,17 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 40,
+              "line": 123,
               "column": 20
             },
             "end": {
-              "line": 42,
+              "line": 126,
               "column": 21
             }
           },
           "metadata": {
             "polymer": {
+              "observer": "\"_configureEndpoint\"",
               "attributeType": "String"
             }
           }
@@ -31057,11 +32673,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 43,
+              "line": 127,
               "column": 20
             },
             "end": {
-              "line": 45,
+              "line": 129,
               "column": 21
             }
           },
@@ -31078,11 +32694,74 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 46,
+              "line": 130,
               "column": 20
             },
             "end": {
-              "line": 48,
+              "line": 132,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          }
+        },
+        {
+          "name": "page",
+          "type": "number | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 133,
+              "column": 20
+            },
+            "end": {
+              "line": 135,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Number"
+            }
+          }
+        },
+        {
+          "name": "perPage",
+          "type": "number | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 136,
+              "column": 20
+            },
+            "end": {
+              "line": 138,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Number"
+            }
+          }
+        },
+        {
+          "name": "_collectionEndpoint",
+          "type": "string | null | undefined",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 139,
+              "column": 20
+            },
+            "end": {
+              "line": 141,
               "column": 21
             }
           },
@@ -31493,11 +33172,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 52,
+              "line": 145,
               "column": 12
             },
             "end": {
-              "line": 57,
+              "line": 155,
               "column": 13
             }
           },
@@ -31508,16 +33187,133 @@
           }
         },
         {
+          "name": "_isCollection",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 157,
+              "column": 12
+            },
+            "end": {
+              "line": 159,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "item"
+            }
+          ]
+        },
+        {
+          "name": "_configureEndpoint",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 161,
+              "column": 12
+            },
+            "end": {
+              "line": 168,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "newBaseUri"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_navigate",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 170,
+              "column": 12
+            },
+            "end": {
+              "line": 175,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "ev"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_preview",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 177,
+              "column": 12
+            },
+            "end": {
+              "line": 188,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "ev"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_download",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 190,
+              "column": 12
+            },
+            "end": {
+              "line": 200,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "ev"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
           "name": "_update",
           "description": "",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 59,
+              "line": 202,
               "column": 12
             },
             "end": {
-              "line": 67,
+              "line": 214,
               "column": 13
             }
           },
@@ -31533,11 +33329,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 69,
+              "line": 216,
               "column": 12
             },
             "end": {
-              "line": 71,
+              "line": 236,
               "column": 13
             }
           },
@@ -31546,6 +33342,113 @@
           "return": {
             "type": "void"
           }
+        },
+        {
+          "name": "_handlePreview",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 238,
+              "column": 12
+            },
+            "end": {
+              "line": 243,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_handleError",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 245,
+              "column": 12
+            },
+            "end": {
+              "line": 260,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "ev"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_getCreator",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 262,
+              "column": 12
+            },
+            "end": {
+              "line": 265,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "item"
+            }
+          ]
+        },
+        {
+          "name": "_getLicense",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 267,
+              "column": 12
+            },
+            "end": {
+              "line": 270,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "item"
+            }
+          ]
+        },
+        {
+          "name": "_encodeParams",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 272,
+              "column": 12
+            },
+            "end": {
+              "line": 276,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "params"
+            }
+          ]
         }
       ],
       "staticMethods": [],
@@ -31558,11 +33461,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 33,
+          "line": 116,
           "column": 8
         },
         "end": {
-          "line": 72,
+          "line": 277,
           "column": 9
         }
       },
@@ -31665,11 +33568,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 40,
+              "line": 123,
               "column": 20
             },
             "end": {
-              "line": 42,
+              "line": 126,
               "column": 21
             }
           },
@@ -31681,11 +33584,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 43,
+              "line": 127,
               "column": 20
             },
             "end": {
-              "line": 45,
+              "line": 129,
               "column": 21
             }
           },
@@ -31697,11 +33600,839 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 46,
+              "line": 130,
               "column": 20
             },
             "end": {
-              "line": 48,
+              "line": 132,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
+          "name": "page",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 133,
+              "column": 20
+            },
+            "end": {
+              "line": 135,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "number | null | undefined"
+        },
+        {
+          "name": "per-page",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 136,
+              "column": 20
+            },
+            "end": {
+              "line": 138,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "number | null | undefined"
+        }
+      ],
+      "events": [],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [
+        {
+          "description": "",
+          "name": "toolbar",
+          "range": {
+            "start": {
+              "line": 49,
+              "column": 8
+            },
+            "end": {
+              "line": 49,
+              "column": 36
+            }
+          }
+        }
+      ],
+      "tagname": "dts-client",
+      "mixins": [
+        "PbMixin"
+      ]
+    },
+    {
+      "description": "`dts-select-endpoint`",
+      "summary": "",
+      "path": "dts-select-endpoint.html",
+      "properties": [
+        {
+          "name": "subscribe",
+          "type": "string | null | undefined",
+          "description": "The name of the channel to subscribe to. Only events on a channel corresponding\nto this property are listened to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 35,
+              "column": 16
+            },
+            "end": {
+              "line": 37,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "subscribeConfig",
+          "type": "Object | null | undefined",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to listen to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 43,
+              "column": 16
+            },
+            "end": {
+              "line": 45,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Object"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emit",
+          "type": "string | null | undefined",
+          "description": "The name of the channel to send events to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 49,
+              "column": 16
+            },
+            "end": {
+              "line": 51,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emitConfig",
+          "type": "Object | null | undefined",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to be dispatched.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 57,
+              "column": 16
+            },
+            "end": {
+              "line": 59,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Object"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "waitFor",
+          "type": "string | null | undefined",
+          "description": "A selector pointing to other components this component depends on.\nWhen method `wait` is called, it will wait until all referenced\ncomponents signal with a `pb-ready` event that they are ready and listening\nto events.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 66,
+              "column": 16
+            },
+            "end": {
+              "line": 68,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "_isReady",
+          "type": "boolean | null | undefined",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 69,
+              "column": 16
+            },
+            "end": {
+              "line": 72,
+              "column": 17
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          },
+          "defaultValue": "false",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "endpoint",
+          "type": "string | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 34,
+              "column": 20
+            },
+            "end": {
+              "line": 37,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "observer": "\"_selected\"",
+              "attributeType": "String"
+            }
+          }
+        },
+        {
+          "name": "label",
+          "type": "string | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 38,
+              "column": 20
+            },
+            "end": {
+              "line": 40,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          }
+        }
+      ],
+      "methods": [
+        {
+          "name": "wait",
+          "description": "Wait for the components referenced by the selector given in property `waitFor`\nto signal that they are ready to respond to events.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 87,
+              "column": 8
+            },
+            "end": {
+              "line": 111,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "callback",
+              "description": "function to be called when all components are ready"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "signalReady",
+          "description": "Signal that the component is ready to respond to events.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 116,
+              "column": 8
+            },
+            "end": {
+              "line": 119,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "subscribeTo",
+          "description": "Listen to the event defined by type. If property `subscribe` or `subscribe-config`\nis defined, this method will trigger the listener only if the event has a key\nequal to the key defined in `subscribe` or `subscribe-config`.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 131,
+              "column": 8
+            },
+            "end": {
+              "line": 165,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "type",
+              "type": "String",
+              "description": "Name of the event, usually starting with `pb-`"
+            },
+            {
+              "name": "listener",
+              "type": "Function",
+              "description": "Callback function"
+            },
+            {
+              "name": "channels",
+              "type": "Array",
+              "description": "Optional: explicitely specify the channels to emit to. This overwrites\n     the emit property. Pass empty array to target the default channel."
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emitTo",
+          "description": "Dispatch an event of the given type. If the properties `emit` or `emit-config`\nare defined, the event will be limited to the channel specified there.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 176,
+              "column": 8
+            },
+            "end": {
+              "line": 220,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "type",
+              "type": "String",
+              "description": "Name of the event, usually starting with `pb-`"
+            },
+            {
+              "name": "options",
+              "type": "Object",
+              "description": "Options to be passed in ev.detail"
+            },
+            {
+              "name": "channels",
+              "type": "Array",
+              "description": "Optional: explicitely specify the channels to emit to. This overwrites\n     the 'emit' property setting. Pass empty array to target the default channel."
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getDocument",
+          "description": "Returns the `pb-document` element this component is connected to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 227,
+              "column": 8
+            },
+            "end": {
+              "line": 236,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "desc": "the document component or undefined if not set/found"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getParameter",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 238,
+              "column": 8
+            },
+            "end": {
+              "line": 244,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "fallback"
+            }
+          ],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getParameterValues",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 246,
+              "column": 8
+            },
+            "end": {
+              "line": 248,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name"
+            }
+          ],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "setParameter",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 250,
+              "column": 8
+            },
+            "end": {
+              "line": 261,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "setParameters",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 263,
+              "column": 8
+            },
+            "end": {
+              "line": 270,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "obj"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getParameters",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 272,
+              "column": 8
+            },
+            "end": {
+              "line": 278,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getParametersMatching",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 280,
+              "column": 8
+            },
+            "end": {
+              "line": 293,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "regex"
+            }
+          ],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "clearParametersMatching",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 295,
+              "column": 8
+            },
+            "end": {
+              "line": 301,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "regex"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "setPath",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 303,
+              "column": 8
+            },
+            "end": {
+              "line": 310,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "path"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "getUrl",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 312,
+              "column": 8
+            },
+            "end": {
+              "line": 314,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "pushHistory",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 316,
+              "column": 8
+            },
+            "end": {
+              "line": 318,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "msg"
+            },
+            {
+              "name": "state"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "connectedCallback",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 44,
+              "column": 12
+            },
+            "end": {
+              "line": 49,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_selected",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 51,
+              "column": 12
+            },
+            "end": {
+              "line": 57,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "newEndpoint"
+            },
+            {
+              "name": "oldEndpoint"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 27,
+          "column": 8
+        },
+        "end": {
+          "line": 58,
+          "column": 9
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "name": "DtsSelectEndpoint",
+      "attributes": [
+        {
+          "name": "subscribe",
+          "description": "The name of the channel to subscribe to. Only events on a channel corresponding\nto this property are listened to.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 35,
+              "column": 16
+            },
+            "end": {
+              "line": 37,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "subscribe-config",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to listen to.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 43,
+              "column": 16
+            },
+            "end": {
+              "line": 45,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "Object | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emit",
+          "description": "The name of the channel to send events to.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 49,
+              "column": 16
+            },
+            "end": {
+              "line": 51,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "emit-config",
+          "description": "Configuration object to define a channel/event mapping. Every property\nin the object is interpreted as the name of a channel and its value should\nbe an array of event names to be dispatched.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 57,
+              "column": 16
+            },
+            "end": {
+              "line": 59,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "Object | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "wait-for",
+          "description": "A selector pointing to other components this component depends on.\nWhen method `wait` is called, it will wait until all referenced\ncomponents signal with a `pb-ready` event that they are ready and listening\nto events.",
+          "sourceRange": {
+            "file": "pb-mixin.html",
+            "start": {
+              "line": 66,
+              "column": 16
+            },
+            "end": {
+              "line": 68,
+              "column": 17
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined",
+          "inheritedFrom": "PbMixin"
+        },
+        {
+          "name": "endpoint",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 34,
+              "column": 20
+            },
+            "end": {
+              "line": 37,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
+          "name": "label",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 38,
+              "column": 20
+            },
+            "end": {
+              "line": 40,
               "column": 21
             }
           },
@@ -31720,17 +34451,17 @@
           "name": "",
           "range": {
             "start": {
-              "line": 12,
-              "column": 8
+              "line": 13,
+              "column": 16
             },
             "end": {
-              "line": 12,
-              "column": 21
+              "line": 13,
+              "column": 29
             }
           }
         }
       ],
-      "tagname": "dts-client",
+      "tagname": "dts-select-endpoint",
       "mixins": [
         "PbMixin"
       ]

@@ -74,7 +74,22 @@
                 <app-header-layout>
                     <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
                         <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
-                        <app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/>
+                        <app-toolbar class="toolbar" sticky="sticky">
+                            <paper-icon-button id="tocToggle" class="toc-toggle" icon="icons:view-list"/>
+                            <pb-toggle-feature name="mode" on="diplomatic" off="norm" emit="transcription">Diplomatic View</pb-toggle-feature>
+                            <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
+                            <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
+                            <pb-navigation emit="transcription" keyboard="left"
+                                subscribe="transcription" direction="backward" unit="page">
+                                <paper-icon-button icon="icons:chevron-left"/>
+                            </pb-navigation>
+                            <pb-navigation emit="transcription" keyboard="right"
+                                subscribe="transcription" direction="forward" unit="page">
+                                <paper-icon-button icon="icons:chevron-right"/>
+                            </pb-navigation>
+                            <paper-icon-button icon="icons:menu" drawer-toggle="drawer-toggle"/>
+                            <pb-progress subscribe="transcription" indeterminate="indeterminate" bottom-item="bottom-item"/>
+                        </app-toolbar>
                     </app-header>
 
                     <section class="breadcrumbs">

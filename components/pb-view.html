@@ -254,13 +254,6 @@
                         type: String,
                         value: 'ltr'
                     },
-                    toggleStates: {
-                        type: Object,
-                        readOnly: true,
-                        value: function() {
-                            return {};
-                        }
-                    },
                     /**
                      * wether to animate the view when new page is loaded. Defaults to 'false' meaning that no
                      * animation takes place. If 'true' will apply a translateX transistion in forward/backward direction.
@@ -268,6 +261,13 @@
                     animation: {
                         type:Boolean,
                         value:false
+                    },
+                    _features: {
+                        type: Object,
+                        readOnly: true,
+                        value: function() {
+                            return {};
+                        }
                     }
                 };
             }
@@ -314,7 +314,7 @@
                 });
                 this.subscribeTo('pb-refresh', this._refresh.bind(this));
                 this.subscribeTo('pb-toggle', ev => {
-                    this.toggle(ev.detail.selector, ev.detail.state);
+                    this.toggleFeature(ev.detail);
                 });
                 this.subscribeTo('pb-zoom', ev => {
                     this.zoom(ev.detail.direction);
@@ -493,8 +493,6 @@
 
                 this._initFootnotes(this.$.content);
 
-                this._applyToggles();
-
                 return elem;
             }
 
@@ -540,6 +538,10 @@
                 this.querySelectorAll('pb-param').forEach(function(param) {
                     params['user.' + param.getAttribute('name')] = param.getAttribute('value');
                 });
+                // add parameters for features set with pb-toggle-feature
+                Object.values(this._features).forEach((feature) =>
+                    params['user.' + feature.name] = feature.value
+                );
                 return params;
             }
 
@@ -638,15 +640,9 @@
                 }
             }
 
-            toggle(selector, state) {
-                this.toggleStates[selector] = state;
-                this._applyToggles();
-            }
-
-            _applyToggles() {
-                Object.keys(this.toggleStates).forEach((selector) =>
-                    this.$.view.querySelectorAll(selector).forEach((elem) => elem.toggle(this.toggleStates[selector]))
-                );
+            toggleFeature(feature) {
+                this._features[feature.name] = feature;
+                this._load();
             }
 
             _getFragmentBefore(node, ms) {

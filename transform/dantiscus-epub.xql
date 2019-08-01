@@ -119,13 +119,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (sic and corr) then
                             epub:alternate($config, ., ("tei-choice4", "choice"), ., corr[1], sic[1])
                         else
-                            if (abbr and expan) then
+                            if ($parameters?mode='norm' and abbr and expan) then
                                 epub:alternate($config, ., ("tei-choice5", "choice"), ., expan[1], abbr[1])
                             else
-                                if (orig and reg) then
-                                    epub:alternate($config, ., ("tei-choice6", "choice"), ., reg[1], orig[1])
+                                if (abbr and expan) then
+                                    epub:alternate($config, ., ("tei-choice6", "choice"), ., abbr[1], expan[1])
                                 else
-                                    $config?apply($config, ./node())
+                                    if (orig and reg) then
+                                        epub:alternate($config, ., ("tei-choice7", "choice"), ., reg[1], orig[1])
+                                    else
+                                        $config?apply($config, ./node())
                     case element(hi) return
                         if (@rendition) then
                             html:inline($config, ., css:get-rendition(., ("tei-hi1")), .)
@@ -289,7 +292,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(docTitle) return
                         epub:block($config, ., css:get-rendition(., ("tei-docTitle")), .)
                     case element(lb) return
-                        epub:break($config, ., css:get-rendition(., ("tei-lb")), ., 'line', @n)
+                        if ($parameters?mode='norm') then
+                            html:omit($config, ., ("tei-lb1"), .)
+                        else
+                            epub:break($config, ., css:get-rendition(., ("tei-lb2")), ., 'line', @n)
                     case element(w) return
                         html:inline($config, ., ("tei-w"), .)
                     case element(stage) return
@@ -344,7 +350,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (not(@target)) then
                             html:inline($config, ., ("tei-ref1"), .)
                         else
-                            if (not(text())) then
+                            if (not(node())) then
                                 html:link($config, ., ("tei-ref2"), @target, @target, (), map {})
                             else
                                 html:link($config, ., ("tei-ref3"), ., @target, (), map {})
