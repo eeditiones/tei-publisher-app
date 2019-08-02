@@ -108,7 +108,9 @@ else if (ends-with($exist:resource, ".xql")) then (
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         {
             if (contains($exist:path, "/modules")) then
-                <forward url="{$exist:controller}/modules/{substring-after($exist:path, '/modules/')}"/>
+                <forward url="{$exist:controller}/modules/{substring-after($exist:path, '/modules/')}">
+                    <set-header name="Access-Control-Allow-Origin" value="*"/>
+                </forward>
             else
                 <forward url="{$exist:controller}{$exist:path}"/>
         }
@@ -119,7 +121,9 @@ else if (ends-with($exist:resource, ".xql")) then (
 
 else if (contains($exist:path, "/components")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/components/{substring-after($exist:path, '/components/')}"/>
+        <forward url="{$exist:controller}/components/{substring-after($exist:path, '/components/')}">
+            <set-header name="Access-Control-Allow-Origin" value="*"/>
+        </forward>
     </dispatch>
 
 else if ($logout or $login) then (
@@ -164,6 +168,7 @@ else if (ends-with($exist:resource, ".html")) then (
             <forward url="{$exist:controller}/{$resource}"/>
             <view>
                 <forward url="{$exist:controller}/modules/view.xql">
+                    <set-header name="Access-Control-Allow-Origin" value="*"/>
                 {
                     if ($exist:resource = ("search-results.html", "documents.html", "index.html")) then
                         <set-header name="Cache-Control" value="no-cache"/>
