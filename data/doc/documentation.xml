@@ -2604,7 +2604,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <para><tag>pb-navigation</tag> adds forward/backward navigation buttons to the page, allowing the user to switch to the next/previous page of the
         document. You can use various types of buttons, but in this case we're choosing a <tag>paper-fab</tag> element, which creates a rounded, floating button
         (<tag>paper-fab</tag> is part of the standard <link xlink:href="https://www.webcomponents.org/element/@polymer/paper-fab">components library</link>).</para>
-      <para>Please have a look at the <link xlink:href="../embed.html">working example page</link> to see everything in action and read through its <link xlink:href="embed.html" role="source">source code</link>.</para>
+      <para>Please have a look at the <link xlink:href="../embed.html" xlink:show="new">working example page</link> to see everything in action and read through its <link xlink:href="embed.html" role="source">source code</link>.</para>
     </section>
   </section>
 

@@ -236,7 +236,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (@linkend) then
                             fo:link($config, ., ("tei-link3"), ., concat('?odd=', request:get-parameter('odd', ()), '&amp;view=',                             request:get-parameter('view', ()), '&amp;id=', @linkend), map {})
                         else
-                            fo:link($config, ., ("tei-link4"), ., @xlink:href, map {})
+                            if (@xlink:show='new') then
+                                fo:link($config, ., ("tei-link4"), ., @xlink:href, map {"target": '_new'})
+                            else
+                                fo:link($config, ., ("tei-link5"), ., @xlink:href, map {})
                     case element(guibutton) return
                         fo:inline($config, ., ("tei-guibutton"), .)
                     case element(guilabel) return

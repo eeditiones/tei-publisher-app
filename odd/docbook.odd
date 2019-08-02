@@ -5,6 +5,7 @@
             <titleStmt>
                 <title>Processing Model for Docbook v5
 
+                 
                  <desc>Processing of Docbook format</desc>
                 </title>
                 <title type="short">Docbook v5 </title>
@@ -212,6 +213,7 @@
         </model>
                     <model predicate="$parameters?mode='breadcrumbs'" behaviour="inline">
             <outputRendition xml:space="preserve" scope="before">
+            
 
 
 
@@ -228,6 +230,7 @@
 
 
 
+            
             </outputRendition>
         </model>
                     <model predicate="parent::note" behaviour="inline"/>
@@ -370,6 +373,7 @@
                     <model output="epub" behaviour="block">
             <param name="content" value="text()"/>
             <outputRendition xml:space="preserve">
+            
 
 
 
@@ -380,6 +384,7 @@ white-space: pre-wrap;
 
 
 
+            
             </outputRendition>
         </model>
                     <model output="latex" behaviour="code">
@@ -399,6 +404,7 @@ white-space: pre-wrap;
                     <model output="epub" behaviour="block">
             <param name="content" value="text()"/>
             <outputRendition xml:space="preserve">
+            
 
 
 
@@ -409,6 +415,7 @@ white-space: pre-wrap;
 
 
 
+            
             </outputRendition>
         </model>
                     <model output="latex" behaviour="code"/>
@@ -439,6 +446,7 @@ white-space: pre-wrap;
                 <elementSpec ident="note">
                     <model output="epub" behaviour="block">
             <outputRendition xml:space="preserve">
+            
 
 
 
@@ -454,6 +462,7 @@ padding: 1em 0 1em .5em;
 
 
 
+            
             </outputRendition>
         </model>
                     <model output="latex" behaviour="inline">
@@ -490,18 +499,18 @@ padding: 1em 0 1em .5em;
   [[content]] <iron-icon icon="icons:open-in-new"/>
 </pb-edit-xml></pb:template>
             <outputRendition xml:space="preserve">
-
-
             text-decoration: underline;
 --iron-icon-height: 16px;
 vertical-align: top;
 cursor: pointer;
-
-
             </outputRendition>
         </model>
                     <model predicate="@linkend" behaviour="link">
             <param name="uri" value="concat('?odd=', request:get-parameter('odd', ()), '&amp;amp;view=',                             request:get-parameter('view', ()), '&amp;amp;id=', @linkend)"/>
+        </model>
+                    <model predicate="@xlink:show='new'" behaviour="link">
+            <param name="uri" value="@xlink:href"/>
+            <param name="target" value="'_new'"/>
         </model>
                     <model behaviour="link">
             <param name="uri" value="@xlink:href"/>
@@ -513,6 +522,7 @@ cursor: pointer;
                 <elementSpec ident="guibutton" mode="add">
                     <model behaviour="inline">
             <outputRendition xml:space="preserve">
+            
 
 
 
@@ -532,6 +542,7 @@ cursor: pointer;
 
 
 
+            
             </outputRendition>
         </model>
                 </elementSpec>
@@ -565,6 +576,7 @@ Not available in PDF edition. Go to \url{[[content]]} to view.
                     <model predicate="$parameters?path = $parameters?active" behaviour="omit"/>
                     <model behaviour="block">
             <outputRendition xml:space="preserve">
+            
 
 
 
@@ -578,6 +590,7 @@ border-left: 3px solid #c0c0c0;
 
 
 
+            
             </outputRendition>
         </model>
                 </elementSpec>
@@ -585,6 +598,7 @@ border-left: 3px solid #c0c0c0;
                     <model behaviour="inline" cssClass="pubdate">
             <param name="content" value="format-date(., '[MNn] [D1], [Y0001]', 'en_US', (), ())"/>
             <outputRendition xml:space="preserve" scope="before">
+            
 
 
 
@@ -602,6 +616,7 @@ border-left: 3px solid #c0c0c0;
 
 
 
+            
             </outputRendition>
             <outputRendition xml:space="preserve">
             color: #808080;
