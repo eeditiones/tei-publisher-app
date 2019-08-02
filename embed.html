@@ -9,13 +9,24 @@
         <style>
             body {
                 margin: 0 20px;
+                --paper-fab-background: #35424b;
             }
             main {
+                position: relative;
                 display: flex;
                 justify-content: space-between;
             }
+            #tocToggle {
+                position: absolute;
+                top: 0;
+            }
             pb-navigation {
                 margin-top: 50vh;
+            }
+            pb-drawer {
+                position: absolute;
+                background-color: #d1dae0;
+                height: 100%;
             }
             #toc h1 {
                 font-size: 16px;
@@ -32,19 +43,27 @@
         <p>This page demonstrates how to embed TEI Publisher webcomponents into a standalone HTML page to display
             pages of a TEI document.</p>
         <main>
+            <!-- Button to show/hide the table of contents -->
+            <paper-fab id="tocToggle" icon="icons:view-list"/>
+            <!-- Off-screen region to hold the table of contents -->
+            <pb-drawer toggle="tocToggle" class="tocDrawer" emit="toc" subscribe="transcription">
+                <div class="drawer-content">
+                    <div id="toc">
+                        <h3>Table of Contents</h3>
+                        <pb-load auto="auto" url="../templates/toc.html" src="document1" load-once="load-once">Loading ...</pb-load>
+                    </div>
+                </div>
+            </pb-drawer>
             <!-- Navigate to previous page -->
             <pb-navigation direction="backward" unit="page" keyboard="left">
                 <paper-fab icon="icons:chevron-left"></paper-fab>
             </pb-navigation>
+            <!-- The main content of the document -->
             <pb-view id="view1" src="document1" view="page"></pb-view>
             <!-- Navigate to next page -->
             <pb-navigation direction="forward" unit="page" keyboard="right">
                 <paper-fab icon="icons:chevron-right"></paper-fab>
             </pb-navigation>
-            <div id="toc">
-                <h3>Table of Contents</h3>
-                <pb-load auto="auto" url="../templates/toc.html" src="document1" load-once="load-once">Loading ...</pb-load>
-            </div>
         </main>
     </body>
 </html>
