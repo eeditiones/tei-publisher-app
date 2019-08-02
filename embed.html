@@ -6,32 +6,32 @@
         <title>Embedding pb-view</title>
         <script src="http://localhost:8080/exist/apps/tei-publisher/components/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
         <link rel="import" href="http://localhost:8080/exist/apps/tei-publisher/components/dependencies-dev.html"/>
-        <custom-style>
-            <style is="custom-style" include="pb-common-styles">
-                body {
-                    margin: 60px 20px;
-                }
-                main {
-                    display: flex;
-                    justify-content: space-between;
-                }
-                pb-navigation {
-                    margin-top: 50vh;
-                }
-                #toc h1 {
-                    font-size: 16px;
-                }
-            </style>
-        </custom-style>
+        <style>
+            body {
+                margin: 0 20px;
+            }
+            main {
+                display: flex;
+                justify-content: space-between;
+            }
+            pb-navigation {
+                margin-top: 50vh;
+            }
+            #toc h1 {
+                font-size: 16px;
+            }
+            #toc ul {
+                list-style: none;
+                padding-left: 0;
+            }
+        </style>
     </head>
     <body>
         <pb-document id="document1" path="test/F-rom.xml" odd="shakespeare"></pb-document>
         <h1>Embedding TEI Publisher Output</h1>
         <p>This page demonstrates how to embed TEI Publisher webcomponents into a standalone HTML page to display
-            pages of a TEI document. For this to work, TEI Publisher needs to run somewhere on a server, so we can load
-            the components from there.</p>
+            pages of a TEI document.</p>
         <main>
-            <pb-load id="toc" auto url="../templates/toc.html" src="document1" load-once="load-once">Loading ...</pb-load>
             <!-- Navigate to previous page -->
             <pb-navigation direction="backward" unit="page" keyboard="left">
                 <paper-fab icon="icons:chevron-left"></paper-fab>
@@ -41,6 +41,10 @@
             <pb-navigation direction="forward" unit="page" keyboard="right">
                 <paper-fab icon="icons:chevron-right"></paper-fab>
             </pb-navigation>
+            <div id="toc">
+                <h3>Table of Contents</h3>
+                <pb-load auto="auto" url="../templates/toc.html" src="document1" load-once="load-once">Loading ...</pb-load>
+            </div>
         </main>
     </body>
 </html>
