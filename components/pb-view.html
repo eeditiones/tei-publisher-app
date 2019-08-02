@@ -79,7 +79,7 @@
 
         <iron-ajax
             id="loadContent"
-            url="[[url]]"
+            url="[[importPath]][[url]]"
             verbose
             handle-as="json"
             method="get"
@@ -422,7 +422,7 @@
                 const link = document.createElement('link');
                 link.setAttribute('rel', 'stylesheet');
                 link.setAttribute('type', 'text/css');
-                link.setAttribute('href', 'transform/' + this.getOdd() + '.css' );
+                link.setAttribute('href', this.importPath + '../transform/' + this.getOdd() + '.css' );
 
                 this.$.view.appendChild(link);
             }
