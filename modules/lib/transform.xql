@@ -43,8 +43,7 @@ let $doc := request:get-parameter("doc", ())
 let $odd := request:get-parameter("odd", $config:odd)
 return
     if ($doc) then
-        let $id := replace($doc, "^(.*)\..*", "$1")
-        let $xml := pages:get-document($id)/*
+        let $xml := pages:get-document($doc)/*
         let $config := tpu:parse-pi(root($xml), ())
         let $out := $pm-config:web-transform($xml, map { "root": $xml }, $config?odd)
         let $styles := if (count($out) > 1) then $out[1] else ()
