@@ -122,8 +122,7 @@
             static get properties() {
                 return {
                     baseUri: {
-                        type: String,
-                        observer: '_configureEndpoint'
+                        type: String
                     },
                     data: {
                         type: Object
@@ -145,8 +144,11 @@
 
             connectedCallback() {
                 super.connectedCallback();
+                this.collection = this.getParameter('id');
+                this.page = this.getParameter('page');
+
                 this.subscribeTo('dts-endpoint', (ev) => {
-                    this.baseUri = ev.detail.endpoint;
+                    this._setEndpoint(ev.detail.endpoint, ev.detail.reload);
                 });
                 this.subscribeTo('pb-load', (ev) => {
                     this.page = ev.detail.params.page;
@@ -157,6 +159,15 @@
 
             _isCollection(item) {
                 return item['@type'] == 'Collection';
+            }
+
+            _setEndpoint(endpoint, reload) {
+                this.baseUri = endpoint;
+                if (!reload) {
+                    this.page = null;
+                    this.collection = null;
+                }
+                this._configureEndpoint(endpoint);
             }
 
             _configureEndpoint(newBaseUri) {
@@ -205,10 +216,15 @@
                 const params = {};
                 if (this.collection) {
                     params.id = this.collection;
+
+                    this.setParameter('id', this.collection);
                 };
                 if (this.page) {
                     params.page = this.page + 1;
+                    this.setParameter('page', this.page);
                 }
+                this.pushHistory('dts-client-navigate');
+
                 this.$.queryAPI.params = params;
                 this.$.queryAPI.url = this._collectionEndpoint;
                 this.$.queryAPI.generateRequest();
@@ -217,9 +233,8 @@
             _handleResponse() {
                 const json = this.$.queryAPI.lastResponse;
                 if (json['@type'] === 'EntryPoint') {
+                    const newEndpoint = new URL(json.collections, this.baseUri).toString();
                     this._collectionEndpoint = new URL(json.collections, this.baseUri).toString();
-                    this.page = null;
-                    this.collection = null;
                     console.log('<dts-client> using collection endpoint: %s', this._collectionEndpoint);
 
                     this._update();

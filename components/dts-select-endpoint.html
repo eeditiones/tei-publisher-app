@@ -53,7 +53,8 @@
                 this.setParameter('endpoint', newEndpoint);
                 this.pushHistory('dts-endpoint');
                 this.emitTo('dts-endpoint', {
-                    endpoint: newEndpoint
+                    endpoint: newEndpoint,
+                    reload: !oldEndpoint
                 });
             }
         }

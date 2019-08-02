@@ -280,28 +280,47 @@ declare variable $config:session-prefix := $config:expath-descriptor/@abbrev/str
 declare variable $config:setup := doc($config:app-root || "/setup.xml")/setup;
 
 declare variable $config:dts-collections := map {
-    "default": map {
-        "title": "TEI Publisher Default Collection",
-        "path": $config:data-default,
-        "members": function() {
-            nav:get-root((), map {
-                "leading-wildcard": "yes",
-                "filter-rewrite": "yes"
-            })
-        },
-        "metadata": function($doc as document-node()) {
-            let $properties := tpu:parse-pi($doc, ())
-            return
-                map:merge((
-                    map:entry("title", nav:get-metadata($properties, $doc/*, "title")/string()),
+    "id": "default",
+    "title": "TEI Publisher Default Collection",
+    "memberCollections": (
+            map {
+                "id": "documents",
+                "title": "Document Collection",
+                "path": $config:data-default,
+                "members": function() {
+                    nav:get-root((), map {
+                        "leading-wildcard": "yes",
+                        "filter-rewrite": "yes"
+                    })
+                },
+                "metadata": function($doc as document-node()) {
+                    let $properties := tpu:parse-pi($doc, ())
+                    return
+                        map:merge((
+                            map:entry("title", nav:get-metadata($properties, $doc/*, "title")/string()),
+                            map {
+                                "dts:dublincore": map {
+                                    "dc:creator": string-join(nav:get-metadata($properties, $doc/*, "author"), "; "),
+                                    "dc:license": nav:get-metadata($properties, $doc/*, "license")
+                                }
+                            }
+                        ))
+                }
+            },
+            map {
+                "id": "odd",
+                "title": "ODD Collection",
+                "path": $config:odd-root,
+                "members": function() {
+                    collection($config:odd-root)/tei:TEI
+                },
+                "metadata": function($doc as document-node()) {
                     map {
-                        "dts:dublincore": map {
-                            "dc:creator": string-join(nav:get-metadata($properties, $doc/*, "author"), "; ")
-                        }
+                        "title": string-join($doc//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[not(@type)], "; ")
                     }
-                ))
-        }
-    }
+                }
+            }
+    )
 };
 
 declare variable $config:dts-page-size := 10;
