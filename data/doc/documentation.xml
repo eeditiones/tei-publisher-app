@@ -1441,23 +1441,19 @@
       <section xml:id="external-parameters">
         <title>External Parameters</title>
         <para>The script calling the processing model may pass external parameters into the ODD. They will be available in the variable
-            <varname>$parameters</varname>, which is an XQuery map. Access parameters using the XQuery lookup operator.</para>
+            <parameter>$parameters</parameter>, which is an XQuery map. Access parameters using the XQuery lookup operator.</para>
         <para>For example, one can use this feature to control how specific parts of the document are output, without having to define a separate output mode,
           which would result in much more code. Below we display a shortened header for the document, containing simply its title, but only if the parameter
           "header" is set to "short":</para>
         <programlisting language="xquery" xml:space="preserve">&lt;elementSpec mode="change" ident="fileDesc"&gt;
-  &lt;modelSequence predicate="$parameters?header='short'"&gt;
-    &lt;model behaviour="block" cssClass="header-short"&gt;
+    &lt;model predicate="$parameters?header='short' behaviour="block" cssClass="header-short"&gt;
       &lt;param name="content" value="titleStmt"/&gt;
     &lt;/model&gt;
-    &lt;model behaviour="block" cssClass="header-short"&gt;
-      &lt;param name="content" value="editionStmt"/&gt;
-    &lt;/model&gt;
-  &lt;/modelSequence&gt;
   ...
 &lt;/elementSpec&gt;</programlisting>
-        <para>The <tag>pb-view</tag> webcomponent also lets you define parameters to be passed to the ODD. For example, the breadcrumbs shown above this
-          documentation page are realized by setting a parameter <parameter>mode</parameter>:</para>
+        <para>The <tag>pb-view</tag> webcomponent also lets you define arbitrary parameters to be passed to the ODD via <tag>pb-param</tag>. For example, the breadcrumbs shown above this
+          documentation page are realized by setting a parameter <parameter>mode</parameter> and can be queried in model predicates with
+          <parameter>$parameters?mode='breadcrumbs'</parameter>.</para>
         <programlisting>&lt;section class="breadcrumbs"&gt;
     &lt;pb-view id="title-view1" src="document1" subscribe="transcription"&gt;
         &lt;pb-param name="mode" value="breadcrumbs"/&gt;
@@ -1465,6 +1461,12 @@
 &lt;/section&gt;</programlisting>
         <para>If the parameter is set, the processing model rules in the ODD will output the headings of all ancestor sections of the current division only,
           ignoring everything else. This approach helps to reuse the same ODD for viewing specific aspects of the document.</para>
+        <para>A dedicated user interface webcomponent
+        <link xlink:href="../components/docs.html#/elements/pb-toggle-feature/demos/demo/pb-toggle-feature.html"><tag>pb-toggle-feature</tag></link>
+        exists for toggling between two values of a parameter. Example below would produce a checkbox which when on
+        results in the value of <parameter>$parameters?mode</parameter> set to <parameter>diplomatic</parameter>, otherwise to <parameter>norm</parameter>.
+        </para>
+        <programlisting>&lt;pb-toggle-feature name="mode" on="diplomatic" off="norm"&gt;Diplomatic View&lt;/pb-toggle-feature&gt;</programlisting>
       </section>
       <section xml:id="external-css">
         <title>Including General CSS Styles</title>
