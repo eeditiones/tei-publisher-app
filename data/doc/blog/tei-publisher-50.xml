@@ -9,9 +9,9 @@
                 <firstname>Magdalena</firstname>
             </personname>
         </author>
-        <pubdate>2019-07-01</pubdate>
+        <pubdate>2019-08-02</pubdate>
         <abstract>
-            <para>This is major release building on the faceting feature added in eXist-db 5.0.0 RC8 and introducing Word document import.</para>
+            <para>This is major release building on the faceting feature added in eXist-db 5.0.0 RC8 and introducing Word document import and draft coverage of DTS API.</para>
         </abstract>
     </info>
     <section>
@@ -42,13 +42,44 @@
             </para>
     </section>
     <section>
-        <title>Other New Features and Bug Fixes</title>
+      <title>DOCX import</title>
+      <para>New docx module based on custom ODD for docx to TEI transformation is available to allow for importing documents in <emphasis>docx</emphasis> format,
+      preserving their textual content, structure and basic semantics of the text. Due to the particularities of docx, reconstructing logical document structure
+      can be only based on certain heuristics but TEI Publisher preserves basic document divisions and headings, lists, tables, embedded images,
+      foot- and endnotes, as well as recognizing styles whose names start with <code>tei:</code> as TEI elements with the same name,
+      e.g <emphasis>Johann Wolfgang Goethe</emphasis> styled with <code>tei:persName</code> style will be converted to <code>&lt;persName&gt;Johann Wolfgang Goethe&lt;/persName&gt;</code>.
+      </para>
+    </section>
+    <section>
+      <title>DTS API</title>
+      <para>TEI Publisher now implements a <link xlink:href="https://distributed-text-services.github.io/specifications/">Distributed Text Services</link> client
+      as well as exposes core endpoints of DTS API. Custom <tag>dts-client</tag> component allows for browsing remote DTS server collections and documents
+      which are rendered via TEI Publisher's ODD.</para>
+      <informalfigure>
+          <mediaobject>
+              <imageobject>
+                  <imagedata fileref="dts.png"/>
+              </imageobject>
+          </mediaobject>
+      </informalfigure>
+    </section>
+    <section>
+        <title>Main New Features and Bug Fixes</title>
         <itemizedlist>
+            <listitem>
+                <para>Facets based document filtering</para>
+            </listitem>
             <listitem>
                 <para>DOCX (Word) document format import</para>
             </listitem>
             <listitem>
-                <para>Draft implementation of the DTS client</para>
+                <para>Draft implementation of the DTS API</para>
+            </listitem>
+            <listitem>
+                <para>New pb-toggle-feature UI component for switching between two states of a parameter passed to ODD, e.g. normalized and diplomatic view</para>
+            </listitem>
+            <listitem>
+                <para>Coverage for embedding TEI Publisher output components in other websites (e.g. WordPress)</para>
             </listitem>
             <listitem>
                 <para>Remove dependency on monex and calls to deprecated map functions</para>
