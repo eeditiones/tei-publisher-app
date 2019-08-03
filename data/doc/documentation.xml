@@ -110,7 +110,7 @@
               <synopsis>docker pull existdb/teipublisher:latest</synopsis>
             </step>
             <step>
-              <para>once the download is complete, you can run the image with the following command. The first start will take a while as the Shakespeare and Van Gogh data is installed.</para>
+              <para>once the download is complete, you can run the image with the following command. The <emphasis>first start will take a while</emphasis> as the Shakespeare and Van Gogh data is installed.</para>
               <synopsis>docker run -p 8081:8080 -p 8444:8443 --name teipublisher existdb/teipublisher:latest</synopsis>
               <variablelist>
                 <varlistentry>
@@ -122,19 +122,29 @@
                 <varlistentry>
                   <term>--name</term>
                   <listitem>
-                    <para>Assigns a name to the container, so you can easier reference it in other docker commands, like <code>docker stop</code>.</para>
+                    <para>Assigns a name to the container, so you can reference it in other docker commands, like <code>docker stop</code>.</para>
                   </listitem>
                 </varlistentry>
               </variablelist>
+              <para>Once the container has started, you can access the eXist dashboard in your browser by navigating to</para>
+              <synopsis>http://localhost:8081</synopsis>
+              <para>From the dashboard you can click on the TEI Publisher, Shakespeare or Van Gogh icons to open the corresponding applications.</para>
             </step>
             <step>
               <para>To stop the container run</para>
               <synopsis>docker stop teipublisher</synopsis>
             </step>
+            <step>
+              <para>To start the container again:</para>
+              <synopsis>docker start teipublisher</synopsis>
+              <para>Note that when you restart a container, it will run in detached mode, so you won't see any console output. You can view the output with following command though:</para>
+              <synopsis>docker logs teipublisher</synopsis>
+            </step>
           </procedure>
+          <para>Have a look at the docker documentation and <link xlink:href="https://www.docker.com/sites/default/files/Docker_CheatSheet_08.09.2016_0.pdf">cheatsheet</link> for more commands.</para>
           <note>
             <title>Important!</title>
-            <para>If you intend to do more than just playing around a bit, it is recommended to map eXist's data directory to a local directory on your hard disk. This way all data will persist between docker runs.</para>
+            <para>If you intend to do more than just playing around a bit, it is recommended to map eXist's data directory to a local directory on your hard disk. This way all data will persist even if the docker container is removed.</para>
             <para>To map a directory, add the following parameter to <code>docker run</code>:</para>
             <synopsis>-v /path/to/my/data:/exist-data/</synopsis>
             <para>Change the path before the : to point to a directory on your local disk.</para>
