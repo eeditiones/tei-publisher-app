@@ -71,7 +71,7 @@
         all, our mantra is reuse, reuse, reuse and we want to turn TEI Publisher into a box of tools the entire community can benefit from.
         See our <link linkend="roadmap">roadmap</link> for the ideas we are thinking of.</para>
     </section>
-    <section>
+    <section xml:id="installation">
       <title>Installation</title>
       <para>TEI Publisher runs on top of the <link xlink:href="http://exist-db.org">eXist XML database</link>. It is distributed as an eXist application
         package, making it easy to install on any local or remote eXist database instance. If you do not want to install eXist yourself, you may alternatively
@@ -95,7 +95,8 @@
           </imageobject>
         </mediaobject>
       </figure>
-        <section>
+      </section>
+        <section xml:id="docker">
           <title>Using docker</title>
           <para>If you do not want to install eXist yourself, you can use docker to run TEI Publisher. Docker is a tool to simplify the installation of
             applications and services. It creates a virtual environment including everything required for the service to run. Using our <link xlink:href="https://cloud.docker.com/u/existdb/repository/registry-1.docker.io/existdb/tei-publisher">docker image</link>, eXist will already be set up to
@@ -150,7 +151,6 @@
             <para>Change the path before the : to point to a directory on your local disk.</para>
           </note>
         </section>
-      </section>
     </section>
     <section>
       <title>Browsing Documents</title>
