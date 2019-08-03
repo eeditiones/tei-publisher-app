@@ -177,8 +177,12 @@ declare function teis:expand($data as element()) {
                     ($data/ancestor::tei:div, $data/ancestor::tei:text)[1]
         else
             $data
+    let $result := teis:query-default-view($div, $query, $field)
     let $expanded :=
-        util:expand(teis:query-default-view($div, $query, $field), "add-exist-id=all")
+        if (exists($result)) then
+            util:expand($result, "add-exist-id=all")
+        else
+            $div
     return
         if ($data instance of element(tei:pb)) then
             $expanded//tei:pb[@exist:id = util:node-id($data)]
