@@ -74,8 +74,13 @@
     <section>
       <title>Installation</title>
       <para>TEI Publisher runs on top of the <link xlink:href="http://exist-db.org">eXist XML database</link>. It is distributed as an eXist application
-        package, making it easy to install on any local or remote eXist database instance. Just go to the dashboard, open the package manager and install the
-        TEI Publisher application package from the public repository. Required dependencies will be installed automatically. </para>
+        package, making it easy to install on any local or remote eXist database instance. If you do not want to install eXist yourself, you may alternatively
+        use the provided docker image as described below.</para>
+      
+      <section>
+        <title>Installing into an eXist instance</title>
+        <para>Just go to the dashboard, open the package manager and install the TEI Publisher application package from the public repository. Required
+        dependencies will be installed automatically. </para>
       <note>
         <title>Note</title>
         <para>You need at least <link xlink:href="http://exist-db.org">eXist 3.6.0</link> to run the latest version of TEI Publisher. eXist's package manager
@@ -90,6 +95,51 @@
           </imageobject>
         </mediaobject>
       </figure>
+        <section>
+          <title>Using docker</title>
+          <para>If you do not want to install eXist yourself, you can use docker to run TEI Publisher. Docker is a tool to simplify the installation of
+            applications and services. It creates a virtual environment including everything required for the service to run. Using our <link xlink:href="https://cloud.docker.com/u/existdb/repository/registry-1.docker.io/existdb/tei-publisher">docker image</link>, eXist will already be set up to
+            include TEI Publisher as well as the Shakespeare and Van Gogh demo apps.</para>
+          <procedure>
+            <step>
+              <para>Install <link xlink:href="https://www.docker.com/">docker</link> on your machine</para>
+            </step>
+            <step>
+              <para>To download the image run the following in a console</para>
+              <synopsis>docker pull existdb/teipublisher:latest</synopsis>
+            </step>
+            <step>
+              <para>once the download is complete, you can run the image with</para>
+              <synopsis>docker run -dit -p 8080:8080 -p 8443:8443 --name teipublisher existdb/teipublisher:latest</synopsis>
+              <variablelist>
+                <varlistentry>
+                  <term>-dit</term>
+                  <listitem>
+                    <para>Detaches the container from the terminal that started it, but keeps a connection to standard input open, so you can interact with the container through the console.</para>
+                  </listitem>
+                </varlistentry>
+                <varlistentry>
+                  <term>-p</term>
+                  <listitem>
+                    <para>Maps a port on your local machine (first number) to the port used by eXist within the container. eXist will always run on 8080 for HTTP and 8443 for HTTPS. If those ports are already occupied by different services on your machine, choose a different port for the first number.</para>
+                  </listitem>
+                </varlistentry>
+              </variablelist>
+            </step>
+            <step>
+              <para>To stop the container run</para>
+              <synopsis>docker stop teipublisher</synopsis>
+            </step>
+          </procedure>
+          <note>
+            <title>Important!</title>
+            <para>If you intend do do more than just playing around a bit, it is recommended to map eXist's data directory to a local directory on your hard disk. This way all data will persist between docker runs.</para>
+            <para>To map a directory, add the following parameter to <code>docker run</code>:</para>
+            <synopsis>-v /path/to/my/data:/exist-data/</synopsis>
+            <para>Change the path before the : to point to a directory on your local disk.</para>
+          </note>
+        </section>
+      </section>
     </section>
     <section>
       <title>Browsing Documents</title>
