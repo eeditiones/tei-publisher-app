@@ -102,26 +102,27 @@
             include TEI Publisher as well as the Shakespeare and Van Gogh demo apps.</para>
           <procedure>
             <step>
-              <para>Install <link xlink:href="https://www.docker.com/">docker</link> on your machine</para>
+              <para>Install <link xlink:href="https://www.docker.com/">docker</link> on your machine. Windows and
+                Mac users may download the <link xlink:href="https://www.docker.com/products/docker-desktop">docker desktop</link> app.</para>
             </step>
             <step>
               <para>To download the image run the following in a console</para>
               <synopsis>docker pull existdb/teipublisher:latest</synopsis>
             </step>
             <step>
-              <para>once the download is complete, you can run the image with</para>
-              <synopsis>docker run -dit -p 8080:8080 -p 8443:8443 --name teipublisher existdb/teipublisher:latest</synopsis>
+              <para>once the download is complete, you can run the image with the following command. The first start will take a while as the Shakespeare and Van Gogh data is installed.</para>
+              <synopsis>docker run -p 8081:8080 -p 8444:8443 --name teipublisher existdb/teipublisher:latest</synopsis>
               <variablelist>
-                <varlistentry>
-                  <term>-dit</term>
-                  <listitem>
-                    <para>Detaches the container from the terminal that started it, but keeps a connection to standard input open, so you can interact with the container through the console.</para>
-                  </listitem>
-                </varlistentry>
                 <varlistentry>
                   <term>-p</term>
                   <listitem>
-                    <para>Maps a port on your local machine (first number) to the port used by eXist within the container. eXist will always run on 8080 for HTTP and 8443 for HTTPS. If those ports are already occupied by different services on your machine, choose a different port for the first number.</para>
+                    <para>Maps a port on your local machine (8081 and 8444) to the port used by eXist within the container. eXist will always run on 8080 for HTTP and 8443 for HTTPS. If those ports are already occupied by different services on your machine, choose a different port for the first number.</para>
+                  </listitem>
+                </varlistentry>
+                <varlistentry>
+                  <term>--name</term>
+                  <listitem>
+                    <para>Assigns a name to the container, so you can easier reference it in other docker commands, like <code>docker stop</code>.</para>
                   </listitem>
                 </varlistentry>
               </variablelist>
@@ -133,7 +134,7 @@
           </procedure>
           <note>
             <title>Important!</title>
-            <para>If you intend do do more than just playing around a bit, it is recommended to map eXist's data directory to a local directory on your hard disk. This way all data will persist between docker runs.</para>
+            <para>If you intend to do more than just playing around a bit, it is recommended to map eXist's data directory to a local directory on your hard disk. This way all data will persist between docker runs.</para>
             <para>To map a directory, add the following parameter to <code>docker run</code>:</para>
             <synopsis>-v /path/to/my/data:/exist-data/</synopsis>
             <para>Change the path before the : to point to a directory on your local disk.</para>
