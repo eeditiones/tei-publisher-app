@@ -111,8 +111,8 @@
               <synopsis>docker pull existdb/teipublisher:latest</synopsis>
             </step>
             <step>
-              <para>once the download is complete, you can run the image with the following command. The <emphasis>first start will take a while</emphasis> as the Shakespeare and Van Gogh data is installed.</para>
-              <synopsis>docker run -p 8081:8080 -p 8444:8443 --name teipublisher existdb/teipublisher:latest</synopsis>
+              <para>once the download is complete, you can run the image with the following command:</para>
+              <synopsis>docker run -p 8081:8080 -p 8444:8443 -v exist-data:/exist-data --name teipublisher existdb/teipublisher:latest</synopsis>
               <variablelist>
                 <varlistentry>
                   <term>-p</term>
@@ -120,10 +120,19 @@
                     <para>Maps a port on your local machine (8081 and 8444) to the port used by eXist within the container. eXist will always run on 8080 for HTTP and 8443 for HTTPS. If those ports are already occupied by different services on your machine, choose a different port for the first number.</para>
                   </listitem>
                 </varlistentry>
+              <varlistentry>
+                <term>-v</term>
+                <listitem>
+                  <para>Creates a named ("exist-data") volume for storing the database. If you skip this, any changes to the database will be lost if you remove
+                    the docker container, update it or create a new one. With <option>-v</option> the data will be stored outside the container.</para>
+                  <para>If you just intend to play around a bit, you can skip the parameter.</para>
+                </listitem>
+              </varlistentry>
                 <varlistentry>
                   <term>--name</term>
                   <listitem>
-                    <para>Assigns a name to the container, so you can reference it in other docker commands, like <code>docker stop</code>.</para>
+                    <para>Assigns a name to the container, so you can reference it in other docker commands, like <code>docker stop</code>. We'll use the name
+                    in all commands below.</para>
                   </listitem>
                 </varlistentry>
               </variablelist>
@@ -142,14 +151,39 @@
               <synopsis>docker logs teipublisher</synopsis>
             </step>
           </procedure>
-          <para>Have a look at the docker documentation and <link xlink:href="https://www.docker.com/sites/default/files/Docker_CheatSheet_08.09.2016_0.pdf">cheatsheet</link> for more commands.</para>
-          <note>
-            <title>Important!</title>
-            <para>If you intend to do more than just playing around a bit, it is recommended to map eXist's data directory to a local directory on your hard disk. This way all data will persist even if the docker container is removed.</para>
-            <para>To map a directory, add the following parameter to <code>docker run</code>:</para>
-            <synopsis>-v /path/to/my/data:/exist-data/</synopsis>
-            <para>Change the path before the : to point to a directory on your local disk.</para>
-          </note>
+          <section>
+            <title>Other useful commands</title>
+          <variablelist>
+            <varlistentry>
+              <term>docker container ps -a</term>
+              <listitem>
+                <para>Lists all running and stopped containers</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>docker volume ls</term>
+              <listitem>
+                <para>Displays existing volumes (where your database is stored)</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>docker cp teipublisher:/exist-data .</term>
+              <listitem>
+                <para>Copy the contents of the database data volume to the current directory on local disk, so you can back it up. Note that this will copy the
+                  raw database files as created by eXist (not your XML, which is binary encoded inside those files). Also make sure you run the command after
+                  stopping the active container.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>docker volume rm exist-data</term>
+              <listitem>
+                <para>Remove the contents of the database data volume (in case you would like to start from scratch, deleting all changes you made).</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+            
+            <para>Have a look at the docker documentation and <link xlink:href="https://www.docker.com/sites/default/files/Docker_CheatSheet_08.09.2016_0.pdf">cheatsheet</link> for more commands.</para>
+          </section>
         </section>
     </section>
     <section>
