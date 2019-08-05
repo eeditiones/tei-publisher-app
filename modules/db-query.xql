@@ -157,8 +157,12 @@ declare function dbs:expand($data as element()) {
     let $query := session:get-attribute($config:session-prefix || ".query")
     let $field := session:get-attribute($config:session-prefix || ".field")
     let $div := $data
+    let $result := dbs:query-default-view($div, $query, $field)
     let $expanded :=
-        util:expand(dbs:query-default-view($div, $query, $field), "add-exist-id=all")
+        if (exists($result)) then
+            util:expand($result, "add-exist-id=all")
+        else
+            $div
     return
         $expanded
 };
