@@ -15,6 +15,9 @@
                 grid-column-gap: var(--pb-view-column-gap, 10px);
             }
 
+            #column1, #column2 {
+                @apply --pb-view-column;
+            }
             .margin-note {
                 display: none;
             }
@@ -113,6 +116,7 @@
          * | ----------------|-------------|--------|
          * |--pb-content-theme | Mixin applied to the content view | {}|
          * |--pb-view-column-gap | Column gap in two-column mode | 10px |
+         * |--pb-view-column | Mixin for formatting the two columns | {} |
          * |--pb-footnotes | Mixin for formatting footnotes | {}|
          * |--pb-footnote-ref | Mixin for formatting footnote references | {}|
          * |--pb-highlight-theme | Mixin applied to matches in the text when displaying search results | {}|
