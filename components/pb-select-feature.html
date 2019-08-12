@@ -1,0 +1,112 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-mixin.html">
+
+<dom-module id="pb-select-feature">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <paper-dropdown-menu label="[[label]]">
+            <paper-listbox id="list" slot="dropdown-content" selected="{{selected}}" attr-for-selected="value">
+                <template id="repeat" is="dom-repeat" items="[[_items]]">
+                    <paper-item value$="[[item.value]]">[[item.label]]</paper-item>
+                </template>
+            </paper-listbox>
+        </paper-dropdown-menu>
+    </template>
+
+    <script>
+        /**
+         * Enable or disable a particular display feature by setting a custom parameter
+         * which will be passed to the ODD by `pb-view`. This can be used to implement
+         * different views on the text, e.g. a 'diplomatic' and a 'normalized' mode. Both
+         * views would be backed by the same ODD and processing model, while the passed in parameter
+         * can be used to distinguish the modes.
+         *
+         * For example, the following snippet would result in a custom parameter called `mode` with
+         * either a value of `dipl` or `norm`. Within processing model predicates it could be queried as
+         * `$parameters?mode='norm'` to check if the normalized version should be output.
+         *
+         * ```
+         * <pb-toggle-feature name="mode" on="diplomatic" off="norm">Diplomatic View</pb-toggle-feature>
+         * ```
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/pb-toggle-feature.html
+         * @appliesMixin PbMixin
+         */
+        class PbSelectFeature extends PbMixin(Polymer.Element) {
+            static get is() {
+                return 'pb-select-feature';
+            }
+
+            static get properties() {
+                return {
+                    /**
+                     * The name of the feature (required). This will correspond to the name of the custom parameter
+                     * passed to the ODD.
+                     */
+                    name: {
+                        type: String
+                    },
+                    label: {
+                        type: String
+                    },
+                    selected: {
+                        type: String,
+                        observer: '_changed'
+                    },
+                    _items: {
+                        type: Array
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+
+                if (!this.name) {
+                    console.log('<pb-select-feature> missing name: %o', this);
+                    return;
+                }
+
+                this._items = [];
+                this.querySelectorAll('pb-item').forEach(function(item) {
+                    this._items.push({
+                        value: item.getAttribute('value'),
+                        label: item.innerHTML
+                    });
+                }.bind(this));
+
+                let param = this.getParameter(this.name);
+                if (typeof param !== 'undefined') {
+                    this.selected = param;
+                } else {
+                    this.selected = this._items[0].value;
+                }
+            }
+
+            _changed(newVal, oldVal) {
+                if (newVal !== oldVal) {
+                    if (!this.name) {
+                        return;
+                    }
+                    this.setParameter(this.name, this.selected);
+                    this.pushHistory('toggle feature ' + this.name);
+
+                    const params = {
+                        name: this.name,
+                        value: this.selected
+                    };
+                    this.emitTo('pb-toggle', params);
+                }
+            }
+        }
+
+        window.customElements.define(PbSelectFeature.is, PbSelectFeature);
+    </script>
+</dom-module>
