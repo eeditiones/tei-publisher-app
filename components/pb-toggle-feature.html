@@ -28,6 +28,17 @@
          * <pb-toggle-feature name="mode" on="diplomatic" off="norm">Diplomatic View</pb-toggle-feature>
          * ```
          *
+         * You may also set additional properties on the target `pb-view` via the `properties-on` and `properties-off`
+         * attributes. For example, in 'on' state, you may want to use a different ODD:
+         *
+         * ```
+         * <pb-toggle-feature name="mode" on="diplomatic" off="norm" properties-on='{"odd": "myodd"}' properties-off='{"odd": "myodd-diplomatic"}'>
+         *     Diplomatic View
+         * </pb-toggle-feature>
+         * ```
+         *
+         * It is important that `pb-toggle-feature` emits and subscribes to the same channel as the target `pb-view`.
+         *
          * @customElement
          * @polymer
          * @demo demo/pb-toggle-feature.html
@@ -59,10 +70,30 @@
                     off: {
                         type: String
                     },
+                    /**
+                     * The default setting: either 'on' or 'off'
+                     */
+                    default: {
+                        type: String,
+                        value: 'on'
+                    },
+                    /**
+                     * Additional properties to set on the pb-view if toggle is in 'on' state.
+                     * Possible properties are 'view', 'odd' and 'columnSeparator'.
+                     */
+                    propertiesOn: {
+                        type: Object
+                    },
+                    /**
+                     * Additional properties to set on the pb-view if toggle is in 'off' state.
+                     * Possible properties are 'view', 'odd' and 'columnSeparator'.
+                     */
+                    propertiesOff: {
+                        type: Object
+                    },
                     checked: {
                         type: Boolean,
-                        observer: '_changed',
-                        value: true
+                        observer: '_changed'
                     }
                 };
             }
@@ -75,9 +106,21 @@
                     return;
                 }
                 let param = this.getParameter(this.name);
-                if (typeof param !== 'undefined' && param === 'false') {
-                    this.checked = false;
+                if (typeof param !== 'undefined') {
+                    this.checked = param === this.on;
+                } else {
+                    this.checked = this.default === 'on';
                 }
+                this.waitForChannel(() => {
+                    const params = {
+                        name: this.name,
+                        value: this.checked ? this.on : this.off,
+                        properties: this.checked ? this.propertiesOn : this.propertiesOff,
+                        action: 'init'
+                    };
+                    this.emitTo('pb-toggle', params);
+                });
+                this.signalReady();
             }
 
             _changed(newVal, oldVal) {
@@ -85,13 +128,14 @@
                     if (!this.name) {
                         return;
                     }
-                    this.setParameter(this.name, this.checked);
+                    this.setParameter(this.name, this.checked ? this.on : this.off);
                     this.pushHistory('toggle feature ' + this.name);
 
                     const params = {
                         name: this.name,
-                        state: this.checked,
-                        value: this.checked ? this.on : this.off
+                        value: this.checked ? this.on : this.off,
+                        properties: this.checked ? this.propertiesOn : this.propertiesOff,
+                        action: 'refresh'
                     };
                     this.emitTo('pb-toggle', params);
                 }

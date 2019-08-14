@@ -76,7 +76,7 @@
                         <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
                         <app-toolbar class="toolbar" sticky="sticky">
                             <paper-icon-button id="tocToggle" class="toc-toggle" icon="icons:view-list"/>
-                            <pb-toggle-feature name="mode" on="diplomatic" off="norm" emit="transcription">Diplomatic View</pb-toggle-feature>
+                            <pb-toggle-feature name="mode" on="diplomatic" off="norm" emit="transcription" subscribe="transcription">Diplomatic View</pb-toggle-feature>
                             <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
                             <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
                             <pb-navigation emit="transcription" keyboard="left"

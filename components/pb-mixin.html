@@ -112,11 +112,27 @@
         }
 
         /**
+         * Wait until a `pb-ready` event is received from one of the channels
+         * this component subscribes to. Used internally by components which depend
+         * on a particular `pb-view` to be ready and listening to events.
+         *
+         * @param callback function to be called when `pb-ready` is received
+         */
+        waitForChannel(callback) {
+            const listener = function() {
+                document.removeEventListener('pb-ready', listener);
+                callback();
+            };
+            this.subscribeTo('pb-ready', listener);
+        }
+        
+        /**
          * Signal that the component is ready to respond to events.
          */
         signalReady() {
             this._isReady = true;
             this.dispatchEvent(new CustomEvent('pb-ready'));
+            this.emitTo('pb-ready');
         }
 
         /**

@@ -20,19 +20,23 @@
 
     <script>
         /**
-         * Enable or disable a particular display feature by setting a custom parameter
-         * which will be passed to the ODD by `pb-view`. This can be used to implement
-         * different views on the text, e.g. a 'diplomatic' and a 'normalized' mode. Both
-         * views would be backed by the same ODD and processing model, while the passed in parameter
-         * can be used to distinguish the modes.
+         * Choose a particular display feature by setting a custom parameter
+         * which will be passed to the ODD by `pb-view`. This is similar to `pb-toggle-feature`,
+         * except that it allows the value to be selected from a drop down list.
          *
-         * For example, the following snippet would result in a custom parameter called `mode` with
-         * either a value of `dipl` or `norm`. Within processing model predicates it could be queried as
-         * `$parameters?mode='norm'` to check if the normalized version should be output.
+         * For example, the following snippet would result in a custom parameter called `lang` with
+         * either a value of `en` or `fr`. Within processing model predicates it could be queried as
+         * `$parameters?lang='fr'`.
          *
          * ```
-         * <pb-toggle-feature name="mode" on="diplomatic" off="norm">Diplomatic View</pb-toggle-feature>
+         * <pb-select-feature name="tlang" label="Language" emit="translation" subscribe="translation">
+         *    <pb-item value="en">English</pb-item>
+         *    <pb-item value="fr">French</pb-item>
+         * </pb-select-feature>
          * ```
+         *
+         * Unlike `pb-toggle-feature`, this component does not allow changing additional properties (e.g. the ODD) on the
+         * `pb-view`.
          *
          * @customElement
          * @polymer
@@ -53,6 +57,9 @@
                     name: {
                         type: String
                     },
+                    /**
+                     * The label to display on top of the drop down
+                     */
                     label: {
                         type: String
                     },
@@ -88,6 +95,15 @@
                 } else {
                     this.selected = this._items[0].value;
                 }
+                this.waitForChannel(() => {
+                    const params = {
+                        name: this.name,
+                        value: this.selected,
+                        action: 'init'
+                    };
+                    this.emitTo('pb-toggle', params);
+                });
+                this.signalReady();
             }
 
             _changed(newVal, oldVal) {
@@ -99,6 +115,7 @@
                     this.pushHistory('toggle feature ' + this.name);
 
                     const params = {
+                        action: 'refresh',
                         name: this.name,
                         value: this.selected
                     };

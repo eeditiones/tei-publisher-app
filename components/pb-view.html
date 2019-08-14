@@ -315,8 +315,7 @@
                 } else if (nodeId && !this.nodeId) {
                     this.nodeId = nodeId;
                 }
-
-
+                this.waitFor = 'pb-toggle-feature ' + this.waitFor;
             }
 
             ready() {
@@ -326,11 +325,13 @@
                 });
                 this.subscribeTo('pb-refresh', this._refresh.bind(this));
                 this.subscribeTo('pb-toggle', ev => {
-                    this.toggleFeature(ev.detail);
+                    this.toggleFeature(ev);
                 });
                 this.subscribeTo('pb-zoom', ev => {
                     this.zoom(ev.detail.direction);
                 });
+                this.signalReady();
+                
                 if (this.onUpdate) {
                     this.subscribeTo('pb-update', this._refresh.bind(this));
                 } else {
@@ -657,9 +658,24 @@
                 }
             }
 
-            toggleFeature(feature) {
-                this._features[feature.name] = feature;
-                this._load();
+            toggleFeature(ev) {
+                this._features[ev.detail.name] = ev.detail;
+                const properties = ev.detail.properties;
+                console.log('<pb-view> toggle feature %o', properties);
+                if (properties) {
+                    if (properties.odd) {
+                        this.odd = properties.odd;
+                    }
+                    if (properties.view) {
+                        this.view = properties.view;
+                    }
+                    if (properties.hasOwnProperty('columnSeparator')) {
+                        this.columnSeparator = properties.columnSeparator;
+                    }
+                }
+                if (ev.detail.action === 'refresh') {
+                    this._load();
+                }
             }
 
             _getFragmentBefore(node, ms) {
