@@ -225,18 +225,33 @@ declare %private function nav:get-previous-recursive($config as map(*), $div as 
             $div
 };
 
-declare function nav:milestone-chunk($ms1 as element(), $ms2 as element()?, $node as node()*) as node()*
+declare function nav:milestone-chunk($ms1 as element(), $ms2 as element()?, $node as node()*) as node()* {
+    let $descendantCheck :=
+        if ($ms1 instance of element(tei:pb) and (empty($ms2) or $ms2 instance of element(tei:pb))) then
+            function($node, $ms1, $ms2) {
+                $node/descendant::tei:pb intersect ($ms1, $ms2)
+            }
+        else
+            function($node, $ms1, $ms2) {
+                some $n in $node/descendant::* satisfies ($n is $ms1 or $n is $ms2)
+            }
+    return
+        nav:milestone-chunk($ms1, $ms2, $node, $descendantCheck)
+};
+
+declare function nav:milestone-chunk($ms1 as element(), $ms2 as element()?, $node as node()*,
+    $descendantCheck as function(*)) as node()*
 {
     typeswitch ($node)
         case element() return
-            if ( some $n in $node/descendant::* satisfies ($n is $ms1 or $n is $ms2) ) then
+            if ($node is $ms1) then
+                util:expand($node, "add-exist-id=all")
+            else if ( $descendantCheck($node, $ms1, $ms2) ) then
                 element { node-name($node) } {
                     $node/@*,
                     for $i in ( $node/node() )
-                    return nav:milestone-chunk($ms1, $ms2, $i)
+                    return nav:milestone-chunk($ms1, $ms2, $i, $descendantCheck)
                 }
-            else if ($node is $ms1) then
-                util:expand($node, "add-exist-id=all")
             else if ($node >> $ms1 and (empty($ms2) or $node << $ms2)) then
                 util:expand($node, "add-exist-id=all")
             else
