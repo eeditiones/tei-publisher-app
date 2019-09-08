@@ -169,6 +169,7 @@ else if (ends-with($exist:resource, ".html")) then (
             <view>
                 <forward url="{$exist:controller}/modules/view.xql">
                     <set-header name="Access-Control-Allow-Origin" value="*"/>
+                    <set-header name="Access-Control-Expose-Headers" value="pb-start, pb-total"/>
                 {
                     if ($exist:resource = ("search-results.html", "documents.html", "index.html")) then
                         <set-header name="Cache-Control" value="no-cache"/>
