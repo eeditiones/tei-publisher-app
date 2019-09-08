@@ -1,6 +1,6 @@
 {
   "name": "tei-publisher-app",
-  "version": "4.0.0-RC1",
+  "version": "5.1.0-RC",
   "description": "TEI Publisher facilitates the integration of the TEI Processing Model into exist-db applications",
   "main": "gulpfile.js",
   "directories": {
@@ -8,6 +8,7 @@
     "wctest": "components/test"
   },
   "scripts": {
+    "build": "rollup -c rollup.config.js",
     "test": "webtest/node_modules/.bin/wdio wdio.conf.js",
     "update": "npm update && gulp",
     "start": "npm install --quiet && gulp",
@@ -20,31 +21,16 @@
   },
   "license": "GPL-3.0",
   "devDependencies": {
-    "@existdb/gulp-exist": "^3.0.0",
-    "gulp-exist": "^3.0.0",
-    "polymer-build": "^3.0.4",
-    "web-component-tester": "^6.9.0"
+    "rollup": "^1.21.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.1.1"
   },
   "dependencies": {
-    "@existdb/node-exist": "^1.0.4",
-    "chai": "^4.2.0",
-    "chromedriver": "^2.44.1",
+    "@polymer/app-layout": "^3.1.0",
+    "@polymer/paper-card": "^3.0.1",
+    "@polymer/paper-listbox": "^3.0.1",
+    "@webcomponents/webcomponentsjs": "latest",
     "codemirror": "^5.39.2",
-    "del": "^2.2.2",
-    "gulp": "^3.9.1",
-    "gulp-less": "^3.3.2",
-    "gulp-newer": "^1.3.0",
-    "gulp-sourcemaps": "^2.6.1",
-    "less-plugin-autoprefix": "^1.5.1",
-    "less-plugin-clean-css": "^1.5.1",
-    "mocha": "^5.2.0",
-    "path": "^0.12.7",
-    "wdio": "^3.0.0",
-    "wdio-chromedriver-service": "^0.1.5",
-    "wdio-dot-reporter": "0.0.10",
-    "wdio-junit-reporter": "^0.4.4",
-    "wdio-mocha-framework": "^0.6.4",
-    "webdriverio": "^4.14.1",
-    "xml-writer": "^1.7.0"
+    "tei-publisher-components": "git+ssh://git@gitlab.existsolutions.com:tei-publisher/pb-components.git#master"
   }
 }

@@ -36,6 +36,7 @@
             <exclude name=".idea/"/>
             <exclude name=".editorconfig"/>
             <exclude name="node_modules/**"/>
+            <exclude name="components/"/>
         </zip>
     </target>
 
