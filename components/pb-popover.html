@@ -14,7 +14,7 @@
             <paper-dialog id="dialog" dynamic-align no-overlap horizontal-align="left" vertical-align="top">
                 <h2><slot name="title"></slot></h2>
                 <paper-dialog-scrollable>
-                    <slot name="content"></slot>
+                    <slot name="alternate"></slot>
                 </paper-dialog-scrollable>
                 <div class="buttons">
                     <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
@@ -25,7 +25,7 @@
           </template>
           <template is="dom-if" if="[[!_isPersistent()]]">
             <paper-tooltip for="link" position="bottom" fit-to-visible-bounds="fit-to-visible-bounds">
-                <slot name="content"></slot>
+                <slot name="alternate"></slot>
             </paper-tooltip>
           </template>
 

@@ -233,6 +233,17 @@
             <param name="label" value="@n"/>
         </model>
     </elementSpec>
+    <elementSpec ident="app" mode="change">
+		<model behaviour="inline">
+            <param name="content" value="lem"/>
+            <param name="alternate" value="rdg"/>
+            <param name="persistent" value="true()"/>
+            <param name="name" value="'pb-popover'"/>
+            <pb:template xmlns="" xml:space="preserve">
+                <pb-popover persistent="[[persistent]]">[[content]]<span slot="alternate">[[alternate]]</span></pb-popover>
+            </pb:template>
+		</model>
+    </elementSpec>
             </schemaSpec>
         </body>
     </text>
