@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+
+        <title>Pb-popover Demo</title>
+        <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+        <link rel="import" href="../dependencies-dev.html"/>
+        <custom-style>
+            <style is="custom-style" include="demo-pages-shared-styles">
+                main {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            </style>
+        </custom-style>
+    </head>
+
+    <body>
+        <demo-snippet>
+            <template>
+                <main>
+                    <div>
+                        <p><pb-popover>Lorem<span slot="content">tooltip popover</span></pb-popover> ipsum dolor sit amet,
+                          consetetur <pb-popover persistent>sadipscing<span slot="content">persistent dialog popover</span></pb-popover> elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+                        dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                        </p>
+                    </div>
+                </main>
+            </template>
+        </demo-snippet>
+    </body>
+</html>
