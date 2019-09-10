@@ -14,3 +14,4 @@ webtest/npm-debug.log
 bower_components
 package-lock.json
 local.build.properties
+resources/scripts/bundle.*
