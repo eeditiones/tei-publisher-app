@@ -20,6 +20,21 @@
                     display: flex;
                     justify-content: space-between;
                 }
+
+                pb-navigation {
+                    position: fixed;
+                    bottom: 45%;
+                    --paper-fab-background: #35424b;
+                    color: white;
+                }
+
+                pb-navigation[direction=backward] {
+                    left: 20px;
+                }
+
+                pb-navigation[direction=forward] {
+                    right: 20px;
+                }
             </style>
         </custom-style>
     </head>

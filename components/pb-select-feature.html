@@ -96,9 +96,10 @@
                     this.selected = this._items[0].value;
                 }
                 this.waitForChannel(() => {
+                    const props = {};
+                    props[this.name] = this.selected;
                     const params = {
-                        name: this.name,
-                        value: this.selected,
+                        properties: props,
                         action: 'init'
                     };
                     this.emitTo('pb-toggle', params);
@@ -107,17 +108,18 @@
             }
 
             _changed(newVal, oldVal) {
-                if (newVal !== oldVal) {
+                if (typeof oldVal !== 'undefined' && newVal !== oldVal) {
                     if (!this.name) {
                         return;
                     }
                     this.setParameter(this.name, this.selected);
                     this.pushHistory('toggle feature ' + this.name);
 
+                    const props = {};
+                    props[this.name] = this.selected;
                     const params = {
                         action: 'refresh',
-                        name: this.name,
-                        value: this.selected
+                        properties: props
                     };
                     this.emitTo('pb-toggle', params);
                 }
