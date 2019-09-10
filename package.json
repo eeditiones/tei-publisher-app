@@ -8,11 +8,11 @@
     "wctest": "components/test"
   },
   "scripts": {
+    "start": "npm install && npm run build",
     "build": "rollup -c rollup.config.js",
+    "build:production": "PRODUCTION=true npm run build",
+    "clean": "rimraf node_modules/tei-publisher-components && npm run start",
     "test": "webtest/node_modules/.bin/wdio wdio.conf.js",
-    "update": "npm update && gulp",
-    "start": "npm install --quiet && gulp",
-    "gulp": "gulp default",
     "wctest": "./node_modules/.bin/wdio components/test/wdio.conf.js"
   },
   "repository": {
@@ -21,14 +21,19 @@
   },
   "license": "GPL-3.0",
   "devDependencies": {
+    "rimraf": "^3.0.0",
     "rollup": "^1.21.0",
+    "rollup-plugin-analyzer": "^3.1.2",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^5.1.1"
   },
   "dependencies": {
     "@polymer/app-layout": "^3.1.0",
     "@polymer/paper-card": "^3.0.1",
+    "@polymer/paper-dialog-scrollable": "^3.0.1",
+    "@polymer/paper-fab": "^3.0.1",
     "@polymer/paper-listbox": "^3.0.1",
+    "@polymer/paper-menu-button": "^3.0.1",
     "@webcomponents/webcomponentsjs": "latest",
     "codemirror": "^5.39.2",
     "tei-publisher-components": "git+ssh://git@gitlab.existsolutions.com:tei-publisher/pb-components.git#master"
