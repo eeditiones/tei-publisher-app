@@ -93,7 +93,7 @@ else if (matches($exist:path, "^.*/(resources|transform)/.*$")) then
                 if ($dir = "transform") then
                     <set-header name="Cache-Control" value="no-cache"/>
                 else
-                    ()
+                    <set-header name="Access-Control-Allow-Origin" value="*"/>
             }
             </forward>
         </dispatch>
@@ -118,13 +118,6 @@ else if (ends-with($exist:resource, ".xql")) then (
     </dispatch>
 
 )
-
-else if (contains($exist:path, "/components")) then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/components/{substring-after($exist:path, '/components/')}">
-            <set-header name="Access-Control-Allow-Origin" value="*"/>
-        </forward>
-    </dispatch>
 
 else if ($logout or $login) then (
     login:set-user($config:login-domain, (), false()),
