@@ -1156,7 +1156,8 @@
             <tag>model</tag>, default values are used. All functions take at least one parameter: <parameter>content</parameter>. It will be added by default
           unless specified and contains the nested content of the currently processed node. You may change this by explicitely setting a
             <parameter>content</parameter> parameter inside the model.</para>
-        <para>In the parameter lists below we skip the <parameter>content</parameter> parameter as it is available for every behaviour.</para>
+        <para>In the parameter lists below we skip the <parameter>content</parameter> parameter as it is available for every behaviour. Optional parameters are
+          marked as <emphasis>optional</emphasis> in parenthesis, followed by the output mode they apply for, if relevant.</para>
         <variablelist>
           <varlistentry>
             <term>alternate</term>
@@ -1178,6 +1179,11 @@
                   <tr>
                     <td>alternate</td>
                     <td>alternate content</td>
+                  </tr>
+                  <tr>
+                    <td>persistent</td>
+                    <td>(optional, web) show a persistent popup on click instead of a tooltip on hover if parameter evaluates to an effective boolean value of
+                      true</td>
                   </tr>
                 </tbody>
               </informaltable>
