@@ -18,6 +18,8 @@ declare variable $login := request:get-parameter("user", ());
 
 declare variable $data-collections := $config:setup/collections/path;
 
+declare variable $allowOrigin := "http://localhost:8000";
+
 declare function local:get-template($doc as xs:string) {
     let $template := request:get-parameter("template", ())
     return
@@ -61,7 +63,9 @@ else if ($exist:resource eq 'login') then (
     let $loggedIn := login:set-user($config:login-domain, (), false())
     let $user := request:get-attribute($config:login-domain || ".user")
     return (
-        util:declare-option("exist:serialize", "method=json"),
+        util:declare-option("exist:serialize", "method=json media-type=application/json"),
+        response:set-header("Access-Control-Allow-Origin", $allowOrigin),
+        if ($allowOrigin) then response:set-header("Access-Control-Allow-Credentials", "true") else (),
         try {
             <status xmlns:json="http://www.json.org">
                 <user>{$user}</user>
@@ -92,8 +96,10 @@ else if (matches($exist:path, "^.*/(resources|transform)/.*$")) then
             {
                 if ($dir = "transform") then
                     <set-header name="Cache-Control" value="no-cache"/>
-                else
-                    <set-header name="Access-Control-Allow-Origin" value="*"/>
+                else (
+                    <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>,
+                    if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/>
+                )
             }
             </forward>
         </dispatch>
@@ -109,10 +115,14 @@ else if (ends-with($exist:resource, ".xql")) then (
         {
             if (contains($exist:path, "/modules")) then
                 <forward url="{$exist:controller}/modules/{substring-after($exist:path, '/modules/')}">
-                    <set-header name="Access-Control-Allow-Origin" value="*"/>
+                    <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
+                    { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
                 </forward>
             else
-                <forward url="{$exist:controller}{$exist:path}"/>
+                <forward url="{$exist:controller}{$exist:path}">
+                    <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
+                    { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
+                </forward>
         }
         <cache-control cache="no"/>
     </dispatch>
@@ -161,7 +171,8 @@ else if (ends-with($exist:resource, ".html")) then (
             <forward url="{$exist:controller}/{$resource}"/>
             <view>
                 <forward url="{$exist:controller}/modules/view.xql">
-                    <set-header name="Access-Control-Allow-Origin" value="*"/>
+                    <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
+                    { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
                     <set-header name="Access-Control-Expose-Headers" value="pb-start, pb-total"/>
                 {
                     if ($exist:resource = ("search-results.html", "documents.html", "index.html")) then
