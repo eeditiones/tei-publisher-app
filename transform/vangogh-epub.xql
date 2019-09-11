@@ -13,9 +13,9 @@ declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
 declare namespace xi='http://www.w3.org/2001/XInclude';
 
-declare namespace vg='http://www.vangoghletters.org/ns/';
-
 declare namespace pb='http://teipublisher.com/1.0';
+
+declare namespace vg='http://www.vangoghletters.org/ns/';
 
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 

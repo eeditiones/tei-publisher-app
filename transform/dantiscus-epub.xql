@@ -21,6 +21,10 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
 import module namespace epub="http://www.tei-c.org/tei-simple/xquery/functions/epub";
 
+(: generated template function for element spec: app :)
+declare %private function model:template-app($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><pb-popover persistent="{$config?apply-children($config, $node, $params?persistent)}">{$config?apply-children($config, $node, $params?content)}<span slot="alternate">{$config?apply-children($config, $node, $params?alternate)}</span></pb-popover></t>/*
+};
 (:~
 
     Main entry point for the transformation.
@@ -542,6 +546,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:inline($config, ., ("tei-person"), .)
                     case element(persName) return
                         html:inline($config, ., ("tei-persName"), .)
+                    case element(app) return
+                        let $params := 
+                            map {
+                                "content": lem,
+                                "alternate": rdg,
+                                "persistent": true(),
+                                "name": 'pb-popover'
+                            }
+
+                                                let $content := 
+                            model:template-app($config, ., $params)
+                        return
+                                                html:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-app"), $content)
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return

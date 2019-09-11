@@ -23,6 +23,10 @@ import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/
 declare %private function model:template-teiHeader($config as map(*), $node as node()*, $params as map(*)) {
     ``[\def\volume{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
+(: generated template function for element spec: app :)
+declare %private function model:template-app($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><pb-popover persistent="{$config?apply-children($config, $node, $params?persistent)}">{$config?apply-children($config, $node, $params?content)}<span slot="alternate">{$config?apply-children($config, $node, $params?alternate)}</span></pb-popover></t>/*
+};
 (:~
 
     Main entry point for the transformation.
@@ -537,6 +541,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:inline($config, ., ("tei-person"), .)
                     case element(persName) return
                         latex:inline($config, ., ("tei-persName"), .)
+                    case element(app) return
+                        let $params := 
+                            map {
+                                "content": lem,
+                                "alternate": rdg,
+                                "persistent": true(),
+                                "name": 'pb-popover'
+                            }
+
+                                                let $content := 
+                            model:template-app($config, ., $params)
+                        return
+                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-app"), $content)
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

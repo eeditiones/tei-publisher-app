@@ -345,7 +345,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (not(@target)) then
                             html:inline($config, ., ("tei-ref1"), .)
                         else
-                            if (not(text())) then
+                            if (not(node())) then
                                 html:link($config, ., ("tei-ref2"), @target, @target, (), map {})
                             else
                                 html:link($config, ., ("tei-ref3"), ., @target, (), map {})

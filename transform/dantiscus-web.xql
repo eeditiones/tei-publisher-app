@@ -19,6 +19,10 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
+(: generated template function for element spec: app :)
+declare %private function model:template-app($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><pb-popover persistent="{$config?apply-children($config, $node, $params?persistent)}">{$config?apply-children($config, $node, $params?content)}<span slot="alternate">{$config?apply-children($config, $node, $params?alternate)}</span></pb-popover></t>/*
+};
 (:~
 
     Main entry point for the transformation.
@@ -115,16 +119,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:inline($config, ., ("tei-formula2"), .)
                     case element(choice) return
                         if (sic and corr) then
-                            html:alternate($config, ., ("tei-choice4", "choice"), ., corr[1], sic[1])
+                            html:alternate($config, ., ("tei-choice4", "choice"), ., corr[1], sic[1], map {})
                         else
                             if ($parameters?mode='norm' and abbr and expan) then
-                                html:alternate($config, ., ("tei-choice5", "choice"), ., expan[1], abbr[1])
+                                html:alternate($config, ., ("tei-choice5", "choice"), ., expan[1], abbr[1], map {})
                             else
                                 if (abbr and expan) then
-                                    html:alternate($config, ., ("tei-choice6", "choice"), ., abbr[1], expan[1])
+                                    html:alternate($config, ., ("tei-choice6", "choice"), ., abbr[1], expan[1], map {})
                                 else
                                     if (orig and reg) then
-                                        html:alternate($config, ., ("tei-choice7", "choice"), ., reg[1], orig[1])
+                                        html:alternate($config, ., ("tei-choice7", "choice"), ., reg[1], orig[1], map {})
                                     else
                                         $config?apply($config, ./node())
                     case element(hi) return
@@ -188,7 +192,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(figDesc) return
                         html:inline($config, ., ("tei-figDesc"), .)
                     case element(rs) return
-                        html:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
+                        html:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node(), map {})
                     case element(foreign) return
                         html:inline($config, ., ("tei-foreign"), .)
                     case element(fileDesc) return
@@ -301,7 +305,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(titlePage) return
                         html:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                     case element(name) return
-                        html:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
+                        html:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node(), map {})
                     case element(front) return
                         html:block($config, ., ("tei-front"), .)
                     case element(lg) return
@@ -408,7 +412,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:block($config, ., ("tei-argument"), .)
                     case element(date) return
                         if (@when) then
-                            html:alternate($config, ., ("tei-date3"), ., ., @when)
+                            html:alternate($config, ., ("tei-date3"), ., ., @when, map {})
                         else
                             if (text()) then
                                 html:inline($config, ., ("tei-date4"), .)
@@ -540,6 +544,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:inline($config, ., ("tei-person"), .)
                     case element(persName) return
                         html:inline($config, ., ("tei-persName"), .)
+                    case element(app) return
+                        let $params := 
+                            map {
+                                "content": lem,
+                                "alternate": rdg,
+                                "persistent": true(),
+                                "name": 'pb-popover'
+                            }
+
+                                                let $content := 
+                            model:template-app($config, ., $params)
+                        return
+                                                html:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-app"), $content)
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return

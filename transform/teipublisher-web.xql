@@ -109,13 +109,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:inline($config, ., ("tei-formula2"), .)
                     case element(choice) return
                         if (sic and corr) then
-                            html:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
+                            html:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1], map {})
                         else
                             if (abbr and expan) then
-                                html:alternate($config, ., ("tei-choice5"), ., expan[1], abbr[1])
+                                html:alternate($config, ., ("tei-choice5"), ., expan[1], abbr[1], map {})
                             else
                                 if (orig and reg) then
-                                    html:alternate($config, ., ("tei-choice6"), ., reg[1], orig[1])
+                                    html:alternate($config, ., ("tei-choice6"), ., reg[1], orig[1], map {})
                                 else
                                     $config?apply($config, ./node())
                     case element(hi) return
@@ -427,7 +427,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                                 html:inline($config, ., ("tei-title11"), .)
                     case element(date) return
                         if (@when) then
-                            html:alternate($config, ., ("tei-date3"), ., ., @when)
+                            html:alternate($config, ., ("tei-date3"), ., ., @when, map {})
                         else
                             if (text()) then
                                 html:inline($config, ., ("tei-date4"), .)

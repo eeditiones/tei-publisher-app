@@ -170,6 +170,7 @@ declare function model:apply($config as map(*), $input as node()*) {
             return
                             typeswitch(.)
                     case element(article) return
+                        (: Output LaTeX prolog :)
                         let $params := 
                             map {
                                 "image-dir": $parameters?image-dir,
@@ -290,6 +291,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             latex:inline($config, ., ("tei-emphasis2"), .)
                     case element(code) return
+                        (: Output inline code example :)
                         let $params := 
                             map {
                                 "content": .

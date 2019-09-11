@@ -13,9 +13,9 @@ declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
 declare namespace xi='http://www.w3.org/2001/XInclude';
 
-declare namespace vg='http://www.vangoghletters.org/ns/';
-
 declare namespace pb='http://teipublisher.com/1.0';
+
+declare namespace vg='http://www.vangoghletters.org/ns/';
 
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
@@ -117,13 +117,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:inline($config, ., ("tei-formula2"), .)
                     case element(choice) return
                         if (sic and corr) then
-                            html:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
+                            html:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1], map {})
                         else
                             if (abbr and expan) then
-                                html:alternate($config, ., ("tei-choice5"), ., expan[1], abbr[1])
+                                html:alternate($config, ., ("tei-choice5"), ., expan[1], abbr[1], map {})
                             else
                                 if (orig and reg) then
-                                    html:alternate($config, ., ("tei-choice6"), ., reg[1], orig[1])
+                                    html:alternate($config, ., ("tei-choice6"), ., reg[1], orig[1], map {})
                                 else
                                     $config?apply($config, ./node())
                     case element(hi) return
@@ -416,7 +416,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:block($config, ., ("tei-argument"), .)
                     case element(date) return
                         if (@when) then
-                            html:alternate($config, ., ("tei-date3"), ., ., @when)
+                            html:alternate($config, ., ("tei-date3"), ., ., @when, map {})
                         else
                             if (text()) then
                                 html:inline($config, ., ("tei-date4"), .)
