@@ -59,7 +59,13 @@ declare function local:create-data-collection() {
 
 
 declare function local:generate-code($collection as xs:string) {
-    for $source in xmldb:get-child-resources($collection || "/resources/odd")[ends-with(., ".odd")][not(.=("teipublisher.odd", "tei_simplePrint.odd"))]
+    let $allOdds := xmldb:get-child-resources($collection || "/resources/odd")[ends-with(., ".odd")]
+    let $odds :=
+        if (count($allOdds) > 3) then
+            $allOdds[not(.=("teipublisher.odd", "tei_simplePrint.odd"))]
+        else
+            $allOdds
+    for $source in $odds
     let $odd := doc($collection || "/resources/odd/" || $source)
     let $pi := tpu:parse-pi($odd, (), $source)
     for $module in

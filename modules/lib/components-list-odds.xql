@@ -29,7 +29,7 @@ declare option output:media-type "application/json";
 let $odd := (request:get-parameter("odd", ()), session:get-attribute($config:session-prefix || ".odd"), $config:odd)[1]
 let $allOdds :=
     dbutil:scan-resources(xs:anyURI($config:odd-root), function ($resource) {
-        if (ends-with($resource, ".odd")) then
+        if (not(matches($resource, '.*(tei_simplePrint|docx)\.odd$')) and ends-with($resource, ".odd")) then
             let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
             let $displayName := (
                 doc($resource)/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = "short"]/string(),
