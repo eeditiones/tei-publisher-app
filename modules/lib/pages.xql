@@ -88,13 +88,11 @@ declare function pages:pb-view($node as node(), $model as map(*), $root as xs:st
 
 
 declare function pages:current-language($node as node(), $model as map(*), $lang as xs:string?) {
-    let $selected := count($node/*[. = $lang]/preceding-sibling::*)
-    return
-        element { node-name($node) } {
-            $node/@*,
-            attribute selected { $selected },
-            $node/*
-        }
+    element { node-name($node) } {
+        $node/@*,
+        attribute selected { $lang },
+        $node/*
+    }
 };
 
 declare
