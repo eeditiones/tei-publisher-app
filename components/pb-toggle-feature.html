@@ -14,9 +14,24 @@
 
     <script>
         /**
-         * Enable or disable a particular display feature by setting a custom parameter
-         * which will be passed to the ODD by `pb-view`. This can be used to implement
-         * different views on the text, e.g. a 'diplomatic' and a 'normalized' mode. Both
+         * Enable or disable a particular display feature by setting a predefined or custom parameter.
+         *
+         * Predefined view parameters known are
+         *
+         * | Parameter | Description |
+         * | ----------------|-------------|
+         * | odd | the ODD to use |
+         * | view | the view type: 'page', 'div' or 'single' |
+         * | columnSeparator | CSS selector to find elements to use as column separator |
+         *
+         * For example, one may switch between page-by-page and by-division view using
+         *
+         * ```
+         * <pb-toggle-feature emit="transcription" name="view" on="page" off="div">Page View</pb-toggle-feature>
+         * ```
+         *
+         * It is also possible to set custom parameters, which will be passed to the ODD as user-defined parameters.
+         * This can be used e.g. to implement different views on the text, e.g. a 'diplomatic' and a 'normalized' mode. Both
          * views would be backed by the same ODD and processing model, while the passed in parameter
          * can be used to distinguish the modes.
          *
@@ -28,11 +43,13 @@
          * <pb-toggle-feature name="mode" on="diplomatic" off="norm">Diplomatic View</pb-toggle-feature>
          * ```
          *
-         * You may also set additional properties on the target `pb-view` via the `properties-on` and `properties-off`
-         * attributes. For example, in 'on' state, you may want to use a different ODD:
+         * Besides setting a single parameter, you may also set multiple
+         * properties on the target `pb-view` via the `properties-on` and `properties-off`
+         * attributes (as an alternative to `on` and `off`). For example, in 'on' state, you may
+         * want to use a different ODD and switch the view to 'page' at the same time:
          *
          * ```
-         * <pb-toggle-feature name="mode" on="diplomatic" off="norm" properties-on='{"odd": "myodd"}' properties-off='{"odd": "myodd-diplomatic"}'>
+         * <pb-toggle-feature properties-on='{"odd": "myodd", "view": "page"}' properties-off='{"odd": "myodd-diplomatic", "view": "div"}'>
          *     Diplomatic View
          * </pb-toggle-feature>
          * ```
@@ -62,13 +79,15 @@
                      * Value to set the parameter to when the feature is enabled.
                      */
                     on: {
-                        type: String
+                        type: String,
+                        observer: '_valueOnChanged'
                     },
                     /**
                      * Value to set the parameter to when the feature is disabled.
                      */
                     off: {
-                        type: String
+                        type: String,
+                        observer: '_valueOffChanged'
                     },
                     /**
                      * The default setting: either 'on' or 'off'
@@ -82,14 +101,16 @@
                      * Possible properties are 'view', 'odd' and 'columnSeparator'.
                      */
                     propertiesOn: {
-                        type: Object
+                        type: Object,
+                        value: {}
                     },
                     /**
                      * Additional properties to set on the pb-view if toggle is in 'off' state.
                      * Possible properties are 'view', 'odd' and 'columnSeparator'.
                      */
                     propertiesOff: {
-                        type: Object
+                        type: Object,
+                        value: {}
                     },
                     checked: {
                         type: Boolean,
@@ -101,10 +122,8 @@
             connectedCallback() {
                 super.connectedCallback();
 
-                if (!this.name) {
-                    console.log('<pb-toggle-feature> missing name: %o', this);
-                    return;
-                }
+                this.initializing = true;
+
                 let param = this.getParameter(this.name);
                 if (typeof param !== 'undefined') {
                     this.checked = param === this.on;
@@ -113,32 +132,35 @@
                 }
                 this.waitForChannel(() => {
                     const params = {
-                        name: this.name,
-                        value: this.checked ? this.on : this.off,
                         properties: this.checked ? this.propertiesOn : this.propertiesOff,
                         action: 'init'
                     };
                     this.emitTo('pb-toggle', params);
+                    this.initializing = false;
                 });
                 this.signalReady();
             }
 
-            _changed(newVal, oldVal) {
-                if (typeof oldVal !== 'undefined' && newVal !== oldVal) {
-                    if (!this.name) {
-                        return;
-                    }
-                    this.setParameter(this.name, this.checked ? this.on : this.off);
-                    this.pushHistory('toggle feature ' + this.name);
-
-                    const params = {
-                        name: this.name,
-                        value: this.checked ? this.on : this.off,
-                        properties: this.checked ? this.propertiesOn : this.propertiesOff,
-                        action: 'refresh'
-                    };
-                    this.emitTo('pb-toggle', params);
+            _changed() {
+                if (this.initializing) {
+                    return;
                 }
+                this.setParameter(this.name, this.checked ? this.on : this.off);
+                this.pushHistory('toggle feature ' + this.name);
+
+                const params = {
+                    properties: this.checked ? this.propertiesOn : this.propertiesOff,
+                    action: 'refresh'
+                };
+                this.emitTo('pb-toggle', params);
+            }
+
+            _valueOnChanged(newVal, oldVal) {
+                this.propertiesOn[this.name] = newVal;
+            }
+
+            _valueOffChanged(newVal, oldVal) {
+                this.propertiesOff[this.name] = newVal;
             }
         }
 

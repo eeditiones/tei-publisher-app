@@ -277,9 +277,7 @@
                     _features: {
                         type: Object,
                         readOnly: true,
-                        value: function() {
-                            return {};
-                        }
+                        value: {}
                     }
                 };
             }
@@ -331,7 +329,7 @@
                     this.zoom(ev.detail.direction);
                 });
                 this.signalReady();
-                
+
                 if (this.onUpdate) {
                     this.subscribeTo('pb-update', this._refresh.bind(this));
                 } else {
@@ -471,6 +469,7 @@
                 this.next = resp.next;
                 this.previous = resp.previous;
                 this.nodeId = resp.root;
+                this.switchView = resp.switchView;
                 if (this.xmlId && !this.map) {
                     this.setParameter('root', this.nodeId);
                     this.pushHistory('Navigate to xml:id');
@@ -557,9 +556,9 @@
                     params['user.' + param.getAttribute('name')] = param.getAttribute('value');
                 });
                 // add parameters for features set with pb-toggle-feature
-                Object.values(this._features).forEach((feature) =>
-                    params['user.' + feature.name] = feature.value
-                );
+                for (const [key, value] of Object.entries(this._features)) {
+                    params['user.' + key] = value;
+                }
                 return params;
             }
 
@@ -618,7 +617,6 @@
              * @param {string} direction either `backward` or `forward`
              */
             navigate(direction) {
-                console.log('navigate ', direction);
                 this.lastDirection = direction;
 
                 if (direction === 'backward') {
@@ -659,15 +657,30 @@
             }
 
             toggleFeature(ev) {
-                this._features[ev.detail.name] = ev.detail;
                 const properties = ev.detail.properties;
                 console.log('<pb-view> toggle feature %o', properties);
+                for (const [key, value] of Object.entries(properties)) {
+                    switch (key) {
+                        case 'odd':
+                        case 'view':
+                        case 'columnSeparator':
+                        case 'xpath':
+                            break;
+                        default:
+                            this._features[key] = value;
+                            break;
+                    }
+                }
                 if (properties) {
                     if (properties.odd) {
                         this.odd = properties.odd;
                     }
                     if (properties.view) {
                         this.view = properties.view;
+                        this.root = this.switchView;
+                    }
+                    if (properties.xpath) {
+                        this.xpath = properties.xpath;
                     }
                     if (properties.hasOwnProperty('columnSeparator')) {
                         this.columnSeparator = properties.columnSeparator;
