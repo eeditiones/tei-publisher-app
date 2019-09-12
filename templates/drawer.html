@@ -96,7 +96,8 @@
         </pb-media-query>
         <div class="settings">
             <h3>Settings</h3>
-            <pb-toggle-feature emit="transcription" name="view" on="page" off="div">Page View</pb-toggle-feature>
+            <pb-toggle-feature emit="transcription" subscribe="transcription" name="view" on="page" off="div"
+                init-from-view="init-from-view">Page View</pb-toggle-feature>
             <pb-select-odd label="Use ODD:" emit="transcription" subscribe="transcription" src="document1"></pb-select-odd>
             <pb-select-template label="Template"></pb-select-template>
             <pb-edit-xml src="document1">

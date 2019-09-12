@@ -23,6 +23,7 @@
          * | odd | the ODD to use |
          * | view | the view type: 'page', 'div' or 'single' |
          * | columnSeparator | CSS selector to find elements to use as column separator |
+         * | xpath | XPath expression to select the fragment to render |
          *
          * For example, one may switch between page-by-page and by-division view using
          *
@@ -55,6 +56,8 @@
          * ```
          *
          * It is important that `pb-toggle-feature` emits and subscribes to the same channel as the target `pb-view`.
+         * **Note**: by default `pb-toggle-feature` will pass its properties to the connected `pb-view` before
+         * this loads content for the first time.
          *
          * @customElement
          * @polymer
@@ -115,30 +118,62 @@
                     checked: {
                         type: Boolean,
                         observer: '_changed'
+                    },
+                    /**
+                     * If set to true (default), `pb-toggle-feature` will pass its properties to the
+                     * connected view before this loads content for the first time. If false,
+                     * `pb-toggle-feature` will initialize its state depending on the setting of the view.
+                     * This only makes sense for the special properties 'view' and 'odd' though.
+                     */
+                    initFromView: {
+                        type: Boolean,
+                        value: false
                     }
                 };
+            }
+
+            constructor() {
+                super();
+                this.initializing = true;
             }
 
             connectedCallback() {
                 super.connectedCallback();
 
-                this.initializing = true;
-
-                let param = this.getParameter(this.name);
-                if (typeof param !== 'undefined') {
-                    this.checked = param === this.on;
+                if (this.initFromView) {
+                    this.subscribeTo('pb-update', this._initialize.bind(this));
                 } else {
-                    this.checked = this.default === 'on';
+                    let param = this.getParameter(this.name);
+                    if (typeof param !== 'undefined') {
+                        this.checked = param === this.on;
+                    } else {
+                        this.checked = this.default === 'on';
+                    }
+                    this.waitForChannel(() => {
+                        const params = {
+                            properties: this.checked ? this.propertiesOn : this.propertiesOff,
+                            action: 'init'
+                        };
+                        this.emitTo('pb-toggle', params);
+                        this.initializing = false;
+                    });
                 }
-                this.waitForChannel(() => {
-                    const params = {
-                        properties: this.checked ? this.propertiesOn : this.propertiesOff,
-                        action: 'init'
-                    };
-                    this.emitTo('pb-toggle', params);
-                    this.initializing = false;
-                });
                 this.signalReady();
+            }
+
+            _initialize(ev) {
+                if (!this.initializing) {
+                    return;
+                }
+                switch (this.name) {
+                    case 'view':
+                        this.checked = ev.detail.data.view === this.on;
+                        break;
+                    case 'odd':
+                        this.checked = ev.detail.data.odd === this.on;
+                        break;
+                }
+                this.initializing = false;
             }
 
             _changed() {
