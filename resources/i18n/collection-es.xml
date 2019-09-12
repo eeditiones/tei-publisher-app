@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <catalogue xml:lang="es">
-	<msg key="home">Biblioteca</msg>
+	<msg key="home">Inicio</msg>
 	<msg key="download">Descargar</msg>
 	<msg key="pdf-fo">PDF (versión FO)</msg>
 	<msg key="pdf-title">Descargar en PDF</msg>
