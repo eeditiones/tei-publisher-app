@@ -4,19 +4,13 @@ TEI Publisher facilitates the integration of the TEI Processing Model into exist
 
 TEI Publisher supports a range of different output media without requiring advanced coding skills. Customising the appearance of the text is all done in TEI by mapping each TEI element to a limited set of well-defined behaviour functions, e.g. “paragraph”, “heading”, “note”, “alternate”, etc. The TEI Processing Model includes a standard mapping, which can be extended by overwriting selected elements. Rendition styles are transparently translated into the different output media types like HTML, XSL-FO, LaTeX, or ePUB. Compared to traditional approaches with XSLT or XQuery, TEI Publisher may thus easily save a few thousand lines of code for media specific stylesheets.
 
-![Editing an ODD](data/doc/EditODD.gif)
-
 ## Website and Support
 
 A demo and further documentation is available on:
 
 [https://teipublisher.com/](https://teipublisher.com/)
 
-For general questions and discussions, please use our public hipchat room:
-
-<a href="https://www.hipchat.com/gROkvVTMA">
-<img src="https://www.hipchat.com/img/design_align/hipchat-logo-small.svg" width="128"/>
-</a>
+For general questions and discussions, please join the [#teipublisher](https://join.slack.com/t/exist-db/shared_invite/enQtNjQ4MzUyNTE4MDY3LTUwZDk5ODBhYjIwMzgyNGIyOGVlZTdjODY2ZGRmZGFhMDM2YjUyZmQ2NmZjMGQyNzE3MmM0ZGRlY2E2ZmM2MjM) room on the eXistdb slack.
 
 If you need professional support or consulting, feel free to send your inquiry to [eXist Solutions](mailto:mail@existsolutions.com).
 
@@ -24,7 +18,7 @@ If you need professional support or consulting, feel free to send your inquiry t
 
 A prebuilt version of the app can be installed from exist-db's central app repository. On your exist-db installation, open the package manager in the dashboard and select "TEI Publisher" for installation. This should automatically install dependencies such as the "TEI Publisher: Processing Model Libraries."
 
-**Important**: Due to a bug in the 2.2 release, the tei-simple module requires [eXist-db 3.0RC1](https://bintray.com/existdb/releases/exist/3.0.RC1/view/files) or later.
+**Important**: Building the master branch of TEI Publisher requires [eXist-db 5.0.0](https://bintray.com/existdb/releases/exist/5.0.0/view/files) or later.
 
 ## Documentation
 
@@ -54,24 +48,6 @@ Following instructions are only relevant for developers who want to contribute t
 
 1. use eXide to directly change resources inside the database, then sync them to a local directory where you have checked out the code from gitlab
 2. use the Atom editor with the eXistdb package and open a local copy of the TEI Publisher repository as a project in Atom. Atom will make sure to sync your local modifications into the database. This is the most convenient and recommended method
-3. use gulp and its watch task as described below
-
-### Prerequisites
-*   Install npm: [https://www.npmjs.com/get-npm](https://www.npmjs.com/get-npm)
-
-
-### Install global node packages for the front-end and automation tasks
-
-Install node modules by running
-
-    npm install -g gulp
-
-
-### Build
-
-`gulp watch` will upload files to the local exist-db instance whenever a source file changes.
-
-**NOTE:** For the deploy and watch task you may have to edit the DB credentials in `gulpfile.js`.
 
 ### Web Components Testing
 

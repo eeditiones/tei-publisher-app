@@ -11,6 +11,16 @@
     <prepare>pre-install.xql</prepare>
     <finish>post-install.xql</finish>
     <changelog>
+        <change version="5.0.1">
+            <ul xmlns="http://www.w3.org/1999/xhtml">
+                <li>Improve performance of milestone-chunk functions to remove bottleneck in page-by-page display</li>
+                <li>Extend pb-toggle-feature to support setting additional properties on the target</li>
+                <li>Add component pb-select-feature: similar to pb-toggle-feature, but shows a list of values to select from</li>
+                <li>Bugfix: generating an app based on teipublisher.odd or tei_simplePrint.odd failed</li>
+                <li>Behaviour alternate now uses pb-popover to either show a tooltip on mouseover or a persistent popup on click</li>
+                <li>ODD editor should save provided description for models as &lt;desc&gt; to ODD</li>
+            </ul>
+        </change>
         <change version="5.0.0">
             <ul xmlns="http://www.w3.org/1999/xhtml">
                 <li>Integrate sample facets for browsing and search</li>
