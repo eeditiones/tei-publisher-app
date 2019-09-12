@@ -180,6 +180,7 @@
             }
 
             _navigate(ev) {
+                ev.preventDefault();
                 this.collection = ev.model.item['@id'];
                 this.page = null;
                 console.log('<dts-client> navigating to collection %s', this.collection);
