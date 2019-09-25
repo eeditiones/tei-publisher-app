@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <?teipublisher output="tei"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pb="http://teipublisher.com/1.0" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:rel="http://schemas.openxmlformats.org/package/2006/relationships" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:lang="en">
     <teiHeader>
@@ -19,6 +18,7 @@
 
 
 
+                 
                  
                  <desc>Convert DOCX via ODD</desc>
                 </title>
@@ -80,6 +80,12 @@
                     <model predicate="endnoteReference" behaviour="note">
             <param name="content" value="$parameters?endnote(.)"/>
             <param name="place" value="'endnote'"/>
+        </model>
+                    <model predicate="$parameters?cstyle(.)/name[@w:val = 'tei:persName']" behaviour="inline">
+            <desc>Example for encoding @ref attached to a tei:persName element using a convention</desc>
+            <param name="content" value="replace(., '^(.*?)&amp;#60;.*&amp;#62;(.*)$', '$1$2')"/>
+            <param name="ref" value="if (matches(., '&amp;#60;.*&amp;#62;')) then  replace(., '^.*?&amp;#60;(.*)&amp;#62;.*$', '$1') else  ''"/>
+            <pb:template xmlns="" xml:space="preserve"><persName xmlns="http://www.tei-c.org/ns/1.0" ref="http://d-nb.info/gnd/[[ref]]">[[content]]</persName></pb:template>
         </model>
                     <model predicate="$parameters?cstyle(.)/name[starts-with(@w:val, 'tei:')]" behaviour="inline">
             <param name="tei_element" value="substring-after($parameters?cstyle(.)/name/@w:val, 'tei:')"/>
