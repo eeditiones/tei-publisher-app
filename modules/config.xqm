@@ -269,6 +269,10 @@ declare variable $config:output := "transform";
 
 declare variable $config:output-root := $config:app-root || "/" || $config:output;
 
+declare variable $config:default-odd-for-docx := 'docx-output.odd';
+
+declare variable $config:default-docx-pi := ``[odd="`{$config:default-odd-for-docx}`"]``;
+
 declare variable $config:module-config := doc($config:odd-root || "/configuration.xml")/*;
 
 declare variable $config:repo-descriptor := doc(concat($config:app-root, "/repo.xml"))/repo:meta;

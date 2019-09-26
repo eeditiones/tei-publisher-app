@@ -19,8 +19,15 @@ declare function local:upload($root, $paths, $payloads) {
                     let $stored := xmldb:store($config:data-root || "/" || $root, xmldb:encode($path), $data)
                     let $tei :=
                         docx:process($stored, $config:data-root, docx2tei:transform#2, $mediaPath)
+                    let $teiDoc :=
+                        document {
+                            processing-instruction teipublisher {
+                                $config:default-docx-pi
+                            },
+                            $tei
+                        }
                     return
-                        xmldb:store($config:data-root || "/" || $root, xmldb:encode($path) || ".xml", $tei)
+                        xmldb:store($config:data-root || "/" || $root, xmldb:encode($path) || ".xml", $teiDoc)
                 else if (ends-with($path, ".odd")) then
                     xmldb:store($config:odd-root, xmldb:encode($path), $data)
                 else
