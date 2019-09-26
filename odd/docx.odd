@@ -20,7 +20,8 @@
 
                  
                  
-                 <desc>Convert DOCX via ODD</desc>
+                 
+                  <desc>Convert DOCX via ODD</desc>
                 </title>
                 <title type="short">DOCX Import</title>
             </titleStmt>
@@ -81,11 +82,21 @@
             <param name="content" value="$parameters?endnote(.)"/>
             <param name="place" value="'endnote'"/>
         </model>
-                    <model predicate="$parameters?cstyle(.)/name[@w:val = 'tei:persName']" behaviour="inline">
+                    <model predicate="$parameters?cstyle(.)/name[@w:val = 'tei:persName'] and matches(., '&amp;#60;.*&amp;#62;')" behaviour="inline">
             <desc>Example for encoding @ref attached to a tei:persName element using a convention</desc>
             <param name="content" value="replace(., '^(.*?)&amp;#60;.*&amp;#62;(.*)$', '$1$2')"/>
-            <param name="ref" value="if (matches(., '&amp;#60;.*&amp;#62;')) then  replace(., '^.*?&amp;#60;(.*)&amp;#62;.*$', '$1') else  ''"/>
+            <param name="ref" value="replace(., '^.*?&amp;#60;(.*)&amp;#62;.*$', '$1')"/>
             <pb:template xmlns="" xml:space="preserve"><persName xmlns="http://www.tei-c.org/ns/1.0" ref="http://d-nb.info/gnd/[[ref]]">[[content]]</persName></pb:template>
+        </model>
+                    <model predicate="$parameters?cstyle(.)/name[@w:val = 'tei:tag']" behaviour="inline">
+            <desc>tei:tag may contain angle brackets, so needs to be handled separately</desc>
+            <param name="tei_element" value="'tag'"/>
+        </model>
+                    <model predicate="$parameters?cstyle(.)/name[starts-with(@w:val, 'tei:')] and matches(., '&amp;#60;.*=.*&amp;#62;')" behaviour="inline">
+            <desc>Character style starts with 'tei:' and has '&lt;...&gt;' in content, which will be interpreted as attribute list</desc>
+            <param name="tei_element" value="substring-after($parameters?cstyle(.)/name/@w:val, 'tei:')"/>
+            <param name="tei_attributes" value="tokenize(replace(., '^.*?&amp;#60;(.*)&amp;#62;.*$', '$1'), '\s*;\s*')"/>
+            <param name="content" value="replace(., '^(.*?)&amp;#60;.*&amp;#62;(.*)$', '$1$2')"/>
         </model>
                     <model predicate="$parameters?cstyle(.)/name[starts-with(@w:val, 'tei:')]" behaviour="inline">
             <param name="tei_element" value="substring-after($parameters?cstyle(.)/name/@w:val, 'tei:')"/>
