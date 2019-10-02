@@ -465,6 +465,7 @@
 
                 this.animate();
 
+                this._scroll();
 
                 this.next = resp.next;
                 this.previous = resp.previous;
@@ -534,6 +535,16 @@
                     } else {
                         this.$.column2.appendChild(fragmentBefore);
                         this.$.column1.appendChild(fragmentAfter);
+                    }
+                }
+            }
+
+            _scroll() {
+                const hash = this.getUrl().hash;
+                if (hash) {
+                    const target = this.shadowRoot.getElementById(hash.substring(1));
+                    if (target) {
+                        target.scrollIntoView({block: "center", inline: "nearest"});
                     }
                 }
             }
