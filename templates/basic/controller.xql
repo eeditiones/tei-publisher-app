@@ -48,11 +48,11 @@ else if ($exist:resource eq 'login') then (
     return (
         util:declare-option("exist:serialize", "method=json"),
         try {
-            <status>
+            <status xmlns:json="http://www.json.org">
                 <user>{$user}</user>
                 {
                     if ($user) then (
-                        <group>{sm:get-user-groups($user)}</group>,
+                        <groups json:array="true">{sm:get-user-groups($user)}</groups>,
                         <dba>{sm:is-dba($user)}</dba>
                     ) else
                         ()
