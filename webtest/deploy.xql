@@ -1,6 +1,6 @@
 xquery version "3.1";
 
-declare variable $local:REPO := "http://demo.exist-db.org/exist/apps/public-repo/modules/find.xql";
+declare variable $local:REPO := "https://exist-db.org/exist/apps/public-repo/find";
 
 declare variable $local:PKG := "http://existsolutions.com/apps/tei-publisher";
 
