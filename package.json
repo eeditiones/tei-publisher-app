@@ -28,15 +28,7 @@
     "rollup-plugin-terser": "^5.1.1"
   },
   "dependencies": {
-    "@polymer/app-layout": "^3.1.0",
-    "@polymer/paper-card": "^3.0.1",
-    "@polymer/paper-dialog-scrollable": "^3.0.1",
-    "@polymer/paper-fab": "^3.0.1",
-    "@polymer/paper-listbox": "^3.0.1",
-    "@polymer/paper-menu-button": "^3.0.1",
-    "@polymer/paper-tabs": "^3.1.0",
-    "@webcomponents/webcomponentsjs": "latest",
-    "codemirror": "^5.39.2",
-    "tei-publisher-components": "git+ssh://git@gitlab.existsolutions.com:tei-publisher/pb-components.git#master"
+    "@teipublisher/pb-components": "git+ssh://git@gitlab.existsolutions.com:tei-publisher/pb-components.git#master",
+    "codemirror": "^5.39.2"
   }
 }
