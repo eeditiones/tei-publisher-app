@@ -2,7 +2,8 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>DOCX Output Preview   <desc>A test ODD to preview TEI imported from Word docx</desc>
+                <title>DOCX Output Preview   
+                 <desc>A test ODD to preview TEI imported from Word docx</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -37,8 +38,10 @@
                     <model behaviour="inline">
             <outputRendition xml:space="preserve">
             
+            
             font-family: Menlo, Consolas, monospace;
 font-size: 0.85em;
+            
             
             </outputRendition>
         </model>
@@ -49,7 +52,7 @@ font-size: 0.85em;
             <param name="target" value="'_blank'"/>
             <outputRendition xml:space="preserve">
             color: #e24329;
-font-variant: smallcaps;
+font-variant: small-caps;
             </outputRendition>
         </model>
                     <model behaviour="inline">
@@ -76,8 +79,10 @@ font-variant: smallcaps;
                     <model behaviour="inline">
             <outputRendition xml:space="preserve">
             
+            
             font-family: Menlo, Consolas, monospace;
 font-size: .85em;
+            
             
             </outputRendition>
         </model>
@@ -96,10 +101,12 @@ font-size: .85em;
             <desc>If it is inside a paragraph then it is inline, otherwise it is block                  level</desc>
             <outputRendition xml:space="preserve">
             
+            
             margin-left: 10px; 
 margin-right: 10px;
 padding-left: 10px;
 border-left: 1px solid #C0C0C0;
+            
             
             </outputRendition>
         </model>

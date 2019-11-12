@@ -36,15 +36,19 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 import module namespace tei="http://existsolutions.com/xquery/functions/tei";
 
 (: generated template function for element spec: r :)
-declare %private function model:template-r5($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-r4($config as map(*), $node as node()*, $params as map(*)) {
+    <persName xmlns="http://www.tei-c.org/ns/1.0" ref="http://d-nb.info/gnd/{$config?apply-children($config, $node, $params?ref)}">{$config?apply-children($config, $node, $params?content)}</persName>
+};
+(: generated template function for element spec: r :)
+declare %private function model:template-r8($config as map(*), $node as node()*, $params as map(*)) {
     <hi xmlns="http://www.tei-c.org/ns/1.0" rend="underline">{$config?apply-children($config, $node, $params?content)}</hi>
 };
 (: generated template function for element spec: r :)
-declare %private function model:template-r6($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-r9($config as map(*), $node as node()*, $params as map(*)) {
     <hi xmlns="http://www.tei-c.org/ns/1.0" rend="bold">{$config?apply-children($config, $node, $params?content)}</hi>
 };
 (: generated template function for element spec: r :)
-declare %private function model:template-r7($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-r10($config as map(*), $node as node()*, $params as map(*)) {
     <hi xmlns="http://www.tei-c.org/ns/1.0">{$config?apply-children($config, $node, $params?content)}</hi>
 };
 (: generated template function for element spec: cp:coreProperties :)
@@ -124,43 +128,64 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 if (endnoteReference) then
                                     tei:note($config, ., ("tei-r3"), $parameters?endnote(.), 'endnote', ())
                                 else
-                                    if ($parameters?cstyle(.)/name[starts-with(@w:val, 'tei:')]) then
-                                        tei:inline($config, ., ("tei-r4"), ., map {"tei_element": substring-after($parameters?cstyle(.)/name/@w:val, 'tei:')})
+                                    if ($parameters?cstyle(.)/name[@w:val = 'tei:persName'] and matches(., '&#60;.*&#62;')) then
+                                        (: Example for encoding @ref attached to a tei:persName element using a convention :)
+                                        let $params := 
+                                            map {
+                                                "content": replace(., '^(.*?)&#60;.*&#62;(.*)$', '$1$2'),
+                                                "ref": replace(., '^.*?&#60;(.*)&#62;.*$', '$1')
+                                            }
+
+                                                                                let $content := 
+                                            model:template-r4($config, ., $params)
+                                        return
+                                                                                tei:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-r4"), $content, map {"ref": replace(., '^.*?&#60;(.*)&#62;.*$', '$1')})
                                     else
-                                        if (rPr/u or $parameters?cstyle(.)/rPr/u) then
-                                            let $params := 
-                                                map {
-                                                    "content": .
-                                                }
-
-                                                                                        let $content := 
-                                                model:template-r5($config, ., $params)
-                                            return
-                                                                                        tei:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-r5"), $content, map {})
+                                        if ($parameters?cstyle(.)/name[@w:val = 'tei:tag']) then
+                                            (: tei:tag may contain angle brackets, so needs to be handled separately :)
+                                            tei:inline($config, ., ("tei-r5"), ., map {"tei_element": 'tag'})
                                         else
-                                            if (rPr/b or $parameters?cstyle(.)/rPr/b) then
-                                                let $params := 
-                                                    map {
-                                                        "content": .
-                                                    }
-
-                                                                                                let $content := 
-                                                    model:template-r6($config, ., $params)
-                                                return
-                                                                                                tei:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-r6"), $content, map {})
+                                            if ($parameters?cstyle(.)/name[starts-with(@w:val, 'tei:')] and matches(., '&#60;.*=.*&#62;')) then
+                                                (: Character style starts with 'tei:' and has parameters in content, which will be interpreted as attribute list :)
+                                                tei:inline($config, ., ("tei-r6"), replace(., '^(.*?)&#60;.*&#62;(.*)$', '$1$2'), map {"tei_element": substring-after($parameters?cstyle(.)/name/@w:val, 'tei:'), "tei_attributes": tokenize(replace(., '^.*?&#60;(.*)&#62;.*$', '$1'), '\s*;\s*')})
                                             else
-                                                if (rPr/(i|caps) or $parameters?cstyle(.)/rPr/(i|caps)) then
-                                                    let $params := 
-                                                        map {
-                                                            "content": .
-                                                        }
-
-                                                                                                        let $content := 
-                                                        model:template-r7($config, ., $params)
-                                                    return
-                                                                                                        tei:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-r7"), $content, map {})
+                                                if ($parameters?cstyle(.)/name[starts-with(@w:val, 'tei:')]) then
+                                                    tei:inline($config, ., ("tei-r7"), ., map {"tei_element": substring-after($parameters?cstyle(.)/name/@w:val, 'tei:')})
                                                 else
-                                                    tei:inline($config, ., ("tei-r8"), ., map {})
+                                                    if (rPr/u or $parameters?cstyle(.)/rPr/u) then
+                                                        let $params := 
+                                                            map {
+                                                                "content": .
+                                                            }
+
+                                                                                                                let $content := 
+                                                            model:template-r8($config, ., $params)
+                                                        return
+                                                                                                                tei:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-r8"), $content, map {})
+                                                    else
+                                                        if (rPr/b or $parameters?cstyle(.)/rPr/b) then
+                                                            let $params := 
+                                                                map {
+                                                                    "content": .
+                                                                }
+
+                                                                                                                        let $content := 
+                                                                model:template-r9($config, ., $params)
+                                                            return
+                                                                                                                        tei:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-r9"), $content, map {})
+                                                        else
+                                                            if (rPr/(i|caps) or $parameters?cstyle(.)/rPr/(i|caps)) then
+                                                                let $params := 
+                                                                    map {
+                                                                        "content": .
+                                                                    }
+
+                                                                                                                                let $content := 
+                                                                    model:template-r10($config, ., $params)
+                                                                return
+                                                                                                                                tei:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-r10"), $content, map {})
+                                                            else
+                                                                tei:inline($config, ., ("tei-r11"), ., map {})
                     case element(document) return
                         tei:document($config, ., ("tei-document"), ($parameters?properties, .))
                     case element(bookmarkStart) return
