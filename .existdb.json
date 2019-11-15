@@ -3,15 +3,12 @@
         "localhost": {
             "server": "http://localhost:8080/exist",
             "user": "admin",
-            "password": ""
+            "password": "",
+            "root": "/db/apps/tei-publisher"
         }
     },
     "sync": {
         "server": "localhost",
-        "user": "tei",
-        "password": "simple",
-        "root": "/db/apps/tei-publisher",
-        "active": true,
         "ignore": [
             ".existdb.json",
             ".git/**",
