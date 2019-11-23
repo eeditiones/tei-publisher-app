@@ -1,9 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
                 <title>DOCX Output Preview   
-                 <desc>A test ODD to preview TEI imported from Word docx</desc>
+                 
+                 
+                      <desc>A test ODD to preview TEI imported from Word docx</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -28,6 +31,11 @@
                 <p>born digital</p>
             </sourceDesc>
         </fileDesc>
+        <encodingDesc>
+            <tagsDecl>
+                <rendition source="docx-output.css"/>
+            </tagsDecl>
+        </encodingDesc>
         <revisionDesc>
             <change when="2019-09-25+02:00">Initial version</change>
         </revisionDesc>
@@ -39,8 +47,22 @@
             <outputRendition xml:space="preserve">
             
             
+            
+            
+            
+            
+            
+            
+            
             font-family: Menlo, Consolas, monospace;
 font-size: 0.85em;
+            
+            
+            
+            
+            
+            
+            
             
             
             </outputRendition>
@@ -51,8 +73,22 @@ font-size: 0.85em;
             <param name="uri" value="'https://www.google.de/maps/place/' || @ref"/>
             <param name="target" value="'_blank'"/>
             <outputRendition xml:space="preserve">
+            
+            
+            
+            
+            
+            
+            
             color: #e24329;
 font-variant: small-caps;
+            
+            
+            
+            
+            
+            
+            
             </outputRendition>
         </model>
                     <model behaviour="inline">
@@ -80,8 +116,22 @@ font-variant: small-caps;
             <outputRendition xml:space="preserve">
             
             
+            
+            
+            
+            
+            
+            
+            
             font-family: Menlo, Consolas, monospace;
 font-size: .85em;
+            
+            
+            
+            
+            
+            
+            
             
             
             </outputRendition>
@@ -102,15 +152,96 @@ font-size: .85em;
             <outputRendition xml:space="preserve">
             
             
+            
+            
+            
+            
+            
+            
+            
             margin-left: 10px; 
 margin-right: 10px;
 padding-left: 10px;
 border-left: 1px solid #C0C0C0;
             
             
+            
+            
+            
+            
+            
+            
+            
             </outputRendition>
         </model>
                 </elementSpec>
+            <elementSpec ident="supplied" mode="change">
+                    <model behaviour="inline">
+            <outputRendition xml:space="preserve">
+            color: #909090;
+            </outputRendition>
+        </model>
+                </elementSpec>
+            <elementSpec ident="eg" mode="add">
+                    <model behaviour="block">
+            <outputRendition xml:space="preserve">
+            margin-left: 1.5em;
+            </outputRendition>
+        </model>
+                </elementSpec>
+                <elementSpec ident="hi" mode="change">
+                    <model predicate="@rend" behaviour="inline">
+            <param name="rend" value="@rend"/>
+            <pb:template xmlns="" xml:space="preserve"><span class="[[rend]]">[[content]]</span></pb:template>
+            <outputRendition xml:space="preserve">
+            text-decoration: underline;
+            </outputRendition>
+        </model>
+                    <model predicate="@rend='b'" behaviour="inline">
+            <outputRendition xml:space="preserve">
+            font-weight: bold;
+            </outputRendition>
+        </model>
+                    <model predicate="@rendition" behaviour="inline" useSourceRendition="true">
+            <outputRendition xml:space="preserve">
+            font-style: italic;
+            </outputRendition>
+        </model>
+                    <model predicate="not(@rendition)" behaviour="inline">
+            <outputRendition xml:space="preserve">
+            font-style: italic;
+            </outputRendition>
+        </model>
+                </elementSpec>
+                <elementSpec ident="head" mode="change">
+        <model predicate="$parameters?header='short'" behaviour="inline">
+            <param name="content" value="replace(string-join(.//text()[not(parent::ref)]), '^(.*?)[^\w]*$', '$1')"/>
+        </model>
+        <model predicate="parent::figure" behaviour="block">
+            <outputRendition xml:space="preserve">
+            font-style: italic;
+            </outputRendition>
+        </model>
+        <model predicate="parent::table" behaviour="block">
+            <outputRendition xml:space="preserve">
+            font-style: italic;
+            </outputRendition>
+        </model>
+        <model predicate="parent::lg" behaviour="block">
+            <outputRendition xml:space="preserve">
+            font-style: italic;
+            </outputRendition>
+        </model>
+        <model predicate="parent::list" behaviour="block">
+            <outputRendition xml:space="preserve">
+            font-weight: bold;
+            </outputRendition>
+        </model>
+        <model predicate="parent::div" behaviour="heading">
+            <param name="level" value="count($get(.)/ancestor::div)"/>
+        </model>
+        <model behaviour="block"/>
+    </elementSpec>
             </schemaSpec>
         </body>
     </text>

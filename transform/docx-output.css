@@ -4,8 +4,11 @@
 /* external styles loaded from docx-output.css */
 
 
-.content {
+.content, .footnotes {
     font-family: 'Roboto', 'Noto', sans-serif;
+}
+.footnotes {
+    font-size: 85%;
 }
 h1, h2, h3, h4, h5, h6 {
     line-height: 1.2;
@@ -38,6 +41,15 @@ h4 {
     text-transform: uppercase;
     border-top: 1px solid #2C3962;
     padding-top: .25em;
+}
+.b {
+    font-weight: bold;
+}
+.i {
+    font-style: italic;
+}
+.u {
+    text-decoration: underline;
 }
 .simple_allcaps { text-transform: uppercase; }
 .simple_blackletter { font-family: fantasy; }
@@ -79,21 +91,14 @@ h4 {
 
 /* Model rendition styles */
 
-.tei-supplied2:before { content:"<"; }
-.tei-supplied2:after { content:">"; }
-.tei-supplied3:before { content:"["; }
-.tei-supplied3:after { content:"]"; }
-.tei-supplied4:before { content:"("; }
-.tei-supplied4:after { content:")"; }
-.tei-supplied5:before { content:"{"; }
-.tei-supplied5:after { content:"}"; }
+.tei-supplied { color: #909090; }
 .tei-signed1 { text-align: right; }
 .tei-signed2 { font-style: italic; }
 .tei-pb { display: block; margin-left: 4pt; color: grey; float: right; }
 .tei-pb:before { content: '[Page '; }
 .tei-pb:after { content: ']'; }
-.tei-hi1 { font-weight: bold; }
-.tei-hi2 { text-decoration: underline; }
+.tei-hi1 { text-decoration: underline; }
+.tei-hi2 { font-weight: bold; }
 .tei-hi3 { font-style: italic; }
 .tei-hi4 { font-style: italic; }
 .tei-code { font-family:monospace }
@@ -157,5 +162,4 @@ h4 {
 .tei-persName1 { color: #007e00; }
 .tei-persName2 { color: #007e00; }
 .tei-tag { font-family: Menlo, Consolas, monospace; font-size: .85em; }
-.tei-tag:before { content: '<'; }
-.tei-tag:after { content: '>'; }
+.tei-eg { margin-left: 1.5em; }

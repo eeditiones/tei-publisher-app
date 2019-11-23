@@ -19,6 +19,10 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace fo="http://www.tei-c.org/tei-simple/xquery/functions/fo";
 
+(: generated template function for element spec: hi :)
+declare %private function model:template-hi($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><span class="{$config?apply-children($config, $node, $params?rend)}">{$config?apply-children($config, $node, $params?content)}</span></t>/*
+};
 (:~
 
     Main entry point for the transformation.
@@ -69,19 +73,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(teiHeader) return
                         fo:omit($config, ., ("tei-teiHeader2"), .)
                     case element(supplied) return
-                        if (parent::choice) then
-                            fo:inline($config, ., ("tei-supplied1"), .)
-                        else
-                            if (@reason='damage') then
-                                fo:inline($config, ., ("tei-supplied2"), .)
-                            else
-                                if (@reason='illegible' or not(@reason)) then
-                                    fo:inline($config, ., ("tei-supplied3"), .)
-                                else
-                                    if (@reason='omitted') then
-                                        fo:inline($config, ., ("tei-supplied4"), .)
-                                    else
-                                        fo:inline($config, ., ("tei-supplied5"), .)
+                        fo:inline($config, ., ("tei-supplied"), .)
                     case element(milestone) return
                         fo:inline($config, ., ("tei-milestone"), .)
                     case element(label) return
@@ -116,10 +108,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 else
                                     $config?apply($config, ./node())
                     case element(hi) return
-                        if (@rend="bold") then
-                            fo:inline($config, ., ("tei-hi1"), .)
+                        if (@rend) then
+                            let $params := 
+                                map {
+                                    "rend": @rend,
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template-hi($config, ., $params)
+                            return
+                                                        fo:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-hi1"), $content)
                         else
-                            if (@rend='underline') then
+                            if (@rend='b') then
                                 fo:inline($config, ., ("tei-hi2"), .)
                             else
                                 if (@rendition) then
@@ -527,6 +528,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                             fo:inline($config, ., ("tei-persName2"), .)
                     case element(tag) return
                         fo:inline($config, ., ("tei-tag"), .)
+                    case element(eg) return
+                        fo:block($config, ., ("tei-eg"), .)
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

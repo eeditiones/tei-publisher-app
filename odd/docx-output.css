@@ -1,5 +1,8 @@
-.content {
+.content, .footnotes {
     font-family: 'Roboto', 'Noto', sans-serif;
+}
+.footnotes {
+    font-size: 85%;
 }
 h1, h2, h3, h4, h5, h6 {
     line-height: 1.2;
@@ -32,4 +35,13 @@ h4 {
     text-transform: uppercase;
     border-top: 1px solid #2C3962;
     padding-top: .25em;
+}
+.b {
+    font-weight: bold;
+}
+.i {
+    font-style: italic;
+}
+.u {
+    text-decoration: underline;
 }

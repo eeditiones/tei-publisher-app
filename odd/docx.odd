@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <?teipublisher output="tei"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pb="http://teipublisher.com/1.0" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:rel="http://schemas.openxmlformats.org/package/2006/relationships" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:lang="en">
     <teiHeader>
@@ -22,7 +23,8 @@
                  
                  
                   
-                 <desc>Convert DOCX via ODD</desc>
+                 
+                    <desc>Convert DOCX via ODD</desc>
                 </title>
                 <title type="short">DOCX Import</title>
             </titleStmt>
@@ -84,8 +86,7 @@
             <param name="place" value="'endnote'"/>
         </model>
                     <model predicate="$parameters?cstyle(.)/name[@w:val = 'tei:persName'] and matches(., '&amp;#60;.*&amp;#62;')" behaviour="inline">
-            <desc>Example for encoding @ref attached to a tei:persName element using a convention</desc>
-            <param name="content" value="replace(., '^(.*?)&amp;#60;.*&amp;#62;(.*)$', '$1$2')"/>
+            <desc>Example for encoding @ref attached to a tei:persName element using a convention. Content between angle brackets will be stripped by post-processing</desc>
             <param name="ref" value="replace(., '^.*?&amp;#60;(.*)&amp;#62;.*$', '$1')"/>
             <pb:template xmlns="" xml:space="preserve"><persName xmlns="http://www.tei-c.org/ns/1.0" ref="http://d-nb.info/gnd/[[ref]]">[[content]]</persName></pb:template>
         </model>
@@ -97,19 +98,13 @@
             <desc>Character style starts with 'tei:' and has parameters in content, which will be interpreted as attribute list</desc>
             <param name="tei_element" value="substring-after($parameters?cstyle(.)/name/@w:val, 'tei:')"/>
             <param name="tei_attributes" value="tokenize(replace(., '^.*?&amp;#60;(.*)&amp;#62;.*$', '$1'), '\s*;\s*')"/>
-            <param name="content" value="replace(., '^(.*?)&amp;#60;.*&amp;#62;(.*)$', '$1$2')"/>
         </model>
                     <model predicate="$parameters?cstyle(.)/name[starts-with(@w:val, 'tei:')]" behaviour="inline">
             <param name="tei_element" value="substring-after($parameters?cstyle(.)/name/@w:val, 'tei:')"/>
         </model>
-                    <model predicate="rPr/u or $parameters?cstyle(.)/rPr/u" behaviour="inline">
-            <pb:template xmlns="" xml:space="preserve"><hi xmlns="http://www.tei-c.org/ns/1.0" rend="underline">[[content]]</hi></pb:template>
-        </model>
-                    <model predicate="rPr/b or $parameters?cstyle(.)/rPr/b" behaviour="inline">
-            <pb:template xmlns="" xml:space="preserve"><hi xmlns="http://www.tei-c.org/ns/1.0" rend="bold">[[content]]</hi></pb:template>
-        </model>
-                    <model predicate="rPr/(i|caps) or $parameters?cstyle(.)/rPr/(i|caps)" behaviour="inline">
-            <pb:template xmlns="" xml:space="preserve"><hi xmlns="http://www.tei-c.org/ns/1.0">[[content]]</hi></pb:template>
+                    <model predicate="rPr/(u|i|caps|b) or $parameters?cstyle(.)/rPr/(u|i|caps|b)" behaviour="inline">
+            <param name="rend" value="(rPr/(u|i|caps|b), $parameters?cstyle(.)/rPr/(u|i|caps|b)) ! local-name(.)"/>
+            <pb:template xmlns="" xml:space="preserve"><hi xmlns="http://www.tei-c.org/ns/1.0" rend="[[rend]]">[[content]]</hi></pb:template>
         </model>
                     <model behaviour="inline"/>
                 </elementSpec>
@@ -119,7 +114,7 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="bookmarkStart" mode="add">
-                    <model behaviour="anchor">
+                    <model predicate="not(starts-with(@w:name, 'OLE') or @w:name='_GoBack')" behaviour="anchor">
             <param name="id" value="@w:name"/>
         </model>
                 </elementSpec>
