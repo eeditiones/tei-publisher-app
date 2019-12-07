@@ -52,7 +52,7 @@ else if ($exist:resource eq 'login') then (
                 <user>{$user}</user>
                 {
                     if ($user) then (
-                        <groups json:array="true">{sm:get-user-groups($user)}</groups>,
+                        sm:get-user-groups($user) ! <groups json:array="true">{.}</groups>,
                         <dba>{sm:is-dba($user)}</dba>
                     ) else
                         ()
