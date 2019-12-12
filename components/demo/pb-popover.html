@@ -25,10 +25,17 @@
             <template>
                 <main>
                     <div>
-                        <p><pb-popover>Lorem<span slot="alternate">tooltip popover</span></pb-popover> ipsum dolor sit amet,
-                          consetetur <pb-popover persistent>sadipscing<span slot="alternate">persistent dialog popover</span></pb-popover> elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-                        dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-                        </p>
+                        <p>Lorem <pb-popover>ipsum dolor<span slot="alternate">At vero eos et accusam et justo duo dolores<br> 
+                            et ea rebum.</span></pb-popover> sit amet, consetetur sadipscing elitr,<br>
+                        sed diam nonumy eirmod tempor invidunt ut labore et dolore<br>
+                        magna aliquyam erat, sed diam voluptua. At vero eos et accusam<br> 
+                        et justo duo dolores et ea <pb-popover>rebum<span slot="alternate">Popup</span></pb-popover>. Stet clita kasd gubergren,<br> 
+                        no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem<br>
+                        ipsum dolor sit amet, consetetur sadipscing elitr, sed diam<br>
+                        nonumy eirmod <pb-popover persistent>tempor invidunt<br> ut labore<span slot="alternate">This is a persistent tooltip</span><span slot="title">The Title</span></pb-popover> et dolore magna aliquyam<br> 
+                        erat, sed diam voluptua. At vero eos et accusam et justo duo dolores<br>
+                        et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est<br>
+                        Lorem ipsum dolor sit amet.</p>
                     </div>
                 </main>
             </template>

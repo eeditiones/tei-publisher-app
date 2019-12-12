@@ -5,17 +5,19 @@
     <template>
         <style>
             :host {
-                display: inline-block;
+                display: inline;
             }
             a {
               text-decoration: inherit;
               color: inherit;
+              cursor: text;
+            }
+            a.persistent {
+                cursor: pointer;
             }
         </style>
 
-        <a href="#" id="link" on-click="_open"><slot></slot></a>
-          <template is="dom-if" if="[[_isPersistent()]]">
-            <paper-dialog id="dialog" dynamic-align no-overlap horizontal-align="left" vertical-align="top">
+        <a href="#" id="link" on-click="_open" class$="[[_getClass()]]"><slot></slot></a><template is="dom-if" if="[[_isPersistent()]]"><paper-dialog id="dialog" dynamic-align no-overlap horizontal-align="left" vertical-align="top">
                 <h2><slot name="title"></slot></h2>
                 <paper-dialog-scrollable>
                     <slot name="alternate"></slot>
@@ -24,16 +26,9 @@
                     <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
                         Close
                     </paper-button>
-                </div>
-            </paper-dialog>
-          </template>
-          <template is="dom-if" if="[[!_isPersistent()]]">
-            <paper-tooltip for="link" position="bottom" fit-to-visible-bounds="fit-to-visible-bounds">
+                </div></paper-dialog></template><template is="dom-if" if="[[!_isPersistent()]]"><paper-tooltip for="link" position="bottom" fit-to-visible-bounds="fit-to-visible-bounds">
                 <slot name="alternate"></slot>
-            </paper-tooltip>
-          </template>
-
-    </template>
+            </paper-tooltip></template></template>
 
     <script>
         /**
@@ -65,6 +60,10 @@
 
             _isPersistent() {
                 return this.persistent;
+            }
+
+            _getClass() {
+                return this.persistent ? 'persistent' : '';
             }
 
             _open(ev) {
