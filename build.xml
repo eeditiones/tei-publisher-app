@@ -21,8 +21,17 @@
         <delete dir="${build}"/>
     </target>
 
-    <target name="xar" depends="clean,bundle">
+    <target name="xar" depends="clean,npm.clean">
         <mkdir dir="${build}"/>
+        <copy todir="resources/css/vendor">
+            <fileset dir="node_modules/@teipublisher/pb-components/assets/leaflet/" includes="*.css"/>
+        </copy>
+        <copy todir="resources/images/leaflet">
+            <fileset dir="node_modules/@teipublisher/pb-components/assets/leaflet/" includes="*.png"/>
+        </copy>
+        <copy todir="resources/images/openseadragon">
+            <fileset dir="node_modules/@teipublisher/pb-components/assets/openseadragon/" includes="*.png"/>
+        </copy>
         <zip basedir="." destfile="${build}/${project.app}-${project.version}${git.commit}.xar">
             <exclude name="${build}/*"/>
             <exclude name=".git*"/>
@@ -37,7 +46,7 @@
         </zip>
     </target>
 
-    <target name="bundle">
+    <target name="npm.clean">
         <exec executable="${npm}" outputproperty="npm.output">
             <arg line="run-script"/>
             <arg line="clean"/>

@@ -11,7 +11,7 @@
     "start": "npm install && npm run build",
     "build": "rollup -c rollup.config.js",
     "build:production": "PRODUCTION=true npm run build",
-    "clean": "rimraf node_modules/@teipublisher/pb-components && npm run start",
+    "clean": "rimraf node_modules/@teipublisher/pb-components && npm install",
     "test": "webtest/node_modules/.bin/wdio wdio.conf.js",
     "wctest": "./node_modules/.bin/wdio components/test/wdio.conf.js"
   },
