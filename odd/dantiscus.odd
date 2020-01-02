@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
@@ -35,10 +34,33 @@
         </fileDesc>
         <encodingDesc>
             <tagsDecl>
-                <rendition selector=".choice">
+                <rendition selector=".name">
+                    color: #339900;
+                </rendition>
+                <rendition selector=".name.disable">
+                    color: inherit;
+                </rendition>
+                <rendition selector=".choice,.choice-alternate">
                     color: #888888;
                 </rendition>
-
+                <rendition selector=".foreign">
+                    font-weight: bold;
+                </rendition>
+                <rendition selector=".foreign.disable">
+                    font-weight: normal;
+                </rendition>
+                <rendition selector=".choice-alternate">
+                    display: none;
+                </rendition>
+                <rendition selector=".choice-alternate.toggle">
+                    display: inline;
+                </rendition>
+                <rendition selector=".choice.toggle">
+                    display: none;
+                </rendition>
+                <rendition selector=".lb.toggle">
+                    display: none;
+                </rendition>
             </tagsDecl>
         </encodingDesc>
         <revisionDesc>
@@ -110,26 +132,29 @@
             <param name="default" value="corr[1]"/>
             <param name="alternate" value="sic[1]"/>
         </model>
-                    <model predicate="$parameters?mode='norm' and abbr and expan" behaviour="alternate" cssClass="choice">
+        <model predicate="$parameters?mode='norm' and abbr and expan" behaviour="alternate" cssClass="choice">
             <param name="default" value="expan[1]"/>
             <param name="alternate" value="abbr[1]"/>
         </model>
-                    <model predicate="abbr and expan" behaviour="alternate" cssClass="choice">
-            <param name="default" value="abbr[1]"/>
-            <param name="alternate" value="expan[1]"/>
-        </model>
+        <modelSequence predicate="abbr and expan">
+            <model behaviour="alternate" cssClass="choice">
+                <param name="default" value="abbr[1]"/>
+                <param name="alternate" value="expan[1]"/>
+            </model>
+            <model behaviour="alternate" cssClass="choice-alternate">
+                <param name="alternate" value="abbr[1]"/>
+                <param name="default" value="expan[1]"/>
+            </model>
+        </modelSequence>
                     <model predicate="orig and reg" behaviour="alternate" cssClass="choice">
             <param name="default" value="reg[1]"/>
             <param name="alternate" value="orig[1]"/>
         </model>
                 </elementSpec>
                 <elementSpec ident="name" mode="change">
-                    <model behaviour="alternate">
+                    <model behaviour="alternate" cssClass="name">
             <param name="default" value="."/>
             <param name="alternate" value="id(substring-after(@ref, '#'), root($parameters?root))/node()"/>
-            <outputRendition xml:space="preserve">
-            color: green;
-            </outputRendition>
         </model>
                 </elementSpec>
                 <elementSpec ident="person" mode="add">
@@ -173,12 +198,9 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="rs" mode="change">
-                    <model behaviour="alternate">
+                    <model behaviour="alternate" cssClass="name">
             <param name="default" value="."/>
             <param name="alternate" value="id(substring-after(@ref, '#'), root($parameters?root))/node()"/>
-            <outputRendition xml:space="preserve">
-            color: green;
-            </outputRendition>
         </model>
                 </elementSpec>
                 <elementSpec ident="seg" mode="change">
@@ -228,7 +250,7 @@
                 </elementSpec>
             <elementSpec ident="lb" mode="change">
         <model predicate="$parameters?mode='norm'" behaviour="omit"/>
-        <model behaviour="break" useSourceRendition="true">
+        <model behaviour="break" useSourceRendition="true" cssClass="lb">
             <param name="type" value="'line'"/>
             <param name="label" value="@n"/>
         </model>
@@ -244,6 +266,9 @@
             </pb:template>
 		</model>
     </elementSpec>
+                <elementSpec ident="foreign" mode="change">
+                    <model behaviour="inline" cssClass="foreign"/>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>
