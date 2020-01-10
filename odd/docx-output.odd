@@ -6,7 +6,9 @@
                 <title>DOCX Output Preview   
                  
                  
-                      <desc>A test ODD to preview TEI imported from Word docx</desc>
+                      
+                 
+                 <desc>A test ODD to preview TEI imported from Word docx</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -54,8 +56,12 @@
             
             
             
+            
+            
             font-family: Menlo, Consolas, monospace;
 font-size: 0.85em;
+            
+            
             
             
             
@@ -80,8 +86,12 @@ font-size: 0.85em;
             
             
             
+            
+            
             color: #e24329;
 font-variant: small-caps;
+            
+            
             
             
             
@@ -115,25 +125,15 @@ font-variant: small-caps;
                     <model behaviour="inline">
             <outputRendition xml:space="preserve">
             
-            
-            
-            
-            
-            
-            
-            
-            
             font-family: Menlo, Consolas, monospace;
 font-size: .85em;
             
-            
-            
-            
-            
-            
-            
-            
-            
+            </outputRendition>
+            <outputRendition xml:space="preserve" scope="before">
+            content: '&lt;';
+            </outputRendition>
+            <outputRendition xml:space="preserve" scope="after">
+            content: '&gt;';
             </outputRendition>
         </model>
                 </elementSpec>
@@ -159,10 +159,14 @@ font-size: .85em;
             
             
             
+            
+            
             margin-left: 10px; 
 margin-right: 10px;
 padding-left: 10px;
 border-left: 1px solid #C0C0C0;
+            
+            
             
             
             
@@ -214,34 +218,69 @@ border-left: 1px solid #C0C0C0;
         </model>
                 </elementSpec>
                 <elementSpec ident="head" mode="change">
-        <model predicate="$parameters?header='short'" behaviour="inline">
+                    <model predicate="$parameters?header='short'" behaviour="inline">
             <param name="content" value="replace(string-join(.//text()[not(parent::ref)]), '^(.*?)[^\w]*$', '$1')"/>
         </model>
-        <model predicate="parent::figure" behaviour="block">
+                    <model predicate="parent::figure" behaviour="block">
             <outputRendition xml:space="preserve">
             font-style: italic;
             </outputRendition>
         </model>
-        <model predicate="parent::table" behaviour="block">
+                    <model predicate="parent::table" behaviour="block">
             <outputRendition xml:space="preserve">
             font-style: italic;
             </outputRendition>
         </model>
-        <model predicate="parent::lg" behaviour="block">
+                    <model predicate="parent::lg" behaviour="block">
             <outputRendition xml:space="preserve">
             font-style: italic;
             </outputRendition>
         </model>
-        <model predicate="parent::list" behaviour="block">
+                    <model predicate="parent::list" behaviour="block">
             <outputRendition xml:space="preserve">
             font-weight: bold;
             </outputRendition>
         </model>
-        <model predicate="parent::div" behaviour="heading">
+                    <model predicate="parent::div" behaviour="heading">
             <param name="level" value="count($get(.)/ancestor::div)"/>
         </model>
-        <model behaviour="block"/>
-    </elementSpec>
+                    <model behaviour="block"/>
+                </elementSpec>
+            <elementSpec ident="anchor" mode="change">
+                    <model predicate="@type='note'" behaviour="inline" cssClass="note">
+            <param name="content" value="let $nr := count(./preceding::note[@target]) let $ch := codepoints-to-string(string-to-codepoints(&#34;a&#34;) + $nr mod 26) return  $ch || '-'"/>
+            <pb:template xmlns="" xml:space="preserve"><a rel="footnote">[[content]]</a></pb:template>
+        </model>
+                    <model behaviour="anchor">
+            <param name="id" value="@xml:id"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="note" mode="change">
+                    <model predicate="@target" behaviour="note">
+            <param name="label" value="let $nr := count(./preceding::note[@target]) let $ch := codepoints-to-string(string-to-codepoints(&#34;a&#34;) + $nr mod 26) return  '-' || $ch"/>
+        </model>
+                    <model predicate="@place" behaviour="note">
+            <param name="place" value="@place"/>
+            <param name="label" value="@n"/>
+        </model>
+                    <model predicate="parent::div and not(@place)" behaviour="block">
+            <outputRendition xml:space="preserve">
+            margin-left: 10px;margin-right: 10px;
+                  font-size:smaller;
+            </outputRendition>
+        </model>
+                    <model predicate="not(@place)" behaviour="inline">
+            <outputRendition xml:space="preserve" scope="before">
+            content:" [";
+            </outputRendition>
+            <outputRendition xml:space="preserve" scope="after">
+            content:"] ";
+            </outputRendition>
+            <outputRendition xml:space="preserve">
+            font-size:small;
+            </outputRendition>
+        </model>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>

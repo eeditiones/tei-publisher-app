@@ -36,11 +36,11 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 import module namespace tei="http://existsolutions.com/xquery/functions/tei";
 
 (: generated template function for element spec: r :)
-declare %private function model:template-r4($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-r6($config as map(*), $node as node()*, $params as map(*)) {
     <persName xmlns="http://www.tei-c.org/ns/1.0" ref="http://d-nb.info/gnd/{$config?apply-children($config, $node, $params?ref)}">{$config?apply-children($config, $node, $params?content)}</persName>
 };
 (: generated template function for element spec: r :)
-declare %private function model:template-r8($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-r10($config as map(*), $node as node()*, $params as map(*)) {
     <hi xmlns="http://www.tei-c.org/ns/1.0" rend="{$config?apply-children($config, $node, $params?rend)}">{$config?apply-children($config, $node, $params?content)}</hi>
 };
 (: generated template function for element spec: cp:coreProperties :)
@@ -114,54 +114,62 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (drawing) then
                             tei:inline($config, ., ("tei-r1"), .//pic:pic, map {})
                         else
-                            if (footnoteReference) then
-                                tei:note($config, ., ("tei-r2"), $parameters?footnote(.), 'footnote', ())
+                            if (ancestor::w:footnote and $parameters?cstyle(.)/name/@w:val = 'footnote reference') then
+                                (: Omit footnote characters inside the footnote text itself :)
+                                tei:omit($config, ., ("tei-r2"), .)
                             else
-                                if (endnoteReference) then
-                                    tei:note($config, ., ("tei-r3"), $parameters?endnote(.), 'endnote', ())
+                                if (footnoteReference[@w:customMarkFollows]) then
+                                    (: Footnote reference with a custom mark is encoded with type=original :)
+                                    tei:note($config, ., ("tei-r3"), $parameters?footnote(.), 'footnote', w:t, map {"type": 'original'})
                                 else
-                                    if ($parameters?cstyle(.)/name[@w:val = 'tei:persName'] and matches(., '&#60;.*&#62;')) then
-                                        (: Example for encoding @ref attached to a tei:persName element using a convention. Content between angle brackets will be stripped by post-processing :)
-                                        let $params := 
-                                            map {
-                                                "ref": replace(., '^.*?&#60;(.*)&#62;.*$', '$1'),
-                                                "content": .
-                                            }
-
-                                                                                let $content := 
-                                            model:template-r4($config, ., $params)
-                                        return
-                                                                                tei:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-r4"), $content, map {"ref": replace(., '^.*?&#60;(.*)&#62;.*$', '$1')})
+                                    if (footnoteReference) then
+                                        tei:note($config, ., ("tei-r4"), $parameters?footnote(.), 'footnote', w:t, map {})
                                     else
-                                        if ($parameters?cstyle(.)/name[@w:val = 'tei:tag']) then
-                                            (: tei:tag may contain angle brackets, so needs to be handled separately :)
-                                            tei:inline($config, ., ("tei-r5"), ., map {"tei_element": 'tag'})
+                                        if (endnoteReference) then
+                                            tei:note($config, ., ("tei-r5"), $parameters?endnote(.), 'endnote', (), map {})
                                         else
-                                            if ($parameters?cstyle(.)/name[starts-with(@w:val, 'tei:')] and matches(., '&#60;.*=.*&#62;')) then
-                                                (: Character style starts with 'tei:' and has parameters in content, which will be interpreted as attribute list :)
-                                                tei:inline($config, ., ("tei-r6"), ., map {"tei_element": substring-after($parameters?cstyle(.)/name/@w:val, 'tei:'), "tei_attributes": tokenize(replace(., '^.*?&#60;(.*)&#62;.*$', '$1'), '\s*;\s*')})
-                                            else
-                                                if ($parameters?cstyle(.)/name[starts-with(@w:val, 'tei:')]) then
-                                                    tei:inline($config, ., ("tei-r7"), ., map {"tei_element": substring-after($parameters?cstyle(.)/name/@w:val, 'tei:')})
-                                                else
-                                                    if (rPr/(u|i|caps|b) or $parameters?cstyle(.)/rPr/(u|i|caps|b)) then
-                                                        let $params := 
-                                                            map {
-                                                                "rend": (rPr/(u|i|caps|b), $parameters?cstyle(.)/rPr/(u|i|caps|b)) ! local-name(.),
-                                                                "content": .
-                                                            }
+                                            if ($parameters?cstyle(.)/name[@w:val = 'tei:persName'] and matches(., '&#60;.*&#62;')) then
+                                                (: Example for encoding @ref attached to a tei:persName element using a convention. Content between angle brackets will be stripped by post-processing :)
+                                                let $params := 
+                                                    map {
+                                                        "ref": replace(., '^.*?&#60;(.*)&#62;.*$', '$1'),
+                                                        "content": .
+                                                    }
 
-                                                                                                                let $content := 
-                                                            model:template-r8($config, ., $params)
-                                                        return
-                                                                                                                tei:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-r8"), $content, map {"rend": (rPr/(u|i|caps|b), $parameters?cstyle(.)/rPr/(u|i|caps|b)) ! local-name(.)})
+                                                                                                let $content := 
+                                                    model:template-r6($config, ., $params)
+                                                return
+                                                                                                tei:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-r6"), $content, map {"ref": replace(., '^.*?&#60;(.*)&#62;.*$', '$1')})
+                                            else
+                                                if ($parameters?cstyle(.)/name[@w:val = 'tei:tag']) then
+                                                    (: tei:tag may contain angle brackets, so needs to be handled separately :)
+                                                    tei:inline($config, ., ("tei-r7"), ., map {"tei_element": 'tag'})
+                                                else
+                                                    if ($parameters?cstyle(.)/name[starts-with(@w:val, 'tei:')] and matches(., '&#60;.*=.*&#62;')) then
+                                                        (: Character style starts with 'tei:' and has parameters in content, which will be interpreted as attribute list :)
+                                                        tei:inline($config, ., ("tei-r8"), ., map {"tei_element": substring-after($parameters?cstyle(.)/name/@w:val, 'tei:'), "tei_attributes": tokenize(replace(., '^.*?&#60;(.*)&#62;.*$', '$1'), '\s*;\s*')})
                                                     else
-                                                        tei:inline($config, ., ("tei-r9"), ., map {})
+                                                        if ($parameters?cstyle(.)/name[starts-with(@w:val, 'tei:')]) then
+                                                            tei:inline($config, ., ("tei-r9"), ., map {"tei_element": substring-after($parameters?cstyle(.)/name/@w:val, 'tei:')})
+                                                        else
+                                                            if (rPr/(u|i|caps|b) or $parameters?cstyle(.)/rPr/(u|i|caps|b)) then
+                                                                let $params := 
+                                                                    map {
+                                                                        "rend": (rPr/(u|i|caps|b), $parameters?cstyle(.)/rPr/(u|i|caps|b)) ! local-name(.),
+                                                                        "content": .
+                                                                    }
+
+                                                                                                                                let $content := 
+                                                                    model:template-r10($config, ., $params)
+                                                                return
+                                                                                                                                tei:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-r10"), $content, map {"rend": (rPr/(u|i|caps|b), $parameters?cstyle(.)/rPr/(u|i|caps|b)) ! local-name(.)})
+                                                            else
+                                                                tei:inline($config, ., ("tei-r11"), ., map {})
                     case element(document) return
                         tei:document($config, ., ("tei-document"), ($parameters?properties, .))
                     case element(bookmarkStart) return
                         if (not(starts-with(@w:name, 'OLE') or @w:name='_GoBack')) then
-                            tei:anchor($config, ., ("tei-bookmarkStart"), ., @w:name)
+                            tei:anchor($config, ., ("tei-bookmarkStart"), ., @w:name, map {})
                         else
                             $config?apply($config, ./node())
                     case element(hyperlink) return
@@ -201,6 +209,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                         tei:inline($config, ., ("tei-pict"), .//v:imagedata, map {})
                     case element(v:imagedata) return
                         tei:graphic($config, ., ("tei-v_imagedata"), ., let $id := @r:id let $mediaColl := $parameters?filename || ".media/"  let $relationship := $parameters?rels/rel:Relationship[@Id=$id] let $target := $relationship/@Target return  if ($relationship/@TargetMode = "External") then      $target     else   $mediaColl || substring-after($target, "media/"), (), (), (), ())
+                    case element(commentRangeStart) return
+                        tei:anchor($config, ., ("tei-commentRangeStart"), ., 'ac'||@w:id, map {"type": 'note'})
+                    case element(commentRangeEnd) return
+                        tei:note($config, ., ("tei-commentRangeEnd"), $parameters?comment(.), 'footnote', (), map {"target": 'ac' || @w:id})
                     case element() return
                         tei:omit($config, ., ("tei--element"), .)
                     case text() | xs:anyAtomicType return

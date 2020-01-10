@@ -102,10 +102,10 @@ h4 {
 .tei-hi3 { font-style: italic; }
 .tei-hi4 { font-style: italic; }
 .tei-code { font-family:monospace }
-.tei-note2 { margin-left: 10px;margin-right: 10px; font-size:smaller; }
-.tei-note3:before { content:" ["; }
-.tei-note3:after { content:"] "; }
-.tei-note3 { font-size:small; }
+.tei-note3 { margin-left: 10px;margin-right: 10px; font-size:smaller; }
+.tei-note4:before { content:" ["; }
+.tei-note4:after { content:"] "; }
+.tei-note4 { font-size:small; }
 .tei-del { text-decoration: line-through; }
 .tei-trailer { color: green; }
 .tei-speaker { font-style:italic; }
@@ -162,4 +162,6 @@ h4 {
 .tei-persName1 { color: #007e00; }
 .tei-persName2 { color: #007e00; }
 .tei-tag { font-family: Menlo, Consolas, monospace; font-size: .85em; }
+.tei-tag:before { content: '<'; }
+.tei-tag:after { content: '>'; }
 .tei-eg { margin-left: 1.5em; }

@@ -24,7 +24,9 @@
                  
                   
                  
-                    <desc>Convert DOCX via ODD</desc>
+                    
+                  
+                 <desc>Convert DOCX via ODD</desc>
                 </title>
                 <title type="short">DOCX Import</title>
             </titleStmt>
@@ -77,9 +79,20 @@
                     <model predicate="drawing" behaviour="inline">
             <param name="content" value=".//pic:pic"/>
         </model>
+                    <model predicate="ancestor::w:footnote and $parameters?cstyle(.)/name/@w:val = 'footnote reference'" behaviour="omit">
+            <desc>Omit footnote characters inside the footnote text itself</desc>
+        </model>
+                    <model predicate="footnoteReference[@w:customMarkFollows]" behaviour="note">
+            <desc>Footnote reference with a custom mark is encoded with type=original</desc>
+            <param name="content" value="$parameters?footnote(.)"/>
+            <param name="place" value="'footnote'"/>
+            <param name="label" value="w:t"/>
+            <param name="type" value="'original'"/>
+        </model>
                     <model predicate="footnoteReference" behaviour="note">
             <param name="content" value="$parameters?footnote(.)"/>
             <param name="place" value="'footnote'"/>
+            <param name="label" value="w:t"/>
         </model>
                     <model predicate="endnoteReference" behaviour="note">
             <param name="content" value="$parameters?endnote(.)"/>
@@ -191,6 +204,19 @@
                 <elementSpec ident="v:imagedata" mode="add">
                     <model behaviour="graphic">
             <param name="url" value="let $id := @r:id let $mediaColl := $parameters?filename || &#34;.media/&#34;  let $relationship := $parameters?rels/rel:Relationship[@Id=$id] let $target := $relationship/@Target return  if ($relationship/@TargetMode = &#34;External&#34;) then      $target     else   $mediaColl || substring-after($target, &#34;media/&#34;)"/>
+        </model>
+                </elementSpec>
+            <elementSpec ident="commentRangeStart" mode="add">
+                    <model behaviour="anchor">
+            <param name="id" value="'ac'||@w:id"/>
+            <param name="type" value="'note'"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="commentRangeEnd" mode="add">
+                    <model behaviour="note">
+            <param name="content" value="$parameters?comment(.)"/>
+            <param name="place" value="'footnote'"/>
+            <param name="target" value="'ac' || @w:id"/>
         </model>
                 </elementSpec>
             </schemaSpec>

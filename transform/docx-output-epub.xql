@@ -21,6 +21,10 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
 import module namespace epub="http://www.tei-c.org/tei-simple/xquery/functions/epub";
 
+(: generated template function for element spec: anchor :)
+declare %private function model:template-anchor($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><a rel="footnote">{$config?apply-children($config, $node, $params?content)}</a></t>/*
+};
 (: generated template function for element spec: hi :)
 declare %private function model:template-hi($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><span class="{$config?apply-children($config, $node, $params?rend)}">{$config?apply-children($config, $node, $params?content)}</span></t>/*
@@ -93,7 +97,18 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(pc) return
                         html:inline($config, ., ("tei-pc"), .)
                     case element(anchor) return
-                        html:anchor($config, ., ("tei-anchor"), ., @xml:id)
+                        if (@type='note') then
+                            let $params := 
+                                map {
+                                    "content": let $nr := count(./preceding::note[@target]) let $ch := codepoints-to-string(string-to-codepoints("a") + $nr mod 26) return  $ch || '-'
+                                }
+
+                                                        let $content := 
+                                model:template-anchor($config, ., $params)
+                            return
+                                                        html:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-anchor1", "note"), $content)
+                        else
+                            html:anchor($config, ., ("tei-anchor2"), ., @xml:id)
                     case element(TEI) return
                         html:document($config, ., ("tei-TEI"), .)
                     case element(formula) return
@@ -138,16 +153,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(code) return
                         html:inline($config, ., ("tei-code"), .)
                     case element(note) return
-                        if (@place) then
-                            epub:note($config, ., ("tei-note1"), ., @place, @n)
+                        if (@target) then
+                            epub:note($config, ., ("tei-note1"), ., (), let $nr := count(./preceding::note[@target]) let $ch := codepoints-to-string(string-to-codepoints("a") + $nr mod 26) return  '-' || $ch)
                         else
-                            if (parent::div and not(@place)) then
-                                epub:block($config, ., ("tei-note2"), .)
+                            if (@place) then
+                                epub:note($config, ., ("tei-note2"), ., @place, @n)
                             else
-                                if (not(@place)) then
-                                    html:inline($config, ., ("tei-note3"), .)
+                                if (parent::div and not(@place)) then
+                                    epub:block($config, ., ("tei-note3"), .)
                                 else
-                                    $config?apply($config, ./node())
+                                    if (not(@place)) then
+                                        html:inline($config, ., ("tei-note4"), .)
+                                    else
+                                        $config?apply($config, ./node())
                     case element(dateline) return
                         epub:block($config, ., ("tei-dateline"), .)
                     case element(back) return
