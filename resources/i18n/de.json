@@ -34,8 +34,6 @@
     "confirmDeletion": "Möchten Sie die Datei wirklich löschen?",
     "confirmDeletion_plural": "Möchten Sie wirklich {{count}} Dateien löschen?",
     "delete": "Löschen",
-    "no": "Nein",
-    "yes": "Ja",
     "documents": "Dokumente",
     "collections": "Lokale Sammlung",
     "dts": "Distributed Text Services (experimentell)"
@@ -62,7 +60,10 @@
     "contents": "Inhalt",
     "selectODD": "ODD Auswählen",
     "selectTemplate": "Template Auswählen",
-    "selectFeature": "Feature auswählen"
+    "selectFeature": "Feature auswählen",
+    "diplomatic": "Diplomatische Ansicht",
+    "view-type": "Seitenansicht",
+    "add-panel": "Ansicht hinzufügen"
   },
   "upload": {
     "drop": "Dateien vom Typ {{accept}} hier hinziehen zum Hochladen.",
@@ -78,6 +79,8 @@
     "note": "Experimentell: Zugriff auf externe Editionen über DTS API"
   },
   "dialogs": {
+    "no": "Nein",
+    "yes": "Ja",
     "close": "Schließen",
     "error": "Ooops",
     "serverError": "Die Anfrage an den Server schlug fehl.",
@@ -86,7 +89,14 @@
     "loading": "Lade ..."
   },
   "odd": {
-    "files": "ODD Dateien"
+    "files": "ODD Dateien",
+    "manage": {
+      "create": "Erzeugen",
+      "create-from-example": "Aus Beispielen erzeugen",
+      "delete": "Möchten Sie die ODD-Datei {{file}} wirklich löschen?",
+      "title": "Titel für die Anzeige",
+      "filename": "Dateiname des ODD (ohne Suffix)"
+    }
   },
   "facets": {
     "genre": "Genre",
