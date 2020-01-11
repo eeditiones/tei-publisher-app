@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html xmlns:i18n="http://exist-db.org/xquery/i18n">
+<html>
 
 <head>
     <meta charset="utf-8" />
@@ -70,8 +70,8 @@
     </custom-style>
 </head>
 
-<body unresolved="unresolved" data-template="i18n:translate" data-template-catalogues="resources/i18n">
-    <pb-page data-template="pages:pb-page">
+<body unresolved="unresolved">
+    <pb-page data-template="pages:pb-page" locales="resources/i18n/{{lng}}.json">
         <pb-document id="document1" data-template="pages:pb-document" />
         <app-drawer-layout force-narrow="force-narrow">
             <app-drawer data-template="templates:include" data-template-path="templates/drawer.html" />
@@ -82,7 +82,7 @@
                     <app-toolbar class="toolbar" sticky="sticky">
                         <paper-icon-button id="tocToggle" class="toc-toggle" icon="icons:view-list" />
                         <pb-toggle-feature name="mode" on="diplomatic" off="norm" emit="transcription"
-                            subscribe="transcription">Diplomatic View</pb-toggle-feature>
+                            subscribe="transcription"><pb-i18n key="document.diplomatic">Diplomatic</pb-i18n></pb-toggle-feature>
                         <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in" />
                         <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out" />
                         <pb-navigation emit="transcription" keyboard="left" subscribe="transcription"
