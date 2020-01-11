@@ -33,6 +33,7 @@ body {
     background-position: center center;
     background-size: 360px auto;
     background-repeat: no-repeat;
+    transition: visibility 0s linear 300ms, opacity 300ms;
 }
 
 pb-page[unresolved] ~ .splash {
