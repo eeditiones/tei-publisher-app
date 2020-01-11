@@ -1,0 +1,95 @@
+{
+  "language": "Language",
+  "menu": {
+    "documentation": "Documentation",
+    "admin": {
+      "title": "Admin",
+      "recompile": "Recompile ODD",
+      "appGenerator": "App Generator",
+      "edit-odd": "Edit ODD"
+    },
+    "news": "News",
+    "download": {
+      "title": "Download",
+      "pdf-latex": "PDF (LaTeX Version)",
+      "pdf-fo": "PDF (FO Version)",
+      "pdf-title": "Download as PDF",
+      "fo-source": "FO Source",
+      "latex-source": "TeX Source",
+      "single-page": "Single Page",
+      "epub-download": "Download as epub ebook",
+      "view-tei": "View TEI XML"
+    }
+  },
+  "dialogs": {
+    "error": "Ooops",
+    "close": "Close",
+    "serverError": "The request to the server failed.",
+    "generatingFile": "Generating File...",
+    "downloadMessage": "Generating a file for download may take up to a few minutes. Please wait. This dialog should close automatically when the download has completed.",
+    "loading": "Loading ..."
+  },
+  "document": {
+    "contents": "Contents",
+    "selectODD": "Select ODD",
+    "selectTemplate": "Select Template",
+    "selectFeature": "Select Feature"
+  },
+  "browse": {
+    "sort": "Sort by",
+    "filter": "Filter by",
+    "items": "Found {{count}} item",
+    "items_plural": "Found {{count}} items",
+    "title": "Title",
+    "author": "Author",
+    "modificationDate": "Modification Date",
+    "file": "Filename",
+    "delete": "Delete",
+    "confirmDeletion": "Are you sure you want to delete the file?",
+    "confirmDeletion_plural": "Are you sure you want to delete {{count}} files?",
+    "yes": "Yes",
+    "no": "no",
+    "documents": "Documents",
+    "collections": "Local Collection",
+    "dts": "Distributed Text Services (Experimental)"
+  },
+  "upload": {
+    "upload": "Upload",
+    "drop": "Drop {{accept}} files here to upload."
+  },
+  "demo": {
+    "showCode": {
+      "show": "Show Code",
+      "hide": "Hide Code"
+    },
+    "editCode": {
+      "show": "Edit Code",
+      "hide": "Close Editor"
+    }
+  },
+  "login": {
+    "login": "Login",
+    "as": "Logged in as {{user}}",
+    "user": "User",
+    "password": "Password",
+    "invalid": "Wrong password or invalid user",
+    "requiredGroup": "must be member of group {{group}}"
+  },
+  "search": {
+    "placeholder": "Enter Query",
+    "sections": "Search sections",
+    "headings": "Search headings"
+  },
+  "dts": {
+    "endpoint": "Select Endpoint",
+    "note": "Experimental: access other editions which expose the DTS API"
+  },
+  "odd": {
+    "files": "ODD Files"
+  },
+  "facets": {
+    "show": "Show top 50",
+    "genre": "Genre",
+    "language": "Language"
+  }
+}

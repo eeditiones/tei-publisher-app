@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html xmlns:i18n="http://exist-db.org/xquery/i18n">
+<html>
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
@@ -81,8 +81,8 @@
         </custom-style>
     </head>
 
-    <body unresolved="unresolved" data-template="i18n:translate" data-template-catalogues="resources/i18n">
-        <pb-page data-template="pages:pb-page">
+    <body unresolved="unresolved">
+        <pb-page data-template="pages:pb-page" locales="resources/i18n/{{lng}}.json">
             <pb-document id="document1" data-template="pages:pb-document"/>
             <app-drawer-layout force-narrow="force-narrow">
                 <app-drawer data-template="templates:include" data-template-path="templates/drawer.html"/>
@@ -95,9 +95,9 @@
                     <pb-drawer toggle="tocToggle" class="tocDrawer" emit="toc" subscribe="transcription">
                         <div class="drawer-content">
                             <h3>
-                                <i18n:text key="contents">Contents</i18n:text>
+                                <pb-i18n key="document.contents">Contents</pb-i18n>
                             </h3>
-                            <pb-load id="toc" url="templates/toc.html?target=transcription" src="document1" subscribe="toc" load-once="load-once">Loading ...</pb-load>
+                            <pb-load id="toc" url="templates/toc.html?target=transcription" src="document1" subscribe="toc" load-once="load-once"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
                         </div>
                     </pb-drawer>
                     <section class="breadcrumbs">

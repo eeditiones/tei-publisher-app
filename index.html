@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html xmlns:i18n="http://exist-db.org/xquery/i18n">
+<html>
 
 <head>
     <meta charset="utf-8" />
@@ -248,10 +248,10 @@
     </custom-style>
 </head>
 
-<body data-template="i18n:translate" data-template-catalogues="resources/i18n">
-    <pb-page data-template="pages:pb-page">
+<body>
+    <pb-page data-template="pages:pb-page" locales="resources/i18n/{{lng}}.json">
         <app-drawer-layout force-narrow="force-narrow">
-            <app-drawer slot="drawer" align="right" xmlns:i18n="http://exist-db.org/xquery/i18n">
+            <app-drawer slot="drawer" align="right">
                 <div class="drawer-content">
                     <pb-media-query query="(max-width: 1023px)">
                         <!-- language selector -->
@@ -266,19 +266,18 @@
                                 <paper-item>nl</paper-item>
                             </pb-lang-->
                         <pb-collapse>
-                            <h3 slot="collapse-trigger"><i18n:text key="documentation" />
-                            </h3>
+                            <h3 slot="collapse-trigger"><pb-i18n key="menu.documentation">Documentation</pb-i18n></h3>
                             <paper-listbox slot="collapse-content">
                                 <paper-item>
                                     <a href="${app}/doc/documentation.xml?odd=docbook.odd" data-template="pages:parse-params">
-                                        <i18n:text key="documentation" />
+                                        <pb-i18n key="menu.documentation">Documentation</pb-i18n>
                                     </a>
                                 </paper-item>
                                 <paper-item>
                                     <a href="${app}/doc/documentation.xml?odd=docbook.odd&amp;id=faq" data-template="pages:parse-params">FAQ</a>
                                 </paper-item>
                                 <paper-item>
-                                    <a href="${app}/doc/blog/" data-template="pages:parse-params">News</a>
+                                    <a href="${app}/doc/blog/" data-template="pages:parse-params"><pb-i18n key="menu.news">News</pb-i18n></a>
                                 </paper-item>
                                 <paper-item>
                                     <a href="${app}/components/docs.html" data-template="pages:parse-params">Webcomponents API</a>
@@ -298,12 +297,12 @@
                             <a href="$app/index.html">Start</a>
                             <paper-menu-button>
                                 <a href="#" slot="dropdown-trigger">
-                                    <i18n:text key="documentation" />
+                                    <pb-i18n key="menu.documentation">Documentation</pb-i18n>
                                 </a>
                                 <paper-listbox slot="dropdown-content">
                                     <paper-item>
                                         <a href="$app/doc/documentation.xml?odd=docbook.odd">
-                                            <i18n:text key="documentation" />
+                                            <pb-i18n key="menu.documentation">Documentation</pb-i18n>
                                         </a>
                                     </paper-item>
                                     <paper-item>
@@ -314,15 +313,15 @@
                                     </paper-item>
                                 </paper-listbox>
                             </paper-menu-button>
-                            <a href="$app/doc/blog/">News</a>
+                            <a href="$app/doc/blog/"><pb-i18n key="menu.news">News</pb-i18n></a>
                             <pb-restricted login="login" group="tei">
                                 <paper-menu-button>
                                     <a href="#" slot="dropdown-trigger">
-                                        <i18n:text key="admin" />
+                                        <pb-i18n key="menu.admin.title">Admin</pb-i18n>
                                     </a>
                                     <paper-listbox slot="dropdown-content">
                                         <paper-item>
-                                            <a href="$app/manage.html"><i18n:text key="app-generator" />
+                                            <a href="$app/manage.html"><pb-i18n key="menu.admin.appGenerator">App Generator</pb-i18n>
                                             </a>
                                         </paper-item>
                                     </paper-listbox>
@@ -332,10 +331,10 @@
                                 <img src="resources/images/wm_no_bg.svg" />
                             </a>
                             <!-- Search input -->
-                            <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}" place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
+                            <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"  redirect="redirect"></pb-search>
 
                             <!-- language selector -->
-                            <pb-lang name="lang" label="Language" data-template="pages:current-language">
+                            <pb-lang name="lang" label="language">
                                 <paper-item value="en">en</paper-item>
                                 <paper-item value="de">de</paper-item>
                                 <paper-item value="fr">fr</paper-item>
@@ -346,16 +345,16 @@
                                 <paper-item value="nl">nl</paper-item>
                             </pb-lang>
                         </pb-media-query>
-                        <pb-login id="login" login-label="i18n(login)" logout-label="i18n(logout)" group="tei">
+                        <pb-login id="login" group="tei">
                             <iron-icon slot="icon" icon="account-circle"></iron-icon>
                         </pb-login>
-                        <pb-progress indeterminate="indeterminate" bottom-item="bottom-item" />
+                        <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"></pb-progress>
                     </app-toolbar>
                     <pb-media-query query="(max-width: 1023px)">
-                        <app-toolbar class="toolbar" sticky="sticky" xmlns:i18n="http://exist-db.org/xquery/i18n">
+                        <app-toolbar class="toolbar" sticky="sticky">
                             <!-- Search input -->
-                            <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}" place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
-                            <paper-icon-button icon="icons:menu" drawer-toggle="drawer-toggle" />
+                            <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}" redirect="redirect"></pb-search>
+                            <paper-icon-button icon="icons:menu" drawer-toggle="drawer-toggle"></paper-icon-button>
                         </app-toolbar>
                     </pb-media-query>
                 </app-header>
@@ -367,36 +366,36 @@
                         <p><strong>Log in</strong> to upload files or see administrative functions (default user: "tei", password: "simple").</p>
                     </section>
                     <section class="panels">
-                        <paper-card class="doclist" heading="i18n(documents)">
+                        <paper-card class="doclist" data-i18n="[heading]browse.documents" heading="documents">
                             <div class="card-content">
                                 <pb-tabs>
-                                    <paper-tab slot="tab">Local Collection</paper-tab>
-                                    <paper-tab slot="tab">Distributed Text Services (Experimental)</paper-tab>
+                                    <paper-tab slot="tab"><pb-i18n key="browse.collections">Collections</pb-i18n></paper-tab>
+                                    <paper-tab slot="tab"><pb-i18n key="browse.dts">Distributed Text Services (Experimental)</pb-i18n></paper-tab>
 
                                     <div class="browse" slot="page">
-                                        <pb-custom-form id="facets" url="modules/facets.xql" event="pb-results-received" subscribe="docs" emit="docs" />
-                                        <pb-browse-docs id="document-list" url="templates/documents.html" sort-label="i18n(sort-by)" sort-options='[{"label": "Title", "value": "title"},{"label": "Author", "value": "author"},{"label": "Modification Date", "value": "default"}]' sort-by="title"
-                                            filter-options='[{"label": "Title", "value": "title"},{"label": "Author", "value": "author"},{"label": "File name", "value": "file"}]' filter-by="title" auto="auto" history="history" login="login" emit="docs" subscribe="docs">
-                                            <pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" found-label="i18n(browsing)" emit="docs" subscribe="docs"></pb-paginate>
+                                        <pb-custom-form id="facets" url="modules/facets.xql" event="pb-results-received" subscribe="docs" emit="docs"></pb-custom-form>
+                                        <pb-browse-docs id="document-list" url="templates/documents.html" sort-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"},{"label": "browse.modificationDate", "value": "default"}]' sort-by="title"
+                                            filter-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"},{"label": "browse.file", "value": "file"}]' filter-by="title" auto="auto" history="history" login="login" emit="docs" subscribe="docs">
+                                            <pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" emit="docs" subscribe="docs"></pb-paginate>
                                         </pb-browse-docs>
                                     </div>
                                     <dts-client slot="page" emit="dts">
-                                        <dts-select-endpoint id="dts" slot="toolbar" label="Endpoint">
+                                        <dts-select-endpoint id="dts" slot="toolbar" label="dts.endpoint">
                                         </dts-select-endpoint>
-                                        <p class="dts-info" slot="toolbar">Experimental: access other editions which expose the DTS API</p>
-                                        <pb-paginate slot="pagination" per-page="10" range="5" found-label="i18n(found)" subscribe="dts"></pb-paginate>
+                                        <p class="dts-info" slot="toolbar"><pb-i18n key="dts.note">Experimental: access other editions which expose the DTS API</pb-i18n></p>
+                                        <pb-paginate slot="pagination" per-page="10" range="5" subscribe="dts"></pb-paginate>
                                     </dts-client>
                                 </pb-tabs>
                             </div>
                         </paper-card>
                         <aside>
-                            <paper-card class="odds" heading="i18n(odd-data)">
+                            <paper-card data-i18n="[heading]odd.files" class="odds" heading="ODD Files">
                                 <div class="card-content">
                                     <pb-manage-odds id="manage-odds" target="document-list"></pb-manage-odds>
                                 </div>
                             </paper-card>
                             <pb-restricted login="login">
-                                <paper-card class="upload" heading="i18n(upload)">
+                                <paper-card class="upload" data-i18n="[heading]upload.upload" heading="Upload">
                                     <div class="card-content">
                                         <pb-upload id="upload" target="test" emit="docs" accept=".xml, .tei, .odd, .docx"></pb-upload>
                                     </div>
@@ -410,32 +409,32 @@
         </app-drawer-layout>
         <paper-dialog id="downloadDialog">
             <h2>
-                <i18n:text key="generating-file">Generating File...</i18n:text>
+                <pb-i18n key="dialogs.generatingFile">Generating File...</pb-i18n>
             </h2>
             <paper-dialog-scrollable>
-                <i18n:text key="download-message" />
+                <pb-i18n key="dialogs.downloadMessage"></pb-i18n>
             </paper-dialog-scrollable>
             <div class="buttons">
                 <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
-                    <i18n:text key="close">Close</i18n:text>
+                    <pb-i18n key="dialogs.close">Close</pb-i18n>
                 </paper-button>
             </div>
         </paper-dialog>
         <paper-dialog id="messageDialog" modal="modal">
             <h2>Action</h2>
-            <paper-dialog-scrollable/>
+            <paper-dialog-scrollable></paper-dialog-scrollable>
             <div class="buttons">
                 <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
-                    <i18n:text key="close">Close</i18n:text>
+                    <pb-i18n key="dialogs.close">Close</pb-i18n>
                 </paper-button>
             </div>
         </paper-dialog>
         <paper-dialog id="errorDialog">
-            <h2>Error</h2>
-            <paper-dialog-scrollable/>
+            <h2><pb-i18n key="dialogs.error">Error</pb-i18n></h2>
+            <paper-dialog-scrollable></paper-dialog-scrollable>
             <div class="buttons">
                 <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
-                    <i18n:text key="close">Close</i18n:text>
+                    <pb-i18n key="dialogs.close">Close</pb-i18n>
                 </paper-button>
             </div>
         </paper-dialog>
