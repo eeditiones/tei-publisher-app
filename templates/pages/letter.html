@@ -18,11 +18,6 @@
     <link rel="stylesheet" href="resources/css/theme.css" />
     <script type="module" src="node_modules/@teipublisher/pb-components/dist/pb-components-bundle.js"></script>
     <script type="module" src="node_modules/@teipublisher/pb-components/dist/pb-leaflet-map.js"></script>
-    <style>
-        [unresolved] {
-            display: none;
-        }
-    </style>
     <custom-style>
         <style include="pb-common-styles">
             body {
@@ -89,8 +84,8 @@
     </custom-style>
 </head>
 
-<body unresolved="unresolved">
-    <pb-page data-template="pages:pb-page" locales="resources/i18n/{{lng}}.json">
+<body>
+    <pb-page data-template="pages:pb-page" locales="resources/i18n/{{lng}}.json" unresolved="unresolved">
         <pb-document id="document1" data-template="pages:pb-document" />
         <app-drawer-layout force-narrow="force-narrow">
             <app-drawer data-template="templates:include" data-template-path="templates/drawer.html" />
@@ -126,6 +121,7 @@
             </app-header-layout>
         </app-drawer-layout>
     </pb-page>
+    <div class="splash"></div>
 </body>
 
 </html>

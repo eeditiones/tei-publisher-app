@@ -13,12 +13,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald" />
     <link rel="stylesheet" href="resources/css/theme.css" />
     <script type="module" src="node_modules/@teipublisher/pb-components/dist/pb-components-bundle.js"></script>
-    <style>
-        [unresolved] {
-            display: none;
-        }
-    </style>
-
     <custom-style>
         <style>
             main {
@@ -249,7 +243,7 @@
 </head>
 
 <body>
-    <pb-page data-template="pages:pb-page" locales="resources/i18n/{{lng}}.json">
+    <pb-page data-template="pages:pb-page" locales="resources/i18n/{{lng}}.json" unresolved="unresolved">
         <app-drawer-layout force-narrow="force-narrow">
             <app-drawer slot="drawer" align="right">
                 <div class="drawer-content">
@@ -439,6 +433,7 @@
             </div>
         </paper-dialog>
     </pb-page>
+    <div class="splash"></div>
     <script>
         const facets = document.getElementById('facets');
         if (facets) {
