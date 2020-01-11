@@ -1,0 +1,96 @@
+{
+  "language": "Sprache",
+  "menu": {
+    "documentation": "Dokumentation",
+    "appGenerator": "Anwendungsgenerator",
+    "admin": {
+      "appGenerator": "Anwendung generieren",
+      "edit-odd": "ODD editieren",
+      "recompile": "ODD neu übersetzen",
+      "title": "Administration"
+    },
+    "news": "Neuigkeiten",
+    "download": {
+      "epub-download": "Als ePub ebook herunterladen",
+      "fo-source": "FO Quelle",
+      "latex-source": "TeX Quelle",
+      "pdf-fo": "PDF (FO Version)",
+      "pdf-latex": "PDF (LaTeX Version)",
+      "pdf-title": "Als PDF herunterladen",
+      "single-page": "Auf einer Seite anzeigen",
+      "title": "Download",
+      "view-tei": "TEI XML ansehen"
+    }
+  },
+  "browse": {
+    "sort": "Sortiere nach",
+    "filter": "Filtere nach",
+    "items": "{{count}} Eintrag gefunden",
+    "items_plural": "{{count}} Einträge gefunden",
+    "title": "Titel",
+    "author": "Autor",
+    "modificationDate": "Änderungsdatum",
+    "file": "Dateiname",
+    "confirmDeletion": "Möchten Sie die Datei wirklich löschen?",
+    "confirmDeletion_plural": "Möchten Sie wirklich {{count}} Dateien löschen?",
+    "delete": "Löschen",
+    "no": "Nein",
+    "yes": "Ja",
+    "documents": "Dokumente",
+    "collections": "Lokale Sammlung",
+    "dts": "Distributed Text Services (experimentell)"
+  },
+  "demo": {
+    "showCode": {
+      "show": "Code anzeigen",
+      "hide": "Code ausblenden"
+    },
+    "editCode": {
+      "show": "Code editieren",
+      "hide": "Editor schließen"
+    }
+  },
+  "login": {
+    "login": "Anmelden",
+    "as": "Angemeldet als {{user}}",
+    "user": "Benutzer",
+    "password": "Passwort",
+    "invalid": "Falsches Passwort oder ungültiger Benutzer",
+    "requiredGroup": "muss Mitglied der Gruppe {{group}} sein"
+  },
+  "document": {
+    "contents": "Inhalt",
+    "selectODD": "ODD Auswählen",
+    "selectTemplate": "Template Auswählen",
+    "selectFeature": "Feature auswählen"
+  },
+  "upload": {
+    "drop": "Dateien vom Typ {{accept}} hier hinziehen zum Hochladen.",
+    "upload": "Hochladen"
+  },
+  "search": {
+    "placeholder": "Suche nach",
+    "headings": "Überschriften durchsuchen",
+    "sections": "Abschnitte durchsuchen"
+  },
+  "dts": {
+    "endpoint": "Server wählen",
+    "note": "Experimentell: Zugriff auf externe Editionen über DTS API"
+  },
+  "dialogs": {
+    "close": "Schließen",
+    "error": "Ooops",
+    "serverError": "Die Anfrage an den Server schlug fehl.",
+    "generatingFile": "Erzeuge Datei...",
+    "downloadMessage": "Das Erzeugen einer Datei zum Download kann bis zu mehrere Minuten dauern. Bitte warten Sie. Das Fenster sollte sich automatisch schließen, sobald der Download beendet wurde.",
+    "loading": "Lade ..."
+  },
+  "odd": {
+    "files": "ODD Dateien"
+  },
+  "facets": {
+    "genre": "Genre",
+    "language": "Sprache",
+    "show": "Zeige 50 häufigste"
+  }
+}

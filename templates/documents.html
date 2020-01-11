@@ -1,4 +1,4 @@
-<div xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="i18n:translate" data-template-catalogues="resources/i18n">
+<div>
     <div data-template="browse:dispatch-action"/>
     <div data-template="browse:list-works" data-template-root="">
         <ul class="documents" data-template="browse:browse" data-template-per-page="10">
@@ -13,39 +13,39 @@
                     <!-- TODO this toolbar should only appear once per Documents papercard -->
                     <app-toolbar>
                         <paper-menu-button>
-                            <paper-button slot="dropdown-trigger" title="i18n(download)">
+                            <paper-button slot="dropdown-trigger" data-i18n="[title]menu.download.title" title="i18n(download)">
                                 <iron-icon icon="file-download"></iron-icon>
-                                <span class="label"><i18n:text key="download">Download</i18n:text></span>
+                                <span class="label"><pb-i18n key="menu.download.title">Download</pb-i18n></span>
                             </paper-button>
                             <paper-listbox slot="dropdown-content">
                                 <paper-item>
-                                    <pb-download type="tex" dialog="downloadDialog" title="PDF (LaTeX Version)" data-template="browse:download-link">
-                                        <i18n:text key="pdf-latex">PDF (LaTeX Version)</i18n:text>
+                                    <pb-download type="tex" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-latex" title="i18n(pdf-latex)" data-template="browse:download-link">
+                                        <pb-i18n key="menu.download.pdf-latex">Download</pb-i18n>
                                     </pb-download>
                                 </paper-item>
                                 <paper-item>
-                                    <pb-download type="tex" dialog="downloadDialog" title="PDF (LaTeX Version)" source="source" data-template="browse:download-link">
-                                        <i18n:text key="latex-source">PDF (LaTeX Version)</i18n:text>
+                                    <pb-download type="tex" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-latex" title="i18n(pdf-latex)" source="source" data-template="browse:download-link">
+                                        <pb-i18n key="menu.download.latex-source"></pb-i18n>
                                     </pb-download>
                                 </paper-item>
                                 <paper-item>
-                                    <pb-download type="pdf" dialog="downloadDialog" title="PDF (FO Version)" data-template="browse:download-link">
-                                        <i18n:text key="pdf-fo">PDF (FO Version)</i18n:text>
+                                    <pb-download type="pdf" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-fo" title="i18n(pdf-fo)" data-template="browse:download-link">
+                                        <pb-i18n key="menu.download.pdf-fo"></pb-i18n>
                                     </pb-download>
                                 </paper-item>
                                 <paper-item>
-                                    <pb-download type="pdf" dialog="downloadDialog" title="PDF (FO Version)" source="source" data-template="browse:download-link">
-                                        <i18n:text key="fo-source">PDF (FO Version Source)</i18n:text>
+                                    <pb-download type="pdf" dialog="downloadDialog" data-i18n="[title]menu.download.fo-source" title="pdf-fo" source="source" data-template="browse:download-link">
+                                        <pb-i18n key="menu.download.fo-source"></pb-i18n>
                                     </pb-download>
                                 </paper-item>
                                 <paper-item>
-                                    <pb-download type="epub" dialog="downloadDialog" data-template="browse:download-link">
-                                        <i18n:text key="epub-download">ePUB</i18n:text>
+                                    <pb-download type="epub" src="document1" dialog="downloadDialog" data-template="browse:download-link">
+                                        ePUB
                                     </pb-download>
                                 </paper-item>
                                 <paper-item>
-                                    <pb-edit-xml title="i18n(view-tei)" path="${path}" data-template="pages:parse-params">
-                                        <i18n:text key="view-tei"/>
+                                    <pb-edit-xml data-i18n="[title]menu.download.view-tei" title="i18n(view-tei)" path="${path}" data-template="pages:parse-params">
+                                        XML
                                     </pb-edit-xml>
                                 </paper-item>
                             </paper-listbox>
