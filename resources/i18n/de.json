@@ -61,7 +61,8 @@
     "selectODD": "ODD Auswählen",
     "selectTemplate": "Template Auswählen",
     "selectFeature": "Feature auswählen",
-    "diplomatic": "Diplomatische Ansicht",
+    "normalized": "Normalisierte Ansicht",
+    "plain": "Leseansicht",
     "view-type": "Seitenansicht",
     "add-panel": "Ansicht hinzufügen"
   },
