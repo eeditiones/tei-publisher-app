@@ -36,7 +36,8 @@
     "selectODD": "Select ODD",
     "selectTemplate": "Select Template",
     "selectFeature": "Select Feature",
-    "diplomatic": "Diplomatic View",
+    "normalized": "Normalized View",
+    "plain": "Plain Reading View",
     "view-type": "Page View",
     "add-panel": "Add View"
   },
