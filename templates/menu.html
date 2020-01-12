@@ -65,12 +65,6 @@
                 <a href="#" slot="dropdown-trigger"><pb-i18n key="menu.admin.title">Admin</pb-i18n></a>
                 <paper-listbox slot="dropdown-content">
                     <paper-item>
-                        <pb-ajax subscribe="transcription" emit="transcription" url="${app}/modules/lib/regenerate.xql" dialog="messageDialog"
-                            data-template="pages:parse-params">
-                            <pb-i18n key="menu.admin.recompile">Recompile</pb-i18n>
-                        </pb-ajax>
-                    </paper-item>
-                    <paper-item>
                         <pb-download data-template="pages:edit-odd-link" src="document1">
                             <pb-i18n key="menu.admin.edit-odd">Edit ODD</pb-i18n>
                         </pb-download>
@@ -114,15 +108,6 @@
         <paper-dialog-scrollable>
             <pb-i18n key="dialogs.downloadMessage"></pb-i18n>
         </paper-dialog-scrollable>
-        <div class="buttons">
-            <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
-                <pb-i18n key="dialogs.close">Close</pb-i18n>
-            </paper-button>
-        </div>
-    </paper-dialog>
-    <paper-dialog id="messageDialog">
-        <h2>Action</h2>
-        <paper-dialog-scrollable/>
         <div class="buttons">
             <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
                 <pb-i18n key="dialogs.close">Close</pb-i18n>
