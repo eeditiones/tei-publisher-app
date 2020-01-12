@@ -71,12 +71,6 @@
                     <h3 slot="collapse-trigger"><pb-i18n key="menu.admin.title">Admin</pb-i18n></h3>
                     <paper-listbox slot="collapse-content">
                         <paper-item>
-                            <pb-ajax subscribe="transcription" emit="transcription" url="${app}/modules/lib/regenerate.xql" dialog="messageDialog"
-                                data-template="pages:parse-params">
-                                <pb-i18n key="menu.admin.recompile">Recompile</pb-i18n>
-                            </pb-ajax>
-                        </paper-item>
-                        <paper-item>
                             <pb-download data-template="pages:edit-odd-link" src="document1">
                                 <pb-i18n key="menu.admin.edit-odd">Edit ODD</pb-i18n>
                             </pb-download>
