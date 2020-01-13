@@ -11,9 +11,8 @@
 
         <title data-template="config:app-title"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
-        <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
-        <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
-        <link rel="import" href="components/dependencies-dev.html"/>
+        <link rel="stylesheet" href="resources/css/theme.css"/>
+        <script type="module" src="node_modules/@teipublisher/pb-components/dist/pb-components-bundle.js"></script>
         <custom-style>
             <style include="pb-common-styles">
                 body {
@@ -59,10 +58,10 @@
         </custom-style>
     </head>
 
-    <body unresolved="unresolved" data-template="i18n:translate" data-template-catalogues="resources/i18n">
-        <pb-page data-template="pages:pb-page">
+    <body unresolved="unresolved">
+        <pb-page data-template="pages:pb-page" locales="resources/i18n/{{lng}}.json" unresolved="unresolved">
             <app-header-layout>
-                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
                     <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
                 </app-header>
 

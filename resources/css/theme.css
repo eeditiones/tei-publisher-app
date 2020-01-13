@@ -7,6 +7,7 @@ body {
     --pb-base-font-size: 16px;
     --pb-color-primary: #303030;
     --pb-color-inverse: #F0F0F0;
+    --pb-color-lighter: #35424b;
 
     --paper-tooltip-delay-in: 200;
 
@@ -14,6 +15,8 @@ body {
     --pb-footnote-color: #303030;
     --pb-footnote-padding: 0 0 0 .25em;
 
+    --pb-search-input-color: var(--pb-color-inverse);
+    --pb-search-label-color: var(--pb-color-lighter);
     --pb-lang-input-color: var(--pb-color-inverse);
 
     color: var(--pb-text-color-primary);
@@ -47,9 +50,9 @@ app-toolbar {
 }
 
 app-toolbar pb-search {
+    --paper-input-container-input-color: var(--pb-color-inverse);
+    --paper-input-container-color: var(--pb-color-inverse);
     padding-left: 20px;
-    --pb-search-input: white;
-    --pb-search-label: white;
 }
 
 app-drawer {

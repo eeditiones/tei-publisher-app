@@ -282,32 +282,32 @@
                 </div>
             </app-drawer>
             <app-header-layout>
-                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
                     <app-toolbar class="menubar">
-                        <a href="$app/index.html" class="logo">
+                        <a href="${app}/index.html" class="logo" data-template="pages:parse-params">
                             <img src="resources/images/tei-publisher-logo-contrast-color.svg" />
                         </a>
                         <pb-media-query query="(min-width: 1024px)">
-                            <a href="$app/index.html">Start</a>
+                            <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
                             <paper-menu-button>
                                 <a href="#" slot="dropdown-trigger">
                                     <pb-i18n key="menu.documentation">Documentation</pb-i18n>
                                 </a>
                                 <paper-listbox slot="dropdown-content">
                                     <paper-item>
-                                        <a href="$app/doc/documentation.xml?odd=docbook.odd">
+                                        <a href="${app}/doc/documentation.xml?odd=docbook.odd" data-template="pages:parse-params">
                                             <pb-i18n key="menu.documentation">Documentation</pb-i18n>
                                         </a>
                                     </paper-item>
                                     <paper-item>
-                                        <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
+                                        <a href="${app}/doc/documentation.xml?odd=docbook.odd&amp;id=faq" data-template="pages:parse-params">FAQ</a>
                                     </paper-item>
                                     <paper-item>
-                                        <a href="$app/components/docs.html">Webcomponents API</a>
+                                        <a href="${app}/components/docs.html" data-template="pages:parse-params">Webcomponents API</a>
                                     </paper-item>
                                 </paper-listbox>
                             </paper-menu-button>
-                            <a href="$app/doc/blog/"><pb-i18n key="menu.news">News</pb-i18n></a>
+                            <a href="${app}/doc/blog/" data-template="pages:parse-params"><pb-i18n key="menu.news">News</pb-i18n></a>
                             <pb-restricted login="login" group="tei">
                                 <paper-menu-button>
                                     <a href="#" slot="dropdown-trigger">
@@ -315,7 +315,7 @@
                                     </a>
                                     <paper-listbox slot="dropdown-content">
                                         <paper-item>
-                                            <a href="$app/manage.html"><pb-i18n key="menu.admin.appGenerator">App Generator</pb-i18n>
+                                            <a href="${app}/manage.html" data-template="pages:parse-params"><pb-i18n key="menu.admin.appGenerator">App Generator</pb-i18n>
                                             </a>
                                         </paper-item>
                                     </paper-listbox>

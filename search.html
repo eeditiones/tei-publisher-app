@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html xmlns:i18n="http://exist-db.org/xquery/i18n">
+<html>
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
@@ -9,148 +9,124 @@
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
 
-        <title data-template="config:app-title"/>
+        <title data-template="config:app-title"></title>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
-        <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
-        <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
-        <link rel="import" href="components/dependencies-dev.html"/>
+        <link rel="stylesheet" href="resources/css/theme.css"/>
+        <script type="module" src="node_modules/@teipublisher/pb-components/dist/pb-components-bundle.js"></script>
 
-        <custom-style>
-            <style include="pb-common-styles">
-                body {
-                    --pb-content-theme: {
-                        margin-right: 32px;
-                    }
+        <style>
+            main {
+                display: flex;
+                flex-direction: row;
+                margin-top: 10px;
+            }
 
-                    --pb-highlight-theme: {
-                        background-color: #F9E976;
-                    }
+            .search-panel {
+                flex: 1 1;
+                margin: 0 20px;
+            }
 
-                    --pb-results-body-font: 112% "Junicode",Georgia,"Times New Roman",serif;
-                }
+            .search-panel paper-card {
+                width: 100%;
+            }
 
-                main {
-                    display: flex;
-                    flex-direction: row;
-                    margin-top: 10px;
-                }
+            .targets paper-checkbox {
+                margin-top: 10px;
+            }
 
-                .search-panel {
-                    flex: 1 1;
-                    margin: 0 20px;
-                }
+            #results {
+                flex: 2 1;
+                overflow: scroll;
+                margin: 0 20px;
+                height: calc(100vh - 140px);
+            }
 
-                .search-panel paper-card {
-                    width: 100%;
-                }
+            #results paper-card {
+                width: 100%;
+                margin-bottom: 15px;
+                padding: 8px;
+            }
 
-                .targets {
-                    @apply --layout-vertical;
-                }
+            #results header {
+                display: flex;
+                justify-content: flex-start;
+            }
+            #results .count {
+                margin-right: 20px;
+                font-weight: bold;
+            }
+            .breadcrumb:link, .breadcrumb:visited {
+                text-decoration: none;
+                color: var(--paper-grey-600);
+            }
+            .breadcrumb:before {
+                content: '>';
+                padding: 0 8px;
+                font-weight: bold;
+            }
+            .breadcrumb:first-child::before {
+                content: '';
+            }
+            .matches {
+                display: table;
+                margin-left: 20px;
+                margin-top: 10px;
+                font: var(--pb-results-body-font);
+            }
+            .matches p {
+                display: table-row;
+            }
+            .matches p * {
+                display: table-cell;
+                padding: 4px 8px;
+            }
 
-                .targets paper-checkbox {
-                    margin-top: 10px;
-                }
+            .hi {
+                display: block;
+            }
 
-                [main-title] {
-                    display: inline-block;
-                }
+            #facets h3 {
+                display: flex;
+                flex-direction: row;
+                align-self: center;
+                justify-content: space-between;
+            }
 
-                #results {
-                    flex: 2 1;
-                    overflow: scroll;
-                    margin: 0 20px;
-                    height: calc(100vh - 140px);
-                }
+            #facets h3 paper-checkbox {
+                font-size: 85%;
+            }
 
-                #results paper-card {
-                    width: 100%;
-                    margin-bottom: 15px;
-                    padding: 8px;
-                }
-
-                #results header {
-                    @apply --layout-horizontal;
-                    @apply --layout-start;
-                }
-                #results .count {
-                    margin-right: 20px;
-                    font-weight: bold;
-                }
-                .breadcrumb:link, .breadcrumb:visited {
-                    text-decoration: none;
-                    color: var(--paper-grey-600);
-                    font: var(--pb-results-body-font);
-                }
-                .breadcrumb:before {
-                    content: '>';
-                    padding: 0 8px;
-                    font-weight: bold;
-                }
-                .breadcrumb:first-child::before {
-                    content: '';
-                }
-                .matches {
-                    display: table;
-                    margin-left: 20px;
-                    margin-top: 10px;
-                    font: var(--pb-results-body-font);
-                }
-                .matches p {
-                    display: table-row;
-                }
-                .matches p * {
-                    display: table-cell;
-                    padding: 4px 8px;
-                }
-
-                .hi {
-                    display: block;
-                }
-
-                #facets h3 {
-                    display: flex;
-                    flex-direction: row;
-                    align-self: center;
-                    justify-content: space-between;
-                }
-
-                #facets h3 paper-checkbox {
-                    font-size: 85%;
-                }
-
-                #facets table td:nth-child(2) {
-                    color: #808080;
-                    text-align: right;
-                    padding-left: 1em;
-                    vertical-align: middle;
-                }
-            </style>
-        </custom-style>
+            #facets table td:nth-child(2) {
+                color: #808080;
+                text-align: right;
+                padding-left: 1em;
+                vertical-align: middle;
+            }
+        </style>
     </head>
 
-    <body unresolved="unresolved" data-template="i18n:translate" data-template-catalogues="resources/i18n">
-        <pb-page data-template="pages:pb-page">
+    <body>
+        <pb-page data-template="pages:pb-page" locales="resources/i18n/{{lng}}.json" unresolved="unresolved">
             <app-header-layout>
-                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
                     <app-toolbar class="menubar">
-                        <a href="$app/index.html" class="logo">
+                        <a href="${app}/index.html" class="logo" data-template="pages:parse-params">
                             <img src="resources/images/tei-publisher-logo-contrast-color.svg"/>
                         </a>
-                        <a href="$app/index.html">Start</a>
+                        <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
                         <paper-menu-button>
                             <a href="#" slot="dropdown-trigger">
-                                <i18n:text key="documentation"/>
+                                <pb-i18n key="menu.documentation">Documentation</pb-i18n>
                             </a>
                             <paper-listbox slot="dropdown-content">
                                 <paper-item>
-                                    <a href="$app/doc/documentation.xml?odd=docbook.odd">
-                                        <i18n:text key="documentation"/>
+                                    <a href="${app}/doc/documentation.xml?odd=docbook.odd" data-template="pages:parse-params">
+                                        <pb-i18n key="menu.documentation">Documentation</pb-i18n>
                                     </a>
                                 </paper-item>
                                 <paper-item>
-                                    <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
+                                    <a href="${app}/doc/documentation.xml?odd=docbook.odd&amp;id=faq" data-template="pages:parse-params">FAQ</a>
                                 </paper-item>
                             </paper-listbox>
                         </paper-menu-button>
@@ -160,10 +136,10 @@
 
                         <!-- Search input -->
                         <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
-                                   place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
+                                   redirect="redirect"></pb-search>
 
                         <!-- language selector -->
-                        <pb-lang name="lang" label="Language" data-template="pages:current-language">
+                        <pb-lang name="lang">
                             <paper-item>en</paper-item>
                             <paper-item>de</paper-item>
                             <paper-item>fr</paper-item>
@@ -171,13 +147,12 @@
                             <paper-item>it</paper-item>
                             <paper-item>pl</paper-item>
                         </pb-lang>
-                        <pb-login login-label="i18n(login)" logout-label="i18n(logout)"
-                            group="tei">
+                        <pb-login group="tei">
                             <iron-icon slot="icon" icon="account-circle"></iron-icon>
                         </pb-login>
                     </app-toolbar>
                     <app-toolbar>
-                        <pb-paginate per-page="10" range="5" found-label="i18n(found)" subscribe="results"></pb-paginate>
+                        <pb-paginate per-page="10" range="5" subscribe="results"></pb-paginate>
                         <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
                     </app-toolbar>
                 </app-header>
@@ -187,7 +162,7 @@
                     <div class="search-panel">
                         <paper-card>
                             <div class="card-content">
-                                <pb-search id="search-form" place-holder="i18n(search-query-attr)" subscribe="search"
+                                <pb-search id="search-form" subscribe="search"
                                     data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load">
                                     <div class="targets">
                                         <paper-checkbox name="field" value="text">Search sections</paper-checkbox>
@@ -200,15 +175,6 @@
                     </div>
                 </main>
             </app-header-layout>
-            <paper-dialog id="errorDialog">
-                <h2>Error</h2>
-                <paper-dialog-scrollable/>
-                <div class="buttons">
-                    <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
-                        <i18n:text key="close">Close</i18n:text>
-                    </paper-button>
-                </div>
-            </paper-dialog>
         </pb-page>
         <script>
             const facets = document.getElementById('facets');
