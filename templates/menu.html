@@ -1,9 +1,9 @@
 <app-toolbar class="menubar">
-    <a href="$app/index.html" class="logo">
+    <a href="${app}/index.html" class="logo" data-template="pages:parse-params">
         <img src="resources/images/tei-publisher-logo-contrast-color.svg"/>
     </a>
     <pb-media-query query="min-width: 1024px">
-        <a href="$app/index.html">Start</a>
+        <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
         <paper-menu-button>
             <a href="#" slot="dropdown-trigger" data-i18n="[title]menu.download.title" title="i18n(download)">
                 <pb-i18n key="menu.download.title">Download</pb-i18n>
@@ -47,19 +47,19 @@
             </a>
             <paper-listbox slot="dropdown-content">
                 <paper-item>
-                    <a href="$app/doc/documentation.xml?odd=docbook.odd">
+                    <a href="${app}/doc/documentation.xml?odd=docbook.odd" data-template="pages:parse-params">
                         <pb-i18n key="menu.documentation">Documentation</pb-i18n>
                     </a>
                 </paper-item>
                 <paper-item>
-                    <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
+                    <a href="${app}/doc/documentation.xml?odd=docbook.odd&amp;id=faq" data-template="pages:parse-params">FAQ</a>
                 </paper-item>
                 <paper-item>
-                    <a target="_blank" href="$app/components/docs.html">Webcomponents API</a>
+                    <a target="_blank" href="${app}/components/docs.html" data-template="pages:parse-params">Webcomponents API</a>
                 </paper-item>
             </paper-listbox>
         </paper-menu-button>
-        <a href="$app/doc/blog/"><pb-i18n key="menu.news"/></a>
+        <a href="${app}/doc/blog/" data-template="pages:parse-params"><pb-i18n key="menu.news"/></a>
         <pb-restricted login="login">
             <paper-menu-button>
                 <a href="#" slot="dropdown-trigger"><pb-i18n key="menu.admin.title">Admin</pb-i18n></a>
