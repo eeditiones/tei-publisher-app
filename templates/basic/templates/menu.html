@@ -1,32 +1,32 @@
-<app-toolbar class="menubar" xmlns:i18n="http://exist-db.org/xquery/i18n">
-    <a href="$app/index.html" class="logo">
+<app-toolbar class="menubar">
+    <a href="${app}/index.html" class="logo" data-template="pages:parse-params">
         <img src="resources/images/tei-publisher-logo-contrast-color.svg"/>
     </a>
     <pb-media-query query="min-width: 1024px">
-        <a href="$app/index.html">Start</a>
+        <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
         <paper-menu-button>
-            <a href="#" slot="dropdown-trigger" title="i18n(download)">
-                <i18n:text key="download"/>
+            <a href="#" slot="dropdown-trigger" data-i18n="[title]menu.download.title" title="i18n(download)">
+                <pb-i18n key="menu.download.title">Download</pb-i18n>
             </a>
             <paper-listbox slot="dropdown-content">
                 <paper-item>
-                    <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)">
-                        <i18n:text key="pdf-fo"/>
+                    <pb-download type="tex" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-latex" title="i18n(pdf-latex)">
+                        <pb-i18n key="menu.download.pdf-latex">Download</pb-i18n>
                     </pb-download>
                 </paper-item>
                 <paper-item>
-                    <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)" source="source">
-                        <i18n:text key="fo-source"/>
+                    <pb-download type="tex" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-latex" title="i18n(pdf-latex)" source="source">
+                        <pb-i18n key="menu.download.latex-source"></pb-i18n>
                     </pb-download>
                 </paper-item>
                 <paper-item>
-                    <pb-download type="tex" src="document1" dialog="downloadDialog" title="i18n(pdf-latex)">
-                        <i18n:text key="pdf-latex"/>
+                    <pb-download type="pdf" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-fo" title="i18n(pdf-fo)">
+                        <pb-i18n key="menu.download.pdf-fo"></pb-i18n>
                     </pb-download>
                 </paper-item>
                 <paper-item>
-                    <pb-download type="tex" src="document1" dialog="downloadDialog" title="i18n(pdf-latex)" source="source">
-                        <i18n:text key="latex-source"/>
+                    <pb-download type="pdf" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.fo-source" title="pdf-fo" source="source">
+                        <pb-i18n key="menu.download.fo-source"></pb-i18n>
                     </pb-download>
                 </paper-item>
                 <paper-item>
@@ -35,29 +35,24 @@
                     </pb-download>
                 </paper-item>
                 <paper-item>
-                    <pb-edit-xml src="document1" title="i18n(view-tei)">
+                    <pb-edit-xml src="document1" data-i18n="[title]menu.download.view-tei" title="view-tei">
                         XML
                     </pb-edit-xml>
                 </paper-item>
             </paper-listbox>
         </paper-menu-button>
-
         <pb-restricted login="login">
             <paper-menu-button>
-                <a href="#" slot="dropdown-trigger"><i18n:text key="admin"/></a>
+                <a href="#" slot="dropdown-trigger"><pb-i18n key="menu.admin.title">Admin</pb-i18n></a>
                 <paper-listbox slot="dropdown-content">
                     <paper-item>
-                        <pb-ajax subscribe="transcription" emit="transcription" url="${app}/modules/lib/regenerate.xql" dialog="messageDialog"
-                            data-template="pages:parse-params">
-                            <i18n:text key="recompile"/>
-                        </pb-ajax>
-                    </paper-item>
-                    <paper-item>
-                        <pb-download data-template="pages:edit-odd-link" src="document1"><i18n:text key="edit-odd"/></pb-download>
+                        <pb-download data-template="pages:edit-odd-link" src="document1">
+                            <pb-i18n key="menu.admin.edit-odd">Edit ODD</pb-i18n>
+                        </pb-download>
                     </paper-item>
                     <paper-item>
                         <pb-download url="modules/lib/app-download.xql">
-                            <i18n:text key="xar-download"/>
+                            <pb-i18n key="appgen.xar-download">Download App as .xar</pb-i18n>
                         </pb-download>
                     </paper-item>
                 </paper-listbox>
@@ -67,10 +62,10 @@
 
     <!-- Search input -->
     <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
-       place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
+       redirect="redirect"></pb-search>
     <pb-media-query query="min-width: 1024px">
        <!-- language selector -->
-       <pb-lang name="lang" label="Language" data-template="pages:current-language">
+       <pb-lang name="lang">
            <paper-item value="en">en</paper-item>
            <paper-item value="de">de</paper-item>
            <paper-item value="fr">fr</paper-item>
@@ -81,27 +76,18 @@
            <paper-item value="nl">nl</paper-item>
        </pb-lang>
     </pb-media-query>
-    <pb-login id="login" login-label="i18n(login)" logout-label="i18n(logout)" group="tei">
+    <pb-login id="login" group="tei">
     </pb-login>
     <paper-dialog id="downloadDialog">
         <h2>
-            <i18n:text key="generating-file">Generating File...</i18n:text>
+            <pb-i18n key="dialogs.generatingFile">Generating file ...</pb-i18n>
         </h2>
         <paper-dialog-scrollable>
-            <i18n:text key="download-message"/>
+            <pb-i18n key="dialogs.downloadMessage"></pb-i18n>
         </paper-dialog-scrollable>
         <div class="buttons">
             <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
-                <i18n:text key="close">Close</i18n:text>
-            </paper-button>
-        </div>
-    </paper-dialog>
-    <paper-dialog id="messageDialog">
-        <h2>Action</h2>
-        <paper-dialog-scrollable/>
-        <div class="buttons">
-            <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
-                <i18n:text key="close">Close</i18n:text>
+                <pb-i18n key="dialogs.close">Close</pb-i18n>
             </paper-button>
         </div>
     </paper-dialog>
