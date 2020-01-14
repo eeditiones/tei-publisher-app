@@ -12,17 +12,6 @@ declare variable $dir external;
 (: the target collection into which the app is deployed :)
 declare variable $target external;
 
-declare function local:index() {
-    for $root in $config:data-root
-    for $doc in collection($root)/*
-    let $index := nav:index(map { "type": nav:document-type($doc) }, $doc)
-    return
-        if ($index) then
-            ft:index(document-uri(root($doc)), $index)
-        else
-            ()
-};
-
 sm:chmod(xs:anyURI($target || "/modules/view.xql"), "rwxr-Sr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/transform.xql"), "rwsr-xr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/pdf.xql"), "rwsr-xr-x"),
@@ -41,5 +30,4 @@ sm:chgrp(xs:anyURI($target || "/modules/lib/latex.xql"), "dba"),
 (: App generator requires dba permissions to install packages :)
 sm:chmod(xs:anyURI($target || "/modules/components-generate.xql"), "rwsr-Sr-x"),
 sm:chown(xs:anyURI($target || "/modules/components-generate.xql"), "tei"),
-sm:chgrp(xs:anyURI($target || "/modules/components-generate.xql"), "dba"),
-local:index()
+sm:chgrp(xs:anyURI($target || "/modules/components-generate.xql"), "dba")

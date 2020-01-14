@@ -267,21 +267,3 @@ declare function nav:milestone-chunk($ms1 as element(), $ms2 as element()?, $nod
             if ($node >> $ms1 and (empty($ms2) or $node << $ms2)) then $node
             else ()
 };
-
-declare function nav:index($config as map(*), $root) {
-    <doc>
-        {
-            for $title in nav:get-document-title($config, $root)
-            return
-                <field name="title" store="yes">{replace(string-join($title//text(), " "), "^\s*(.*)$", "$1", "m")}</field>
-        }
-        {
-            for $author in nav:get-metadata($config, $root, "author")
-            let $normalized := replace($author/string(), "^([^,]*,[^,]*),?.*$", "$1")
-            return
-                <field name="author" store="yes">{$normalized}</field>
-        }
-        <field name="year" store="yes">{nav:get-metadata($config, $root, 'date')}</field>
-        <field name="file" store="yes">{util:document-name($root)}</field>
-    </doc>
-};
