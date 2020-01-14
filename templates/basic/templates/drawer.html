@@ -1,47 +1,66 @@
-<app-drawer slot="drawer" align="right" xmlns:i18n="http://exist-db.org/xquery/i18n">
+<app-drawer slot="drawer" align="right">
     <div class="drawer-content">
         <pb-media-query query="max-width: 1023px">
             <!-- language selector -->
-            <pb-lang name="lang" label="Language" data-template="pages:current-language">
+            <pb-lang name="lang">
                 <paper-item value="en">en</paper-item>
                 <paper-item value="de">de</paper-item>
                 <paper-item value="fr">fr</paper-item>
                 <paper-item value="gr">gr</paper-item>
                 <paper-item value="it">it</paper-item>
                 <paper-item value="pl">pl</paper-item>
-                <paper-item value="es">es</paper-item
-                <paper-item value="nl">nl</paper-item
+                <paper-item value="es">es</paper-item>
+                <paper-item value="nl">nl</paper-item>
             </pb-lang>
             <pb-collapse>
-                <h3 slot="collapse-trigger"><i18n:text key="download"/></h3>
+                <h3 slot="collapse-trigger"><pb-i18n key="menu.documentation">Documentation</pb-i18n></h3>
                 <paper-listbox slot="collapse-content">
                     <paper-item>
-                        <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)">
-                            <i18n:text key="pdf-fo"/>
+                        <a href="${app}/doc/documentation.xml?odd=docbook.odd" data-template="pages:parse-params">
+                            <pb-i18n key="menu.documentation">Documentation</pb-i18n>
+                        </a>
+                    </paper-item>
+                    <paper-item>
+                        <a href="${app}/doc/documentation.xml?odd=docbook.odd&amp;id=faq" data-template="pages:parse-params">FAQ</a>
+                    </paper-item>
+                    <paper-item>
+                        <a href="${app}/doc/blog/" data-template="pages:parse-params"><pb-i18n key="menu.news">News</pb-i18n></a>
+                    </paper-item>
+                    <paper-item>
+                        <a href="${app}/components/docs.html" data-template="pages:parse-params">Webcomponents API</a>
+                    </paper-item>
+                </paper-listbox>
+            </pb-collapse>
+            <pb-collapse>
+                <h3 slot="collapse-trigger"><pb-i18n key="menu.download.title">Download</pb-i18n></h3>
+                <paper-listbox slot="collapse-content">
+                    <paper-item>
+                        <pb-download type="tex" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-latex" title="i18n(pdf-latex)">
+                            <pb-i18n key="menu.download.pdf-latex"></pb-i18n>
                         </pb-download>
                     </paper-item>
                     <paper-item>
-                        <pb-download type="pdf" src="document1" dialog="downloadDialog" title="i18n(pdf-fo)" source="source">
-                            <i18n:text key="fo-source"/>
+                        <pb-download type="tex" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.latex-source" title="i18n(pdf-latex)" source="source">
+                            <pb-i18n key="menu.download.latex-source"></pb-i18n>
                         </pb-download>
                     </paper-item>
                     <paper-item>
-                        <pb-download type="tex" src="document1" dialog="downloadDialog" title="i18n(pdf-latex)">
-                            <i18n:text key="pdf-latex"/>
+                        <pb-download type="pdf" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-fo" title="pdf-fo">
+                            <pb-i18n key="menu.download.pdf-fo"></pb-i18n>
                         </pb-download>
                     </paper-item>
                     <paper-item>
-                        <pb-download type="tex" src="document1" dialog="downloadDialog" title="i18n(pdf-latex)" source="source">
-                            <i18n:text key="latex-source"/>
+                        <pb-download type="pdf" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.fo-source" title="i18n(pdf-fo)" source="source">
+                            <pb-i18n key="menu.download.fo-source"></pb-i18n>
                         </pb-download>
                     </paper-item>
                     <paper-item>
-                        <pb-download type="epub" src="document1" dialog="downloadDialog">
+                        <pb-download type="epub" src="document1" data-i18n="[title]menu.download.epub" dialog="downloadDialog">
                             ePUB
                         </pb-download>
                     </paper-item>
                     <paper-item>
-                        <pb-edit-xml src="document1" title="i18n(view-tei)">
+                        <pb-edit-xml src="document1" data-i18n="[title]menu.download.view-tei" title="view-tei">
                             XML
                         </pb-edit-xml>
                     </paper-item>
@@ -49,16 +68,17 @@
             </pb-collapse>
             <pb-restricted login="login">
                 <pb-collapse>
-                    <h3 slot="collapse-trigger"><i18n:text key="admin"/></h3>
+                    <h3 slot="collapse-trigger"><pb-i18n key="menu.admin.title">Admin</pb-i18n></h3>
                     <paper-listbox slot="collapse-content">
                         <paper-item>
-                            <pb-ajax subscribe="transcription" emit="transcription" url="${app}/modules/lib/regenerate.xql" dialog="messageDialog"
-                                data-template="pages:parse-params">
-                                <i18n:text key="recompile"/>
-                            </pb-ajax>
+                            <pb-download data-template="pages:edit-odd-link" src="document1">
+                                <pb-i18n key="menu.admin.edit-odd">Edit ODD</pb-i18n>
+                            </pb-download>
                         </paper-item>
                         <paper-item>
-                            <pb-download data-template="pages:edit-odd-link" src="document1"><i18n:text key="edit-odd"/></pb-download>
+                            <a href="${app}/manage.html" data-template="pages:parse-params">
+                                <pb-i18n key="menu.admin.appGenerator"/>
+                            </a>
                         </paper-item>
                     </paper-listbox>
                 </pb-collapse>
@@ -66,8 +86,12 @@
         </pb-media-query>
         <div class="settings">
             <h3>Settings</h3>
+            <pb-toggle-feature emit="transcription" subscribe="transcription" name="view" on="page" off="div"
+                init-from-view="init-from-view"><pb-i18n key="document.view-type">Page View</pb-i18n></pb-toggle-feature>
+            <pb-select-odd emit="transcription" subscribe="transcription" src="document1"></pb-select-odd>
+            <pb-select-template ></pb-select-template>
             <pb-edit-xml src="document1">
-                <paper-button alt="Edit source"><iron-icon icon="icons:code"></iron-icon> <i18n:text key="view-tei"/></paper-button>
+                <paper-button alt="Edit source"><iron-icon icon="icons:code"></iron-icon> <pb-i18n key="menu.download.view-tei"/></paper-button>
             </pb-edit-xml>
         </div>
     </div>
