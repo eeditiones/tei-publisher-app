@@ -91,16 +91,55 @@
   "odd": {
     "files": "ODD Files",
     "manage": {
-        "filename": "File name of the ODD (without suffix)",
-        "title": "Title for display",
-        "create": "Create",
-        "create-from-example": "Create from examples",
-        "delete": "Are you sure you want to delete the ODD file {{file}}?"
+      "filename": "File name of the ODD (without suffix)",
+      "title": "Title for display",
+      "create": "Create",
+      "create-from-example": "Create from examples",
+      "delete": "Are you sure you want to delete the ODD file {{file}}?"
     }
   },
   "facets": {
     "show": "Show top 50",
     "genre": "Genre",
     "language": "Language"
+  },
+  "appgen": {
+    "account": {
+      "user": "User account for administrative tasks. The user will be created if it does not yet exist.",
+      "owner": "The user account who will own the app.",
+      "password": "Password for the user owning this app."
+    },
+    "submit": "Save/Generate",
+    "index": {
+      "help": "Define the smallest block on which a full text index is created. For documents                         organized into divisions, choosing 'Create on division' is usually best. If there are no divisions, choose 'Create on text'.",
+      "label": "Default Full Text Index",
+      "index-div": "Create on division",
+      "index-text": "Create on text"
+    },
+    "view": {
+      "help": "Choose what is shown by default when browsing text: a single page                         or an entire division. Display by page requires that the TEI is properly marked up                         with &lt;tei:pb&gt; tags.",
+      "div": "By division (chapter/section...)",
+      "page": "By page"
+    },
+    "label": "Default View",
+    "template": {
+      "help": "Choose the HTML template to be used as default",
+      "label": "HTML Template"
+    },
+    "title": {
+      "help": "Title of the app which will be shown e.g. in the dashboard",
+      "label": "Title of the app"
+    },
+    "collection": "Name of subcollection to hold TEI documents",
+    "abbrev": {
+      "label": "Short name to be used in URLs and file names",
+      "placeholder": "Short name"
+    },
+    "uri": "URL to uniquely identify the app",
+    "dialog": {
+      "title": "App generated"
+    },
+    "open": "Open",
+    "success": "Your app has been successfully generated!"
   }
 }

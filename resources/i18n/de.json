@@ -103,5 +103,44 @@
     "genre": "Genre",
     "language": "Sprache",
     "show": "Zeige 50 häufigste"
+  },
+  "appgen": {
+    "submit": "Speichern/Erzeugen",
+    "abbrev": {
+      "label": "Kurzname zur Verwendung in URLs und Dateinamen",
+      "placeholder": "Kurzer Name"
+    },
+    "account": {
+      "owner": "Das Benutzerkonto, dem die App gehören wird.",
+      "password": "Passwort für den Benutzer, der diese App besitzt.",
+      "user": "Benutzerkonto für administrative Aufgaben. Der Benutzer wird angelegt, wenn er noch nicht existiert."
+    },
+    "collection": "Name der Subcollection mit den TEI Dokumenten",
+    "dialog": {
+      "title": "App Generiert"
+    },
+    "index": {
+      "help": "Definieren Sie die kleinsten Texteinheit, für die ein Volltextindex erstellt wird. Bei längeren Dokumenten mit mehreren Abschnitten (divs), empfiehlt es sich in der Regel, \"Für Abschnitt (div) erstellen\" zu wählen. Wenn keine Unterteilungen vorhanden sind, wähle \"Für den gesamten Text erstellen\".",
+      "index-div": "Für Abschnitt (div) erstellen",
+      "index-text": "Für den gesamten Text erstellen",
+      "label": "Standard-Volltextindex"
+    },
+    "label": "Standardansicht",
+    "open": "Öffnen",
+    "success": "Deine App wurde erfolgreich generiert!",
+    "template": {
+      "help": "Wähle die HTML-Vorlage aus, die als Standardansicht verwendet werden soll",
+      "label": "HTML-Vorlage"
+    },
+    "title": {
+      "help": "Titel der App zur Anzeige in Dashboard usw.",
+      "label": "Titel der App"
+    },
+    "uri": "URL zur eindeutigen Identifizierung der App",
+    "view": {
+      "div": "Nach div (Kapitel / Abschnitt ...)",
+      "help": "Wähle die Texteinheit, die jeweils auf einer Seite angezeigt werden soll. Dies kann ein ganzer Abschnitt (div) sein oder eine einzelne Seite des Orginals. Letztere Option funktioniert nur, wenn im TEI Seitenumbrüche korrekt ausgezeichnet sind.",
+      "page": "Nach Seite"
+    }
   }
 }
