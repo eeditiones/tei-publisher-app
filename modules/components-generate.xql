@@ -57,13 +57,25 @@ declare variable $deploy:REPO_DESCRIPTOR :=
 declare variable $deploy:ANT_FILE :=
     <project default="xar">
         <xmlproperty file="expath-pkg.xml"/>
+
+        <!-- Adjust path below to match location of your npm binary -->
+        <property name="npm" value="/usr/local/bin/npm"/>
+
         <property name="project.version" value="${{package(version)}}"/>
         <property name="project.app" value="${{package(abbrev)}}"/>
         <property name="build.dir" value="build"/>
-        <target name="xar">
+        <target name="xar" depends="npm.build">
             <mkdir dir="${{build.dir}}"/>
             <zip basedir="." destfile="${{build.dir}}/${{project.app}}-${{project.version}}.xar"
-                excludes="${{build.dir}}/*"/>
+                excludes="${{build.dir}}/* node_modules/**"/>
+        </target>
+        <target name="npm.build">
+            <echo message="Calling npm to generate bundle files ..."/>
+            <exec executable="${{npm}}" outputproperty="npm.output">
+                <arg line="run-script"/>
+                <arg line="start"/>
+            </exec>
+            <echo message="${{npm.output}}"/>
         </target>
     </project>;
 
@@ -83,6 +95,33 @@ declare function deploy:expand-ant($nodes as node()*, $json as map(*)) {
                 }
             default return
                 $node
+};
+
+declare function deploy:package-json($json as map(*)) {
+    let $pkg := map {
+        "name": $json?abbrev,
+        "version": "1.0.0",
+        "description": $json?title,
+        "scripts": map {
+            "start": "npm install &amp;&amp; npm run build:production",
+            "build": "rollup -c rollup.config.js",
+            "build:production": "rollup -c rollup.config.js --environment BUILD:production",
+            "clean": "rimraf node_modules/@teipublisher/pb-components &amp;&amp; npm install",
+            "watch": "rollup -c rollup.config.js --watch"
+        },
+        "dependencies": map {
+            "@teipublisher/pb-components": "git+https://gitlab.existsolutions.com/tei-publisher/pb-components.git#master"
+        },
+        "devDependencies": map {
+            "rimraf": "latest",
+            "rollup": "latest",
+            "rollup-plugin-copy": "latest",
+            "rollup-plugin-node-resolve": "latest",
+            "rollup-plugin-terser": "latest"
+        }
+    }
+    return
+        serialize($pkg, map { "method": "json", "indent": true() })
 };
 
 declare function deploy:expand-expath-descriptor($pkg as element(expath:package), $json as map(*)) {
@@ -345,8 +384,13 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:mkcol($collection || "/data", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:copy-resource($collection || "/data", $base || "/data", "taxonomy.xml", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:copy-resource($collection || "/resources/css", $base || "/resources/css", "theme.css", ($json?owner, "tei"), "rw-rw-r--"),
+        deploy:mkcol($collection || "/resources/css/vendor", ($json?owner, "tei"), "rw-rw-r--"),
+        deploy:copy-resource($collection || "/resources/css/vendor", $base || "/resources/css/vendor", "leaflet.css", ($json?owner, "tei"), "rw-rw-r--"),
+        deploy:copy-collection($collection || "/resources/images/leaflet", $base || "/resources/images/leaflet", ($json?owner, "tei"), "rw-rw-r--"),
+        deploy:copy-collection($collection || "/resources/images/openseadragon", $base || "/resources/images/openseadragon", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:copy-collection($collection || "/resources/i18n", $base || "/resources/i18n", ($json?owner, "tei"), "rw-rw-r--"),
-        deploy:copy-collection($collection || "/node_modules/@teipublisher", $base || "/node_modules/@teipublisher", ($json?owner, "tei"), "rw-rw-r--")
+        deploy:copy-collection($collection || "/resources/scripts", $base || "/resources/scripts", ($json?owner, "tei"), "rw-rw-r--"),
+        xmldb:store($collection, "package.json", deploy:package-json($json), "application/json")
     )
     return
         $collection

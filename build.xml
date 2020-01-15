@@ -17,21 +17,15 @@
 
     <target name="rebuild" depends="clean,all"/>
 
-    <target name="clean">
+    <target name="clean" depends="npm.clean">
         <delete dir="${build}"/>
+        <delete dir="resources/scripts" includes="*.js *.map"/>
+        <delete dir="resources/images" includes="leaflet/** openseadragon/**"/>
+        <delete dir="resources/css/vendor" includes="leaflet.css"/>
     </target>
 
-    <target name="xar" depends="clean,npm.clean">
+    <target name="xar" depends="clean, npm.build">
         <mkdir dir="${build}"/>
-        <copy todir="resources/css/vendor">
-            <fileset dir="node_modules/@teipublisher/pb-components/assets/leaflet/" includes="*.css"/>
-        </copy>
-        <copy todir="resources/images/leaflet">
-            <fileset dir="node_modules/@teipublisher/pb-components/assets/leaflet/" includes="*.png"/>
-        </copy>
-        <copy todir="resources/images/openseadragon">
-            <fileset dir="node_modules/@teipublisher/pb-components/assets/openseadragon/" includes="*.png"/>
-        </copy>
         <zip destfile="${build}/${project.app}-${project.version}${git.commit}.xar">
             <fileset dir=".">
                 <exclude name="${build}/*"/>
@@ -41,16 +35,25 @@
                 <exclude name="webtest/**"/>
                 <exclude name="cache/**"/>
                 <exclude name=".idea/"/>
+                <exclude name=".vscode/**"/>
+                <exclude name="package*.json"/>
+                <exclude name="rollup.config.js"/>
+                <exclude name=".existdb.json"/>
                 <exclude name=".editorconfig"/>
                 <exclude name="node_modules/**"/>
                 <exclude name="components/"/>
             </fileset>
-            <fileset dir=".">
-                <include name="node_modules/@teipublisher/**"/>
-            </fileset>
         </zip>
     </target>
 
+    <target name="npm.build">
+        <exec executable="${npm}" outputproperty="npm.output">
+            <arg line="run-script"/>
+            <arg line="build:production"/>
+        </exec>
+        <echo message="${npm.output}"/>
+    </target>
+    
     <target name="npm.clean">
         <exec executable="${npm}" outputproperty="npm.output">
             <arg line="run-script"/>

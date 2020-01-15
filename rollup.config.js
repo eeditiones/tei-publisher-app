@@ -3,38 +3,58 @@ import { terser } from 'rollup-plugin-terser';
 import analyze from 'rollup-plugin-analyzer';
 import copy from 'rollup-plugin-copy';
 
-// `npm run build` -> `production` is true
-// `npm run dev` -> `production` is false
-const production = process.env.PRODUCTION;
+const production = process.env.BUILD === 'production';
 
-export default {
-	input: 'resources/scripts/deps.js',
-	output: {
-		file: 'resources/scripts/bundle.js',
-		format: 'iife', // immediately-invoked function expression — suitable for <script> tags
-		sourcemap: true
-	},
-	plugins: [
-		copy({
-			targets: [
-				{
-					src: 'node_modules/@teipublisher/pb-components/assets/leaflet/*.css',
-					dest: 'resources/css/vendor'
-				},
-				{
-					src: 'node_modules/@teipublisher/pb-components/assets/leaflet/*.png',
-					dest: 'resources/images/leaflet'
-				},
-				{
-					src: 'node_modules/@teipublisher/pb-components/assets/openseadragon/*.png',
-					dest: 'resources/images/openseadragon'
-				}
-			]
-		}),
-		resolve(), // tells Rollup how to find date-fns in node_modules
-		production && terser(), // minify, but only in production
-		analyze({
-			summaryOnly: true
-		})
-	]
-};
+export default [
+    {
+        input: [
+            '@teipublisher/pb-components/src/pb-components-bundle.js',
+            '@teipublisher/pb-components/src/pb-facsimile.js',
+            '@teipublisher/pb-components/src/pb-leaflet-map.js',
+            './components/pb-edit-app.js'
+        ],
+        output: {
+            dir: 'resources/scripts',
+            format: 'es',
+            sourcemap: true
+        },
+        plugins: [
+            resolve(),
+            production && terser(),
+            copy({
+                targets: [
+                    {
+                        src: './node_modules/leaflet/dist/leaflet.css',
+                        dest: './resources/css/vendor'
+                    },
+                    {
+                        src: './node_modules/leaflet/dist/images/*',
+                        dest: './resources/images/leaflet'
+                    },
+                    {
+                        src: './node_modules/openseadragon/build/openseadragon/images/*',
+                        dest: './resources/images/openseadragon'
+                    }
+                ]
+            }),
+            analyze({
+                summaryOnly: true
+            })
+        ]
+    },
+    {
+        input: '@teipublisher/pb-components/src/pb-components-all.js',
+        output: {
+            file: 'resources/scripts/pb-components-all.js',
+            format: 'iife',
+            sourcemap: true
+        },
+        plugins: [
+            resolve(),
+            production && terser(),
+            analyze({
+                summaryOnly: true
+            })
+        ]
+    }
+]
