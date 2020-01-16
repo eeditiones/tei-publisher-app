@@ -86,7 +86,7 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
         else if (exists($filter)) then
             query:query-metadata($browse, $filter, $sort)
         else
-            let $options := app:options($sort)
+            let $options := query:options($sort)
             return
                 nav:get-root($root, $options)
     let $sorted := app:sort($filtered, $sort)
@@ -119,24 +119,6 @@ declare function app:use-cache($params as map(*), $cached) {
             empty(xmldb:find-last-modified-since(collection($config:data-root), $timestamp))
         else
             false()
-};
-
-
-declare function app:options($sortBy as xs:string) {
-    map {
-        "facets":
-            map:merge((
-                for $param in request:get-parameter-names()[starts-with(., 'facet-')]
-                let $dimension := substring-after($param, 'facet-')
-                return
-                    map {
-                        $dimension: request:get-parameter($param, ())
-                    }
-            )),
-        "fields": $sortBy,
-        "leading-wildcard": "yes",
-        "filter-rewrite": "yes"
-    }
 };
 
 declare
