@@ -21,6 +21,11 @@ module namespace query="http://www.tei-c.org/tei-simple/query";
 import module namespace tei-query="http://www.tei-c.org/tei-simple/query/tei" at "tei-query.xql";
 import module namespace docbook-query="http://www.tei-c.org/tei-simple/query/docbook" at "db-query.xql";
 
+declare variable $query:QUERY_OPTIONS := map {
+    "leading-wildcard": "yes",
+    "filter-rewrite": "yes"
+};
+
 declare %private function query:dispatch($config as map(*), $function as xs:string, $args as array(*)) {
     let $fn := function-lookup(xs:QName($config?type || "-query:" || $function), array:size($args))
     return
@@ -39,9 +44,30 @@ declare %private function query:dispatch($config as map(*), $function as xs:stri
  : @param $target-texts a sequence of identifiers for texts to query. May be empty.
  :)
 declare function query:query-default($fields as xs:string+, $query as xs:string,
-    $target-texts as xs:string*) {
-    tei-query:query-default($fields, $query, $target-texts),
-    docbook-query:query-default($fields, $query, $target-texts)
+    $target-texts as xs:string*, $sortBy as xs:string*) {
+    tei-query:query-default($fields, $query, $target-texts, $sortBy),
+    docbook-query:query-default($fields, $query, $target-texts, $sortBy)
+};
+
+declare function query:options($sortBy as xs:string*) {
+    map:merge((
+        $query:QUERY_OPTIONS,
+        map {
+            "facets":
+                map:merge((
+                    for $param in request:get-parameter-names()[starts-with(., 'facet-')]
+                    let $dimension := substring-after($param, 'facet-')
+                    return
+                        map {
+                            $dimension: request:get-parameter($param, ())
+                        }
+                ))
+        },
+        if ($sortBy) then
+            map { "fields": $sortBy }
+        else
+            ()
+    ))
 };
 
 declare function query:query-metadata($field as xs:string, $query as xs:string, $sort as xs:string) {

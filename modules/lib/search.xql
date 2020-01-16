@@ -62,7 +62,7 @@ function search:query($node as node()*, $model as map(*), $query as xs:string?, 
             (:The query passed to a Luecene query in ft:query is an XML element <query> containing one or two <bool>. The <bool> contain the original query and the transliterated query, as indicated by the user in $query-scripts.:)
             let $hitsAll :=
                     (:If the $query-scope is narrow, query the elements immediately below the lowest div in tei:text and the four major element below tei:teiHeader.:)
-                    for $hit in query:query-default($field, $query, $doc)
+                    for $hit in query:query-default($field, $query, $doc, ())
                     order by ft:score($hit) descending
                     return $hit
             let $hitCount := count($hitsAll)
