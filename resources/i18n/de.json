@@ -36,7 +36,9 @@
     "delete": "Löschen",
     "documents": "Dokumente",
     "collections": "Lokale Sammlung",
-    "dts": "Distributed Text Services (experimentell)"
+    "dts": "Distributed Text Services (experimentell)",
+    "demo": "TEI Publisher Beispielsammlung",
+    "up": "Nach oben"
   },
   "demo": {
     "showCode": {

@@ -55,7 +55,9 @@
     "confirmDeletion_plural": "Are you sure you want to delete {{count}} files?",
     "documents": "Documents",
     "collections": "Local Collection",
-    "dts": "Distributed Text Services (Experimental)"
+    "dts": "Distributed Text Services (Experimental)",
+    "demo": "TEI Publisher Demo Collection",
+    "up": "Up"
   },
   "upload": {
     "upload": "Upload",

@@ -142,6 +142,14 @@
                 width: 100%;
             }
             
+            .parent-link {
+                display: block;
+                margin-bottom: 10px;
+                margin-top: 10px;
+                padding: 6px 0;
+                border-bottom: thin solid var(--paper-grey-300);
+            }
+
             .documents ul {
                 list-style: none;
             }
@@ -342,7 +350,8 @@
                         <pb-login id="login" group="tei">
                             <iron-icon slot="icon" icon="account-circle"></iron-icon>
                         </pb-login>
-                        <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"></pb-progress>
+                        <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"
+                            subscribe="docs"></pb-progress>
                     </app-toolbar>
                     <pb-media-query query="(max-width: 1023px)">
                         <app-toolbar class="toolbar" sticky="sticky">
@@ -368,7 +377,7 @@
 
                                     <div class="browse" slot="page">
                                         <pb-custom-form id="facets" url="modules/facets.xql" event="pb-results-received" subscribe="docs" emit="docs"></pb-custom-form>
-                                        <pb-browse-docs id="document-list" url="templates/documents.html" sort-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"},{"label": "browse.modificationDate", "value": "default"}]' sort-by="title"
+                                        <pb-browse-docs id="document-list" url="collection/" sort-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"},{"label": "browse.modificationDate", "value": "default"}]' sort-by="title"
                                             filter-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"},{"label": "browse.file", "value": "file"}]' filter-by="title" auto="auto" history="history" login="login" emit="docs" subscribe="docs">
                                             <pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" emit="docs" subscribe="docs"></pb-paginate>
                                         </pb-browse-docs>

@@ -43,7 +43,8 @@ declare %private function nav:dispatch($config as map(*), $function as xs:string
 };
 
 declare function nav:get-root($root as xs:string?, $options as map(*)?) {
-    tei-nav:get-root($root, $options)
+    tei-nav:get-root($root, $options),
+    docbook-nav:get-root($root, $options)
 };
 
 declare function nav:get-header($config as map(*), $node as element()) {
