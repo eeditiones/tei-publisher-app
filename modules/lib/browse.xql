@@ -121,6 +121,19 @@ declare function app:use-cache($params as map(*), $cached) {
             false()
 };
 
+declare function app:parent-collection($node as node(), $model as map(*), $root as xs:string) {
+    if (not($root) or $root = "") then
+        ()
+    else
+        let $parts := tokenize($root, "/")
+        return
+            element { node-name($node) } {
+                $node/@*,
+                attribute data-collection { string-join(subsequence($parts, 1, count($parts) - 1)) },
+                templates:process($node/node(), $model)
+            }
+};
+
 declare
     %templates:wrap
     %templates:default("start", 1)

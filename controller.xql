@@ -166,7 +166,9 @@ else if (starts-with($exist:path, "/api/dts")) then
 else if (ends-with($exist:resource, ".html")) then (
     login:set-user($config:login-domain, (), false()),
     let $resource :=
-        if (contains($exist:path, "/templates/")) then
+        if (starts-with($exist:path, "/data/")) then
+            $exist:path
+        else if (contains($exist:path, "/templates/")) then
             "templates/" || $exist:resource
         else
             $exist:resource
@@ -294,6 +296,33 @@ else if (matches($exist:path, "/(" || string-join($data-collections, "|") || ")/
                 <cache-control cache="yes"/>
             </dispatch>
 
+) else if (starts-with($exist:path, "/collection/")) then (
+    login:set-user($config:login-domain, (), false()),
+    let $path := substring-after($exist:path, "/collection/")
+    let $templatePath := $config:data-root || "/" || $path || "collection.html"
+    let $templateAvail := doc-available($templatePath) or util:binary-doc-available($templatePath)
+    let $template := 
+        if ($templateAvail) then 
+            substring-after($templatePath, $config:app-root) 
+        else
+            "templates/documents.html"
+    return
+        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+            <forward url="{$exist:controller}/{$template}"/>
+            <view>
+                <forward url="{$exist:controller}/modules/view.xql">
+                    <add-parameter name="root" value="{$path}"/>
+                    <set-header name="Cache-Control" value="no-cache"/>
+                    <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
+                    { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
+                    <set-header name="Access-Control-Expose-Headers" value="pb-start, pb-total"/>
+                </forward>
+            </view>
+            <error-handler>
+                <forward url="{$exist:controller}/error-page.html" method="get"/>
+                <forward url="{$exist:controller}/modules/view.xql"/>
+            </error-handler>
+        </dispatch>
 ) else
     (: everything else is passed through :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
