@@ -111,14 +111,13 @@
                 margin-right: 20px;
             }
             
-            aside {
+            .upload-panel {
                 flex: 1;
                 display: flex;
                 flex-direction: column;
                 min-width: 360px;
             }
             
-            aside .odds,
             aside .upload {
                 --paper-card-header: {
                     background-color: #607D8B;
@@ -329,15 +328,15 @@
                                 </div>
                             </div>
                         </paper-card>
-                        <aside>
-                            <pb-restricted login="login">
+                        <pb-restricted class="upload-panel" login="login">
+                            <aside>
                                 <paper-card class="upload" data-i18n="[heading]upload.upload" heading="Upload">
                                     <div class="card-content">
-                                        <pb-upload id="upload" emit="docs" accept=".xml, .tei, .odd, .docx"></pb-upload>
+                                        <pb-upload id="upload" emit="docs" accept=".xml, .tei, .odd, .docx"/>
                                     </div>
                                 </paper-card>
-                            </pb-restricted>
-                        </aside>
+                            </aside>
+                        </pb-restricted>
                     </section>
                 </main>
             </app-header-layout>

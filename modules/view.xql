@@ -23,6 +23,13 @@ declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "html5";
 declare option output:media-type "text/html";
 
+declare function local:report-error($data) {
+    util:declare-option("exist:output", "method=xml"),
+    let $error := parse-xml($data)
+    return
+        $error
+};
+
 let $config := map {
     $templates:CONFIG_APP_ROOT : $config:app-root,
     $templates:CONFIG_STOP_ON_ERROR : true()
@@ -44,6 +51,16 @@ let $lookup := function($functionName as xs:string, $arity as xs:int) {
  : The HTML is passed in the request from the controller.
  : Run it through the templating system and return the result.
  :)
-let $content := request:get-data()
+let $error := request:get-attribute("org.exist.forward.error")
 return
-    templates:apply($content, $lookup, (), $config)
+    if ($error) then
+        local:report-error($error)
+    else
+        let $template := request:get-parameter('template', ())
+        let $content :=
+            if ($template and doc-available($template)) then
+                doc($template)
+            else
+                request:get-data()
+        return
+            templates:apply($content, $lookup, (), $config)
