@@ -66,6 +66,21 @@ function app:sort($items as element()*, $sortBy as xs:string?) {
             $items
 };
 
+declare function app:is-writeable($node as node(), $model as map(*), $root as xs:string) {
+    let $path := $config:data-root || "/" || $root
+    let $writable := sm:has-access(xs:anyURI($path), "rw-")
+    return
+        element { node-name($node) } {
+            $node/@* except $node/@class,
+            attribute class {
+                string-join(($node/@class, if ($writable) then "writable" else ()), " ")
+            },
+            attribute data-root {
+                $root
+            },
+            templates:process($node/node(), $model)
+        }
+};
 
 (:~
  : List documents in data collection
@@ -395,18 +410,22 @@ declare function app:dispatch-action($node as node(), $model as map(*), $action 
     switch ($action)
         case "delete" return
             let $docs := request:get-parameter("docs[]", ())
+            let $result :=
+                for $path in $docs
+                let $doc := pages:get-document(xmldb:decode($path))
+                return
+                    if ($doc) then
+                        try {
+                            xmldb:remove(util:collection-name($doc), util:document-name($doc))
+                        } catch * {
+                            <p class="error">Failed to remove document {$path} (insufficient permissions?)</p>
+                        }
+                    else
+                        <p>Document not found: {$path}</p>
             return
                 <div id="action-alert" class="alert alert-success">
-                    <p>Removed {count($docs)} documents.</p>
-                    {
-                        for $path in $docs
-                        let $doc := pages:get-document(xmldb:decode($path))
-                        return
-                            if ($doc) then
-                                xmldb:remove(util:collection-name($doc), util:document-name($doc))
-                            else
-                                <p>Failed to remove document {$path}</p>
-                    }
+                    <p>Removed {count($docs) - count($result)} documents.</p>
+                    { $result }
                 </div>
         case "delete-odd" return
             let $docs := request:get-parameter("docs[]", ())
