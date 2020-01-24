@@ -79,22 +79,78 @@
 
       <section>
         <title>Installing into an eXist instance</title>
-        <para>Just go to the dashboard, open the package manager and install the TEI Publisher application package from the public repository. Required
-        dependencies will be installed automatically. </para>
-      <note>
-        <title>Note</title>
-        <para>You need at least <link xlink:href="http://exist-db.org">eXist 5.0.0 RC8</link> to run the latest version of TEI Publisher. eXist's package manager
-          will not show you the newest version of TEI Publisher unless your eXist version meets the requirements.</para>
-      </note>
-      <para>After installing you will find the TEI Publisher icon on your dashboard. Click on it to open the starting page of the TEI Publisher.</para>
+        
+        <section>
+          <title>1. Install eXist</title>
+          <para>Before installing eXist, make sure you have at least Java 8 (recommended: Java 11) installed on your machine. You can run
+            <command>java -version</command> on a command line to see if and which version of Java you may have available already.</para>
+          <para>If you do not have Java installed, you can choose between a variety of different Java distributions for your operating system. So far we had best results across operating systems with the <link xlink:href="https://www.azul.com/downloads/zulu-community/?package=jdk">Zulu Community OpenJDK</link> builds. In particular for Windows users, this provides the best out of the box experience.</para>
+          <para>Next, download an eXist distribution following the link on its homepage. On Windows or Linux, we recommend to download the file ending with
+              <command>.jar</command> ("<filename>exist-installer-5.x.x.jar</filename>"). On a mac, we suggest the <command>.dmg</command>
+              ("<filename>eXist-db-5.x.x.dmg</filename>").</para>
+          <note>
+            <para><emphasis>Linux users</emphasis> may also prefer the plain <command>.tar.bz2</command> package, which can just be untarred to any location. This package does not
+              include an installer and eXist has to be launched on the command line: just navigate into the untarred directory and run</para>
+            <synopsis>bin/startup.sh</synopsis>
+            <para>in a shell. This will start up eXist and you can skip the following steps. Navigate directly to <link xlink:href="http://localhost:8080">http://localhost:8080</link> and follow the steps for installing TEI Publisher via the dashboard described in the next subsection below.</para>
+          </note>
+          <para>In both cases, double clicking the <command>.jar</command> or <command>.dmg</command> should install eXist on your local system. While the <command>.jar</command> will launch an installer to guide you through some settings, the <command>.dmg</command> will just require you to drag the eXist app icon over to the Applications folder - as is common on a Mac. Windows users may just accept the default settings suggested by the installer.</para>
+          <note>
+            <para>If double-clicking the <command>.jar</command> does not have any effect on windows, there's likely something wrong with your Java setup. The
+                <filename>java</filename> binary needs to be in your <envar>%PATH%</envar> environment.</para>
+            <para>You can also try to manually start the installer by opening a command prompt, changing to the directory where you downloaded the distribution
+              and typing:</para>
+            <synopsis>java -jar exist-installer-5.x.x.jar</synopsis>
+          </note>
+          <para>Once the installation has completed, you should either find an eXist-db shortcut to run (on Windows) or an app in your Applications folder (on
+            Mac). Use it to launch eXist. You should see a splash window popping up, showing that some default applications are being installed:</para>
+          <figure>
+            <title>Splash Screen on eXist Startup</title>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="eXistSplash.png" width="256px"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+          <para>Upon first start, an additional configuration window will pop up on Windows and Mac, allowing you to configure some parameters. It is safe to leaf them at the default settings for a start:</para>
+          <figure>
+            <title>Configuration Dialog Showing on First Start</title>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="eXistInitialConfig.png" width="512px"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+          <para>Clicking on <guibutton>Save</guibutton> will show a popup to confirm if it is ok to create the data 
+            directory in the location specified by the configuration dialog. Just agree unless you would like to change it.</para>
+          <para><emphasis>Windows users</emphasis> will next be asked if they would like to install eXist as a service. This is
+            highly recommended to ensure that the database is correctly closed whenever the operating system shuts down.</para>
+          <para>If all went well, eXist should now be up and running in the background. Mac and Windows users should find a small eXist icon in their task bar. Right-clicking on it will reveal a menu:</para>
+          <figure>
+            <title>Taskbar Launcher Context Menu</title>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="eXistTaskbarIcon.png" width="512px"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+          <section xml:id="packageManager">
+            <title>2. Installing TEI Publisher</title>
+          <para>Clicking on <guimenuitem>Open Dashboard</guimenuitem> should open a browser and display eXist's Dashboard: the central administration hub. If you don't have the taskbar icon - either if something went wrong or you chose the manual installation on Linux - you can also open a browser window yourself and navigate to: <link xlink:href="http://localhost:8080">http://localhost:8080</link>.</para>
+          <para>Log into the dashboard using the admin account and empty password (unless you changed the password during installation). Use the left sidebar to navigate to the <guimenuitem>Package Manager</guimenuitem>. You'll see two tabs: the first one lists the application packages currently installed, the second can be used to install additional packages from eXist's public application repository.</para>
+          <para>Switch to the <guimenuitem>Available</guimenuitem> tab and search the list for TEI Publisher. Once you found it,
+            click on the little install icon.</para>
+      <para>After installing you will find the TEI Publisher icon in the tab showing installed apps. Click on it to open the starting page of the TEI Publisher.</para>
       <figure>
         <title>Installing <emphasis>TEI Publisher</emphasis> from the Package Manager</title>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="install-publisher-package.png" width="640px"/>
+            <imagedata fileref="eXistDashboard.png" width="640px"/>
           </imageobject>
         </mediaobject>
       </figure>
+        </section>
+        </section>
       </section>
         <section xml:id="docker">
           <title>Using docker</title>
@@ -112,7 +168,12 @@
             </step>
             <step>
               <para>once the download is complete, you can run the image with the following command:</para>
-              <synopsis>docker run -p 8081:8080 -p 8444:8443 -v exist-data:/exist-data --name teipublisher existdb/teipublisher:latest</synopsis>
+              <synopsis>docker run -p 8081:8080 -p 8444:8443 --name teipublisher existdb/teipublisher:latest</synopsis>
+              <para>Startup should be fast because the database is already pre-populated. However, changes you make may
+                not persist if the docker container is deleted or updated to a newer release. If you want to be sure that
+                your changes are safe, you should specify a local volume for storing the database by adding:</para>
+              <synopsis>-v exist-data:/exist-data</synopsis>
+              <para>See below for an explanation of the parameters:</para>
               <variablelist>
                 <varlistentry>
                   <term>-p</term>
@@ -123,7 +184,7 @@
               <varlistentry>
                 <term>-v</term>
                 <listitem>
-                  <para>Creates a named ("exist-data") volume for storing the database. If you skip this, any changes to the database will be lost if you remove
+                  <para>Creates a named ("exist-data") volume for storing the database, using the directory specified after the colon. If you skip this, any changes to the database will be lost if you remove
                     the docker container, update it or create a new one. With <option>-v</option> the data will be stored outside the container.</para>
                   <para>If you just intend to play around a bit, you can skip the parameter.</para>
                 </listitem>
