@@ -205,7 +205,7 @@ else if (ends-with($exist:resource, ".html")) then (
         <redirect url="{request:get-uri()}/{local:last-blog-entry()}"/>
     </dispatch>
 
-else if (matches($exist:path, "/(" || string-join($data-collections, "|") || ")/.*[^/]+\..*$")) then (
+else if (matches($exist:path, "[^/]+\..*$")) then (
     login:set-user($config:login-domain, (), false()),
     (: let $id := replace(xmldb:decode($exist:resource), "^(.*)\..*$", "$1") :)
     let $id := xmldb:decode($exist:resource)
