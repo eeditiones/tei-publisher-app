@@ -73,37 +73,96 @@
     </section>
     <section xml:id="installation">
       <title>Installation</title>
-      <para>TEI Publisher runs on top of the <link xlink:href="http://exist-db.org">eXist XML database</link>. It is distributed as an eXist application
-        package, making it easy to install on any local or remote eXist database instance. If you do not want to install eXist yourself, you may alternatively
-        use the provided docker image as described below.</para>
+      <para>TEI Publisher requires <link xlink:href="http://exist-db.org">eXist XML database</link> to operate. It is distributed as an eXist application
+        package, making it easy to install on any eXist database instance - either on your local machine or any remote server.</para>
+      <para>You can install eXist and TEI Publisher manually, as described below, or alternatively
+        use the provided <link linkend="docker">docker image</link>.</para>
 
-      <section>
+      <section xml:id="exist-installation">
         <title>Installing into an eXist instance</title>
-        
-        <section>
-          <title>1. Install eXist</title>
-          <para>Before installing eXist, make sure you have at least Java 8 (recommended: Java 11) installed on your machine. You can run
-            <command>java -version</command> on a command line to see if and which version of Java you may have available already.</para>
-          <para>If you do not have Java installed, you can choose between a variety of different Java distributions for your operating system. So far we had best results across operating systems with the <link xlink:href="https://www.azul.com/downloads/zulu-community/?package=jdk">Zulu Community OpenJDK</link> builds. In particular for Windows users, this provides the best out of the box experience.</para>
-          <para>Next, download an eXist distribution following the link on its homepage. On Windows or Linux, we recommend to download the file ending with
-              <command>.jar</command> ("<filename>exist-installer-5.x.x.jar</filename>"). On a mac, we suggest the <command>.dmg</command>
-              ("<filename>eXist-db-5.x.x.dmg</filename>").</para>
+
+          <section xml:id="java">
+            <title>Java</title>
+          <para>Before installing eXist, make sure you have Java installed on your machine. You can run
+            <command>java -version</command> on a command line to check which version of Java you have.
+            Make sure you have at least Java 8 (recommended: Java 11). Please note that the
+            <command>java -version</command> shows the full version string, so 1.8.0 or similar instead of just 8.</para>
+          <para>If you do not have Java installed, you can choose between a variety of different Java distributions for your operating system.
+            While these are largely equivalent, so far we had smoothest installation experience across operating systems with the
+            <link xlink:href="https://www.azul.com/downloads/zulu-community/?package=jdk">Zulu Community OpenJDK</link> builds.
+            In particular for Windows users, this provides the best out of the box experience.</para>
+          </section>
+          <section xml:id="download">
+            <title>Download</title>
+
+          <para>Download an eXist distribution following the link on its <link xlink:href="http://exist-db.org/exist/apps/homepage/index.html#downloads">homepage</link>.
+            </para>
+          </section>
+
           <note>
-            <para><emphasis>Linux users</emphasis> may also prefer the plain <command>.tar.bz2</command> package, which can just be untarred to any location. This package does not
-              include an installer and eXist has to be launched on the command line: just navigate into the untarred directory and run</para>
+            <para>It is recommended that you set up an admin password when installing eXist but
+              make sure to remember or store it securely!</para>
+          </note>
+
+          <section xml:id="mac-installation">
+            <title>Mac installation</title>
+            <para>On a Mac download the file with the <command>.dmg</command> extension,
+              e.g. "<filename>eXist-db-5.x.x.dmg</filename>".</para>
+
+
+            <para>Double clicking the downloaded <command>.dmg</command> file should install eXist on your
+            local system. It is only required to drag the eXist app icon over to the Applications folder. </para>
+
+            <para>Once the installation has completed, you should find an app in your Applications folder
+              which you can use to launch eXist.</para>
+          </section>
+
+          <section xml:id="windows-installation">
+            <title>Windows installation</title>
+            <para>On Windows download the file with the <command>.jar</command> extension,
+              e.g. "<filename>exist-installer-5.x.x.jar</filename>".</para>
+
+              <para>Double clicking the <command>.jar</command> should install eXist on your local system.
+              It will launch an installer to guide you through basic settings. Default settings suggested by the installer
+              provide a good starting point for most projects so there's no need to change anything.</para>
+
+              <note>
+                <para>If double-clicking the <command>.jar</command> does not have any effect,
+                there's may be something wrong with your Java setup. The
+                    <filename>java</filename> binary needs to be in your <envar>%PATH%</envar> environment.</para>
+                <para>You can also try to manually start the installer by opening a command prompt, changing to the directory where you downloaded the distribution
+                  and typing:</para>
+                <synopsis>java -jar exist-installer-5.x.x.jar</synopsis>
+              </note>
+
+              <para>Once the installation is completed, you should find an eXist-db shortcut to launch eXist.</para>
+          </section>
+
+          <section xml:id="unix-installation">
+            <title>Unix installation</title>
+            <para>Download the file with the <command>.jar</command> extension,
+              e.g. "<filename>exist-installer-5.x.x.jar</filename>".</para>
+
+            <para>Double clicking the <command>.jar</command> should install eXist on your local system.
+              It will launch an installer to guide you through basic settings. Default settings suggested by the installer
+              provide a good starting point for most projects so there's no need to change anything.</para>
+
+              <para>Once the installation is completed, you should find an eXist-db shortcut to launch eXist,
+                otherwise navigate to the installation directory and run <command>bin/startup.sh</command>.</para>
+
+          <note>
+            <para>Some <emphasis>Linux users</emphasis> may prefer the plain <command>.tar.bz2</command> package, which can just be untarred to any location.
+            This package does not include an installer and eXist has to be launched on the command line: navigate into the untarred directory and run</para>
             <synopsis>bin/startup.sh</synopsis>
-            <para>in a shell. This will start up eXist and you can skip the following steps. Navigate directly to <link xlink:href="http://localhost:8080">http://localhost:8080</link> and follow the steps for installing TEI Publisher via the dashboard described in the next subsection below.</para>
+            <para>in a shell, skipping the jar installer step above. Navigate directly to <link xlink:href="http://localhost:8080">http://localhost:8080</link> and
+            follow the steps for installing TEI Publisher via the dashboard described in the next subsection below.</para>
           </note>
-          <para>In both cases, double clicking the <command>.jar</command> or <command>.dmg</command> should install eXist on your local system. While the <command>.jar</command> will launch an installer to guide you through some settings, the <command>.dmg</command> will just require you to drag the eXist app icon over to the Applications folder - as is common on a Mac. Windows users may just accept the default settings suggested by the installer.</para>
-          <note>
-            <para>If double-clicking the <command>.jar</command> does not have any effect on windows, there's likely something wrong with your Java setup. The
-                <filename>java</filename> binary needs to be in your <envar>%PATH%</envar> environment.</para>
-            <para>You can also try to manually start the installer by opening a command prompt, changing to the directory where you downloaded the distribution
-              and typing:</para>
-            <synopsis>java -jar exist-installer-5.x.x.jar</synopsis>
-          </note>
-          <para>Once the installation has completed, you should either find an eXist-db shortcut to run (on Windows) or an app in your Applications folder (on
-            Mac). Use it to launch eXist. You should see a splash window popping up, showing that some default applications are being installed:</para>
+        </section>
+
+        <section xml:id="first-launch">
+          <title>First launch</title>
+          <para>Once eXist is launched for the first time you should see (with the exception of some Unix system configurations)
+            a splash window popping up, showing that some default applications are being installed:</para>
           <figure>
             <title>Splash Screen on eXist Startup</title>
             <mediaobject>
@@ -112,7 +171,10 @@
               </imageobject>
             </mediaobject>
           </figure>
-          <para>Upon first start, an additional configuration window will pop up on Windows and Mac, allowing you to configure some parameters. It is safe to leaf them at the default settings for a start:</para>
+          <para>Upon first start, an additional configuration window will pop up on Windows and Mac,
+            allowing you to configure basic parameters. Default settings suggested provide a good starting point
+            for most projects so usually there's no need to change anything.
+            </para>
           <figure>
             <title>Configuration Dialog Showing on First Start</title>
             <mediaobject>
@@ -121,9 +183,9 @@
               </imageobject>
             </mediaobject>
           </figure>
-          <para>Clicking on <guibutton>Save</guibutton> will show a popup to confirm if it is ok to create the data 
-            directory in the location specified by the configuration dialog. Just agree unless you would like to change it.</para>
-          <para><emphasis>Windows users</emphasis> will next be asked if they would like to install eXist as a service. This is
+          <para>Clicking on <guibutton>Save</guibutton> will show a popup asking to confirm the location of
+          the data directory. Unless you have specific requirements just agree to the suggestion of the configuration dialog.</para>
+          <para><emphasis>Windows users</emphasis> will be asked if they would like to install eXist as a service. This is
             highly recommended to ensure that the database is correctly closed whenever the operating system shuts down.</para>
           <para>If all went well, eXist should now be up and running in the background. Mac and Windows users should find a small eXist icon in their task bar. Right-clicking on it will reveal a menu:</para>
           <figure>
@@ -134,13 +196,16 @@
               </imageobject>
             </mediaobject>
           </figure>
+        </section>
+
           <section xml:id="packageManager">
-            <title>2. Installing TEI Publisher</title>
-          <para>Clicking on <guimenuitem>Open Dashboard</guimenuitem> should open a browser and display eXist's Dashboard: the central administration hub. If you don't have the taskbar icon - either if something went wrong or you chose the manual installation on Linux - you can also open a browser window yourself and navigate to: <link xlink:href="http://localhost:8080">http://localhost:8080</link>.</para>
-          <para>Log into the dashboard using the admin account and empty password (unless you changed the password during installation). Use the left sidebar to navigate to the <guimenuitem>Package Manager</guimenuitem>. You'll see two tabs: the first one lists the application packages currently installed, the second can be used to install additional packages from eXist's public application repository.</para>
-          <para>Switch to the <guimenuitem>Available</guimenuitem> tab and search the list for TEI Publisher. Once you found it,
+            <title>Installing TEI Publisher</title>
+          <para>Clicking on <guimenuitem>Open Dashboard</guimenuitem> in the taskbar will open a browser and display eXist's Dashboard: the central administrative hub for the database.
+           Alternatively - e.g. when you chose the manual installation on Linux - you can also open a browser window and navigate to: <link xlink:href="http://localhost:8080">http://localhost:8080</link>.</para>
+          <para>Log into the dashboard using the admin account and the password you chose during the installation (it will be empty by default). Use the left sidebar to navigate to the <guimenuitem>Package Manager</guimenuitem>. You'll see two tabs: the first one lists the application packages currently installed, the second can be used to install additional packages from eXist's public application repository.</para>
+          <para>Switch to the <guimenuitem>Available</guimenuitem> tab and search the list for TEI Publisher. Once you find it,
             click on the little install icon.</para>
-      <para>After installing you will find the TEI Publisher icon in the tab showing installed apps. Click on it to open the starting page of the TEI Publisher.</para>
+      <para>After installing you will find the TEI Publisher icon in the tab showing installed apps. Click on it to open the TEI Publisher.</para>
       <figure>
         <title>Installing <emphasis>TEI Publisher</emphasis> from the Package Manager</title>
         <mediaobject>
@@ -149,8 +214,7 @@
           </imageobject>
         </mediaobject>
       </figure>
-        </section>
-        </section>
+      </section>
       </section>
         <section xml:id="docker">
           <title>Using docker</title>
