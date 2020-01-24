@@ -1,10 +1,7 @@
 body {
-    font-family: 'Roboto', 'Noto', sans-serif;
-    line-height: 1.42857;
-    font-weight: 300;
-    margin: 0;    
-
     --pb-base-font-size: 16px;
+    --pb-base-line-height: 1.42857;
+    --pb-base-font: 300 var(--pb-base-font-size)/var(--pb-base-line-height) 'Roboto', 'Noto', sans-serif;
     --pb-color-primary: #303030;
     --pb-color-inverse: #F0F0F0;
     --pb-color-lighter: #35424b;
@@ -15,12 +12,12 @@ body {
     --pb-footnote-color: #303030;
     --pb-footnote-padding: 0 0 0 .25em;
 
-    --pb-search-input-color: var(--pb-color-inverse);
-    --pb-search-label-color: var(--pb-color-lighter);
-    --pb-lang-input-color: var(--pb-color-inverse);
-
-    color: var(--pb-text-color-primary);
-    font-size: var(--pb-base-font-size);
+    --pb-popover-background-color: var(--pb-color-inverse);
+    --pb-popover-font: 14px/1.2 'Roboto', 'Noto', sans-serif;
+    
+    font: var(--pb-base-font);
+    color: var(--pb-color-primary);
+    margin: 0;
 }
 
 .splash {
