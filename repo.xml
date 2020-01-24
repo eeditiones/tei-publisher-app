@@ -11,6 +11,13 @@
     <prepare>pre-install.xql</prepare>
     <finish>post-install.xql</finish>
     <changelog>
+        <change version="5.0.2">
+            <ul xmlns="http://www.w3.org/1999/xhtml">
+                <li>Enhanced docx to TEI import</li>
+                <li>Fix whitespace issues around pb-popover</li>
+                <li>Fixed login issue if user belongs to multiple groups</li>
+            </ul>
+        </change>
         <change version="5.0.1">
             <ul xmlns="http://www.w3.org/1999/xhtml">
                 <li>Improve performance of milestone-chunk functions to remove bottleneck in page-by-page display</li>
