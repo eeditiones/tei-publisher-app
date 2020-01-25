@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>TEI Publisher 5.0.2</title>
+        <author>
+            <personname>
+                <surname>Turska</surname>
+                <firstname>Magdalena</firstname>
+            </personname>
+        </author>
+        <pubdate>2020-01-25</pubdate>
+        <abstract>
+            <para>This is a minor release introducing primarily new features of Word document import along some bugfixes.</para>
+        </abstract>
+    </info>
+    <section>
+        <title>Release Highlights: Word document import</title>
+        <para>Docx module introduced in 5.0.0 allows for importing documents in <emphasis>docx</emphasis> format,
+        preserving their textual content, structure and basic semantics of the text. TEI Publisher preserves document's structural divisions and headings, lists, tables, embedded images,
+        foot- and endnotes, as well as recognizes styles whose names start with <code>tei:</code> as TEI elements with the same name,
+        e.g <emphasis>Johann Wolfgang Goethe</emphasis> styled with <code>tei:persName</code> style will be converted to <code>&lt;persName&gt;Johann Wolfgang Goethe&lt;/persName&gt;</code>.</para>
+
+        <para>This release introduces a default convention for encoding additional attributes: text in angle brackets will be interpreted as a list of attribute-value pairs.
+          Multiple items can be separated with a “;”. For example, to set a <code>@rend</code> and provide a <code>@ref</code> for a <code>placeName</code>, you can write <code>Frankfurt&lt;rend=smallcaps;ref=Frankfurt am Main&gt;</code>.
+          This notation can be modified by extending the ODD with additional rules for project-specific workflow. For example, if persName does always need a <code>@ref</code> attribute in your edition, you could have a simplified rule which parses:
+          <code>Friedrich Dürrenmatt&lt;118527908&gt;</code>.
+        </para>
+
+        <para>Further conventions have been introduced to distinguish between different kinds of notes (e.g. editor's commentary, source annotations, and text-critical notes).
+          Footnotes marked with a custom mark (to be found under <emphasis>Format &gt; Custom Mark</emphasis> in Word's <emphasis>Footnote Dialog</emphasis>) are converted
+          into <code>note n=”custom mark” type=”original”</code>.
+        </para>
+        <para>Yet another mechanism, based on Word comments, can be leveraged to mark arbitrary spans of text.
+          Word comments insert a start and end marker, which can be easily converted to TEI using <code>anchor</code> and
+          <code>note</code> element combination and output accordingly later.
+        </para>
+        <para>Please refer to the sample Word conversion document for detailed discussion of the import features and conventions.</para>
+    </section>
+    <section>
+      <title>Historical dictionary example: Bogactwa mowy polskiej</title>
+      <para>On a mission to provide a rich spectrum of examples showcasing different uses of TEI we're adding a
+      small sample for a genre so far unrepresented in TEI Publisher - a 19th century manuscript collocative dictionary of Polish
+      <emphasis>Bogactwa mowy polskiej (Riches of the Polish tongue)</emphasis> by Alojzy Osiński, edited by Ewa Rudnicka.</para>
+      <para>This example features a transcription and facsimile parallel view with regions of interest highlighted in the
+      facsimile panel thanks to the use of <code>pb-facs-link</code> component.</para>
+      <informalfigure>
+          <mediaobject>
+              <imageobject>
+                  <imagedata fileref="osinski.jpg"/>
+              </imageobject>
+          </mediaobject>
+      </informalfigure>
+    </section>
+    <section>
+        <title>Main New Features and Bug Fixes</title>
+        <itemizedlist>
+            <listitem>
+                <para>DOCX (Word) document format import</para>
+            </listitem>
+            <listitem>
+                <para>Examples: Word import sample and historical dictionary sample</para>
+            </listitem>
+            <listitem>
+                <para>Fixes related to user login</para>
+            </listitem>
+            <listitem>
+                <para><code>pb-popover</code>: fix spacing</para>
+            </listitem>
+            <listitem>
+                <para><code>pb-view</code>: scroll to target element if an id is given in the URLs hash</para>
+            </listitem>
+
+        </itemizedlist>
+    </section>
+    <section>
+        <title>Get It!</title>
+        <para>TEI Publisher 5.0.2 is available as an application package on top of the <link xlink:href="https://exist-db.org">eXist XML Database</link>. Install it into a
+            recent eXist (5.0.0 or newer) by going to the dashboard and selecting TEI Publisher from
+            the package manager.</para>
+        <para>For more information refer to the <link xlink:href="https://teipublisher.com/exist/apps/tei-publisher/doc/documentation.xml">documentation</link> or visit the <link xlink:href="https://teipublisher.com">homepage</link> to play around with it.</para>
+    </section>
+</article>
