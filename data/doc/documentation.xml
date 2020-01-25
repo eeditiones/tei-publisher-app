@@ -154,14 +154,14 @@
             <para>Some <emphasis>Linux users</emphasis> may prefer the plain <command>.tar.bz2</command> package, which can just be untarred to any location.
             This package does not include an installer and eXist has to be launched on the command line: navigate into the untarred directory and run</para>
             <synopsis>bin/startup.sh</synopsis>
-            <para>in a shell, skipping the jar installer step above. Navigate directly to <link xlink:href="http://localhost:8080">http://localhost:8080</link> and
-            follow the steps for installing TEI Publisher via the dashboard described in the next subsection below.</para>
+            <para>in a shell, skipping the jar installer step above. Ignore the next section, navigate directly to <link xlink:href="http://localhost:8080">http://localhost:8080</link> and
+            follow the steps for installing TEI Publisher via the dashboard described further below.</para>
           </note>
         </section>
 
         <section xml:id="first-launch">
           <title>First launch</title>
-          <para>Once eXist is launched for the first time you should see (with the exception of some Unix system configurations)
+          <para>Once eXist is launched for the first time you should see (with the exception of some Unix system configurations described above)
             a splash window popping up, showing that some default applications are being installed:</para>
           <figure>
             <title>Splash Screen on eXist Startup</title>
