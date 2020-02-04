@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?teipublisher template="dantiscus.html" odd="dantiscus2.odd" view="page"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>Mauritius Ferber to Ioannes Dantiscus, 1528, Heilsberg</title>
+            <title type="s">Correspondence of Ioannes Dantiscus</title>
+            <editor>Anna Skolimowska</editor>
+            <editor>Magdalena Turska</editor>
+            <editor>Katarzyna Jasińska-Zdun</editor>
+         </titleStmt>
+         <publicationStmt>
+            <publisher>Laboratory For Editing Sources, "Artes Liberales", University of
+               Warsaw</publisher>
+            <pubPlace>Warsaw</pubPlace>
+            <date>2010</date>
+         </publicationStmt>
+         <sourceDesc>
+            <msDesc type="primary">
+               <msIdentifier>
+                  <institution>AAWO</institution>
+                  <idno>AB, A 1, No. 191, f. 83v</idno>
+               </msIdentifier>
+               <physDesc>
+                  <p>office copy in Latin, in secretary's hand</p>
+               </physDesc>
+            </msDesc>
+            <msDesc type="secondary">
+               <msIdentifier>
+                  <institution>B. PAU-PAN</institution>
+                  <idno>8246 (TK 8), f. 39</idno>
+               </msIdentifier>
+               <physDesc>
+                  <p>register in Polish, 20th-century</p>
+               </physDesc>
+            </msDesc>
+            <bibl type="print">
+               <title>AT 10 No. 468</title>, p. 448 (in extenso)
+            </bibl>
+         </sourceDesc>
+      </fileDesc>
+      <profileDesc>
+         <correspDesc>
+            <correspAction type="sent">
+               <persName ref="IDPe32" ana="from">Mauritius Ferber</persName>
+               <persName ref="IDPe1" ana="to">Ioannes Dantiscus</persName>
+               <placeName ref="IDPl1" cert="low">Heilsberg</placeName>
+               <date notAfter="1528-12-04" cert="low">1528-12-[02] – 1528-12-[04]</date>
+            </correspAction>
+         </correspDesc>
+         <particDesc>
+            <listPerson>
+               <person xml:id="IDPe1">
+                  <persName>Ioannes Dantiscus</persName>
+                  <note> (<hi>Johannes von Höfen, Ioannes de Curiis, Jan Dantyszek, Johannes Flachsbinder</hi>) (*1485 – †1548-10-27), 
+                     diplomat, neo-Latin poet and traveller; 1504 royal scribe; 1507 referendary for Prussian affairs at the court of Sigismund Jagiellon; 
+                     1508-1513 royal envoy to Prussian towns and to the Prussian assemblies; 1515 secretary of the Polish legation at the imperial court; 
+                     in 1516-1532 envoy in the service of the king of Poland Sigismund Jagiellon and emperors Maximilian and Charles V of Habsburg; 
+                     1529 Kulm canon; 1530-1537 bishop of Kulm; 1537-1548 bishop of Ermland</note>
+               </person>
+               <person xml:id="IDPe32">
+                  <persName>Mauritius Ferber</persName>
+                  <note> (*1471 – †1537), since 1507 Ermland and Lubeck Canon; since 1514 Trier Canon; 
+                     1512-1515 parish priest of the Peter and Paul Church in Gdańsk; 
+                     since 1516 Ermland Custos and parish priest of the Blessed Virgin Mary's church in Gdańsk; 
+                     since 1519 Dorpat Canon; since 1523 Revel Canon; 1523-1537 Bishop of Ermland</note>
+               </person>
+            </listPerson>
+         </particDesc>
+         <settingDesc>
+            <listPlace>
+               <place xml:id="IDPl1">
+                   <placeName>Heilsberg</placeName> 
+                   <note>(<hi>Lidzbark Warmiński, Heilsberga</hi>), town in Ermland, the main seat of the Bishops of Ermland</note>
+               </place>
+            </listPlace>
+         </settingDesc>
+      </profileDesc>
+   </teiHeader>
+   <text>
+      <front>
+         <div type="header">
+            <pb n="AAWO, AB, A. 1, f. 83v" facs="img:16775_000_IDL10AAWO_AB_A1f083v.JPG"/>
+            <head>
+               <persName ref="IDPe1">Ioanni Flachsbinder</persName>
+            </head>
+         </div>
+      </front>
+      <body>
+         <div>
+            <div type="salutation">
+               <p> Reverende Domine, amice plurimum honorande. </p>
+            </div>
+            <div type="main_content">
+               <p>
+                  <seg type="incipit">Non mediocrem accepimus voluptatem, cum Dominationis Vestrae
+                     in has communis</seg> patriae nostrae oras reditum cognovissemus. Quem illi
+                  inter tanta viarum ac turbulentiarum, quibus totus ferme orbis Christianus
+                  concutitur, discrimina salvum et incolumem evenisse gratulamur. Quem hic quoque
+                  fortunarum ac omnis felicitatis successus ut excipiat, optamus. Ad quod, si quid
+                  vel nostro calculo adicere poterimus, ut singulare ad nos refugium habeat,
+                  volumus, certoque sibi persuadeat, in eo, quod vel ad honoris vel dignitatis
+                  cumulum Reverendae Dominationi Vestrae accedere possit, operam nostram non
+                  defuturam. Eandem Reverendissimam Dominationem Vestram bene valere cupimus. </p>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>
