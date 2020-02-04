@@ -115,6 +115,12 @@ declare function nav:get-content($config as map(*), $div as element()) {
                     if ($nextPage) then
                         ($div/ancestor::* intersect $nextPage/ancestor::*)[last()]
                     else
+                      (: if there's only one pb in the document, it's whole
+                      text part should be returned :)
+                      if (count($div/ancestor::tei:text//tei:pb) = 1) then
+                          ($div/ancestor::tei:text)
+                      else
+                        ($div/ancestor::tei:div, $div/ancestor::tei:text)[1]
                 )
             return
                 $chunk
