@@ -115,7 +115,6 @@ declare function nav:get-content($config as map(*), $div as element()) {
                     if ($nextPage) then
                         ($div/ancestor::* intersect $nextPage/ancestor::*)[last()]
                     else
-                        ($div/ancestor::tei:div, $div/ancestor::tei:text)[1]
                 )
             return
                 $chunk
