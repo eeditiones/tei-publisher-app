@@ -174,7 +174,12 @@ declare function teis:expand($data as element()) {
                     else
                         $data/ancestor::tei:text
                 else
-                    ($data/ancestor::tei:div, $data/ancestor::tei:text)[1]
+                    (: if there's only one pb in the document, it's whole
+                      text part should be returned :)
+                    if (count($data/ancestor::tei:text//tei:pb) = 1) then
+                        ($data/ancestor::tei:text)
+                    else
+                      ($data/ancestor::tei:div, $data/ancestor::tei:text)[1]
         else
             $data
     let $result := teis:query-default-view($div, $query, $field)

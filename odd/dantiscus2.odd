@@ -201,7 +201,11 @@
                 <param name="content" value="subsequence(title, 2)"/>
             </model>
             <model behaviour="block">
-                <param name="content" value="author"/>
+                <param name="content" value="editor"/>
+            </model>
+            <model behaviour="block" cssClass="incipit">
+                <desc>incipit</desc>
+                <param name="content" value="root(.)//seg[@type='incipit']"/>
             </model>
         </modelSequence>
                     <model output="web" behaviour="heading">
@@ -253,7 +257,7 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="fileDesc" mode="change">
-                    <model predicate="$parameters?mode='commentary' " behaviour="block"/>
+                    <model predicate="$parameters?mode='commentary'" behaviour="block"/>
                     <modelSequence predicate="$parameters?header='short'">
             <model behaviour="block" cssClass="header-short">
                 <param name="content" value="titleStmt"/>
@@ -270,9 +274,15 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="editor" mode="change">
-                    <model predicate="ancestor::teiHeader" behaviour="inline">
+                    <model predicate="$parameters?mode='commentary'" behaviour="inline">
             <pb:template xmlns="" xml:space="preserve"><li>[[content]]</li></pb:template>
         </model>
+                    <modelSequence predicate="preceding-sibling::editor">
+            <model behaviour="inline">
+                <param name="content" value="', '"/>
+            </model>
+            <model behaviour="inline"/>
+        </modelSequence>
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="title" mode="change">
@@ -364,6 +374,7 @@
   <div><h3>Persons</h3><ol>[[persons]]</ol></div>
 </div></pb:template>
         </model>
+                    <model behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="place" mode="add">
                     <model predicate="$parameters?mode='commentary'" behaviour="block">
