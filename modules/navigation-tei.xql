@@ -108,7 +108,7 @@ declare function nav:get-content($config as map(*), $div as element()) {
     typeswitch ($div)
         case element(tei:teiHeader) return
             $div
-        case element(tei:pb) return (
+        case element(tei:pb) return
             let $nextPage := $div/following::tei:pb[1]
             let $chunk :=
                 nav:milestone-chunk($div, $nextPage,
@@ -124,7 +124,6 @@ declare function nav:get-content($config as map(*), $div as element()) {
                 )
             return
                 $chunk
-        )
         case element(tei:div) return
             if ($div/tei:div and count($div/ancestor::tei:div) < $config?depth - 1) then
                 if ($config?fill > 0 and
