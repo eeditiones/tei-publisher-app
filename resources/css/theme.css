@@ -15,6 +15,9 @@ body {
     --pb-popover-background-color: var(--pb-color-inverse);
     --pb-popover-font: 14px/1.2 'Roboto', 'Noto', sans-serif;
     
+    --pb-lang-input-color: var(--pb-color-inverse);
+    --pb-lang-label-color: var(--pb-color-inverse);
+    
     font: var(--pb-base-font);
     color: var(--pb-color-primary);
     margin: 0;

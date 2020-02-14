@@ -11,183 +11,85 @@
 
         <title data-template="config:app-title"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
-        <link rel="stylesheet" type="text/css" href="components/bower_components/codemirror/lib/codemirror.css"/>
-        <link rel="stylesheet" type="text/css" href="components/bower_components/codemirror/theme/ttcn.css"/>
-        <link rel="stylesheet" type="text/css" href="components/bower_components/codemirror/addon/lint/lint.css"/>
-        <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
-        <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
+        <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
+        <link rel="stylesheet" href="resources/css/theme.css"/>
 
-        <link rel="import" href="components/dependencies-dev.html"/>
+        <script type="module" src="resources/scripts/pb-components-bundle.js"></script>
+        <script type="module" src="resources/scripts/pb-odd-editor.js"></script>
         <style>
-            [unresolved]{
-                display:none;
+        main {
+            margin: 30px 20px;
+
+            --paper-input-container: {
+                padding: 0;
             }
+
+            --paper-dialog-title: {
+                margin-top: 0;
+                padding: 12px;
+                background-color: #607D8B;
+                color: #F0F0F0;
+            }
+
+            --pb-view-height: calc(100vh - 94px);
+        }            
         </style>
-        <custom-style>
-            <style include="pb-common-styles">
-            main {
-                margin: 30px 20px;
-
-                --paper-input-container: {
-                    padding: 0;
-                }
-
-                --paper-dialog-title: {
-                    margin-top: 0;
-                    padding: 12px;
-                    background-color: #607D8B;
-                    color: #F0F0F0;
-                }
-
-                --pb-view-height: calc(100vh - 94px);
-            }
-
-            editor {
-                display: flex;
-            }
-
-            editor aside {
-                flex: 1 0;
-                min-width: 240px;
-                margin-right: 20px;
-            }
-
-            editor paper-card {
-
-                --paper-card-header: {
-                    background-color: #607D8B;
-                }
-
-                --paper-card-header-text: {
-                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
-                    font-size: 16px;
-                    font-weight: 400;
-                    color: #F0F0F0;
-                }
-            }
-
-            aside paper-card {
-                width: 100%;
-            }
-
-            aside h3 {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            editor .specs {
-                flex: 3 0;
-                height: var(--pb-view-height);
-                overflow: auto;
-            }
-
-            editor .metadata {
-                display: block;
-                width: 100%;
-
-                --pb-collapse-trigger: {
-                    background-color: #d1dae0;
-                    padding-left: 10px;
-                }
-            }
-
-            .metadata div {
-                padding: 0 16px 16px;
-            }
-
-            .metadata paper-input {
-                margin-bottom: 10px;
-            }
-
-            #jump-to {
-                margin-top: 1em;
-            }
-            .element-specs {
-                margin-bottom: 60px;
-            }
-            .models {
-                margin-left: 50px;
-                max-width: 800px;
-            }
-            model {
-                border-bottom: 1px solid #E0E0E0;
-            }
-            model h4 {
-                margin-top: 15px;
-                padding-top: 5px;
-                border-top: 1px solid #E0E0E0;
-            }
-            .renditions {
-                margin-top: 10px;
-            }
-            .CodeMirror {
-                height: auto;
-                margin-left: 10px;
-                padding-bottom: 7px;
-                margin-bottom: 7px;
-                border-bottom: 1px solid #E0E0E0;
-            }
-            .CodeMirror-empty {
-                color: #C0C0C0;
-            }
-            </style>
-        </custom-style>
     </head>
-    <body data-template="i18n:translate" data-template-catalogues="resources/i18n" unresolved="unresolved">
-        <pb-page data-template="pages:pb-page">
+    <body>
+        <pb-page data-template="pages:pb-page" locales="resources/i18n/{{lng}}.json" unresolved="unresolved">
             <app-header-layout>
-                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
                     <app-toolbar class="menubar">
-                        <a href="$app/index.html" class="logo">
+                        <a href="${app}/index.html" class="logo" data-template="pages:parse-params">
                             <img src="resources/images/tei-publisher-logo-contrast-color.svg"/>
                         </a>
-                        <a href="$app/index.html">Start</a>
+                        <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
                         <paper-menu-button>
                             <a href="#" slot="dropdown-trigger">
-                                <i18n:text key="documentation"/>
+                                <pb-i18n key="menu.documentation">Documentation</pb-i18n>
                             </a>
                             <paper-listbox slot="dropdown-content">
                                 <paper-item>
-                                    <a href="$app/doc/documentation.xml?odd=docbook.odd">
-                                        <i18n:text key="documentation"/>
+                                    <a href="${app}/doc/documentation.xml?odd=docbook.odd" data-template="pages:parse-params">
+                                        <pb-i18n key="menu.documentation">Documentation</pb-i18n>
                                     </a>
                                 </paper-item>
                                 <paper-item>
-                                    <a href="$app/doc/documentation.xml?odd=docbook.odd&amp;id=faq">FAQ</a>
+                                    <a href="${app}/doc/documentation.xml?odd=docbook.odd&amp;id=faq" data-template="pages:parse-params">FAQ</a>
+                                </paper-item>
+                                <paper-item>
+                                    <a target="_blank" href="${app}/components/docs.html" data-template="pages:parse-params">Webcomponents API</a>
                                 </paper-item>
                             </paper-listbox>
                         </paper-menu-button>
+                        <a href="${app}/doc/blog/" data-template="pages:parse-params"><pb-i18n key="menu.news"/></a>
                         <a href="https://gitlab.existsolutions.com/tei-publisher/" title="View code on Gitlab">
                             <img src="resources/images/wm_no_bg.svg" height="20"/>
                         </a>
 
-                        <!-- Search input -->
-                        <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
-                                   place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
-
-                        <!-- language selector -->
-                        <pb-lang name="lang" label="Language" data-template="pages:current-language">
-                            <paper-item>en</paper-item>
-                            <paper-item>de</paper-item>
-                            <paper-item>fr</paper-item>
-                            <paper-item>gr</paper-item>
-                            <paper-item>it</paper-item>
-                            <paper-item>pl</paper-item>
-                        </pb-lang>
-                        <pb-login login-label="i18n(login)" logout-label="i18n(logout)"
-                            group="tei">
-                            <iron-icon slot="icon" icon="account-circle"></iron-icon>
+                        <pb-media-query query="min-width: 1024px">
+                            <!-- language selector -->
+                            <pb-lang name="lang">
+                                <paper-item value="en">en</paper-item>
+                                <paper-item value="de">de</paper-item>
+                                <paper-item value="fr">fr</paper-item>
+                                <paper-item value="gr">gr</paper-item>
+                                <paper-item value="it">it</paper-item>
+                                <paper-item value="pl">pl</paper-item>
+                                <paper-item value="es">es</paper-item>
+                                <paper-item value="nl">nl</paper-item>
+                            </pb-lang>
+                        </pb-media-query>
+                        <pb-login id="login" group="tei">
                         </pb-login>
                         <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
                     </app-toolbar>
                 </app-header>
                 <main>
-                    <odd-editor data-template="app:odd-editor">
-                        <odd-selector id="selector" data-template="app:form-odd-select">
-                        </odd-selector>
-                    </odd-editor>
+                    <pb-odd-editor
+                        endpoint="http://localhost:8080/exist/apps/tei-publisher"
+                        data-template="app:odd-editor">
+                    </pb-odd-editor>
                 </main>
             </app-header-layout>
         </pb-page>

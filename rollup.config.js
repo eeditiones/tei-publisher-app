@@ -11,6 +11,7 @@ export default [
             '@teipublisher/pb-components/src/pb-components-bundle.js',
             '@teipublisher/pb-components/src/pb-facsimile.js',
             '@teipublisher/pb-components/src/pb-leaflet-map.js',
+            '@teipublisher/pb-components/src/pb-odd-editor.js',
             './components/pb-edit-app.js'
         ],
         output: {
