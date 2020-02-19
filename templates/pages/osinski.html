@@ -13,65 +13,59 @@
         <meta name="description" content="Historical dictionary"/>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
-        <script src="../tei-publisher/components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
-        <link rel="import" href="../tei-publisher/components/dependencies-dev.html"/>
+        <link rel="stylesheet" href="resources/css/theme.css"/>
+        <script type="module" src="resources/scripts/pb-components-bundle.js"></script>
+        <script type="module" src="resources/scripts/pb-facsimile.js"></script>
         <style>
-            [unresolved] {
-                display:none;
+            body {
+                --pb-link-theme: {
+                    font-family: "Junicode",Georgia,"Times New Roman",serif;
+                    text-decoration: none;
+                    color: black;
+                };
+
+                --pb-view-height: calc(100vh - 212px);
+            }
+
+            #view1 {
+                flex: 1 1;
+                font-family: "Junicode", Georgia, "Times New Roman", serif;
+                font-size: 14pt;
+                line-height: 1.42857143;
+                padding: 0 16px;
+                height: var(--pb-view-height);
+                overflow: auto;
+            }
+
+            .content-body {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                padding: 0 20px;
+            }
+            
+            .metadata {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                padding: 0 20px;
+            }
+
+            .content-body pb-facsimile {
+                flex: 1 1;
+                height: var(--pb-view-height);
+            }
+
+            @media (max-width: 769px) {
+                pb-facsimile {
+                    display: none;
+                }
             }
         </style>
-        <custom-style>
-            <style include="pb-common-styles">
-                body {
-                    --pb-link-theme: {
-                        font-family: "Junicode",Georgia,"Times New Roman",serif;
-                        text-decoration: none;
-                        color: black;
-                    };
-
-                    --pb-view-height: calc(100vh - 212px);
-                }
-
-                #view1 {
-                    flex: 1 1;
-                    font-family: "Junicode", Georgia, "Times New Roman", serif;
-                    font-size: 14pt;
-                    line-height: 1.42857143;
-                    padding: 0 16px;
-                    height: var(--pb-view-height);
-                    overflow: auto;
-                }
-
-                .content-body {
-                    position: relative;
-                    display: flex;
-                    justify-content: center;
-                    padding: 0 20px;
-                }
-                
-                .metadata {
-                    position: relative;
-                    display: flex;
-                    justify-content: center;
-                    padding: 0 20px;
-                }
-
-                .content-body pb-facsimile {
-                    flex: 1 1;
-                    height: var(--pb-view-height);
-                }
-
-                @media (max-width: 769px) {
-                    pb-facsimile {
-                        display: none;
-                    }
-                }
-            </style>
-        </custom-style>
     </head>
 
-    <body unresolved="unresolved" data-template="i18n:translate" data-template-catalogues="resources/i18n">
-        <pb-page data-template="pages:pb-page">
+    <body>
+        <pb-page data-template="pages:pb-page" locales="resources/i18n/{{lng}}.json" unresolved="unresolved">
             <pb-document id="document1" data-template="pages:pb-document"/>
             <app-drawer-layout force-narrow="force-narrow">
                 <app-drawer data-template="templates:include" data-template-path="templates/drawer.html"/>
@@ -105,10 +99,12 @@
                     </section>
                     <main class="content-body">
                         <pb-view id="view1" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" wait-for="#facsimile"/>
-                        <pb-facsimile id="facsimile" base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/" default-zoom-level="0" show-navigation-control="show-navigation-control" show-navigator="show-navigator" subscribe="transcription"/>
+                        <pb-facsimile id="facsimile" base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/" default-zoom-level="0" show-navigation-control="show-navigation-control" 
+                            prefix-url="resources/images/openseadragon/" show-navigator="show-navigator" subscribe="transcription"/>
                     </main>
                 </app-header-layout>
             </app-drawer-layout>
         </pb-page>
+        <div class="splash"></div>
     </body>
 </html>
