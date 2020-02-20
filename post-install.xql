@@ -30,4 +30,11 @@ sm:chgrp(xs:anyURI($target || "/modules/lib/latex.xql"), "dba"),
 (: App generator requires dba permissions to install packages :)
 sm:chmod(xs:anyURI($target || "/modules/components-generate.xql"), "rwsr-Sr-x"),
 sm:chown(xs:anyURI($target || "/modules/components-generate.xql"), "tei"),
-sm:chgrp(xs:anyURI($target || "/modules/components-generate.xql"), "dba")
+sm:chgrp(xs:anyURI($target || "/modules/components-generate.xql"), "dba"),
+
+xmldb:create-collection($target || "/data", "playground"),
+sm:chmod(xs:anyURI($target || "/data/playground"), "rwxrwxr-x"),
+sm:chown(xs:anyURI($target || "/data/playground"), "tei"),
+sm:chgrp(xs:anyURI($target || "/data/playground"), "tei"),
+sm:chmod(xs:anyURI($target || "/data/test"), "r-xr-xr-x"),
+sm:chmod(xs:anyURI($target || "/data/doc"), "r-xr-xr-x")
