@@ -126,6 +126,13 @@ declare %private function app:params2map() {
     )
 };
 
+declare 
+    %templates:wrap
+function app:clear-facets($node as node(), $model as map(*)) {
+    session:set-attribute($config:session-prefix || ".hits", ()),
+    map {}
+};
+
 declare function app:use-cache($params as map(*), $cached) {
     let $cachedParams := session:get-attribute($config:session-prefix || ".params")
     let $timestamp := session:get-attribute($config:session-prefix || ".timestamp")
