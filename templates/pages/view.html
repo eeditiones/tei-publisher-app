@@ -17,68 +17,40 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
         <link rel="stylesheet" href="resources/css/theme.css"/>
         <script type="module" src="resources/scripts/pb-components-bundle.js"></script>
-        <custom-style>
-            <style include="pb-common-styles">
-                body {
-                    --pb-link-theme: {
-                        font-family: "Junicode",Georgia,"Times New Roman",serif;
-                        text-decoration: none;
-                        color: black;
-                    };
-
-                    --pb-lang-item-color: black;
+        <style>
+            @media (min-width: 769px) {
+                .toolbar pb-navigation {
+                    display: none;
                 }
+            }
 
-                #view1 {
-                    font-family: "Junicode",Georgia,"Times New Roman",serif;
-                    font-size: 14pt;
-                    line-height: 1.42857143;
-                    margin: 0 16px;
-                }
+            .content-body {
+                position: relative;
+                display: flex;
+                justify-content: center;
+            }
 
-                .toolbar {
-                    justify-content: space-between;
-                    background-color: #d1dae0;
-                }
+            .content-body pb-navigation {
+                position: fixed;
+                bottom: 45%;
+                --paper-fab-background: #35424b;
+                color: white;
+            }
 
-                @media (min-width: 769px) {
-                    .toolbar pb-navigation {
-                        display: none;
-                    }
+            .content-body pb-navigation[direction=backward] {
+                left: 20px;
+            }
 
-                    #view1 {
-                        max-width: 60vw;
-                    }
-                }
+            .content-body pb-navigation[direction=forward] {
+                right: 20px;
+            }
 
-                .content-body {
-                    position: relative;
-                    display: flex;
-                    justify-content: center;
-                }
-
+            @media (max-width: 769px) {
                 .content-body pb-navigation {
-                    position: fixed;
-                    bottom: 45%;
-                    --paper-fab-background: #35424b;
-                    color: white;
+                    display: none;
                 }
-
-                .content-body pb-navigation[direction=backward] {
-                    left: 20px;
-                }
-
-                .content-body pb-navigation[direction=forward] {
-                    right: 20px;
-                }
-
-                @media (max-width: 769px) {
-                    .content-body pb-navigation {
-                        display: none;
-                    }
-                }
-            </style>
-        </custom-style>
+            }
+        </style>
     </head>
 
     <body>

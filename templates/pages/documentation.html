@@ -15,70 +15,57 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
         <link rel="stylesheet" href="resources/css/theme.css"/>
         <script type="module" src="resources/scripts/pb-components-bundle.js"></script>
-        <custom-style>
-            <style include="pb-common-styles">
-                body {
-                    --pb-link-theme: {
-                        text-decoration: none;
-                        color: black;
-                    };
+        <style>
+            #view1 {
+                margin: 8px 16px;
+            }
 
-                    --paper-card-header: {
-                        font-family: "Oswald",Verdana,"Helvetica",sans-serif;
-                        background-color: #607D8B;
-                    };
+            #view1, #toc pb-link {
+                font-family: var(--pb-base-font-family);
+                font-size: 20px;
+            }
 
-                    --paper-card-header-color: #F0F0F0;
-
-                    --pb-footnotes: {
-                        padding-top: 10px;
-                        margin-top: 20px;
-                        border-top: 1px solid #C0C0C0;
-                    };
+            .breadcrumbs pb-view {
+                font-family: var(--pb-base-font-family);
+            }
+            
+            @media (min-width: 769px) {
+                .toolbar pb-navigation {
+                    display: none;
                 }
 
                 #view1 {
-                    margin: 8px 16px;
+                    max-width: 60vw;
                 }
+            }
 
-                @media (min-width: 769px) {
-                    .toolbar pb-navigation {
-                        display: none;
-                    }
+            .content-body {
+                position: relative;
+                display: flex;
+                justify-content: center;
+            }
 
-                    #view1 {
-                        max-width: 60vw;
-                    }
-                }
+            .content-body pb-navigation {
+                position: fixed;
+                bottom: 45%;
+                --paper-fab-background: #35424b;
+                color: white;
+            }
 
-                .content-body {
-                    position: relative;
-                    display: flex;
-                    justify-content: center;
-                }
+            .content-body pb-navigation[direction=backward] {
+                left: 20px;
+            }
 
+            .content-body pb-navigation[direction=forward] {
+                right: 20px;
+            }
+
+            @media (max-width: 769px) {
                 .content-body pb-navigation {
-                    position: fixed;
-                    bottom: 45%;
-                    --paper-fab-background: #35424b;
-                    color: white;
+                    display: none;
                 }
-
-                .content-body pb-navigation[direction=backward] {
-                    left: 20px;
-                }
-
-                .content-body pb-navigation[direction=forward] {
-                    right: 20px;
-                }
-
-                @media (max-width: 769px) {
-                    .content-body pb-navigation {
-                        display: none;
-                    }
-                }
-            </style>
-        </custom-style>
+            }
+        </style>
     </head>
 
     <body>
