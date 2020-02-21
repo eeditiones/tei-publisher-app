@@ -17,21 +17,14 @@
         <link rel="stylesheet" href="resources/css/theme.css"/>
         <script type="module" src="resources/scripts/pb-components-bundle.js"></script>
         <custom-style>
-            <style include="pb-common-styles">
+            <style>
                 body {
-                    --pb-link-theme: {
-                        text-decoration: none;
-                        color: black;
-                    };
-
-                    --paper-card-header: {
-                        font-family: "Oswald",Verdana,"Helvetica",sans-serif;
-                        background-color: #607D8B;
-                    };
-
-                    --paper-card-header-color: #F0F0F0;
-
                     --pb-view-height: calc(100vh - 200px);
+                }
+
+                pb-view {
+                    font-family: var(--pb-base-font-family);
+                    font-size: 20px;
                 }
 
                 .toolbar pb-navigation {

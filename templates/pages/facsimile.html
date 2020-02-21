@@ -17,49 +17,35 @@
     <link rel="stylesheet" href="resources/css/theme.css" />
     <script type="module" src="resources/scripts/pb-components-bundle.js"></script>
     <script type="module" src="resources/scripts/pb-facsimile.js"></script>
-    <custom-style>
-        <style include="pb-common-styles">
-            body {
-                --pb-link-theme: {
-                    font-family: "Junicode", Georgia, "Times New Roman", serif;
-                    text-decoration: none;
-                    color: black;
-                }
+    <style>
+        body {
+            --pb-view-height: calc(100vh - 212px);
+        }
 
-                ;
+        #view1 {
+            flex: 1 1;
+            height: var(--pb-view-height);
+            overflow: auto;
+        }
 
-                --pb-view-height: calc(100vh - 212px);
+        .content-body {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            padding: 0 20px;
+        }
+
+        .content-body pb-facsimile {
+            flex: 1 1;
+            height: var(--pb-view-height);
+        }
+
+        @media (max-width: 769px) {
+            pb-facsimile {
+                display: none;
             }
-
-            #view1 {
-                flex: 1 1;
-                font-family: "Junicode", Georgia, "Times New Roman", serif;
-                font-size: 14pt;
-                line-height: 1.42857143;
-                padding: 0 16px;
-                height: var(--pb-view-height);
-                overflow: auto;
-            }
-
-            .content-body {
-                position: relative;
-                display: flex;
-                justify-content: center;
-                padding: 0 20px;
-            }
-
-            .content-body pb-facsimile {
-                flex: 1 1;
-                height: var(--pb-view-height);
-            }
-
-            @media (max-width: 769px) {
-                pb-facsimile {
-                    display: none;
-                }
-            }
-        </style>
-    </custom-style>
+        }
+    </style>
 </head>
 
 <body>

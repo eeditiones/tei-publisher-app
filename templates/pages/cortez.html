@@ -28,25 +28,21 @@
     <custom-style>
         <style include="pb-common-styles">
             body {
-                --pb-link-theme: {
-                    font-family: "Junicode", Georgia, "Times New Roman", serif;
-                    text-decoration: none;
-                    color: black;
-                }
-
-                ;
-
-                --pb-alternate-inline: var(--paper-blue-800);
-
                 --pb-view-height: calc(100vh - 192px);
+
+                --paper-tooltip: {
+                    max-width: var(--pb-popover-max-width, 256px);
+                    text-align: left;
+                    background-color: var(--paper-grey-50);
+                    color: #101010;
+                    box-shadow: 2px 4px 14px rgba(0, 0, 0, 0.6);
+                    border-radius: 6px;
+                };
             }
 
             #view1,
             #view2 {
                 flex: 1 1;
-                font-family: "Junicode", Georgia, "Times New Roman", serif;
-                font-size: 14pt;
-                line-height: 1.42857143;
                 max-width: 60vw;
                 margin: 0 16px;
                 max-height: var(--pb-view-height);
