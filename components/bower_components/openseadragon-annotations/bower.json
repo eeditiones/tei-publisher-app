@@ -1,8 +1,0 @@
-{
-  "name": "openseadragon-annotations",
-  "main": "openseadragon-annotations.js",
-  "dependencies": {
-    "openseadragon": "^2.2.1"
-  },
-  "ignore": []
-}
