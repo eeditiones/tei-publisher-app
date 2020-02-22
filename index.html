@@ -150,6 +150,16 @@
                 border-bottom: thin solid var(--paper-grey-300);
             }
 
+            .documents img {
+                margin-right: 40px;
+            }
+
+            @media (max-width: 1023px) {
+                .documents img {
+                    display: none;
+                }
+            }
+
             .documents ul {
                 list-style: none;
             }
@@ -365,8 +375,8 @@
                 <main>
                     <section>
                         <h1 class="tp-title">TEI Publisher <span>The Instant Publishing Toolbox</span></h1>
-                        <p>Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD.</p>
-                        <p><strong>Log in</strong> to upload files or see administrative functions (default user: "tei", password: "simple").</p>
+                        <p><pb-i18n key="browse.description">Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD.</pb-i18n></p>
+                        <p><strong><pb-i18n key="login.login">Log in</pb-i18n></strong> <pb-i18n key="browse.login">to upload files or see administrative functions (default user: "tei", password: "simple").</pb-i18n></p>
                     </section>
                     <section class="panels">
                         <paper-card class="doclist" data-i18n="[heading]browse.documents" heading="documents">
