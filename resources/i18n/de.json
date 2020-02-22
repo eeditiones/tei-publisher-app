@@ -23,6 +23,8 @@
     }
   },
   "browse": {
+    "description": "Diese Anwendung dient vorrangig zum Experimentieren mit verschiedenen Dokumenten und deren Transformationen über das TEI Processing Model. Es können eigene Dateien hochgeladen und neue ODDs erstellt werden.",
+    "login": "zum Hochladen eigener Dateien oder Zugriff auf administrative Funktionen (Standardnutzer: 'tei', Passwort: 'simple').",
     "sort": "Sortiere nach",
     "filter": "Filtere nach",
     "items": "{{count}} Eintrag gefunden",
@@ -37,7 +39,18 @@
     "documents": "Dokumente",
     "collections": "Lokale Sammlung",
     "dts": "Distributed Text Services (experimentell)",
-    "demo": "TEI Publisher Beispielsammlung",
+    "demo": {
+      "title": "TEI Publisher Beispielsammlung",
+      "description": "Dokumente zur Demonstration diverser Features. Die Auswahl ist in keiner Weise erschöpfend, sondern zeigt nur einen kleinen Ausschnitt des Möglichen. Weitere Beispiele sind jederzeit willkommen!"
+    },
+    "playground": {
+      "title": "Spielwiese",
+      "description": "Eine beschreibbare Sammlung zum Hochladen eigener Dokumente"
+    },
+    "documentation": {
+      "title": "Dokumentation",
+      "description": "Dokumentation und Neuigkeiten, verfasst in Docbook XML."
+    },
     "up": "Nach oben"
   },
   "demo": {
