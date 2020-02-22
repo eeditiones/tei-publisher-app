@@ -17,7 +17,7 @@ export default [
         output: {
             dir: 'resources/scripts',
             format: 'es',
-            sourcemap: true
+            sourcemap: !production
         },
         plugins: [
             resolve(),
@@ -48,7 +48,7 @@ export default [
         output: {
             file: 'resources/scripts/pb-components-all.js',
             format: 'iife',
-            sourcemap: true
+            sourcemap: !production
         },
         plugins: [
             resolve(),
