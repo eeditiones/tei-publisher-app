@@ -15,7 +15,6 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "lib/browse.xql";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "lib/pages.xql";
 import module namespace search="http://www.tei-c.org/tei-simple/search" at "lib/search.xql";
-import module namespace i18n="http://exist-db.org/xquery/i18n/templates" at "lib/i18n-templates.xql";
 import module namespace app="teipublisher.com/app" at "app.xql";
 
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
