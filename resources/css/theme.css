@@ -4,6 +4,10 @@ body {
     --pb-base-line-height: 1.42857143;
     --pb-base-font: 300 var(--pb-base-font-size)/var(--pb-base-line-height) var(--pb-base-font-family);
 
+    --pb-serif-font-family: "Junicode",Georgia,"Times New Roman",serif;
+    --pb-content-font-family: var(--pb-serif-font-family);
+    --pb-content-font-size: 20px;
+    
     --pb-heading-font-family: "Oswald",Verdana,"Helvetica",sans-serif;
     --pb-heading-font-weight: 400 !important;
     --pb-heading-line-height: 1.2;
@@ -11,11 +15,7 @@ body {
     --pb-color-primary: #303030;
     --pb-color-inverse: #F0F0F0;
     --pb-color-lighter: #35424b;
-
-    --pb-serif-font-family: "Junicode",Georgia,"Times New Roman",serif;
-
-    --pb-content-font-family: var(--pb-serif-font-family);
-    --pb-content-font-size: 20px;
+    --pb-color-focus: #f6a623;
 
     --paper-tooltip-delay-in: 200;
 
@@ -35,6 +35,8 @@ body {
     --pb-link-font-family: var(--pb-serif-font-family);
 
     --pb-highlight-color: #F9E976;
+
+    --paper-input-container-focus-color: var(--pb-color-focus);
 
     font: var(--pb-base-font);
     color: var(--pb-color-primary);
@@ -126,6 +128,8 @@ app-drawer-layout:not([narrow]) [drawer-toggle] {
     justify-content: space-between;
     background-color: #35424b;
     color: white;
+    --pb-search-suggestions-color: var(--pb-color-primary);
+    --pb-search-suggestions-background: white;
 }
 
 .menubar pb-media-query {
