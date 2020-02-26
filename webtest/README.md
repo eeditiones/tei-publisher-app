@@ -2,15 +2,6 @@
 
 ## Installation
 
-### Install selenium
-
-```shell
-npm install selenium-standalone@latest -g
-selenium-standalone install
-```
-
-### Install webdriverio
-
 Inside the webtest directory call
 
 ```shell
@@ -19,42 +10,19 @@ npm install
 
 ## Run
 
-Start selenium in a shell:
+Run the the entire test suite:
 
 ```shell
-selenium-standalone start
+node_modules/.bin/wdio wdio.conf.js
 ```
-
-Run the tests:
+or 
 
 ```shell
-./node_modules/.bin/wdio wdio.conf.js
+npm run-script test
 ```
 
-## Web Components Test
-
-No need to run Selenium.
-
-To use a non standard Chrome binary use the `WDIO_CHROME_BINARY` variable:
+or run single test specs, e.g. test `pages.js:
 
 ```shell
-export WDIO_CHROME_BINARY="/usr/bin/google-chrome-beta"
+node_modules/.bin/wdio wdio.conf.js --spec tests/specs/pages.spec.js
 ```
-
-Run wct test:
-
-```shell
-npm run test-wct
-```
-
-or manually:
-
-```shell
-./node_modules/.bin/wdio wdio.conf.js --spec test/specs/wct-index.spec.js
-```
-
-### Continuous Integration with Jenkins
-
-Every push into the master branch on Gitlab will trigger [a CI job in Jenkins](https://jenkins.existsolutions.com/view/Tei-Publisher/job/teipublisher-web-components-test/).
-
-Setup intructions can be found in the [jenkinsci/gitlab-plugin repo's wiki](https://github.com/jenkinsci/gitlab-plugin/wiki/Setup-Example).
