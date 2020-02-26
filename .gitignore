@@ -12,7 +12,6 @@ webtest/node_modules
 webtest/npm-debug.log
 /node_modules/
 bower_components
-package-lock.json
 local.build.properties
 resources/scripts/*.js
 resources/scripts/*.map
