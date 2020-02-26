@@ -1,22 +1,24 @@
-require("../util.js");
-var assert = require('assert');
-var path = require('path');
-var fs = require('fs');
-var request = require('request');
+const Page  = require('../pageobjects/Page');
 
-describe('generate app', function() {
+//require("../util.js");
+let assert = require('assert');
+let path = require('path');
+let fs = require('fs');
+let request = require('request');
 
-    it('should open generate page', function() {
-        browser.url("/exist/apps/tei-publisher/index.html");
+describe('generate app', () => {
+
+    it('should open generate page', () => {
+        Page.openUrl("/exist/apps/tei-publisher/index.html");
         browser.login();
 
         browser.click("*=Admin");
-        browser.waitForVisible("a[href*='generate.html']");
+        Page.waitForVisible("a[href*='generate.html']");
         browser.click("a[href*='generate.html']");
         browser.waitForExist("#form-generate");
     });
 
-    it('should fill out form', function() {
+    it('should fill out form', () => {
         browser.selectByValue("#app-odd", "dta.odd");
         browser.setValue("#app-name", "http://exist-db.org/apps/foo");
         browser.setValue("#app-abbrev", "foo");
@@ -27,17 +29,17 @@ describe('generate app', function() {
         browser.click("#form-generate button");
         browser.waitForText("#msg-collection", 60000);
 
-        assert.equal(browser.getText("#msg-collection"), "/db/apps/foo");
+        assert.equal(Page.getElementText("#msg-collection"), "/db/apps/foo");
     });
 
-    it('opens generated app', function() {
-        browser.url("/exist/apps/foo");
+    it('opens generated app', () => {
+        Page.openUrl("/exist/apps/foo");
 
         assert(browser.isExisting("#documents-panel"));
     });
 });
 
-describe('upload data and test', function() {
+describe('upload data and test', () => {
     before(function() {
         return browser.upload(
             path.join('..', 'data', 'test', 'kant_rvernunft_1781.TEI-P5.xml'),
@@ -45,16 +47,16 @@ describe('upload data and test', function() {
         )
     });
 
-    it('check uploaded file', function() {
+    it('check uploaded file', () => {
         browser.pause(800);
         browser.refresh();
         browser.waitForExist("a[href*='kant_rvernunft_1781.TEI-P5.xml']");
         browser.click("a[href*='kant_rvernunft_1781.TEI-P5.xml']")
             .waitForVisible(".tp-document-title-wrapper h5");
-        assert.equal(browser.getText(".tp-document-title-wrapper h5"), "Critik der reinen Vernunft");
+        assert.equal(Page.getElementText(".tp-document-title-wrapper h5"), "Critik der reinen Vernunft");
     });
 
-    it("table of contents", function() {
+    it("table of contents", () => {
         browser.click(".toc-toggle")
             .waitForExist("#toc li:nth-child(3)");
 
@@ -64,45 +66,45 @@ describe('upload data and test', function() {
             .pause(200);
         browser.waitForText(".content h1");
 
-        assert.equal(browser.getText(".content h1"), "Einleitung.");
+        assert.equal(Page.getElementText(".content h1"), "Einleitung.");
     });
 
-    it("next page", function() {
+    it("next page", () => {
         browser.click(".nav-next").pause(200);
         browser.waitForText(".content .tei-corr1");
-        assert.equal(browser.getText(".content .tei-corr1"), "Erkentniſſe");
+        assert.equal(Page.getElementText(".content .tei-corr1"), "Erkentniſſe");
     });
 
-    it("previous page", function() {
+    it("previous page", () => {
         browser.click(".nav-prev").pause(200);
 
         browser.waitForText(".content h1");
-        assert.equal(browser.getText(".content h1"), "Einleitung.");
+        assert.equal(Page.getElementText(".content h1"), "Einleitung.");
     });
 
-    it("reload", function() {
+    it("reload", () => {
         browser.refresh();
 
-        assert.equal(browser.getText(".content h1"), "Einleitung.");
+        assert.equal(Page.getElementText(".content h1"), "Einleitung.");
     });
 
-    it("next page", function() {
+    it("next page", () => {
         browser.click(".nav-next").pause(200);
         browser.waitForText(".content .tei-corr1");
-        assert.equal(browser.getText(".content .tei-corr1"), "Erkentniſſe");
+        assert.equal(Page.getElementText(".content .tei-corr1"), "Erkentniſſe");
     });
 
-    it("reload", function() {
+    it("reload", () => {
         browser.refresh();
 
-        assert.equal(browser.getText(".content .tei-corr1"), "Erkentniſſe");
+        assert.equal(Page.getElementText(".content .tei-corr1"), "Erkentniſſe");
     });
 
-    it("search", function() {
+    it("search", () => {
         browser.setValue("#searchPageForm input[name='query']", "urtheile");
         browser.submitForm("#searchPageForm");
 
-        var hits = browser.getText("#hit-count");
+        let hits = Page.getElementText("#hit-count");
         assert.equal(hits, 34);
 
         browser.click("#results tr:nth-child(2) .hi a");
@@ -114,17 +116,17 @@ describe('upload data and test', function() {
         assert(browser.isExisting("mark"));
     });
 
-    it("start page", function() {
+    it("start page", () => {
         browser.click("#about a");
         assert(browser.isExisting("a[href*='kant_rvernunft_1781.TEI-P5.xml']"));
     });
 
-    it("should delete document", function() {
+    it("should delete document", () => {
         browser.click("li[data-doc*='kant_rvernunft_1781.TEI-P5.xml'] .delete").
             waitForVisible("#confirm");
         browser.click("#confirm-delete");
         browser.pause(300);
-        var docs = browser.elements("li[data-doc*='kant_rvernunft_1781.TEI-P5.xml']");
+        let docs = browser.elements("li[data-doc*='kant_rvernunft_1781.TEI-P5.xml']");
         assert.equal(docs.value.length, 0);
     });
 

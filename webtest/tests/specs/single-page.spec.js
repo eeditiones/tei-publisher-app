@@ -1,7 +1,9 @@
-var client = require(process.env.WDIO_PROTOCOL);
+const Page  = require('../pageobjects/Page');
 
-var plainPath = '/exist/apps/tei-publisher/doc/kant_rvernunft_1781.TEI-P5.xml?cache=no&odd=documentation.odd&mode=plain';
-var requestOptions = {
+let client = require(process.env.WDIO_PROTOCOL);
+
+let plainPath = '/exist/apps/tei-publisher/doc/kant_rvernunft_1781.TEI-P5.xml?cache=no&odd=documentation.odd&mode=plain';
+let requestOptions = {
   hostname: process.env.WDIO_SERVER,
   port: process.env.WDIO_PORT,
   path: plainPath
@@ -10,14 +12,14 @@ if (process.env.WDIO_PROTOCOL === 'https') {
     requestOptions.rejectUnauthorized = false;
 }
 
-describe('Get plain HTML', function() {
-  // var documentPromise = null;
-  var document;
+describe('Get plain HTML', () => {
+  // let documentPromise = null;
+  let document;
 
   function getPlain (cb) {
     return new Promise(function(resolve, reject) {
       client.get(requestOptions, function(response) {
-        var data = new Buffer([]);
+        let data = new Buffer([]);
         response.on('data', function addChunk(chunk) {
            data = Buffer.concat([data, chunk]);
         });

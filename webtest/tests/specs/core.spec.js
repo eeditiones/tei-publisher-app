@@ -1,20 +1,20 @@
-require("../util.js");
-var assert = require('assert');
-var path = require('path');
-var client = require(process.env.WDIO_PROTOCOL);
-var sizeOf = require('image-size');
+const Page  = require('../pageobjects/Page');
 
-describe('browsing text', function() {
+let client = require(process.env.WDIO_PROTOCOL);
+let sizeOf = require('image-size');
+let path = require('path');
 
-    it('open document', function() {
-        browser.url("/exist/apps/tei-publisher/index.html");
+describe('browsing text', () => {
+
+    it('open document', () => {
+        Page.openUrl("/exist/apps/tei-publisher/index.html");
 
         browser.click("a[href*='kant_rvernunft_1781.TEI-P5.xml']")
-        browser.waitForVisible(".tp-document-title-wrapper h5");
-        assert.equal(browser.getText(".tp-document-title-wrapper h5"), "Critik der reinen Vernunft");
+        Page.waitForVisible(".tp-document-title-wrapper h5");
+        assert.equal(Page.getElementText(".tp-document-title-wrapper h5"), "Critik der reinen Vernunft");
     });
 
-    it("table of contents", function() {
+    it("table of contents", () => {
         browser.click(".toc-toggle")
             .waitForVisible("#toc a[data-div='3.4.4.8']");
 
@@ -22,45 +22,45 @@ describe('browsing text', function() {
             .waitForVisible("a[data-div='3.4.4.8.7']");
         browser.click("a[data-div='3.4.4.8.7']");
         browser.waitForText(".content h1");
-        assert.equal(browser.getText(".content h1"), 'Einleitung.');
+        assert.equal(Page.getElementText(".content h1"), 'Einleitung.');
     });
 
-    it("next page", function() {
+    it("next page", () => {
         browser.click(".nav-next").pause(200);
         browser.waitForText(".content .tei-corr1");
-        assert.equal(browser.getText(".content .tei-corr1"), "Erkentniſſe");
+        assert.equal(Page.getElementText(".content .tei-corr1"), "Erkentniſſe");
     });
 
-    it("previous page", function() {
+    it("previous page", () => {
         browser.click(".nav-prev").pause(200);
 
         browser.waitForText(".content h1");
-        assert.equal(browser.getText(".content h1"), 'Einleitung.');
+        assert.equal(Page.getElementText(".content h1"), 'Einleitung.');
     });
 
-    it("reload", function() {
+    it("reload", () => {
         browser.refresh();
 
-        assert.equal(browser.getText(".content h1"), 'Einleitung.');
+        assert.equal(Page.getElementText(".content h1"), 'Einleitung.');
     });
 
-    it("next page", function() {
+    it("next page", () => {
         browser.click(".nav-next").pause(200);
         browser.waitForText(".content .tei-corr1");
-        assert.equal(browser.getText(".content .tei-corr1"), "Erkentniſſe");
+        assert.equal(Page.getElementText(".content .tei-corr1"), "Erkentniſſe");
     });
 
-    it("reload", function() {
+    it("reload", () => {
         browser.refresh();
 
-        assert.equal(browser.getText(".content .tei-corr1"), "Erkentniſſe");
+        assert.equal(Page.getElementText(".content .tei-corr1"), "Erkentniſſe");
     });
 
-    it("search", function() {
+    it("search", () => {
         browser.setValue("#searchPageForm input[name='query']", "urtheile");
         browser.click("#searchPageForm .glyphicon-search");
 
-        var hits = browser.getText("#hit-count");
+        let hits = Page.getElementText("#hit-count");
         assert.equal(hits, 34);
 
         browser.click("#results tr:nth-child(2) .hi a");
@@ -72,15 +72,15 @@ describe('browsing text', function() {
         assert(browser.isExisting("mark"));
     });
 
-    it("start page", function() {
+    it("start page", () => {
         browser.click("#about a");
         assert(browser.isExisting("a[href*='kant_rvernunft_1781.TEI-P5.xml']"));
     });
 });
 
-describe('view image on page', function() {
-    var image;
-    var requestOptions = {
+describe('view image on page', () => {
+    let image;
+    let requestOptions = {
       hostname: process.env.WDIO_SERVER,
       port: process.env.WDIO_PORT,
       path: '/exist/apps/tei-publisher/test/portrait.jpg'
@@ -92,7 +92,7 @@ describe('view image on page', function() {
     function getImage (cb) {
       return new Promise(function(resolve, reject) {
         client.get(requestOptions, function(response) {
-          var data = new Buffer([]);
+          let data = new Buffer([]);
           response.on('data', function addChunk(chunk) {
              data = Buffer.concat([data, chunk]);
           });
@@ -112,11 +112,11 @@ describe('view image on page', function() {
       image = browser.call(getImage);
     });
 
-    it("should exist", function() {
+    it("should exist", () => {
         assert.equal(typeof image, 'object');
     });
 
-    it("should have width", function() {
+    it("should have width", () => {
         assert.equal(sizeOf(image).width, 300)
     });
 });
