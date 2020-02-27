@@ -1,0 +1,160 @@
+{
+  "language": "Language",
+  "menu": {
+    "documentation": "Documentación",
+    "admin": {
+      "title": "Administrador",
+      "recompile": "Recompilar el ODD",
+      "appGenerator": "Generador de aplicaciones",
+      "edit-odd": "Editar el ODD"
+    },
+    "news": "News",
+    "download": {
+      "title": "Descargar",
+      "pdf-latex": "PDF (versión LaTeX)",
+      "pdf-fo": "PDF (versión FO)",
+      "pdf-title": "Descargar en PDF",
+      "fo-source": "Código fuente FO",
+      "latex-source": "Código fuente TeX",
+      "single-page": "Página única",
+      "epub-download": "Descargar como ePub",
+      "view-tei": "Ver el TEI XML original"
+    }
+  },
+  "dialogs": {
+    "error": "Ooops",
+    "close": "Cerrar",
+    "yes": "Sí",
+    "no": "No",
+    "serverError": "The request to the server failed.",
+    "generatingFile": "Generando el archivo...",
+    "downloadMessage": "Generar el archivo para su descarga puede llevar algunos minutos. Espere, por favor. Este mensaje debería cerrarse automáticamente cuando la descarga esté completa.",
+    "loading": "Loading ..."
+  },
+  "document": {
+    "contents": "Índice",
+    "selectODD": "Select ODD",
+    "selectTemplate": "Select Template",
+    "selectFeature": "Select Feature",
+    "normalized": "Normalized View",
+    "plain": "Plain Reading View",
+    "view-type": "Page View",
+    "add-panel": "Add View"
+  },
+  "browse": {
+    "description": "Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD.",
+    "login": "to upload files or see administrative functions (default user: 'tei', password: 'simple').",
+    "sort": "Ordenar por",
+    "filter": "Filter by",
+    "items": "Found {{count}} item",
+    "items_plural": "Found {{count}} items",
+    "title": "Título",
+    "author": "Autor",
+    "modificationDate": "Modification Date",
+    "file": "Filename",
+    "delete": "Borrar",
+    "confirmDeletion": "Are you sure you want to delete the file?",
+    "confirmDeletion_plural": "Are you sure you want to delete {{count}} files?",
+    "documents": "Documentos",
+    "collections": "Local Collection",
+    "dts": "Distributed Text Services (Experimental)",
+    "demo": {
+      "title": "TEI Publisher Demo Collection",
+      "description": "Documents demonstrating various features. The selection is in no way comprehensive but represents a subset of what is possible. Please contribute your own use cases to complement this."
+    },
+    "playground": {
+      "title": "Playground",
+      "description": "A writable collection into which you can upload your own documents for testing."
+    },
+    "documentation": {
+      "title": "Documentación",
+      "description": "Documentation and News using Docbook XML."
+    },
+    "up": "Up"
+  },
+  "upload": {
+    "upload": "Cargar",
+    "drop": "Drop {{accept}} files here to upload."
+  },
+  "demo": {
+    "showCode": {
+      "show": "Show Code",
+      "hide": "Hide Code"
+    },
+    "editCode": {
+      "show": "Edit Code",
+      "hide": "Close Editor"
+    }
+  },
+  "login": {
+    "login": "Conectarse",
+    "as": "Logged in as {{user}}",
+    "user": "Usuario",
+    "password": "Contraseña",
+    "invalid": "Wrong password or invalid user",
+    "requiredGroup": "must be member of group {{group}}"
+  },
+  "search": {
+    "placeholder": "Enter Query",
+    "sections": "Buscar en el texto",
+    "headings": "Buscar en títulos"
+  },
+  "dts": {
+    "endpoint": "Select Endpoint",
+    "note": "Experimental: access other editions which expose the DTS API"
+  },
+  "odd": {
+    "files": "ODD Files",
+    "manage": {
+      "filename": "File name of the ODD (without suffix)",
+      "title": "Title for display",
+      "create": "Crear",
+      "create-from-example": "Create from examples",
+      "delete": "Are you sure you want to delete the ODD file {{file}}?"
+    }
+  },
+  "facets": {
+    "show": "Show top 50",
+    "genre": "Genre",
+    "language": "Language"
+  },
+  "appgen": {
+    "account": {
+      "user": "User account for administrative tasks. The user will be created if it does not yet exist.",
+      "owner": "The user account who will own the app.",
+      "password": "Password for the user owning this app."
+    },
+    "submit": "Save/Generate",
+    "index": {
+      "help": "Define the smallest block on which a full text index is created. For documents                         organized into divisions, choosing 'Create on division' is usually best. If there are no divisions, choose 'Create on text'.",
+      "label": "Default Full Text Index",
+      "index-div": "Create on division",
+      "index-text": "Create on text"
+    },
+    "view": {
+      "help": "Choose what is shown by default when browsing text: a single page                         or an entire division. Display by page requires that the TEI is properly marked up                         with &lt;tei:pb&gt; tags.",
+      "div": "By division (chapter/section...)",
+      "page": "By page"
+    },
+    "label": "Default View",
+    "template": {
+      "help": "Choose the HTML template to be used as default",
+      "label": "HTML Template"
+    },
+    "title": {
+      "help": "Title of the app which will be shown e.g. in the dashboard",
+      "label": "Title of the app"
+    },
+    "collection": "Name of subcollection to hold TEI documents",
+    "abbrev": {
+      "label": "Short name to be used in URLs and file names",
+      "placeholder": "Short name"
+    },
+    "uri": "URL to uniquely identify the app",
+    "dialog": {
+      "title": "App generated"
+    },
+    "open": "Open",
+    "success": "Your app has been successfully generated!"
+  }
+}
