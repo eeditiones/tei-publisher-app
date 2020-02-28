@@ -43,6 +43,10 @@ body {
     margin: 0;
 }
 
+*:focus {
+    outline: none;
+}
+
 .splash {
     position: fixed;
     top: 0;
