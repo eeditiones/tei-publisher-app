@@ -68,7 +68,7 @@
     },
     "documentation": {
       "title": "Documentation",
-      "description": "Documentation and News using Docbook XML."
+      "description": "Documentation (using Docbook XML)."
     },
     "up": "Up"
   },
@@ -111,6 +111,26 @@
       "create": "Create",
       "create-from-example": "Create from examples",
       "delete": "Are you sure you want to delete the ODD file {{file}}?"
+    },
+    "editor": {
+      "delete-spec": "Really delete the element spec for '{{ident}}'?",
+      "save": "Save",
+      "saving": "Saving ...",
+      "saved": "Saved",
+      "reload": "Reload",
+      "reload-confirm": "Any unsaved changes will be lost. Continue?",
+      "add-element": "Add Element",
+      "odd-source": "ODD Source",
+      "specs": "Element Specs",
+      "jump-to": "Jump to element ...",
+      "title-short": "Short title",
+      "title-short-placeholder": "Short title for display",
+      "description-label": "Description",
+      "source-placeholder": "ODD to inherit from",
+      "use-namespace": "Check for using a different namespace than TEI",
+      "namespace-placeholder": "Default namespace URI (if not TEI)",
+      "title": "Title",
+      "title-placeholder": "Title of the ODD"
     }
   },
   "facets": {
@@ -156,5 +176,11 @@
     },
     "open": "Open",
     "success": "Your app has been successfully generated!"
+  },
+  "editor": {
+    "odd": {
+      "description-placeholder": "Description of the ODD",
+      "source-label": "Base ODD"
+    }
   }
 }

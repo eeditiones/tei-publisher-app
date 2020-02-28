@@ -49,7 +49,7 @@
     },
     "documentation": {
       "title": "Dokumentation",
-      "description": "Dokumentation und Neuigkeiten, verfasst in Docbook XML."
+      "description": "Dokumentation, verfasst in Docbook XML."
     },
     "up": "Nach oben"
   },
@@ -112,6 +112,26 @@
       "delete": "Möchten Sie die ODD-Datei {{file}} wirklich löschen?",
       "title": "Titel für die Anzeige",
       "filename": "Dateiname des ODD (ohne Suffix)"
+    },
+    "editor": {
+      "add-element": "Element hinzufügen",
+      "delete-spec": "Elementspezifikation für '{{ident}}' wirklich löschen?",
+      "odd-source": "ODD-Quelle",
+      "reload": "Neu laden",
+      "reload-confirm": "Nicht gespeicherte Änderungen gehen verloren. Fortsetzen?",
+      "save": "Speichern",
+      "saving": "Speichern ...",
+      "specs": "Element Spezifikationen",
+      "jump-to": "Springe zu Element ...",
+      "saved": "Gespeichert",
+      "title-placeholder": "Titel des ODD",
+      "title": "Titel",
+      "title-short": "Kurztitel",
+      "title-short-placeholder": "Kurztitel für die Anzeige",
+      "description-label": "Beschreibung",
+      "source-placeholder": "Basis-ODD, welches erweitert wird",
+      "use-namespace": "Auswählen, um einen anderen Namespace als TEI zu benutzen",
+      "namespace-placeholder": "Default Namespace URI (wenn nicht TEI)"
     }
   },
   "facets": {
@@ -156,6 +176,12 @@
       "div": "Nach div (Kapitel / Abschnitt ...)",
       "help": "Wähle die Texteinheit, die jeweils auf einer Seite angezeigt werden soll. Dies kann ein ganzer Abschnitt (div) sein oder eine einzelne Seite des Orginals. Letztere Option funktioniert nur, wenn im TEI Seitenumbrüche korrekt ausgezeichnet sind.",
       "page": "Nach Seite"
+    }
+  },
+  "editor": {
+    "odd": {
+      "description-placeholder": "Beschreibung des ODD",
+      "source-label": "Basis ODD"
     }
   }
 }

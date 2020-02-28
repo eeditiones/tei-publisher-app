@@ -1,5 +1,5 @@
 {
-  "language": "Language",
+  "language": "Język",
   "menu": {
     "documentation": "Dokumentacja",
     "admin": {
@@ -26,135 +26,135 @@
     "close": "Zamknj",
     "yes": "Tak",
     "no": "Nie",
-    "serverError": "The request to the server failed.",
+    "serverError": "Zapytanie do serwera nie powiodło się.",
     "generatingFile": "Generowanie pliku...",
     "downloadMessage": "Generowanie pliku do pobrania może potrwać kilka minut. Proszę czekać. To okno powinno zamknąć się automatycznie kiedy pobieranie zostanie zakończone.",
     "loading": "Loading ..."
   },
   "document": {
     "contents": "Treść",
-    "selectODD": "Select ODD",
-    "selectTemplate": "Select Template",
-    "selectFeature": "Select Feature",
-    "normalized": "Normalized View",
-    "plain": "Plain Reading View",
-    "view-type": "Page View",
-    "add-panel": "Add View"
+    "selectODD": "Wybierz ODD",
+    "selectTemplate": "Wybierz szablon",
+    "selectFeature": "Wybierz ustawienie",
+    "normalized": "Widok znormalizowany",
+    "plain": "Widok do czytania",
+    "view-type": "Widok strony",
+    "add-panel": "Dodaj panel"
   },
   "browse": {
-    "description": "Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD.",
-    "login": "to upload files or see administrative functions (default user: 'tei', password: 'simple').",
+    "description": "Eksperymentuj i wypróbuj rezultaty zastosowania rozmaitych plików ODD dołączonych do naszej aplikacji. Zaimportuj własne pliki źródłowe i utwórz własny plik ODD dostosowany do Twoich potrzeb.",
+    "login": "aby zaimportować pliki oraz uzyskać dostęp do funkcji administracyjnych (domyślny użytkownik: 'tei', hasło: 'simple').",
     "sort": "Sortuj",
-    "filter": "Filter by",
-    "items": "Found {{count}} item",
-    "items_plural": "Found {{count}} items",
+    "filter": "Filtruj według",
+    "items": "Znaleziono {{count}} rezultat",
+    "items_plural": "Znaleziono {{count}} rezultatów",
     "title": "Tytuł",
     "author": "Autor",
-    "modificationDate": "Modification Date",
+    "modificationDate": "Data ostatniej modyfikacji",
     "file": "Nazwa pliku",
     "delete": "Usuń",
-    "confirmDeletion": "Are you sure you want to delete the file?",
-    "confirmDeletion_plural": "Are you sure you want to delete {{count}} files?",
+    "confirmDeletion": "Czy na pewno chcesz usunąć ten plik?",
+    "confirmDeletion_plural": "Czy na pewno chcesz usunąć {{count}} plików?",
     "documents": "Dokumenty",
-    "collections": "Local Collection",
-    "dts": "Distributed Text Services (Experimental)",
+    "collections": "Kolekcja lokalna",
+    "dts": "Serwis DTS (Distributed Text Services - wersja eksperymentalna)",
     "demo": {
-      "title": "TEI Publisher Demo Collection",
-      "description": "Documents demonstrating various features. The selection is in no way comprehensive but represents a subset of what is possible. Please contribute your own use cases to complement this."
+      "title": "Kolekcja Demo",
+      "description": "Kolekcja dokumentów demonstrujących różne dziedziny i formy prezentacji. Dobór przykładów nie stanowi reprezentatywnej próbki, jedynie podzbiór tego, co można uzyskać. Zachęcamy do współpracy przy poszerzaniu naszej kolekcji przykładów poprzez nadsyłanie własnych 'use cases'."
     },
     "playground": {
-      "title": "Playground",
-      "description": "A writable collection into which you can upload your own documents for testing."
+      "title": "Poletko eksperymentalne",
+      "description": "Kolekcja z prawem zapisu plików. Tutaj można zaimportować własne pliki źródłowe dla celów testowych."
     },
     "documentation": {
-      "title": "Documentation",
-      "description": "Documentation and News using Docbook XML."
+      "title": "Dokumentacja",
+      "description": "Dokumentacja oraz Nowości (w formacie Docbook XML)."
     },
     "up": "Up"
   },
   "upload": {
     "upload": "Prześlij",
-    "drop": "Drop {{accept}} files here to upload."
+    "drop": "Przeciągnij dokumenty w formatach {{accept}} aby zaimportować."
   },
   "demo": {
     "showCode": {
-      "show": "Show Code",
-      "hide": "Hide Code"
+      "show": "Pokaż kod źródłowy",
+      "hide": "Ukryj kod źródłowu"
     },
     "editCode": {
-      "show": "Edit Code",
-      "hide": "Close Editor"
+      "show": "Edytuj kod źródłowy",
+      "hide": "Zamknij edytor"
     }
   },
   "login": {
     "login": "Zaloguj",
-    "as": "Logged in as {{user}}",
+    "as": "Zalogowano jako {{user}}",
     "user": "Użytkownik",
     "password": "Hasło",
-    "invalid": "Wrong password or invalid user",
-    "requiredGroup": "must be member of group {{group}}"
+    "invalid": "Nieprawidłowe hasło lub nazwa użytkownika",
+    "requiredGroup": "musi być członkiem grupy {{group}}"
   },
   "search": {
-    "placeholder": "Enter Query",
+    "placeholder": "Wprowadź zapytanie",
     "sections": "Przeszukaj sekcje",
     "headings": "Przeszukaj nagłówki"
   },
   "dts": {
-    "endpoint": "Select Endpoint",
-    "note": "Experimental: access other editions which expose the DTS API"
+    "endpoint": "Wybierz Endpoint",
+    "note": "Wersja eksperymentalna: uzyskaj dostęp do edycji, które udostępniają API DTS"
   },
   "odd": {
-    "files": "ODD Files",
+    "files": "Pliki ODD",
     "manage": {
-      "filename": "File name of the ODD (without suffix)",
-      "title": "Title for display",
+      "filename": "Nazwa pliku ODD (bez rozszerzenia)",
+      "title": "Tytuł do wyświetlania",
       "create": "Utwórz",
-      "create-from-example": "Create from examples",
-      "delete": "Are you sure you want to delete the ODD file {{file}}?"
+      "create-from-example": "Utwórz na bazie przykładów",
+      "delete": "Czy na pewno chcesz usunąć plik ODD {{file}}?"
     }
   },
   "facets": {
-    "show": "Show top 50",
-    "genre": "Genre",
-    "language": "Language"
+    "show": "Pokaż 50 najczęstszych",
+    "genre": "Gatunek",
+    "language": "Język"
   },
   "appgen": {
     "account": {
-      "user": "User account for administrative tasks. The user will be created if it does not yet exist.",
-      "owner": "The user account who will own the app.",
-      "password": "Password for the user owning this app."
+      "user": "Nazwa konta administratora. Konto zostanie utworzone, jeżeli jeszcze nie istnieje.",
+      "owner": "Konto użytkownika - właściciela aplikacji.",
+      "password": "Hasło do konta użytkownika - właściciela aplikacji."
     },
-    "submit": "Save/Generate",
+    "submit": "Zapisz/Generuj",
     "index": {
-      "help": "Define the smallest block on which a full text index is created. For documents                         organized into divisions, choosing 'Create on division' is usually best. If there are no divisions, choose 'Create on text'.",
-      "label": "Default Full Text Index",
-      "index-div": "Create on division",
-      "index-text": "Create on text"
+      "help": "Zdefiniuj jaka jest najmniejsza jednostka dla której zostanie utworzony indeks tekstowy. W przypadku dokumentów zorganizowanych w sekcje (TEI: div), zazwyczaj wybór opcji 'Utwórz indeks dla sekcji' jest najodpowiedniejszy. Jeżeli w dokumencie nie występują sekcje, wybierz 'Utwórz indeks dla elementu text'.",
+      "label": "Domyślny indeks do przeszukiwania pełnotekstowego",
+      "index-div": "Utwórz indeks dla sekcji",
+      "index-text": "Utwórz indeks dla elementu text"
     },
     "view": {
-      "help": "Choose what is shown by default when browsing text: a single page                         or an entire division. Display by page requires that the TEI is properly marked up                         with &lt;tei:pb&gt; tags.",
-      "div": "By division (chapter/section...)",
-      "page": "By page"
+      "help": "Wybierz sposób wyświetlania dokumentu: strona po stronie lub według sekcji. Widok strona po stronie zakłada, że kod źródłowy TEI zawiera odpowiednio rozmieszczone znaczniki &lt;tei:pb&gt;.",
+      "div": "Według sekcji (rozdział/sekcja...)",
+      "page": "Strona po stronie"
     },
-    "label": "Default View",
+    "label": "Widok domyślny",
     "template": {
-      "help": "Choose the HTML template to be used as default",
-      "label": "HTML Template"
+      "help": "Wybierz domyślny szablon HTML do wyświetlania dokumentów",
+      "label": "Szablon HTML"
     },
     "title": {
-      "help": "Title of the app which will be shown e.g. in the dashboard",
-      "label": "Title of the app"
+      "help": "Tytuł aplikacji pokazywany m. in. w aplikacji Dashboard",
+      "label": "Tytuł aplikacji"
     },
-    "collection": "Name of subcollection to hold TEI documents",
+    "collection": "Nazwa kolekcji zawierającej dokumenty źródłowe",
     "abbrev": {
-      "label": "Short name to be used in URLs and file names",
-      "placeholder": "Short name"
+      "label": "Nazwa skrócona - używana w adresach URL oraz nazwach plików i kolekcji",
+      "placeholder": "Nazwa skrócona"
     },
-    "uri": "URL to uniquely identify the app",
+    "uri": "URL jednoznacznie identyfikujący aplikację.",
     "dialog": {
-      "title": "App generated"
+      "title": "Applikacja została wygenerowana"
     },
-    "open": "Open",
-    "success": "Your app has been successfully generated!"
+    "open": "Otwórz",
+    "success": "Twoja aplikacja została pomyślnie wygenerowana!"
   }
 }
