@@ -82,6 +82,7 @@
 .tei-email { font-family:monospace }
 .tei-floatingText { margin: 6pt; border: solid black 1pt; }
 .tei-table { font-size: smaller; background-color: #F0F0F0; }
+.tei-editor1 { font-weight: bold; }
 .tei-address { margin-top: 2em; margin-left: 2em; margin-right: 2em; margin-bottom: 2em; }
 .tei-author1:before { content: 'By '; }
 .tei-castList { list-style: ordered; }
@@ -104,10 +105,10 @@
 .tei-head5 { font-weight: bold; }
 .tei-unclear:after { content: ' [?] '; }
 .tei-argument { margin-bottom: 0.5em; }
-.tei-title5 { font-style: italic; }
-.tei-title7 { font-style: italic; }
-.tei-title9 { font-style: italic; }
-.tei-title11 { font-style: italic; }
+.tei-title6 { font-style: italic; }
+.tei-title8 { font-style: italic; }
+.tei-title10 { font-style: italic; }
+.tei-title12 { font-style: italic; }
 .tei-corr2:before { content: '['; }
 .tei-corr2:after { content: ']'; }
 .tei-sic2:before { content: '{'; }
@@ -125,3 +126,10 @@
 .tei-form { font-weight: bold; }
 .tei-gram { font-style: italic; }
 .tei-oRef:before { content: '—'; }
+.tei-msDesc1:before { content: 'Primary language: '; }
+.tei-msDesc2:before { content: 'Primary source: '; }
+.tei-msDesc3 { content: 'Location: '; }
+.tei-institution { font-weight: bold; }
+.tei-idno2 { font-style: italic; }
+.tei-idno2:before { content: ' ('; }
+.tei-idno2:after { content: ')'; }
