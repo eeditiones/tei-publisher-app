@@ -407,7 +407,7 @@
                                     <pb-manage-odds id="manage-odds" target="document-list"></pb-manage-odds>
                                 </div>
                             </paper-card>
-                            <pb-restricted login="login">
+                            <pb-restricted login="login" can-write="can-write">
                                 <paper-card class="upload" data-i18n="[heading]upload.upload" heading="Upload">
                                     <div class="card-content">
                                         <pb-upload id="upload" emit="docs" subscribe="docs" accept=".xml, .tei, .odd, .docx"></pb-upload>
