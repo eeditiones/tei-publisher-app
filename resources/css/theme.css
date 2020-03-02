@@ -12,6 +12,8 @@ body {
     --pb-heading-font-weight: 400 !important;
     --pb-heading-line-height: 1.2;
 
+    --pb-breadcrumbs-font-size: 18px;
+    
     --pb-color-primary: #303030;
     --pb-color-inverse: #F0F0F0;
     --pb-color-lighter: #35424b;
@@ -218,7 +220,7 @@ pb-view {
 
 .breadcrumbs pb-view {
     font-weight: 400;
-    font-size: var(--pb-base-font-size);
+    font-size: var(--pb-breadcrumbs-font-size);
 }
 
 @media (min-width: 769px) {

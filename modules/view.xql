@@ -24,9 +24,13 @@ declare option output:media-type "text/html";
 
 declare function local:report-error($data) {
     util:declare-option("exist:output", "method=xml"),
-    let $error := parse-xml($data)
-    return
-        $error
+    try {
+        let $error := parse-xml($data)
+        return
+            $error
+    } catch * {
+        $data
+    }
 };
 
 let $config := map {

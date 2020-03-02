@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <html>
     <head>
         <meta charset="utf-8"/>
@@ -18,7 +17,7 @@
         <script type="module" src="resources/scripts/pb-facsimile.js"></script>
         <style>
             body {
-                --pb-view-height: calc(100vh - 212px);
+                --pb-view-height: calc(100vh - 128px);
             }
 
             #view1 {
@@ -36,14 +35,23 @@
             }
             
             .metadata {
-                position: relative;
-                display: flex;
-                justify-content: center;
-                padding: 0 20px;
+                width: 100%;
+                padding: 0 20px 20px;
+            }
+            .metadata pb-view {
+                font: var(--pb-base-font);
+            }
+            .metadata h3 pb-view {
+                font-family: var(--pb-heading-font-family);
+                font-weight: var(--pb-heading-font-weight);
+            }
+
+            .text {
+                flex: 1;
             }
 
             .content-body pb-facsimile {
-                flex: 1 1;
+                flex: 1;
                 height: var(--pb-view-height);
             }
 
@@ -68,28 +76,28 @@
                     <pb-drawer toggle="tocToggle" class="tocDrawer" emit="toc" subscribe="transcription">
                         <div class="drawer-content">
                             <h3>
-                                <i18n:text key="contents">Contents</i18n:text>
+                                <pb-i18n key="contents">Contents</pb-i18n>
                             </h3>
                             <pb-load id="toc" url="templates/toc.html?target=transcription" src="document1" subscribe="toc" load-once="load-once">Loading ...</pb-load>
                         </div>
-                    </pb-drawer>
-                    <section class="metadata">
-                        <pb-collapse>
-                            <h3 slot="collapse-trigger">
-                                <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt" view="single">
-                                    <pb-param name="mode" value="title"/>
-                                </pb-view>
-                            </h3>
-                            <div slot="collapse-content">
-                                <pb-view id="metadata-view1" src="document1" xpath="//teiHeader" view="single">
-                                    <pb-param name="mode" value="metadata"/>
-                                </pb-view>
-                                <hr/>
-                            </div>
-                        </pb-collapse>
-                    </section>
+                    </pb-drawer>                    
                     <main class="content-body">
-                        <pb-view id="view1" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" wait-for="#facsimile"/>
+                        <div class="text">
+                            <pb-collapse class="metadata">
+                                <h3 slot="collapse-trigger">
+                                    <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt" view="single">
+                                        <pb-param name="mode" value="title"/>
+                                    </pb-view>
+                                </h3>
+                                <div slot="collapse-content">
+                                    <pb-view id="metadata-view1" src="document1" xpath="//teiHeader" view="single">
+                                        <pb-param name="mode" value="metadata"/>
+                                    </pb-view>
+                                    <hr/>
+                                </div>
+                            </pb-collapse>
+                            <pb-view id="view1" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" wait-for="#facsimile"/>
+                        </div>
                         <pb-facsimile id="facsimile" base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/" default-zoom-level="0" show-navigation-control="show-navigation-control" 
                             prefix-url="resources/images/openseadragon/" show-navigator="show-navigator" subscribe="transcription"/>
                     </main>
