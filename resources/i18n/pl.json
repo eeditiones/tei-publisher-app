@@ -111,6 +111,40 @@
       "create": "Utwórz",
       "create-from-example": "Utwórz na bazie przykładów",
       "delete": "Czy na pewno chcesz usunąć plik ODD {{file}}?"
+    },
+    "editor": {
+      "delete-spec": "Czy na pewno usunąć elementSpec dla '{{ident}}'?",
+      "save": "Zapisz",
+      "saving": "Zapisywanie ...",
+      "saved": "Zapisano",
+      "reload": "Odśwież",
+      "reload-confirm": "Zmiany, które nie zostały zapisane będą utracone. Czy kontynuować?",
+      "add-element": "Dodaj element",
+      "odd-source": "Kod źródłowy",
+      "specs": "Specyfikacje (elementSpec)",
+      "jump-to": "Przejdź do elementu ...",
+      "title-short": "Skrócony tytuł",
+      "title-short-placeholder": "Skrócony tytuł (do wyświetlania)",
+      "description-label": "Opis",
+      "description-placeholder": "Informacje o pliku ODD",
+      "source-label": "Bazowy plik ODD",
+      "source-placeholder": "Bazowy plik ODD (z którego dziedziczone są modele domyślne)",
+      "use-namespace": "Zaznacz, jeżeli zamierzasz używać innych standardów niż TEI",
+      "namespace-placeholder": "Default namespace URI (jeżeli inna niż TEI)",
+      "title": "Tytuł",
+      "title-placeholder": "Tytuł pliku ODD",
+      "model": {
+        "delete-model-label": "Usunąć model?",
+        "delete-model-message": "Czy na pewno chcesz usunąć wybrany model?",
+        "description-placeholder": "[Dokumentacja modelu]",
+        "predicate-placeholder": "[Warunki, dla których dany model obowiązuje (w xquery)]",
+        "link-with-or": "lub",
+        "css-class-placeholder": "[Klasa CSS (z zewnętrznego arkusza CSS)]",
+        "custom-behaviour-placeholder": "[Behaviour niestandardowe]",
+        "template-placeholder": "[Szablon (zostanie zastosowany do parametru content)]",
+        "param-name-placeholder": "[Nazwa parametru]",
+        "empty": "[Brak]"
+      }
     }
   },
   "facets": {

@@ -111,6 +111,40 @@
       "create": "Créer",
       "create-from-example": "Create from examples",
       "delete": "Are you sure you want to delete the ODD file {{file}}?"
+    },
+    "editor": {
+      "delete-spec": "Really delete the element spec for '{{ident}}'?",
+      "save": "Save",
+      "saving": "Saving ...",
+      "saved": "Saved",
+      "reload": "Reload",
+      "reload-confirm": "Any unsaved changes will be lost. Continue?",
+      "add-element": "Add Element",
+      "odd-source": "ODD Source",
+      "specs": "Element Specs",
+      "jump-to": "Jump to element ...",
+      "title-short": "Short title",
+      "title-short-placeholder": "Short title for display",
+      "description-label": "Description",
+      "description-placeholder": "Description of the ODD",
+      "source-label": "Base ODD",
+      "source-placeholder": "ODD to inherit from",
+      "use-namespace": "Check for using a different namespace than TEI",
+      "namespace-placeholder": "Default namespace URI (if not TEI)",
+      "title": "Title",
+      "title-placeholder": "Title of the ODD",
+      "model": {
+        "delete-model-label": "Delete Model?",
+        "delete-model-message": "Do you really want to delete the selected model?",
+        "description-placeholder": "[Document the model]",
+        "predicate-placeholder": "[Define further conditions that have to be met (in xquery)]",
+        "link-with-or": "or",
+        "css-class-placeholder": "[Define CSS class name (for external CSS)]",
+        "custom-behaviour-placeholder": "[Custom Behaviour]",
+        "template-placeholder": "[Define code template to apply to content]",
+        "param-name-placeholder": "[Param name]",
+        "empty": "[Empty]"
+      }
     }
   },
   "facets": {

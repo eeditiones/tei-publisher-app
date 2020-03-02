@@ -126,11 +126,25 @@
       "title-short": "Short title",
       "title-short-placeholder": "Short title for display",
       "description-label": "Description",
+      "description-placeholder": "Description of the ODD",
+      "source-label": "Base ODD",
       "source-placeholder": "ODD to inherit from",
       "use-namespace": "Check for using a different namespace than TEI",
       "namespace-placeholder": "Default namespace URI (if not TEI)",
       "title": "Title",
-      "title-placeholder": "Title of the ODD"
+      "title-placeholder": "Title of the ODD",
+      "model": {
+        "delete-model-label": "Delete Model?",
+        "delete-model-message": "Do you really want to delete the selected model?",
+        "description-placeholder": "[Document the model]",
+        "predicate-placeholder": "[Define further conditions that have to be met (in xquery)]",
+        "link-with-or": "or",
+        "css-class-placeholder": "[Define CSS class name (for external CSS)]",
+        "custom-behaviour-placeholder": "[Custom Behaviour]",
+        "template-placeholder": "[Define code template to apply to content]",
+        "param-name-placeholder": "[Param name]",
+        "empty": "[Empty]"
+      }
     }
   },
   "facets": {
@@ -176,11 +190,5 @@
     },
     "open": "Open",
     "success": "Your app has been successfully generated!"
-  },
-  "editor": {
-    "odd": {
-      "description-placeholder": "Description of the ODD",
-      "source-label": "Base ODD"
-    }
   }
 }

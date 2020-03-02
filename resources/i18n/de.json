@@ -2,7 +2,6 @@
   "language": "Sprache",
   "menu": {
     "documentation": "Dokumentation",
-    "appGenerator": "Anwendungsgenerator",
     "admin": {
       "appGenerator": "Anwendung generieren",
       "edit-odd": "ODD editieren",
@@ -129,9 +128,23 @@
       "title-short": "Kurztitel",
       "title-short-placeholder": "Kurztitel für die Anzeige",
       "description-label": "Beschreibung",
+      "description-placeholder": "Beschreibung des ODD",
+      "source-label": "Basis ODD",
       "source-placeholder": "Basis-ODD, welches erweitert wird",
       "use-namespace": "Auswählen, um einen anderen Namespace als TEI zu benutzen",
-      "namespace-placeholder": "Default Namespace URI (wenn nicht TEI)"
+      "namespace-placeholder": "Default Namespace URI (wenn nicht TEI)",
+      "model": {
+        "delete-model-label": "Delete Model?",
+        "delete-model-message": "Do you really want to delete the selected model?",
+        "description-placeholder": "[Document the model]",
+        "predicate-placeholder": "[Define further conditions that have to be met (in xquery)]",
+        "link-with-or": "or",
+        "css-class-placeholder": "[Define CSS class name (for external CSS)]",
+        "custom-behaviour-placeholder": "[Custom Behaviour]",
+        "template-placeholder": "[Define code template to apply to content]",
+        "param-name-placeholder": "[Param name]",
+        "empty": "[Empty]"
+      }
     }
   },
   "facets": {
@@ -176,12 +189,6 @@
       "div": "Nach div (Kapitel / Abschnitt ...)",
       "help": "Wähle die Texteinheit, die jeweils auf einer Seite angezeigt werden soll. Dies kann ein ganzer Abschnitt (div) sein oder eine einzelne Seite des Orginals. Letztere Option funktioniert nur, wenn im TEI Seitenumbrüche korrekt ausgezeichnet sind.",
       "page": "Nach Seite"
-    }
-  },
-  "editor": {
-    "odd": {
-      "description-placeholder": "Beschreibung des ODD",
-      "source-label": "Basis ODD"
     }
   }
 }
