@@ -1362,6 +1362,10 @@
                     <td>type</td>
                     <td>e.g. "page", "column", "line"</td>
                   </tr>
+                  <tr>
+                    <td>label</td>
+                    <td>e.g. "p. 13v"</td>
+                  </tr>
                 </tbody>
               </informaltable>
             </listitem>
@@ -1496,6 +1500,10 @@
                   <tr>
                     <td>uri</td>
                     <td>the link url</td>
+                  </tr>
+                  <tr>
+                    <td>target</td>
+                    <td>identifier of the tab to open the link in (only web output)</td>
                   </tr>
                 </tbody>
               </informaltable>
