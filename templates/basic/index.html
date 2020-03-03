@@ -247,16 +247,7 @@
                 <div class="drawer-content">
                     <pb-media-query query="(max-width: 1023px)">
                             <!-- language selector -->
-                            <pb-lang name="lang">
-                                <paper-item>en</paper-item>
-                                <paper-item>es</paper-item>
-                                <paper-item>de</paper-item>
-                                <paper-item>fr</paper-item>
-                                <paper-item>gr</paper-item>
-                                <paper-item>it</paper-item>
-                                <paper-item>pl</paper-item>
-                                <paper-item>nl</paper-item>
-                            </pb-lang>
+                            <pb-lang name="lang" data-template="pages:languages"/>
                         </pb-media-query>
                     </div>
                 </app-drawer>
@@ -286,16 +277,7 @@
                             <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"  redirect="redirect"></pb-search>
 
                             <!-- language selector -->
-                            <pb-lang name="lang">
-                                <paper-item value="en">en</paper-item>
-                                <paper-item value="de">de</paper-item>
-                                <paper-item value="fr">fr</paper-item>
-                                <paper-item value="gr">gr</paper-item>
-                                <paper-item value="it">it</paper-item>
-                                <paper-item value="pl">pl</paper-item>
-                                <paper-item value="es">es</paper-item>
-                                <paper-item value="nl">nl</paper-item>
-                            </pb-lang>
+                            <pb-lang name="lang" data-template="pages:languages"/>
                         </pb-media-query>
                         <pb-login id="login" group="tei">
                             <iron-icon slot="icon" icon="account-circle"></iron-icon>

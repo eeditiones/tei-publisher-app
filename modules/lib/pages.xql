@@ -539,3 +539,13 @@ declare function pages:parse-params($node as node(), $model as map(*)) {
         templates:process($node/node(), $model)
     }
 };
+
+declare 
+    %templates:wrap
+function pages:languages($node as node(), $model as map(*)) {
+    let $json := json-doc($config:app-root || "/resources/i18n/languages.json")
+    return
+        map:for-each($json, function($key, $value) {
+            <paper-item value="{$key}">{$value}</paper-item>
+        })
+};
