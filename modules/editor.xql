@@ -80,7 +80,8 @@ declare function local:load($oddPath as xs:string, $root as xs:string) {
             "source": $schemaSpec/@source/string(),
             "title": string-join($odd//teiHeader/fileDesc/titleStmt/title[not(@type)]/text()),
             "titleShort": $odd//teiHeader/fileDesc/titleStmt/title[@type = 'short']/string(),
-            "description": $odd//teiHeader/fileDesc/titleStmt/title[not(@type)]/desc/text()
+            "description": $odd//teiHeader/fileDesc/titleStmt/title[not(@type)]/desc/text(),
+            "cssFile": $odd//teiHeader/encodingDesc/tagsDecl/rendition/@source/string()
         }
 };
 
@@ -159,7 +160,7 @@ declare function local:recompile($source as xs:string, $root as xs:string) {
 };
 
 declare function local:save($oddPath as xs:string, $root as xs:string, $data as xs:string) {
-    let $odd := doc($root || "/" || $oddPath)
+    let $odd := local:add-tags-decl(doc($root || "/" || $oddPath))
     let $parsed := parse-xml($data)
     let $updated := local:update($odd, $parsed, $odd)
     let $serialized := serialize($updated,
@@ -207,6 +208,12 @@ declare function local:update($nodes as node()*, $data as document-node(), $orig
                     $data/schemaSpec/title[text()],
                     $node/* except $node/title
                 }
+            case element(tagsDecl) return
+                element { node-name($node) } {
+                    $node/@*,
+                    $node/* except $node/rendition[@source],
+                    $data/schemaSpec/rendition[@source]
+                }
             case element(schemaSpec) return
                 element { node-name($node) } {
                     $node/@* except ($node/@ns, $node/@source),
@@ -235,6 +242,46 @@ declare function local:update($nodes as node()*, $data as document-node(), $orig
                 element { node-name($node) } {
                     $node/@*,
                     local:update($node/node(), $data, $orig)
+                }
+            default return
+                $node
+};
+
+declare function local:add-tags-decl($nodes as node()*) {
+    for $node in $nodes
+    return
+        typeswitch ($node)
+            case document-node() return
+                document {
+                    local:add-tags-decl($node/node())
+                }
+            case element(TEI) return
+                element { node-name($node) } {
+                    $node/@*,
+                    local:add-tags-decl($node/teiHeader),
+                    $node/* except $node/teiHeader
+                }
+            case element(teiHeader) return
+                element { node-name($node) } {
+                    $node/@*,
+                    $node/fileDesc,
+                    if ($node/encodingDesc) then
+                        local:add-tags-decl($node/encodingDesc)
+                    else
+                        <encodingDesc xmlns="http://www.tei-c.org/ns/1.0">
+                            <tagsDecl></tagsDecl>
+                        </encodingDesc>,
+                    $node/* except ($node/fileDesc, $node/encodingDesc)
+                }
+            case element(encodingDesc) return
+                element { node-name($node) } {
+                    $node/@*,
+                    if ($node/tagsDecl) then
+                        $node/tagsDecl
+                    else
+                        <tagsDecl xmlns="http://www.tei-c.org/ns/1.0">
+                        </tagsDecl>,
+                    $node/* except $node/tagsDecl
                 }
             default return
                 $node
