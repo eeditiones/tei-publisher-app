@@ -291,7 +291,8 @@ declare function local:lint() {
     let $code := request:get-parameter("code", ())
     let $prolog := (
         "declare variable $parameters := map {};",
-        "declare variable $node := ();"
+        "declare variable $node := ();",
+        "declare context item ();"
     )
     let $query := string-join($prolog) || "&#10;" || $code
     let $r := util:compile-query($query, ())
