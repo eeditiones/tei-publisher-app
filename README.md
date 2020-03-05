@@ -18,7 +18,7 @@ If you need professional support or consulting, feel free to send your inquiry t
 
 A prebuilt version of the app can be installed from exist-db's central app repository. On your exist-db installation, open the package manager in the dashboard and select "TEI Publisher" for installation. This should automatically install dependencies such as the "TEI Publisher: Processing Model Libraries."
 
-**Important**: Building the master branch of TEI Publisher requires [eXist-db 5.0.0](https://bintray.com/existdb/releases/exist/5.0.0/view/files) or later.
+**Important**: TEI Publisher from version 5.0.0 requires [eXist-db 5.0.0](https://bintray.com/existdb/releases/exist/5.0.0/view/files) or later.
 
 ## Documentation
 
@@ -32,11 +32,10 @@ Please use our Crowdin space to help expand and improve localization
 
 ## Building
 
-Run Apache `ant` in the cloned directory to get a `.xar` file in `build/`, which can be uploaded
-via the dashboard. This creates a version suitable for development, but runs slower on most browsers.
+Run `npm install` and Apache `ant` in the cloned directory to get a `.xar` file in `build/`, which can be uploaded into eXist instance
+via the dashboard.
 
-For deployment on a production server, run `ant production-xar` instead of just `ant`.
-This creates a `.xar` with all webcomponents bundled and compressed. You need the [polymer CLI](https://polymer-library.polymer-project.org/2.0/docs/tools/polymer-cli) tools for this.
+<!-- Expected to be outdated with completion of https://gitlab.existsolutions.com/tei-publisher/pb-components/issues/34 You need the [polymer CLI](https://polymer-library.polymer-project.org/2.0/docs/tools/polymer-cli) tools for this. -->
 
 ## License
 
@@ -46,14 +45,14 @@ TEI Publisher is brought to you by <a href="http://existsolutions.com"><img src=
 
 ## Editing Resources
 
-All resources can either be edited live via eXist-db's XML editor eXide or via local development having `node` and `ant`installed.
+All resources can either be edited live via eXist-db's XML editor eXide or via local development having `node` and `ant` installed.
 
 ## Development
 
-Following instructions are only relevant for developers who want to contribute to TEI Publisher. There are at least three different approaches:
+Following instructions are only relevant for developers who want to contribute to TEI Publisher. Different approaches are possible:
 
 1. use eXide to directly change resources inside the database, then sync them to a local directory where you have checked out the code from gitlab
-2. use the Atom editor with the eXistdb package and open a local copy of the TEI Publisher repository as a project in Atom. Atom will make sure to sync your local modifications into the database. This is the most convenient and recommended method
+2. use the Atom editor with the eXistdb package and open a local copy of the TEI Publisher repository as a project in Atom. Atom will make sure to sync your local modifications into the database. This is the most convenient and recommended method. Similar workflow is possible in Visual Studio Code.
 
 ### Web Components Testing
 
