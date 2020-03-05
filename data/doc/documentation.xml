@@ -63,7 +63,7 @@
       <para>However, online editions require more than just a text transformation: the text needs to be embedded into an application context, adding navigation,
         pagination, search, facsimile display and so on. The larger part of TEI Publisher deals with those aspects, providing all the necessary building blocks
         for an online edition.</para>
-      <para>Staying true to the spirit of code reuse and interoperability, TEI Publisher 4.0 implements all functionality as small "lego" blocks to be freely
+      <para>Staying true to the spirit of code reuse and interoperability, TEI Publisher implements all functionality as small "lego" blocks to be freely
         arranged and recombined. The technology making this possible is called <emphasis>Web Components</emphasis>. It is part of the HTML5 specification and
         natively implemented by many browsers. Users don't need to dive into the details of this standard though: all you need to modify the example pages is a
         bit of basic HTML knowledge. Only where the <link xlink:href="../components/docs.html">available components</link> are not enough, a new use case needs
@@ -315,9 +315,49 @@
       <title>Browsing Documents</title>
       <section>
         <title>The Start Page</title>
-        <para>The start page of TEI Publisher serves as a playground for viewing documents and testing transformations. It consists of three panels:<orderedlist>
+        <para>The start page of TEI Publisher serves as an entry point to explore and experiment.</para>
+        <para>On a newly installed TEI Publisher the main application panel offers the choice between browsing local collections directly or using DTS API to access
+        remote resources. Narrower panel to the right displays the list of ODD files provided with the TEI Publisher.</para>
+        
+        <figure>
+          <title>Start Page Collections</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="start-page-collections.png" width="512px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para>The usual starting point is the <emphasis role="bold">TEI Publisher Demo Collection</emphasis> with which users can explore a range of <link
+          linkend="selected-use-cases">selected use cases</link>, demonstrating various genres, encoding styles and presentation layouts. 
+          Various customization aspects are handled using different ODDs and view templates. We suggest to have a
+          look at each of them to see what TEI Publisher can achieve out of the box.</para>
+
+        <note>
+          <title>Note</title>
+          <para>Documents in this collection are preinstalled with the TEI Publisher and users are not allowed to write to it by default.</para>
+        </note>
+
+        <para>The <link linkend="playground">Playground</link> collection is the place to upload encoded documents and ODD files to experiment with various processing models and view templates.</para>
+        
+        <para>Unlike the Demo collection, the Playground features an upload box to import new documents. You can upload your own XML and ODD (e.g. TEI, DocBook or DOCX) documents by either clicking on the <guibutton>upload</guibutton> button or dragging and dropping files onto the
+          upload panel. Read more on this subject in the <link linkend="upload">Upload</link> section</para>
+        
+        <note>
+          <title>Note</title>
+          <para>You need to be <emphasis role="bold">logged in</emphasis> for most advanced actions like creating or editing ODDs. The login button to the right
+            of the menu bar allows you to log in. By default, there's a user named <parameter>tei</parameter> with password
+            <parameter>simple</parameter>.</para>
+        </note>
+      </section>
+      <section>
+        <title>TEI Publisher Demo collection</title>   
+        <para>Experiment with browsing, faceting, filtering and sorting features of TEI Publisher.
+        This page consists of several main areas:<orderedlist>
             <listitem>
-              <para>the list of documents currently installed</para>
+              <para>the facets panel</para>
+            </listitem>
+            <listitem>
+              <para>the list of documents currently installed with sorting and filtering controls</para>
             </listitem>
             <listitem>
               <para>a panel showing the ODD files known to the application</para>
@@ -327,18 +367,19 @@
             </listitem>
           </orderedlist>
         </para>
-        <para>You can upload your own TEI documents by either clicking on the <guibutton>upload</guibutton> button or dragging and dropping files onto the
-          upload panel.</para>
-        <para>The sample documents installed by default showcase various customization aspects using different ODDs and view templates. We suggest to have a
-          look at each of them to see what TEI Publisher can do.</para>
-        <note>
-          <title>Note</title>
-          <para>You need to be <emphasis role="bold">logged in</emphasis> for most advanced actions like creating or editing ODDs. The login button to the right
-            of the menu bar allows you to log in. By default, there's a user named <parameter>tei</parameter> with password
-            <parameter>simple</parameter>.</para>
-        </note>
+        
+        <para>Have a look at documents showcased here to get a sense of possibilities that TEI Publisher offers. Click on document title to proceed to the Document View</para>
+        <figure>
+          <title>Browsing Demo collection</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="demo-collection-overview.png" width="512px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        
       </section>
-      <section>
+      <section xml:id="document-view">
         <title>Document View</title>
         <para>The document view can vary, depending on the sample document you are looking at. Nevertheless some default functionality will be shared:</para>
         <itemizedlist>
@@ -365,7 +406,7 @@
         </itemizedlist>
       </section>
     </section>
-    <section>
+    <section xml:id="selected-use-cases">
       <title>Selected Use Cases</title>
       <para>As we have already mentioned, the document view can vary, sometimes substantially, depending on the sample document you are looking at. This is a
         natural consequence of TEI's versatility and broad scope of its application. What follows, requirements for the document view - both its layout and
