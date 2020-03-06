@@ -24,6 +24,12 @@ A prebuilt version of the app can be installed from exist-db's central app repos
 
 For an overview of the app and library, please refer to the [documentation](http://teipublisher.com/exist/apps/tei-publisher/doc/documentation.xml) available.
 
+## Localization
+
+Please use our Crowdin space to help expand and improve localization
+
+[![Crowdin](https://badges.crowdin.net/tei-publisher/localized.svg)](https://crowdin.com/project/tei-publisher)
+
 ## Building
 
 Run Apache `ant` in the cloned directory to get a `.xar` file in `build/`, which can be uploaded
