@@ -39,7 +39,9 @@
     "normalized": "Normalized View",
     "plain": "Plain Reading View",
     "view-type": "Page View",
-    "add-panel": "Add View"
+    "add-panel": "Add View",
+    "caveat-heading": "Caveat",
+    "caveat": "Experiment with different page templates and ODDs just changing these options here. Please note that not every combination of settings makes sense for every document. For example, a map cannot be produced without coordinates explicitly encoded and processed, and page view assumes page breaks have been marked up. If you see 'the server did not return any content' message, it is usually a sign of such misalignment between encoded data, ODD and page template."
   },
   "browse": {
     "description": "Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD.",
