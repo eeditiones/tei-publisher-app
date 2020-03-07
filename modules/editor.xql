@@ -289,16 +289,14 @@ declare function local:add-tags-decl($nodes as node()*) {
 
 declare function local:lint() {
     let $code := request:get-parameter("code", ())
-    let $prolog := (
-        "declare variable $parameters := map {};",
-        "declare variable $node := ();",
-        "declare context item ();"
-    )
-    let $query := string-join($prolog) || "&#10;" || $code
+    let $query := ``[xquery version "3.1";declare variable $parameters := map {};declare variable $node := ();() ! (
+`{$code}`
+)
+    ]``
     let $r := util:compile-query($query, ())
-    let $error := $r/*:error
     return
         if ($r/@result = 'fail') then
+            let $error := $r/*:error
             let $msg := $error/string()
             let $analyzed := analyze-string($msg, ".*line:?\s(\d+).*?column\s(\d+)")
             let $analyzed :=
@@ -318,12 +316,15 @@ declare function local:lint() {
                     number($parsedColumn)
                 else
                     number($error/@column)
+            let $lineCount :=
+                count(analyze-string($code, "\n")//fn:match)
             return
                 map {
                     "status": "fail",
-                    "line": $line - 1,
+                    "line": if ($line < 2 or $line - 1 > $lineCount) then 1 else $line - 1,
+                    "rline": $error,
                     "column": $column,
-                    "message": $error/string()
+                    "message": $msg
                 }
         else
             map {
