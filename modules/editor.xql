@@ -289,10 +289,9 @@ declare function local:add-tags-decl($nodes as node()*) {
 
 declare function local:lint() {
     let $code := request:get-parameter("code", ())
-    let $query := ``[xquery version "3.1";declare variable $parameters := map {};declare variable $node := ();() ! (
+    let $query := ``[xquery version "3.1";declare variable $parameters := map {};declare variable $node := ();declare variable $get := (); () ! (
 `{$code}`
-)
-    ]``
+)]``
     let $r := util:compile-query($query, ())
     return
         if ($r/@result = 'fail') then
