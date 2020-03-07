@@ -127,6 +127,13 @@ app-drawer-layout:not([narrow]) [drawer-toggle] {
   display: none;
 }
 
+.caveat-content {
+    overflow: auto;
+    height: 100%;
+    padding: 8px 10px;
+    text-align: left;
+    font-size: smaller;
+}
 .toolbar {
     justify-content: space-between;
     background-color: var(--pb-toolbar-background-color);
