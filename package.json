@@ -22,11 +22,11 @@
   },
   "license": "GPL-3.0",
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^7.1.1",
     "rimraf": "^3.0.0",
     "rollup": "^1.21.0",
     "rollup-plugin-analyzer": "^3.1.2",
     "rollup-plugin-copy": "^3.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^5.1.1"
   },
   "dependencies": {
