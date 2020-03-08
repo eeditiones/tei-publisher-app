@@ -110,13 +110,13 @@ declare function deploy:package-json($json as map(*)) {
             "watch": "rollup -c rollup.config.js --watch"
         },
         "dependencies": map {
-            "@teipublisher/pb-components": "git+https://gitlab.existsolutions.com/tei-publisher/pb-components.git#master"
+            "@teipublisher/pb-components": "latest"
         },
         "devDependencies": map {
             "rimraf": "latest",
             "rollup": "latest",
             "rollup-plugin-copy": "latest",
-            "rollup-plugin-node-resolve": "latest",
+            "@rollup/plugin-node-resolve": "latest",
             "rollup-plugin-terser": "latest"
         }
     }
