@@ -18,7 +18,25 @@ declare variable $login := request:get-parameter("user", ());
 
 declare variable $data-collections := $config:setup/collections/path;
 
-declare variable $allowOrigin := "http://localhost:8000";
+declare variable $allowOrigin := local:allowOriginDynamic(request:get-header("Origin"));
+
+declare function local:allowOriginDynamic($origin as xs:string?) {
+    let $origin := replace($origin, "^(\w+://[^/]+).*$", "$1")
+    return
+        if (local:checkOriginWhitelist($config:origin-whitelist, $origin)) then
+            $origin
+        else
+            "not in whitelist: " || $origin
+};
+
+declare function local:checkOriginWhitelist($regexes, $origin) {
+    if (empty($regexes)) then
+        false()
+    else if (matches($origin, head($regexes))) then
+        true()
+    else
+        local:checkOriginWhitelist(tail($regexes), $origin)
+};
 
 declare function local:get-template($doc as xs:string) {
     let $template := request:get-parameter("template", ())
