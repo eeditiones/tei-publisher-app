@@ -26,7 +26,7 @@ declare function local:allowOriginDynamic($origin as xs:string?) {
         if (local:checkOriginWhitelist($config:origin-whitelist, $origin)) then
             $origin
         else
-            "not in whitelist: " || $origin
+            "*"
 };
 
 declare function local:checkOriginWhitelist($regexes, $origin) {
