@@ -97,6 +97,7 @@ declare variable $config:facets := [
                 case "la" return "Latin"
                 case "fr" return "French"
                 case "en" return "English"
+                case "pl" return "Polish"
                 default return $label
         }
     }
