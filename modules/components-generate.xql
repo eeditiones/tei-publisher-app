@@ -64,11 +64,12 @@ declare variable $deploy:ANT_FILE :=
         <property name="project.version" value="${{package(version)}}"/>
         <property name="project.app" value="${{package(abbrev)}}"/>
         <property name="build.dir" value="build"/>
-        <target name="xar" depends="npm.build">
+        <target name="xar">
             <mkdir dir="${{build.dir}}"/>
             <zip basedir="." destfile="${{build.dir}}/${{project.app}}-${{project.version}}.xar"
                 excludes="${{build.dir}}/* node_modules/**"/>
         </target>
+        <target name="xar-complete" depends="npm.build,xar"/>
         <target name="npm.build">
             <echo message="Calling npm to generate bundle files ..."/>
             <exec executable="${{npm}}" outputproperty="npm.output">

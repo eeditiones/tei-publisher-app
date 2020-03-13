@@ -86,6 +86,17 @@ declare function pages:pb-view($node as node(), $model as map(*), $root as xs:st
     }
 };
 
+(:~~
+ : Generate the actual script tag to import pb-components.
+ :)
+declare function pages:load-components($node as node(), $model as map(*)) {
+    switch ($config:webcomponents)
+        case "local" return
+            <script type="module" src="resources/scripts/{$node/@src}"></script>
+        default return
+            <script type="module" 
+                src="https://unpkg.com/@teipublisher/pb-components@{$config:webcomponents}/dist/{$node/@src}"></script>
+};
 
 declare function pages:current-language($node as node(), $model as map(*), $lang as xs:string?) {
     element { node-name($node) } {

@@ -8,7 +8,7 @@
     "wctest": "components/test"
   },
   "scripts": {
-    "start": "npm install && npm run build",
+    "start": "npm install && npm run build:production",
     "build": "rollup -c rollup.config.js",
     "build:production": "rollup -c rollup.config.js --environment BUILD:production",
     "watch": "rollup -c rollup.config.js --watch",

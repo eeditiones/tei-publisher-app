@@ -17,14 +17,14 @@
 
     <target name="rebuild" depends="clean,all"/>
 
-    <target name="clean" depends="npm.clean">
+    <target name="clean">
         <delete dir="${build}"/>
         <delete dir="resources/scripts" includes="*.js *.map"/>
         <delete dir="resources/images" includes="leaflet/** openseadragon/**"/>
         <delete dir="resources/css/vendor" includes="leaflet.css"/>
     </target>
 
-    <target name="xar" depends="clean, npm.build">
+    <target name="xar">
         <mkdir dir="${build}"/>
         <zip destfile="${build}/${project.app}-${project.version}${git.commit}.xar">
             <fileset dir=".">
@@ -41,15 +41,16 @@
                 <exclude name=".existdb.json"/>
                 <exclude name=".editorconfig"/>
                 <exclude name="node_modules/**"/>
-                <exclude name="components/"/>
             </fileset>
         </zip>
     </target>
 
+    <target name="xar-complete" depends="npm.build, xar"/>
+
     <target name="npm.build">
         <exec executable="${npm}" outputproperty="npm.output">
             <arg line="run-script"/>
-            <arg line="build:production"/>
+            <arg line="start"/>
         </exec>
         <echo message="${npm.output}"/>
     </target>

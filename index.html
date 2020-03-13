@@ -12,7 +12,7 @@
     <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald" />
     <link rel="stylesheet" href="resources/css/theme.css" />
-    <script type="module" src="resources/scripts/pb-components-bundle.js"></script>
+    <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
     <custom-style>
         <style>
             main {
@@ -395,7 +395,7 @@
                         <aside>
                             <paper-card data-i18n="[heading]odd.files" class="odds" heading="ODD Files">
                                 <div class="card-content">
-                                    <pb-manage-odds id="manage-odds" target="document-list"></pb-manage-odds>
+                                    <pb-manage-odds id="manage-odds" target="document-list" emit="docs"></pb-manage-odds>
                                 </div>
                             </paper-card>
                             <pb-restricted login="login" can-write="can-write">
