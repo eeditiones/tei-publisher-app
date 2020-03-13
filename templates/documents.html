@@ -1,11 +1,10 @@
 <div data-template="browse:is-writeable" class="collection">
     <div data-template="browse:dispatch-action"/>
     <div data-template="browse:list-works">
-        <h5 class="parent-link">
-            <a href="#" data-template="browse:parent-collection">
-                <iron-icon icon="arrow-upward"></iron-icon> <pb-i18n key="browse.up">Up</pb-i18n>
-            </a>
-        </h5>
+        <paper-button class="parent-link" data-template="browse:parent-collection">
+            <iron-icon icon="icons:folder"></iron-icon>
+            <pb-i18n key="browse.up">Up</pb-i18n>
+        </paper-button>
         <ul class="documents" data-template="browse:browse" data-template-per-page="10">
             <li class="document">
                 <pb-restricted login="login" group="tei">
