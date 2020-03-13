@@ -9,6 +9,8 @@ export default {
         '@teipublisher/pb-components/src/pb-components-bundle.js',
         '@teipublisher/pb-components/src/pb-facsimile.js',
         '@teipublisher/pb-components/src/pb-leaflet-map.js'
+        // add your own bundle for components:
+        // './components/pb-edit-app.js'
     ],
     output: {
         dir: 'resources/scripts',
