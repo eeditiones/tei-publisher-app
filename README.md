@@ -32,8 +32,18 @@ Please use our Crowdin space to help expand and improve localization
 
 ## Building
 
-Run `npm install` and Apache `ant` in the cloned directory to get a `.xar` file in `build/`, which can be uploaded into eXist instance
+TEI Publisher requires the [pb-components](https://gitlab.existsolutions.com/tei-publisher/pb-components) package, which can either be loaded from an external server (CDN) or imported into the local build. If you intend to contribute to TEI Publisher development, you likely want the latter option. For just using TEI Publisher, the first is sufficient.
+
+### For Users
+
+Run Apache `ant` in the cloned directory to get a `.xar` file in `build/`, which can be uploaded into an eXist instance
 via the dashboard.
+
+### For Developers
+
+1. run `npm start` to install dependencies and generate bundle files
+2. edit `modules/config.xqm` and change the variable `$config:webcomponents` to read 'local' instead of a version number. This way, the javascript bundles will be loaded from within the TEI Publisher app instead of a CDN
+3. run Apache `ant` to generate a .xar
 
 <!-- Expected to be outdated with completion of https://gitlab.existsolutions.com/tei-publisher/pb-components/issues/34 You need the [polymer CLI](https://polymer-library.polymer-project.org/2.0/docs/tools/polymer-cli) tools for this. -->
 
