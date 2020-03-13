@@ -21,6 +21,7 @@
         <delete dir="${build}"/>
         <delete dir="resources/scripts" includes="*.js *.map"/>
         <delete dir="resources/images" includes="leaflet/** openseadragon/**"/>
+        <delete dir="resources/i18n/common"/>
         <delete dir="resources/css/vendor" includes="leaflet.css"/>
     </target>
 

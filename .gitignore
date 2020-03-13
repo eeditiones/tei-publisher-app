@@ -18,3 +18,4 @@ resources/scripts/*.map
 resources/css/vendor/leaflet.css
 resources/images/openseadragon
 resources/images/leaflet
+resources/i18n/common

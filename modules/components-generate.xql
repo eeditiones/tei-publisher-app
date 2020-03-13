@@ -389,8 +389,8 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:copy-resource($collection || "/resources/css/vendor", $base || "/resources/css/vendor", "leaflet.css", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:copy-collection($collection || "/resources/images/leaflet", $base || "/resources/images/leaflet", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:copy-collection($collection || "/resources/images/openseadragon", $base || "/resources/images/openseadragon", ($json?owner, "tei"), "rw-rw-r--"),
-        deploy:copy-collection($collection || "/resources/i18n", $base || "/resources/i18n", ($json?owner, "tei"), "rw-rw-r--"),
-        deploy:copy-collection($collection || "/resources/scripts", $base || "/resources/scripts", ($json?owner, "tei"), "rw-rw-r--"),
+        deploy:copy-resource($collection || "/resources/i18n", $base || "/resources/i18n", "languages.json", ($json?owner, "tei"), "rw-rw-r--"),
+        deploy:copy-collection($collection || "/resources/scripts/vendor", $base || "/resources/scripts/vendor", ($json?owner, "tei"), "rw-rw-r--"),
         xmldb:store($collection, "package.json", deploy:package-json($json), "application/json")
     )
     return

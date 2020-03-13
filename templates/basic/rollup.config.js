@@ -33,6 +33,10 @@ export default {
                 {
                     src: './node_modules/openseadragon/build/openseadragon/images/*',
                     dest: './resources/images/openseadragon'
+                },
+                {
+                    src: './node_modules/@teipublisher/pb-components/i18n/common/*',
+                    dest: './resources/i18n/common'
                 }
             ]
         })
