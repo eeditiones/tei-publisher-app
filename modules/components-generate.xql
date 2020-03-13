@@ -111,7 +111,7 @@ declare function deploy:package-json($json as map(*)) {
             "watch": "rollup -c rollup.config.js --watch"
         },
         "dependencies": map {
-            "@teipublisher/pb-components": "latest"
+            "@teipublisher/pb-components": $config:webcomponents
         },
         "devDependencies": map {
             "rimraf": "latest",
@@ -355,6 +355,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         else
             '\$config:app-root || "/' || $dataRoot || '"'
     let $replacements := map {
+        "^(.*\$config:webcomponents :=).*;$": '"' || $config:webcomponents || '"',
         "^(.*\$config:default-template :=).*;$": '"' || $json?template || '"',
         "^(.*\$config:default-view :=).*;$": '"' || $json?default-view || '"',
         "^(.*\$config:search-default :=).*;$": '"' || $json?index || '"',
@@ -389,7 +390,10 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:copy-resource($collection || "/resources/css/vendor", $base || "/resources/css/vendor", "leaflet.css", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:copy-collection($collection || "/resources/images/leaflet", $base || "/resources/images/leaflet", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:copy-collection($collection || "/resources/images/openseadragon", $base || "/resources/images/openseadragon", ($json?owner, "tei"), "rw-rw-r--"),
+        deploy:mkcol($collection || "/resources/i18n", ($json?owner, "tei"), "rw-rw-r--"),
+        deploy:mkcol($collection || "/resources/i18n/app", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:copy-resource($collection || "/resources/i18n", $base || "/resources/i18n", "languages.json", ($json?owner, "tei"), "rw-rw-r--"),
+        deploy:copy-resource($collection || "/resources/i18n/app", $base || "/templates/basic", "en.json", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:copy-collection($collection || "/resources/scripts/vendor", $base || "/resources/scripts/vendor", ($json?owner, "tei"), "rw-rw-r--"),
         xmldb:store($collection, "package.json", deploy:package-json($json), "application/json")
     )

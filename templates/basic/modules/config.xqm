@@ -26,7 +26,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
  : If a version is given, the components will be loaded from a public CDN.
  : This is recommended unless you develop your own components.
  :)
-declare variable $config:webcomponents := "0.9.6";
+declare variable $config:webcomponents := "$$webcomponents-version$$";
 
 (:~~
  : A list of regular expressions to check which external hosts are
