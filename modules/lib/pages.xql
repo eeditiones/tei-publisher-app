@@ -531,8 +531,8 @@ declare function pages:parse-params($node as node(), $model as map(*)) {
                             typeswitch($token)
                                 case element(fn:non-match) return $token/string()
                                 case element(fn:match) return
-                                    let $paramName := $token/fn:group[1]
-                                    let $default := $token/fn:group[2]
+                                    let $paramName := $token/fn:group[1]/string()
+                                    let $default := $token/fn:group[2]/string()
                                     let $found := [
                                         request:get-parameter($paramName, $default),
                                         $model($paramName),
