@@ -161,6 +161,7 @@ declare function local:recompile($source as xs:string, $root as xs:string) {
 
 declare function local:save($oddPath as xs:string, $root as xs:string, $data as xs:string) {
     let $odd := local:add-tags-decl(doc($root || "/" || $oddPath))
+    (: let $odd := doc($root || "/" || $oddPath) :)
     let $parsed := parse-xml($data)
     let $updated := local:update($odd, $parsed, $odd)
     let $serialized := serialize($updated,
@@ -257,6 +258,10 @@ declare function local:add-tags-decl($nodes as node()*) {
                 }
             case element(TEI) return
                 element { node-name($node) } {
+                    for $prefix in in-scope-prefixes($node)[. != "http://www.tei-c.org/ns/1.0"][. != ""]
+                    let $namespace := namespace-uri-for-prefix($prefix, $node)
+                    return
+                        namespace { $prefix } { $namespace },
                     $node/@*,
                     local:add-tags-decl($node/teiHeader),
                     $node/* except $node/teiHeader
