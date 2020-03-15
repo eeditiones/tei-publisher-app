@@ -208,10 +208,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             html:cell($config, ., ("tei-td2"), ., ())
                     case element(programlisting) return
-                        if (parent::cell|parent::para|parent::ab) then
-                            html:inline($config, ., ("tei-programlisting3", "code"), .)
+                        if (@role='codepen') then
+                            html:webcomponent($config, ., ("tei-programlisting3"), ., 'pb-codepen', map {"hash": substring-after(@xlink:href, '#'), "user": substring-before(@xlink:href, '#'), "theme": 'dark', "height": 480})
                         else
-                            html:webcomponent($config, ., ("tei-programlisting4"), text(), 'pb-code-highlight', map {"lang": @language})
+                            if (parent::cell|parent::para|parent::ab) then
+                                html:inline($config, ., ("tei-programlisting4", "code"), .)
+                            else
+                                html:webcomponent($config, ., ("tei-programlisting5"), text(), 'pb-code-highlight', map {"lang": @language})
                     case element(synopsis) return
                         html:webcomponent($config, ., ("tei-synopsis4"), ., 'pb-code-highlight', map {"lang": @language})
                     case element(example) return

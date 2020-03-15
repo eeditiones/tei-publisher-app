@@ -6,6 +6,8 @@
                 <title>Processing Model for Docbook v5
 
                  
+                 
+                 
                  <desc>Processing of Docbook format</desc>
                 </title>
                 <title type="short">Docbook v5 </title>
@@ -93,11 +95,11 @@
                         <iframe xmlns="" src="[[src]]" width="[[width]]" height="[[height]]" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"> </iframe>
                     </pb:template>
                 </pb:behaviour>
-                <rendition source="docbook.css"/>
                 <rendition selector="h3">
                     font-family: serif;
                     font-weight: 400;
                 </rendition>
+                <rendition source="docbook.css"/>
             </tagsDecl>
         </encodingDesc>
     </teiHeader>
@@ -214,6 +216,8 @@
                     <model predicate="$parameters?mode='breadcrumbs'" behaviour="inline">
             <outputRendition xml:space="preserve" scope="before">
             
+            
+            
 
 
 
@@ -230,6 +234,8 @@
 
 
 
+            
+            
             
             </outputRendition>
         </model>
@@ -374,6 +380,8 @@
             <param name="content" value="text()"/>
             <outputRendition xml:space="preserve">
             
+            
+            
 
 
 
@@ -385,12 +393,21 @@ white-space: pre-wrap;
 
 
             
+            
+            
             </outputRendition>
         </model>
                     <model output="latex" behaviour="code">
             <param name="language" value="@language"/>
         </model>
                     <modelGrp output="web">
+            <model predicate="@role='codepen'" behaviour="webcomponent">
+                <param name="hash" value="substring-after(@xlink:href, '#')"/>
+                <param name="user" value="substring-before(@xlink:href, '#')"/>
+                <param name="name" value="'pb-codepen'"/>
+                <param name="theme" value="'dark'"/>
+                <param name="height" value="480"/>
+            </model>
             <model predicate="parent::cell|parent::para|parent::ab" behaviour="inline" cssClass="code"/>
             <model behaviour="webcomponent">
                 <param name="name" value="'pb-code-highlight'"/>
@@ -405,6 +422,8 @@ white-space: pre-wrap;
             <param name="content" value="text()"/>
             <outputRendition xml:space="preserve">
             
+            
+            
 
 
 
@@ -415,6 +434,8 @@ white-space: pre-wrap;
 
 
 
+            
+            
             
             </outputRendition>
         </model>
@@ -447,6 +468,8 @@ white-space: pre-wrap;
                     <model output="epub" behaviour="block">
             <outputRendition xml:space="preserve">
             
+            
+            
 
 
 
@@ -462,6 +485,8 @@ padding: 1em 0 1em .5em;
 
 
 
+            
+            
             
             </outputRendition>
         </model>
@@ -499,10 +524,14 @@ padding: 1em 0 1em .5em;
   [[content]] <iron-icon icon="icons:open-in-new"/>
 </pb-edit-xml></pb:template>
             <outputRendition xml:space="preserve">
+            
+            
             text-decoration: underline;
 --iron-icon-height: 16px;
 vertical-align: top;
 cursor: pointer;
+            
+            
             </outputRendition>
         </model>
                     <model predicate="@linkend" behaviour="link">
@@ -523,6 +552,8 @@ cursor: pointer;
                     <model behaviour="inline">
             <outputRendition xml:space="preserve">
             
+            
+            
 
 
 
@@ -542,6 +573,8 @@ cursor: pointer;
 
 
 
+            
+            
             
             </outputRendition>
         </model>
@@ -577,6 +610,8 @@ Not available in PDF edition. Go to \url{[[content]]} to view.
                     <model behaviour="block">
             <outputRendition xml:space="preserve">
             
+            
+            
 
 
 
@@ -591,6 +626,8 @@ border-left: 3px solid #c0c0c0;
 
 
             
+            
+            
             </outputRendition>
         </model>
                 </elementSpec>
@@ -598,6 +635,8 @@ border-left: 3px solid #c0c0c0;
                     <model behaviour="inline" cssClass="pubdate">
             <param name="content" value="format-date(., '[MNn] [D1], [Y0001]', 'en_US', (), ())"/>
             <outputRendition xml:space="preserve" scope="before">
+            
+            
             
 
 
@@ -616,6 +655,8 @@ border-left: 3px solid #c0c0c0;
 
 
 
+            
+            
             
             </outputRendition>
             <outputRendition xml:space="preserve">
