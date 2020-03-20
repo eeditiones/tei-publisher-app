@@ -2,7 +2,8 @@ body {
     --pb-base-font-family: 'Roboto', 'Noto', sans-serif;
     --pb-base-font-size: 16px;
     --pb-base-line-height: 1.42857143;
-    --pb-base-font: 300 var(--pb-base-font-size)/var(--pb-base-line-height) var(--pb-base-font-family);
+    --pb-base-font-weight: 300;
+    --pb-base-font: var(--pb-base-font-weight) var(--pb-base-font-size)/var(--pb-base-line-height) var(--pb-base-font-family);
 
     --pb-serif-font-family: "Junicode",Georgia,"Times New Roman",serif;
     --pb-content-font-family: var(--pb-serif-font-family);
@@ -11,6 +12,7 @@ body {
     --pb-heading-font-family: "Oswald",Verdana,"Helvetica",sans-serif;
     --pb-heading-font-weight: 400 !important;
     --pb-heading-line-height: 1.2;
+    --pb-heading-font: var(--pb-heading-font-weight) var(--pb-heading-font-size)/var(--pb-heading-line-height) var(--pb-heading-font-family);
 
     --pb-breadcrumbs-font-size: 18px;
     
@@ -244,9 +246,7 @@ pb-view {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: var(--pb-heading-font-family);
-    font-weight: var(--pb-heading-font-weight);
-    line-height: var(--pb-heading-line-height);
+    font: var(--pb-heading-font);
 }
 
 pb-drawer {

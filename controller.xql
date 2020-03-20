@@ -168,9 +168,15 @@ else if ($logout or $login) then (
             </dispatch>
 
 ) else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt)$", "s")) then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-       <forward url="{$exist:controller}/data/{$exist:path}"/>
-   </dispatch>
+    let $path := 
+        if (starts-with($exist:path, "/collection/")) then
+            substring-after($exist:path, "/collection/")
+        else
+            $exist:path
+    return
+        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/data/{$path}"/>
+    </dispatch>
 
 else if (starts-with($exist:path, "/api/dts")) then
     let $endpoint := tokenize(substring-after($exist:path, "/api/dts/"), "/")[last()]
