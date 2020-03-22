@@ -37,6 +37,10 @@ export default [
                         dest: 'resources/images/openseadragon'
                     },
                     {
+                        src: './node_modules/openseadragon/build/openseadragon/openseadragon.min.js',
+                        dest: 'resources/lib/'
+                    },
+                    {
                         src: './node_modules/prismjs/themes/*',
                         dest: 'resources/css/prismjs'
                     },

@@ -15,6 +15,7 @@ bower_components
 local.build.properties
 resources/scripts/*.js
 resources/scripts/*.map
+resources/lib/
 resources/css/leaflet/
 resources/css/prismjs
 resources/images/openseadragon
