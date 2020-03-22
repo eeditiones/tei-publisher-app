@@ -214,7 +214,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             if (parent::cell|parent::para|parent::ab) then
                                 html:inline($config, ., ("tei-programlisting4", "code"), .)
                             else
-                                html:webcomponent($config, ., ("tei-programlisting5"), text(), 'pb-code-highlight', map {"lang": @language})
+                                html:webcomponent($config, ., ("tei-programlisting5"), text(), 'pb-code-highlight', map {"lang": @language, "line-numbers": true()})
                     case element(synopsis) return
                         html:webcomponent($config, ., ("tei-synopsis4"), ., 'pb-code-highlight', map {"lang": @language})
                     case element(example) return

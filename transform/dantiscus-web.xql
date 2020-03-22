@@ -125,10 +125,14 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 html:alternate($config, ., ("tei-choice5", "choice"), ., expan[1], abbr[1], map {})
                             else
                                 if (abbr and expan) then
-                                    html:alternate($config, ., ("tei-choice6", "choice"), ., abbr[1], expan[1], map {})
+                                    (
+                                        html:alternate($config, ., ("tei-choice6", "choice"), ., abbr[1], expan[1], map {}),
+                                        html:alternate($config, ., ("tei-choice7", "choice-alternate"), ., expan[1], abbr[1], map {})
+                                    )
+
                                 else
                                     if (orig and reg) then
-                                        html:alternate($config, ., ("tei-choice7", "choice"), ., reg[1], orig[1], map {})
+                                        html:alternate($config, ., ("tei-choice8", "choice"), ., reg[1], orig[1], map {})
                                     else
                                         $config?apply($config, ./node())
                     case element(hi) return
@@ -192,9 +196,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(figDesc) return
                         html:inline($config, ., ("tei-figDesc"), .)
                     case element(rs) return
-                        html:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node(), map {})
+                        html:alternate($config, ., ("tei-rs", "name"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node(), map {})
                     case element(foreign) return
-                        html:inline($config, ., ("tei-foreign"), .)
+                        html:inline($config, ., ("tei-foreign", "foreign"), .)
                     case element(fileDesc) return
                         if ($parameters?header='short') then
                             (
@@ -297,7 +301,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if ($parameters?mode='norm') then
                             html:omit($config, ., ("tei-lb1"), .)
                         else
-                            html:break($config, ., css:get-rendition(., ("tei-lb2")), ., 'line', @n)
+                            html:break($config, ., css:get-rendition(., ("tei-lb2", "lb")), ., 'line', @n)
                     case element(w) return
                         html:inline($config, ., ("tei-w"), .)
                     case element(stage) return
@@ -305,7 +309,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(titlePage) return
                         html:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                     case element(name) return
-                        html:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node(), map {})
+                        html:alternate($config, ., ("tei-name", "name"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node(), map {})
                     case element(front) return
                         html:block($config, ., ("tei-front"), .)
                     case element(lg) return

@@ -120,10 +120,14 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 fo:alternate($config, ., ("tei-choice5", "choice"), ., expan[1], abbr[1])
                             else
                                 if (abbr and expan) then
-                                    fo:alternate($config, ., ("tei-choice6", "choice"), ., abbr[1], expan[1])
+                                    (
+                                        fo:alternate($config, ., ("tei-choice6", "choice"), ., abbr[1], expan[1]),
+                                        fo:alternate($config, ., ("tei-choice7", "choice-alternate"), ., expan[1], abbr[1])
+                                    )
+
                                 else
                                     if (orig and reg) then
-                                        fo:alternate($config, ., ("tei-choice7", "choice"), ., reg[1], orig[1])
+                                        fo:alternate($config, ., ("tei-choice8", "choice"), ., reg[1], orig[1])
                                     else
                                         $config?apply($config, ./node())
                     case element(hi) return
@@ -187,9 +191,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(figDesc) return
                         fo:inline($config, ., ("tei-figDesc"), .)
                     case element(rs) return
-                        fo:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
+                        fo:alternate($config, ., ("tei-rs", "name"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
                     case element(foreign) return
-                        fo:inline($config, ., ("tei-foreign"), .)
+                        fo:inline($config, ., ("tei-foreign", "foreign"), .)
                     case element(fileDesc) return
                         if ($parameters?header='short') then
                             (
@@ -289,7 +293,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if ($parameters?mode='norm') then
                             fo:omit($config, ., ("tei-lb1"), .)
                         else
-                            fo:break($config, ., css:get-rendition(., ("tei-lb2")), ., 'line', @n)
+                            fo:break($config, ., css:get-rendition(., ("tei-lb2", "lb")), ., 'line', @n)
                     case element(w) return
                         fo:inline($config, ., ("tei-w"), .)
                     case element(stage) return
@@ -297,7 +301,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(titlePage) return
                         fo:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                     case element(name) return
-                        fo:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
+                        fo:alternate($config, ., ("tei-name", "name"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
                     case element(front) return
                         fo:block($config, ., ("tei-front"), .)
                     case element(lg) return
