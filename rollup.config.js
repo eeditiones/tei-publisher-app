@@ -9,7 +9,6 @@ export default [
     {
         input: [
             '@teipublisher/pb-components/src/pb-components-bundle.js',
-            '@teipublisher/pb-components/src/pb-facsimile.js',
             '@teipublisher/pb-components/src/pb-leaflet-map.js',
             '@teipublisher/pb-components/src/pb-odd-editor.js',
             '@teipublisher/pb-components/src/pb-edit-app.js'

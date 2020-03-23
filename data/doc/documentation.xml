@@ -66,7 +66,7 @@
       <para>Staying true to the spirit of code reuse and interoperability, TEI Publisher implements all functionality as small "lego" blocks to be freely
         arranged and recombined. The technology making this possible is called <emphasis>Web Components</emphasis>. It is part of the HTML5 specification and
         natively implemented by many browsers. Users don't need to dive into the details of this standard though: all you need to modify the example pages is a
-        bit of basic HTML knowledge. Only where the <link xlink:href="../components/docs.html">available components</link> are not enough, a new use case needs
+        bit of basic HTML knowledge. Only where the <link xlink:href="../../pb-components-api/index.html">available components</link> are not enough, a new use case needs
         to be described and suitable new components implemented but then they can be incorporated into existing component pool for everyone else to use. After
         all, our mantra is reuse, reuse, reuse and we want to turn TEI Publisher into a box of tools the entire community can benefit from.
         See our <link linkend="roadmap">roadmap</link> for the ideas we are thinking of.</para>
@@ -911,13 +911,13 @@
           encapsulation also poses some challenges, mainly concerning the communication between components, which we will cover <link linkend="external-css"
             >further below</link>.</para>
         <para>To better understand the various components TEI Publisher provides, it is best to have a look at the small examples contained in the <link
-            xlink:href="../components/docs.html">web components API documentation</link>. The list of components may be overwhelming at first sight. However you
+            xlink:href="../../pb-components-api/index.html">web components API documentation</link>. The list of components may be overwhelming at first sight. However you
           don’t need to learn them all. There are a just a few components that should be understood before you start customizing. Their demo pages showcase a
           working example along with the code snippet which actually implements it. In particular you may want to look at the following examples:</para>
         <variablelist>
           <varlistentry>
             <term>
-              <link xlink:href="../components/docs.html#/elements/pb-document/demos/demo/pb-document.html">pb-document</link>
+              <link xlink:href="../../pb-components-api/index.html#/elements/pb-document/demos/demo/pb-document.html">pb-document</link>
             </term>
             <listitem>
               <para>shows the example given above in action</para>
@@ -925,7 +925,7 @@
           </varlistentry>
           <varlistentry>
             <term>
-              <link xlink:href="../components/docs.html#/elements/pb-view/demos/demo/pb-view.html">pb-view</link>
+              <link xlink:href="../../pb-components-api/index.html#/elements/pb-view/demos/demo/pb-view.html">pb-view</link>
             </term>
             <listitem>
               <para>adds navigation buttons to read the document page by page</para>
@@ -933,7 +933,7 @@
           </varlistentry>
           <varlistentry>
             <term>
-              <link xlink:href="../components/docs.html#/elements/pb-facsimile/demos/demo/pb-facsimile.html">pb-facsimile</link>
+              <link xlink:href="../../pb-components-api/index.html#/elements/pb-facsimile/demos/demo/pb-facsimile.html">pb-facsimile</link>
             </term>
             <listitem>
               <para>display facsimiles via IIIF server and link to them</para>
@@ -941,7 +941,7 @@
           </varlistentry>
           <varlistentry>
             <term>
-              <link xlink:href="../components/docs.html#/elements/pb-leaflet-map/demos/demo/pb-leaflet-map.html">pb-leaflet-map</link>
+              <link xlink:href="../../pb-components-api/index.html#/elements/pb-leaflet-map/demos/demo/pb-leaflet-map.html">pb-leaflet-map</link>
             </term>
             <listitem>
               <para>show a map and link to geo coordinates</para>
@@ -949,7 +949,7 @@
           </varlistentry>
           <varlistentry>
             <term>
-              <link xlink:href="../components/docs.html#/elements/pb-load/demos/demo/pb-load.html">pb-load</link>
+              <link xlink:href="../../pb-components-api/index.html#/elements/pb-load/demos/demo/pb-load.html">pb-load</link>
             </term>
             <listitem>
               <para>call a server-side XQuery to retrieve additional information about the document, in this case actors appearing in the play</para>
@@ -957,7 +957,7 @@
           </varlistentry>
           <varlistentry>
             <term>
-              <link xlink:href="../components/docs.html#/elements/pb-search/demos/demo/pb-search.html">pb-search</link>
+              <link xlink:href="../../pb-components-api/index.html#/elements/pb-search/demos/demo/pb-search.html">pb-search</link>
             </term>
             <listitem>
               <para>execute a search on the database, retrieve the results and paginate through them</para>
@@ -965,7 +965,7 @@
           </varlistentry>
           <varlistentry>
             <term>
-              <link xlink:href="../components/docs.html#/elements/pb-grid/demos/demo/pb-grid.html">pb-grid</link>
+              <link xlink:href="../../pb-components-api/index.html#/elements/pb-grid/demos/demo/pb-grid.html">pb-grid</link>
             </term>
             <listitem>
               <para>dynamically add more columns to a horizontal grid of components</para>
@@ -999,7 +999,7 @@
         <para>If neither of these properties is given, the component will subscribe and emit to the global default channel. A component may also send to a
           different channel than it subscribes to, allowing chains of events.</para>
         <para>The common properties and methods accepted by many TEI Publisher components are defined in the class <link
-            xlink:href="../components/docs.html#/mixins/PbMixin">PbMixin</link>.</para>
+            xlink:href="../../pb-components-api/index.html#/mixins/pbMixin">PbMixin</link>.</para>
       </section>
       <section>
         <title>Page Templates</title>
@@ -1737,7 +1737,7 @@
         <para>If the parameter is set, the processing model rules in the ODD will output the headings of all ancestor sections of the current division only,
           ignoring everything else. This approach helps to reuse the same ODD for viewing specific aspects of the document.</para>
         <para>A dedicated user interface webcomponent
-        <link xlink:href="../components/docs.html#/elements/pb-toggle-feature/demos/demo/pb-toggle-feature.html"><tag>pb-toggle-feature</tag></link>
+        <link xlink:href="../../pb-components-api/index.html#/elements/pb-toggle-feature/demos/demo/pb-toggle-feature.html"><tag>pb-toggle-feature</tag></link>
         exists for toggling between two values of a parameter. Example below would produce a checkbox which when on
         results in the value of <parameter>$parameters?mode</parameter> set to <parameter>diplomatic</parameter>, otherwise to <parameter>norm</parameter>.
         </para>

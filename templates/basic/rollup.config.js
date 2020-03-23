@@ -7,7 +7,6 @@ const production = process.env.BUILD === 'production';
 export default {
     input: [
         '@teipublisher/pb-components/src/pb-components-bundle.js',
-        '@teipublisher/pb-components/src/pb-facsimile.js',
         '@teipublisher/pb-components/src/pb-leaflet-map.js'
         // add your own bundle for components:
         // './components/pb-edit-app.js'
@@ -24,15 +23,23 @@ export default {
             targets: [
                 {
                     src: './node_modules/leaflet/dist/leaflet.css',
-                    dest: './resources/css/vendor'
+                    dest: 'resources/css/leaflet'
                 },
                 {
                     src: './node_modules/leaflet/dist/images/*',
-                    dest: './resources/images/leaflet'
+                    dest: 'resources/images/leaflet'
                 },
                 {
                     src: './node_modules/openseadragon/build/openseadragon/images/*',
-                    dest: './resources/images/openseadragon'
+                    dest: 'resources/images/openseadragon'
+                },
+                {
+                    src: './node_modules/openseadragon/build/openseadragon/openseadragon.min.js',
+                    dest: 'resources/lib/'
+                },
+                {
+                    src: './node_modules/prismjs/themes/*',
+                    dest: 'resources/css/prismjs'
                 },
                 {
                     src: './node_modules/@teipublisher/pb-components/i18n/common/*',
