@@ -78,6 +78,15 @@ declare variable $deploy:ANT_FILE :=
             </exec>
             <echo message="${{npm.output}}"/>
         </target>
+        <target name="clean">
+            <delete dir="${build}"/>
+            <delete dir="resources/scripts" includes="*.js *.map"/>
+            <delete dir="resources/images/leaflet"/>
+            <delete dir="resources/images/openseadragon"/>
+            <delete dir="resources/i18n/common"/>
+            <delete dir="resources/css" includes="leaflet/** prismjs/**"/>
+            <delete dir="resources/lib"/>
+        </target>
     </project>;
 
 declare function deploy:expand-ant($nodes as node()*, $json as map(*)) {
