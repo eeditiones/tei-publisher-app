@@ -1,11 +1,15 @@
 {
-    "cs": "český",
+    "cs": "Česky",
     "de": "Deutsch",
     "en": "English",
     "es": "Español",
-    "gr": "ελληνικά",
+    "el": "ελληνικά",
     "fr": "Français",
     "it": "Italiano",
     "nl": "Nederlands",
-    "pl": "Polski"
+    "no": "Norsk",
+    "pl": "Polski",
+    "pt": "Português",
+    "fi": "Suomalainen",
+    "uk": "Українська"
 }
