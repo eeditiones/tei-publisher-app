@@ -84,8 +84,9 @@ app-toolbar {
 }
 
 app-toolbar pb-search {
-    --paper-input-container-input-color: var(--pb-color-inverse);
-    --paper-input-container-color: var(--pb-color-inverse);
+    --pb-search-label-color: var(--pb-color-inverse);
+    --pb-search-input-color: var(--pb-color-inverse);
+    --pb-search-focus-color: var(--paper-orange-500);
     padding-left: 20px;
 }
 
