@@ -839,28 +839,32 @@
           properties, methods and events. From a user perspective, a component looks like any other HTML element, but it bundles HTML markup along with local
           CSS and JavaScript into a single file. You configure it by setting its properties via attributes. For example, the following HTML code snippet will
           display the first page/section of two completely different documents:</para>
-        <programlisting language="xml" xml:space="preserve">&lt;pb-document id="document1" path="test/kant_rvernunft_1781.TEI-P5.xml" odd="dta" view="page"&gt;&lt;/pb-document&gt;
-&lt;pb-document id="document2" path="doc/documentation.xml" odd="docbook" view="div"&gt;&lt;/pb-document&gt;
+        <programlisting language="xml" xml:space="preserve">
+&lt;pb-page&gt;
+  &lt;pb-document id="document1" path="test/kant_rvernunft_1781.TEI-P5.xml" odd="dta" view="page"&gt;&lt;/pb-document&gt;
+  &lt;pb-document id="document2" path="doc/documentation.xml" odd="docbook" view="div"&gt;&lt;/pb-document&gt;
 
-&lt;!-- Display two document views side by side --&gt;
-&lt;main&gt;
-    &lt;pb-view id="view1" src="document1"&gt;&lt;/pb-view&gt;
-    &lt;pb-view id="view2" src="document2"&gt;&lt;/pb-view&gt;
-&lt;/main&gt;</programlisting>
-        <para>
-          <tag>pb-document</tag> and <tag>pb-view</tag> are two web components provided by TEI Publisher, while <tag>main</tag> is a standard HTML5 tag. The
-          custom element of a webcomponent <emphasis role="bold">must</emphasis> start with a prefix to distinguish it from standard HTML. This concept should
-          be familiar to XML people. For TEI Publisher components, the prefix is always <code>pb-</code>. Components from other sources will use different
-          prefixes, e.g. <code>paper-</code> and <code>iron-</code> for the Polymer collection.</para>
-        <note>
-          <title>Caveat</title>
-          <para>Some properties of pb-view and other components are boolean properties. In HTML5 this corresponds to an attribute without value, which is
-            illegal in XML. If you want to preserve valid XML, just write the attribute with the same name and value, e.g.
-              <code>append-footnotes="append-footnotes"</code>.</para>
-        </note>
-        <para>
-          <tag>pb-document</tag> states some metadata about a document source, which can then be referenced by id from other components. In the example above,
-          we define three properties for each document:</para>
+  &lt;!-- Display two document views side by side --&gt;
+  &lt;main&gt;
+      &lt;pb-view id="view1" src="document1"&gt;&lt;/pb-view&gt;
+      &lt;pb-view id="view2" src="document2"&gt;&lt;/pb-view&gt;
+  &lt;/main&gt;
+&lt;/pb-page&gt;</programlisting>
+        <para><tag>pb-page</tag>, <tag>pb-document</tag> and <tag>pb-view</tag> are three web
+          components provided by TEI Publisher, while <tag>main</tag> is a standard HTML5 tag. The
+          custom element of a webcomponent <emphasis role="bold">must</emphasis> start with a prefix
+          to distinguish it from standard HTML. This concept should be familiar to XML people. For
+          TEI Publisher components, the prefix is always <code>pb-</code>. Components from other
+          sources will use different prefixes, e.g. <code>paper-</code> and <code>iron-</code> for
+          the Polymer collection.</para>
+        <para>The part of the page which uses TEI Publisher webcomponents should always be wrapped
+          into an <tag>pb-page</tag> element. This element is responsible for some initialization
+          steps, e.g. loading the list of available user interface translations, and most important:
+          to determine the TEI Publisher server instance all other components will be talking to
+          (see the next section below).</para>
+        <para><tag>pb-document</tag> states some metadata about a document source, which can then be
+          referenced by id from other components. In the example above, we define three properties
+          for each document:</para>
         <variablelist>
           <varlistentry>
             <term>path</term>
@@ -910,68 +914,90 @@
           completely heterogenous texts (like the documentation and Kant's Kritik) on the same page without styles getting messed up. As a downside,
           encapsulation also poses some challenges, mainly concerning the communication between components, which we will cover <link linkend="external-css"
             >further below</link>.</para>
-        <para>To better understand the various components TEI Publisher provides, it is best to have a look at the small examples contained in the <link
-            xlink:href="../../pb-components-api/index.html">web components API documentation</link>. The list of components may be overwhelming at first sight. However you
-          don’t need to learn them all. There are a just a few components that should be understood before you start customizing. Their demo pages showcase a
-          working example along with the code snippet which actually implements it. In particular you may want to look at the following examples:</para>
-        <variablelist>
-          <varlistentry>
-            <term>
-              <link xlink:href="../../pb-components-api/index.html#/elements/pb-document/demos/demo/pb-document.html">pb-document</link>
-            </term>
-            <listitem>
-              <para>shows the example given above in action</para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term>
-              <link xlink:href="../../pb-components-api/index.html#/elements/pb-view/demos/demo/pb-view.html">pb-view</link>
-            </term>
-            <listitem>
-              <para>adds navigation buttons to read the document page by page</para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term>
-              <link xlink:href="../../pb-components-api/index.html#/elements/pb-facsimile/demos/demo/pb-facsimile.html">pb-facsimile</link>
-            </term>
-            <listitem>
-              <para>display facsimiles via IIIF server and link to them</para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term>
-              <link xlink:href="../../pb-components-api/index.html#/elements/pb-leaflet-map/demos/demo/pb-leaflet-map.html">pb-leaflet-map</link>
-            </term>
-            <listitem>
-              <para>show a map and link to geo coordinates</para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term>
-              <link xlink:href="../../pb-components-api/index.html#/elements/pb-load/demos/demo/pb-load.html">pb-load</link>
-            </term>
-            <listitem>
-              <para>call a server-side XQuery to retrieve additional information about the document, in this case actors appearing in the play</para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term>
-              <link xlink:href="../../pb-components-api/index.html#/elements/pb-search/demos/demo/pb-search.html">pb-search</link>
-            </term>
-            <listitem>
-              <para>execute a search on the database, retrieve the results and paginate through them</para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term>
-              <link xlink:href="../../pb-components-api/index.html#/elements/pb-grid/demos/demo/pb-grid.html">pb-grid</link>
-            </term>
-            <listitem>
-              <para>dynamically add more columns to a horizontal grid of components</para>
-            </listitem>
-          </varlistentry>
-        </variablelist>
+        <section>
+          <title>Live Examples</title>
+          <para>Since version 6.0, all our webcomponents can also be used <emphasis>outside</emphasis> TEI Publisher itself. So if you already have a working web application for your edition running somewhere, you can still benefit from using the TEI Processing Model for transformations by embedding publisher components into your existing page. All that is needed is a TEI Publisher instance somewhere on the web which has the source TEI and provides a communication endpoint for the components to talk to.</para>
+          <para>The embedded example below demonstrates this: it provides a sandbox running on <link xlink:href="https://codepen.io">codepen.io</link> but talks to the TEI Publisher instance on <link xlink:href="https://teipublisher.com">teipublisher.com</link>. The magic happens in the <code>endpoint</code> attribute passed
+          to <tag>pb-page</tag>, which tells the components where to talk to:</para>
+          <programlisting role="codepen" xlink:href="wolfgangmm#YzXEvvw"></programlisting>
+          <para>You can actually edit the code above: for example, try to change the path for the
+            first document to <filename>test/F-rom.xml</filename> and the odd to
+              <code>shakespeare</code>. See how the live view changes?</para>
+          <para>And if you would like to read Rome and Juliet in two-column mode, just add <code>column-separator=".tei-cb"</code> to the main <tag>pb-view</tag>.</para> 
+        </section>
+        <section>
+          <title>Webcomponent Documentation</title>
+          <para>To better understand the various components TEI Publisher provides, it is best to have a look at the small examples contained in the <link
+              xlink:href="../../pb-components-api/index.html">web components API documentation</link>. The list of components may be overwhelming at first sight. However you
+            don’t need to learn them all. There are a just a few components that should be understood before you start customizing. Their demo pages showcase a
+            working example along with the code snippet which actually implements it.</para>
+          <para>You can also get an editable live view like the one above if you click on the <guibutton>Edit Code</guibutton> button to the bottom right of each example.</para>
+          <para>In particular you may want to look at the following examples:</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <link xlink:href="../../pb-components-api/index.html#/elements/pb-document/demos/demo/pb-document.html">pb-document</link>
+              </term>
+              <listitem>
+                <para>shows the example given above in action</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <link xlink:href="../../pb-components-api/index.html#/elements/pb-view/demos/demo/pb-view.html">pb-view</link>
+              </term>
+              <listitem>
+                <para>adds navigation buttons to read the document page by page</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <link xlink:href="../../pb-components-api/index.html#/elements/pb-facsimile/demos/demo/pb-facsimile.html">pb-facsimile</link>
+              </term>
+              <listitem>
+                <para>display facsimiles via IIIF server and link to them</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <link xlink:href="../../pb-components-api/index.html#/elements/pb-leaflet-map/demos/demo/pb-leaflet-map.html">pb-leaflet-map</link>
+              </term>
+              <listitem>
+                <para>show a map and link to geo coordinates</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <link xlink:href="../../pb-components-api/index.html#/elements/pb-load/demos/demo/pb-load.html">pb-load</link>
+              </term>
+              <listitem>
+                <para>call a server-side XQuery to retrieve additional information about the document, in this case actors appearing in the play</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <link xlink:href="../../pb-components-api/index.html#/elements/pb-search/demos/demo/pb-search.html">pb-search</link>
+              </term>
+              <listitem>
+                <para>execute a search on the database, retrieve the results and paginate through them</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <link xlink:href="../../pb-components-api/index.html#/elements/pb-grid/demos/demo/pb-grid.html">pb-grid</link>
+              </term>
+              <listitem>
+                <para>dynamically add more columns to a horizontal grid of components</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+          <note>
+            <title>Caveat</title>
+            <para>Some properties of pb-view and other components are boolean properties. In HTML5 this corresponds to an attribute without value, which is
+              illegal in XML. If you want to preserve valid XML, just write the attribute with the same name and value, e.g.
+              <code>append-footnotes="append-footnotes"</code>.</para>
+          </note>
+        </section>
       </section>
       <section>
         <title>Communication between Components</title>

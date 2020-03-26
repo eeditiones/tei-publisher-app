@@ -209,7 +209,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:cell($config, ., ("tei-td2"), ., ())
                     case element(programlisting) return
                         if (@role='codepen') then
-                            html:webcomponent($config, ., ("tei-programlisting3"), ., 'pb-codepen', map {"hash": substring-after(@xlink:href, '#'), "user": substring-before(@xlink:href, '#'), "theme": 'dark', "height": 480})
+                            html:webcomponent($config, ., ("tei-programlisting3"), ., 'pb-codepen', map {"hash": substring-after(@xlink:href, '#'), "user": substring-before(@xlink:href, '#'), "theme": 'dark', "height": 480, "editable": true()})
                         else
                             if (parent::cell|parent::para|parent::ab) then
                                 html:inline($config, ., ("tei-programlisting4", "code"), .)

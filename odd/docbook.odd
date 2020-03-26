@@ -9,6 +9,7 @@
                  
                  
                  
+                 
                  <desc>Processing of Docbook format</desc>
                 </title>
                 <title type="short">Docbook v5 </title>
@@ -220,6 +221,7 @@
             
             
             
+            
 
 
 
@@ -236,6 +238,7 @@
 
 
 
+            
             
             
             
@@ -386,6 +389,7 @@
             
             
             
+            
 
 
 
@@ -396,6 +400,7 @@ white-space: pre-wrap;
 
 
 
+            
             
             
             
@@ -412,6 +417,7 @@ white-space: pre-wrap;
                 <param name="name" value="'pb-codepen'"/>
                 <param name="theme" value="'dark'"/>
                 <param name="height" value="480"/>
+                <param name="editable" value="true()"/>
             </model>
             <model predicate="parent::cell|parent::para|parent::ab" behaviour="inline" cssClass="code"/>
             <model behaviour="webcomponent">
@@ -431,6 +437,7 @@ white-space: pre-wrap;
             
             
             
+            
 
 
 
@@ -441,6 +448,7 @@ white-space: pre-wrap;
 
 
 
+            
             
             
             
@@ -479,6 +487,7 @@ white-space: pre-wrap;
             
             
             
+            
 
 
 
@@ -494,6 +503,7 @@ padding: 1em 0 1em .5em;
 
 
 
+            
             
             
             
@@ -537,10 +547,12 @@ padding: 1em 0 1em .5em;
             
             
             
+            
             text-decoration: underline;
 --iron-icon-height: 16px;
 vertical-align: top;
 cursor: pointer;
+            
             
             
             
@@ -567,6 +579,7 @@ cursor: pointer;
             
             
             
+            
 
 
 
@@ -586,6 +599,7 @@ cursor: pointer;
 
 
 
+            
             
             
             
@@ -627,6 +641,7 @@ Not available in PDF edition. Go to \url{[[content]]} to view.
             
             
             
+            
 
 
 
@@ -644,6 +659,7 @@ border-left: 3px solid #c0c0c0;
             
             
             
+            
             </outputRendition>
         </model>
                 </elementSpec>
@@ -651,6 +667,7 @@ border-left: 3px solid #c0c0c0;
                     <model behaviour="inline" cssClass="pubdate">
             <param name="content" value="format-date(., '[MNn] [D1], [Y0001]', 'en_US', (), ())"/>
             <outputRendition xml:space="preserve" scope="before">
+            
             
             
             
@@ -672,6 +689,7 @@ border-left: 3px solid #c0c0c0;
 
 
 
+            
             
             
             
