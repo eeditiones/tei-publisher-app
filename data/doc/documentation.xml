@@ -2954,25 +2954,26 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <procedure>
         <step>
           <para>Edit <filename>modules/config.xqm</filename> and add two variables at the top:</para>
-          <programlisting language="xquery" xml:space="preserve"><![CDATA[(:~~
-            : A list of regular expressions to check which external hosts are
-            : allowed to access this TEI Publisher instance. The check is done
-            : against the Origin header sent by the browser.
-            :)
-            declare variable $config:origin-whitelist := (
-            "(?:https?://localhost:.*|https?://127.0.0.1:.*)"
-            );
-            
-            (:~~
-            : The version of the pb-components webcomponents library to be used by this app.
-            : Should either point to a version published on npm,
-            : or be set to 'local'. In the latter case, webcomponents
-            : are assumed to be self-hosted in the app (which means you
-            : have to npm install it yourself using the existing package.json).
-            : If a version is given, the components will be loaded from a public CDN.
-            : This is recommended unless you develop your own components.
-            :)
-            declare variable $config:webcomponents := "0.9.11";]]></programlisting>
+          <programlisting language="xquery" xml:space="preserve"><![CDATA[
+(:~
+ : A list of regular expressions to check which external hosts are
+ : allowed to access this TEI Publisher instance. The check is done
+ : against the Origin header sent by the browser.
+ :)
+declare variable $config:origin-whitelist := (
+"(?:https?://localhost:.*|https?://127.0.0.1:.*)"
+);
+
+(:~~
+ : The version of the pb-components webcomponents library to be used by this app.
+ : Should either point to a version published on npm,
+ : or be set to 'local'. In the latter case, webcomponents
+ : are assumed to be self-hosted in the app (which means you
+ : have to npm install it yourself using the existing package.json).
+ : If a version is given, the components will be loaded from a public CDN.
+ : This is recommended unless you develop your own components.
+ :)
+declare variable $config:webcomponents := "0.9.11";]]></programlisting>
           <para><parameter>$config:webcomponents</parameter> should point to the latest version of pb-components.</para>
           
         </step>

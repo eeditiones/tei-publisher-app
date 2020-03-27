@@ -10,6 +10,7 @@
                  
                  
                  
+                 
                  <desc>Processing of Docbook format</desc>
                 </title>
                 <title type="short">Docbook v5 </title>
@@ -222,6 +223,7 @@
             
             
             
+            
 
 
 
@@ -238,6 +240,7 @@
 
 
 
+            
             
             
             
@@ -390,6 +393,7 @@
             
             
             
+            
 
 
 
@@ -400,6 +404,7 @@ white-space: pre-wrap;
 
 
 
+            
             
             
             
@@ -422,7 +427,7 @@ white-space: pre-wrap;
             <model predicate="parent::cell|parent::para|parent::ab" behaviour="inline" cssClass="code"/>
             <model behaviour="webcomponent">
                 <param name="name" value="'pb-code-highlight'"/>
-                <param name="lang" value="@language"/>
+                <param name="language" value="@language"/>
                 <param name="content" value="text()"/>
                 <param name="line-numbers" value="true()"/>
             </model>
@@ -433,6 +438,7 @@ white-space: pre-wrap;
                     <model output="epub" behaviour="block">
             <param name="content" value="text()"/>
             <outputRendition xml:space="preserve">
+            
             
             
             
@@ -453,13 +459,14 @@ white-space: pre-wrap;
             
             
             
+            
             </outputRendition>
         </model>
                     <model output="latex" behaviour="code"/>
                     <model output="print" behaviour="block" cssClass="programlisting"/>
                     <model behaviour="webcomponent">
             <param name="name" value="'pb-code-highlight'"/>
-            <param name="lang" value="@language"/>
+            <param name="language" value="@language"/>
         </model>
                 </elementSpec>
                 <elementSpec ident="example">
@@ -488,6 +495,7 @@ white-space: pre-wrap;
             
             
             
+            
 
 
 
@@ -503,6 +511,7 @@ padding: 1em 0 1em .5em;
 
 
 
+            
             
             
             
@@ -548,10 +557,12 @@ padding: 1em 0 1em .5em;
             
             
             
+            
             text-decoration: underline;
 --iron-icon-height: 16px;
 vertical-align: top;
 cursor: pointer;
+            
             
             
             
@@ -580,6 +591,7 @@ cursor: pointer;
             
             
             
+            
 
 
 
@@ -599,6 +611,7 @@ cursor: pointer;
 
 
 
+            
             
             
             
@@ -642,6 +655,7 @@ Not available in PDF edition. Go to \url{[[content]]} to view.
             
             
             
+            
 
 
 
@@ -660,6 +674,7 @@ border-left: 3px solid #c0c0c0;
             
             
             
+            
             </outputRendition>
         </model>
                 </elementSpec>
@@ -667,6 +682,7 @@ border-left: 3px solid #c0c0c0;
                     <model behaviour="inline" cssClass="pubdate">
             <param name="content" value="format-date(., '[MNn] [D1], [Y0001]', 'en_US', (), ())"/>
             <outputRendition xml:space="preserve" scope="before">
+            
             
             
             
@@ -689,6 +705,7 @@ border-left: 3px solid #c0c0c0;
 
 
 
+            
             
             
             
