@@ -2910,7 +2910,105 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
   </section>
 
 
-
+  <section xml:id="updating">
+    <title>Updating Applications</title>
+    
+    <para>Updating an app generated with TEI Publisher 4.x.x/5.x.x still requires some manual steps, though we're working towards reducing the dependencies. Future updates should become easier. There are two possible approaches for updating:</para>
+    <orderedlist>
+      <listitem>
+        <para>generate a new application with TEI Publisher 6 and copy the files you changed in your app into the newly generated app. This is recommended if the customizations you did apply were limited to e.g. ODD files, CSS styles, templates, index configurations or a few of the files in <filename>modules/</filename>.</para>
+      </listitem>
+      <listitem>
+        <para>update your generated app by modifying the HTML templates you use and copying files from TEI Publisher.</para>
+      </listitem>
+    </orderedlist>
+    <para>The first option is much easier in general. We only recommend to go with the second option if you app is heavily customized and - in particular - contains many changes to the XQuery files.</para>
+    <section>
+      <title>Update by Generating a New Application</title>
+      <procedure>
+        <step>
+          <para>Upload your customized ODD to TEI Publisher</para>
+        </step>
+        <step>
+          <para>If you created a custom HTML template for your document view, upload it to the <filename>templates/pages</filename> collection of TEI Publisher. You can use eXide's file manager to do so.</para>
+        </step>
+        <step>
+          <para>Generate a new application using your custom ODD. Make sure you select a different URL and short name to not confuse the two apps.</para>
+        </step>
+        <step>
+          <para>Selectively upload all remaining files you changed or resources you added to the generated app</para>
+        </step>
+      </procedure>
+    </section>
+    <section>
+      <title>Update by Copying</title> 
+      <para>The following steps assume that you</para>
+      <orderedlist>
+        <listitem>
+          <para>either have a copy of your app's code on the filesystem and a clone of TEI Publisher 6 next to it</para>
+        </listitem>
+        <listitem>
+          <para>or have your app and TEI Publisher installed in your database. In this case use eXide's file manager to copy files</para>
+        </listitem>
+      </orderedlist>
+      <procedure>
+        <step>
+          <para>Edit <filename>modules/config.xqm</filename> and add two variables at the top:</para>
+          <programlisting language="xquery" xml:space="preserve"><![CDATA[(:~~
+            : A list of regular expressions to check which external hosts are
+            : allowed to access this TEI Publisher instance. The check is done
+            : against the Origin header sent by the browser.
+            :)
+            declare variable $config:origin-whitelist := (
+            "(?:https?://localhost:.*|https?://127.0.0.1:.*)"
+            );
+            
+            (:~~
+            : The version of the pb-components webcomponents library to be used by this app.
+            : Should either point to a version published on npm,
+            : or be set to 'local'. In the latter case, webcomponents
+            : are assumed to be self-hosted in the app (which means you
+            : have to npm install it yourself using the existing package.json).
+            : If a version is given, the components will be loaded from a public CDN.
+            : This is recommended unless you develop your own components.
+            :)
+            declare variable $config:webcomponents := "0.9.11";]]></programlisting>
+          <para><parameter>$config:webcomponents</parameter> should point to the latest version of pb-components.</para>
+          
+        </step>
+        <step>
+          <para>Copy all XQuery files from <filename>tei-publisher-app/modules/lib</filename> into the
+            <filename>modules/lib</filename> of your application.
+          </para>
+        </step>
+        <step>
+          <para>Copy <filename>tei-publisher-app/resources/css/theme.css</filename> into the same location in your application.</para>
+        </step>
+        <step>
+          <para>In all HTML files <emphasis>you changed for your app</emphasis>, check <tag>head</tag> and remove any <tag>script</tag> element or <tag>link</tag> doing an import like:</para>
+          <synopsis language="html"><![CDATA[<link rel="import" href="components/dependencies-dev.html"/>]]></synopsis>
+          <para>Instead add the following line to the head:</para>
+          <synopsis language="html"><![CDATA[<script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>]]></synopsis>
+          <para>Also add a link to <filename>theme.css</filename>:</para>
+          <synopsis language="html"><![CDATA[<link rel="stylesheet" href="resources/css/theme.css"/>]]></synopsis>
+        </step>
+        <step>
+          <para>HTML files you did not change may just be overwritten by copying the corresponding versions from <code>tei-publisher-app</code>. In particular
+            this may include files in the <filename>tei-publisher-app/templates/basic/templates</filename> subdirectory or
+            <filename>tei-publisher-app/templates/basic/search.html</filename>.</para>
+        </step>
+        <step>
+          <para>Copy <filename>tei-publisher-app/templates/basic/controller.xql</filename> into the root of your application - unless you made changes to this
+            file yourself, in which case you would need to merge it.</para>
+        </step>
+        <step>
+          <para>Check the files in modules within your app: if you have not changed any of them, just copy the corresponding files from
+            <filename>tei-publisher-app/modules</filename>. See if you need to merge the modified ones.</para>
+        </step>
+      </procedure>
+    </section>
+    
+  </section>
 
   <section xml:id="faq">
     <title>Frequently Asked Questions</title>
