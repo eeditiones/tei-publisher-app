@@ -116,7 +116,7 @@ declare function deploy:package-json($json as map(*)) {
             "start": "npm install &amp;&amp; npm run build:production",
             "build": "rollup -c rollup.config.js",
             "build:production": "rollup -c rollup.config.js --environment BUILD:production",
-            "clean": "rimraf node_modules/@teipublisher/pb-components &amp;&amp; npm install",
+            "clean": "rimraf resources/css/leaflet resources/images/leaflet resources/images/openseadragon resources/lib/ resources/css/prismjs resources/i18n/common",
             "watch": "rollup -c rollup.config.js --watch"
         },
         "dependencies": map {
@@ -127,7 +127,8 @@ declare function deploy:package-json($json as map(*)) {
             "rollup": "latest",
             "rollup-plugin-copy": "latest",
             "@rollup/plugin-node-resolve": "latest",
-            "rollup-plugin-terser": "latest"
+            "rollup-plugin-terser": "latest",
+            "@rollup/plugin-replace": "latest"
         }
     }
     return

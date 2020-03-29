@@ -12,7 +12,7 @@
     "build": "rollup -c rollup.config.js",
     "build:production": "rollup -c rollup.config.js --environment BUILD:production",
     "watch": "rollup -c rollup.config.js --watch",
-    "clean": "rimraf node_modules/@teipublisher/pb-components && npm install",
+    "clean": "rimraf resources/css/leaflet resources/images/leaflet resources/images/openseadragon resources/lib/ resources/css/prismjs resources/i18n/common",
     "test": "webtest/node_modules/.bin/wdio wdio.conf.js",
     "wctest": "./node_modules/.bin/wdio components/test/wdio.conf.js"
   },
@@ -27,7 +27,8 @@
     "rollup": "^1.21.0",
     "rollup-plugin-analyzer": "^3.1.2",
     "rollup-plugin-copy": "^3.1.0",
-    "rollup-plugin-terser": "^5.1.1"
+    "rollup-plugin-terser": "^5.1.1",
+    "@rollup/plugin-replace": "^2.3.1"
   },
   "dependencies": {
     "@teipublisher/pb-components": "git+https://gitlab.existsolutions.com/tei-publisher/pb-components.git#master"
