@@ -96,7 +96,7 @@ return
         let $userParams :=
           map:merge((
               request:get-parameter-names()[starts-with(., 'user')] ! map { substring-after(., 'user.'): request:get-parameter(., ()) },
-              map { "webcomponents": true() }
+              map { "webcomponents": 6 }
           ))
         let $mapped :=
             if ($mapping) then
