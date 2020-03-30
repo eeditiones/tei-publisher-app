@@ -8,6 +8,20 @@ const production = process.env.BUILD === 'production';
 
 export default [
     {
+        input: 'node_modules/tippy.js/dist/tippy.esm.js',
+        output: {
+            dir: 'node_modules/tippy.js/dist',
+            format: 'es',
+            sourcemap: false
+        },
+        plugins: [
+            resolve(),
+            replace({
+                'process.env.NODE_ENV': JSON.stringify('production')
+            })
+        ]
+    },
+    {
         input: [
             '@teipublisher/pb-components/src/pb-components-bundle.js',
             '@teipublisher/pb-components/src/pb-leaflet-map.js',

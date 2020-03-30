@@ -124,7 +124,7 @@ declare function deploy:package-json($json as map(*)) {
         },
         "devDependencies": map {
             "rimraf": "latest",
-            "rollup": "latest",
+            "rollup": "^1.21.0",
             "rollup-plugin-copy": "latest",
             "@rollup/plugin-node-resolve": "latest",
             "rollup-plugin-terser": "latest",
