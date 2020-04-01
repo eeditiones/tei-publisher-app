@@ -12,7 +12,7 @@
     "build": "rollup -c rollup.config.js",
     "build:production": "rollup -c rollup.config.js --environment BUILD:production",
     "watch": "rollup -c rollup.config.js --watch",
-    "clean": "rimraf resources/css/leaflet resources/images/leaflet resources/images/openseadragon resources/lib/ resources/css/prismjs resources/i18n/common",
+    "clean": "rimraf resources/scripts resources/css/leaflet resources/images/leaflet resources/images/openseadragon resources/lib/ resources/css/prismjs resources/i18n/common",
     "test": "webtest/node_modules/.bin/wdio wdio.conf.js",
     "wctest": "./node_modules/.bin/wdio components/test/wdio.conf.js"
   },

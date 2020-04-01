@@ -79,7 +79,7 @@ declare variable $deploy:ANT_FILE :=
             <echo message="${{npm.output}}"/>
         </target>
         <target name="clean">
-            <delete dir="${build}"/>
+            <delete dir="${{build.dir}}"/>
             <delete dir="resources/scripts" includes="*.js *.map"/>
             <delete dir="resources/images/leaflet"/>
             <delete dir="resources/images/openseadragon"/>
@@ -396,12 +396,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:mkcol($collection || "/data", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:copy-resource($collection || "/data", $base || "/data", "taxonomy.xml", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:copy-resource($collection || "/resources/css", $base || "/resources/css", "theme.css", ($json?owner, "tei"), "rw-rw-r--"),
-        deploy:mkcol($collection || "/resources/css/vendor", ($json?owner, "tei"), "rw-rw-r--"),
-        deploy:copy-resource($collection || "/resources/css/vendor", $base || "/resources/css/vendor", "leaflet.css", ($json?owner, "tei"), "rw-rw-r--"),
-        deploy:copy-collection($collection || "/resources/images/leaflet", $base || "/resources/images/leaflet", ($json?owner, "tei"), "rw-rw-r--"),
-        deploy:copy-collection($collection || "/resources/images/openseadragon", $base || "/resources/images/openseadragon", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:copy-resource($collection || "/resources/i18n", $base || "/resources/i18n", "languages.json", ($json?owner, "tei"), "rw-rw-r--"),
-        deploy:copy-collection($collection || "/resources/scripts/vendor", $base || "/resources/scripts/vendor", ($json?owner, "tei"), "rw-rw-r--"),
         xmldb:store($collection, "package.json", deploy:package-json($json), "application/json")
     )
     return
