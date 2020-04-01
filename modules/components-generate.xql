@@ -127,7 +127,8 @@ declare function deploy:package-json($json as map(*)) {
             "rollup": "^1.21.0",
             "rollup-plugin-copy": "latest",
             "@rollup/plugin-node-resolve": "latest",
-            "rollup-plugin-terser": "latest"
+            "rollup-plugin-terser": "latest",
+            "@rollup/plugin-replace": "^2.3.1"
         }
     }
     return

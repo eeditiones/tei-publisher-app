@@ -23,6 +23,7 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^7.1.1",
+    "@rollup/plugin-replace": "^2.3.1",
     "rimraf": "^3.0.0",
     "rollup": "^1.21.0",
     "rollup-plugin-analyzer": "^3.1.2",

@@ -2,6 +2,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 import analyze from 'rollup-plugin-analyzer';
 import copy from 'rollup-plugin-copy';
+import replace from '@rollup/plugin-replace';
 
 const production = process.env.BUILD === 'production';
 
@@ -18,6 +19,9 @@ export default {
         sourcemap: !production
     },
     plugins: [
+        replace({
+            'process.env.NODE_ENV': JSON.stringify('production')
+        }),
         resolve(),
         production && terser(),
         copy({
