@@ -90,7 +90,11 @@ declare function pages:pb-view($node as node(), $model as map(*), $root as xs:st
  : Generate the actual script tag to import pb-components.
  :)
 declare function pages:load-components($node as node(), $model as map(*)) {
-    <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js"></script>,
+    if (not($node/preceding::script[@data-template="pages:load-components"])) then (
+        <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js"></script>,
+        <script src="https://unpkg.com/web-animations-js@2.3.2/web-animations-next-lite.min.js"></script>
+    ) else
+        (),
     switch ($config:webcomponents)
         case "local" return
             <script type="module" src="resources/scripts/{$node/@src}"></script>
