@@ -23,7 +23,11 @@ export default {
             'process.env.NODE_ENV': JSON.stringify('production')
         }),
         resolve(),
-        production && terser(),
+        production && terser({
+            compress: {
+                reduce_vars: false
+            }
+        }),
         copy({
             targets: [
                 {
