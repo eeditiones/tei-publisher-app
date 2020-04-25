@@ -2,6 +2,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 import copy from 'rollup-plugin-copy';
 import replace from '@rollup/plugin-replace';
+import babel from 'rollup-plugin-babel';
 
 const production = process.env.BUILD === 'production';
 
@@ -22,6 +23,7 @@ export default
             replace({
                 'process.env.NODE_ENV': JSON.stringify('production')
             }),
+            babel(),
             resolve(),
             production && terser({
                 compress: {

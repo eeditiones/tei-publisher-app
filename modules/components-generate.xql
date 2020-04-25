@@ -120,15 +120,18 @@ declare function deploy:package-json($json as map(*)) {
             "watch": "rollup -c rollup.config.js --watch"
         },
         "dependencies": map {
-            "@teipublisher/pb-components": $config:webcomponents
+            "@teipublisher/pb-components": if ($config:webcomponents = 'local') then 'latest' else $config:webcomponents
         },
         "devDependencies": map {
-            "rimraf": "latest",
+            "rimraf": "^3.0.0",
             "rollup": "^1.21.0",
-            "rollup-plugin-copy": "latest",
-            "@rollup/plugin-node-resolve": "latest",
-            "rollup-plugin-terser": "latest",
-            "@rollup/plugin-replace": "^2.3.1"
+            "rollup-plugin-copy": "^3.1.0",
+            "@rollup/plugin-node-resolve": "^7.1.1",
+            "rollup-plugin-terser": "^5.1.1",
+            "@rollup/plugin-replace": "^2.3.1",
+            "@babel/core": "^7.9.0",
+            "@babel/plugin-proposal-object-rest-spread": "^7.9.5",
+            "rollup-plugin-babel": "^4.4.0"
         }
     }
     return
