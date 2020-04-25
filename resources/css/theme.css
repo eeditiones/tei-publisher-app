@@ -35,6 +35,7 @@ body {
     --pb-link-font-family: var(--pb-serif-font-family);
     --pb-highlight-color: #F9E976;
     --paper-input-container-focus-color: var(--pb-color-focus);
+    --pb-view-max-width: 920px;
     font: var(--pb-base-font);
     color: var(--pb-color-primary);
     margin: 0;
@@ -229,7 +230,7 @@ pb-view {
 
 @media (min-width: 769px) {
     pb-view {
-        max-width: 60vw;
+        max-width: var(--pb-view-max-width);
     }
 }
 
