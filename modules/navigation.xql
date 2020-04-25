@@ -107,12 +107,14 @@ declare function nav:get-previous-div($config as map(*), $div as element()) {
 };
 
 declare function nav:output-footnotes($footnotes as element()*) {
+    <div class="popovers">
+    {
+        $footnotes/self::pb-popover
+    }
+    </div>,
     <div class="footnotes">
     {
-        for $note in $footnotes
-        order by number($note/@value)
-        return
-            $note
+        $footnotes[not(self::pb-popover)]
     }
     </div>
 };
