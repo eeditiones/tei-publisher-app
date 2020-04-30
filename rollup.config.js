@@ -3,7 +3,7 @@ import { terser } from 'rollup-plugin-terser';
 import analyze from 'rollup-plugin-analyzer';
 import copy from 'rollup-plugin-copy';
 import replace from '@rollup/plugin-replace';
-import babel from 'rollup-plugin-babel';
+import babel from '@rollup/plugin-babel';
 
 const production = process.env.BUILD === 'production';
 
@@ -23,7 +23,11 @@ export default {
         replace({
             'process.env.NODE_ENV': JSON.stringify('production')
         }),
-        babel(),
+        babel({
+            "plugins": [
+                "@babel/plugin-proposal-object-rest-spread"
+            ]
+        }),
         resolve(),
         production && terser({
             compress: {

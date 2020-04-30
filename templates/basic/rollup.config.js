@@ -23,7 +23,11 @@ export default
             replace({
                 'process.env.NODE_ENV': JSON.stringify('production')
             }),
-            babel(),
+            babel({
+                "plugins": [
+                    "@babel/plugin-proposal-object-rest-spread"
+                ]
+            }),
             resolve(),
             production && terser({
                 compress: {
