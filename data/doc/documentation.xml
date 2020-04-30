@@ -71,6 +71,70 @@
         all, our mantra is reuse, reuse, reuse and we want to turn TEI Publisher into a box of tools the entire community can benefit from.
         See our <link linkend="roadmap">roadmap</link> for the ideas we are thinking of.</para>
     </section>
+    <section xml:id="versions">
+      <title>Versions</title>
+      <para>TEI Publisher is actively developed since 2015. Once or twice a year a new major version is released, bringing important new features.</para>
+      <para>Minor versions are released inbetween and these offer bug fixes, minor new features and improvements.</para>
+      <para>Current major version of the TEI Publisher is 6.0.0</para>
+
+      <section xml:id="v6">
+      <title>What's new in TEI Publisher 6.0.0</title>
+      <para>Version 6 brought a major refactoring and restructuring of TEI Publisher app libraries along with new specialized components 
+      and use case examples.</para>
+      <orderedlist>
+        <listitem>
+          <para>Web components overhaul: migration to <link xlink:href="https://lit-element.polymer-project.org/">LitElement</link> and move to npm library</para>
+          <para>While invisible to users, this redesign greatly improved modularity of Publisher-based applications. 
+          With Publisher web component releases published on npm, updating the user interface for all Publisher-based apps is just a 
+          question of changing a single variable in the configuration file.</para>
+          <para>Furthermore, Publisher's library of web components - true to the basic idea of 
+          <link xlink:href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">Web Components Standard</link> can be included
+          in any HTML webpage 
+          e.g. can be embedded into existing CMS or any other publishing solution, even if it's not running eXist-db.</para>
+          <para>Similarly, if you prefer to write your own application using any of the popular frameworks like angular, vue or react
+           you can easily import the <code>pb-components</code> package from npm and use them directly in your project.</para>
+           <para>As a final consequence, this change decouples the component library from the TEI Publisher app. This makes it possible to host
+           multiple applications, which depend on different versions of the component library, without conflict within the same eXist-db instance,
+           a point of importance for institutions with numerous projects.</para>
+        </listitem>
+        <listitem>
+          <para>Redesigned and simplified CSS styling customization</para>
+          <para>Encapsulation of styles offered by web components can be a mixed blessing and poses some challenges when customizing 
+          the aesthetics of components to fit a project. While some aspects of component styling remained unaccessible for customization
+          in previous versions, Publisher 6 exposes majority of styling properties via standard CSS files and theme variables.
+          Stylesheets can also be specified within the ODD, as previously, or 
+          through <code>pb-view</code> component configuration attributes.</para>
+        </listitem>
+        <listitem>
+          <para>Extended internationalization</para>
+          <para>I18n support has been extended to cover not only the labels in HTML templates but also within web components.
+          A mechanism for project specific language files extending the default Publisher label collection has been added.</para>
+          <para>Thanks to community contributions via <link xlink:href="https://crwd.in/tei-publisher">Crowdin</link>
+           a number of new languages has been added and existing ones updated.</para>
+        </listitem>
+        <listitem>
+          <para>Subcorpora - new TEI Publisher data organization</para>
+          <para>Publisher's pre-populated data collection is now split into <emphasis>Playground</emphasis> and 
+          <emphasis>TEI Publisher demo collection</emphasis> areas which illustrate how this mechanism could be used to 
+          host multiple subcorpora within single TEI Publisher application.</para>
+        </listitem>
+        <listitem>
+          <para>New and improved web components</para>
+          <para><code>pb-select-feature</code> and <code>pb-toggle-feature</code> components have been extended
+          to allow for interactive changing of display parameters (like switching between regularized or original spelling) 
+          which can be then processed client or server-side.</para>
+          <para>New components have been created for API documentation app and web component demo pages.</para>
+        </listitem>
+        <listitem>
+          <para>User interface of the ODD editor has been improved.</para>
+        </listitem>
+        <listitem>
+          <para>Experimental incremental scroll mode has been introduced to improve performance for very long documents 
+          presented in single page mode.</para>
+        </listitem>
+      </orderedlist>
+      </section>
+    </section>
     <section xml:id="installation">
       <title>Installation</title>
       <para>TEI Publisher requires <link xlink:href="http://exist-db.org">eXist XML database</link> to operate. It is distributed as an eXist application
@@ -337,9 +401,9 @@
           <para>Documents in this collection are preinstalled with the TEI Publisher and users are not allowed to write to it by default.</para>
         </note>
 
-        <para>The <link linkend="playground">Playground</link> collection is the place to upload encoded documents and ODD files to experiment with various processing models and view templates.</para>
+        <para>The <emphasis role="bold">Playground</emphasis> collection is the place to upload encoded documents and ODD files to experiment with various processing models and view templates.</para>
         
-        <para>Unlike the Demo collection, the Playground features an upload box to import new documents. You can upload your own XML and ODD (e.g. TEI, DocBook or DOCX) documents by either clicking on the <guibutton>upload</guibutton> button or dragging and dropping files onto the
+        <para>Unlike the Demo collection, the <link linkend="playground">Playground</link> features an upload box to import new documents. You can upload your own XML and ODD (e.g. TEI, DocBook or DOCX) documents by either clicking on the <code>upload</code> button or dragging and dropping files onto the
           upload panel. Read more on this subject in the <link linkend="upload">Upload</link> section</para>
         
         <note>
@@ -438,6 +502,10 @@
             <listitem><para>16th century manuscript letter of <emphasis>Hernán Cortés</emphasis> showcasing parallel transcription/translation
                 and facsimile view and transcription enhanced with
              commentaries and explicitly encoded transcriptional features,</para></listitem>
+            <listitem><para>16th century manuscript letter of <emphasis>Mauritius Ferber</emphasis> with a collapsible metadata panel in addition to 
+                the parallel transcription and facsimile view,</para></listitem>
+            <listitem><para>early 19th century manuscript collocative dictionary of Polish <emphasis>Bogactwa mowy polskiej</emphasis> featuring interactive highlights for 
+            regions of interest of the facsimile when hovering over dictionary headwords,</para></listitem>
             <listitem>
               <para>A letter from Van Gogh to Paul Gauguin written in 1888. This intentionally reproduces the flexible column layout pioneered by the <link
                 xlink:href="http://vangoghletters.org">Vincent Van Gogh Letters</link> online edition, which is a model example for correspondence.</para>
@@ -491,7 +559,7 @@
       <title>Uploading your own documents</title>
       <para>If you read this, in all likelihood you already have some documents of your own you might want published, whether they are in TEI,
         DocBook, MS Word DOCX or other XML format. First step is to upload them into the
-        database. You need to be <emphasis role="bold">logged in</emphasis> to do it (check the short info on the <guibutton>Start</guibutton> page for user
+        database. You need to be <emphasis role="bold">logged in</emphasis> and in the Playground area to do it (check the short info on the <guibutton>Start</guibutton> page for user
         name and password). Then uploading is just a question of dragging your documents onto the <guibutton>Upload</guibutton> area. They will become available
         in the document list immediately after upload is completed.</para>
       <figure>
@@ -512,14 +580,14 @@
       <note>
         <title>Note</title>
         <para>Please bear in mind that while TEI Publisher aims to be a universal tool, the specific components may make certain assumptions about data they are
-          getting and if your documents do not follow same conventions it may be required to adjust parameters passed to the components from the page template
+          getting and if your documents do not follow the same conventions it may be required to adjust parameters passed to the components from the page template
           or the component logic.</para>
         <para> By means of example - table of content component assumes that the document structure is represented by means of nested <parameter>div</parameter>
           elements and section titles are given in <parameter>head</parameter> element. If your project rather chooses numbered divisions
             (<parameter>div1</parameter>, <parameter>div2</parameter>) etc it may be advisable to adjust this to avoid customizing all navigation, table of
           contents and so on, but it is one of very rare cases where TEI Publisher exposes any predilection for a particular flavour of TEI.</para>
         <para>Similarly, template for aligned transcription and translation is parametrized to accept an XPath expression pointing to the location of the
-          transcription and aligned translation, likely for your documents this expression would have to be adjusted (unless of course you also have Latin texts
+          transcription and aligned translation. Likely for your documents this expression would have to be adjusted (unless of course you also have Latin texts
           with Polish translation structured in a similar way). Furthermore, to correctly display corresponding translation fragment a custom mapping function may need to be passed to the translation view (cf.
         <link xlink:href="templates/pages/vangogh.html" role="source"><filename>Van Gogh</filename></link>  or
         <link xlink:href="templates/pages/cortez.html" role="source"><filename>Cortés</filename></link> letter templates for examples)</para>
@@ -585,7 +653,7 @@
         generic TEI Publisher set of processing rules. </para>
       <para>Beginning with version 3.0 of TEI Publisher, you have the choice between writing the ODD by hand or using a visual editor. Both approaches can be
         combined and mixed. The visual editor saves the ODD in a non-destructive way, preserving any information not related to the processing model. It is thus
-        save to switch between hand-editing the ODD and using the visual editor. Just make sure you reload the visual editor view after modifying the source XML
+        safe to switch between hand-editing the ODD and using the visual editor. Just make sure you reload the visual editor view after modifying the source XML
         and vice versa. That said, visual editor is specifically tailored to editing processing models so it will be likely the fastest and safest way to edit
         your ODD.</para>
       <para>To be able to customize the display of your document it is crucial to understand its XML structure well. Each of processing models needs to be aimed
@@ -596,8 +664,8 @@
         completely removing the page label which currently sits there.</para>
       <para> To create a processing model addressing this need we have to know 3 things: <emphasis role="bold">when</emphasis> should it be applied, <emphasis
           role="bold">what</emphasis> is supposed to happen and <emphasis role="bold">how</emphasis> should the text be formatted? </para>
-      <para> To be able answer the first question, you should familiarize yourself with the XML structure of the letter to find out how are datelines
-        represented in TEI. On the tab displaying the letter, select <guimenuitem>Download</guimenuitem> / <guimenuitem>XML </guimenuitem>to open <link
+      <para> To be able to answer the first question, you should familiarize yourself with the XML structure of the letter to find out how datelines are
+        represented in TEI. In the tab displaying the letter, select <guimenuitem>Download</guimenuitem> / <guimenuitem>XML </guimenuitem>to open <link
           xlink:href="data/test/graves6.xml" role="source">
           <filename>graves6.xml</filename>
         </link> in eXide. Quick investigation of the TEI encoding will reveal that dateline resides in its eponymic tag <tag>dateline</tag> wchich is nested in
@@ -609,6 +677,8 @@
         <para>The visual ODD editor opens if you select <guimenuitem>Admin</guimenuitem> / <guimenuitem>Edit ODD</guimenuitem> from the menu while viewing a
           document. Alternatively you can click on the name of an ODD in the list of ODDs on the TEI Publisher entry page. A new tab opens, showing an action
           panel to the left, and the title of your ODD to the right.</para>
+        <para><emphasis>Please note that most recent versions of the ODD editor will look slightly different, nevertheless they are functionally equivalent to the 
+        screenshots below, created in an earlier version.</emphasis></para>
         <para>We need to overwrite the processing model rules for <tag>dateline</tag>. Enter <parameter>dateline</parameter> into the input box next to the
             <guibutton>New</guibutton> button in the left panel and click the button. This will insert a processing model rule for <tag>dateline</tag> into the
           right panel. Because <tag>dateline</tag> already exist in the base ODD, <filename>tei_simplePrint.odd</filename>, you'll see a single model which was
