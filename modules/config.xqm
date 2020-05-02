@@ -35,7 +35,7 @@ declare variable $config:origin-whitelist := (
  : If a version is given, the components will be loaded from a public CDN.
  : This is recommended unless you develop your own components.
  :)
-declare variable $config:webcomponents := "0.9.25";
+declare variable $config:webcomponents := "0.9.26";
 
 (:~
  : Should documents be located by xml:id or filename?
