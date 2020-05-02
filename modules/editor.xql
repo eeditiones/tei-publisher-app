@@ -81,7 +81,8 @@ declare function local:load($oddPath as xs:string, $root as xs:string) {
             "title": string-join($odd//teiHeader/fileDesc/titleStmt/title[not(@type)]/text()),
             "titleShort": $odd//teiHeader/fileDesc/titleStmt/title[@type = 'short']/string(),
             "description": $odd//teiHeader/fileDesc/titleStmt/title[not(@type)]/desc/text(),
-            "cssFile": $odd//teiHeader/encodingDesc/tagsDecl/rendition/@source/string()
+            "cssFile": $odd//teiHeader/encodingDesc/tagsDecl/rendition/@source/string(),
+            "canWrite": sm:has-access(xs:anyURI($root || "/" || $oddPath), "rw-")
         }
 };
 
@@ -160,25 +161,34 @@ declare function local:recompile($source as xs:string, $root as xs:string) {
 };
 
 declare function local:save($oddPath as xs:string, $root as xs:string, $data as xs:string) {
-    let $odd := local:add-tags-decl(doc($root || "/" || $oddPath))
-    (: let $odd := doc($root || "/" || $oddPath) :)
-    let $parsed := parse-xml($data)
-    let $updated := local:update($odd, $parsed, $odd)
-    let $serialized := serialize($updated,
-        <output:serialization-parameters>
-            <output:indent>true</output:indent>
-            <output:omit-xml-declaration>false</output:omit-xml-declaration>
-        </output:serialization-parameters>)
-    let $stored := xmldb:store($root, $oddPath, $serialized)
-    let $report :=
-        array {
-            local:recompile($oddPath, $root)
-        }
+    let $canWrite := sm:has-access(xs:anyURI($root || "/" || $oddPath), "rw-")
     return
-        map {
-            "odd": $oddPath,
-            "report": $report
-        }
+        if ($canWrite) then
+            let $odd := local:add-tags-decl(doc($root || "/" || $oddPath))
+            (: let $odd := doc($root || "/" || $oddPath) :)
+            let $parsed := parse-xml($data)
+            let $updated := local:update($odd, $parsed, $odd)
+            let $serialized := serialize($updated,
+                <output:serialization-parameters>
+                    <output:indent>true</output:indent>
+                    <output:omit-xml-declaration>false</output:omit-xml-declaration>
+                </output:serialization-parameters>)
+            let $stored := xmldb:store($root, $oddPath, $serialized)
+            let $report :=
+                array {
+                    local:recompile($oddPath, $root)
+                }
+            return
+                map {
+                    "odd": $oddPath,
+                    "report": $report
+                }
+        else
+            map {
+                "status": "denied",
+                "odd": $oddPath,
+                "report": ``[You don't have write access to `{$oddPath}`]``
+            }
 };
 
 declare function local:update($nodes as node()*, $data as document-node(), $orig as document-node()) {
