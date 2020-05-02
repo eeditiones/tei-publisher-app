@@ -12,14 +12,18 @@ declare variable $dir external;
 (: the target collection into which the app is deployed :)
 declare variable $target external;
 
+if (not(sm:user-exists("tei-demo"))) then
+    sm:create-account("tei-demo", "demo", "tei", ())
+else
+    (),
 sm:chmod(xs:anyURI($target || "/modules/view.xql"), "rwxr-Sr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/transform.xql"), "rwsr-xr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/pdf.xql"), "rwsr-xr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/epub.xql"), "rwsr-xr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/components.xql"), "rwsr-xr-x"),
-sm:chmod(xs:anyURI($target || "/modules/lib/components-odd.xql"), "rwxr-Sr-x"),
+sm:chmod(xs:anyURI($target || "/modules/lib/components-odd.xql"), "rwxr-xr-x"),
 (: sm:chmod(xs:anyURI($target || "/modules/lib/upload.xql"), "rwsr-xr-x"), :)
-sm:chmod(xs:anyURI($target || "/modules/lib/regenerate.xql"), "rwsr-xr-x"),
+(: sm:chmod(xs:anyURI($target || "/modules/lib/regenerate.xql"), "rwxr-xr-x"), :)
 sm:chmod(xs:anyURI($target || "/modules/lib/dts.xql"), "rwsr-xr-x"),
 
 (: LaTeX requires dba permissions to execute shell process :)
@@ -34,7 +38,9 @@ sm:chgrp(xs:anyURI($target || "/modules/components-generate.xql"), "dba"),
 
 xmldb:create-collection($target || "/data", "playground"),
 sm:chmod(xs:anyURI($target || "/data/playground"), "rwxrwxr-x"),
-sm:chown(xs:anyURI($target || "/data/playground"), "tei"),
+sm:chown(xs:anyURI($target || "/data/playground"), "tei-demo"),
 sm:chgrp(xs:anyURI($target || "/data/playground"), "tei"),
-sm:chmod(xs:anyURI($target || "/data/test"), "r-xr-xr-x"),
-sm:chmod(xs:anyURI($target || "/data/doc"), "r-xr-xr-x")
+xmldb:create-collection($target || "/data", "temp"),
+sm:chmod(xs:anyURI($target || "/data/temp"), "rwxrwxr-x"),
+sm:chmod(xs:anyURI($target || "/odd"), "rwxrwxr-x"),
+sm:chmod(xs:anyURI($target || "/transform"), "rwxrwxr-x")

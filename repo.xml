@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <meta xmlns="http://exist-db.org/xquery/repo">
     <description>TEI Publisher Application</description>
     <author>Wolfgang Meier</author>
@@ -80,5 +80,5 @@
             </ul>
         </change>
     </changelog>
-    <permissions xmlns:repo="http://exist-db.org/xquery/repo" password="simple" user="tei" group="tei" mode="rw-rw-r--"/>
+    <permissions xmlns:repo="http://exist-db.org/xquery/repo" password="simple" user="tei" group="tei" mode="rw-r--r--" />
 </meta>
