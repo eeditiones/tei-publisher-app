@@ -111,7 +111,8 @@ declare function local:list($odd) {
                         "label": $displayName,
                         "description": $description,
                         "path": $resource,
-                        "current": ($odd = $name || ".odd")
+                        "current": ($odd = $name || ".odd"),
+                        "canWrite": sm:has-access(xs:anyURI($resource), "rw-")
                     }
             else
                 ()
