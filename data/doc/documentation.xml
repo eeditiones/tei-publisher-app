@@ -901,10 +901,10 @@
         freely moved around and rearranged without knowing anything about the internal logic or complexity of the component.</para>
       <section xml:id="webcomponents">
         <title>Web Components</title>
-        <para>The technology enabling this is an upcoming W3C standard called <emphasis>Web Components</emphasis>. It is already built into many browsers and
+        <para>The technology enabling this Lego-like modular approach is a W3C standard called <emphasis>Web Components</emphasis>. It is already built into many browsers and
           support is improving quickly, reducing the need for external frameworks. There's a growing collection of ready-to-use components available, e.g. the
-          Polymer components we use for menus, buttons, dropdowns etc. TEI Publisher 4.0 adds a collection of Web Components targetted at creating digital
-          editions.</para>
+          Polymer components we use for menus, buttons, dropdowns etc. TEI Publisher 4.0 added a collection of Web Components targeted at creating digital
+          editions and from version 6.0 exposes all the components as a separate and independent <code>pb-components</code> package.</para>
         <para>You do not need to know much about <emphasis>Web Components</emphasis> to use them in TEI Publisher. Each component has a defined API, including
           properties, methods and events. From a user perspective, a component looks like any other HTML element, but it bundles HTML markup along with local
           CSS and JavaScript into a single file. You configure it by setting its properties via attributes. For example, the following HTML code snippet will
@@ -921,26 +921,29 @@
   &lt;/main&gt;
 &lt;/pb-page&gt;</programlisting>
         <para><tag>pb-page</tag>, <tag>pb-document</tag> and <tag>pb-view</tag> are three web
-          components provided by TEI Publisher, while <tag>main</tag> is a standard HTML5 tag. The
-          custom element of a webcomponent <emphasis role="bold">must</emphasis> start with a prefix
+          components from TEI Publisher components library, while <tag>main</tag> is a standard HTML5 tag. The
+          name of the custom element <emphasis role="bold">must</emphasis> start with a prefix
           to distinguish it from standard HTML. This concept should be familiar to XML people. For
           TEI Publisher components, the prefix is always <code>pb-</code>. Components from other
           sources will use different prefixes, e.g. <code>paper-</code> and <code>iron-</code> for
           the Polymer collection.</para>
-        <para>The part of the page which uses TEI Publisher webcomponents should always be wrapped
-          into an <tag>pb-page</tag> element. This element is responsible for some initialization
-          steps, e.g. loading the list of available user interface translations, and most important:
-          to determine the TEI Publisher server instance all other components will be talking to
-          (see the next section below).</para>
-        <para><tag>pb-document</tag> states some metadata about a document source, which can then be
-          referenced by id from other components. In the example above, we define three properties
+        <para>The part of the page which uses TEI Publisher web components should always be wrapped
+          into an <tag>pb-page</tag> element. This element determines the TEI Publisher server 
+          instance all other components will be communicating with
+          (see the next section below). It is also responsible for some other initialization
+          steps, e.g. loading the list of available user interface translations. .</para>
+        <para><tag>pb-document</tag> specifies a document source, which can then be
+          referenced by id from other components. The component provides a way to configure
+          basic properties governing document's default rendering, like associated ODD file, etc.
+          In the example above, we define three properties
           for each document:</para>
         <variablelist>
           <varlistentry>
             <term>path</term>
             <listitem>
-              <para>the relative path to the XML document. This will be relative to the <emphasis>data root collection</emphasis> of TEI Publisher, by default
-                pointing to the <filename>data</filename> collection with the TEI Publisher app.</para>
+              <para>the relative path to the XML document. This will be interpreted as relative to the 
+              <emphasis>data root collection</emphasis> of TEI Publisher, by default
+                pointing to the <filename>data</filename> collection within the TEI Publisher app.</para>
             </listitem>
           </varlistentry>
         </variablelist>
@@ -948,8 +951,10 @@
           <varlistentry>
             <term>odd</term>
             <listitem>
-              <para>the name - without suffix - of the ODD to use for rendering the document. In the example, the first document is TEI and transformed through
-                  <filename>dta.odd</filename>, while the second is docbook and passed through <filename>docbook.odd</filename>.</para>
+              <para>the name - without suffix - of the ODD to use for rendering the document. In the example, 
+              the first document is encoded in TEI and thus transformed through
+                  <filename>dta.odd</filename>, while the second is written in DocBook and passed 
+                  through <filename>docbook.odd</filename>.</para>
             </listitem>
           </varlistentry>
         </variablelist>
@@ -962,7 +967,7 @@
               <orderedlist>
                 <listitem>
                   <para>
-                    <parameter>div</parameter>: displays one structural division (TEI div, docbook section …) at a time</para>
+                    <parameter>div</parameter>: displays one structural division (TEI div, DocBook section …) at a time</para>
                 </listitem>
                 <listitem>
                   <para>
@@ -978,17 +983,23 @@
           </varlistentry>
         </variablelist>
         <para>
-          <tag>pb-view</tag> is the most important component in TEI Publisher: it provides the actual text view by transforming a part or all of the source XML
-          into HTML based on the processing model instructions in the ODD. Because webcomponents are all about encapsulation, <tag>pb-view</tag> ensures that
-          the styling of the text as governed by the ODD will be confined within the boundaries of the component. This makes it possible to display two
-          completely heterogenous texts (like the documentation and Kant's Kritik) on the same page without styles getting messed up. As a downside,
-          encapsulation also poses some challenges, mainly concerning the communication between components, which we will cover <link linkend="external-css"
-            >further below</link>.</para>
+          <tag>pb-view</tag> is the critical component in TEI Publisher: it provides the actual text view by transforming a part or entirety of the source XML
+          into HTML based on the processing model instructions in the ODD.</para>
+          
+          <para>Because webcomponents are all about encapsulation, <tag>pb-view</tag> ensures that
+          the styling of the text as governed by the ODD will be confined to the boundaries of the component. This makes it possible to display two
+          completely heterogenous texts (like the documentation and Kant's Kritik) on the same page without styles contaminating each other. As a downside,
+          encapsulation also poses some challenges, which we will discuss <link linkend="external-css">further below</link>.
+          </para>
         <section>
           <title>Live Examples</title>
-          <para>Since version 6.0, all our webcomponents can also be used <emphasis>outside</emphasis> TEI Publisher itself. So if you already have a working web application for your edition running somewhere, you can still benefit from using the TEI Processing Model for transformations by embedding publisher components into your existing page. All that is needed is a TEI Publisher instance somewhere on the web which has the source TEI and provides a communication endpoint for the components to talk to.</para>
-          <para>The embedded example below demonstrates this: it provides a sandbox running on <link xlink:href="https://codepen.io">codepen.io</link> but talks to the TEI Publisher instance on <link xlink:href="https://teipublisher.com">teipublisher.com</link>. The magic happens in the <code>endpoint</code> attribute passed
-          to <tag>pb-page</tag>, which tells the components where to talk to:</para>
+          <para>Since version 6.0, all <code>pb-components</code> can also be used <emphasis>outside</emphasis> TEI Publisher itself. So if you already have a 
+          working web application for your edition running somewhere, you can still benefit from using the TEI Processing Model for transformations by embedding 
+          publisher components into an existing page. All that is required is a TEI Publisher instance available on the web which stores the source TEI and provides 
+          a communication endpoint for the components to talk to.</para>
+          <para>The embedded example below demonstrates this use case: it provides a sandbox running on <link xlink:href="https://codepen.io">codepen.io</link> but 
+          communicates with the TEI Publisher instance on <link xlink:href="https://teipublisher.com">teipublisher.com</link> which stores the documents. The magic happens in the <code>endpoint</code> 
+          attribute passed to <tag>pb-page</tag>, which tells the components where to talk to:</para>
           <programlisting role="codepen" xlink:href="wolfgangmm#YzXEvvw"></programlisting>
           <para>You can actually edit the code above: for example, try to change the path for the
             first document to <filename>test/F-rom.xml</filename> and the odd to
@@ -1071,11 +1082,11 @@
       </section>
       <section>
         <title>Communication between Components</title>
-        <para>To allow for maximum flexibility, nearly all of the TEI Publisher webcomponents communicate via events: this way there's no hard wiring and
+        <para>To allow for maximum flexibility, nearly all of the TEI Publisher webcomponents communicate via events: this way avoids hard wiring and
           components may appear anywhere on the page. For example, the controls for paginating through a document do not directly talk to the document view:
-          they just send an <emphasis>event</emphasis>, indicating the users' wish to navigate backward or forward. Components listening to this event may then
+          they just send an <emphasis>event</emphasis>, indicating the users' wish to navigate backward or forward. Components listening for this event may then
           react to it by refreshing the text being displayed.</para>
-        <para>Since you can have multiple text views showing content from different sources, every event can be targetted at a specific
+        <para>Since you can have multiple text views showing content from different sources, every event can be announced at a specific communication
             <emphasis>channel</emphasis>. This allows us to distinguish between different sources, e.g. two transcriptions being shown side by side. Most TEI
           Publisher components therefore accept two properties to configure the channel they are listening or sending events to:</para>
         <variablelist>
@@ -1094,18 +1105,18 @@
         </variablelist>
         <para>If neither of these properties is given, the component will subscribe and emit to the global default channel. A component may also send to a
           different channel than it subscribes to, allowing chains of events.</para>
-        <para>The common properties and methods accepted by many TEI Publisher components are defined in the class <link
+        <para>Common properties and methods accepted by many TEI Publisher components are defined in the class <link
             xlink:href="../../pb-components-api/index.html#/mixins/pbMixin">PbMixin</link>.</para>
       </section>
       <section>
         <title>Page Templates</title>
-        <para>Excluding the documentation, TEI Publisher currently includes 6 page templates, which combine the building blocks described above with
+        <para>Excluding the documentation, TEI Publisher currently includes several page templates, which combine the building blocks described above with
           off-the-shelf components to achieve a certain page layout and composition. If you look at the HTML code, you'll see a mix of
             <parameter>pb-</parameter> elements and <parameter>app-</parameter>, <parameter>paper-</parameter>, <parameter>iron-</parameter> elements. The last
           three belong to the Polymer collection and you can find them documented in the public <link xlink:href="https://www.webcomponents.org/">webcomponent
             registry</link>. TEI Publisher components are not yet available there, though we may move some of the general purpose components there later.</para>
-        <para>To avoid redundancy, the files use eXist's templating feature to drag in some repeating parts which are the same for all pages, for example, the
-          toolbar and the menu. You'll find those files in the corresponding sub-collection:</para>
+        <para>To avoid redundancy, the page template files use eXist's templating feature to drag in some repeating parts which are the same for all pages, for example, the
+          toolbar and the menu. You'll find these files in the corresponding sub-collection:</para>
         <programlisting xml:space="preserve">&lt;app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/&gt;
 &lt;app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/&gt;</programlisting>
         <para>The following page templates are currently available in TEI Publisher:</para>
@@ -1170,12 +1181,26 @@
                 to a diplomatic view including line endings, and a translation. Other columns, e.g. facsimile or commentary can be added dynamically.</para>
             </listitem>
           </varlistentry>
+          <varlistentry>
+            <term><link xlink:href="templates/pages/dantiscus.html" role="source">dantiscus.html</link></term>
+            <listitem>
+              <para>builds upon <code>facsimile.html</code> adding a collapsible <code>pb-drawer</code> element
+              to display metadata from <emphasis>teiHeader</emphasis> section.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><link xlink:href="templates/pages/osinski.html" role="source">osinski.html</link></term>
+            <listitem>
+              <para>similarly builds upon <code>facsimile.html</code> but a collapsible metadata section is realized
+              with a <code>pb-collapse</code> element.</para>
+            </listitem>
+          </varlistentry>
         </variablelist>
         <note>
           <title>Important Note</title>
           <para>The page templates are meant as examples to be copied and modified by users.
           They were written to match the concrete example and do not intend to be universal.
-          TEI is too heterogenous to provide a one-size-matches-all solution. We thus believe that
+          TEI is too heterogenous to provide a one-size-fits-all solution. We thus believe that
           providing a wide range of practical examples is the best way to help users realize their
           own project.</para>
           <para>Only the generic
@@ -1184,10 +1209,29 @@
       </section>
       <section>
         <title>Create your own Template</title>
-        <para>To create your own template, just open one of the existing templates in e.g. eXide (by clicking the links in the list above), save it under a
-          different name into the same collection (<filename>templates/pages</filename>) and reload the document view it should apply to. You can now switch to
+        <para>To create your own template</para>
+          <orderedlist>
+            <listitem>
+              <para>open one of the existing templates in e.g. eXide (by clicking the links in the list above)</para>
+            </listitem>
+            <listitem>
+              <para>adjust <code>content</code> attribute in <code>meta</code> tag to a label that fits your template</para>
+              <programlisting>
+                  &lt;meta name="description" content="XYZ edition project" /&gt;
+              </programlisting>
+              
+            </listitem>
+            <listitem>
+              <para>save the file under a
+            different name into the same collection (<filename>templates/pages</filename>)</para>
+            </listitem>
+          </orderedlist>
+
+          <para>Now reload the document you'd like the template to apply to and you'll be able to switch to
           your new template, either by</para>
-        <orderedlist>
+
+        
+        <itemizedlist>
           <listitem>
             <para>using the <guimenuitem>template</guimenuitem> dropdown in the settings panel</para>
           </listitem>
@@ -1198,28 +1242,53 @@
             <para>adding a <link linkend="pi-config">processing instruction</link> to a TEI document to make a specific template the default:</para>
             <synopsis>&lt;?teipublisher template="translation.html" odd="dantiscus.odd" view="page"?&gt;</synopsis>
           </listitem>
-        </orderedlist>
-        <para>Global CSS styling in the template should be written into a <tag>custom-style</tag> element wrapping around a <tag>style</tag> element which
-          includes <parameter>pb-common-styles</parameter>. This special construct is needed so we can use properties and mixins exposed by the web components.
-          As described above, a web component completely encapsulates its content, so it cannot be styled from outside. It may expose custom style variables and
-          mixins as variables to the outside world though. For example, we may style the appearance of the footnote section below the main text as
-          follows:</para>
-        <programlisting>&lt;custom-style>
-    &lt;style include="pb-common-styles">
-        body {
-             --pb-footnotes: {
-                 padding-top: 10px;
-                 margin-top: 20px;
-                 border-top: 1px solid #C0C0C0;
-             };
-        }
-    &lt;/style>
-&lt;/custom-style></programlisting>
-        <para>--pb-footnotes is a <link xlink:href="https://polymer-library.polymer-project.org/2.0/docs/devguide/custom-css-properties">custom CSS
-          mixin</link>. The <tag>pb-view</tag> component defines it in its API and will <emphasis>mix in</emphasis> the contained CSS rules into the styles for
-          the footnotes section.</para>
-        <para>While you cannot change the inner appearance of a component except by setting its custom CSS properties, you can style the component itself within
-          the HTML template, e.g. to position it within the layout of the page etc.</para>
+        </itemizedlist>
+      </section>
+      <section>
+      <!-- to be moved to a new section on styling and only referenced in template customization in the next iteration of docs review -->
+        <title>Custom CSS styling</title>
+
+          <para>CSS stylesheet <code>resources/css/theme.css</code> defines styles used by all pages of the TEI Publisher and 
+          publisher-generated applications. Nevertheless, users <emphasis role="bold">should not</emphasis> directly modify this file but 
+          create a project-specific css customization file and include it alongside <code>theme.css</code> instead.</para>
+          <programlisting>
+                  &lt;link rel="stylesheet" href="resources/css/theme.css" /&gt;
+                  &lt;link rel="stylesheet" href="resources/css/my-project.css" /&gt;
+          </programlisting>
+          <para>This approach allows to selectively overwrite certain styles and CSS variables from <code>theme.css</code> while
+          remaining on the easy upgrade path for future TEI Publisher and <code>pb-components</code> updates.</para>
+
+          <title>Customizing web components styling</title>
+          <para>A web component completely shields its content, so it cannot be styled from outside. Web component styles remain private, 
+          preventing style contamination between individual components and general application 
+          context. A blessing in general, allowing component to be scripted and styled without the fear of collision with other parts of the page,
+          but poses additional challenges when adjusting look and feel of a component to fit project's theme.</para>
+          <para>For Publisher, encapsulation of web components means that definitions in <code>theme.css</code> 
+          or equivalent project customization CSS file are not able to directly govern web components styling.</para>
+          <para>While some aspects of component styling remained unaccessible for customization
+          in versions preceding Publisher 6, currently <code>pb-components</code> expose style properties to the outside world via standard CSS
+          variables. This way variables like <code>--pb-footnote-color</code> defined in <code>theme.css</code> can be accessed by e.g. 
+          <code>pb-view</code> component and thus determine the color of the footnote marker in the rendered transcription.</para>
+
+          <para>Note that while you cannot change the inner appearance of a component except by setting its custom CSS properties, you can style 
+          the component itself within the HTML template, e.g. to position it within the layout of the page.</para>
+
+          <title>External stylesheets</title>
+          <para>ODD specification allows for explicit declaration of an external CSS file which may define styles and CSS classes 
+          to be applied to tranformed sources (in <code>encodingDesc/tagsDecl/rendition</code>), e.g.</para>
+          <programlisting>
+                  &lt;rendition source="docbook.css"/&gt;
+          </programlisting>
+          <para>Styles and classes from that file are loaded into <code>pb-view</code> component and thus accessible for its content.</para>
+          <para>External stylesheets for <code>pb-view</code> can also be specified via <code>load-css</code> component configuration attribute. 
+          In this scenario, unlike with ODD <code>rendition</code>, regenerating ODD is not required for changes to the CSS file to be applied, 
+          otherwise both methods are functionally equivalent.</para>
+
+          <programlisting>
+                  &lt;pb-view id="view1" src="document1" load-css="odd/docbook.css"/&gt;
+          </programlisting>
+
+        <!-- shall we discuss CSS shadow part? somewhere --> 
       </section>
       <section xml:id="alignment">
         <title>Handling Complex Alignments</title>
