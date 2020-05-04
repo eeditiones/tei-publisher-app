@@ -30,12 +30,50 @@
     <section>
       <title>What TEI Publisher does ...</title>
       <para>The vision behind TEI Publisher is to provide a tool which enables scholars and editors to publish their materials without becoming programmers, but
-        also does not force them into a one-size-fits-it-all framework. Experienced developers will benefit as well by writing less code, avoiding redundancy,
+        also does not force them into a one-size-fits-all framework. Experienced developers will benefit as well by writing less code, avoiding redundancy,
         improve maintenance and interoperability - to just name a few. TEI Publisher is all about <emphasis role="bold">standards</emphasis>, <emphasis
           role="bold">modularity</emphasis>, <emphasis role="bold">reusability</emphasis> and <emphasis role="bold">sustainability</emphasis>!</para>
-      <para>At the heart of TEI Publisher lies the TEI Processing Model (PM). This is described in the <link
-          xlink:href="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/TD.html#TDPM">TEI P5 guidelines</link> as well as in further chapters here and forms
-        part of the ODD specification format: it defines how a TEI document should be rendered in different output formats.</para>
+      <para>In Publisher, it all starts with your source documents - regardless if they are in TEI or other form of XML: DocBook, MS Word (DOCX) or JATS. 
+      However the source material has been encoded, it can be easily transformed into a range of output formats for publication - from a modern web page 
+      that you can open on your laptop or mobile device, to an ebook, a PDF file or its LaTeX source.</para>
+      <para>TEI Publisher derives its name from TEI and the TEI Processing Model (PM). Processing Model is a part of the TEI vocabulary and TEI ODD specification
+       format, described in the <link xlink:href="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/TD.html#TDPM">TEI P5 guidelines</link> as well as further 
+       chapters here. It defines how a TEI document should be rendered in different output formats and lies at the heart of TEI Publisher.</para>
+        <para>However, online editions require more than just a text transformation: the text needs to be embedded into an application context, adding navigation,
+        pagination, search, facsimile display and so on. The larger part of TEI Publisher deals with those aspects, providing all the necessary building blocks
+        for an online edition.</para>
+      <para>Staying true to the spirit of code reuse and interoperability, TEI Publisher implements all functionality as small "lego" blocks to be freely
+        arranged and recombined. The technology making this possible is called <emphasis>Web Components</emphasis>. It is part of the HTML5 specification and
+        natively implemented by many browsers. Users don't need to dive into the details of this standard though: all you need to modify the example pages is a
+        bit of basic HTML knowledge.</para>
+      <para>Only where the <link xlink:href="../../pb-components-api/index.html">available components</link> are not enough, a new use case needs
+        to be described and suitable new components implemented but then they can be incorporated into existing component pool for everyone else to use. After
+        all, our mantra is reuse, reuse, reuse and we want to turn TEI Publisher into a box of tools the entire community can benefit from.
+        See our <link linkend="roadmap">roadmap</link> for the ideas we are thinking of.</para>
+        <para>Despite elegant simplicity of this approach, various projects we realized in the past prove that TEI Publisher is:</para>
+      <orderedlist>
+        <listitem>
+          <para>powerful enough to cover complex transformation needs</para>
+        </listitem>
+        <listitem>
+          <para>a truly universal tool for any kind of digital edition</para>
+        </listitem>
+        <listitem>
+          <para>capable of generating high quality, camera ready material for book publishing</para>
+        </listitem>
+        <listitem>
+          <para>sustainable and future-proof solution</para>
+        </listitem>
+        <listitem>
+          <para>suitable for any XML, not just TEI (this documentation is written in DocBook!)</para>
+        </listitem>
+      </orderedlist>
+      <title>e-editiones.org</title>
+      <para>Since its first incarnation in 2015, TEI Publisher gained substantial following with numerous academic and 
+      commercial projects around the globe using it for their editorial and publishing needs. Grass-roots user initiative led in 2020 to 
+      the foundation of an international non-profit association <link xlink:href="https://e-editiones.org">e-editiones.org</link>
+      with the focus on further joint development of TEI Publisher, open standards and best practices for digital editions.</para>
+        <!--
       <para>TEI gives users a lot of freedom: there's always more than one way to encode your material! To maintain interoperability and sustainability, you
         need a way to formally describe the schema used as well as document editorial guidelines and transcription processes. TEI ODD was designed for the
         purpose of expressing all this in the TEI language itself. But how a document should be rendered was previously still considered to be the
@@ -60,16 +98,7 @@
           <para>suitable for any XML, not just TEI (this documentation is written in docbook!)</para>
         </listitem>
       </orderedlist>
-      <para>However, online editions require more than just a text transformation: the text needs to be embedded into an application context, adding navigation,
-        pagination, search, facsimile display and so on. The larger part of TEI Publisher deals with those aspects, providing all the necessary building blocks
-        for an online edition.</para>
-      <para>Staying true to the spirit of code reuse and interoperability, TEI Publisher implements all functionality as small "lego" blocks to be freely
-        arranged and recombined. The technology making this possible is called <emphasis>Web Components</emphasis>. It is part of the HTML5 specification and
-        natively implemented by many browsers. Users don't need to dive into the details of this standard though: all you need to modify the example pages is a
-        bit of basic HTML knowledge. Only where the <link xlink:href="../../pb-components-api/index.html">available components</link> are not enough, a new use case needs
-        to be described and suitable new components implemented but then they can be incorporated into existing component pool for everyone else to use. After
-        all, our mantra is reuse, reuse, reuse and we want to turn TEI Publisher into a box of tools the entire community can benefit from.
-        See our <link linkend="roadmap">roadmap</link> for the ideas we are thinking of.</para>
+      -->
     </section>
     <section xml:id="versions">
       <title>Versions</title>
@@ -529,6 +558,7 @@
       <title>Experimenting with ODDs and page templates</title>
       <para>All TEI Publisher's sample documents are TEI XML files which are transformed into a HTML webpage for display in the browser. Two major factors
         determine how the final page is going to look like: an <emphasis role="bold">ODD</emphasis> and a <emphasis role="bold">page template</emphasis>. </para>
+
       <para>We have already mentioned in the very first section that the TEI Processing Model lies at the heart of the Publisher - the ODD file associated with
         a document defines the rules of transformation of the XML source file into HTML. Detailed discussion of the Processing Model can be found in <link
           linkend="pm-syntax">following chapters</link>, for now it is sufficient to say this is where decisions if a TEI element should be rendered inline,
@@ -594,13 +624,16 @@
       </note>
     </section>
   </section>
-  <section>
-    <title>Basic Customization</title>
+  <section xml:id="odd-customization">
+    <title>Document transformations (ODD Customization)</title>
     <para>While TEI Publisher already provides various ODDs and page templates targeting specific domains, it is likely that your project may require certain
       adjustments to fully meet your needs. It has been one of primary concerns in Publisher's design that customization is not only possible on various levels
-      but also encouraged and we aim it to be as simple as possible. Unfortunately no simpler, so let's review basic customization options first.</para>
-    <para>Very broadly we can group customization needs into two sets: changing the rules for transformation of the source or changing the organization of the
-      rendered web page. The former requires modification of the ODD and the latter adjustment of the page template. In both cases, it may be best to choose as
+      but also encouraged and we aim it to be as simple as possible.</para>
+    <para>Very broadly we can group customization needs into two sets: changing the rules for document transformation (how the source document is translated into
+      the output format) or changing the organization and styling of the
+      rendered web page. In this chapter we'll concentrate on the former, document transformation, which primarily requires modification of the ODD with
+      the <link  linkend="pm-syntax">TEI Processing Model</link>. 
+      The latter would require <link  linkend="customizing-page-template">adjustments of the page template</link>. In both cases, it may be best to choose as
       your starting point an already existing ODD or page template and adjust it.</para>
     <section>
       <title>Creating Your First ODD</title>
@@ -887,7 +920,7 @@
             <guimenuitem>Recompile ODD</guimenuitem> from the menu.</para>
       </section>
     </section>
-    <section>
+    <section xml:id="customizing-page-template">
       <title>Modifying Page Templates</title>
       <para>As described earlier, the various sample documents included in the TEI Publisher release differ not only in the ODD they use, but also concerning
         the general layout and composition of the page. They are based on different HTML templates, which can be found in the
@@ -1333,7 +1366,18 @@
   <section>
     <title>Advanced Customization</title>
     <section xml:id="pm-syntax">
-      <title>Processing Model syntax</title>
+      <title>Processing Model</title>
+      <para>TEI gives users a lot of freedom: there's always more than one way to encode your material! To maintain interoperability and sustainability, you
+        need a way to formally describe the schema used as well as document editorial guidelines and transcription processes. TEI ODD was designed for the
+        purpose of expressing all this in the TEI language itself. But how a document should be rendered was previously still considered to be the
+        responsibility of external publishing software and could not be described within the ODD.</para>
+      <para>The advent of the TEI Processing Model changed this! The intended processing for all elements can now be expressed within the TEI vocabulary as part
+        of the ODD thus fulfilling its promise of <emphasis>One Document Does It All</emphasis>. Markup elements are mapped to a small set of abstract
+        transformation functions, called <emphasis>behaviours</emphasis>. Basic styling features can be set directly within the ODD using CSS. The processing
+        model is media-agnostic: behaviours and rendition styles are transparently translated into different output media types like HTML, XSL-FO, LaTeX, or
+        ePUB. A single ODD can handle a multitude of output media types with just a few small adjustments.</para>
+
+      <title>Syntax</title>
       <section>
         <title>
           <tag>model</tag> element</title>
