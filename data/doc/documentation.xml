@@ -1910,28 +1910,34 @@
       </section>
       <section xml:id="external-css">
         <title>Including General CSS Styles</title>
-        <para>Because TEI Publisher 4.0 is based on webcomponents, the styling of one document will not interfere with the styling of another document on the
+        <para>Because TEI Publisher is based on webcomponents, the styling of one document will not interfere with the styling of another document on the
           same page. All styles are strictly encapsulated within the component and do not "pollute" the global browser space. This also has a downside though:
           CSS rules defined outside the <tag>pb-view</tag> have no influence on the text styling inside the component (with some exceptions, mainly for
           properties which are inherited down the HTML tree, e.g. <parameter>font-family</parameter>).</para>
-        <para>However, putting all styling information into <tag>outputRendition</tag> tags within the ODD is also not a good idea as it adds a lot of
-          redundancy. One instead wants to use CSS classes for repeating styling aspects. To make this possible, TEI Publisher supports linking to an external
-          CSS stylesheet within the header of an ODD. Alternatively, one may also use the TEI element <tag>rendition</tag> with the
-            <parameter>@selector</parameter> attribute to specify single style rules directly in the ODD.</para>
-        <para>Both types of rendition elements should go into <parameter>teiHeader/encodingDesc/tagsDecl</parameter>. To link to an external stylesheet, just
-          include a relative link in the <parameter>@source</parameter> attribute:</para>
-        <synopsis>&lt;rendition source="docbook.css"/></synopsis>
+        <para>However, putting <emphasis>all</emphasis> styling information into <tag>outputRendition</tag> tags within the ODD is also not a good idea - it adds a lot of
+          redundancy and mixes editorial responsibilities with web design concerns.</para>
+          <para>Recommended solution would therefore be to use CSS classes for repeating styling aspects. TEI Publisher supports linking to an external
+          CSS stylesheet from the <code>encodingDesc/tagsDecl/rendition</code> section of the ODD. Just
+          specify a relative link in the <parameter>@source</parameter> attribute:</para>
+          <programlisting>
+                  &lt;rendition source="docbook.css"/&gt;
+          </programlisting>
         <para>The file should be stored in the same collection as the source ODD it is referenced from. The linked file should be a standard CSS
-          stylesheet. Unfortunately, editing renditions is not yet supported by the visual ODD editor, so you will have to fall back
+          stylesheet.</para>
+          <para>Note that unfortunately, editing renditions is not yet supported by the visual ODD editor, so you will have to fall back
         to add the corresponding elements to the ODD by hand.</para>
-        <para>The other possibility is to embed CSS rules directly into <tag>rendition</tag> and define a CSS selector in the <parameter>@selector</parameter>
-          attribute:</para>
+        <para>Alternatively, one may also use the same TEI element <tag>rendition</tag> with the
+            <parameter>@selector</parameter> attribute to embed CSS rules directly in the ODD.</para>
+            
         <programlisting>&lt;rendition selector="h3">
   font-family: serif;
   font-weight: 400;
 &lt;/rendition></programlisting>
         <para>Choose one of the two approaches, but do not mix them. In both cases make sure to recompile the ODD after changes as the CSS is merged into the
           generated code!</para>
+
+        <para>New addition in Publisher 6 allows to pass the external CSS file in <code>load-css</code> attribute of <code>pb-view</code>. 
+          Recompiling ODD in this case is not necessary, otherwise it is functionally equivalent to using ODD <code>rendition</code>.</para>
       </section>
       <section>
         <title>Code Templates and Custom Behaviours</title>
@@ -2528,8 +2534,8 @@ declare variable $config:facets := [
     <section xml:id="odd-by-example">
       <title>Building a Sample-Based ODD</title>
       <para>If you do not want to start a customized ODD from a blank template, you can alternatively generate one that covers the classes and elements of a
-        selection of TEI files stored in tei-publisher's default data collection. Simply select one or more sample documents in the list to the left, enter a
-        name and title into the form and click on <guibutton>Build from TEI examples</guibutton>. Note that if you haven't removed the default examples TEI
+        selection of TEI files stored in TEI Publisher's data collection. Simply select one or more sample documents in the list to the left, enter a
+        name and title into the form and click on <guibutton>Create from examples</guibutton>. Note that if you haven't removed the default examples TEI
         files that shipped with tei-publisher their markup will be included in the constructed ODD as well.</para>
       <mediaobject>
         <imageobject>
@@ -2537,7 +2543,7 @@ declare variable $config:facets := [
         </imageobject>
       </mediaobject>
       <para>This method uses the <filename>oddbyexample.xsl</filename> stylesheet that is part of the TEI consortium's <link
-          xlink:href="https://github.com/TEIC/Stylesheets">stylesheets</link>. Users with a corpus of one or more TEI files can generated a custom odd that
+          xlink:href="https://github.com/TEIC/Stylesheets">stylesheets</link>. Users with a corpus of one or more TEI files can generate a custom odd that
         contains explicit additions and deletions for all possible TEI modules, as well as, <tag>valList</tag> for attribute values in the input corpus.</para>
       <para>By default the basis of the comparison for which elements have been modified in the examples is the full <filename>tei_all.odd</filename>.</para>
       <section>
@@ -2548,7 +2554,7 @@ declare variable $config:facets := [
         <programlisting language="XQuery" xml:space="preserve">obe:compile-odd(doc('../odd/my-file.odd'), 'my-file-name')</programlisting>
         <note>
           <title>Note</title>
-          <para>Do to a bug in the <filename>odd2odd.xsl</filename> stylesheet the output of this function is not always valid. To use it for further processing
+          <para>Due to a bug in the <filename>odd2odd.xsl</filename> stylesheet the output of this function is not always valid. To use it for further processing
             you need to make sure that only valid documents are used for further processing</para>
         </note>
         <para>You can also modify the transformation parameters of:</para>
@@ -2588,24 +2594,129 @@ declare variable $config:facets := [
           </programlisting>
       </section>
     </section>
-    <section xml:id="appgen">
+  </section>
+    <section xml:id="extension-modules">
+      <title>Extension Modules</title>
+      <para>Where possible, developers should stick to the standard behaviours defined by the TEI guidelines, or use the <tag>pb-behaviour</tag> and <tag>pb-template</tag> 
+      <link linkend="pb-behaviour">extensions</link> of the ODD syntax. However, there might be situations in which it is necessary to generate a specific type of
+        complex output, which requires the full power of XQuery. To facilitate this, the implementation allows additional extension modules to be
+        configured:</para>
+      <section xml:id="extension-configuration">
+        <title>Configuration</title>
+        <para>Configuration is done via an XML file which must reside in the same collection as the source ODD files. It contains a series of <tag>output</tag> elements,
+          representing particular output modes (e.g. web or print) via <code>@mode</code> attribute. <tag>output</tag> element without a mode groups
+          modules available for all output modes.</para>
+        <para>Each <tag>output</tag> element lists modules to be loaded for specified output mode. Each definition may optionally be limited to a specific ODD, name of which is
+          specified in the <varname>@odd</varname> attribute.</para>
+        <programlisting language="xml" xml:space="preserve">&lt;modules&gt;
+    &lt;!-- functions or behaviours common to all output modes --&gt;
+    &lt;output&gt;
+      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/common-functions" prefix="tc" at="xmldb:exist:///db/apps/my-app/modules/common.xql"/&gt;
+    &lt;/output&gt;
+    &lt;!-- General fo extension functions --&gt;
+    &lt;output mode="print"&gt;
+      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/ext-fo" prefix="ext-fo" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-fo.xql"/&gt;
+    &lt;/output&gt;
+    &lt;!-- Special web configuration for the documentation (to handle &lt;code&gt;) --&gt;
+    &lt;output mode="web" odd="documentation"&gt;
+      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql"/&gt;
+    &lt;/output&gt;
+&lt;/modules&gt;</programlisting>
+        <para>Whenever the library tries to locate a processing model function for a given behaviour, it will <emphasis role="bold">first</emphasis> check any
+          extension module it knows to see if it contains a matching function. One can thus <emphasis role="bold">overwrite</emphasis> the default functions as
+          well as define new ones.</para>
+        <para>An extension module may also contain general purpose XQuery functions you want to call from within an ODD parameter, e.g. for formatting a date,
+          outputting a number etc. To make those functions available to all output modes, just skip the <varname>@mode</varname> attribute.</para>
+      </section>
+      <section>
+        <title>Implementing Behaviours</title>
+        <para>To be recognized by the library, an extension function must accept at least 4 default arguments, plus any number of custom parameters. The required parameters are:</para>
+        <variablelist>
+          <varlistentry>
+            <term>$config</term>
+            <listitem>
+              <para>a map containing configuration information as well as function references to be called. The most important ones are
+                  <function>$config?apply($config, $node)</function> and <function>$config?apply-children($config, $node, $content)</function>. Both are
+                function items and when called, continue processing with either a single <varname>$node</varname> or a sequence of nodes in
+                  <varname>$content</varname>.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>$node</term>
+            <listitem>
+              <para>the TEI element being processed at the moment</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>$class</term>
+            <listitem>
+              <para>a list of HTML class names to be used. This includes automatically generated class names as well as those passed via
+                  <varname>@cssClass</varname> on a model item.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>$content</term>
+            <listitem>
+              <para>because <varname>content</varname> is defined for every model rule, it is always passed to a behaviour function (though it might be
+                empty)</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+        <para>For all additional parameters, the processing model implementation tries to fill each custom parameter with a corresponding value by looking
+          through the <tag>param</tag> children of the <tag>model</tag> in the ODD to find one with a name matching the variable name. If no matching parameter can be found, the function
+          argument will be set to the empty sequence. You should not enforce a type or cardinality for any of the custom parameters as this may lead to
+          unexpected errors. The parameters may be empty or contain more than one item.</para>
+        <para>For example, a custom behaviour called <code>code</code> for syntax highlighting in an extension module named <filename>ext-html.xql</filename> might look as
+          follows:</para>
+        <programlisting language="xquery" xml:space="preserve">xquery version "3.1";
+(:~ : Non-standard extension functions, mainly used for the documentation. :)
+module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-html";
+declare namespace tei="http://www.tei-c.org/ns/1.0";
+
+declare function pmf:code($config as map(*), $node as element(), $class as xs:string+, $content as node()*, $lang as item()?) {
+    &lt;pre class="code {$class}" data-language="{if ($lang) then $lang else 'xquery'}"&gt;
+    {replace(string-join($content/node()), "^\s+?(.*)\s+$", "$1")}
+    &lt;/pre&gt;
+};</programlisting>
+        <para>It defines one function, <function>pmf:code</function>, which can be called from the ODD as follows, provided that the <filename>ext-html.xql</filename> 
+        module has been configured as described in the <link linkend="extension-configuration">previous section</link>.</para>
+        <programlisting language="xml">
+&lt;model behaviour="code"&gt; 
+    &lt;param name="lang" value="@lang"/&gt; 
+&lt;/model&gt;
+        </programlisting>
+      </section>
+      <section>
+        <title>Behaviours Accepting User-Defined Parameters</title>
+        <para>Sometimes you may like to implement a generic behaviour which takes arbitrary parameters from the user. This means the parameter list of your
+          behaviour will not be fixed.</para>
+        <para>To facilitate this, a behaviour function may declare a final parameter <code>$optional as map(*)</code>. If the processor finds
+            <tag>param</tag> children in the model which cannot be mapped to an explicitly declared parameter, it stores all such extra parameters as a key/value pairs in the
+          <parameter>$optional</parameter> map.</para>
+      </section>
+  </section>
+
+<section xml:id="appgen">
       <title>Creating apps with the App Generator</title>
-      <para>Once you are happy with a certain customization, you can create a complete, standalone application out of it, which can be further tailored to fit
-        your needs. The generated app can be downloaded as a portable package, installed into other eXist instances, or synced to disk for further development.
-        It provides a customized view of the main TEI Publisher components, configured to use a certain ODD, template and other settings.</para>
+      <para>Once you are happy with a certain ODD and HTML template customization, you can easily create a complete, standalone application. Such application can be tailored further to fit
+        your needs. The generated app can be downloaded as a portable xar package, to be installed into other eXist instances, or synchronised to disk for further development.
+        It provides a fully functional application scaffolding based on TEI Publisher components and modules, pre-configured to use a certain ODD, page template and other settings.</para>
       <note>
         <title>Note</title>
-        <para>For the next major release (5.0) we plan to redesign how apps are generated and administrated in TEI Publisher. Right now, apps include everything needed to run without TEI
-          Publisher. This has advantages, but also makes it difficult to update to newer releases. In the future, apps should become more lightweight in
-          general, containing only resources which are truly specific to the app (ODDs, HTML templates, images, custom components), while all generic
-          functionality will be provided by TEI Publisher and its library. TEI Publisher itself will get an app administration page, which will allow users to
-          manage and customize all installed apps from a central management shell.</para>
-        <para>Until then, you can safely use the current app generator, but make sure you are following our best practice recommendations, so we can guarantee
-          a smooth upgrade path.</para>
+        <para>Previous versions of the TEI Publisher included everything they needed to run without TEI
+          Publisher. This had some advantages, but also made it more difficult to update to newer releases.</para>
+        <para>Starting with version 5 we are gradually moving towards more lightweight app design, ultimately 
+          containing only resources which are truly specific to the app (ODDs, HTML templates, images), while all generic
+          functionality will be provided by TEI Publisher and its libraries and packages. Version 6 has seen all web components
+          extracted into <code>pb-components</code> package and planned version 7 aims to redesign and factor out many parts of navigation and 
+          search modules.
+          <!--TEI Publisher itself will get an app administration page, which will allow users to
+          manage and customize all installed apps from a central management shell.--></para>
+        <para>Until then, please make sure you are following our <link linkend="customization-best-practice">best practice recommendations</link> for a smooth upgrade path.</para>
       </note>
       <para>To get started, click on <guimenuitem>App Generator</guimenuitem> in the menu bar and fill out the form.</para>
 
-      <para>The following form fields are important:</para>
+      <para>The following form fields are of particular importance:</para>
       <variablelist>
         <varlistentry>
           <term>ODD</term>
@@ -2644,8 +2755,10 @@ declare variable $config:facets := [
         <varlistentry>
           <term>Default View</term>
           <listitem>
-            <para>If you would like readers to view documents page by page, set this to <guimenuitem>"By Page"</guimenuitem>. This requires that all your
-              documents have appropriate pb elements. The setting can be overwritten in HTML templates or via parameters though.</para>
+            <para>Default document view - whole document, page by page or division by division. If you would like to choose page by page, 
+            set this to <guimenuitem>"By Page"</guimenuitem> but please note that all your
+              documents must be appropriately encoded with page breaks as <tag>pb</tag> elements. You will still be able to change the
+              view settings in HTML template or users can do it via query parameters.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -2656,7 +2769,7 @@ declare variable $config:facets := [
         </varlistentry>
       </variablelist>
       <para>Once you created the new application, log into it using the account details you provided. You can then upload XML documents using the upload panel
-        in the right sidebar.</para>
+        in the sidebar.</para>
       <figure xml:id="create-app">
         <title>Create an App</title>
         <mediaobject>
@@ -2669,9 +2782,9 @@ declare variable $config:facets := [
         <title>Generated Code Overview</title>
         <section>
           <title>XQuery Code</title>
-          <para>The collection structure of the generated app follows customary design of many eXist apps. Best practices for modifying the app are discussed in
-            further sections of this document. You can find the code of your generated app in within the collection
-              <filename>/db/apps/abbreviation-of-my-app</filename>.</para>
+          <para>The collection structure of the generated app follows typical design of many eXist apps. <link linkend="customization-best-practice">Best practices</link> for modifying the app are discussed in
+            further sections of this document. You can find the code of your generated app in within the <filename>/db/apps</filename> collection under the
+            name you provided in the <emphasis>abbreviation</emphasis> field of the generator form.</para>
           <variablelist>
             <varlistentry>
               <term>modules</term>
@@ -2704,19 +2817,19 @@ declare variable $config:facets := [
                   troubleshoot the transformations with TEI Processing Model. In case of an issue, it may help to know the files: </para>
                 <variablelist>
                   <varlistentry>
-                    <term>myodd-web.xql</term>
+                    <term>{myodd}-web.xql</term>
                     <listitem>
                       <para>The transformation module generated for output mode "web".</para>
                     </listitem>
                   </varlistentry>
                   <varlistentry>
-                    <term>myodd-web-module.xql</term>
+                    <term>{myodd}-web-module.xql</term>
                     <listitem>
                       <para>Library module which calls the transformation module.</para>
                     </listitem>
                   </varlistentry>
                   <varlistentry>
-                    <term>myodd.css</term>
+                    <term>{myodd}.css</term>
                     <listitem>
                       <para>CSS styles generated from the ODD.</para>
                     </listitem>
@@ -2739,13 +2852,6 @@ declare variable $config:facets := [
               </listitem>
             </varlistentry>
             <varlistentry>
-              <term>Update Document Metadata Index</term>
-              <listitem>
-                <para>The application maintains a separate index of titles and authors, which is used to sort the list of documents shown on the landing page.
-                  This index is not refreshed automatically, so you need to click this menu entry once after uploading data.</para>
-              </listitem>
-            </varlistentry>
-            <varlistentry>
               <term>Edit ODD</term>
               <listitem>
                 <para>Opens the application's ODD in eXide for editing.</para>
@@ -2753,96 +2859,7 @@ declare variable $config:facets := [
             </varlistentry>
           </variablelist>
       </section>
-        <section>
-          <title>Best Practice Recommendations</title>
-          <para>In case you'd wish to further customize the generated app it's worth to keep the changes as much separated from the generated code as possible
-            to allow for future alignment with newer versions of the TEI Publisher. </para>
-          <para>The generated app shares most of its XQuery libraries with the main TEI Publisher app. A copy of those is included in the
-              <filename>lib/</filename> collection of the generated app and should not be modified! This way you can later update the libraries to a newer TEI
-            Publisher release without breaking your app. Including the libraries in the generated app creates some redundancy, but we chose to accept this
-            trade-off to make it easier to view and modify everything relevant to the app.</para>
-          <para>If you find that modifications of <filename>lib/</filename> modules are necessary, please consider if your change would be generally beneficial
-            for TEI Publisher and create PR for the TEI Publisher if so.</para>
-          <para>It is considered safe:</para>
-          <orderedlist>
-            <listitem>
-              <para>to modify all HTML templates below <filename>templates/</filename> as well as <filename>index.html</filename> and <filename>search.html</filename> in the root of the app</para>
-            </listitem>
-            <listitem>
-              <para>to change XQuery modules in <filename>modules</filename>, excluding those in <filename>modules/lib</filename></para>
-            </listitem>
-            <listitem>
-              <para>to add images, fonts or change i18n translations below <filename>resources</filename></para>
-            </listitem>
-            <listitem>
-              <para>add new XQuery modules into <filename>modules</filename>, which may be called from e.g. web components.</para>
-            </listitem>
-          </orderedlist>
-          <para>The following core XQuery modules in every app are safe to be modified (all are stored in <filename>modules</filename> subcollection:</para>
-          <variablelist>
-            <varlistentry>
-              <term><filename>config.xqm</filename></term>
-              <listitem>
-                <para>The main configuration file for the app. It contains a number of parameters which control important aspects.</para>
-              </listitem>
-            </varlistentry>
-            <varlistentry>
-              <term><filename>app.xql</filename></term>
-              <listitem>
-                <para>Add your own HTML templating functions in XQuery here if needed. With TEI Publisher 4.0, there should be less
-                of a need to extend this file as most of the application logic is realized via web components.</para>
-              </listitem>
-            </varlistentry>
-            <varlistentry>
-              <term><filename>pm-config.xql</filename></term>
-              <listitem>
-                <para>This file defines the functions to be called for rendering TEI content via the processing model. It imports the modules generated from
-                  your ODD and assigns them to variables as function pointers. This approach is much more efficient than the dynamic lookups done by the main
-                  TEI Publisher app. It has been production tested on large web sites. The downside is that the connection to the ODD is hard-coded. If you need
-                  to switch between different ODDs, you would need to change<filename> pm-config.xql</filename> and insert a proper switch there depending on
-                  external parameters.</para>
-              </listitem>
-            </varlistentry>
-            <varlistentry>
-              <term>navigation-*.xql</term>
-              <listitem>
-                <para>This group of modules contains functions relevant for the display and navigation of documents corresponding to
-                a given document type</para>
-              </listitem>
-            </varlistentry>
-            <varlistentry>
-              <term>*-query.xql</term>
-              <listitem>
-                <para>Modules with functions powering the search features</para>
-              </listitem>
-            </varlistentry>
-            <varlistentry>
-              <term>view.xql</term>
-              <listitem>
-                <para>The main module of the app. This module initializes eXist's templating system. The only case when it should be modified is if you want to add further XQuery library modules containing template functions.</para>
-              </listitem>
-            </varlistentry>
-          </variablelist>
-        </section>
-      <section>
-        <title>Creating Custom Web Components</title>
-        <para>In some cases an app may want to add its own web components to the collection provided by TEI Publisher or extend one of the provided components.
-          The added component should be placed into a subfolder <filename>webcomponents</filename> below the app root collection.</para>
-        <para>TEI Publisher uses <link xlink:href="https://polymer-library.polymer-project.org/2.0/docs/devguide/feature-overview">version 2</link> of the
-          Polymer library. Though web components are basically interoperable and you could use any framework you like, we recommend to base the new component on
-          the same version of Polymer to facilitate integration.</para>
-        <para>You can find boilerplate code for a new component in the file <link xlink:href="components/seed-element.html" role="source"
-              ><filename>components/seed-element.html</filename></link> within the TEI Publisher distribution. Just save the file under a new name into the
-            <filename>webcomponents</filename> subdirectory of your app and rename all occurrances of <code>seed-element</code> and
-          <code>SeedElement</code>.</para>
-        <para>In order to use the element, you need to import it into your HTML template. Make sure it is imported after
-            <filename>dependencies-dev.html</filename>, which loads the default TEI Publisher components:</para>
-        <programlisting>&lt;link rel="import" href="components/dependencies-dev.html"/>
-&lt;link rel="import" href="webcomponents/my-component.html"/></programlisting>
-        <para>A component may also extend one of the existing components provided by TEI Publisher. For example, the component showing the list of available
-          documents on the index page extends <tag>pb-load</tag>:</para>
-        <synopsis language="javascript">class PbBrowseDocs extends PbMixin(PbLoad) {</synopsis>
-      </section>
+
       <section>
         <title>Exporting the Finished App</title>
         <para>To save your finished application or exchange it with other people, you need to save it as an application archive. Application archives use a
@@ -2894,103 +2911,201 @@ declare variable $config:facets := [
           </mediaobject>
         </figure>
       </section>
-    </section>
-    <section xml:id="extension-modules">
-      <title>Extension Modules</title>
-      <para>Where possible, developers should stick to the standard behaviours defined by the TEI guidelines, or use the <link linkend="pb-behaviour"
-            ><tag>pb-behaviour</tag> extension</link> of the ODD syntax. However, there might be situations in which one has to generate a specific type of
-        complex output, which requires the full power of XQuery. To facilitate this, the implementation allows additional extension modules to be
-        configured:</para>
-      <section>
-        <title>Configuration</title>
-        <para>Configuration is done via an XML file which should reside in the same collection as the source ODD files. It contains a series of output elements,
-          each listing the extension modules to be loaded for the given output mode. Each definition may optionally be limited to a specific ODD, whose name is
-          specified in the <varname>@odd</varname> attribute.</para>
-        <programlisting language="xml" xml:space="preserve">&lt;modules&gt;
-    &lt;!-- functions or behaviours common to all output modes --&gt;
-    &lt;output&gt;
-      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/common-functions" prefix="tc" at="xmldb:exist:///db/apps/my-app/modules/common.xql"/&gt;
-    &lt;/output&gt;
-    &lt;!-- General fo extension functions --&gt;
-    &lt;output mode="print"&gt;
-      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/ext-fo" prefix="ext-fo" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-fo.xql"/&gt;
-    &lt;/output&gt;
-    &lt;!-- Special web configuration for the documentation (to handle &lt;code&gt;) --&gt;
-    &lt;output mode="web" odd="documentation"&gt;
-      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql"/&gt;
-    &lt;/output&gt;
-&lt;/modules&gt;</programlisting>
-        <para>Whenever the library tries to locate a processing model function for a given behaviour, it will <emphasis role="bold">first</emphasis> check any
-          extension module it knows to see if it contains a matching function. One can thus <emphasis role="bold">overwrite</emphasis> the default functions as
-          well as define new ones.</para>
-        <para>An extension module may also contain general purpose XQuery functions you want to call from within an ODD parameter, e.g. for formatting a date,
-          outputting a number etc. To make those functions available to all output modes, just skip the <varname>@mode</varname> attribute.</para>
-      </section>
-      <section>
-        <title>Implementing Behaviours</title>
-        <para>To be recognized by the library, an extension function needs to accept at least 4 default arguments, plus any number of custom parameters (to be
-          passed in the behaviour attribute). The required parameters are:</para>
-        <variablelist>
-          <varlistentry>
-            <term>$config</term>
-            <listitem>
-              <para>a map containing configuration information as well as function references to be called. The most important ones are
-                  <function>$config?apply($config, $node)</function> and <function>$config?apply-children($config, $node, $content)</function>. Both are
-                function items and when called, continue processing with either a single <varname>$node</varname> or a sequence of nodes in
-                  <varname>$content</varname>.</para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term>$node</term>
-            <listitem>
-              <para>the TEI element being processed at the moment</para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term>$class</term>
-            <listitem>
-              <para>a list of HTML class names to be used. This includes automatically generated class names as well as those passed via
-                  <varname>@cssClass</varname> on a model item.</para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term>$content</term>
-            <listitem>
-              <para>because <varname>content</varname> is defined for every model rule, it is always passed to a behaviour function (though it might be
-                empty)</para>
-            </listitem>
-          </varlistentry>
-        </variablelist>
-        <para>For all additional parameters, the processing model implementation tries to fill each custom parameter with a corresponding value by looking
-          through the <tag>param</tag> tags in the ODD to find one with a name matching the variable name. If no matching parameter can be found, the function
-          argument will be set to the empty sequence. You should not enforce a type or cardinality for any of the custom parameters as this may lead to
-          unexpected errors. The parameters may be empty or contain more than one item.</para>
-        <para>For example, we may want to define a behaviour for code highlighting in an extension module named <filename>ext-html.xql</filename> may look as
-          follows:</para>
-        <programlisting language="xquery" xml:space="preserve">xquery version "3.1";
-(:~ : Non-standard extension functions, mainly used for the documentation. :)
-module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-html";
-declare namespace tei="http://www.tei-c.org/ns/1.0";
-
-declare function pmf:code($config as map(*), $node as element(), $class as xs:string+, $content as node()*, $lang as item()?) {
-    &lt;pre class="code {$class}" data-language="{if ($lang) then $lang else 'xquery'}"&gt;
-    {replace(string-join($content/node()), "^\s+?(.*)\s+$", "$1")}
-    &lt;/pre&gt;
-};</programlisting>
-        <para>It defines one function, <function>pmf:code</function>, which can be called from the ODD as follows:</para>
-        <programlisting language="xml">
-&lt;model behaviour="code"&gt; &lt;param name="lang" value="@lang"/&gt; &lt;/model&gt;</programlisting>
-      </section>
-      <section>
-        <title>Behaviours Accepting User-Defined Parameters</title>
-        <para>Sometimes you may like to implement a generic behaviour which takes arbitrary parameters from the user. This means the parameter list of your
-          behaviour will not be fixed.</para>
-        <para>To facilitate this, a behaviour function may declare a final parameter <code>$optional as map(*)</code>. If the processor finds
-            <tag>param</tag> tags in the model rule which cannot be mapped to a declared parameter, it stores this extra paramter as a key/value pair into the
-          map <parameter>$optional</parameter>.</para>
-      </section>
-    </section>
   </section>
+        <section xml:id="customization-best-practice">
+          <title>Best Practice Recommendations</title>
+          <para>In case you'd wish to further customize the generated app it's worth to keep the changes as much separated from the generated code as possible
+            to allow for future alignment with newer versions of the TEI Publisher. </para>
+          <para>The generated app shares most of its XQuery libraries with the main TEI Publisher app. A copy of those is included in the
+              <filename>lib/</filename> collection of the generated app and <emphasis role="bold">should not</emphasis> be modified! This way you can later update the libraries to a newer TEI
+            Publisher release without breaking your app. Including the libraries in the generated app creates some redundancy, but we chose to accept this
+            trade-off to make it easier to view and modify everything relevant to the app. Be advised that, as explained earlier in this chapter, we are moving towards 
+            more lightweight app design and many of the function modules may be moved into separate libraries in the future.</para>
+          <para>Meanwhile, if you find that modifications of <filename>lib/</filename> modules are necessary, please consider if your change would be generally beneficial
+            for TEI Publisher and create PR for the TEI Publisher if so.</para>
+          <para>It is considered safe:</para>
+          <orderedlist>
+            <listitem>
+              <para>to modify all HTML templates below <filename>templates/</filename> as well as <filename>index.html</filename> and <filename>search.html</filename> in the root of the app</para>
+            </listitem>
+            <listitem>
+              <para>to change XQuery modules in <filename>modules</filename>, excluding those in <filename>modules/lib</filename></para>
+            </listitem>
+            <listitem>
+              <para>to add images, fonts or change i18n translations below <filename>resources</filename></para>
+            </listitem>
+            <listitem>
+              <para>add new XQuery modules into <filename>modules</filename>, which may be called from e.g. web components.</para>
+            </listitem>
+          </orderedlist>
+          <para>The following core XQuery modules in every app are safe to be modified (all are stored in <filename>modules</filename> subcollection:</para>
+          <variablelist>
+            <varlistentry>
+              <term><filename>config.xqm</filename></term>
+              <listitem>
+                <para>The main configuration file for the app. It contains a number of parameters which control important aspects.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term><filename>app.xql</filename></term>
+              <listitem>
+                <para>Add your own HTML templating functions in XQuery here if needed. With TEI Publisher 4.0 or later, there should be less
+                of a need to extend this file as most of the application logic is realized via web components.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term><filename>pm-config.xql</filename></term>
+              <listitem>
+                <para>This file defines the functions to be called for rendering TEI content via the processing model. It imports the modules generated from
+                  your ODD and assigns them to variables as function pointers. This approach is much more efficient than the dynamic lookups done by the main
+                  TEI Publisher app. It has been production tested on large web sites. The downside is that the connection to the ODD is hard-coded. If you need
+                  to switch between different ODDs, you would need to change<filename> pm-config.xql</filename> and insert a proper switch there depending on
+                  external parameters.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>navigation-*.xql</term>
+              <listitem>
+                <para>This group of modules contains functions relevant for the display and navigation of documents corresponding to
+                a given document type</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>*-query.xql</term>
+              <listitem>
+                <para>Modules with functions powering the search features</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>view.xql</term>
+              <listitem>
+                <para>The main module of the app. This module initializes eXist's templating system. The only case when it should be modified is if you want to add further XQuery library modules containing template functions.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </section>
+
+<section xml:id="updating">
+  <title>Updating Applications</title>
+    
+    <para>Updating an app generated with TEI Publisher 4.x.x/5.x.x still requires some manual steps, though we're working towards reducing the dependencies. Future updates should become easier. There are two possible approaches for updating:</para>
+    <orderedlist>
+      <listitem>
+        <para>generate a new application with TEI Publisher 6 and copy the files you changed in your app into the newly generated app. This is recommended if the customizations you did apply were limited to e.g. ODD files, CSS styles, templates, index configurations or a few of the files in <filename>modules/</filename>.</para>
+      </listitem>
+      <listitem>
+        <para>update your generated app by modifying the HTML templates you use and copying files from TEI Publisher.</para>
+      </listitem>
+    </orderedlist>
+    <para>The first option is much easier in general. We only recommend to go with the second option if you app is heavily customized and - in particular - contains many changes to the XQuery files.</para>
+  
+    <section>
+      <title>Update by Generating a New Application</title>
+      <procedure>
+        <step>
+          <para>Upload your customized ODD to TEI Publisher</para>
+        </step>
+        <step>
+          <para>If you created a custom HTML template for your document view, upload it to the <filename>templates/pages</filename> collection of TEI Publisher. You can use eXide's file manager to do so.</para>
+        </step>
+        <step>
+          <para>Generate a new application using your custom ODD. Make sure you select a different URL and short name to not confuse the two apps.</para>
+        </step>
+        <step>
+          <para>Selectively upload all remaining files you changed or resources you added to the generated app</para>
+        </step>
+      </procedure>
+    </section>
+    
+    <section>
+      <title>Update by Copying</title> 
+      <para>The following steps assume that you</para>
+      <orderedlist>
+        <listitem>
+          <para>either have a copy of your app's code on the filesystem and a clone of TEI Publisher 6 next to it</para>
+        </listitem>
+        <listitem>
+          <para>or have your app and TEI Publisher installed in your database. In this case use eXide's file manager to copy files</para>
+        </listitem>
+      </orderedlist>
+      <procedure>
+        <step>
+          <para>Edit <filename>modules/config.xqm</filename> and add two variables at the top:</para>
+          <programlisting language="xquery" xml:space="preserve"><![CDATA[
+(:~
+ : A list of regular expressions to check which external hosts are
+ : allowed to access this TEI Publisher instance. The check is done
+ : against the Origin header sent by the browser.
+ :)
+declare variable $config:origin-whitelist := (
+"(?:https?://localhost:.*|https?://127.0.0.1:.*)"
+);
+
+(:~~
+ : The version of the pb-components webcomponents library to be used by this app.
+ : Should either point to a version published on npm,
+ : or be set to 'local'. In the latter case, webcomponents
+ : are assumed to be self-hosted in the app (which means you
+ : have to npm install it yourself using the existing package.json).
+ : If a version is given, the components will be loaded from a public CDN.
+ : This is recommended unless you develop your own components.
+ :)
+declare variable $config:webcomponents := "0.9.11";]]></programlisting>
+          <para><parameter>$config:webcomponents</parameter> should point to the latest version of pb-components.</para> 
+        </step>
+        <step>
+          <para>Copy all XQuery files from <filename>tei-publisher-app/modules/lib</filename> into the
+            <filename>modules/lib</filename> of your application.
+          </para>
+        </step>
+        <step>
+          <para>Copy <filename>tei-publisher-app/resources/css/theme.css</filename> into the same location in your application.</para>
+        </step>
+        <step>
+          <para>In all HTML files <emphasis>you changed for your app</emphasis>, check <tag>head</tag> and remove any <tag>script</tag> element or <tag>link</tag> doing an import like:</para>
+          <synopsis language="html"><![CDATA[<link rel="import" href="components/dependencies-dev.html"/>]]></synopsis>
+          <para>Instead add the following line to the head:</para>
+          <synopsis language="html"><![CDATA[<script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>]]></synopsis>
+          <para>Also add a link to <filename>theme.css</filename>:</para>
+          <synopsis language="html"><![CDATA[<link rel="stylesheet" href="resources/css/theme.css"/>]]></synopsis>
+        </step>
+        <step>
+          <para>HTML files you did not change may just be overwritten by copying the corresponding versions from <code>tei-publisher-app</code>. In particular
+            this may include files in the <filename>tei-publisher-app/templates/basic/templates</filename> subdirectory or
+            <filename>tei-publisher-app/templates/basic/search.html</filename>.</para>
+        </step>
+        <step>
+          <para>Copy <filename>tei-publisher-app/templates/basic/controller.xql</filename> into the root of your application - unless you made changes to this
+            file yourself, in which case you would need to merge it.</para>
+        </step>
+        <step>
+          <para>Check the files in modules within your app: if you have not changed any of them, just copy the corresponding files from
+            <filename>tei-publisher-app/modules</filename>. See if you need to merge the modified ones.</para>
+        </step>
+      </procedure>
+    </section>    
+</section>
+
+<section>
+        <title>Creating Custom Web Components</title>
+        <para>In some cases an app may want to add its own web components to the collection provided by TEI Publisher or extend one of the provided components.
+          The added component should be placed into a subfolder <filename>webcomponents</filename> below the app root collection.</para>
+        <para>TEI Publisher uses <link xlink:href="https://polymer-library.polymer-project.org/2.0/docs/devguide/feature-overview">version 2</link> of the
+          Polymer library. Though web components are basically interoperable and you could use any framework you like, we recommend to base the new component on
+          the same version of Polymer to facilitate integration.</para>
+        <para>You can find boilerplate code for a new component in the file <link xlink:href="components/seed-element.html" role="source"
+              ><filename>components/seed-element.html</filename></link> within the TEI Publisher distribution. Just save the file under a new name into the
+            <filename>webcomponents</filename> subdirectory of your app and rename all occurrances of <code>seed-element</code> and
+          <code>SeedElement</code>.</para>
+        <para>In order to use the element, you need to import it into your HTML template. Make sure it is imported after
+            <filename>dependencies-dev.html</filename>, which loads the default TEI Publisher components:</para>
+        <programlisting>&lt;link rel="import" href="components/dependencies-dev.html"/>
+&lt;link rel="import" href="webcomponents/my-component.html"/></programlisting>
+        <para>A component may also extend one of the existing components provided by TEI Publisher. For example, the component showing the list of available
+          documents on the index page extends <tag>pb-load</tag>:</para>
+        <synopsis language="javascript">class PbBrowseDocs extends PbMixin(PbLoad) {</synopsis>
+  </section>
+
   <section>
     <title>Embedding TEI Publisher Output</title>
     <para>Sometimes you may already have a website based on a CMS like WordPress, Drupal etc. into which you would like to embed HTML output generated by TEI
@@ -3048,107 +3163,6 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     </section>
   </section>
 
-
-  <section xml:id="updating">
-    <title>Updating Applications</title>
-    
-    <para>Updating an app generated with TEI Publisher 4.x.x/5.x.x still requires some manual steps, though we're working towards reducing the dependencies. Future updates should become easier. There are two possible approaches for updating:</para>
-    <orderedlist>
-      <listitem>
-        <para>generate a new application with TEI Publisher 6 and copy the files you changed in your app into the newly generated app. This is recommended if the customizations you did apply were limited to e.g. ODD files, CSS styles, templates, index configurations or a few of the files in <filename>modules/</filename>.</para>
-      </listitem>
-      <listitem>
-        <para>update your generated app by modifying the HTML templates you use and copying files from TEI Publisher.</para>
-      </listitem>
-    </orderedlist>
-    <para>The first option is much easier in general. We only recommend to go with the second option if you app is heavily customized and - in particular - contains many changes to the XQuery files.</para>
-    <section>
-      <title>Update by Generating a New Application</title>
-      <procedure>
-        <step>
-          <para>Upload your customized ODD to TEI Publisher</para>
-        </step>
-        <step>
-          <para>If you created a custom HTML template for your document view, upload it to the <filename>templates/pages</filename> collection of TEI Publisher. You can use eXide's file manager to do so.</para>
-        </step>
-        <step>
-          <para>Generate a new application using your custom ODD. Make sure you select a different URL and short name to not confuse the two apps.</para>
-        </step>
-        <step>
-          <para>Selectively upload all remaining files you changed or resources you added to the generated app</para>
-        </step>
-      </procedure>
-    </section>
-    <section>
-      <title>Update by Copying</title> 
-      <para>The following steps assume that you</para>
-      <orderedlist>
-        <listitem>
-          <para>either have a copy of your app's code on the filesystem and a clone of TEI Publisher 6 next to it</para>
-        </listitem>
-        <listitem>
-          <para>or have your app and TEI Publisher installed in your database. In this case use eXide's file manager to copy files</para>
-        </listitem>
-      </orderedlist>
-      <procedure>
-        <step>
-          <para>Edit <filename>modules/config.xqm</filename> and add two variables at the top:</para>
-          <programlisting language="xquery" xml:space="preserve"><![CDATA[
-(:~
- : A list of regular expressions to check which external hosts are
- : allowed to access this TEI Publisher instance. The check is done
- : against the Origin header sent by the browser.
- :)
-declare variable $config:origin-whitelist := (
-"(?:https?://localhost:.*|https?://127.0.0.1:.*)"
-);
-
-(:~~
- : The version of the pb-components webcomponents library to be used by this app.
- : Should either point to a version published on npm,
- : or be set to 'local'. In the latter case, webcomponents
- : are assumed to be self-hosted in the app (which means you
- : have to npm install it yourself using the existing package.json).
- : If a version is given, the components will be loaded from a public CDN.
- : This is recommended unless you develop your own components.
- :)
-declare variable $config:webcomponents := "0.9.11";]]></programlisting>
-          <para><parameter>$config:webcomponents</parameter> should point to the latest version of pb-components.</para>
-          
-        </step>
-        <step>
-          <para>Copy all XQuery files from <filename>tei-publisher-app/modules/lib</filename> into the
-            <filename>modules/lib</filename> of your application.
-          </para>
-        </step>
-        <step>
-          <para>Copy <filename>tei-publisher-app/resources/css/theme.css</filename> into the same location in your application.</para>
-        </step>
-        <step>
-          <para>In all HTML files <emphasis>you changed for your app</emphasis>, check <tag>head</tag> and remove any <tag>script</tag> element or <tag>link</tag> doing an import like:</para>
-          <synopsis language="html"><![CDATA[<link rel="import" href="components/dependencies-dev.html"/>]]></synopsis>
-          <para>Instead add the following line to the head:</para>
-          <synopsis language="html"><![CDATA[<script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>]]></synopsis>
-          <para>Also add a link to <filename>theme.css</filename>:</para>
-          <synopsis language="html"><![CDATA[<link rel="stylesheet" href="resources/css/theme.css"/>]]></synopsis>
-        </step>
-        <step>
-          <para>HTML files you did not change may just be overwritten by copying the corresponding versions from <code>tei-publisher-app</code>. In particular
-            this may include files in the <filename>tei-publisher-app/templates/basic/templates</filename> subdirectory or
-            <filename>tei-publisher-app/templates/basic/search.html</filename>.</para>
-        </step>
-        <step>
-          <para>Copy <filename>tei-publisher-app/templates/basic/controller.xql</filename> into the root of your application - unless you made changes to this
-            file yourself, in which case you would need to merge it.</para>
-        </step>
-        <step>
-          <para>Check the files in modules within your app: if you have not changed any of them, just copy the corresponding files from
-            <filename>tei-publisher-app/modules</filename>. See if you need to merge the modified ones.</para>
-        </step>
-      </procedure>
-    </section>
-    
-  </section>
 
   <section xml:id="faq">
     <title>Frequently Asked Questions</title>
