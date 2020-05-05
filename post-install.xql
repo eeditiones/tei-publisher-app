@@ -17,14 +17,14 @@ if (not(sm:user-exists("tei-demo"))) then
 else
     (),
 sm:chmod(xs:anyURI($target || "/modules/view.xql"), "rwxr-Sr-x"),
-sm:chmod(xs:anyURI($target || "/modules/lib/transform.xql"), "rwsr-xr-x"),
-sm:chmod(xs:anyURI($target || "/modules/lib/pdf.xql"), "rwsr-xr-x"),
-sm:chmod(xs:anyURI($target || "/modules/lib/epub.xql"), "rwsr-xr-x"),
-sm:chmod(xs:anyURI($target || "/modules/lib/components.xql"), "rwsr-xr-x"),
+sm:chmod(xs:anyURI($target || "/modules/lib/transform.xql"), "rwxr-Sr-x"),
+sm:chmod(xs:anyURI($target || "/modules/lib/pdf.xql"), "rwxr-Sr-x"),
+sm:chmod(xs:anyURI($target || "/modules/lib/epub.xql"), "rwxr-Sr-x"),
+sm:chmod(xs:anyURI($target || "/modules/lib/components.xql"), "rwxr-Sr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/components-odd.xql"), "rwxr-xr-x"),
 (: sm:chmod(xs:anyURI($target || "/modules/lib/upload.xql"), "rwsr-xr-x"), :)
 (: sm:chmod(xs:anyURI($target || "/modules/lib/regenerate.xql"), "rwxr-xr-x"), :)
-sm:chmod(xs:anyURI($target || "/modules/lib/dts.xql"), "rwsr-xr-x"),
+sm:chmod(xs:anyURI($target || "/modules/lib/dts.xql"), "rwxr-Sr-x"),
 
 (: LaTeX requires dba permissions to execute shell process :)
 sm:chmod(xs:anyURI($target || "/modules/lib/latex.xql"), "rwsr-Sr-x"),
