@@ -10,7 +10,6 @@ body {
     --pb-heading-font-family: "Oswald", Verdana, "Helvetica", sans-serif;
     --pb-heading-font-weight: 400 !important;
     --pb-heading-line-height: 1.2;
-    --pb-heading-font: var(--pb-heading-font-weight) var(--pb-heading-font-size)/var(--pb-heading-line-height) var(--pb-heading-font-family);
     --pb-breadcrumbs-font-size: 18px;
     --pb-color-primary: #303030;
     --pb-color-inverse: #F0F0F0;
@@ -22,7 +21,9 @@ body {
     --pb-toolbar-background-color: #d1dae0;
     --pb-toolbar-color: var(--pb-color-primary);
     --paper-tooltip-delay-in: 200;
-    --pb-footnote-size: 75%;
+    --pb-footnote-font-size: 75%;
+    --pb-footnote-font-family: var(--pb-content-font-family);
+    --pb-footnote-font-weight: var(--pb-content-font-weight);
     --pb-footnote-color: #303030;
     --pb-footnote-padding: 0 0 0 .25em;
     --pb-popover-theme: "material";
@@ -239,7 +240,9 @@ pb-popover {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font: var(--pb-heading-font);
+    font-family: var(--pb-heading-font-family);
+    font-weight: var(--pb-heading-font-weight);
+    line-height: var(--pb-heading-line-height);
 }
 
 pb-drawer {
