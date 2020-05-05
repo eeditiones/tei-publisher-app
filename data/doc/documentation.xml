@@ -3039,7 +3039,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
   </section>
 
   <section xml:id="pi-config">
-    <title>Handling of <tag>?teipublisher</tag> processing instructions</title>
+    <title>Handling of ?teipublisher processing instructions</title>
     <para>The default view for a specific document can be configured via a processing instruction.
       Before displaying a document, TEI publisher will check if a processing instruction exists at
       the start of the document, telling it which ODD and view template to use (along with other
