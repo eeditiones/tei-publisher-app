@@ -870,150 +870,151 @@
         <para>We'll use the visual editor, but show the corresponding ODD XML below each screenshot.
           At the end of this chapter we'll describe how to edit the ODD XML <link linkend="oddxml"
             >by hand</link>.</para>
-        <section xml:id="visualodd">
-          <title>First Steps</title>
-          <para>The visual ODD editor opens if you select <guimenuitem>Admin</guimenuitem> /
-              <guimenuitem>Edit ODD</guimenuitem> from the menu while viewing a document.
-            Alternatively you can click on the name of an ODD in the list of ODDs on the TEI
-            Publisher entry page. A new tab opens, showing an action panel to the left, and the
-            title of your ODD to the right.</para>
-          <para><emphasis>Please note that most recent versions of the ODD editor will look slightly
-              different, nevertheless they are functionally equivalent to the screenshots below,
-              created in an earlier version.</emphasis></para>
-          <para>We need to overwrite the processing model rules for <tag>dateline</tag>. Enter
-              <parameter>dateline</parameter> into the input box next to the
-              <guibutton>New</guibutton> button in the left panel and click the button. This will
-            insert a processing model rule for <tag>dateline</tag> into the right panel. Because
-              <tag>dateline</tag> already exist in the base ODD,
-              <filename>tei_simplePrint.odd</filename>, you'll see a single model which was copied
-            from the base ODD.</para>
-          <figure>
-            <title>Screen after adding <tag>dateline</tag>
-            </title>
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="editor-screen1.png"/>
-              </imageobject>
-            </mediaobject>
-          </figure>
-          <para>The corresponding ODD XML looks like this:</para>
-          <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="dateline"&gt;
+      </section>
+
+      <section xml:id="visualodd">
+        <title>First Steps</title>
+        <para>The visual ODD editor opens if you select <guimenuitem>Admin</guimenuitem> /
+            <guimenuitem>Edit ODD</guimenuitem> from the menu while viewing a document.
+          Alternatively you can click on the name of an ODD in the list of ODDs on the TEI Publisher
+          entry page. A new tab opens, showing an action panel to the left, and the title of your
+          ODD to the right.</para>
+        <para><emphasis>Please note that most recent versions of the ODD editor will look slightly
+            different, nevertheless they are functionally equivalent to the screenshots below,
+            created in an earlier version.</emphasis></para>
+        <para>We need to overwrite the processing model rules for <tag>dateline</tag>. Enter
+            <parameter>dateline</parameter> into the input box next to the
+            <guibutton>New</guibutton> button in the left panel and click the button. This will
+          insert a processing model rule for <tag>dateline</tag> into the right panel. Because
+            <tag>dateline</tag> already exist in the base ODD,
+            <filename>tei_simplePrint.odd</filename>, you'll see a single model which was copied
+          from the base ODD.</para>
+        <figure>
+          <title>Screen after adding <tag>dateline</tag>
+          </title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="editor-screen1.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para>The corresponding ODD XML looks like this:</para>
+        <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="dateline"&gt;
     &lt;model behaviour="block"/&gt;
 &lt;/elementSpec&gt;</programlisting>
-          <para>Let's cover some key concepts of the TEI processing model first:
-              <tag>elementSpec</tag> primarily documents the structure, content, and purpose of an
-            element. It is a core element in any ODD but the schema-related functions are not
-            relevant for the discussion here. What is important for us is this is where processing
-            models are defined. The <parameter>@ident</parameter> attribute of the
-              <tag>elementSpec</tag> identifies the name of the element to which the spec (and
-            therefore processing model) applies.</para>
-          <para>An <tag>elementSpec</tag> may contain one or more <tag>model</tag> elements to
-            specify the intended processing of this element. Every model maps the element to a
-              <option>behaviour</option>. A behaviour denotes an abstract transformation function to
-            be applied. The TEI guidelines currently list two dozen behaviours, e.g. paragraph,
-            heading, note, inline, block. The last two are the most frequently used. How exactly a
-            behaviour translates into the target output media may differ depending on media features
-            and design decisions. TEI Publisher tries to implement them as generic as
-            possible.</para>
-          <para>To change the model expand it by clicking on the arrow to the left of the grey box.
-            A form appears, allowing you to change the model configuration. In our example we are
-            happy with <emphasis>what</emphasis> is happening with the dateline, so we don't need to
-            change the behaviour but we do want to fix <emphasis>how</emphasis> it is styled by
-            justifying it to the right. Rendition can be defined in an <tag>outputRendition</tag>,
-            so click on the <guibutton>+</guibutton> button next to <guilabel>Renditions</guilabel>.
-            In the form input being inserted below, enter your styling requirements in css.</para>
-          <para>The processing model uses <tag>outputRendition</tag> and CSS to define visual
-            aspects. For output formats other than XML, the CSS is translated into the corresponding
-            target language. It is thus best to limit the CSS to the most common typographical
-            features, like bold, italic, color, underline etc. The general styling of the text
-            should be done outside the ODD to maintain a clear separation of concerns.</para>
-          <figure>
-            <title>Add a rendition for <tag>dateline</tag>
-            </title>
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="editor-screen2.png"/>
-              </imageobject>
-            </mediaobject>
-          </figure>
-          <para>Again here's the corresponding XML:</para>
-          <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="dateline"&gt;
+        <para>Let's cover some key concepts of the TEI processing model first:
+            <tag>elementSpec</tag> primarily documents the structure, content, and purpose of an
+          element. It is a core element in any ODD but the schema-related functions are not relevant
+          for the discussion here. What is important for us is this is where processing models are
+          defined. The <parameter>@ident</parameter> attribute of the <tag>elementSpec</tag>
+          identifies the name of the element to which the spec (and therefore processing model)
+          applies.</para>
+        <para>An <tag>elementSpec</tag> may contain one or more <tag>model</tag> elements to specify
+          the intended processing of this element. Every model maps the element to a
+            <option>behaviour</option>. A behaviour denotes an abstract transformation function to
+          be applied. The TEI guidelines currently list two dozen behaviours, e.g. paragraph,
+          heading, note, inline, block. The last two are the most frequently used. How exactly a
+          behaviour translates into the target output media may differ depending on media features
+          and design decisions. TEI Publisher tries to implement them as generic as possible.</para>
+        <para>To change the model expand it by clicking on the arrow to the left of the grey box. A
+          form appears, allowing you to change the model configuration. In our example we are happy
+          with <emphasis>what</emphasis> is happening with the dateline, so we don't need to change
+          the behaviour but we do want to fix <emphasis>how</emphasis> it is styled by justifying it
+          to the right. Rendition can be defined in an <tag>outputRendition</tag>, so click on the
+            <guibutton>+</guibutton> button next to <guilabel>Renditions</guilabel>. In the form
+          input being inserted below, enter your styling requirements in css.</para>
+        <para>The processing model uses <tag>outputRendition</tag> and CSS to define visual aspects.
+          For output formats other than XML, the CSS is translated into the corresponding target
+          language. It is thus best to limit the CSS to the most common typographical features, like
+          bold, italic, color, underline etc. The general styling of the text should be done outside
+          the ODD to maintain a clear separation of concerns.</para>
+        <figure>
+          <title>Add a rendition for <tag>dateline</tag>
+          </title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="editor-screen2.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para>Again here's the corresponding XML:</para>
+        <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="dateline"&gt;
   &lt;model behaviour="block"&gt;
       &lt;outputRendition&gt;text-align: right;&lt;/outputRendition&gt;
   &lt;/model&gt;
 &lt;/elementSpec&gt;</programlisting>
-          <para>To test your change, click on <guibutton>Save</guibutton> in the left panel and wait
-            a second until a popup appears. Switch back to the tab with Graves' letter from which
-            you opened the editor and refresh the browser window to see your changes applied. In
-            case you do not see any change, make sure</para>
-          <orderedlist>
-            <listitem>
-              <para>you selected the correct ODD for viewing (check the settings drawer)</para>
-            </listitem>
-            <listitem>
-              <para>if you made changes to outputRenditions only, you may need to clear your
-                browser's cached version. For most browsers, holding the shift key while clicking on
-                the reload button does the job.</para>
-            </listitem>
-          </orderedlist>
-        </section>
-        <section>
-          <title>Other behaviours</title>
-          <para>We would also like to hide the page breaks as we do not have facsimiles available.
-            Add a new element spec for <tag>pb</tag>. Again the newly added spec already includes a
-            model with behaviour <option>break</option>. Just change this behaviour to
-              <option>omit</option> or delete the existing model and insert a fresh one with
-            behaviour <option>omit</option>.</para>
-          <figure>
-            <title>Omit <tag>pb</tag>
-            </title>
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="editor-screen3.png"/>
-              </imageobject>
-            </mediaobject>
-          </figure>
-          <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="pb"&gt;
+        <para>To test your change, click on <guibutton>Save</guibutton> in the left panel and wait a
+          second until a popup appears. Switch back to the tab with Graves' letter from which you
+          opened the editor and refresh the browser window to see your changes applied. In case you
+          do not see any change, make sure</para>
+        <orderedlist>
+          <listitem>
+            <para>you selected the correct ODD for viewing (check the settings drawer)</para>
+          </listitem>
+          <listitem>
+            <para>if you made changes to outputRenditions only, you may need to clear your browser's
+              cached version. For most browsers, holding the shift key while clicking on the reload
+              button does the job.</para>
+          </listitem>
+        </orderedlist>
+      </section>
+      <section>
+        <title>Other behaviours</title>
+        <para>We would also like to hide the page breaks as we do not have facsimiles available. Add
+          a new element spec for <tag>pb</tag>. Again the newly added spec already includes a model
+          with behaviour <option>break</option>. Just change this behaviour to <option>omit</option>
+          or delete the existing model and insert a fresh one with behaviour
+          <option>omit</option>.</para>
+        <figure>
+          <title>Omit <tag>pb</tag>
+          </title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="editor-screen3.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="pb"&gt;
   &lt;model behaviour="omit"/&gt;
 &lt;/elementSpec&gt;</programlisting>
-        </section>
-        <section>
-          <title>Predicates and multiple models</title>
-          <para>Next up, we may want to highlight the various places and people occurring within the
-            text. They are all marked up with the <tag>name</tag> tag, using different
-              <option>@type</option> attributes. Create a new element spec for <tag>name</tag> and
-            supply some color to the names.</para>
-          <figure>
-            <title>Color the <tag>name</tag> tags </title>
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="editor-screen4.png"/>
-              </imageobject>
-            </mediaobject>
-          </figure>
-          <para>And the XML for the entire <tag>elementSpec</tag>:</para>
-          <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="name" mode="change"&gt;
+      </section>
+      <section>
+        <title>Predicates and multiple models</title>
+        <para>Next up, we may want to highlight the various places and people occurring within the
+          text. They are all marked up with the <tag>name</tag> tag, using different
+            <option>@type</option> attributes. Create a new element spec for <tag>name</tag> and
+          supply some color to the names.</para>
+        <figure>
+          <title>Color the <tag>name</tag> tags </title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="editor-screen4.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para>And the XML for the entire <tag>elementSpec</tag>:</para>
+        <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="name" mode="change"&gt;
     &lt;model behaviour="inline"&gt;
         &lt;outputRendition&gt;
         color: #FF9900;
         &lt;/outputRendition&gt;
     &lt;/model&gt;
 &lt;/elementSpec&gt;</programlisting>
-          <para>This rule affects places and people alike since both these categories are marked up
-            with <tag>name</tag> tag. If we'd like to treat people and places differently we'd need
-            separate models for them and a mechanism to distinguish between the two. The processing
-            model uses <option>predicate</option> to make such distinctions: a model rule will only
-            be used if the XPath expression in its predicate matches the current node being
-            processed. Let's add another model and give it a predicate:</para>
-          <figure>
-            <title>Distinguish places and people</title>
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="editor-screen5.png"/>
-              </imageobject>
-            </mediaobject>
-          </figure>
-          <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="name" mode="change"&gt;
+        <para>This rule affects places and people alike since both these categories are marked up
+          with <tag>name</tag> tag. If we'd like to treat people and places differently we'd need
+          separate models for them and a mechanism to distinguish between the two. The processing
+          model uses <option>predicate</option> to make such distinctions: a model rule will only be
+          used if the XPath expression in its predicate matches the current node being processed.
+          Let's add another model and give it a predicate:</para>
+        <figure>
+          <title>Distinguish places and people</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="editor-screen5.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="name" mode="change"&gt;
     &lt;model predicate="@type='place'" behaviour="inline"&gt;
         &lt;outputRendition &gt;
         color: #0077FF;
@@ -1025,51 +1026,49 @@
         &lt;/outputRendition&gt;
     &lt;/model&gt;
 &lt;/elementSpec&gt;</programlisting>
-          <note>
-            <title>Important</title>
-            <para>The order of models within the element spec is important. If you move the model
-              with the predicate to the bottom, all names will appear in the same color again. This
-              happens because the processor walks through the models until it finds the first one
-              matching the current node. If the model without predicate is first, it will always win
-              over the one with the predicate!</para>
-            <para>Also, if there's more than one matching model, only the first will be
-              chosen.</para>
-          </note>
-        </section>
-        <section>
-          <title>Parameters</title>
-          <para>All behaviours accept one or more parameters which are defined in the TEI
-            guidelines. Every behaviour has an implicit parameter called
-              <parameter>content</parameter>, and, as the name suggests, it specifies which part of
-            the source document should be processed: by default it uses the nested content of the
-            node. You may overwrite this default and assign it another value. Some behaviours take
-            other specialized parameters. For example, the behaviour <function>alternate</function>
-            accepts two parameters: <parameter>default</parameter> and
-              <parameter>alternate</parameter>. An alternate switches between two alternative
-            states. On the web this could take the form of a popup, in print it is usually
-            implemented as a footnote.</para>
-          <para>To put this to a test, let's look at the <tag>date</tag> elements appearing within
-            the letter. Most of them also specify a normalized date in their
-              <parameter>@when</parameter> attribute. Seeing this may be helpful for the reader, for
-            example, to know that the <parameter>19th</parameter> mentioned in the postscript refers
-            to <parameter>1957-12-19</parameter>. However, we may want to present the normalized
-            date in a more readable way. XPath has a function <function>format-date</function> for
-            the purpose and we could use it to show a representation of the date nicely formatted in
-            the user's language.</para>
-          <para>Add a new element spec for <tag>date</tag>. You'll already see 4 predefined models.
-            The first two are for print only, but the third one does indeed use behaviour
-              <function>alternate</function>, which is exactly what we want. Change the parameter
-            value for <parameter>alternate</parameter> to format the date:</para>
-          <figure>
-            <title>Format the normalized date in <parameter>@when</parameter>
-            </title>
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="editor-screen6.png"/>
-              </imageobject>
-            </mediaobject>
-          </figure>
-          <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="date" mode="change"&gt;
+        <note>
+          <title>Important</title>
+          <para>The order of models within the element spec is important. If you move the model with
+            the predicate to the bottom, all names will appear in the same color again. This happens
+            because the processor walks through the models until it finds the first one matching the
+            current node. If the model without predicate is first, it will always win over the one
+            with the predicate!</para>
+          <para>Also, if there's more than one matching model, only the first will be chosen.</para>
+        </note>
+      </section>
+      <section>
+        <title>Parameters</title>
+        <para>All behaviours accept one or more parameters which are defined in the TEI guidelines.
+          Every behaviour has an implicit parameter called <parameter>content</parameter>, and, as
+          the name suggests, it specifies which part of the source document should be processed: by
+          default it uses the nested content of the node. You may overwrite this default and assign
+          it another value. Some behaviours take other specialized parameters. For example, the
+          behaviour <function>alternate</function> accepts two parameters:
+            <parameter>default</parameter> and <parameter>alternate</parameter>. An alternate
+          switches between two alternative states. On the web this could take the form of a popup,
+          in print it is usually implemented as a footnote.</para>
+        <para>To put this to a test, let's look at the <tag>date</tag> elements appearing within the
+          letter. Most of them also specify a normalized date in their <parameter>@when</parameter>
+          attribute. Seeing this may be helpful for the reader, for example, to know that the
+            <parameter>19th</parameter> mentioned in the postscript refers to
+            <parameter>1957-12-19</parameter>. However, we may want to present the normalized date
+          in a more readable way. XPath has a function <function>format-date</function> for the
+          purpose and we could use it to show a representation of the date nicely formatted in the
+          user's language.</para>
+        <para>Add a new element spec for <tag>date</tag>. You'll already see 4 predefined models.
+          The first two are for print only, but the third one does indeed use behaviour
+            <function>alternate</function>, which is exactly what we want. Change the parameter
+          value for <parameter>alternate</parameter> to format the date:</para>
+        <figure>
+          <title>Format the normalized date in <parameter>@when</parameter>
+          </title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="editor-screen6.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="date" mode="change"&gt;
     &lt;model output="print" predicate="text()" behaviour="inline"/&gt;
     &lt;model output="print" predicate="@when and not(text())" behaviour="inline"&gt;
         &lt;param name="content" value="@when"/&gt;
@@ -1080,58 +1079,58 @@
     &lt;/model&gt;
     &lt;model predicate="text()" behaviour="inline"/&gt;
 &lt;/elementSpec&gt;</programlisting>
-        </section>
-        <section>
+      </section>
+      <section>
+        <title>Screencast</title>
+        <para>The screencast below recapitulates some of the modifications we just applied. It uses
+          an older version of TEI Publisher, but the basic concepts and controls are still the
+          same:</para>
+        <figure xml:id="edit-odd">
           <title>Screencast</title>
-          <para>The screencast below recapitulates some of the modifications we just applied. It
-            uses an older version of TEI Publisher, but the basic concepts and controls are still
-            the same:</para>
-          <figure xml:id="edit-odd">
-            <title>Screencast</title>
-            <mediaobject>
-              <videoobject>
-                <videodata fileref="https://www.youtube.com/embed/avRO-b2BwUI?rel=0" width="853"
-                  depth="480"/>
-              </videoobject>
-            </mediaobject>
-          </figure>
-        </section>
-        <section xml:id="oddxml">
-          <title>Edit the ODD XML by hand</title>
-          <para>To switch to the XML source code of the currently edited ODD from within the visual
-            editor, click on the button with the angle brackets in the toolbar of the left side
-            panel. If you made changes in the form, you need to save first to update the ODD. The
-            ODD XML will be opened in a new tab, showing eXist's browser-based editor, eXide.</para>
-          <para>While using eXide is sufficient for small edits, we really recommend using
-            specialized XML editor like oXygen for serious work on your TEI files. It will help you
-            with many tasks, starting with the syntax and documentation. You can edit ODDs stored in
-            eXist using Oxygen's webdav support or the eXist data source.</para>
-          <note>
-            <title>Important</title>
-            <para>If you edit the ODD XML by hand, there are some caveats you need to be aware of:
-              the visual editor will automatically check if there are existing
-                <tag>elementSpec</tag>s for a new element in any of the ODDs your ODD inherits from.
-              When editing by hand, you need to do this yourself. It's best to always have the base
-              ODDs: <link xlink:href="odd/tei_simplePrint.odd" role="source">
-                <filename>tei_simplePrint.odd</filename>
-              </link> and <link xlink:href="odd/teipublisher.odd" role="source">
-                <filename>teipublisher.odd</filename>
-              </link> open on the side. Both are located in the same collection as your odd, i.e.
-                <filename>/db/apps/tei-publisher/odd</filename>.</para>
-            <para>For example, to modify the element spec for <tag>dateline</tag>, check
-                <filename>tei_simplePrint.odd</filename>, where you'll find a definition already.
-              Copy it over to your ODD and start modifying it.</para>
-            <para>Pay attention to the <option>@mode</option> attribute on <tag>elementSpec</tag>.
-              You must set this to <parameter>change</parameter> if you are overwriting an
-              elementSpec which already exists in the inherited ODDs. If not, set it to
-                <parameter>add</parameter>.</para>
-          </note>
-          <para>To test any changes, switch back to the tab in which you viewed your document (e.g.
-            Graves' letter) and select <guimenuitem>Admin</guimenuitem> / <guimenuitem>Recompile
-              ODD</guimenuitem> from the menu.</para>
-        </section>
+          <mediaobject>
+            <videoobject>
+              <videodata fileref="https://www.youtube.com/embed/avRO-b2BwUI?rel=0" width="853"
+                depth="480"/>
+            </videoobject>
+          </mediaobject>
+        </figure>
+      </section>
+      <section xml:id="oddxml">
+        <title>Edit the ODD XML by hand</title>
+        <para>To switch to the XML source code of the currently edited ODD from within the visual
+          editor, click on the button with the angle brackets in the toolbar of the left side panel.
+          If you made changes in the form, you need to save first to update the ODD. The ODD XML
+          will be opened in a new tab, showing eXist's browser-based editor, eXide.</para>
+        <para>While using eXide is sufficient for small edits, we really recommend using specialized
+          XML editor like oXygen for serious work on your TEI files. It will help you with many
+          tasks, starting with the syntax and documentation. You can edit ODDs stored in eXist using
+          Oxygen's webdav support or the eXist data source.</para>
+        <note>
+          <title>Important</title>
+          <para>If you edit the ODD XML by hand, there are some caveats you need to be aware of: the
+            visual editor will automatically check if there are existing <tag>elementSpec</tag>s for
+            a new element in any of the ODDs your ODD inherits from. When editing by hand, you need
+            to do this yourself. It's best to always have the base ODDs: <link
+              xlink:href="odd/tei_simplePrint.odd" role="source">
+              <filename>tei_simplePrint.odd</filename>
+            </link> and <link xlink:href="odd/teipublisher.odd" role="source">
+              <filename>teipublisher.odd</filename>
+            </link> open on the side. Both are located in the same collection as your odd, i.e.
+              <filename>/db/apps/tei-publisher/odd</filename>.</para>
+          <para>For example, to modify the element spec for <tag>dateline</tag>, check
+              <filename>tei_simplePrint.odd</filename>, where you'll find a definition already. Copy
+            it over to your ODD and start modifying it.</para>
+          <para>Pay attention to the <option>@mode</option> attribute on <tag>elementSpec</tag>. You
+            must set this to <parameter>change</parameter> if you are overwriting an elementSpec
+            which already exists in the inherited ODDs. If not, set it to
+            <parameter>add</parameter>.</para>
+        </note>
+        <para>To test any changes, switch back to the tab in which you viewed your document (e.g.
+          Graves' letter) and select <guimenuitem>Admin</guimenuitem> / <guimenuitem>Recompile
+            ODD</guimenuitem> from the menu.</para>
       </section>
     </section>
+
     <section xml:id="pm-syntax">
       <title>Processing Model Syntax</title>
       <para>TEI gives users a lot of freedom: there's always more than one way to encode your
