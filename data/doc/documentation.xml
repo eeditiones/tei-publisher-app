@@ -3888,6 +3888,50 @@ Each component has a defined API, including properties, methods and events. but 
   &lt;/model&gt;
 &lt;/elementSpec&gt;</programlisting>
     </section>
+    <section>
+      <title>Page view doesn't work</title>
+      <para>Displaying documents page by page requires that page breaks are encoded. In TEI you are
+        expected to explicitly place <tag>pb</tag> elements where each page begins.</para>
+      <para>Please note that certain vocabularies, like DocBook, do not recognize the concept of a
+          <emphasis>page</emphasis> at all, so page view cannot possibly work for these.</para>
+    </section>
+    <section>
+      <title>Why does my document show 'server did not return any content' error message?</title>
+      <para>Please bear in mind that while TEI Publisher aims to be a universal tool, the specific
+        components may make certain assumptions about data they are getting and if your documents do
+        not follow the same encoding conventions it may be required to adjust parameters passed to
+        the components from the page template - or add required information in the document.</para>
+      <para>For example - table of content component assumes that the document structure is
+        represented by means of nested <tag>div</tag> elements and section titles are given
+          in <tag>head</tag> element. If your project rather chooses numbered divisions
+          (<tag>div1</tag>, <tag>div2</tag>) etc it may be advisable to adjust this to avoid
+        customizing all navigation, table of contents and so on, but it is one of very rare cases
+        where TEI Publisher exposes any predilection for a particular flavour of TEI.</para>
+      <para>Similarly, template with aligned transcription/translation panels is parametrized with
+        an XPath expression pointing to relevant fragments of the document which store the
+        transcription and translation. This expression most probably will have to be adjusted
+        (unless of course you also have Latin texts with Polish translation structured in a similar
+        way).</para>
+    </section>
+    <section>
+      <title>Some of my Word formatting is not preserved upon import</title>
+      <para>When uploading a Word document to Publisher it is converted to TEI, using a custom ODD
+        for the tranformation. Please note that the focus of this conversion is to preserve textual
+        content, structure and basic semantics of the text, not provide authoritative mapping of
+        complete set of MS Word features to TEI. Consider customizing the
+          <filename>docx.odd</filename> if you need a mapping for a particular Word feature to
+        TEI.</para>
+    </section>
+    <section>
+      <title>How do I log in?</title>
+      <para>On a fresh install, TEI Publisher creates a user <filename>tei</filename> with a
+        password <filename>simple</filename>. You can change this password (and it is recommended to
+        do so, if your eXist instance runs on a server and would be accessible to other
+        users).</para>
+      <para>When generating your own application, the generator form requires you to fill in a user
+        and password for the new application. Likewise, this password can be later changed via eXist
+          <filename>Usermanager</filename>.</para>
+    </section>
   </section>
   <section xml:id="roadmap">
     <title>Roadmap</title>
