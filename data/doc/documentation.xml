@@ -213,8 +213,6 @@
           </note>
         </section>
 
-
-
         <section xml:id="mac-installation">
           <title>Mac installation</title>
           <para>On a Mac download the file with the <command>.dmg</command> extension, e.g.
@@ -505,7 +503,6 @@
           either clicking on the <code>upload</code> button or dragging and dropping files onto the
           upload panel. Read more on this subject in the <link linkend="upload">Upload</link>
           section</para>
-
         <note>
           <title>Note</title>
           <para>You need to be <emphasis role="bold">logged in</emphasis> for most advanced actions
