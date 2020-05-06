@@ -2402,7 +2402,9 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <para>You do not need to know much about <emphasis>Web Components</emphasis> to use them in
         TEI Publisher. From a user perspective, a component looks like any other HTML element. You
         configure it by setting its properties via attributes. For example, the following HTML code
-        snippet will display the first page/section of two completely different documents:</para>
+        snippet will display the first page/section of two completely different documents as you can
+        see below in the embedded Codepen (to learn more on embedding Publisher outputcomponents see
+          <link linkend="embedding">further chapters</link>)</para>
       <programlisting language="xml" xml:space="preserve">
 &lt;pb-page&gt;
   &lt;pb-document id="document1" path="test/kant_rvernunft_1781.TEI-P5.xml" odd="dta" view="page"&gt;&lt;/pb-document&gt;
@@ -2414,6 +2416,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       &lt;pb-view id="view2" src="document2"&gt;&lt;/pb-view&gt;
   &lt;/main&gt;
 &lt;/pb-page&gt;</programlisting>
+
+      <programlisting role="codepen" xlink:href="wolfgangmm#WNvYYWB"/>
       <para><tag>pb-page</tag>, <tag>pb-document</tag> and <tag>pb-view</tag> are three web
         components from <code>pb-components</code> library, while <tag>main</tag> is a standard
         HTML5 tag. The name of the custom element <emphasis role="bold">must</emphasis> start with a
@@ -2834,6 +2838,153 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         ID range of the transcription. It illustrates the case where no milestone elements exist in
         the translation to explicitly mark page boundaries of the original, thus mapping algorithm
         aims to display closest corresponding fragment of the translated text.</para>
+    </section>
+  </section>
+
+  <section xml:id="i18n">
+    <title>Language versions</title>
+    <para>TEI Publisher is available in more than 10 language versions and this number increases
+      thanks to the engagement of our user community who contributes new translations via <link
+        xlink:href="https://crwd.in/tei-publisher">Crowdin platform</link>.</para>
+
+    <para>In version 6.0 i18n support has been greatly extended to cover not only labels and
+      attribute values in HTML templates but also within web components. A mechanism for project
+      specific language files extending the default Publisher label collection has been
+      added.</para>
+    <para>Thanks to community contributions via <link xlink:href="https://crwd.in/tei-publisher"
+        >Crowdin</link> a number of new languages has been added and existing ones updated. We
+      welcome and encourage additions and amendments. Please consider Crowdin a master repository
+      for translations and publish your contributions there instead of submitting PR directly. Do
+      not hesitate to get in touch if a language you'd like to support is not yet listed.</para>
+    <para>Crowdin users are only exposed to form-based graphical user interface but i18n files are
+      using JSON format to preserve their logical structure. Initial portion of German localization
+      file <filename>de.json</filename> is shown below for illustration.</para>
+    <figure>
+      <title>Translation JSON file structure</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="i18n-json-structure.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>In TEI Publisher and in generated apps translation files are by default loaded from CDN
+      with <code>pb-components</code>. When it is necessary for a project to add new labels or
+      change wording of existing ones, a customization mechanism is described <link
+        linkend="i18n-customization">below</link>.</para>
+    <section>
+      <title>Using i18n in page templates</title>
+      <para>There are several scenarios for using i18n labels:</para>
+      <itemizedlist>
+        <listitem>
+          <para>directly within HTML element</para>
+        </listitem>
+        <listitem>
+          <para>in an attribute</para>
+        </listitem>
+        <listitem>
+          <para>passed in component-specific structure</para>
+        </listitem>
+      </itemizedlist>
+      <section>
+        <title>HTML text node with <code>pb-i18n</code></title>
+        <para>Any text fragment within HTML element can be considered a target for i18n when wrapped
+          in <tag>pb-i18n</tag> component. <tag>pb-i18n</tag> elements are listening for events
+          emitted by <tag>pb-lang</tag>.</para>
+        <programlisting language="html" xml:space="preserve">
+&lt;h3 slot="collapse-trigger">
+   &lt;pb-i18n key="menu.documentation">Documentation&lt;/pb-i18n>
+&lt;/h3>
+        </programlisting>
+      </section>
+      <section>
+        <title>Attributes (on HTML elements or custom web components)</title>
+        <para>When it is necessary to translate the value of an attribute a mechanism based on
+            <code>data-</code> attributes is used. Supply additional <code>data-i18n</code>
+          attribute specifying the key of the i18n label to use preceded by the name of the
+          attribute that needs to be translated. In the example below it's the <code>heading</code>
+          attribute that needs to be filled with the translated version of <emphasis>ODD
+            Files</emphasis> label. The label is stored in JSON file under <code>odd.files</code>,
+          so <code>[heading]odd.files</code> needs to be used for the <code>data-i18n</code>
+          attribute.</para>
+        <programlisting language="xml" xml:space="preserve">
+&lt;paper-card data-i18n="[heading]odd.files" class="odds" heading="ODD Files">
+   &lt;div class="card-content"> ... content of the ODD list &lt;/div>
+&lt;/paper-card>
+        </programlisting>
+        <para>When <tag>pb-lang</tag> is switched to Spanish, the <tag>paper-card</tag> heading will
+          read <emphasis>Archivos ODD</emphasis> instead of <emphasis>ODD Files</emphasis>.</para>
+        <figure>
+          <title>Output for <tag>paper-card</tag> with translated <code>@heading</code></title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="i18n-attribute.png" width="300px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+      <section>
+        <title>Special web component properties configured via attributes</title>
+        <para>Some web components accept more complex configuration options via arrays passed in
+          attributes. For example, <tag>pb-browse-docs</tag> component allows to specify a number of
+          label/value pairs for dropdown menus used for ordering and filtering the document list.
+          Understandably, the labels should switch in line with changes to the language chosen via
+            <tag>pb-lang</tag>. Therefore i18n translation keys like
+            <emphasis>browse.title</emphasis> or <emphasis>browse.author</emphasis> are used instead
+          of text values. Note that web components may have particular expectations for the data
+          format expected so consult API documentation for each component.</para>
+        <programlisting language="html" xml:space="preserve">
+&lt;pb-browse-docs id="document-list" url="collection/" 
+      sort-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"}]' 
+      sort-by="title"
+      filter-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"},{"label": "browse.file", "value": "file"}]' 
+      filter-by="title" 
+      auto="auto" history="history" login="login" emit="docs" subscribe="docs">
+  &lt;pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" emit="docs" subscribe="docs">&lt;/pb-paginate>
+&lt;/pb-browse-docs>
+         </programlisting>
+      </section>
+    </section>
+
+    <section xml:id="i18n-customization">
+      <title>Project specific i18n files</title>
+      <para>It is a common need that projects will need internationalized labels for menu items,
+        dialogs and other user interface elements.</para>
+      <para>All these can be stored in JSON language files, following the same naming conventions
+        and basic structure as TEI Publisher ones. Custom application files should be placed in
+          <filename>app</filename> subcollection of <filename>resources/i18n</filename>
+        collection.</para>
+      <para>For page template to use custom language files a <code>locale</code> attribute needs to
+        be explicitly set to <code>resources/i18n</code> for<tag>pb-page</tag>.</para>
+      <para>All labels defined in custom files will be available in addition to TEI Publisher's
+        defaults. If custom file defines translation for a key already present in TEI Publisher, the
+        value from the custom file will take precedence.</para>
+      <programlisting language="html" xml:space="preserve">
+&lt;pb-page locales="resources/i18n">
+        </programlisting>
+      <para>Please note to always create use a subcollection for custom files, namely
+          <filename>resources/i18n/app</filename>. Placing custom language files directly in
+          <filename>resources/i18n</filename> will prevent fallback-to-defaults mechanism to work
+        for labels not present in custom language files.</para>
+      <para>Listing below demonstrates a fictional <filename>en.js</filename> with a custom set of
+        labels.</para>
+      <para>New top-level key has been added as well as 3 subkeys for <code>menu</code> section. Now
+        the project has access to a number of new i18n keys: <code>menu.about</code>,
+          <code>menu.contact</code>, <code>menu.statute</code> and <code>greeting</code>.</para>
+      <para>Furthermore, value for <code>menu.documentation</code> has been specified. That key
+        already existed in Publisher (set to "Documentation") but version from custom file will take
+        precedence and be used in the custom app.</para>
+      <programlisting language="js" xml:space="preserve">
+{
+  "menu": {
+    "documentation": "Docu",
+    "about": "About",
+    "contact": "Contact",
+    "statute": "Statute"
+    },
+  "greeting": "Welcome"
+}
+      </programlisting>
+      <para/>
     </section>
   </section>
 
@@ -3590,7 +3741,7 @@ declare variable $config:facets := [
     <para>Updating an app generated with TEI Publisher 4.x.x/5.x.x still requires some manual steps,
       though we're working towards reducing the dependencies. Future updates should become easier.
       There are two possible approaches for updating:</para>
-    <orderedlist>
+    <itemizedlist>
       <listitem>
         <para>generate a new application with TEI Publisher 6 and copy the files you changed in your
           app into the newly generated app. This is recommended if the customizations you did apply
@@ -3601,7 +3752,7 @@ declare variable $config:facets := [
         <para>update your generated app by modifying the HTML templates you use and copying files
           from TEI Publisher.</para>
       </listitem>
-    </orderedlist>
+    </itemizedlist>
     <para>The first option is much easier in general. We only recommend to go with the second option
       if you app is heavily customized and - in particular - contains many changes to the XQuery
       files.</para>
@@ -3738,9 +3889,21 @@ Each component has a defined API, including properties, methods and events. but 
       example, the component showing the list of available documents on the index page extends
         <tag>pb-load</tag>:</para>
     <synopsis language="javascript">class PbBrowseDocs extends PbMixin(PbLoad) {</synopsis>
+
+    <section>
+      <title>Using i18n in custom components</title>
+      <para>with component properties</para>
+      <programlisting language="js" xml:space="preserve">
+        &lt;paper-dropdown-menu id="sort" label="${translate(this.sortLabel)}">
+      </programlisting>
+      <para>with explicit i18n keys</para>
+      <programlisting language="js" xml:space="preserve">
+      &lt;h2>${translate('browse.delete')}&lt;/h2>
+      </programlisting>
+    </section>
   </section>
 
-  <section>
+  <section xml:id="embedding">
     <title>Embedding TEI Publisher in other systems</title>
     <para>Since version 6.0, all <code>pb-components</code> can be used <emphasis>outside</emphasis>
       TEI Publisher itself. The components can be embedded into any environment, e.g. a CMS or blog
@@ -3787,7 +3950,7 @@ Each component has a defined API, including properties, methods and events. but 
         user-friendly. A better way is to use the library of webcomponents provided by TEI
         Publisher. This way, we can show the content page by page or division by division, allowing
         the reader to navigate between sections.</para>
-      <programlisting role="codepen" xlink:href="wolfgangmm#YzXEvvw"/>
+      <programlisting role="codepen" xlink:href="wolfgangmm#ExVQKBK"/>
       <para>Because webcomponents are part of the HTML5 standard and supported natively by most
         modern browsers, we can easily import the component library which is at the core of the TEI
         Publisher app and reuse the components it provides in other contexts. They should work in
@@ -3796,9 +3959,12 @@ Each component has a defined API, including properties, methods and events. but 
       <para>For a start, the page should import two scripts in its header:</para>
       <programlisting language="html" xml:space="preserve"><![CDATA[<script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js"></script>
 <script type="module" src="https://unpkg.com/@teipublisher/pb-components@latest/dist/pb-components-bundle.js"></script>]]></programlisting>
+      <para>This imports necessary <code>pb-components</code> libraries from <code>unpkg.com</code>
+        CDN which is considered the best practice for web sites.</para>
       <para>The second <tag>script</tag> tag imports all the components provided by TEI Publisher.
-        Here <code>pb-components@latest</code> points to the latest available bundle, but you could
-        specify a concrete version number to make sure your website uses a fixed release.</para>
+        Note that here <code>pb-components@latest</code> points to the latest available bundle, but
+        you could specify a concrete version number to make sure your website uses a fixed
+        release.</para>
 
       <para>Now let's actually use the components to display Shakespeare's <citetitle>Romeo and
           Juliet</citetitle>: in the HTML <tag>body</tag>, include the following snippet: </para>
