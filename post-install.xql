@@ -16,18 +16,11 @@ if (not(sm:user-exists("tei-demo"))) then
     sm:create-account("tei-demo", "demo", "tei", ())
 else
     (),
-sm:chmod(xs:anyURI($target || "/modules/view.xql"), "rwxr-Sr-x"),
-sm:chmod(xs:anyURI($target || "/modules/lib/transform.xql"), "rwxr-Sr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/pdf.xql"), "rwxr-Sr-x"),
-sm:chmod(xs:anyURI($target || "/modules/lib/epub.xql"), "rwxr-Sr-x"),
-sm:chmod(xs:anyURI($target || "/modules/lib/components.xql"), "rwxr-Sr-x"),
-sm:chmod(xs:anyURI($target || "/modules/lib/components-odd.xql"), "rwxr-xr-x"),
-(: sm:chmod(xs:anyURI($target || "/modules/lib/upload.xql"), "rwsr-xr-x"), :)
-(: sm:chmod(xs:anyURI($target || "/modules/lib/regenerate.xql"), "rwxr-xr-x"), :)
 sm:chmod(xs:anyURI($target || "/modules/lib/dts.xql"), "rwxr-Sr-x"),
 
 (: LaTeX requires dba permissions to execute shell process :)
-sm:chmod(xs:anyURI($target || "/modules/lib/latex.xql"), "rwsr-Sr-x"),
+sm:chmod(xs:anyURI($target || "/modules/lib/latex.xql"), "rwxr-Sr-x"),
 sm:chown(xs:anyURI($target || "/modules/lib/latex.xql"), "tei"),
 sm:chgrp(xs:anyURI($target || "/modules/lib/latex.xql"), "dba"),
 
@@ -42,5 +35,7 @@ sm:chown(xs:anyURI($target || "/data/playground"), "tei-demo"),
 sm:chgrp(xs:anyURI($target || "/data/playground"), "tei"),
 xmldb:create-collection($target || "/data", "temp"),
 sm:chmod(xs:anyURI($target || "/data/temp"), "rwxrwxr-x"),
+sm:chown(xs:anyURI($target || "/data/temp"), "tei"),
+sm:chgrp(xs:anyURI($target || "/data/temp"), "tei"),
 sm:chmod(xs:anyURI($target || "/odd"), "rwxrwxr-x"),
 sm:chmod(xs:anyURI($target || "/transform"), "rwxrwxr-x")

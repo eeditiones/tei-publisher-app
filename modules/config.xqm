@@ -35,7 +35,7 @@ declare variable $config:origin-whitelist := (
  : If a version is given, the components will be loaded from a public CDN.
  : This is recommended unless you develop your own components.
  :)
-declare variable $config:webcomponents := "0.9.26";
+declare variable $config:webcomponents := "0.9.28";
 
 (:~
  : Should documents be located by xml:id or filename?
@@ -349,6 +349,8 @@ declare variable $config:dts-collections := map {
 };
 
 declare variable $config:dts-page-size := 10;
+
+declare variable $config:dts-import-collection := $config:data-default || "/playground";
 
 (:~
  : Return an ID which may be used to look up a document. Change this if the xml:id
