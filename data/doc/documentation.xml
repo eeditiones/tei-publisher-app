@@ -2309,6 +2309,68 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     </section>
   </section>
 
+  <section xml:id="css-styling">
+    <title>Custom CSS styling</title>
+
+    <para>CSS stylesheet <code>resources/css/theme.css</code> defines styles used by all pages of
+      the TEI Publisher and publisher-generated applications. Nevertheless, users <emphasis
+        role="bold">should not</emphasis> directly modify this file but create a project-specific
+      css customization file and include it alongside <code>theme.css</code> instead.</para>
+    <programlisting language="html" xml:space="preserve">
+                  &lt;link rel="stylesheet" href="resources/css/theme.css" /&gt;
+                  &lt;link rel="stylesheet" href="resources/css/my-project.css" /&gt;
+          </programlisting>
+    <para>This approach allows to selectively overwrite certain styles and CSS variables from
+        <code>theme.css</code> while remaining on the easy upgrade path for future TEI Publisher and
+        <code>pb-components</code> updates.</para>
+
+    <section>
+      <title>Customizing web components styling</title>
+      <para>A web component completely shields its content, so it cannot be styled from outside. Web
+        component styles remain encapsulated, preventing style contamination between individual
+        components and general application context. A blessing in general, allowing component to be
+        scripted and styled without the fear of collision with other parts of the page, but poses
+        additional challenges when adjusting look and feel of a component to fit project's
+        theme.</para>
+      <para>For Publisher, encapsulation of web components means that definitions in
+          <code>theme.css</code> or equivalent project customization CSS file are not able to
+        directly govern web components styling.</para>
+      <para>While some aspects of component styling remained unaccessible for customization in
+        versions preceding Publisher 6, currently <code>pb-components</code> expose style properties
+        to the outside world via standard CSS variables. This way variables like
+          <code>--pb-footnote-color</code> defined in <code>theme.css</code> can be accessed by e.g.
+          <code>pb-view</code> component and thus determine the color of the footnote marker in the
+        rendered transcription.</para>
+
+      <para>Note that while you cannot change the inner appearance of a component except by setting
+        its custom CSS properties, you can style the component itself within the HTML template, e.g.
+        to position it within the layout of the page.</para>
+    </section>
+    <section>
+      <title>External stylesheets</title>
+      <para>ODD specification allows for explicit declaration of an external CSS file which may
+        define styles and CSS classes to be applied to tranformed sources (in
+          <code>encodingDesc/tagsDecl/rendition</code>), e.g.</para>
+      <programlisting language="xml" xml:space="preserve">
+                  &lt;rendition source="docbook.css"/&gt;
+          </programlisting>
+      <para>Styles and classes from that file are loaded into <code>pb-view</code> component and
+        thus accessible for its content.</para>
+      <para>External stylesheets for <code>pb-view</code> can also be specified via
+          <code>load-css</code> component configuration attribute. In this scenario, unlike with ODD
+          <code>rendition</code>, regenerating ODD is not required for changes to the CSS file to be
+        applied, otherwise both methods are functionally equivalent.</para>
+
+      <programlisting language="html" xml:space="preserve">
+                  &lt;pb-view id="view1" src="document1" load-css="odd/docbook.css"/&gt;
+          </programlisting>
+
+      <para>Broader discussion of using <tag>rendition</tag> for custom styles can be found in <link
+          linkend="external-css">this section</link></para>
+      <!-- shall we discuss CSS shadow part? somewhere -->
+    </section>
+  </section>
+
   <section xml:id="webcomponents">
     <title>Page templates and pb-components</title>
     <para>As described earlier, the various sample documents included in the TEI Publisher Demo
@@ -2425,29 +2487,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         styling of the text as governed by the ODD will be confined to the boundaries of the
         component. This makes it possible to display two completely heterogenous texts (like the
         documentation and Kant's Kritik) on the same page without styles contaminating each other.
-        As a downside, encapsulation also poses some challenges, which we will discuss <link
-          linkend="external-css">further below</link>. </para>
-
-    </section>
-    <section>
-      <title>Embedding components - Live Examples</title>
-      <para>Since version 6.0, all <code>pb-components</code> can also be used
-          <emphasis>outside</emphasis> TEI Publisher itself. So if you already have a working web
-        application for your edition running somewhere, you can still benefit from using the TEI
-        Processing Model for transformations by embedding publisher components into an existing
-        page. All that is required is a TEI Publisher instance available on the web which stores the
-        source TEI and provides a communication endpoint for the components to talk to.</para>
-      <para>The embedded example below demonstrates this use case: it provides a sandbox running on
-          <link xlink:href="https://codepen.io">codepen.io</link> but communicates with the TEI
-        Publisher instance on <link xlink:href="https://teipublisher.com">teipublisher.com</link>
-        which stores the documents. The magic happens in the <code>endpoint</code> attribute passed
-        to <tag>pb-page</tag>, which tells the components where to talk to:</para>
-      <programlisting role="codepen" xlink:href="wolfgangmm#YzXEvvw"/>
-      <para>You can actually edit the code above: for example, try to change the path for the first
-        document to <filename>test/F-rom.xml</filename> and the odd to <code>shakespeare</code>. See
-        how the live view changes?</para>
-      <para>And if you would like to read Rome and Juliet in two-column mode, just add
-          <code>column-separator=".tei-cb"</code> to the main <tag>pb-view</tag>.</para>
+        As a downside, encapsulation also poses some challenges, which we discussed in the section
+        about <link linkend="external-css">CSS styling</link>. </para>
     </section>
 
     <section>
@@ -2738,67 +2779,6 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       </itemizedlist>
     </section>
 
-    <section xml:id="css-styling">
-      <title>Custom CSS styling</title>
-
-      <para>CSS stylesheet <code>resources/css/theme.css</code> defines styles used by all pages of
-        the TEI Publisher and publisher-generated applications. Nevertheless, users <emphasis
-          role="bold">should not</emphasis> directly modify this file but create a project-specific
-        css customization file and include it alongside <code>theme.css</code> instead.</para>
-      <programlisting language="html" xml:space="preserve">
-                  &lt;link rel="stylesheet" href="resources/css/theme.css" /&gt;
-                  &lt;link rel="stylesheet" href="resources/css/my-project.css" /&gt;
-          </programlisting>
-      <para>This approach allows to selectively overwrite certain styles and CSS variables from
-          <code>theme.css</code> while remaining on the easy upgrade path for future TEI Publisher
-        and <code>pb-components</code> updates.</para>
-
-      <section>
-        <title>Customizing web components styling</title>
-        <para>A web component completely shields its content, so it cannot be styled from outside.
-          Web component styles remain encapsulated, preventing style contamination between
-          individual components and general application context. A blessing in general, allowing
-          component to be scripted and styled without the fear of collision with other parts of the
-          page, but poses additional challenges when adjusting look and feel of a component to fit
-          project's theme.</para>
-        <para>For Publisher, encapsulation of web components means that definitions in
-            <code>theme.css</code> or equivalent project customization CSS file are not able to
-          directly govern web components styling.</para>
-        <para>While some aspects of component styling remained unaccessible for customization in
-          versions preceding Publisher 6, currently <code>pb-components</code> expose style
-          properties to the outside world via standard CSS variables. This way variables like
-            <code>--pb-footnote-color</code> defined in <code>theme.css</code> can be accessed by
-          e.g. <code>pb-view</code> component and thus determine the color of the footnote marker in
-          the rendered transcription.</para>
-
-        <para>Note that while you cannot change the inner appearance of a component except by
-          setting its custom CSS properties, you can style the component itself within the HTML
-          template, e.g. to position it within the layout of the page.</para>
-      </section>
-      <section>
-        <title>External stylesheets</title>
-        <para>ODD specification allows for explicit declaration of an external CSS file which may
-          define styles and CSS classes to be applied to tranformed sources (in
-            <code>encodingDesc/tagsDecl/rendition</code>), e.g.</para>
-        <programlisting language="xml" xml:space="preserve">
-                  &lt;rendition source="docbook.css"/&gt;
-          </programlisting>
-        <para>Styles and classes from that file are loaded into <code>pb-view</code> component and
-          thus accessible for its content.</para>
-        <para>External stylesheets for <code>pb-view</code> can also be specified via
-            <code>load-css</code> component configuration attribute. In this scenario, unlike with
-          ODD <code>rendition</code>, regenerating ODD is not required for changes to the CSS file
-          to be applied, otherwise both methods are functionally equivalent.</para>
-
-        <programlisting language="html" xml:space="preserve">
-                  &lt;pb-view id="view1" src="document1" load-css="odd/docbook.css"/&gt;
-          </programlisting>
-
-        <para>Broader discussion of using <tag>rendition</tag> for custom styles can be found in
-            <link linkend="external-css">this section</link></para>
-        <!-- shall we discuss CSS shadow part? somewhere -->
-      </section>
-    </section>
     <section xml:id="alignment">
       <title>Handling Complex Alignments</title>
       <para>It is often desirable to show two or more views of a document at the same time, for
@@ -3761,23 +3741,40 @@ Each component has a defined API, including properties, methods and events. but 
   </section>
 
   <section>
-    <title>Embedding TEI Publisher Output</title>
-    <para>Sometimes you may already have a website based on a CMS like WordPress, Drupal etc. into
-      which you would like to embed HTML output generated by TEI Publisher. This is done easily in a
-      number of ways. For sure it requires that you have a TEI Publisher instance running somewhere,
-      into which you can upload TEI documents. It does not need to be on the same server
-      though.</para>
+    <title>Embedding TEI Publisher in other systems</title>
+    <para>Since version 6.0, all <code>pb-components</code> can be used <emphasis>outside</emphasis>
+      TEI Publisher itself. The components can be embedded into any environment, e.g. a CMS or blog
+      software (like WordPress or Drupal) or integrated into any modern front-end framework (like
+      vue, react or angular). All that is needed is a TEI Publisher instance available on the web
+      which stores the source TEI and provides a communication endpoint for the components to talk
+      to.</para>
+
     <section>
-      <title>Retrieving a whole document as HTML</title>
-      <para>The simplest case would be to retrieve the entire content of a TEI document as HTML,
-        transformed through an ODD with processing instructions. Behind the scenes, TEI Publisher
-        has two parts: a library part, which is essentially an implementation of the TEI processing
-        model, and the application part, which adds user interface elements and other functionality
-        around the library. The library part can be used independently. All you need is a small
-        XQuery which calls the library modules, setting the correct source document and ODD.
-        Fortunately, TEI Publisher already contains a boilerplate XQuery script for this job, which
-        you can call as follows in your browser:</para>
-      <para><link
+      <title>Live Examples</title>
+      <para>The embedded example below demonstrates such a use case: it provides a sandbox running
+        on <link xlink:href="https://codepen.io">codepen.io</link> but communicates with the TEI
+        Publisher instance on <link xlink:href="https://teipublisher.com">teipublisher.com</link>
+        which stores the documents. The magic happens in the <code>endpoint</code> attribute passed
+        to <tag>pb-page</tag>, which tells the components where to talk to:</para>
+      <programlisting role="codepen" xlink:href="wolfgangmm#YzXEvvw"/>
+      <para>You can actually edit the code above: for example, try to change the path for the first
+        document to <filename>test/F-rom.xml</filename> and the odd to <code>shakespeare</code>. See
+        how the live view changes?</para>
+      <para>And if you would like to read Rome and Juliet in two-column mode, just add
+          <code>column-separator=".tei-cb"</code> to the main <tag>pb-view</tag>.</para>
+    </section>
+
+    <section>
+      <title>Retrieving a whole document as simple HTML</title>
+      <para>Embedding results of applying Processing Model transformation on a document is even
+        simpler. Behind the scenes, TEI Publisher has a separate library part, which is essentially
+        an implementation of the TEI processing model. This library can be used independently to
+        retrieve the entire content of a TEI document as HTML, transformed through an ODD with
+        processing instructions.</para>
+      <para>All you need is a small XQuery which calls the library modules, setting the correct
+        source document and ODD. Fortunately, TEI Publisher already contains a boilerplate XQuery
+        script for this job, which you can call as follows in your browser:</para>
+      <para><link xlink:show="new"
           xlink:href="https://teipublisher.com/exist/apps/tei-publisher/modules/lib/transform.xql?doc=test/F-rom.xml&amp;odd=shakespeare.odd"
           >https://teipublisher.com/exist/apps/tei-publisher/modules/lib/transform.xql?doc=test/F-rom.xml&amp;odd=shakespeare.odd</link></para>
       <para>This will retrieve the content of Shakespeare's <citetitle>Romeo and Juliet</citetitle>
@@ -3796,28 +3793,37 @@ Each component has a defined API, including properties, methods and events. but 
         Publisher app and reuse the components it provides in other contexts. They should work in
         any HTML5 page, no matter if it was written by hand, is generated by PHP, Python or a
         CMS.</para>
-      <para>For a start, the page should import two things in its header:</para>
-      <programlisting language="html" xml:space="preserve"><![CDATA[<script src="https://teipublisher.com/exist/apps/tei-publisher/components/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
-<link rel="import" href="https://teipublisher.com/exist/apps/tei-publisher/components/dependencies-dev.html"/>]]></programlisting>
-      <para>The <tag>script</tag> tag should come first. It loads a thin compatibility layer for
-        those browsers which do not fully support the webcomponents standard. The <tag>link</tag>
-        tag then imports all the components provided by TEI Publisher and their dependencies.</para>
-      <para>In the example we're loading both from the TEI Publisher website. If you have set up
+      <para>For a start, the page should import two scripts in its header:</para>
+      <programlisting language="html" xml:space="preserve"><![CDATA[<script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js"></script>
+<script type="module" src="https://unpkg.com/@teipublisher/pb-components@latest/dist/pb-components-bundle.js"></script>]]></programlisting>
+      <para>The second <tag>script</tag> tag imports all the components provided by TEI Publisher.
+        Here <code>pb-components@latest</code> points to the latest available bundle, but you could
+        specify a concrete version number to make sure your website uses a fixed release.</para>
+
+      <para>Now let's actually use the components to display Shakespeare's <citetitle>Romeo and
+          Juliet</citetitle>: in the HTML <tag>body</tag>, include the following snippet: </para>
+      <programlisting language="html" xml:space="preserve">&lt;pb-page endpoint="https://teipublisher.com/exist/apps/tei-publisher">
+    &lt;pb-document id="document1" path="test/F-rom.xml" odd="shakespeare">&lt;/pb-document>
+    &lt;!-- Navigate to previous page -->
+    &lt;pb-navigation direction="backward" unit="page" keyboard="left">
+      &lt;paper-button>
+         &lt;iron-icon icon="icons:chevron-left">&lt;/iron-icon>
+      &lt;/paper-button>
+    &lt;/pb-navigation>
+    &lt;pb-view id="view1" src="document1" view="page">&lt;/pb-view>
+    &lt;!-- Navigate to next page -->
+    &lt;pb-navigation direction="forward" unit="page" keyboard="right">
+      &lt;paper-button>
+         &lt;iron-icon icon="icons:chevron-right">&lt;/iron-icon>
+      &lt;/paper-button>
+    &lt;/pb-navigation>
+&lt;/pb-page></programlisting>
+      <para>In the <tag>pb-page</tag>
+        <code>endpoint</code> attribute we need to provide a critical piece of information: the URL
+        of the TEI Publisher instance for all the components to communicate with. If you have set up
         your own instance of eXist-db and TEI Publisher, you should change the URL <emphasis>to
           point to your instance</emphasis>. This is important because the components will expect
         the documents you want to display to be stored in the same instance.</para>
-      <para>Now let's actually use the components to display Shakespeare's <citetitle>Romeo and
-          Juliet</citetitle>: in the HTML <tag>body</tag>, include the following snippet: </para>
-      <programlisting language="html" xml:space="preserve">&lt;pb-document id="document1" path="test/F-rom.xml" odd="shakespeare">&lt;/pb-document>
-&lt;!-- Navigate to previous page -->
-&lt;pb-navigation direction="backward" unit="page" keyboard="left">
-    &lt;paper-fab icon="icons:chevron-left">&lt;/paper-fab>
-&lt;/pb-navigation>
-&lt;pb-view id="view1" src="document1" view="page">&lt;/pb-view>
-&lt;!-- Navigate to next page -->
-&lt;pb-navigation direction="forward" unit="page" keyboard="right">
-    &lt;paper-fab icon="icons:chevron-right">&lt;/paper-fab>
-&lt;/pb-navigation></programlisting>
       <para><tag>pb-document</tag> defines the document to be displayed. The path is relative to the
         data root of the TEI Publisher instance. It also specifies the ODD to be used for the
         transformation.</para>
@@ -3829,13 +3835,12 @@ Each component has a defined API, including properties, methods and events. but 
         request the entire content at once using <code>view="single"</code>.</para>
       <para><tag>pb-navigation</tag> adds forward/backward navigation buttons to the page, allowing
         the user to switch to the next/previous page of the document. You can use various types of
-        buttons, but in this case we're choosing a <tag>paper-fab</tag> element, which creates a
-        rounded, floating button (<tag>paper-fab</tag> is part of the standard <link
-          xlink:href="https://www.webcomponents.org/element/@polymer/paper-fab">components
-          library</link>).</para>
+        buttons, but in this case we're choosing a <tag>paper-button</tag> element with a chevron
+          <tag>iron-icon</tag> (both <tag>paper-button</tag> and <tag>iron-icon</tag> are part of
+        the standard <link xlink:href="https://www.webcomponents.org/author/PolymerElements">Polymer
+          elements library</link>).</para>
     </section>
   </section>
-
 
   <section xml:id="faq">
     <title>Frequently Asked Questions</title>
