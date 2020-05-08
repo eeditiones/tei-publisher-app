@@ -100,7 +100,7 @@ declare function pages:load-components($node as node(), $model as map(*)) {
             <script type="module" src="resources/scripts/{$node/@src}"></script>
         default return
             <script type="module" 
-                src="https://unpkg.com/@teipublisher/pb-components@{$config:webcomponents}/dist/{$node/@src}"></script>
+                src="{$config:webcomponents-cdn}@{$config:webcomponents}/dist/{$node/@src}"></script>
 };
 
 declare function pages:current-language($node as node(), $model as map(*), $lang as xs:string?) {

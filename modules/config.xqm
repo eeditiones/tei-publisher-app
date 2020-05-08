@@ -35,7 +35,13 @@ declare variable $config:origin-whitelist := (
  : If a version is given, the components will be loaded from a public CDN.
  : This is recommended unless you develop your own components.
  :)
-declare variable $config:webcomponents := "0.9.28";
+declare variable $config:webcomponents := "0.9.31";
+
+(:~
+ : CDN URL to use for loading webcomponents. Could be changed if you created your
+ : own library extending pb-components and published it to a CDN.
+ :)
+declare variable $config:webcomponents-cdn := "https://unpkg.com/@teipublisher/pb-components";
 
 (:~
  : Should documents be located by xml:id or filename?

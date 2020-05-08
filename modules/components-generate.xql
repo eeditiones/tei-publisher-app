@@ -112,26 +112,8 @@ declare function deploy:package-json($json as map(*)) {
         "name": $json?abbrev,
         "version": "1.0.0",
         "description": $json?title,
-        "scripts": map {
-            "start": "npm install &amp;&amp; npm run build:production",
-            "build": "rollup -c rollup.config.js",
-            "build:production": "rollup -c rollup.config.js --environment BUILD:production",
-            "clean": "rimraf resources/css/leaflet resources/images/leaflet resources/images/openseadragon resources/lib/ resources/css/prismjs resources/i18n/common",
-            "watch": "rollup -c rollup.config.js --watch"
-        },
         "dependencies": map {
             "@teipublisher/pb-components": if ($config:webcomponents = 'local') then 'latest' else $config:webcomponents
-        },
-        "devDependencies": map {
-            "rimraf": "^3.0.0",
-            "rollup": "^1.21.0",
-            "rollup-plugin-copy": "^3.1.0",
-            "@rollup/plugin-node-resolve": "^7.1.1",
-            "rollup-plugin-terser": "^5.1.1",
-            "@rollup/plugin-replace": "^2.3.1",
-            "@babel/core": "^7.9.0",
-            "@babel/plugin-proposal-object-rest-spread": "^7.9.5",
-            "rollup-plugin-babel": "^4.4.0"
         }
     }
     return

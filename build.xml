@@ -7,8 +7,7 @@
     <property name="project.app" value="${package(abbrev)}" />
     <property name="server.url" value="http://demo.exist-db.org/exist/apps/public-repo/public/" />
     <property name="build" value="build" />
-    <property name="bundle.dir" value="build/bundle" />
-
+    <property name="scripts.dir" value="node_modules/@teipublisher/pb-components/dist" />
 
     <condition property="git.commit" value="${git.commit}" else="">
         <isset property="git.commit" />
@@ -28,7 +27,30 @@
         <delete dir="resources/lib" />
     </target>
 
-    <target name="xar">
+    <target name="prepare">
+        <copy todir="resources/scripts">
+            <fileset dir="${scripts.dir}">
+                <include name="*.js" />
+                <include name="*.map" />
+            </fileset>
+        </copy>
+        <copy file="node_modules/leaflet/dist/leaflet.css" todir="resources/css/leaflet" />
+        <copy todir="resources/images/leaflet">
+            <fileset dir="node_modules/leaflet/dist/images" />
+        </copy>
+        <copy todir="resources/images/openseadragon">
+            <fileset dir="node_modules/openseadragon/build/openseadragon/images" />
+        </copy>
+        <copy file="node_modules/openseadragon/build/openseadragon/openseadragon.min.js" todir="resources/lib" />
+        <copy todir="resources/css/prismjs">
+            <fileset dir="node_modules/prismjs/themes" />
+        </copy>
+        <copy todir="resources/i18n/common">
+            <fileset dir="node_modules/@teipublisher/pb-components/i18n/common" />
+        </copy>
+    </target>
+
+    <target name="xar" depends="prepare">
         <mkdir dir="${build}" />
         <zip destfile="${build}/${project.app}-${project.version}${git.commit}.xar">
             <fileset dir=".">
@@ -49,20 +71,11 @@
         </zip>
     </target>
 
-    <target name="xar-complete" depends="npm.build,xar" />
+    <target name="xar-complete" depends="npm.install,xar" />
 
-    <target name="npm.build">
+    <target name="npm.install">
         <exec executable="${npm}" outputproperty="npm.output">
-            <arg line="run-script" />
-            <arg line="start" />
-        </exec>
-        <echo message="${npm.output}" />
-    </target>
-
-    <target name="npm.clean">
-        <exec executable="${npm}" outputproperty="npm.output">
-            <arg line="run-script" />
-            <arg line="clean" />
+            <arg line="install" />
         </exec>
         <echo message="${npm.output}" />
     </target>
