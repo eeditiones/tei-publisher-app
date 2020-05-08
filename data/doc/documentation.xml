@@ -121,10 +121,10 @@
               eXist-db.</para>
             <para>Similarly, if you prefer to write your own application using any of the popular
               frameworks like angular, vue or react you can easily import the
-                <code>pb-components</code> package from npm and use them directly in your
+                <code>pb-components</code> package from npm and use it directly in your
               project.</para>
             <para>As a final consequence, this change decouples the component library from the TEI
-              Publisher app. This makes it possible to host multiple applications, which depend on
+              Publisher app. It is now possible to host multiple applications, which depend on
               different versions of the component library, without conflict within the same eXist-db
               instance, a point of importance for institutions with numerous projects.</para>
           </listitem>
@@ -2843,9 +2843,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
 
   <section xml:id="i18n">
     <title>Language versions</title>
-    <para>TEI Publisher is available in more than 10 language versions and this number increases
-      thanks to the engagement of our user community who contributes new translations via <link
-        xlink:href="https://crwd.in/tei-publisher">Crowdin platform</link>.</para>
+    <para>TEI Publisher is available in more than a dozen languages and this number increases thanks
+      to the engagement of our user community.</para>
 
     <para>In version 6.0 i18n support has been greatly extended to cover not only labels and
       attribute values in HTML templates but also within web components. A mechanism for project
@@ -2947,24 +2946,24 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
 
     <section xml:id="i18n-customization">
       <title>Project specific i18n files</title>
-      <para>It is a common need that projects will need internationalized labels for menu items,
-        dialogs and other user interface elements.</para>
+      <para>It is a common need that projects will need their own internationalized labels for menu
+        items, dialogs and other user interface elements.</para>
       <para>All these can be stored in JSON language files, following the same naming conventions
         and basic structure as TEI Publisher ones. Custom application files should be placed in
           <filename>app</filename> subcollection of <filename>resources/i18n</filename>
         collection.</para>
       <para>For page template to use custom language files a <code>locale</code> attribute needs to
-        be explicitly set to <code>resources/i18n</code> for<tag>pb-page</tag>.</para>
+        be explicitly set to <code>resources/i18n</code> for <tag>pb-page</tag>.</para>
       <para>All labels defined in custom files will be available in addition to TEI Publisher's
         defaults. If custom file defines translation for a key already present in TEI Publisher, the
         value from the custom file will take precedence.</para>
       <programlisting language="html" xml:space="preserve">
 &lt;pb-page locales="resources/i18n">
         </programlisting>
-      <para>Please note to always create use a subcollection for custom files, namely
+      <para>Please note to always use a subcollection for custom files, namely
           <filename>resources/i18n/app</filename>. Placing custom language files directly in
-          <filename>resources/i18n</filename> will prevent fallback-to-defaults mechanism to work
-        for labels not present in custom language files.</para>
+          <filename>resources/i18n</filename> will prevent fallback-to-defaults mechanism for labels
+        not present in custom language files.</para>
       <para>Listing below demonstrates a fictional <filename>en.js</filename> with a custom set of
         labels.</para>
       <para>New top-level key has been added as well as 3 subkeys for <code>menu</code> section. Now
@@ -3170,7 +3169,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
   </section>
 
   <section xml:id="pi-config">
-    <title>Handling of ?teipublisher processing instructions</title>
+    <title>Processing instructions</title>
     <para>The default view for a specific document can be configured via a processing instruction.
       Before displaying a document, TEI publisher will check if a processing instruction exists at
       the start of the document, telling it which ODD and view template to use (along with other
@@ -3781,21 +3780,23 @@ declare variable $config:facets := [
 
     <section>
       <title>Update by Copying</title>
-      <para>The following steps assume that you</para>
-      <orderedlist>
+      <para>The following steps assume that you either</para>
+      <itemizedlist>
         <listitem>
-          <para>either have a copy of your app's code on the filesystem and a clone of TEI Publisher
-            6 next to it</para>
+          <para>have a copy of your app's code on the filesystem and a clone of TEI Publisher 6 next
+            to it</para>
         </listitem>
         <listitem>
           <para>or have your app and TEI Publisher installed in your database. In this case use
             eXide's file manager to copy files</para>
         </listitem>
-      </orderedlist>
+      </itemizedlist>
       <procedure>
         <step>
-          <para>Edit <filename>modules/config.xqm</filename> and add two variables at the
-            top:</para>
+          <para>Edit <filename>modules/config.xqm</filename> and add two variables at the top:
+              <code>$config:origin-whitelist</code> and <code>$config:webcomponents</code>.</para>
+          <para><parameter>$config:webcomponents</parameter> should point to the latest version of
+            pb-components.</para>
           <programlisting language="xquery" xml:space="preserve"><![CDATA[
 (:~
  : A list of regular expressions to check which external hosts are
@@ -3816,8 +3817,7 @@ declare variable $config:origin-whitelist := (
  : This is recommended unless you develop your own components.
  :)
 declare variable $config:webcomponents := "0.9.11";]]></programlisting>
-          <para><parameter>$config:webcomponents</parameter> should point to the latest version of
-            pb-components.</para>
+
         </step>
         <step>
           <para>Copy all XQuery files from <filename>tei-publisher-app/modules/lib</filename> into
@@ -3839,8 +3839,8 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
         </step>
         <step>
           <para>HTML files you did not change may just be overwritten by copying the corresponding
-            versions from <code>tei-publisher-app</code>. In particular this may include files in
-            the <filename>tei-publisher-app/templates/basic/templates</filename> subdirectory or
+            versions from <code>tei-publisher-app</code>. In particular this includes files in the
+              <filename>tei-publisher-app/templates/basic/templates</filename> subdirectory or
               <filename>tei-publisher-app/templates/basic/search.html</filename>.</para>
         </step>
         <step>
@@ -3952,13 +3952,14 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
         this:</para>
       <programlisting language="js" xml:space="preserve">
     render() {
-    return html`
-    &lt;h3>${this.label}&lt;/h3>
-    &lt;div>
-      &lt;slot>&lt;/slot>
-      &lt;paper-icon-button icon="icons:content-copy" @click="${this._copy}">&lt;/paper-icon-button>
-    &lt;/div>
-    `;
+        return html`
+            &lt;h3>${translate(this.label)}&lt;/h3>
+            &lt;div>
+                &lt;slot>&lt;/slot>
+                &lt;paper-icon-button icon="icons:content-copy" @click="${this._copy}"
+                    title="${translate('clipboard.copy')}">&lt;/paper-icon-button>
+            &lt;/div>
+        `;
     }
       </programlisting>
       <para>You will note that the render function uses not only regular HTML elements like
@@ -3966,6 +3967,8 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
         To be able to use them, we need to explicitly import them. Same is true for
           <code>LitElement</code> class itself and important interface from the
           <code>pb-components</code> package: <code>pbMixin</code>.</para>
+      <para>All user interface components may need to be localized. For that reason we also import
+          <code>translate</code> method from TEI Publisher's <code>i18n</code> module.</para>
       <para><code>LitElement</code> and <code>pbMixin</code> must be imported for all custom
         components extending <code>pb-components</code>. Code listing below demonstrates how to
         correctly import all classes and custom elements required as well as how to create a class
@@ -3973,6 +3976,7 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
       <programlisting language="js" xml:space="preserve">
 import { LitElement, html, css } from 'lit-element';
 import { pbMixin } from '@teipublisher/pb-components/src/pb-mixin';
+import { translate } from "@teipublisher/pb-components/src/pb-i18n";
 import '@polymer/paper-icon-button';
 import '@polymer/iron-icons';
 
@@ -4028,6 +4032,29 @@ static get properties() {
     }
       </programlisting>
 
+      <para>We glanced over yet another interesting function invoked in the <code>render</code>
+        method. <code>translate</code>, which accepts as an argument a key identifying a
+        corresponding label in i18n language files. It could be one of keys shipping with TEI
+        Publisher, but here, for a new component we need a more specific label, presenting the user
+        with a short, informative text to be displayed when hovering over
+          <emphasis>copy-to-clipboard</emphasis> button. Obviously, the label should change in line
+        with the language setting for the whole application, which is why we need the i18n module in
+        the first place.</para>
+      <programlisting language="js" xml:space="preserve">
+        title="${translate('clipboard.copy')}"
+      </programlisting>
+      <para>Please refer to the chapter on <link linkend="i18n">i18n</link> for in-depth discussion
+        of the subject. Here we'll just mention that additional language files for new components
+        should be placed in <filename>i18n/app</filename>, mimicking the location and format of
+        Publisher.</para>
+      <programlisting language="js" xml:space="preserve">
+{
+  "clipboard": {
+     "label": "Quote  as:",
+     "copy": "Click to copy to clipboard"
+  }
+}
+      </programlisting>
       <para>And one last job is a little bit of styling to make things pretty.</para>
       <programlisting language="js" xml:space="preserve">
 static get styles() {
@@ -4099,23 +4126,87 @@ static get styles() {
       </figure>
     </section>
     <section>
-      <title>Demo</title>
-      <para>...</para>
+      <title>API documentation</title>
+      <para>Implementing a new feature is only half of the task - and sometimes the easier bit. All
+          <code>pb-components</code> come with their API documentation and most of them also with
+        one or more Demo showcases. Have a look e.g. at <tag>pb-collapse</tag> component for a
+        simple one and compare with much more elaborate sections devoted to
+          <tag>pb-toggle-feature</tag> or <tag>pb-select-feature</tag>.</para>
+      <figure>
+        <title>Initial part of the API tab of pb-collapse documentation</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="api-docs.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>API documentation is generated automatically by <code>npm docs</code> task. You just
+        need to add <link xlink:show="new"
+          xlink:href="https://www.npmjs.com/package/web-component-analyzer#%E2%9E%A4-how-to-document-your-components-using-jsdoc"
+          >documentation-style comments</link> in your code. Example below illustrates how to nest
+        code examples or specify slots and events so they are picked by the documentation
+        generator.</para>
+      <programlisting language="js" xml:space="preserve">
+/**
+ * This is a documentation-style comment
+ *
+ * with code example
+ * ```html
+ * &lt;pb-foo>
+ *   &lt;slot>&lt;/slot>
+ *   &lt;div slot="foo-content">
+ *       Foo bar
+ *   &lt;/div>
+ * &lt;/pb-foo>
+ * ```
+ * slots specification:
+ *
+ * @slot - unnamed default slot
+ * @slot foo-content - content to be shown when foo happens
+ *
+ * events specification:
+ * 
+ * @fires pb-foo-open - Fires opening the foo section
+ */
+      </programlisting>
+      <section>
+        <title>Demo</title>
+        <para>We encourage you to prepare a demo entry for each newly created component. Demo
+          ideally presents one or more use case examples which illustrate where and how would you
+          use a component. Keep the demo page simple and minimal, so other elements do not obstruct
+          understanding the code.</para>
+        <figure>
+          <title>Demo file for pb-clipboard</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="api-docs-demo.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para>Save your demo files in <filename>demo</filename> directory and register it in
+            <filename>demo/demos.json</filename> with the demo filename and your chosen label for
+          the tab (but please stick to Demo if you only have one).</para>
+        <programlisting language="js" xml:space="preserve">
+"pb-collapse": {
+  "demo/pb-collapse.html": "Demo"
+}
+        </programlisting>
+        <para>If you supply a number of demo files, choose meaningful labels for tabs, e.g.</para>
+        <programlisting language="js" xml:space="preserve">
+"pb-toggle-feature": {
+  "demo/pb-toggle-feature.html": "Server-side with pb-view",
+  "demo/pb-toggle-feature2.html": "Client-side",
+  "demo/pb-toggle-feature3.html": "Server-side with pb-load"
+}
+        </programlisting>
+      </section>
     </section>
     <section>
-      <title>Bundling</title>
-      <para>...</para>
-    </section>
-    <section>
-      <title>Using i18n in custom components</title>
-      <para>with component properties</para>
-      <programlisting language="js" xml:space="preserve">
-        &lt;paper-dropdown-menu id="sort" label="${translate(this.sortLabel)}">
-      </programlisting>
-      <para>with explicit i18n keys</para>
-      <programlisting language="js" xml:space="preserve">
-      &lt;h2>${translate('browse.delete')}&lt;/h2>
-      </programlisting>
+      <title>Bundling and distribution</title>
+      <para>Run <code>npm build:production</code> to generate a distribution bundle. It will include
+        everything, including <code>pb-components</code> and its dependencies. As a result, you can
+        use it as a drop-in replacement for <code>pb-components</code> package: standalone, for TEI
+        Publisher itself or Publisher-generated custom apps.</para>
     </section>
   </section>
 
@@ -4139,7 +4230,7 @@ static get styles() {
       <para>You can actually edit the code above: for example, try to change the path for the first
         document to <filename>test/F-rom.xml</filename> and the odd to <code>shakespeare</code>. See
         how the live view changes?</para>
-      <para>And if you would like to read Rome and Juliet in two-column mode, just add
+      <para>And if you would like to read Romeo and Juliet in two-column mode, just add
           <code>column-separator=".tei-cb"</code> to the main <tag>pb-view</tag>.</para>
     </section>
 
