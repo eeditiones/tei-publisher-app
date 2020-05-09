@@ -3614,23 +3614,32 @@ declare variable $config:facets := [
     <section>
       <title>Exporting the Finished App</title>
       <para>To save your finished application or exchange it with other people, you need to save it
-        as an application archive. Application archives use a standardized format: the resulting
-        .xar file can be uploaded to any eXist instance via the dashboard and the package manager
-        will take care of the deployment.</para>
-      <para>There are two ways to create a .xar file from your application:</para>
+        as an application archive. Application archives use a standardized <link xlink:show="new"
+          xlink:href="https://exist-db.org/exist/apps/doc/repo#expath-pkg">EXPath Packaging</link>
+        format: the resulting <filename>.xar</filename> file can be uploaded to any eXist instance
+        via the <guibutton>Dashboard</guibutton> and the <guibutton>Package manager</guibutton> will
+        take care of the deployment.</para>
+      <para>There are three ways to create a <filename>.xar</filename> file from your
+        application:</para>
       <itemizedlist>
         <listitem>
-          <para>Use the "Application"/"Download App" menu entry in eXide to directly download a
-            .xar</para>
+          <para>Use the <guibutton>Admin </guibutton> / <guibutton>Download App</guibutton> menu
+            entry in generated app to directly download a <filename>.xar</filename></para>
         </listitem>
         <listitem>
-          <para>Synchronize the application to a directory on disk via "Application"/"Synchronize"
-            in eXide</para>
+          <para>Use the <guibutton>Application</guibutton> / <guibutton>Download App</guibutton>
+            menu entry in <emphasis role="bold">eXide</emphasis> to directly download a
+              <filename>.xar</filename></para>
+        </listitem>
+        <listitem>
+          <para>Synchronize the application to a directory on disk via
+              <guibutton>Application</guibutton> / <guibutton>Synchronize</guibutton> in <emphasis
+              role="bold">eXide</emphasis> and build <code>xar</code> with <code>ant</code></para>
         </listitem>
       </itemizedlist>
-      <para>The second approach is the recommended one. It requires that you have access to the file
+      <para>The last approach is the recommended one. It requires that you have access to the file
         system of the server running eXist though, so it's usually only an option if you run your
-        own eXist. The synchronize steps in detail:</para>
+        own eXist instance locally. The synchronize steps in detail:</para>
       <itemizedlist>
         <listitem>
           <para>Prerequisite: you need to have the <link xlink:show="new"
@@ -3638,32 +3647,38 @@ declare variable $config:facets := [
         </listitem>
         <listitem>
           <para>Open one resource belonging to your application in eXide. It doesn't matter which
-            one. The only important thing is that the name of your app is displayed next to "Current
-            app:" on the top right of the eXide window. If this is not the case, stop and check
-            again!</para>
+            one. The only important thing is that the name of your app is displayed next to
+              <guibutton>Current app:</guibutton> on the top right of the eXide window. If this is
+            not the case, stop and check again!</para>
         </listitem>
         <listitem>
-          <para>Click "Application"/"Synchronize" in the menu. It opens up a dialog with two fields:
-            "Start time" and "Target directory". When you synchronize the first time, empty the
-            "Start time" field. Enter a valid, absolute directory path on your server machine into
-            "Target directory".</para>
+          <para>Click <guibutton>Application</guibutton> / <guibutton>Synchronize</guibutton> in the
+            menu. It opens up a dialog with two fields: <guibutton>Start time</guibutton> and
+              <guibutton>Target directory</guibutton>. When you synchronize the first time, empty
+            the <guibutton>Start time</guibutton> field. Enter a valid, absolute directory path on
+            your server machine into <guibutton>Target directory</guibutton>.</para>
         </listitem>
         <listitem>
-          <para>Click the "Synchronize" button. This may take a moment, but you should see a list of
-            written files at the bottom of the dialog afterwards.</para>
+          <para>Click the <guibutton>Synchronize</guibutton> button. This may take a moment, but you
+            should see a list of written files at the bottom of the dialog afterwards.</para>
         </listitem>
         <listitem>
           <para>Change to the directory you specified for synchronize.</para>
         </listitem>
         <listitem>
-          <para>Calling "ant" inside the directory should create a fresh .xar file in the build/
-            subdirectory.</para>
+          <para>Calling <code>ant</code> inside the directory should create a fresh
+              <code>.xar</code> file in the build/ subdirectory.</para>
         </listitem>
       </itemizedlist>
-      <para>Note: for security reasons, the password you entered when creating the app is not stored
-        in the database, so it cannot be synced to disk. To restore a password for your app, you
-        thus need to edit the <filename>repo.xml</filename> file in the directory and add a
-          <parameter>@password</parameter> attribute to the <tag>permissions</tag> element.</para>
+
+      <para>Watch the screencast below for the whole synchronization procedure.</para>
+      <note>
+        <title>Note</title>
+        <para>for security reasons, the password you entered when creating the app is not stored in
+          the database, so it cannot be synchronized to disk. To restore a password for your app,
+          you thus need to edit the <filename>repo.xml</filename> file in the directory and add a
+            <parameter>@password</parameter> attribute to the <tag>permissions</tag> element.</para>
+      </note>
       <figure xml:id="sync">
         <title>Export an App</title>
         <mediaobject>
