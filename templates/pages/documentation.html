@@ -27,6 +27,7 @@
 
             .breadcrumbs pb-view {
                 font-family: var(--pb-base-font-family);
+                --pb-view-max-width: auto;
             }
             
             @media (min-width: 769px) {
@@ -99,7 +100,7 @@
                             subscribe="transcription">
                             <paper-fab icon="icons:chevron-left"/>
                         </pb-navigation>
-                        <pb-view id="view1" src="document1"
+                        <pb-view id="view1" src="document1" load-css="../odd/docbook.css"
                             column-separator=".tei-cb" append-footnotes="append-footnotes"
                             subscribe="transcription" emit="transcription"/>
                         <pb-navigation direction="forward" unit="page" emit="transcription"

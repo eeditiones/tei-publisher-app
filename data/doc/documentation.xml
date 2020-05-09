@@ -3831,11 +3831,11 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
           <para>In all HTML files <emphasis>you changed for your app</emphasis>, check
               <tag>head</tag> and remove any <tag>script</tag> element or <tag>link</tag> doing an
             import like:</para>
-          <synopsis language="html"><![CDATA[<link rel="import" href="components/dependencies-dev.html"/>]]></synopsis>
+          <programlisting language="html"><![CDATA[<link rel="import" href="components/dependencies-dev.html"/>]]></programlisting>
           <para>Instead add the following line to the head:</para>
-          <synopsis language="html"><![CDATA[<script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>]]></synopsis>
+          <programlisting language="html"><![CDATA[<script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>]]></programlisting>
           <para>Also add a link to <filename>theme.css</filename>:</para>
-          <synopsis language="html"><![CDATA[<link rel="stylesheet" href="resources/css/theme.css"/>]]></synopsis>
+          <programlisting language="html"><![CDATA[<link rel="stylesheet" href="resources/css/theme.css"/>]]></programlisting>
         </step>
         <step>
           <para>HTML files you did not change may just be overwritten by copying the corresponding

@@ -1,45 +1,98 @@
 h1, h2, h3, h4, h5, h6 {
     line-height: 1.2;
 }
+
 h1 {
-    font-family: "Oswald",Verdana,"Helvetica", sans-serif; 
-    font-size: 36px; 
-    font-weight: 400; 
+    font-family: "Oswald", Verdana, "Helvetica", sans-serif;
+    font-size: 36px;
+    font-weight: 400;
     line-height: 1.2;
 }
+
 h2 {
-    font-family: "Oswald",Verdana,"Helvetica",sans-serif; 
-    font-size: 26px; 
+    font-family: "Oswald", Verdana, "Helvetica", sans-serif;
+    font-size: 26px;
     font-weight: 400;
 }
+
 h3 {
-    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+    font-family: "Oswald", Verdana, "Helvetica", sans-serif;
     font-weight: 400;
 }
+
 figure {
-    text-align: center; 
-    margin: 24px 0; 
-    padding: 16px 0; 
-    border-top: 1px solid #d6d7d9; 
+    text-align: center;
+    margin: 24px 0;
+    padding: 16px 0;
+    border-top: 1px solid #d6d7d9;
     border-bottom: 1px solid #d6d7d9;
 }
+
 figure img {
-    margin: 0 auto; 
-    display: block; 
-    max-width: 100%; 
+    margin: 0 auto;
+    display: block;
+    max-width: 100%;
     height: auto;
 }
+
 figcaption {
-    margin-top: .5em; 
+    margin-top: .5em;
     text-align: right;
 }
+
+dt {
+    font-weight: 500;
+}
+
+.tei-procedure li>p {
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+li>p, dd>p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+dd {
+    margin-bottom: .5em;
+}
+
 .code {
-    font-family: "Ubuntu Mono",Menlo,Consolas,Courier,monospace; 
+    font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
     font-size: 85%;
 }
-.note > * { 
-    margin-left: 16px; margin-right: 16px;
+
+.note {
+    margin: 0 16px;
+    font-size: .85em;
 }
-dt {
-    font-weight: 700;
+
+.note>* {
+    margin-left: 16px;
+    margin-right: 16px;
+}
+
+.note :first-child {
+    margin-top: 0;
+}
+
+a:link, a:visited {
+    text-decoration: none;
+    color: #d07f00;
+}
+
+.guibutton {
+    text-shadow: 2px 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+pb-edit-xml {
+    --iron-icon-height: 16px;
+    vertical-align: top;
+    cursor: pointer;
+    color: #d07f00;
+}
+
+pb-code-highlight {
+    font-size: .85em;
 }
