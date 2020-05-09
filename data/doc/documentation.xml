@@ -3890,8 +3890,6 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
 
   <section>
     <title>Creating Custom Web Components</title>
-    <!-- TODO: bundling, demo files and generating documentation -->
-
     <para>In some cases an app may need to add its own web components to the collection provided by
       TEI Publisher. Please consider following <emphasis role="bold">open-source-first
         approach</emphasis>, as we do, and contributing your component back to the community, for
@@ -3899,9 +3897,8 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
     <para>For that reason, we recommend here a setup which leads to relatively smooth integration
       with <code>pb-components</code> in the future.</para>
     <para>Start with forking and downloading the <code>pb-extension-template</code> package from its
-        <link xlink:show="new"
-        xlink:href="http://gitlab.existsolutions.com/tei-publisher/pb-extension-template">Git
-        repository</link>.</para>
+        <link xlink:show="new" xlink:href="http://github.com/eeditiones/pb-extension-template"
+        >GitHub repository</link>.</para>
     <figure>
       <title>Visual Studio Code overview of pb-extension-template</title>
       <mediaobject>
@@ -3910,7 +3907,6 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
         </imageobject>
       </mediaobject>
     </figure>
-
     <para>You will find it already includes several configuration files to get you started on the
       development.</para>
     <itemizedlist>
@@ -4234,11 +4230,62 @@ static get styles() {
     </section>
     <section>
       <title>Bundling and distribution</title>
-      <para>Run <code>npm build:production</code> to generate a distribution bundle. It will include
-        everything, including <code>pb-components</code> and its dependencies. As a result, you can
-        use it as a drop-in replacement for <code>pb-components</code> package: standalone, for TEI
-        Publisher itself or Publisher-generated custom apps.</para>
+      <para>Any new component <emphasis role="bold">must</emphasis> be explicitly imported by
+          <filename>pb-extension-bundle.js</filename>.</para>
+      <programlisting language="js" xml:space="preserve">
+        import './src/pb-clipboard.js';
+      </programlisting>
+      <para>Run <code>npm build:production</code> to generate a distribution bundle. The generated
+        library (located in <filename>dist</filename>) will include everything, including the
+        version of the <code>pb-components</code> library you are building upon and all
+        dependencies. As a result, you can use it as a drop-in replacement for
+          <code>pb-components</code> package: in your custom project, for TEI Publisher itself or
+        Publisher-generated custom apps.</para>
     </section>
+    <section>
+      <title>Using pb-extension-bundle in TEI Publisher or other apps</title>
+      <para>The created library can be used as a drop-in replacement for the default
+          <code>pb-components</code> library.</para>
+      <para>To do so:</para>
+      <procedure>
+        <step>
+          <para>clone <code>tei-publisher-app</code> or the generated app you would like to
+            modify</para>
+        </step>
+        <step>
+          <para>edit <filename>package.json</filename> and replace the dependency for
+              <parameter>@teipublisher/pb-components</parameter> with the replacement library</para>
+        </step>
+        <step>
+          <para>edit <filename>build.properties</filename> and change
+              <parameter>scripts.dir</parameter> to point to the replacement library</para>
+        </step>
+        <step>
+          <para>call <code>ant</code> to build <code>tei-publisher-app</code></para>
+        </step>
+      </procedure>
+
+      <para> For example, to use the git source of <code>pb-extension-template</code> in
+          <filename>package.json</filename>, change the dependencies as follows: </para>
+      <programlisting language="js" xml:space="preserve">
+"dependencies": {
+   "@teipublisher/pb-extension-template": "git+https://github.com/eeditiones/pb-extension-template#master"
+} 
+        </programlisting>
+      <para>then change <filename>build.properties</filename> to contain: </para>
+      <programlisting language="js" xml:space="preserve">scripts.dir=node_modules/@teipublisher/pb-extension-template/dist</programlisting>
+
+      <para>Building <code>tei-publisher-app</code> should then copy scripts and resources from
+          <code>pb-extension-template</code> instead of <code>pb-components</code>.</para>
+
+      <note>
+        <title>Note</title>
+        <para>Make sure to adjust the repository link and name of the extension module to the one
+          you created. Example above assumes working directly with
+            <code>pb-extension-template</code> but it's unlikely to be the case in real life.</para>
+      </note>
+    </section>
+
   </section>
 
   <section xml:id="embedding">
@@ -4267,7 +4314,7 @@ static get styles() {
     </section>
 
     <section>
-      <title>Retrieving a whole document as simple HTML</title>
+      <title>Retrieving the whole document as a simple HTML</title>
       <para>Embedding results of applying Processing Model transformation on a document is even
         simpler. Behind the scenes, TEI Publisher has a separate library part, which is essentially
         an implementation of the TEI processing model. This library can be used independently to
