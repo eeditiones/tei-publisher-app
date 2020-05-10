@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?teipublisher odd="docbook.odd" template="documentation.html" depth="3"?>
+<?teipublisher odd="docbook.odd" template="documentation.html" depth="3" fill="2"?>
 <article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
   version="5.0">
   <info>
@@ -763,6 +763,289 @@
             Gogh</filename></link> or <link xlink:href="templates/pages/cortez.html" role="source"
               ><filename>Cortés</filename></link> letter templates for examples)</para>
       </note>
+    </section>
+  </section>
+  <section xml:id="data-organization">
+    <!-- 
+    ## Data
+
+- Organisation
+    - embedded data collection vs separate apps
+    - Sub collections and virtual corpora
+- Conventions (divs, pi)
+- Supported formats
+    - Tei
+    - DocBook
+    - Jats
+    - Word (via import to TEI)
+- Customising for other XML vocabularies
+    -->
+    <title>Data</title>
+
+    <section xml:id="supported-input-formats">
+      <title>Supported XML vocabularies</title>
+      <para>TEI Publisher started as a publishing toolbox for TEI but the principles of TEI
+        Processing Model were never limited to a single vocabulary. Publisher very quickly extended
+        support to other XML formats. Currently TEI, DocBook, JATS and MS Word DOCX are supported
+        out of the box (DOCX via automated conversion to TEI on upload).</para>
+      <para>Few specificities of <emphasis>TEI</emphasis> and <emphasis>DocBook</emphasis> are
+        discussed below, while <emphasis>DOCX</emphasis> deserved its own chapter.</para>
+      <para/>
+      <section>
+        <title>TEI</title>
+        <para>In principle, any TEI document will be supported by TEI Publisher and can be displayed
+          with the default page template and odd.</para>
+        <para>Nevertheless, certain assumptions are made about encoding of the basic structure of
+          the TEI documents for the purpose of navigation:</para>
+        <itemizedlist>
+          <listitem>
+            <para>page beginnings are encoded with <tag>pb</tag></para>
+          </listitem>
+          <listitem>
+            <para>column beginnings are encoded with <tag>cb</tag></para>
+          </listitem>
+          <listitem>
+            <para>structural divisions in the document are encoded with <tag>div</tag>
+              element</para>
+          </listitem>
+        </itemizedlist>
+        <para>We acknowledge that TEI offers other ways to encode these features, e.g. generic
+            <tag>milestone</tag> element or specialized numbered division elements like
+            <tag>div1</tag>, <tag>div2</tag>, etc. TEI documents using alternative encodings will be
+          still displayed as specified in the ODD, it is only for the sake of navigation or
+          division-based full text search that we had to assume certain conventions to be able to
+          decide what to show as the next page, column or division.</para>
+        <para>We believe our choice represents most common way of using TEI but, for those who
+          followed the path less travelled, the chapter on customization below briefly discusses how
+          to change relevant functionality.</para>
+      </section>
+
+      <section>
+        <title>DocBook</title>
+        <para>DocBook support is demonstrated by this very document you are now reading,
+            <filename>documentation.xml</filename>. It is written in DocBook and presented via
+          dedicated <filename>docbook.odd</filename> and <filename>documentation.html</filename>
+          page template.</para>
+        <para>You will notice a custom processing instruction in the source code of this document
+          which specifies which ODD and template to use. Experiment changing the template and ODD
+          via <guibutton>Settings</guibutton> drawer to see how much impact it has on
+          display.</para>
+        <programlisting language="xml" xml:space="preserve">
+          &lt;?teipublisher odd="docbook.odd" template="documentation.html" depth="3"?>
+        </programlisting>
+      </section>
+    </section>
+
+    <section xml:id="docx">
+      <title>MS Word DOCX format conversion</title>
+      <para>Starting with the version 5.0.0 of the TEI Publisher a new docx handling module is
+        available to allow for ingesting documents in <emphasis>docx</emphasis> format. Goal of this
+        module is to provide a way to import Word documents, preserving their textual content,
+        structure and basic semantics of the text, not to provide an authoritative mapping of
+        complete set of MS Word features to TEI.</para>
+      <para>Docx format is relatively flat, thus reconstructing logical document structure like
+        divisions, lists and similar can be only based on certain heuristics. Likewise it is
+        impossible to deduce semantics attributed to certain formatting decisions. For that reason
+        TEI Publisher by intention ignores many style properties — trying to preserve as much as
+        possible would likely just add unnecessary "noise" and result in low-quality TEI. </para>
+
+
+      <section>
+        <title>A word about Word</title>
+
+        <para> A Word document is essentially a zip archive of several different XML files. These
+          files store various parts - the text content, styles, embedded media files etc.
+          Information most relevant for the import process have been extracted into a map, which is
+          passed as a parameter to the ODD, so it is available for every element. Thus information
+          about numbering styles can be accessed via <code>$parameters?nstyle(.)</code> function and
+          testing if a list is bulleted could be done checking the value of
+            <code>$parameters?nstyle(.)/numFmt/@w:val</code>. Full list of available functions and
+          some hints how to customize default conversion ODD are provided at the <link
+            linkend="docx-functions">end of this chapter</link>. </para>
+        <figure>
+          <title>MS Word archive structure</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="wordStructure.png" width="212px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <variablelist>
+          <varlistentry>
+            <term>Named tei:* styles</term>
+            <listitem>
+              <para> Named styles can be strong indicators for the semantics of the text fragment.
+                Styles whose name starts with <code>tei:</code> are thus recognized as TEI elements
+                with the same name. If a character sequence uses a style called
+                  <code>tei:persName</code>, it will be wrapped into a TEI <tag>persName</tag>
+                element in the output, e.g. <code>&lt;persName&gt;Johann Wolfgang
+                  Goethe&lt;/persName&gt;</code>. A place name should be marked with a style
+                  <code>tei:placeName</code> and reconstructed text could be encoded by applying a
+                style <code>tei:supplied</code>. </para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Headings and divisions</term>
+            <listitem>
+              <para> Since Word does not have a concept for text division, instead storing just flat
+                lists of paragraphs, so the only way to reconstruct the logical structure is to use
+                Word headings and outline level associated with these to determine division
+                boundaries. </para>
+              <para>In the first pass, all paragraph styles starting with <code>heading</code>,
+                  <code>title</code> or <code>subtitle</code> generate a <tag>tei:head</tag>
+                element. The outline level assigned to the heading is recorded as well.</para>
+              <para>Subsequently, in a second pass through the generated output, divisions are
+                generated based on the outline level: a <tag>div</tag> spans all text from the
+                heading to the next heading on the same outline level and the process is repeated
+                for all headings within the division on a lower outline level.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Lists</term>
+            <listitem>
+              <para>Lists structure needs to be reconstructed, very much like divisions, taking into
+                consideration the list level associated with every item which can be accessed via a
+                call to <code>$parameters?pstyle(.)//outlineLvl/@w:val</code>.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term> Foot- and endnotes</term>
+            <listitem>
+              <para> Footnotes are translated into TEI note elements. Endnotes are also supported
+                and transformed into <code>&lt;note type="endnote"&gt;</code>. </para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Tables</term>
+            <listitem>
+              <para> Processing of simple tables works very well as well as cells spanning multiple
+                colums. Row spans are not implemented yet. </para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Images</term>
+            <listitem>
+              <para> Embedded images are stored into a subcollection starting with the name of the
+                docx file being processed and suffixed with <code>.media</code>, eg.
+                  <code>&lt;graphic url="test.docx.media/image1.png"/&gt;</code>
+              </para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+
+      <section xml:id="docx-functions">
+        <title>ODD for docx</title>
+        <para>The ODD used for docx processing can be found in <link xlink:href="odd/docx.odd"
+            role="source">docx.odd</link>. Users are free to extend the default ODD with additional
+          heuristics. For example, a paragraph being entirely bold could also be treated as a
+          heading, or a left text indent may indicate a quote.</para>
+        <para>For testing purposes there is a Word document provided in
+            <filename>data/doc/test.docx</filename> which includes samples of most important
+          features like headings, lists, tables, notes and embedded images. Try uploading it via
+          upload panel as described in the <link linkend="upload">upload section</link> and check
+          the conversion results. Behaviour of the conversion mostly follows the approach used in
+          TEI Stylesheets docx-to-tei transformation module and has been tested on test files
+          included there.</para>
+
+        <section>
+          <title>Parameter functions</title>
+          <para>Functions below can be used to retrieve styles or other information related to a
+            current node. For more usage examples see <link xlink:href="odd/docx.odd" role="source"
+              >docx.odd</link></para>
+
+          <variablelist>
+            <varlistentry>
+              <term>cstyle</term>
+              <listitem>
+                <para>phrase level (characters, words or phrases) styles associated with the current
+                  node</para>
+                <para>Returns: <code>w:style</code></para>
+                <para>Usage example: <code>$parameters?cstyle(.)/name[starts-with(@w:val,
+                    'tei:')]</code></para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>endnote</term>
+              <listitem>
+                <para>content of the endnote</para>
+                <para>Returns: <code>w:endnote/w:p</code></para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>footnote</term>
+              <listitem>
+                <para>content of the footnote</para>
+                <para>Returns: <code>w:footnote/w:p</code></para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>link</term>
+              <listitem>
+                <para>external link</para>
+                <para>Returns: <code>rel:Relationship</code></para>
+                <para>Usage example: <code>$parameters?link(.)/@Target</code></para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>nstyle</term>
+              <listitem>
+                <para>list style information associated with the current node</para>
+                <para>Returns: <code>w:lvl</code></para>
+                <para>Usage example: <code>$parameters?nstyle(.)/numFmt</code></para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>pstyle</term>
+              <listitem>
+                <para>paragraph level styles associated with the current node</para>
+                <para>Returns: <code>w:style</code></para>
+                <para>Usage example: <code>$parameters?pstyle(.)/name[matches(@w:val, 'quote';,
+                    'i')]</code></para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </section>
+      </section>
+    </section>
+
+    <section xml:id="new-vocabulary">
+      <title>Adding a custom vocabulary</title>
+      <para>As discussed in the opening chapter, publishing a corpus of documents online requires not only to transform the single source document
+        into the desired output format but transformationTo fully support a new XML vocabulary in TEI Publisher several aspects need to be adressed.
+      </para>
+      <section xml:id="new-vocabulary-odd">
+        <title>ODD</title>
+        <para> Create a new, blank ODD file which is not chained to any other ODD and add
+            <tag>elementSpec</tag>s for its elements. Make sure that you specify correct namespace
+          for your vocabulary. Optionally, you can also specify an external CSS file with style
+          declarations for classes and elements you will be using in processing models of your
+          ODD.</para>
+        <para>See how it looks in the ODD for DocBook.</para>
+        <figure>
+          <title>ODD for DocBook</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="new-vocabulary-odd.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para>When adding models into the custom ODD for your vocabulary make sure that at least one
+          element applies the <parameter>document</parameter> or <parameter>body</parameter>
+          behaviour. Usually it will be the top level element or the main content-bearing one (like
+            <tag>article</tag> in DocBook).</para>
+        <para>Very bare bones ODD file for a fictional <emphasis>Foo</emphasis> vocabulary could
+          look as follows:</para>
+      </section>
     </section>
   </section>
   <section xml:id="odd-customization">
@@ -3017,188 +3300,6 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <para/>
     </section>
   </section>
-
-  <section xml:id="docx">
-    <title>MS Word DOCX format conversion</title>
-    <para>Starting with the version 5.0.0 of the TEI Publisher a new docx handling module is
-      available to allow for ingesting documents in <emphasis>docx</emphasis> format. Goal of this
-      module is to provide a way to import Word documents, preserving their textual content,
-      structure and basic semantics of the text, not to provide an authoritative mapping of complete
-      set of MS Word features to TEI.</para>
-    <para>Docx format is relatively flat, thus reconstructing logical document structure like
-      divisions, lists and similar can be only based on certain heuristics. Likewise it is
-      impossible to deduce semantics attributed to certain formatting decisions. For that reason TEI
-      Publisher by intention ignores many style properties — trying to preserve as much as possible
-      would likely just add unnecessary "noise" and result in low-quality TEI. </para>
-
-
-    <section>
-      <title>A word about Word</title>
-
-      <para> A Word document is essentially a zip archive of several different XML files. These
-        files store various parts - the text content, styles, embedded media files etc. Information
-        most relevant for the import process have been extracted into a map, which is passed as a
-        parameter to the ODD, so it is available for every element. Thus information about numbering
-        styles can be accessed via <code>$parameters?nstyle(.)</code> function and testing if a list
-        is bulleted could be done checking the value of
-          <code>$parameters?nstyle(.)/numFmt/@w:val</code>. Full list of available functions and
-        some hints how to customize default conversion ODD are provided at the <link
-          linkend="docx-functions">end of this chapter</link>. </para>
-      <figure>
-        <title>MS Word archive structure</title>
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="wordStructure.png" width="212px"/>
-          </imageobject>
-        </mediaobject>
-      </figure>
-
-      <variablelist>
-        <varlistentry>
-          <term>Named tei:* styles</term>
-          <listitem>
-            <para> Named styles can be strong indicators for the semantics of the text fragment.
-              Styles whose name starts with <code>tei:</code> are thus recognized as TEI elements
-              with the same name. If a character sequence uses a style called
-                <code>tei:persName</code>, it will be wrapped into a TEI <tag>persName</tag> element
-              in the output, e.g. <code>&lt;persName&gt;Johann Wolfgang
-                Goethe&lt;/persName&gt;</code>. A place name should be marked with a style
-                <code>tei:placeName</code> and reconstructed text could be encoded by applying a
-              style <code>tei:supplied</code>. </para>
-          </listitem>
-        </varlistentry>
-
-        <varlistentry>
-          <term>Headings and divisions</term>
-          <listitem>
-            <para> Since Word does not have a concept for text division, instead storing just flat
-              lists of paragraphs, so the only way to reconstruct the logical structure is to use
-              Word headings and outline level associated with these to determine division
-              boundaries. </para>
-            <para>In the first pass, all paragraph styles starting with <code>heading</code>,
-                <code>title</code> or <code>subtitle</code> generate a <tag>tei:head</tag> element.
-              The outline level assigned to the heading is recorded as well.</para>
-            <para>Subsequently, in a second pass through the generated output, divisions are
-              generated based on the outline level: a <tag>div</tag> spans all text from the heading
-              to the next heading on the same outline level and the process is repeated for all
-              headings within the division on a lower outline level.</para>
-          </listitem>
-        </varlistentry>
-
-        <varlistentry>
-          <term>Lists</term>
-          <listitem>
-            <para>Lists structure needs to be reconstructed, very much like divisions, taking into
-              consideration the list level associated with every item which can be accessed via a
-              call to <code>$parameters?pstyle(.)//outlineLvl/@w:val</code>.</para>
-          </listitem>
-        </varlistentry>
-
-        <varlistentry>
-          <term> Foot- and endnotes</term>
-          <listitem>
-            <para> Footnotes are translated into TEI note elements. Endnotes are also supported and
-              transformed into <code>&lt;note type="endnote"&gt;</code>. </para>
-          </listitem>
-        </varlistentry>
-
-        <varlistentry>
-          <term>Tables</term>
-          <listitem>
-            <para> Processing of simple tables works very well as well as cells spanning multiple
-              colums. Row spans are not implemented yet. </para>
-          </listitem>
-        </varlistentry>
-
-        <varlistentry>
-          <term>Images</term>
-          <listitem>
-            <para> Embedded images are stored into a subcollection starting with the name of the
-              docx file being processed and suffixed with <code>.media</code>, eg. <code>&lt;graphic
-                url="test.docx.media/image1.png"/&gt;</code>
-            </para>
-          </listitem>
-        </varlistentry>
-      </variablelist>
-    </section>
-
-    <section xml:id="docx-functions">
-      <title>ODD for docx</title>
-      <para>The ODD used for docx processing can be found in <link xlink:href="odd/docx.odd"
-          role="source">docx.odd</link>. Users are free to extend the default ODD with additional
-        heuristics. For example, a paragraph being entirely bold could also be treated as a heading,
-        or a left text indent may indicate a quote.</para>
-      <para>For testing purposes there is a Word document provided in
-          <filename>data/doc/test.docx</filename> which includes samples of most important features
-        like headings, lists, tables, notes and embedded images. Try uploading it via upload panel
-        as described in the <link linkend="upload">upload section</link> and check the conversion
-        results. Behaviour of the conversion mostly follows the approach used in TEI Stylesheets
-        docx-to-tei transformation module and has been tested on test files included there.</para>
-
-      <section>
-        <title>Parameter functions</title>
-        <para>Functions below can be used to retrieve styles or other information related to a
-          current node. For more usage examples see <link xlink:href="odd/docx.odd" role="source"
-            >docx.odd</link></para>
-
-        <variablelist>
-          <varlistentry>
-            <term>cstyle</term>
-            <listitem>
-              <para>phrase level (characters, words or phrases) styles associated with the current
-                node</para>
-              <para>Returns: <code>w:style</code></para>
-              <para>Usage example: <code>$parameters?cstyle(.)/name[starts-with(@w:val,
-                  'tei:')]</code></para>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term>endnote</term>
-            <listitem>
-              <para>content of the endnote</para>
-              <para>Returns: <code>w:endnote/w:p</code></para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term>footnote</term>
-            <listitem>
-              <para>content of the footnote</para>
-              <para>Returns: <code>w:footnote/w:p</code></para>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term>link</term>
-            <listitem>
-              <para>external link</para>
-              <para>Returns: <code>rel:Relationship</code></para>
-              <para>Usage example: <code>$parameters?link(.)/@Target</code></para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term>nstyle</term>
-            <listitem>
-              <para>list style information associated with the current node</para>
-              <para>Returns: <code>w:lvl</code></para>
-              <para>Usage example: <code>$parameters?nstyle(.)/numFmt</code></para>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term>pstyle</term>
-            <listitem>
-              <para>paragraph level styles associated with the current node</para>
-              <para>Returns: <code>w:style</code></para>
-              <para>Usage example: <code>$parameters?pstyle(.)/name[matches(@w:val, 'quote';,
-                  'i')]</code></para>
-            </listitem>
-          </varlistentry>
-        </variablelist>
-      </section>
-    </section>
-  </section>
-
   <section xml:id="pi-config">
     <title>Processing instructions</title>
     <para>The default view for a specific document can be configured via a processing instruction.
