@@ -766,75 +766,66 @@
     </section>
   </section>
   <section xml:id="data-organization">
+    <title>Data</title>
     <!-- 
     ## Data
 
 - Organisation
     - embedded data collection vs separate apps
     - Sub collections and virtual corpora
-- Conventions (divs, pi)
-- Supported formats
-    - Tei
-    - DocBook
-    - Jats
-    - Word (via import to TEI)
-- Customising for other XML vocabularies
-    -->
-    <title>Data</title>
+- Conventions (divs, pi) -->
+  </section>
+  <section xml:id="supported-input-formats">
+    <title>Supported XML vocabularies</title>
+    <para>TEI Publisher started as a publishing toolbox for TEI but the principles of TEI Processing
+      Model were never limited to a single vocabulary. Publisher very quickly extended support to
+      other XML formats. Currently TEI, DocBook, JATS and MS Word DOCX are supported out of the box
+      (DOCX via automated conversion to TEI on upload).</para>
+    <para>Few specificities of <emphasis>TEI</emphasis> and <emphasis>DocBook</emphasis> are listed
+      below, while <emphasis>DOCX</emphasis> is discussed at length in the following section.</para>
+    <para/>
+    <section>
+      <title>TEI</title>
+      <para>In principle, any TEI document will be supported by TEI Publisher and can be displayed
+        with the default page template and odd.</para>
+      <para>Nevertheless, certain assumptions are made about encoding of the basic structure of the
+        TEI documents for the purpose of navigation:</para>
+      <itemizedlist>
+        <listitem>
+          <para>page beginnings are encoded with <tag>pb</tag></para>
+        </listitem>
+        <listitem>
+          <para>column beginnings are encoded with <tag>cb</tag></para>
+        </listitem>
+        <listitem>
+          <para>structural divisions in the document are encoded with <tag>div</tag> element</para>
+        </listitem>
+      </itemizedlist>
+      <para>We acknowledge that TEI offers other ways to encode these features, e.g. generic
+          <tag>milestone</tag> element or specialized numbered division elements like
+          <tag>div1</tag>, <tag>div2</tag>, etc. TEI documents using alternative encodings will be
+        still displayed as specified in the ODD, it is only for the sake of navigation or
+        division-based full text search that we had to assume certain conventions to be able to
+        decide what to show as the next page, column or division.</para>
+      <para>We believe our choice represents most common way of using TEI but, for those who
+        followed the path less travelled, the chapter on customization below briefly discusses how
+        to change relevant functionality.</para>
+    </section>
 
-    <section xml:id="supported-input-formats">
-      <title>Supported XML vocabularies</title>
-      <para>TEI Publisher started as a publishing toolbox for TEI but the principles of TEI
-        Processing Model were never limited to a single vocabulary. Publisher very quickly extended
-        support to other XML formats. Currently TEI, DocBook, JATS and MS Word DOCX are supported
-        out of the box (DOCX via automated conversion to TEI on upload).</para>
-      <para>Few specificities of <emphasis>TEI</emphasis> and <emphasis>DocBook</emphasis> are
-        discussed below, while <emphasis>DOCX</emphasis> deserved its own chapter.</para>
-      <para/>
-      <section>
-        <title>TEI</title>
-        <para>In principle, any TEI document will be supported by TEI Publisher and can be displayed
-          with the default page template and odd.</para>
-        <para>Nevertheless, certain assumptions are made about encoding of the basic structure of
-          the TEI documents for the purpose of navigation:</para>
-        <itemizedlist>
-          <listitem>
-            <para>page beginnings are encoded with <tag>pb</tag></para>
-          </listitem>
-          <listitem>
-            <para>column beginnings are encoded with <tag>cb</tag></para>
-          </listitem>
-          <listitem>
-            <para>structural divisions in the document are encoded with <tag>div</tag>
-              element</para>
-          </listitem>
-        </itemizedlist>
-        <para>We acknowledge that TEI offers other ways to encode these features, e.g. generic
-            <tag>milestone</tag> element or specialized numbered division elements like
-            <tag>div1</tag>, <tag>div2</tag>, etc. TEI documents using alternative encodings will be
-          still displayed as specified in the ODD, it is only for the sake of navigation or
-          division-based full text search that we had to assume certain conventions to be able to
-          decide what to show as the next page, column or division.</para>
-        <para>We believe our choice represents most common way of using TEI but, for those who
-          followed the path less travelled, the chapter on customization below briefly discusses how
-          to change relevant functionality.</para>
-      </section>
-
-      <section>
-        <title>DocBook</title>
-        <para>DocBook support is demonstrated by this very document you are now reading,
-            <filename>documentation.xml</filename>. It is written in DocBook and presented via
-          dedicated <filename>docbook.odd</filename> and <filename>documentation.html</filename>
-          page template.</para>
-        <para>You will notice a custom processing instruction in the source code of this document
-          which specifies which ODD and template to use. Experiment changing the template and ODD
-          via <guibutton>Settings</guibutton> drawer to see how much impact it has on
-          display.</para>
-        <programlisting language="xml" xml:space="preserve">
+    <section>
+      <title>DocBook</title>
+      <para>DocBook support is demonstrated by this very document you are now reading,
+          <filename>documentation.xml</filename>. It is written in DocBook and presented via
+        dedicated <filename>docbook.odd</filename> and <filename>documentation.html</filename> page
+        template.</para>
+      <para>You will notice a custom processing instruction in the source code of this document
+        which specifies which ODD and template to use. Experiment changing the template and ODD via
+          <guibutton>Settings</guibutton> drawer to see how much impact it has on display.</para>
+      <programlisting language="xml" xml:space="preserve">
           &lt;?teipublisher odd="docbook.odd" template="documentation.html" depth="3"?>
         </programlisting>
-      </section>
     </section>
+
 
     <section xml:id="docx">
       <title>MS Word DOCX format conversion</title>
@@ -1015,36 +1006,6 @@
             </varlistentry>
           </variablelist>
         </section>
-      </section>
-    </section>
-
-    <section xml:id="new-vocabulary">
-      <title>Adding a custom vocabulary</title>
-      <para>As discussed in the opening chapter, publishing a corpus of documents online requires not only to transform the single source document
-        into the desired output format but transformationTo fully support a new XML vocabulary in TEI Publisher several aspects need to be adressed.
-      </para>
-      <section xml:id="new-vocabulary-odd">
-        <title>ODD</title>
-        <para> Create a new, blank ODD file which is not chained to any other ODD and add
-            <tag>elementSpec</tag>s for its elements. Make sure that you specify correct namespace
-          for your vocabulary. Optionally, you can also specify an external CSS file with style
-          declarations for classes and elements you will be using in processing models of your
-          ODD.</para>
-        <para>See how it looks in the ODD for DocBook.</para>
-        <figure>
-          <title>ODD for DocBook</title>
-          <mediaobject>
-            <imageobject>
-              <imagedata fileref="new-vocabulary-odd.png"/>
-            </imageobject>
-          </mediaobject>
-        </figure>
-        <para>When adding models into the custom ODD for your vocabulary make sure that at least one
-          element applies the <parameter>document</parameter> or <parameter>body</parameter>
-          behaviour. Usually it will be the top level element or the main content-bearing one (like
-            <tag>article</tag> in DocBook).</para>
-        <para>Very bare bones ODD file for a fictional <emphasis>Foo</emphasis> vocabulary could
-          look as follows:</para>
       </section>
     </section>
   </section>
@@ -4509,6 +4470,227 @@ static get styles() {
           xlink:href="https://www.webcomponents.org/author/PolymerElements">Polymer elements
           library</link>).</para>
     </section>
+  </section>
+
+
+  <section xml:id="new-vocabulary">
+    <title>Adding a custom vocabulary</title>
+    <para>As discussed in the opening chapter, publishing a corpus of documents online is much more
+      than just transforming a single source document into the desired output format. To fully
+      support a new XML vocabulary in TEI Publisher several aspects need to be adressed:</para>
+    <itemizedlist>
+      <listitem>
+        <para>ODD with processing models</para>
+      </listitem>
+      <listitem>
+        <para>default view and page template</para>
+      </listitem>
+      <listitem>
+        <para>navigation, breadcrumbs and table of contents</para>
+      </listitem>
+      <listitem>
+        <para>search and filtering: full text index definitions, facets and fields</para>
+      </listitem>
+    </itemizedlist>
+    <para>ODD and processing models within it govern how the document in your new vocabulary will be
+      transformed into a range of available output formats: HTML, ePub etc.</para>
+    <para>All other aspects are interconnected and depend on the understanding what constitutes the
+      basic unit of the text: TEI primarily considers <emphasis>divisions</emphasis> or
+        <emphasis>pages</emphasis>, DocBook rather <emphasis>sections</emphasis>. Therefore
+      navigation for TEI document will be switching between <tag>div</tag>s or reconstructed XML
+      fragments between subsequent <tag>pb</tag>s, while talking about pages in DocBook documents
+      makes no sense and <tag>section</tag>s are the main structural units.</para>
+    <para>This structure has its consequences for further aspects: generating TOC in TEI will
+      analyze nested <tag>div</tag>/<tag>head</tag> structures but only
+        <tag>section</tag>/<tag>title</tag> in DocBook. Likewise, KWIC display in TEI will be
+      showing matches in <tag>div</tag> context but <tag>section</tag> in DocBook, so Lucene indexes
+      need to be defined on these elements in their appropriate namespaces. Ditto for facets and
+      fields used for sorting and filtering.</para>
+    <para>Sections below will explain where and how to customize these aspects in more
+      detail.</para>
+    <section xml:id="new-vocabulary-odd">
+      <title>ODD</title>
+      <para> Create a new, blank ODD file which is not chained to any other ODD and add
+          <tag>elementSpec</tag>s for its elements. Make sure that you specify correct namespace for
+        your vocabulary. Optionally, you can also specify an external CSS file with style
+        declarations for classes and elements you will be using in processing models of your
+        ODD.</para>
+      <para>See how it looks in the ODD for DocBook.</para>
+      <figure>
+        <title>ODD for DocBook</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="new-vocabulary-odd.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>When adding models into the custom ODD for your vocabulary it is recommended that at
+        least one element applies the <parameter>document</parameter> behaviour. Usually it will be
+        the top level element or the main content-bearing one (like <tag>article</tag> in
+        DocBook).</para>
+      <para>This is not strictly required but for print output via LaTeX or FO the
+          <parameter>document</parameter> behaviour specifies default prologue governing basic setup
+        for PDF. If you refer to the <filename>docbook.odd</filename> you will note that the same
+        effect is achieved by explicitly defining the prologue in the <tag>pb:template</tag> for
+          <parameter>article</parameter>.</para>
+      <section>
+        <title>Case study: foo vocabulary</title>
+        <para>Let's consider an imaginary vocabulary called <emphasis>foo</emphasis>. All documents
+          in this vocabulary will belong to the <code>http://foo.io</code> namespace. Simple
+          document could look as follows:</para>
+        <programlisting language="xml" xml:space="preserve">
+        &lt;fooStart xmlns="http://foo.io">
+          &lt;foo>My foo document&lt;/foo>
+          &lt;bar>About something very important for foo community.&lt;/bar>
+        &lt;/fooStart>
+        </programlisting>
+        <para>Let's save this document in the <filename>playground</filename> collection as
+            <filename>foo.xml</filename>.</para>
+        <para>Unfortunately a request to retrieve this document in Publisher fails with
+            <emphasis>the server did not return any content</emphasis> error message.</para>
+        <programlisting>http://localhost:8080/exist/apps/tei-publisher/playground/foo.xml</programlisting>
+        <para>Fixing this will require creating a new ODD for <emphasis>foo</emphasis>
+          vocabulary.</para>
+        <para>Create a new ODD as described previously. Use <parameter>document</parameter>
+          behaviour for <tag>fooStart</tag> element and perhaps <tag>inline</tag> with an
+            <tag>outputRendition</tag> set to <parameter>italic</parameter> for <tag>foo</tag>
+          element. Please note to specify the ODD for your vocabulary.</para>
+
+
+        <para>Very bare bones ODD file for a fictional <emphasis>Foo</emphasis> vocabulary could
+          look as follows:</para>
+        <figure>
+          <title>ODD for Foo</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="foo-odd.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>Or, in XML form:</para>
+        <programlisting language="xml" xml:space="preserve">
+&lt;schemaSpec start="fooStart" ident="foo" ns="http://foo.io"> 
+   &lt;elementSpec ident="foo" mode="add">
+       &lt;model behaviour="inline">
+           &lt;outputRendition>font-style: italic;&lt;/outputRendition>
+       &lt;/model>
+   &lt;/elementSpec>
+   &lt;elementSpec ident="fooStart" mode="add">
+       &lt;model behaviour="document"/>
+   &lt;/elementSpec>
+&lt;/schemaSpec>
+        </programlisting>
+        <para>With this in place we could reformulate our request to explicitly specify the ODD to
+          use and a <parameter>single</parameter> view.</para>
+        <programlisting>http://localhost:8080/exist/apps/tei-publisher/playground/foo.xml?odd=foo&amp;view=single</programlisting>
+        <figure>
+          <title>foo.xml rendered with foo.odd in single view</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="foo-single-view.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <note>
+          <title>Note</title>
+          <para>It is necessary to use <parameter>single</parameter> view along with the
+              <parameter>foo.odd</parameter>. Otherwise, the app default view would be used, which
+            in TEI Publisher is normally set to <parameter>div</parameter>. As we already mentioned,
+            implementation of view parameters needs to be vocabulary-specific to work. Since
+              <emphasis>foo</emphasis> vocabulary doesn't yet have navigation customized, TEI
+            Publisher will fall back to TEI and try to locate <tag>tei:div</tag> elements, which
+            obviously cannot be found in our test document in foo namespace.</para>
+
+        </note>
+      </section>
+
+    </section>
+    <section>
+      <title>Default view and page template</title>
+      <para>Rendering of the document is governed by a number of parameters, particularly
+          <parameter>view</parameter>, <parameter>ODD</parameter> and
+          <parameter>template</parameter>:</para>
+      <para>Even when these parameters are not explicitly specified, TEI Publisher and apps
+        generated from it, will fall back to the default values specified in
+          <filename>modules/config.xqm</filename>.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>ODD: <code>$config:default-view</code></para>
+        </listitem>
+        <listitem>
+          <para>view: <code>$config:default-view</code></para>
+        </listitem>
+        <listitem>
+          <para>template: <code>$config:default-template</code></para>
+        </listitem>
+      </itemizedlist>
+      <para>Alternative way to specify these would be using a <link linkend="pi-config">processing
+          instruction</link> in the foo.xml document itself.</para>
+      <programlisting language="xml" xml:space="preserve">
+        &lt;?teipublisher odd="foo.odd" view="single" template="view.html"?>
+      </programlisting>
+    </section>
+    <section xml:id="new-vocabulary-lucene">
+      <title>Lucene configuration</title>
+      <para>eXist-db and TEI Publisher make extensive use of Lucene indexing engine. In particular
+        search, navigation, sorting and filtering heavily depend on full text indexes, facets and
+        fields therefore it is paramount to specify these correctly for your data
+        collection.</para>
+      <para>Supporting a new vocabulary, make sure to add its namespace on the <tag>index</tag>
+        element in <filename>collection.xconf</filename>.</para>
+      <programlisting language="xml" xml:space="preserve">
+&lt;index xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dbk="http://docbook.org/ns/docbook">
+      </programlisting>
+      <para>Beyond this minor adjustment, adding a new vocabulary does not differ in creation and use of facets and fields.</para>
+    </section>
+    <section xml:id="new-vocabulary-navigation">
+      <title>Navigation</title>
+      <para>We have extensively covered modifications to the ODD and page templates in earlier
+        chapters. In case of vocabularies without out-of-the-box Publisher support it is necessary
+        to customize the navigation as well. Tacit understanding of document's structure is critical
+        for many kinds of user interactions - from browsing through pages to creating the table of
+        contents.</para>
+      <para><filename>modules/navigation.xql</filename> is the main "control room" for all tasks
+        related to navigation. You will note that it imports custom modules for all supported
+        vocabularies: <emphasis>TEI</emphasis>, <emphasis>JATS</emphasis> and
+          <emphasis>DocBook</emphasis>. All requests are dispatched to specialized modules,
+        depending on the namespace of the document (cf. <function>nav:document-type</function>
+        function).</para>
+      <programlisting language="xquery" xml:space="preserve">
+module namespace nav="http://www.tei-c.org/tei-simple/navigation";
+
+import module namespace tei-nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xql";
+import module namespace jats-nav="http://www.tei-c.org/tei-simple/navigation/jats" at "navigation-jats.xql";
+import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/docbook" at "navigation-dbk.xql";
+      </programlisting>
+      <para>Customizing yet unsupported vocabulary will require:</para>
+      <itemizedlist>
+        <listitem>
+          <para>create a new navigation module for the new vocabulary (e.g.
+              <filename>navigation-foo.xql</filename>; it should implement all the functions that
+              <function>navigation.xql</function> dispatches to; you can use
+              <filename>navigation-tei</filename> as a starting point for customization</para>
+          <para>import it into <filename>navigation.xql</filename></para>
+        </listitem>
+        <listitem>
+          <para>adjust <function>nav:document-type</function> function</para>
+        </listitem>
+        <listitem>
+          <para>adjust <function>nav:get-root</function></para>
+        </listitem>
+      </itemizedlist>
+    </section>
+    <section xml:id="new-vocabulary-search">
+      <title>Search</title>
+      <para>Full text search is realized via the same modular approach that governs navigation.
+          <filename>modules/query.xql</filename> is the main "control room", dispatching requests to
+        functions in specialized modules. See implementation of <filename>db-query.xql</filename> or
+          <filename>tei-query.xql</filename> before creating a dedicated module for your vocabulary.
+        Make sure to import your module into <filename>query.xql</filename>.</para>
+    </section>
+
   </section>
 
   <section xml:id="faq">
