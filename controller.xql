@@ -323,7 +323,7 @@ else if (matches($exist:path, "[^/]+\..*$")) then (
 ) else if (starts-with($exist:path, "/collection/")) then (
     login:set-user($config:login-domain, (), false()),
     let $path := substring-after($exist:path, "/collection/")
-    let $templatePath := $config:data-root || "/" || $path || "collection.html"
+    let $templatePath := $config:data-root || "/" || $path || "/collection.html"
     let $templateAvail := doc-available($templatePath) or util:binary-doc-available($templatePath)
     let $template := 
         if ($templateAvail) then 
