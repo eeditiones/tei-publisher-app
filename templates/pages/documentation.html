@@ -14,59 +14,8 @@
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
         <link rel="stylesheet" href="resources/css/theme.css"/>
+        <link rel="stylesheet" href="../templates/pages/documentation.css"/>
         <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
-        <style>
-            #view1 {
-                margin: 8px 16px;
-            }
-
-            #view1, #toc pb-link {
-                font-family: var(--pb-base-font-family);
-                font-size: 20px;
-            }
-
-            .breadcrumbs pb-view {
-                font-family: var(--pb-base-font-family);
-                --pb-view-max-width: auto;
-            }
-            
-            @media (min-width: 769px) {
-                .toolbar pb-navigation {
-                    display: none;
-                }
-
-                #view1 {
-                    max-width: 60vw;
-                }
-            }
-
-            .content-body {
-                position: relative;
-                display: flex;
-                justify-content: center;
-            }
-
-            .content-body pb-navigation {
-                position: fixed;
-                bottom: 45%;
-                --paper-fab-background: #35424b;
-                color: white;
-            }
-
-            .content-body pb-navigation[direction=backward] {
-                left: 20px;
-            }
-
-            .content-body pb-navigation[direction=forward] {
-                right: 20px;
-            }
-
-            @media (max-width: 769px) {
-                .content-body pb-navigation {
-                    display: none;
-                }
-            }
-        </style>
     </head>
 
     <body>
@@ -80,33 +29,31 @@
                         <app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/>
                     </app-header>
 
-                    <pb-drawer toggle="tocToggle" class="tocDrawer" emit="toc" subscribe="transcription">
-                        <div class="drawer-content">
-                            <h3>
-                                <pb-i18n key="document.contents">Contents</pb-i18n>
-                            </h3>
-                            <pb-load id="toc" url="templates/toc.html?target=transcription" src="document1" subscribe="toc" load-once="load-once"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
-                        </div>
-                    </pb-drawer>
-
-                    <section class="breadcrumbs">
-                        <pb-view id="title-view1" src="document1" subscribe="transcription">
+                    <main>
+                        <pb-drawer class="toc" toggle="tocToggle" emit="toc" subscribe="transcription" max-width="1024px">
+                            <pb-load url="templates/toc.html?target=transcription" src="document1" auto="auto" emit="toc"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
+                        </pb-drawer>
+                        <pb-view class="breadcrumbs" src="document1" subscribe="transcription">
                             <pb-param name="mode" value="breadcrumbs"/>
                         </pb-view>
-                    </section>
-
-                    <main class="content-body">
-                        <pb-navigation direction="backward" unit="page" emit="transcription"
-                            subscribe="transcription">
-                            <paper-fab icon="icons:chevron-left"/>
-                        </pb-navigation>
                         <pb-view id="view1" src="document1" load-css="../odd/docbook.css"
                             column-separator=".tei-cb" append-footnotes="append-footnotes"
-                            subscribe="transcription" emit="transcription"/>
-                        <pb-navigation direction="forward" unit="page" emit="transcription"
-                            subscribe="transcription">
-                            <paper-fab icon="icons:chevron-right"/>
-                        </pb-navigation>
+                            subscribe="transcription" emit="transcription"
+                            wait-for="toc"/>
+                        <footer>
+                            <!-- Navigate to next page -->
+                            <pb-navigation direction="forward" keyboard="right" emit="transcription" subscribe="transcription">
+                                <paper-button>
+                                    <iron-icon icon="icons:chevron-right"></iron-icon>
+                                </paper-button>
+                            </pb-navigation>
+                            <!-- Navigate to previous page -->
+                            <pb-navigation direction="backward" keyboard="left" emit="transcription" subscribe="transcription">
+                                <paper-button>
+                                    <iron-icon icon="icons:chevron-left"></iron-icon>
+                                </paper-button>
+                            </pb-navigation>
+                        </footer>
                     </main>
                 </app-header-layout>
             </app-drawer-layout>

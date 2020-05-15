@@ -332,17 +332,18 @@ declare function pages:clean-footnotes($nodes as node()*) {
 
 declare
     %templates:wrap
-function pages:table-of-contents($node as node(), $model as map(*), $target as xs:string*) {
+function pages:table-of-contents($node as node(), $model as map(*), $target as xs:string*, $icons as xs:boolean?) {
     let $current :=
         if ($model?config?view = "page") then
             ($model?data/ancestor-or-self::tei:div[1], $model?data/following::tei:div[1])[1]
         else
             $model?data
     return
-        pages:toc-div(root($model?data), $model, $current, $target)
+        pages:toc-div(root($model?data), $model, $target, $icons)
 };
 
-declare %private function pages:toc-div($node, $model as map(*), $current as element(), $target as xs:string?) {
+declare %private function pages:toc-div($node, $model as map(*), $target as xs:string?,
+    $icons as xs:boolean?) {
     let $view := $model?config?view
     let $divs := nav:get-subsections($model?config, $node)
     return
@@ -362,27 +363,33 @@ declare %private function pages:toc-div($node, $model as map(*), $current as ele
                     (),
                 $div
             )[1]
-            let $id := "T" ||util:uuid()
+            let $parent := $div/ancestor::tei:div[1]
+            let $inParent := nav:filler($model?config, $parent) is $div
             let $hasDivs := exists(nav:get-subsections($model?config, $div))
-            let $isIn := if ($div/descendant::*[. is $current]) then "in" else ()
-            let $isCurrent := if ($div is $current) then "active" else ()
-            let $icon := if ($isIn) then "expand_less" else "expand_more"
+            let $nodeId :=  if ($inParent) then util:node-id($parent) else util:node-id($root)
+            let $subsect := if ($inParent) then attribute hash { util:node-id($root) } else ()
             return
-                <li>
-                {
-                    if ($hasDivs) then
-                        <pb-collapse>
-                            <span slot="collapse-trigger">
-                                <pb-link node-id="{util:node-id($root)}" emit="{$target}">{$html}</pb-link>
-                            </span>
-                            <span slot="collapse-content">
-                            { pages:toc-div($div, $model, $current, $target) }
-                            </span>
-                        </pb-collapse>
-                    else
-                        <pb-link node-id="{util:node-id($root)}" emit="{$target}">{$html}</pb-link>
-                }
-                </li>
+                    <li>
+                    {
+                        if ($hasDivs) then
+                            <pb-collapse>
+                                {
+                                    if (not($icons)) then
+                                        attribute no-icons { "no-icons" }
+                                    else
+                                        ()
+                                }
+                                <span slot="collapse-trigger">
+                                    <pb-link node-id="{$nodeId}" emit="{$target}" subscribe="{$target}">{$subsect, $html}</pb-link>
+                                </span>
+                                <span slot="collapse-content">
+                                { pages:toc-div($div, $model, $target, $icons) }
+                                </span>
+                            </pb-collapse>
+                        else
+                            <pb-link node-id="{$nodeId}" emit="{$target}" subscribe="{$target}">{$subsect, $html}</pb-link>
+                    }
+                    </li>
         }
         </ul>
 };

@@ -64,12 +64,12 @@
                         <app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/>
                     </app-header>
 
-                    <pb-drawer toggle="tocToggle" class="tocDrawer" emit="toc" subscribe="transcription">
+                    <pb-drawer toggle="tocToggle" class="toc" emit="toc" subscribe="transcription">
                         <div class="drawer-content">
                             <h3>
                                 <pb-i18n key="document.contents">Contents</pb-i18n>
                             </h3>
-                            <pb-load id="toc" url="templates/toc.html?target=transcription" src="document1" subscribe="toc" load-once="load-once"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
+                            <pb-load id="toc" url="templates/toc.html?target=transcription&amp;icons=true" src="document1" subscribe="toc" load-once="load-once"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
                         </div>
                     </pb-drawer>
                     <section class="breadcrumbs">

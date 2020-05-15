@@ -267,7 +267,13 @@
                             <param name="content" value="title" />
                         </model>
                     </modelSequence>
-                    <model behaviour="block" />
+                    <model behaviour="block">
+                        <param name="root" value="util:node-id($parameters?root)" />
+                        <param name="nodeId" value="util:node-id($get(.))" />
+                        <pb:template xmlns="" xml:space="preserve">
+                            <pb-observable data="[[root]],[[nodeId]]" emit="transcription">[[content]]</pb-observable>
+                        </pb:template>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="para">
                     <model behaviour="paragraph" />
