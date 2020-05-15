@@ -50,7 +50,9 @@
         </copy>
     </target>
 
-    <target name="xar" depends="prepare">
+    <target name="xar-local" depends="prepare,xar" />
+
+    <target name="xar">
         <mkdir dir="${build}" />
         <zip destfile="${build}/${project.app}-${project.version}${git.commit}.xar">
             <fileset dir=".">
