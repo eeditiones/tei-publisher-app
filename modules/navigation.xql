@@ -102,8 +102,8 @@ declare function nav:get-previous($config as map(*), $div as element(), $view as
     nav:dispatch($config, "get-previous", [$config, $div, $view])
 };
 
-declare function nav:get-previous-div($config as map(*), $div as element()) {
-    nav:dispatch($config, "get-previous-div", [$config, $div])
+declare function nav:filler($config as map(*), $div as element()?) {
+    nav:dispatch($config, "filler", [$config, $div])
 };
 
 declare function nav:output-footnotes($footnotes as element()*) {
