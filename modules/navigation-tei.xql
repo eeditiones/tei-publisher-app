@@ -139,7 +139,7 @@ declare function nav:get-section-heading($config as map(*), $section as node()) 
 };
 
 declare function nav:filler($config as map(*), $div) {
-    if ($config?fill > 0 and $div/tei:div and count(($div/tei:div[1])/preceding-sibling::*//*) < $config?fill) then
+    if ($config?fill > 0 and $div/tei:div and count(($div/tei:div[1])/preceding-sibling::*/descendant-or-self::*) < $config?fill) then
         $div/tei:div[1]
     else
         ()

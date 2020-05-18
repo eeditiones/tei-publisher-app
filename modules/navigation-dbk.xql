@@ -71,7 +71,7 @@ declare function nav:get-first-page-start($config as map(*), $data as element())
 };
 
 declare function nav:filler($config as map(*), $div) {
-    if ($config?fill > 0 and $div/dbk:section and count(($div/dbk:section[1])/preceding-sibling::*//*) < $config?fill) then
+    if ($config?fill > 0 and $div/dbk:section and count(($div/dbk:section[1])/preceding-sibling::*/descendant-or-self::*) < $config?fill) then
         $div/dbk:section[1]
     else
         ()
