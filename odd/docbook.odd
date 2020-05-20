@@ -225,6 +225,7 @@
             
             
             
+            
 
 
 
@@ -248,9 +249,12 @@
             
             
             
+            
             </outputRendition>
                     </model>
-                    <model predicate="parent::note" behaviour="inline" />
+                    <model predicate="parent::note" behaviour="heading">
+                        <param name="level" value="4" />
+                    </model>
                     <model predicate="parent::info and $parameters?header='short'" behaviour="link">
                         <param name="uri" value="$parameters?doc" />
                     </model>
@@ -281,8 +285,10 @@
                 <elementSpec ident="emphasis">
                     <model predicate="@role='bold'" behaviour="inline">
                         <outputRendition xml:space="preserve">
+            
             font-weight: 400;
 font-style: italic;
+            
             </outputRendition>
                     </model>
                     <model behaviour="inline">
@@ -404,6 +410,7 @@ font-style: italic;
             
             
             
+            
 
 
 
@@ -414,6 +421,7 @@ white-space: pre-wrap;
 
 
 
+            
             
             
             
@@ -456,6 +464,7 @@ white-space: pre-wrap;
             
             
             
+            
 
 
 
@@ -466,6 +475,7 @@ white-space: pre-wrap;
 
 
 
+            
             
             
             
@@ -510,6 +520,7 @@ white-space: pre-wrap;
             
             
             
+            
 
 
 
@@ -532,6 +543,7 @@ padding: 1em 0 1em .5em;
             
             
             
+            
             </outputRendition>
                     </model>
                     <model output="latex" behaviour="inline">
@@ -541,10 +553,8 @@ padding: 1em 0 1em .5em;
 [[content]]
 \end{mdframed}</pb:template>
                     </model>
-                    <model output="web" behaviour="webcomponent" cssClass="note">
-                        <param name="name" value="'paper-card'" />
-                        <param name="heading" value="title" />
-                        <param name="content" value="*[not(self::title)]" />
+                    <model output="web" behaviour="block" cssClass="note">
+                        <param name="content" value="(title, *[not(self::title)])" />
                     </model>
                     <model behaviour="block" />
                 </elementSpec>
@@ -625,6 +635,7 @@ Not available in PDF edition. Go to \url{[[content]]} to view.
             
             
             
+            
 
 
 
@@ -645,6 +656,7 @@ border-left: 3px solid #c0c0c0;
             
             
             
+            
             </outputRendition>
                     </model>
                 </elementSpec>
@@ -652,6 +664,7 @@ border-left: 3px solid #c0c0c0;
                     <model behaviour="inline" cssClass="pubdate">
                         <param name="content" value="format-date(., '[MNn] [D1], [Y0001]', 'en_US', (), ())" />
                         <outputRendition xml:space="preserve" scope="before">
+            
             
             
             
@@ -676,6 +689,7 @@ border-left: 3px solid #c0c0c0;
 
 
 
+            
             
             
             

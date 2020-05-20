@@ -64,17 +64,15 @@ dd {
 }
 
 .note {
-    margin: 0 16px;
+    margin: 16px 14px 20px 10px;
+    padding: 12px 16px 12px 16px;
     font-size: .85em;
+    box-shadow: 3px 4px 10px #00000052
 }
 
-.note>* {
-    margin-left: 16px;
-    margin-right: 16px;
-}
-
-.note :first-child {
+.note h4 {
     margin-top: 0;
+    margin-bottom: 0;
 }
 
 a:link, a:visited {
