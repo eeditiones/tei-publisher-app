@@ -33,8 +33,6 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../c
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 
-declare variable $pages:app-root := request:get-context-path() || substring-after($config:app-root, "/db");
-
 declare variable $pages:EXIDE :=
     let $pkg := collection(repo:get-root())//expath:package[@name = "http://exist-db.org/apps/eXide"]
     let $appLink :=
@@ -212,7 +210,7 @@ declare function pages:get-document($idOrName as xs:string) {
 declare function pages:back-link($node as node(), $model as map(*)) {
     element { node-name($node) } {
         attribute href {
-            $pages:app-root || "/"
+            $config:context-path || "/"
         },
         $node/@*,
         $node/node()
@@ -400,7 +398,7 @@ function pages:styles($node as node(), $model as map(*)) {
     attribute href {
         let $name := replace($config:odd, "^([^/\.]+).*$", "$1")
         return
-            $pages:app-root || "/" || $config:output || "/" || $name || ".css"
+            $config:context-path || "/" || $config:output || "/" || $name || ".css"
     }
 };
 
@@ -466,13 +464,13 @@ declare function pages:pb-page($node as node(), $model as map(*), $template as x
     let $model := map:merge(
         (
             $model,
-            map { "app": request:get-context-path() || substring-after($config:app-root, "/db") }
+            map { "app": $config:context-path }
         )
     )
     return
         element { node-name($node) } {
             $node/@*,
-            attribute app-root { request:get-context-path() || substring-after($config:app-root, "/db") },
+            attribute app-root { $config:context-path },
             attribute template { $template },
             templates:process($node/*, $model)
         }
