@@ -331,13 +331,7 @@ declare function pages:clean-footnotes($nodes as node()*) {
 declare
     %templates:wrap
 function pages:table-of-contents($node as node(), $model as map(*), $target as xs:string*, $icons as xs:boolean?) {
-    let $current :=
-        if ($model?config?view = "page") then
-            ($model?data/ancestor-or-self::tei:div[1], $model?data/following::tei:div[1])[1]
-        else
-            $model?data
-    return
-        pages:toc-div(root($model?data), $model, $target, $icons)
+    pages:toc-div(root($model?data), $model, $target, $icons)
 };
 
 declare %private function pages:toc-div($node, $model as map(*), $target as xs:string?,
@@ -348,10 +342,10 @@ declare %private function pages:toc-div($node, $model as map(*), $target as xs:s
         <ul>
         {
             for $div in $divs
-            let $headings := nav:get-section-heading($model?config, $div)
+            let $headings := nav:get-section-heading($model?config, $div)/node()
             let $html :=
                 if ($headings/*) then
-                    $pm-config:web-transform($headings, map { "header": "short", "root": $div }, $model?config?odd)
+                    $pm-config:web-transform($headings, map { "mode": "toc", "root": $div }, $model?config?odd)
                 else
                     $headings/string()
             let $root := (
@@ -361,8 +355,8 @@ declare %private function pages:toc-div($node, $model as map(*), $target as xs:s
                     (),
                 $div
             )[1]
-            let $parent := $div/ancestor::tei:div[1]
-            let $inParent := nav:filler($model?config, $parent) is $div
+            let $parent := if ($view = "div") then $div/ancestor::tei:div[1] else ()
+            let $inParent := $parent and nav:filler($model?config, $parent) is $div
             let $hasDivs := exists(nav:get-subsections($model?config, $div))
             let $nodeId :=  if ($inParent) then util:node-id($parent) else util:node-id($root)
             let $subsect := if ($inParent) then attribute hash { util:node-id($root) } else ()
