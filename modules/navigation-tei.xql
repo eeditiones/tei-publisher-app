@@ -138,6 +138,11 @@ declare function nav:get-section-heading($config as map(*), $section as node()) 
     $section/tei:head
 };
 
+(:~
+ : By-division view:
+ : Return additional content to fill up a parent division which otherwise would not have
+ : enough text to show. By default adds the first subdivision.
+ :)
 declare function nav:filler($config as map(*), $div) {
     if ($config?fill > 0 and $div/tei:div and count(($div/tei:div[1])/preceding-sibling::*/descendant-or-self::*) < $config?fill) then
         $div/tei:div[1]
@@ -145,8 +150,14 @@ declare function nav:filler($config as map(*), $div) {
         ()
 };
 
+(:~
+ : By-division view: get the top fragment to display for the division. If the division is on a level
+ : above the configured max depth, sub-divisions will be shown on their own page - except if the
+ : content before the first child division is less than the number of elements configured for the
+ : fill parameter. In this case, the first sub-division will be shown together with its parent.
+ :)
 declare function nav:fill($config as map(*), $div) {
-    if ($div/tei:div and $config?fill > 0 and count($div/ancestor-or-self::tei:div) <= $config?depth) then
+    if ($div/tei:div and $config?fill > 0 and count($div/ancestor-or-self::tei:div) < $config?depth) then
         let $filler := nav:filler($config, $div)
         return
             if ($filler) then
@@ -165,6 +176,9 @@ declare function nav:fill($config as map(*), $div) {
         $div
 };
 
+(:~
+ : By-division view: compute and return the next division to show in sequence.
+ :)
 declare function nav:next-page($config as map(*), $div) {
     let $filled := nav:filler($config, $div)
     return
@@ -177,6 +191,9 @@ declare function nav:next-page($config as map(*), $div) {
             )[1]
 };
 
+(:~
+ : By-division view: compute and return the previous division to show in sequence.
+ :)
 declare function nav:previous-page($config as map(*), $div) {
     let $preceding := $div/preceding::tei:div[count(ancestor-or-self::tei:div) <= $config?depth][1]
     let $parent := $div/ancestor::tei:div[1]
