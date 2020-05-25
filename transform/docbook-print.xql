@@ -55,13 +55,19 @@ declare %private function model:iframe($config as map(*), $node as node()*, $cla
     $node ! (
 
         
-        <t xmlns=""><iframe src="{$config?apply-children($config, $node, $src)}" width="{$config?apply-children($config, $node, $width)}" height="{$config?apply-children($config, $node, $height)}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"> </iframe></t>/*
+        <t xmlns=""><iframe src="{$config?apply-children($config, $node, $src)}" width="{$config?apply-children($config, $node, $width)}" height="{$config?apply-children($config, $node, $height)}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"/></t>/*
     )
 };
 
 (: generated template function for element spec: title :)
 declare %private function model:template-title2($config as map(*), $node as node()*, $params as map(*)) {
-    <t xmlns=""><h1><pb-link path="{$config?apply-children($config, $node, $params?path)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-link></h1></t>/*
+    <t xmlns=""><h1>
+                                <pb-link path="{$config?apply-children($config, $node, $params?path)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-link>
+                            </h1></t>/*
+};
+(: generated template function for element spec: section :)
+declare %private function model:template-section3($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><pb-observable data="{$config?apply-children($config, $node, $params?root)},{$config?apply-children($config, $node, $params?nodeId)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-observable></t>/*
 };
 (:~
 
@@ -146,7 +152,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 fo:inline($config, ., ("tei-title3"), .)
                             else
                                 if (parent::note) then
-                                    fo:inline($config, ., ("tei-title4"), .)
+                                    fo:heading($config, ., ("tei-title4"), ., 4)
                                 else
                                     if (parent::info and $parameters?header='short') then
                                         fo:link($config, ., ("tei-title5"), ., $parameters?doc, map {})
@@ -160,7 +166,17 @@ declare function model:apply($config as map(*), $input as node()*) {
                             )
 
                         else
-                            fo:block($config, ., ("tei-section3"), .)
+                            let $params := 
+                                map {
+                                    "root": util:node-id($parameters?root),
+                                    "nodeId": util:node-id($get(.)),
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template-section3($config, ., $params)
+                            return
+                                                        fo:block(map:merge(($config, map:entry("template", true()))), ., ("tei-section3"), $content)
                     case element(para) return
                         fo:paragraph($config, ., ("tei-para"), .)
                     case element(emphasis) return
@@ -241,7 +257,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 fo:link($config, ., ("tei-link5"), ., @xlink:href, map {})
                     case element(guibutton) return
-                        fo:inline($config, ., ("tei-guibutton"), .)
+                        fo:inline($config, ., ("tei-guibutton", "guibutton"), .)
                     case element(guilabel) return
                         fo:inline($config, ., ("tei-guilabel"), .)
                     case element(videodata) return

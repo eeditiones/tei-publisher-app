@@ -42,19 +42,26 @@ declare %private function model:iframe($config as map(*), $node as node()*, $cla
     $node ! (
 
         
-        <t xmlns=""><iframe src="{$config?apply-children($config, $node, $src)}" width="{$config?apply-children($config, $node, $width)}" height="{$config?apply-children($config, $node, $height)}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"> </iframe></t>/*
+        <t xmlns=""><iframe src="{$config?apply-children($config, $node, $src)}" width="{$config?apply-children($config, $node, $width)}" height="{$config?apply-children($config, $node, $height)}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"/></t>/*
     )
 };
 
 (: generated template function for element spec: title :)
 declare %private function model:template-title2($config as map(*), $node as node()*, $params as map(*)) {
-    <t xmlns=""><h1><pb-link path="{$config?apply-children($config, $node, $params?path)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-link></h1></t>/*
+    <t xmlns=""><h1>
+                                <pb-link path="{$config?apply-children($config, $node, $params?path)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-link>
+                            </h1></t>/*
+};
+(: generated template function for element spec: section :)
+declare %private function model:template-section3($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><pb-observable data="{$config?apply-children($config, $node, $params?root)},{$config?apply-children($config, $node, $params?nodeId)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-observable></t>/*
 };
 (: generated template function for element spec: link :)
 declare %private function model:template-link2($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><pb-edit-xml path="/db/apps/tei-publisher/{$config?apply-children($config, $node, $params?path)}">
-  {$config?apply-children($config, $node, $params?content)} <iron-icon icon="icons:open-in-new"/>
-</pb-edit-xml></t>/*
+                                {$config?apply-children($config, $node, $params?content)}
+                                <iron-icon icon="icons:open-in-new"/>
+                            </pb-edit-xml></t>/*
 };
 (:~
 
@@ -139,7 +146,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 html:inline($config, ., ("tei-title3"), .)
                             else
                                 if (parent::note) then
-                                    html:inline($config, ., ("tei-title4"), .)
+                                    html:heading($config, ., ("tei-title4"), ., 4)
                                 else
                                     if (parent::info and $parameters?header='short') then
                                         html:link($config, ., ("tei-title5"), ., $parameters?doc, (), map {})
@@ -153,7 +160,17 @@ declare function model:apply($config as map(*), $input as node()*) {
                             )
 
                         else
-                            html:block($config, ., ("tei-section3"), .)
+                            let $params := 
+                                map {
+                                    "root": util:node-id($parameters?root),
+                                    "nodeId": util:node-id($get(.)),
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template-section3($config, ., $params)
+                            return
+                                                        html:block(map:merge(($config, map:entry("template", true()))), ., ("tei-section3"), $content)
                     case element(para) return
                         html:paragraph($config, ., ("tei-para"), .)
                     case element(emphasis) return
@@ -214,7 +231,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             if (parent::cell|parent::para|parent::ab) then
                                 html:inline($config, ., ("tei-programlisting4", "code"), .)
                             else
-                                html:webcomponent($config, ., ("tei-programlisting5"), text(), 'pb-code-highlight', map {"language": @language, "line-numbers": true()})
+                                html:webcomponent($config, ., ("tei-programlisting5"), text(), 'pb-code-highlight', map {"language": (@language, 'xml')[1], "line-numbers": true()})
                     case element(synopsis) return
                         html:webcomponent($config, ., ("tei-synopsis4"), ., 'pb-code-highlight', map {"language": @language})
                     case element(example) return
@@ -228,7 +245,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(filename) return
                         html:inline($config, ., ("tei-filename", "code"), .)
                     case element(note) return
-                        html:webcomponent($config, ., ("tei-note3", "note"), *[not(self::title)], 'paper-card', map {"heading": title})
+                        html:block($config, ., ("tei-note3", "note"), (title, *[not(self::title)]))
                     case element(tag) return
                         html:inline($config, ., ("tei-tag", "code"), .)
                     case element(link) return
@@ -252,7 +269,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 else
                                     html:link($config, ., ("tei-link5"), ., @xlink:href, (), map {})
                     case element(guibutton) return
-                        html:inline($config, ., ("tei-guibutton"), .)
+                        html:inline($config, ., ("tei-guibutton", "guibutton"), .)
                     case element(guilabel) return
                         html:inline($config, ., ("tei-guilabel"), .)
                     case element(videodata) return
