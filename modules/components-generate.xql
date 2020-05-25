@@ -50,7 +50,7 @@ declare variable $deploy:REPO_DESCRIPTOR :=
         <permissions user=""
             password=""
             group="tei"
-            mode="rw-rw-r--"/>
+            mode="rw-r--r--"/>
     </meta>
 ;
 
@@ -64,28 +64,53 @@ declare variable $deploy:ANT_FILE :=
         <property name="project.version" value="${{package(version)}}"/>
         <property name="project.app" value="${{package(abbrev)}}"/>
         <property name="build.dir" value="build"/>
+        <property name="scripts.dir" value="node_modules/@teipublisher/pb-components/dist"/>
+
+        <target name="clean">
+            <delete dir="${{build}}" />
+            <delete dir="resources/scripts" includes="*.js *.map" />
+            <delete dir="resources/images/leaflet" />
+            <delete dir="resources/images/openseadragon" />
+            <delete dir="resources/i18n/common" />
+            <delete dir="resources/css" includes="leaflet/** prismjs/**" />
+            <delete dir="resources/lib" />
+        </target>
+
+        <target name="prepare">
+            <copy todir="resources/scripts">
+                <fileset dir="${{scripts.dir}}">
+                    <include name="*.js" />
+                    <include name="*.map" />
+                </fileset>
+            </copy>
+            <copy file="node_modules/leaflet/dist/leaflet.css" todir="resources/css/leaflet" />
+            <copy todir="resources/images/leaflet">
+                <fileset dir="node_modules/leaflet/dist/images" />
+            </copy>
+            <copy todir="resources/images/openseadragon">
+                <fileset dir="node_modules/openseadragon/build/openseadragon/images" />
+            </copy>
+            <copy file="node_modules/openseadragon/build/openseadragon/openseadragon.min.js" todir="resources/lib" />
+            <copy todir="resources/css/prismjs">
+                <fileset dir="node_modules/prismjs/themes" />
+            </copy>
+            <copy todir="resources/i18n/common">
+                <fileset dir="node_modules/@teipublisher/pb-components/i18n/common" />
+            </copy>
+        </target>
+
+        <target name="xar-local" depends="npm.install,prepare,xar" />
         <target name="xar">
             <mkdir dir="${{build.dir}}"/>
             <zip basedir="." destfile="${{build.dir}}/${{project.app}}-${{project.version}}.xar"
                 excludes="${{build.dir}}/* node_modules/**"/>
         </target>
-        <target name="xar-complete" depends="npm.build,xar"/>
-        <target name="npm.build">
-            <echo message="Calling npm to generate bundle files ..."/>
+        <target name="xar-complete" depends="npm.install,xar"/>
+        <target name="npm.install">
             <exec executable="${{npm}}" outputproperty="npm.output">
-                <arg line="run-script"/>
-                <arg line="start"/>
+                <arg line="install" />
             </exec>
-            <echo message="${{npm.output}}"/>
-        </target>
-        <target name="clean">
-            <delete dir="${{build.dir}}"/>
-            <delete dir="resources/scripts" includes="*.js *.map"/>
-            <delete dir="resources/images/leaflet"/>
-            <delete dir="resources/images/openseadragon"/>
-            <delete dir="resources/i18n/common"/>
-            <delete dir="resources/css" includes="leaflet/** prismjs/**"/>
-            <delete dir="resources/lib"/>
+            <echo message="${{npm.output}}" />
         </target>
     </project>;
 
@@ -134,7 +159,7 @@ declare function deploy:expand-repo-descriptor($meta as element(repo:meta), $jso
         { $meta/(repo:author|repo:status|repo:license|repo:copyright|repo:type|repo:prepare|repo:finish) }
         <target>{$json?abbrev}</target>
         <permissions user="{$json?owner}" password="{$json?password}"
-            group="tei" mode="rw-rw-r--"/>
+            group="tei" mode="rw-r--r--"/>
     </meta>
 };
 
@@ -194,11 +219,10 @@ declare function deploy:create-collection($collection as xs:string, $userData as
 declare function deploy:copy-collection($target as xs:string, $source as xs:string, $userData as xs:string+, $permissions as xs:string) {
     let $null := deploy:mkcol($target, $userData, $permissions)
     return
-    if (exists(collection($source))) then (
+    if (exists(xmldb:collection-available($source))) then (
         for $resource in xmldb:get-child-resources($source)
-        return (
-            xmldb:copy-resource($source, $resource, $target, $resource)
-        ),
+        return
+            xmldb:copy-resource($source, $resource, $target, $resource),
         for $childColl in xmldb:get-child-collections($source)
         return
             deploy:copy-collection(concat($target, "/", $childColl), concat($source, "/", $childColl), $userData, $permissions)
@@ -341,7 +365,7 @@ declare function deploy:create-transform($collection as xs:string) {
 
 declare function deploy:create-app($collection as xs:string, $json as map(*)) {
     let $create :=
-        deploy:create-collection($collection, ($json?owner, "tei"), "rw-rw-r--")
+        deploy:create-collection($collection, ($json?owner, "tei"), "rw-r--r--")
     let $base := substring-before(system:get-module-load-path(), "/modules")
     let $dataRoot := if ($json?data-collection) then $json?data-collection else "data"
     let $dataRoot :=
@@ -370,18 +394,18 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:store-repo-descriptor($collection, $json),
         deploy:store-ant($collection, $json),
         deploy:store-xconf($collection, $json),
-        deploy:copy-collection($collection, $base || "/templates/basic", ($json?owner, "tei"), "rw-rw-r--"),
-        deploy:copy-collection($collection || "/templates/pages", $base || "/templates/pages", ($json?owner, "tei"), "rw-rw-r--"),
+        deploy:copy-collection($collection, $base || "/templates/basic", ($json?owner, "tei"), "rw-r--r--"),
+        deploy:copy-collection($collection || "/templates/pages", $base || "/templates/pages", ($json?owner, "tei"), "rw-r--r--"),
         deploy:expand($collection || "/modules", "config.xqm", $replacements),
         deploy:expand($collection || "/modules", "pm-config.xql", $replacements),
-        deploy:store-libs($collection, ($json?owner, "tei"), "rw-rw-r--"),
+        deploy:store-libs($collection, ($json?owner, "tei"), "rw-r--r--"),
         deploy:copy-odd($collection, $json),
         deploy:create-transform($collection),
-        deploy:copy-resource($collection, $base, "index.xql", ($json?owner, "tei"), "rw-rw-r--"),
-        deploy:mkcol($collection || "/data", ($json?owner, "tei"), "rw-rw-r--"),
-        deploy:copy-resource($collection || "/data", $base || "/data", "taxonomy.xml", ($json?owner, "tei"), "rw-rw-r--"),
-        deploy:copy-resource($collection || "/resources/css", $base || "/resources/css", "theme.css", ($json?owner, "tei"), "rw-rw-r--"),
-        deploy:copy-resource($collection || "/resources/i18n", $base || "/resources/i18n", "languages.json", ($json?owner, "tei"), "rw-rw-r--"),
+        deploy:copy-resource($collection, $base, "index.xql", ($json?owner, "tei"), "rw-r--r--"),
+        deploy:mkcol($collection || "/data", ($json?owner, "tei"), "rw-r--r--"),
+        deploy:copy-resource($collection || "/data", $base || "/data", "taxonomy.xml", ($json?owner, "tei"), "rw-r--r--"),
+        deploy:copy-resource($collection || "/resources/css", $base || "/resources/css", "theme.css", ($json?owner, "tei"), "rw-r--r--"),
+        deploy:copy-resource($collection || "/resources/i18n", $base || "/resources/i18n", "languages.json", ($json?owner, "tei"), "rw-r--r--"),
         xmldb:store($collection, "package.json", deploy:package-json($json), "application/json")
     )
     return

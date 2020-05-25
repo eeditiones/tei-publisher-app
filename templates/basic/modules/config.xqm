@@ -265,6 +265,16 @@ declare variable $config:app-root :=
         substring-before($modulePath, "/modules")
 ;
 
+(:
+ : The context path to use for links within the application, e.g. menus.
+ : The default should work when running on top of a standard eXist installation,
+ : but may need to be changed if the app is behind a proxy.
+ :)
+declare variable $config:context-path :=
+   request:get-context-path() || substring-after($config:app-root, "/db")
+    (: "" :)
+;
+
 (:~
  : The root of the collection hierarchy containing data.
  :)
