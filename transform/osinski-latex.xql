@@ -67,7 +67,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             latex:inline($config, ., ("tei-figure2"), .)
                     case element(teiHeader) return
-                        latex:metadata($config, ., ("tei-teiHeader1"), .)
+                        latex:metadata($config, ., ("tei-teiHeader2"), .)
                     case element(supplied) return
                         if (parent::choice) then
                             latex:inline($config, ., ("tei-supplied1"), .)
@@ -181,15 +181,18 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(foreign) return
                         latex:inline($config, ., ("tei-foreign"), .)
                     case element(fileDesc) return
-                        if ($parameters?header='short') then
-                            (
-                                latex:block($config, ., ("tei-fileDesc1", "header-short"), titleStmt),
-                                latex:block($config, ., ("tei-fileDesc2", "header-short"), editionStmt),
-                                latex:block($config, ., ("tei-fileDesc3", "header-short"), publicationStmt)
-                            )
-
+                        if ($parameters?mode='metadata') then
+                            latex:block($config, ., ("tei-fileDesc1"), .)
                         else
-                            latex:title($config, ., ("tei-fileDesc4"), titleStmt)
+                            if ($parameters?header='short') then
+                                (
+                                    latex:block($config, ., ("tei-fileDesc2", "header-short"), titleStmt),
+                                    latex:block($config, ., ("tei-fileDesc3", "header-short"), editionStmt),
+                                    latex:block($config, ., ("tei-fileDesc4", "header-short"), publicationStmt)
+                                )
+
+                            else
+                                latex:title($config, ., ("tei-fileDesc5"), titleStmt)
                     case element(seg) return
                         latex:inline($config, ., css:get-rendition(., ("tei-seg")), .)
                     case element(profileDesc) return
@@ -214,7 +217,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:omit($config, ., ("tei-licence2"), .)
                     case element(editor) return
                         if (ancestor::teiHeader) then
-                            latex:omit($config, ., ("tei-editor1"), .)
+                            latex:block($config, ., ("tei-editor1"), .)
                         else
                             latex:inline($config, ., ("tei-editor2"), .)
                     case element(c) return
@@ -405,53 +408,56 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 else
                                     $config?apply($config, ./node())
                     case element(title) return
-                        if ($parameters?header='short') then
-                            latex:heading($config, ., ("tei-title1"), ., 5)
+                        if ($parameters?mode='metadata') then
+                            latex:omit($config, ., ("tei-title1"), .)
                         else
-                            if (parent::titleStmt/parent::fileDesc) then
-                                (
-                                    if (preceding-sibling::title) then
-                                        latex:text($config, ., ("tei-title2"), ' — ')
-                                    else
-                                        (),
-                                    latex:inline($config, ., ("tei-title3"), .)
-                                )
-
+                            if ($parameters?header='short') then
+                                latex:heading($config, ., ("tei-title2"), ., 5)
                             else
-                                if (not(@level) and parent::bibl) then
-                                    latex:inline($config, ., ("tei-title4"), .)
-                                else
-                                    if (@level='m' or not(@level)) then
-                                        (
-                                            latex:inline($config, ., ("tei-title5"), .),
-                                            if (ancestor::biblFull) then
-                                                latex:text($config, ., ("tei-title6"), ', ')
-                                            else
-                                                ()
-                                        )
+                                if (parent::titleStmt/parent::fileDesc) then
+                                    (
+                                        if (preceding-sibling::title) then
+                                            latex:text($config, ., ("tei-title3"), ' — ')
+                                        else
+                                            (),
+                                        latex:inline($config, ., ("tei-title4", "foo"), .)
+                                    )
 
+                                else
+                                    if (not(@level) and parent::bibl) then
+                                        latex:inline($config, ., ("tei-title5"), .)
                                     else
-                                        if (@level='s' or @level='j') then
+                                        if (@level='m' or not(@level)) then
                                             (
-                                                latex:inline($config, ., ("tei-title7"), .),
-                                                if (following-sibling::* and     (  ancestor::biblFull)) then
-                                                    latex:text($config, ., ("tei-title8"), ', ')
+                                                latex:inline($config, ., ("tei-title6"), .),
+                                                if (ancestor::biblFull) then
+                                                    latex:text($config, ., ("tei-title7"), ', ')
                                                 else
                                                     ()
                                             )
 
                                         else
-                                            if (@level='u' or @level='a') then
+                                            if (@level='s' or @level='j') then
                                                 (
-                                                    latex:inline($config, ., ("tei-title9"), .),
-                                                    if (following-sibling::* and     (    ancestor::biblFull)) then
-                                                        latex:text($config, ., ("tei-title10"), '. ')
+                                                    latex:inline($config, ., ("tei-title8"), .),
+                                                    if (following-sibling::* and     (  ancestor::biblFull)) then
+                                                        latex:text($config, ., ("tei-title9"), ', ')
                                                     else
                                                         ()
                                                 )
 
                                             else
-                                                latex:inline($config, ., ("tei-title11"), .)
+                                                if (@level='u' or @level='a') then
+                                                    (
+                                                        latex:inline($config, ., ("tei-title10"), .),
+                                                        if (following-sibling::* and     (    ancestor::biblFull)) then
+                                                            latex:text($config, ., ("tei-title11"), '. ')
+                                                        else
+                                                            ()
+                                                    )
+
+                                                else
+                                                    latex:inline($config, ., ("tei-title12"), .)
                     case element(corr) return
                         if (parent::choice and count(parent::*/*) gt 1) then
                             (: simple inline, if in parent choice. :)
@@ -539,6 +545,25 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:alternate($config, ., ("tei-gen"), ., ., @norm)
                     case element(pos) return
                         latex:alternate($config, ., ("tei-pos"), ., ., @norm)
+                    case element(msDesc) return
+                        (
+                            (: retrieves the primary language :)
+                            latex:block($config, ., ("tei-msDesc1"), (root(.)//langUsage/language)),
+                            (: retrieves the form of the source from taxonomy file :)
+                            latex:block($config, ., ("tei-msDesc2"), id(substring-after(root(.)//catRef[@scheme='#form']/@target, '#'), doc('/db/apps/tei-publisher/data/taxonomy.xml'))),
+                            latex:block($config, ., ("tei-msDesc3"), .)
+                        )
+
+                    case element(institution) return
+                        latex:inline($config, ., ("tei-institution"), .)
+                    case element(respStmt) return
+                        latex:alternate($config, ., ("tei-respStmt"), ., persName, resp)
+                    case element(idno) return
+                        (
+                            latex:inline($config, ., ("tei-idno1"), .),
+                            latex:inline($config, ., ("tei-idno2"), ancestor::msDesc/@type)
+                        )
+
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

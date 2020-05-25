@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html xmlns:i18n="http://exist-db.org/xquery/i18n">
+<html>
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
@@ -11,9 +11,8 @@
 
         <title data-template="config:app-title"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
-        <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
-        <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
-        <link rel="import" href="components/dependencies-dev.html"/>
+        <link rel="stylesheet" href="resources/css/theme.css"/>
+        <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
         <custom-style>
             <style include="pb-common-styles">
                 body {
@@ -59,10 +58,10 @@
         </custom-style>
     </head>
 
-    <body unresolved="unresolved" data-template="i18n:translate" data-template-catalogues="resources/i18n">
-        <pb-page data-template="pages:pb-page">
+    <body unresolved="unresolved">
+        <pb-page data-template="pages:pb-page" unresolved="unresolved">
             <app-header-layout>
-                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
                     <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
                 </app-header>
 

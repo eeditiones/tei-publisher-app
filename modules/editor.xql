@@ -80,7 +80,9 @@ declare function local:load($oddPath as xs:string, $root as xs:string) {
             "source": $schemaSpec/@source/string(),
             "title": string-join($odd//teiHeader/fileDesc/titleStmt/title[not(@type)]/text()),
             "titleShort": $odd//teiHeader/fileDesc/titleStmt/title[@type = 'short']/string(),
-            "description": $odd//teiHeader/fileDesc/titleStmt/title[not(@type)]/desc/text()
+            "description": $odd//teiHeader/fileDesc/titleStmt/title[not(@type)]/desc/text(),
+            "cssFile": $odd//teiHeader/encodingDesc/tagsDecl/rendition/@source/string(),
+            "canWrite": sm:has-access(xs:anyURI($root || "/" || $oddPath), "rw-")
         }
 };
 
@@ -159,24 +161,34 @@ declare function local:recompile($source as xs:string, $root as xs:string) {
 };
 
 declare function local:save($oddPath as xs:string, $root as xs:string, $data as xs:string) {
-    let $odd := doc($root || "/" || $oddPath)
-    let $parsed := parse-xml($data)
-    let $updated := local:update($odd, $parsed, $odd)
-    let $serialized := serialize($updated,
-        <output:serialization-parameters>
-            <output:indent>true</output:indent>
-            <output:omit-xml-declaration>false</output:omit-xml-declaration>
-        </output:serialization-parameters>)
-    let $stored := xmldb:store($root, $oddPath, $serialized)
-    let $report :=
-        array {
-            local:recompile($oddPath, $root)
-        }
+    let $canWrite := sm:has-access(xs:anyURI($root || "/" || $oddPath), "rw-")
     return
-        map {
-            "odd": $oddPath,
-            "report": $report
-        }
+        if ($canWrite) then
+            let $odd := local:add-tags-decl(doc($root || "/" || $oddPath))
+            (: let $odd := doc($root || "/" || $oddPath) :)
+            let $parsed := parse-xml($data)
+            let $updated := local:update($odd, $parsed, $odd)
+            let $serialized := serialize($updated,
+                <output:serialization-parameters>
+                    <output:indent>true</output:indent>
+                    <output:omit-xml-declaration>false</output:omit-xml-declaration>
+                </output:serialization-parameters>)
+            let $stored := xmldb:store($root, $oddPath, $serialized)
+            let $report :=
+                array {
+                    local:recompile($oddPath, $root)
+                }
+            return
+                map {
+                    "odd": $oddPath,
+                    "report": $report
+                }
+        else
+            map {
+                "status": "denied",
+                "odd": $oddPath,
+                "report": ``[You don't have write access to `{$oddPath}`]``
+            }
 };
 
 declare function local:update($nodes as node()*, $data as document-node(), $orig as document-node()) {
@@ -206,6 +218,12 @@ declare function local:update($nodes as node()*, $data as document-node(), $orig
                     $node/@*,
                     $data/schemaSpec/title[text()],
                     $node/* except $node/title
+                }
+            case element(tagsDecl) return
+                element { node-name($node) } {
+                    $node/@*,
+                    $node/* except $node/rendition[@source],
+                    $data/schemaSpec/rendition[@source]
                 }
             case element(schemaSpec) return
                 element { node-name($node) } {
@@ -240,17 +258,59 @@ declare function local:update($nodes as node()*, $data as document-node(), $orig
                 $node
 };
 
+declare function local:add-tags-decl($nodes as node()*) {
+    for $node in $nodes
+    return
+        typeswitch ($node)
+            case document-node() return
+                document {
+                    local:add-tags-decl($node/node())
+                }
+            case element(TEI) return
+                element { node-name($node) } {
+                    for $prefix in in-scope-prefixes($node)[. != "http://www.tei-c.org/ns/1.0"][. != ""]
+                    let $namespace := namespace-uri-for-prefix($prefix, $node)
+                    return
+                        namespace { $prefix } { $namespace },
+                    $node/@*,
+                    local:add-tags-decl($node/teiHeader),
+                    $node/* except $node/teiHeader
+                }
+            case element(teiHeader) return
+                element { node-name($node) } {
+                    $node/@*,
+                    $node/fileDesc,
+                    if ($node/encodingDesc) then
+                        local:add-tags-decl($node/encodingDesc)
+                    else
+                        <encodingDesc xmlns="http://www.tei-c.org/ns/1.0">
+                            <tagsDecl></tagsDecl>
+                        </encodingDesc>,
+                    $node/* except ($node/fileDesc, $node/encodingDesc)
+                }
+            case element(encodingDesc) return
+                element { node-name($node) } {
+                    $node/@*,
+                    if ($node/tagsDecl) then
+                        $node/tagsDecl
+                    else
+                        <tagsDecl xmlns="http://www.tei-c.org/ns/1.0">
+                        </tagsDecl>,
+                    $node/* except $node/tagsDecl
+                }
+            default return
+                $node
+};
+
 declare function local:lint() {
     let $code := request:get-parameter("code", ())
-    let $prolog := (
-        "declare variable $parameters := map {};",
-        "declare variable $node := ();"
-    )
-    let $query := string-join($prolog) || "&#10;" || $code
+    let $query := ``[xquery version "3.1";declare variable $parameters := map {};declare variable $node := ();declare variable $get := (); () ! (
+`{$code}`
+)]``
     let $r := util:compile-query($query, ())
-    let $error := $r/*:error
     return
         if ($r/@result = 'fail') then
+            let $error := $r/*:error
             let $msg := $error/string()
             let $analyzed := analyze-string($msg, ".*line:?\s(\d+).*?column\s(\d+)")
             let $analyzed :=
@@ -270,12 +330,15 @@ declare function local:lint() {
                     number($parsedColumn)
                 else
                     number($error/@column)
+            let $lineCount :=
+                count(analyze-string($code, "\n")//fn:match)
             return
                 map {
                     "status": "fail",
-                    "line": $line - 1,
+                    "line": if ($line < 2 or $line - 1 > $lineCount) then 1 else $line - 1,
+                    "rline": $error,
                     "column": $column,
-                    "message": $error/string()
+                    "message": $msg
                 }
         else
             map {

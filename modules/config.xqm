@@ -17,6 +17,32 @@ declare namespace expath = "http://expath.org/ns/pkg";
 declare namespace jmx = "http://exist-db.org/jmx";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 
+(:~~
+ : A list of regular expressions to check which external hosts are
+ : allowed to access this TEI Publisher instance. The check is done
+ : against the Origin header sent by the browser.
+ :)
+declare variable $config:origin-whitelist := (
+    "(?:https?://localhost:.*|https?://127.0.0.1:.*)"
+);
+
+(:~~
+ : The version of the pb-components webcomponents library to be used by this app.
+ : Should either point to a version published on npm,
+ : or be set to 'local'. In the latter case, webcomponents
+ : are assumed to be self-hosted in the app (which means you
+ : have to npm install it yourself using the existing package.json).
+ : If a version is given, the components will be loaded from a public CDN.
+ : This is recommended unless you develop your own components.
+ :)
+declare variable $config:webcomponents := "0.9.32";
+
+(:~
+ : CDN URL to use for loading webcomponents. Could be changed if you created your
+ : own library extending pb-components and published it to a CDN.
+ :)
+declare variable $config:webcomponents-cdn := "https://unpkg.com/@teipublisher/pb-components";
+
 (:~
  : Should documents be located by xml:id or filename?
  :)
@@ -72,13 +98,13 @@ declare variable $config:pagination-fill := 5;
 declare variable $config:facets := [
     map {
         "dimension": "genre",
-        "heading": "Genre",
+        "heading": "facets.genre",
         "max": 5,
         "hierarchical": true()
     },
     map {
         "dimension": "language",
-        "heading": "Language",
+        "heading": "facets.language",
         "max": 5,
         "hierarchical": false(),
         "output": function($label) {
@@ -88,6 +114,7 @@ declare variable $config:facets := [
                 case "la" return "Latin"
                 case "fr" return "French"
                 case "en" return "English"
+                case "pl" return "Polish"
                 default return $label
         }
     }
@@ -243,6 +270,16 @@ return
     substring-before($modulePath, "/modules")
 ;
 
+(:
+ : The context path to use for links within the application, e.g. menus.
+ : The default should work when running on top of a standard eXist installation,
+ : but may need to be changed if the app is behind a proxy.
+ :)
+declare variable $config:context-path :=
+   request:get-context-path() || substring-after($config:app-root, "/db")
+    (: "" :)
+;
+
 (:~
  : The root of the collection hierarchy containing data.
  :)
@@ -252,7 +289,7 @@ declare variable $config:data-root := $config:app-root || "/data";
  : The root of the collection hierarchy whose files should be displayed
  : on the entry page. Can be different from $config:data-root.
  :)
-declare variable $config:data-default := $config:data-root || "/test";
+declare variable $config:data-default := $config:data-root;
 
 declare variable $config:data-exclude := (
     doc($config:data-root || "/taxonomy.xml")/tei:TEI,
@@ -328,6 +365,8 @@ declare variable $config:dts-collections := map {
 };
 
 declare variable $config:dts-page-size := 10;
+
+declare variable $config:dts-import-collection := $config:data-default || "/playground";
 
 (:~
  : Return an ID which may be used to look up a document. Change this if the xml:id

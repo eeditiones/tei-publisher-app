@@ -37,7 +37,7 @@ declare function local:store-temp($data as node()*, $name as xs:string) {
 };
 
 declare function local:import($data as node()*, $name as xs:string) {
-    xmldb:store($config:data-default, $name, $data, "application/xml")
+    xmldb:store($config:dts-import-collection, $name, $data, "application/xml")
 };
 
 declare function local:clear-temp() {

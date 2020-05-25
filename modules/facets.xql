@@ -89,13 +89,13 @@ declare function local:display($config as map(*), $nodes as element()+) {
     where $table
     return
         <div>
-            <h3>{$config?heading}
+            <h3><pb-i18n key="{$config?heading}">{$config?heading}</pb-i18n>
             {
                 if (exists($config?max)) then
                     <paper-checkbox class="facet" name="all-{$config?dimension}">
                         { if (request:get-parameter("all-" || $config?dimension, ())) then attribute checked { "checked" } else () }
-                        Show top
-50                     </paper-checkbox>
+                        <pb-i18n key="facets.show">Show top 50</pb-i18n>
+                    </paper-checkbox>
                 else
                     ()
             }

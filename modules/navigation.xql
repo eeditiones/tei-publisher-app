@@ -43,7 +43,8 @@ declare %private function nav:dispatch($config as map(*), $function as xs:string
 };
 
 declare function nav:get-root($root as xs:string?, $options as map(*)?) {
-    tei-nav:get-root($root, $options)
+    tei-nav:get-root($root, $options),
+    docbook-nav:get-root($root, $options)
 };
 
 declare function nav:get-header($config as map(*), $node as element()) {
@@ -101,21 +102,19 @@ declare function nav:get-previous($config as map(*), $div as element(), $view as
     nav:dispatch($config, "get-previous", [$config, $div, $view])
 };
 
-declare function nav:get-previous-div($config as map(*), $div as element()) {
-    nav:dispatch($config, "get-previous-div", [$config, $div])
+declare function nav:filler($config as map(*), $div as element()?) {
+    nav:dispatch($config, "filler", [$config, $div])
 };
 
 declare function nav:output-footnotes($footnotes as element()*) {
+    <div class="popovers">
+    {
+        $footnotes/self::pb-popover
+    }
+    </div>,
     <div class="footnotes">
     {
-        for $note in $footnotes
-        order by number($note/@value)
-        return
-            $note
+        $footnotes[not(self::pb-popover)]
     }
     </div>
-};
-
-declare function nav:index($config as map(*), $root) {
-    nav:dispatch($config, "index", [$config, $root])
 };

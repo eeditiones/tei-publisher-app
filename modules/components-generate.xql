@@ -57,13 +57,35 @@ declare variable $deploy:REPO_DESCRIPTOR :=
 declare variable $deploy:ANT_FILE :=
     <project default="xar">
         <xmlproperty file="expath-pkg.xml"/>
+
+        <!-- Adjust path below to match location of your npm binary -->
+        <property name="npm" value="/usr/local/bin/npm"/>
+
         <property name="project.version" value="${{package(version)}}"/>
         <property name="project.app" value="${{package(abbrev)}}"/>
         <property name="build.dir" value="build"/>
         <target name="xar">
             <mkdir dir="${{build.dir}}"/>
             <zip basedir="." destfile="${{build.dir}}/${{project.app}}-${{project.version}}.xar"
-                excludes="${{build.dir}}/*"/>
+                excludes="${{build.dir}}/* node_modules/**"/>
+        </target>
+        <target name="xar-complete" depends="npm.build,xar"/>
+        <target name="npm.build">
+            <echo message="Calling npm to generate bundle files ..."/>
+            <exec executable="${{npm}}" outputproperty="npm.output">
+                <arg line="run-script"/>
+                <arg line="start"/>
+            </exec>
+            <echo message="${{npm.output}}"/>
+        </target>
+        <target name="clean">
+            <delete dir="${{build.dir}}"/>
+            <delete dir="resources/scripts" includes="*.js *.map"/>
+            <delete dir="resources/images/leaflet"/>
+            <delete dir="resources/images/openseadragon"/>
+            <delete dir="resources/i18n/common"/>
+            <delete dir="resources/css" includes="leaflet/** prismjs/**"/>
+            <delete dir="resources/lib"/>
         </target>
     </project>;
 
@@ -83,6 +105,19 @@ declare function deploy:expand-ant($nodes as node()*, $json as map(*)) {
                 }
             default return
                 $node
+};
+
+declare function deploy:package-json($json as map(*)) {
+    let $pkg := map {
+        "name": $json?abbrev,
+        "version": "1.0.0",
+        "description": $json?title,
+        "dependencies": map {
+            "@teipublisher/pb-components": if ($config:webcomponents = 'local') then 'latest' else $config:webcomponents
+        }
+    }
+    return
+        serialize($pkg, map { "method": "json", "indent": true() })
 };
 
 declare function deploy:expand-expath-descriptor($pkg as element(expath:package), $json as map(*)) {
@@ -315,6 +350,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         else
             '\$config:app-root || "/' || $dataRoot || '"'
     let $replacements := map {
+        "^(.*\$config:webcomponents :=).*;$": '"' || $config:webcomponents || '"',
         "^(.*\$config:default-template :=).*;$": '"' || $json?template || '"',
         "^(.*\$config:default-view :=).*;$": '"' || $json?default-view || '"',
         "^(.*\$config:search-default :=).*;$": '"' || $json?index || '"',
@@ -344,7 +380,9 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:copy-resource($collection, $base, "index.xql", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:mkcol($collection || "/data", ($json?owner, "tei"), "rw-rw-r--"),
         deploy:copy-resource($collection || "/data", $base || "/data", "taxonomy.xml", ($json?owner, "tei"), "rw-rw-r--"),
-        deploy:copy-collection($collection || "/resources/i18n", $base || "/resources/i18n", ($json?owner, "tei"), "rw-rw-r--")
+        deploy:copy-resource($collection || "/resources/css", $base || "/resources/css", "theme.css", ($json?owner, "tei"), "rw-rw-r--"),
+        deploy:copy-resource($collection || "/resources/i18n", $base || "/resources/i18n", "languages.json", ($json?owner, "tei"), "rw-rw-r--"),
+        xmldb:store($collection, "package.json", deploy:package-json($json), "application/json")
     )
     return
         $collection

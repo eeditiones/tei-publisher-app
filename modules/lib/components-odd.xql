@@ -22,6 +22,8 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace dbutil = "http://exist-db.org/xquery/dbutil";
+import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
+import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 import module namespace obe = "http://exist-db.org/apps/teipublisher/obe" at "../odd-by-example.xql";
 
 declare option output:method "json";
@@ -69,6 +71,20 @@ declare function local:create($new_odd, $title) {
     let $parsed := document {local:parse-template($template, $new_odd, $title)}
     let $stored := xmldb:store($config:odd-root, $new_odd || ".odd", $parsed, "text/xml")
     return
+        local:compile($new_odd)
+};
+
+declare function local:compile($odd) {
+    for $module in ("web", "print", "latex", "epub")
+    let $result :=
+        pmu:process-odd(
+            odd:get-compiled($config:odd-root, $odd || ".odd"),
+            $config:output-root,
+            $module,
+            "../" || $config:output,
+            $config:module-config
+        )
+    return
         ()
 };
 
@@ -95,7 +111,8 @@ declare function local:list($odd) {
                         "label": $displayName,
                         "description": $description,
                         "path": $resource,
-                        "current": ($odd = $name || ".odd")
+                        "current": ($odd = $name || ".odd"),
+                        "canWrite": sm:has-access(xs:anyURI($resource), "rw-")
                     }
             else
                 ()

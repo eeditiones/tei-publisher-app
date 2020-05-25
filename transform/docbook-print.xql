@@ -215,7 +215,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             fo:cell($config, ., ("tei-td2"), ., ())
                     case element(programlisting) return
-                        fo:block($config, ., ("tei-programlisting5", "programlisting"), .)
+                        fo:block($config, ., ("tei-programlisting6", "programlisting"), .)
                     case element(synopsis) return
                         fo:block($config, ., ("tei-synopsis3", "programlisting"), .)
                     case element(example) return

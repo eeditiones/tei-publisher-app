@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?teipublisher odd="docbook.odd"?>
 <article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
         <title>TEI Publisher 4.1.0</title>
@@ -14,6 +15,9 @@
             <para>This is mainly a bug fix release based on user feedback, but also includes various enhancements
                 and features new demos.</para>
         </abstract>
+        <keywordset vocab="#genre">
+            <keyword>Article</keyword>
+        </keywordset>
     </info>
     <section>
         <title>Release Highlights: Dynamic Layout and Custom Translation Alignment</title>

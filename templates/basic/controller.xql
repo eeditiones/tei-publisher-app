@@ -1,5 +1,7 @@
 xquery version "3.0";
 
+declare namespace dbk="http://docbook.org/ns/docbook";
+
 import module namespace login="http://exist-db.org/xquery/login" at "resource:org/exist/xquery/modules/persistentlogin/login.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "modules/config.xqm";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "modules/lib/pages.xql";
@@ -13,6 +15,26 @@ declare variable $exist:root external;
 
 declare variable $logout := request:get-parameter("logout", ());
 declare variable $login := request:get-parameter("user", ());
+
+declare variable $allowOrigin := local:allowOriginDynamic(request:get-header("Origin"));
+
+declare function local:allowOriginDynamic($origin as xs:string?) {
+    let $origin := replace($origin, "^(\w+://[^/]+).*$", "$1")
+    return
+        if (local:checkOriginWhitelist($config:origin-whitelist, $origin)) then
+            $origin
+        else
+            "*"
+};
+
+declare function local:checkOriginWhitelist($regexes, $origin) {
+    if (empty($regexes)) then
+        false()
+    else if (matches($origin, head($regexes))) then
+        true()
+    else
+        local:checkOriginWhitelist(tail($regexes), $origin)
+};
 
 declare function local:get-template($doc as xs:string) {
     let $template := request:get-parameter("template", ())
@@ -46,7 +68,9 @@ else if ($exist:resource eq 'login') then (
     let $loggedIn := login:set-user($config:login-domain, (), false())
     let $user := request:get-attribute($config:login-domain || ".user")
     return (
-        util:declare-option("exist:serialize", "method=json"),
+        util:declare-option("exist:serialize", "method=json media-type=application/json"),
+        response:set-header("Access-Control-Allow-Origin", $allowOrigin),
+        if ($allowOrigin) then response:set-header("Access-Control-Allow-Credentials", "true") else (),
         try {
             <status xmlns:json="http://www.json.org">
                 <user>{$user}</user>
@@ -69,11 +93,25 @@ else if ($exist:resource eq 'login') then (
         <forward url="/shared-resources/{substring-after($exist:path, '/$shared/')}"/>
     </dispatch>
 
+else if (contains($exist:path, "/node_modules/")) then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/node_modules/{substring-after($exist:path, '/node_modules/')}"/>
+    </dispatch>
+
 else if (matches($exist:path, "^.*/(resources|transform)/.*$")) then
     let $dir := replace($exist:path, "^.*/(resources|transform)/.*$", "$1")
     return
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-            <forward url="{$exist:controller}/{$dir}/{substring-after($exist:path, '/' || $dir || '/')}"/>
+            <forward url="{$exist:controller}/{$dir}/{substring-after($exist:path, '/' || $dir || '/')}">
+            {
+                if ($dir = "transform") then
+                    <set-header name="Cache-Control" value="no-cache"/>
+                else (
+                    <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>,
+                    if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/>
+                )
+            }
+            </forward>
         </dispatch>
 
 else if (contains($exist:path, "/images/")) then
@@ -84,21 +122,22 @@ else if (contains($exist:path, "/images/")) then
 else if (ends-with($exist:resource, ".xql")) then (
     login:set-user($config:login-domain, (), false()),
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/modules/{substring-after($exist:path, '/modules/')}"/>
+        {
+            if (contains($exist:path, "/modules")) then
+                <forward url="{$exist:controller}/modules/{substring-after($exist:path, '/modules/')}">
+                    <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
+                    { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
+                </forward>
+            else
+                <forward url="{$exist:controller}{$exist:path}">
+                    <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
+                    { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
+                </forward>
+        }
         <cache-control cache="no"/>
     </dispatch>
 
 )
-
-else if (contains($exist:path, "/components")) then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/../tei-publisher/components/{substring-after($exist:path, '/components/')}"/>
-    </dispatch>
-
-else if (contains($exist:path, "/webcomponents")) then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/webcomponents/{substring-after($exist:path, '/webcomponents/')}"/>
-    </dispatch>
 
 else if ($logout or $login) then (
     login:set-user($config:login-domain, (), false()),
@@ -121,13 +160,13 @@ else if ($logout or $login) then (
    </dispatch>
 
 else if (starts-with($exist:path, "/api/dts")) then
-   let $endpoint := tokenize(substring-after($exist:path, "/api/dts/"), "/")[last()]
-   return
-       <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-          <forward url="{$exist:controller}/modules/lib/dts.xql">
-              <add-parameter name="endpoint" value="{$endpoint}"/>
-          </forward>
-      </dispatch>
+    let $endpoint := tokenize(substring-after($exist:path, "/api/dts/"), "/")[last()]
+    return
+        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+           <forward url="{$exist:controller}/modules/lib/dts.xql">
+               <add-parameter name="endpoint" value="{$endpoint}"/>
+           </forward>
+       </dispatch>
 
 else if (ends-with($exist:resource, ".html")) then (
     login:set-user($config:login-domain, (), false()),
@@ -142,6 +181,9 @@ else if (ends-with($exist:resource, ".html")) then (
             <forward url="{$exist:controller}/{$resource}"/>
             <view>
                 <forward url="{$exist:controller}/modules/view.xql">
+                    <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
+                    { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
+                    <set-header name="Access-Control-Expose-Headers" value="pb-start, pb-total"/>
                 {
                     if ($exist:resource = ("search-results.html", "documents.html", "index.html")) then
                         <set-header name="Cache-Control" value="no-cache"/>
@@ -159,6 +201,32 @@ else if (ends-with($exist:resource, ".html")) then (
                 else
                     ()
             }
+        </dispatch>
+
+) else if (starts-with($exist:path, "/collection/")) then (
+    login:set-user($config:login-domain, (), false()),
+    let $path := substring-after($exist:path, "/collection/")
+    let $templatePath := $config:data-root || "/" || $path || "collection.html"
+    let $templateAvail := doc-available($templatePath) or util:binary-doc-available($templatePath)
+    let $template := 
+        if ($templateAvail) then 
+            $templatePath
+        else
+            $config:app-root || "/templates/documents.html"
+    return
+        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+            <forward url="{$exist:controller}/modules/view.xql">
+                <add-parameter name="template" value="{$template}"/>
+                <add-parameter name="root" value="{$path}"/>
+                <set-header name="Cache-Control" value="no-cache"/>
+                <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
+                { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
+                <set-header name="Access-Control-Expose-Headers" value="pb-start, pb-total"/>
+            </forward>
+            <error-handler>
+                <forward url="{$exist:controller}/error-page.html" method="get"/>
+                <forward url="{$exist:controller}/modules/view.xql"/>
+            </error-handler>
         </dispatch>
 
 ) else (

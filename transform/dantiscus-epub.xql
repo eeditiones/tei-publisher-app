@@ -127,10 +127,14 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 epub:alternate($config, ., ("tei-choice5", "choice"), ., expan[1], abbr[1])
                             else
                                 if (abbr and expan) then
-                                    epub:alternate($config, ., ("tei-choice6", "choice"), ., abbr[1], expan[1])
+                                    (
+                                        epub:alternate($config, ., ("tei-choice6", "choice"), ., abbr[1], expan[1]),
+                                        epub:alternate($config, ., ("tei-choice7", "choice-alternate"), ., expan[1], abbr[1])
+                                    )
+
                                 else
                                     if (orig and reg) then
-                                        epub:alternate($config, ., ("tei-choice7", "choice"), ., reg[1], orig[1])
+                                        epub:alternate($config, ., ("tei-choice8", "choice"), ., reg[1], orig[1])
                                     else
                                         $config?apply($config, ./node())
                     case element(hi) return
@@ -194,9 +198,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(figDesc) return
                         html:inline($config, ., ("tei-figDesc"), .)
                     case element(rs) return
-                        epub:alternate($config, ., ("tei-rs"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
+                        epub:alternate($config, ., ("tei-rs", "name"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
                     case element(foreign) return
-                        html:inline($config, ., ("tei-foreign"), .)
+                        html:inline($config, ., ("tei-foreign", "foreign"), .)
                     case element(fileDesc) return
                         if ($parameters?header='short') then
                             (
@@ -299,7 +303,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if ($parameters?mode='norm') then
                             html:omit($config, ., ("tei-lb1"), .)
                         else
-                            epub:break($config, ., css:get-rendition(., ("tei-lb2")), ., 'line', @n)
+                            epub:break($config, ., css:get-rendition(., ("tei-lb2", "lb")), ., 'line', @n)
                     case element(w) return
                         html:inline($config, ., ("tei-w"), .)
                     case element(stage) return
@@ -307,7 +311,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(titlePage) return
                         epub:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
                     case element(name) return
-                        epub:alternate($config, ., ("tei-name"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
+                        epub:alternate($config, ., ("tei-name", "name"), ., ., id(substring-after(@ref, '#'), root($parameters?root))/node())
                     case element(front) return
                         epub:block($config, ., ("tei-front"), .)
                     case element(lg) return

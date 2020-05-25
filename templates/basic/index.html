@@ -1,385 +1,377 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html xmlns:i18n="http://exist-db.org/xquery/i18n">
-    <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
-        <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
-        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16"/>
-        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"/>
-        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
-        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
+<html>
 
-        <title data-template="config:app-title"/>
-        <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
-        <link rel="import" href="components/dependencies-dev.html"/>
+<head>
+    <meta charset="utf-8" />
+    <title data-template="config:app-title"></title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes" />
+    <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico" />
+    <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16" />
+    <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24" />
+    <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32" />
+    <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald" />
+    <link rel="stylesheet" href="resources/css/theme.css" />
+    <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
+    <custom-style>
         <style>
-            [unresolved] {
-                display:none;
+            main {
+                margin: 0 20px 0 20px;
             }
-        </style>
-
-        <custom-style>
-            <style include="pb-common-styles">
+            
+            @media (max-width: 1023px) {
                 main {
-                    margin: 0 20px 0 20px;
+                    margin: 0 8px 0 8px;
                 }
-
-                @media (max-width: 1023px) {
-                    main {
-                        margin: 0 8px 0 8px;
-                    }
-
-                    .doclist {
-                        margin-bottom: 20px;
-                    }
-
-                    .documents {
-                        padding-left: 10px;
-                    }
-
-                    .documents .label {
-                        display: none;
-                    }
-
-                    .toolbar pb-search {
-                        padding-left: 0;
-                    }
-
-                    #facets {
-                        display: none;
-                    }
+                .doclist {
+                    margin-bottom: 20px;
                 }
-
-                .tp-title {
-                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
-                    font-size: 36px;
-                    font-weight: 400;
-
+                .documents {
+                    padding-left: 10px;
                 }
-
-                .tp-title span {
-                    color: #9e9e9e;
-                    font-size: 26px;
-                    margin-top: 12px;
+                .documents .label {
+                    display: none;
                 }
-
-                pb-results {
-                    overflow: scroll;
-                    margin: 0 20px;
-                    height: calc(100vh - 128px);
-                }
-
-                @media (min-width: 1024px) {
-                    .toolbar {
-                        display: none;
-                    }
-                    .panels {
-                        display: flex;
-                        flex-direction: row;
-                    }
-
-                    .panels .doclist {
-                        flex: 2 auto;
-                        margin-right: 20px;
-                    }
-                }
-
-                .panels {
-                    margin-bottom: 40px;
-                }
-
-                .panels .doclist {
-                    --paper-card-header: {
-                        background-color: #d1dae0;
-                    };
-
-                    --paper-card-header-text: {
-                        font-family: "Oswald",Verdana,"Helvetica",sans-serif;
-                        font-size: 16px;
-                        font-weight: 400;
-                    };
-                }
-
-                .panels .doclist .card-content {
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                    padding: 0;
-                }
-
-                #document-list {
-                    flex: 2;
-                    margin-right: 20px;
-                }
-
-                aside {
-                    display: flex;
-                    flex-direction: column;
-                }
-
-                aside .odds, aside .upload {
-                    --paper-card-header: {
-                        background-color: #607D8B;
-                    };
-
-                    --paper-card-header-text: {
-                        font-family: "Oswald",Verdana,"Helvetica",sans-serif;
-                        font-size: 16px;
-                        font-weight: 400;
-                        color: white;
-                    };
-                }
-
-                aside .upload {
-                    width: 100%;
-                    min-width: 360px;
-                }
-
-                .documents ul {
-                    list-style: none;
-                }
-
-                .documents app-toolbar {
-                    @apply --layout-start-justified;
-                    font-size: 14px;
-                    margin-top: 10px;
+                .toolbar pb-search {
                     padding-left: 0;
                 }
-
-                .documents div {
-                    margin: 0;
-                }
-
-                .documents a, .documents a:visited {
-                    color: #303F9F;
-                    text-decoration: none;
-                }
-
-                .documents li {
-                    display: flex;
-                    flex-direction: row;
-                    margin-bottom: 10px;
-                    padding:6px 0;
-                    border-bottom:thin solid var(--paper-grey-300);
-                }
-                .documents li:last-child{
-                    border:none;
-                }
-
-
-                .documents .document-select {
-                    flex: 0 0;
-                    margin-right: 20px;
-                }
-                h1, h2, h3, h4, h5, h6 {
-                    font-family: "Oswald",Verdana,"Helvetica",sans-serif;
-                    font-weight: 400 !important;
-                    line-height: 1.2;
-                }
-
-                h5 {
-                    font-size: 16px;
-                    margin: 0;
-                }
-
                 #facets {
-                    flex: 0;
-                    min-width: 220px;
-                    margin-right: 20px;
-                    background-color: #F0F0F0;
-                    padding: 0 10px;
+                    display: none;
                 }
-
-                #facets h3 {
+            }
+            
+            .tp-title {
+                font-family: "Oswald", Verdana, "Helvetica", sans-serif;
+                font-size: 36px;
+                font-weight: 400;
+            }
+            
+            .tp-title span {
+                color: #9e9e9e;
+                font-size: 26px;
+                margin-top: 12px;
+            }
+            
+            pb-results {
+                overflow: scroll;
+                margin: 0 20px;
+                height: calc(100vh - 128px);
+            }
+            
+            @media (min-width: 1024px) {
+                .toolbar {
+                    display: none;
+                }
+                .panels {
                     display: flex;
                     flex-direction: row;
-                    align-items: center;
                 }
-
-                #facets h3 paper-checkbox {
-                    margin-left: 16px;
-                    font-size: 11px;
+                .panels .doclist {
+                    flex: 2 auto;
+                    margin-right: 20px;
                 }
-
-                #facets table {
-                    font-size: 14px;
+            }
+            
+            .panels {
+                margin-bottom: 40px;
+            }
+            
+            .panels .doclist {
+                --paper-tabs-selection-bar-color: #607D8B;
+                --paper-tab-content: {
+                    font-family: "Oswald", Verdana, "Helvetica", sans-serif;
+                    font-weight: 400;
                 }
-
-                #facets table table {
-                    padding-left: 16px;
-                    width: 100%;
+                ;
+                --paper-card-header: {
+                    background-color: #d1dae0;
                 }
-
-                #facets table td{
-                    padding:4px 0;
+                ;
+                --paper-card-header-text: {
+                    font-family: "Oswald", Verdana, "Helvetica", sans-serif;
+                    font-size: 16px;
+                    font-weight: 400;
                 }
-
-                #facets table td:nth-child(2) {
-                    color: #808080;
-                    text-align: right;
-                    padding-left: 1em;
-                    vertical-align: middle;
+                ;
+            }
+            
+            .panels .doclist .card-content {
+                padding: 0;
+            }
+            
+            .panels .doclist .browse {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 0;
+            }
+            
+            #document-list {
+                flex: 2;
+                margin-right: 20px;
+            }
+            
+            .upload-panel {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                min-width: 360px;
+            }
+            
+            aside .upload {
+                --paper-card-header: {
+                    background-color: #607D8B;
                 }
-            </style>
-        </custom-style>
-    </head>
+                ;
+                --paper-card-header-text: {
+                    font-family: "Oswald", Verdana, "Helvetica", sans-serif;
+                    font-size: 16px;
+                    font-weight: 400;
+                    color: white;
+                }
+                ;
+            }
+            
+            aside .upload {
+                width: 100%;
+            }
+            
+            .parent-link iron-icon {
+                padding-right: 4px;
+            }
 
-    <body unresolved="unresolved" data-template="i18n:translate" data-template-catalogues="resources/i18n">
-        <pb-page data-template="pages:pb-page">
-            <app-drawer-layout force-narrow="force-narrow">
-                <app-drawer slot="drawer" align="right" xmlns:i18n="http://exist-db.org/xquery/i18n">
-                    <div class="drawer-content">
-                        <pb-media-query query="(max-width: 1023px)">
+            .parent-link {
+                display: block;
+                margin-bottom: 10px;
+                margin-top: 16px;
+                padding: 6px 0;
+                border-bottom: thin solid var(--paper-grey-300);
+            }
+
+            .documents ul {
+                list-style: none;
+            }
+            
+            .documents app-toolbar {
+                @apply --layout-start-justified;
+                font-size: 14px;
+                margin-top: 10px;
+                padding-left: 0;
+            }
+            
+            .documents div {
+                margin: 0;
+            }
+            
+            .documents a,
+            .documents a:visited {
+                color: #303F9F;
+                text-decoration: none;
+            }
+            
+            .documents li {
+                display: flex;
+                flex-direction: row;
+                margin-bottom: 10px;
+                padding: 6px 0;
+                border-bottom: thin solid var(--paper-grey-300);
+            }
+            
+            .documents li:last-child {
+                border: none;
+            }
+            
+            .documents .document-select {
+                flex: 0 0;
+                margin-right: 20px;
+            }
+            
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                font-family: "Oswald", Verdana, "Helvetica", sans-serif;
+                font-weight: 400 !important;
+                line-height: 1.2;
+            }
+            
+            h5 {
+                font-size: 16px;
+                margin: 0;
+            }
+            
+            #facets {
+                flex: 0;
+                min-width: 220px;
+                margin-right: 20px;
+                background-color: #F0F0F0;
+                padding: 0 10px;
+            }
+            
+            #facets h3 {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+            
+            #facets h3 paper-checkbox {
+                margin-left: 16px;
+                font-size: 11px;
+            }
+            
+            #facets table {
+                font-size: 14px;
+            }
+            
+            #facets table table {
+                padding-left: 16px;
+                width: 100%;
+            }
+            
+            #facets table td {
+                padding: 4px 0;
+            }
+            
+            #facets table td:nth-child(2) {
+                color: #808080;
+                text-align: right;
+                padding-left: 1em;
+                vertical-align: middle;
+            }
+        </style>
+    </custom-style>
+</head>
+
+<body>
+    <pb-page data-template="pages:pb-page" unresolved="unresolved">
+        <app-drawer-layout force-narrow="force-narrow">
+            <app-drawer slot="drawer" align="right">
+                <div class="drawer-content">
+                    <pb-media-query query="(max-width: 1023px)">
                             <!-- language selector -->
-                            <pb-lang name="lang" label="Language" data-template="pages:current-language">
-                                <paper-item>en</paper-item>
-                                <paper-item>es</paper-item>
-                                <paper-item>de</paper-item>
-                                <paper-item>fr</paper-item>
-                                <paper-item>gr</paper-item>
-                                <paper-item>it</paper-item>
-                                <paper-item>pl</paper-item>
-                                <paper-item>nl</paper-item>
-                            </pb-lang>
+                            <pb-lang name="lang" data-template="pages:languages"/>
                         </pb-media-query>
                     </div>
                 </app-drawer>
                 <app-header-layout>
-                    <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
-                        <app-toolbar class="menubar">
-                            <a href="$app/index.html" class="logo">
-                                <img src="resources/images/tei-publisher-logo-contrast-color.svg"/>
-                            </a>
-                            <pb-media-query query="(min-width: 1024px)">
-                                <a href="$app/index.html">Start</a>
-                                <pb-restricted login="login">
-                                    <paper-menu-button>
-                                        <a href="#" slot="dropdown-trigger"><i18n:text key="admin"/></a>
-                                        <paper-listbox slot="dropdown-content">
-                                            <paper-item>
-                                                <pb-download url="modules/lib/app-download.xql">
-                                                    <i18n:text key="xar-download"/>
-                                                </pb-download>
-                                            </paper-item>
-                                        </paper-listbox>
-                                    </paper-menu-button>
-                                </pb-restricted>
-                                <!-- Search input -->
-                                <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
-                                    place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
+                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
+                    <app-toolbar class="menubar">
+                        <a href="${app}/index.html" class="logo" data-template="pages:parse-params">
+                            <img src="resources/images/tei-publisher-logo-contrast-color.svg" />
+                        </a>
+                        <pb-media-query query="(min-width: 1024px)">
+                            <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
+                            <pb-restricted login="login" group="tei">
+                                <paper-menu-button>
+                                    <a href="#" slot="dropdown-trigger">
+                                        <pb-i18n key="menu.admin.title">Admin</pb-i18n>
+                                    </a>
+                                    <paper-listbox slot="dropdown-content">
+                                        <paper-item>
+                                            <pb-download url="modules/lib/app-download.xql">
+                                                <pb-i18n key="appgen.xar-download">Download App as .xar</pb-i18n>
+                                            </pb-download>
+                                        </paper-item>
+                                    </paper-listbox>
+                                </paper-menu-button>
+                            </pb-restricted>
+                            <!-- Search input -->
+                            <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"  redirect="redirect"></pb-search>
 
-                                <!-- language selector -->
-                                <pb-lang name="lang" label="Language" data-template="pages:current-language">
-                                    <paper-item>en</paper-item>
-                                    <paper-item>de</paper-item>
-                                    <paper-item>fr</paper-item>
-                                    <paper-item>gr</paper-item>
-                                    <paper-item>it</paper-item>
-                                    <paper-item>pl</paper-item>
-                                </pb-lang>
-                            </pb-media-query>
-                            <pb-login id="login" login-label="i18n(login)" logout-label="i18n(logout)" group="tei">
-                                <iron-icon slot="icon" icon="account-circle"></iron-icon>
-                            </pb-login>
-                            <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
-                        </app-toolbar>
-                        <pb-media-query query="(max-width: 1023px)">
-                            <app-toolbar class="toolbar" sticky="sticky" xmlns:i18n="http://exist-db.org/xquery/i18n">
-                                <!-- Search input -->
-                                <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
-                                    place-holder="i18n(search-query-attr)" redirect="redirect"></pb-search>
-                                <paper-icon-button icon="icons:menu" drawer-toggle="drawer-toggle"/>
-                            </app-toolbar>
+                            <!-- language selector -->
+                            <pb-lang name="lang" data-template="pages:languages"/>
                         </pb-media-query>
-                    </app-header>
+                        <pb-login id="login" group="tei">
+                            <iron-icon slot="icon" icon="account-circle"></iron-icon>
+                        </pb-login>
+                        <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"
+                            subscribe="docs"></pb-progress>
+                    </app-toolbar>
+                    <pb-media-query query="(max-width: 1023px)">
+                        <app-toolbar class="toolbar" sticky="sticky">
+                            <!-- Search input -->
+                            <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}" redirect="redirect"></pb-search>
+                            <paper-icon-button icon="icons:menu" drawer-toggle="drawer-toggle"></paper-icon-button>
+                        </app-toolbar>
+                    </pb-media-query>
+                </app-header>
 
-                    <main>
-                        <section>
-                            <h1 class="tp-title" data-template="config:app-title"></h1>
-                        </section>
-                        <section class="panels">
-                            <paper-card class="doclist" heading="i18n(documents)">
-                                <div class="card-content">
-                                    <pb-custom-form id="facets" url="modules/facets.xql" event="pb-results-received" subscribe="docs" emit="docs"/>
-                                    <pb-browse-docs id="document-list" url="templates/documents.html" sort-label="i18n(sort-by)"
-                                        sort-options='[{"label": "Title", "value": "title"},{"label": "Author", "value": "author"},{"label": "Modification Date", "value": "default"}]'
-                                        sort-by="title"
-                                        filter-options='[{"label": "Title", "value": "title"},{"label": "Author", "value": "author"},{"label": "File name", "value": "file"}]'
-                                        filter-by="title"
-                                        auto="auto" history="history" login="login"
-                                        emit="docs" subscribe="docs">
-                                        <pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" found-label="i18n(browsing)"
-                                            emit="docs" subscribe="docs"></pb-paginate>
+                <main>
+                    <section>
+                        <h1 class="tp-title" data-template="config:app-title"></h1>
+                    </section>
+                    <section class="panels">
+                        <paper-card class="doclist" data-i18n="[heading]browse.documents" heading="documents">
+                            <div class="card-content">
+                                <div class="browse" slot="page">
+                                    <pb-custom-form id="facets" url="modules/facets.xql" event="pb-results-received" subscribe="docs" emit="docs"></pb-custom-form>
+                                    <pb-browse-docs id="document-list" url="collection/" sort-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"}]' sort-by="title"
+                                        filter-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"},{"label": "browse.file", "value": "file"}]' filter-by="title" auto="auto" history="history" login="login" emit="docs" subscribe="docs">
+                                        <pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" emit="docs" subscribe="docs"></pb-paginate>
                                     </pb-browse-docs>
                                 </div>
-                            </paper-card>
+                            </div>
+                        </paper-card>
+                        <pb-restricted class="upload-panel" login="login">
                             <aside>
-                                <pb-restricted login="login">
-                                    <paper-card class="upload" heading="i18n(upload)">
-                                        <div class="card-content">
-                                            <pb-upload id="upload" emit="docs" accept=".xml, .tei, .odd, .docx"></pb-upload>
-                                        </div>
-                                    </paper-card>
-                                </pb-restricted>
+                                <paper-card class="upload" data-i18n="[heading]upload.upload" heading="Upload">
+                                    <div class="card-content">
+                                        <pb-upload id="upload" emit="docs" accept=".xml, .tei, .odd, .docx"/>
+                                    </div>
+                                </paper-card>
                             </aside>
-                        </section>
-                    </main>
-
-                </app-header-layout>
-            </app-drawer-layout>
-            <paper-dialog id="downloadDialog">
-                <h2>
-                    <i18n:text key="generating-file">Generating File...</i18n:text>
-                </h2>
-                <paper-dialog-scrollable>
-                    <i18n:text key="download-message"/>
-                </paper-dialog-scrollable>
-                <div class="buttons">
-                    <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
-                        <i18n:text key="close">Close</i18n:text>
-                    </paper-button>
-                </div>
-            </paper-dialog>
-            <paper-dialog id="messageDialog" modal="modal">
-                <h2>Action</h2>
-                <paper-dialog-scrollable/>
-                <div class="buttons">
-                    <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
-                        <i18n:text key="close">Close</i18n:text>
-                    </paper-button>
-                </div>
-            </paper-dialog>
-            <paper-dialog id="errorDialog">
-                <h2>Error</h2>
-                <paper-dialog-scrollable/>
-                <div class="buttons">
-                    <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
-                        <i18n:text key="close">Close</i18n:text>
-                    </paper-button>
-                </div>
-            </paper-dialog>
-        </pb-page>
-        <script>
-            const facets = document.getElementById('facets');
-            if (facets) {
-                facets.addEventListener('pb-custom-form-loaded', function(ev) {
-                    const elems = ev.detail.querySelectorAll('.facet');
-                    elems.forEach(facet => {
-                        facet.addEventListener('change', () => {
-                            const table = facet.closest('table');
-                            if (table) {
-                                const nested = table.querySelectorAll('.nested .facet').forEach(nested => {
-                                    if (nested != facet) {
-                                        nested.checked = false;
-                                    }
-                                });
-                            }
-                            facets.submit();
-                        });
+                        </pb-restricted>
+                    </section>
+                </main>
+            </app-header-layout>
+        </app-drawer-layout>
+        <paper-dialog id="downloadDialog">
+            <h2>
+                <pb-i18n key="dialogs.generatingFile">Generating File...</pb-i18n>
+            </h2>
+            <paper-dialog-scrollable>
+                <pb-i18n key="dialogs.downloadMessage"></pb-i18n>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                    <pb-i18n key="dialogs.close">Close</pb-i18n>
+                </paper-button>
+            </div>
+        </paper-dialog>
+        <paper-dialog id="errorDialog">
+            <h2><pb-i18n key="dialogs.error">Error</pb-i18n></h2>
+            <paper-dialog-scrollable></paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
+                    <pb-i18n key="dialogs.close">Close</pb-i18n>
+                </paper-button>
+            </div>
+        </paper-dialog>
+    </pb-page>
+    <div class="splash"></div>
+    <script>
+        const facets = document.getElementById('facets');
+        if (facets) {
+            facets.addEventListener('pb-custom-form-loaded', function(ev) {
+                const elems = ev.detail.querySelectorAll('.facet');
+                elems.forEach(facet => {
+                    facet.addEventListener('change', () => {
+                        const table = facet.closest('table');
+                        if (table) {
+                            const nested = table.querySelectorAll('.nested .facet').forEach(nested => {
+                                if (nested != facet) {
+                                    nested.checked = false;
+                                }
+                            });
+                        }
+                        facets.submit();
                     });
                 });
-            }
-        </script>
-    </body>
+            });
+        }
+    </script>
+</body>
+
 </html>

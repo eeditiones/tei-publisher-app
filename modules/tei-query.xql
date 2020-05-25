@@ -23,13 +23,10 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xql";
+import module namespace query="http://www.tei-c.org/tei-simple/query" at "query.xql";
 
-declare variable $teis:QUERY_OPTIONS := map {
-    "leading-wildcard": "yes",
-    "filter-rewrite": "yes"
-};
-
-declare function teis:query-default($fields as xs:string+, $query as xs:string, $target-texts as xs:string*) {
+declare function teis:query-default($fields as xs:string+, $query as xs:string, $target-texts as xs:string*,
+    $sortBy as xs:string*) {
     if(string($query)) then
         for $field in $fields
         return
@@ -38,42 +35,24 @@ declare function teis:query-default($fields as xs:string+, $query as xs:string, 
                     if ($target-texts) then
                         for $text in $target-texts
                         return
-                            $config:data-root ! doc(. || "/" || $text)//tei:head[ft:query(., $query, teis:options())]
+                            $config:data-root ! doc(. || "/" || $text)//tei:head[ft:query(., $query, query:options($sortBy))]
                     else
-                        collection($config:data-root)//tei:head[ft:query(., $query, teis:options())]
+                        collection($config:data-root)//tei:head[ft:query(., $query, query:options($sortBy))]
                 default return
                     if ($target-texts) then
                         for $text in $target-texts
                         return
-                            $config:data-root ! doc(. || "/" || $text)//tei:div[ft:query(., $query, teis:options())] |
-                            $config:data-root ! doc(. || "/" || $text)//tei:text[ft:query(., $query, teis:options())]
+                            $config:data-root ! doc(. || "/" || $text)//tei:div[ft:query(., $query, query:options($sortBy))] |
+                            $config:data-root ! doc(. || "/" || $text)//tei:text[ft:query(., $query, query:options($sortBy))]
                     else
-                        collection($config:data-root)//tei:div[ft:query(., $query, teis:options())] |
-                        collection($config:data-root)//tei:text[ft:query(., $query, teis:options())]
+                        collection($config:data-root)//tei:div[ft:query(., $query, query:options($sortBy))] |
+                        collection($config:data-root)//tei:text[ft:query(., $query, query:options($sortBy))]
     else ()
 };
 
-declare function teis:options() {
-    map:merge((
-        $teis:QUERY_OPTIONS,
-        map {
-            "facets":
-                map:merge((
-                    for $param in request:get-parameter-names()[starts-with(., 'facet-')]
-                    let $dimension := substring-after($param, 'facet-')
-                    return
-                        map {
-                            $dimension: request:get-parameter($param, ())
-                        }
-                ))
-        }
-    ))
-};
-
 declare function teis:query-metadata($field as xs:string, $query as xs:string, $sort as xs:string) {
-    let $options := map:merge((teis:options(), map { "fields": $sort }))
     for $rootCol in $config:data-root
-    for $doc in collection($rootCol)//tei:text[ft:query(., $field || ":(" || $query || ")", $options)]
+    for $doc in collection($rootCol)//tei:text[ft:query(., $field || ":(" || $query || ")", query:options($sort))]
     return
         $doc/ancestor::tei:TEI
 };
@@ -82,54 +61,22 @@ declare function teis:autocomplete($doc as xs:string?, $fields as xs:string+, $q
     for $field in $fields
     return
         switch ($field)
-            case "author" return
-                collection($config:data-root)/ft:index-keys-for-field("author", $q,
+            case "from" return
+                collection($config:data-root)/ft:index-keys-for-field("from", $q,
                     function($key, $count) {
                         $key
                     }, 30)
-            case "file" return
-                collection($config:data-root)/ft:index-keys-for-field("file", $q,
+            case "to" return
+                collection($config:data-root)/ft:index-keys-for-field("to", $q,
                     function($key, $count) {
                         $key
                     }, 30)
-            case "text" return
-                if ($doc) then (
-                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:div"), $q,
-                        function($key, $count) {
-                            $key
-                        }, 30, "lucene-index"),
-                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:text"), $q,
-                        function($key, $count) {
-                            $key
-                        }, 30, "lucene-index")
-                ) else (
-                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:div"), $q,
-                        function($key, $count) {
-                            $key
-                        }, 30, "lucene-index"),
-                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:text"), $q,
-                        function($key, $count) {
-                            $key
-                        }, 30, "lucene-index")
-                )
-            case "head" return
-                if ($doc) then
-                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:head"), $q,
-                        function($key, $count) {
-                            $key
-                        }, 30, "lucene-index")
-                else
-                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:head"), $q,
-                        function($key, $count) {
-                            $key
-                        }, 30, "lucene-index")
             default return
                 collection($config:data-root)/ft:index-keys-for-field("title", $q,
                     function($key, $count) {
                         $key
                     }, 30)
 };
-
 
 declare function teis:get-parent-section($node as node()) {
     ($node/self::tei:text, $node/ancestor-or-self::tei:div[1], $node)[1]
@@ -201,10 +148,10 @@ declare %private function teis:query-default-view($context as element()*, $query
     return
         switch ($field)
             case "head" return
-                $context[./descendant-or-self::tei:head[ft:query(., $query, $teis:QUERY_OPTIONS)]]
+                $context[./descendant-or-self::tei:head[ft:query(., $query, $query:QUERY_OPTIONS)]]
             default return
-                $context[./descendant-or-self::tei:div[ft:query(., $query, $teis:QUERY_OPTIONS)]] |
-                $context[./descendant-or-self::tei:text[ft:query(., $query, $teis:QUERY_OPTIONS)]]
+                $context[./descendant-or-self::tei:div[ft:query(., $query, $query:QUERY_OPTIONS)]] |
+                $context[./descendant-or-self::tei:text[ft:query(., $query, $query:QUERY_OPTIONS)]]
 };
 
 declare function teis:get-current($config as map(*), $div as element()?) {
@@ -214,13 +161,5 @@ declare function teis:get-current($config as map(*), $div as element()?) {
         if ($div instance of element(tei:teiHeader)) then
             $div
         else
-            if (
-                empty($div/preceding-sibling::tei:div)  (: first div in section :)
-                and count($div/preceding-sibling::*) < 5 (: less than 5 elements before div :)
-                and $div/.. instance of element(tei:div) (: parent is a div :)
-                and count($div/preceding::tei:div) > 1
-            ) then
-                nav:get-previous-div($config, $div)
-            else
-                $div
+            (nav:filler($config, $div), $div)[1]
 };

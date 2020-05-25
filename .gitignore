@@ -12,5 +12,12 @@ webtest/node_modules
 webtest/npm-debug.log
 /node_modules/
 bower_components
-package-lock.json
 local.build.properties
+resources/scripts/*.js
+resources/scripts/*.map
+resources/lib/
+resources/css/leaflet/
+resources/css/prismjs
+resources/images/openseadragon
+resources/images/leaflet
+resources/i18n/common

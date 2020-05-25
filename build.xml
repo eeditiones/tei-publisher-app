@@ -1,161 +1,92 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <project default="all" name="TEI-Publisher">
-    <property file="local.build.properties"/>
-    <xmlproperty file="build.properties.xml" semanticAttributes="true" keepRoot="false"/>
-    <property name="project.app" value="tei-publisher"/>
-    <property name="project.version" value="5.0.2"/>
-    <property name="server.url" value="http://demo.exist-db.org/exist/apps/public-repo/public/"/>
-    <property name="build" value="build"/>
-    <property name="bundle.dir" value="build/bundle"/>
-
-
-    <property name="polymer.build.dir" value="components/build"/>
-
+    <xmlproperty file="expath-pkg.xml" />
+    <property file="local.build.properties" />
+    <property file="build.properties" />
+    <property name="project.version" value="${package(version)}" />
+    <property name="project.app" value="${package(abbrev)}" />
+    <property name="server.url" value="http://demo.exist-db.org/exist/apps/public-repo/public/" />
+    <property name="build" value="build" />
+    <property name="scripts.dir" value="node_modules/@teipublisher/pb-components/dist" />
 
     <condition property="git.commit" value="${git.commit}" else="">
-        <isset property="git.commit"/>
+        <isset property="git.commit" />
     </condition>
 
-    <target name="all" depends="xar"/>
+    <target name="all" depends="xar" />
 
-    <target name="rebuild" depends="clean,all"/>
+    <target name="rebuild" depends="clean,all" />
 
     <target name="clean">
-        <delete dir="${build}"/>
+        <delete dir="${build}" />
+        <delete dir="resources/scripts" includes="*.js *.map" />
+        <delete dir="resources/images/leaflet" />
+        <delete dir="resources/images/openseadragon" />
+        <delete dir="resources/i18n/common" />
+        <delete dir="resources/css" includes="leaflet/** prismjs/**" />
+        <delete dir="resources/lib" />
     </target>
 
-    <target name="xar" depends="clean">
-        <mkdir dir="${build}"/>
-        <zip basedir="." destfile="${build}/${project.app}-${project.version}${git.commit}.xar">
-            <exclude name="${build}/*"/>
-            <exclude name=".git*"/>
-            <exclude name="*.tmpl"/>
-            <exclude name="*.properties"/>
-            <exclude name="webtest/**"/>
-            <exclude name="cache/**"/>
-            <exclude name=".idea/"/>
-            <exclude name=".editorconfig"/>
-            <exclude name="node_modules/**"/>
+    <target name="prepare">
+        <copy todir="resources/scripts">
+            <fileset dir="${scripts.dir}">
+                <include name="*.js" />
+                <include name="*.map" />
+            </fileset>
+        </copy>
+        <copy file="node_modules/leaflet/dist/leaflet.css" todir="resources/css/leaflet" />
+        <copy todir="resources/images/leaflet">
+            <fileset dir="node_modules/leaflet/dist/images" />
+        </copy>
+        <copy todir="resources/images/openseadragon">
+            <fileset dir="node_modules/openseadragon/build/openseadragon/images" />
+        </copy>
+        <copy file="node_modules/openseadragon/build/openseadragon/openseadragon.min.js" todir="resources/lib" />
+        <copy todir="resources/css/prismjs">
+            <fileset dir="node_modules/prismjs/themes" />
+        </copy>
+        <copy todir="resources/i18n/common">
+            <fileset dir="node_modules/@teipublisher/pb-components/i18n/common" />
+        </copy>
+    </target>
+
+    <target name="xar-local" depends="npm.install,prepare,xar" />
+
+    <target name="xar">
+        <mkdir dir="${build}" />
+        <zip destfile="${build}/${project.app}-${project.version}${git.commit}.xar">
+            <fileset dir=".">
+                <exclude name="${build}/*" />
+                <exclude name=".git*" />
+                <exclude name="*.tmpl" />
+                <exclude name="*.properties" />
+                <exclude name="webtest/**" />
+                <exclude name="cache/**" />
+                <exclude name=".idea/" />
+                <exclude name=".vscode/**" />
+                <exclude name="package*.json" />
+                <exclude name="rollup.config.js" />
+                <exclude name=".existdb.json" />
+                <exclude name=".editorconfig" />
+                <exclude name="node_modules/**" />
+            </fileset>
         </zip>
+    </target>
+
+    <target name="npm.install">
+        <exec executable="${npm}" outputproperty="npm.output">
+            <arg line="install" />
+        </exec>
+        <echo message="${npm.output}" />
     </target>
 
     <target name="upload">
         <input message="Enter password:" addproperty="server.pass" defaultvalue="">
-            <handler type="secure"/>
+            <handler type="secure" />
         </input>
-        <property name="xar" value="${project.app}-${project.version}${git.commit}.xar"/>
+        <property name="xar" value="${project.app}-${project.version}${git.commit}.xar" />
         <exec executable="curl">
-            <arg line="-T ${build}/${xar} -u admin:${server.pass} ${server.url}/${xar}"/>
-        </exec>
-    </target>
-
-    <!-- Update all packages and start gulp automation -->
-    <target name="update" description="Update all packages and start gulp automation">
-        <echo message="Calling npm update..."/>
-        <exec executable="${npm}" outputproperty="npm.output">
-            <arg line="run-script"/>
-            <arg line="update"/>
-        </exec>
-        <echo message="${npm.output}"/>
-    </target>
-
-    <!-- Check packages and start gulp automation -->
-    <target name="start" description="Check packages and start gulp automation">
-        <echo message="Calling npm start..."/>
-        <exec executable="${npm}" outputproperty="npm.output">
-            <arg line="start"/>
-        </exec>
-        <echo message="${npm.output}"/>
-    </target>
-
-    <!-- Start gulp build automation -->
-    <target name="gulp" description="Generate output files, deploy files to local existDB and start watcher">
-        <echo message="Calling npm gulp ..."/>
-        <exec executable="${npm}" outputproperty="npm.output">
-            <arg line="run-script"/>
-            <arg line="gulp"/>
-        </exec>
-        <echo message="${npm.output}"/>
-    </target>
-
-    <target name="clean-polymer-build" depends="clean">
-        <delete dir="${polymer.build.dir}"/>
-    </target>
-
-    <!--polymer optimization targets -->
-    <target name="polymer-build-production" depends="clean-polymer-build">
-        <exec dir="${basedir}/components" executable="${polymer}">
-            <arg value="build"/>
-            <arg value="-v"/>
-        </exec>
-    </target>
-
-    <target name="production-xar" depends="polymer-build-production">
-        <mkdir dir="${build}"/>
-        <mkdir dir="${bundle.dir}"/>
-
-        <echo>
-            ### copying app files to ${bundle.dir}
-        </echo>
-        <copy todir="${bundle.dir}">
-            <fileset dir="${basedir}">
-                <include name="data/**"/>
-                <include name="modules/**"/>
-                <include name="odd/**"/>
-                <include name="resources/**"/>
-                <include name="templates/**"/>
-                <include name="transform/**"/>
-
-                <include name="*.xml"/>
-                <include name="*.xql"/>
-
-                <include name="*.html"/>
-                <include name="*.xconf"/>
-                <include name="icon.svg"/>
-                <include name="icon.png"/>
-
-                <include name="components/bower_components/js-cookie/**"/>
-                <include name="components/analysis.json"/>
-                <include name="components/docs.html"/>
-                <include name="components/demo/**"/>
-            </fileset>
-        </copy>
-
-        <!--ugly but don't know how to do better -->
-        <copy todir="${bundle.dir}/components/bower_components/codemirror/lib">
-            <fileset dir="${basedir}/components/bower_components/codemirror/lib">
-                <include name="codemirror.css"/>
-            </fileset>
-        </copy>
-        <copy todir="${bundle.dir}/components/bower_components/codemirror/theme">
-            <fileset dir="${basedir}/components/bower_components/codemirror/theme">
-                <include name="ttcn.css"/>
-            </fileset>
-        </copy>
-        <copy todir="${bundle.dir}/components/bower_components/codemirror/addon/lint">
-            <fileset dir="${basedir}/components/bower_components/codemirror/addon/lint">
-                <include name="lint.css"/>
-            </fileset>
-        </copy>
-
-
-        <echo>
-            ### copying polymer build to ${build}
-        </echo>
-        <copy toDir="${bundle.dir}/components" force="true">
-            <fileset dir="${basedir}/components/build/production">
-                <include name="**"/>
-            </fileset>
-        </copy>
-
-        <zip basedir="${bundle.dir}" destfile="${build}/${project.app}-${project.version}.xar" />
-
-
-    </target>
-
-    <target name="polymer-docs">
-        <exec dir="${basedir}/components" executable="${polymer}" output="components/analysis.json" >
-            <arg line="analyze"/>
+            <arg line="-T ${build}/${xar} -u admin:${server.pass} ${server.url}/${xar}" />
         </exec>
     </target>
 

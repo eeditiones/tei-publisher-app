@@ -12,29 +12,15 @@ declare variable $dir external;
 (: the target collection into which the app is deployed :)
 declare variable $target external;
 
-declare function local:index() {
-    for $root in $config:data-root
-    for $doc in collection($root)/*
-    let $index := nav:index(map { "type": nav:document-type($doc) }, $doc)
-    return
-        if ($index) then
-            ft:index(document-uri(root($doc)), $index)
-        else
-            ()
-};
-
-sm:chmod(xs:anyURI($target || "/modules/view.xql"), "rwxr-Sr-x"),
-sm:chmod(xs:anyURI($target || "/modules/lib/transform.xql"), "rwsr-xr-x"),
-sm:chmod(xs:anyURI($target || "/modules/lib/pdf.xql"), "rwsr-xr-x"),
-sm:chmod(xs:anyURI($target || "/modules/lib/epub.xql"), "rwsr-xr-x"),
-sm:chmod(xs:anyURI($target || "/modules/lib/components.xql"), "rwsr-xr-x"),
-sm:chmod(xs:anyURI($target || "/modules/lib/components-odd.xql"), "rwxr-Sr-x"),
-(: sm:chmod(xs:anyURI($target || "/modules/lib/upload.xql"), "rwsr-xr-x"), :)
-sm:chmod(xs:anyURI($target || "/modules/lib/regenerate.xql"), "rwsr-xr-x"),
-sm:chmod(xs:anyURI($target || "/modules/lib/dts.xql"), "rwsr-xr-x"),
+if (not(sm:user-exists("tei-demo"))) then
+    sm:create-account("tei-demo", "demo", "tei", ())
+else
+    (),
+sm:chmod(xs:anyURI($target || "/modules/lib/pdf.xql"), "rwxr-Sr-x"),
+sm:chmod(xs:anyURI($target || "/modules/lib/dts.xql"), "rwxr-Sr-x"),
 
 (: LaTeX requires dba permissions to execute shell process :)
-sm:chmod(xs:anyURI($target || "/modules/lib/latex.xql"), "rwsr-Sr-x"),
+sm:chmod(xs:anyURI($target || "/modules/lib/latex.xql"), "rwxr-Sr-x"),
 sm:chown(xs:anyURI($target || "/modules/lib/latex.xql"), "tei"),
 sm:chgrp(xs:anyURI($target || "/modules/lib/latex.xql"), "dba"),
 
@@ -42,4 +28,14 @@ sm:chgrp(xs:anyURI($target || "/modules/lib/latex.xql"), "dba"),
 sm:chmod(xs:anyURI($target || "/modules/components-generate.xql"), "rwsr-Sr-x"),
 sm:chown(xs:anyURI($target || "/modules/components-generate.xql"), "tei"),
 sm:chgrp(xs:anyURI($target || "/modules/components-generate.xql"), "dba"),
-local:index()
+
+xmldb:create-collection($target || "/data", "playground"),
+sm:chmod(xs:anyURI($target || "/data/playground"), "rwxrwxr-x"),
+sm:chown(xs:anyURI($target || "/data/playground"), "tei-demo"),
+sm:chgrp(xs:anyURI($target || "/data/playground"), "tei"),
+xmldb:create-collection($target || "/data", "temp"),
+sm:chmod(xs:anyURI($target || "/data/temp"), "rwxrwxr-x"),
+sm:chown(xs:anyURI($target || "/data/temp"), "tei"),
+sm:chgrp(xs:anyURI($target || "/data/temp"), "tei"),
+sm:chmod(xs:anyURI($target || "/odd"), "rwxrwxr-x"),
+sm:chmod(xs:anyURI($target || "/transform"), "rwxrwxr-x")
