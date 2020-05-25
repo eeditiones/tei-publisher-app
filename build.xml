@@ -50,7 +50,7 @@
         </copy>
     </target>
 
-    <target name="xar-local" depends="prepare,xar" />
+    <target name="xar-local" depends="npm.install,prepare,xar" />
 
     <target name="xar">
         <mkdir dir="${build}" />
@@ -72,8 +72,6 @@
             </fileset>
         </zip>
     </target>
-
-    <target name="xar-complete" depends="npm.install,xar" />
 
     <target name="npm.install">
         <exec executable="${npm}" outputproperty="npm.output">
