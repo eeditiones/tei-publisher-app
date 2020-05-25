@@ -1,23 +1,27 @@
 h1, h2, h3, h4, h5, h6 {
+    font-family: "Oswald", Verdana, "Helvetica", sans-serif;
     line-height: 1.2;
+    font-weight: 400;
 }
 
 h1 {
-    font-family: "Oswald", Verdana, "Helvetica", sans-serif;
-    font-size: 36px;
-    font-weight: 400;
-    line-height: 1.2;
+    font-size: 2.488em;
 }
 
 h2 {
-    font-family: "Oswald", Verdana, "Helvetica", sans-serif;
-    font-size: 26px;
-    font-weight: 400;
+    font-size: 2.074em;
 }
 
 h3 {
-    font-family: "Oswald", Verdana, "Helvetica", sans-serif;
-    font-weight: 400;
+    font-size: 1.728em;
+}
+
+h4 {
+    font-size: 1.44em;
+}
+
+h5 {
+    font-size: 1.2em;
 }
 
 figure {

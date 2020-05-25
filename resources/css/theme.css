@@ -248,7 +248,8 @@ h1, h2, h3, h4, h5, h6 {
 pb-drawer {
     top: 128px;
     background-color: var(--pb-drawer-background-color);
-    overflow: scroll;
+    overflow: auto;
+    height: calc(100vh - 128px);
 }
 
 .toc ul {
@@ -269,9 +270,12 @@ pb-drawer {
     margin-top: .5em;
 }
 
+.toc pb-link {
+    display: block;
+}
+
 .toc li>pb-link {
     margin-left: 28px;
-    display: block;
 }
 
 .toc pb-link {
@@ -290,5 +294,4 @@ pb-drawer {
 
 .toc [slot=collapse-trigger] pb-link {
     margin-left: 0px;
-    display: inline;
 }

@@ -76,10 +76,6 @@ footer pb-navigation[direction=forward] {
     margin-left: 0;
 }
 
-.toc li>pb-link {
-    /* margin-left: 28px; */
-}
-
 .toc li pb-link.active {
     --pb-link-color: #d07f00;
     --pb-link-text-decoration: underline;
