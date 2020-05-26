@@ -765,16 +765,7 @@
       </note>
     </section>
   </section>
-  <section xml:id="data-organization">
-    <title>Data</title>
-    <!-- 
-    ## Data
 
-- Organisation
-    - embedded data collection vs separate apps
-    - Sub collections and virtual corpora
-- Conventions (divs, pi) -->
-  </section>
   <section xml:id="supported-input-formats">
     <title>Supported XML vocabularies</title>
     <para>TEI Publisher started as a publishing toolbox for TEI but the principles of TEI Processing
@@ -3261,230 +3252,6 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <para/>
     </section>
   </section>
-  <section xml:id="pi-config">
-    <title>Processing instructions</title>
-    <para>The default view for a specific document can be configured via a processing instruction.
-      Before displaying a document, TEI publisher will check if a processing instruction exists at
-      the start of the document, telling it which ODD and view template to use (along with other
-      configuration parameters). For example, the following processing instruction associates the
-      document with the view template <filename>translation.html</filename>, the ODD
-        <filename>dantiscus.odd</filename>, and switches to a page-by-page display (along TEI page
-      break boundaries):</para>
-    <programlisting language="xml" xml:space="preserve">&lt;?teipublisher template="translation.html" odd="dantiscus.odd" view="page"?&gt;</programlisting>
-    <para>When viewing the document by structural divisions, two additional settings control the
-      amount of content displayed at a time:</para>
-    <programlisting language="xml" xml:space="preserve">&lt;?teipublisher depth="2" fill="6" odd="dta.odd"?&gt;</programlisting>
-    <variablelist>
-      <varlistentry>
-        <term>odd</term>
-        <listitem>
-          <para>The ODD file to use for rendering the document.</para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>template</term>
-        <listitem>
-          <para>The HTML view template to use. Default is <code>view.html</code> as configured in
-              <filename>modules/config.xqm</filename>.</para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>view</term>
-        <listitem>
-          <para>Default view to show when browsing the document. Supported values are
-              <parameter>div</parameter>, <parameter>page</parameter> or
-              <parameter>single</parameter>:</para>
-          <orderedlist>
-            <listitem>
-              <para>
-                <parameter>div</parameter>: displays one structural division (TEI div, docbook
-                section …) at a time</para>
-            </listitem>
-            <listitem>
-              <para>
-                <parameter>page</parameter>: displays the document page by page. This requires page
-                break indicators to be present (<tag>pb</tag> in TEI, not supported for
-                docbook).</para>
-            </listitem>
-            <listitem>
-              <para>
-                <parameter>single</parameter>: the entire document (or a selected fragment of it) is
-                displayed at once</para>
-            </listitem>
-          </orderedlist>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>depth</term>
-        <listitem>
-          <para>When viewing entire divisions, the software tries to determine if it should show
-            child divisions in separate pages or include them with the current div. <tag>depth</tag>
-            indicates the nesting level up to which divisions should be shown separately. So setting
-            it to "2" will result in divisions on level 3 or greater to be shown together with their
-            enclosing div.</para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>fill</term>
-        <listitem>
-          <para>If child divisions appear on separate pages, it may happen that the enclosing div
-            contains just a heading or a single line of text. In this case, the algorithm will try
-            to fill the page by showing the first child division as well. The <tag>fill</tag>
-            paramter defines the number of elements which should at least be present on a page. If
-            not, the software tries to fill it up.</para>
-        </listitem>
-      </varlistentry>
-    </variablelist>
-  </section>
-  <section xml:id="facets">
-    <title>Facet Search Configuration</title>
-    <para>Facets allow users to quickly navigate through a set of documents or query results by
-      selecting from predefined categories or properties. This way, users can "drill down" into the
-      set, reducing the number of displayed items with every step. For demonstration purposes, TEI
-      Publisher configures two facets by default: "Genre" and "Language". You can see those to the
-      left of the document list on the start page, or below the search box on the search result
-      page.</para>
-    <figure>
-      <title>Facets on the start page</title>
-      <mediaobject>
-        <imageobject>
-          <imagedata fileref="facets.png"/>
-        </imageobject>
-      </mediaobject>
-    </figure>
-    <para>From a user perspective, the main concept behind facets is the <emphasis>drill
-        down</emphasis>: initially the user sees all facet values associated with the set of
-      documents or search results displayed. The number behind each value denotes the number of
-      items in the set having the particular facet set. As the user selects one facet, the set
-      necessarily becomes smaller, so non-matching facet values will disappear and the numbers
-      adjust accordingly.</para>
-    <para>Facets are a new feature in eXist 5.0. They are super fast because eXist will create them
-      when indexing the document. No extra computation is needed when the user clicks on a facet to
-      drill down into a displayed set: all information is already available in the index. To see a
-      more complex example of facets in action, visit our <link xlink:show="new"
-        xlink:href="https://teipublisher.com/exist/apps/vangogh/index.html">Van Gogh</link>
-      demo.</para>
-    <para>If you would like to configure other or additional facets, you need to edit three
-      files:</para>
-    <variablelist>
-      <varlistentry>
-        <term><filename>collection.xconf</filename></term>
-        <listitem>
-          <para>The <filename>collection.xconf</filename> tells eXist how to index the collection.
-            The default configuration in TEI Publisher creates two Lucene full-text indexes for TEI
-            on <tag>tei:text</tag> and <tag>tei:div</tag>. Each of those may have facets attached.
-            Every facet must have a <parameter>dimension</parameter> and an
-              <parameter>expression</parameter> attribute. The expression is an arbitrary
-            XPath/XQuery string. For every element being indexed, the expression is evaluated once
-            and the result defines the string values which will be associated with the specified
-            facet dimension.</para>
-          <para>For a description of how full-text indexes and facets are defined in the
-              <filename>collection.xconf</filename>, please refer to the <link xlink:show="new"
-              xlink:href="http://exist-db.org/exist/apps/doc/lucene">eXist
-            documentation</link>.</para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><filename>index.xql</filename></term>
-        <listitem>
-          <para>If you open the default <filename>collection.xconf</filename>, you'll see that most
-            facet expressions call a function <function>nav:get-metadata</function>. This function
-            is declared in <filename>index.xql</filename>. By externalizing most of the code into a
-            separate function, we can keep the index configuration clean and short.</para>
-          <para>The default <filename>index.xql</filename> already does some advanced preprocessing,
-            in particular for the "genre" facet: each of the sample documents references a central
-            taxonomy (contained in <filename>data/taxonomy.xml</filename>). The references are
-            resolved at indexing time by following the <tag>catRef</tag> element's
-              <parameter>@target</parameter> attribute. Note that we create a hierarchical facet,
-            because e.g. "Philosophy" is a sub-category of "Prose". The code in function
-              <function>idx:get-genre</function> will automatically include the
-            super-category.</para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><filename>config.xqm</filename></term>
-        <listitem>
-          <para>While the other two files cover the server-side creation of facets, we also need a
-            place where we define how facets should be displayed in the user interface. The main
-            configuration module: <filename>config.xqm</filename> declares a variable
-              <parameter>$config:facets</parameter>. It should contain an array of maps, where each
-            map defines the settings for one dimension, e.g.:</para>
-          <programlisting language="xquery" xml:space="preserve">
-(:
- : Display configuration for facets to be shown in the sidebar. The facets themselves
- : are configured in the index configuration, collection.xconf.
- :)
-declare variable $config:facets := [
-    map {
-        "dimension": "genre",
-        "heading": "Genre",
-        "max": 5,
-        "hierarchical": true()
-    },
-    map {
-        "dimension": "language",
-        "heading": "Language",
-        "max": 5,
-        "hierarchical": false(),
-        "output": function($label) {
-            switch($label)
-                case "de" return "German"
-                case "es" return "Spanish"
-                case "la" return "Latin"
-                case "fr" return "French"
-                case "en" return "English"
-                default return $label
-        }
-    }
-];
-</programlisting>
-          <para>The map properties are as follows:</para>
-          <variablelist>
-            <varlistentry>
-              <term>dimension</term>
-              <listitem>
-                <para>The name of the dimension. Should correspond to the value of the
-                    <parameter>@dimension</parameter> attribute used in
-                    <filename>collection.xconf</filename></para>
-              </listitem>
-            </varlistentry>
-            <varlistentry>
-              <term>heading</term>
-              <listitem>
-                <para>The heading to display above the facet values</para>
-              </listitem>
-            </varlistentry>
-            <varlistentry>
-              <term>max</term>
-              <listitem>
-                <para>Maximum number of facet values to be displayed initially. More can be shown if
-                  the user clicks on the <guilabel>Show All</guilabel> checkbox. Pass an empty
-                  sequence, i.e. (), to not limit the number and hide the checkbox.</para>
-              </listitem>
-            </varlistentry>
-            <varlistentry>
-              <term>hierarchical</term>
-              <listitem>
-                <para>Defines if the facet is hierarchical, which means that only the top-level
-                  facet values in the hierarchy will be shown initially. If the user selects one
-                  top-level value, the interface will expand and show the sub-categories. For this
-                  to work the facet must be configured as "hierarchical" in
-                    <filename>collection.xconf</filename></para>
-              </listitem>
-            </varlistentry>
-            <varlistentry>
-              <term>output</term>
-              <listitem>
-                <para>A function which can be used to process the facet value before display. The
-                  facet label will be replaced by whatever the function returns.</para>
-              </listitem>
-            </varlistentry>
-          </variablelist>
-        </listitem>
-      </varlistentry>
-    </variablelist>
-  </section>
-
 
   <section xml:id="appgen">
     <title>Creating applications with the App Generator</title>
@@ -3964,6 +3731,365 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
       </procedure>
     </section>
   </section>
+
+  <section xml:id="data-organization">
+    <title>Data</title>
+    <para>TEI Publisher ships its data files within the same application package. Nevertheless,
+      separating your data from application code has many benefits, particularly for actively
+      developed applications and data sets. This way changes to your code can be deployed without
+      redeploying and reindexing your data and vice versa. It is also easier to maintain separate
+      repositories (e.g. in Git) and differentiate privileges for editorial and developer
+      teams.</para>
+    <para>While we would generally recommend separating data and code, some projects may still
+      prefer to keep their data and application integrated in a single <emphasis>xar</emphasis>
+      package for the sake of marginally easier distribution.</para>
+    <para>Internal structure of the data collection can be arbitrary, though there are some
+      considerations regarding index configuration to take into account.</para>
+    <section xml:id="data-collection">
+      <title>Data collection</title>
+      <para>Two variables in <filename>config.xqm</filename> are used to configure location of the
+        data collection. <code>$config:data-root</code> specifies where in the collection hierarchy
+        the data is stored. Only the top level collection needs to be specified.</para>
+      <programlisting language="xquery" xml:space="preserve">
+(:~
+ : The root of the collection hierarchy containing data.
+ :)
+declare variable $config:data-root := $config:app-root || "/data";
+    </programlisting>
+      <para>Switching to a separate data package is as simple as changing this variable, e.g.
+        assuming that we store our data in <code>/db/apps/lgpn-ling-data/data</code>, the
+          <code>data-root</code> should be defined as:</para>
+      <programlisting language="xquery" xml:space="preserve">
+      declare variable $config:data-root := '/db/apps/lgpn-ling-data/data';
+    </programlisting>
+      <para>You may find it helpful to create and build the data package starting from the template
+        hosted in the <link xlink:href="https://github.com/eeditiones/tei-publisher-data-template"
+          xlink:show="new">e-editiones repository</link>. README document provided there explains
+        shortly roles of all the files and how to adjust them to your needs.</para>
+
+      <note>
+        <para>It is critical to store index configuration file,
+            <filename>collection.xconf</filename> in the correct location. Refer to <link
+            xlink:href="https://exist-db.org/exist/apps/doc/indexing.xml" xlink:show="new">eXist-db
+            documentation</link> for details but it is common practice to store a collection
+          configuration in the data package and rely on mechanisms of pre-install script
+            (<filename>pre-install.xql</filename>) to copy the file to its required position in
+            <filename>/db/system/config</filename>.</para>
+        <para>Similar consideration applies if fulltext index makes use of any external function
+          module, which in TEI Publisher and generated apps is commonly the case for facet and field
+          definitions. This module needs to be stored before the index is to be applied and usually
+          its best to store it in the same location as <filename>collection.xconf</filename>.</para>
+      </note>
+    </section>
+    <section xml:id="subcollections">
+      <title>Subcollections</title>
+      <para>Many editions will simply present a number of documents, e.g. a collection of letters
+        like <link xlink:href="https://teipublisher.com/exist/apps/vangogh/index.html"
+          xlink:show="new">Van Gogh</link> or plays like <link
+          xlink:href="https://teipublisher.com/exist/apps/shakespeare-pm/index.html"
+          >Shakespeare</link> demo. Structure of the data is therefore very simple, all the files
+        are stored on the same level in the <code>data-root</code> collection.</para>
+
+      <para>Other publications, particularly those including heterogeneous material may require a
+        more complex organization. TEI Publisher itself is a good example - its <code>data</code>
+        collection is further divided into three subcollections: <filename>doc</filename> (for
+        documentation), <filename>test</filename> (for examples) and <filename>playground</filename>
+        (for user-supplied material).</para>
+      <figure>
+        <title>Structure of TEI Publisher's data collection</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="data-collection.png" width="312px"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>You will note that it also contains other resources: image files and even an HTML file.
+        Specify the <code>$config:data-default</code> variable in
+          <filename>modules/config.xqm</filename> to set which collection should be used as a point
+        of entry to your data. Whenever <filename>collection.html</filename> is present in that
+        location, it will be used as a custom landing page displayed instead of a simple document
+        listing. In case of the TEI Publisher it would be the Demo Collection, Playground and
+        Documentation</para>
+
+      <programlisting language="xquery" xml:space="preserve">
+(:~
+ : The root of the collection hierarchy whose files should be displayed
+ : on the entry page. Can be different from $config:data-root.
+ :)
+declare variable $config:data-default := $config:data-root;
+    </programlisting>
+      <para>This approach can be extended further, say if you wanted to add
+          <filename>prints</filename> and <filename>manuscripts</filename> subcollection to the
+          <filename>playground</filename> and present them in a custom landing page. Just add the
+        data and corresponding <filename>collection.html</filename> into the
+          <filename>playground</filename>. You can shape the custom landing page however you like,
+        using the full power of HTML and eXist templating.</para>
+      <figure>
+        <title>Subcollections</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="data-subcollections.png" width="312px"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <figure>
+        <title>Fragment of the subcollections landing page</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="data-subcollection-landing.png" width="512px"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>The landing page like this could be created with this HTML template stored in
+          <filename>data/playground/collection.html</filename>.</para>
+      <programlisting language="html" xml:space="preserve">
+&lt;div class="collection" data-template="browse:clear-facets">
+    &lt;h3>Custom landing page demonstrating sub-subcollections.&lt;/h3>
+    &lt;ul class="documents">
+        &lt;li class="document">
+            &lt;div class="thumbnail">&lt;img src="demo.png" width="128"/>&lt;/div>
+            &lt;div class="document-info">
+                &lt;h3>&lt;a href="#" data-collection="playground/prints">Prints&lt;/a>&lt;/h3>
+                &lt;p>This one is for prints.&lt;/p>
+            &lt;/div>
+        &lt;/li>
+        &lt;li class="document">
+            &lt;div class="thumbnail">&lt;img src="demo.png" width="128"/>&lt;/div>
+            &lt;div class="document-info">
+                &lt;h3>&lt;a href="#" data-collection="playground/manuscripts">Manuscripts&lt;/a>&lt;/h3>
+                &lt;p>This one is for manuscripts.&lt;/p>
+            &lt;/div>
+        &lt;/li>
+    &lt;/ul>
+&lt;/div>
+      </programlisting>
+    </section>
+
+    <section xml:id="pi-config">
+      <title>Processing instructions</title>
+      <para>The default view for a specific document can be configured via a processing instruction.
+        Before displaying a document, TEI publisher will check if a processing instruction exists at
+        the start of the document, telling it which ODD and view template to use (along with other
+        configuration parameters). For example, the following processing instruction associates the
+        document with the view template <filename>translation.html</filename>, the ODD
+          <filename>dantiscus.odd</filename>, and switches to a page-by-page display (along TEI page
+        break boundaries):</para>
+      <programlisting language="xml" xml:space="preserve">&lt;?teipublisher template="translation.html" odd="dantiscus.odd" view="page"?&gt;</programlisting>
+      <para>When viewing the document by structural divisions, two additional settings control the
+        amount of content displayed at a time:</para>
+      <programlisting language="xml" xml:space="preserve">&lt;?teipublisher depth="2" fill="6" odd="dta.odd"?&gt;</programlisting>
+      <variablelist>
+        <varlistentry>
+          <term>odd</term>
+          <listitem>
+            <para>The ODD file to use for rendering the document.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>template</term>
+          <listitem>
+            <para>The HTML view template to use. Default is <code>view.html</code> as configured in
+                <filename>modules/config.xqm</filename>.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>view</term>
+          <listitem>
+            <para>Default view to show when browsing the document. Supported values are
+                <parameter>div</parameter>, <parameter>page</parameter> or
+                <parameter>single</parameter>:</para>
+            <orderedlist>
+              <listitem>
+                <para>
+                  <parameter>div</parameter>: displays one structural division (TEI div, docbook
+                  section …) at a time</para>
+              </listitem>
+              <listitem>
+                <para>
+                  <parameter>page</parameter>: displays the document page by page. This requires
+                  page break indicators to be present (<tag>pb</tag> in TEI, not supported for
+                  docbook).</para>
+              </listitem>
+              <listitem>
+                <para>
+                  <parameter>single</parameter>: the entire document (or a selected fragment of it)
+                  is displayed at once</para>
+              </listitem>
+            </orderedlist>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>depth</term>
+          <listitem>
+            <para>When viewing entire divisions, the software tries to determine if it should show
+              child divisions in separate pages or include them with the current div.
+                <tag>depth</tag> indicates the nesting level up to which divisions should be shown
+              separately. So setting it to "2" will result in divisions on level 3 or greater to be
+              shown together with their enclosing div.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>fill</term>
+          <listitem>
+            <para>If child divisions appear on separate pages, it may happen that the enclosing div
+              contains just a heading or a single line of text. In this case, the algorithm will try
+              to fill the page by showing the first child division as well. The <tag>fill</tag>
+              paramter defines the number of elements which should at least be present on a page. If
+              not, the software tries to fill it up.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </section>
+  </section>
+
+  <section xml:id="facets">
+    <title>Facet Search Configuration</title>
+    <para>Facets allow users to quickly navigate through a set of documents or query results by
+      selecting from predefined categories or properties. This way, users can "drill down" into the
+      set, reducing the number of displayed items with every step. For demonstration purposes, TEI
+      Publisher configures two facets by default: "Genre" and "Language". You can see those to the
+      left of the document list on the start page, or below the search box on the search result
+      page.</para>
+    <figure>
+      <title>Facets on the start page</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="facets.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>From a user perspective, the main concept behind facets is the <emphasis>drill
+      down</emphasis>: initially the user sees all facet values associated with the set of
+      documents or search results displayed. The number behind each value denotes the number of
+      items in the set having the particular facet set. As the user selects one facet, the set
+      necessarily becomes smaller, so non-matching facet values will disappear and the numbers
+      adjust accordingly.</para>
+    <para>Facets are a new feature in eXist 5.0. They are super fast because eXist will create them
+      when indexing the document. No extra computation is needed when the user clicks on a facet to
+      drill down into a displayed set: all information is already available in the index. To see a
+      more complex example of facets in action, visit our <link xlink:show="new"
+        xlink:href="https://teipublisher.com/exist/apps/vangogh/index.html">Van Gogh</link>
+      demo.</para>
+    <para>If you would like to configure other or additional facets, you need to edit three
+      files:</para>
+    <variablelist>
+      <varlistentry>
+        <term><filename>collection.xconf</filename></term>
+        <listitem>
+          <para>The <filename>collection.xconf</filename> tells eXist how to index the collection.
+            The default configuration in TEI Publisher creates two Lucene full-text indexes for TEI
+            on <tag>tei:text</tag> and <tag>tei:div</tag>. Each of those may have facets attached.
+            Every facet must have a <parameter>dimension</parameter> and an
+            <parameter>expression</parameter> attribute. The expression is an arbitrary
+            XPath/XQuery string. For every element being indexed, the expression is evaluated once
+            and the result defines the string values which will be associated with the specified
+            facet dimension.</para>
+          <para>For a description of how full-text indexes and facets are defined in the
+            <filename>collection.xconf</filename>, please refer to the <link xlink:show="new"
+              xlink:href="http://exist-db.org/exist/apps/doc/lucene">eXist
+              documentation</link>.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><filename>index.xql</filename></term>
+        <listitem>
+          <para>If you open the default <filename>collection.xconf</filename>, you'll see that most
+            facet expressions call a function <function>nav:get-metadata</function>. This function
+            is declared in <filename>index.xql</filename>. By externalizing most of the code into a
+            separate function, we can keep the index configuration clean and short.</para>
+          <para>The default <filename>index.xql</filename> already does some advanced preprocessing,
+            in particular for the "genre" facet: each of the sample documents references a central
+            taxonomy (contained in <filename>data/taxonomy.xml</filename>). The references are
+            resolved at indexing time by following the <tag>catRef</tag> element's
+            <parameter>@target</parameter> attribute. Note that we create a hierarchical facet,
+            because e.g. "Philosophy" is a sub-category of "Prose". The code in function
+            <function>idx:get-genre</function> will automatically include the
+            super-category.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><filename>config.xqm</filename></term>
+        <listitem>
+          <para>While the other two files cover the server-side creation of facets, we also need a
+            place where we define how facets should be displayed in the user interface. The main
+            configuration module: <filename>config.xqm</filename> declares a variable
+            <parameter>$config:facets</parameter>. It should contain an array of maps, where each
+            map defines the settings for one dimension, e.g.:</para>
+          <programlisting language="xquery" xml:space="preserve">
+(:
+ : Display configuration for facets to be shown in the sidebar. The facets themselves
+ : are configured in the index configuration, collection.xconf.
+ :)
+declare variable $config:facets := [
+    map {
+        "dimension": "genre",
+        "heading": "Genre",
+        "max": 5,
+        "hierarchical": true()
+    },
+    map {
+        "dimension": "language",
+        "heading": "Language",
+        "max": 5,
+        "hierarchical": false(),
+        "output": function($label) {
+            switch($label)
+                case "de" return "German"
+                case "es" return "Spanish"
+                case "la" return "Latin"
+                case "fr" return "French"
+                case "en" return "English"
+                default return $label
+        }
+    }
+];
+</programlisting>
+          <para>The map properties are as follows:</para>
+          <variablelist>
+            <varlistentry>
+              <term>dimension</term>
+              <listitem>
+                <para>The name of the dimension. Should correspond to the value of the
+                  <parameter>@dimension</parameter> attribute used in
+                  <filename>collection.xconf</filename></para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>heading</term>
+              <listitem>
+                <para>The heading to display above the facet values</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>max</term>
+              <listitem>
+                <para>Maximum number of facet values to be displayed initially. More can be shown if
+                  the user clicks on the <guilabel>Show All</guilabel> checkbox. Pass an empty
+                  sequence, i.e. (), to not limit the number and hide the checkbox.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>hierarchical</term>
+              <listitem>
+                <para>Defines if the facet is hierarchical, which means that only the top-level
+                  facet values in the hierarchy will be shown initially. If the user selects one
+                  top-level value, the interface will expand and show the sub-categories. For this
+                  to work the facet must be configured as "hierarchical" in
+                  <filename>collection.xconf</filename></para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>output</term>
+              <listitem>
+                <para>A function which can be used to process the facet value before display. The
+                  facet label will be replaced by whatever the function returns.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </section>
   
   <section xml:id="embedding">
     <title>Embedding TEI Publisher in other systems</title>
@@ -3973,7 +4099,7 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
       vue, react or angular). All that is needed is a TEI Publisher instance available on the web
       which stores the source TEI and provides a communication endpoint for the components to talk
       to.</para>
-    
+
     <section>
       <title>Live Examples</title>
       <para>The embedded example below demonstrates such a use case: it provides a sandbox running
@@ -3989,7 +4115,7 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
       <para>And if you would like to read <emphasis>Romeo and Juliet</emphasis> in two-column mode,
         just add <code>column-separator=".tei-cb"</code> to the main <tag>pb-view</tag>.</para>
     </section>
-    
+
     <section>
       <title>Retrieving the whole document as a simple HTML</title>
       <para>Embedding results of applying Processing Model transformation on a document is even
@@ -4001,8 +4127,8 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
         source document and ODD. Fortunately, TEI Publisher already contains a boilerplate XQuery
         script for this job, which you can call as follows in your browser:</para>
       <para><link xlink:show="new"
-        xlink:href="https://teipublisher.com/exist/apps/tei-publisher/modules/lib/transform.xql?doc=test/F-rom.xml&amp;odd=shakespeare.odd"
-        >https://teipublisher.com/exist/apps/tei-publisher/modules/lib/transform.xql?doc=test/F-rom.xml&amp;odd=shakespeare.odd</link></para>
+          xlink:href="https://teipublisher.com/exist/apps/tei-publisher/modules/lib/transform.xql?doc=test/F-rom.xml&amp;odd=shakespeare.odd"
+          >https://teipublisher.com/exist/apps/tei-publisher/modules/lib/transform.xql?doc=test/F-rom.xml&amp;odd=shakespeare.odd</link></para>
       <para>This will retrieve the content of Shakespeare's <emphasis>Romeo and Juliet</emphasis> as
         an HTML page, transformed through the odd <filename>shakespeare.odd</filename>. For
         embedding an entire document in an iframe or similar, this should already be enough.</para>
@@ -4028,9 +4154,9 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
         Note that here <code>pb-components@latest</code> points to the latest available bundle, but
         you could specify a concrete version number to make sure your website uses a fixed
         release.</para>
-      
+
       <para>Now let's actually use the components to display Shakespeare's <emphasis>Romeo and
-        Juliet</emphasis>: in the HTML <tag>body</tag>, include the following snippet: </para>
+          Juliet</emphasis>: in the HTML <tag>body</tag>, include the following snippet: </para>
       <programlisting language="html" xml:space="preserve">&lt;pb-page endpoint="https://teipublisher.com/exist/apps/tei-publisher">
     &lt;pb-document id="document1" path="test/F-rom.xml" odd="shakespeare">&lt;/pb-document>
     &lt;!-- Navigate to previous page -->
@@ -4059,13 +4185,13 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
       <para><tag>pb-view</tag> is the main component for displaying the transformed content. It
         references the <tag>pb-document</tag> to use as source in its <option>src</option>
         attribute. The Shakespeare does tag page breaks, so we switch to page-by-page view via the
-        <option>view</option> attribute to show the user only one page at a time. The default
+          <option>view</option> attribute to show the user only one page at a time. The default
         would be to use a division-by-division view (<code>view="div"</code>), but you could also
         request the entire content at once using <code>view="single"</code>.</para>
       <para><tag>pb-navigation</tag> adds forward/backward navigation buttons to the page, allowing
         the user to switch to the next/previous page of the document. You can use various types of
         buttons, but in this case we're choosing a <tag>paper-button</tag> element with a chevron
-        <tag>iron-icon</tag> (both <tag>paper-button</tag> and <tag>iron-icon</tag> are part of
+          <tag>iron-icon</tag> (both <tag>paper-button</tag> and <tag>iron-icon</tag> are part of
         the standard <link xlink:show="new"
           xlink:href="https://www.webcomponents.org/author/PolymerElements">Polymer elements
           library</link>).</para>
@@ -4635,14 +4761,14 @@ static get styles() {
       <title>Lucene configuration</title>
       <para>eXist-db and TEI Publisher make extensive use of Lucene indexing engine. In particular
         search, navigation, sorting and filtering heavily depend on full text indexes, facets and
-        fields therefore it is paramount to specify these correctly for your data
-        collection.</para>
+        fields therefore it is paramount to specify these correctly for your data collection.</para>
       <para>Supporting a new vocabulary, make sure to add its namespace on the <tag>index</tag>
         element in <filename>collection.xconf</filename>.</para>
       <programlisting language="xml" xml:space="preserve">
 &lt;index xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dbk="http://docbook.org/ns/docbook">
       </programlisting>
-      <para>Beyond this minor adjustment, adding a new vocabulary does not differ in creation and use of facets and fields.</para>
+      <para>Beyond this minor adjustment, adding a new vocabulary does not differ in creation and
+        use of facets and fields.</para>
     </section>
     <section xml:id="new-vocabulary-navigation">
       <title>Navigation</title>
