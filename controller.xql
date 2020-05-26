@@ -187,6 +187,11 @@ else if (starts-with($exist:path, "/api/dts")) then
            </forward>
        </dispatch>
 
+else if (contains($exist:path, "/raw/")) then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/data/{substring-after($exist:path, '/raw/')}"></forward>
+   </dispatch>
+
 else if (ends-with($exist:resource, ".html")) then (
     login:set-user($config:login-domain, (), false()),
     let $resource :=
@@ -281,6 +286,20 @@ else if (matches($exist:path, "[^/]+\..*$")) then (
                 <forward url="{$exist:controller}/modules/lib/transform.xql">
                     <add-parameter name="doc" value="{$path}{$id}"/>
                 </forward>
+                <error-handler>
+                    <forward url="{$exist:controller}/error-page.html" method="get"/>
+                    <forward url="{$exist:controller}/modules/view.xql"/>
+                </error-handler>
+            </dispatch>
+        else if (ends-with($exist:resource, ".md")) then
+            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+                <forward url="{$exist:controller}/templates/pages/markdown.html"/>
+                <view>
+                    <forward url="{$exist:controller}/modules/view.xql">
+                        <add-parameter name="doc" value="{$path}{$id}"/>
+                        <add-parameter name="template" value="markdown.html"/>
+                    </forward>
+                </view>
                 <error-handler>
                     <forward url="{$exist:controller}/error-page.html" method="get"/>
                     <forward url="{$exist:controller}/modules/view.xql"/>
