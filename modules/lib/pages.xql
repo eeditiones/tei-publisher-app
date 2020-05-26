@@ -67,6 +67,14 @@ declare function pages:pb-document($node as node(), $model as map(*), $doc as xs
         </pb-document>
 };
 
+declare
+    %templates:wrap
+function pages:pb-markdown($node as node(), $model as map(*), $doc as xs:string) {
+    attribute url  {
+        "raw/" || $doc
+    }
+};
+
 declare function pages:pb-view($node as node(), $model as map(*), $root as xs:string?, $id as xs:string?,
     $action as xs:string?) {
     element { node-name($node) } {
