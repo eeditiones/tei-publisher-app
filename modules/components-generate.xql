@@ -378,7 +378,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         "^(.*\$config:default-template :=).*;$": '"' || $json?template || '"',
         "^(.*\$config:default-view :=).*;$": '"' || $json?default-view || '"',
         "^(.*\$config:search-default :=).*;$": '"' || $json?index || '"',
-        "^(.*\$config:data-root\s*:=).*;$": $dataRoot,
+        "^(.*\$config:data-root\s*:=).*;$": '"' || $dataRoot || '"',
         "^(.*\$config:default-odd :=).*;$": '"' || $json?odd || '.odd"',
         "^(.*module namespace pm-web\s*=).*;$": '"http://www.tei-c.org/pm/models/' || $json?odd || '/web/module" at "../transform/' ||
             $json?odd || '-web-module.xql"',
