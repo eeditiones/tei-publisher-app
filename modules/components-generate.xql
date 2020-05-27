@@ -407,7 +407,8 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:copy-resource($collection || "/resources/css", $base || "/resources/css", "theme.css", ($json?owner, "tei"), "rw-r--r--"),
         deploy:copy-resource($collection || "/resources/i18n", $base || "/resources/i18n", "languages.json", ($json?owner, "tei"), "rw-r--r--"),
         deploy:copy-resource($collection, $base, "icon.png", ($json?owner, "tei"), "rw-r--r--"),
-        xmldb:store($collection, "package.json", deploy:package-json($json), "application/json")
+        xmldb:store($collection, "package.json", deploy:package-json($json), "application/json"),
+        xmldb:rename($collection, "gitignore.tmpl", ".gitignore")
     )
     return
         $collection
