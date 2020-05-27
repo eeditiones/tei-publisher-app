@@ -19,6 +19,7 @@ body {
     --pb-color-focus: #f6a623;
     --pb-drawer-background-color: var(--pb-color-inverse);
     --pb-menubar-background-color: #35424b;
+    --pb-menubar-background-image: none;
     --pb-menubar-color: var(--pb-color-inverse);
     --pb-toolbar-background-color: #d1dae0;
     --pb-toolbar-color: var(--pb-color-primary);
@@ -142,6 +143,7 @@ app-drawer-layout:not([narrow]) [drawer-toggle] {
 .menubar {
     justify-content: space-between;
     background-color: var(--pb-menubar-background-color);
+    background-image: var(--pb-menubar-background-image);
     color: var(--pb-menubar-color);
     --pb-search-suggestions-color: var(--pb-color-primary);
     --pb-search-suggestions-background: white;
@@ -229,6 +231,7 @@ pb-view {
 .breadcrumbs pb-view {
     font-weight: 400;
     font-size: var(--pb-breadcrumbs-font-size);
+    max-width: none;
 }
 
 @media (min-width: 769px) {
