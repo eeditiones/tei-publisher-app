@@ -16,6 +16,6 @@
   },
   "license": "GPL-3.0",
   "dependencies": {
-    "@teipublisher/pb-components": "git+https://gitlab.existsolutions.com/tei-publisher/pb-components.git#master"
+    "@teipublisher/pb-components": "git+https://github.com/eeditiones/tei-publisher-components.git"
   }
 }
