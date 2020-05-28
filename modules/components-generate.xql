@@ -370,7 +370,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
     let $dataRoot := if ($json?data-collection) then $json?data-collection else "data"
     let $dataRoot :=
         if (starts-with($dataRoot, "/")) then
-            $dataRoot
+            '"' || $dataRoot || '"'
         else
             '\$config:app-root || "/' || $dataRoot || '"'
     let $replacements := map {
@@ -378,7 +378,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         "^(.*\$config:default-template :=).*;$": '"' || $json?template || '"',
         "^(.*\$config:default-view :=).*;$": '"' || $json?default-view || '"',
         "^(.*\$config:search-default :=).*;$": '"' || $json?index || '"',
-        "^(.*\$config:data-root\s*:=).*;$": '"' || $dataRoot || '"',
+        "^(.*\$config:data-root\s*:=).*;$": $dataRoot,
         "^(.*\$config:default-odd :=).*;$": '"' || $json?odd || '.odd"',
         "^(.*module namespace pm-web\s*=).*;$": '"http://www.tei-c.org/pm/models/' || $json?odd || '/web/module" at "../transform/' ||
             $json?odd || '-web-module.xql"',
@@ -396,6 +396,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:store-xconf($collection, $json),
         deploy:copy-collection($collection, $base || "/templates/basic", ($json?owner, "tei"), "rw-r--r--"),
         deploy:copy-collection($collection || "/templates/pages", $base || "/templates/pages", ($json?owner, "tei"), "rw-r--r--"),
+        deploy:copy-collection($collection || "/resources/fonts", $base || "/resources/fonts", ($json?owner, "tei"), "rw-r--r--"),
         deploy:expand($collection || "/modules", "config.xqm", $replacements),
         deploy:expand($collection || "/modules", "pm-config.xql", $replacements),
         deploy:store-libs($collection, ($json?owner, "tei"), "rw-r--r--"),
