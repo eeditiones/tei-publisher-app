@@ -22,12 +22,12 @@ import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/
 (: Code listing :)
 declare %private function model:code($config as map(*), $node as node()*, $class as xs:string+, $content) {
     $node ! (
-        let $language := @language
+        let $language := if (@language = ('xml', 'html', 'sh', 'bash')) then '[language=' || @language || ']' else ()
          let $code := replace($content, '^\s*(.*?)$', '$1')
 
         return
 
-        ``[\begin{lstlisting}[language=`{string-join($config?apply-children($config, $node, $language))}`]
+        ``[\begin{lstlisting}`{string-join($config?apply-children($config, $node, $language))}`
 `{string-join($config?apply-children($config, $node, $code))}`
 \end{lstlisting} ]``
     )
@@ -118,13 +118,9 @@ declare %private function model:template-title2($config as map(*), $node as node
                                 <pb-link path="{$config?apply-children($config, $node, $params?path)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-link>
                             </h1></t>/*
 };
-(: generated template function for element spec: section :)
-declare %private function model:template-section3($config as map(*), $node as node()*, $params as map(*)) {
-    <t xmlns=""><pb-observable data="{$config?apply-children($config, $node, $params?root)},{$config?apply-children($config, $node, $params?nodeId)}" emit="transcription">{$config?apply-children($config, $node, $params?content)}</pb-observable></t>/*
-};
 (: generated template function for element spec: code :)
 declare %private function model:template-code($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\verb|`{string-join($config?apply-children($config, $node, $params?content))}`|]``
+    ``[\texttt{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (: generated template function for element spec: note :)
 declare %private function model:template-note2($config as map(*), $node as node()*, $params as map(*)) {
@@ -287,17 +283,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             )
 
                         else
-                            let $params := 
-                                map {
-                                    "root": util:node-id($parameters?root),
-                                    "nodeId": util:node-id($get(.)),
-                                    "content": .
-                                }
-
-                                                        let $content := 
-                                model:template-section3($config, ., $params)
-                            return
-                                                        latex:block(map:merge(($config, map:entry("template", true()))), ., ("tei-section3"), $content)
+                            latex:block($config, ., ("tei-section4"), .)
                     case element(para) return
                         latex:paragraph($config, ., ("tei-para"), .)
                     case element(emphasis) return

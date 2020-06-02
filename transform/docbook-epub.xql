@@ -163,6 +163,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             )
 
                         else
+                            (: More than one model without predicate found for ident section. Choosing first one. :)
                             let $params := 
                                 map {
                                     "root": util:node-id($parameters?root),

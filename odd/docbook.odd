@@ -40,9 +40,9 @@
             <tagsDecl>
                 <pb:behaviour ident="code" output="latex">
                     <desc>Code listing</desc>
-                    <pb:param name="language" value="@language" />
+                    <pb:param name="language" value="if (@language = ('xml', 'html', 'sh', 'bash')) then '[language=' || @language || ']' else ()" />
                     <pb:param name="code" value="replace($content, '^\s*(.*?)$', '$1')" />
-                    <pb:template xml:space="preserve">\begin{lstlisting}[language=[[language]]]
+                    <pb:template xml:space="preserve">\begin{lstlisting}[[language]]
 [[code]]
 \end{lstlisting} </pb:template>
                 </pb:behaviour>
@@ -271,13 +271,14 @@
                             <param name="content" value="title" />
                         </model>
                     </modelSequence>
-                    <model behaviour="block">
+                    <model behaviour="block" output="web">
                         <param name="root" value="util:node-id($parameters?root)" />
                         <param name="nodeId" value="util:node-id($get(.))" />
                         <pb:template xmlns="" xml:space="preserve">
                             <pb-observable data="[[root]],[[nodeId]]" emit="transcription">[[content]]</pb-observable>
                         </pb:template>
                     </model>
+                    <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="para">
                     <model behaviour="paragraph" />
@@ -299,7 +300,7 @@ font-style: italic;
                 </elementSpec>
                 <elementSpec ident="code">
                     <model output="latex" behaviour="inline">
-                        <pb:template xmlns="" xml:space="preserve">\verb|[[content]]|</pb:template>
+                        <pb:template xmlns="" xml:space="preserve">\texttt{[[content]]}</pb:template>
                     </model>
                     <model behaviour="inline" cssClass="code" />
                 </elementSpec>
