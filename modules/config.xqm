@@ -35,7 +35,7 @@ declare variable $config:origin-whitelist := (
  : If a version is given, the components will be loaded from a public CDN.
  : This is recommended unless you develop your own components.
  :)
-declare variable $config:webcomponents := "0.9.33";
+declare variable $config:webcomponents := "0.9.34";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
@@ -291,6 +291,10 @@ declare variable $config:data-root := $config:app-root || "/data";
  :)
 declare variable $config:data-default := $config:data-root;
 
+(:~
+ : A sequence of root elements which should be excluded from the list of
+ : documents displayed in the browsing view.
+ :)
 declare variable $config:data-exclude := (
     doc($config:data-root || "/taxonomy.xml")/tei:TEI,
     collection($config:data-root || "/doc")/tei:TEI

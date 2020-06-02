@@ -3787,6 +3787,8 @@ declare variable $config:data-root := $config:app-root || "/data";
       <programlisting language="xquery" xml:space="preserve">
       declare variable $config:data-root := '/db/apps/lgpn-ling-data/data';
     </programlisting>
+      <para>In the variable <parameter>$config:data-exclude</parameter> you may specifiy a sequence of root elements which should be excluded from the list of
+        document shown in the browsing view, e.g. secondary data files like a taxonomy or entity lists.</para>
       <para>You may find it helpful to create and build the data package starting from the template
         hosted in the <link xlink:href="https://github.com/eeditiones/tei-publisher-data-template"
           xlink:show="new">e-editiones repository</link>. README document provided there explains
@@ -3843,12 +3845,10 @@ declare variable $config:data-root := $config:app-root || "/data";
  :)
 declare variable $config:data-default := $config:data-root;
     </programlisting>
-      <para>This approach can be extended further, say if you wanted to add
-          <filename>prints</filename> and <filename>manuscripts</filename> subcollection to the
-          <filename>playground</filename> and present them in a custom landing page. Just add the
-        data and corresponding <filename>collection.html</filename> into the
-          <filename>playground</filename>. You can shape the custom landing page however you like,
-        using the full power of HTML and eXist templating.</para>
+      <para>This approach can be extended further, say if you wanted to add  a <filename>prints</filename> and <filename>manuscripts</filename> subcollection to
+        the <filename>playground</filename> and present them in a custom landing page. Just add the data and a corresponding
+          <filename>collection.html</filename> into the <filename>playground</filename>. You can shape the custom landing page however you like, using the full
+        power of HTML and eXist templating.</para>
       <figure>
         <title>Subcollections</title>
         <mediaobject>
