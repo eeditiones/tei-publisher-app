@@ -106,6 +106,10 @@ declare function nav:filler($config as map(*), $div as element()?) {
     nav:dispatch($config, "filler", [$config, $div])
 };
 
+declare function nav:is-filler($config as map(*), $div) {
+    nav:dispatch($config, "is-filler", [$config, $div])
+};
+
 declare function nav:output-footnotes($footnotes as element()*) {
     <div class="popovers">
     {

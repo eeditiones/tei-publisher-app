@@ -108,6 +108,15 @@ declare function nav:fill($config as map(*), $div) {
         $div
 };
 
+declare function nav:is-filler($config as map(*), $div) {
+    let $parent := $div/ancestor::dbk:section[count(ancestor-or-self::dbk:section) <= $config?depth][1]
+    return
+        if ($parent and nav:filler($config, $parent)/descendant-or-self::dbk:section[. is $div]) then
+            $parent
+        else
+            ()
+};
+
 (:~
  : By-division view: compute and return the next division to show in sequence.
  :)
@@ -140,7 +149,7 @@ declare function nav:previous-page($config as map(*), $div) {
                 function($ancestor) {
                     exists(nav:filler($config, $ancestor)/descendant-or-self::dbk:section[. is $previous])
                 }
-            )
+            )[1]
             return
                 if ($nearest) then
                     $nearest

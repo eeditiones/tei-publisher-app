@@ -363,11 +363,10 @@ declare %private function pages:toc-div($node, $model as map(*), $target as xs:s
                     (),
                 $div
             )[1]
-            let $parent := if ($view = "div") then $div/ancestor::tei:div[1] else ()
-            let $inParent := $parent and nav:filler($model?config, $parent) is $div
+            let $parent := nav:is-filler($model?config, $div)
             let $hasDivs := exists(nav:get-subsections($model?config, $div))
-            let $nodeId :=  if ($inParent) then util:node-id($parent) else util:node-id($root)
-            let $subsect := if ($inParent) then attribute hash { util:node-id($root) } else ()
+            let $nodeId :=  if ($parent) then util:node-id($parent) else util:node-id($root)
+            let $subsect := if ($parent) then attribute hash { util:node-id($root) } else ()
             return
                     <li>
                     {

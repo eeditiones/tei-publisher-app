@@ -138,16 +138,27 @@ declare function nav:get-section-heading($config as map(*), $section as node()) 
     $section/tei:head
 };
 
+declare function nav:is-filler($config as map(*), $div) {
+    let $parent := $div/ancestor::tei:div[count(ancestor-or-self::tei:div) <= $config?depth][1]
+    return
+        if ($parent and nav:filler($config, $parent)/descendant-or-self::tei:div[. is $div]) then
+            $parent
+        else
+            ()
+};
+
 (:~
  : By-division view:
  : Return additional content to fill up a parent division which otherwise would not have
  : enough text to show. By default adds the first subdivision.
  :)
 declare function nav:filler($config as map(*), $div) {
-    if ($config?fill > 0 and $div/tei:div and count(($div/tei:div[1])/preceding-sibling::*/descendant-or-self::*) < $config?fill) then
-        $div/tei:div[1]
-    else
-        ()
+    let $child := $div/tei:div[1]
+    return
+        if ($config?fill > 0 and $child and count(($child)/preceding-sibling::*/descendant-or-self::*) < $config?fill) then
+            $child
+        else
+            ()
 };
 
 (:~
