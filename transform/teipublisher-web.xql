@@ -127,16 +127,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 $config?apply($config, ./node())
                     case element(note) return
-                        if (@place) then
-                            html:note($config, ., ("tei-note1"), ., @place, @n)
-                        else
-                            if (parent::div and not(@place)) then
-                                html:block($config, ., ("tei-note2"), .)
-                            else
-                                if (not(@place)) then
-                                    html:inline($config, ., ("tei-note3"), .)
-                                else
-                                    $config?apply($config, ./node())
+                        html:note($config, ., ("tei-note"), ., @place, @n)
                     case element(code) return
                         html:inline($config, ., ("tei-code"), .)
                     case element(dateline) return

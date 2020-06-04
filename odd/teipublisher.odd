@@ -30,6 +30,9 @@
                 <p>born digital</p>
             </sourceDesc>
         </fileDesc>
+        <encodingDesc>
+            <tagsDecl/>
+        </encodingDesc>
         <revisionDesc>
             <change when="2017-09-08">adjust metadata in teiHeader</change>
         </revisionDesc>
@@ -194,13 +197,19 @@
         </model>
                 </elementSpec>
             <elementSpec ident="ref" mode="change">
-        <model predicate="not(@target)" behaviour="inline"/>
-        <model predicate="not(node())" behaviour="link">
+                    <model predicate="not(@target)" behaviour="inline"/>
+                    <model predicate="not(node())" behaviour="link">
             <param name="content" value="@target"/>
             <param name="uri" value="@target"/>
         </model>
-        <model behaviour="link">
+                    <model behaviour="link">
             <param name="uri" value="@target"/>
+        </model>
+                </elementSpec>
+            <elementSpec ident="note" mode="change">
+        <model behaviour="note">
+            <param name="place" value="@place"/>
+            <param name="label" value="@n"/>
         </model>
     </elementSpec>
             </schemaSpec>
