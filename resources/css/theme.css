@@ -31,10 +31,12 @@ body {
     --pb-footnote-font-weight: var(--pb-content-font-weight);
     --pb-footnote-color: #303030;
     --pb-footnote-padding: 0 0 0 .25em;
-    --pb-popover-theme: "material";
+    --pb-popover-theme: "light-border";
     --pb-popover-max-width: 480px;
     --pb-popover-font-size: 16px;
     --pb-popover-line-height: 1.2;
+    --pb-popover-placement: "bottom";
+    --pb-popover-fallback-placement: "top right left";
     --pb-lang-input-color: var(--pb-color-inverse);
     --pb-lang-label-color: var(--pb-color-inverse);
     --pb-link-color: black;
