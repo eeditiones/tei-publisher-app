@@ -373,8 +373,13 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
             '"' || $dataRoot || '"'
         else
             '\$config:app-root || "/' || $dataRoot || '"'
+    let $webcomponents :=
+        if ($config:webcomponents = 'local') then
+            'latest'
+        else
+            $config:webcomponents
     let $replacements := map {
-        "^(.*\$config:webcomponents :=).*;$": '"' || $config:webcomponents || '"',
+        "^(.*\$config:webcomponents :=).*;$": '"' || $webcomponents || '"',
         "^(.*\$config:default-template :=).*;$": '"' || $json?template || '"',
         "^(.*\$config:default-view :=).*;$": '"' || $json?default-view || '"',
         "^(.*\$config:search-default :=).*;$": '"' || $json?index || '"',
