@@ -65,3 +65,13 @@ Following instructions are only relevant for developers who want to contribute t
 ### Web Components Testing
 
 Described in a separate [README.md inside the `webtest` directory](webtest/README.md).
+
+## Docker 
+
+### Build Docker Image
+* execute `docker build -t existdb/teipublisher:6.0.0 .` in your terminal
+
+### Run Docker Image
+* execute `docker run --publish 8080:8080 --detach --name tp existdb/teipublisher:6.0.0` in your terminal
+* open `localhost:8080` in your browser
+
