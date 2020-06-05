@@ -179,8 +179,7 @@ app-drawer-layout:not([narrow]) [drawer-toggle] {
 }
 
 .menubar .gitlab img {
-    background-size: 100% 100%;
-    height: 40px;
+    height: 32px;
 }
 
 .menubar pb-login {}
