@@ -34,10 +34,14 @@ declare function local:load-source($href as xs:string, $line as xs:int?) {
             data-exide-line="{$line}">{$href}</a>
 };
 
-declare function local:get-line($src, $line as xs:int) {
-    let $lines := tokenize($src, "\n")
-    return
-        replace($lines[$line], "^\s*(.*?)", "$1")
+declare function local:get-line($src, $line as xs:int?) {
+    if ($line) then
+        let $lines := tokenize($src, "\n")
+        return
+            subsequence($lines, $line - 1, 3) !
+                replace(., "^\s*(.*?)", "$1&#10;")
+    else
+        ()
 };
 
 let $odd := request:get-parameter("odd", ())
@@ -57,23 +61,35 @@ let $result :=
             ("web", "print", "latex", "epub")
     return
         try {
-            for $file in pmu:process-odd(
+            for $output in pmu:process-odd(
                 odd:get-compiled($config:odd-root, $source),
                 $config:output-root,
                 $module,
                 "../" || $config:output,
-                $config:module-config)?("module")
-            let $src := util:binary-to-string(util:binary-doc($file))
-            let $compiled := util:compile-query($src, ())
+                $config:module-config)
+            let $file := $output?module
             return
-                if ($compiled/error) then
+                if ($output?error) then
                     <div class="list-group-item-danger">
-                        <h5 class="list-group-item-heading">{local:load-source($file, $compiled/error/@line)}:</h5>
-                        <p class="list-group-item-text">{ $compiled/error/string() }</p>
-                        <pre class="list-group-item-text">{ local:get-line($src, $compiled/error/@line)}</pre>
+                        <h5 class="list-group-item-heading">{$file}: ERROR</h5>
+                        <p class="list-group-item-text">{ $output?error/error/string() }</p>
+                        <pre class="list-group-item-text">{ local:get-line($output?code, $output?error/error/@line) }</pre>
+                        <p class="list-group-item-text">File not saved.</p>
                     </div>
                 else
-                    <div class="list-group-item-success">{$file}</div>
+                    let $src := util:binary-to-string(util:binary-doc($file))
+                    let $compiled := util:compile-query($src, ())
+                    return
+                        if ($compiled/error) then
+                            <div class="list-group-item-danger">
+                                <h5 class="list-group-item-heading">{local:load-source($file, $compiled/error/@line)}:</h5>
+                                <p class="list-group-item-text">{ $compiled/error/string() }</p>
+                                <pre class="list-group-item-text">{ local:get-line($src, $compiled/error/@line)}</pre>
+                            </div>
+                        else
+                            <div class="list-group-item-success">
+                                <h5 class="list-group-item-heading">{$file}: OK</h5>
+                            </div>
         } catch * {
             <div class="list-group-item-danger">
                 <h5 class="list-group-item-heading">Error for output mode {$module}</h5>

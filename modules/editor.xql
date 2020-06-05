@@ -132,26 +132,36 @@ declare function local:recompile($source as xs:string, $root as xs:string) {
             ("web", "print", "latex", "epub")
     return
         try {
-            for $file in pmu:process-odd(
+            for $output in pmu:process-odd(
                 odd:get-compiled($root, $source),
                 $outputRoot,
                 $module,
                 "../" || $outputPrefix,
-                $config)?("module")
-            let $src := util:binary-to-string(util:binary-doc($file))
-            let $compiled := util:compile-query($src, ())
+                $config)
+            let $file := $output?module
             return
-                if ($compiled/*:error) then
+                if ($output?error) then
                     map {
                         "file": $file,
-                        "error": $compiled/*:error/string(),
-                        "line": $compiled/*:error/@line,
-                        "message": local:get-line($src, $compiled/*:error/@line)
+                        "error": $output?error/*:error/string(),
+                        "line": $output?error/*:error/@line,
+                        "message": local:get-line($output?code, $output?error/*:error/@line)
                     }
                 else
-                    map {
-                        "file": $file
-                    }
+                    let $src := util:binary-to-string(util:binary-doc($file))
+                    let $compiled := util:compile-query($src, ())
+                    return
+                        if ($compiled/*:error) then
+                            map {
+                                "file": $file,
+                                "error": $compiled/*:error/string(),
+                                "line": $compiled/*:error/@line,
+                                "message": local:get-line($src, $compiled/*:error/@line)
+                            }
+                        else
+                            map {
+                                "file": $file
+                            }
         } catch * {
             map {
                 "error": "Error for output mode " || $module,
