@@ -1,5 +1,5 @@
 
-<img src="resources/images/tei-publisher-logo-contrast-color.svg" height="128">
+<img src="resources/images/tei-publisher-logo-color.svg" height="128">
 
 TEI Publisher facilitates the integration of the TEI Processing Model into exist-db applications. The TEI Processing Model (PM) extends the TEI ODD specification format with a processing model for documents. That way intended processing for all elements can be expressed within the TEI vocabulary itself. It aims at the XML-savvy editor who is familiar with TEI but is not necessarily a developer.
 
