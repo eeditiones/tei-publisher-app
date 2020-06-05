@@ -1,6 +1,6 @@
 {
   "name": "tei-publisher-app",
-  "version": "5.1.0-RC",
+  "version": "6.0.0-RC1",
   "description": "TEI Publisher facilitates the integration of the TEI Processing Model into exist-db applications",
   "directories": {
     "test": "webtest",
@@ -12,10 +12,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.existsolutions.com:tei-publisher/tei-publisher-app.git"
+    "url": "https://github.com/eeditiones/tei-publisher-app.git"
   },
   "license": "GPL-3.0",
   "dependencies": {
-    "@teipublisher/pb-components": "git+https://github.com/eeditiones/tei-publisher-components.git"
+    "@teipublisher/pb-components": "^0.9.37"
   }
 }
