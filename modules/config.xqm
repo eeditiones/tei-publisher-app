@@ -372,6 +372,25 @@ declare variable $config:dts-page-size := 10;
 
 declare variable $config:dts-import-collection := $config:data-default || "/playground";
 
+declare function config:document-type($div as element()) {
+    switch (namespace-uri($div))
+        case "http://www.tei-c.org/ns/1.0" return
+            "tei"
+        case "http://docbook.org/ns/docbook" return
+            "docbook"
+        default return
+            "jats"
+};
+
+declare function config:get-document($idOrName as xs:string) {
+    if ($config:address-by-id) then
+        root(collection($config:data-root)/id($idOrName))
+    else if (starts-with($idOrName, '/')) then
+        doc(xmldb:encode-uri($idOrName))
+    else
+        doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
+};
+
 (:~
  : Return an ID which may be used to look up a document. Change this if the xml:id
  : which uniquely identifies a document is *not* attached to the root element.

@@ -11,7 +11,6 @@ declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
-import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 
 declare option output:method "text";
@@ -28,7 +27,7 @@ return (
         (),
     if ($id) then
         let $id := replace($id, "^(.*)\..*", "$1")
-        let $xml := pages:get-document($id)/*
+        let $xml := config:get-document($id)/*
         let $config := tpu:parse-pi(root($xml), ())
         let $options :=
             map {

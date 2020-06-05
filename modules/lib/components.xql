@@ -58,7 +58,7 @@ let $mapping := request:get-parameter("map", ())
 let $highlight := request:get-parameter("highlight", ())
 let $xml :=
     if ($xpath) then
-        for $document in pages:get-document($doc)
+        for $document in config:get-document($doc)
         let $namespace := namespace-uri-from-QName(node-name($document/*))
         let $xquery := "declare default element namespace '" || $namespace || "'; $document" || $xpath
         let $data := util:eval($xquery)
@@ -69,7 +69,7 @@ let $xml :=
                 ()
 
     else if (exists($id)) then (
-        for $document in pages:get-document($doc)
+        for $document in config:get-document($doc)
         let $config := tpu:parse-pi($document, $view)
         let $data :=
             if (count($id) = 1) then

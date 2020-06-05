@@ -4,7 +4,6 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../c
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
 import module namespace xslfo="http://exist-db.org/xquery/xslfo" at "java:org.exist.xquery.modules.xslfo.XSLFOModule";
-import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
@@ -87,7 +86,7 @@ let $token := request:get-parameter("token", "none")
 let $source := request:get-parameter("source", ())
 let $useCache := request:get-parameter("cache", "yes")
 let $id := replace($path, "^(.*)\..*", "$1")
-let $doc := root(pages:get-document($id))
+let $doc := root(config:get-document($id))
 let $config := tpu:parse-pi(root($doc), ())
 let $name := util:document-name($doc)
 return

@@ -4806,7 +4806,7 @@ static get styles() {
         related to navigation. You will note that it imports custom modules for all supported
         vocabularies: <emphasis>TEI</emphasis>, <emphasis>JATS</emphasis> and
           <emphasis>DocBook</emphasis>. All requests are dispatched to specialized modules,
-        depending on the namespace of the document (cf. <function>nav:document-type</function>
+        depending on the namespace of the document (cf. <function>config:document-type</function>
         function).</para>
       <programlisting language="xquery" xml:space="preserve">
 module namespace nav="http://www.tei-c.org/tei-simple/navigation";
@@ -4825,7 +4825,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           <para>import it into <filename>navigation.xql</filename></para>
         </listitem>
         <listitem>
-          <para>adjust <function>nav:document-type</function> function</para>
+          <para>adjust <function>config:document-type</function> function</para>
         </listitem>
         <listitem>
           <para>adjust <function>nav:get-root</function></para>

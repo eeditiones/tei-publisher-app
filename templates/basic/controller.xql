@@ -4,7 +4,6 @@ declare namespace dbk="http://docbook.org/ns/docbook";
 
 import module namespace login="http://exist-db.org/xquery/login" at "resource:org/exist/xquery/modules/persistentlogin/login.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "modules/config.xqm";
-import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "modules/lib/pages.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "modules/lib/util.xql";
 
 declare variable $exist:path external;
@@ -42,7 +41,7 @@ declare function local:get-template($doc as xs:string) {
         if ($template) then
             $template
         else
-            let $document := pages:get-document($doc)
+            let $document := config:get-document($doc)
             where exists($document)
             let $config := tpu:parse-pi($document, request:get-parameter("view", ()))
             return

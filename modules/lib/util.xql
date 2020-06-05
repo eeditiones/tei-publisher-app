@@ -21,19 +21,17 @@ module namespace tpu="http://www.tei-c.org/tei-publisher/util";
 
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
-import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 
 declare function tpu:parse-pi($doc as document-node(), $view as xs:string?) {
     tpu:parse-pi($doc, $view, request:get-parameter("odd", ()))
 };
 
 declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd as xs:string?) {
-    let $oddAvailable := doc-available($config:odd-root || "/" || $odd)
     let $default := map {
         "view": ($view, $config:default-view)[1],
         "depth": $config:pagination-depth,
         "fill": $config:pagination-fill,
-        "type": nav:document-type($doc/*)
+        "type": config:document-type($doc/*)
     }
     let $pis :=
         map:merge(

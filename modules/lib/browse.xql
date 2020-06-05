@@ -21,7 +21,6 @@ module namespace app="http://www.tei-c.org/tei-simple/templates";
 
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
-import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
@@ -419,7 +418,7 @@ declare function app:dispatch-action($node as node(), $model as map(*), $action 
             let $docs := request:get-parameter("docs[]", ())
             let $result :=
                 for $path in $docs
-                let $doc := pages:get-document(xmldb:decode($path))
+                let $doc := config:get-document(xmldb:decode($path))
                 return
                     if ($doc) then
                         try {

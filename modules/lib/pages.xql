@@ -58,7 +58,7 @@ declare variable $pages:EDIT_ODD_LINK :=
 declare function pages:pb-document($node as node(), $model as map(*), $doc as xs:string, $root as xs:string?,
     $id as xs:string?, $view as xs:string?) {
     let $odd := ($node/@odd, request:get-parameter("odd", ())) [1]
-    let $data := pages:get-document($doc)
+    let $data := config:get-document($doc)
     let $config := tpu:parse-pi(root($data), $view, $odd)
     return
         <pb-document path="{$doc}" root-path="{$config:data-root}" view="{$config?view}" odd="{replace($config?odd, '^(.*)\.odd', '$1')}"
@@ -167,7 +167,7 @@ function pages:load($node as node(), $model as map(*), $doc as xs:string, $root 
 };
 
 declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc as xs:string) {
-    for $data in pages:get-document($doc)
+    for $data in config:get-document($doc)
     return
         pages:load-xml($data, $view, $root, $doc)
 };
@@ -204,15 +204,6 @@ declare function pages:load-xml($data as node()*, $view as xs:string?, $root as 
                         else
                             $data/tei:TEI/tei:text
         }
-};
-
-declare function pages:get-document($idOrName as xs:string) {
-    if ($config:address-by-id) then
-        root(collection($config:data-root)/id($idOrName))
-    else if (starts-with($idOrName, '/')) then
-        doc(xmldb:encode-uri($idOrName))
-    else
-        doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
 };
 
 declare function pages:back-link($node as node(), $model as map(*)) {
