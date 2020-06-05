@@ -1,4 +1,5 @@
-# TEI Publisher
+
+<img src="resources/images/tei-publisher-logo-contrast-color.svg" height="128">
 
 TEI Publisher facilitates the integration of the TEI Processing Model into exist-db applications. The TEI Processing Model (PM) extends the TEI ODD specification format with a processing model for documents. That way intended processing for all elements can be expressed within the TEI vocabulary itself. It aims at the XML-savvy editor who is familiar with TEI but is not necessarily a developer.
 
@@ -10,7 +11,7 @@ A demo and further documentation is available on:
 
 [https://teipublisher.com/](https://teipublisher.com/)
 
-For general questions and discussions, please join the [#teipublisher](https://join.slack.com/t/exist-db/shared_invite/enQtNjQ4MzUyNTE4MDY3LTUwZDk5ODBhYjIwMzgyNGIyOGVlZTdjODY2ZGRmZGFhMDM2YjUyZmQ2NmZjMGQyNzE3MmM0ZGRlY2E2ZmM2MjM) room on the eXistdb slack.
+For general questions and discussions, please join the [#community](https://join.slack.com/t/e-editiones/shared_invite/zt-e19jc03q-OFaVni~_lh6emSHen6pswg) room on the e-editiones slack.
 
 If you need professional support or consulting, feel free to send your inquiry to [eXist Solutions](mailto:mail@existsolutions.com).
 
@@ -32,7 +33,7 @@ Please use our Crowdin space to help expand and improve localization
 
 ## Building
 
-TEI Publisher requires the [pb-components](https://gitlab.existsolutions.com/tei-publisher/pb-components) package, which can either be loaded from an external server (CDN) or imported into the local build. If you intend to contribute to TEI Publisher development, you likely want the latter option. For just using TEI Publisher, the first is sufficient.
+TEI Publisher requires the [pb-components](https://github.com/eeditiones/tei-publisher-components) package, which can either be loaded from an external server (CDN) or imported into the local build. If you intend to contribute to TEI Publisher development, you likely want the latter option. For just using TEI Publisher, the first is sufficient.
 
 ### For Users
 
@@ -51,20 +52,20 @@ This software is licensed under the [GPLv3](https://www.gnu.org/licenses/gpl-3.0
 
 TEI Publisher is brought to you by <a href="http://existsolutions.com"><img src="http://teipublisher.com/img/existsolutions.svg" width="128"/></a> with contributions from other users. It's development was supported by a wide range of privately and publicly funded projects.
 
+Development is supported and coordinated by [e-editiones](https://e-editiones.org).
+
+![e-editiones logo](resources/images/e-editiones-logo-color-for-light-bg-05.svg)
+
 ## Editing Resources
 
-All resources can either be edited live via eXist-db's XML editor eXide or via local development having `node` and `ant` installed.
+All resources can either be edited live via eXist-db's XML editor eXide or via local development having `ant` installed.
 
 ## Development
 
 Following instructions are only relevant for developers who want to contribute to TEI Publisher. Different approaches are possible:
 
 1. use eXide to directly change resources inside the database, then sync them to a local directory where you have checked out the code from gitlab
-2. use the Atom editor with the eXistdb package and open a local copy of the TEI Publisher repository as a project in Atom. Atom will make sure to sync your local modifications into the database. This is the most convenient and recommended method. Similar workflow is possible in Visual Studio Code.
-
-### Web Components Testing
-
-Described in a separate [README.md inside the `webtest` directory](webtest/README.md).
+2. use the Atom or Visual Studio Code editors with the corresponding eXistdb plugin and open a local copy of the TEI Publisher repository as a project. Both editor plugins have a feature to sync local modifications into the database. This is the most convenient and recommended method. Similar workflow is possible in Visual Studio Code.
 
 ## Docker 
 
