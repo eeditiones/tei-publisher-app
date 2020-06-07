@@ -4220,6 +4220,11 @@ declare variable $config:facets := [
         the standard <link xlink:show="new"
           xlink:href="https://www.webcomponents.org/author/PolymerElements">Polymer elements
           library</link>).</para>
+      <para>Another example of embedding TEI Publisher web components into a static website
+        can be found on our <link xlink:href="https://teipublisher.onrender.com/">demo blog</link>.
+        It was created with <link xlink:href="https://gohugo.io">Hugo</link>, a very popular
+        website generator which offers hundreds of ready-made themes to choose from. Here content
+      is written in markdown, but its not a problem to embed TEI content served by TEI Publisher.</para>
     </section>
   </section>
 
