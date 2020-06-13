@@ -17,6 +17,7 @@
         <style>
             main {
                 margin: 0 20px 0 20px;
+                --pb-browse-toolbar-justify-content: space-between;
             }
             
             @media (max-width: 1023px) {
@@ -138,7 +139,7 @@
             }
             
             aside .upload {
-                margin-top: 20px;
+                margin-bottom: 20px;
                 width: 100%;
             }
             
@@ -149,9 +150,13 @@
             .parent-link {
                 display: block;
                 margin-bottom: 10px;
-                margin-top: 16px;
                 padding: 6px 0;
-                border-bottom: thin solid var(--paper-grey-300);
+            }
+
+            .collection {
+                margin-top: 8px;
+                padding-top: 12px;
+                border-top: thin solid var(--paper-grey-300);
             }
 
             .documents img {
@@ -397,11 +402,6 @@
                             </div>
                         </paper-card>
                         <aside>
-                            <paper-card data-i18n="[heading]odd.files" class="odds" heading="ODD Files">
-                                <div class="card-content">
-                                    <pb-manage-odds id="manage-odds" target="document-list" emit="docs"></pb-manage-odds>
-                                </div>
-                            </paper-card>
                             <pb-restricted login="login" can-write="can-write">
                                 <paper-card class="upload" data-i18n="[heading]upload.upload" heading="Upload">
                                     <div class="card-content">
@@ -409,6 +409,11 @@
                                     </div>
                                 </paper-card>
                             </pb-restricted>
+                            <paper-card data-i18n="[heading]odd.files" class="odds" heading="ODD Files">
+                                <div class="card-content">
+                                    <pb-manage-odds id="manage-odds" target="document-list" emit="docs"></pb-manage-odds>
+                                </div>
+                            </paper-card>
                         </aside>
                     </section>
                 </main>
