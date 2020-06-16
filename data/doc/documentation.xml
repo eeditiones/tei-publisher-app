@@ -30,18 +30,18 @@
     <title>Introduction</title>
     <section>
       <title>What TEI Publisher does ...</title>
-      <para>The vision behind TEI Publisher is to provide a tool which enables scholars and editors
-        to publish their materials without becoming programmers, but also does not force them into a
-        one-size-fits-all framework. Experienced developers will benefit as well by writing less
-        code, avoiding redundancy, improve maintenance and interoperability - to just name a few.
-        TEI Publisher is all about <emphasis role="bold">standards</emphasis>, <emphasis role="bold"
-          >modularity</emphasis>, <emphasis role="bold">reusability</emphasis> and <emphasis
-          role="bold">sustainability</emphasis>!</para>
+      <para>The motivation behind TEI Publisher was to provide a tool which enables scholars and
+        editors to publish their materials without becoming programmers, but also does not force
+        them into a one-size-fits-all framework. Experienced developers will benefit as well by
+        writing less code, avoiding redundancy, improve maintenance and interoperability - to just
+        name a few. TEI Publisher is all about <emphasis role="bold">standards</emphasis>, <emphasis
+          role="bold">modularity</emphasis>, <emphasis role="bold">reusability</emphasis> and
+          <emphasis role="bold">sustainability</emphasis>!</para>
       <para>In Publisher, it all starts with your source documents - regardless if they are in TEI
-        or other form of XML: DocBook, MS Word (DOCX) or JATS. However the source material has been
-        encoded, it can be easily transformed into a range of output formats for publication - from
-        a modern web page that you can open on your laptop or mobile device, to an ebook, a PDF file
-        or its LaTeX source.</para>
+        or other form of XML: DocBook, MS Word (DOCX) or JATS. No matter how the source material has
+        been encoded, it can be easily transformed into a range of output formats for publication -
+        from a modern web page that you can open on your laptop or mobile device, to an ebook, a PDF
+        file or its LaTeX source.</para>
       <para>TEI Publisher derives its name from TEI and the TEI Processing Model (PM). Processing
         Model is a part of the TEI vocabulary and TEI ODD specification format, described in the
           <link xlink:show="new"
@@ -58,12 +58,13 @@
         the HTML5 specification and natively implemented by many browsers. Users don't need to dive
         into the details of this standard though: all you need to modify the example pages is a bit
         of basic HTML knowledge.</para>
-      <para>Only where the <link xlink:show="new" xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html"
-          >available components</link> are not enough, a new use case needs to be described and
-        suitable new components implemented but then they can be incorporated into existing
-        component pool for everyone else to use. After all, our mantra is reuse, reuse, reuse and we
-        want to turn TEI Publisher into a box of tools the entire community can benefit from. See
-        our <link linkend="roadmap">roadmap</link> for the ideas we are thinking of.</para>
+      <para>Only where the <link xlink:show="new"
+          xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html">available
+          components</link> are not enough, a new use case needs to be described and suitable new
+        components implemented but then they can be incorporated into existing component pool for
+        everyone else to use. After all, our mantra is reuse, reuse, reuse and we want to turn TEI
+        Publisher into a box of tools the entire community can benefit from. See our <link
+          linkend="roadmap">roadmap</link> for the ideas we are thinking of.</para>
       <para>Despite elegant simplicity of this approach, various projects we realized in the past
         prove that TEI Publisher is:</para>
       <orderedlist>
@@ -94,6 +95,60 @@
           xlink:href="https://e-editiones.org">e-editiones.org</link> with the focus on further
         joint development of TEI Publisher, open standards and best practices for digital
         editions.</para>
+
+      <para>TEI Publisher development is only possible thanks to generous contributions of
+        developers, users and institutions willing to employ Open Source approach so the whole
+        community can reuse and benefit from their work.</para>
+
+      <para>Growing number of projects from small to large that have decided to publish their
+        materials with the TEI Publisher gives us all not only the opportunity but also the
+        responsibility to make the project thrive for years to come and to make it truly sustainable
+        option for XML publishing! Consider joining <link xlink:show="new"
+          xlink:href="https://e-editiones.org">e-editiones.org</link> through your affiliated
+        institution or individually to support our efforts.</para>
+
+      <para>We invite the community to contribute to the project - by means of code, ideas,
+        documentation, tutorials and funding. </para>
+      <para> You don't have to be a developer to contribute, you can do so in a number of ways! </para>
+
+      <orderedlist>
+        <listitem>
+          <para>Check out the source code, modify it, document it, enhance it.</para>
+        </listitem>
+        <listitem>
+          <para>Create new or enhance existing example documents and ODDs so we present showcases
+            for various TEI applications.</para>
+        </listitem>
+        <listitem>
+          <para> Report your issues, feature requests or ideas for discussion via <link
+              xlink:show="new" xlink:href="https://github.com/eeditiones/tei-publisher-app/issues"
+              >GitHub issue tracker</link>. </para>
+        </listitem>
+        <listitem>
+          <para> Discuss with us on <link xlink:show="new"
+              xlink:href="https://join.slack.com/t/e-editiones/shared_invite/zt-e19jc03q-OFaVni~_lh6emSHen6pswg"
+              >e-editiones slack chat</link> or through the <link xlink:show="new"
+              xlink:href="https://admin.hostpoint.ch/mailman/listinfo/community_e-editiones.org"
+              >mailing list</link> and <link xlink:show="new"
+              xlink:href="https://twitter.com/EEditiones">@EEditiones twitter</link>. </para>
+        </listitem>
+        <listitem>
+          <para>Contribute to translations via <link xlink:show="new"
+              xlink:href="https://crwd.in/tei-publisher">Crowdin</link>. Please contact us if your
+            target language is not listed and you'd like to work on it.</para>
+        </listitem>
+        <listitem>
+          <para> Port back your custimizations to the TEI Publisher code base so others can use it
+            too (or ask us to do it for you)! </para>
+        </listitem>
+        <listitem>
+          <para> Help and mentor others - publish teaching materials, answer questions on our Slack
+            channel, mailing list and other forums. </para>
+        </listitem>
+        <listitem>
+          <para> Sponsor a concrete feature or fund a development grant. </para>
+        </listitem>
+      </orderedlist>
     </section>
     <section xml:id="versions">
       <title>Versions</title>
@@ -123,7 +178,7 @@
               into existing CMS or any other publishing solution, even if it's not running
               eXist-db.</para>
             <para>Similarly, if you prefer to write your own application using any of the popular
-              frameworks like angular, vue or react you can easily import the
+              frameworks like <emphasis>angular, vue or react</emphasis> you can easily import the
                 <code>pb-components</code> package from npm and use it directly in your
               project.</para>
             <para>As a final consequence, this change decouples the component library from the TEI
@@ -184,8 +239,8 @@
           database</link> to operate. It is distributed as an eXist application package, making it
         easy to install on any eXist database instance - either on your local machine or any remote
         server.</para>
-      <para>You can install eXist and TEI Publisher manually, as described below, or alternatively
-        use the provided <link linkend="docker">docker image</link>.</para>
+      <para>You can install eXist and TEI Publisher manually, as described below. Alternatively use
+        the provided <link linkend="docker">docker image</link>.</para>
 
       <section xml:id="exist-installation">
         <title>Installing into an eXist instance</title>
@@ -286,7 +341,7 @@
           <title>First launch</title>
           <para>Once eXist is launched for the first time you should see (with the exception of some
             Unix system configurations described above) a splash window popping up, showing that
-            some default applications are being installed:</para>
+            default applications are being installed:</para>
           <figure>
             <title>Splash Screen on eXist Startup</title>
             <mediaobject>
@@ -794,13 +849,13 @@
       </itemizedlist>
       <para>We acknowledge that TEI offers other ways to encode these features, e.g. generic
           <tag>milestone</tag> element or specialized numbered division elements like
-          <tag>div1</tag>, <tag>div2</tag>, etc. TEI documents using alternative encodings will be
-        still displayed as specified in the ODD, it is only for the sake of navigation or
-        division-based full text search that we had to assume certain conventions to be able to
-        decide what to show as the next page, column or division.</para>
+          <tag>div1</tag>, <tag>div2</tag>. TEI documents using alternative encodings will be still
+        displayed as specified in the ODD, it is only for the sake of navigation or division-based
+        full text search that we had to assume certain conventions to be able to decide what to show
+        as the next page, column or division.</para>
       <para>We believe our choice represents most common way of using TEI but, for those who
-        followed the path less travelled, the chapter on customization below briefly discusses how
-        to change relevant functionality.</para>
+        followed the path less travelled, the chapter on <link linkend="new-vocabulary-navigation"
+          >customization</link> briefly discusses how to change relevant functionality.</para>
     </section>
 
     <section>
@@ -2205,13 +2260,13 @@
   &lt;model behaviour="text"/&gt;
 &lt;/elementSpec&gt;</programlisting>
         <para>Note that outputting text nodes is a performance critical operation, so use with care.
-          Too complex processing will likely slow down rendering dramatically.</para>
+          Too complex processing may dramatically slow down rendering.</para>
       </section>
       <section xml:id="external-parameters">
         <title>External Parameters</title>
         <para>The script calling the processing model may pass external parameters into the ODD.
           They will be available in the variable <parameter>$parameters</parameter>, which is an
-          XQuery map. Access parameters using the XQuery lookup operator.</para>
+          XQuery map. Access parameters using <code>?</code>, the XQuery lookup operator.</para>
         <para>For example, one can use this feature to control how specific parts of the document
           are output, without having to define a separate output mode, which would result in much
           more code. Below we display a shortened header for the document, containing simply its
@@ -2237,7 +2292,7 @@
           This approach helps to reuse the same ODD for viewing specific aspects of the
           document.</para>
         <para>A dedicated user interface webcomponent <link xlink:show="new"
-          xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-toggle-feature.0"
+            xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html#pb-toggle-feature.0"
               ><tag>pb-toggle-feature</tag></link> exists for toggling between two values of a
           parameter. Example below would produce a checkbox which when on results in the value of
             <parameter>$parameters?mode</parameter> set to <parameter>diplomatic</parameter>,
@@ -2764,11 +2819,11 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <title>Webcomponent Documentation</title>
       <para>To better understand the various components TEI Publisher provides, it is best to have a
         look at the small examples contained in the <link xlink:show="new"
-          xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html">web components API documentation</link>.
-        The list of components may be overwhelming at first sight. However you don’t need to learn
-        them all. There are a just a few components that should be understood before you start
-        customizing. Their demo pages showcase a working example along with the code snippet which
-        actually implements it.</para>
+          xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html">web
+          components API documentation</link>. The list of components may be overwhelming at first
+        sight. However you don’t need to learn them all. There are a just a few components that
+        should be understood before you start customizing. Their demo pages showcase a working
+        example along with the code snippet which actually implements it.</para>
       <para>You can also get an editable live view like the one above if you click on the
           <guibutton>Edit Code</guibutton> button to the bottom right of each example.</para>
       <para>In particular you may want to look at the following examples:</para>
@@ -3355,7 +3410,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         <para>The collection structure of the generated app follows typical design of many eXist
           apps. <link linkend="customization-best-practice">Best practices</link> for modifying the
           app are discussed in further sections of this document. You can find the code of your
-          generated app in within the <filename>/db/apps</filename> collection under the name you
+          generated app within the <filename>/db/apps</filename> collection under the name you
           provided in the <emphasis>abbreviation</emphasis> field of the generator form.</para>
         <variablelist>
           <varlistentry>
@@ -3421,8 +3476,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     </section>
     <section>
       <title>Modifying the App</title>
-      <para>When you are logged in, the "Admin" menu in the top navbar provides various links for
-        ease of customization of your app:</para>
+      <para>When you are logged in, the <guibutton>Admin</guibutton> menu in the top navbar provides
+        various links for ease of customization of your app:</para>
       <variablelist>
         <varlistentry>
           <term>Recompile ODD</term>
@@ -3657,14 +3712,16 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <para>The following steps assume that you either</para>
       <itemizedlist>
         <listitem>
-          <para>have a copy of your app's code on the filesystem and either a clone of TEI Publisher 6 or an app skeleton generated by TEI Publisher 6 (preferred) next to it</para>
+          <para>have a copy of your app's code on the filesystem and either a clone of TEI Publisher
+            6 or an app skeleton generated by TEI Publisher 6 (preferred) next to it</para>
         </listitem>
         <listitem>
           <para>or have your app and TEI Publisher installed in your database. In this case use
             eXide's file manager to copy files</para>
         </listitem>
       </itemizedlist>
-      <para>In the following, the TEI Publisher 6 app you are copying from will be identified as <parameter>$source</parameter>.</para>
+      <para>In the following, the TEI Publisher 6 app you are copying from will be identified as
+          <parameter>$source</parameter>.</para>
       <procedure>
         <step>
           <para>Edit <filename>modules/config.xqm</filename> and add two variables at the top:
@@ -3692,7 +3749,8 @@ declare variable $config:origin-whitelist := (
  :)
 declare variable $config:webcomponents := "0.9.11";]]></programlisting>
 
-          <para>Other variables in <filename>conf.xml</filename> which may need to be updated are:</para>
+          <para>Other variables in <filename>conf.xml</filename> which may need to be updated
+            are:</para>
           <itemizedlist>
             <listitem>
               <para>$config:data-default</para>
@@ -3706,12 +3764,12 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
           </itemizedlist>
         </step>
         <step>
-          <para>Copy all XQuery files from <filename>$source/modules/lib</filename> into
-            the <filename>modules/lib</filename> of your application. </para>
+          <para>Copy all XQuery files from <filename>$source/modules/lib</filename> into the
+              <filename>modules/lib</filename> of your application. </para>
         </step>
         <step>
-          <para>Copy <filename>$source/resources/css/theme.css</filename> into the same
-            location in your application.</para>
+          <para>Copy <filename>$source/resources/css/theme.css</filename> into the same location in
+            your application.</para>
         </step>
         <step>
           <para>In all HTML files <emphasis>you changed for your app</emphasis>, check
@@ -3727,9 +3785,10 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
           <para>Copy <filename>$source/resources/css/theme.css</filename></para>
         </step>
         <step>
-          <para>Copy <filename>$source/resources/i18n</filename>. The existing <filename>*.xml</filename> in
-          your directory can be deleted - unless you added your own translated keys, in which case you would need
-          to move them into the corresponding json format.</para>
+          <para>Copy <filename>$source/resources/i18n</filename>. The existing
+              <filename>*.xml</filename> in your directory can be deleted - unless you added your
+            own translated keys, in which case you would need to move them into the corresponding
+            json format.</para>
         </step>
         <step>
           <para>HTML files you did not change may just be overwritten by copying the corresponding
@@ -3737,9 +3796,9 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
               <filename>$source/templates/basic/templates</filename> subdirectory.</para>
         </step>
         <step>
-          <para>Copy <filename>$source/templates/basic/controller.xql</filename> into the
-            root of your application - unless you made changes to this file yourself, in which case
-            you would need to merge it.</para>
+          <para>Copy <filename>$source/templates/basic/controller.xql</filename> into the root of
+            your application - unless you made changes to this file yourself, in which case you
+            would need to merge it.</para>
         </step>
         <step>
           <para>Check the files in modules within your app: if you have not changed any of them,
@@ -3747,13 +3806,18 @@ declare variable $config:webcomponents := "0.9.11";]]></programlisting>
             See if you need to merge the modified ones.</para>
         </step>
         <step>
-          <para>i18n translations are now applied client-side rather than server-side. This means you should drop
-            all references to <code>data-template="i18n:translate"</code> and the i18n namespace from your HTML.
-            Also remove the i18n module import from your <filename>modules/view.xql</filename> or overwrite the
-            file if you have not modified it.</para>
+          <para>i18n translations are now applied client-side rather than server-side. This means
+            you should drop all references to <code>data-template="i18n:translate"</code> and the
+            i18n namespace from your HTML. Also remove the i18n module import from your
+              <filename>modules/view.xql</filename> or overwrite the file if you have not modified
+            it.</para>
         </step>
       </procedure>
-      <para>You may consult the diff of an actual update from Publisher 5 to 6 in the dodis-wall repository on github: <link xlink:href="https://github.com/eeditiones/dodis-wall/commit/9c3757d909932db458d2a777b7a952a8ee4dcc9e" xlink:show="new">update to publisher 6: update templates, configuration and styling</link></para>
+      <para>You may consult the diff of an actual update from Publisher 5 to 6 in the dodis-wall
+        repository on github: <link
+          xlink:href="https://github.com/eeditiones/dodis-wall/commit/9c3757d909932db458d2a777b7a952a8ee4dcc9e"
+          xlink:show="new">update to publisher 6: update templates, configuration and
+        styling</link></para>
     </section>
   </section>
 
@@ -3787,8 +3851,9 @@ declare variable $config:data-root := $config:app-root || "/data";
       <programlisting language="xquery" xml:space="preserve">
       declare variable $config:data-root := '/db/apps/lgpn-ling-data/data';
     </programlisting>
-      <para>In the variable <parameter>$config:data-exclude</parameter> you may specifiy a sequence of root elements which should be excluded from the list of
-        document shown in the browsing view, e.g. secondary data files like a taxonomy or entity lists.</para>
+      <para>In the variable <parameter>$config:data-exclude</parameter> you may specifiy a sequence
+        of root elements which should be excluded from the list of document shown in the browsing
+        view, e.g. secondary data files like a taxonomy or entity lists.</para>
       <para>You may find it helpful to create and build the data package starting from the template
         hosted in the <link xlink:href="https://github.com/eeditiones/tei-publisher-data-template"
           xlink:show="new">e-editiones repository</link>. README document provided there explains
@@ -3845,10 +3910,12 @@ declare variable $config:data-root := $config:app-root || "/data";
  :)
 declare variable $config:data-default := $config:data-root;
     </programlisting>
-      <para>This approach can be extended further, say if you wanted to add  a <filename>prints</filename> and <filename>manuscripts</filename> subcollection to
-        the <filename>playground</filename> and present them in a custom landing page. Just add the data and a corresponding
-          <filename>collection.html</filename> into the <filename>playground</filename>. You can shape the custom landing page however you like, using the full
-        power of HTML and eXist templating.</para>
+      <para>This approach can be extended further, say if you wanted to add a
+          <filename>prints</filename> and <filename>manuscripts</filename> subcollection to the
+          <filename>playground</filename> and present them in a custom landing page. Just add the
+        data and a corresponding <filename>collection.html</filename> into the
+          <filename>playground</filename>. You can shape the custom landing page however you like,
+        using the full power of HTML and eXist templating.</para>
       <figure>
         <title>Subcollections</title>
         <mediaobject>
@@ -3984,7 +4051,7 @@ declare variable $config:data-default := $config:data-root;
       </mediaobject>
     </figure>
     <para>From a user perspective, the main concept behind facets is the <emphasis>drill
-      down</emphasis>: initially the user sees all facet values associated with the set of
+        down</emphasis>: initially the user sees all facet values associated with the set of
       documents or search results displayed. The number behind each value denotes the number of
       items in the set having the particular facet set. As the user selects one facet, the set
       necessarily becomes smaller, so non-matching facet values will disappear and the numbers
@@ -4005,14 +4072,14 @@ declare variable $config:data-default := $config:data-root;
             The default configuration in TEI Publisher creates two Lucene full-text indexes for TEI
             on <tag>tei:text</tag> and <tag>tei:div</tag>. Each of those may have facets attached.
             Every facet must have a <parameter>dimension</parameter> and an
-            <parameter>expression</parameter> attribute. The expression is an arbitrary
+              <parameter>expression</parameter> attribute. The expression is an arbitrary
             XPath/XQuery string. For every element being indexed, the expression is evaluated once
             and the result defines the string values which will be associated with the specified
             facet dimension.</para>
           <para>For a description of how full-text indexes and facets are defined in the
-            <filename>collection.xconf</filename>, please refer to the <link xlink:show="new"
+              <filename>collection.xconf</filename>, please refer to the <link xlink:show="new"
               xlink:href="http://exist-db.org/exist/apps/doc/lucene">eXist
-              documentation</link>.</para>
+            documentation</link>.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
@@ -4026,9 +4093,9 @@ declare variable $config:data-default := $config:data-root;
             in particular for the "genre" facet: each of the sample documents references a central
             taxonomy (contained in <filename>data/taxonomy.xml</filename>). The references are
             resolved at indexing time by following the <tag>catRef</tag> element's
-            <parameter>@target</parameter> attribute. Note that we create a hierarchical facet,
+              <parameter>@target</parameter> attribute. Note that we create a hierarchical facet,
             because e.g. "Philosophy" is a sub-category of "Prose". The code in function
-            <function>idx:get-genre</function> will automatically include the
+              <function>idx:get-genre</function> will automatically include the
             super-category.</para>
         </listitem>
       </varlistentry>
@@ -4038,7 +4105,7 @@ declare variable $config:data-default := $config:data-root;
           <para>While the other two files cover the server-side creation of facets, we also need a
             place where we define how facets should be displayed in the user interface. The main
             configuration module: <filename>config.xqm</filename> declares a variable
-            <parameter>$config:facets</parameter>. It should contain an array of maps, where each
+              <parameter>$config:facets</parameter>. It should contain an array of maps, where each
             map defines the settings for one dimension, e.g.:</para>
           <programlisting language="xquery" xml:space="preserve">
 (:
@@ -4075,8 +4142,8 @@ declare variable $config:facets := [
               <term>dimension</term>
               <listitem>
                 <para>The name of the dimension. Should correspond to the value of the
-                  <parameter>@dimension</parameter> attribute used in
-                  <filename>collection.xconf</filename></para>
+                    <parameter>@dimension</parameter> attribute used in
+                    <filename>collection.xconf</filename></para>
               </listitem>
             </varlistentry>
             <varlistentry>
@@ -4100,7 +4167,7 @@ declare variable $config:facets := [
                   facet values in the hierarchy will be shown initially. If the user selects one
                   top-level value, the interface will expand and show the sub-categories. For this
                   to work the facet must be configured as "hierarchical" in
-                  <filename>collection.xconf</filename></para>
+                    <filename>collection.xconf</filename></para>
               </listitem>
             </varlistentry>
             <varlistentry>
@@ -4115,7 +4182,7 @@ declare variable $config:facets := [
       </varlistentry>
     </variablelist>
   </section>
-  
+
   <section xml:id="embedding">
     <title>Embedding TEI Publisher in other systems</title>
     <para>Since version 6.0, all <code>pb-components</code> can be used <emphasis>outside</emphasis>
@@ -4220,11 +4287,11 @@ declare variable $config:facets := [
         the standard <link xlink:show="new"
           xlink:href="https://www.webcomponents.org/author/PolymerElements">Polymer elements
           library</link>).</para>
-      <para>Another example of embedding TEI Publisher web components into a static website
-        can be found on our <link xlink:href="https://teipublisher.onrender.com/">demo blog</link>.
-        It was created with <link xlink:href="https://gohugo.io">Hugo</link>, a very popular
-        website generator which offers hundreds of ready-made themes to choose from. Here content
-      is written in markdown, but its not a problem to embed TEI content served by TEI Publisher.</para>
+      <para>Another example of embedding TEI Publisher web components into a static website can be
+        found on our <link xlink:href="https://teipublisher.onrender.com/">demo blog</link>. It was
+        created with <link xlink:href="https://gohugo.io">Hugo</link>, a very popular website
+        generator which offers hundreds of ready-made themes to choose from. Here content is written
+        in markdown, but its not a problem to embed TEI content served by TEI Publisher.</para>
     </section>
   </section>
 
@@ -4791,7 +4858,8 @@ static get styles() {
       <title>Lucene configuration</title>
       <para>eXist-db and TEI Publisher make extensive use of Lucene indexing engine. In particular
         search, navigation, sorting and filtering heavily depend on full text indexes, facets and
-        fields therefore it is paramount to specify these correctly for your data collection.</para>
+        fields. It is therefore paramount to specify these correctly for your data
+        collection.</para>
       <para>Supporting a new vocabulary, make sure to add its namespace on the <tag>index</tag>
         element in <filename>collection.xconf</filename>.</para>
       <programlisting language="xml" xml:space="preserve">
@@ -4827,6 +4895,8 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
               <filename>navigation-foo.xql</filename>; it should implement all the functions that
               <function>navigation.xql</function> dispatches to; you can use
               <filename>navigation-tei</filename> as a starting point for customization</para>
+        </listitem>
+        <listitem>
           <para>import it into <filename>navigation.xql</filename></para>
         </listitem>
         <listitem>
@@ -4936,9 +5006,11 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
     <section>
       <title>How do I log in?</title>
       <para>On a fresh install, TEI Publisher creates a user <filename>tei</filename> with a
-        password <filename>simple</filename>. You can change this password (and it is recommended to
-        do so, if your eXist instance runs on a server and would be accessible to other
-        users).</para>
+        password <filename>simple</filename>. It also creates another user
+          <filename>tei-demo</filename> with a password <filename>demo</filename>, who can upload
+        documents into the Playground collection. You can change these passwords (and it is
+        recommended to do so, if your eXist instance runs on a server and would be accessible to
+        other users).</para>
       <para>When generating your own application, the generator form requires you to fill in a user
         and password for the new application. Likewise, this password can be later changed via eXist
           <filename>Usermanager</filename>.</para>
@@ -5017,7 +5089,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <para>Improve state management and component communication</para>
           </listitem>
           <listitem>
-            <para>Navigation, search, browse, creation of virtual subcollections </para>
+            <para>Navigation, search, browse</para>
           </listitem>
         </varlistentry>
         <varlistentry>
