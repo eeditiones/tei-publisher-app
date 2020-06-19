@@ -153,10 +153,10 @@ declare %private function dbs:query-default-view($context as element()*, $query 
     return
         switch ($field)
             case "head" return
-                $context[./descendant-or-self::db:title[ft:query(., $query, $dbs:QUERY_OPTIONS)]]
+                $context[./descendant-or-self::db:title[ft:query(., $query, $query:QUERY_OPTIONS)]]
             default return
-                $context[./descendant-or-self::db:section[ft:query(., $query, $dbs:QUERY_OPTIONS)]] |
-                $context[./descendant-or-self::db:article[ft:query(., $query, $dbs:QUERY_OPTIONS)]]
+                $context[./descendant-or-self::db:section[ft:query(., $query, $query:QUERY_OPTIONS)]] |
+                $context[./descendant-or-self::db:article[ft:query(., $query, $query:QUERY_OPTIONS)]]
 };
 
 declare function dbs:get-current($config as map(*), $div as element()?) {
