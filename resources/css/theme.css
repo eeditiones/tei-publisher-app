@@ -1,6 +1,6 @@
 body {
-    --pb-splash-background-image: url(../images/tei-publisher-logo-color.svg);
-    --pb-splash-background-size: 360px auto;
+    --pb-splash-image: url(../images/tei-publisher-logo-color.svg);
+    --pb-splash-image-size: 360px auto;
     --pb-base-font-family: 'Roboto', 'Noto', sans-serif;
     --pb-base-font-size: 16px;
     --pb-base-line-height: 1.42857143;
