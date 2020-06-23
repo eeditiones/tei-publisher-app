@@ -64,7 +64,7 @@ body {
     background-image: var(--pb-splash-image);
     background-color: #ffffff;
     background-position: center center;
-    background-size: var(--pb-splash-image-size) auto;
+    background-size: var(--pb-splash-image-size);
     background-repeat: no-repeat;
     transition: visibility 0s linear 300ms, opacity 300ms;
 }
@@ -307,4 +307,15 @@ pb-drawer {
 
 .toc [slot=collapse-trigger] pb-link {
     margin-left: 0px;
+}
+
+.version {
+    text-align: right;
+    font-size: 0.85em;
+    padding: 1em;
+    color: var(--pb-color-lighter);
+}
+
+.version span {
+    font-weight: bold;
 }
