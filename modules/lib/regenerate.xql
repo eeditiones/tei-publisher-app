@@ -49,7 +49,7 @@ let $odd :=
     if ($odd) then
         $odd
     else
-        xmldb:get-child-resources($config:odd-root)[ends-with(., ".odd")]
+        ($config:odd-available, $config:odd-internal)
 let $result :=
     for $source in $odd
     let $odd := doc($config:odd-root || "/" || $source)

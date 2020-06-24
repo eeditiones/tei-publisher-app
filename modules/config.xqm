@@ -23,7 +23,8 @@ declare namespace tei = "http://www.tei-c.org/ns/1.0";
  : against the Origin header sent by the browser.
  :)
 declare variable $config:origin-whitelist := (
-    "(?:https?://localhost:.*|https?://127.0.0.1:.*)"
+    "(?:https?://localhost:.*|https?://127.0.0.1:.*)",
+    "https?://unpkg.com"
 );
 
 (:~~
@@ -35,7 +36,7 @@ declare variable $config:origin-whitelist := (
  : If a version is given, the components will be loaded from a public CDN.
  : This is recommended unless you develop your own components.
  :)
-declare variable $config:webcomponents := "0.9.38";
+declare variable $config:webcomponents := "0.9.40";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
@@ -303,6 +304,19 @@ declare variable $config:data-exclude := (
 declare variable $config:default-odd := "teipublisher.odd";
 
 declare variable $config:odd := request:get-parameter("odd", $config:default-odd);
+
+(:~~
+ : Complete list of ODD files used by the app. If you add another ODD to this list,
+ : make sure to run modules/generate-pm-config.xql to update the main configuration
+ : module for transformations (modules/pm-config.xql).
+ :)
+declare variable $config:odd-available := xmldb:get-child-resources($config:odd-root)[ends-with(., ".odd")];
+
+(:~
+ : List of ODD files which are used internally only, i.e. not for displaying information
+ : to the user.
+ :)
+declare variable $config:odd-internal := "docx.odd";
 
 declare variable $config:odd-root := $config:app-root || "/odd";
 

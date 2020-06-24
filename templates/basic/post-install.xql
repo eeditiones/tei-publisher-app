@@ -1,6 +1,7 @@
 xquery version "3.0";
 
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
+import module namespace pmc="http://www.tei-c.org/tei-simple/xquery/config";
 import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "modules/config.xqm";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "util.xql";
@@ -59,13 +60,7 @@ declare function local:create-data-collection() {
 
 
 declare function local:generate-code($collection as xs:string) {
-    let $allOdds := xmldb:get-child-resources($collection || "/resources/odd")[ends-with(., ".odd")]
-    let $odds :=
-        if (count($allOdds) > 3) then
-            $allOdds[not(.=("teipublisher.odd", "tei_simplePrint.odd"))]
-        else
-            $allOdds
-    for $source in $odds
+    for $source in ($config:odd-available, $config:odd-internal)
     let $odd := doc($collection || "/resources/odd/" || $source)
     let $pi := tpu:parse-pi($odd, (), $source)
     for $module in
@@ -114,4 +109,7 @@ sm:chgrp(xs:anyURI($target || "/modules/lib/latex.xql"), "dba"),
 
 local:mkcol($target, "transform"),
 local:generate-code($target),
-local:create-data-collection()
+local:create-data-collection(),
+let $pmuConfig := pmc:generate-pm-config($config:odd-available, $config:default-odd, $config:odd-root)
+return
+    xmldb:store($config:app-root || "/modules", "pm-config.xql", $pmuConfig, "application/xquery")
