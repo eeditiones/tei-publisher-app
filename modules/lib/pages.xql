@@ -562,3 +562,9 @@ function pages:languages($node as node(), $model as map(*)) {
             <paper-item value="{$key}">{$value}</paper-item>
         })
 };
+
+declare 
+    %templates:wrap
+function pages:version($node as node(), $model as map(*)) {
+    $config:expath-descriptor/@version/string()
+};

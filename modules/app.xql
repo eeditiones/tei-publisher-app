@@ -19,12 +19,6 @@ return
     else
         ();
 
-declare 
-    %templates:wrap
-function app:version($node as node(), $model as map(*)) {
-    $config:expath-descriptor/@version/string()
-};
-
 declare
 %templates:wrap
 function app:odd-table($node as node(), $model as map(*), $odd as xs:string?) {
