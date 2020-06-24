@@ -24,6 +24,8 @@ declare namespace repo="http://exist-db.org/xquery/repo";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
+declare namespace tei="http://www.tei-c.org/ns/1.0";
+
 declare option output:method "json";
 declare option output:media-type "application/javascript";
 
@@ -355,10 +357,17 @@ declare function deploy:copy-odd($collection as xs:string, $json as map(*)) {
     (:  Copy the selected ODD and its dependencies  :)
     let $target := $collection || "/resources/odd"
     let $mkcol := deploy:mkcol($target, ("tei", "tei"), "rwxr-x---")
-    for $file in ("docx.odd", "tei_simplePrint.odd", "teipublisher.odd", deploy:get-odds($json))
+    for $file in distinct-values(("docx.odd", "tei_simplePrint.odd", "teipublisher.odd", deploy:get-odds($json)))
     let $source := doc($config:odd-root || "/" || $file)
-    return
-        xmldb:store($target, $file, $source, "application/xml")
+    let $cssLink := $source//tei:teiHeader/tei:encodingDesc/tei:tagsDecl/tei:rendition/@source
+    let $css := util:binary-doc($config:odd-root || "/" || $cssLink)
+    return (
+        xmldb:store($target, $file, $source, "application/xml"),
+        if (exists($css)) then
+            xmldb:store($target, $cssLink, $css, "text/css")
+        else
+            ()
+    )
 };
 
 declare function deploy:create-transform($collection as xs:string) {
