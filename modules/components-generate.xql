@@ -344,11 +344,18 @@ declare function deploy:store-libs($target as xs:string, $userData as xs:string+
         deploy:copy-collection($target, $source, $userData, $permissions)
 };
 
+declare function deploy:get-odds($json) {
+    if ($json?odd instance of xs:string+) then
+        $json?odd ! ( . || ".odd")
+    else
+        $json?odd?* ! ( . || ".odd")
+};
+
 declare function deploy:copy-odd($collection as xs:string, $json as map(*)) {
     (:  Copy the selected ODD and its dependencies  :)
     let $target := $collection || "/resources/odd"
     let $mkcol := deploy:mkcol($target, ("tei", "tei"), "rwxr-x---")
-    for $file in ("docx.odd", "tei_simplePrint.odd", "teipublisher.odd", $json?odd || ".odd")
+    for $file in ("docx.odd", "tei_simplePrint.odd", "teipublisher.odd", deploy:get-odds($json))
     let $source := doc($config:odd-root || "/" || $file)
     return
         xmldb:store($target, $file, $source, "application/xml")
@@ -384,15 +391,8 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         "^(.*\$config:default-view :=).*;$": '"' || $json?default-view || '"',
         "^(.*\$config:search-default :=).*;$": '"' || $json?index || '"',
         "^(.*\$config:data-root\s*:=).*;$": $dataRoot,
-        "^(.*\$config:default-odd :=).*;$": '"' || $json?odd || '.odd"',
-        "^(.*module namespace pm-web\s*=).*;$": '"http://www.tei-c.org/pm/models/' || $json?odd || '/web/module" at "../transform/' ||
-            $json?odd || '-web-module.xql"',
-        "^(.*module namespace pm-print\s*=).*;$": '"http://www.tei-c.org/pm/models/' || $json?odd || '/fo/module" at "../transform/' ||
-            $json?odd || '-print-module.xql"',
-        "^(.*module namespace pm-latex\s*=).*;$": '"http://www.tei-c.org/pm/models/' || $json?odd || '/latex/module" at "../transform/' ||
-            $json?odd || '-latex-module.xql"',
-        "^(.*module namespace pm-epub\s*=).*;$": '"http://www.tei-c.org/pm/models/' || $json?odd || '/epub/module" at "../transform/' ||
-            $json?odd || '-epub-module.xql"'
+        "^(.*\$config:default-odd :=).*;$": '"' || head(deploy:get-odds($json)) || '"',
+        "^(.*\$config:odd-available :=).*;$": '(' || string-join(deploy:get-odds($json) ! ('"' || . || '"'), ', ') || ')'
     }
     let $created := (
         deploy:store-expath-descriptor($collection, $json),
