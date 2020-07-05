@@ -168,7 +168,7 @@ else if ($logout or $login) then (
                 <redirect url="{replace(request:get-uri(), "^(.*)\?", "$1")}"/>
             </dispatch>
 
-) else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt)$", "s")) then
+) else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt|mei)$", "s")) then
     let $path := 
         if (starts-with($exist:path, "/collection/")) then
             substring-after($exist:path, "/collection/")

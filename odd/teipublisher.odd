@@ -207,9 +207,21 @@
         </model>
                 </elementSpec>
             <elementSpec ident="note" mode="change">
-        <model behaviour="note">
+                    <model behaviour="note">
             <param name="place" value="@place"/>
             <param name="label" value="@n"/>
+        </model>
+                </elementSpec>
+            <elementSpec ident="notatedMusic" mode="add">
+        <model behaviour="figure">
+            <param name="title" value="label"/>
+            <param name="content" value="ptr"/>
+        </model>
+    </elementSpec>
+                <elementSpec ident="ptr" mode="add">
+        <model predicate="parent::notatedMusic" behaviour="webcomponent">
+            <param name="name" value="'pb-mei'"/>
+            <param name="url" value="@target"/>
         </model>
     </elementSpec>
             </schemaSpec>

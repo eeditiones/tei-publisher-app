@@ -498,6 +498,14 @@ declare function model:apply($config as map(*), $input as node()*) {
                             fo:block($config, ., ("tei-edition"), .)
                         else
                             $config?apply($config, ./node())
+                    case element(notatedMusic) return
+                        fo:figure($config, ., ("tei-notatedMusic"), ptr, label)
+                    case element(ptr) return
+                        if (parent::notatedMusic) then
+                            (: No function found for behavior: webcomponent :)
+                            $config?apply($config, ./node())
+                        else
+                            $config?apply($config, ./node())
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())
