@@ -46,14 +46,14 @@ declare function local:get-line($src, $line as xs:int?) {
 
 let $odd := request:get-parameter("odd", ())
 let $odd :=
-    if ($odd) then
+    if (exists($odd)) then
         $odd
     else
         ($config:odd-available, $config:odd-internal)
 let $result :=
     for $source in $odd
     let $odd := doc($config:odd-root || "/" || $source)
-    let $pi := tpu:parse-pi($odd, ())
+    let $pi := tpu:parse-pi($odd, (), $source)
     for $module in
         if ($pi?output) then
             tokenize($pi?output)
