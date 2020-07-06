@@ -3340,7 +3340,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <varlistentry>
         <term>ODD</term>
         <listitem>
-          <para>Name of the ODD (discussed above) to be used for transformations.</para>
+          <para>Here you select the ODD(s) to be used for transformations. If multiple ODDs are selected,
+          the first one will be the default.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
@@ -3492,6 +3493,48 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           </listitem>
         </varlistentry>
       </variablelist>
+      
+      <section>
+        <title>Using Multiple ODDs</title>
+        
+        <para>For performance reasons, the mechanism used by generated apps to transform a document via an ODD is slightly different to the one in the main TEI Publisher app: while TEI Publisher resolves ODDs dynamically, generated apps use a static lookup method. The static method is much faster, resulting in better overall performance, but has the disadvantage that new ODDs are not automatically seen by the app, so you have to manually register them.</para>
+          <para>Each generated app will use a single ODD for all transformations by default. It is possible to add more ODDs, e.g. to be used with a <code>pb-view</code> in a custom HTML template. If you selected multiple ODDs when generating the app, the app generator will take care of registering those ODDs. If you would like to add ODDs manually later though, there's an extra step to remember. The procedure is as follows:</para>
+        <procedure>
+          <step>
+            <para>Upload the ODD to the <filename>resources/odd</filename> collection below your app root. This can either be done via eXide or the upload panel on the start page of your app.</para>
+          </step>
+          <step>
+            <para>In <filename>modules/config.xqm</filename> find the variable called <varname>$config:odd-available</varname> and add the name of the new ODD to the sequence.</para>
+            <programlisting language="xquery" xml:space="preserve"><![CDATA[(:~
+ : The main ODD to be used by default
+ :)
+declare variable $config:default-odd :="shakespeare.odd";
+
+declare variable $config:odd := $config:default-odd;
+
+(:~
+ : Complete list of ODD files used by the app. If you add another ODD to this list,
+ : make sure to run modules/generate-pm-config.xql to update the main configuration
+ : module for transformations (modules/pm-config.xql).
+ :)
+declare variable $config:odd-available :=("shakespeare.odd");]]></programlisting>
+          </step>
+          <step>
+            <para>In eXide, open <filename>modules/generate-pm-config.xql</filename> (path relative to your app root) and execute it once. This will regenerate the XQuery module <filename>modules/pm-config.xql</filename>, which registers all the ODD modules known to the app.</para>
+          </step>
+          <step>
+            <para>Unless you already did so, you may need to regenerate all ODDs used by the app by either</para>
+            <orderedlist>
+              <listitem>
+                <para>Clicking the "Recompile ODD" button on the start page of the app</para>
+              </listitem>
+              <listitem>
+                <para>Opening <filename>modules/lib/regenerate.xql</filename> in eXide and executing it once.</para>
+              </listitem>
+            </orderedlist>
+          </step>
+        </procedure>
+      </section>
     </section>
 
     <section>
