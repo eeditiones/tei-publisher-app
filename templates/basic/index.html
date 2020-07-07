@@ -312,9 +312,9 @@
                                         filter-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"},{"label": "browse.file", "value": "file"}]' filter-by="title" auto="auto" history="history" login="login" emit="docs" subscribe="docs">
                                         <pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" emit="docs" subscribe="docs"></pb-paginate>
                                         <pb-restricted login="login" slot="toolbar">
-                                            <pb-ajax emit="docs" url="${app}/modules/lib/regenerate.xql" data-template="pages:parse-params" event="pb-search-resubmit" title="Recompile ODD" data-i18n="[title]menu.admin.recompile">
+                                            <pb-ajax emit="docs" url="${app}/modules/lib/regenerate.xql" data-template="pages:parse-params" event="pb-search-resubmit" title="Recompile ODD" data-i18n="[title]odd.manage.regenerate-all">
                                                 <h3 slot="title">
-                                                    <pb-i18n key="menu.admin.recompile"/>
+                                                    <pb-i18n key="odd.manage.regenerate-all"/>
                                                 </h3>
                                                 <paper-icon-button icon="icons:update"/>
                                             </pb-ajax>
