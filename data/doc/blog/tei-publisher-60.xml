@@ -92,7 +92,7 @@
                         <para><code>pb-select-feature</code> and <code>pb-toggle-feature</code>
                             components have been extended to allow for interactive changing of
                             display parameters (like switching between regularized or original
-                            spelling) which can be then processed client or server-side.</para>
+                            spelling) which can be then processed client or server-side</para>
                     </listitem>
                     <listitem>
                         <para>new components for API documentation app and web component demo
@@ -100,8 +100,8 @@
                     </listitem>
                     <listitem>
                         <para><code>pb-mei</code> component for rendering Music Encoding Initiative
-                            documents based on <emphasis>Verovio</emphasis>. Supports optional MIDI
-                            playback using <emphasis>web-midi-player</emphasis>.</para>
+                            documents based on <emphasis>Verovio</emphasis>; supports optional MIDI
+                            playback using <emphasis>web-midi-player</emphasis></para>
                     </listitem>
                 </itemizedlist>
             </listitem>
@@ -156,7 +156,7 @@
         <para>Work on components for toggling has been aided by a small grant from <emphasis>ACE –
                 Austrian Corpora and Editions</emphasis> of the <emphasis>Österreichische Akademie
                 der Wissenschaften</emphasis>.</para>
-        <para>We are also grateful to the generous contributions of numerous individuals who used
+        <para>We are also grateful for the generous contributions of numerous individuals who used
             the <link xlink:href="https://crwd.in/tei-publisher">Crowdin platform</link> to
             translate and proofread Publisher's language files: Boris Lehečka, Øyvind Gjesdal,
             Sandra Romano Martin, Antonio Rojas Castro, Isabel Marti, Natalia Kotsyba, Elena
@@ -169,12 +169,22 @@
             their usernames.</para>
     </section>
     <section>
-        <title>e-editiones society</title>
+        <title>e-editiones</title>
         <para>May of 2020 saw an advent of a new scholarly society: <link
                 xlink:href="https://e-editiones.org" xlink:show="new">e-editiones</link>. Its goal
             is to promote open standards for digital editions and free software based on them with a
             focus on TEI Publisher development.</para>
-        <para>We encourage you to join the society, through your institution or individually and
+        <para>We encourage you to join the society, through your institution or individually, and
             take part in our work and discussions, shaping the future of the TEI Publisher.</para>
+        <para>
+            <link xlink:href="https://e-editiones.org" xlink:show="new"><informalfigure>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="e-editiones-logo-color-for-light-bg-05.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </informalfigure>
+            </link>
+        </para>
     </section>
 </article>

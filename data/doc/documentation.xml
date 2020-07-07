@@ -3944,7 +3944,7 @@ declare variable $config:data-root := $config:app-root || "/data";
         <para>Similar consideration applies if fulltext index makes use of any external function
           module, which in TEI Publisher and generated apps is commonly the case for facet and field
           definitions. This module needs to be stored before the index is to be applied and usually
-          its best to store it in the same location as <filename>collection.xconf</filename>.</para>
+          it's best to store it in the same location as <filename>collection.xconf</filename>.</para>
       </note>
     </section>
     <section xml:id="subcollections">
