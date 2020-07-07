@@ -39,7 +39,7 @@
             Publisher app. It is now possible to host multiple applications, which depend on
             different versions of the component library, without conflict, within the same eXist-db
             instance, a point of importance for institutions with numerous projects. </para>
-        
+
         <informalfigure>
             <mediaobject>
                 <imageobject>
@@ -137,12 +137,25 @@
                 xlink:href="https://teipublisher.com/exist/apps/tei-publisher/doc/documentation.xml"
                 >documentation</link> or visit the <link xlink:href="https://teipublisher.com"
                 >homepage</link> to play around with it.</para>
+        <para>A 3-part online course on TEI Publisher 6 has been led by Wolfgang Meier in June 2020.
+            Course material, as well as video recordings of all the sessions, and a walk-through for
+            the assignments are available for self-learning. Find all informations on the <link
+                xlink:show="new" xlink:href="https://github.com/eeditiones/workshop#slides">workshop
+                GitHub</link> page. </para>
+        <mediaobject>
+            <videoobject>
+                <videodata fileref="https://www.youtube-nocookie.com/embed/QuWrfAS2SWM"/>
+            </videoobject>
+        </mediaobject>
     </section>
     <section>
         <title>Thanks</title>
         <para>Our thanks go to <link xlink:href="https://www.nie-ine.ch/">Nationalen Infrastruktur
                 für Editionen - Infrastructure nationale pour les éditions</link> for funding a
             large part of work on the LitElement refactoring.</para>
+        <para>Work on components for toggling has been aided by a small grant from <emphasis>ACE –
+                Austrian Corpora and Editions</emphasis> of the <emphasis>Österreichische Akademie
+                der Wissenschaften</emphasis>.</para>
         <para>We are also grateful to the generous contributions of numerous individuals who used
             the <link xlink:href="https://crwd.in/tei-publisher">Crowdin platform</link> to
             translate and proofread Publisher's language files: Boris Lehečka, Øyvind Gjesdal,
@@ -154,5 +167,14 @@
             Daniel Stoekl, Yael Netzer, Naoki Kokaze, Kiyonori Nagasaki, Toma Tasovac, Alexandra von
             Criegern, Bettina Pandula, Daria Elagina, and others whom we unfortunately only know by
             their usernames.</para>
+    </section>
+    <section>
+        <title>e-editiones society</title>
+        <para>May of 2020 saw an advent of a new scholarly society: <link
+                xlink:href="https://e-editiones.org" xlink:show="new">e-editiones</link>. Its goal
+            is to promote open standards for digital editions and free software based on them with a
+            focus on TEI Publisher development.</para>
+        <para>We encourage you to join the society, through your institution or individually and
+            take part in our work and discussions, shaping the future of the TEI Publisher.</para>
     </section>
 </article>
