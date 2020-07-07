@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?teipublisher odd="docbook.odd"?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="5.0">
+    <info>
+        <title>TEI Publisher 6.0.0</title>
+        <author>
+            <personname>
+                <surname>Turska</surname>
+                <firstname>Magdalena</firstname>
+            </personname>
+        </author>
+        <pubdate>2020-07-07</pubdate>
+        <abstract>
+            <para>This is a major release introducing the refactored and extended TEI Publisher
+                component library as well as numerous bugfixes and new features.</para>
+        </abstract>
+        <keywordset vocab="#genre">
+            <keyword>Article</keyword>
+        </keywordset>
+    </info>
+    <section>
+        <title>Release Highlight: pb-components as an independent library</title>
+        <para>Publisher's library of web components is now based on lightweight
+                <emphasis>LitElement</emphasis> framework and available on npm. While invisible to
+            users, this redesign greatly improved modularity of Publisher-based applications.</para>
+        <para>Thanks to npm releases, updating the user interface for all Publisher-based apps
+            becomes simply a question of changing a single variable in the configuration
+            file.</para>
+        <para>Furthermore, Publisher's library of web components - true to the basic idea of Web
+            Components Standard - can be included in any HTML webpage. This means it can be embedded
+            into existing CMS or any other publishing solution, even if it's not running eXist-db.
+            Similarly, if you prefer to write your own application using any of the popular
+            frameworks like <emphasis>angular</emphasis>, <emphasis>vue</emphasis> or
+                <emphasis>react</emphasis> you can easily import the pb-components package from npm
+            and use it directly in your project.</para>
+        <para>As a final consequence, this change decouples the component library from the TEI
+            Publisher app. It is now possible to host multiple applications, which depend on
+            different versions of the component library, without conflict, within the same eXist-db
+            instance, a point of importance for institutions with numerous projects. </para>
+        
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mei-demo.png"/>
+                </imageobject>
+            </mediaobject>
+        </informalfigure>
+    </section>
+
+    <section>
+        <title>Main New Features and Bug Fixes</title>
+        <itemizedlist>
+            <listitem>
+                <para>Redesigned and simplified CSS styling customization</para>
+                <para>styling properties are exposed via standard CSS files and theme variables.
+                    Stylesheets can also be specified within the ODD, as previously, or through
+                        <code>pb-view</code> component configuration attributes.</para>
+            </listitem>
+            <listitem>
+                <para>Extended internationalization</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>full i18n support for all the labels in HTML templates and within web
+                            components</para>
+                    </listitem>
+                    <listitem>
+                        <para>mechanism for project specific language files extending the default
+                            Publisher collection</para>
+                    </listitem>
+                    <listitem>
+                        <para>a number of new languages added and existing ones updated. Currently
+                            TEI Publisher is fully translated into Bulgarian, Czech, Dutch, French,
+                            Georgian, German, Greek, Italian, Norwegian, Polish, Portuguese,
+                            Romanian, Russian, Slovenian, Spanish, Swedish, Turkish and
+                            Ukrainian.</para>
+                    </listitem>
+                    <!-- Finnish Chinese Hebrew Hungarian Japanese Serbian Welsh -->
+                </itemizedlist>
+            </listitem>
+            <listitem>
+                <para>Subcorpora - new TEI Publisher data organization</para>
+                <para>Publisher's pre-populated data collection is now split into Playground and TEI
+                    Publisher demo collection areas which illustrate how this mechanism could be
+                    used to host multiple subcorpora within single TEI Publisher application.</para>
+            </listitem>
+            <listitem>
+                <para>New and improved web components</para>
+                <itemizedlist>
+                    <listitem>
+                        <para><code>pb-select-feature</code> and <code>pb-toggle-feature</code>
+                            components have been extended to allow for interactive changing of
+                            display parameters (like switching between regularized or original
+                            spelling) which can be then processed client or server-side.</para>
+                    </listitem>
+                    <listitem>
+                        <para>new components for API documentation app and web component demo
+                            pages</para>
+                    </listitem>
+                    <listitem>
+                        <para><code>pb-mei</code> component for rendering Music Encoding Initiative
+                            documents based on <emphasis>Verovio</emphasis>. Supports optional MIDI
+                            playback using <emphasis>web-midi-player</emphasis>.</para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+            <listitem>
+                <para>Experimental incremental scroll</para>
+                <para>improve performance for very long documents presented in single page
+                    mode</para>
+            </listitem>
+            <listitem>
+                <para>ODD editor user interface improvements</para>
+            </listitem>
+            <listitem>
+                <para>Documentation:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>reorganized and extended TEI Publisher documentation</para>
+                    </listitem>
+                    <listitem>
+                        <para>pb-components API documentation and demos</para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+
+        </itemizedlist>
+    </section>
+    <section>
+        <title>Get It!</title>
+        <para>TEI Publisher 6.0.0 is available as an application package on top of the <link
+                xlink:href="https://exist-db.org">eXist XML Database</link>. Install it into a
+            recent eXist (5.0.0 or newer) by going to the dashboard and selecting TEI Publisher from
+            the package manager.</para>
+        <para>For more information refer to the <link
+                xlink:href="https://teipublisher.com/exist/apps/tei-publisher/doc/documentation.xml"
+                >documentation</link> or visit the <link xlink:href="https://teipublisher.com"
+                >homepage</link> to play around with it.</para>
+    </section>
+    <section>
+        <title>Thanks</title>
+        <para>Our thanks go to <link xlink:href="https://www.nie-ine.ch/">Nationalen Infrastruktur
+                für Editionen - Infrastructure nationale pour les éditions</link> for funding a
+            large part of work on the LitElement refactoring.</para>
+        <para>We are also grateful to the generous contributions of numerous individuals who used
+            the <link xlink:href="https://crwd.in/tei-publisher">Crowdin platform</link> to
+            translate and proofread Publisher's language files: Boris Lehečka, Øyvind Gjesdal,
+            Sandra Romano Martin, Antonio Rojas Castro, Isabel Marti, Natalia Kotsyba, Elena
+            Spadini, Pietro Liuzzo, Karolina Bielenin-Lenczowska, Jaqueline Pierazzo, Emmanuelle
+            Morlock, Emmanuel Château-Dutier, Clement Plancq, Eduard Drenth, Wout Dillen, Anna-Maria
+            Sichani, Maria Akritidou, Elli Mylonas, Matija Ogrin, Cristina Vertan, Dimitar Illiev,
+            Arman Weidenmann, Leif-Jöran Olsson, Irina Lobzhanidze, Joseph Wicentowski, Juri Leino,
+            Daniel Stoekl, Yael Netzer, Naoki Kokaze, Kiyonori Nagasaki, Toma Tasovac, Alexandra von
+            Criegern, Bettina Pandula, Daria Elagina, and others whom we unfortunately only know by
+            their usernames.</para>
+    </section>
+</article>
