@@ -36,7 +36,7 @@ declare variable $config:origin-whitelist := (
  : If a version is given, the components will be loaded from a public CDN.
  : This is recommended unless you develop your own components.
  :)
-declare variable $config:webcomponents := "1.0.1";
+declare variable $config:webcomponents := "1.0.2";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
@@ -211,7 +211,7 @@ return
  : arguments.
  :)
 declare variable $config:tex-command := function ($file) {
-    ("/Library/TeX/texbin/pdflatex", "-interaction=nonstopmode", $file)
+    ("/usr/bin/pdflatex", "-interaction=nonstopmode", $file)
 };
 
 (:
