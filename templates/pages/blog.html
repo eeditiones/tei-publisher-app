@@ -18,12 +18,9 @@
         <custom-style>
             <style>
                 body {
-                    --pb-view-height: calc(100vh - 200px);
-                }
-
-                pb-view {
-                    font-family: var(--pb-base-font-family);
-                    font-size: 20px;
+                    --pb-view-height: calc(100vh - 128px);
+                    --pb-view-max-width: 1024px;
+                    --pb-content-font-family: var(----pb-base-font-family);
                 }
 
                 .toolbar pb-navigation {
@@ -51,28 +48,23 @@
 
                     .content-body {
                         position: relative;
-                        display: flex;
-                        justify-content: space-between;
+                        display: grid;
+                        grid-template-columns: auto 1fr;
                         margin: 0 16px;
                     }
 
                     aside {
-                        flex: 1 0;
                         min-width: 300px;
                         max-width: 400px;
-                        height: var(--pb-view-height);
                         overflow: auto;
-                    }
-
-                    #view1 {
-                        width: 36em;
-                        max-width: 100%;
+                        height: var(--pb-view-height);
                     }
 
                     .content {
-                        flex: 3 1;
+                        height: var(--pb-view-height);
                         margin: 8px 0 8px 32px;
                         font-size: 1.2em;
+                        overflow: auto;
                     }
                 }
 
@@ -194,7 +186,7 @@
                             </aside>
                         </pb-media-query>
                         <div class="content">
-                            <pb-view id="view1" src="document1" view="single" subscribe="transcription"
+                            <pb-view id="view1" src="document1" view="single" subscribe="transcription" load-css="../../odd/docbook.css"
                                 emit="transcription" append-footnotes="append-footnotes" odd="docbook"/>
                         </div>
                     </main>
