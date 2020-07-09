@@ -1,3 +1,4 @@
+![TEI Publisher Docker Snapshots](https://github.com/eeditiones/tei-publisher-app/workflows/TEI%20Publisher%20Docker%20Snapshots/badge.svg)
 
 <img src="resources/images/tei-publisher-logo-color.svg" height="128">
 
@@ -33,18 +34,26 @@ Please use our Crowdin space to help expand and improve localization
 
 ## Building
 
-TEI Publisher requires the [pb-components](https://github.com/eeditiones/tei-publisher-components) package, which can either be loaded from an external server (CDN) or imported into the local build. If you intend to contribute to TEI Publisher development, you likely want the latter option. For just using TEI Publisher, the first is sufficient.
+The following instructions apply to both, TEI Publisher itself as well as apps generated from it. Building needs Java and [Apache Ant](https://ant.apache.org/).
 
-### For Users
+TEI Publisher requires the [pb-components](https://github.com/eeditiones/tei-publisher-components) package, which can either be loaded from an external server (CDN) or imported into the local build. Using the CDN is recommended unless you want to use a cutting edge build of the components or you need TEI Publisher to work without an internet connection.
+
+### Using the CDN for Components
 
 Run Apache `ant` in the cloned directory to get a `.xar` file in `build/`, which can be uploaded into an eXist instance via the dashboard.
 
-### For Developers
+### Self-hosted Components
+
+This will include all user-interface components and their dependencies into the created package. In addition to `ant`, you should have `nodejs` and `npm` installed on the machine used for building:
+
+1. check if the path to the npm executable in `build.properties` points to the right location on your machine
+2. call `ant xar-local` to build TEI Publisher
+
+Sometimes you may also want to update the `pb-components` library to a newer or custom version. The procedure is as follows:
 
 1. edit the dependencies section of `package.json` to include the desired version of the `pb-components` library
-1. run `npm install` to install dependencies
 2. edit `modules/config.xqm` and change the variable `$config:webcomponents` to read 'local' instead of a version number. This way, the javascript bundles will be loaded from within the TEI Publisher app instead of a CDN
-3. run Apache `ant xar-local` to generate a .xar
+3. run `ant xar-local` to generate a `.xar`
 
 ## License
 
