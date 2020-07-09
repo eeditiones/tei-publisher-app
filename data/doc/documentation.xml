@@ -3576,25 +3576,25 @@ declare variable $config:odd-available :=("shakespeare.odd");]]></programlisting
         format: the resulting <filename>.xar</filename> file can be uploaded to any eXist instance
         via the <guibutton>Dashboard</guibutton> and the <guibutton>Package manager</guibutton> will
         take care of the deployment.</para>
-      <para>There are three ways to create a <filename>.xar</filename> file from your
+      <para>There are two ways to create a <filename>.xar</filename> file from your
         application:</para>
-      <itemizedlist>
+      <orderedlist>
         <listitem>
           <para>Use the <guibutton>Admin </guibutton> / <guibutton>Download App</guibutton> menu
             entry in generated app to directly download a <filename>.xar</filename></para>
         </listitem>
         <listitem>
-          <para>Use the <guibutton>Application</guibutton> / <guibutton>Download App</guibutton>
-            menu entry in <emphasis role="bold">eXide</emphasis> to directly download a
-              <filename>.xar</filename></para>
-        </listitem>
-        <listitem>
           <para>Synchronize the application to a directory on disk via
               <guibutton>Application</guibutton> / <guibutton>Synchronize</guibutton> in <emphasis
-              role="bold">eXide</emphasis> and build <code>xar</code> with <code>ant</code></para>
+              role="bold">eXide</emphasis></para>
         </listitem>
-      </itemizedlist>
-      <para>The last approach is the recommended one. It requires that you have access to the file
+      </orderedlist>
+      <para>The first approach is recommended if all you need is a copy of you app on disk. A <filename>.xar</filename>
+      is just a ZIP archive, so you can unpack it into a directory of your choice, which you can then commit to a
+      version control system like git.</para>
+      <para>However, if you continue to make changes inside the database (e.g. further work on the ODD),
+        you may want to use the second method, i.e. call eXide's synchronization.
+        It requires that you have access to the file
         system of the server running eXist though, so it's usually only an option if you run your
         own eXist instance locally. The synchronize steps in detail:</para>
       <itemizedlist>
@@ -3622,10 +3622,6 @@ declare variable $config:odd-available :=("shakespeare.odd");]]></programlisting
         <listitem>
           <para>Change to the directory you specified for synchronize.</para>
         </listitem>
-        <listitem>
-          <para>Calling <code>ant</code> inside the directory should create a fresh
-              <code>.xar</code> file in the build/ subdirectory.</para>
-        </listitem>
       </itemizedlist>
 
       <para>Watch the screencast below for the whole synchronization procedure.</para>
@@ -3644,6 +3640,12 @@ declare variable $config:odd-available :=("shakespeare.odd");]]></programlisting
           </imageobject>
         </mediaobject>
       </figure>
+    </section>
+    <section>
+      <title>Building from a directory</title>
+      <para>Once you have a copy of your app extracted in a local directory, you can always rebuild a fresh <filename>.xar</filename>
+        from it. In the simplest case it is sufficient to call <command>ant</command> inside the directory.</para>
+      <para>For up to date build instructions which also cover more advanced uses, refer to the "Building" section in the <link xlink:href="https://github.com/eeditiones/tei-publisher-app">readme of the TEI Publisher repository</link>.</para>
     </section>
   </section>
   <section xml:id="customization-best-practice">
