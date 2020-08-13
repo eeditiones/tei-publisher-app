@@ -3281,29 +3281,35 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <title>Project specific i18n files</title>
       <para>It is a common need that projects will need their own internationalized labels for menu
         items, dialogs and other user interface elements.</para>
-      <para>All these can be stored in JSON language files, following the same naming conventions
-        and basic structure as TEI Publisher ones. Custom application files should be placed in
-          <filename>app</filename> subcollection of <filename>resources/i18n</filename>
-        collection.</para>
-      <para>For page template to use custom language files a <code>locale</code> attribute needs to
-        be explicitly set to <code>resources/i18n</code> for <tag>pb-page</tag>.</para>
-      <para>All labels defined in custom files will be available in addition to TEI Publisher's
-        defaults. If custom file defines translation for a key already present in TEI Publisher, the
-        value from the custom file will take precedence.</para>
-      <programlisting language="html" xml:space="preserve">
-&lt;pb-page locales="resources/i18n">
-        </programlisting>
-      <para>Please note to always use a subcollection for custom files, namely
-          <filename>resources/i18n/app</filename>. Placing custom language files directly in
-          <filename>resources/i18n</filename> will prevent fallback-to-defaults mechanism for labels
-        not present in custom language files.</para>
+      <para>All these can be stored in JSON language files, following the same naming conventions and basic structure as TEI Publisher ones. To use custom
+        language files, you need to specify the path under which they can be found relative to your application:</para>
+      <programlisting language="html" xml:space="preserve">&lt;pb-page locales="resources/i18n/{{ns}}/{{lng}}.json"></programlisting>
+      <para>The path expression requires placeholders for two parameters <parameter>ns</parameter> and <parameter>lng</parameter>:</para>
+      <variablelist>
+        <varlistentry>
+          <term>lng</term>
+          <listitem>
+            <para>the language code for a selected language, e.g. <code>de</code> or <code>fr</code></para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>ns</term>
+          <listitem>
+            <para>the namespace prefix used to distinguish between different collections of language files. By default, TEI Publisher expects custom language files to be in a namespace called <code>app</code>, though this can be configured.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <para>So given above configuration, TEI Publisher will search for a custom language file for, say, French in <code>resources/i18n/app/fr.json</code>. If you prefer a flat directory structure, you could change the <parameter>locale</parameter> to <code>resources/i18n/{{ns}}_{{lng}}.json</code> and TEI Publisher will look for a file <code>resources/i18n/app_fr.json</code>.</para>
+      <para>You may also define additional namespaces to be searched with the <parameter>locale-fallback-ns</parameter> parameter:</para>
+      <programlisting language="html" xml:space="preserve">&lt;pb-page locales="resources/i18n/{{ns}}/{{lng}}.json"
+        locale-fallback-ns="app my-module"></programlisting>
+      <para>which means that TEI Publisher will search for labels in the <code>my-module</code> namespace first, then falling back to the <code>app</code> namespace, and if the label could still not be found, using TEI Publisher's default namespace. The latter is called <code>common</code> and should not be overwritten.</para>
       <para>Listing below demonstrates a fictional <filename>en.js</filename> with a custom set of
-        labels.</para>
-      <para>New top-level key has been added as well as 3 subkeys for <code>menu</code> section. Now
+        labels. A new top-level key has been added as well as 3 subkeys for the <code>menu</code> section. Now
         the project has access to a number of new i18n keys: <code>menu.about</code>,
           <code>menu.contact</code>, <code>menu.statute</code> and <code>greeting</code>.</para>
-      <para>Furthermore, value for <code>menu.documentation</code> has been specified. That key
-        already existed in Publisher (set to "Documentation") but version from custom file will take
+      <para>Furthermore, a value for <code>menu.documentation</code> has been specified. That key
+        already existed in Publisher (set to "Documentation") but the version from custom file will take
         precedence and be used in the custom app.</para>
       <programlisting language="js" xml:space="preserve">
 {
