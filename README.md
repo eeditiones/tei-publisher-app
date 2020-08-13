@@ -59,7 +59,7 @@ Sometimes you may also want to update the `pb-components` library to a newer or 
 
 This software is licensed under the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) license. If you need a different license: please contact [us](mailto:mail@existsolutions.com) and we'll find an arrangement.
 
-TEI Publisher is brought to you by <a href="http://existsolutions.com"><img src="http://teipublisher.com/img/existsolutions.svg" width="128"/></a> with contributions from other users. It's development was supported by a wide range of privately and publicly funded projects.
+TEI Publisher was initiated and released to the public as free software by <a href="http://existsolutions.com"><img src="http://teipublisher.com/img/existsolutions.svg" width="128"/></a> with contributions from other users. It's development was supported by a wide range of privately and publicly funded projects.
 
 Development is supported and coordinated by [e-editiones](https://e-editiones.org).
 
