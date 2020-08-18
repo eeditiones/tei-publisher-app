@@ -24,8 +24,9 @@
             <text match="//tei:msDesc/tei:head"/>
             <text qname="dbk:article">
                 <ignore qname="dbk:section"/>
-                <field name="title" expression="nav:get-metadata(., 'title')"/>
-                <field name="file" expression="util:document-name(.)"/>
+                <field name="db-title" expression="nav:get-metadata(., 'title')"/>
+                <field name="db-author" expression="nav:get-metadata(., 'author')"/>
+                <field name="db-file" expression="util:document-name(.)"/>
                 <facet dimension="genre" expression="nav:get-metadata(., 'genre')" hierarchical="yes"/>
                 <facet dimension="language" expression="nav:get-metadata(., 'language')"/>
             </text>

@@ -54,16 +54,6 @@ declare function dbs:autocomplete($doc as xs:string?, $fields as xs:string+, $q 
     for $field in $fields
     return
         switch ($field)
-            case "author" return
-                collection($config:data-root)/ft:index-keys-for-field("author", $q,
-                    function($key, $count) {
-                        $key
-                    }, 30)
-            case "file" return
-                collection($config:data-root)/ft:index-keys-for-field("file", $q,
-                    function($key, $count) {
-                        $key
-                    }, 30)
             case "text" return
                 if ($doc) then (
                     doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("db:section"), $q,
@@ -95,8 +85,18 @@ declare function dbs:autocomplete($doc as xs:string?, $fields as xs:string+, $q 
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index")
+            case "author" return
+                collection($config:data-root)/ft:index-keys-for-field("db-author", $q,
+                    function($key, $count) {
+                        $key
+                    }, 30)
+            case "file" return
+                collection($config:data-root)/ft:index-keys-for-field("db-file", $q,
+                    function($key, $count) {
+                        $key
+                    }, 30)
             default return
-                collection($config:data-root)/ft:index-keys-for-field("title", $q,
+                collection($config:data-root)/ft:index-keys-for-field("db-title", $q,
                     function($key, $count) {
                         $key
                     }, 30)
