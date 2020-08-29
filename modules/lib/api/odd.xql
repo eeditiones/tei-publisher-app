@@ -3,13 +3,111 @@ xquery version "3.1";
 module namespace oapi="http://teipublisher.com/api/odd";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
+declare namespace expath="http://expath.org/ns/pkg";
 
 import module namespace router="http://exist-db.org/xquery/router" at "/db/apps/oas-router/content/router.xql";
 import module namespace errors = "http://exist-db.org/xquery/router/errors" at "/db/apps/oas-router/content/errors.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 import module namespace dbutil = "http://exist-db.org/xquery/dbutil";
+
+declare variable $oapi:EXIDE :=
+    let $path := collection(repo:get-root())//expath:package[@name = "http://exist-db.org/apps/eXide"]
+    return
+        if ($path) then
+            substring-after(util:collection-name($path), repo:get-root())
+        else
+            ();
+
+declare function oapi:load-source($href as xs:string, $line as xs:int?) {
+    let $link :=
+        let $path := string-join(
+            (request:get-context-path(), request:get-attribute("$exist:prefix"), $oapi:EXIDE,
+            "index.html?open=" || $href)
+            , "/"
+        )
+        return
+            replace($path, "/+", "/")
+    return
+        <a href="{$link}" target="eXide" class="eXide-open" data-exide-open="{$href}"
+            data-exide-line="{$line}">{$href}</a>
+};
+
+declare function oapi:get-line($src, $line as xs:int?) {
+    if ($line) then
+        let $lines := tokenize($src, "\n")
+        return
+            subsequence($lines, $line - 1, 3) !
+                replace(., "^\s*(.*?)", "$1&#10;")
+    else
+        ()
+};
+
+declare function oapi:recompile($request as map(*)) {
+    let $odd := $request?parameters?odd
+    let $odd :=
+        if (exists($odd)) then
+            $odd
+        else
+            ($config:odd-available, $config:odd-internal)
+    let $result :=
+        for $source in $odd
+        let $odd := doc($config:odd-root || "/" || $source)
+        let $pi := tpu:parse-pi($odd, (), $source)
+        for $module in
+            if ($pi?output) then
+                tokenize($pi?output)
+            else
+                ("web", "print", "latex", "epub")
+        return
+            try {
+                for $output in pmu:process-odd(
+                    odd:get-compiled($config:odd-root, $source),
+                    $config:output-root,
+                    $module,
+                    "../" || $config:output,
+                    $config:module-config)
+                let $file := $output?module
+                return
+                    if ($output?error) then
+                        <div class="list-group-item-danger">
+                            <h5 class="list-group-item-heading">{$file}: ERROR</h5>
+                            <p class="list-group-item-text">{ $output?error/error/string() }</p>
+                            <pre class="list-group-item-text">{ oapi:get-line($output?code, $output?error/error/@line) }</pre>
+                            <p class="list-group-item-text">File not saved.</p>
+                        </div>
+                    else
+                        let $src := util:binary-to-string(util:binary-doc($file))
+                        let $compiled := util:compile-query($src, ())
+                        return
+                            if ($compiled/error) then
+                                <div class="list-group-item-danger">
+                                    <h5 class="list-group-item-heading">{oapi:load-source($file, $compiled/error/@line)}:</h5>
+                                    <p class="list-group-item-text">{ $compiled/error/string() }</p>
+                                    <pre class="list-group-item-text">{ oapi:get-line($src, $compiled/error/@line)}</pre>
+                                </div>
+                            else
+                                <div class="list-group-item-success">
+                                    <h5 class="list-group-item-heading">{$file}: OK</h5>
+                                </div>
+            } catch * {
+                <div class="list-group-item-danger">
+                    <h5 class="list-group-item-heading">Error for output mode {$module}</h5>
+                    <p class="list-group-item-text">{ $err:description }</p>
+                </div>
+            }
+    return
+        <div class="errors">
+            <h4>Regenerated XQuery code from ODD files</h4>
+            <div class="list-group">
+            {
+                $result
+            }
+            </div>
+        </div>
+};
 
 declare function oapi:list-odds($request as map(*)) {
     array {

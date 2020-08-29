@@ -171,7 +171,7 @@
                     }
                 }
             },
-            "put": {
+            "post": {
                 "summary": "Create an ODD",
                 "description": "Create a new ODD using the file name given in the path",
                 "tags": [ "odd" ],
@@ -245,6 +245,36 @@
                                             "type": "boolean"
                                         }
                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Recompile ODDs",
+                "description": "Recompile one or more ODDs after they were changed",
+                "operationId": "oapi:recompile",
+                "tags": [ "odd" ],
+                "parameters": [
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema":{
+                            "type": "array",
+                            "items":{
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ODDs were recompiled. The result of the compilation is returned as HTML.",
+                        "content": {
+                            "text/html": {
+                                "schema":{
+                                    "type": "string"
                                 }
                             }
                         }
