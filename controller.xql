@@ -73,34 +73,7 @@ else if ($exist:path eq "/") then
         <redirect url="index.html"/>
     </dispatch>
 
-(:
- : Login a user via AJAX. Just returns a 401 if login fails.
- :)
-else if ($exist:resource eq 'login') then (
-    let $loggedIn := login:set-user($config:login-domain, (), false())
-    let $user := request:get-attribute($config:login-domain || ".user")
-    return (
-        util:declare-option("exist:serialize", "method=json media-type=application/json"),
-        response:set-header("Access-Control-Allow-Origin", $allowOrigin),
-        if ($allowOrigin) then response:set-header("Access-Control-Allow-Credentials", "true") else (),
-        try {
-            <status xmlns:json="http://www.json.org">
-                <user>{$user}</user>
-                {
-                    if ($user) then (
-                        sm:get-user-groups($user) ! <groups json:array="true">{.}</groups>,
-                        <dba>{sm:is-dba($user)}</dba>
-                    ) else
-                        ()
-                }
-            </status>
-        } catch * {
-            response:set-status-code(401),
-            <status>{$err:description}</status>
-        }
-    )
-
-) else if (contains($exist:path, "/$shared/")) then
+else if (contains($exist:path, "/$shared/")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="/shared-resources/{substring-after($exist:path, '/$shared/')}"/>
     </dispatch>
@@ -133,6 +106,17 @@ else if (contains($exist:path, "/images/")) then
         <forward url="{$exist:controller}/resources/images/{substring-after($exist:path, '/images/')}"/>
     </dispatch>
 
+else if (starts-with($exist:path, "/api/")) then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/modules/lib/api.xql">
+            <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
+            { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
+            <set-header name="Access-Control-Allow-Methods" value="GET, POST, DELETE, PUT, PATCH, OPTIONS"/>
+            <set-header name="Access-Control-Allow-Headers" value="Content-Type, api_key, Authorization"/>
+            <set-header name="Cache-Control" value="no-cache"/>
+        </forward>
+    </dispatch>
+
 else if (ends-with($exist:resource, ".xql")) then (
     login:set-user($config:login-domain, (), false()),
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
@@ -153,22 +137,7 @@ else if (ends-with($exist:resource, ".xql")) then (
 
 )
 
-else if ($logout or $login) then (
-    login:set-user($config:login-domain, (), false()),
-    (: redirect successful login attempts to the original page, but prevent redirection to non-local websites:)
-    let $referer := request:get-header("Referer")
-    let $this-servers-scheme-and-domain := request:get-scheme() || "://" || request:get-server-name()
-    return
-        if (starts-with($referer, $this-servers-scheme-and-domain)) then
-            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                <redirect url="{request:get-header("Referer")}"/>
-            </dispatch>
-        else
-            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                <redirect url="{replace(request:get-uri(), "^(.*)\?", "$1")}"/>
-            </dispatch>
-
-) else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt|mei)$", "s")) then
+else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt|mei)$", "s")) then
     let $path := 
         if (starts-with($exist:path, "/collection/")) then
             substring-after($exist:path, "/collection/")
@@ -192,6 +161,9 @@ else if (contains($exist:path, "/raw/")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/data/{substring-after($exist:path, '/raw/')}"></forward>
    </dispatch>
+
+else if ($exist:resource = "api.html") then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist"></dispatch>
 
 else if (ends-with($exist:resource, ".html")) then (
     login:set-user($config:login-domain, (), false()),

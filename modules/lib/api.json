@@ -1,0 +1,405 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "7.0.0",
+        "title": "TEI Publisher API",
+        "description": ""
+    },
+    "servers": [
+        {
+            "description": "Endpoint for testing on localhost",
+            "url": "http://localhost:8080/exist/apps/tei-publisher"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "cookieAuth": {
+                "type": "apiKey",
+                "name": "org.exist.login",
+                "in": "cookie"
+            }
+        }
+    },
+    "paths": {
+        "/api/parts/{doc}/{format}": {
+            "get": {
+                "description": "Retrieve a document transformed via ODD",
+                "operationId": "api:get-fragment",
+                "tags": [ "documents" ],
+                "parameters": [
+                    {
+                        "name": "doc",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "doc/documentation.xml"
+                    },
+                    {
+                        "name": "format",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "json",
+                                "html"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "view",
+                        "in": "query",
+                        "schema":{
+                            "type": "string"
+                        },
+                        "example": "div"
+                    },
+                    {
+                        "name": "root",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "xpath",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "map",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "highlight",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/html": {
+                                "schema":{
+                                    "type": "string"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "view": {
+                                            "type": "string"
+                                        },
+                                        "doc": {
+                                            "type": "string"
+                                        },
+                                        "root": {
+                                            "type": "string"
+                                        },
+                                        "odd": {
+                                            "type": "string"
+                                        },
+                                        "next": {
+                                            "type": "string"
+                                        },
+                                        "previous": {
+                                            "type": "string"
+                                        },
+                                        "switchView": {
+                                            "type": "string"
+                                        },
+                                        "content": {
+                                            "type": "string"
+                                        },
+                                        "footnotes": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/odd/{odd}": {
+            "delete": {
+                "summary": "Delete an ODD from the database",
+                "description": "Delete the ODD given in the path parameter from the database. The ODD should be located in the collection referenced by `config:odd-root` in `modules/config.xqm`.",
+                "tags": [
+                    "odd"
+                ],
+                "operationId": "oapi:delete-odd",
+                "parameters": [
+                    {
+                        "name": "odd",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "410": {
+                        "description": "ODD was deleted"
+                    },
+                    "404": {
+                        "description": "ODD not found"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Create an ODD",
+                "description": "Create a new ODD using the file name given in the path",
+                "tags": [ "odd" ],
+                "operationId": "oapi:create-odd",
+                "parameters": [
+                    {
+                        "name": "odd",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "schema":{
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "ODD was created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "path": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Permission denied"
+                    }
+                }
+            }
+        },
+        "/api/odd": {
+            "get": {
+                "summary": "Get a list of ODDs available",
+                "operationId": "oapi:list-odds",
+                "tags": [ "odd" ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "label": {
+                                            "type": "string"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "type": "string"
+                                        },
+                                        "canWrite": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/templates": {
+            "get": {
+                "summary": "List available HTML templates",
+                "description": "Lists all page layout templates available for the document view. Used by `pb-select-templates`.",
+                "tags":[ "templates" ],
+                "operationId": "api:list-templates",
+                "responses": {
+                    "200": {
+                        "description": "Array of templates",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "array",
+                                    "items":{
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "title": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "get": {
+                "description": "Check if user is logged in",
+                "operationId": "router:login",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "name": "logout",
+                        "in": "query",
+                        "description": "Set to log out the current user",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "user": {
+                                            "type": "string"
+                                        },
+                                        "groups": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "dba": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not logged in"
+                    }
+                }
+            },
+            "post": {
+                "description": "Login the user",
+                "tags": [ "user" ],
+                "operationId": "router:login",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "query",
+                        "description": "Name of the user",
+                        "schema": {
+                            "type": "string",
+                            "default": "tei"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "format": "password",
+                            "default": "simple"
+                        }
+                    },
+                    {
+                        "name": "logout",
+                        "in": "query",
+                        "description": "If set, current user will be logged out",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "user": {
+                                            "type": "string"
+                                        },
+                                        "groups": {
+                                            "type": "array",
+                                            "items":{
+                                                "type": "string"
+                                            }
+                                        },
+                                        "dba": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Wrong user or password"
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        {
+            "basicAuth": [],
+            "cookieAuth": [
+                "org.exist.login"
+            ]
+        }
+    ]
+}
