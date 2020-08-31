@@ -114,3 +114,102 @@ describe('/api/odd/{odd} [not authenticated]', function () {
         });
     });
 });
+
+describe('/api/odd [authenticated]', function () {
+
+    before(async function() {
+        console.log('Logging in user ...');
+        const res = await axiosInstance.request({
+            url: 'login',
+            method: 'post',
+            params: {
+                "user": "tei",
+                "password": "simple"
+            }
+        });
+        expect(res.status).to.equal(200);
+        expect(res.data.user).to.equal('tei');
+
+        const cookie = res.headers["set-cookie"];
+        axiosInstance.defaults.headers.Cookie = cookie[0];
+        console.log('Logged in as %s: %s', res.data.user, res.statusText);
+    });
+
+
+    it('retrieves a list of odds', async function() {
+        const res = await axiosInstance.get('odd');
+        const publisherOdd = [{
+            "path": "/db/apps/tei-publisher/odd/teipublisher.odd",
+            "name": "teipublisher",
+            "canWrite": true,
+            "label": "TEI Publisher Base",
+            "description": null
+          }]
+        expect(res.status).to.equal(200);
+        expect(res.data).to.be.an('array').that.has.members;
+        expect(res.data).to.include.deep.members(publisherOdd, 'teipublisher.odd not found');
+        expect(res.data[1]).to.have.property('name');
+        expect(res.data[1]).to.have.property('path');
+        expect(res).to.satisfyApiSpec;
+    });
+
+    // regenerating ODDs usually takes around 30000ms
+    this.timeout(50000);
+
+    it('regenerates all odds', async function() {
+        const res = await axiosInstance.post('odd');
+        expect(res.status).to.equal(200);
+        expect(res.data).to.be.a('string').that.includes('/db/apps/tei-publisher/transform/teipublisher-web.xql: OK');
+        expect(res.data).to.not.include('Error for output mode');
+        expect(res).to.satisfyApiSpec;
+    });
+
+    it('regenerates dta odd', async function() {
+        const res = await axiosInstance.request({
+            url: 'odd',
+            method: 'post',
+            params: {
+                "odd": "dta.odd"
+            }
+        });
+        expect(res.status).to.equal(200);
+        expect(res.data).to.be.a('string').that.includes('/db/apps/tei-publisher/transform/dta-web.xql: OK');
+        expect(res.data).to.include('/db/apps/tei-publisher/transform/dta-print.xql: OK');
+        expect(res.data).to.include('/db/apps/tei-publisher/transform/dta-latex.xql: OK');
+        expect(res.data).to.include('/db/apps/tei-publisher/transform/dta-epub.xql: OK');
+        expect(res.data).to.not.include('/db/apps/tei-publisher/transform/teipublisher-web.xql: OK');
+        expect(res.data).to.not.include('Error for output mode');
+        expect(res).to.satisfyApiSpec;
+    });
+
+    after(function (done) {
+        console.log('Logging out ...');
+        axiosInstance.request({
+            url: 'login',
+            method: 'get',
+            params: {
+                "logout": "true"
+            }
+        })
+        .catch((error) => {
+            expect(error.response.status).to.equal(401);
+            done();
+        });
+    });
+});
+
+describe('/api/odd [not authenticated]', function () {
+    it('tries to regenerate dta odd without authorization', async function() {
+        const res = await axiosInstance.request({
+            url: 'odd',
+            method: 'post',
+            params: {
+                "odd": "dta.odd"
+            }
+        });
+
+        expect(res.data).to.be.a('string');
+        expect(res.data).to.include('Error for output mode web');
+        expect(res.data).to.not.include('OK');
+    });
+});
