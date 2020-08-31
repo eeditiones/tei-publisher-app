@@ -18,7 +18,31 @@ const axiosInstance = axios.create({
 });
 
 describe('/api/document/{id}/html', function () {
+    this.slow(2000);
     it('retrieves as html', async function () {
+        const res = await axiosInstance.get('document/test%2Fcortes_to_dantiscus.xml/html');
+
+        expect(res.status).to.equal(200);
+        expect(res.data).to.match(/title/);
+        expect(res).to.satisfyApiSpec;
+    });
+
+    it('retrieves part identified by xml:id as html', async function () {
+        const res = await axiosInstance.get('document/doc%2Fdocumentation.xml/html', {
+            params: {
+                "id": "unix-installation"
+            }
+        });
+
+        expect(res.status).to.equal(200);
+        expect(res.data).to.match(/Unix installation/);
+        expect(res).to.satisfyApiSpec;
+    });
+});
+
+describe('/api/document/{id}/tex', function () {
+    this.slow(2000);
+    it('retrieves as PDF transformed via LaTeX', async function () {
         const res = await axiosInstance.get('document/test%2Fcortes_to_dantiscus.xml/html');
 
         expect(res.status).to.equal(200);
@@ -28,7 +52,7 @@ describe('/api/document/{id}/html', function () {
 });
 
 describe('/api/parts/{id}/json', function () {
-    it('retrieves as json', async function () {
+    it('retrieves document part as json', async function () {
         const res = await axiosInstance.get('parts/test%2Fcortes_to_dantiscus.xml/json', {
             params: {
                 view: 'div'
@@ -37,6 +61,20 @@ describe('/api/parts/{id}/json', function () {
 
         expect(res.status).to.equal(200);
         expect(res.data.odd).to.equal('dantiscus.odd');
+        expect(res).to.satisfyApiSpec;
+    });
+
+    it('retrieves part identified by xpath as json', async function () {
+        const res = await axiosInstance.get('parts/test%2Fcortes_to_dantiscus.xml/json', {
+            params: {
+                "view": "single",
+                "xpath": "//front"
+            }
+        });
+
+        expect(res.status).to.equal(200);
+        expect(res.data.doc).to.equal("cortes_to_dantiscus.xml");
+        expect(res.data.content).to.match(/<front .*>/);
         expect(res).to.satisfyApiSpec;
     });
 });

@@ -312,34 +312,6 @@ else if (matches($exist:path, "[^/]+\..*$")) then (
                 <cache-control cache="yes"/>
             </dispatch>
 
-) else if (starts-with($exist:path, "/collection/")) then (
-    login:set-user($config:login-domain, (), false()),
-    let $path := substring-after($exist:path, "/collection/")
-    let $templatePath := $config:data-root || "/" || $path || "/collection.html"
-    let $templateAvail := doc-available($templatePath) or util:binary-doc-available($templatePath)
-    let $template := 
-        if ($templateAvail) then 
-            $templatePath
-        else
-            $config:app-root || "/templates/documents.html"
-    return
-        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-            <forward url="{$exist:controller}/modules/view.xql">
-                <add-parameter name="template" value="{$template}"/>
-                <add-parameter name="root" value="{$path}"/>
-                <set-header name="Cache-Control" value="no-cache"/>
-                <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
-                { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
-                <set-header name="Access-Control-Expose-Headers" value="pb-start, pb-total"/>
-            </forward>
-            <error-handler>
-                <forward url="{$exist:controller}/modules/view.xql">
-                    <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
-                    { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
-                </forward>
-            </error-handler>
-        </dispatch>
-
 ) else
     (: everything else is passed through :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">

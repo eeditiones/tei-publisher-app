@@ -252,7 +252,8 @@
                                             "type": "string"
                                         },
                                         "next": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "nullable": true
                                         },
                                         "previous": {
                                             "type": "string",
@@ -292,6 +293,7 @@
                     {
                         "name": "odd",
                         "in": "path",
+                        "description": "Filename of the ODD including suffix (.odd)",
                         "schema": {
                             "type": "string",
                             "example": "docbook.odd"
@@ -327,8 +329,10 @@
                         "name": "odd",
                         "in": "path",
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "testodd.odd"
                         },
+                        "description": "Filename of the ODD including suffix (.odd)",
                         "required": true
                     }
                 ],
@@ -353,6 +357,7 @@
                         "schema": {
                             "type": "string"
                         },
+                        "description": "Filename of the ODD without suffix (.odd)",
                         "required": true
                     },
                     {

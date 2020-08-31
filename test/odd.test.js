@@ -39,6 +39,7 @@ describe('/api/odd/{odd} [authenticated]', function () {
 
     it('creates new odd', async function () {
         this.timeout(10000);
+        this.slow(5000);
         const res = await axiosInstance.request({
             url: 'odd/testme',
             method: 'post',
