@@ -44,7 +44,7 @@ declare variable $config:origin-whitelist := (
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port 
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "1.3.0";
+declare variable $config:webcomponents := "local";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
@@ -220,7 +220,7 @@ return
  : arguments.
  :)
 declare variable $config:tex-command := function ($file) {
-    ("/usr/bin/pdflatex", "-interaction=nonstopmode", $file)
+    ("/usr/local/texlive/2020/bin/x86_64-darwin/pdflatex", "-interaction=nonstopmode", $file)
 };
 
 (:

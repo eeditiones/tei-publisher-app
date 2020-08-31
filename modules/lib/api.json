@@ -234,11 +234,6 @@
                     "200": {
                         "description": "OK",
                         "content": {
-                            "text/html": {
-                                "schema":{
-                                    "type": "string"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "type": "object",
@@ -250,7 +245,8 @@
                                             "type": "string"
                                         },
                                         "root": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "nullable": true
                                         },
                                         "odd": {
                                             "type": "string"
@@ -259,18 +255,26 @@
                                             "type": "string"
                                         },
                                         "previous": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "nullable": true
                                         },
                                         "switchView": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "nullable": true
                                         },
                                         "content": {
                                             "type": "string"
                                         },
                                         "footnotes": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "nullable": true
                                         }
                                     }
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -377,7 +381,14 @@
                         }
                     },
                     "403": {
-                        "description": "Permission denied"
+                        "description": "Permission denied",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
