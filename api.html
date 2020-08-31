@@ -1,10 +1,24 @@
-<!doctype html> <!-- Important: must specify -->
+<!doctype html>
 <html>
     <head>
-        <meta charset="utf-8"/> <!-- Important: rapi-doc uses utf8 charecters -->
-        <script type="module" src="https://unpkg.com/rapidoc/dist/rapidoc-min.js"></script>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@3/swagger-ui.css"/>
+        <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js" charset="UTF-8"></script>
     </head>
     <body>
-        <rapi-doc spec-url="/exist/apps/tei-publisher/modules/lib/api.json"></rapi-doc>
+        <div id="swagger"></div>
+        <script>
+            window.onload = function() {
+                const ui = SwaggerUIBundle({
+                    url: "modules/lib/api.json",
+                    dom_id: '#swagger',
+                    displayOperationId: true,
+                    displayRequestDuration: true,
+                    withCredentials: true
+                })
+
+                window.ui = ui;
+            }
+        </script>
     </body>
 </html>
