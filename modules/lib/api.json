@@ -176,6 +176,20 @@
                             "type": "string",
                             "example": "doc/documentation.xml"
                         }
+                    },
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "schema":{
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {

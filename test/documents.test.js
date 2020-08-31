@@ -55,15 +55,24 @@ describe('/api/document/{id}/tex', function () {
 describe('/api/document/{id}/epub', function () {
     this.slow(2000);
     it('retrieves as EPub', async function () {
+        const token = new Date().toISOString();
         const res = await axiosInstance.get('document/test%2Fcortes_to_dantiscus.xml/epub', {
+            params: {
+                "token": token
+            },
             responseType: 'stream'
         });
 
         expect(res.status).to.equal(200);
         expect(res.headers['content-type']).to.equal('application/epub+zip');
+        
+        const cookies = res.headers["set-cookie"];
+        expect(cookies).to.include(`simple.token=${token}`);
+
         res.data.pipe(fs.createWriteStream('/tmp/cortes_to_dantiscus.epub'));
         const stats = fs.statSync('/tmp/cortes_to_dantiscus.epub');
         expect(stats.size).to.be.greaterThan(0);
+        fs.unlinkSync('/tmp/cortes_to_dantiscus.epub');
     });
 });
 
