@@ -11,6 +11,24 @@
             "url": "http://localhost:8080/exist/apps/tei-publisher"
         }
     ],
+    "tags": [
+        {
+            "name": "documents",
+            "description": "Retrieve document content transformed to target format"
+        },
+        {
+            "name": "collection",
+            "description": "Browse the collection hierarchy"
+        },
+        {
+            "name": "odd",
+            "description": "Manage the ODD files stored in TEI Publisher"
+        },
+        {
+            "name": "search",
+            "description": "Searching the collection"
+        }
+    ],
     "components": {
         "securitySchemes": {
             "basicAuth": {
@@ -25,6 +43,122 @@
         }
     },
     "paths": {
+        "/api/collection/{path}": {
+            "get": {
+                "summary": "Get formatted overview of documents in the collection",
+                "tags": [ "collection" ],
+                "operationId": "capi:list",
+                "parameters": [
+                    {
+                        "name": "path",
+                        "in": "path",
+                        "required": true,
+                        "schema":{
+                            "type": "string",
+                            "example": "test"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns HTML describing the collection",
+                        "content":{
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/collection": {
+            "get": {
+                "summary": "Get formatted overview of documents in the collection",
+                "tags": [
+                    "collection"
+                ],
+                "operationId": "capi:list",
+                "responses": {
+                    "200": {
+                        "description": "Returns HTML describing the collection",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/document/{id}/html": {
+            "get": {
+                "summary": "Retrieve document content as HTML",
+                "description": "Retrieve whole document transformed to HTML via ODD",
+                "tags": [
+                    "documents"
+                ],
+                "operationId": "dapi:html",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "test/F-rom.xml"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the entire document as HTML",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/document/{id}/tex": {
+            "get": {
+                "summary": "Retrieve document content as PDF",
+                "description": "Retrieve whole document transformed via ODD and LaTeX",
+                "tags": [ "documents" ],
+                "operationId": "dapi:latex",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "test/F-rom.xml"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns a PDF",
+                        "content": {
+                            "application/pdf": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/parts/{doc}/{format}": {
             "get": {
                 "description": "Retrieve a document transformed via ODD",
@@ -145,6 +279,38 @@
             }
         },
         "/api/odd/{odd}": {
+            "get": {
+                "summary": "Retrieve an ODD",
+                "description": "Retrieve an ODD as TEI/XML",
+                "tags": [ "odd" ],
+                "operationId": "oapi:get-odd",
+                "parameters": [
+                    {
+                        "name": "odd",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "docbook.odd"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the TEI/XML source of the ODD",
+                        "content": {
+                            "application/xml": {
+                                "schema":{
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ODD not found"
+                    }
+                }
+            },
             "delete": {
                 "summary": "Delete an ODD from the database",
                 "description": "Delete the ODD given in the path parameter from the database. The ODD should be located in the collection referenced by `config:odd-root` in `modules/config.xqm`.",
@@ -302,6 +468,59 @@
                                                 "type": "string"
                                             },
                                             "title": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/search/autocomplete": {
+            "get": {
+                "summary": "List possible completions",
+                "description": "Return a list of possible completions for the given search term",
+                "operationId": "sapi:autocomplete",
+                "tags": [
+                    "search"
+                ],
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "The prefix to expand",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "field",
+                        "in": "query",
+                        "description": "The field to query",
+                        "schema":{
+                            "title": "string",
+                            "default": "text"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of possible completions",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "array",
+                                    "items":{
+                                        "type": "object",
+                                        "properties": {
+                                            "text": {
+                                                "type": "string"
+                                            },
+                                            "value": {
                                                 "type": "string"
                                             }
                                         }

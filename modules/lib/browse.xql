@@ -65,8 +65,8 @@ function app:sort($items as element()*, $sortBy as xs:string?) {
             $items
 };
 
-declare function app:is-writeable($node as node(), $model as map(*), $root as xs:string) {
-    let $path := $config:data-root || "/" || $root
+declare function app:is-writeable($node as node(), $model as map(*)) {
+    let $path := $config:data-root || "/" || $model?root
     let $writable := sm:has-access(xs:anyURI($path), "rw-")
     return
         element { node-name($node) } {
@@ -75,7 +75,7 @@ declare function app:is-writeable($node as node(), $model as map(*), $root as xs
                 string-join(($node/@class, if ($writable) then "writable" else ()), " ")
             },
             attribute data-root {
-                $root
+                $model?root
             },
             templates:process($node/node(), $model)
         }
@@ -87,8 +87,8 @@ declare function app:is-writeable($node as node(), $model as map(*), $root as xs
 declare
     %templates:wrap
     %templates:default("sort", "title")
-function app:list-works($node as node(), $model as map(*), $filter as xs:string?, $root as xs:string,
-    $browse as xs:string?, $odd as xs:string?, $sort as xs:string) {
+function app:list-works($node as node(), $model as map(*), $filter as xs:string?, $browse as xs:string?, $odd as xs:string?, $sort as xs:string) {
+    let $root := $model?root
     let $params := app:params2map()
     let $odd := ($odd, session:get-attribute($config:session-prefix || ".odd"))[1]
     let $oddAvailable := $odd and doc-available($config:odd-root || "/" || $odd)
@@ -142,11 +142,11 @@ declare function app:use-cache($params as map(*), $cached) {
             false()
 };
 
-declare function app:parent-collection($node as node(), $model as map(*), $root as xs:string) {
-    if (not($root) or $root = "") then
+declare function app:parent-collection($node as node(), $model as map(*)) {
+    if (not($model?root) or $model?root = "") then
         ()
     else
-        let $parts := tokenize($root, "/")
+        let $parts := tokenize($model?root, "/")
         return
             element { node-name($node) } {
                 $node/@*,

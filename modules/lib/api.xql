@@ -15,10 +15,12 @@ import module namespace query="http://www.tei-c.org/tei-simple/query" at "../que
 import module namespace mapping="http://www.tei-c.org/tei-simple/components/map" at "../map.xql";
 import module namespace dbutil = "http://exist-db.org/xquery/dbutil";
 import module namespace oapi="http://teipublisher.com/api/odd" at "api/odd.xql";
+import module namespace dapi="http://teipublisher.com/api/documents" at "api/document.xql";
+import module namespace capi="http://teipublisher.com/api/collection" at "api/collection.xql";
+import module namespace sapi="http://teipublisher.com/api/search" at "api/search.xql";
 
 declare %private function api:get-fragment($request as map(*)) {
     let $doc := xmldb:decode-uri($request?parameters?doc)
-    let $log := util:log("INFO", "Viewing " || $doc)
     let $view := head(($request?parameters?view, $config:default-view))
     let $xml :=
         if ($request?parameters?xpath) then

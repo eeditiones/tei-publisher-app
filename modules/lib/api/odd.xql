@@ -207,3 +207,12 @@ declare %private function oapi:compile($odd) {
     return
         ()
 };
+
+declare function oapi:get-odd($request as map(*)) {
+    let $path := $config:odd-root || "/" || $request?parameters?odd
+    return
+        if (doc-available($path)) then
+            doc($path)
+        else
+            error($errors:NOT_FOUND, "ODD not found: " || $path)
+};
