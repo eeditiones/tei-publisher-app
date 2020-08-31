@@ -153,10 +153,10 @@ describe('/api/odd [authenticated]', function () {
         expect(res).to.satisfyApiSpec;
     });
 
-    // regenerating ODDs usually takes around 30000ms
-    this.timeout(50000);
-
     it('regenerates all odds', async function() {
+        // regenerating ODDs usually takes around 30000ms
+        this.timeout(90000);
+
         const res = await axiosInstance.post('odd');
         expect(res.status).to.equal(200);
         expect(res.data).to.be.a('string').that.includes('/db/apps/tei-publisher/transform/teipublisher-web.xql: OK');
@@ -165,6 +165,7 @@ describe('/api/odd [authenticated]', function () {
     });
 
     it('regenerates dta odd', async function() {
+        this.timeout(10000);
         const res = await axiosInstance.request({
             url: 'odd',
             method: 'post',
@@ -199,6 +200,7 @@ describe('/api/odd [authenticated]', function () {
 });
 
 describe('/api/odd [not authenticated]', function () {
+    this.timeout(60000);
     it('tries to regenerate dta odd without authorization', async function() {
         const res = await axiosInstance.request({
             url: 'odd',
