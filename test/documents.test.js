@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const tmp = require('tmp');
 const chai = require('chai');
 const expect = chai.expect;
 const chaiResponseValidator = require('chai-openapi-response-validator');
@@ -69,10 +70,12 @@ describe('/api/document/{id}/epub', function () {
         const cookies = res.headers["set-cookie"];
         expect(cookies).to.include(`simple.token=${token}`);
 
-        res.data.pipe(fs.createWriteStream('/tmp/cortes_to_dantiscus.epub'));
-        const stats = fs.statSync('/tmp/cortes_to_dantiscus.epub');
-        expect(stats.size).to.be.greaterThan(0);
-        fs.unlinkSync('/tmp/cortes_to_dantiscus.epub');
+        const tempFile = tmp.tmpNameSync();
+        res.data.pipe(fs.createWriteStream(tempFile));
+        res.data.on('end', function() {
+            const stats = fs.statSync(tempFile);
+            expect(stats.size).to.be.greaterThan(0);
+        });
     });
 });
 

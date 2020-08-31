@@ -210,7 +210,7 @@
         "/api/parts/{doc}/{format}": {
             "get": {
                 "description": "Retrieve a document transformed via ODD",
-                "operationId": "api:get-fragment",
+                "operationId": "dapi:get-fragment",
                 "tags": [ "documents" ],
                 "parameters": [
                     {
