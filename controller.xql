@@ -106,7 +106,7 @@ else if (contains($exist:path, "/images/")) then
         <forward url="{$exist:controller}/resources/images/{substring-after($exist:path, '/images/')}"/>
     </dispatch>
 
-else if (starts-with($exist:path, "/api/")) then
+else if (contains($exist:path, "/api/")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/modules/lib/api.xql">
             <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>

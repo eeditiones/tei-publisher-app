@@ -6,6 +6,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../.
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
+import module namespace epub="http://exist-db.org/xquery/epub" at "../epub.xql";
 
 declare function dapi:html($request as map(*)) {
     let $doc := xmldb:decode($request?parameters?id)
@@ -90,4 +91,35 @@ declare function dapi:latex($request as map(*)) {
         else
             <p>No document specified</p>
     )
+};
+
+declare function dapi:epub($request as map(*)) {
+    let $id := xmldb:decode($request?parameters?id)
+    let $work := config:get-document($id)
+    let $entries := dapi:work2epub($id, $work, $request?parameters?lang)
+    return
+        (
+            if ($request?parameters?token) then
+                response:set-cookie("simple.token", $request?parameters?token)
+            else
+                (),
+            response:set-header("Content-Disposition", concat("attachment; filename=", concat($id, '.epub'))),
+            response:stream-binary(
+                compression:zip( $entries, true() ),
+                'application/epub+zip',
+                concat($id, '.epub')
+            )
+        )
+};
+
+declare %private function dapi:work2epub($id as xs:string, $work as document-node(), $lang as xs:string?) {
+    let $config := $config:epub-config($work, $lang)
+    let $oddName := replace($config:odd, "^([^/\.]+).*$", "$1")
+    let $cssDefault := util:binary-to-string(util:binary-doc($config:output-root || "/" || $oddName || ".css"))
+    let $cssEpub := util:binary-to-string(util:binary-doc($config:app-root || "/resources/css/epub.css"))
+    let $css := $cssDefault || 
+        "&#10;/* styles imported from epub.css */&#10;" || 
+        $cssEpub
+    return
+        epub:generate-epub($config, $work/*, $css, $id)
 };

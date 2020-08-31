@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const chai = require('chai');
 const expect = chai.expect;
 const chaiResponseValidator = require('chai-openapi-response-validator');
@@ -48,6 +49,21 @@ describe('/api/document/{id}/tex', function () {
         expect(res.status).to.equal(200);
         expect(res.data).to.match(/title/);
         expect(res).to.satisfyApiSpec;
+    });
+});
+
+describe('/api/document/{id}/epub', function () {
+    this.slow(2000);
+    it('retrieves as EPub', async function () {
+        const res = await axiosInstance.get('document/test%2Fcortes_to_dantiscus.xml/epub', {
+            responseType: 'stream'
+        });
+
+        expect(res.status).to.equal(200);
+        expect(res.headers['content-type']).to.equal('application/epub+zip');
+        res.data.pipe(fs.createWriteStream('/tmp/cortes_to_dantiscus.epub'));
+        const stats = fs.statSync('/tmp/cortes_to_dantiscus.epub');
+        expect(stats.size).to.be.greaterThan(0);
     });
 });
 

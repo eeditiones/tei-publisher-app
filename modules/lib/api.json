@@ -159,6 +159,40 @@
                 }
             }
         },
+        "/api/document/{id}/epub": {
+            "get": {
+                "summary": "Retrieve document content as EPub",
+                "description": "Retrieve whole document as EPub transformed via ODD",
+                "tags": [
+                    "documents"
+                ],
+                "operationId": "dapi:epub",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "doc/documentation.xml"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns a PDF",
+                        "content": {
+                            "application/epub+zip": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/parts/{doc}/{format}": {
             "get": {
                 "description": "Retrieve a document transformed via ODD",
