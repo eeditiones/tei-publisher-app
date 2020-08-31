@@ -3,7 +3,8 @@
   "version": "6.0.0-RC1",
   "description": "TEI Publisher facilitates the integration of the TEI Processing Model into exist-db applications",
   "scripts": {
-    "test": "mocha --recursive --exit"
+    "test": "mocha --exit",
+    "test-watch": "mocha --watch"
   },
   "repository": {
     "type": "git",
