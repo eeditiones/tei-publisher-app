@@ -78,7 +78,7 @@ declare function oapi:recompile($request as map(*)) {
                             <pre class="list-group-item-text">{ oapi:get-line($output?code, $output?error/error/@line) }</pre>
                             <p class="list-group-item-text">File not saved.</p>
                         </div>
-                    else
+                    else if ($request?parameters?check) then
                         let $src := util:binary-to-string(util:binary-doc($file))
                         let $compiled := util:compile-query($src, ())
                         return
@@ -92,6 +92,10 @@ declare function oapi:recompile($request as map(*)) {
                                 <div class="list-group-item-success">
                                     <h5 class="list-group-item-heading">{$file}: OK</h5>
                                 </div>
+                    else
+                        <div class="list-group-item-success">
+                            <h5 class="list-group-item-heading">{$file}: OK</h5>
+                        </div>
             } catch * {
                 <div class="list-group-item-danger">
                     <h5 class="list-group-item-heading">Error for output mode {$module}</h5>

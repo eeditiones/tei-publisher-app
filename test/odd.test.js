@@ -170,7 +170,8 @@ describe('/api/odd [authenticated]', function () {
             url: 'odd',
             method: 'post',
             params: {
-                "odd": "dta.odd"
+                "odd": "dta.odd",
+                "check": true
             }
         });
         expect(res.status).to.equal(200);
@@ -206,7 +207,8 @@ describe('/api/odd [not authenticated]', function () {
             url: 'odd',
             method: 'post',
             params: {
-                "odd": "dta.odd"
+                "odd": "dta.odd",
+                "check": true
             }
         });
 

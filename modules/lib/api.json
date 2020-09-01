@@ -500,6 +500,15 @@
                                 "type": "string"
                             }
                         }
+                    },
+                    {
+                        "name": "check",
+                        "in": "query",
+                        "schema":{
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "description": "Run additional check to ensure the generated code is valid and compiles"
                     }
                 ],
                 "responses": {
