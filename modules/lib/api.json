@@ -312,7 +312,8 @@
         },
         "/api/parts/{doc}/{format}": {
             "get": {
-                "description": "Retrieve a document transformed via ODD",
+                "summary": "Retrieve parts of a document transformed via ODD",
+                "description": "Retrieve a document fragment, usually a division or page, transformed to HTML via the ODD. This operation is internally used by pb-view, but can also be helpful with pb-load or in other contexts.",
                 "operationId": "dapi:get-fragment",
                 "tags": [ "documents" ],
                 "parameters": [
@@ -323,7 +324,8 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "doc/documentation.xml"
+                        "example": "doc/documentation.xml",
+                        "description": "path to the document, relative to TEI Publisher's data root colletion"
                     },
                     {
                         "name": "format",
@@ -335,7 +337,8 @@
                                 "json",
                                 "html"
                             ]
-                        }
+                        },
+                        "description": "the format to return: either `json` or `html`. The first returns the HTML inside a JSON record with additional information about the next/previous page and so on. The latter is mainly for debugging purposes."
                     },
                     {
                         "name": "view",
@@ -348,35 +351,40 @@
                                 "single"
                             ]
                         },
-                        "example": "div"
+                        "example": "div",
+                        "description": "the view to use: this determines the size of the fragment returned, i.e. just a page, a whole division or the entire document"
                     },
                     {
                         "name": "root",
                         "in": "query",
                         "schema": {
                             "type": "string"
-                        }
+                        },
+                        "description": "an eXist node id used to identify the root of the fragment to return. mainly used to navigate to the next/previous fragment based on the properties received in the JSON record during a preceding request."
                     },
                     {
                         "name": "id",
                         "in": "query",
                         "schema": {
                             "type": "string"
-                        }
+                        },
+                        "description": "an xml:id to load: can be used instead of `root` to determine the fragment root to be loaded. Should be an xml:id existing in the document."
                     },
                     {
                         "name": "xpath",
                         "in": "query",
                         "schema": {
                             "type": "string"
-                        }
+                        },
+                        "description": "an XPath expression to directly select a sub-part of the document, e.g. the TEI body, front or back matter, or teiHeader. Usually only makes sense in combination with `view=single`."
                     },
                     {
                         "name": "map",
                         "in": "query",
                         "schema": {
                             "type": "string"
-                        }
+                        },
+                        "description": "defines an optional mapping function (written in XQuery), which can be used to replace the document content to be processed with something else. Used to e.g. look up the translation for a given transcription and process it instead."
                     },
                     {
                         "name": "highlight",
@@ -395,32 +403,38 @@
                                     "type": "object",
                                     "properties": {
                                         "view": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "the view type used"
                                         },
                                         "doc": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "path to the document from which the fragment was retrieved"
                                         },
                                         "root": {
                                             "type": "string",
                                             "nullable": true
                                         },
                                         "odd": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "the ODD used for the transformation"
                                         },
                                         "next": {
                                             "type": "string",
-                                            "nullable": true
+                                            "nullable": true,
+                                            "description": "points to the next fragment in the document. Pass this value as `root` in a follow up request."
                                         },
                                         "previous": {
                                             "type": "string",
-                                            "nullable": true
+                                            "nullable": true,
+                                            "description": "points to the previous fragment in the document. Pass this value as `root` in a follow up request."
                                         },
                                         "switchView": {
                                             "type": "string",
                                             "nullable": true
                                         },
                                         "content": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "the content of the fragment as HTML string"
                                         },
                                         "footnotes": {
                                             "type": "string",
