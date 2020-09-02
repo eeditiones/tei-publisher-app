@@ -33,7 +33,7 @@ describe('/api/collection', function () {
 });
 
 describe('/api/collection/{path}', function () {
-    this.slow(2000);
+    this.slow(10000);
     
     it('retrieves document list for test collection', async function () {
         const res = await axiosInstance.get('collection/test');

@@ -3,6 +3,7 @@ xquery version "3.1";
 module namespace dapi="http://teipublisher.com/api/documents";
 
 import module namespace router="http://exist-db.org/xquery/router" at "/db/apps/oas-router/content/router.xql";
+import module namespace errors = "http://exist-db.org/xquery/router/errors" at "/db/apps/oas-router/content/errors.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
@@ -22,13 +23,17 @@ declare function dapi:html($request as map(*)) {
     return
         if ($doc) then
             let $xml := config:get-document($doc)/*
-            let $config := tpu:parse-pi(root($xml), ())
-            let $out := $pm-config:web-transform($xml, map { "root": $xml }, $config?odd)
-            let $styles := if (count($out) > 1) then $out[1] else ()
             return
-                dapi:postprocess(($out[2], $out[1])[1], $styles, $odd)
+                if (exists($xml)) then
+                    let $config := tpu:parse-pi(root($xml), ())
+                    let $out := $pm-config:web-transform($xml, map { "root": $xml }, $config?odd)
+                    let $styles := if (count($out) > 1) then $out[1] else ()
+                    return
+                        dapi:postprocess(($out[2], $out[1])[1], $styles, $odd)
+                else
+                    error($errors:NOT_FOUND, "Document " || $doc || " not found")
         else
-            <p>No document specified</p>
+            error($errors:BAD_REQUEST, "No document specified")
 };
 
 declare %private function dapi:postprocess($nodes as node()*, $styles as element()?, $odd as xs:string) {
@@ -62,62 +67,69 @@ declare function dapi:latex($request as map(*)) {
         else
             (),
         if ($id) then
-            let $log := util:log("INFO", "Loading doc: " || $id)
             let $xml := config:get-document($id)/*
-            let $config := tpu:parse-pi(root($xml), ())
-            let $options :=
-                map {
-                    "root": $xml,
-                    "image-dir": config:get-repo-dir() || "/" ||
-                        substring-after($config:data-root[1], $config:app-root) || "/"
-                }
-            let $tex := string-join($pm-config:latex-transform($xml, $options, $config?odd))
-            let $file :=
-                replace($id, "^.*?([^/]+)$", "$1") || format-dateTime(current-dateTime(), "-[Y0000][M00][D00]-[H00][m00]")
             return
-                if ($source) then
-                    $tex
-                else
-                    let $serialized := file:serialize-binary(util:string-to-binary($tex), $config:tex-temp-dir || "/" || $file || ".tex")
+                if (exists($xml)) then
+                    let $config := tpu:parse-pi(root($xml), ())
                     let $options :=
-                        <option>
-                            <workingDir>{$config:tex-temp-dir}</workingDir>
-                        </option>
-                    let $output :=
-                        for $i in 1 to 3
-                        return
-                            process:execute(
-                                ( $config:tex-command($file) ), $options
-                            )
+                        map {
+                            "root": $xml,
+                            "image-dir": config:get-repo-dir() || "/" ||
+                                substring-after($config:data-root[1], $config:app-root) || "/"
+                        }
+                    let $tex := string-join($pm-config:latex-transform($xml, $options, $config?odd))
+                    let $file :=
+                        replace($id, "^.*?([^/]+)$", "$1") || format-dateTime(current-dateTime(), "-[Y0000][M00][D00]-[H00][m00]")
                     return
-                        if ($output[last()]/@exitCode < 2) then
-                            let $pdf := file:read-binary($config:tex-temp-dir || "/" || $file || ".pdf")
-                            return
-                                response:stream-binary($pdf, "media-type=application/pdf", $file || ".pdf")
+                        if ($source) then
+                            $tex
                         else
-                            $output
+                            let $serialized := file:serialize-binary(util:string-to-binary($tex), $config:tex-temp-dir || "/" || $file || ".tex")
+                            let $options :=
+                                <option>
+                                    <workingDir>{$config:tex-temp-dir}</workingDir>
+                                </option>
+                            let $output :=
+                                for $i in 1 to 3
+                                return
+                                    process:execute(
+                                        ( $config:tex-command($file) ), $options
+                                    )
+                            return
+                                if ($output[last()]/@exitCode < 2) then
+                                    let $pdf := file:read-binary($config:tex-temp-dir || "/" || $file || ".pdf")
+                                    return
+                                        response:stream-binary($pdf, "media-type=application/pdf", $file || ".pdf")
+                                else
+                                    $output
+                else
+                    error($errors:NOT_FOUND, "Document " || $id || " not found")
         else
-            <p>No document specified</p>
+            error($errors:BAD_REQUEST, "No document specified")
     )
 };
 
 declare function dapi:epub($request as map(*)) {
     let $id := xmldb:decode($request?parameters?id)
     let $work := config:get-document($id)
-    let $entries := dapi:work2epub($id, $work, $request?parameters?lang)
     return
-        (
-            if ($request?parameters?token) then
-                response:set-cookie("simple.token", $request?parameters?token)
-            else
-                (),
-            response:set-header("Content-Disposition", concat("attachment; filename=", concat($id, '.epub'))),
-            response:stream-binary(
-                compression:zip( $entries, true() ),
-                'application/epub+zip',
-                concat($id, '.epub')
-            )
-        )
+        if (exists($work)) then
+            let $entries := dapi:work2epub($id, $work, $request?parameters?lang)
+            return
+                (
+                    if ($request?parameters?token) then
+                        response:set-cookie("simple.token", $request?parameters?token)
+                    else
+                        (),
+                    response:set-header("Content-Disposition", concat("attachment; filename=", concat($id, '.epub'))),
+                    response:stream-binary(
+                        compression:zip( $entries, true() ),
+                        'application/epub+zip',
+                        concat($id, '.epub')
+                    )
+                )
+        else
+            error($errors:NOT_FOUND, "Document " || $id || " not found")
 };
 
 declare %private function dapi:work2epub($id as xs:string, $work as document-node(), $lang as xs:string?) {
@@ -254,7 +266,7 @@ declare function dapi:get-fragment($request as map(*)) {
                         }
                     )
         else
-            map { "error": "Not found" }
+            error($errors:NOT_FOUND, "Document " || $doc || " not found")
 };
 
 declare %private function dapi:extract-footnotes($html as element()*) {
@@ -266,4 +278,15 @@ declare %private function dapi:extract-footnotes($html as element()*) {
                 $html/node() except $html/div[@class="footnotes"]
             }
     }
+};
+
+declare function dapi:table-of-contents($request as map(*)) {
+    let $doc := xmldb:decode-uri($request?parameters?id)
+    let $view := head(($request?parameters?view, $config:default-view))
+    let $xml := pages:load-xml($view, (), $doc)
+    return
+        if (exists($xml)) then
+            pages:toc-div(root($xml?data), $xml, $request?parameters?target, $request?parameters?icons)
+        else
+            error($errors:NOT_FOUND, "Document " || $doc || " not found")
 };

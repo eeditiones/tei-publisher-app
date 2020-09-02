@@ -123,6 +123,16 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "description": "Document not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -152,6 +162,16 @@
                                 "schema": {
                                     "type": "string",
                                     "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Document not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
                                 }
                             }
                         }
@@ -203,6 +223,89 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "description": "Document not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/document/{id}/contents": {
+            "get": {
+                "summary": "Retrieve a formatted table of contents for the document",
+                "tags": [
+                    "documents"
+                ],
+                "operationId": "dapi:table-of-contents",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "test/kant_rvernunft_1781.TEI-P5.xml"
+                        }
+                    },
+                    {
+                        "name": "view",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "page",
+                                "div",
+                                "single"
+                            ]
+                        },
+                        "example": "div",
+                        "description": "The view type used by the main view which displays the document, e.g. 'page' or 'div'. This has an influence on the generated links, which need to differ when linking to a page rather than a section."
+                    },
+                    {
+                        "name": "target",
+                        "in": "query",
+                        "schema":{
+                            "type": "string"
+                        },
+                        "description": "The target channel into which link selection events should be send (if the user clicks on a link)"
+                    },
+                    {
+                        "name": "icons",
+                        "in": "query",
+                        "schema":{
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "description": "Should an expand/collapse icon be displayed next to headings having nested child sections?"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the formatted table of contents as HTML",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Document not found",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -238,7 +341,12 @@
                         "name": "view",
                         "in": "query",
                         "schema":{
-                            "type": "string"
+                            "type": "string",
+                            "enum": [
+                                "page",
+                                "div",
+                                "single"
+                            ]
                         },
                         "example": "div"
                     },
@@ -324,6 +432,16 @@
                             "text/html": {
                                 "schema": {
                                     "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Document not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
                                 }
                             }
                         }

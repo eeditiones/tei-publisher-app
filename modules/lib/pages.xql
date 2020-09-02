@@ -172,7 +172,10 @@ function pages:load($node as node(), $model as map(*), $doc as xs:string, $root 
 declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc as xs:string) {
     for $data in config:get-document($doc)
     return
-        pages:load-xml($data, $view, $root, $doc)
+        if (exists($data)) then
+            pages:load-xml($data, $view, $root, $doc)
+        else
+            ()
 };
 
 declare function pages:load-xml($data as node()*, $view as xs:string?, $root as xs:string?, $doc as xs:string) {
@@ -349,7 +352,7 @@ function pages:table-of-contents($node as node(), $model as map(*), $target as x
     pages:toc-div(root($model?data), $model, $target, $icons)
 };
 
-declare %private function pages:toc-div($node, $model as map(*), $target as xs:string?,
+declare function pages:toc-div($node, $model as map(*), $target as xs:string?,
     $icons as xs:boolean?) {
     let $view := $model?config?view
     let $divs := nav:get-subsections($model?config, $node)

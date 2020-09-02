@@ -20,7 +20,7 @@ const axiosInstance = axios.create({
 });
 
 describe('/api/document/{id}/html', function () {
-    this.slow(2000);
+    this.slow(4000);
     it('retrieves as html', async function () {
         const res = await axiosInstance.get('document/test%2Fcortes_to_dantiscus.xml/html');
 
@@ -40,10 +40,18 @@ describe('/api/document/{id}/html', function () {
         expect(res.data).to.match(/Unix installation/);
         expect(res).to.satisfyApiSpec;
     });
+
+    it('tries to retrieve non-existing document', function (done) {
+        axiosInstance.get('document/foo%2Fbaz.xml/html')
+            .catch((error) => {
+                expect(error.response.status).to.equal(404);
+                done();
+            });
+    });
 });
 
 describe('/api/document/{id}/tex', function () {
-    this.slow(2000);
+    this.slow(4000);
     it('retrieves as PDF transformed via LaTeX', async function () {
         const res = await axiosInstance.get('document/test%2Fcortes_to_dantiscus.xml/html');
 
@@ -77,6 +85,36 @@ describe('/api/document/{id}/epub', function () {
             expect(stats.size).to.be.greaterThan(0);
         });
     });
+
+    it('tries to retrieve non-existing document', function (done) {
+        axiosInstance.get('document/foo%2Fbaz.xml/epub')
+            .catch((error) => {
+                expect(error.response.status).to.equal(404);
+                done();
+            });
+    });
+});
+
+describe('/api/document/{id}/content', function () {
+    it('retrieves table of content', async function () {
+        const res = await axiosInstance.get('document/doc%2Fdocumentation.xml/contents', {
+            params: {
+                view: 'div'
+            }
+        });
+
+        expect(res.status).to.equal(200);
+        expect(res.data).to.match(/<pb-link.*>Introduction<\/pb-link>/);
+        expect(res).to.satisfyApiSpec;
+    });
+
+    it('tries to get table of content of non-existing document', function (done) {
+        axiosInstance.get('document/foo%2Fbaz.xml/contents')
+            .catch((error) => {
+                expect(error.response.status).to.equal(404);
+                done();
+            });
+    });
 });
 
 describe('/api/parts/{id}/json', function () {
@@ -104,5 +142,13 @@ describe('/api/parts/{id}/json', function () {
         expect(res.data.doc).to.equal("cortes_to_dantiscus.xml");
         expect(res.data.content).to.match(/<front .*>/);
         expect(res).to.satisfyApiSpec;
+    });
+
+    it('tries to retrieve non-existing document', function (done) {
+        axiosInstance.get('parts/foo%2Fbaz.xml/json')
+            .catch((error) => {
+                expect(error.response.status).to.equal(404);
+                done();
+            });
     });
 });
