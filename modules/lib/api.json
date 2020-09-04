@@ -27,6 +27,14 @@
         {
             "name": "search",
             "description": "Searching the collection"
+        },
+        {
+            "name": "convert",
+            "description": "Convert content to TEI"
+        },
+        {
+            "name": "preview",
+            "description": "Preview how a document renders"
         }
     ],
     "components": {
@@ -734,6 +742,87 @@
                                             }
                                         }
                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/convert": {
+            "post": {
+                "summary": "Convert a Word document to TEI/XML",
+                "tags": [
+                    "convert"
+                ],
+                "operationId": "dapi:convert-docx",
+                "parameters": [
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "default": "docx.odd"
+                        }
+                    }
+                ],
+                "requestBody":{
+                    "required": true,
+                    "content": {
+                        "application/xml": {
+                            "schema":{
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Resulting TEI/XML output",
+                        "content": {
+                            "application/xml": {
+                                "schema":{
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/preview": {
+            "post": {
+                "summary": "Post an XML document and get a preview rendered via ODD",
+                "tags": [
+                    "preview"
+                ],
+                "operationId": "dapi:preview",
+                "parameters": [
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema":{
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/xml": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Resulting HTML output",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }

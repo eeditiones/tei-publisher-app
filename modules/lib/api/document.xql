@@ -14,6 +14,7 @@ import module namespace query="http://www.tei-c.org/tei-simple/query" at "../../
 import module namespace mapping="http://www.tei-c.org/tei-simple/components/map" at "../../map.xql";
 import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
 import module namespace epub="http://exist-db.org/xquery/epub" at "../epub.xql";
+import module namespace docx="http://existsolutions.com/teipublisher/docx";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
@@ -48,11 +49,20 @@ declare %private function dapi:postprocess($nodes as node()*, $styles as element
                     <link rel="stylesheet" type="text/css" href="../transform/{replace($oddName, "^(.*)\.odd$", "$1")}-print.css" media="print"/>,
                     $styles
                 }
-            case element() return
+            case element(body) return
                 element { node-name($node) } {
                     $node/@*,
-                    dapi:postprocess($node/node(), $styles, $odd)
+                    dapi:postprocess($node/node(), $styles, $odd),
+                    nav:output-footnotes(root($node)//*[@class = "footnote"])
                 }
+            case element() return
+                if ($node/@class = "footnote") then
+                    ()
+                else
+                    element { node-name($node) } {
+                        $node/@*,
+                        dapi:postprocess($node/node(), $styles, $odd)
+                    }
             default return
                 $node
 };
@@ -187,7 +197,7 @@ declare function dapi:get-fragment($request as map(*)) {
             let $userParams :=
                 map:merge((
                     request:get-parameter-names()[starts-with(., 'user')] ! map { substring-after(., 'user.'): request:get-parameter(., ()) },
-                    map { "webcomponents": 6 }
+                    map { "webcomponents": 7 }
                 ))
             let $mapped :=
                 if ($request?parameters?map) then
@@ -289,4 +299,17 @@ declare function dapi:table-of-contents($request as map(*)) {
             pages:toc-div(root($xml?data), $xml, $request?parameters?target, $request?parameters?icons)
         else
             error($errors:NOT_FOUND, "Document " || $doc || " not found")
+};
+
+declare function dapi:preview($request as map(*)) {
+    let $config := tpu:parse-pi($request?body, (), $request?parameters?odd)
+    let $html := $pm-config:web-transform($request?body, map { "root": $request?body, "webcomponents": 7 }, $config?odd)
+    return
+        dapi:postprocess($html, (), $config?odd)
+};
+
+declare function dapi:convert-docx($request as map(*)) {
+    let $transform := $pm-config:tei-transform(?, ?, $request?parameters?odd)
+    return
+        docx:process-pkg($request?body, $transform)
 };
