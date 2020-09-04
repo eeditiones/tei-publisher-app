@@ -104,6 +104,9 @@ declare function pages:load-components($node as node(), $model as map(*)) {
     switch ($config:webcomponents)
         case "local" return
             <script type="module" src="resources/scripts/{$node/@src}"></script>
+        case "dev" return
+            <script type="module" 
+                src="{$config:webcomponents-cdn}/src/{$node/@src}"></script>
         default return
             <script type="module" 
                 src="{$config:webcomponents-cdn}@{$config:webcomponents}/dist/{$node/@src}"></script>
