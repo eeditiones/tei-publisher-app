@@ -18,7 +18,7 @@
         },
         {
             "name": "collection",
-            "description": "Browse the collection hierarchy"
+            "description": "Browse the collection hierarchy and upload new files"
         },
         {
             "name": "odd",
@@ -95,6 +95,88 @@
                             "text/html": {
                                 "schema": {
                                     "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/upload/{collection}": {
+            "post": {
+                "summary": "Upload a number of files",
+                "tags": [
+                    "collection"
+                ],
+                "operationId": "capi:upload",
+                "parameters": [
+                    {
+                        "name": "collection",
+                        "in": "path",
+                        "schema":{
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "requestBody":{
+                    "content": {
+                        "multipart/form-data": {
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "files[]": {
+                                        "type": "array",
+                                        "items":{
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Upload response",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "type": "string"
+                                        },
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "size": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Upload collection not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Upload collection not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
                                 }
                             }
                         }
