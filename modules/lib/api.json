@@ -161,6 +161,25 @@
                             }
                         }
                     },
+                    "403": {
+                        "description": "Permission denied",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "details": {
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "404": {
                         "description": "Upload collection not found",
                         "content": {
@@ -180,6 +199,28 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/document/{id}": {
+            "delete": {
+                "summary": "Delete a document",
+                "tags": ["documents"],
+                "operationId": "dapi:delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema":{
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "410": {
+                        "description": "Document deleted"
                     }
                 }
             }

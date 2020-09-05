@@ -18,6 +18,18 @@ import module namespace docx="http://existsolutions.com/teipublisher/docx";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
+declare function dapi:delete($request as map(*)) {
+    let $id := xmldb:decode($request?parameters?id)
+    let $doc := config:get-document($id)
+    return
+        if ($doc) then
+            let $del := xmldb:remove(util:collection-name($doc), util:document-name($doc))
+            return
+                router:response(410, '')
+        else
+            error($errors:NOT_FOUND, "Document " || $id || " not found")
+};
+
 declare function dapi:html($request as map(*)) {
     let $doc := xmldb:decode($request?parameters?id)
     let $odd := head(($request?parameters?odd, $config:odd))

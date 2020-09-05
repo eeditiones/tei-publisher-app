@@ -46,6 +46,15 @@ describe('/api/upload', function() {
         expect(res).to.satisfyApiSpec;
     });
 
+    it('deletes the uploaded document', function (done) {
+        util.axios.delete('document/playground%2Fgraves6.xml')
+        .catch(function(error) {
+            expect(error.response.status).to.equal(410);
+            expect(error.response).to.satisfyApiSpec;
+            done();
+        })
+    });
+
     after(util.logout);
 });
 
@@ -57,7 +66,7 @@ describe('/api/upload [unauthorized]', function () {
             headers: formData.getHeaders()
         })
         .catch(function(error) {
-            expect(error.response.status).to.equal(500);
+            expect(error.response.status).to.equal(403);
             expect(error.response).to.satisfyApiSpec;
             done();
         });

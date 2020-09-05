@@ -113,6 +113,7 @@ else if (contains($exist:path, "/api/")) then
             { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
             <set-header name="Access-Control-Allow-Methods" value="GET, POST, DELETE, PUT, PATCH, OPTIONS"/>
             <set-header name="Access-Control-Allow-Headers" value="Content-Type, api_key, Authorization"/>
+            <set-header name="Access-Control-Expose-Headers" value="pb-start, pb-total"/>
             <set-header name="Cache-Control" value="no-cache"/>
         </forward>
     </dispatch>
