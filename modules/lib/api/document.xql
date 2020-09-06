@@ -104,7 +104,7 @@ declare function dapi:latex($request as map(*)) {
                         replace($id, "^.*?([^/]+)$", "$1") || format-dateTime(current-dateTime(), "-[Y0000][M00][D00]-[H00][m00]")
                     return
                         if ($source) then
-                            $tex
+                            router:response(200, "application/x-latex", $tex)
                         else
                             let $serialized := file:serialize-binary(util:string-to-binary($tex), $config:tex-temp-dir || "/" || $file || ".tex")
                             let $options :=

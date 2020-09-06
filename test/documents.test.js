@@ -53,10 +53,15 @@ describe('/api/document/{id}/html', function () {
 describe('/api/document/{id}/tex', function () {
     this.slow(4000);
     it('retrieves as PDF transformed via LaTeX', async function () {
-        const res = await axiosInstance.get('document/test%2Fcortes_to_dantiscus.xml/html');
+        const res = await axiosInstance.get('document/test%2Fcortes_to_dantiscus.xml/tex', {
+            params: {
+                "source": "true"
+            }
+        });
 
         expect(res.status).to.equal(200);
-        expect(res.data).to.match(/title/);
+        expect(res.headers['content-type']).to.equal('application/x-latex');
+        
         expect(res).to.satisfyApiSpec;
     });
 });

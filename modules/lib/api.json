@@ -109,6 +109,9 @@
                     "collection"
                 ],
                 "operationId": "capi:upload",
+                "x-constraints": {
+                    "group": "tei"
+                },
                 "parameters": [
                     {
                         "name": "collection",
@@ -161,7 +164,7 @@
                             }
                         }
                     },
-                    "403": {
+                    "401": {
                         "description": "Permission denied",
                         "content": {
                             "application/json": {
@@ -208,6 +211,9 @@
                 "summary": "Delete a document",
                 "tags": ["documents"],
                 "operationId": "dapi:delete",
+                "x-constraints": {
+                    "group": "tei"
+                },
                 "parameters": [
                     {
                         "name": "id",
@@ -283,6 +289,14 @@
                             "type": "string",
                             "example": "test/F-rom.xml"
                         }
+                    },
+                    {
+                        "name": "source",
+                        "in": "query",
+                        "schema":{
+                            "type": "boolean",
+                            "default": false
+                        }
                     }
                 ],
                 "responses": {
@@ -293,6 +307,11 @@
                                 "schema": {
                                     "type": "string",
                                     "format": "binary"
+                                }
+                            },
+                            "application/x-latex": {
+                                "schema":{
+                                    "type": "string"
                                 }
                             }
                         }
@@ -635,6 +654,9 @@
                     "odd"
                 ],
                 "operationId": "oapi:delete-odd",
+                "x-constraints": {
+                    "group": "tei"
+                },
                 "parameters": [
                     {
                         "name": "odd",
@@ -661,6 +683,9 @@
                 "description": "Create a new ODD using the file name given in the path",
                 "tags": [ "odd" ],
                 "operationId": "oapi:create-odd",
+                "x-constraints": {
+                    "group": "tei"
+                },
                 "parameters": [
                     {
                         "name": "odd",
@@ -696,7 +721,7 @@
                             }
                         }
                     },
-                    "403": {
+                    "401": {
                         "description": "Permission denied",
                         "content": {
                             "application/json": {
@@ -753,6 +778,9 @@
                 "description": "Recompile one or more ODDs after they were changed",
                 "operationId": "oapi:recompile",
                 "tags": [ "odd" ],
+                "x-constraints": {
+                    "group": "tei"
+                },
                 "parameters": [
                     {
                         "name": "odd",
@@ -1022,14 +1050,6 @@
                             "format": "password",
                             "default": "simple"
                         }
-                    },
-                    {
-                        "name": "logout",
-                        "in": "query",
-                        "description": "If set, current user will be logged out",
-                        "schema": {
-                            "type": "string"
-                        }
                     }
                 ],
                 "responses": {
@@ -1066,10 +1086,10 @@
     },
     "security": [
         {
-            "basicAuth": [],
-            "cookieAuth": [
-                "org.exist.login"
-            ]
+            "cookieAuth": []
+        },
+        {
+            "basicAuth": []
         }
     ]
 }

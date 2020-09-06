@@ -66,7 +66,7 @@ describe('/api/upload [unauthorized]', function () {
             headers: formData.getHeaders()
         })
         .catch(function(error) {
-            expect(error.response.status).to.equal(403);
+            expect(error.response.status).to.equal(401);
             expect(error.response).to.satisfyApiSpec;
             done();
         });

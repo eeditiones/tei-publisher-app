@@ -78,11 +78,6 @@ else if (contains($exist:path, "/$shared/")) then
         <forward url="/shared-resources/{substring-after($exist:path, '/$shared/')}"/>
     </dispatch>
 
-else if (contains($exist:path, "/node_modules/")) then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/node_modules/{substring-after($exist:path, '/node_modules/')}"/>
-    </dispatch>
-
 else if (matches($exist:path, "^.*/(resources|transform)/.*$")) then
     let $dir := replace($exist:path, "^.*/(resources|transform)/.*$", "$1")
     return
