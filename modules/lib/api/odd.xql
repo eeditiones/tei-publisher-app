@@ -4,6 +4,7 @@ module namespace oapi="http://teipublisher.com/api/odd";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace expath="http://expath.org/ns/pkg";
+declare namespace pb="http://teipublisher.com/1.0";
 
 import module namespace router="http://exist-db.org/xquery/router" at "/db/apps/oas-router/content/router.xql";
 import module namespace errors = "http://exist-db.org/xquery/router/errors" at "/db/apps/oas-router/content/errors.xql";
@@ -212,11 +213,118 @@ declare %private function oapi:compile($odd) {
         ()
 };
 
-declare function oapi:get-odd($request as map(*)) {
-    let $path := $config:odd-root || "/" || $request?parameters?odd
+declare %private function oapi:models($spec as element()) {
+    array {
+        for $model in $spec/(tei:model|tei:modelGrp|tei:modelSequence)
+        return
+            map {
+                "type": local-name($model),
+                "desc": $model/tei:desc/string(),
+                "output": $model/@output/string(),
+                "behaviour": $model/@behaviour/string(),
+                "predicate": $model/@predicate/string(),
+                "css": $model/@cssClass/string(),
+                "sourcerend": $model/@useSourceRendition = 'true',
+                "renditions": oapi:renditions($model),
+                "parameters": oapi:parameters($model),
+                "models": oapi:models($model),
+                "template": oapi:template($model)
+            }
+    }
+};
+
+declare %private function oapi:parameters($model as element()) {
+    array {
+        for $param in $model/tei:param
+        return
+            map {
+                "name": $param/@name/string(),
+                "value": $param/@value/string()
+            }
+    }
+};
+
+declare %private function oapi:template($model as element()) {
+    string-join($model/pb:template/node() ! serialize(., map { "indent": false() }))
+};
+
+
+declare %private function oapi:renditions($model as element()) {
+    array {
+        for $rendition in $model/tei:outputRendition
+        return
+            map {
+                "scope": $rendition/@scope/string(),
+                "css": replace($rendition/string(), "^\s+(.*?)\s+$", "$1")
+            }
+    }
+};
+
+declare %private function oapi:to-json($odd as document-node(), $path as xs:string) {
+    let $schemaSpec := $odd//tei:schemaSpec
     return
-        if (doc-available($path)) then
-            doc($path)
+        map {
+            "elementSpecs":
+                array {
+                    for $spec in $odd//tei:elementSpec[tei:model|tei:modelGrp|tei:modelSequence]
+                    order by $spec/@ident
+                    return
+                        map {
+                            "ident": $spec/@ident/string(),
+                            "mode": $spec/@mode/string(),
+                            "models": oapi:models($spec)
+                        }
+                },
+            "namespace": $schemaSpec/@ns/string(),
+            "source": $schemaSpec/@source/string(),
+            "title": string-join($odd//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[not(@type)]/text()),
+            "titleShort": $odd//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'short']/string(),
+            "description": $odd//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[not(@type)]/tei:desc/text(),
+            "cssFile": $odd//tei:teiHeader/tei:encodingDesc/tei:tagsDecl/tei:rendition/@source/string(),
+            "canWrite": sm:has-access(xs:anyURI($path), "rw-")
+        }
+};
+
+declare function oapi:find-spec($oddPath as xs:string, $root as xs:string, $ident as xs:string) {
+    let $odd := doc($root || "/" || $oddPath)
+    let $spec := $odd//tei:elementSpec[@ident = $ident][tei:model|tei:modelGrp|tei:modelSequence]
+    return
+        if ($spec) then
+            map {
+                "status": "found",
+                "odd": $oddPath,
+                "models": oapi:models($spec)
+            }
         else
-            error($errors:NOT_FOUND, "ODD not found: " || $path)
+            let $source := $odd//tei:schemaSpec/@source
+            return
+                if ($source) then
+                    oapi:find-spec($source, $root, $ident)
+                else
+                    map {
+                        "status": "not-found"
+                    }
+};
+
+declare function oapi:get-odd($request as map(*)) {
+    let $root := head(($request?parameters?root, $config:odd-root))
+    return
+        if (exists($request?parameters?ident)) then
+            router:response(
+                200,
+                "application/json",
+                oapi:find-spec($request?parameters?odd, $root, $request?parameters?ident)
+            )
+        else
+            let $path := $root || "/" || $request?parameters?odd
+            return
+                if (doc-available($path)) then
+                    let $odd := doc($path)
+                    return
+                        if ("application/json" = router:accepted-content-types()) then
+                            router:response(200, "application/json", oapi:to-json($odd, $path))
+                        else
+                            $odd
+                else
+                    error($errors:NOT_FOUND, "ODD not found: " || $path)
 };

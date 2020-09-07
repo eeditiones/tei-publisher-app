@@ -28,10 +28,39 @@ describe('/api/odd/{odd} [authenticated]', function () {
     });
 
     it('retrieves odd', async function() {
-        const res = await util.axios.get('odd/testme.odd');
+        const res = await util.axios.get('odd/testme.odd', {
+            headers: {
+                "Accept": "application/xml"
+            }
+        });
         expect(res.status).to.equal(200);
         expect(res.data).to.match(/schemaSpec/);
         expect(res).to.satisfyApiSpec;
+    });
+
+    it('loads odd as json', async function () {
+        const res = await util.axios.get('odd/testme.odd', {
+            headers: {
+                "Accept": "application/json"
+            }
+        });
+        expect(res.status).to.equal(200);
+        expect(res.headers['content-type']).to.equal('application/json');
+
+        expect(res.data.title).to.equal('My test');
+    });
+
+    it('loads elementSpec as json', async function () {
+        const res = await util.axios.get('odd/docbook.odd', {
+            params: {
+                "ident": "code"
+            }
+        });
+        expect(res.status).to.equal(200);
+        expect(res.headers['content-type']).to.equal('application/json');
+
+        expect(res.data.status).to.equal('found');
+        expect(res.data.models.length).to.be.at.least(1);
     });
 
     it('deletes odd', function (done) {

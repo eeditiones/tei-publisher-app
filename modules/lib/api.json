@@ -696,6 +696,24 @@
                             "example": "docbook.odd"
                         },
                         "required": true
+                    },
+                    {
+                        "name": "ident",
+                        "in": "query",
+                        "description": "Only return the elementSpec matching this ident. If set, response will be in JSON format.",
+                        "schema":{
+                            "type": "string",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "root",
+                        "in": "query",
+                        "description": "Context path against which the the ODD path will be resolved. Used by ODD editor.",
+                        "schema":{
+                            "type": "string",
+                            "nullable": true
+                        }
                     }
                 ],
                 "responses": {
@@ -705,6 +723,11 @@
                             "application/xml": {
                                 "schema":{
                                     "type": "string"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
                                 }
                             }
                         }
