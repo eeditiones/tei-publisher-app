@@ -97,3 +97,36 @@ describe('/api/search', function () {
         expect(res).to.satisfyApiSpec;
     });
 });
+
+describe('/api/search/facets', function () {
+    this.timeout(10000);
+
+    let cookie;
+
+    it('runs a search and retrieves facet counts for search results', async function () {
+        const res = await util.axios.get('search', {
+            params: {
+                query: 'konwenanse'
+            }
+        });
+        expect(res.status).to.equal(200);
+        expect(res.headers['pb-total']).to.equal('1');
+        expect(res.data).to.have.string('<div class="count">1</div>');
+
+        const cookieHeader = res.headers["set-cookie"];
+        cookie = cookieHeader[0];
+
+        expect(res).to.satisfyApiSpec;
+    });
+
+    it('get facets', async function () {
+        const res = await util.axios.get('search/facets', {
+            headers: {
+                "Cookie": cookie
+            }
+        });
+        expect(res.status).to.equal(200);
+        expect(res.data).to.have.string('Spanish');
+        expect(res).to.satisfyApiSpec;
+    });
+});
