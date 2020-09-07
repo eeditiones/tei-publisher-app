@@ -847,6 +847,75 @@
                 }
             }
         },
+        "/api/search": {
+            "get": {
+                "summary": "Run a search on all TEI Publisher collections",
+                "operationId": "sapi:search",
+                "tags": [
+                    "search"
+                ],
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Query string",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "field",
+                        "in": "query",
+                        "description": "The field to query",
+                        "schema": {
+                            "type": "string",
+                            "default": "text"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "Start offset of the first item to show from the result set",
+                        "schema":{
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "Number of items to show on one page",
+                        "schema":{
+                            "type": "integer",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "doc",
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "nullable": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Search results returned",
+                        "content": {
+                            "text/html": {
+                                "schema":{
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/search/autocomplete": {
             "get": {
                 "summary": "List possible completions",
