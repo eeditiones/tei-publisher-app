@@ -1,4 +1,5 @@
 const path = require('path');
+const util = require('./util.js');
 const fs = require('fs');
 const tmp = require('tmp');
 const chai = require('chai');
@@ -10,14 +11,6 @@ const server = 'http://localhost:8080/exist/apps/tei-publisher/api';
 
 const spec = path.resolve("./modules/lib/api.json");
 chai.use(chaiResponseValidator(spec));
-
-const axiosInstance = axios.create({
-    baseURL: server,
-    headers: {
-        "Origin": "http://localhost:8080"
-    },
-    withCredentials: true
-});
 
 let konigsberg = [{
     "text": "koͤnigsberg",
@@ -43,7 +36,7 @@ describe('/api/search/autocomplete', function () {
     this.slow(2000);
 
     it('retrieves suggestions for default field', async function () {
-        const res = await axiosInstance.get('search/autocomplete', {
+        const res = await util.axios.get('search/autocomplete', {
             params: {
                 query: 'k'
             }
@@ -59,7 +52,7 @@ describe('/api/search/autocomplete', function () {
     });
 
     it('retrieves suggestions for author field', async function () {
-        const res = await axiosInstance.get('search/autocomplete', {
+        const res = await util.axios.get('search/autocomplete', {
             params: {
                 query: 'k',
                 field: 'author'
@@ -73,6 +66,34 @@ describe('/api/search/autocomplete', function () {
         expect(res.data).to.include.deep.members(kant, 'suggestion for Kant not found');
         expect(res.data).to.not.include.deep.members(konigsberg, 'suggestion from Critik... text unexpectedly found');
         expect(res.data).to.not.include.deep.members(purchas, 'suggestion for Samuel Purchas unexpectedly found');
+        expect(res).to.satisfyApiSpec;
+    });
+});
+
+describe('/api/search', function () {
+    this.timeout(10000);
+
+    it('runs a search', async function () {
+        const res = await util.axios.get('search', {
+            params: {
+                query: 'power'
+            }
+        });
+        expect(res.status).to.equal(200);
+        expect(res.headers['pb-total']).to.equal('89');
+        expect(res).to.satisfyApiSpec;
+    });
+    it('retrieves next page', async function () {
+        const res = await util.axios.get('search', {
+            params: {
+                query: 'power',
+                start: 10
+            }
+        });
+        expect(res.status).to.equal(200);
+        expect(res.headers['pb-total']).to.equal('89');
+        expect(res.headers['pb-start']).to.equal('10');
+        expect(res.data).to.have.string('<div class="count">10</div>');
         expect(res).to.satisfyApiSpec;
     });
 });
