@@ -916,6 +916,33 @@
                 }
             }
         },
+        "/api/search/facets": {
+            "get": {
+                "summary": "List facets",
+                "description": "Return a list of facet counts for current search results",
+                "operationId": "sapi:facets",
+                "tags": [
+                    "search"
+                ],
+                "parameters": [
+                    {
+
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Facets returned",
+                        "content": {
+                            "text/html": {
+                                "schema":{
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/search/autocomplete": {
             "get": {
                 "summary": "List possible completions",

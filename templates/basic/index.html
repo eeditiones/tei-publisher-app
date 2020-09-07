@@ -307,7 +307,7 @@
                         <paper-card class="doclist" data-i18n="[heading]browse.documents" heading="documents">
                             <div class="card-content">
                                 <div class="browse" slot="page">
-                                    <pb-custom-form id="facets" url="modules/facets.xql" event="pb-results-received" subscribe="docs" emit="docs"></pb-custom-form>
+                                    <pb-custom-form id="facets" url="api/search/facets" event="pb-results-received" subscribe="docs" emit="docs"></pb-custom-form>
                                     <pb-browse-docs id="document-list" url="collection/" sort-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"}]' sort-by="title"
                                         filter-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"},{"label": "browse.file", "value": "file"}]' filter-by="title" auto="auto" history="history" login="login" emit="docs" subscribe="docs">
                                         <pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" emit="docs" subscribe="docs"></pb-paginate>

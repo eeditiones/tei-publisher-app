@@ -161,7 +161,8 @@
                                         <paper-checkbox name="field" value="text">Search sections</paper-checkbox>
                                         <paper-checkbox name="field" value="head">Search headings</paper-checkbox>
                                     </div>
-                                    <pb-custom-form id="facets" url="modules/facets.xql" subscribe="results" event="pb-results-received" emit="search"/>
+                                    <pb-custom-form id="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/>
+                                    
                                 </pb-search>
                             </div>
                         </paper-card>
