@@ -991,11 +991,6 @@
                 "tags": [
                     "search"
                 ],
-                "parameters": [
-                    {
-
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Facets returned",
@@ -1146,7 +1141,8 @@
         },
         "/api/login": {
             "get": {
-                "description": "Check if user is logged in",
+                "summary": "Check if user is logged in",
+                "description": "Check if a valid user session is active or log the user out",
                 "operationId": "router:login",
                 "tags": [
                     "user"
@@ -1192,7 +1188,8 @@
                 }
             },
             "post": {
-                "description": "Login the user",
+                "summary": "Login the user",
+                "description": "Login the given user",
                 "tags": [ "user" ],
                 "operationId": "router:login",
                 "parameters": [
