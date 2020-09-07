@@ -5,6 +5,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const chaiResponseValidator = require('chai-openapi-response-validator');
 const axios = require('axios');
+const pdfjsLib = require("pdfjs-dist/es5/build/pdf.js");
 
 const server = 'http://localhost:8080/exist/apps/tei-publisher/api';
 
@@ -62,6 +63,40 @@ describe('/api/document/{id}/tex', function () {
         expect(res.status).to.equal(200);
         expect(res.headers['content-type']).to.equal('application/x-latex');
         
+        expect(res).to.satisfyApiSpec;
+    });
+});
+
+describe('/api/document/{id}/pdf', function () {
+    this.slow(4000);
+    it('retrieves as PDF transformed via FO', async function () {
+        const token = new Date().toISOString();
+        const res = await axiosInstance.get('document/test%2Fgraves6.xml/pdf', {
+            params: {
+                "token": token
+            }
+        });
+
+        expect(res.status).to.equal(200);
+        expect(res.headers['content-type']).to.equal('application/pdf');
+
+        const cookies = res.headers["set-cookie"];
+        expect(cookies).to.include(`simple.token=${token}`);
+
+        const pdf = await pdfjsLib.getDocument({data: res.data}).promise;
+        expect(pdf.numPages).to.equal(2);
+    });
+
+    it('retrieves FO output', async function () {
+        const res = await axiosInstance.get('document/test%2Fgraves6.xml/pdf', {
+            params: {
+                "source": true
+            }
+        });
+
+        expect(res.status).to.equal(200);
+        expect(res.headers['content-type']).to.equal('application/xml');
+
         expect(res).to.satisfyApiSpec;
     });
 });

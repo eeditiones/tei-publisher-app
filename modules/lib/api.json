@@ -274,6 +274,73 @@
                 }
             }
         },
+        "/api/document/{id}/pdf": {
+            "get": {
+                "summary": "Retrieve document content as PDF",
+                "description": "Retrieve whole document transformed via ODD and FO",
+                "tags": [
+                    "documents"
+                ],
+                "operationId": "dapi:pdf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "test/F-rom.xml"
+                        },
+                        "description": "Path to the XML document"
+                    },
+                    {
+                        "name": "source",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "description": "Set to true to see generated XML FO source"
+                    },
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns a PDF",
+                        "content": {
+                            "application/pdf": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Document not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/document/{id}/tex": {
             "get": {
                 "summary": "Retrieve document content as PDF",

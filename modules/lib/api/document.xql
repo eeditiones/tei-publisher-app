@@ -13,10 +13,15 @@ import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../
 import module namespace query="http://www.tei-c.org/tei-simple/query" at "../../query.xql";
 import module namespace mapping="http://www.tei-c.org/tei-simple/components/map" at "../../map.xql";
 import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
+import module namespace xslfo="http://exist-db.org/xquery/xslfo" at "java:org.exist.xquery.modules.xslfo.XSLFOModule";
 import module namespace epub="http://exist-db.org/xquery/epub" at "../epub.xql";
 import module namespace docx="http://existsolutions.com/teipublisher/docx";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
+
+declare variable $dapi:CACHE := true();
+
+declare variable $dapi:CACHE_COLLECTION := $config:app-root || "/cache";
 
 declare function dapi:delete($request as map(*)) {
     let $id := xmldb:decode($request?parameters?id)
@@ -129,6 +134,70 @@ declare function dapi:latex($request as map(*)) {
         else
             error($errors:BAD_REQUEST, "No document specified")
     )
+};
+
+declare function dapi:cache($id as xs:string, $output as xs:base64Binary) {
+    dapi:prepare-cache-collection(),
+    xmldb:store($dapi:CACHE_COLLECTION, $id || ".pdf", $output, "application/pdf")
+};
+
+declare function dapi:get-cached($id as xs:string, $doc as node()) {
+    let $path := $dapi:CACHE_COLLECTION || "/" ||  $id || ".pdf"
+    return
+        if ($dapi:CACHE and util:binary-doc-available($path)) then
+            let $modDatePDF := xmldb:last-modified($dapi:CACHE_COLLECTION, $id || ".pdf")
+            let $modDateSrc := xmldb:last-modified(util:collection-name($doc), util:document-name($doc))
+            return
+                if ($modDatePDF >= $modDateSrc) then
+                    util:binary-doc($path)
+                else
+                    ()
+        else
+            ()
+};
+
+declare function dapi:prepare-cache-collection() {
+    if (xmldb:collection-available($dapi:CACHE_COLLECTION)) then
+        ()
+    else
+        (xmldb:create-collection($config:app-root, "cache"))[2]
+};
+
+declare function dapi:pdf($request as map(*)) {
+    let $token := head(($request?parameters?token, "none"))[1]
+    let $useCache := head(($request?parameters?cache, "yes"))[1]
+    let $id := xmldb:decode($request?parameters?id)
+    let $doc := config:get-document($id)
+    let $config := tpu:parse-pi(root($doc), ())
+    let $name := util:document-name($doc)
+    return
+        if ($doc) then
+            let $cached := if ($useCache = ("yes", "true")) then dapi:get-cached($name, $doc) else ()
+            return (
+                response:set-cookie("simple.token", $token),
+                if (not($request?parameters?source) and exists($cached)) then (
+                    response:stream-binary($cached, "application/pdf", $id || ".pdf")
+                ) else
+                    let $start := util:system-time()
+                    let $fo := $pm-config:print-transform($doc, map { "root": $doc }, $config?odd)
+                    return (
+                        if ($request?parameters?source) then
+                            router:response(200, "application/xml", $fo)
+                        else
+                            let $output := xslfo:render($fo, "application/pdf", (), $config:fop-config)
+                            return
+                                typeswitch($output)
+                                    case xs:base64Binary return (
+                                        let $path := dapi:cache($name, $output)
+                                        return
+                                            response:stream-binary(util:binary-doc($path), "application/pdf", $id || ".pdf")
+                                    )
+                                    default return
+                                        $output
+                    )
+            )
+        else
+            ()
 };
 
 declare function dapi:epub($request as map(*)) {

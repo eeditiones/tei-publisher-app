@@ -20,6 +20,11 @@
     "chai-openapi-response-validator": "^0.9.4",
     "form-data": "^3.0.0",
     "mocha": "^8.1.3",
+    "pdfjs-dist": "^2.4.456",
     "tmp": "^0.2.1"
+  },
+  "mocha": {
+    "timeout": 10000,
+    "slow": 1000
   }
 }
