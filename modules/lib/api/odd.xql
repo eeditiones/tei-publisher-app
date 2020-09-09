@@ -6,6 +6,8 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace expath="http://expath.org/ns/pkg";
 declare namespace pb="http://teipublisher.com/1.0";
 
+declare default element namespace "http://www.tei-c.org/ns/1.0";
+
 import module namespace router="http://exist-db.org/xquery/router" at "/db/apps/oas-router/content/router.xql";
 import module namespace errors = "http://exist-db.org/xquery/router/errors" at "/db/apps/oas-router/content/errors.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
@@ -76,6 +78,7 @@ declare function oapi:recompile($request as map(*)) {
                         <div class="list-group-item-danger">
                             <h5 class="list-group-item-heading">{$file}: ERROR</h5>
                             <p class="list-group-item-text">{ $output?error/error/string() }</p>
+                            <h5 class="list-group-item-heading">Compilation error on line {$output?error/error/@line/string()}:</h5>
                             <pre class="list-group-item-text">{ oapi:get-line($output?code, $output?error/error/@line) }</pre>
                             <p class="list-group-item-text">File not saved.</p>
                         </div>
@@ -197,6 +200,38 @@ declare function oapi:create-odd($request as map(*)) {
             "path": $stored
         })
     )
+};
+
+declare function oapi:save-odd($request as map(*)) {
+    let $root := head(($request?parameters?root, $config:odd-root))
+    let $oddPath := analyze-string($request?parameters?odd, '\.odd')//fn:non-match/string()
+
+    let $canWrite := sm:has-access(xs:anyURI($root || "/" || $request?parameters?odd), "rw-")
+
+return
+    if ($canWrite) then
+(: let $orig := doc($root || "/" || $request?parameters?odd) :)
+        let $odd := oapi:add-tags-decl(doc($root || "/" || $request?parameters?odd))
+        let $oddPath := analyze-string($request?parameters?odd, '\.odd')//fn:non-match/string()
+
+        let $updated := oapi:update($odd, $request?body, $odd)
+    
+        let $stored := xmldb:store($root, $request?parameters?odd, $updated, "text/xml")
+
+        let $report := oapi:recompile($request)
+
+        return 
+            router:response(201, "application/json", map {
+                "path": $stored,
+                "report": $report
+            })
+    else 
+            router:response(401, "application/json", map {
+                "status": "denied",
+                "path": $request?parameters?odd,
+                "report": "[You don't have write access to " || $request?parameters?odd || "]"
+            })
+
 };
 
 declare %private function oapi:compile($odd) {
@@ -327,4 +362,159 @@ declare function oapi:get-odd($request as map(*)) {
                             $odd
                 else
                     error($errors:NOT_FOUND, "ODD not found: " || $path)
+};
+
+declare function oapi:lint($request as map(*)) {
+    let $code := $request?parameters?code
+    let $query := ``[xquery version "3.1";declare variable $parameters := map {};declare variable $node := ();declare variable $get := (); () ! (
+`{$code}`
+)]``
+    let $r := util:compile-query($query, ())
+    return
+        if ($r/@result = 'fail') then
+            let $error := $r/*:error
+            let $msg := $error/string()
+            let $analyzed := analyze-string($msg, ".*line:?\s(\d+).*?column\s(\d+)")
+            let $analyzed :=
+                if ($analyzed//fn:group) then
+                    $analyzed
+                else
+                    analyze-string($msg, "line\s(\d+):(\d+)")
+            let $parsedLine := $analyzed//fn:group[1]
+            let $parsedColumn := $analyzed//fn:group[2]
+            let $line :=
+                if ($parsedLine) then
+                    number($parsedLine)
+                else
+                    number($error/@line)
+            let $column :=
+                if ($parsedColumn) then
+                    number($parsedColumn)
+                else
+                    number($error/@column)
+            let $lineCount :=
+                count(analyze-string($code, "\n")//fn:match)
+            return
+                map {
+                    "status": "fail",
+                    "line": if ($line < 2 or $line - 1 > $lineCount) then 1 else $line - 1,
+                    "rline": $error,
+                    "column": $column,
+                    "message": $msg
+                }
+        else
+            map {
+                "status": "pass"
+            }
+};
+
+declare function oapi:update($nodes as node()*, $data as document-node(), $orig as document-node()) {
+    for $node in $nodes
+    return
+        typeswitch($node)
+            case document-node() return
+                document {
+                    oapi:update($node/node(), $data, $orig)
+                }
+            case element(TEI) return
+                    element { node-name($node) } {
+                        for $prefix in in-scope-prefixes($node)[. != "http://www.tei-c.org/ns/1.0"][. != ""]
+                        let $namespace := namespace-uri-for-prefix($prefix, $node)
+                        return
+                            namespace { $prefix } { $namespace }
+                        ,
+                        if ("http://teipublisher.com/1.0" = in-scope-prefixes($node)) then
+                            ()
+                        else
+                            namespace pb { "http://teipublisher.com/1.0" },
+                        $node/@*,
+                        oapi:update($node/node(), $data, $orig)
+                    }
+            case element(titleStmt) return
+                element { node-name($node) } {
+                    $node/@*,
+                    $data/schemaSpec/title[text()],
+                    $node/* except $node/title
+                }
+            case element(tagsDecl) return
+                element { node-name($node) } {
+                    $node/@*,
+                    $node/* except $node/rendition[@source],
+                    $data/schemaSpec/rendition[@source]
+                }
+            case element(tei:schemaSpec) return
+                element { node-name($node) } {
+                    $node/@* except ($node/@ns, $node/@source),
+                    (: Save namespace attribute if specified :)
+                    if ($data/schemaSpec/@ns) then
+                        $data/schemaSpec/@ns
+                    else
+                        (),
+                    $data/schemaSpec/@source,
+                    oapi:update($node/node(), $data, $orig),
+                    for $spec in $data//elementSpec
+                    where empty($orig//elementSpec[@ident = $spec/@ident])
+                    return
+                        $spec
+                }
+            case element(elementSpec) return
+                let $newSpec := $data//elementSpec[@ident=$node/@ident]
+                return
+                    element { node-name($node) } {
+                        $node/@ident,
+                        $node/@mode,
+                        $node/* except ($node/model, $node/modelGrp, $node/modelSequence),
+                        $newSpec/*
+                    }
+            case element() return
+                element { node-name($node) } {
+                    $node/@*,
+                    oapi:update($node/node(), $data, $orig)
+                }
+            default return
+                $node
+};
+
+declare function oapi:add-tags-decl($nodes as node()*) {
+    for $node in $nodes
+    return
+        typeswitch ($node)
+            case document-node() return
+                document {
+                    oapi:add-tags-decl($node/node())
+                }
+            case element(TEI) return
+                element { node-name($node) } {
+                    for $prefix in in-scope-prefixes($node)[. != "http://www.tei-c.org/ns/1.0"][. != ""]
+                    let $namespace := namespace-uri-for-prefix($prefix, $node)
+                    return
+                        namespace { $prefix } { $namespace },
+                    $node/@*,
+                    oapi:add-tags-decl($node/teiHeader),
+                    $node/* except $node/teiHeader
+                }
+            case element(teiHeader) return
+                element { node-name($node) } {
+                    $node/@*,
+                    $node/fileDesc,
+                    if ($node/encodingDesc) then
+                        oapi:add-tags-decl($node/encodingDesc)
+                    else
+                        <encodingDesc xmlns="http://www.tei-c.org/ns/1.0">
+                            <tagsDecl></tagsDecl>
+                        </encodingDesc>,
+                    $node/* except ($node/fileDesc, $node/encodingDesc)
+                }
+            case element(encodingDesc) return
+                element { node-name($node) } {
+                    $node/@*,
+                    if ($node/tagsDecl) then
+                        $node/tagsDecl
+                    else
+                        <tagsDecl xmlns="http://www.tei-c.org/ns/1.0">
+                        </tagsDecl>,
+                    $node/* except $node/tagsDecl
+                }
+            default return
+                $node
 };

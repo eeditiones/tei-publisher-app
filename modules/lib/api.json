@@ -822,6 +822,66 @@
                         }
                     }
                 }
+            },
+            "put": {
+                "summary": "Save ODD",
+                "description": "Replace an ODD with the current version from the editor",
+                "tags": [ "odd" ],
+                "operationId": "oapi:save-odd",
+                "x-constraints": {
+                    "group": "tei"
+                },
+                "parameters": [
+                    {
+                        "name": "odd",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "testodd.odd"
+                        },
+                        "description": "Filename of the ODD with the suffix (.odd)",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/xml": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "ODD was saved",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "path": {
+                                            "type": "string"
+                                        },
+                                        "report": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Permission denied",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/odd": {
@@ -899,6 +959,37 @@
                             "text/html": {
                                 "schema":{
                                     "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/lint": {
+            "post": {
+                "summary": "Run code through lint",
+                "operationId": "oapi:lint",
+                "tags": [ "lint" ],
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "starts-with(., 'f')"
+                        },
+                        "description": "Code snippet",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
                                 }
                             }
                         }
@@ -1019,7 +1110,7 @@
                         "description": "Facets returned",
                         "content": {
                             "text/html": {
-                                "schema":{
+                                "schema": {
                                     "type": "string"
                                 }
                             }
