@@ -309,6 +309,14 @@
                             "type": "string",
                             "nullable": true
                         }
+                    },
+                    {
+                        "name": "cache",
+                        "in": "query",
+                        "schema":{
+                            "type": "boolean",
+                            "default": false
+                        }
                     }
                 ],
                 "responses": {

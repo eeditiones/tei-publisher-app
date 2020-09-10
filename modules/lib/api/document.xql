@@ -165,18 +165,18 @@ declare function dapi:prepare-cache-collection() {
 
 declare function dapi:pdf($request as map(*)) {
     let $token := head(($request?parameters?token, "none"))[1]
-    let $useCache := head(($request?parameters?cache, "yes"))[1]
+    let $useCache := $request?parameters?cache
     let $id := xmldb:decode($request?parameters?id)
     let $doc := config:get-document($id)
     let $config := tpu:parse-pi(root($doc), ())
     let $name := util:document-name($doc)
     return
         if ($doc) then
-            let $cached := if ($useCache = ("yes", "true")) then dapi:get-cached($name, $doc) else ()
+            let $cached := if ($useCache) then dapi:get-cached($name, $doc) else ()
             return (
                 response:set-cookie("simple.token", $token),
                 if (not($request?parameters?source) and exists($cached)) then (
-                    response:stream-binary($cached, "application/pdf", $id || ".pdf")
+                    response:stream-binary($cached, "media-type=application/pdf", $id || ".pdf")
                 ) else
                     let $start := util:system-time()
                     let $fo := $pm-config:print-transform($doc, map { "root": $doc }, $config?odd)
@@ -187,11 +187,13 @@ declare function dapi:pdf($request as map(*)) {
                             let $output := xslfo:render($fo, "application/pdf", (), $config:fop-config)
                             return
                                 typeswitch($output)
-                                    case xs:base64Binary return (
-                                        let $path := dapi:cache($name, $output)
-                                        return
-                                            response:stream-binary(util:binary-doc($path), "application/pdf", $id || ".pdf")
-                                    )
+                                    case xs:base64Binary return 
+                                        if ($useCache) then
+                                            let $path := dapi:cache($name, $output)
+                                            return
+                                                response:stream-binary(util:binary-doc($path), "media-type=application/pdf", $id || ".pdf")
+                                        else
+                                            response:stream-binary($output, "media-type=application/pdf", $id || ".pdf")
                                     default return
                                         $output
                     )
