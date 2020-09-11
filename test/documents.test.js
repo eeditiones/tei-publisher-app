@@ -78,7 +78,7 @@ describe('/api/document/{id}/pdf', function () {
         });
 
         expect(res.status).to.equal(200);
-        expect(res.headers['content-type']).to.equal('application/pdf');
+        expect(res.headers['content-type']).to.equal('media-type=application/pdf');
 
         const cookies = res.headers["set-cookie"];
         expect(cookies).to.include(`simple.token=${token}`);

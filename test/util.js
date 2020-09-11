@@ -34,7 +34,7 @@ function logout(done) {
     console.log('Logging out ...');
     axiosInstance.request({
         url: 'login',
-        method: 'get',
+        method: 'post',
         params: {
             "logout": "true"
         }

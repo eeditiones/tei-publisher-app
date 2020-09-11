@@ -1262,53 +1262,6 @@
             }
         },
         "/api/login": {
-            "get": {
-                "summary": "Check if user is logged in",
-                "description": "Check if a valid user session is active or log the user out",
-                "operationId": "router:login",
-                "tags": [
-                    "user"
-                ],
-                "parameters": [
-                    {
-                        "name": "logout",
-                        "in": "query",
-                        "description": "Set to log out the current user",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "user": {
-                                            "type": "string"
-                                        },
-                                        "groups": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "dba": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Not logged in"
-                    }
-                }
-            },
             "post": {
                 "summary": "Login the user",
                 "description": "Login the given user",
@@ -1321,7 +1274,8 @@
                         "description": "Name of the user",
                         "schema": {
                             "type": "string",
-                            "default": "tei"
+                            "example": "tei",
+                            "nullable": true
                         }
                     },
                     {
@@ -1330,7 +1284,17 @@
                         "schema": {
                             "type": "string",
                             "format": "password",
-                            "default": "simple"
+                            "example": "simple",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "logout",
+                        "in": "query",
+                        "description": "Set to some value to log out the current user",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
                         }
                     }
                 ],
