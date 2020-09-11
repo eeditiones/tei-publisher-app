@@ -3,7 +3,7 @@
     "info": {
         "version": "7.0.0",
         "title": "TEI Publisher API",
-        "description": ""
+        "description": "This is the core API for TEI Publisher 7. It describes all endpoints used by TEI Publisher web components, plus additional operations added for external access."
     },
     "servers": [
         {

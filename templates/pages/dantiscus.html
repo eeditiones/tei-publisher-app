@@ -67,7 +67,7 @@
                                 <iron-icon icon="icons:info-outline"></iron-icon>Metadata
                             </paper-button>
                             <pb-restricted login="login">
-                                <pb-ajax subscribe="transcription" emit="transcription" url="${app}/modules/lib/regenerate.xql" 
+                                <pb-ajax subscribe="transcription" emit="transcription" url="${app}/api/odd" method="post" 
                                     data-template="pages:parse-params" event="pb-refresh"
                                     title="Recompile ODD" data-i18n="[title]menu.admin.recompile">
                                     <h3 slot="title"><pb-i18n key="menu.admin.recompile"></pb-i18n></h3>

@@ -16,13 +16,10 @@ if (not(sm:user-exists("tei-demo"))) then
     sm:create-account("tei-demo", "demo", "tei", ())
 else
     (),
-sm:chmod(xs:anyURI($target || "/modules/lib/pdf.xql"), "rwxr-Sr-x"),
+(: API needs dba rights for LaTeX :)
+sm:chgrp(xs:anyURI($target || "/modules/lib/api.xql"), "dba"),
+sm:chmod(xs:anyURI($target || "/modules/lib/api.xql"), "rwxr-Sr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/dts.xql"), "rwxr-Sr-x"),
-
-(: LaTeX requires dba permissions to execute shell process :)
-sm:chmod(xs:anyURI($target || "/modules/lib/latex.xql"), "rwxr-Sr-x"),
-sm:chown(xs:anyURI($target || "/modules/lib/latex.xql"), "tei"),
-sm:chgrp(xs:anyURI($target || "/modules/lib/latex.xql"), "dba"),
 
 (: App generator requires dba permissions to install packages :)
 sm:chmod(xs:anyURI($target || "/modules/components-generate.xql"), "rwsr-Sr-x"),
