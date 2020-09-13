@@ -1328,6 +1328,68 @@
                     }
                 }
             }
+        },
+        "/api/generate": {
+            "post": {
+                "summary": "Generate a TEI-Publisher stand-alone application",
+                "description": "Generate a stand-alone application based on an ODD, template and other settings",
+                "operationId": "deploy:generate",
+                "requestBody":{
+                    "required": true,
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "odd":{
+                                        "type": "array",
+                                        "description": "One or more ODDs to include in the app",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "uri": {
+                                        "type": "string"
+                                    },
+                                    "abbrev":{
+                                        "type": "string"
+                                    },
+                                    "title":{
+                                        "type": "string"
+                                    },
+                                    "data-collection":{
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "template": {
+                                        "type": "string"
+                                    },
+                                    "default-view": {
+                                        "type": "string",
+                                        "enum": ["div", "page"]
+                                    },
+                                    "index":{
+                                        "type": "string",
+                                        "enum": ["tei:div", "tei:text"]
+                                    },
+                                    "owner":{
+                                        "type": "string"
+                                    },
+                                    "password":{
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description": "App generated"
+                    }
+                }
+            }
         }
     },
     "security": [

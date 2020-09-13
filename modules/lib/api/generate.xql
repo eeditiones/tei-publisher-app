@@ -17,17 +17,15 @@
  :)
 xquery version "3.1";
 
+module namespace deploy="http://teipublisher.com/api/generate";
+
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
-declare namespace deploy="http://www.tei-c.org/tei-publisher/generator";
 declare namespace expath="http://expath.org/ns/pkg";
 declare namespace repo="http://exist-db.org/xquery/repo";
 
-import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
-
-declare option output:method "json";
-declare option output:media-type "application/javascript";
 
 declare variable $deploy:EXPATH_DESCRIPTOR :=
     <package xmlns="http://expath.org/ns/pkg"
@@ -340,14 +338,14 @@ declare function deploy:expand($collection as xs:string, $resource as xs:string,
 };
 
 declare function deploy:store-libs($target as xs:string, $userData as xs:string+, $permissions as xs:string) {
-    let $path := system:get-module-load-path()
-    for $lib in ("autocomplete.xql", "view.xql", "map.xql", "facets.xql", xmldb:get-child-resources($path)[starts-with(., "navigation")],
+    let $path := $config:app-root || "/modules"
+    for $lib in ("view.xql", "map.xql", "facets.xql", xmldb:get-child-resources($path)[starts-with(., "navigation")],
         xmldb:get-child-resources($path)[ends-with(., "query.xql")])
     return (
         xmldb:copy-resource($path, $lib, $target || "/modules", $lib)
     ),
     let $target := $target || "/modules/lib"
-    let $source := system:get-module-load-path() || "/lib"
+    let $source := $config:app-root || "/modules/lib"
     return
         deploy:copy-collection($target, $source, $userData, $permissions)
 };
@@ -388,7 +386,7 @@ declare function deploy:create-transform($collection as xs:string) {
 declare function deploy:create-app($collection as xs:string, $json as map(*)) {
     let $create :=
         deploy:create-collection($collection, ($json?owner, "tei"), "rw-r--r--")
-    let $base := substring-before(system:get-module-load-path(), "/modules")
+    let $base := $config:app-root
     let $dataRoot := if ($json?data-collection) then $json?data-collection else "data"
     let $dataRoot :=
         if (starts-with($dataRoot, "/")) then
@@ -450,7 +448,8 @@ declare function deploy:deploy($collection as xs:string, $expathConf as element(
         repo:install-and-deploy-from-db($pkg)
 };
 
-declare function deploy:update-or-create($json as map(*)) {
+declare function deploy:generate($request as map(*)) {
+    let $json := $request?body
     let $existing := repo:get-resource($json?uri, "expath-pkg.xml")
     let $user := deploy:check-user($json)
     return
@@ -469,8 +468,3 @@ declare function deploy:update-or-create($json as map(*)) {
                 }
             } :)
 };
-
-let $data := request:get-data()
-let $json := parse-json(util:binary-to-string($data))
-return
-    deploy:update-or-create($json)

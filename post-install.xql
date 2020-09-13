@@ -21,11 +21,6 @@ sm:chgrp(xs:anyURI($target || "/modules/lib/api.xql"), "dba"),
 sm:chmod(xs:anyURI($target || "/modules/lib/api.xql"), "rwxr-Sr-x"),
 sm:chmod(xs:anyURI($target || "/modules/lib/dts.xql"), "rwxr-Sr-x"),
 
-(: App generator requires dba permissions to install packages :)
-sm:chmod(xs:anyURI($target || "/modules/components-generate.xql"), "rwsr-Sr-x"),
-sm:chown(xs:anyURI($target || "/modules/components-generate.xql"), "tei"),
-sm:chgrp(xs:anyURI($target || "/modules/components-generate.xql"), "dba"),
-
 xmldb:create-collection($target || "/data", "playground"),
 sm:chmod(xs:anyURI($target || "/data/playground"), "rwxrwxr-x"),
 sm:chown(xs:anyURI($target || "/data/playground"), "tei-demo"),
