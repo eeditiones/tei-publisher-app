@@ -35,6 +35,10 @@
         {
             "name": "preview",
             "description": "Preview how a document renders"
+        },
+        {
+            "name": "apps",
+            "description": "Operations to generate/manage apps"
         }
     ],
     "components": {
@@ -1329,10 +1333,42 @@
                 }
             }
         },
-        "/api/generate": {
+        "/api/apps/download/{root}":{
+            "get":{
+                "summary": "Package and download app",
+                "description": "Package up the application whose root collection is specified in `root` and return it as a `.xar`",
+                "tags": [ "apps" ],
+                "operationId": "deploy:download-app",
+                "parameters": [
+                    {
+                        "name": "root",
+                        "in": "path",
+                        "schema":{
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "xar package (zip format) containing the app code",
+                        "content": {
+                            "application/zip":{
+                                "schema":{
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/apps/generate": {
             "post": {
                 "summary": "Generate a TEI-Publisher stand-alone application",
                 "description": "Generate a stand-alone application based on an ODD, template and other settings",
+                "tags": [ "apps" ],
                 "operationId": "deploy:generate",
                 "requestBody":{
                     "required": true,
@@ -1386,7 +1422,41 @@
                 },
                 "responses": {
                     "200":{
-                        "description": "App generated"
+                        "description": "App generated",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "target":{
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description": "App already exists"
+                    },
+                    "500":{
+                        "description": "Generation failed",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "description":{
+                                            "type": "string"
+                                        },
+                                        "details":{
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

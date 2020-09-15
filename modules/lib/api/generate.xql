@@ -1,5 +1,4 @@
 (:
- :
  :  Copyright (C) 2018 Wolfgang Meier
  :
  :  This program is free software: you can redistribute it and/or modify
@@ -22,10 +21,10 @@ module namespace deploy="http://teipublisher.com/api/generate";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace expath="http://expath.org/ns/pkg";
 declare namespace repo="http://exist-db.org/xquery/repo";
+declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
-
-declare namespace tei="http://www.tei-c.org/ns/1.0";
+import module namespace errors = "http://exist-db.org/xquery/router/errors";
 
 declare variable $deploy:EXPATH_DESCRIPTOR :=
     <package xmlns="http://expath.org/ns/pkg"
@@ -454,17 +453,21 @@ declare function deploy:generate($request as map(*)) {
     let $user := deploy:check-user($json)
     return
         if (exists($existing)) then
-            "found app"
+            error($errors:BAD_REQUEST, "An application with URI " || $json?uri || " does already exist")
         else
-            (: try { :)
-                let $mkcol := deploy:mkcol("/db/system/repo", (), ())
-                let $target := deploy:create-app("/db/system/repo/" || $json?abbrev, $json)
-                return
-                    deploy:deploy($target, doc($target || "/expath-pkg.xml")/*)
-            (: } catch * {
+            let $mkcol := deploy:mkcol("/db/system/repo", (), ())
+            let $target := deploy:create-app("/db/system/repo/" || $json?abbrev, $json)
+            let $result := deploy:deploy($target, doc($target || "/expath-pkg.xml")/*)
+            return
                 map {
-                    "result": "error",
-                    "message": ($err:description, $err:value, $err:additional)[1]
+                    "target": $result//@target/string()
                 }
-            } :)
+};
+
+declare function deploy:download-app($request as map(*)) {
+    let $root := repo:get-root() || "/" || $request?parameters?root
+    let $xar := compression:zip(xs:anyURI($root), true(), $root)
+    let $name := config:expath-descriptor()/@abbrev
+    return
+        response:stream-binary($xar, "media-type=application/zip", $name || ".xar")
 };
