@@ -43,6 +43,7 @@ describe('/api/dts/collection', function () {
 });
 
 describe('/api/dts/document', function () {
+    before(util.login);
     it('retrieves resource', async function () {
         console.log('Loading resource from %s', downloadLink);
         const res = await axios.get(downloadLink);
@@ -65,4 +66,5 @@ describe('/api/dts/document', function () {
         expect(res.data).to.have.property('path');
         expect(res).to.satisfyApiSpec;
     });
+    after(util.logout);
 });
