@@ -12,6 +12,7 @@ import module namespace dapi="http://teipublisher.com/api/documents" at "api/doc
 import module namespace capi="http://teipublisher.com/api/collection" at "api/collection.xql";
 import module namespace sapi="http://teipublisher.com/api/search" at "api/search.xql";
 import module namespace deploy="http://teipublisher.com/api/generate" at "api/generate.xql";
+import module namespace dts="http://teipublisher.com/api/dts" at "api/dts.xql";
 
 declare function api:list-templates($request as map(*)) {
     array {
