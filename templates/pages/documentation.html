@@ -30,7 +30,7 @@
 
                     <main>
                         <pb-drawer class="toc" toggle="tocToggle" emit="toc" subscribe="transcription" max-width="1024px">
-                            <pb-load url="templates/toc.html?target=transcription" src="document1" auto="auto" emit="toc"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
+                            <pb-load url="api/document/{doc}/contents?target=transcription&amp;icons=false" expand="expand" src="document1" auto="auto" emit="toc"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
                         </pb-drawer>
                         <pb-view class="breadcrumbs" src="document1" subscribe="transcription">
                             <pb-param name="mode" value="breadcrumbs"/>

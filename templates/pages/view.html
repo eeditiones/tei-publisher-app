@@ -69,7 +69,7 @@
                             <h3>
                                 <pb-i18n key="document.contents">Contents</pb-i18n>
                             </h3>
-                            <pb-load id="toc" url="templates/toc.html?target=transcription&amp;icons=true" src="document1" subscribe="toc" load-once="load-once"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
+                            <pb-load id="toc" url="api/document/{doc}/contents?target=transcription&amp;icons=true" expand="expand" src="document1" subscribe="toc" load-once="load-once"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
                         </div>
                     </pb-drawer>
                     <section class="breadcrumbs">

@@ -213,7 +213,7 @@ else if (matches($exist:path, "[^/]+\..*$")) then (
     let $html :=
         if ($exist:resource = "") then
             "index.html"
-        else if ($exist:resource = ("search.html", "toc.html")) then
+        else if ($exist:resource = ("search.html")) then
             $exist:resource
         else if (starts-with($exist:path, "/doc/blog/")) then
             "blog.html"
@@ -289,12 +289,7 @@ else if (matches($exist:path, "[^/]+\..*$")) then (
                             else
                                 <add-parameter name="template" value="{$template}"/>
                         }
-                        {
-                            if ($exist:resource != "toc.html") then
                                 <add-parameter name="doc" value="{$path}{$id}"/>
-                            else
-                                ()
-                        }
                             <set-header name="Cache-Control" value="no-cache"/>
                         </forward>
                     </view>

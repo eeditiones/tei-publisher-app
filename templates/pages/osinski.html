@@ -77,7 +77,7 @@
                             <h3>
                                 <pb-i18n key="contents">Contents</pb-i18n>
                             </h3>
-                            <pb-load id="toc" url="templates/toc.html?target=transcription" src="document1" subscribe="toc" load-once="load-once">Loading ...</pb-load>
+                            <pb-load id="toc" url="api/document/{doc}/contents?target=transcription&amp;icons=true" expand="expand" src="document1" subscribe="toc" load-once="load-once">Loading ...</pb-load>
                         </div>
                     </pb-drawer>                    
                     <main class="content-body">
