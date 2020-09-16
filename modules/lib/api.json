@@ -29,12 +29,8 @@
             "description": "Searching the collection"
         },
         {
-            "name": "convert",
-            "description": "Convert content to TEI"
-        },
-        {
-            "name": "preview",
-            "description": "Preview how a document renders"
+            "name": "transform",
+            "description": "Transform content on the fly"
         },
         {
             "name": "apps",
@@ -984,9 +980,10 @@
         },
         "/api/lint": {
             "post": {
-                "summary": "Run code through lint",
+                "summary": "Check an XPath/XQuery snippet",
+                "description": "Check an XPath/XQuery snippet used in an ODD for syntactical correctness (called by ODD editor)",
                 "operationId": "oapi:lint",
-                "tags": [ "lint" ],
+                "tags": [ "odd" ],
                 "parameters": [
                     {
                         "name": "code",
@@ -1192,7 +1189,7 @@
             "post": {
                 "summary": "Convert a Word document to TEI/XML",
                 "tags": [
-                    "convert"
+                    "transform"
                 ],
                 "operationId": "dapi:convert-docx",
                 "parameters": [
@@ -1233,7 +1230,7 @@
             "post": {
                 "summary": "Post an XML document and get a preview rendered via ODD",
                 "tags": [
-                    "preview"
+                    "transform"
                 ],
                 "operationId": "dapi:preview",
                 "parameters": [
@@ -1583,6 +1580,9 @@
                 "description": "Helper operation to import a remote resource, optionally into a temporary collection",
                 "tags": [ "dts" ],
                 "operationId": "dts:import",
+                "x-constraints": {
+                    "group": "tei"
+                },
                 "parameters": [
                     {
                         "name": "uri",
