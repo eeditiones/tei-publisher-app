@@ -19,7 +19,6 @@ else
 (: API needs dba rights for LaTeX :)
 sm:chgrp(xs:anyURI($target || "/modules/lib/api.xql"), "dba"),
 sm:chmod(xs:anyURI($target || "/modules/lib/api.xql"), "rwxr-Sr-x"),
-sm:chmod(xs:anyURI($target || "/modules/lib/dts.xql"), "rwxr-Sr-x"),
 
 xmldb:create-collection($target || "/data", "playground"),
 sm:chmod(xs:anyURI($target || "/data/playground"), "rwxrwxr-x"),
