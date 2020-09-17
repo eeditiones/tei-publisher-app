@@ -13,18 +13,7 @@ import module namespace capi="http://teipublisher.com/api/collection" at "api/co
 import module namespace sapi="http://teipublisher.com/api/search" at "api/search.xql";
 import module namespace deploy="http://teipublisher.com/api/generate" at "api/generate.xql";
 import module namespace dts="http://teipublisher.com/api/dts" at "api/dts.xql";
-
-declare function api:list-templates($request as map(*)) {
-    array {
-        for $html in collection($config:app-root || "/templates/pages")/*
-        let $description := $html//meta[@name="description"]/@content/string()
-        return
-            map {
-                "name": util:document-name($html),
-                "title": $description
-            }
-    }
-};
+import module namespace iapi="http://teipublisher.com/api/info" at "api/info.xql";
 
 let $lookup := function($name as xs:string) {
     function-lookup(xs:QName($name), 1)

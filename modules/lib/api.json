@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "version": "7.0.0",
+        "version": "1.0.0",
         "title": "TEI Publisher API",
         "description": "This is the core API for TEI Publisher 7. It describes all endpoints used by TEI Publisher web components, plus additional operations added for external access."
     },
@@ -39,6 +39,10 @@
         {
             "name": "dts",
             "description": "Implementation of the DTS (Distributed Text Services) API"
+        },
+        {
+            "name": "info",
+            "description": "Information about the server"
         }
     ],
     "components": {
@@ -55,6 +59,53 @@
         }
     },
     "paths": {
+        "/api/version": {
+            "get": {
+                "summary": "Get version information about this service",
+                "description": "Get the version of TEI Publisher running this service as well as the API version implemented",
+                "operationId": "iapi:version",
+                "tags": [ "info" ],
+                "responses": {
+                    "200":{
+                        "description": "Version information about this service",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "api":{
+                                            "type": "string"
+                                        },
+                                        "app": {
+                                            "type": "object",
+                                            "properties": {
+                                                "name":{
+                                                    "type": "string"
+                                                },
+                                                "version":{
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "engine": {
+                                            "type": "object",
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "version": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/collection/{path}": {
             "get": {
                 "summary": "Get formatted overview of documents in the collection",
@@ -1014,8 +1065,8 @@
             "get": {
                 "summary": "List available HTML templates",
                 "description": "Lists all page layout templates available for the document view. Used by `pb-select-templates`.",
-                "tags":[ "templates" ],
-                "operationId": "api:list-templates",
+                "tags":[ "info" ],
+                "operationId": "iapi:list-templates",
                 "responses": {
                     "200": {
                         "description": "Array of templates",
