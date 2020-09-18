@@ -180,7 +180,7 @@ else if (ends-with($exist:resource, ".html")) then (
                     { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
                     <set-header name="Access-Control-Expose-Headers" value="pb-start, pb-total"/>
                 {
-                    if ($exist:resource = ("search-results.html", "documents.html", "index.html")) then
+                    if ($exist:resource = ("documents.html", "index.html")) then
                         <set-header name="Cache-Control" value="no-cache"/>
                     else
                         ()
