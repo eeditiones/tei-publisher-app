@@ -904,6 +904,33 @@
                         },
                         "description": "Filename of the ODD with the suffix (.odd)",
                         "required": true
+                    },
+                    {
+                        "name": "root",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "/db/apps/tei-publisher/odd"
+                        },
+                        "description": "Collection into which the ODD should be written"
+                    },
+                    {
+                        "name": "output-root",
+                        "in": "query",
+                        "schema":{
+                            "type": "string",
+                            "example": "/db/apps/tei-publisher/transform"
+                        },
+                        "description": "The collection into which generated code files will be written"
+                    },
+                    {
+                        "name": "output-prefix",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "transform"
+                        },
+                        "description": "Relative path (from app root) used for resolving connected CSS files"
                     }
                 ],
                 "requestBody": {

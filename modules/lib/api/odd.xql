@@ -50,6 +50,10 @@ declare function oapi:get-line($src, $line as xs:int?) {
 
 declare function oapi:recompile($request as map(*)) {
     let $odd := $request?parameters?odd
+    let $oddRoot := head(($request?parameters?root, $config:odd-root))
+    let $outputRoot := head(($request?parameters?output-root, $config:output-root))
+    let $outputPrefix := head(($request?parameters?output-prefix, $config:output))
+    let $oddConfig := doc($oddRoot || "/configuration.xml")/*
     let $odd :=
         if (exists($odd)) then
             $odd
@@ -57,7 +61,7 @@ declare function oapi:recompile($request as map(*)) {
             ($config:odd-available, $config:odd-internal)
     let $result :=
         for $source in $odd
-        let $odd := doc($config:odd-root || "/" || $source)
+        let $odd := doc($oddRoot || "/" || $source)
         let $pi := tpu:parse-pi($odd, (), $source)
         for $module in
             if ($pi?output) then
@@ -67,11 +71,11 @@ declare function oapi:recompile($request as map(*)) {
         return
             try {
                 for $output in pmu:process-odd(
-                    odd:get-compiled($config:odd-root, $source),
-                    $config:output-root,
+                    odd:get-compiled($oddRoot, $source),
+                    $outputRoot,
                     $module,
-                    "../" || $config:output,
-                    $config:module-config)
+                    "../" || $outputPrefix,
+                    $oddConfig)
                 let $file := $output?module
                 return
                     if ($output?error) then
@@ -229,7 +233,7 @@ return
             router:response(401, "application/json", map {
                 "status": "denied",
                 "path": $request?parameters?odd,
-                "report": "[You don't have write access to " || $request?parameters?odd || "]"
+                "report": "[You don't have write access to " || $root || "/" || $request?parameters?odd || "]"
             })
 
 };
