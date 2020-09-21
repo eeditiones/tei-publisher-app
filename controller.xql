@@ -12,11 +12,6 @@ declare variable $exist:controller external;
 declare variable $exist:prefix external;
 declare variable $exist:root external;
 
-declare variable $logout := request:get-parameter("logout", ());
-declare variable $login := request:get-parameter("user", ());
-
-declare variable $data-collections := $config:setup/collections/path;
-
 declare variable $allowOrigin := local:allowOriginDynamic(request:get-header("Origin"));
 
 declare function local:allowOriginDynamic($origin as xs:string?) {
@@ -71,11 +66,6 @@ else if ($exist:path eq "/") then
     (: forward root path to index.xql :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <redirect url="index.html"/>
-    </dispatch>
-
-else if (contains($exist:path, "/$shared/")) then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="/shared-resources/{substring-after($exist:path, '/$shared/')}"/>
     </dispatch>
 
 else if (matches($exist:path, "^.*/(resources|transform)/.*$")) then
@@ -141,25 +131,13 @@ else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt|mei)$", "s")
             $exist:path
     return
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/data/{$path}"/>
-    </dispatch>
-
-else if (starts-with($exist:path, "/api/dts")) then
-    let $endpoint := tokenize(substring-after($exist:path, "/api/dts/"), "/")[last()]
-    return
-        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-           <forward url="{$exist:controller}/modules/lib/dts.xql">
-               <add-parameter name="endpoint" value="{$endpoint}"/>
-           </forward>
-       </dispatch>
+            <forward url="{$exist:controller}/data/{$path}"/>
+        </dispatch>
 
 else if (contains($exist:path, "/raw/")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/data/{substring-after($exist:path, '/raw/')}"></forward>
    </dispatch>
-
-else if ($exist:resource = "api.html") then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist"></dispatch>
 
 else if (ends-with($exist:resource, ".html")) then (
     login:set-user($config:login-domain, (), false()),
@@ -209,7 +187,6 @@ else if (matches($exist:path, "[^/]+\..*$")) then (
     let $id := xmldb:decode($exist:resource)
     let $path := replace($exist:path, "^/(.*?)[^/]*$", "$1")
     (: let $path := substring-before(substring-after($exist:path, "/works/"), $exist:resource) :)
-    let $mode := request:get-parameter("mode", ())
     let $html :=
         if ($exist:resource = "") then
             "index.html"
@@ -220,61 +197,7 @@ else if (matches($exist:path, "[^/]+\..*$")) then (
         else
             ()
     return
-        if (ends-with($exist:resource, ".epub")) then
-            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                <forward url="{$exist:controller}/modules/lib/get-epub.xql">
-                    <add-parameter name="id" value="{$path}{$id}"/>
-                </forward>
-                <error-handler>
-                    <forward url="{$exist:controller}/error-page.html" method="get"/>
-                    <forward url="{$exist:controller}/modules/view.xql"/>
-                </error-handler>
-            </dispatch>
-        else if (ends-with($exist:resource, ".tex")) then
-            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                <forward url="{$exist:controller}/modules/lib/latex.xql">
-                    <add-parameter name="id" value="{$path}{$id}"/>
-                </forward>
-                <error-handler>
-                    <forward url="{$exist:controller}/error-page.html" method="get"/>
-                    <forward url="{$exist:controller}/modules/view.xql"/>
-                </error-handler>
-            </dispatch>
-        else if (ends-with($exist:resource, ".pdf")) then
-            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                <forward url="{$exist:controller}/modules/lib/pdf.xql">
-                    <add-parameter name="doc" value="{$path}{$id}"/>
-                </forward>
-                <error-handler>
-                    <forward url="{$exist:controller}/error-page.html" method="get"/>
-                    <forward url="{$exist:controller}/modules/view.xql"/>
-                </error-handler>
-            </dispatch>
-        else if ($mode = "plain") then
-            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                <forward url="{$exist:controller}/modules/lib/transform.xql">
-                    <add-parameter name="doc" value="{$path}{$id}"/>
-                </forward>
-                <error-handler>
-                    <forward url="{$exist:controller}/error-page.html" method="get"/>
-                    <forward url="{$exist:controller}/modules/view.xql"/>
-                </error-handler>
-            </dispatch>
-        else if (ends-with($exist:resource, ".md")) then
-            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                <forward url="{$exist:controller}/templates/pages/markdown.html"/>
-                <view>
-                    <forward url="{$exist:controller}/modules/view.xql">
-                        <add-parameter name="doc" value="{$path}{$id}"/>
-                        <add-parameter name="template" value="markdown.html"/>
-                    </forward>
-                </view>
-                <error-handler>
-                    <forward url="{$exist:controller}/error-page.html" method="get"/>
-                    <forward url="{$exist:controller}/modules/view.xql"/>
-                </error-handler>
-            </dispatch>
-        else if (matches($exist:resource, ".xml$", "i")) then
+        if (matches($exist:resource, ".xml$", "i")) then
             let $docPath := $path || $id
             let $template :=
                 if ($html) then $html else (local:get-template($docPath), $config:default-template)[1]
