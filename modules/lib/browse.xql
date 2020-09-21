@@ -29,26 +29,6 @@ import module namespace query="http://www.tei-c.org/tei-simple/query" at "../que
 declare namespace expath="http://expath.org/ns/pkg";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-declare
-    %templates:wrap
-function app:show-for-document($node as node(), $model as map(*), $doc as xs:string?, $query as xs:string?, $start as xs:string?) {
-    if ($doc and empty($query) and empty($start)) then
-        templates:process($node/*, $model)
-    else
-        ()
-};
-
-
-declare
-    %templates:wrap
-function app:check-login($node as node(), $model as map(*)) {
-    let $user := request:get-attribute($config:login-domain || ".user")
-    return
-        if ($user) then
-            templates:process($node/*[2], $model)
-        else
-            templates:process($node/*[1], $model)
-};
 
 declare
     %templates:wrap
@@ -185,17 +165,6 @@ function app:browse($node as node(), $model as map(*), $start as xs:int, $per-pa
     )
 };
 
-declare function app:add-identifier($node as node(), $model as map(*)) {
-    element { node-name($node) } {
-        $node/@*,
-        attribute data-doc {
-            config:get-identifier($model?work)
-        },
-        templates:process($node/node(), $model)
-    }
-};
-
-
 declare
     %templates:wrap
 function app:short-header($node as node(), $model as map(*)) {
@@ -214,102 +183,6 @@ function app:short-header($node as node(), $model as map(*)) {
             <a href="{$relPath}">{util:document-name($work)}</a>
 };
 
-(:~
- : Create a bootstrap pagination element to navigate through the hits.
- :)
-declare
-    %templates:default('key', 'hits')
-    %templates:default('start', 1)
-    %templates:default("per-page", 10)
-    %templates:default("min-hits", 0)
-    %templates:default("max-pages", 10)
-function app:paginate($node as node(), $model as map(*), $key as xs:string, $start as xs:int, $per-page as xs:int, $min-hits as xs:int,
-    $max-pages as xs:int) {
-    if ($min-hits < 0 or count($model($key)) >= $min-hits) then
-        element { node-name($node) } {
-            $node/@*,
-            let $count := xs:integer(ceiling(count($model($key))) div $per-page) + 1
-            let $middle := ($max-pages + 1) idiv 2
-            return (
-                if ($start = 1) then (
-                    <li class="disabled">
-                        <a><i class="glyphicon glyphicon-fast-backward"/></a>
-                    </li>,
-                    <li class="disabled">
-                        <a><i class="glyphicon glyphicon-backward"/></a>
-                    </li>
-                ) else (
-                    <li>
-                        <a href="?start=1"><i class="glyphicon glyphicon-fast-backward"/></a>
-                    </li>,
-                    <li>
-                        <a href="?start={max( ($start - $per-page, 1 ) ) }"><i class="glyphicon glyphicon-backward"/></a>
-                    </li>
-                ),
-                let $startPage := xs:integer(ceiling($start div $per-page))
-                let $lowerBound := max(($startPage - ($max-pages idiv 2), 1))
-                let $upperBound := min(($lowerBound + $max-pages - 1, $count))
-                let $lowerBound := max(($upperBound - $max-pages + 1, 1))
-                for $i in $lowerBound to $upperBound
-                return
-                    if ($i = ceiling($start div $per-page)) then
-                        <li class="active"><a href="?start={max( (($i - 1) * $per-page + 1, 1) )}">{$i}</a></li>
-                    else
-                        <li><a href="?start={max( (($i - 1) * $per-page + 1, 1)) }">{$i}</a></li>,
-                if ($start + $per-page < count($model($key))) then (
-                    <li>
-                        <a href="?start={$start + $per-page}"><i class="glyphicon glyphicon-forward"/></a>
-                    </li>,
-                    <li>
-                        <a href="?start={max( (($count - 1) * $per-page + 1, 1))}"><i class="glyphicon glyphicon-fast-forward"/></a>
-                    </li>
-                ) else (
-                    <li class="disabled">
-                        <a><i class="glyphicon glyphicon-forward"/></a>
-                    </li>,
-                    <li>
-                        <a><i class="glyphicon glyphicon-fast-forward"/></a>
-                    </li>
-                )
-            )
-        }
-    else
-        ()
-};
-
-(:~
-    Create a span with the number of items in the current search result.
-:)
-declare
-    %templates:wrap
-    %templates:default("key", "hitCount")
-function app:hit-count($node as node()*, $model as map(*), $key as xs:string) {
-    let $value := $model?($key)
-    return
-        if ($value instance of xs:integer) then
-            $value
-        else
-            count($value)
-};
-
-(:~
- :
- :)
-declare function app:work-title($node as node(), $model as map(*), $type as xs:string?) {
-    let $suffix := if ($type) then "." || $type else ()
-    let $work := $model("work")/ancestor-or-self::tei:TEI
-    let $id := util:document-name($work)
-    return
-        <a href="{$node/@href}{$id}{$suffix}">{ app:work-title($work) }</a>
-};
-
-declare function app:work-title($work as element(tei:TEI)?) {
-    let $main-title := $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'main']/string()
-    let $main-title := if ($main-title) then $main-title else $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/string()
-    return
-        $main-title
-};
-
 declare function app:download-link($node as node(), $model as map(*), $mode as xs:string?) {
     let $file := config:get-identifier($model?work)
     return
@@ -317,20 +190,6 @@ declare function app:download-link($node as node(), $model as map(*), $mode as x
             $node/@*,
             attribute url { $model?app || "api/document/" || escape-uri($file, true()) },
             attribute odd { ($model?config?odd, $config:odd)[1] },
-            $node/node()
-        }
-};
-
-declare function app:recompile-link($node as node(), $model as map(*)) {
-    let $odd :=
-        if ($model?work) then
-            ($model?config?odd, $config:odd)[1]
-        else
-            $config:odd
-    return
-        element { node-name($node) } {
-            $node/@*,
-            attribute href { "?source=" || $odd },
             $node/node()
         }
 };
