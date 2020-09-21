@@ -310,22 +310,12 @@ declare function app:work-title($work as element(tei:TEI)?) {
         $main-title
 };
 
-declare function app:download-link($node as node(), $model as map(*),
-    $doc as xs:string?, $mode as xs:string?) {
-    let $file :=
-        if ($model?work) then
-            config:get-identifier($model?work)
-        else
-            $doc
-    let $file :=
-        if ($doc) then
-            replace($file, "^.*?([^/]*)$", "$1")
-        else
-            $file
+declare function app:download-link($node as node(), $model as map(*), $mode as xs:string?) {
+    let $file := config:get-identifier($model?work)
     return
         element { node-name($node) } {
             $node/@*,
-            attribute url { $file },
+            attribute url { $model?app || "api/document/" || escape-uri($file, true()) },
             attribute odd { ($model?config?odd, $config:odd)[1] },
             $node/node()
         }
