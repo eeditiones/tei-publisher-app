@@ -332,6 +332,9 @@
                                     <paper-item>
                                         <a href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html" target="_blank">Webcomponents API</a>
                                     </paper-item>
+                                    <paper-item>
+                                        <a href="${app}/api.html" data-template="pages:parse-params" target="_blank">TEI Publisher API</a>
+                                    </paper-item>
                                 </paper-listbox>
                             </paper-menu-button>
                             <a href="${app}/doc/blog/" data-template="pages:parse-params"><pb-i18n key="menu.news">News</pb-i18n></a>
@@ -470,6 +473,10 @@
 
         // configuration for the DTS endpoints
         const dtsConfig = [
+            {
+                "url": "http://localhost:8080/exist/apps/tei-publisher/api/dts",
+                "title": "Localhost"
+            },
         {
             "url": "https://teipublisher.com/exist/apps/vangogh/api/dts",
             "title": "Van Gogh Letters"
