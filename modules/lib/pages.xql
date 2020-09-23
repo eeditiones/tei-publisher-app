@@ -74,24 +74,7 @@ function pages:pb-markdown($node as node(), $model as map(*), $doc as xs:string)
     }
 };
 
-declare function pages:pb-view($node as node(), $model as map(*), $root as xs:string?, $id as xs:string?,
-    $action as xs:string?) {
-    element { node-name($node) } {
-        attribute node-id { $root },
-        if ($id) then
-            attribute xml-id { '["' || $id || '"]'}
-        else
-            (),
-        if ($action = "search") then
-            attribute highlight { "highlight" }
-        else
-            (),
-        $node/@*,
-        $node/*
-    }
-};
-
-(:~~
+(:~
  : Generate the actual script tag to import pb-components.
  :)
 declare function pages:load-components($node as node(), $model as map(*)) {

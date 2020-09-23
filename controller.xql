@@ -73,17 +73,13 @@ else if (matches($exist:path, "^.*/(resources|transform)/.*$")) then
             </forward>
         </dispatch>
 
-else if ($exist:resource = ('api.html')) then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <cache-control cache="yes"/>
-    </dispatch>
-
 else if (contains($exist:path, "/images/")) then
      <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/resources/images/{substring-after($exist:path, '/images/')}"/>
     </dispatch>
 
-else if (contains($exist:path, "/api/") or contains($exist:path, "/view/") or ends-with($exist:resource, ".xml")) then
+else if (contains($exist:path, "/api/") or contains($exist:path, "/view/") or ends-with($exist:resource, ".xml")
+    or ends-with($exist:resource, ".html")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/modules/lib/api.xql">
             <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
@@ -94,26 +90,6 @@ else if (contains($exist:path, "/api/") or contains($exist:path, "/view/") or en
             <set-header name="Cache-Control" value="no-cache"/>
         </forward>
     </dispatch>
-
-else if (ends-with($exist:resource, ".xql")) then (
-    login:set-user($config:login-domain, (), false()),
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        {
-            if (contains($exist:path, "/modules")) then
-                <forward url="{$exist:controller}/modules/{substring-after($exist:path, '/modules/')}">
-                    <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
-                    { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
-                </forward>
-            else
-                <forward url="{$exist:controller}{$exist:path}">
-                    <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
-                    { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
-                </forward>
-        }
-        <cache-control cache="no"/>
-    </dispatch>
-
-)
 
 else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt|mei)$", "s")) then
     let $path := 
@@ -131,44 +107,7 @@ else if (contains($exist:path, "/raw/")) then
         <forward url="{$exist:controller}/data/{substring-after($exist:path, '/raw/')}"></forward>
    </dispatch>
 
-else if (ends-with($exist:resource, ".html")) then (
-    login:set-user($config:login-domain, (), false()),
-    let $resource :=
-        if (starts-with($exist:path, "/data/")) then
-            $exist:path
-        else if (contains($exist:path, "/templates/")) then
-            "templates/" || $exist:resource
-        else
-            $exist:resource
-    return
-        (: the html page is run through view.xql to expand templates :)
-        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-            <forward url="{$exist:controller}/{$resource}"/>
-            <view>
-                <forward url="{$exist:controller}/modules/view.xql">
-                    <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
-                    { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
-                    <set-header name="Access-Control-Expose-Headers" value="pb-start, pb-total"/>
-                {
-                    if ($exist:resource = ("documents.html", "index.html")) then
-                        <set-header name="Cache-Control" value="no-cache"/>
-                    else
-                        ()
-                }
-                </forward>
-            </view>
-            {
-                if ($exist:resource = "index.html") then
-            		<error-handler>
-            			<forward url="{$exist:controller}/error-page.html" method="get"/>
-            			<forward url="{$exist:controller}/modules/view.xql"/>
-            		</error-handler>
-                else
-                    ()
-            }
-        </dispatch>
-
-) else if (matches($exist:path, "^/doc/blog/?$")) then
+else if (matches($exist:path, "^/doc/blog/?$")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <redirect url="{request:get-uri()}/{local:last-blog-entry()}"/>
     </dispatch>

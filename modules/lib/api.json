@@ -63,6 +63,36 @@
         }
     },
     "paths": {
+        "/{file}.html": {
+            "get": {
+                "summary": "Retrieve HTML page",
+                "description": "Retrieve HTML page expanded through eXist templating",
+                "tags": [ "view" ],
+                "operationId": "vapi:html",
+                "parameters": [
+                    {
+                        "name": "file",
+                        "in": "path",
+                        "required": true,
+                        "schema":{
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTML of the page",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/{doc}": {
             "get": {
                 "summary": "Retrieve the HTML template used for displaying a document",
@@ -102,13 +132,6 @@
                         },
                         "example": "div",
                         "description": "The view type used by the main view which displays the document, e.g. 'page' or 'div'. This has an influence on the generated links, which need to differ when linking to a page rather than a section."
-                    },
-                    {
-                        "name": "root",
-                        "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
                     },
                     {
                         "name": "odd",

@@ -10,6 +10,25 @@ import module namespace browse="http://www.tei-c.org/tei-simple/templates" at ".
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
 import module namespace app="teipublisher.com/app" at "../../app.xql";
 
+declare variable $vapi:template-config := map {
+    $templates:CONFIG_APP_ROOT : $config:app-root,
+    $templates:CONFIG_STOP_ON_ERROR : true()
+};
+
+(:
+: We have to provide a lookup function to templates:apply to help it
+: find functions in the imported application modules. The templates
+: module cannot see the application modules, but the inline function
+: below does see them.
+:)
+declare function vapi:lookup($functionName as xs:string, $arity as xs:int) {
+    try {
+        function-lookup(xs:QName($functionName), $arity)
+    } catch * {
+        ()
+    }
+};
+
 declare function vapi:get-template($doc as xs:string, $template as xs:string?, $view as xs:string?) {
     if ($template) then
         $template
@@ -30,23 +49,6 @@ declare function vapi:view($request as map(*)) {
             doc($templatePath)
         else
             error($errors:NOT_FOUND, "template " || $templatePath || " not found")
-    let $config := map {
-        $templates:CONFIG_APP_ROOT : $config:app-root,
-        $templates:CONFIG_STOP_ON_ERROR : true()
-    }
-    (:
-    : We have to provide a lookup function to templates:apply to help it
-    : find functions in the imported application modules. The templates
-    : module cannot see the application modules, but the inline function
-    : below does see them.
-    :)
-    let $lookup := function($functionName as xs:string, $arity as xs:int) {
-        try {
-            function-lookup(xs:QName($functionName), $arity)
-        } catch * {
-            ()
-        }
-    }
     let $model := map { 
         "doc": $path,
         "template": $templateName,
@@ -54,5 +56,16 @@ declare function vapi:view($request as map(*)) {
         "view": $request?parameters?view
     }
     return
-        templates:apply($template, $lookup, $model, $config)
+        templates:apply($template, vapi:lookup#2, $model, $vapi:template-config)
+};
+
+declare function vapi:html($request as map(*)) {
+    let $path := $config:app-root || "/" || xmldb:decode($request?parameters?file) || ".html"
+    let $template :=
+        if (doc-available($path)) then
+            doc($path)
+        else
+            error($errors:NOT_FOUND, "HTML file " || $path || " not found")
+    return
+        templates:apply($template, vapi:lookup#2, (), $vapi:template-config)
 };
