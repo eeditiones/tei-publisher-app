@@ -12,6 +12,7 @@ import module namespace sapi="http://teipublisher.com/api/search" at "api/search
 import module namespace deploy="http://teipublisher.com/api/generate" at "api/generate.xql";
 import module namespace dts="http://teipublisher.com/api/dts" at "api/dts.xql";
 import module namespace iapi="http://teipublisher.com/api/info" at "api/info.xql";
+import module namespace vapi="http://teipublisher.com/api/view" at "api/view.xql";
 
 let $lookup := function($name as xs:string) {
     function-lookup(xs:QName($name), 1)

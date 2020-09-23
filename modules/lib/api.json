@@ -33,6 +33,10 @@
             "description": "Transform content on the fly"
         },
         {
+            "name": "view",
+            "description": "View documents via an HTML template"
+        },
+        {
             "name": "apps",
             "description": "Operations to generate/manage apps"
         },
@@ -59,6 +63,82 @@
         }
     },
     "paths": {
+        "/{doc}": {
+            "get": {
+                "summary": "Retrieve the HTML template used for displaying a document",
+                "description": "Get the HTML template associated with the given document",
+                "tags": [ "view" ],
+                "operationId": "vapi:view",
+                "parameters": [
+                    {
+                        "name": "doc",
+                        "in": "path",
+                        "description": "Relative path to the document",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "test/orlik_to_serafin.xml"
+                        },
+                        "allowReserved": true
+                    },
+                    {
+                        "name": "template",
+                        "in": "query",
+                        "description": "Name of the template to be used. Overwrites any default template setting.",
+                        "schema":{
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "view",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "page",
+                                "div",
+                                "single"
+                            ]
+                        },
+                        "example": "div",
+                        "description": "The view type used by the main view which displays the document, e.g. 'page' or 'div'. This has an influence on the generated links, which need to differ when linking to a page rather than a section."
+                    },
+                    {
+                        "name": "root",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "action",
+                        "in": "query",
+                        "schema":{
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTML view for the document",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/version": {
             "get": {
                 "summary": "Get version information about this service",
@@ -1092,7 +1172,7 @@
             "get": {
                 "summary": "List available HTML templates",
                 "description": "Lists all page layout templates available for the document view. Used by `pb-select-templates`.",
-                "tags":[ "info" ],
+                "tags":[ "view" ],
                 "operationId": "iapi:list-templates",
                 "responses": {
                     "200": {

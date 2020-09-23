@@ -32,19 +32,6 @@ declare function local:checkOriginWhitelist($regexes, $origin) {
         local:checkOriginWhitelist(tail($regexes), $origin)
 };
 
-declare function local:get-template($doc as xs:string) {
-    let $template := request:get-parameter("template", ())
-    return
-        if ($template) then
-            $template
-        else
-            let $document := config:get-document($doc)
-            where exists($document)
-            let $config := tpu:parse-pi($document, request:get-parameter("view", ()))
-            return
-                $config?template
-};
-
 declare function local:last-blog-entry() {
     util:document-name(
         head(
@@ -86,12 +73,17 @@ else if (matches($exist:path, "^.*/(resources|transform)/.*$")) then
             </forward>
         </dispatch>
 
+else if ($exist:resource = ('api.html')) then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <cache-control cache="yes"/>
+    </dispatch>
+
 else if (contains($exist:path, "/images/")) then
      <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/resources/images/{substring-after($exist:path, '/images/')}"/>
     </dispatch>
 
-else if (contains($exist:path, "/api/")) then
+else if (contains($exist:path, "/api/") or contains($exist:path, "/view/") or ends-with($exist:resource, ".xml")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/modules/lib/api.xql">
             <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
@@ -181,52 +173,7 @@ else if (ends-with($exist:resource, ".html")) then (
         <redirect url="{request:get-uri()}/{local:last-blog-entry()}"/>
     </dispatch>
 
-else if (matches($exist:path, "[^/]+\..*$")) then (
-    login:set-user($config:login-domain, (), false()),
-    (: let $id := replace(xmldb:decode($exist:resource), "^(.*)\..*$", "$1") :)
-    let $id := xmldb:decode($exist:resource)
-    let $path := replace($exist:path, "^/(.*?)[^/]*$", "$1")
-    (: let $path := substring-before(substring-after($exist:path, "/works/"), $exist:resource) :)
-    let $html :=
-        if ($exist:resource = "") then
-            "index.html"
-        else if ($exist:resource = ("search.html")) then
-            $exist:resource
-        else if (starts-with($exist:path, "/doc/blog/")) then
-            "blog.html"
-        else
-            ()
-    return
-        if (matches($exist:resource, ".xml$", "i")) then
-            let $docPath := $path || $id
-            let $template :=
-                if ($html) then $html else (local:get-template($docPath), $config:default-template)[1]
-            return
-                <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                    <forward url="{$exist:controller}/templates/pages/{$template}"></forward>
-                    <view>
-                        <forward url="{$exist:controller}/modules/view.xql">
-                        {
-                            if (request:get-parameter("template", ())) then
-                                ()
-                            else
-                                <add-parameter name="template" value="{$template}"/>
-                        }
-                                <add-parameter name="doc" value="{$path}{$id}"/>
-                            <set-header name="Cache-Control" value="no-cache"/>
-                        </forward>
-                    </view>
-                    <error-handler>
-                        <forward url="{$exist:controller}/error-page.html" method="get"/>
-                        <forward url="{$exist:controller}/modules/view.xql"/>
-                    </error-handler>
-                </dispatch>
-        else
-            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                <cache-control cache="yes"/>
-            </dispatch>
-
-) else
+else
     (: everything else is passed through :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <cache-control cache="yes"/>

@@ -55,13 +55,12 @@ declare variable $pages:EDIT_ODD_LINK :=
     return
         replace($path, "/+", "/");
 
-declare function pages:pb-document($node as node(), $model as map(*), $doc as xs:string, $root as xs:string?,
-    $id as xs:string?, $view as xs:string?) {
-    let $odd := ($node/@odd, request:get-parameter("odd", ())) [1]
-    let $data := config:get-document($doc)
-    let $config := tpu:parse-pi(root($data), $view, $odd)
+declare function pages:pb-document($node as node(), $model as map(*)) {
+    let $odd := ($node/@odd, $model?odd) [1]
+    let $data := config:get-document($model?doc)
+    let $config := tpu:parse-pi(root($data), $model?view, $odd)
     return
-        <pb-document path="{$doc}" root-path="{$config:data-root}" view="{$config?view}" odd="{replace($config?odd, '^(.*)\.odd', '$1')}"
+        <pb-document path="{$model?doc}" root-path="{$config:data-root}" view="{$config?view}" odd="{replace($config?odd, '^(.*)\.odd', '$1')}"
             source-view="{$pages:EXIDE}">
             { $node/@id }
         </pb-document>
@@ -284,7 +283,7 @@ declare function pages:get-content($config as map(*), $div as element()) {
     nav:get-content($config, $div)
 };
 
-declare function pages:pb-page($node as node(), $model as map(*), $template as xs:string?) {
+declare function pages:pb-page($node as node(), $model as map(*)) {
     let $model := map:merge(
         (
             $model,
@@ -295,7 +294,7 @@ declare function pages:pb-page($node as node(), $model as map(*), $template as x
         element { node-name($node) } {
             $node/@*,
             attribute app-root { $config:context-path },
-            attribute template { $template },
+            attribute template { $model?template },
             templates:process($node/*, $model)
         }
 };
