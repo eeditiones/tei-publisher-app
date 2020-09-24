@@ -39,8 +39,9 @@ else if ($exist:path eq "/") then
         <redirect url="index.html"/>
     </dispatch>
 
-else if (matches($exist:path, "^.*/(resources|transform|odd|modules)/.*$")) then
-    let $dir := replace($exist:path, "^.*/(resources|transform|odd)/.*$", "$1")
+else if (matches($exist:path, "^.*/(resources|transform|modules|templates)/.*$")
+    or (matches($exist:path, "^.*/odd/.*\.css$"))) then
+    let $dir := replace($exist:path, "^.*/(resources|transform|modules|templates|odd)/.*$", "$1")
     return
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
             <forward url="{$exist:controller}/{$dir}/{substring-after($exist:path, '/' || $dir || '/')}">

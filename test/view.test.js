@@ -29,6 +29,15 @@ describe('/{doc}', function () {
 
         expect(res).to.satisfyApiSpec;
     });
+
+    it('fails to load template for non-existing document', function (done) {
+        axios.get(`${server}/foo.xml`)
+            .catch((error) => {
+                expect(error.response.status).to.equal(404);
+                expect(error.response).to.satisfyApiSpec;
+                done();
+            });
+    });
 });
 
 describe('/{file}.html', function () {
@@ -41,5 +50,14 @@ describe('/{file}.html', function () {
         expect(pbBrowse).to.exist;
 
         expect(res).to.satisfyApiSpec;
+    });
+
+    it('fails to load HTML file', function (done) {
+        axios.get(`${server}/foo.html`)
+            .catch((error) => {
+                expect(error.response.status).to.equal(404);
+                expect(error.response).to.satisfyApiSpec;
+                done();
+            });
     });
 });

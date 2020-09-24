@@ -34,10 +34,13 @@ declare function vapi:get-template($doc as xs:string, $template as xs:string?, $
         $template
     else
         let $document := config:get-document($doc)
-        where exists($document)
-        let $config := tpu:parse-pi($document, $view)
         return
-            $config?template
+            if (exists($document)) then
+                let $config := tpu:parse-pi($document, $view)
+                return
+                    $config?template
+            else
+                error($errors:NOT_FOUND, "document " || $doc || " not found")
 };
 
 declare function vapi:view($request as map(*)) {
