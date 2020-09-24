@@ -7,18 +7,26 @@
     </head>
     <body>
         <div id="swagger"></div>
+        <div id="custom"></div>
         <script>
             window.onload = function() {
-                const ui = SwaggerUIBundle({
+                SwaggerUIBundle({
                     url: "modules/lib/api.json",
                     dom_id: '#swagger',
                     displayOperationId: true,
                     displayRequestDuration: true,
                     showExtensions: true,
                     withCredentials: true
-                })
+                });
 
-                window.ui = ui;
+                SwaggerUIBundle({
+                    url: "modules/custom-api.json",
+                    dom_id: '#custom',
+                    displayOperationId: true,
+                    displayRequestDuration: true,
+                    showExtensions: true,
+                    withCredentials: true
+                });
             }
         </script>
     </body>

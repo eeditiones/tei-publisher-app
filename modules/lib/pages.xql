@@ -278,6 +278,7 @@ declare function pages:pb-page($node as node(), $model as map(*)) {
             $node/@*,
             attribute app-root { $config:context-path },
             attribute template { $model?template },
+            attribute endpoint { $config:context-path },
             templates:process($node/*, $model)
         }
 };

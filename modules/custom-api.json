@@ -1,0 +1,102 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Custom API",
+        "description": "This is the place to add your own path endpoints"
+    },
+    "servers": [
+        {
+            "description": "Endpoint for testing on localhost",
+            "url": "http://localhost:8080/exist/apps/tei-publisher"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "cookieAuth": {
+                "type": "apiKey",
+                "name": "teipublisher.com.login",
+                "in": "cookie"
+            }
+        }
+    },
+    "paths": {
+        "/doc/blog/list": {
+            "get": {
+                "summary": "Get list of blog articles",
+                "operationId": "bapi:list",
+                "responses": {
+                    "200": {
+                        "description": "HTML list of articles",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/doc/blog": {
+            "get": {
+                "summary": "Get latest blog article",
+                "operationId": "bapi:home",
+                "responses": {
+                    "200": {
+                        "description": "HTML view for the document",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/doc/blog/{article}": {
+            "get": {
+                "summary": "Get blog article",
+                "operationId": "bapi:article",
+                "parameters": [
+                    {
+                        "name": "article",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "tei-publisher-60.xml"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTML view for the document",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        {
+            "cookieAuth": []
+        },
+        {
+            "basicAuth": []
+        }
+    ]
+}
