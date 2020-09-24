@@ -389,3 +389,20 @@ declare
 function pages:error-description($node as node(), $model as map(*)) {
     $model?description
 };
+
+declare
+    %templates:default("odd", "teipublisher.odd")
+function pages:odd-editor($node as node(), $model as map(*), $odd as xs:string, $root as xs:string?, $output-root as xs:string?,
+$output-prefix as xs:string?) {
+    let $root := ($root, $config:odd-root)[1]
+    return
+        <pb-odd-editor output-root="{($output-root, $config:app-root || "/transform")[1]}"
+            root-path="{$root}"
+            output-prefix="{($output-prefix, "transform")[1]}"
+            odd="{$odd}">
+        {
+            $node/@*,
+            templates:process($node/node(), $model)
+        }
+        </pb-odd-editor>
+};

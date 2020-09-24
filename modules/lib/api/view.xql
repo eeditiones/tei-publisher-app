@@ -6,6 +6,8 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../.
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 import module namespace errors = "http://exist-db.org/xquery/router/errors";
 import module namespace templates="http://exist-db.org/xquery/templates";
+import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "../browse.xql";
+import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
 
 declare variable $vapi:template-config := map {
     $templates:CONFIG_APP_ROOT : $config:app-root,
