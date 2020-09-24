@@ -6,9 +6,6 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../.
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 import module namespace errors = "http://exist-db.org/xquery/router/errors";
 import module namespace templates="http://exist-db.org/xquery/templates";
-import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "../browse.xql";
-import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
-import module namespace app="teipublisher.com/app" at "../../app.xql";
 
 declare variable $vapi:template-config := map {
     $templates:CONFIG_APP_ROOT : $config:app-root,
@@ -71,4 +68,11 @@ declare function vapi:html($request as map(*)) {
             error($errors:NOT_FOUND, "HTML file " || $path || " not found")
     return
         templates:apply($template, vapi:lookup#2, (), $vapi:template-config)
+};
+
+declare function vapi:handle-error($error) {
+    let $path := $config:app-root || "/error-page.html"
+    let $template := doc($path)
+    return
+        templates:apply($template, vapi:lookup#2, map { "description": $error }, $vapi:template-config)
 };

@@ -39,8 +39,10 @@ else if ($exist:path eq "/") then
         <redirect url="index.html"/>
     </dispatch>
 
-else if (matches($exist:path, "^.*/(resources|transform|modules|templates)/.*$")
-    or (matches($exist:path, "^.*/odd/.*\.css$"))) then
+(: static resources from the resources, transform, templates, odd or modules subirectories are directly returned :)
+else if (matches($exist:path, "^.*/(resources|transform|templates)/.*$")
+    or matches($exist:path, "^.*/odd/.*\.css$")
+    or matches($exist:path, "^.*/modules/.*\.json$")) then
     let $dir := replace($exist:path, "^.*/(resources|transform|modules|templates|odd)/.*$", "$1")
     return
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
@@ -58,22 +60,13 @@ else if (matches($exist:path, "^.*/(resources|transform|modules|templates)/.*$")
             </forward>
         </dispatch>
 
-else if (contains($exist:path, "/images/")) then
-     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/resources/images/{substring-after($exist:path, '/images/')}"/>
+(: other images are resolved against the data collection and also returned directly :)
+else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt|mei)$", "s")) then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/data/{$exist:path}"/>
     </dispatch>
 
-else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt|mei)$", "s")) then
-    let $path := 
-        if (starts-with($exist:path, "/collection/")) then
-            substring-after($exist:path, "/collection/")
-        else
-            $exist:path
-    return
-        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-            <forward url="{$exist:controller}/data/{$path}"/>
-        </dispatch>
-
+(: all other requests are passed on the Open API router :)
 else
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/modules/lib/api.xql">

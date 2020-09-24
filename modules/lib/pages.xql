@@ -383,3 +383,9 @@ declare
 function pages:version($node as node(), $model as map(*)) {
     $config:expath-descriptor/@version/string()
 };
+
+declare 
+    %templates:wrap
+function pages:error-description($node as node(), $model as map(*)) {
+    $model?description
+};

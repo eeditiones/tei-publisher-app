@@ -66,9 +66,10 @@
         "/{file}.html": {
             "get": {
                 "summary": "Retrieve HTML page",
-                "description": "Retrieve HTML page expanded through eXist templating",
+                "description": "Retrieve an HTML page expanded through eXist templating. This is used to load the top-level HTML pages, e.g. `index.html`.",
                 "tags": [ "view" ],
                 "operationId": "vapi:html",
+                "x-error-handler": "vapi:handle-error",
                 "parameters": [
                     {
                         "name": "file",
@@ -93,18 +94,9 @@
                     "404": {
                         "description": "The document was not found",
                         "content": {
-                            "application/json": {
+                            "text/html": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "description": {
-                                            "type": "string"
-                                        },
-                                        "details": {
-                                            "type": "object",
-                                            "nullable": true
-                                        }
-                                    }
+                                    "type": "string"
                                 }
                             }
                         }
@@ -115,9 +107,10 @@
         "/{doc}": {
             "get": {
                 "summary": "Retrieve the HTML template used for displaying a document",
-                "description": "Get the HTML template associated with the given document",
+                "description": "Get the HTML template associated with the given document. This is called whenever the users tries to view a document. The actual content of the document will then be loaded by the template.",
                 "tags": [ "view" ],
                 "operationId": "vapi:view",
+                "x-error-handler": "vapi:handle-error",
                 "parameters": [
                     {
                         "name": "doc",
@@ -181,18 +174,9 @@
                     "404": {
                         "description": "The document was not found",
                         "content": {
-                            "application/json": {
+                            "text/html": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "description": {
-                                            "type": "string"
-                                        },
-                                        "details": {
-                                            "type": "object",
-                                            "nullable": true
-                                        }
-                                    }
+                                    "type": "string"
                                 }
                             }
                         }

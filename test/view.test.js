@@ -34,6 +34,10 @@ describe('/{doc}', function () {
         axios.get(`${server}/foo.xml`)
             .catch((error) => {
                 expect(error.response.status).to.equal(404);
+                const parser = new JSDOM(error.response.data);
+                const doc = parser.window.document;
+                const msg = doc.querySelector('pre.error');
+                expect(msg.innerHTML).to.match(/not found/);
                 expect(error.response).to.satisfyApiSpec;
                 done();
             });
@@ -57,6 +61,10 @@ describe('/{file}.html', function () {
             .catch((error) => {
                 expect(error.response.status).to.equal(404);
                 expect(error.response).to.satisfyApiSpec;
+                const parser = new JSDOM(error.response.data);
+                const doc = parser.window.document;
+                const msg = doc.querySelector('pre.error');
+                expect(msg.innerHTML).to.match(/not found/);
                 done();
             });
     });
