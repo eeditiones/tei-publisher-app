@@ -25,7 +25,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 
 declare function nav:get-root($root as xs:string?, $options as map(*)?) {
     $config:data-root !
-        collection(. || "/" || $root)//dbk:article[ft:query(., "file:*", $options)]
+        collection(. || "/" || $root)//dbk:article[ft:query(., "db-file:*", $options)]
 };
 
 declare function nav:get-header($config as map(*), $node as element()) {
