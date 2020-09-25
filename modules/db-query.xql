@@ -103,7 +103,10 @@ declare function dbs:autocomplete($doc as xs:string?, $fields as xs:string+, $q 
 };
 
 declare function dbs:query-metadata($field as xs:string, $query as xs:string, $sort as xs:string) {
-    for $doc in collection($config:data-root)//db:section[ft:query(., $field || ":" || $query, map { "fields": $sort
+    (: map default publisher field names to db- prefixed which are defined for dbk :)
+    let $field := if ($field = ('author', 'title', 'file')) then 'db-' || $field else $field
+
+    for $doc in collection($config:data-root)//db:article[ft:query(., $field || ":" || $query, map { "fields": $sort
 })]     return
         root($doc)/*
 };
