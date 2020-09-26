@@ -15,8 +15,8 @@ const createOptions = {
         "dta"
     ],
     "uri": "http://exist-db.org/apps/dta",
-    "abbrev": "dta",
-    "title": "DTA",
+    "abbrev": "dta-test",
+    "title": "DTA Test",
     "template": "view.html",
     "default-view": "div",
     "index": "tei:div",
@@ -32,7 +32,7 @@ describe('/api/generate [authenticated]', function () {
         this.timeout(30000);
         const res = await util.axios.post('apps/generate', createOptions);
         expect(res.status).to.equal(200);
-        expect(res.data.target).to.equal('/db/apps/dta');
+        expect(res.data.target).to.equal('/db/apps/dta-test');
         expect(res).to.satisfyApiSpec;
     });
 
@@ -49,7 +49,7 @@ describe('/api/generate [authenticated]', function () {
     });
 
     it('downloads application xar', async function () {
-        const res = await util.axios.get('apps/download/dta', {
+        const res = await axios.get('http://localhost:8080/exist/apps/dta-test/api/apps/download', {
             responseType: 'stream'
         });
 

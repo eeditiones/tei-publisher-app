@@ -31,6 +31,7 @@ declare variable $deploy:EXPATH_DESCRIPTOR :=
         version="0.1" spec="1.0">
         <dependency package="http://exist-db.org/apps/shared"/>
         <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver-min="2.8.8"/>
+        <dependency package="http://exist-db.org/open-api/router" semver-min="0.2.0"/>
     </package>
 ;
 
@@ -419,6 +420,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:copy-odd($collection, $json),
         deploy:create-transform($collection),
         deploy:copy-resource($collection, $base, "index.xql", ($json?owner, "tei"), "rw-r--r--"),
+        deploy:copy-resource($collection, $base, "api.html", ($json?owner, "tei"), "rw-r--r--"),
         deploy:mkcol($collection || "/data", ($json?owner, "tei"), "rw-r--r--"),
         deploy:copy-resource($collection || "/data", $base || "/data", "taxonomy.xml", ($json?owner, "tei"), "rw-r--r--"),
         deploy:copy-resource($collection || "/resources/css", $base || "/resources/css", "theme.css", ($json?owner, "tei"), "rw-r--r--"),
@@ -465,9 +467,14 @@ declare function deploy:generate($request as map(*)) {
 };
 
 declare function deploy:download-app($request as map(*)) {
-    let $root := repo:get-root() || "/" || $request?parameters?root
+    let $expath :=
+        if ($request?parameters?root) then
+            collection(repo:get-root() || "/" || $request?parameters?root)/expath:package
+        else
+            config:expath-descriptor()
+    let $name := $expath/@abbrev
+    let $root := repo:get-root() || "/" || $name
     let $xar := compression:zip(xs:anyURI($root), true(), $root)
-    let $name := config:expath-descriptor()/@abbrev
     return
         response:stream-binary($xar, "media-type=application/zip", $name || ".xar")
 };

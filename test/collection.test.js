@@ -55,6 +55,26 @@ describe('/api/upload', function() {
         })
     });
 
+    it('uploads a document to the root collection of the app', async function () {
+        const formData = new FormData()
+        formData.append('files[]', fs.createReadStream(path.join(__dirname, '../data/test/let695.xml')), 'let695.xml')
+        const res = await util.axios.post('upload', formData, {
+            headers: formData.getHeaders()
+        });
+        expect(res.data).to.have.length(1);
+        expect(res.data[0].name).to.equal('/db/apps/tei-publisher/data/let695.xml');
+        expect(res).to.satisfyApiSpec;
+    });
+
+    it('deletes the uploaded document', function (done) {
+        util.axios.delete('document/let695.xml')
+            .catch(function (error) {
+                expect(error.response.status).to.equal(410);
+                expect(error.response).to.satisfyApiSpec;
+                done();
+            })
+    });
+
     after(util.logout);
 });
 

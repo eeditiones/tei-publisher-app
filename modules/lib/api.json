@@ -282,6 +282,100 @@
                 }
             }
         },
+        "/api/upload": {
+            "post": {
+                "summary": "Upload a number of files to the top-level data collection of the app",
+                "tags": [
+                    "collection"
+                ],
+                "operationId": "capi:upload",
+                "x-constraints": {
+                    "group": "tei"
+                },
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "files[]": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Upload response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "type": "string"
+                                        },
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "size": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Permission denied",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "details": {
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Upload collection not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Upload collection not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/upload/{collection}": {
             "post": {
                 "summary": "Upload a number of files",
@@ -1537,20 +1631,20 @@
                 }
             }
         },
-        "/api/apps/download/{root}":{
-            "get":{
+        "/api/apps/download": {
+            "get": {
                 "summary": "Package and download app",
-                "description": "Package up the application whose root collection is specified in `root` and return it as a `.xar`",
+                "description": "Package up an application and return it as a `.xar`. If no specific app is specified via the `app` parameter, return the current app",
                 "tags": [ "apps" ],
                 "operationId": "deploy:download-app",
                 "parameters": [
                     {
-                        "name": "root",
-                        "in": "path",
+                        "name": "app",
+                        "description": "The name of the app to download as given in the `@abbrev` of the expath package",
+                        "in": "query",
                         "schema":{
                             "type": "string"
-                        },
-                        "required": true
+                        }
                     }
                 ],
                 "responses": {
