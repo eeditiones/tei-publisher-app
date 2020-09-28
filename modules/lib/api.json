@@ -1568,7 +1568,7 @@
                 "summary": "Login the user",
                 "description": "Login the given user",
                 "tags": [ "user" ],
-                "operationId": "router:login",
+                "operationId": "rutil:login",
                 "parameters": [
                     {
                         "name": "user",
@@ -1634,19 +1634,9 @@
         "/api/apps/download": {
             "get": {
                 "summary": "Package and download app",
-                "description": "Package up an application and return it as a `.xar`. If no specific app is specified via the `app` parameter, return the current app",
+                "description": "Package up this application and return it as a `.xar`.",
                 "tags": [ "apps" ],
                 "operationId": "deploy:download-app",
-                "parameters": [
-                    {
-                        "name": "app",
-                        "description": "The name of the app to download as given in the `@abbrev` of the expath package",
-                        "in": "query",
-                        "schema":{
-                            "type": "string"
-                        }
-                    }
-                ],
                 "responses": {
                     "200":{
                         "description": "xar package (zip format) containing the app code",
