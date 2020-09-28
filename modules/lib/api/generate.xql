@@ -467,14 +467,8 @@ declare function deploy:generate($request as map(*)) {
 };
 
 declare function deploy:download-app($request as map(*)) {
-    let $expath :=
-        if ($request?parameters?root) then
-            collection(repo:get-root() || "/" || $request?parameters?root)/expath:package
-        else
-            config:expath-descriptor()
-    let $name := $expath/@abbrev
-    let $root := repo:get-root() || "/" || $name
-    let $xar := compression:zip(xs:anyURI($root), true(), $root)
+    let $xar := compression:zip(xs:anyURI($config:app-root), true(), $config:app-root)
+    let $name := config:expath-descriptor()/@abbrev
     return
         response:stream-binary($xar, "media-type=application/zip", $name || ".xar")
 };
