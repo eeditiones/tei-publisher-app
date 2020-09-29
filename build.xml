@@ -46,7 +46,7 @@
             <fileset dir="node_modules/prismjs/themes" />
         </copy>
         <copy todir="resources/i18n/common">
-            <fileset dir="node_modules/@teipublisher/pb-components/i18n/common" />
+            <fileset dir="${scripts.dir}/../i18n/common" />
         </copy>
     </target>
 
