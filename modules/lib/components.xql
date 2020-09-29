@@ -155,6 +155,25 @@ return
                                     ()
                         else
                             (),
+                    "nextId": 
+                        if ($view != "single") then
+                            let $next := $config:next-page($xml?config, $xml?data, $view)
+                            return
+                                if ($next) then
+                                    $next/@xml:id/string()
+                                else ()
+                        else
+                            (),
+                    "previousId":
+                        if ($view != "single") then
+                            let $prev := $config:previous-page($xml?config, $xml?data, $view)
+                            return
+                                if ($prev) then
+                                    $prev/@xml:id/string()
+                                else
+                                    ()
+                        else
+                            (),
                     "switchView":
                         if ($view != "single") then
                             let $node := pages:switch-view-id($xml?data, $view)
