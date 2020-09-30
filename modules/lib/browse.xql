@@ -68,8 +68,7 @@ declare
     %templates:wrap
     %templates:default("sort", "title")
 function app:list-works($node as node(), $model as map(*), $filter as xs:string?, $browse as xs:string?, $odd as xs:string?, $sort as xs:string) {
-    let $root := $model?root
-    let $params := app:params2map()
+    let $params := app:params2map($model?root)
     let $odd := ($odd, session:get-attribute($config:session-prefix || ".odd"))[1]
     let $oddAvailable := $odd and doc-available($config:odd-root || "/" || $odd)
     let $odd := if ($oddAvailable) then $odd else $config:default-odd
@@ -82,7 +81,7 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
         else
             let $options := query:options($sort)
             return
-                nav:get-root($root, $options)
+                nav:get-root($model?root, $options)
     let $sorted := app:sort($filtered, $sort)
     return (
         session:set-attribute($config:session-prefix || ".timestamp", current-dateTime()),
@@ -97,12 +96,13 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
     )
 };
 
-declare %private function app:params2map() {
-    map:merge(
+declare %private function app:params2map($root as xs:string) {
+    map:merge((
         for $param in request:get-parameter-names()[not(. = ("start", "per-page"))]
         return
-            map:entry($param, request:get-parameter($param, ()))
-    )
+            map:entry($param, request:get-parameter($param, ())),
+        map { "root": $root }
+    ))
 };
 
 declare 
