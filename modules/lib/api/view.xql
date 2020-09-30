@@ -8,6 +8,7 @@ import module namespace errors = "http://exist-db.org/xquery/router/errors";
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "../browse.xql";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
+import module namespace custom="http://teipublisher.com/api/custom" at "../../custom-api.xql";
 
 declare variable $vapi:template-config := map {
     $templates:CONFIG_APP_ROOT : $config:app-root,
@@ -20,9 +21,14 @@ declare variable $vapi:template-config := map {
 : module cannot see the application modules, but the inline function
 : below does see them.
 :)
-declare function vapi:lookup($functionName as xs:string, $arity as xs:int) {
+declare function vapi:lookup($name as xs:string, $arity as xs:int) {
     try {
-        function-lookup(xs:QName($functionName), $arity)
+        let $cfun := custom:lookup($name, $arity)
+        return
+            if (empty($cfun)) then
+                function-lookup(xs:QName($name), $arity)
+            else
+                $cfun
     } catch * {
         ()
     }

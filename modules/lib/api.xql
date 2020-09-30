@@ -16,13 +16,17 @@ import module namespace iapi="http://teipublisher.com/api/info" at "api/info.xql
 import module namespace vapi="http://teipublisher.com/api/view" at "api/view.xql";
 import module namespace custom="http://teipublisher.com/api/custom" at "../custom-api.xql";
 
-let $lookup := function($name as xs:string) {
-    let $cfun := custom:lookup($name)
-    return
-        if (empty($cfun)) then
-            function-lookup(xs:QName($name), 1)
-        else
-            $cfun
+let $lookup := function($name as xs:string, $arity as xs:integer) {
+    try {
+        let $cfun := custom:lookup($name, $arity)
+        return
+            if (empty($cfun)) then
+                function-lookup(xs:QName($name), $arity)
+            else
+                $cfun
+    } catch * {
+        ()
+    }
 }
 let $resp := router:route(("modules/custom-api.json", "modules/lib/api.json"), $lookup)
 return

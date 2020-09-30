@@ -8,7 +8,7 @@ module namespace bapi="http://teipublisher.com/api/blog";
 declare namespace dbk="http://docbook.org/ns/docbook";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace vapi="http://teipublisher.com/api/view" at "modules/lib/api/view.xql";
+import module namespace vapi="http://teipublisher.com/api/view" at "lib/api/view.xql";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
 
 declare function bapi:article($request as map(*)) {

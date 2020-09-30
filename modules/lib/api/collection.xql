@@ -9,6 +9,7 @@ import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pag
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace docx="http://existsolutions.com/teipublisher/docx";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
+import module namespace custom="http://teipublisher.com/api/custom" at "../../custom-api.xql";
 
 declare function capi:list($request as map(*)) {
     let $path := if ($request?parameters?path) then xmldb:decode($request?parameters?path) else ()
@@ -23,9 +24,14 @@ declare function capi:list($request as map(*)) {
         $templates:CONFIG_APP_ROOT : $config:app-root,
         $templates:CONFIG_STOP_ON_ERROR : true()
     }
-    let $lookup := function($functionName as xs:string, $arity as xs:int) {
+    let $lookup := function($name as xs:string, $arity as xs:int) {
         try {
-            function-lookup(xs:QName($functionName), $arity)
+            let $cfun := custom:lookup($name, $arity)
+            return
+                if (empty($cfun)) then
+                    function-lookup(xs:QName($name), $arity)
+                else
+                    $cfun
         } catch * {
             ()
         }

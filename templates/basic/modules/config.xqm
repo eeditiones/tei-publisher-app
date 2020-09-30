@@ -278,7 +278,7 @@ declare variable $config:context-path :=
 (:~
  : The root of the collection hierarchy containing data.
  :)
-declare variable $config:data-root := $$config-data$$;
+declare variable $config:data-root := "$$config-data$$";
 
 (:~
  : The root of the collection hierarchy whose files should be displayed
