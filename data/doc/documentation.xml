@@ -53,11 +53,11 @@
         display and so on. The larger part of TEI Publisher deals with those aspects, providing all
         the necessary building blocks for an online edition.</para>
       <para>Staying true to the spirit of code reuse and interoperability, TEI Publisher implements
-        all functionality as small "lego" blocks to be freely arranged and recombined. The
+        its functionalities as small "lego" blocks to be freely arranged and recombined. The
         technology making this possible is called <emphasis>Web Components</emphasis>. It is part of
         the HTML5 specification and natively implemented by many browsers. Users don't need to dive
-        into the details of this standard though: all you need to modify the example pages is a bit
-        of basic HTML knowledge.</para>
+        into the details of this standard though: all you need to modify the example pages is some
+        basic HTML knowledge.</para>
       <para>Only where the <link xlink:show="new"
           xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html">available
           components</link> are not enough, a new use case needs to be described and suitable new
@@ -65,7 +65,7 @@
         everyone else to use. After all, our mantra is reuse, reuse, reuse and we want to turn TEI
         Publisher into a box of tools the entire community can benefit from. See our <link
           linkend="roadmap">roadmap</link> for the ideas we are thinking of.</para>
-      <para>Despite elegant simplicity of this approach, various projects we realized in the past
+      <para>Despite the elegant simplicity of this approach, various projects we realized in the past
         prove that TEI Publisher is:</para>
       <orderedlist>
         <listitem>
@@ -88,7 +88,7 @@
     </section>
     <section>
       <title>e-editiones.org</title>
-      <para>Since its first incarnation in 2015, TEI Publisher gained substantial following with
+      <para>Since its first incarnation in 2015, TEI Publisher has gained substantial following with
         numerous academic and commercial projects around the globe using it for their editorial and
         publishing needs. Grass-roots user initiative led in 2020 to the foundation of an
         international non-profit association <link xlink:show="new"
@@ -97,11 +97,11 @@
         editions.</para>
 
       <para>TEI Publisher development is only possible thanks to generous contributions of
-        developers, users and institutions willing to employ Open Source approach so the whole
-        community can reuse and benefit from their work.</para>
+        developers, users and institutions willing to employ Open Source approaches so that the 
+        whole community can reuse and benefit from their work.</para>
 
-      <para>Growing number of projects from small to large that have decided to publish their
-        materials with the TEI Publisher gives us all not only the opportunity but also the
+      <para>A growing number of projects from small to large that have decided to publish their
+        materials with TEI Publisher gives us all not only the opportunity but also the
         responsibility to make the project thrive for years to come and to make it truly sustainable
         option for XML publishing! Consider joining <link xlink:show="new"
           xlink:href="https://e-editiones.org">e-editiones.org</link> through your affiliated
@@ -138,7 +138,7 @@
             target language is not listed and you'd like to work on it.</para>
         </listitem>
         <listitem>
-          <para> Port back your custimizations to the TEI Publisher code base so others can use it
+          <para> Port back your custimizations to the TEI Publisher code base so that others can use it
             too (or ask us to do it for you)! </para>
         </listitem>
         <listitem>
@@ -152,11 +152,11 @@
     </section>
     <section xml:id="versions">
       <title>Versions</title>
-      <para>TEI Publisher is actively developed since 2015. Once or twice a year a new major version
+      <para>TEI Publisher has been under active development since 2015. Once or twice a year a new major version
         is released, bringing important new features.</para>
-      <para>Minor versions are released inbetween and these offer bug fixes, minor new features and
+      <para>Minor versions are released at shorter intervals and offer bug fixes, minor new features and
         improvements.</para>
-      <para>Current major version of the TEI Publisher is 6.0.0</para>
+      <para>The current major version of the TEI Publisher is 6.0.0</para>
 
       <section xml:id="v6">
         <title>What's new in TEI Publisher 6.0.0</title>
@@ -165,9 +165,9 @@
         <orderedlist>
           <listitem>
             <para>Web components overhaul: migration to <link xlink:show="new"
-                xlink:href="https://lit-element.polymer-project.org/">LitElement</link> and move to
-              npm library</para>
-            <para>While invisible to users, this redesign greatly improved modularity of
+                xlink:href="https://lit-element.polymer-project.org/">LitElement</link> and to
+              the npm library</para>
+            <para>While invisible to users, this redesign greatly improves the modularity of
               Publisher-based applications. With Publisher web component releases published on npm,
               updating the user interface for all Publisher-based apps is just a question of
               changing a single variable in the configuration file.</para>
@@ -248,7 +248,7 @@
     </section>
     <section xml:id="installation">
       <title>Installation</title>
-      <para>TEI Publisher requires <link xlink:show="new" xlink:href="http://exist-db.org">eXist XML
+      <para>TEI Publisher requires the <link xlink:show="new" xlink:href="http://exist-db.org">eXist XML
           database</link> to operate. It is distributed as an eXist application package, making it
         easy to install on any eXist database instance - either on your local machine or any remote
         server.</para>
@@ -267,7 +267,7 @@
             instead of just 8.</para>
           <para>If you do not have Java installed, you can choose between a variety of different
             Java distributions for your operating system. While these are largely equivalent, so far
-            we had smoothest installation experience across operating systems with the <link
+            we have had the smoothest installation experience across operating systems with the <link
               xlink:show="new"
               xlink:href="https://www.azul.com/downloads/zulu-community/?package=jdk">Zulu Community
               OpenJDK</link> builds. In particular for Windows users, this provides the best out of
@@ -306,9 +306,8 @@
               "<filename>exist-installer-5.x.x.jar</filename>".</para>
 
           <para>Double clicking the <command>.jar</command> should install eXist on your local
-            system. It will launch an installer to guide you through basic settings. Default
-            settings suggested by the installer provide a good starting point for most projects so
-            there's no need to change anything.</para>
+            system. It will launch an installer to guide you through basic settings. The default
+            settings suggested by the installer provide a good starting point for most projects.</para>
 
           <note>
             <para>If double-clicking the <command>.jar</command> does not have any effect, there's
@@ -581,8 +580,9 @@
           <title>Note</title>
           <para>You need to be <emphasis role="bold">logged in</emphasis> for most advanced actions
             like creating or editing ODDs. The login button to the right of the menu bar allows you
-            to log in. By default, there's a user named <parameter>tei</parameter> with password
-              <parameter>simple</parameter>.</para>
+            to log in. By default, there's a user named <parameter>tei-demo</parameter> with password
+            <parameter>demo</parameter>, and a user <parameter>tei</parameter> with password
+            <parameter>simple</parameter>.</para>
         </note>
       </section>
       <section>
@@ -655,22 +655,22 @@
             presenting samples of:</para>
           <itemizedlist>
             <listitem>
-              <para>15th century manuscript letter to <emphasis role="bold">Mikołaj Orlik</emphasis>
+              <para>A 15th century manuscript letter to <emphasis role="bold">Mikołaj Orlik</emphasis>
                 demonstrating alignment between Latin original and parallel Polish
                 translation,</para>
             </listitem>
             <listitem>
-              <para>16th century manuscript letter of <emphasis role="bold">Hernán Cortés</emphasis>
+              <para>A 16th century manuscript letter of <emphasis role="bold">Hernán Cortés</emphasis>
                 showcasing parallel transcription/translation and facsimile view and transcription
                 enhanced with commentaries and explicitly encoded transcriptional features,</para>
             </listitem>
             <listitem>
-              <para>16th century manuscript letter of <emphasis role="bold">Mauritius
+              <para>A 16th century manuscript letter of <emphasis role="bold">Mauritius
                   Ferber</emphasis> with a collapsible metadata panel in addition to the parallel
                 transcription and facsimile view,</para>
             </listitem>
             <listitem>
-              <para>early 19th century manuscript collocative dictionary of Polish <emphasis
+              <para>An early 19th century manuscript collocative dictionary of Polish <emphasis
                   role="bold">Bogactwa mowy polskiej</emphasis> featuring interactive highlights for
                 regions of interest of the facsimile when hovering over dictionary headwords,</para>
             </listitem>
@@ -681,7 +681,7 @@
                   Letters</link> online edition, which is a model example for correspondence.</para>
             </listitem>
             <listitem>
-              <para>20th century manuscript letter from <emphasis>Robert Graves</emphasis> where
+              <para>A 20th century manuscript letter from <emphasis>Robert Graves</emphasis> where
                 emphasis has been put on visualizing rich encoding of semantic information in the
                 letter, in particular geographic and prosopographical data.</para>
             </listitem>
@@ -690,7 +690,7 @@
       </itemizedlist>
       <note>
         <title>Note</title>
-        <para>List of samples is expected to grow and we'd like to encourage contributions
+        <para>The list of samples is expected to grow and we'd like to encourage contributions
           illustrating other genres and perspectives.</para>
         <para>We'd like to stress that preparing showcases above has been only possible thanks to
           numerous projects releasing their sources openly, in particular the <link xlink:show="new"
@@ -783,7 +783,7 @@
       <title>Uploading your own documents</title>
       <para>If you read this, in all likelihood you already have some documents of your own you
         might want published, whether they are in TEI, DocBook, MS Word DOCX or other XML format.
-        First step is to upload them into the database. You need to be <emphasis role="bold">logged
+        The first step is to upload them into the database. You need to be <emphasis role="bold">logged
           in</emphasis> and in the Playground area to do it (check the short info on the
           <guibutton>Start</guibutton> page for user name and password). Then uploading is just a
         question of dragging your documents onto the <guibutton>Upload</guibutton> area. They will
@@ -800,8 +800,7 @@
         page template that best fits your needs and use it as a starting point for your own
         customization, if necessary. Once you are ready with these you can <link
           linkend="create-app">generate your own application</link> for your documents only, which
-        packs away all the sandbox features of TEI Publisher and leaves just what is needed for
-        publishing.</para>
+        packs just what is needed for publishing into a standalone application package.</para>
       <para>If you attempt to upload a Microsoft Word document, the upload will automatically
         trigger upconversion of Word to TEI, using a custom ODD for the tranformation. Please note
         that the focus of this conversion is to preserve textual content, structure and basic
@@ -814,14 +813,14 @@
           components may make certain assumptions about data they are getting and if your documents
           do not follow the same conventions it may be required to adjust parameters passed to the
           components from the page template or the component logic.</para>
-        <para> By means of example - table of content component assumes that the document structure
+        <para> By means of example - a table of content component assumes that the document structure
           is represented by means of nested <parameter>div</parameter> elements and section titles
           are given in <parameter>head</parameter> element. If your project rather chooses numbered
           divisions (<parameter>div1</parameter>, <parameter>div2</parameter>) etc it may be
           advisable to adjust this to avoid customizing all navigation, table of contents and so on,
           but it is one of very rare cases where TEI Publisher exposes any predilection for a
           particular flavour of TEI.</para>
-        <para>Similarly, template for aligned transcription and translation is parametrized to
+        <para>Similarly, the template for aligned transcription and translation is parametrized to
           accept an XPath expression pointing to the location of the transcription and aligned
           translation. Likely for your documents this expression would have to be adjusted (unless
           of course you also have Latin texts with Polish translation structured in a similar way).
@@ -857,7 +856,7 @@
           <para>column beginnings are encoded with <tag>cb</tag></para>
         </listitem>
         <listitem>
-          <para>structural divisions in the document are encoded with <tag>div</tag> element</para>
+          <para>structural divisions in the document are encoded with <tag>div</tag> elements</para>
         </listitem>
       </itemizedlist>
       <para>We acknowledge that TEI offers other ways to encode these features, e.g. generic
@@ -1143,10 +1142,10 @@
           control all aspects of the transformation of your documents from source XML format to all
           output formats: HTML, ePUB, PDF etc. As already mentioned it is considered best practice
           to chain ODD customizations together and rather change or add project specific rules to
-          more generic ODD rather than copy them in extenso. ODD chaining allows for the future
+          more generic ODD than copy them in extenso. ODD chaining allows for the future
           upgrades as your base ODDs may be updated by standardization bodies which maintain them.
           Commonly project ODDs would extend <filename>teipublisher.odd</filename>, a generic TEI
-          Publisher set of processing rules. </para>
+          Publisher set of processing rules.</para>
         <para>Beginning with version 3.0 of TEI Publisher, you have the choice between writing the
           ODD by hand or using a visual editor. Both approaches can be combined and mixed. The
           visual editor saves the ODD in a non-destructive way, preserving any information not
@@ -1237,7 +1236,7 @@
           be applied. The TEI guidelines currently list two dozen behaviours, e.g. paragraph,
           heading, note, inline, block. The last two are the most frequently used. How exactly a
           behaviour translates into the target output media may differ depending on media features
-          and design decisions. TEI Publisher tries to implement them as generic as possible.</para>
+          and design decisions. TEI Publisher tries to implement them as generically as possible.</para>
         <para>To change the model expand it by clicking on the arrow to the left of the grey box. A
           form appears, allowing you to change the model configuration. In our example we are happy
           with <emphasis>what</emphasis> is happening with the dateline, so we don't need to change
@@ -1479,7 +1478,7 @@
         <title>
           <tag>model</tag> element</title>
         <para>
-          <tag>model</tag> element is primarily used to document intended processing for a given
+          <tag>model</tag> element is primarily used to document the intended processing for a given
           element. One or more of these elements may appear directly within an
             <tag>elementSpec</tag> element specification to define the processing anticipated for
           that element. Where multiple <tag>model</tag> elements appear, they are understood to
@@ -1492,7 +1491,7 @@
             <parameter>note</parameter> or <parameter>heading</parameter>. A processing model is
           thus a template description, used to generate the code needed by the publishing
           application to process the source document into required output. </para>
-        <para>Example below depicts a situation where a single model is defined for <tag>app</tag>
+        <para>The example below depicts a situation where a single model is defined for the <tag>app</tag>
           element. As no <parameter>@predicate</parameter> or <parameter>@output</parameter> are
           specified, this model applies for all contexts in which <tag>app</tag> may appear and all
           possible outputs. Thus all <tag>app</tag> elements will be transformed into inline chunks
@@ -1551,7 +1550,7 @@
               </listitem>
             </itemizedlist>
           </para>
-          <para>Simple model explicitly specifying content parameter: for <tag>app</tag> entries
+          <para>Model explicitly specifying content parameter: for <tag>app</tag> entries
             only content of its <tag>lem</tag> child is to be displayed (as an inline chunk of
             text):</para>
           <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="app"&gt;
@@ -2075,7 +2074,7 @@
       <para>However, putting <emphasis>all</emphasis> styling information into
           <tag>outputRendition</tag> tags within the ODD is also not a good idea - it adds a lot of
         redundancy and mixes editorial responsibilities with web design concerns.</para>
-      <para>Recommended solution would therefore be to use CSS classes for repeating styling
+      <para>The recommended solution would therefore be to use CSS classes for repeating styling
         aspects. TEI Publisher supports linking to an external CSS stylesheet from the
           <code>encodingDesc/tagsDecl/rendition</code> section of the ODD. Just specify a relative
         link in the <parameter>@source</parameter> attribute:</para>
@@ -2659,12 +2658,12 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <title>Customizing web components styling</title>
       <para>A web component completely shields its content, so it cannot be styled from outside. Web
         component styles remain encapsulated, preventing style contamination between individual
-        components and general application context. A blessing in general, allowing component to be
+        components and general application context. A blessing in general, allowing components to be
         scripted and styled without the fear of collision with other parts of the page, but poses
-        additional challenges when adjusting look and feel of a component to fit project's
+        additional challenges when adjusting the look and feel of a component to fit a project's
         theme.</para>
       <para>For Publisher, encapsulation of web components means that definitions in
-          <code>theme.css</code> or equivalent project customization CSS file are not able to
+          <code>theme.css</code> or equivalent project customization CSS files are not able to
         directly govern web components styling.</para>
       <para>While some aspects of component styling remained unaccessible for customization in
         versions preceding Publisher 6, currently <code>pb-components</code> expose style properties
@@ -2689,7 +2688,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         thus accessible for its content.</para>
       <para>External stylesheets for <code>pb-view</code> can also be specified via
           <code>load-css</code> component configuration attribute. In this scenario, unlike with ODD
-          <code>rendition</code>, regenerating ODD is not required for changes to the CSS file to be
+          <code>rendition</code>, regenerating the ODD is not required for changes to the CSS file to be
         applied, otherwise both methods are functionally equivalent.</para>
 
       <programlisting language="html" xml:space="preserve">
@@ -5042,7 +5041,8 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <para>The processor walks through all models in sequence and stops at the first one which
         either has a matching <parameter>@predicate</parameter> and/or
           <parameter>@output</parameter> or neither of both. <emphasis role="bold">Order is
-          important</emphasis>! If your default model (the one without predicate or output) is
+          important</emphasis>! Therefore you should always place models for specific cases first 
+          and the most general (without predicate or output) last. If your general model is
         placed in front of your more specific models, it will always match:</para>
       <programlisting xml:space="preserve">&lt;elementSpec mode="change" ident="hi"&gt;
   &lt;model behaviour="inline"/&gt;
@@ -5050,6 +5050,13 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
     &lt;outputRendition&gt;font-weight: bold;&lt;/outputRendition&gt;
   &lt;/model&gt;
 &lt;/elementSpec&gt;</programlisting>
+      <para>Another common case is missing the step which generates transform code on the basis 
+        of your ODD. If you are using the graphic ODD editor this step is performed automatically
+        upon saving the ODD. When editing manually make sure you click on <guibutton>regenerate</guibutton>
+        button in the list of ODDs in the TEI Publisher or execute <filename>modules/lib/regenerate.xql</filename>
+        script. The latter is the only method to regenerate transform code in your custom application without 
+        using the graphic ODD editor.
+      </para>
     </section>
     <section>
       <title>Page view doesn't work</title>
