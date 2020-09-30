@@ -14,7 +14,7 @@ const createOptions = {
     "odd": [
         "dta"
     ],
-    "uri": "http://exist-db.org/apps/dta",
+    "uri": "http://exist-db.org/apps/dta-test",
     "abbrev": "dta-test",
     "title": "DTA Test",
     "template": "view.html",
@@ -45,7 +45,7 @@ describe('/api/generate [authenticated]', function () {
         `;
         const res = await axios.get(`http://localhost:8080/exist/rest/db?_query=${encodeURIComponent(query)}&_wrap=no`);
         expect(res.status).to.equal(200);
-        expect(res.data).to.include('http://exist-db.org/apps/dta');
+        expect(res.data).to.include('http://exist-db.org/apps/dta-test');
     });
 
     it('downloads application xar', async function () {
@@ -67,8 +67,8 @@ describe('/api/generate [authenticated]', function () {
 
     it('uninstalls application', async function () {
         const query = `
-            repo:undeploy('http://exist-db.org/apps/dta'),
-            repo:remove('http://exist-db.org/apps/dta')
+            repo:undeploy('http://exist-db.org/apps/dta-test'),
+            repo:remove('http://exist-db.org/apps/dta-test')
         `;
         const res = await axios.get(`http://localhost:8080/exist/rest/db?_query=${encodeURIComponent(query)}&_wrap=no`, {
             auth: {

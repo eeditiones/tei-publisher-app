@@ -25,6 +25,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace errors = "http://exist-db.org/xquery/router/errors";
+import module namespace dbutil="http://exist-db.org/xquery/dbutil";
 
 declare variable $deploy:EXPATH_DESCRIPTOR :=
     <package xmlns="http://expath.org/ns/pkg"
@@ -326,7 +327,7 @@ declare function deploy:expand($collection as xs:string, $resource as xs:string,
         let $expanded :=
             fold-right(map:keys($parameters), $code, function($key, $in) {
                 try {
-                    replace($in, $key, "$1" || $parameters($key) || ";", "m")
+                    replace($in, $key, "$1" || $parameters($key), "m")
                 } catch * {
                     $in
                 }
@@ -399,13 +400,14 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         else
             $config:webcomponents
     let $replacements := map {
-        "^(.*\$config:webcomponents :=).*;$": '"' || $webcomponents || '"',
-        "^(.*\$config:default-template :=).*;$": '"' || $json?template || '"',
-        "^(.*\$config:default-view :=).*;$": '"' || $json?default-view || '"',
-        "^(.*\$config:search-default :=).*;$": '"' || $json?index || '"',
-        "^(.*\$config:data-root\s*:=).*;$": $dataRoot,
-        "^(.*\$config:default-odd :=).*;$": '"' || head(deploy:get-odds($json)) || '"',
-        "^(.*\$config:odd-available :=).*;$": '(' || string-join(deploy:get-odds($json) ! ('"' || . || '"'), ', ') || ')'
+        "^(.*\$config:webcomponents :=).*;$": '"' || $webcomponents || '";',
+        "^(.*\$config:default-template :=).*;$": '"' || $json?template || '";',
+        "^(.*\$config:default-view :=).*;$": '"' || $json?default-view || '";',
+        "^(.*\$config:search-default :=).*;$": '"' || $json?index || '";',
+        "^(.*\$config:data-root\s*:=).*;$": $dataRoot || ";",
+        "^(.*\$config:default-odd :=).*;$": '"' || head(deploy:get-odds($json)) || '";',
+        "^(.*\$config:odd-available :=).*;$": '(' || string-join(deploy:get-odds($json) ! ('"' || . || '"'), ', ') || ');',
+        '^(.*"url"\s*:).*$': '"http://localhost:8080/exist/apps/' || $json?abbrev || '"'
     }
     let $created := (
         deploy:store-expath-descriptor($collection, $json),
@@ -417,6 +419,8 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:copy-collection($collection || "/resources/fonts", $base || "/resources/fonts", ($json?owner, "tei"), "rw-r--r--"),
         deploy:expand($collection || "/modules", "config.xqm", $replacements),
         deploy:store-libs($collection, ($json?owner, "tei"), "rw-r--r--"),
+        deploy:expand($collection || "/modules/lib", "api.json", $replacements),
+        deploy:expand($collection || "/modules", "custom-api.json", $replacements),
         deploy:copy-odd($collection, $json),
         deploy:create-transform($collection),
         deploy:copy-resource($collection, $base, "index.xql", ($json?owner, "tei"), "rw-r--r--"),
@@ -433,9 +437,31 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         $collection
 };
 
+declare %private function deploy:zip-entries($app-collection as xs:string) {
+    (: compression:zip doesn't seem to store empty collections, so we'll scan for only resources :)
+    dbutil:scan(xs:anyURI($app-collection), function($collection as xs:anyURI, $resource as xs:anyURI?) {
+        if (exists($resource)) then
+            let $relative-path := substring-after($resource, $app-collection || "/")
+            return
+                if (starts-with($relative-path, "transform/")) then
+                    ()
+                else if (util:binary-doc-available($resource)) then
+                    <entry name="{$relative-path}" type="uri">{$resource}</entry>
+                else
+                    <entry name="{$relative-path}" type="text">
+                    {
+                        serialize(doc($resource), map { "indent": false() })
+                    }
+                    </entry>
+        else
+            ()
+    })
+};
+
 declare function deploy:package($collection as xs:string, $expathConf as element()) {
     let $name := concat($expathConf/@abbrev, "-", $expathConf/@version, ".xar")
-    let $xar := compression:zip(xs:anyURI($collection), true(), $collection)
+    let $entries := deploy:zip-entries($collection)
+    let $xar := compression:zip($entries, true())
     return
         xmldb:store("/db/system/repo", $name, $xar, "application/zip")
 };
@@ -467,7 +493,8 @@ declare function deploy:generate($request as map(*)) {
 };
 
 declare function deploy:download-app($request as map(*)) {
-    let $xar := compression:zip(xs:anyURI($config:app-root), true(), $config:app-root)
+    let $entries := deploy:zip-entries($config:app-root)
+    let $xar := compression:zip($entries, true())
     let $name := config:expath-descriptor()/@abbrev
     return
         response:stream-binary($xar, "media-type=application/zip", $name || ".xar")
