@@ -39,6 +39,10 @@ RUN  git clone https://github.com/eeditiones/tei-publisher-lib.git \
     && git checkout ${PUBLISHER_LIB_VERSION} \
     && ant
 
+RUN  git clone https://github.com/eeditiones/oas-router.git \
+    && cd oas-router \
+    && ant
+
 # Build shakespeare
 RUN  git clone https://github.com/eeditiones/shakespeare.git \
     && cd shakespeare \
@@ -63,6 +67,7 @@ RUN ant
 FROM existdb/existdb:${EXIST_VERSION}
 
 COPY --from=tei /tmp/tei-publisher-lib/build/*.xar /exist/autodeploy
+COPY --from=tei /tmp/oas-router/build/*.xar /exist/autodeploy
 COPY --from=tei /tmp/tei-publisher-app/build/*.xar /exist/autodeploy
 COPY --from=tei /tmp/shakespeare/build/*.xar /exist/autodeploy
 COPY --from=tei /tmp/vangogh/build/*.xar /exist/autodeploy
