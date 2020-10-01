@@ -16,8 +16,7 @@ WORKDIR /tmp
 
 RUN apt-get update && apt-get install -y \
     wget \
-    git \
-    curl
+    git
 
 RUN wget http://www-us.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz \
     && mkdir ant-${ANT_VERSION} \
@@ -85,6 +84,3 @@ ENV JAVA_TOOL_OPTIONS \
 RUN [ "java", \
     "org.exist.start.Main", "client", "-l", \
     "--no-gui",  "--xpath", "system:get-version()" ]
-
-HEALTHCHECK --timeout=3s \
-    CMD curl -f http://localhost:8080/exist/apps/tei-publisher/api/version || exit 1
