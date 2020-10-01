@@ -71,7 +71,7 @@ describe('/api/search/autocomplete', function () {
 });
 
 describe('/api/search', function () {
-    this.timeout(10000);
+    this.timeout(30000);
 
     it('runs a search', async function () {
         const res = await util.axios.get('search', {
@@ -99,7 +99,7 @@ describe('/api/search', function () {
 });
 
 describe('/api/search/facets', function () {
-    this.timeout(10000);
+    this.timeout(30000);
 
     let cookie;
 
