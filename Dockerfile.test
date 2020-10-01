@@ -1,0 +1,22 @@
+ARG PUBLISHER_VERSION=feature/open-api
+
+FROM node:alpine
+
+USER root
+
+WORKDIR /tmp
+
+RUN apk update && apk upgrade && \
+    apk add --no-cache bash git openssh
+
+# add key
+RUN  mkdir -p ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+
+# Build tei-publisher-app
+RUN  git clone https://github.com/eeditiones/tei-publisher-app.git \
+    && cd tei-publisher-app \
+    && git checkout feature/open-api
+
+WORKDIR /tmp/tei-publisher-app
+
+RUN npm install

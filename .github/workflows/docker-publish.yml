@@ -30,7 +30,9 @@ jobs:
         run: |
           if [ -f docker-compose.test.yml ]; then
             docker-compose --file docker-compose.test.yml build
+            docker-compose --file docker-compose.test.yml up exist-db -d
             docker-compose --file docker-compose.test.yml run sut
+            docker-compose --file docker-compose.test.yml down
           else
             docker build . --file Dockerfile --build-arg PUBLISHER_VERSION=master
           fi
@@ -67,7 +69,7 @@ jobs:
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
 
           # Use Docker `latest` tag convention
-          [ "$VERSION" == "master" ] && VERSION=latest
+          [ "$VERSION" == "master" ] && VERSION=master
 
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
