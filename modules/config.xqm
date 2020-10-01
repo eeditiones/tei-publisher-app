@@ -51,7 +51,7 @@ declare variable $config:webcomponents := "2.0.3";
  : own library extending pb-components and published it to a CDN.
  :)
 declare variable $config:webcomponents-cdn := "https://unpkg.com/@teipublisher/pb-components7";
-(: declare variable $config:webcomponents-cdn := "http://localhost:8000"; :)
+(: declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components"; :)
 
 (:~
  : Should documents be located by xml:id or filename?
