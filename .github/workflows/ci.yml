@@ -1,0 +1,27 @@
+name: TEI Publisher CI
+
+on:
+  # Run tests for any PRs.
+  pull_request:
+
+  workflow_dispatch:
+
+env:
+  # TODO: Change variable to your image's name.
+  IMAGE_NAME: teipublisher
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Build docker image
+        run: docker-compose --file docker-compose.test.yml build exist-db
+      - name: Start docker image
+        run: docker-compose --file docker-compose.test.yml up -d exist-db
+      - name: Run tests
+        run: npm install test
+      - name: Stop docker
+        run: docker-compose --file docker-compose.test.yml down

@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  exist-db:
+    build:
+      context: .
+      dockerfile: Dockerfile.ci
+    ports:
+      - "8080:8080"
+    network_mode: host
+  sut:
+    build: 
+      context: .
+      dockerfile: Dockerfile.test
+    network_mode: host
+    command: npm run test
+    depends_on: [ "exist-db" ]

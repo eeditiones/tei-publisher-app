@@ -110,40 +110,7 @@
         <pb-page data-template="pages:pb-page" unresolved="unresolved">
             <app-header-layout>
                 <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
-                    <app-toolbar class="menubar">
-                        <a href="${app}/index.html" class="logo" data-template="pages:parse-params">
-                            <img src="resources/images/tei-publisher-logo-contrast-color.svg"/>
-                        </a>
-                        <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
-                        <paper-menu-button>
-                            <a href="#" slot="dropdown-trigger">
-                                <pb-i18n key="menu.documentation">Documentation</pb-i18n>
-                            </a>
-                            <paper-listbox slot="dropdown-content">
-                                <paper-item>
-                                    <a href="${app}/doc/documentation.xml?odd=docbook.odd" data-template="pages:parse-params">
-                                        <pb-i18n key="menu.documentation">Documentation</pb-i18n>
-                                    </a>
-                                </paper-item>
-                                <paper-item>
-                                    <a href="${app}/doc/documentation.xml?odd=docbook.odd&amp;id=faq" data-template="pages:parse-params">FAQ</a>
-                                </paper-item>
-                            </paper-listbox>
-                        </paper-menu-button>
-                        <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on GitHub">
-                            <img src="resources/images/github.svg" height="20"/>
-                        </a>
-
-                        <!-- Search input -->
-                        <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"
-                                   redirect="redirect"></pb-search>
-
-                        <!-- language selector -->
-                        <pb-lang name="lang" data-template="pages:languages"/>
-                        <pb-login group="tei">
-                            <iron-icon slot="icon" icon="account-circle"></iron-icon>
-                        </pb-login>
-                    </app-toolbar>
+                    <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
                     <app-toolbar>
                         <pb-paginate per-page="10" range="5" subscribe="results"></pb-paginate>
                         <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
@@ -151,7 +118,7 @@
                 </app-header>
 
                 <main>
-                    <pb-load id="results" url="templates/search-results.html" emit="results"></pb-load>
+                    <pb-load id="results" url="api/search" emit="results"></pb-load>
                     <div class="search-panel">
                         <paper-card>
                             <div class="card-content">
@@ -161,7 +128,7 @@
                                         <paper-checkbox name="field" value="text">Search sections</paper-checkbox>
                                         <paper-checkbox name="field" value="head">Search headings</paper-checkbox>
                                     </div>
-                                    <pb-custom-form id="facets" url="modules/facets.xql" subscribe="results" event="pb-results-received" emit="search"/>
+                                    <pb-custom-form id="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/>
                                 </pb-search>
                             </div>
                         </paper-card>

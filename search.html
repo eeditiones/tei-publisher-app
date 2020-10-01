@@ -131,6 +131,9 @@
                                 <paper-item>
                                     <a href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html" target="_blank">Webcomponents API</a>
                                 </paper-item>
+                                <paper-item>
+                                    <a href="${app}/api.html" data-template="pages:parse-params" target="_blank">TEI Publisher API</a>
+                                </paper-item>
                             </paper-listbox>
                         </paper-menu-button>
                         <a href="https://github.com/eeditiones/tei-publisher-app" title="View code on GitHub" class="gitlab">
@@ -154,7 +157,7 @@
                 </app-header>
 
                 <main>
-                    <pb-load id="results" url="templates/search-results.html" emit="results"></pb-load>
+                    <pb-load id="results" url="api/search" emit="results"></pb-load>
                     <div class="search-panel">
                         <paper-card>
                             <div class="card-content">
@@ -164,7 +167,7 @@
                                         <paper-checkbox name="field" value="text">Search sections</paper-checkbox>
                                         <paper-checkbox name="field" value="head">Search headings</paper-checkbox>
                                     </div>
-                                    <pb-custom-form id="facets" url="modules/facets.xql" subscribe="results" event="pb-results-received" emit="search"/>
+                                    <pb-custom-form id="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/>
                                 </pb-search>
                             </div>
                         </paper-card>

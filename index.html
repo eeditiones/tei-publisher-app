@@ -270,7 +270,7 @@
 </head>
 
 <body>
-    <pb-page data-template="pages:pb-page" unresolved="unresolved">
+    <pb-page data-template="pages:pb-page" api-version="1.0" unresolved="unresolved">
         <app-drawer-layout force-narrow="force-narrow">
             <app-drawer slot="drawer" align="right">
                 <div class="drawer-content">
@@ -332,6 +332,9 @@
                                     <paper-item>
                                         <a href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html" target="_blank">Webcomponents API</a>
                                     </paper-item>
+                                    <paper-item>
+                                        <a href="${app}/api.html" data-template="pages:parse-params" target="_blank">TEI Publisher API</a>
+                                    </paper-item>
                                 </paper-listbox>
                             </paper-menu-button>
                             <a href="${app}/doc/blog/" data-template="pages:parse-params"><pb-i18n key="menu.news">News</pb-i18n></a>
@@ -386,8 +389,8 @@
                                     <paper-tab slot="tab"><pb-i18n key="browse.dts">Distributed Text Services (Experimental)</pb-i18n></paper-tab>
 
                                     <div class="browse" slot="page">
-                                        <pb-custom-form id="facets" url="modules/facets.xql" event="pb-results-received" subscribe="docs" emit="docs"></pb-custom-form>
-                                        <pb-browse-docs id="document-list" url="collection/" sort-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"}]' sort-by="title"
+                                        <pb-custom-form id="facets" url="api/search/facets" event="pb-results-received" subscribe="docs" emit="docs"></pb-custom-form>
+                                        <pb-browse-docs id="document-list" url="api/collection" sort-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"}]' sort-by="title"
                                             filter-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"},{"label": "browse.file", "value": "file"}]' filter-by="title" auto="auto" history="history" login="login" emit="docs" subscribe="docs">
                                             <pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" emit="docs" subscribe="docs"></pb-paginate>
                                         </pb-browse-docs>
@@ -470,6 +473,10 @@
 
         // configuration for the DTS endpoints
         const dtsConfig = [
+            {
+                "url": "http://localhost:8080/exist/apps/tei-publisher/api/dts",
+                "title": "Localhost"
+            },
         {
             "url": "https://teipublisher.com/exist/apps/vangogh/api/dts",
             "title": "Van Gogh Letters"

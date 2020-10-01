@@ -32,7 +32,7 @@ declare variable $config:webcomponents := "$$webcomponents-version$$";
  : CDN URL to use for loading webcomponents. Could be changed if you created your
  : own library extending pb-components and published it to a CDN.
  :)
-declare variable $config:webcomponents-cdn := "https://unpkg.com/@teipublisher/pb-components";
+declare variable $config:webcomponents-cdn := "https://unpkg.com/@teipublisher/pb-components7";
 
 (:~~
  : A list of regular expressions to check which external hosts are
@@ -278,7 +278,7 @@ declare variable $config:context-path :=
 (:~
  : The root of the collection hierarchy containing data.
  :)
-declare variable $config:data-root := $$config-data$$;
+declare variable $config:data-root := "$$config-data$$";
 
 (:~
  : The root of the collection hierarchy whose files should be displayed

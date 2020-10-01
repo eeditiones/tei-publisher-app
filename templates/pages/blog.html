@@ -111,7 +111,7 @@
                             <pb-collapse>
                                 <h3 slot="collapse-trigger">Articles</h3>
                                 <div slot="collapse-content">
-                                    <pb-load class="summary" url="modules/blog.xql?doc=${doc}" auto="auto" emit="transcription"
+                                    <pb-load class="summary" url="doc/blog/list?doc=${doc}" auto="auto" emit="transcription"
                                         data-template="pages:parse-params"/>
                                 </div>
                             </pb-collapse>
@@ -181,12 +181,12 @@
                         <pb-media-query query="min-width: 1024px">
                             <aside>
                                 <h1>Blog</h1>
-                                <pb-load class="summary" url="modules/blog.xql?doc=${doc}" auto="auto" emit="transcription"
+                                <pb-load class="summary" url="doc/blog/list?doc=${doc}" auto="auto" emit="transcription"
                                     data-template="pages:parse-params"/>
                             </aside>
                         </pb-media-query>
                         <div class="content">
-                            <pb-view id="view1" src="document1" view="single" subscribe="transcription" load-css="../../odd/docbook.css"
+                            <pb-view id="view1" src="document1" view="single" subscribe="transcription" load-css="odd/docbook.css"
                                 emit="transcription" append-footnotes="append-footnotes" odd="docbook"/>
                         </div>
                     </main>

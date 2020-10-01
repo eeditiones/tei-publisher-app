@@ -47,9 +47,12 @@
                 <paper-listbox slot="dropdown-content">
                     <paper-item data-template="pages:edit-odd-list"></paper-item>
                     <paper-item>
-                        <pb-download url="modules/lib/app-download.xql">
+                        <pb-download url="api/apps/download">
                             <pb-i18n key="appgen.xar-download">Download App as .xar</pb-i18n>
                         </pb-download>
+                    </paper-item>
+                    <paper-item>
+                        <a href="${app}/api.html" data-template="pages:parse-params" target="_blank">API Documentation</a>
                     </paper-item>
                 </paper-listbox>
             </paper-menu-button>
