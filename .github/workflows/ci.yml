@@ -22,6 +22,6 @@ jobs:
       - name: Start docker image
         run: docker-compose --file docker-compose.test.yml up -d exist-db
       - name: Run tests
-        run: npm test
+        run: npm install test
       - name: Stop docker
         run: docker-compose --file docker-compose.test.yml down
