@@ -9,7 +9,7 @@ FROM openjdk:8-jdk-slim as builder
 
 USER root
 
-ENV ANT_VERSION 1.10.8
+ENV ANT_VERSION 1.10.9
 ENV ANT_HOME /etc/ant-${ANT_VERSION}
 
 WORKDIR /tmp
