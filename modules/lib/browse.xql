@@ -96,7 +96,7 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
     )
 };
 
-declare %private function app:params2map($root as xs:string) {
+declare %private function app:params2map($root as xs:string?) {
     map:merge((
         for $param in request:get-parameter-names()[not(. = ("start", "per-page"))]
         return
