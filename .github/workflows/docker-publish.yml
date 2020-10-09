@@ -26,13 +26,13 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
       - name: Build docker image
-        run: docker-compose --file docker-compose.test.yml build exist-db
+        run: docker build -t exist-db -f Dockerfile .
       - name: Start docker image
-        run: docker-compose --file docker-compose.test.yml up -d exist-db
+        run: docker run --publish 8080:8080 --detach exist-db
       - name: Run tests
         run: npm install test
       - name: Stop docker
-        run: docker-compose --file docker-compose.test.yml down
+        run: docker stop exist-db
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
