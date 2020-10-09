@@ -90,6 +90,10 @@ app-toolbar pb-search {
     padding-left: 20px;
 }
 
+app-toolbar .menuitem {
+    display: inherit;
+}
+
 app-drawer {
     --pb-lang-item-color: black;
     --pb-lang-input-color: black;

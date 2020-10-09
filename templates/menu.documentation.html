@@ -1,0 +1,24 @@
+<div class="menuitem">
+    <paper-menu-button>
+        <a href="#" slot="dropdown-trigger">
+            <pb-i18n key="menu.documentation">Documentation</pb-i18n>
+        </a>
+        <paper-listbox slot="dropdown-content">
+            <paper-item>
+                <a href="${app}/doc/documentation.xml?odd=docbook.odd" data-template="pages:parse-params">
+                    <pb-i18n key="menu.documentation">Documentation</pb-i18n>
+                </a>
+            </paper-item>
+            <paper-item>
+                <a href="${app}/doc/documentation.xml?odd=docbook.odd&amp;id=faq" data-template="pages:parse-params">FAQ</a>
+            </paper-item>
+            <paper-item>
+                <a href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html" target="_blank">Webcomponents API</a>
+            </paper-item>
+            <paper-item>
+                <a href="${app}/api.html" data-template="pages:parse-params" target="_blank">TEI Publisher API</a>
+            </paper-item>
+        </paper-listbox>
+    </paper-menu-button>
+    <a href="${app}/doc/blog/" data-template="pages:parse-params"><pb-i18n key="menu.news"/></a>
+</div>
