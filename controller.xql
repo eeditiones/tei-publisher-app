@@ -39,6 +39,12 @@ else if ($exist:path eq "/") then
         <redirect url="index.html"/>
     </dispatch>
 
+(: static HTML page for API documentation should be served directly to make sure it is always accessible :)
+else if ($exist:path eq '/api.html') then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/templates/api.html"/>
+    </dispatch>
+
 (: static resources from the resources, transform, templates, odd or modules subirectories are directly returned :)
 else if (matches($exist:path, "^.*/(resources|transform|templates)/.*$")
     or matches($exist:path, "^.*/odd/.*\.css$")
