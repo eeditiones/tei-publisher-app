@@ -424,7 +424,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:copy-odd($collection, $json),
         deploy:create-transform($collection),
         deploy:copy-resource($collection, $base, "index.xql", ($json?owner, "tei"), "rw-r--r--"),
-        deploy:copy-resource($collection, $base, "api.html", ($json?owner, "tei"), "rw-r--r--"),
+        deploy:copy-resource($collection || "/templates", $base || "/templates", "api.html", ($json?owner, "tei"), "rw-r--r--"),
         deploy:mkcol($collection || "/data", ($json?owner, "tei"), "rw-r--r--"),
         deploy:copy-resource($collection || "/data", $base || "/data", "taxonomy.xml", ($json?owner, "tei"), "rw-r--r--"),
         deploy:copy-resource($collection || "/resources/css", $base || "/resources/css", "theme.css", ($json?owner, "tei"), "rw-r--r--"),
