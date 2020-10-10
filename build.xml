@@ -69,6 +69,10 @@
                 <exclude name=".existdb.json" />
                 <exclude name=".editorconfig" />
                 <exclude name="node_modules/**" />
+                <exclude name="Dockerfile*"/>
+                <exclude name=".github/**"/>
+                <exclude name=".babelrc"/>
+                <exclude name=".travis.yml"/>
             </fileset>
         </zip>
     </target>
