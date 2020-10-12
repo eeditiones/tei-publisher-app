@@ -3863,11 +3863,10 @@ rm modules/view.xql</programlisting>
   </section>
   <section>
     <title>Migrating from TEI Publisher 4, 5 or earlier</title>
-    <para>Updating an app generated with TEI Publisher 4.x.x/5.x.x still requires some manual steps, though we're working towards reducing the dependencies.
-      Future updates should become easier. There are two possible approaches for updating:</para>
+    <para>If you are migrating to version 7 from TEI Publisher 5, 4 or earlier, you also need to pay attention to the refactored user interface introduced by TEI Publisher 6. This makes things more difficult and there are two possible approaches for updating:</para>
     <itemizedlist>
       <listitem>
-        <para>generate a new application with TEI Publisher 6 and copy the files you changed in your app into the newly generated app. This is recommended if
+        <para>generate a new application with TEI Publisher 7 and copy the files you changed in your app into the newly generated app. This is recommended if
           the customizations you did apply were limited to e.g. ODD files, CSS styles, templates, index configurations or a few of the files in
             <filename>modules/</filename>.</para>
       </listitem>
@@ -3875,8 +3874,7 @@ rm modules/view.xql</programlisting>
         <para>update your generated app by modifying the HTML templates you use and copying files from TEI Publisher.</para>
       </listitem>
     </itemizedlist>
-    <para>The first option is much easier in general. We only recommend to go with the second option if you app is heavily customized and - in particular -
-      contains many changes to the XQuery files.</para>
+    <para>The first option is much easier in general. The second option is only for experienced users who have to update apps containing a lot of customized code.</para>
     <section>
       <title>Update by Generating a New Application</title>
       <procedure>
@@ -3897,6 +3895,9 @@ rm modules/view.xql</programlisting>
     </section>
     <section>
       <title>Update by Copying</title>
+      <note>
+        <para>This approach is for experienced users only and not recommended. We mainly keep it here for reference. The steps below were written for updating to TEI Publisher 6, so you will also need to go through the previous section about migrating from 6 to 7 and apply the steps not described below.</para> 
+      </note>
       <para>The following steps assume that you either</para>
       <itemizedlist>
         <listitem>
