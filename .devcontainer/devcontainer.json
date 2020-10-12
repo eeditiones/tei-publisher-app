@@ -1,0 +1,12 @@
+{
+    "name": "TEI Publisher App Development Container",
+    "build": {
+        "dockerfile": "Dockerfile.dev"
+    },
+    "forwardPorts": [ 8080 ],
+    "extensions": [ "exist-db.existdb-vscode", "42crunch.vscode-openapi", "redhat.vscode-xml" ],
+    "overrideCommand": false,
+    "postCreateCommand": [
+        "${containerWorkspaceFolder}/.devcontainer/init.sh"
+    ]
+}
