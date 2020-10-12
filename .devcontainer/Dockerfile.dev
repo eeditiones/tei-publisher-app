@@ -5,6 +5,9 @@ ARG PUBLISHER_LIB_VERSION=v2.8.9
 ARG PUBLISHER_VERSION=master
 ARG EDITOR_VERSION=1.0.1
 
+ARG HTTP_PORT=8080
+ARG HTTPS_PORT=8443
+
 # [Option] Install Maven
 ARG INSTALL_MAVEN="false"
 ARG MAVEN_VERSION=""
@@ -63,4 +66,5 @@ RUN bin/client.sh -l --no-gui --xpath "system:get-version()"
 EXPOSE 8080
 
 ENV EXIST_HOME=/usr/local/exist
+ENV JAVA_OPTS=-Djetty.port=${HTTP_PORT} -Djetty.ssl.port=${HTTPS_PORT}
 ENTRYPOINT [ "/usr/local/exist/bin/startup.sh" ]
