@@ -65,8 +65,8 @@
         everyone else to use. After all, our mantra is reuse, reuse, reuse and we want to turn TEI
         Publisher into a box of tools the entire community can benefit from. See our <link
           linkend="roadmap">roadmap</link> for the ideas we are thinking of.</para>
-      <para>Despite the elegant simplicity of this approach, various projects we realized in the past
-        prove that TEI Publisher is:</para>
+      <para>Despite the elegant simplicity of this approach, various projects we realized in the
+        past prove that TEI Publisher is:</para>
       <orderedlist>
         <listitem>
           <para>powerful enough to cover complex transformation needs</para>
@@ -97,7 +97,7 @@
         editions.</para>
 
       <para>TEI Publisher development is only possible thanks to generous contributions of
-        developers, users and institutions willing to employ Open Source approaches so that the 
+        developers, users and institutions willing to employ Open Source approaches so that the
         whole community can reuse and benefit from their work.</para>
 
       <para>A growing number of projects from small to large that have decided to publish their
@@ -138,8 +138,8 @@
             target language is not listed and you'd like to work on it.</para>
         </listitem>
         <listitem>
-          <para> Port back your custimizations to the TEI Publisher code base so that others can use it
-            too (or ask us to do it for you)! </para>
+          <para> Port back your custimizations to the TEI Publisher code base so that others can use
+            it too (or ask us to do it for you)! </para>
         </listitem>
         <listitem>
           <para> Help and mentor others - publish teaching materials, answer questions on our Slack
@@ -152,12 +152,35 @@
     </section>
     <section xml:id="versions">
       <title>Versions</title>
-      <para>TEI Publisher has been under active development since 2015. Once or twice a year a new major version
-        is released, bringing important new features.</para>
-      <para>Minor versions are released at shorter intervals and offer bug fixes, minor new features and
-        improvements.</para>
-      <para>The current major version of the TEI Publisher is 6.0.0</para>
+      <para>TEI Publisher has been under active development since 2015. Once or twice a year a new
+        major version is released, bringing important new features.</para>
+      <para>Minor versions are released at shorter intervals and offer bug fixes, minor new features
+        and improvements.</para>
+      <para>The current major version of the TEI Publisher is 7.0.0</para>
 
+      <section xml:id="v7">
+        <title>What's new in TEI Publisher 7.0.0</title>
+        <para>Version 7 brought another major refactoring and restructuring of TEI Publisher app ,
+          particularly regarding the server-side modules.</para>
+        <para>TEI Publisher now exposes a well-defined, clear <link xlink:href="../api.html"
+            xlink:show="new">API specification</link> following the <link xlink:show="new"
+            xlink:href="http://spec.openapis.org/oas/v3.0.3">Open API standard</link>. This API is
+          used in TEI Publisher by client-side UI components but can be equally well used by
+          independent software which uses functionality exposed via the API without being forced to
+          use Publisher's client-side components.</para>
+        <para>On the server a new package, <filename>oas-router</filename>, reads the API
+          specification and uses it to map HTTP requests to XQuery functions which perform actual
+          API operations. Other packages, particularly UI web components
+            (<filename>pb-components</filename>) and TEI Processing Model library
+            (<filename>tei-publisher-lib</filename>) underwent necessary changes to communicate with
+          the new API as well as retain full backwards compatibility.</para>
+
+        <para>Beyond the structural changes a number of reported issues has been fixed and broader
+          test coverage for all packages introduced. A sophisticated CI setup based on Docker has
+          been created. Extensive test suite has been prepared for individual components.
+          Furthermore, every API operation is independently tested against the specification, to
+          assure that e.g. parameter and response types correspond exactly to the definition.</para>
+      </section>
       <section xml:id="v6">
         <title>What's new in TEI Publisher 6.0.0</title>
         <para>Version 6 brought a major refactoring and restructuring of TEI Publisher app libraries
@@ -165,8 +188,8 @@
         <orderedlist>
           <listitem>
             <para>Web components overhaul: migration to <link xlink:show="new"
-                xlink:href="https://lit-element.polymer-project.org/">LitElement</link> and to
-              the npm library</para>
+                xlink:href="https://lit-element.polymer-project.org/">LitElement</link> and to the
+              npm library</para>
             <para>While invisible to users, this redesign greatly improves the modularity of
               Publisher-based applications. With Publisher web component releases published on npm,
               updating the user interface for all Publisher-based apps is just a question of
@@ -248,10 +271,10 @@
     </section>
     <section xml:id="installation">
       <title>Installation</title>
-      <para>TEI Publisher requires the <link xlink:show="new" xlink:href="http://exist-db.org">eXist XML
-          database</link> to operate. It is distributed as an eXist application package, making it
-        easy to install on any eXist database instance - either on your local machine or any remote
-        server.</para>
+      <para>TEI Publisher requires the <link xlink:show="new" xlink:href="http://exist-db.org">eXist
+          XML database</link> to operate. It is distributed as an eXist application package, making
+        it easy to install on any eXist database instance - either on your local machine or any
+        remote server.</para>
       <para>You can install eXist and TEI Publisher manually, as described below. Alternatively use
         the provided <link linkend="docker">docker image</link>.</para>
 
@@ -267,8 +290,8 @@
             instead of just 8.</para>
           <para>If you do not have Java installed, you can choose between a variety of different
             Java distributions for your operating system. While these are largely equivalent, so far
-            we have had the smoothest installation experience across operating systems with the <link
-              xlink:show="new"
+            we have had the smoothest installation experience across operating systems with the
+              <link xlink:show="new"
               xlink:href="https://www.azul.com/downloads/zulu-community/?package=jdk">Zulu Community
               OpenJDK</link> builds. In particular for Windows users, this provides the best out of
             the box experience.</para>
@@ -307,7 +330,8 @@
 
           <para>Double clicking the <command>.jar</command> should install eXist on your local
             system. It will launch an installer to guide you through basic settings. The default
-            settings suggested by the installer provide a good starting point for most projects.</para>
+            settings suggested by the installer provide a good starting point for most
+            projects.</para>
 
           <note>
             <para>If double-clicking the <command>.jar</command> does not have any effect, there's
@@ -580,9 +604,9 @@
           <title>Note</title>
           <para>You need to be <emphasis role="bold">logged in</emphasis> for most advanced actions
             like creating or editing ODDs. The login button to the right of the menu bar allows you
-            to log in. By default, there's a user named <parameter>tei-demo</parameter> with password
-            <parameter>demo</parameter>, and a user <parameter>tei</parameter> with password
-            <parameter>simple</parameter>.</para>
+            to log in. By default, there's a user named <parameter>tei-demo</parameter> with
+            password <parameter>demo</parameter>, and a user <parameter>tei</parameter> with
+            password <parameter>simple</parameter>.</para>
         </note>
       </section>
       <section>
@@ -655,14 +679,15 @@
             presenting samples of:</para>
           <itemizedlist>
             <listitem>
-              <para>A 15th century manuscript letter to <emphasis role="bold">Mikołaj Orlik</emphasis>
-                demonstrating alignment between Latin original and parallel Polish
-                translation,</para>
+              <para>A 15th century manuscript letter to <emphasis role="bold">Mikołaj
+                  Orlik</emphasis> demonstrating alignment between Latin original and parallel
+                Polish translation,</para>
             </listitem>
             <listitem>
-              <para>A 16th century manuscript letter of <emphasis role="bold">Hernán Cortés</emphasis>
-                showcasing parallel transcription/translation and facsimile view and transcription
-                enhanced with commentaries and explicitly encoded transcriptional features,</para>
+              <para>A 16th century manuscript letter of <emphasis role="bold">Hernán
+                  Cortés</emphasis> showcasing parallel transcription/translation and facsimile view
+                and transcription enhanced with commentaries and explicitly encoded transcriptional
+                features,</para>
             </listitem>
             <listitem>
               <para>A 16th century manuscript letter of <emphasis role="bold">Mauritius
@@ -783,8 +808,8 @@
       <title>Uploading your own documents</title>
       <para>If you read this, in all likelihood you already have some documents of your own you
         might want published, whether they are in TEI, DocBook, MS Word DOCX or other XML format.
-        The first step is to upload them into the database. You need to be <emphasis role="bold">logged
-          in</emphasis> and in the Playground area to do it (check the short info on the
+        The first step is to upload them into the database. You need to be <emphasis role="bold"
+          >logged in</emphasis> and in the Playground area to do it (check the short info on the
           <guibutton>Start</guibutton> page for user name and password). Then uploading is just a
         question of dragging your documents onto the <guibutton>Upload</guibutton> area. They will
         become available in the document list immediately after upload is completed.</para>
@@ -813,13 +838,13 @@
           components may make certain assumptions about data they are getting and if your documents
           do not follow the same conventions it may be required to adjust parameters passed to the
           components from the page template or the component logic.</para>
-        <para> By means of example - a table of content component assumes that the document structure
-          is represented by means of nested <parameter>div</parameter> elements and section titles
-          are given in <parameter>head</parameter> element. If your project rather chooses numbered
-          divisions (<parameter>div1</parameter>, <parameter>div2</parameter>) etc it may be
-          advisable to adjust this to avoid customizing all navigation, table of contents and so on,
-          but it is one of very rare cases where TEI Publisher exposes any predilection for a
-          particular flavour of TEI.</para>
+        <para> By means of example - a table of content component assumes that the document
+          structure is represented by means of nested <parameter>div</parameter> elements and
+          section titles are given in <parameter>head</parameter> element. If your project rather
+          chooses numbered divisions (<parameter>div1</parameter>, <parameter>div2</parameter>) etc
+          it may be advisable to adjust this to avoid customizing all navigation, table of contents
+          and so on, but it is one of very rare cases where TEI Publisher exposes any predilection
+          for a particular flavour of TEI.</para>
         <para>Similarly, the template for aligned transcription and translation is parametrized to
           accept an XPath expression pointing to the location of the transcription and aligned
           translation. Likely for your documents this expression would have to be adjusted (unless
@@ -1142,10 +1167,10 @@
           control all aspects of the transformation of your documents from source XML format to all
           output formats: HTML, ePUB, PDF etc. As already mentioned it is considered best practice
           to chain ODD customizations together and rather change or add project specific rules to
-          more generic ODD than copy them in extenso. ODD chaining allows for the future
-          upgrades as your base ODDs may be updated by standardization bodies which maintain them.
-          Commonly project ODDs would extend <filename>teipublisher.odd</filename>, a generic TEI
-          Publisher set of processing rules.</para>
+          more generic ODD than copy them in extenso. ODD chaining allows for the future upgrades as
+          your base ODDs may be updated by standardization bodies which maintain them. Commonly
+          project ODDs would extend <filename>teipublisher.odd</filename>, a generic TEI Publisher
+          set of processing rules.</para>
         <para>Beginning with version 3.0 of TEI Publisher, you have the choice between writing the
           ODD by hand or using a visual editor. Both approaches can be combined and mixed. The
           visual editor saves the ODD in a non-destructive way, preserving any information not
@@ -1236,7 +1261,8 @@
           be applied. The TEI guidelines currently list two dozen behaviours, e.g. paragraph,
           heading, note, inline, block. The last two are the most frequently used. How exactly a
           behaviour translates into the target output media may differ depending on media features
-          and design decisions. TEI Publisher tries to implement them as generically as possible.</para>
+          and design decisions. TEI Publisher tries to implement them as generically as
+          possible.</para>
         <para>To change the model expand it by clicking on the arrow to the left of the grey box. A
           form appears, allowing you to change the model configuration. In our example we are happy
           with <emphasis>what</emphasis> is happening with the dateline, so we don't need to change
@@ -1491,12 +1517,13 @@
             <parameter>note</parameter> or <parameter>heading</parameter>. A processing model is
           thus a template description, used to generate the code needed by the publishing
           application to process the source document into required output. </para>
-        <para>The example below depicts a situation where a single model is defined for the <tag>app</tag>
-          element. As no <parameter>@predicate</parameter> or <parameter>@output</parameter> are
-          specified, this model applies for all contexts in which <tag>app</tag> may appear and all
-          possible outputs. Thus all <tag>app</tag> elements will be transformed into inline chunks
-          of text containing only contents of <tag>app</tag>'s <tag>lem</tag> child and omitting any
-          possible <tag>rdg</tag> children.</para>
+        <para>The example below depicts a situation where a single model is defined for the
+            <tag>app</tag> element. As no <parameter>@predicate</parameter> or
+            <parameter>@output</parameter> are specified, this model applies for all contexts in
+          which <tag>app</tag> may appear and all possible outputs. Thus all <tag>app</tag> elements
+          will be transformed into inline chunks of text containing only contents of
+          <tag>app</tag>'s <tag>lem</tag> child and omitting any possible <tag>rdg</tag>
+          children.</para>
         <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="app"&gt;
   &lt;model behaviour="inline"&gt;
     &lt;param name="content" value="lem"/&gt;
@@ -1550,8 +1577,8 @@
               </listitem>
             </itemizedlist>
           </para>
-          <para>Model explicitly specifying content parameter: for <tag>app</tag> entries
-            only content of its <tag>lem</tag> child is to be displayed (as an inline chunk of
+          <para>Model explicitly specifying content parameter: for <tag>app</tag> entries only
+            content of its <tag>lem</tag> child is to be displayed (as an inline chunk of
             text):</para>
           <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="app"&gt;
   &lt;model behaviour="inline"&gt;
@@ -2688,8 +2715,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         thus accessible for its content.</para>
       <para>External stylesheets for <code>pb-view</code> can also be specified via
           <code>load-css</code> component configuration attribute. In this scenario, unlike with ODD
-          <code>rendition</code>, regenerating the ODD is not required for changes to the CSS file to be
-        applied, otherwise both methods are functionally equivalent.</para>
+          <code>rendition</code>, regenerating the ODD is not required for changes to the CSS file
+        to be applied, otherwise both methods are functionally equivalent.</para>
 
       <programlisting language="html" xml:space="preserve">
                   &lt;pb-view id="view1" src="document1" load-css="odd/docbook.css"/&gt;
@@ -3280,36 +3307,49 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <title>Project specific i18n files</title>
       <para>It is a common need that projects will need their own internationalized labels for menu
         items, dialogs and other user interface elements.</para>
-      <para>All these can be stored in JSON language files, following the same naming conventions and basic structure as TEI Publisher ones. To use custom
-        language files, you need to specify the path under which they can be found relative to your application:</para>
+      <para>All these can be stored in JSON language files, following the same naming conventions
+        and basic structure as TEI Publisher ones. To use custom language files, you need to specify
+        the path under which they can be found relative to your application:</para>
       <programlisting language="html" xml:space="preserve">&lt;pb-page locales="resources/i18n/{{ns}}/{{lng}}.json"></programlisting>
-      <para>The path expression requires placeholders for two parameters <parameter>ns</parameter> and <parameter>lng</parameter>:</para>
+      <para>The path expression requires placeholders for two parameters <parameter>ns</parameter>
+        and <parameter>lng</parameter>:</para>
       <variablelist>
         <varlistentry>
           <term>lng</term>
           <listitem>
-            <para>the language code for a selected language, e.g. <code>de</code> or <code>fr</code></para>
+            <para>the language code for a selected language, e.g. <code>de</code> or
+              <code>fr</code></para>
           </listitem>
         </varlistentry>
         <varlistentry>
           <term>ns</term>
           <listitem>
-            <para>the namespace prefix used to distinguish between different collections of language files. By default, TEI Publisher expects custom language files to be in a namespace called <code>app</code>, though this can be configured.</para>
+            <para>the namespace prefix used to distinguish between different collections of language
+              files. By default, TEI Publisher expects custom language files to be in a namespace
+              called <code>app</code>, though this can be configured.</para>
           </listitem>
         </varlistentry>
       </variablelist>
-      <para>So given above configuration, TEI Publisher will search for a custom language file for, say, French in <code>resources/i18n/app/fr.json</code>. If you prefer a flat directory structure, you could change the <parameter>locale</parameter> to <code>resources/i18n/{{ns}}_{{lng}}.json</code> and TEI Publisher will look for a file <code>resources/i18n/app_fr.json</code>.</para>
-      <para>You may also define additional namespaces to be searched with the <parameter>locale-fallback-ns</parameter> parameter:</para>
+      <para>So given above configuration, TEI Publisher will search for a custom language file for,
+        say, French in <code>resources/i18n/app/fr.json</code>. If you prefer a flat directory
+        structure, you could change the <parameter>locale</parameter> to
+          <code>resources/i18n/{{ns}}_{{lng}}.json</code> and TEI Publisher will look for a file
+          <code>resources/i18n/app_fr.json</code>.</para>
+      <para>You may also define additional namespaces to be searched with the
+          <parameter>locale-fallback-ns</parameter> parameter:</para>
       <programlisting language="html" xml:space="preserve">&lt;pb-page locales="resources/i18n/{{ns}}/{{lng}}.json"
         locale-fallback-ns="app my-module"></programlisting>
-      <para>which means that TEI Publisher will search for labels in the <code>my-module</code> namespace first, then falling back to the <code>app</code> namespace, and if the label could still not be found, using TEI Publisher's default namespace. The latter is called <code>common</code> and should not be overwritten.</para>
+      <para>which means that TEI Publisher will search for labels in the <code>my-module</code>
+        namespace first, then falling back to the <code>app</code> namespace, and if the label could
+        still not be found, using TEI Publisher's default namespace. The latter is called
+          <code>common</code> and should not be overwritten.</para>
       <para>Listing below demonstrates a fictional <filename>en.js</filename> with a custom set of
-        labels. A new top-level key has been added as well as 3 subkeys for the <code>menu</code> section. Now
-        the project has access to a number of new i18n keys: <code>menu.about</code>,
+        labels. A new top-level key has been added as well as 3 subkeys for the <code>menu</code>
+        section. Now the project has access to a number of new i18n keys: <code>menu.about</code>,
           <code>menu.contact</code>, <code>menu.statute</code> and <code>greeting</code>.</para>
       <para>Furthermore, a value for <code>menu.documentation</code> has been specified. That key
-        already existed in Publisher (set to "Documentation") but the version from custom file will take
-        precedence and be used in the custom app.</para>
+        already existed in Publisher (set to "Documentation") but the version from custom file will
+        take precedence and be used in the custom app.</para>
       <programlisting language="js" xml:space="preserve">
 {
   "menu": {
@@ -3594,14 +3634,14 @@ declare variable $config:odd-available :=("shakespeare.odd");]]></programlisting
               role="bold">eXide</emphasis></para>
         </listitem>
       </orderedlist>
-      <para>The first approach is recommended if all you need is a copy of you app on disk. A <filename>.xar</filename>
-      is just a ZIP archive, so you can unpack it into a directory of your choice, which you can then commit to a
-      version control system like git.</para>
-      <para>However, if you continue to make changes inside the database (e.g. further work on the ODD),
-        you may want to use the second method, i.e. call eXide's synchronization.
-        It requires that you have access to the file
-        system of the server running eXist though, so it's usually only an option if you run your
-        own eXist instance locally. The synchronize steps in detail:</para>
+      <para>The first approach is recommended if all you need is a copy of you app on disk. A
+          <filename>.xar</filename> is just a ZIP archive, so you can unpack it into a directory of
+        your choice, which you can then commit to a version control system like git.</para>
+      <para>However, if you continue to make changes inside the database (e.g. further work on the
+        ODD), you may want to use the second method, i.e. call eXide's synchronization. It requires
+        that you have access to the file system of the server running eXist though, so it's usually
+        only an option if you run your own eXist instance locally. The synchronize steps in
+        detail:</para>
       <itemizedlist>
         <listitem>
           <para>Prerequisite: you need to have the <link xlink:show="new"
@@ -3648,9 +3688,12 @@ declare variable $config:odd-available :=("shakespeare.odd");]]></programlisting
     </section>
     <section>
       <title>Building from a directory</title>
-      <para>Once you have a copy of your app extracted in a local directory, you can always rebuild a fresh <filename>.xar</filename>
-        from it. In the simplest case it is sufficient to call <command>ant</command> inside the directory.</para>
-      <para>For up to date build instructions which also cover more advanced uses, refer to the "Building" section in the <link xlink:href="https://github.com/eeditiones/tei-publisher-app">readme of the TEI Publisher repository</link>.</para>
+      <para>Once you have a copy of your app extracted in a local directory, you can always rebuild
+        a fresh <filename>.xar</filename> from it. In the simplest case it is sufficient to call
+          <command>ant</command> inside the directory.</para>
+      <para>For up to date build instructions which also cover more advanced uses, refer to the
+        "Building" section in the <link xlink:href="https://github.com/eeditiones/tei-publisher-app"
+          >readme of the TEI Publisher repository</link>.</para>
     </section>
   </section>
   <section xml:id="customization-best-practice">
@@ -4046,7 +4089,8 @@ declare variable $config:data-root := $config:app-root || "/data";
         <para>Similar consideration applies if fulltext index makes use of any external function
           module, which in TEI Publisher and generated apps is commonly the case for facet and field
           definitions. This module needs to be stored before the index is to be applied and usually
-          it's best to store it in the same location as <filename>collection.xconf</filename>.</para>
+          it's best to store it in the same location as
+          <filename>collection.xconf</filename>.</para>
       </note>
     </section>
     <section xml:id="subcollections">
@@ -5136,22 +5180,22 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <para>The processor walks through all models in sequence and stops at the first one which
         either has a matching <parameter>@predicate</parameter> and/or
           <parameter>@output</parameter> or neither of both. <emphasis role="bold">Order is
-          important</emphasis>! Therefore you should always place models for specific cases first 
-          and the most general (without predicate or output) last. If your general model is
-        placed in front of your more specific models, it will always match:</para>
+          important</emphasis>! Therefore you should always place models for specific cases first
+        and the most general (without predicate or output) last. If your general model is placed in
+        front of your more specific models, it will always match:</para>
       <programlisting xml:space="preserve">&lt;elementSpec mode="change" ident="hi"&gt;
   &lt;model behaviour="inline"/&gt;
   &lt;model predicate="@rend='bold'" behaviour="inline"&gt;
     &lt;outputRendition&gt;font-weight: bold;&lt;/outputRendition&gt;
   &lt;/model&gt;
 &lt;/elementSpec&gt;</programlisting>
-      <para>Another common case is missing the step which generates transform code on the basis 
-        of your ODD. If you are using the graphic ODD editor this step is performed automatically
-        upon saving the ODD. When editing manually make sure you click on <guibutton>regenerate</guibutton>
-        button in the list of ODDs in the TEI Publisher or execute <filename>modules/lib/regenerate.xql</filename>
-        script. The latter is the only method to regenerate transform code in your custom application without 
-        using the graphic ODD editor.
-      </para>
+      <para>Another common case is missing the step which generates transform code on the basis of
+        your ODD. If you are using the graphic ODD editor this step is performed automatically upon
+        saving the ODD. When editing manually make sure you click on
+          <guibutton>regenerate</guibutton> button in the list of ODDs in the TEI Publisher or
+        execute <filename>modules/lib/regenerate.xql</filename> script. The latter is the only
+        method to regenerate transform code in your custom application without using the graphic ODD
+        editor. </para>
     </section>
     <section>
       <title>Page view doesn't work</title>
