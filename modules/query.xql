@@ -18,8 +18,8 @@ xquery version "3.1";
 
 module namespace query="http://www.tei-c.org/tei-simple/query";
 
-import module namespace tei-query="http://www.tei-c.org/tei-simple/query/tei" at "tei-query.xql";
-import module namespace docbook-query="http://www.tei-c.org/tei-simple/query/docbook" at "db-query.xql";
+import module namespace tei-query="http://www.tei-c.org/tei-simple/query/tei" at "query-tei.xql";
+import module namespace docbook-query="http://www.tei-c.org/tei-simple/query/docbook" at "query-db.xql";
 
 declare variable $query:QUERY_OPTIONS := map {
     "leading-wildcard": "yes",
