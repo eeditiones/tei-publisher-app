@@ -146,13 +146,6 @@
                         "description": "The view type used by the main view which displays the document, e.g. 'page' or 'div'. This has an influence on the generated links, which need to differ when linking to a page rather than a section."
                     },
                     {
-                        "name": "odd",
-                        "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
                         "name": "action",
                         "in": "query",
                         "schema":{
@@ -522,6 +515,14 @@
                             "type": "string",
                             "example": "test/F-rom.xml"
                         }
+                    },
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "shakespeare.odd"
+                        }
                     }
                 ],
                 "responses": {
@@ -709,11 +710,19 @@
                         "schema":{
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "docbook.odd"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Returns a PDF",
+                        "description": "Returns an ePUB",
                         "content": {
                             "application/epub+zip": {
                                 "schema": {
@@ -739,6 +748,8 @@
         "/api/document/{id}/contents": {
             "get": {
                 "summary": "Retrieve a formatted table of contents for the document",
+                "description": "Retrieve a formatted table of contents for the document, transformed via ODD",
+
                 "tags": [
                     "documents"
                 ],
@@ -751,6 +762,14 @@
                         "schema": {
                             "type": "string",
                             "example": "test/kant_rvernunft_1781.TEI-P5.xml"
+                        }
+                    },
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "teipublisher.odd"
                         }
                     },
                     {
@@ -838,6 +857,14 @@
                             ]
                         },
                         "description": "the format to return: either `json` or `html`. The first returns the HTML inside a JSON record with additional information about the next/previous page and so on. The latter is mainly for debugging purposes."
+                    },
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "shakespeare.odd"
+                        }
                     },
                     {
                         "name": "view",

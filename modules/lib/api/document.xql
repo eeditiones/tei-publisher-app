@@ -227,7 +227,8 @@ declare function dapi:epub($request as map(*)) {
 
 declare %private function dapi:work2epub($id as xs:string, $work as document-node(), $lang as xs:string?) {
     let $config := $config:epub-config($work, $lang)
-    let $oddName := replace($config:odd, "^([^/\.]+).*$", "$1")
+    let $odd := head(($request?parameters?odd, $config:odd))
+    let $oddName := replace($odd, "^([^/\.]+).*$", "$1")
     let $cssDefault := util:binary-to-string(util:binary-doc($config:output-root || "/" || $oddName || ".css"))
     let $cssEpub := util:binary-to-string(util:binary-doc($config:app-root || "/resources/css/epub.css"))
     let $css := $cssDefault || 
