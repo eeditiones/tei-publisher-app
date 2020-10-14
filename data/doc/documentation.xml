@@ -3203,6 +3203,39 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     </section>
   </section>
 
+  <section xml:id="api">
+    <title>Server-side API</title>
+    <para>Many of the user interface web components need to communicate with the server to request
+      certain data to be retrieved, processed and returned before the client-side components can
+      display it to the user. For example, when user clicks the <guibutton>Table of
+        Contents</guibutton> button, the corresponding <parameter>pb-load</parameter> component
+      sends an ajax request to retrieve the list of chapters. Similarly, when user types something
+      in the autocomplete field, a request is sent after each keystroke to find matching terms in
+      the index. These requests need to be received and processed by the server with the eXist
+      instance running and only then data will be returned to the browser.</para>
+
+    <para>Previous versions of the TEI Publisher included a number of XQuery modules implementing
+      the server-side functionality, located in <parameter>modules</parameter> collection. In
+      version 7, a new approach has been introduced. Formal <link xlink:href="../api.html"
+        xlink:show="new">API specification</link>, based on the <link xlink:show="new"
+        xlink:href="http://spec.openapis.org/oas/v3.0.3">Open API standard</link> defines all the
+      server-side API endpoints available in Publisher.</para>
+    <para>Advantages:
+    * standard-based API specification; tools for writing, generating documentation and testing
+    * clear overview
+    * clear separation and complete independence of the TEI Publisher app; can be used directly by any other software system
+    * easily customizable
+    * changes in API implementation do not require adjustments of the UI components as long as it's compatible
+    </para>
+    
+    <para>
+      * examples: pb-autocomplete, pb-load, pb-view
+      * Available endpoint groups
+      * Custom endpoints
+      * How to add your own endpoints
+      * Backwards compatibility (perhaps belongs to the web components discussion)
+    </para>
+
   <section xml:id="i18n">
     <title>Language versions</title>
     <para>TEI Publisher is available in more than a dozen languages and this number increases thanks
@@ -3378,20 +3411,19 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       pre-configured to use a certain ODD, page template and other settings.</para>
     <note>
       <title>Note</title>
-      <para>Previous versions of the TEI Publisher included everything they needed to run without
-        TEI Publisher. This had some advantages, but also made it more difficult to update to newer
+      <para>Early versions of the TEI Publisher included everything they needed to run without TEI
+        Publisher. This had some advantages, but also made it more difficult to update to newer
         releases.</para>
       <para>Starting with version 5 we are gradually moving towards more lightweight app design,
         ultimately containing only resources which are truly specific to the app (ODDs, HTML
         templates, images), while all generic functionality will be provided by TEI Publisher and
         its libraries and packages. Version 6 has seen all web components extracted into
-          <code>pb-components</code> package and planned version 7 aims to redesign and factor out
-        many parts of navigation and search modules.
+          <code>pb-components</code> package and in version 7 the server-side code has been based on
+        a well designed API specification with provisions for easy customization.
         <!--TEI Publisher itself will get an app administration page, which will allow users to
           manage and customize all installed apps from a central management shell.--></para>
-      <para>Until then, please make sure you are following our <link
-          linkend="customization-best-practice">best practice recommendations</link> for a smooth
-        upgrade path.</para>
+      <para>Please make sure you are following our <link linkend="customization-best-practice">best
+          practice recommendations</link> for a smooth upgrade path.</para>
     </note>
     <para>To get started, click on <guimenuitem>App Generator</guimenuitem> in the menu bar and fill
       out the form.</para>
