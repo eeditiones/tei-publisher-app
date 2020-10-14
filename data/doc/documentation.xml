@@ -263,9 +263,9 @@
       <title>«Stay Home Learn TEI Publisher From Scratch»</title>
       <para>A 3-part online course has been organized by e-editiones and led by Wolfgang Meier in
         June 2020. Course material, as well as video recordings of all the sessions, and a
-        walk-through for the assignments are available for self-study. Find all informations on
-        the <link xlink:show="new" xlink:href="https://github.com/eeditiones/workshop#slides"
-          >workshop GitHub</link> page.</para>
+        walk-through for the assignments are available for self-study. Find all informations on the
+          <link xlink:show="new" xlink:href="https://github.com/eeditiones/workshop#slides">workshop
+          GitHub</link> page.</para>
       <mediaobject>
         <videoobject>
           <videodata fileref="https://www.youtube-nocookie.com/embed/QuWrfAS2SWM"/>
@@ -3779,7 +3779,7 @@ declare variable $config:odd-available :=("shakespeare.odd");]]></programlisting
         </listitem>
       </varlistentry>
       <varlistentry>
-        <term>*-query.xql</term>
+        <term>query-*.xql</term>
         <listitem>
           <para>Modules with functions powering the search features</para>
         </listitem>
@@ -3839,11 +3839,11 @@ cp ../tei-publisher-app/templates/api.html templates/</programlisting>
         <para>Ideally, these files should not have been modified by you, if you followed our earlier
             <link linkend="customization-best-practice">best practice recommendations</link>.
           Otherwise you may need to reapply your changes.</para>
-        <para>Next, copy the <filename>navigation*</filename> and <filename>*query</filename>
+        <para>Next, copy the <filename>navigation*</filename> and <filename>query*</filename>
           modules. These are intended to be customized, so you may have changed them in your custom
           app. Compare the versions and make sure you reapply your modifications, if any.</para>
         <programlisting language="shell" xml:space="preserve">cp ../tei-publisher-app/modules/navigation* modules/
-cp ../tei-publisher-app/modules/*query.xql modules/</programlisting>
+cp ../tei-publisher-app/modules/query*.xql modules/</programlisting>
         <para>Same considerations apply to the HTML templates for menus and the toolbar.
           Nevertheless, changes in these areas were quite minor, so you may alternatively postpone
           this step untill you encounters concrete issues in your application:</para>
@@ -4518,6 +4518,7 @@ declare variable $config:facets := [
 
     <section>
       <title>Retrieving the whole document as a simple HTML</title>
+      <!-- REVIEW: shall we leave the description how to write your own XQuery or should we recommend only using new API for transformations? -->
       <para>Embedding results of applying Processing Model transformation on a document is even
         simpler. Behind the scenes, TEI Publisher has a separate library part, which is essentially
         an implementation of the TEI processing model. This library can be used independently to
@@ -5222,8 +5223,8 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <title>Search</title>
       <para>Full text search is realized via the same modular approach that governs navigation.
           <filename>modules/query.xql</filename> is the main "control room", dispatching requests to
-        functions in specialized modules. See implementation of <filename>db-query.xql</filename> or
-          <filename>tei-query.xql</filename> before creating a dedicated module for your vocabulary.
+        functions in specialized modules. See implementation of <filename>query-db.xql</filename> or
+          <filename>query-tei.xql</filename> before creating a dedicated module for your vocabulary.
         Make sure to import your module into <filename>query.xql</filename>.</para>
     </section>
 
