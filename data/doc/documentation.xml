@@ -263,7 +263,7 @@
       <title>«Stay Home Learn TEI Publisher From Scratch»</title>
       <para>A 3-part online course has been organized by e-editiones and led by Wolfgang Meier in
         June 2020. Course material, as well as video recordings of all the sessions, and a
-        walk-through for the assignments are available for self-learning. Find all informations on
+        walk-through for the assignments are available for self-study. Find all informations on
         the <link xlink:show="new" xlink:href="https://github.com/eeditiones/workshop#slides"
           >workshop GitHub</link> page.</para>
       <mediaobject>
@@ -2863,9 +2863,9 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         look at the small examples contained in the <link xlink:show="new"
           xlink:href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html">web
           components API documentation</link>. The list of components may be overwhelming at first
-        sight. However you don’t need to learn them all. There are a just a few components that
-        should be understood before you start customizing. Their demo pages showcase a working
-        example along with the code snippet which actually implements it.</para>
+        sight. However you don’t need to learn them all. There are just a few components that should
+        be understood before you start customizing. Their demo pages showcase a working example
+        along with the code snippet which actually implements it.</para>
       <para>You can also get an editable live view like the one above if you click on the
           <guibutton>Edit Code</guibutton> button to the bottom right of each example.</para>
       <para>In particular you may want to look at the following examples:</para>
@@ -3747,8 +3747,8 @@ declare variable $config:odd-available :=("shakespeare.odd");]]></programlisting
         <term><filename>custom-api.xql</filename></term>
         <listitem>
           <para>Custom API functions should be defined in this module - or a module imported by it.
-            Also, HTML templating modules should be imported into this module to register them with
-            TEI Publisher.</para>
+            Also, HTML templating modules should be imported into this module to be registered with
+            the TEI Publisher.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
@@ -3825,11 +3825,8 @@ git checkout v7.0.0</programlisting>
       <section>
         <title>Copy files</title>
         <para>Now we need to remove the old <filename>modules/lib</filename> directory and replace
-          it entirely with the new one in TEI Publisher 7. We'll also copy a bunch of files from the
-            <filename>templates</filename> subdirectory of TEI Publisher:</para>
-        <!-- I think that first copy should be without *lib*?
-        cp -r ../tei-publisher-app/modules/ modules/
-        -->
+          it entirely with the new one from the TEI Publisher 7. We'll also copy a bunch of files
+          from the <filename>templates</filename> subdirectory of TEI Publisher:</para>
         <programlisting language="shell" xml:space="preserve">
 rm -rf modules/lib
 cp -r ../tei-publisher-app/modules/lib/ modules/
@@ -3923,7 +3920,7 @@ cp ../tei-publisher-app/templates/drawer.html templates/</programlisting>
                   <filename>modules/app.xql</filename> (or additional modules). This approach is
                 still perfectly valid.</para>
               <para>Everything will work as expected if you've just extended
-                  <filename>modules/app.xql</filename>. However, if you added other modules
+                  <filename>modules/app.xql</filename>. However, if you have added other modules
                 containing templating functions, now you need to import these explicitly into
                   <filename>modules/custom-api.xql</filename>.</para>
             </listitem>
@@ -3934,7 +3931,7 @@ cp ../tei-publisher-app/templates/drawer.html templates/</programlisting>
               <para>If your custom app makes direct calls to XQuery main modules (e.g. via the
                   <code>pb-load</code> component), these have to be rewritten. TEI Publisher 7
                 expects all API calls to go through the Open API router - direct calls to XQuery
-                modules are no longer supported. Therefore need to transform your code into
+                modules are no longer supported. Therefore you need to transform your code into
                 functions which can be called via the Open API, e.g. by adding them to
                   <filename>modules/custom-api.xql</filename> or importing them there.</para>
             </listitem>
@@ -4530,11 +4527,14 @@ declare variable $config:facets := [
         source document and ODD. Fortunately, TEI Publisher already contains a boilerplate XQuery
         script for this job, which you can call as follows in your browser:</para>
       <para><link xlink:show="new"
-          xlink:href="https://teipublisher.com/exist/apps/tei-publisher/modules/lib/transform.xql?doc=test/F-rom.xml&amp;odd=shakespeare.odd"
-          >https://teipublisher.com/exist/apps/tei-publisher/modules/lib/transform.xql?doc=test/F-rom.xml&amp;odd=shakespeare.odd</link></para>
+          xlink:href="https://teipublisher.com/exist/apps/tei-publisher/api/document/test%2FF-rom.xml/html?odd=shakespeare.odd"
+          >https://teipublisher.com/exist/apps/tei-publisher/api/document/test%2FF-rom.xml/html?odd=shakespeare.odd</link></para>
       <para>This will retrieve the content of Shakespeare's <emphasis>Romeo and Juliet</emphasis> as
         an HTML page, transformed through the odd <filename>shakespeare.odd</filename>. For
-        embedding an entire document in an iframe or similar, this should already be enough.</para>
+        embedding an entire document in an iframe or similar, this should already be enough. Please
+        note that <emphasis role="bold">/</emphasis> character in the path to the document
+          <parameter>test/F-rom.xml</parameter> had to be URL encoded as
+        <parameter>%2F</parameter>.</para>
     </section>
     <section>
       <title>Embedding webcomponents for navigation</title>
