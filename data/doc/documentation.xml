@@ -3235,7 +3235,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       * How to add your own endpoints
       * Backwards compatibility (perhaps belongs to the web components discussion)
     </para>
-
+  </section>
+  
   <section xml:id="i18n">
     <title>Language versions</title>
     <para>TEI Publisher is available in more than a dozen languages and this number increases thanks
