@@ -386,6 +386,14 @@ function pages:version($node as node(), $model as map(*)) {
 
 declare 
     %templates:wrap
+function pages:api-version($node as node(), $model as map(*)) {
+    let $json := json-doc($config:app-root || "/modules/lib/api.json")
+    return
+        $json?info?version
+};
+
+declare 
+    %templates:wrap
 function pages:error-description($node as node(), $model as map(*)) {
     $model?description
 };
