@@ -79,8 +79,8 @@ function pages:pb-markdown($node as node(), $model as map(*), $doc as xs:string)
  :)
 declare function pages:load-components($node as node(), $model as map(*)) {
     if (not($node/preceding::script[@data-template="pages:load-components"])) then (
-        <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js"></script>,
-        <script src="https://unpkg.com/web-animations-js@2.3.2/web-animations-next-lite.min.js"></script>
+        <script defer="defer" src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js"></script>,
+        <script defer="defer" src="https://unpkg.com/web-animations-js@2.3.2/web-animations-next-lite.min.js"></script>
     ) else
         (),
     switch ($config:webcomponents)
@@ -90,7 +90,7 @@ declare function pages:load-components($node as node(), $model as map(*)) {
             <script type="module" 
                 src="{$config:webcomponents-cdn}/src/{$node/@src}"></script>
         default return
-            <script type="module" 
+            <script type="module"
                 src="{$config:webcomponents-cdn}@{$config:webcomponents}/dist/{$node/@src}"></script>
 };
 

@@ -68,7 +68,7 @@ declare function vapi:view($request as map(*)) {
 };
 
 declare function vapi:html($request as map(*)) {
-    let $path := $config:app-root || "/" || xmldb:decode($request?parameters?file) || ".html"
+    let $path := $config:app-root || "/templates/" || xmldb:decode($request?parameters?file) || ".html"
     let $template :=
         if (doc-available($path)) then
             doc($path)
@@ -79,7 +79,7 @@ declare function vapi:html($request as map(*)) {
 };
 
 declare function vapi:handle-error($error) {
-    let $path := $config:app-root || "/error-page.html"
+    let $path := $config:app-root || "/templates/error-page.html"
     let $template := doc($path)
     return
         templates:apply($template, vapi:lookup#2, map { "description": $error }, $vapi:template-config)
