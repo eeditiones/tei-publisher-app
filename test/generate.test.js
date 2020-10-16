@@ -6,6 +6,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const chaiResponseValidator = require('chai-openapi-response-validator');
 const axios = require('axios');
+const FormData = require('form-data');
 
 const spec = path.resolve("./modules/lib/api.json");
 chai.use(chaiResponseValidator(spec));
@@ -46,6 +47,25 @@ describe('/api/generate [authenticated]', function () {
         const res = await axios.get(`http://localhost:8080/exist/rest/db?_query=${encodeURIComponent(query)}&_wrap=no`);
         expect(res.status).to.equal(200);
         expect(res.data).to.include('http://exist-db.org/apps/dta-test');
+    });
+
+    it('can access new application', async function() {
+        const res = await axios.get('http://localhost:8080/exist/apps/dta-test/index.html');
+        expect(res.status).to.equal(200);
+    });
+
+    it('uploads a document to new application', async function () {
+        const formData = new FormData();
+        formData.append('files[]', fs.createReadStream(path.join(__dirname, '../data/test/kant_rvernunft_1781.TEI-P5.xml')), 'kant_rvernunft_1781.TEI-P5.xml')
+        const res = await axios.post('http://localhost:8080/exist/apps/dta-test/api/upload', formData, {
+            headers: formData.getHeaders(),
+            auth: {
+                username: "tei-demo",
+                password: "demo"
+            }
+        });
+        expect(res.data).to.have.length(1);
+        expect(res.data[0].name).to.equal('/db/apps/dta-test/data/kant_rvernunft_1781.TEI-P5.xml');
     });
 
     it('downloads application xar', async function () {
