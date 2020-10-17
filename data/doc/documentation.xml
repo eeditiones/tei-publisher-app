@@ -3877,6 +3877,9 @@ cp ../tei-publisher-app/templates/api.html templates/</programlisting>
           app. Compare the versions and make sure you reapply your modifications, if any.</para>
         <programlisting language="shell" xml:space="preserve">cp ../tei-publisher-app/modules/navigation* modules/
 cp ../tei-publisher-app/modules/query*.xql modules/</programlisting>
+        <note>
+          <para>Note that the naming of the <filename>code-*.xql</filename> has changed to be constistent with the <filename>navigation-*.xql</filename> files.</para>
+        </note>
         <para>Same considerations apply to the HTML templates for menus and the toolbar.
           Nevertheless, changes in these areas were quite minor, so you may alternatively postpone
           this step untill you encounters concrete issues in your application:</para>
@@ -3886,7 +3889,8 @@ cp ../tei-publisher-app/templates/drawer.html templates/</programlisting>
       </section>
       <section>
         <title>Edit HTML templates</title>
-        <para>Since TEI Publisher 7 has a well-defined API to handle the communication between user
+        <para>TEI Publisher 7 expects all HTML files to reside in the <filename>templates</filename> subfolder. Previous versions used a mix of locations with some HTML files in the root of the app. You should thus copy your <filename>index.html</filename>, <filename>search.html</filename>, <filename>error-page.html</filename> and any other custom HTML files into <filename>templates</filename> first.</para>
+        <para>Also, because TEI Publisher 7 has a well-defined API to handle the communication between user
           interface components and server-side functionality, we need to change some of the URLs in
           the HTML templates we're using. As a rule of thumb, all URLs previously calling XQuery
           modules directly, should now start with <code>api/</code> followed by the correct API
