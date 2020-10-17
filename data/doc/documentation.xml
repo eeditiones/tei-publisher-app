@@ -3889,7 +3889,10 @@ cp ../tei-publisher-app/templates/drawer.html templates/</programlisting>
       </section>
       <section>
         <title>Edit HTML templates</title>
-        <para>TEI Publisher 7 expects all HTML files to reside in the <filename>templates</filename> subfolder. Previous versions used a mix of locations with some HTML files in the root of the app. You should thus copy your <filename>index.html</filename>, <filename>search.html</filename>, <filename>error-page.html</filename> and any other custom HTML files into <filename>templates</filename> first.</para>
+        <note>
+          <title>Important</title>
+          <para>TEI Publisher 7 expects all HTML files to reside in the <filename>templates</filename> subfolder. Previous versions used a mix of locations with some HTML files in the root of the app. You should thus copy your <filename>index.html</filename>, <filename>search.html</filename>, <filename>error-page.html</filename> and any other custom HTML files into <filename>templates</filename> first.</para>
+        </note>
         <para>Also, because TEI Publisher 7 has a well-defined API to handle the communication between user
           interface components and server-side functionality, we need to change some of the URLs in
           the HTML templates we're using. As a rule of thumb, all URLs previously calling XQuery
