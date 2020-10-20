@@ -3220,23 +3220,154 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         xlink:show="new">API specification</link>, based on the <link xlink:show="new"
         xlink:href="http://spec.openapis.org/oas/v3.0.3">Open API standard</link> defines all the
       server-side API endpoints available in Publisher.</para>
-    <para>Advantages:
-    * standard-based API specification; tools for writing, generating documentation and testing
-    * clear overview
-    * clear separation and complete independence of the TEI Publisher app; can be used directly by any other software system
-    * easily customizable
-    * changes in API implementation do not require adjustments of the UI components as long as it's compatible
-    </para>
-    
-    <para>
-      * examples: pb-autocomplete, pb-load, pb-view
-      * Available endpoint groups
-      * Custom endpoints
-      * How to add your own endpoints
-      * Backwards compatibility (perhaps belongs to the web components discussion)
-    </para>
+
+    <para>The image below presents a section of the API handling all ODD-related operations:
+      creating, retrieving, updating, deleting, recompiling; syntax check for a code fragment
+      (lint); retrieving a list of all available ODDs.</para>
+
+    <figure>
+      <title>TEI Publisher API page - the odd endpoint</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="api-spec.png" width="900px"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <section xml:id="api-advantages">
+      <title>Advantages of the API-based approach</title>
+      <itemizedlist>
+        <listitem>
+          <para><emphasis role="bold">clear specification and easy overview</emphasis></para>
+          <para>users and developers will benefit from the clear specification for available
+            functionality</para>
+        </listitem>
+        <listitem>
+          <para><emphasis role="bold">customizable</emphasis></para>
+          <para>users can easily overwrite and extend existing API endpoints as well as add custom
+            ones for project-specific functionality</para>
+        </listitem>
+        <listitem>
+          <para><emphasis role="bold">separation of concerns</emphasis></para>
+          <para>server-side functionality can be used directly by any software system, not
+            necessarily within the context of the TEI Publisher or using Publisher's UI components;
+            further changes in internal API implementation do not require any adjustments of the UI
+            components</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">standard-based</emphasis></para>
+          <para>OAS compliance means we are using a well-known and documented standard and can
+            benefit from existing tools for writing, testing and generating documentation</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <!-- <section xml:id="api-examples">
+      <title>Examples</title>
+      <para>pb-autocomplete, pb-load, pb-view </para>
+    </section>-->
+    <section xml:id="api-endpoints">
+      <title>API endpoint groups</title>
+      <para>TEI Publisher 7 groups server-side functionality into several main sections:</para>
+      <variablelist>
+        <varlistentry>
+          <term>documents</term>
+          <listitem>
+            <para>Retrieve entire or part of a document content transformed to a target format;
+              retrieve document's table of contents; delete a document.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>collection</term>
+          <listitem>
+            <para>Browse the collection hierarchy and upload new files.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>odd</term>
+          <listitem>
+            <para>Manage the ODD files stored in TEI Publisher: create, retrieve, update, delete,
+              recompile; check syntax for a code fragment (lint); retrieve a list of available
+              ODDs.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>search</term>
+          <listitem>
+            <para>Search: run a search through collections; list facets for the search results; list
+              autocomplete options.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>transform</term>
+          <listitem>
+            <para> Transform content on the fly: convert a Word document to TEI or POST an XML
+              document and get its preview rendered via ODD.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>view</term>
+          <listitem>
+            <para>View documents via an HTML template; list available templates.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>apps</term>
+          <listitem>
+            <para> Operations for managing apps: generate a standalone application or package and
+              download an app.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>dts</term>
+          <listitem>
+            <para> Implementation of the DTS (Distributed Text Services) API.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>user</term>
+          <listitem>
+            <para>Login: authorize the user.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>info</term>
+          <listitem>
+            <para>Information about the server: the API version.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+      <!-- Backwards compatibility (perhaps
+      belongs to the web components discussion) -->
+    </section>
+    <section xml:id="api-custom-endpoints">
+      <title>Custom API endpoints</title>
+      <para>Beyond standard server-side functionality provided by the TEI Publisher, careful
+        provisions have been made to allow users to add their own API endpoints. The <link
+          xlink:href="../api.html#operations-tag-default" xlink:show="new">Custom API</link> section
+        demonstrates how project-specific functionality can be added within the OAS API
+        scheme.</para>
+      <para>All that is required is to edit the <filename>modules/custom-api.json</filename> file
+        and add specifications for custom endpoints in the JSON format. The
+          <parameter>operationId</parameter> property specifies the XQuery function to be called to
+        process the request. Function module with the function definition needs to be imported into
+          <filename>modules/custom-api.xql</filename> so that the request can be correctly
+        resolved.</para>
+      <figure>
+        <title>Custom API specification - show article</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="api-custom-json.png" width="900px"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
   </section>
-  
+
   <section xml:id="i18n">
     <title>Language versions</title>
     <para>TEI Publisher is available in more than a dozen languages and this number increases thanks
@@ -3878,7 +4009,8 @@ cp ../tei-publisher-app/templates/api.html templates/</programlisting>
         <programlisting language="shell" xml:space="preserve">cp ../tei-publisher-app/modules/navigation* modules/
 cp ../tei-publisher-app/modules/query*.xql modules/</programlisting>
         <note>
-          <para>Note that the naming of the <filename>code-*.xql</filename> has changed to be constistent with the <filename>navigation-*.xql</filename> files.</para>
+          <para>Note that the naming of the <filename>code-*.xql</filename> has changed to be
+            constistent with the <filename>navigation-*.xql</filename> files.</para>
         </note>
         <para>Same considerations apply to the HTML templates for menus and the toolbar.
           Nevertheless, changes in these areas were quite minor, so you may alternatively postpone
@@ -3891,14 +4023,19 @@ cp ../tei-publisher-app/templates/drawer.html templates/</programlisting>
         <title>Edit HTML templates</title>
         <note>
           <title>Important</title>
-          <para>TEI Publisher 7 expects all HTML files to reside in the <filename>templates</filename> subfolder. Previous versions used a mix of locations with some HTML files in the root of the app. You should thus copy your <filename>index.html</filename>, <filename>search.html</filename>, <filename>error-page.html</filename> and any other custom HTML files into <filename>templates</filename> first.</para>
+          <para>TEI Publisher 7 expects all HTML files to reside in the
+              <filename>templates</filename> subfolder. Previous versions used a mix of locations
+            with some HTML files in the root of the app. You should thus copy your
+              <filename>index.html</filename>, <filename>search.html</filename>,
+              <filename>error-page.html</filename> and any other custom HTML files into
+              <filename>templates</filename> first.</para>
         </note>
-        <para>Also, because TEI Publisher 7 has a well-defined API to handle the communication between user
-          interface components and server-side functionality, we need to change some of the URLs in
-          the HTML templates we're using. As a rule of thumb, all URLs previously calling XQuery
-          modules directly, should now start with <code>api/</code> followed by the correct API
-          path. The main HTML template to be changed is <filename>index.html</filename>. Please
-          search and replace the properties for the following webcomponents:</para>
+        <para>Also, because TEI Publisher 7 has a well-defined API to handle the communication
+          between user interface components and server-side functionality, we need to change some of
+          the URLs in the HTML templates we're using. As a rule of thumb, all URLs previously
+          calling XQuery modules directly, should now start with <code>api/</code> followed by the
+          correct API path. The main HTML template to be changed is <filename>index.html</filename>.
+          Please search and replace the properties for the following webcomponents:</para>
         <synopsis language="xml"><![CDATA[<pb-download url="modules/lib/app-download.xql">]]></synopsis>
         <para>should be changed into</para>
         <synopsis language="xml"><![CDATA[<pb-download url="api/apps/download">]]></synopsis>
