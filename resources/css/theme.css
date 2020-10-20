@@ -149,6 +149,11 @@ app-drawer-layout:not([narrow]) [drawer-toggle] {
     color: var(--pb-toolbar-color);
 }
 
+.toolbar a {
+    color: inherit;
+    text-decoration: none;
+}
+
 [drawer-toggle] {
     padding-right: 0;
 }

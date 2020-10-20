@@ -267,10 +267,18 @@ declare function pages:get-content($config as map(*), $div as element()) {
 };
 
 declare function pages:pb-page($node as node(), $model as map(*)) {
+    let $docPath := 
+        if (matches($model?doc, "^.*/[^/]*$")) then
+            replace($model?doc, "^(.*)/[^/]*$", "$1")
+        else
+            ""
     let $model := map:merge(
         (
             $model,
-            map { "app": $config:context-path }
+            map { 
+                "app": $config:context-path,
+                "collection": $docPath
+            }
         )
     )
     return

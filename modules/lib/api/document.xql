@@ -356,11 +356,21 @@ declare function dapi:get-fragment($request as map(*)) {
                                 <output:method>html5</output:method>
                                     </output:serialization-parameters>),
                             "footnotes": $transformed?footnotes,
-                            "userParams": $userParams
+                            "userParams": $userParams,
+                            "collection": dapi:get-collection($xml?data)
                         }
                     )
         else
             error($errors:NOT_FOUND, "Document " || $doc || " not found")
+};
+
+declare function dapi:get-collection($data) {
+    let $collection := util:collection-name($data)
+    return
+        if ($collection) then
+            substring-after($collection, $config:data-root || "/")
+        else
+            ()
 };
 
 declare %private function dapi:extract-footnotes($html as element()*) {
