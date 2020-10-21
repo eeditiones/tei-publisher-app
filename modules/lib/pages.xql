@@ -56,7 +56,7 @@ declare variable $pages:EDIT_ODD_LINK :=
         replace($path, "/+", "/");
 
 declare function pages:pb-document($node as node(), $model as map(*)) {
-    let $odd := ($node/@odd, $model?odd) [1]
+    let $odd := ($node/@odd, $model?odd)[1]
     let $data := config:get-document($model?doc)
     let $config := tpu:parse-pi(root($data), $model?view, $odd)
     return

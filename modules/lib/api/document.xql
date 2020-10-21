@@ -357,7 +357,7 @@ declare function dapi:get-fragment($request as map(*)) {
                                     </output:serialization-parameters>),
                             "footnotes": $transformed?footnotes,
                             "userParams": $userParams,
-                            "collection": dapi:get-collection($xml?data)
+                            "collection": dapi:get-collection($xml?data[1])
                         }
                     )
         else
