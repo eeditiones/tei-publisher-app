@@ -3304,7 +3304,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         <varlistentry>
           <term>transform</term>
           <listitem>
-            <para> Transform content on the fly: convert a Word document to TEI or POST an XML
+            <para>Transform content on the fly: convert a Word document to TEI or POST an XML
               document and get its preview rendered via ODD.</para>
           </listitem>
         </varlistentry>
@@ -3346,17 +3346,20 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     </section>
     <section xml:id="api-custom-endpoints">
       <title>Custom API endpoints</title>
-      <para>Beyond standard server-side functionality provided by the TEI Publisher, careful
+      <para>Beyond the standard server-side functionality provided by TEI Publisher, careful
         provisions have been made to allow users to add their own API endpoints. The <link
           xlink:href="../api.html#operations-tag-default" xlink:show="new">Custom API</link> section
         demonstrates how project-specific functionality can be added within the OAS API
         scheme.</para>
       <para>All that is required is to edit the <filename>modules/custom-api.json</filename> file
-        and add specifications for custom endpoints in the JSON format. The
+        and add specifications for custom endpoints in JSON format. The
           <parameter>operationId</parameter> property specifies the XQuery function to be called to
-        process the request. Function module with the function definition needs to be imported into
+        process the request. All function module with the function definition needs to be imported into
           <filename>modules/custom-api.xql</filename> so that the request can be correctly
         resolved.</para>
+      <para>The function implementation can either be added to the XQuery module <filename>modules/custom-api.xql</filename>
+        or to a new module, which should be imported into this file to make it known. See the <link xlink:show="new" xlink:href="https://github.com/eeditiones/oas-router">README</link> of the oas-router package
+      for more information about how to write a request handler function.</para>
       <figure>
         <title>Custom API specification - show article</title>
         <mediaobject>
