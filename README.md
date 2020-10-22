@@ -85,3 +85,25 @@ Following instructions are only relevant for developers who want to contribute t
 * execute `docker run --publish 8080:8080 --detach --name tp existdb/teipublisher:6.0.0` in your terminal
 * open `localhost:8080` in your browser
 
+### How to run a completely dockerized development environment in vscode
+
+Make sure you have [Visual Studio Code](https://code.visualstudio.com/download) installed.
+
+Make sure you do not have eXist running on 8080. 
+
+1. install “Remote - Containers” extension in vscode
+1. cmd-shift-p and find “Remote Containers: Clone Repository in Container Volume”
+1. confirm “Clone a repository from GitHub in a Container Volume”
+1. type “tei-publisher-app” and select “eeditiones/tei-publisher-app”
+1. select “Create a unique volume”
+
+The container is now being built, which takes a while as it:
+
+* pulls Java 8, 
+* installs eXist 5.2.0,
+* clones all dependencies
+* and installs everything in the database.
+
+Once it completes, you should see vscode with TEI Publisher directory opened and you can go to http://localhost:8080 to find the dashboard as usual.
+
+With this setup everything will be living inside docker, so you do not need anything apart from vscode, not even Java or nodejs.
