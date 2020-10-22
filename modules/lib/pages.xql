@@ -27,7 +27,6 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace expath="http://expath.org/ns/pkg";
 
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
-import module namespace query="http://www.tei-c.org/tei-simple/query" at "../query.xql";
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
@@ -41,17 +40,6 @@ declare variable $pages:EXIDE :=
         else
             ()
     let $path := string-join((request:get-context-path(), request:get-attribute("$exist:prefix"), $appLink, "index.html"), "/")
-    return
-        replace($path, "/+", "/");
-
-declare variable $pages:EDIT_ODD_LINK :=
-    let $pkg := collection(repo:get-root())//expath:package[@name = "http://existsolutions.com/apps/tei-publisher"]
-    let $appLink :=
-        if ($pkg) then
-            substring-after(util:collection-name($pkg), repo:get-root())
-        else
-            ()
-    let $path := string-join((request:get-context-path(), request:get-attribute("$exist:prefix"), $appLink, "odd-editor.html"), "/")
     return
         replace($path, "/+", "/");
 
@@ -146,7 +134,7 @@ declare function pages:load-xml($data as node()*, $view as xs:string?, $root as 
 };
 
 declare function pages:edit-odd-link($node as node(), $model as map(*)) {
-    <pb-download url="{$pages:EDIT_ODD_LINK}" source="source"
+    <pb-download url="{$model?app}/odd-editor.html" source="source"
         params="root={$config:odd-root}&amp;output-root={$config:output-root}&amp;output={$config:output}">
         {$node/@*, $node/node()}
     </pb-download>
@@ -159,7 +147,7 @@ declare function pages:edit-odd-list($node as node(), $model as map(*)) {
     for $odd in $config:odd-available
     return
         <paper-item>
-            <a href="{$pages:EDIT_ODD_LINK}?root={$config:odd-root}&amp;output-root={$config:output-root}&amp;output={$config:output}&amp;odd={$odd}"
+            <a href="{$model?app}/odd-editor.html?root={$config:odd-root}&amp;output-root={$config:output-root}&amp;output={$config:output}&amp;odd={$odd}"
                 target="_blank">
                 <pb-i18n key="menu.admin.edit-odd">Edit ODD</pb-i18n>: {$odd}
             </a>
