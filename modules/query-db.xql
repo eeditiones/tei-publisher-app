@@ -115,7 +115,7 @@ declare function dbs:get-parent-section($node as node()) {
     ($node/self::db:article, $node/ancestor-or-self::db:section[1], $node)[1]
 };
 
-declare function dbs:get-breadcrumbs($config as map(*), $hit as element(), $parent-id as xs:string) {
+declare function dbs:get-breadcrumbs($config as map(*), $hit as node(), $parent-id as xs:string) {
     let $work := root($hit)/*
     let $work-title := nav:get-document-title($config, $work)
     return
@@ -136,7 +136,7 @@ declare function dbs:get-breadcrumbs($config as map(*), $hit as element(), $pare
  : Expand the given element and highlight query matches by re-running the query
  : on it.
  :)
-declare function dbs:expand($data as element()) {
+declare function dbs:expand($data as node()) {
     let $query := session:get-attribute($config:session-prefix || ".query")
     let $field := session:get-attribute($config:session-prefix || ".field")
     let $div := $data
@@ -162,6 +162,6 @@ declare %private function dbs:query-default-view($context as element()*, $query 
                 $context[./descendant-or-self::db:article[ft:query(., $query, $query:QUERY_OPTIONS)]]
 };
 
-declare function dbs:get-current($config as map(*), $div as element()?) {
+declare function dbs:get-current($config as map(*), $div as node()?) {
     $div
 };

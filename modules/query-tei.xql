@@ -113,7 +113,7 @@ declare function teis:get-parent-section($node as node()) {
     ($node/self::tei:text, $node/ancestor-or-self::tei:div[1], $node)[1]
 };
 
-declare function teis:get-breadcrumbs($config as map(*), $hit as element(), $parent-id as xs:string) {
+declare function teis:get-breadcrumbs($config as map(*), $hit as node(), $parent-id as xs:string) {
     let $work := root($hit)/*
     let $work-title := nav:get-document-title($config, $work)/string()
     return
@@ -136,7 +136,7 @@ declare function teis:get-breadcrumbs($config as map(*), $hit as element(), $par
  : Expand the given element and highlight query matches by re-running the query
  : on it.
  :)
-declare function teis:expand($data as element()) {
+declare function teis:expand($data as node()) {
     let $query := session:get-attribute($config:session-prefix || ".query")
     let $field := session:get-attribute($config:session-prefix || ".field")
     let $div :=
@@ -185,7 +185,7 @@ declare %private function teis:query-default-view($context as element()*, $query
                 $context[./descendant-or-self::tei:text[ft:query(., $query, $query:QUERY_OPTIONS)]]
 };
 
-declare function teis:get-current($config as map(*), $div as element()?) {
+declare function teis:get-current($config as map(*), $div as node()?) {
     if (empty($div)) then
         ()
     else

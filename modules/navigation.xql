@@ -1,6 +1,6 @@
 (:
  :
- :  Copyright (C) 2017 Wolfgang Meier
+ :  Copyright (C) 2017 TEI Publisher Project
  :
  :  This program is free software: you can redistribute it and/or modify
  :  it under the terms of the GNU General Public License as published by

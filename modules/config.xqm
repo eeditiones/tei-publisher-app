@@ -345,7 +345,7 @@ declare variable $config:expath-descriptor := doc(concat($config:app-root, "/exp
 
 declare variable $config:session-prefix := $config:expath-descriptor/@abbrev/string();
 
-declare variable $config:setup := doc($config:app-root || "/setup.xml")/setup;
+declare variable $config:default-fields := ();
 
 declare variable $config:dts-collections := map {
     "id": "default",

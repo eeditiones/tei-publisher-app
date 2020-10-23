@@ -20,6 +20,7 @@ module namespace query="http://www.tei-c.org/tei-simple/query";
 
 import module namespace tei-query="http://www.tei-c.org/tei-simple/query/tei" at "query-tei.xql";
 import module namespace docbook-query="http://www.tei-c.org/tei-simple/query/docbook" at "query-db.xql";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
 declare variable $query:QUERY_OPTIONS := map {
     "leading-wildcard": "yes",
@@ -64,9 +65,9 @@ declare function query:options($sortBy as xs:string*) {
                 ))
         },
         if ($sortBy) then
-            map { "fields": $sortBy }
+            map { "fields": ($sortBy, $config:default-fields) }
         else
-            ()
+            map { "fields": $config:default-fields }
     ))
 };
 
@@ -79,15 +80,15 @@ declare function query:get-parent-section($config as map(*), $node as node()) {
     query:dispatch($config, "get-parent-section", [$node])
 };
 
-declare function query:get-breadcrumbs($config as map(*), $hit as element(), $parent-id as xs:string) {
+declare function query:get-breadcrumbs($config as map(*), $hit as node(), $parent-id as xs:string) {
     query:dispatch($config, "get-breadcrumbs", [$config, $hit, $parent-id])
 };
 
-declare function query:expand($config as map(*), $data as element()) {
+declare function query:expand($config as map(*), $data as node()) {
     query:dispatch($config, "expand", [$data])
 };
 
-declare function query:get-current($config as map(*), $div as element()?) {
+declare function query:get-current($config as map(*), $div as node()?) {
     query:dispatch($config, "get-current", [$config, $div])
 };
 
