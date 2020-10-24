@@ -4048,7 +4048,10 @@ cp ../tei-publisher-app/templates/drawer.html templates/</programlisting>
         <para>should be changed into</para>
         <synopsis language="xml"><![CDATA[<pb-custom-form id="facets" url="api/search/facets" event="pb-results-received" subscribe="docs" emit="docs"></pb-custom-form>
 <pb-browse-docs id="document-list" url="api/collection/" ...>]]></synopsis>
-        <para>Check <filename>templates/pages/view.html</filename> and any other page template your
+        <para>The last change should also be applied to <filename>search.html</filename> and you should change the 
+          <tag>pb-load</tag> loading the search results to read:</para>
+        <synopsis language="xml"><![CDATA[<pb-load id="results" url="api/search" emit="results"></pb-load>]]></synopsis>
+        <para>Also check <filename>templates/pages/view.html</filename> and any other page template your
           app uses. Search for calls to <filename>.xql</filename> or <filename>modules/</filename>
           and replace them with appropriate API paths. If you were making direct calls to custom
           modules, e.g. from <code>pb-load</code> component, these need to be added as <link
