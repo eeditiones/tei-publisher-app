@@ -492,6 +492,7 @@ white-space: pre-wrap;
                     <model behaviour="webcomponent">
                         <param name="name" value="'pb-code-highlight'" />
                         <param name="language" value="@language" />
+                        <param name="content" value="text()" />
                     </model>
                 </elementSpec>
                 <elementSpec ident="example">
