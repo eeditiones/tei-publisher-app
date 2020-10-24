@@ -1,3 +1,4 @@
+<?xml-model href="teipublisher_odds.xsd"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
@@ -237,8 +238,8 @@
                 </elementSpec>
                 <elementSpec ident="teiHeader" mode="change">
                     <model output="latex" behaviour="block">
-            <param name="content" value="(fileDesc/titleStmt/title[not(@type)], profileDesc/correspDesc)"/>
-            <pb:template xmlns="" xml:space="preserve">\def\volume{[[content]]}</pb:template>
+                        <param name="content" value="(fileDesc/titleStmt/title[not(@type)], profileDesc/correspDesc)"/>
+                        <pb:template xmlns="" xml:space="preserve">\def\volume{[[content]]}</pb:template>
         </model>
                     <model output="fo" behaviour="omit"/>
                     <model output="web" predicate="$parameters?header='short'" behaviour="block"/>
