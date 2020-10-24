@@ -32,6 +32,18 @@
         <moduleRef key="linking"/>
         <moduleRef key="figures"/>
         <elementSpec ident="teiCorpus" mode="delete" module="core"/>
+        <dataSpec ident="publisher.ident">
+          <desc>Data type for elementSpec/@ident</desc>
+          <content>
+            <alternate>
+              <dataRef name="Name"></dataRef>
+              <valList>
+                <valItem ident="*"/>
+                <valItem ident="text()"/>
+              </valList>
+            </alternate>
+          </content>
+        </dataSpec>
         <elementSpec ident="tagsDecl" mode="change">
           <content>
             <sequence>
@@ -42,6 +54,15 @@
                 maxOccurs="unbounded"/>
             </sequence>
           </content>
+        </elementSpec>
+        <elementSpec ident="elementSpec" mode="change">
+          <attList>
+            <attDef ident="ident" usage="req" mode="replace">
+              <datatype>
+                <dataRef key="publisher.ident"/>
+              </datatype>
+            </attDef>
+          </attList>
         </elementSpec>
         <elementSpec ident="template" ns="http://teipublisher.com/1.0" mode="add">
           <desc versionDate="2020-10-23" xml:lang="en">Define a template expression to be used in place of the content. If present in a <gi>model</gi>, the <gi>pb:template</gi> is expanded first and the result is passed into the behaviour specified for the model, replacing the default content parameter accepted by all behaviours.</desc>
@@ -76,8 +97,12 @@
           <desc>Define a processing model behaviour based on a template expression. It combines one or more <gi>pb:param</gi> parameter definitions with a single <gi>pb:template</gi>.</desc>
           <content>
             <rng:zeroOrMore>
-              <rng:ref name="model.glossLike"/>
-              <rng:ref name="model.descLike"/>
+              <rng:optional>
+                <rng:ref name="model.glossLike"/>
+              </rng:optional>
+              <rng:optional>
+                <rng:ref name="model.descLike"/>
+              </rng:optional>
             </rng:zeroOrMore>
             <rng:zeroOrMore>
               <rng:element name="param">

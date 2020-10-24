@@ -14,8 +14,8 @@
     <xs:complexType>
       <xs:sequence>
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
-          <xs:group ref="tei:tei_model.glossLike"/>
-          <xs:group ref="tei:tei_model.descLike"/>
+          <xs:group minOccurs="0" ref="tei:tei_model.glossLike"/>
+          <xs:group minOccurs="0" ref="tei:tei_model.descLike"/>
         </xs:sequence>
         <xs:element minOccurs="0" maxOccurs="unbounded" ref="ns1:param"/>
         <xs:element ref="ns1:template"/>
