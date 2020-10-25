@@ -234,7 +234,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 html:webcomponent($config, ., ("tei-programlisting5"), text(), 'pb-code-highlight', map {"language": (@language, 'xml')[1], "line-numbers": true()})
                     case element(synopsis) return
-                        html:webcomponent($config, ., ("tei-synopsis4"), ., 'pb-code-highlight', map {"language": @language})
+                        html:webcomponent($config, ., ("tei-synopsis4"), text(), 'pb-code-highlight', map {"language": @language})
                     case element(example) return
                         html:figure($config, ., ("tei-example"), *[not(self::title|self::info)], info/title/node()|title/node())
                     case element(function) return
