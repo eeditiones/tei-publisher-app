@@ -361,17 +361,23 @@ declare function deploy:get-odds($json) {
 declare function deploy:copy-odd($collection as xs:string, $json as map(*)) {
     (:  Copy the selected ODD and its dependencies  :)
     let $target := $collection || "/resources/odd"
-    let $mkcol := deploy:mkcol($target, ("tei", "tei"), "rwxr-x---")
-    for $file in distinct-values(("docx.odd", "tei_simplePrint.odd", "teipublisher.odd", deploy:get-odds($json)))
-    let $source := doc($config:odd-root || "/" || $file)
-    let $cssLink := $source//tei:teiHeader/tei:encodingDesc/tei:tagsDecl/tei:rendition/@source
-    let $css := util:binary-doc($config:odd-root || "/" || $cssLink)
     return (
-        xmldb:store($target, $file, $source, "application/xml"),
-        if (exists($css)) then
-            xmldb:store($target, $cssLink, $css, "text/css")
-        else
-            ()
+        let $mkcol := deploy:mkcol($target, ("tei", "tei"), "rwxr-x---")
+        for $file in distinct-values(("docx.odd", "tei_simplePrint.odd", "teipublisher.odd", deploy:get-odds($json)))
+        let $source := doc($config:odd-root || "/" || $file)
+        let $cssLink := $source//tei:teiHeader/tei:encodingDesc/tei:tagsDecl/tei:rendition/@source
+        let $css := util:binary-doc($config:odd-root || "/" || $cssLink)
+        return (
+            xmldb:store($target, $file, $source, "application/xml"),
+            if (exists($css)) then
+                xmldb:store($target, $cssLink, $css, "text/css")
+            else
+                ()
+        ),
+        for $xsd in collection($config:odd-root)[matches(util:document-name(.), '\.(xsd|tmp)')]
+        let $name := util:document-name($xsd)
+        return
+            xmldb:copy-resource($config:odd-root, $name, $target, $name)
     )
 };
 
