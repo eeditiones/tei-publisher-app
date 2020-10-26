@@ -1,8 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="https://docbook.org/xml/5.0/xsd/docbook.xsd"?>
-<?teipublisher odd="docbook.odd"?>
-<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
-    version="5.0">
+<?xml-model href="https://docbook.org/xml/5.0/xsd/docbook.xsd"?><?teipublisher odd="docbook.odd"?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
         <title>TEI Publisher 7.0.0 RC</title>
         <author>
@@ -72,14 +69,10 @@
     </section>
     <section>
         <title>Get It!</title>
-        <para>TEI Publisher 7.0.0 RC is available as an application package on top of the <link
-                xlink:href="https://exist-db.org">eXist XML Database</link>. Install it into a
+        <para>TEI Publisher 7.0.0 RC is available as an application package on top of the <link xlink:href="https://exist-db.org">eXist XML Database</link>. Install it into a
             recent eXist (5.0.0 or newer) by going to the dashboard and selecting TEI Publisher from
             the package manager.</para>
-        <para>For more information refer to the <link
-                xlink:href="https://teipublisher.com/exist/apps/tei-publisher/doc/documentation.xml"
-                >documentation</link> or visit the <link xlink:href="https://teipublisher.com"
-                >homepage</link> to play around with it.</para>
+        <para>For more information refer to the <link xlink:href="https://teipublisher.com/exist/apps/tei-publisher/doc/documentation.xml">documentation</link> or visit the <link xlink:href="https://teipublisher.com">homepage</link> to play around with it.</para>
     </section>
     <section>
         <title>Thanks</title>
@@ -95,7 +88,7 @@
             </link>
         </para>
         <para>The Open API implementation was inspired
-            by earlier work funded by <link xlink:href="https://kjc-sv034.kjc.uni-heidelberg.de/ecpo/">Early Chinese Periodicals Online</link> (EPCO).
+            by earlier work funded by <link xlink:href="https://uni-heidelberg.de/ecpo">Early Chinese Periodicals Online</link> (ECPO).
             A lot of bug fixes were supported by the <link xlink:href="https://www.ssrq-sds-fds.ch/home/">Sammlung Schweizerischer Rechtsquellen</link>.</para>
     </section>
 </article>
