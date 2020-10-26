@@ -24,7 +24,7 @@
         </para>
         <orderedlist>
             <listitem>
-                <para>It exposes a well-defined, clear API specification following the Open API standard. Understanding how exactly TEI Publisher 
+                <para>It exposes a well-defined, clear <link xlink:href="../../api.html">API specification</link> following the Open API standard. Understanding how exactly TEI Publisher 
                     routes requests through the various layers was often challenging. With the new API we have a single,
                 well-documented entry point to which you can also add your own functionality.</para>
             </listitem>
