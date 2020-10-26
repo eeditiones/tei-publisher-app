@@ -207,7 +207,7 @@ declare function dapi:epub($request as map(*)) {
     let $work := config:get-document($id)
     return
         if (exists($work)) then
-            let $entries := dapi:work2epub($id, $work, $request?parameters?lang)
+            let $entries := dapi:work2epub($request, $id, $work, $request?parameters?lang)
             return
                 (
                     if ($request?parameters?token) then
@@ -225,7 +225,7 @@ declare function dapi:epub($request as map(*)) {
             error($errors:NOT_FOUND, "Document " || $id || " not found")
 };
 
-declare %private function dapi:work2epub($id as xs:string, $work as document-node(), $lang as xs:string?) {
+declare %private function dapi:work2epub($request as map(*), $id as xs:string, $work as document-node(), $lang as xs:string?) {
     let $config := $config:epub-config($work, $lang)
     let $odd := head(($request?parameters?odd, $config:odd))
     let $oddName := replace($odd, "^([^/\.]+).*$", "$1")
