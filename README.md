@@ -87,11 +87,13 @@ Following instructions are only relevant for developers who want to contribute t
 
 ### How to run a completely dockerized development environment in vscode
 
+With this setup everything will be living inside docker, so you do not need anything apart from vscode and docker, not even Java or nodejs.
+
 Make sure you have [Visual Studio Code](https://code.visualstudio.com/download) installed.
 
 Make sure you do not have eXist running on 8080. 
 
-1. install “Remote - Containers” extension in vscode
+1. install “Remote - Containers” extension in vscode. In addition we highly recommend to install the "existdb-vscode" and "vscode-xml" extensions.
 1. cmd-shift-p and find “Remote Containers: Clone Repository in Container Volume”
 1. confirm “Clone a repository from GitHub in a Container Volume”
 1. type “tei-publisher-app” and select “eeditiones/tei-publisher-app”
@@ -104,6 +106,6 @@ The container is now being built, which takes a while as it:
 * clones all dependencies
 * and installs everything in the database.
 
-Once it completes, you should see vscode with TEI Publisher directory opened and you can go to http://localhost:8080 to find the dashboard as usual.
+Once it completes, you should see vscode with TEI Publisher directory opened and you can go to http://localhost:8080 to find the dashboard as usual. Once you're done for the moment, choose `Close Remote Connection` from the file menu. This will properly stop the container and eXist. To start again, either use menu `File/Open Recent` and choose the entry ending with `[Dev Container]` or select the *Remote Explorer* tab on the left sidebar, make sure it shows your *Containers* in the top dropdown, and start the one you created before.
 
-With this setup everything will be living inside docker, so you do not need anything apart from vscode, not even Java or nodejs.
+**Important**: After you stop the container, give eXist a chance to shut down properly before you restart, so please wait a few seconds.
