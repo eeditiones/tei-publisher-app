@@ -38,7 +38,8 @@ declare function bapi:home($request as map(*)) {
     let $newRequest := map:merge((
         $request,
         map {
-            "parameters": map:merge(($request?parameters, map { "doc": "doc/blog/tei-publisher-60.xml", "template": "blog.html"}))
+            "parameters": map:merge(($request?parameters, 
+                map { "doc": "doc/blog/" || $lastEntry, "template": "blog.html"}))
         }
     ))
     return
