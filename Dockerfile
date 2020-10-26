@@ -1,7 +1,3 @@
-ARG PUBLISHER_LIB_VERSION=v2.8.9
-ARG PUBLISHER_VERSION=v6.0.2
-ARG SHAKESPEARE_VERSION=1.1.2
-ARG VANGOGH_VERSION=1.0.6
 ARG EXIST_VERSION=5.2.0
 
 # START STAGE 1
@@ -30,6 +26,12 @@ RUN wget http://www-us.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bi
 ENV PATH ${PATH}:${ANT_HOME}/bin
 
 FROM builder as tei
+
+ARG PUBLISHER_LIB_VERSION=v2.8.9
+ARG PUBLISHER_VERSION=master
+ARG SHAKESPEARE_VERSION=1.1.2
+ARG VANGOGH_VERSION=1.0.6
+
 # add key
 RUN  mkdir -p ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
@@ -58,11 +60,9 @@ RUN  git clone https://github.com/eeditiones/vangogh.git \
 # Build tei-publisher-app
 RUN  git clone https://github.com/eeditiones/tei-publisher-app.git \
     && cd tei-publisher-app \
-    && git checkout ${PUBLISHER_VERSION}
-
-WORKDIR /tmp/tei-publisher-app
-
-RUN ant
+    && echo Checking out ${PUBLISHER_VERSION} \
+    && git checkout ${PUBLISHER_VERSION} \
+    && ant
 
 FROM existdb/existdb:${EXIST_VERSION}
 
