@@ -63,7 +63,7 @@ declare function nav:sort($sortBy as xs:string, $items as element()*) {
         case "date" return
             sort($items, (), ft:field(?, "date", "xs:date"))
         default return
-            sort($items, (), ft:field(?, $sortBy))
+            sort($items, 'http://www.w3.org/2013/collation/UCA', ft:field(?, $sortBy))
 };
 
 declare function nav:get-first-page-start($config as map(*), $data as element()) {
