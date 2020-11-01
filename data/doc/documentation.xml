@@ -3368,6 +3368,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           </imageobject>
         </mediaobject>
       </figure>
+      <para>To reference a custom function declared directly in <filename>modules/custom-api.xql</filename>, use the prefix <parameter>custom:</parameter>
+        in the <paramter>operationId</paramter>. For functions in imported modules, use the prefix defined in the import statement.</para>
     </section>
   </section>
 
@@ -4002,6 +4004,7 @@ cp ../tei-publisher-app/templates/basic/post-install.xql .
 cp ../tei-publisher-app/templates/basic/controller.xql .
 cp ../tei-publisher-app/resources/css/theme.css resources/css
 cp ../tei-publisher-app/templates/basic/modules/custom-api.* modules/
+cp ../tei-publisher-app/templates/basic/modules/facets.xql modules/
 cp ../tei-publisher-app/templates/api.html templates/</programlisting>
         <para>Ideally, these files should not have been modified by you, if you followed our earlier
             <link linkend="customization-best-practice">best practice recommendations</link>.
