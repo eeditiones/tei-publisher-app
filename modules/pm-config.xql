@@ -12,7 +12,7 @@ declare variable $pm-config:epub-transform := pm-config:process(?, ?, ?, "epub")
 declare variable $pm-config:tei-transform := pm-config:process(?, ?, ?, "tei");
 
 declare function pm-config:process($xml as node()*, $parameters as map(*)?, $odd as xs:string?, $outputMode as xs:string) {
-    let $oddName := ($odd, $config:odd)[1]
+    let $oddName := ($odd, $config:default-odd)[1]
     return
         pmu:process($config:odd-root || "/" || $oddName, $xml, $config:output-root, $outputMode,
             "../" || $config:output, $config:module-config, $parameters)

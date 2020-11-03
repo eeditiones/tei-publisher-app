@@ -69,9 +69,6 @@ declare
     %templates:default("sort", "title")
 function app:list-works($node as node(), $model as map(*), $filter as xs:string?, $browse as xs:string?, $odd as xs:string?, $sort as xs:string) {
     let $params := app:params2map($model?root)
-    let $odd := ($odd, session:get-attribute($config:session-prefix || ".odd"))[1]
-    let $oddAvailable := $odd and doc-available($config:odd-root || "/" || $odd)
-    let $odd := if ($oddAvailable) then $odd else $config:default-odd
     let $cached := session:get-attribute($config:session-prefix || ".works")
     let $filtered :=
         if (app:use-cache($params, $cached)) then
@@ -88,7 +85,6 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
         session:set-attribute($config:session-prefix || '.hits', $filtered),
         session:set-attribute($config:session-prefix || '.params', $params),
         session:set-attribute($config:session-prefix || ".works", $sorted),
-        session:set-attribute($config:session-prefix || ".odd", $odd),
         map {
             "all" : $sorted,
             "mode": "browse"
@@ -189,7 +185,7 @@ declare function app:download-link($node as node(), $model as map(*), $mode as x
         element { node-name($node) } {
             $node/@*,
             attribute url { $model?app || "api/document/" || escape-uri($file, true()) },
-            attribute odd { ($model?config?odd, $config:odd)[1] },
+            attribute odd { ($model?config?odd, $config:default-odd)[1] },
             $node/node()
         }
 };

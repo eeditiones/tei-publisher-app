@@ -37,7 +37,6 @@ declare function dapi:delete($request as map(*)) {
 
 declare function dapi:html($request as map(*)) {
     let $doc := xmldb:decode($request?parameters?id)
-    let $odd := head(($request?parameters?odd, $config:odd))
     return
         if ($doc) then
             let $xml := config:get-document($doc)/*
@@ -47,7 +46,7 @@ declare function dapi:html($request as map(*)) {
                     let $out := $pm-config:web-transform($xml, map { "root": $xml }, $config?odd)
                     let $styles := if (count($out) > 1) then $out[1] else ()
                     return
-                        dapi:postprocess(($out[2], $out[1])[1], $styles, $odd)
+                        dapi:postprocess(($out[2], $out[1])[1], $styles, $config?odd)
                 else
                     error($errors:NOT_FOUND, "Document " || $doc || " not found")
         else
@@ -227,7 +226,7 @@ declare function dapi:epub($request as map(*)) {
 
 declare %private function dapi:work2epub($request as map(*), $id as xs:string, $work as document-node(), $lang as xs:string?) {
     let $config := $config:epub-config($work, $lang)
-    let $odd := head(($request?parameters?odd, $config:odd))
+    let $odd := head(($request?parameters?odd, $config:default-odd))
     let $oddName := replace($odd, "^([^/\.]+).*$", "$1")
     let $cssDefault := util:binary-to-string(util:binary-doc($config:output-root || "/" || $oddName || ".css"))
     let $cssEpub := util:binary-to-string(util:binary-doc($config:app-root || "/resources/css/epub.css"))

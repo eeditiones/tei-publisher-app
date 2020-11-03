@@ -299,8 +299,6 @@ declare variable $config:data-exclude :=
  :)
 declare variable $config:default-odd := "$$config-odd$$";
 
-declare variable $config:odd := $config:default-odd;
-
 (:~
  : Complete list of ODD files used by the app. If you add another ODD to this list,
  : make sure to run modules/generate-pm-config.xql to update the main configuration
@@ -381,6 +379,56 @@ declare variable $config:dts-collections := map {
 declare variable $config:dts-page-size := 10;
 
 declare variable $config:dts-import-collection := $config:data-default || "/playground";
+
+(:~
+ : Returns a default display configuration as a map for the given relative collection
+ : path.
+ :
+ : Change this to support different configurations for different collections.
+ : By default this returns a configuration based on the default settings defined
+ : by other variables in this module.
+ : 
+ : @param $collection relative collection path (i.e. with $config:data-root stripped off)
+ :)
+declare function config:collection-config($collection as xs:string?) {
+    let $defaultConfig := map {
+        "odd": $config:default-odd,
+        "view": $config:default-view,
+        "depth": $config:pagination-depth,
+        "fill": $config:pagination-fill,
+        "template": $config:default-template
+    }
+    return
+        $defaultConfig
+        (: 
+         : Replace line above with the following code to switch between different view configurations per collection.
+         : $collection corresponds to the relative collection path (i.e. after $config:data-root). 
+         :)
+        (: 
+        switch ($collection)
+            case "playground" return
+                map {
+                    "odd": "dta.odd",
+                    "view": "page",
+                    "depth": $config:pagination-depth,
+                    "fill": $config:pagination-fill,
+                    "template": "facsimile.html"
+                }
+            default return
+                $defaultConfig 
+        :)
+};
+
+(:~
+ : Helper function to retrieve the default config for the given absolute collection path.
+ : Delegates to config:collection-config().
+ :)
+declare function config:default-config($collection as xs:string?) {
+    if (exists($collection)) then
+        config:collection-config(substring-after($collection, $config:data-root || "/"))
+    else
+        config:collection-config(())
+};
 
 declare function config:document-type($div as element()) {
     switch (namespace-uri($div))

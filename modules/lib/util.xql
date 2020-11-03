@@ -27,11 +27,13 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?) {
 };
 
 declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd as xs:string?) {
+    let $defaultConfig := config:default-config(util:collection-name($doc))
     let $default := map {
-        "view": ($view, $config:default-view)[1],
-        "depth": $config:pagination-depth,
-        "fill": $config:pagination-fill,
-        "type": config:document-type($doc/*)
+        "view": ($view, $defaultConfig?view)[1],
+        "depth": $defaultConfig?depth,
+        "fill": $defaultConfig?fill,
+        "type": config:document-type($doc/*),
+        "template": $defaultConfig?template
     }
     let $pis :=
         map:merge(
@@ -61,7 +63,7 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd
         else if ($cfgOddAvail) then
             $pis
         else
-            map:merge(($pis, map { "odd": $config:default-odd }))
+            map:merge(($pis, map { "odd": $defaultConfig?odd }))
     return
         map:merge(($default, $config))
 };

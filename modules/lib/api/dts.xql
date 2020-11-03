@@ -109,12 +109,14 @@ declare %private function dts:check-pi($doc as document-node()) {
         if ($pi) then
             $doc
         else
-            document {
-                processing-instruction teipublisher {
-                    ``[odd="`{$config:default-odd}`" view="`{$config:default-view}`" template="`{$config:default-template}`"]``
-                },
-                $doc/node()
-            }
+            let $config := config:default-config(util:document-name($doc))
+            return
+                document {
+                    processing-instruction teipublisher {
+                        ``[odd="`{$config?odd}`" view="`{$config?view}`" template="`{$config?template}`"]``
+                    },
+                    $doc/node()
+                }
 };
 
 declare %private function dts:store-temp($data as node()*, $name as xs:string) {
