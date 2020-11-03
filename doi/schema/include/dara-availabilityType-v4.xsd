@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Version 1.0 - 2011
+    Version 3.1 - 2014-11
+    Version 4.0 - 2017-09
+-->
+<xs:schema xmlns="http://da-ra.de/schema/kernel-4" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://da-ra.de/schema/kernel-4" elementFormDefault="qualified">
+  <xs:simpleType name="availabilityType" id="availabilityType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Conditions governing the access to the resource.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Download"/>
+      <xs:enumeration value="Delivery"/>
+      <xs:enumeration value="OnSite"/>
+      <xs:enumeration value="NotAvailable"/>
+      <xs:enumeration value="Unknown"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

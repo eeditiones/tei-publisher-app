@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Version 1.0 - 2011
+    Version 3.1 - 2014-11
+    Version 4.0 - 2017-09
+-->
+<xs:schema xmlns="http://da-ra.de/schema/kernel-4" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://da-ra.de/schema/kernel-4" elementFormDefault="qualified">
+    <xs:simpleType name="collectionModeType" id="collectionModeType">
+        <!-- ddi-code, version 2.1 -->
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Interview">
+                <xs:annotation>
+                    <xs:documentation>A pre-planned communication between two (or more) people - the interviewer(s) and the interviewee(s) - in which information is obtained by the interviewer(s) from the interviewee(s). If group interaction is part of the method, use "Focus group".</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Interview.FaceToFace">
+                <xs:annotation>
+                    <xs:documentation>Data collection method in which a live interviewer conducts a personal interview, presenting questions and entering the responses. Use this broader term if not CAPI or PAPI, or if not known whether CAPI/PAPI or not.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Interview.Telephone">
+                <xs:annotation>
+                    <xs:documentation>Interview administered on the telephone. Use this broader term if not CATI, or if not known whether CATI or not.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Interview.Email">
+                <xs:annotation>
+                    <xs:documentation>Interviews conducted via e-mail, usually consisting of several e-mail messages that allow the discussion to continue beyond the first set of questions and answers, or the first e-mail exchange.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Interview.Telephone.CATI">
+                <xs:annotation>
+                    <xs:documentation>Computer-assisted telephone interviewing. The interviewer asks questions as directed by a computer, responses are keyed directly into the computer and the administration of the interview is managed by a specifically designed program.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Interview.FaceToFace.CAPICAMI">
+                <xs:annotation>
+                    <xs:documentation>Computer-assisted personal interviewing. Data collection method in which the interviewer reads questions to the respondents from the screen of a computer, laptop, or a mobile device like tablet or smartphone, and enters the answers in the same device. The administration of the interview is managed by a specifically designed program/application.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SelfAdministeredQuestionnaire">
+                <xs:annotation>
+                    <xs:documentation>Data collection method in which the respondent reads or listens to the questions, and enters the responses by him/herself; no live interviewer is present, or participates in the questionnaire administration. If possible, use a narrower term. Use this broader term if the method is not described by any of the narrower terms - for example, for PDF and diskette questionnaires.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SelfAdministeredQuestionnaire.Paper">
+                <xs:annotation>
+                    <xs:documentation>Self-administered survey using a traditional paper questionnaire delivered and/or collected by mail (postal services), by fax, or in person by either interviewer, or respondent.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SelfAdministeredQuestionnaire.WebBased">
+                <xs:annotation>
+                    <xs:documentation>Computer-assisted web interviewing (CAWI). Data are collected using a web questionnaire, produced with a program for creating web surveys. The program can customize the flow of the questionnaire based on the answers provided, and can allow for the questionnaire to contain pictures, audio and video clips, links to different web pages etc. (adapted from Wikipedia).</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SelfAdministeredQuestionnaire.ComputerAssisted">
+                <xs:annotation>
+                    <xs:documentation>Computer-assisted self-interview (CASI). Respondents enter the responses into a computer (desktop, laptop, Palm/PDA, tablet, etc.) by themselves. The administration of the questionnaire is managed by a specifically designed program/application but there is no real-time data transfer as in CAWI, the answers are stored on the device used for the interview. The questionnaire may be fixed form or interactive. Includes VCASI (Video computer-assisted self-interviewing), ACASI (Audio computer-assisted self-interviewing) and TACASI (Telephone audio computer-assisted self-interviewing).</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ContentCoding">
+                <xs:annotation>
+                    <xs:documentation>As a mode of secondary data collection, content coding applies coding techniques to transform qualitative data (textual, video, audio or still-image) originally produced for other purposes into quantitative data (expressed in unit-by-variable matrices) in accordance with pre-defined categorization schemes. For example, coded party manifesto data like the "European Parliament Election Study 2009, Manifesto Study" (doi:10.4232/1.10204)".</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Transcription">
+                <xs:annotation>
+                    <xs:documentation>Capturing information in writing from a different source, or from a different medium, alphabet, or form of notation, like scientific formulae, or musical notes. For transcribed interviews or observations, it is recommended to document the primary mode of collection, using one of the interview or observation terms.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="CompilationSynthesis">
+                <xs:annotation>
+                    <xs:documentation>Collecting and assembling data from multiple, often heterogeneous sources that have one or more reference points in common, and at least one of the sources was originally produced for other purposes. The data are incorporated in a new entity. For example, providing data on the number of universities in the last 150 years using a variety of available sources (e.g. finance documents, official statistics, university registers), combining survey data with information about geographical areas from official statistics (e.g. population density, doctors per capita, etc.), or using RSS to collect blog posts or tweets, etc.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Recording">
+                <xs:annotation>
+                    <xs:documentation>Registering by mechanical or electronic means, in a form that allows the information to be retrieved and/or reproduced. For example, images or sounds on disc or magnetic tape.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Simulation">
+                <xs:annotation>
+                    <xs:documentation>Modeling or imitative representation of real-world processes, events, or systems, often using computer programs. For example, a program modeling household consumption responses to indirect tax changes; or a dataset on hypothetical patients and their drug exposure, background conditions, and known adverse events.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Observation">
+                <xs:annotation>
+                    <xs:documentation>Research method that involves collecting data as they occur (for example, observing behaviors, events, development of condition or disease, etc.), without attempting to manipulate any of the independent variables.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Observation.Field">
+                <xs:annotation>
+                    <xs:documentation>Observation that is conducted in a natural environment.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Observation.Laboratory">
+                <xs:annotation>
+                    <xs:documentation>Observation that is conducted in a controlled, artificially created setting. For example, observing children's play in a laboratory playroom.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Observation.Field.Participant">
+                <xs:annotation>
+                    <xs:documentation>Type of field observation in which the researcher interacts with the subjects and often plays a role in the social situation under observation.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Experiment">
+                <xs:annotation>
+                    <xs:documentation>Research method involving the manipulation of some or all of the independent variables included in the hypotheses.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="FocusGroup">
+                <xs:annotation>
+                    <xs:documentation>A group discussion on a particular topic, organized for research purposes. The individuals are selected with relevance to the topic, and interaction among the participants is used as part of the method.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Interview.FaceToFace.PAPI">
+                <xs:annotation>
+                    <xs:documentation>Paper-and-pencil interviewing. The interviewer uses a traditional paper questionnaire to read the questions and enter the answers.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Interview.WebBased">
+                <xs:annotation>
+                    <xs:documentation>An interview conducted via the Internet. For example, interviews conducted within online forums or using web-based audio-visual technology that enables the interviewer(s) and interviewee(s) to communicate in real time.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SelfAdministeredQuestionnaire.Email">
+                <xs:annotation>
+                    <xs:documentation>Self-administered survey in which questions are presented to the respondent in the text body of an e-mail or as an attachment to an e-mail, but not as a link to a web-based questionnaire. Responses are also sent back via e-mail, in the e-mail body or as an attachment.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SelfAdministeredQuestionnaire.SMSorMMS">
+                <xs:annotation>
+                    <xs:documentation>Self-administered survey in which the respondents receive the questions incorporated in SMS (text messages) or MMS (messages including multimedia content) and send their replies in the same format.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="FocusGroup.FaceToFace">
+                <xs:annotation>
+                    <xs:documentation>The focus group participants meet in person to conduct the discussion.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="FocusGroup.Telephone">
+                <xs:annotation>
+                    <xs:documentation>The focus group discussion is conducted over the telephone.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="FocusGroup.Online">
+                <xs:annotation>
+                    <xs:documentation>The focus group discussion is conducted over the Internet in an interactive manner.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SelfAdministeredWritingsAndDiaries">
+                <xs:annotation>
+                    <xs:documentation>Narratives, stories, diaries, and written texts created by the research subject.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SelfAdministeredWritingsAndDiaries.Email">
+                <xs:annotation>
+                    <xs:documentation>Narratives, stories, diaries, and written texts submitted via e-mail messages.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SelfAdministeredWritingsAndDiaries.Paper">
+                <xs:annotation>
+                    <xs:documentation>Narratives, stories, diaries, and written texts created and collected in paper form.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SelfAdministeredWritingsAndDiaries.WebBased">
+                <xs:annotation>
+                    <xs:documentation>Narratives, stories, diaries, and written texts gathered from Internet sources, e.g. websites, blogs, discussion forums.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Observation.Field.Nonparticipant">
+                <xs:annotation>
+                    <xs:documentation>Observation that is conducted in a natural, non-controlled setting without any interaction between the researcher and his/her subjects.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Observation.Laboratory.Participant">
+                <xs:annotation>
+                    <xs:documentation>Type of laboratory observation in which the researcher interacts with the subjects and often plays a role in the social situation under observation. For example, observing children's play in a laboratory playroom with the researcher taking part in the play.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Observation.Laboratory.Nonparticipant">
+                <xs:annotation>
+                    <xs:documentation>Type of laboratory observation that is conducted without any interaction between the researcher and his/her subjects.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Observation.ComputerBased">
+                <xs:annotation>
+                    <xs:documentation>Type of observation in which data regarding computer usage are being collected by software that can be built into the computer program itself or can be a separate program. Information may be collected about the number of users, the ways in which users interact with the program(s), how much time they spend on a page, how they use specific sections of applications, how they navigate from page to page or from one application to another, etc.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Experiment.Laboratory">
+                <xs:annotation>
+                    <xs:documentation>An experiment conducted in a controlled, artificially created physical setting, in which a researcher manipulates one or several independent variables and measures its/their effect on the dependent variable.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Experiment.FieldIntervention">
+                <xs:annotation>
+                    <xs:documentation>An experiment conducted in a natural, uncontrolled setting, in which the researcher manipulates one or several independent variables. Intervention/clinical studies are one example of field experiments.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Experiment.WebBased">
+                <xs:annotation>
+                    <xs:documentation>An experiment conducted in the virtual setting of the World Wide Web, in which experimental materials are programmed to implement artificial situations or events to be investigated in a distributed environment. (Reips, U.-D. (2002). Theory and techniques of Web experimenting. In B. Batinic, U.-D. Reips, and M. Bosnjak (Eds.), Online Social Sciences. Seattle: Hogrefe and Huber. Available at: http://www.websm.org/uploadi/editor/Reips_2002_Theory_and_techniques.pdf [07 June 2013])</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Summary">
+                <xs:annotation>
+                    <xs:documentation>Presentation of information in a condensed form, by reducing it to its main points. For example, abstracts of interviews or reports that are published and used as data rather than the full-length interviews or reports.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Aggregation">
+                <xs:annotation>
+                    <xs:documentation>Statistics that relate to broad classes, groups, or categories. The data are averaged, totaled, or otherwise derived from individual-level data, and it is no longer possible to distinguish the characteristics of individuals within those classes, groups, or categories. For example, the number and age group of the unemployed in specific geographic regions, or national level statistics on the occurrence of specific offences, originally derived from the statistics of individual police districts.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="MeasurementsAndTests">
+                <xs:annotation>
+                    <xs:documentation>Assessing specific properties (or characteristics) of beings, things, phenomena, (and/ or processes) by applying pre-established standards and/or specialized instruments or techniques.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="MeasurementsAndTests.Educational">
+                <xs:annotation>
+                    <xs:documentation>Assessment of knowledge, skills, aptitude, or educational achievement by means of specialized measures or tests.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="MeasurementsAndTests.Physical">
+                <xs:annotation>
+                    <xs:documentation>Assessment of physical properties of living beings, objects, materials, or natural phenomena. For example, findings from hands-on medical examination (e.g., palpation or auscultation), clinical measurements and lab tests like blood analysis, blood pressure, heart rate, body weight and height, as well as general measurements like time, distance, mass, temperature, force, power, speed, GPS data on physical movement and other physical parameters or variables, like geospatial data.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="MeasurementsAndTests.Psychological">
+                <xs:annotation>
+                    <xs:documentation>Assessment of personality traits or psychological/behavioral responses by means of specialized measures or tests. For example, objective tests like self-report measures with a restricted response format, or projective methods allowing free responses, including word association, sentence or story completion, vignettes, cartoon test, thematic apperception tests, role play, drawing tests, inkblot tests, choice ordering exercises, etc.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Other">
+                <xs:annotation>
+                    <xs:documentation>Use if the mode of data collection is known, but not found in the list.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

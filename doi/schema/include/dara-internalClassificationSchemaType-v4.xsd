@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Version 1.0 - 2011
+    Version 3.1 - 2014-11
+    Version 4.0 - 2017-09
+-->
+<xs:schema xmlns="http://da-ra.de/schema/kernel-4" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://da-ra.de/schema/kernel-4" elementFormDefault="qualified">
+  <xs:simpleType name="classificationSchemaType" id="classificationSchemaType">
+    <xs:annotation>
+      <xs:documentation>Subject classifications controlled.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="GESIS">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">GESIS Classification Social Sciences</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="JEL">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">JEL (Journal of Economic Literature) Classification in  EconLit Format (Non-Hierarchical)</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ZA">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">ZA-Classification (GESIS Data Catalogue)</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

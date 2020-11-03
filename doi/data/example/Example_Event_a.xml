@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
+    <resourceType>Event</resourceType>
+    <resourceTypesFree>
+        <resourceTypeFree>
+            <language>de</language>
+            <typeName>Workshop</typeName> 
+        </resourceTypeFree>
+        <resourceTypeFree>
+            <language>en</language>
+            <typeName>workshop</typeName>
+        </resourceTypeFree>
+    </resourceTypesFree>
+    <resourceIdentifier>
+        <identifier>Example_Event</identifier>
+        <currentVersion>1</currentVersion>
+    </resourceIdentifier>
+    <titles>
+        <title>
+            <language>de</language>
+            <titleName>Einführung in das da|ra Metadatenschema 4.0</titleName>
+        </title>
+    </titles>
+    <otherTitles>
+        <otherTitle>
+            <language>de</language>
+            <titleName>Neue Inhalte und Anwendungsbeispiele</titleName>
+            <titleType>Subtitle</titleType>
+        </otherTitle>
+    </otherTitles>
+    <creators>
+        <creator>
+            <institution>
+                <institutionName>GESIS - Leibniz-Institut für Sozialwissenschaften</institutionName>
+                <institutionIDs>
+                    <institutionID>
+                        <identifierURI>http://d-nb.info/gnd/16015541-1</identifierURI>
+                        <identifierSchema>GND</identifierSchema>
+                    </institutionID>
+                    <institutionID>
+                        <identifierURI>http://viaf.org/viaf/131715635</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </institutionID>
+                </institutionIDs>
+            </institution>
+        </creator>
+    </creators>
+    <dataURLs>
+        <dataURL>https://www.da-ra.de/ueber-uns/workshops/</dataURL>
+    </dataURLs>
+    <doiProposal>10.17889/Example_Event</doiProposal>
+    <publicationDate>
+        <year>2017</year>
+    </publicationDate>
+    <publicationPlace>Köln</publicationPlace>
+    <publisher>
+        <institution>
+            <institutionName>GESIS - Leibniz-Institut für Sozialwissenschaften</institutionName>
+            <institutionIDs>
+                <institutionID>
+                    <identifierURI>http://d-nb.info/gnd/16015541-1</identifierURI>
+                    <identifierSchema>GND</identifierSchema>
+                </institutionID>
+                <institutionID>
+                    <identifierURI>http://viaf.org/viaf/131715635</identifierURI>
+                    <identifierSchema>VIAF</identifierSchema>
+                </institutionID>
+            </institutionIDs>
+        </institution>
+    </publisher>
+    <availability>
+        <availabilityType>Download</availabilityType>
+    </availability>
+    <rights>
+        <licenseType>CC0.1.0</licenseType>
+        <right>
+            <language>de</language>
+            <freetext>Creative Commons - Namensnennung, Nicht kommerziell, Keine Bearbeitung</freetext>
+        </right>
+    </rights>
+    <resourceLanguage>deu</resourceLanguage>
+   <classifications>
+        <classification>
+            <classificationInternal>
+                <classificationSchemaType>GESIS</classificationSchemaType>
+                <identifiers>
+                    <identifier>1080500</identifier>        <!-- Information Science-->
+                    <identifier>1080501</identifier>        <!-- Information and Documentation, Libraries, Archives -->
+                </identifiers>
+            </classificationInternal>
+        </classification>
+    </classifications>
+ <controlledKeywords>
+        <controlledKeyword>
+            <keywordSchemaType>TheSozWiss</keywordSchemaType> 
+            <identifiers>
+                <identifier>10034708</identifier>             <!--data-->
+                <identifier>10040537</identifier>             <!--data documentation-->
+                <identifier>10040543</identifier>             <!--data acquisition-->
+                <identifier>10055811 </identifier>            <!--data quality-->
+                <identifier>10040573</identifier>             <!--data interconnection-->
+                <identifier>10040527</identifier>             <!--data exchange-->
+                <identifier>10040567</identifier>             <!--data processing -->
+            </identifiers>
+        </controlledKeyword>
+    </controlledKeywords>
+    <freeKeywords>
+        <freeKeyword>
+            <language>en</language>
+            <keywords>
+                <keyword>metadata schema</keyword>
+                <keyword>mandatory properties</keyword>
+                <keyword>optional properties</keyword>
+            </keywords>
+        </freeKeyword>
+        <freeKeyword>
+            <language>de</language>
+            <keywords>
+                <keyword>Metadatenschema</keyword>
+                <keyword>Pflichtelement</keyword>
+                <keyword>optionales Element</keyword>
+            </keywords>
+        </freeKeyword>
+    </freeKeywords>
+    <descriptions>
+        <description>
+            <language>de</language>
+            <freetext>
+                <p>Im Mittelpunkt des Workshops stehen die Änderungen des da|ra-Metadatenschemas, die in Folge des im Oktober 2016 eingeführten DataCite Metadatenschemas 4.0 vorgenommen wurden. Es werden das neue Datenmodell und die Änderungen bzw. Ergänzungen in ausgewählten Schema-Elementen vorgestellt und detailliert besprochen. Anhand von praktischen Beispielen wird die Verwendung des da|ra Metadatenschemas 4.0 im Rahmen des DOI-Registrierungsprozesses gezeigt. In einer offenen Fragerunde können die Teilnehmer Feedback zum neuen Schema geben.</p>
+                <p>Der Workshop wird am 11.05.2017 um 13:00 Uhr beginnen und am 12.05.2017 um 13:00 Uhr enden. Die Teilnahme ist kostenfrei.</p>
+            </freetext>
+            <descriptionType>Abstract</descriptionType>
+        </description>
+        <description>
+            <language>de</language>
+            <freetext>
+                <p>Agenda:</p>
+                <ul>
+                    <li>1. Begrüßung der Teilnehmer  </li>
+                    <li>2. Präsentation des MDS4.0 </li>
+                    <li>3. Technische Umsetzung des Schemas – was hat sich in der Schemadatei (XSD) verändert?</li>
+                    <li>4. Editiermaske: Erfassng der Metadaten</li>
+                    <li>5. XML-Upload mit Beispielen</li>
+                    <li>6. API inkl. neues API tool</li>
+               </ul>
+            </freetext>
+            <descriptionType>TableOfContents</descriptionType>
+        </description>
+    </descriptions>
+<temporalCoverages>
+    <temporalCoverage>
+        <temporalCoverageFormal>
+            <startDate>
+                <date>2017-09-11</date>
+            </startDate>
+            <endDate>
+                <date>2017-09-12</date>
+            </endDate>
+        </temporalCoverageFormal>
+    </temporalCoverage>
+</temporalCoverages>
+    <contributors>
+        <contributor>
+            <person>
+                <firstName>Brigitte</firstName>
+                <middleName/>
+                <lastName>Hausstein</lastName>
+                <contributorType>ProjectLeader</contributorType>
+                <personIDs>
+                    <personID>
+                        <identifierURI>https://orcid.org/0000-0001-5430-8201</identifierURI>
+                        <identifierSchema>ORCID</identifierSchema>
+                    </personID>
+                    <personID>
+                        <identifierURI>http://d-nb.info/gnd/12985350X</identifierURI>
+                        <identifierSchema>GND</identifierSchema>
+                    </personID>
+                </personIDs>
+            </person>
+        </contributor>
+        <contributor>
+            <person>
+                <firstName>Esra</firstName>
+                <middleName/>
+                <lastName>Akdeniz</lastName>
+                <contributorType>ProjectMember</contributorType>
+                <personIDs>
+                    <personID>
+                        <identifierURI>https://orcid.org/0000-0001-5022-2216</identifierURI>
+                        <identifierSchema>ORCID</identifierSchema>
+                    </personID>
+                </personIDs>
+            </person>
+        </contributor>
+    </contributors>
+    <relations>
+        <relation>
+            <identifier>10.4232/10.mdsdoc.4.0</identifier>
+            <identifierType>DOI</identifierType>
+            <relationType>References</relationType>
+            <resourceType>Text</resourceType>
+        </relation>
+        <relation>
+            <identifier>10.4232/10.mdsxsd.4.0</identifier>
+            <identifierType>DOI</identifierType>
+            <relationType>References</relationType>
+        </relation>
+        <relation>
+            <identifier>10.5438/0012</identifier>
+            <identifierType>DOI</identifierType>
+            <relationType>Cites</relationType>
+            <resourceType>Text</resourceType>
+        </relation>
+        <relation>
+            <identifier>10.5438/0014</identifier>
+            <identifierType>DOI</identifierType>
+            <relationType>Cites</relationType>
+            <resourceType>Text</resourceType>
+        </relation>
+        <relation>
+            <identifier>https://www.da-ra.de/en/about-us/workshops/</identifier><!-- view Webinar on "The da|raMetadata Schema 4.0". GESIS Cologne, 5 September 2017-->
+            <identifierType>URL</identifierType>
+            <relationType>IsSupplementedBy</relationType>
+            <resourceType>Event</resourceType>
+        </relation>
+    </relations>
+</resource>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
+  <resourceType>DataPaper</resourceType>
+  <resourceTypesFree>
+    <resourceTypeFree>
+      <language>de</language>
+      <typeName>DDI-C Codebuch</typeName>
+    </resourceTypeFree>
+    <resourceTypeFree>
+      <language>en</language>
+      <typeName>DDI-C Codebook</typeName>
+    </resourceTypeFree>
+  </resourceTypesFree>
+  <resourceIdentifier>
+    <identifier>Example_Datapaper</identifier>
+    <currentVersion>1.0.0</currentVersion>
+  </resourceIdentifier>
+  <titles>
+    <title>
+      <language>de</language>
+      <titleName>DDI-C Codebuch für Studie ZA3811</titleName>
+    </title>
+    <title>
+      <language>en</language>
+      <titleName>DDI-C Codebook for Study ZA3811</titleName>
+    </title>
+  </titles>
+  <creators>
+    <creator>
+      <institution>
+        <institutionName>GESIS - Datenarchiv für Sozialwissenschaften</institutionName>
+      </institution>
+    </creator>
+  </creators>
+  <dataURLs>
+    <dataURL>http://dbk.gesis.org/dbksearch/download.asp?id=54498</dataURL>
+  </dataURLs>
+  <doiProposal>10.17889/2.3811.54498</doiProposal>
+  <publicationDate>
+    <date>2014-09-01</date>
+  </publicationDate>
+  <availability>
+    <availabilityType>Download</availabilityType>
+  </availability>
+  <rights>
+    <licenseType>CC.BY-NC-SA.4.0</licenseType>
+    <right>
+      <language>de</language>
+      <freetext>Creative Commons Namensnennung-Weitergabe unter gleichen Bedingungen 4.0 international</freetext>
+    </right>
+    <right>
+      <language>en</language>
+      <freetext>Creative Commons Attribution-ShareAlike 4.0 International</freetext>
+    </right>
+  </rights>
+  <resourceLanguage>eng</resourceLanguage>
+  <dataSets>
+    <dataSet>
+      <files>
+        <file>
+          <name>ZA3811_v3-0-0_ddi20_Codebook_20140901.xml</name>
+        </file>
+      </files>
+    </dataSet>
+  </dataSets>
+  <relations>
+    <relation>
+      <identifier>10.4232/1.10789</identifier>
+      <identifierType>DOI</identifierType>
+      <relationType>IsMetadataFor</relationType>
+      <relatedMetadataSchema>DDI-C</relatedMetadataSchema>
+      <schemaType>XSD</schemaType>
+      <schemaURI>http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd</schemaURI>
+    </relation>
+  </relations>
+</resource>

@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
+    <resourceType>Dataset</resourceType>
+    <resourceTypesFree>
+        <resourceTypeFree>
+            <language>en</language>
+            <typeName>observational data, survey data</typeName> 
+        </resourceTypeFree>
+    </resourceTypesFree>
+    <resourceIdentifier>
+        <identifier>Example_Dataset2</identifier>
+        <currentVersion>v2</currentVersion>
+    </resourceIdentifier>
+    <titles>
+        <title>
+            <language>en</language>
+            <titleName>Head Start Family and Child Experiences Survey (FACES): 2009 Cohort [United States]</titleName>
+        </title>
+    </titles>
+    <otherTitles>
+        <otherTitle>
+            <language>en</language>
+            <titleName>FACES 2009</titleName>
+            <titleType>AlternativeTitle</titleType>
+        </otherTitle>
+        <otherTitle>
+            <language>en</language>
+            <titleName>Version 2</titleName>
+            <titleType>Subtitle</titleType>
+        </otherTitle>
+    </otherTitles>
+    <collectiveTitles>
+        <collectiveTitle>
+            <language>en</language>
+            <titleName>Head Start Family and Child Experiences Survey (FACES) Series</titleName>
+            <numbering/>
+        </collectiveTitle>
+    </collectiveTitles>
+    <creators>
+        <creator>
+            <person>
+                <firstName>Louisa</firstName>
+                <lastName>Tarullo</lastName>
+                <personIDs>
+                    <personID>
+                        <identifierURI>http://viaf.org/viaf/36147118195726340869</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </personID>
+                </personIDs>
+            </person>
+        </creator>
+        <creator>
+            <institution>
+                <institutionName>United States Department of Health and Human Services. Administration for Children and Families</institutionName>
+                <institutionIDs>
+                    <institutionID>
+                        <identifierURI>http://viaf.org/viaf/136949128</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </institutionID>
+                </institutionIDs>
+            </institution>
+        </creator>
+    </creators>
+    <dataURLs>
+        <dataURL>http://www.researchconnections.org/childcare/studies/34558/version/2</dataURL>
+    </dataURLs>
+    <doiProposal>10.17889/Example_DatasetB</doiProposal>
+    <publicationDate>
+        <date>2013-06-28</date>
+    </publicationDate>
+    <publicationPlace>New York</publicationPlace>
+    <publisher>
+        <institution>
+            <institutionName>ICPSR - Inter-University Consortium for Political and Social Research</institutionName>
+            <institutionIDs>
+                <institutionID>
+                    <identifierURI>http://viaf.org/viaf/140182702</identifierURI>
+                    <identifierSchema>VIAF</identifierSchema>
+                </institutionID>
+                <institutionID>
+                    <identifierURI>http://www.isni.org/isni/0000000109435850</identifierURI>
+                    <identifierSchema>ISNI</identifierSchema>
+                </institutionID>
+            </institutionIDs>
+        </institution>
+    </publisher>
+    <availability>
+        <availabilityType>Download</availabilityType>
+        <availabilityFree>
+            <language>en</language>
+            <freetext>One or more files in this study are not available for download due to special restrictions; consult the study documentation to learn more on how to obtain the data.</freetext>
+        </availabilityFree>
+        <embargoDate>2013-05-31</embargoDate>
+    </availability>
+    <rights>
+        <licenseType>CC0.1.0</licenseType>
+        <right><!-- fictitious  -->
+            <language>en</language>
+            <freetext>This data collection may not be used for any purpose other than statistical reporting and analysis. Use of these data to learn the identity of any person or establishment is prohibited. To protect respondent privacy, the AI/AN FACES data are restricted from general dissemination. Access to parts of this study requires a signed User Agreement. To obtain the file(s), researchers must agree to the terms and conditions of the Restricted Data Use Agreement, which is included with every download and can also be obtained separately on the Browse Documentation page.</freetext>
+        </right>
+    </rights>
+    <resourceLanguage>eng</resourceLanguage>
+    <alternativeIDs>
+        <alternativeID>
+            <identifier>10.3886/AlternateID_ICPSR34558</identifier>
+            <type>DOI</type>
+        </alternativeID>
+        <alternativeID>
+            <identifier>ICPSR34558</identifier>
+            <type>ICPSR Study Number</type>
+        </alternativeID>
+    </alternativeIDs>
+    <classifications>
+        <classification>
+            <classificationInternal>
+                <classificationSchemaType>GESIS</classificationSchemaType>
+                <identifiers>
+                    <identifier>10208</identifier>   <!-- Sociology of Education-->
+                    <identifier>10210</identifier>   <!-- Sociology of the Youth, Sociology of Childhood-->
+                </identifiers>
+            </classificationInternal>
+        </classification>
+        <classification>
+            <classificationInternal>
+                <classificationSchemaType>ZA</classificationSchemaType>
+                <identifiers>
+                    <identifier>KAT53</identifier>      <!--Family-->
+                    <identifier>KAT55</identifier>      <!--Education, School Systems-->
+                    <identifier>KAT52</identifier>      <!--Group-->
+                </identifiers>
+            </classificationInternal>
+        </classification>
+    </classifications>
+    <controlledKeywords>
+        <controlledKeyword>
+            <keywordSchemaType>TheSozWiss</keywordSchemaType>
+            <identifiers>
+                <identifier>10041476</identifier>       <!--family-->
+                <identifier>10043226</identifier>       <!--family socialization-->
+                <identifier>10042707</identifier>       <!--early childhood education and care-->
+                <identifier>10034597</identifier>       <!--child-->
+            </identifiers>
+        </controlledKeyword>
+        <controlledKeyword>
+            <keywordSchemaType>STW</keywordSchemaType>
+            <identifiers>
+                <identifier>15938-6</identifier>        <!-- Family-->
+                <identifier>15810-4</identifier>        <!--Socialization -->
+            </identifiers>
+        </controlledKeyword>
+    </controlledKeywords>
+    <freeKeywords>
+        <freeKeyword>
+            <language>en</language>
+            <keywordSchema>ICPSR</keywordSchema>
+            <keywords>
+                <keyword>child care</keyword>
+                <keyword>child development</keyword>
+                <keyword>child health</keyword>
+                <keyword>child nutrition</keyword>
+                <keyword>child rearing </keyword>
+                <keyword>children </keyword>
+                <keyword>curriculum</keyword> 
+                <keyword>early childhood education</keyword>
+                <keyword>families</keyword>
+                <keyword>Head Start</keyword>
+                <keyword>parenting skills</keyword>
+                <keyword>parents</keyword>       
+                <keyword>programs</keyword>
+                <keyword>school readiness</keyword>
+            </keywords>
+        </freeKeyword>
+    </freeKeywords>
+    <descriptions>
+        <description>
+            <language>en</language>
+            <freetext>The Head Start Family and Child Experiences Survey (FACES) is a periodic, ongoing longitudinal study of program performance. Successive nationally representative samples of Head Start children, their families, classrooms, and programs provide descriptive information on the population of children and families served; staff qualifications, credentials, and opinions; Head Start classroom practices and quality measures; and child and family outcomes. FACES includes a battery of child assessments across multiple developmental domains (cognitive, social, emotional, and physical). FACES 2009 is the latest FACES cohort study and followed children from Head Start entry in fall 2009 through one or two years of program participation and to kindergarten. For nearly a decade, the Office of Head Start, the Administration for Children and Families, other federal agencies, local programs, and the public have depended on FACES for valid and reliable national information on (1) the skills and abilities of Head Start children, (2) how Head Start children's skills and abilities compare with preschool children nationally, (3) Head Start children's readiness for and subsequent performance in kindergarten, and (4) the characteristics of the children's home and classroom environments. The FACES study is designed to enable researchers to answer a wide range of research questions that are crucial for aiding program managers and policymakers. Some of the questions that are central to FACES include: What are the demographic characteristics of the population of children and families served by Head Start? How has the population served by Head Start changed?; What are the experiences of families and children in the Head Start program? How have they changed?; What are the cognitive and social skills of Head Start children at the beginning and end of their first year in the program? Has Head Start program performance improved over time?; Do the gains in cognitive and social skills that Head Start children achieve carry over into kindergarten? Do larger gains (or greater declines in problem behavior) translate into higher achievement at the end of kindergarten?; What are the qualifications of Head Start teachers in terms of education, experience, and credentials? Are average teacher education levels rising in Head Start?; What is the observed quality of Head Start classrooms as early learning environments, including the level and range of teaching and interactions, provisions for learning, emotional and instructional support, and classroom organization? How has quality changed over time? What program- and classroom-level factors are related to observed classroom quality? How is observed quality related to children's outcomes and developmental gains?; In response to recent trends and mandates, FACES 2009 expanded the information collected on families and children who speak a primary language other than English and the information collected on children who are homeless. Earlier cohorts of FACES gathered information on the languages spoken in the home and used for classroom instruction. Given the growth in the population of Hispanic/Latino preschoolers (Hernandez 2006), FACES 2009 placed additional emphasis on Dual Language Learners (DLLs). In addition, given the 2007 Head Start Act's focus on children and families who are homeless, FACES 2009 expanded coverage on the enrollment of such children, how the program ensures that they enroll in Head Start, and the special services available to such children and their families. FACES 2009 carefully balanced the need for consistent measurement of outcomes against the need for improvements in instrumentation and techniques. In some instances, new instruments were added to obtain more comprehensive information on Head Start children. For example, the Expressive One-Word Picture Vocabulary Test was added to assess children's expressive language, which is related to later reading achievement even more so than receptive language (National Early Literacy Panel 2008). A measure of phonemic awareness from the Early Childhood Longitudinal Study-Birth Cohort (ECLS-B) preschool wave was also added to assess children's knowledge of beginning and ending sounds in words. Further, FACES 2009 included a direct assessment of executive functioning-a pencil tapping task to examine children's inhibitory control, working memory, and attention-which has been shown to relate to young children's development in mathematics, vocabulary, and literacy (Blair and Razza 2007; Espy et al. 2004; McClelland et al. 2007). The User Guide provides detailed information about the FACES 2009 study design, execution, and data to inform and assist researchers who may be interested in using the data for future analyses. The following items are provided in the User Guide as appendices. Appendix A - Copyright statements; Appendix B - Instrument Content Matrices; Appendix C - Questionnaires; Appendix D - Center/Program Codebook; Appendix E - Classroom/Teacher Codebook; Appendix F - Child Codebook; Appendix G - Description of Constructed/Derived Variables.</freetext>
+            <descriptionType>Abstract</descriptionType>
+        </description>
+        <description>
+            <language>en</language>
+            <freetext>The FACES 2009 data include sampling weights to account for variations in the probabilities of selection as well as eligibility and cooperation rates among those selected. Consult the User Guide for a more in-depth explanation of the weights, the weighting procedure, and the specific formulas used for each of the weights.</freetext>
+            <descriptionType>Weighting</descriptionType>
+        </description>
+        <description>
+            <language>en</language>
+            <freetext>ICPSR data undergo a confidentiality review and are altered when necessary to limit the risk of disclosure. ICPSR also routinely creates ready-to-go data files along with setups in the major statistical software formats as well as standard codebooks to accompany the data. In addition to these procedures, ICPSR performed the following processing steps for this data collection: Performed consistency checks.; Checked for undocumented or out-of-range codes:</freetext>
+            <descriptionType>Methods</descriptionType>
+        </description>
+        <description>
+            <language>en</language>
+            <freetext>Presence of Common Scales: Preschool Language Assessment Survey (preLAS): Simon Says and Art Show; Peabody Picture Vocabulary Test-Fourth Edition [PPVT-4]; Expressive One-Word Picture Vocabulary Test (EOWPVT or EOWPVT-Spanish-Bilingual Edition); Test de Vocabulario de Imagines Peabody (TVIP); Woodcock-Johnson III Tests of Achievement-Third Edition/Batería III Woodcock-Muñoz (Spelling, Letter-Word Identification, Applied Problems, Word Attack); ECLS-B Letter-Sounds; ECLS mathematics assessment; Pencil Tapping Task; Leiter International Performance Scale Revised (Leiter-R); Examiner Rating Scale; Personal Maturity Scale; Social Skills Rating System; Behavior Problems Index; ECLS-K Approaches to Learning; Preschool Learning Behavior Scale; Early Childhood Environment Rating Scale-Revised (ECERS-R); Classroom Assessment Scoring System (CLASS); short (12-item) form of the CES-D.</freetext>
+            <descriptionType>Methods</descriptionType>
+        </description>
+        <description>
+            <language>en</language>
+            <freetext>Response Rates: In the FACES 2009 study, there were high participation rates at each level and each time point of data collection. In fall 2009, 97 percent of the sampled programs participated in the study and parent consents were received for 94 percent of the children who were sampled. Cooperation rates for the child assessments, parent interviews, and teacher child reports ranged from 94 to 97 percent. Cooperation rates for spring 2010 ranged from 85 to 96 percent for the same instruments, and from 80 to 89 percent in spring 2011 and spring 2012 when one-half of the children were still attending Head Start and others had left the program were enrolled in kindergarten. Please consult the User Guide for more details.</freetext>
+            <descriptionType>Methods</descriptionType>
+        </description>
+        <description>
+            <language>en</language>
+            <freetext>Extent of Processing: CPSR data undergo a confidentiality review and are altered when necessary to limit the risk of disclosure. ICPSR also routinely creates ready-to-go data files along with setups in the major statistical software formats as well as standard codebooks to accompany the data. In addition to these procedures, ICPSR performed the following processing steps for this data collection:<br/>
+                <ul>
+                    <li>Performed consistency checks.</li>
+                    <li>Checked for undocumented or out-of-range codes.</li>
+                </ul>
+            </freetext>
+            <descriptionType>Other</descriptionType>
+        </description>
+    </descriptions>
+    <geographicCoverages>
+        <geographicCoverage>
+            <geographicCoverageControlled>US</geographicCoverageControlled>
+        </geographicCoverage>
+    </geographicCoverages>
+    <universes>
+        <universe>
+            <language>en</language>
+            <sampled>The Head Start programs participating in the FACES 2009 Cohort were a probability sample selected from among 2,600 study-eligible programs on the 2007-2008 Head Start Program Information Report (PIR). To be eligible for the study, a program had to be in one of the 50 states or the District of Columbia, be providing services directly to children ages 3 to 5, and not be in imminent danger of losing its grantee status. Furthermore, programs under the Migrant and Seasonal Worker program or American Indian and Alaskan Native program were not eligible. Probability samples of centers were selected within each program, classrooms within each center, and children within each classroom. Teachers associated with selected classrooms were included in the study with certainty, as were parents associated with selected children. Smallest Geographic Unit: Census Region.</sampled>
+        </universe>       
+    </universes>
+    <samplings>
+        <sampling>
+            <language>en</language>
+            <method>The sample is a multi-stage clustered sample, with the first three of four stages (programs, centers, classrooms) being selected with probability proportion to size. At the final stage, children were sampled with equal probability within classrooms. Sixty programs were selected, two centers per program, and up to three classrooms per center for a total of 486 classrooms. Within each classroom, children were sampled with the goal of obtaining 10 children with parental consent per classroom, for a total of 3,349 children. At each stage of sampling, FACES 2009 used implicit and explicit stratification and a sequential sampling technique based on a procedure developed by Chromy (1979).</method>
+        </sampling>
+    </samplings>
+    <temporalCoverages>
+        <temporalCoverage>
+            <temporalCoverageFormal>
+                <startDate>
+                    <year>2009</year>
+                </startDate>
+                <endDate>
+                    <year>2012</year>
+                </endDate>
+            </temporalCoverageFormal>
+        </temporalCoverage>
+        <temporalCoverage>
+            <temporalCoveragesFree>
+                <temporalCoverageFree>
+                    <language>en</language>
+                    <freetext>Collection date: 2009</freetext>
+                </temporalCoverageFree>
+            </temporalCoveragesFree>
+        </temporalCoverage>
+        <temporalCoverage>
+            <temporalCoveragesFree>
+                <temporalCoverageFree>
+                    <language>en</language>
+                    <freetext>Collection date: 2010</freetext>
+                </temporalCoverageFree>
+            </temporalCoveragesFree>
+        </temporalCoverage>
+        <temporalCoverage>
+            <temporalCoveragesFree>
+                <temporalCoverageFree>
+                    <language>en</language>
+                    <freetext>Collection date: 2011</freetext>
+                </temporalCoverageFree>
+            </temporalCoveragesFree>
+        </temporalCoverage>
+        <temporalCoverage>
+            <temporalCoveragesFree>
+                <temporalCoverageFree>
+                    <language>en</language>
+                    <freetext>Collection date: 2012</freetext>
+                </temporalCoverageFree>
+            </temporalCoveragesFree>
+        </temporalCoverage>
+    </temporalCoverages>
+    <timeDimensions>
+        <timeDimension>
+            <timeDimensionType>Longitudinal</timeDimensionType>
+            <timeDimensionsFree>
+                <timeDimensionFree>
+                    <language>en</language>
+                    <freetext>ongoing longitudinal study</freetext>
+                </timeDimensionFree>
+            </timeDimensionsFree>
+            <frequencies>
+                <frequency>
+                    <language>en</language>
+                    <freetext>every three years</freetext>
+                </frequency>
+            </frequencies>
+        </timeDimension>
+        <timeDimension>
+            <timeDimensionType>Longitudinal.Panel</timeDimensionType>
+        </timeDimension>
+    </timeDimensions>
+    <contributors><!-- fictitious  -->
+        <contributor>
+            <institution>
+                <institutionName>Child Care &amp; Early Education Research Connections</institutionName>
+                <contributorType>Producer</contributorType>
+                <institutionIDs>
+                    <institutionID>
+                        <identifierURI>http://viaf.org/viaf/157457030</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </institutionID>
+                </institutionIDs>
+            </institution>
+        </contributor>
+        <contributor>
+            <institution>
+                <institutionName>Inter-university Consortium for Political and Social Research (ICPSR)</institutionName>
+                <contributorType>HostingInstitution</contributorType>
+                <institutionIDs>
+                    <institutionID>
+                        <identifierURI>http://viaf.org/viaf/140182702</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </institutionID>
+                    <institutionID>
+                        <identifierURI>http://www.isni.org/isni/0000000109435850</identifierURI>
+                        <identifierSchema>ISNI</identifierSchema>
+                    </institutionID>
+                </institutionIDs>
+            </institution>
+        </contributor>
+        <contributor>
+            <person>
+                <firstName>Jerry</firstName>
+                <lastName>West</lastName>
+                <contributorType>ProjectLeader</contributorType>
+            </person>
+        </contributor>
+        <contributor>
+            <institution>
+                <institutionName>Office of Planning, Research and Evaluation, Administration for Children and Families, U.S. Department of Health and Human Services</institutionName>
+                <contributorType>DataCurator</contributorType>
+            </institution>
+        </contributor>
+    </contributors>
+    <fundingReferences>
+        <fundingReference>
+            <person>
+                <firstName>Louisa</firstName>
+                <lastName>Tarullo</lastName>
+                <personIDs>
+                    <personID>
+                        <identifierURI>http://viaf.org/viaf/36147118195726340869</identifierURI>
+                        <identifierSchemaType>VIAF</identifierSchemaType>
+                    </personID>
+                </personIDs>
+            </person>
+        </fundingReference>
+        <fundingReference>
+                <institution>
+                    <institutionName>United States Department of Health and Human Services. Administration for Children and Families</institutionName>
+                    <institutionIDs>
+                        <institutionID>
+                            <identifierURI>http://viaf.org/viaf/136949128</identifierURI>
+                            <identifierSchemaType>VIAF</identifierSchemaType>
+                        </institutionID>
+                    </institutionIDs>
+                    <award>
+                        <awardNumber>HHSP23320092900YC</awardNumber>
+                        <awardURI>http://government-contracts.insidegov.com/HHSP23320092900YC</awardURI><!-- fictitious  -->
+                        <awardTitle>
+                            <language>en</language>
+                            <title>Title: HHSP23320092900YC</title>
+                        </awardTitle>
+                    </award>
+                </institution>
+        </fundingReference>
+     </fundingReferences>
+     <collectionModes>
+        <collectionMode>
+            <collectionModeType>Interview.FaceToFace.CAPICAMI</collectionModeType>
+            <collectionModesFree>
+                <collectionModeFree>
+                    <language>en</language>
+                    <freetext>computer-assisted personal interview (CAPI)</freetext>
+                </collectionModeFree>
+            </collectionModesFree>
+        </collectionMode>
+        <collectionMode>
+            <collectionModeType>Interview.Telephone.CATI</collectionModeType>
+            <collectionModesFree>
+                <collectionModeFree>
+                    <language>en</language>
+                    <freetext>computer-assisted telephone interview (CATI)</freetext>
+                </collectionModeFree>
+            </collectionModesFree>
+        </collectionMode>
+        <collectionMode>
+            <collectionModeType>Observation.ComputerBased</collectionModeType>
+            <collectionModesFree>
+                <collectionModeFree>
+                    <language>en</language>
+                    <freetext>coded on-site observation</freetext>
+                </collectionModeFree>
+            </collectionModesFree>
+        </collectionMode>
+        <collectionMode>
+            <collectionModesFree>
+                <collectionModeFree>
+                    <language>en</language>
+                    <freetext>cognitive assessment test</freetext>
+                </collectionModeFree>
+            </collectionModesFree>
+        </collectionMode>
+        <collectionMode>
+            <collectionModeType>Interview.FaceToFace</collectionModeType>
+        </collectionMode>
+        <collectionMode>
+            <collectionModesFree>
+                <collectionModeFree>
+                    <language>en</language>
+                    <freetext>mixed mode, paper and pencil interview (PAPI)</freetext>
+                </collectionModeFree>
+            </collectionModesFree>
+        </collectionMode>
+        <collectionMode>
+            <collectionModesFree>
+                <collectionModeFree>
+                    <language>en</language>
+                    <freetext>mixed mode, paper and pencil interview (PAPI)</freetext>
+                </collectionModeFree>
+            </collectionModesFree>
+        </collectionMode>
+        <collectionMode>
+            <collectionModeType>SelfAdministeredQuestionnaire</collectionModeType>
+            <collectionModesFree>
+                <collectionModeFree>
+                    <language>en</language>
+                    <freetext>self-enumerated questionnaire</freetext>
+                </collectionModeFree>
+            </collectionModesFree>
+        </collectionMode>
+        <collectionMode>
+            <collectionModeType>Interview.Telephone</collectionModeType>
+        </collectionMode>
+        <collectionMode>
+            <collectionModeType>Interview.WebBased</collectionModeType>
+        </collectionMode>
+    </collectionModes>
+    <dataSets>
+        <dataSet>
+            <unitType>Individual</unitType>
+            <numberUnits>1139</numberUnits>
+            <numberVariables>1548</numberVariables>
+        <dataTypes>
+                <dataType>
+                    <language>en</language>
+                    <freetext>dataType in English</freetext>
+                </dataType>
+                <dataType>
+                    <language>de</language>
+                    <freetext>dataType in Deutsch</freetext>
+                </dataType>
+            </dataTypes>
+        </dataSet>
+        <dataSet>
+            <files>
+                <file>
+                    <name>DS0: Study-Level Files</name>
+                    <format>pdf</format>
+                    <size>5 MB</size>
+                </file>
+            </files>
+        </dataSet>
+        <dataSet>
+             <files>
+                <file>
+                    <name>DS1: Center/Program Data</name>
+                    <format>pdf</format>
+                    <size>5 MB</size>
+                </file>
+            </files>
+        </dataSet>
+        <dataSet>
+            <files>
+                <file>
+                    <name>DS2: Classroom/Teacher Data</name>
+                    <format>pdf</format>
+                    <size>4 MB</size>
+                </file>
+            </files>
+        </dataSet>
+        <dataSet>
+            <files>
+                <file>
+                    <name>DS3: Child Data</name>
+                    <format>pdf</format>
+                    <size>1.5 MB</size>
+                </file>
+            </files>
+        </dataSet>
+    </dataSets>
+    <notes>
+        <note>
+            <language>en</language>
+            <text>2017-05-16 2017-05-16 An error was found and corrected in the Child Data file set that affected variable A2EOWPTS. Additionally, twenty variables pertaining to behavioral problems were removed from the data file. The associated documentation was updated to include these changes.2013-07-08 The FACES instrument matrix has been updated to include the 2009 cohort. The study description was added to the restricted documentation files. Funding insitution(s): United States Department of Health and Human Services.</text>
+        </note>
+    </notes>
+    <relations>
+        <relation>
+            <identifier>https://www.acf.hhs.gov/opre/research/project/head-start-family-and-child-experiences-survey-faces</identifier>
+            <identifierType>URL</identifierType>
+            <relationType>IsPartOf</relationType>
+        </relation>
+        <relation>
+            <identifier>10.3886/ICPSR34558.v1</identifier>
+            <identifierType>DOI</identifierType>
+            <relationType>IsNewVersionOf</relationType>
+            <resourceType>Dataset</resourceType>
+        </relation>
+        <relation>
+            <identifier>10.3886/ICPSR28421.v4</identifier>
+            <identifierType>DOI</identifierType>
+            <relationType>Continues</relationType>
+            <resourceType>Dataset</resourceType>
+        </relation>
+    </relations>
+    <publications>
+        <publication>
+            <structuredPublication>
+                <documentType>Article</documentType>
+                <authorsEditors>
+                    <authorEditor>
+                        <author>
+                            <firstName>Gary</firstName>
+                            <lastName>Resnick</lastName>
+                        </author>
+                    </authorEditor>
+                  </authorsEditors>
+                <title>Project Head Start: quality and LInks to Child Outcomes</title>
+                <year>2010</year>
+                <publisher>Cambridge University Press</publisher>
+                <places>New York</places>
+                <anthology>Childhood Programs and Practices in the First Decade of Life: A Human Capital Integration</anthology>
+                <pages>121-147</pages>
+                <isbn>9780521132336</isbn>
+            </structuredPublication>
+        </publication>
+        <publication>
+            <unstructuredPublication>
+                <freetext>Roberts, Amy; LoCasale-Crouch, Jennifer; Hamre, Bridget; DeCoster, Jamie (2016). Exploring teachers' depressive symptoms, interaction quality, and children's social-emotional development in Head Start. Early Education and Development.</freetext>
+                <PIDs>
+                    <PID>
+                        <ID>10.1080/10409289.2016.1127088</ID>
+                        <pidType>DOI</pidType>
+                    </PID>
+                </PIDs>
+            </unstructuredPublication>
+        </publication>
+        <publication>
+            <unstructuredPublication>
+                <freetext>Walter, Melissa Clucas; Lippard, Christine N. (2016). Head Start teachers qcross a eecade: Beliefs, characteristics, and time spent on academics. Early Childhood Education Journal</freetext>
+            <PIDs>
+                <PID>
+                    <ID>10.1007/s10643-016-0804-z</ID>
+                    <pidType>DOI</pidType>
+                </PID>
+            </PIDs>
+            </unstructuredPublication>
+        </publication>
+        <publication>
+            <unstructuredPublication>
+                <freetext>Dow, Emily A.A. (2015). The Relationship between Social-Emotional Development, Academic Achievement and Parenting Practices in Young Children who Attend Head Start. Dissertation, City University of New York.</freetext>
+            </unstructuredPublication>
+        </publication>
+    </publications>
+</resource>

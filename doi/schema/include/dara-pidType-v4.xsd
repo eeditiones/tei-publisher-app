@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Version 1.0 - 2011
+    Version 3.1 - 2014-11
+    Version 4.0 - 2017-09
+-->
+<xs:schema xmlns="http://da-ra.de/schema/kernel-4" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://da-ra.de/schema/kernel-4" elementFormDefault="qualified">
+  <xs:simpleType name="pidType" id="pidType">
+    <xs:annotation>
+      <xs:documentation>The type of the RelatedIdentifier.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ARK"/>
+      <xs:enumeration value="arXiv"/>
+      <xs:enumeration value="bibcode"/>
+      <xs:enumeration value="DOI"/>
+      <xs:enumeration value="EAN13"/>
+      <xs:enumeration value="EISSN"/>
+      <xs:enumeration value="Handle"/>
+      <xs:enumeration value="IGSN"/>
+      <xs:enumeration value="ISBN"/>
+      <xs:enumeration value="ISSN"/>
+      <xs:enumeration value="ISTC"/>
+      <xs:enumeration value="LISSN"/>
+      <xs:enumeration value="LSID"/>
+      <xs:enumeration value="PMID"/>
+      <xs:enumeration value="PURL"/>
+      <xs:enumeration value="UPC"/>
+      <xs:enumeration value="URL"/>
+      <xs:enumeration value="URN"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Version 1.0 - 2011
+    Version 3.1 - 2014-11
+    Version 4.0 - 2017-09
+-->
+<xs:schema xmlns="http://da-ra.de/schema/kernel-4" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://da-ra.de/schema/kernel-4" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:documentation xml:lang="en">The type of the other title</xs:documentation>
+  </xs:annotation>
+  <xs:simpleType name="titleType" id="titleType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="AlternativeTitle"/>
+      <xs:enumeration value="Subtitle"/>
+      <xs:enumeration value="TranslatedTitle"/>
+      <xs:enumeration value="OriginalTitle"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

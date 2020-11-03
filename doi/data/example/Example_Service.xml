@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
+    <resourceType>Service</resourceType>
+    <resourceTypesFree>
+        <resourceTypeFree>
+            <language>en</language>
+            <typeName>training</typeName>
+        </resourceTypeFree>
+    </resourceTypesFree>
+    <resourceIdentifier>
+        <identifier>Example_Service</identifier> 
+        <currentVersion>1</currentVersion>
+    </resourceIdentifier>
+    <titles>
+        <title>
+            <language>en</language>
+            <titleName>CESSDA Customised Training</titleName>
+        </title>
+    </titles>
+    <creators>
+        <creator>
+            <institution>
+                <institutionName>CESSDA ERIC</institutionName>
+                <institutionIDs>
+                    <institutionID>
+                        <identifierURI>http://www.viaf.org/viaf/159763274</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </institutionID>
+                </institutionIDs>
+            </institution>
+        </creator>
+    </creators>
+    <dataURLs>
+        <!--<dataURL>https://www.cessda.eu/Research-Infrastructure/Training/Customised-Training</dataURL>-->
+        <dataURL>https://www.cessda.eu/Training</dataURL>
+    </dataURLs>
+    <doiProposal>10.17889/Example_Service</doiProposal> 
+    <publicationDate>
+        <year>2017</year>
+    </publicationDate>
+    <publicationPlace>Bergen, Norway</publicationPlace>
+    <publisher>
+        <institution>
+            <institutionName>CESSDA ERIC</institutionName>
+            <institutionIDs>
+                <institutionID>
+                    <identifierURI>http://www.viaf.org/viaf/159763274</identifierURI>
+                    <identifierSchema>VIAF</identifierSchema>
+                </institutionID>
+            </institutionIDs>
+        </institution>
+    </publisher>
+    <availability>
+        <availabilityType>OnSite</availabilityType>
+    </availability>
+    <rights>
+        <licenseType>CC0.1.0</licenseType>
+    </rights>
+    <resourceLanguage>eng</resourceLanguage>
+    <freeKeywords>
+        <freeKeyword>
+            <language>en</language>
+            <keywords>
+                <keyword>research data management</keyword>
+                <keyword>data management planning</keyword>
+                <keyword>data archive</keyword>    
+                <keyword>digital preservation</keyword>
+                <keyword>data reuse</keyword>
+            </keywords>
+        </freeKeyword>
+    </freeKeywords>
+    <descriptions>
+        <description>
+            <language>en</language>
+            <freetext>
+                <p>CESSDA Training provides customised guidance and training workshops on research data management and digital preservation in conjunction with other recognised CESSDA organisations and experts. Specifically, we provide support concerning:</p>
+                <ul>
+                    <li>data management planning for researchers, research projects, and research centres in the social sciences;</li>
+                    <li>the importance of sharing publicly funded research data and meeting funder requirements on data management, preservation, and re-use;</li>
+                    <li>best practice on obtaining consent for re-use, data copyright and the use of existing data sources confidentiality and anonymisation, documentation and data enhancement, methods of data sharing, file formats, physical and digital data storage;</li>
+                    <li>support for long-term preservation and dissemination of research data.</li>
+                </ul>
+                <p>CESSDA Training events held regularly are:</p> 
+                    <ul>
+                    <li>Introduction to Research Data Management for Social Scientists;</li>
+                    <li>First steps towards digital preservation;</li>
+                    <li>Teaching an introductory workshop in digital preservation (train the trainers);</li>
+                    <li>CESSDA Expert Seminar (in cooperation with CESSDA partners).</li>
+                </ul>           
+            </freetext>
+            <descriptionType>Abstract</descriptionType>
+        </description>
+    </descriptions>
+    <contributors>
+        <contributor>
+            <institution>
+                <institutionName>CESSDA ERIC</institutionName>
+                <contributorType>Producer</contributorType>
+                <institutionIDs>
+                    <institutionID>
+                        <identifierURI>http://www.viaf.org/viaf/159763274</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </institutionID>
+                </institutionIDs>
+            </institution>
+        </contributor>
+        <contributor>
+            <institution>
+                <institutionName>GESIS - Leibniz-Institut für Sozialwissenschaften</institutionName>
+                <contributorType>Other</contributorType>
+                <institutionIDs>
+                    <institutionID>
+                        <identifierURI>http://d-nb.info/gnd/16015541-1</identifierURI>
+                        <identifierSchema>GND</identifierSchema>
+                    </institutionID>
+                    <institutionID>
+                        <identifierURI>http://www.viaf.org/viaf/131715635</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </institutionID>
+                </institutionIDs>
+            </institution>
+        </contributor>
+    </contributors>
+    <dataSets>
+        <dataSet>
+            <files>
+                <file>
+                    <name>Course description RDM</name>                    
+                    <format>pdf</format>
+                    <size>156 KB</size>
+                </file>
+                <file>
+                    <name>Course description Digital preservation</name>    
+                    <format>pdf</format>
+                    <size>157 KB</size>
+                </file>
+                <file>
+                    <name>Course description train the trainers</name>    
+                    <size>156 KB</size>
+                </file>
+            </files>
+        </dataSet>
+    </dataSets>
+    <relations>
+        <relation>
+            <identifier>http://www.gesis.org/angebot/archivieren-und-registrieren/cessda-training/</identifier>
+            <identifierType>URL</identifierType>
+            <relationType>IsSupplementedBy</relationType>
+            <resourceType>Service</resourceType>
+        </relation>
+    </relations>
+</resource>

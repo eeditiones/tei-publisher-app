@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
+    <resourceType>Sound</resourceType>
+    <resourceTypesFree>
+        <resourceTypeFree>
+            <language>en</language>
+            <typeName>talk recording</typeName>
+        </resourceTypeFree>
+    </resourceTypesFree>
+    <resourceIdentifier>
+        <identifier>Example_Sound</identifier>
+        <currentVersion>1</currentVersion>
+    </resourceIdentifier>
+    <titles>
+        <title>
+            <language>en</language>
+            <titleName>Unauthorized Modernities: the strange and familiar in contemporary India</titleName>
+        </title>
+    </titles>
+    <collectiveTitles>
+        <collectiveTitle>
+            <language>en</language>
+            <titleName>Subjects &gt; Lectures on South Asian History</titleName>
+            <numbering>Volume 1</numbering>
+        </collectiveTitle>
+    </collectiveTitles>
+    <creators>
+        <creator>
+            <person>
+                <firstName>Makarand</firstName>
+                <middleName/>
+                <lastName>Paranjape</lastName>
+                <personIDs>
+                    <personID>
+                        <identifierURI>http://d-nb.info/gnd/104254696</identifierURI>
+                        <identifierSchema>GND</identifierSchema>
+                    </personID>
+                </personIDs>
+            </person>
+        </creator>
+    </creators>
+    <dataURLs>
+        <dataURL>http://crossasia-repository.ub.uni-heidelberg.de/78/</dataURL>  
+    </dataURLs>
+    <doiProposal>10.17889/Example_Sound</doiProposal>
+    <publicationDate>
+        <year>2003</year>
+    </publicationDate>
+    <publicationPlace>Hildesheim</publicationPlace>
+    <publisher>
+        <institution>
+            <institutionName>Universitätsbibliothek Heidelberg</institutionName>
+            <institutionIDs>
+                <institutionID>
+                    <identifierURI>http://d-nb.info/gnd/2002498-8</identifierURI>
+                    <identifierSchema>GND</identifierSchema>
+                </institutionID>
+            </institutionIDs>
+        </institution>
+    </publisher>
+    <availability>
+        <availabilityType>Download</availabilityType>
+    </availability>
+    <rights>
+        <right>
+            <language>de</language>
+            <freetext>CC BY 3.0. Bei jeder Nutzung des Werks sind die urheberrechtlichen Bestimmungen (UrhG) einzuhalten. Die Vervielfältigung ist nur im Rahmen des privaten und sonstigen eigenen Gebrauchs gemäß § 53 UrhG erlaubt. Das Werk darf nicht bearbeitet oder in anderer Weise verändert werden (§ 23 UrhG).</freetext>
+        </right>
+        <right>
+            <language>en</language>
+            <freetext>CC BY 3.0. The copyright regulations (laid down in the German Copyright Act (UrhG)) must be respected, every time a work is used. Reproductions are only permitted for private or other personal use according to § 53 UrhG. It is forbidden to alter or transform the work in any way (§ 23 UrhG).</freetext>
+        </right>
+    </rights>
+    <resourceLanguage>deu</resourceLanguage>
+    <alternativeIDs>
+        <alternativeID>
+            <identifier>urn:nbn:de:bsz:16-savifadok-788</identifier>
+            <type>URN</type>
+        </alternativeID>
+    </alternativeIDs>
+   <classifications>
+        <classification>
+            <classificationInternal>
+                <classificationSchemaType>GESIS</classificationSchemaType>
+                <identifiers>
+                    <identifier>30302</identifier>     <!--Social History-->
+                    <identifier>10300</identifier>     <!--Demography-->
+                </identifiers>
+            </classificationInternal>
+        </classification>
+       <classification>
+           <classificationExternal>
+               <language>de</language>
+               <classificationSchema>DDC</classificationSchema>
+               <terms>
+                   <term>Geschichte Asiens</term>
+               </terms>
+           </classificationExternal>
+       </classification>
+    </classifications>
+    <controlledKeywords>
+        <controlledKeyword>
+            <keywordSchemaType>TheSozWiss</keywordSchemaType>
+            <identifiers>
+                <identifier>10042315</identifier>    <!--India-->
+                <identifier>10053215</identifier>    <!--modernity-->
+                <identifier>10039070</identifier>    <!--demography-->
+                <identifier>10045209</identifier>    <!--social history-->
+            </identifiers>
+        </controlledKeyword>
+     </controlledKeywords>
+    <freeKeywords>
+        <freeKeyword>
+            <language>de</language>
+            <keywords>
+                <keyword>Indien</keyword>
+                <keyword>Moderne</keyword>
+                <keyword>Fortschritt</keyword>
+                <keyword>Verstädterung</keyword>
+                <keyword>Geschichte 1947-</keyword>
+            </keywords>
+        </freeKeyword>
+    </freeKeywords>
+    <descriptions>
+        <description>
+            <language>de</language>
+            <freetext>Mitschnitt eines Vortrages, der am 01.07.2003 im Rahmen des Sozial- und Kulturwissenschaftlichen Forschungskolloquiums am Südasien-Institut in Heidelberg gehalten wurde.</freetext>
+            <descriptionType>Other</descriptionType>
+        </description>
+        <description>
+            <language>en</language>
+            <freetext>Recording of a talk, held on 01.07.2003 at the "Sozial- und Kulturwissenschaftlichen Forschungskolloquiums" at the South Asia Institute in Heidelberg.</freetext>
+            <descriptionType>Other</descriptionType>
+        </description>
+    </descriptions>
+    <geographicCoverages>
+       <geographicCoverage>
+           <geographicCoverageControlled>IN</geographicCoverageControlled>
+       </geographicCoverage>
+    </geographicCoverages>
+    <contributors>
+        <contributor>
+            <institution>
+                <institutionName>Universitätsbibliothek Heidelberg</institutionName>
+                <contributorType>HostingInstitution</contributorType>
+                <institutionIDs>
+                    <institutionID>
+                        <identifierURI>http://d-nb.info/gnd/2002498-8</identifierURI>
+                        <identifierSchema>GND</identifierSchema>
+                    </institutionID>
+                </institutionIDs>
+            </institution>
+        </contributor>
+    </contributors>
+    <dataSets>
+        <dataSet>
+            <files>
+                <file>
+                    <name>Paranjape2003</name>
+                    <format>mp3</format>
+                    <size>27 MB</size>
+                </file>
+            </files>
+       </dataSet>
+    </dataSets>
+</resource>

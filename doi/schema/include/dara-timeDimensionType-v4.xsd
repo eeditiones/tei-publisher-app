@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Version 1.0 - 2011
+    Version 3.1 - 2014-11
+    Version 4.0 - 2017-09
+-->
+<xs:schema xmlns="http://da-ra.de/schema/kernel-4" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://da-ra.de/schema/kernel-4" elementFormDefault="qualified">
+  <xs:simpleType name="timeDimensionType" id="timeDimensionType">
+    <xs:annotation>
+      <xs:documentation>The type of the time dimension.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Longitudinal"/>
+      <xs:enumeration value="Longitudinal.CohortEventBased"/>
+      <xs:enumeration value="Longitudinal.Trend/RepeatedCrossSection"/>
+      <xs:enumeration value="Longitudinal.Panel"/>
+      <xs:enumeration value="Longitudinal.Panel.Continuous"/>
+      <xs:enumeration value="Longitudinal.Panel.Interval"/>
+      <xs:enumeration value="TimeSeries"/>
+      <xs:enumeration value="TimeSeries.Continuous"/>
+      <xs:enumeration value="TimeSeries.Discrete"/>
+      <xs:enumeration value="CrossSection"/>
+      <xs:enumeration value="CrossSectionAdHocFollowUp"/>
+      <xs:enumeration value="Other"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

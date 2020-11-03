@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Version 1.0 - 2011
+    Version 3.1 - 2014-11
+    Version 4.0 - 2017-09
+-->
+<xs:schema xmlns="http://da-ra.de/schema/kernel-4" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://da-ra.de/schema/kernel-4" elementFormDefault="qualified">
+  <xs:simpleType name="contributorType" id="contributorType">
+    <xs:annotation>
+      <xs:documentation>The type of contributor of the resource.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ContactPerson"/>
+      <xs:enumeration value="DataCollector"/>
+      <xs:enumeration value="DataCurator"/>
+      <xs:enumeration value="DataManager"/>
+      <xs:enumeration value="Distributor"/>
+      <xs:enumeration value="Editor"/>
+      <xs:enumeration value="HostingInstitution"/>
+      <xs:enumeration value="Producer"/>
+      <xs:enumeration value="ProjectLeader"/>
+      <xs:enumeration value="ProjectManager"/>
+      <xs:enumeration value="ProjectMember"/>
+      <xs:enumeration value="RegistrationAgency"/>
+      <xs:enumeration value="RegistrationAuthority"/>
+      <xs:enumeration value="RelatedPerson"/>
+      <xs:enumeration value="ResearchGroup"/>
+      <xs:enumeration value="RightsHolder"/>
+      <xs:enumeration value="Researcher"/>
+      <xs:enumeration value="Sponsor"/>
+      <xs:enumeration value="Supervisor"/>
+      <xs:enumeration value="WorkPackageLeader"/>
+      <xs:enumeration value="Other"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
+    <resourceType>PhysicalObject</resourceType> 
+    <resourceTypesFree>
+        <resourceTypeFree>
+            <language>en</language>
+            <typeName>doll</typeName>
+        </resourceTypeFree>
+    </resourceTypesFree>
+    <resourceIdentifier>
+        <identifier>Example_PhysicalObject</identifier>
+        <currentVersion>1</currentVersion>
+    </resourceIdentifier>
+    <titles>
+        <title>
+            <language>en</language>
+            <titleName>Drawings and dolls of black and white children [Doll Study]: Photo doll8</titleName>
+        </title>
+    </titles>
+    <creators>
+        <creator>
+            <person>
+                <firstName>Mamie</firstName>
+                <middleName>P.</middleName>
+                <lastName>Clark</lastName>
+                <personIDs>
+                    <personID>
+                        <identifierURI>http://viaf.org/viaf/11568369</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </personID>
+                    <personID>
+                        <identifierURI>http://www.isni.org/isni/0000000030318053</identifierURI>
+                        <identifierSchema>ISNI</identifierSchema>
+                    </personID>
+                </personIDs>
+            </person>
+        </creator>
+        <creator>
+            <person>
+                <firstName>Kenneth</firstName>
+                <middleName>B.</middleName>
+                <lastName>Clark</lastName>
+                <personIDs>
+                    <personID>
+                        <identifierURI>http://viaf.org/viaf/108627711</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </personID>
+                    <personID>
+                        <identifierURI>http://www.isni.org/isni/0000000114969646</identifierURI>
+                        <identifierSchema>ISNI</identifierSchema>
+                    </personID>
+                </personIDs>
+            </person>
+        </creator>
+    </creators>
+    <dataURLs>
+        <dataURL>http://2.bp.blogspot.com/_-sNdmXFO-fI/StcvcShzexI/AAAAAAAADEM/-FxdAZSsDBI/s1600-h/doll8.jpg</dataURL>
+    </dataURLs>
+    <doiProposal>10.17889/Example_PhysicalObject</doiProposal>
+    <publicationDate>
+        <year>1939</year>
+    </publicationDate>
+    <availability>
+        <availabilityType>Unknown</availabilityType>
+    </availability>
+    <resourceLanguage>eng</resourceLanguage>
+    <classifications>
+        <classification>
+            <classificationInternal>
+                <classificationSchemaType>GESIS</classificationSchemaType>
+                <identifiers>
+                    <identifier>10706</identifier>    <!-- Social Psychology  -->
+                </identifiers>
+            </classificationInternal>
+        </classification>
+     </classifications>
+    <controlledKeywords>
+        <controlledKeyword>
+            <keywordSchemaType>TheSozWiss</keywordSchemaType>
+            <identifiers>
+                <identifier>10064970 </identifier>    <!--object-->
+                <identifier>10043015</identifier>     <!--experiment-->
+                <identifier>10034597</identifier>     <!--child-->
+                <identifier>10044297</identifier>     <!--stereotype-->
+           </identifiers>
+        </controlledKeyword>
+    </controlledKeywords>
+<freeKeywords>
+        <freeKeyword>
+            <language>en</language>
+            <keywords>
+                <keyword>photo object</keyword>
+                <keyword>preschool children</keyword>
+                <keyword>skin color</keyword>
+            </keywords>
+        </freeKeyword>
+    </freeKeywords>
+    <descriptions>
+        <description>
+            <language>en</language>
+            <freetext>The drawings and dolls of black and white children were objects of the Clarks' doll experiments. Kenneth and Mamie Clark published three major papers between 1939 and 1940 on children's self-perception related to race. Their studies found contrasts among African-American children attending segregated schools in Washington, DC versus those in integrated schools in New York. The doll experiment involved a child being presented with two dolls. Both of these dolls were completely identical except for the skin and hair color. One doll was white with yellow hair, while the other was brown with black hair. The child was then asked questions inquiring as to which one is the doll they would play with, which one is the nice doll, which one looks bad, which one has the nicer color, etc. The experiment showed a clear preference for the white doll among all children in the study. These findings exposed internalized racism in African-American children, self-hatred that was more acute among children attending segregated schools. This research also paved the way for an increase in psychological research into areas of self-esteem and self-concept.</freetext>
+            <descriptionType>Abstract</descriptionType>
+        </description>
+    </descriptions>
+    <relations>
+        <relation>
+            <identifier>https://i2.cdn.turner.com/cnn/2010/images/05/13/doll.study.1947.pdf</identifier>
+            <identifierType>URL</identifierType>
+            <relationType>IsPartOf</relationType>
+            <resourceType>Text</resourceType>
+        </relation>
+        <relation>
+            <identifier>10.2307/2966491</identifier>
+            <identifierType>DOI</identifierType>
+            <relationType>IsPartOf</relationType>
+            <resourceType>Text</resourceType>
+        </relation>
+    </relations>
+    <publications>
+        <publication>
+            <structuredPublication>
+                <authorsEditors>
+                    <authorEditor>
+                        <author>
+                            <firstName>Kenneth B.</firstName>
+                            <lastName>Clark</lastName>
+                        </author>
+                    </authorEditor>
+                    <authorEditor>
+                        <author>
+                            <firstName>Mamie P.</firstName>
+                            <lastName>Clark</lastName>
+                        </author>
+                    </authorEditor>
+                </authorsEditors>
+                <title>Emotional Factors in Racial Identification and Preference in Negro Children</title>
+                <journal>The Journal of Negro Education</journal>
+                <volume>19</volume>
+                <issue>3</issue>
+                <pages>341-350</pages>
+                <PIDs>
+                    <PID>
+                        <ID>http://www2.law.columbia.edu/fagan/courses/law_socialscience/documents/Spring_2006/Class%2018-Racial%20Discrimination/Emotional_Factors.pdf</ID>
+                        <pidType>URL</pidType>
+                    </PID>
+                </PIDs>
+            </structuredPublication>
+        </publication>
+    </publications>
+</resource>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://da-ra.de/schema/kernel-4">
+	<resourceType>Text</resourceType>
+	<resourceIdentifier>
+		<identifier>10.4232-10.mdsdoc.4.0</identifier>
+		<currentVersion>4.0</currentVersion>
+	</resourceIdentifier>
+	<titles>
+		<title1>
+			<language>en</language>
+			<titleName>da|ra Metadata Schema</titleName>
+		</title1>
+	</titles>
+	<creators>
+		<creator>
+			<person>
+				<firstName>Brigitte</firstName>
+				<lastName>Hausstein</lastName>
+			</person>
+		</creator>
+	</creators>
+	<dataURLs>
+		<dataURL>http://www.da-ra.de/en/technical-information/doi-registration/</dataURL>
+	</dataURLs>
+	<doiProposal>10.17889/10.mdsdoc.4.0</doiProposal>
+	<publicationDate>
+		<date>2017-12-01</date>
+	</publicationDate>
+	<availability>
+		<availabilityType>Download</availabilityType>
+	</availability>
+</resource>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Version 1.0 - 2011
+    Version 3.1 - 2014-11
+    Version 4.1 - 2017-10
+-->
+<xs:schema xmlns="http://da-ra.de/schema/kernel-4" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://da-ra.de/schema/kernel-4" elementFormDefault="qualified">
+  <xs:simpleType name="relationType" id="relationType">
+    <xs:annotation>
+      <xs:documentation>Description of the relationship of the resource being registered (A) and the related resource (B).</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="IsCitedBy"/>
+      <xs:enumeration value="Cites"/>
+      <xs:enumeration value="IsSupplementTo"/>
+      <xs:enumeration value="IsSupplementedBy"/>
+      <xs:enumeration value="IsContinuedBy"/>
+      <xs:enumeration value="Continues"/>
+      <xs:enumeration value="IsNewVersionOf"/>
+      <xs:enumeration value="IsPreviousVersionOf"/>
+      <xs:enumeration value="IsPartOf"/>
+      <xs:enumeration value="HasPart"/>
+      <xs:enumeration value="IsReferencedBy"/>
+      <xs:enumeration value="References"/>
+      <xs:enumeration value="IsDocumentedBy"/>
+      <xs:enumeration value="Documents"/>
+      <xs:enumeration value="IsCompiledBy"/>
+      <xs:enumeration value="Compiles"/>
+      <xs:enumeration value="IsVariantFormOf"/>
+      <xs:enumeration value="IsOriginalFormOf"/>
+      <xs:enumeration value="IsIdenticalTo"/>
+      <xs:enumeration value="HasMetadata"/>
+      <xs:enumeration value="IsMetadataFor"/>
+      <xs:enumeration value="Reviews"/>
+      <xs:enumeration value="IsReviewedBy"/>
+      <xs:enumeration value="IsDerivedFrom"/>
+      <xs:enumeration value="IsSourceOf"/>
+      <xs:enumeration value="Describes"/>
+      <xs:enumeration value="IsDescribedBy"/>
+      <xs:enumeration value="HasVersion"/>
+      <xs:enumeration value="IsVersionOf"/>
+      <xs:enumeration value="Requires"/>
+      <xs:enumeration value="IsRequiredBy"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

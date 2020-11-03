@@ -1,0 +1,935 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Version 1.0 - 2011
+    Version 3.1 - 2014-11
+    Version 4.0 - 2017-09
+-->
+<xs:schema xmlns="http://da-ra.de/schema/kernel-4" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://da-ra.de/schema/kernel-4" elementFormDefault="qualified">
+    <xs:simpleType name="metadataLanguage" id="metadataLanguage">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">(ISO 639-1) Metadata Languages</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="aa">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Afar</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ab">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Abkhazian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ae">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Avestan</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="af">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Afrikaans</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ak">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Akan</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="am">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Amharic</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="an">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Aragonese</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ar">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Arabic</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="as">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Assamese</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="av">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Avaric</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ay">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Aymara</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="az">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Azerbaijani</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ba">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Bashkir</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="be">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Belarusian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="bg">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Bulgarian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="bh">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Bihari languages</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="bi">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Bislama</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="bm">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Bambara</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="bn">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Bengali</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="bo">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Tibetan</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="br">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Breton</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="bs">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Bosnian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ca">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Catalan |  Valencian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ce">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Chechen</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ch">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Chamorro</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="co">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Corsican</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="cr">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Cree</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="cs">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Czech</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="cu">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Church Slavic |  Old Slavonic |  Church Slavonic |  Old Bulgarian |  Old Church Slavonic</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="cv">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Chuvash</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="cy">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Welsh</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="da">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Danish</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="de">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">German</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="dv">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Divehi |  Dhivehi</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="dz">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Dzongkha</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ew">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Ewe</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="el">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Greek, Modern (1453-)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="en">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">English</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ep">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Esperanto</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="es">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Spanish |  Castilian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="es">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Estonian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="eu">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Basque</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="fa">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Persian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ff">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Fulah</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="fi">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Finnish</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="fj">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Fijian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="fo">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Faroese</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="fr">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">French</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="fy">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Western Frisian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ga">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Irish</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="gd">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Gaelic |  Scottish Gaelic</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="gl">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Galician</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="gn">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Guarani</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="gu">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Gujarati</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="gv">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Manx</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ha">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Hausa</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="he">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Hebrew</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="hi">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Hindi</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ho">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Hiri Motu</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="hr">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Croatian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ht">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Haitian |  Haitian Creole</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="hu">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Hungarian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="hy">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Armenian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="hz">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Herero</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ia">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Interlingua (International Auxiliary Language Association)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="id">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Indonesian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ie">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Interlingue |  Occidental</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ig">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Igbo</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ii">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Sichuan Yi</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ik">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Inupiaq</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="io">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Ido</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="is">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Icelandic</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="it">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Italian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="iu">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Inuktitut</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ja">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Japanese</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="jv">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Javanese</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ka">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Georgian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="kg">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Kongo</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ki">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Kikuyu |  Gikuyu</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="kj">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Kuanyama |  Kwanyama</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="kk">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Kazakh</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="kl">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Kalaallisut |  Greenlandic</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="km">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Central Khmer</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="kn">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Kannada</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ko">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Korean</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="kr">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Kanuri</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ks">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Kashmiri</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ku">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Kurdish</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="kv">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Komi</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="kw">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Cornish</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ky">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Kirghiz |  Kyrgyz</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="la">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Latin</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="lb">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Luxembourgish |  Letzeburgesch</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="lg">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Ganda</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="li">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Limburgan |  Limburger |  Limburgish</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ln">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Lingala</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="lo">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Lao</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="lt">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Lithuanian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="lu">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Luba-Katanga</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="lv">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Latvian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="mg">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Malagasy</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="mh">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Marshallese</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="mi">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Maori</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="mk">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Macedonian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ml">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Malayalam</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="mn">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Mongolian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="mr">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Marathi</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ms">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Malay</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="mt">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Maltese</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="my">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Burmese</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="na">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Nauru</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="nb">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Bokmål, Norwegian |  Norwegian Bokmål</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="nd">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Ndebele, North |  North Ndebele</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ne">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Nepali</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ng">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Ndonga</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="nl">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Dutch |  Flemish</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="nn">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Norwegian Nynorsk |  Nynorsk, Norwegian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="no">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Norwegian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="nr">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Ndebele, South |  South Ndebele</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="nv">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Navajo |  Navaho</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ny">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Chichewa |  Chewa |  Nyanja</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="oc">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Occitan (post 1500)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="oj">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Ojibwa</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="om">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Oromo</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="or">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Oriya</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="os">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Ossetian |  Ossetic</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="pa">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Panjabi |  Punjabi</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="pi">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Pali</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="pl">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Polish</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ps">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Pushto |  Pashto</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="pt">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Portuguese</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="qu">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Quechua</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="rm">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Romansh</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="rn">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Rundi</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ru">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Romanian |  Moldavian |  Moldovan</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ru">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Russian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="rw">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Kinyarwanda</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="sa">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Sanskrit</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="sv">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Sardinian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="sd">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Sindhi</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="se">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Northern Sami</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="sg">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Sango</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="si">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Sinhala |  Sinhalese</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="sk">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Slovak</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="sl">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Slovenian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="sm">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Samoan</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="sn">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Shona</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="so">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Somali</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="sq">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Albanian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="sr">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Serbian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ss">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Swati</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="st">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Sotho, Southern</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="su">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Sundanese</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="sv">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Swedish</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="sw">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Swahili</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ta">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Tamil</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="te">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Telugu</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="tg">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Tajik</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="th">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Thai</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ti">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Tigrinya</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="tk">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Turkmen</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="tl">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Tagalog</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="tn">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Tswana</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="to">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Tonga (Tonga Islands)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="tr">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Turkish</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ts">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Tsonga</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="tt">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Tatar</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="tw">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Twi</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ty">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Tahitian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ug">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Uighur |  Uyghur</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="uk">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Ukrainian</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ur">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Urdu</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="uz">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Uzbek</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ve">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Venda</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="vi">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Vietnamese</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="vo">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Volapük</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="wa">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Walloon</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="wo">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Wolof</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="xh">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Xhosa</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="yi">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Yiddish</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="yo">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Yoruba</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="za">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Zhuang |  Chuang</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="zh">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Chinese</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="zu">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Zulu</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

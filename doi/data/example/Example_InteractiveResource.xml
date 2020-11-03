@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
+    <resourceType>InteractiveResource</resourceType> 
+    <resourceTypesFree>
+        <resourceTypeFree>
+            <language>de</language>
+            <typeName>Website</typeName>
+        </resourceTypeFree>
+        <resourceTypeFree>
+            <language>en</language>
+            <typeName>Website</typeName>
+        </resourceTypeFree>
+    </resourceTypesFree>
+    <resourceIdentifier>
+        <identifier>Example_Website</identifier>
+        <currentVersion>1.0</currentVersion>
+    </resourceIdentifier>
+    <titles>
+        <title>
+            <language>en</language>
+            <titleName>NDC Explorer</titleName>
+        </title>
+    </titles>
+    <creators>
+        <creator>
+            <person>
+                <firstName>Pieter</firstName>
+                <lastName>Pauw</lastName>
+                <personIDs>
+                    <personID>
+                        <identifierURI>http://d-nb.info/gnd/1051510740</identifierURI>
+                        <identifierSchema>GND</identifierSchema>
+                    </personID>
+                    <personID>
+                        <identifierURI>http://viaf.org/viaf/308236002</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </personID>
+                </personIDs>
+            </person>
+        </creator>
+        <creator>
+            <person>
+                <firstName>Davide</firstName>
+                <lastName>Cassanmagnano</lastName>
+            </person>
+        </creator>
+        <creator>
+            <person>
+                <firstName>Kennedy</firstName>
+                <lastName>Mbeva</lastName>
+                <personIDs>
+                    <personID>
+                        <identifierURI>http://d-nb.info/gnd/1103942077</identifierURI>
+                        <identifierSchema>GND</identifierSchema>
+                    </personID>
+                    <personID>
+                        <identifierURI>http://viaf.org/viaf/2146151969505211485</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </personID>
+                </personIDs>
+            </person>
+        </creator>
+        <creator>
+            <person>
+                <firstName>Jonas</firstName>
+                <lastName>Hein</lastName>
+            </person>
+        </creator>
+        <creator>
+            <person>
+                <firstName>Alejandro</firstName>
+                <lastName>Guarín</lastName>
+                <personIDs>
+                    <personID>
+                        <identifierURI>http://d-nb.info/gnd/1049990897</identifierURI>
+                        <identifierSchema>GND</identifierSchema>
+                    </personID>
+                    <personID>
+                        <identifierURI>http://viaf.org/viaf/308191837</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </personID>
+                </personIDs>
+            </person>
+        </creator>
+        <creator>
+            <person>
+                <firstName>Clara</firstName>
+                <lastName>Brandi</lastName>
+                <personIDs>
+                    <personID>
+                        <identifierURI>http://d-nb.info/gnd/132457784</identifierURI>
+                        <identifierSchema>GND</identifierSchema>
+                    </personID>
+                    <personID>
+                        <identifierURI>http://viaf.org/viaf/11007525</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </personID>
+                </personIDs>
+            </person>
+        </creator>   
+        <creator>
+            <person>
+                <firstName>Thomas</firstName>
+                <lastName>Bock</lastName>
+            </person>
+        </creator>  
+        <creator>
+            <person>
+                <firstName>Joana</firstName>
+                <lastName>Helms</lastName>
+            </person>
+        </creator>  
+        <creator>
+            <person>
+                <firstName>Alina</firstName>
+                <lastName>Zalewski</lastName>
+            </person>
+        </creator>  
+        <creator>
+            <person>
+                <firstName>Ezra</firstName>
+                <lastName>Frommé</lastName>
+            </person>
+        </creator>  
+        <creator>
+            <person>
+                <firstName>Anika</firstName>
+                <lastName>Lindener</lastName>
+            </person>
+        </creator>  
+        <creator>
+            <person>
+                <firstName>Dilsham</firstName>
+                <lastName>Muhammada</lastName>
+            </person>
+        </creator>                   
+    </creators>
+    <dataURLs>
+        <dataURL>http://klimalog.die-gdi.de/ndc/</dataURL>
+    </dataURLs>
+    <doiProposal>10.17889/Example_InteractiveResource</doiProposal>
+    <publicationDate>
+        <date>2016-11-15</date>
+    </publicationDate>
+    <publicationPlace>Bonn</publicationPlace>
+    <publisher>
+        <institution>
+            <institutionName>German Development Institute / Deutsches Institut für Entwicklungspolitik (DIE)</institutionName>
+            <institutionIDs>
+                <institutionID>
+                    <identifierURI>http://d-nb.info/gnd/2008623-4</identifierURI>
+                    <identifierSchema>GND</identifierSchema>
+                </institutionID>
+                <institutionID>
+                    <identifierURI>http://viaf.org/viaf/126599419</identifierURI>
+                    <identifierSchema>VIAF</identifierSchema>
+                </institutionID>
+                <institutionID>
+                    <identifierURI>http://www.isni.org/isni/0000000109411410</identifierURI>
+                    <identifierSchema>ISNI</identifierSchema>
+                </institutionID>
+            </institutionIDs>
+        </institution>
+    </publisher>
+    <availability>
+        <availabilityType>Download</availabilityType>
+        <embargoDate>2016-12-31</embargoDate>
+    </availability>
+    <rights>
+        <licenseType>CC.BY-NC-ND.4.0</licenseType>
+    </rights>
+    <resourceLanguage>eng</resourceLanguage>
+    <alternativeIDs>
+        <alternativeID>
+            <identifier>ndc_explorer_2016_1.0</identifier>
+            <type>DIE No</type>
+        </alternativeID>
+     </alternativeIDs>
+    <classifications>
+        <classification>
+            <classificationInternal>
+                <classificationSchemaType>JEL</classificationSchemaType>
+                <identifiers>
+                    <identifier>Q01</identifier>     <!---Sustainable Development -->
+                    <identifier>Q54</identifier>     <!-- Climate; Natural Disasters; Global Warming-->
+                </identifiers>
+            </classificationInternal>
+        </classification>
+    </classifications>
+    <controlledKeywords>
+        <controlledKeyword>
+            <keywordSchemaType>TheSozWiss</keywordSchemaType>
+            <identifiers>
+                <identifier>10061949</identifier>      <!--climate change-->   
+                <identifier>10042388</identifier>      <!--development policy-->
+                <identifier>10076323</identifier>      <!--climate policy-->         
+                <identifier>10062390</identifier>      <!--sustainable development-->
+            </identifiers>
+        </controlledKeyword>
+    </controlledKeywords>
+    <freeKeywords>
+        <freeKeyword>
+            <language>en</language>
+            <keywordSchema>schema DIE</keywordSchema>
+            <keywords>
+                <keyword>UNFCCC</keyword>
+                <keyword>Nationally Determined Contributions</keyword>
+                <keyword>NDC</keyword>
+                <keyword>Internationally Determined Contributions</keyword>
+                <keyword>INDC</keyword>
+                <keyword>Klimalog</keyword>
+                <keyword>Paris Agreement</keyword>
+                <keyword>development agenda</keyword>
+                <keyword>United Nations Framework Convention on Climate Change</keyword>
+                <keyword>climate action, Sustainable Development Goals</keyword>
+                <keyword>SDG</keyword>
+                <keyword>SDGs</keyword>
+            </keywords>
+        </freeKeyword>
+    </freeKeywords>
+    <descriptions>
+        <description>
+            <language>en</language>
+            <freetext>
+                <p>The NDC Explorer is an online tool to analyse and compare both countries' INDCs and NDCs. It is based solely on information in these documents.</p>
+                <p>The NDC Explorer has two aims. First, it provides a neutral, sophisticated and user-friendly lens to analyse and compare both qualitative and quantitative (I)NDC content. The NDC Explorer is a crucial first step for the objective of the NDC Partnership. This partnership aims to achieve:  </p>
+                <ul>
+                    <li>Enhanced visibility and access to existing NDC support programs </li>
+                    <li>Better designed, more responsive NDC support programs  </li>
+                    <li>Greater alignment between climate and development agendas  </li>
+                    <li>Increased political momentum for implementation of the Paris Agreement</li>
+                    <li>Transformational climate policies.</li>
+                </ul>
+                <p>The regional and income-level country groups are based on the World Bank Country Groups. Additional groups are available for the bar graph menu only, because the groups (e.g. the G20 and the OECD, or SIDS and LDCs are not mutually exclusive.</p>
+                <p>The NDC Explorer is solely based on information communicated by Parties to the UNFCCC in their INDCs/NDCs. The dataset was jointly established by the German Development Institute / Deutsches Institut für Entwicklungspolitik (DIE), the African Centre for Technology Studies (ACTS) and the UNFCCC secretariat. DIE is the sole entity responsible for the content and functionality of the NDC Explorer.</p>
+            </freetext>
+            <descriptionType>Abstract</descriptionType>
+        </description>
+    </descriptions>
+    <geographicCoverages>
+        <geographicCoverage>
+            <geographicCoveragesFree>
+                <geographicCoverageFree>
+                    <language>en</language>
+                    <freetext>global</freetext>
+                </geographicCoverageFree>
+            </geographicCoveragesFree>
+        </geographicCoverage>
+    </geographicCoverages>
+    <contributors>
+        <contributor>
+            <institution>
+                <institutionName>German Development Institute / Deutsches Institut für Entwicklungspolitik (DIE)</institutionName>
+                <contributorType>HostingInstitution</contributorType>
+                <institutionIDs>
+                    <institutionID>
+                        <identifierURI>http://d-nb.info/gnd/2008623-4</identifierURI>
+                        <identifierSchema>GND</identifierSchema>
+                    </institutionID>
+                    <institutionID>
+                        <identifierURI>http://viaf.org/viaf/126599419</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </institutionID>
+                    <institutionID>
+                        <identifierURI>http://www.isni.org/isni/0000000109411410</identifierURI>
+                        <identifierSchema>ISNI</identifierSchema>
+                    </institutionID>
+                </institutionIDs>
+            </institution>
+        </contributor>
+        <contributor>
+            <institution>
+                <institutionName>African Centre for Technology Studies (ACTS)</institutionName>
+                <contributorType>ProjectMember</contributorType>
+                <institutionIDs>
+                    <institutionID>
+                       <identifierURI>http://viaf.org/viaf/141707028</identifierURI>
+                       <identifierSchema>VIAF</identifierSchema>
+                    </institutionID>
+                    <institutionID>
+                        <identifierURI>http://www.isni.org/isni/0000000121717551</identifierURI>
+                        <identifierSchema>ISNI</identifierSchema>
+                    </institutionID>
+                </institutionIDs>
+            </institution>
+        </contributor>
+        <contributor>
+            <person>
+                <firstName>Pieter</firstName>
+                <lastName>Pauw</lastName>
+                <contributorType>ContactPerson</contributorType>
+                <affiliation>
+                    <affiliationName>DIE</affiliationName>
+                    <affiliationIDs>
+                        <affiliationID>
+                            <identifierURI>http://d-nb.info/gnd/2008623-4</identifierURI>
+                            <identifierSchema>GND</identifierSchema>
+                        </affiliationID>
+                        <affiliationID>
+                            <identifierURI>http://viaf.org/viaf/126599419 </identifierURI>
+                            <identifierSchema>VIAF</identifierSchema>
+                        </affiliationID>
+                        <affiliationID>
+                            <identifierURI>http://www.isni.org/isni/0000000109411410</identifierURI>
+                            <identifierSchema>ISNI</identifierSchema>
+                        </affiliationID>
+                    </affiliationIDs>
+                </affiliation>
+            </person>
+        </contributor>
+    </contributors>
+    <fundingReferences>
+        <fundingReference>
+            <institution>
+                <institutionName>Bundesministerium für Wirtschaftliche Zusammenarbeit und Entwicklung (BMZ)</institutionName>
+            </institution>
+        </fundingReference>
+    </fundingReferences>
+</resource>

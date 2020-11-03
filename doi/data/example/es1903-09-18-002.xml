@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tei:TEI xmlns:tei="http://www.tei-c.org/ns/1.0">
+    <tei:teiHeader>
+        <tei:fileDesc>
+            <tei:titleStmt>
+                <tei:title type="editor">Eduard Spranger an Käthe Hadlich,
+                    <tei:date when="1903-09-18">18. September 1903</tei:date>
+                    (<tei:name type="ort-abs">Charlottenburg</tei:name>)
+                </tei:title>
+                <tei:author>
+                    Spranger, Eduard
+                </tei:author>
+                <tei:funder>Deutsche
+                    Forschungsgemeinschaft
+                </tei:funder>
+            </tei:titleStmt>
+            <tei:editionStmt>
+                <tei:edition>Briefausgabe Eduard Spranger/Käthe Hadlich</tei:edition>
+                <tei:respStmt>
+                    <tei:resp>Transkription</tei:resp>
+                    <tei:name xml:id="trans">Werner Sacher
+                        und Mitarbeiter(innen)
+                    </tei:name>
+                </tei:respStmt>
+                <tei:respStmt>
+                    <tei:resp>Herausgeber der Computeredition</tei:resp>
+                    <tei:name xml:id="KP">Priem,
+                        Karin
+                    </tei:name>
+                    <tei:name xml:id="KH">Horn, Klaus-Peter</tei:name>
+                </tei:respStmt>
+            </tei:editionStmt>
+            <tei:publicationStmt>
+                <tei:publisher>Bibliothek für
+                    Bildungsgeschichtliche Forschung
+                </tei:publisher>
+                <tei:idno>es1903-09-18-002</tei:idno>
+            </tei:publicationStmt>
+            <tei:sourceDesc>
+                <tei:p>Nachlass Eduard Spranger</tei:p>
+            </tei:sourceDesc>
+        </tei:fileDesc>
+        <tei:encodingDesc>
+            <tei:projectDesc>
+                <tei:p>Gesamtausgabe des bereits
+                    transkribierten und in einem proprietären System vorliegenden
+                    Briefwechsels zwischen Eduard Spranger und Käthe Hadlich als
+                    Computeredition
+                </tei:p>
+            </tei:projectDesc>
+            <tei:editorialDecl>
+                <tei:p>Die Edition
+                    erfolgt nach den Richtlinien der Briefausgabe Spranger-Hadlich (siehe
+                    http://www.bbf.dipf.de/editionen/spranger-hadlich/)
+                </tei:p>
+            </tei:editorialDecl>
+        </tei:encodingDesc>
+        <tei:profileDesc>
+            <tei:langUsage>
+                <tei:language ident="deu">Deutsch</tei:language>
+            </tei:langUsage>
+        </tei:profileDesc>
+        <tei:revisionDesc>
+            <tei:change>
+                <tei:date>2008-03-14</tei:date>
+                <tei:respStmt>
+                    <tei:name>Stefan Cramme</tei:name>
+                </tei:respStmt>
+                <tei:item>Auszeichnung in
+                    TEI
+                </tei:item>
+            </tei:change>
+            <tei:change>
+                <tei:date>2008-03-14</tei:date>
+                <tei:respStmt>
+                    <tei:name>Stefan Cramme</tei:name>
+                </tei:respStmt>
+                <tei:item>Konversion in TEI</tei:item>
+            </tei:change>
+        </tei:revisionDesc>
+    </tei:teiHeader>
+    <tei:text xml:id="es1903-09-18-002">
+        <tei:body>
+            <tei:div>
+                <tei:pb n="1"/>
+                <tei:opener>
+                    <tei:dateline>Charlottenburg, den
+                        18.IX.03.
+                    </tei:dateline>
+                    <tei:salute>Hochgeehrtes gnädiges Fräulein!</tei:salute>
+                </tei:opener>
+                <tei:p>Sie haben mir eine so schöne und freudige Überraschung
+                    bereitet, daß Sie mir schon noch einmal gestatten müssen, recht
+                    kräftig von "Dankbarkeit" zu reden. Daß es nicht nur Worte sind und
+                    waren, läßt sich durch Worte eben so schwer bekräftigen. Und wie gern
+                    würde ich meinem unablässigen Kampf mit der "Form" ein Ende machen,
+                    wenn es nur gelänge, so schnell eine inhaltvollere Symbolik zu
+                    schaffen; das Symbolische selbst aber möchte ich nicht missen! Um so
+                    mehr ärgert mich dieses Mißverhältnis, als es schuld daran war, daß
+                    ich nicht
+                    <tei:pb n="2"/>
+                    noch einmal Ihre Gesellschaft genießen
+                    durfte.
+                </tei:p>
+                <tei:p>Sie haben mir das liebgewordene <tei:name type="ort">Heidelberg</tei:name> noch einmal mit seinen
+                    angenehmsten
+                    Erinnerungen in "Wort und Bild" emporgezaubert, und mein stiller
+                    Wunsch, daß dies alles nicht mit den Herbstwinden verrauschen möge,
+                    hat sich so in unerwarteter Weise erfüllt. Denn zum mindesten wird
+                    jetzt bei der Arbeit mein Blick nicht nur über
+                    <tei:name type="person" key="K002">Kants</tei:name>
+                    besorgliches Antlitz und
+                    <tei:name type="person" key="P004">Paulsens</tei:name>
+                    freundliche Züge,
+                    sondern auch über Alt-Heidelberg wandern. Wollte ich dann "Kritiker"
+                    sein, so würde das einen Mangel an Selbstkritik bedeuten. Das Urteil
+                    des Laien kann dem Künstler doch eigentlich nur sagen, welche
+                    Empfindungen er ausge<tei:pb n="3"/>löst hat<tei:del rend="strikethrough">t</tei:del>. Mich berührte
+                    vor allem freundlich,
+                    hier zum ersten Male das ganz spezifische Kolorit der Stadt, diese
+                    mit dem hellen Horizont seltsam kontrastierenden, tiefen und ernsten
+                    Farben wiedergegeben zu sehen. So ungefähr stand mir Heidelberg vor
+                    der Seele, wenn ich von allem Zufälligen absah und nur den "Gedanken"
+                    der Landschaft zu fassen suchte. Denn daß die Natur "denkt" in ihren
+                    schönen Formen, gehört doch wohl auch zu der großen Dichtung, die wir
+                    über die Welt ausgebreitet haben?
+                </tei:p>
+                <tei:p>Aber nicht minder freudig
+                    begrüße ich es, daß Sie mir ein freundliches Andenken bewahren
+                    wollen. Und das ist wieder ein Geschenk, bei dem ich mich des Wortes
+                    Dankbarkeit nicht erwehren kann. Doch es ist wiederum
+                    <tei:pb n="4"/>
+                    mehr
+                    als ein Wort. Denn wenn ich vor
+                    <tei:corr sic="sie" resp="mr">Sie</tei:corr>
+                    hintrat wie ein Gefäß mit tausend unverbundenen Eindrücken und Ideen
+                    und Ihre Nachsicht dabei wohl empfunden habe: das Eine ist mir feste
+                    Überzeugung, daß in dem "inneren Universum" von dem
+                    <tei:name type="person" key="G014">Goethe</tei:name>
+                    spricht, die eigentliche
+                    und wahre Welt liegt, die zu bereichern und anzubauen allein Glück
+                    gewährt. Daß mir hierfür auch die schönsten
+                    <tei:name type="ort">Odenwald</tei:name>
+                    <tei:hi rend="underline">frauen</tei:hi>
+                    nur
+                    Hintergrund waren, bekenne ich auf die Gefahr Ihres Zornes, abermals
+                    mit Dank. Wir - wenn ich mich bereits zur Zunft rechnen darf, leben
+                    ja ganz allein von der Gewißheit, die das Gespräch mit den Besten und
+                    der in ihnen verborgene Quell lebendiger Erfahrung uns gewährt. Darum
+                    sind wir wie die Dichter, oder wie die Künstler überhaupt, weil wir
+                    immer nur das Eine sehen wollen, mag es auch tausendfach gegen die
+                    realistische Wahr<tei:pb n="5"/>heit gehen. Gerade von dieser Welt zu
+                    reden, die nicht alle sehen, gewissermaßen von Entdeckungen zu
+                    berichten, von Inseln, die nur in langen Zeiten einmal vor dem
+                    Seefahrer auftauchen, das ist unsere Aufgabe. Die Zeit ist längst
+                    vergangen, wo <tei:name type="person" key="S011">Schiller</tei:name> fragen
+                    konnte: Was hätte der Mensch dem Menschen Besseres zu geben als die
+                    reine Wahrheit? <tei:name type="person" key="L016">Lessing</tei:name> dachte
+                    darüber tiefer, und an uns ergeht die Forderung, für vieles mit
+                    Bewußtsein blind zu sein. Daß Sie dieses Recht nicht bestreiten
+                    werden, wird schon aus der täglichen Erfahrung Ihrer Kunst folgen.
+                    Leider hielt mich auch von ihr die Mauer der "Form" fern.
+                </tei:p>
+                <tei:p>Und
+                    doch ist unser Los in mancher Beziehung ungünstiger. Denn während es
+                    mein lebhafter Wunsch wäre, auch meinerseits diesen Zeilen etwas
+                    <tei:hi rend="underline">Eignes</tei:hi>
+                    beizufügen,
+                    <tei:pb n="6"/>
+                    wird mir der
+                    Unterschied zwischen dem vollen Aussichschöpfen des Künstlers und
+                    unserer Lage bewußt. Bei uns heißt es immer zuerst: "Hast Du auch
+                    Litteratur gelesen", und obwohl ich in der glücklichen Lage bin,
+                    diese Frage momentan bejahen zu können, wird doch die notwendige
+                    Vermittlung des Buchdruckers etwa 2 Monate verstreichen lassen, ehe
+                    ich Ihnen einen <tei:hi rend="underline">ganz kleinen</tei:hi>, durch
+                    zufällige Umstände veranlaßten Versuch zusenden darf. Er führte mich
+                    in die Reformationsgeschichte und damit auch auf den Boden von
+                    <tei:name type="ort">Worms</tei:name>. Denken Sie sich mein Entsetzen, als
+                    ich aus den Reichstagsakten las, daß <tei:name type="person" key="L035">Luther</tei:name> die Stadt
+                    um 10 Uhr vorm. verlassen hat. Das
+                    ist der Segen der Objektivität! Mir ist kein Zweifel, daß es bei
+                    "Nacht und Nebel" geschehen mußte;
+                    <tei:pb n="7"/>
+                    wenn ich nur wieder
+                    daran glauben könnte!
+                </tei:p>
+                <tei:p>Das erinnert mich an meine Flucht von
+                    <tei:name type="ort">Heidelberg</tei:name>. Eine glückliche Idee ließ mich in
+                    <tei:name type="ort">Gelnhausen</tei:name>
+                    aussteigen. Dort sah ich in der
+                    <tei:name type="ort">Barbarossapfalz</tei:name>
+                    die herrlichsten romanischen
+                    Säulen und eine Kirche im Übergangsstil von einer Klarheit des
+                    Gedankens, wie die Hohenstaufensche Politik. In <tei:name type="ort">Weimar</tei:name> traf ich in
+                    der Hoffnung auf
+                    <tei:name type="person" key="L040">Lionardo</tei:name>
+                    und
+                    <tei:name type="person" key="S069">Spalatins</tei:name>
+                    Manuskripte ein;
+                    leider wurde ich krank und kam in sehr materialistischer Depression
+                    in <tei:name type="ort">Berlin</tei:name> an. Meine Nerven gestatten mir kaum
+                    3 Stunden wirklicher Existenz am Tage. Wie die Fledermäuse beginne
+                    ich mein lichtscheues Werk am Abend. Nur der herrliche Herbst
+                    bereitet mir Freude.
+                </tei:p>
+                <tei:p>So hätte ich denn einen "Augenspiegel"
+                    zustande gebracht, wegen dessen ungebührlicher Länge ich mich
+                    <tei:pb n="8"/>
+                    eigentlich wieder entschuldigen müßte. Werden Sie mir zürnen,
+                    wenn ich statt dessen sogar bitte, Ihnen hin und wieder auch künftig
+                    schreiben zu dürfen?
+                </tei:p>
+                <tei:p>Und noch eine andere Bitte liegt mir auf
+                    dem Herzen: unsere Gespräche im <tei:name type="ort">Odenwald</tei:name> über
+                    die Deutung der Natur erinnerten mich schon damals an einen
+                    holländischen Roman mit eigentümlicher Durchdringung von Poesie und
+                    Philosophie. Da mir das Resultat sehr zusagte, so werden Sie es um
+                    des Abschlusses der Diskussion willen verzeihen, wenn ich Ihnen in
+                    einigen Tagen ein äußerlich
+                    <tei:hi rend="underline">sehr</tei:hi>
+                    unscheinbares kleines Buch zu zusenden wage.
+                </tei:p>
+                <tei:p>
+                    <tei:name type="person" key="H002">Ihren Bruder</tei:name>
+                    habe ich gebeten,
+                    die durch 12 Jahre um den Zusammenhang gebrachte alte
+                    Schulfreundschaft wieder aufleben zu lassen. Ich hoffe auf einen
+                    schönen Winter.
+                </tei:p>
+                <tei:p>Indem ich auch Ihnen für diese Zeit das beste
+                    Wohlergehen wünsche, bitte ich um die Erlaubnis, die besten
+                    Empfehlungen von meinen Eltern ausrichten zu dürfen.
+                </tei:p>
+                <tei:closer>
+                    <tei:add place="li. Rand">Mit herzlichem Gruß Ihr
+                        doch dankbarer Eduard Spranger.
+                    </tei:add>
+                </tei:closer>
+            </tei:div>
+        </tei:body>
+    </tei:text>
+</tei:TEI>

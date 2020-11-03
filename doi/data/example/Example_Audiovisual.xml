@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
+    <resourceType>Audiovisual</resourceType>
+    <resourceTypesFree>
+        <resourceTypeFree>
+            <language>de</language>
+            <typeName>Audiovisuelle Aufzeichnung</typeName>
+        </resourceTypeFree>
+        <resourceTypeFree>
+            <language>en</language>
+            <typeName>audiovisual recording</typeName>
+        </resourceTypeFree>
+    </resourceTypesFree>
+    <resourceIdentifier>
+        <identifier>Example_Audiovisual</identifier>
+        <currentVersion>1.0</currentVersion>
+    </resourceIdentifier>
+    <titles>
+        <title>
+            <language>de</language>
+            <titleName>Prepare and have a party (v_apw_084)</titleName>
+        </title>
+        <title>
+            <language>en</language>
+            <titleName>Prepare and have a party (v_apw_084)</titleName> 
+        </title>
+    </titles>
+    <otherTitles>
+        <otherTitle>
+            <language>de</language>
+            <titleName>Quellensicherung und Zugänglichmachung von Videoaufzeichnungen von DDR-Unterricht der APW und der PH-Potsdam</titleName>
+            <titleType>AlternativeTitle</titleType>
+        </otherTitle>
+    </otherTitles>
+    <collectiveTitles>
+        <collectiveTitle>
+            <language>de</language>
+            <titleName>Audiovisuelle Aufzeichnungen von Schulunterricht in der DDR</titleName>
+        </collectiveTitle>
+    </collectiveTitles>
+    <creators>
+        <creator>
+            <person>
+                <firstName>Henning</firstName>
+                <lastName>Schluß</lastName>
+                <personIDs>
+                    <personID>
+                        <identifierURI>http://d-nb.info/gnd/128564059</identifierURI>
+                        <identifierSchema>GND</identifierSchema>
+                    </personID>
+                </personIDs>
+                <affiliation>
+                    <affiliationName>Universität Wien</affiliationName>
+                    <affiliationIDs>
+                        <affiliationID>
+                            <identifierURI>http://d-nb.info/gnd/2024703-5</identifierURI>
+                            <identifierSchema>GND</identifierSchema>
+                        </affiliationID>
+                    </affiliationIDs>
+                </affiliation>
+            </person>
+        </creator>
+    </creators>
+    <dataURLs>
+        <dataURL>https://www.fdz-bildung.de/datenarchiv.php?id=274</dataURL>
+    </dataURLs>
+    <doiProposal>10.17889/Example_Audiovisual</doiProposal>
+    <publicationDate>
+        <date>2011-09-13</date>
+    </publicationDate>
+    <publisher>
+        <institution>
+            <institutionName>Forschungsdatenzentrum Bildung am Deutschen Institut für Internationale Pädagogische Forschung (FDZ Bildung)</institutionName>
+        </institution>
+    </publisher>
+    <availability>
+        <availabilityType>Download</availabilityType>
+        <availabilityFree>
+            <language>de</language>
+            <freetext>Die Videodateien sind aus Datenschutzgründen nur für registrierte Nutzer auf Antrag zugänglich. Es gelten die allgemeinen Nutzungsbedingungen des Anbieters.</freetext>
+        </availabilityFree>
+    </availability>
+    <resourceLanguage>deu</resourceLanguage>
+    <classifications>
+        <classification>
+            <classificationInternal>
+                <classificationSchemaType>GESIS</classificationSchemaType>
+                <identifiers>
+                    <identifier>10608</identifier>  <!--Secondary Education Sector Upper Level -->
+                </identifiers>
+            </classificationInternal>
+        </classification>
+    </classifications>
+    <controlledKeywords>
+        <controlledKeyword>
+            <keywordSchemaType>TheSozWiss</keywordSchemaType>
+            <identifiers>
+                <identifier>10042111 </identifier>  <!--English language lessons -->
+                <identifier>10038203</identifier>   <!-- teacher-->
+                <identifier>10038598</identifier>   <!--pupil -->
+                <identifier>10055098</identifier>   <!--teaching practice -->
+                <identifier>10046851</identifier>   <!--listening comprehension -->
+                <identifier>10062776</identifier>   <!--vocabulary -->
+            </identifiers>
+        </controlledKeyword>
+    </controlledKeywords>
+    <freeKeywords>
+        <freeKeyword>
+            <language>de</language>
+            <keywords>
+                <keyword>Polytechnische Oberschule (POS)</keyword>
+                <keyword>Unterrichtsaufzeichnung</keyword>
+                <keyword>AV-Verwendung</keyword>
+                <keyword>Schülervortrag</keyword>
+                <keyword>Unterrichtsgespräch</keyword>
+                <keyword>Lehrerzentrierte Gesprächsführung</keyword>
+                <keyword>Lehrer</keyword>
+                <keyword>Schüler</keyword>
+                <keyword>Wortschatzarbeit</keyword>
+                <keyword>Englische Grammatik</keyword>
+                <keyword>Hörverständnis</keyword>
+            </keywords>
+        </freeKeyword>
+    </freeKeywords>
+    <descriptions>
+        <description>
+            <language>de</language>
+            <freetext>In der DDR wurden seit Beginn der 1970er Jahre zu Lehrerausbildungs- und Forschungszwecken Unterrichtsstunden auf 1-Zoll-Videobändern aufgezeichnet. Über zweihundert dieser Aufzeichnungen aus den Beständen der Ost-Berliner Humboldt-Universität, der Akademie der Pädagogischen Wissenschaften der DDR (APW) sowie der Pädagogischen Hochschulen Potsdam und Dresden blieben bis heute erhalten. Die Bänder gerieten nach der Friedlichen Revolution und der Wiedervereinigung in Vergessenheit und die Abspieltechnik an den Hochschulen der DDR wurde entsorgt. Erschwerend kam hinzu, dass es in den 1970er Jahren noch keine Standards für Videotechnik gab und es somit fast ausgeschlossen schien, ein für die Abspielung geeignetes Gerät zu finden. Im Rahmen mehrerer von der DFG und der Bundesstiftung zur Aufarbeitung der SED-Diktatur geförderter Projekte an der Humboldt-Universität zu Berlin und der Universität Wien in Kooperation mit dem Deutschen Institut für Internationale Pädagogische Forschung (DIPF) wurde dieser Fundus an Videobändern der - wissenschaftlichen - Öffentlichkeit zugänglich gemacht. Dazu wurde das Material durch Digitalisierung in internetkompatible Formate überführt. Die Filme sind formal und inhaltlich, durch Schlagworte und Abstracts, erschlossen. Der historischen Unterrichtsforschung steht nach der Erschließung dieses Materials eine neue Quellengattung zur Verfügung. Besonders für die vergleichende Ost-Westforschung sind diese Unterrichtsdokumentationen wertvoll, weil vergleichbare westdeutsche Unterrichtsaufzeichnungen vorhanden sind.</freetext>
+            <descriptionType>SeriesInformation</descriptionType>
+        </description>
+        <description>
+            <language>de</language>
+            <freetext>Die Aufzeichnung beginnt während eines Unterrichtsgesprächs über Partys. Die Lehrerin hat bereits zwei Fragen bezüglich der Vorbereitungen für eine Party und der möglichen Beschäftigungen während einer Party zur Diskussion gestellt. Die Schüler schreiben ihre Antworten nach Zustimmung der Lehrerin in Stichpunkten an die Tafel. Diese werden zunächst Frage für Frage von einzelnen Schülern noch einmal zusammengefasst. Danach notieren die Schüler die Stichpunkte ins Heft und bekommen einige Minuten Zeit, diese zu memorieren. Eine Schülerin tritt für einen zusammenfassenden Vortrag nach vorne, der von ihren Klassenkameraden eingeschätzt werden soll. Die Lehrerin macht auf einen Fehler aufmerksam, und da keine weiteren gefunden werden, erhält die Vortragende eine entsprechend gute Note. Anschließend wird eine Lektion des Radiokurses „English for you“ angehört. Die Lehrerin hat dazu Fragen an die Tafel geschrieben, wozu die Schüler auf Deutsch Stichpunkte notieren sollen. Zusätzlich enthält das Medium interaktive Elemente: Der Sprecher stellt Fragen an seine Hörer. Nach Beantwortung hört dieser die richtige Antwort und kann sie wiederholen. Nebenbei erläutert die Lehrerin kurz das Going to-future. Nach dem Klingeln sammelt die Lehrerin die Notizen einzelner Schüler ein und bespricht die Antworten kurz auf Deutsch. Dabei bricht die Aufzeichnung ab.</freetext>
+            <descriptionType>Abstract</descriptionType>
+        </description>
+    </descriptions>
+    <contributors>
+        <contributor>
+            <institution>
+                <institutionName>Akademie der Pädagogischen Wissenschaften der DDR (APW)</institutionName>
+                <contributorType>Producer</contributorType>
+                <institutionIDs>
+                    <institutionID>
+                        <identifierURI>http://d-nb.info/gnd/1001468-8</identifierURI>
+                        <identifierSchema>GND</identifierSchema>
+                    </institutionID>
+                </institutionIDs>
+            </institution>
+        </contributor>
+        <contributor>
+            <institution>              
+                <institutionName>Forschungsdatenzentrum Bildung am Deutschen Institut für Internationale Pädagogische Forschung (FDZ Bildung)</institutionName>
+                <contributorType>Distributor</contributorType>
+            </institution>
+        </contributor>
+        <contributor>
+            <institution>              
+               <institutionName>Deutsches Institut für Internationale Pädagogische Forschung (DIPF)</institutionName>  
+                <contributorType>HostingInstitution</contributorType>
+                <institutionIDs>
+                    <institutionID>
+                        <identifierURI>http://d-nb.info/gnd/2008671-4</identifierURI>
+                        <identifierSchema>GND</identifierSchema>
+                    </institutionID>
+                </institutionIDs>
+            </institution>
+        </contributor>
+    </contributors>
+    <dataSets>
+    <dataSet>
+            <dataTypes>
+                <dataType>
+                    <language>en</language>
+                    <freetext>data recording</freetext>
+                </dataType>
+                <dataType>
+                    <language>de</language>
+                    <freetext>Datenaufzeichnung</freetext>
+                </dataType>
+            </dataTypes>
+        </dataSet>
+        <dataSet>
+            <files>
+                <file>
+                    <name>v_apw_084</name>
+                    <format>mp4</format>
+                    <size>2668.78 MB</size>
+                    <fingerprint>2a492a1f0a318f8586de9cd11b9cd664</fingerprint>
+                    <fingerprintMethod>MD5</fingerprintMethod>
+                </file>
+                <file>
+                    <name>v_apw_084</name>
+                    <format>wmv</format>
+                    <size>2701.45 MB</size>
+                    <fingerprint>4be33a01c318769d231650ffcaf9093e</fingerprint>
+                    <fingerprintMethod>MD5</fingerprintMethod>
+                </file>
+            </files>
+        </dataSet>
+      </dataSets>
+     <notes>
+        <note>
+            <language>de</language>
+            <text>Dauer: 00:44:29</text>
+        </note>
+        <note>
+            <language>en</language>
+            <text>Duration: 00:44:29</text>
+        </note>
+    </notes>
+   <relations>
+        <relation>
+            <identifier>10.7477/4:2:0</identifier>
+            <identifierType>DOI</identifierType>
+            <relationType>IsPartOf</relationType>
+            <resourceType>Collection</resourceType>
+        </relation>
+    </relations>
+</resource>

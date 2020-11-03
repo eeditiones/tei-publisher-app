@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
+    <resourceType>Model</resourceType>
+    <resourceTypesFree>
+        <resourceTypeFree>
+            <language>de</language>
+            <typeName>Graphik</typeName> 
+        </resourceTypeFree>
+        <resourceTypeFree>
+            <language>en</language>
+            <typeName>figure</typeName>
+        </resourceTypeFree>
+    </resourceTypesFree>
+    <resourceIdentifier>
+        <identifier>Example_Model</identifier>
+        <currentVersion>1</currentVersion>
+    </resourceIdentifier>
+    <titles>
+        <title>
+            <language>de</language>
+            <titleName>Forschungsdatenzyklus der GESIS</titleName>
+        </title>
+        <title>
+            <language>en</language>
+            <titleName>GESIS research data cycle</titleName>
+        </title>
+    </titles>
+    <creators>
+        <creator>
+            <institution>
+                <institutionName>GESIS - Leibniz-Institut für Sozialwissenschaften</institutionName>
+                <institutionIDs>
+                    <institutionID>
+                        <identifierURI>http://d-nb.info/gnd/16015541-1</identifierURI> 
+                        <identifierSchema>GND</identifierSchema>
+                    </institutionID>
+                    <institutionID>
+                        <identifierURI>http://viaf.org/viaf/131715635</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </institutionID>
+                </institutionIDs>
+            </institution>
+        </creator>
+    </creators>
+    <dataURLs>
+        <dataURL>http://www.gesis.org/angebot/</dataURL>
+    </dataURLs>
+    <doiProposal>10.17889/Example_Model</doiProposal>
+    <publicationDate>
+        <year>2015</year>
+    </publicationDate>
+    <publicationPlace>Köln</publicationPlace>
+    <publisher>
+        <institution>
+            <institutionName>GESIS - Leibniz-Institut für Sozialwissenschaften</institutionName>
+            <institutionIDs>
+                <institutionID>
+                    <identifierURI>http://d-nb.info/gnd/16015541-1</identifierURI>
+                    <identifierSchema>GND</identifierSchema>
+                </institutionID>
+                <institutionID>
+                    <identifierURI>http://viaf.org/viaf/131715635</identifierURI>
+                    <identifierSchema>VIAF</identifierSchema>
+                </institutionID>
+            </institutionIDs>
+        </institution>
+    </publisher>
+    <availability>
+        <availabilityType>Download</availabilityType>
+    </availability>
+    <rights>
+        <right>
+            <language>de</language>
+            <freetext>Creative Commons - Namensnennung, Nicht kommerziell, Keine Bearbeitung</freetext>   
+        </right>
+    </rights>
+    <resourceLanguage>deu</resourceLanguage>
+   <classifications>
+        <classification>
+            <classificationInternal>
+                <classificationSchemaType>GESIS</classificationSchemaType>
+                <identifiers>
+                    <identifier>10604</identifier>   <!--Research, Research Organization-->                                       
+                </identifiers>
+            </classificationInternal>
+        </classification>
+    </classifications>
+ <controlledKeywords>
+        <controlledKeyword>
+            <keywordSchemaType>TheSozWiss</keywordSchemaType>
+            <identifiers>
+                <identifier>10034708</identifier>     <!--data-->
+                <identifier>10063885</identifier>     <!--investigation-->
+                <identifier>10034712</identifier>     <!--analysis-->
+            </identifiers>
+        </controlledKeyword>
+    </controlledKeywords>
+    <freeKeywords>
+        <freeKeyword>
+            <language>de</language>
+            <keywords>
+                <keyword>Forschungsdatenzyklus</keyword>
+                <keyword>Studienplanung</keyword>
+                <keyword>Datenerhebung</keyword>
+                <keyword>Datenanalyse</keyword>
+                <keyword>Archivierung</keyword>
+                <keyword>Datenregistrierung</keyword>                
+                <keyword>Recherche</keyword>
+            </keywords>
+        </freeKeyword>
+        <freeKeyword>
+            <language>en</language>
+            <keywords>
+                <keyword>research data cycle</keyword>
+                <keyword>study planning</keyword>
+                <keyword>data collection</keyword>
+                <keyword>data analysis</keyword>
+                <keyword>archiving</keyword>
+                <keyword>data registering</keyword>                
+                <keyword>research</keyword>
+            </keywords>
+        </freeKeyword>
+    </freeKeywords>
+    <descriptions>
+        <description>
+            <language>de</language>             
+            <freetext>
+                <p>Im Allgemeinen durchlaufen Forschungsprojekte einen Prozess in mehreren Phasen. Diese Phasen findet man in einem Forschungsdatenzyklus abgebildet. In jeder Phase benötigt man spezifisches Know-how, um am Ende Ihrer Studie aussagekräftige Forschungsergebnisse zu erhalten.</p>
+            </freetext>
+            <descriptionType>Abstract</descriptionType>
+        </description>
+        <description>
+            <language>de</language>
+            <freetext>
+                <p>Research projects generally go through a process of multiple phases – the research data cycle. Each individual phase of this cycle requires specific know-how to obtain significant results.</p>
+            </freetext>
+            <descriptionType>Abstract</descriptionType>
+        </description>
+    </descriptions>
+    <contributors>
+        <contributor>
+            <institution>
+                <institutionName>GESIS - Leibniz-Institut für Sozialwissenschaften</institutionName>
+                <contributorType>Producer</contributorType>
+                <institutionIDs>
+                    <institutionID>
+                        <identifierURI>http://d-nb.info/gnd/16015541-1</identifierURI>
+                        <identifierSchema>GND</identifierSchema>
+                    </institutionID>
+                    <institutionID>
+                        <identifierURI>http://viaf.org/viaf/131715635</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </institutionID>
+                </institutionIDs>
+            </institution>
+        </contributor>
+    </contributors>
+    <relations>
+        <relation>
+            <identifier>10.2218/ijdc.v8i2.285</identifier>
+            <identifierType>DOI</identifierType>
+            <relationType>IsCitedBy</relationType>
+            <resourceType>Text</resourceType>
+        </relation>
+    </relations>
+</resource>

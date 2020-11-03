@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
+    <resourceType>Workflow</resourceType>
+    <resourceTypesFree>
+        <resourceTypeFree>
+            <language>de</language>
+            <typeName>Graphik</typeName>
+        </resourceTypeFree>
+        <resourceTypeFree>
+            <language>en</language>
+            <typeName>figure</typeName>
+        </resourceTypeFree>
+    </resourceTypesFree>
+    <resourceIdentifier>
+        <identifier>Example_Workflow</identifier>
+        <currentVersion>1</currentVersion>
+    </resourceIdentifier>
+    <titles>
+        <title>
+            <language>en</language>
+            <titleName>Workflow data archiving in the GESIS data archive</titleName>
+        </title>
+    </titles>
+    <otherTitles>
+        <otherTitle>
+            <language>de</language>
+            <titleName>Workflow Datenarchivierung im Datenarchiv der GESIS</titleName>
+            <titleType>TranslatedTitle</titleType>
+        </otherTitle>
+    </otherTitles>
+    <creators>
+        <creator>
+            <institution>                
+                <institutionName>GESIS - Leibniz-Institut für Sozialwissenschaften</institutionName>
+                <institutionIDs>
+                    <institutionID>
+                        <identifierURI>http://d-nb.info/gnd/16015541-1</identifierURI> 
+                        <identifierSchema>GND</identifierSchema>
+                    </institutionID>
+                    <institutionID>
+                        <identifierURI>http://viaf.org/viaf/131715635</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </institutionID>
+                </institutionIDs>
+            </institution>
+        </creator>
+    </creators>
+    <dataURLs>
+        <dataURL>http://www.gesis.org/fileadmin/upload/institut/wiss_arbeitsbereiche/datenarchiv_analyse/Workflow_Data_Archive.pdf</dataURL>
+    </dataURLs>
+    <doiProposal>10.17889/Example_Workflow</doiProposal>
+    <publicationDate>
+        <year>2015</year>
+    </publicationDate>
+    <publicationPlace>Cologne</publicationPlace>
+    <publisher>
+        <institution>
+            <institutionName>GESIS - Leibniz-Institut für Sozialwissenschaften</institutionName>
+            <institutionIDs>
+                <institutionID>
+                    <identifierURI>http://d-nb.info/gnd/16015541-1</identifierURI>
+                    <identifierSchema>GND</identifierSchema>
+                </institutionID>
+                <institutionID>
+                    <identifierURI>http://viaf.org/viaf/131715635</identifierURI>
+                    <identifierSchema>VIAF</identifierSchema>
+                </institutionID>
+            </institutionIDs>
+        </institution>
+    </publisher>
+    <availability>
+        <availabilityType>Download</availabilityType>
+    </availability>
+    <rights>
+        <licenseType>CC0.1.0</licenseType>
+    </rights>
+    <resourceLanguage>eng</resourceLanguage>
+   <classifications>
+        <classification>
+            <classificationInternal>
+                <classificationSchemaType>GESIS</classificationSchemaType>
+                <identifiers>
+                    <identifier>10604</identifier>   <!-- Research, Research Organization-->                                       
+                </identifiers>
+            </classificationInternal>
+        </classification>
+    </classifications>
+ <controlledKeywords>
+        <controlledKeyword>
+            <keywordSchemaType>TheSozWiss</keywordSchemaType>
+            <identifiers>
+                <identifier>10034708</identifier>    <!-- data -->
+            </identifiers>
+        </controlledKeyword>
+    </controlledKeywords>
+    <freeKeywords>
+        <freeKeyword>
+            <language>en</language>
+            <keywords>
+                <keyword>archiving</keyword>
+                <keyword>pre-ingest</keyword>     
+                <keyword>ingest</keyword>
+                <keyword>data access</keyword>
+                <keyword>review</keyword>
+                <keyword>long-term preservation</keyword>
+                <keyword>data processing</keyword>                
+            </keywords>
+        </freeKeyword>
+    </freeKeywords>
+    <contributors>
+        <contributor>
+            <institution>
+                <institutionName>GESIS - Leibniz-Institut für Sozialwissenschaften</institutionName>
+                <contributorType>Producer</contributorType>
+                <institutionIDs>
+                    <institutionID>
+                        <identifierURI>http://d-nb.info/gnd/16015541-1</identifierURI>
+                        <identifierSchema>GND</identifierSchema>
+                    </institutionID>
+                    <institutionID>
+                        <identifierURI>http://viaf.org/viaf/131715635</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </institutionID>
+                </institutionIDs>
+            </institution>
+        </contributor>
+    </contributors>
+<relations>
+        <relation>
+            <identifier>http://www.gesis.org/angebot/archivieren-und-registrieren/datenarchivierung/</identifier>
+            <identifierType>URL</identifierType>
+            <relationType>IsPartOf</relationType>
+        </relation>
+    </relations>
+</resource>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Version 1.0 - 2011
+    Version 3.1 - 2014-11
+    Version 4.0 - 2017-09
+-->
+<xs:schema xmlns="http://da-ra.de/schema/kernel-4" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://da-ra.de/schema/kernel-4" elementFormDefault="qualified">
+  <xs:simpleType name="licenseType" id="licenseType">
+    <xs:annotation>
+      <xs:documentation>Creative Commons</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CC0.1.0">
+        <xs:annotation>
+          <xs:documentation>Public Domain CC0 1.0 Universal</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PublicDomainMark.1.0">
+        <xs:annotation>
+          <xs:documentation>Public Domain Mark 1.0</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CC.BY-NC-ND.4.0">
+        <xs:annotation>
+          <xs:documentation>Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0)</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CC.BY-NC.4.0">
+        <xs:annotation>
+          <xs:documentation>Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CC.BY-NC-SA.4.0">
+        <xs:annotation>
+          <xs:documentation>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CC.BY-ND.4.0">
+        <xs:annotation>
+          <xs:documentation>Creative Commons Attribution-NoDerivatives 4.0 International License (CC BY-ND 4.0)</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CC.BY.4.0">
+        <xs:annotation>
+          <xs:documentation>Creative Commons Attribution 4.0 International License (CC BY 4.0)</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CC.BY-SA.4.0">
+        <xs:annotation>
+          <xs:documentation>Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Other"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

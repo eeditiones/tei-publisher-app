@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
+    <resourceType>Image</resourceType>
+    <resourceTypesFree>
+        <resourceTypeFree>
+            <language>en</language>
+            <typeName>photo</typeName>
+        </resourceTypeFree>
+        <resourceTypeFree>
+            <language>de</language>
+            <typeName>Foto</typeName>
+        </resourceTypeFree>
+    </resourceTypesFree>
+    <resourceIdentifier>
+        <identifier>Example_Image</identifier>
+        <currentVersion>1</currentVersion>
+    </resourceIdentifier>
+    <titles>
+        <title>
+            <language>de</language>
+            <titleName>Marienthaler Arbeiter an der Feilbach-Brücke</titleName>
+        </title>
+        <title>
+            <language>en</language>
+            <titleName>Marienthal Workers at the Feilbach Bridge</titleName>
+        </title>
+    </titles>
+    <creators>
+        <creator>
+            <person>
+                <firstName>Hans</firstName>
+                <lastName>Zeisel</lastName>
+                <personIDs>
+                    <personID>
+                        <identifierURI>http://d-nb.info/gnd/118866443</identifierURI>
+                        <identifierSchema>GND</identifierSchema>
+                    </personID>
+                </personIDs>
+            </person>
+        </creator>
+    </creators>
+    <dataURLs>
+        <dataURL>http://agso.uni-graz.at/marienthal/bilder/151.jpg</dataURL>
+    </dataURLs>
+    <doiProposal>10.17889/Example_Image</doiProposal>
+    <publicationDate>
+        <year>1933</year>
+    </publicationDate>
+    <publicationPlace>Wien</publicationPlace><!-- fictitious  -->
+    <publisher>
+        <institution>
+            <institutionName>Archiv für die Geschichte der Soziologie in Österreich</institutionName>
+            <institutionIDs>
+                <institutionID>
+                    <identifierURI>http://www.viaf.org/viaf/126971162</identifierURI>
+                    <identifierSchema>VIAF</identifierSchema>
+                </institutionID>
+            </institutionIDs>
+        </institution>
+    </publisher>
+    <availability>
+        <availabilityType>Download</availabilityType>
+        <availabilityFree>
+            <language>de</language>
+            <freetext>Beachten Sie das Copyright.</freetext>
+        </availabilityFree>
+        <availabilityFree>
+            <language>en</language>
+            <freetext>Please note the copyright.</freetext>
+        </availabilityFree>
+    </availability>
+    <rights>
+        <licenseType>CC0.1.0</licenseType>
+    </rights>
+    <resourceLanguage>deu</resourceLanguage>
+    <classifications>
+        <classification>
+            <classificationInternal>
+                <classificationSchemaType>GESIS</classificationSchemaType>
+                <identifiers>
+                    <identifier>20101</identifier> <!--Labor Market Research-->
+                    <identifier>20500</identifier> <!--Social Problems-->
+                    <identifier>10700</identifier> <!--Psychology-->
+                    <identifier>10000</identifier> <!--Social Sciences-->
+               </identifiers>
+            </classificationInternal>
+        </classification>
+    </classifications>
+    <controlledKeywords>
+        <controlledKeyword>
+            <keywordSchemaType>TheSozWiss</keywordSchemaType>
+            <identifiers>
+                <identifier>10036359</identifier>  <!--unemployment-->
+                <identifier>10043852</identifier>  <!--psychological consequences-->
+                <identifier>10043850</identifier>  <!--social effects-->
+            </identifiers>
+        </controlledKeyword>
+    </controlledKeywords>
+    <descriptions>
+        <description>
+            <language>en</language>
+            <freetext>Marienthal Workers at the Feilbach Bridge, Hauptstraße. On the right side the department store Josef Boldischar (1881-1941) located in the workers apartment building (built 1846, demolished 1991), behind that the workers apartment building Spitalhof (1881). From left to right: Franz Krátký (1862–1945), Josef Dienstl (1904–1960), Johann Tománek (1871–1957), Josef Thau (1901–1947) and two unknown persons.</freetext>
+            <descriptionType>Abstract</descriptionType>
+        </description>
+        <description>
+            <language>de</language>
+            <freetext>Marienthaler Arbeiter an der Feilbach-Brücke, Hauptstraße. Rechts das Kaufhaus Josef Boldischar (1881–1941) im Arbeiterwohnhaus Schulhof (erbaut 1846, abgerissen 1991), dahinter das Arbeiterwohnhaus Spitalhof (1881). Von links nach rechts: Franz Krátký (1862–1945), Josef Dienstl (1904–1960), Johann Tománek (1871–1957), Josef Thau (1901–1947) und zwei Unbekannte.</freetext>
+            <descriptionType>Abstract</descriptionType>
+        </description>
+    </descriptions>
+    <geographicCoverages>
+        <geographicCoverage>
+            <geographicCoverageControlled>AT</geographicCoverageControlled>
+        </geographicCoverage>
+        <geographicCoverage>
+            <geographicCoveragesFree>
+                <geographicCoverageFree>
+                    <language>en</language>
+                    <freetext>Gramatneusiedl, factory and Marienthal workers' settlement</freetext>
+                </geographicCoverageFree>
+                <geographicCoverageFree>
+                    <language>de</language>
+                    <freetext>Gramatneusiedl, Fabrik und Arbeiterkolonie Marienthal</freetext>
+                </geographicCoverageFree>
+            </geographicCoveragesFree>
+            <geoLocationPoint>
+                <pointLongitude>16.49504</pointLongitude>
+                <pointLatitude>48.021999</pointLatitude>
+            </geoLocationPoint>
+        <geoLocationBox>
+            <westBoundLongitude>16.494932</westBoundLongitude>
+            <eastBoundLongitude>16.4951495</eastBoundLongitude>
+            <southBoundLatitude>48.0219318</southBoundLatitude>
+            <northBoundLatitude>48.0220662</northBoundLatitude>  
+            </geoLocationBox>
+        </geographicCoverage>
+        <geographicCoverage>
+            <geographicCoveragesFree>
+                <geographicCoverageFree>
+                    <language>en</language>
+                    <freetext>Gramatneusiedl, Feilbach-Brücke</freetext>
+                </geographicCoverageFree>
+                <geographicCoverageFree>
+                    <language>de</language>
+                    <freetext>Gramatneusiedl, Feilbach Bridge</freetext>
+                </geographicCoverageFree>
+            </geographicCoveragesFree>
+            <geoLocationPoint>
+                <pointLongitude>16.49553</pointLongitude>
+                <pointLatitude>48.02203</pointLatitude>
+            </geoLocationPoint>
+        </geographicCoverage>
+    </geographicCoverages>
+    <temporalCoverages>
+        <temporalCoverage>
+            <temporalCoverageFormal>
+                <startDate>
+                    <monthyear>1931-11</monthyear>
+                </startDate>
+                <endDate>
+                    <monthyear>1932-05</monthyear>
+                </endDate>
+            </temporalCoverageFormal>
+        </temporalCoverage>
+    </temporalCoverages>
+    <contributors><!-- fictitious  -->
+        <contributor>
+            <institution>
+                <institutionName>Archiv für die Geschichte der Soziologie in Österreich</institutionName>
+                <contributorType>HostingInstitution</contributorType>
+                <institutionIDs>
+                    <institutionID>
+                        <identifierURI>http://www.viaf.org/viaf/126971162</identifierURI>
+                        <identifierSchema>VIAF</identifierSchema>
+                    </institutionID>
+                </institutionIDs>
+            </institution>
+        </contributor>    
+    </contributors>   
+    <collectionModes>
+        <collectionMode>
+            <collectionModeType>Observation.Field.Participant</collectionModeType>
+        </collectionMode>
+    </collectionModes> 
+    <dataSets>
+        <dataSet>
+            <unitType>Group</unitType>
+            <numberUnits>6</numberUnits>
+        </dataSet>
+        <dataSet>
+            <files>
+                <file>
+                    <name>151</name>
+                    <format>jpg</format>
+                    <size>61KB</size>
+                </file>
+            </files>
+        </dataSet>
+        <dataSet>
+            <files>
+                <file>
+                    <name>151-pn</name>
+                    <format>png</format>
+                    <size>61KB</size>
+                </file>
+            </files>
+        </dataSet>
+     </dataSets>
+<!-- <notes>
+        <note>
+            <language>en</language>
+            <text></text>
+        </note>
+    </notes>-->
+    <relations>
+        <relation>
+            <identifier>3-518-10769-0</identifier>
+            <identifierType>ISBN</identifierType>
+            <relationType>IsPartOf</relationType>
+            <resourceType>Text</resourceType>
+        </relation>
+        <relation>
+            <identifier>http://agso.uni-graz.at/marienthal/studie/00.htm</identifier>
+            <identifierType>URL</identifierType>
+            <relationType>IsPartOf</relationType>
+        </relation>
+    </relations>
+    <publications>
+      <publication>
+        <structuredPublication>
+           <documentType>BookOrMonograph</documentType>
+            <authorsEditors>
+                <authorEditor>
+                    <author>
+                        <firstName>Marie</firstName>
+                        <middleName/>
+                        <lastName>Jahoda</lastName>
+                    </author>
+                </authorEditor>
+                <authorEditor>
+                    <author>
+                        <firstName>Paul</firstName>
+                        <middleName>Felix</middleName>
+                        <lastName>Lazarsfeld</lastName>
+                    </author>
+                </authorEditor>
+                <authorEditor>
+                    <author>
+                        <firstName>Hans</firstName>
+                        <middleName/>
+                        <lastName>Zeisel</lastName>
+                    </author>
+                </authorEditor>
+            </authorsEditors>
+            <title>Die Arbeitslosen von Marienthal. Ein soziographischer Versuch über die Wirkungen langandauernder Arbeitslosigkeit</title>
+            <year>1933</year>
+            <publisher>Suhrkamp</publisher>
+            <places>Frankfurt am Main</places>
+            <journal/>
+            <volume/>
+            <issue/>
+            <anthology/>
+            <pages/>
+            <isbn>3-518-10769-0</isbn>
+        </structuredPublication>
+    </publication>
+    </publications>
+</resource>
