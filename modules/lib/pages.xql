@@ -144,7 +144,7 @@ declare function pages:edit-odd-link($node as node(), $model as map(*)) {
  : Only used for generated app: output edit link for every registered ODD
  :)
 declare function pages:edit-odd-list($node as node(), $model as map(*)) {
-    for $odd in $config:odd-available
+    for $odd in ($config:odd-available, $config:odd-internal)
     return
         <paper-item>
             <a href="{$model?app}/odd-editor.html?root={$config:odd-root}&amp;output-root={$config:output-root}&amp;output={$config:output}&amp;odd={$odd}"
