@@ -220,9 +220,10 @@ declare function pages:toc-div($node, $model as map(*), $target as xs:string?,
                     (),
                 $div
             )[1]
-            let $parent := nav:is-filler($model?config, $div)
+            let $parent := if ($view = 'page') then () else nav:is-filler($model?config, $div)
             let $hasDivs := exists(nav:get-subsections($model?config, $div))
             let $nodeId :=  if ($parent) then util:node-id($parent) else util:node-id($root)
+            let $xmlId := if ($parent) then $parent/@xml:id else $root/@xml:id
             let $subsect := if ($parent) then attribute hash { util:node-id($root) } else ()
             return
                     <li>
@@ -236,12 +237,19 @@ declare function pages:toc-div($node, $model as map(*), $target as xs:string?,
                                         ()
                                 }
                                 <span slot="collapse-trigger">
-                                    <pb-link node-id="{$nodeId}" emit="{$target}" subscribe="{$target}">{$subsect, $html}</pb-link>
+                                {
+                                    if ($xmlId) then
+                                        <pb-link xml-id="{$xmlId}" emit="{$target}" subscribe="{$target}">{$subsect, $html}</pb-link>
+                                    else
+                                        <pb-link node-id="{$nodeId}" emit="{$target}" subscribe="{$target}">{$subsect, $html}</pb-link>
+                                }
                                 </span>
                                 <span slot="collapse-content">
                                 { pages:toc-div($div, $model, $target, $icons) }
                                 </span>
                             </pb-collapse>
+                        else if ($xmlId) then
+                            <pb-link xml-id="{$xmlId}" emit="{$target}" subscribe="{$target}">{$subsect, $html}</pb-link>
                         else
                             <pb-link node-id="{$nodeId}" emit="{$target}" subscribe="{$target}">{$subsect, $html}</pb-link>
                     }

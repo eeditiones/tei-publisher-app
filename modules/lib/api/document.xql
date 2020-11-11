@@ -313,52 +313,54 @@ declare function dapi:get-fragment($request as map(*)) {
                 if ($request?parameters?format = "html") then
                     router:response(200, "text/html", $transformed?content)
                 else
-                    router:response(200, "application/json",
-                        map {
-                            "format": $request?parameters?format,
-                            "view": $view,
-                            "doc": $doc,
-                            "root": $request?parameters?root,
-                            "odd": $xml?config?odd,
-                            "next":
-                                if ($view != "single") then
-                                    let $next := $config:next-page($xml?config, $xml?data, $view)
-                                    return
-                                        if ($next) then
-                                            util:node-id($next)
-                                        else ()
-                                else
-                                    (),
-                            "previous":
-                                if ($view != "single") then
-                                    let $prev := $config:previous-page($xml?config, $xml?data, $view)
-                                    return
-                                        if ($prev) then
-                                            util:node-id($prev)
-                                        else
-                                            ()
-                                else
-                                    (),
-                            "switchView":
-                                if ($view != "single") then
-                                    let $node := pages:switch-view-id($xml?data, $view)
-                                    return
-                                        if ($node) then
-                                            util:node-id($node)
-                                        else
-                                            ()
-                                else
-                                    (),
-                            "content": serialize($transformed?content,
-                                <output:serialization-parameters xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
-                                <output:indent>no</output:indent>
-                                <output:method>html5</output:method>
-                                    </output:serialization-parameters>),
-                            "footnotes": $transformed?footnotes,
-                            "userParams": $userParams,
-                            "collection": dapi:get-collection($xml?data[1])
-                        }
-                    )
+                    let $next := if ($view = "single") then () else $config:next-page($xml?config, $xml?data, $view)
+                    let $prev := if ($view = "single") then () else $config:previous-page($xml?config, $xml?data, $view)
+                    return
+                        router:response(200, "application/json",
+                            map {
+                                "format": $request?parameters?format,
+                                "view": $view,
+                                "doc": $doc,
+                                "root": $request?parameters?root,
+                                "odd": $xml?config?odd,
+                                "next":
+                                    if ($next) then
+                                        util:node-id($next)
+                                    else (),
+                                "previous":
+                                    if ($prev) then
+                                        util:node-id($prev)
+                                    else
+                                        (),
+                                "nextId": 
+                                    if ($next) then
+                                        $next/@xml:id/string()
+                                    else (),
+                                "previousId":
+                                    if ($prev) then
+                                        $prev/@xml:id/string()
+                                    else
+                                        (),
+                                "switchView":
+                                    if ($view != "single") then
+                                        let $node := pages:switch-view-id($xml?data, $view)
+                                        return
+                                            if ($node) then
+                                                util:node-id($node)
+                                            else
+                                                ()
+                                    else
+                                        (),
+                                "content": serialize($transformed?content,
+                                    <output:serialization-parameters xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                                    <output:indent>no</output:indent>
+                                    <output:method>html5</output:method>
+                                        </output:serialization-parameters>),
+                                "footnotes": $transformed?footnotes,
+                                "userParams": $userParams,
+                                "collection": dapi:get-collection($xml?data[1])
+                            }
+                        )
         else
             error($errors:NOT_FOUND, "Document " || $doc || " not found")
 };
