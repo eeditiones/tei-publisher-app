@@ -47,6 +47,17 @@ declare function capi:upload($request as map(*)) {
         array { capi:upload($request?parameters?collection, $name, $data) }
 };
 
+declare function capi:uploadDOI($request as map(*)) {
+    let $name := request:get-uploaded-file-name("files[]")
+    let $data := request:get-uploaded-file-data("files[]")
+    return
+        array { 
+            map {
+                "availability": $request
+            }
+        }
+};
+
 declare %private function capi:upload($root, $paths, $payloads) {
     for-each-pair($paths, $payloads, function($path, $data) {
         let $path :=
