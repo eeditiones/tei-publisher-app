@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?teipublisher odd="docbook.odd" template="documentation.html" depth="3" fill="2"?>
+<?xml-model href="https://docbook.org/xml/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
   version="5.0">
   <info>
@@ -26,9 +27,9 @@
       <keyword>Documentation</keyword>
     </keywordset>
   </info>
-  <section>
+  <section xml:id="introduction">
     <title>Introduction</title>
-    <section>
+    <section xml:id="introduction-explainer">
       <title>What TEI Publisher does ...</title>
       <para>The motivation behind TEI Publisher was to provide a tool which enables scholars and
         editors to publish their materials without becoming programmers, but also does not force
@@ -86,7 +87,7 @@
         </listitem>
       </orderedlist>
     </section>
-    <section>
+    <section xml:id="e-editiones">
       <title>e-editiones.org</title>
       <para>Since its first incarnation in 2015, TEI Publisher has gained substantial following with
         numerous academic and commercial projects around the globe using it for their editorial and
@@ -257,7 +258,7 @@
       </section>
     </section>
   </section>
-  <section>
+  <section xml:id="quickstart">
     <title>Quickstart</title>
     <section xml:id="workshop-2020">
       <title>«Stay Home Learn TEI Publisher From Scratch»</title>
@@ -523,7 +524,7 @@
             <synopsis>docker logs teipublisher</synopsis>
           </step>
         </procedure>
-        <section>
+        <section xml:id="docker-other">
           <title>Other useful commands</title>
           <variablelist>
             <varlistentry>
@@ -562,9 +563,9 @@
         </section>
       </section>
     </section>
-    <section>
+    <section xml:id="browsing">
       <title>Browsing Documents</title>
-      <section>
+      <section xml:id="start-page">
         <title>The Start Page</title>
         <para>The start page of TEI Publisher serves as an entry point to explore and
           experiment.</para>
@@ -612,7 +613,7 @@
             password <parameter>simple</parameter>.</para>
         </note>
       </section>
-      <section>
+      <section xml:id="demo-collection">
         <title>TEI Publisher Demo collection</title>
         <para>Experiment with browsing, faceting, filtering and sorting features of TEI Publisher.
           This page consists of several main areas:<orderedlist>
@@ -763,7 +764,7 @@
       </itemizedlist>
     </section>
 
-    <section>
+    <section xml:id="odd-experiments">
       <title>Experimenting with ODDs and page templates</title>
       <para>All TEI Publisher's sample documents are TEI XML files which are transformed into a HTML
         webpage for display in the browser. Two major factors determine how the final page is going
@@ -870,7 +871,7 @@
     <para>Few specificities of <emphasis>TEI</emphasis> and <emphasis>DocBook</emphasis> are listed
       below, while <emphasis>DOCX</emphasis> is discussed at length in the following section.</para>
     <para/>
-    <section>
+    <section xml:id="format-tei">
       <title>TEI</title>
       <para>In principle, any TEI document will be supported by TEI Publisher and can be displayed
         with the default page template and odd.</para>
@@ -898,7 +899,7 @@
           >customization</link> briefly discusses how to change relevant functionality.</para>
     </section>
 
-    <section>
+    <section xml:id="format-docbook">
       <title>DocBook</title>
       <para>DocBook support is demonstrated by this very document you are now reading,
           <filename>documentation.xml</filename>. It is written in DocBook and presented via
@@ -927,7 +928,7 @@
         possible would likely just add unnecessary "noise" and result in low-quality TEI. </para>
 
 
-      <section>
+      <section xml:id="docx-intro">
         <title>A word about Word</title>
 
         <para> A Word document is essentially a zip archive of several different XML files. These
@@ -1031,7 +1032,7 @@
           TEI Stylesheets docx-to-tei transformation module and has been tested on test files
           included there.</para>
 
-        <section>
+        <section xml:id="docx-functions-parameters">
           <title>Parameter functions</title>
           <para>Functions below can be used to retrieve styles or other information related to a
             current node. For more usage examples see <link xlink:href="odd/docx.odd" role="source"
@@ -1110,9 +1111,9 @@
       require <link linkend="customizing-page-template">adjustments of the page template</link>. In
       both cases, it may be best to choose as your starting point an already existing ODD or page
       template and adjust it.</para>
-    <section>
+    <section xml:id="odd-customization-details">
       <title>ODD Customization</title>
-      <section>
+      <section xml:id="odd-customization-first-odd">
         <title>Creating Your First ODD</title>
         <para>The general workflow for creating a customization is as follows:<orderedlist>
             <listitem>
@@ -1164,7 +1165,7 @@
           </step>
         </procedure>
       </section>
-      <section>
+      <section xml:id="modify-odd">
         <title>Modify the ODD</title>
         <para>Changing processing models in the ODD is a powerful mechanism through which you can
           control all aspects of the transformation of your documents from source XML format to all
@@ -1309,7 +1310,7 @@
           </listitem>
         </orderedlist>
       </section>
-      <section>
+      <section xml:id="odd-customization-other-behaviours">
         <title>Other behaviours</title>
         <para>We would also like to hide the page breaks as we do not have facsimiles available. Add
           a new element spec for <tag>pb</tag>. Again the newly added spec already includes a model
@@ -1329,7 +1330,7 @@
   &lt;model behaviour="omit"/&gt;
 &lt;/elementSpec&gt;</programlisting>
       </section>
-      <section>
+      <section xml:id="odd-customization-predicates">
         <title>Predicates and multiple models</title>
         <para>Next up, we may want to highlight the various places and people occurring within the
           text. They are all marked up with the <tag>name</tag> tag, using different
@@ -1387,7 +1388,7 @@
           <para>Also, if there's more than one matching model, only the first will be chosen.</para>
         </note>
       </section>
-      <section>
+      <section xml:id="odd-customization-parameters">
         <title>Parameters</title>
         <para>All behaviours accept one or more parameters which are defined in the TEI guidelines.
           Every behaviour has an implicit parameter called <parameter>content</parameter>, and, as
@@ -1431,7 +1432,7 @@
     &lt;model predicate="text()" behaviour="inline"/&gt;
 &lt;/elementSpec&gt;</programlisting>
       </section>
-      <section>
+      <section xml:id="odd-customization-screencast">
         <title>Screencast</title>
         <para>The screencast below recapitulates some of the modifications we just applied. It uses
           an older version of TEI Publisher, but the basic concepts and controls are still the
@@ -1503,7 +1504,7 @@
         transparently translated into different output media types like HTML, XSL-FO, LaTeX, or
         ePUB. A single ODD can handle a multitude of output media types with just a few small
         adjustments.</para>
-      <section>
+      <section xml:id="pm-syntax-model">
         <title>
           <tag>model</tag> element</title>
         <para>
@@ -1532,7 +1533,7 @@
     &lt;param name="content" value="lem"/&gt;
   &lt;/model&gt;
 &lt;/elementSpec&gt;</programlisting>
-        <section>
+        <section xml:id="pm-syntax-model-children">
           <title>
             <tag>model</tag> children and attributes:</title>
           <para>
@@ -1656,7 +1657,7 @@
 
         </section>
       </section>
-      <section>
+      <section xml:id="pm-syntax-modelSequence">
         <title>
           <tag>modelSequence</tag> and <tag>modelGrp</tag>
         </title>
@@ -1702,7 +1703,7 @@
           add their own behaviours, either within the ODD itself or by writing <link
             linkend="extension-modules">XQuery code</link>. The following section lists the default
           behaviours.</para>
-        <section>
+        <section xml:id="behaviours-available">
           <title>Available Behaviours</title>
           <para>Behaviour functions accept a range of parameters, depending on the function in
             question. Where these parameters are left unspecified in the <tag>model</tag>, default
@@ -2172,7 +2173,7 @@
       <para>The quality of the generated output may vary a lot for the fo and latex modes, depending
         on the type of input document. The following section provides more details on the
         configuration of the FO output option:</para>
-      <section>
+      <section xml:id="output-media-fo">
         <title>FO Output</title>
         <para>When generating XSL:FO output, the implementation tries to translate the CSS rules
           specified for renditions into the corresponding XSL:FO formatting properties. Not all CSS
@@ -2212,7 +2213,7 @@
         <para>The mechanisms for configuring FO output are still very much under development and we
           welcome suggestions by users.</para>
       </section>
-      <section>
+      <section xml:id="output-media-latex">
         <title>LaTeX Output</title>
         <para>The latex output mode produces good results for longer texts which fit well into the
           pre-defined LaTeX environments. The number of supported CSS properties is limited
@@ -2263,7 +2264,7 @@
             <command>xelatex</command>, <command>pdflatex</command> or
           <command>lualatex</command>.</para>
       </section>
-      <section>
+      <section xml:id="output-media-epub">
         <title>ePub Output</title>
         <para>The <parameter>epub</parameter> output mode extends the HTML mode. You may define
           general styling in an extra CSS file, located in
@@ -2274,9 +2275,9 @@
     </section>
 
 
-    <section>
+    <section xml:id="pm-extensions">
       <title>Extensions to the Processing Model Specification</title>
-      <section>
+      <section xml:id="pm-extensions-xquery">
         <title>XQuery Instead of XPath</title>
         <para>The implementation directly translates processing model instructions into an XQuery
           3.1 module by generating executable XQuery code. This is straightforward as the resulting
@@ -2288,7 +2289,7 @@
           variables inside a parameter using a standard XQuery <code language="xquery">let $x := ...
             return ...</code> syntax.</para>
       </section>
-      <section>
+      <section xml:id="pm-extensions-default">
         <title>Default Processing Model Rules</title>
         <para>It is possible to define a default <tag>elementSpec</tag> to be applied to all
           elements which are not already matched by another elementSpec. For example, if no
@@ -2341,7 +2342,7 @@
           otherwise to <parameter>norm</parameter>. </para>
         <programlisting language="xml" xml:space="preserve">&lt;pb-toggle-feature name="mode" on="diplomatic" off="norm"&gt;Diplomatic View&lt;/pb-toggle-feature&gt;</programlisting>
       </section>
-      <section>
+      <section xml:id="pm-extensions-templates">
         <title>Code Templates and Custom Behaviours</title>
         <para>The two dozen behaviours defined by the TEI processing model are enough to cover most
           HTML output tasks, but other output formats like LaTeX may require more customization and
@@ -2515,7 +2516,7 @@
           those functions available to all output modes, just skip the <parameter>@mode</parameter>
           attribute.</para>
       </section>
-      <section>
+      <section xml:id="extension-modules-behaviours">
         <title>Implementing Custom Behaviours</title>
         <para>To be recognized by the library, an extension function must accept at least 4 default
           arguments, plus any number of custom parameters. The required parameters are:</para>
@@ -2582,7 +2583,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
 &lt;/model&gt;
         </programlisting>
       </section>
-      <section>
+      <section xml:id="extension-modules-behaviour-parameters">
         <title>Custom Behaviours Accepting User-Defined Parameters</title>
         <para>Sometimes you may like to implement a generic behaviour which takes arbitrary
           parameters from the user. This means the parameter list of your behaviour will not be
@@ -2616,7 +2617,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           <tag>valList</tag> for attribute values in the input corpus.</para>
       <para>By default the basis of the comparison for which elements have been modified in the
         examples is the full <filename>tei_all.odd</filename>.</para>
-      <section>
+      <section xml:id="odd-by-example-advanced">
         <title>Advanced Use</title>
         <para>To further tweak the building process you can call the functions of the
             <filename>odd-by-example.xql</filename> module from your own XQuery code. If you wish to
@@ -2684,7 +2685,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         <code>theme.css</code> while remaining on the easy upgrade path for future TEI Publisher and
         <code>pb-components</code> updates.</para>
 
-    <section>
+    <section xml:id="css-styling-components">
       <title>Customizing web components styling</title>
       <para>A web component completely shields its content, so it cannot be styled from outside. Web
         component styles remain encapsulated, preventing style contamination between individual
@@ -2706,7 +2707,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         its custom CSS properties, you can style the component itself within the HTML template, e.g.
         to position it within the layout of the page.</para>
     </section>
-    <section>
+    <section xml:id="css-styling-external">
       <title>External stylesheets</title>
       <para>ODD specification allows for explicit declaration of an external CSS file which may
         define styles and CSS classes to be applied to tranformed sources (in
@@ -2748,7 +2749,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       and all controls are custom HTML elements. They are like "Lego" blocks which can be freely
       moved around and rearranged without knowing anything about internal implementation of the
       component.</para>
-    <section>
+    <section xml:id="webcomponents-intro">
       <title>Web Components</title>
 
 
@@ -2857,7 +2858,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         about <link linkend="external-css">CSS styling</link>. </para>
     </section>
 
-    <section>
+    <section xml:id="webcomponents-docs">
       <title>Webcomponent Documentation</title>
       <para>To better understand the various components TEI Publisher provides, it is best to have a
         look at the small examples contained in the <link xlink:show="new"
@@ -2952,7 +2953,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       </note>
     </section>
 
-    <section>
+    <section xml:id="webcomponents-communication">
       <title>Communication between Components</title>
       <para>To allow for maximum flexibility, nearly all of the TEI Publisher webcomponents
         communicate via events: this way avoids hard wiring and components may appear anywhere on
@@ -2987,7 +2988,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         the class PbMixin.</para>
     </section>
 
-    <section>
+    <section xml:id="webcomponents-page-templates">
       <title>Page Templates</title>
       <para>TEI Publisher currently includes several different page templates, which combine the
         building blocks described above with off-the-shelf components to achieve a certain page
@@ -3402,7 +3403,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       with <code>pb-components</code>. When it is necessary for a project to add new labels or
       change wording of existing ones, a customization mechanism is described <link
         linkend="i18n-customization">below</link>.</para>
-    <section>
+    <section xml:id="i18n-page-templates">
       <title>Using i18n in page templates</title>
       <para>There are several scenarios for using i18n labels:</para>
       <itemizedlist>
@@ -3416,7 +3417,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           <para>passed in component-specific structure</para>
         </listitem>
       </itemizedlist>
-      <section>
+      <section xml:id="i18n-page-templates-pb-i18n">
         <title>HTML text node with <code>pb-i18n</code></title>
         <para>Any text fragment within HTML element can be considered a target for i18n when wrapped
           in <tag>pb-i18n</tag> component. <tag>pb-i18n</tag> elements are listening for events
@@ -3427,7 +3428,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
 &lt;/h3>
         </programlisting>
       </section>
-      <section>
+      <section xml:id="i18n-page-templates-attributes">
         <title>Attributes (on HTML elements or custom web components)</title>
         <para>When it is necessary to translate the value of an attribute a mechanism based on
             <code>data-</code> attributes is used. Supply additional <code>data-i18n</code>
@@ -3453,7 +3454,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           </mediaobject>
         </figure>
       </section>
-      <section>
+      <section xml:id="i18n-page-templates-properties">
         <title>Special web component properties configured via attributes</title>
         <para>Some web components accept more complex configuration options via arrays passed in
           attributes. For example, <tag>pb-browse-docs</tag> component allows to specify a number of
@@ -3634,9 +3635,9 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         </imageobject>
       </mediaobject>
     </figure>
-    <section>
+    <section xml:id="appgen-code-overview">
       <title>Generated Code Overview</title>
-      <section>
+      <section xml:id="appgen-code-overview-xquery">
         <title>XQuery Code</title>
         <para>The collection structure of the generated app follows typical design of many eXist
           apps. <link linkend="customization-best-practice">Best practices</link> for modifying the
@@ -3705,7 +3706,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         </variablelist>
       </section>
     </section>
-    <section>
+    <section xml:id="appgen-modify">
       <title>Modifying the App</title>
       <para>When you are logged in, the <guibutton>Admin</guibutton> menu in the top navbar provides
         various links for ease of customization of your app:</para>
@@ -3780,7 +3781,7 @@ declare variable $config:odd-available :=("shakespeare.odd");]]></programlisting
             </orderedlist>
           </step>
         </procedure>
-        <section>
+        <section xml:id="multiple-odds-collection">
           <title>Using different ODDs depending on the collection</title>
           <para>By default the same ODD will be used for all documents within the app. It is possible though
             to organize documents into a <link linkend="subcollections">hierarchy of collections</link> beneath <parameter>$config:data-root</parameter>
@@ -3829,7 +3830,7 @@ declare function config:collection-config($collection as xs:string?) {
       </section>
     </section>
 
-    <section>
+    <section xml:id="appgen-export">
       <title>Exporting the Finished App</title>
       <para>To save your finished application or exchange it with other people, you need to save it
         as an application archive. Application archives use a standardized <link xlink:show="new"
@@ -3902,7 +3903,7 @@ declare function config:collection-config($collection as xs:string?) {
         </mediaobject>
       </figure>
     </section>
-    <section>
+    <section xml:id="appgen-build">
       <title>Building from a directory</title>
       <para>Once you have a copy of your app extracted in a local directory, you can always rebuild
         a fresh <filename>.xar</filename> from it. In the simplest case it is sufficient to call
@@ -4035,7 +4036,7 @@ git checkout v7.0.0</programlisting>
       <para>At this point we need to move to the directory where your own application source code is
         stored:</para>
       <programlisting language="shell" xml:space="preserve">cd ../my-custom-app</programlisting>
-      <section>
+      <section xml:id="updating-copy">
         <title>Copy files</title>
         <para>Now we need to remove the old <filename>modules/lib</filename> directory and replace
           it entirely with the new one from the TEI Publisher 7. We'll also copy a bunch of files
@@ -4069,7 +4070,7 @@ cp ../tei-publisher-app/modules/query*.xql modules/</programlisting>
 cp ../tei-publisher-app/templates/toolbar.html templates/
 cp ../tei-publisher-app/templates/drawer.html templates/</programlisting>
       </section>
-      <section>
+      <section xml:id="updating-templates">
         <title>Edit HTML templates</title>
         <note>
           <title>Important</title>
@@ -4104,7 +4105,7 @@ cp ../tei-publisher-app/templates/drawer.html templates/</programlisting>
           modules, e.g. from <code>pb-load</code> component, these need to be added as <link
             linkend="customizations6-7">custom API endpoints</link>.</para>
       </section>
-      <section>
+      <section xml:id="updating-config">
         <title>Update config.xqm</title>
         <para>Finally, a few settings need to be added to the main configuration module,
             <filename>modules/config.xqm</filename>:</para>
@@ -4174,7 +4175,7 @@ cp ../tei-publisher-app/templates/drawer.html templates/</programlisting>
           </varlistentry>
         </variablelist>
       </section>
-      <section>
+      <section xml:id="customizations6-7-cleanup">
         <title>Remove superfluous code</title>
         <para>Now you can remove files which are no longer used:</para>
         <programlisting language="shell" xml:space="preserve">
@@ -4182,7 +4183,7 @@ rm templates/toc.html
 rm templates/search-results.html
 rm modules/view.xql</programlisting>
       </section>
-      <section>
+      <section xml:id="customizations6-7-endpoints">
         <title>Change API endpoints</title>
         <para>Finally, to be able to view and test the API of your custom app, you should change the
           endpoints in the Open API specification files. In both, <code>modules/lib/api.json</code>
@@ -4219,7 +4220,7 @@ rm modules/view.xql</programlisting>
       <para>The first option is strongly recommended and much easier in general. The second option
         is only for experienced users who have to update apps containing a lot of customized
         code.</para>
-      <section>
+      <section xml:id="update5-7-newapp">
         <title>Update by Generating a New Application</title>
         <procedure>
           <step>
@@ -4244,7 +4245,7 @@ rm modules/view.xql</programlisting>
           </step>
         </procedure>
       </section>
-      <section>
+      <section xml:id="update5-7-copy">
         <title>Update by copying</title>
         <note>
           <para>This approach is for experienced users only and not recommended. We mainly keep it
@@ -4736,7 +4737,7 @@ declare variable $config:facets := [
       which stores the source TEI and provides a communication endpoint for the components to talk
       to.</para>
 
-    <section>
+    <section xml:id="embedding-examples">
       <title>Live Examples</title>
       <para>The embedded example below demonstrates such a use case: it provides a sandbox running
         on <link xlink:show="new" xlink:href="https://codepen.io">codepen.io</link> but communicates
@@ -4752,7 +4753,7 @@ declare variable $config:facets := [
         just add <code>column-separator=".tei-cb"</code> to the main <tag>pb-view</tag>.</para>
     </section>
 
-    <section>
+    <section xml:id="embedding-whole-doc">
       <title>Retrieving the whole document as a simple HTML</title>
       <!-- REVIEW: shall we leave the description how to write your own XQuery or should we recommend only using new API for transformations? -->
       <para>Embedding results of applying Processing Model transformation on a document is even
@@ -4773,7 +4774,7 @@ declare variable $config:facets := [
           <parameter>test/F-rom.xml</parameter> had to be URL encoded as
         <parameter>%2F</parameter>.</para>
     </section>
-    <section>
+    <section xml:id="embedding-webcomponents">
       <title>Embedding webcomponents for navigation</title>
       <para>For longer documents, embedding the entire content in a page may not be too
         user-friendly. A better way is to use the library of webcomponents provided by TEI
@@ -4843,7 +4844,7 @@ declare variable $config:facets := [
     </section>
   </section>
 
-  <section>
+  <section xml:id="custom-components">
     <title>Creating Custom Web Components</title>
     <para>In some cases an app may need to add its own web components to the collection provided by
       TEI Publisher. Please consider following <emphasis role="bold">open-source-first
@@ -4918,7 +4919,7 @@ declare variable $config:facets := [
         </imageobject>
       </mediaobject>
     </figure>
-    <section>
+    <section xml:id="custom-components-clipboard">
       <title>pb-clipboard example</title>
       <para>We will discuss the details of the <tag>pb-clipboard</tag> element to illustrate some
         basic concepts. You will find exact code of this example in
@@ -5064,7 +5065,7 @@ static get styles() {
         customElements.define('pb-clipboard', PbClipboard);
       </programlisting>
     </section>
-    <section>
+    <section xml:id="custom-components-testing">
       <title>Testing pb-clipboard</title>
       <para>Have a look at the supplied <filename>index.html</filename> example. Run <code>npm
           start</code> to run a simple <link xlink:show="new"
@@ -5107,7 +5108,7 @@ static get styles() {
         </mediaobject>
       </figure>
     </section>
-    <section>
+    <section xml:id="custom-components-api">
       <title>API documentation</title>
       <para>Implementing a new feature is only half of the task - and sometimes the easier bit. All
           <code>pb-components</code> come with their API documentation and most of them also with
@@ -5151,7 +5152,7 @@ static get styles() {
  * @fires pb-foo-open - Fires opening the foo section
  */
       </programlisting>
-      <section>
+      <section xml:id="custom-components-demo">
         <title>Demo</title>
         <para>We encourage you to prepare a demo entry for each newly created component. Demo
           ideally presents one or more use case examples which illustrate where and how would you
@@ -5183,7 +5184,7 @@ static get styles() {
         </programlisting>
       </section>
     </section>
-    <section>
+    <section xml:id="custom-components-bundle"> 
       <title>Bundling and distribution</title>
       <para>Any new component <emphasis role="bold">must</emphasis> be explicitly imported by
           <filename>pb-extension-bundle.js</filename>.</para>
@@ -5197,7 +5198,7 @@ static get styles() {
           <code>pb-components</code> package: in your custom project, for TEI Publisher itself or
         Publisher-generated custom apps.</para>
     </section>
-    <section>
+    <section xml:id="custom-components-using">
       <title>Using pb-extension-bundle in TEI Publisher or other apps</title>
       <para>The created library can be used as a drop-in replacement for the default
           <code>pb-components</code> library.</para>
@@ -5303,7 +5304,7 @@ static get styles() {
         for PDF. If you refer to the <filename>docbook.odd</filename> you will note that the same
         effect is achieved by explicitly defining the prologue in the <tag>pb:template</tag> for
           <parameter>article</parameter>.</para>
-      <section>
+      <section xml:id="new-vocabulary-foo">
         <title>Case study: foo vocabulary</title>
         <para>Let's consider an imaginary vocabulary called <emphasis>foo</emphasis>. All documents
           in this vocabulary will belong to the <code>http://foo.io</code> namespace. Simple
@@ -5376,7 +5377,7 @@ static get styles() {
       </section>
 
     </section>
-    <section>
+    <section xml:id="new-vocabulary-default-view">
       <title>Default view and page template</title>
       <para>Rendering of the document is governed by a number of parameters, particularly
           <parameter>view</parameter>, <parameter>ODD</parameter> and
