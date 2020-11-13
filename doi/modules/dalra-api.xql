@@ -79,10 +79,9 @@ declare function doi:create-update-resource($resource, $registration) {
                     <http:body media-type='application/xml'/>
                     <http:header name="accept" value="application/json"/>
             </http:request>,
-            "https://labs.da-ra.de/dara/study/importXML",
+            "https://labs.da-ra.de/dara/study/importXML?registration=" || $registration,
             $resource
         )
-    let $json := util:binary-to-string($response[2])        
-        return
-            <result>{$json}</result>
+    return
+      parse-json(util:binary-to-string($response[2]))
 };

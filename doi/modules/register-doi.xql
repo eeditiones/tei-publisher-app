@@ -10,17 +10,20 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
     Expect for the 'availability' param all values in the metadata are pulled from the incoming
     document.
+
+    @param the document payload
+    @param $url - a fully qualified URL (incl. hostname)
+    @param $availability - a valid value for the 'availability' Element
+
 :)
-declare function register:register-doi-for-document($document, $availability){
-    let $metadata := register:create-metadata($document,$availability)
+declare function register:register-doi-for-document($document, $url, $availability){
+    let $metadata := register:create-metadata($document,$url,$availability)
     return
         doi:create-update-resource($metadata, true())
 };
 
 (: todo: construct/provide document Url where to find the uploaded doc  :)
-declare function register:create-metadata($document,$availability){
-    let $url := 'foobar.com'
-    return
+declare function register:create-metadata($document,$url,$availability){
     <resource xmlns="http://da-ra.de/schema/kernel-4"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
@@ -39,13 +42,13 @@ declare function register:create-metadata($document,$availability){
             <creator>
                 <person>
                     <firstName>Henning</firstName>
-                    <lastName>{data($document//tei:author)}</lastName>
+                    <lastName>{data($document//tei:author),'Anon'}</lastName>
                 </person>
             </creator>
         </creators>
         
         <dataURLs>
-            <dataURL>{$url}</dataURL>
+            <dataURL>http://foobar.com/myresource</dataURL>
         </dataURLs>
 
         <!-- first date in tei:revisionDesc -->

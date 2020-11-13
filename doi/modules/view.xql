@@ -11,7 +11,7 @@ xquery version "3.0";
  : The following modules provide functions which will be called by the
  : templating.
  :)
-import module namespace config="http://existsolutions.com/dipf/doi/config" at "config.xqm";
+import module namespace config="http://existsolutions.com/dipf/doi/config" at "../modules/config.xqm";
 import module namespace templates="http://exist-db.org/xquery/templates";
 
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";

@@ -290,10 +290,12 @@ declare variable $config:context-path :=
     (: "" :)
 ;
 
+declare variable $config:data-dir := "/data";
+
 (:~
  : The root of the collection hierarchy containing data.
  :)
-declare variable $config:data-root := $config:app-root || "/data";
+declare variable $config:data-root := $config:app-root || $config:data-dir;
 
 (:~
  : The root of the collection hierarchy whose files should be displayed

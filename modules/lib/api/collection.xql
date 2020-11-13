@@ -10,6 +10,7 @@ import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace docx="http://existsolutions.com/teipublisher/docx";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
 import module namespace custom="http://teipublisher.com/api/custom" at "../../custom-api.xql";
+import module namespace register = "http://existsolutions.com/app/doi/registration" at "../../../doi/modules/register-doi.xql";
 
 declare function capi:list($request as map(*)) {
     let $path := if ($request?parameters?path) then xmldb:decode($request?parameters?path) else ()
@@ -45,17 +46,6 @@ declare function capi:upload($request as map(*)) {
     let $data := request:get-uploaded-file-data("files[]")
     return
         array { capi:upload($request?parameters?collection, $name, $data) }
-};
-
-declare function capi:uploadDOI($request as map(*)) {
-    let $name := request:get-uploaded-file-name("files[]")
-    let $data := request:get-uploaded-file-data("files[]")
-    return
-        array { 
-            map {
-                "availability": $request
-            }
-        }
 };
 
 declare %private function capi:upload($root, $paths, $payloads) {
@@ -94,3 +84,73 @@ declare %private function capi:upload($root, $paths, $payloads) {
             }
     })
 };
+
+declare function capi:uploadDOI($request as map(*)) {
+    let $name := request:get-uploaded-file-name("files[]")
+    let $data := request:get-uploaded-file-data("files[]")
+    let $avalability := $request?parameters?availability
+    let $server-root := $request?config?spec?servers(1)?url
+    return
+        array { capi:uploadDOI($server-root,$request?parameters?collection, $name, $data, $avalability) }
+
+(:
+        array {
+            map {
+                "availability": $url
+            }
+        }
+:)
+
+};
+
+declare %private function capi:uploadDOI($server, $root, $paths, $payloads, $availability) {
+    for-each-pair($paths, $payloads, function($path, $data) {
+        (: hm, questionable naming of var below - overwrites the incoming param :)
+
+        let $origPath := $path
+        let $path :=
+            if (ends-with($path, ".odd")) then
+                xmldb:store($config:odd-root, xmldb:encode($path), $data)
+            else
+                let $collectionPath := $config:data-root || "/" || $root
+                return
+                    if (xmldb:collection-available($collectionPath)) then
+                        if (ends-with($path, ".docx")) then
+                            let $mediaPath := $config:data-root || "/" || $root || "/" || xmldb:encode($path) || ".media"
+                            let $stored := xmldb:store($collectionPath, xmldb:encode($path), $data)
+                            let $tei :=
+                                docx:process($stored, $config:data-root, $pm-config:tei-transform(?, ?, "docx.odd"), $mediaPath)
+                            let $teiDoc :=
+                                document {
+                                    processing-instruction teipublisher {
+                                        $config:default-docx-pi
+                                    },
+                                    $tei
+                                }
+                            return
+                                xmldb:store($collectionPath, xmldb:encode($path) || ".xml", $teiDoc)
+                        else
+                            xmldb:store($collectionPath, xmldb:encode($path), $data)
+                    else
+                        error($errors:NOT_FOUND, "Collection not found: " || $collectionPath)
+
+        (: ### DOI registration part ### :)
+        let $url := $server || $config:data-dir || "/" || $origPath
+        let $doi := register:register-doi-for-document(doc($path), xmldb:encode($url), $availability)
+
+        (: ### write newly created DOI to document :)
+        let $doc := doc()
+        return
+            $doi
+(:
+            map {
+                "name": $doi,
+                "path": substring-after($path, $config:data-root || "/" || $root),
+                "type": xmldb:get-mime-type($path),
+                "size": 93928
+            }
+:)
+
+    })
+};
+
