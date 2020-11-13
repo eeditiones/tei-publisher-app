@@ -15,6 +15,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
     @param $url - a fully qualified URL (incl. hostname)
     @param $availability - a valid value for the 'availability' Element
 
+
 :)
 declare function register:register-doi-for-document($document, $url, $availability){
     let $metadata := register:create-metadata($document,$url,$availability)
@@ -22,7 +23,12 @@ declare function register:register-doi-for-document($document, $url, $availabili
         doi:create-update-resource($metadata, true())
 };
 
-(: todo: construct/provide document Url where to find the uploaded doc  :)
+(:
+    todo: design a mapping facility that allows to read specific fields for specific incoming documents. Entities
+    like e.g. the author can be encoded in TEI in many different ways. It will be hard to provide a all-fits-all
+    solution. Best guess: allow some mapping table to be configured per collection that contains XPathes for the
+    required properties of the DOI resource file.
+:)
 declare function register:create-metadata($document,$url,$availability){
     <resource xmlns="http://da-ra.de/schema/kernel-4"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -31,7 +37,7 @@ declare function register:create-metadata($document,$url,$availability){
         <titles>
             <title>
                 <language>en</language>
-                <titleName>{data($document//tei:title[1])}</titleName>
+                <titleName>{data($document//tei:title[1]),'Anon'}</titleName>
             </title>
         </titles>
 

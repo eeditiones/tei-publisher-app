@@ -50,31 +50,9 @@ declare function capi:upload($request as map(*)) {
 
 declare %private function capi:upload($root, $paths, $payloads) {
     for-each-pair($paths, $payloads, function($path, $data) {
-        let $path :=
-            if (ends-with($path, ".odd")) then
-                xmldb:store($config:odd-root, xmldb:encode($path), $data)
-            else
-                let $collectionPath := $config:data-root || "/" || $root
-                return
-                    if (xmldb:collection-available($collectionPath)) then
-                        if (ends-with($path, ".docx")) then
-                            let $mediaPath := $config:data-root || "/" || $root || "/" || xmldb:encode($path) || ".media"
-                            let $stored := xmldb:store($collectionPath, xmldb:encode($path), $data)
-                            let $tei :=
-                                docx:process($stored, $config:data-root, $pm-config:tei-transform(?, ?, "docx.odd"), $mediaPath)
-                            let $teiDoc :=
-                                document {
-                                    processing-instruction teipublisher {
-                                        $config:default-docx-pi
-                                    },
-                                    $tei
-                                }
-                            return
-                                xmldb:store($collectionPath, xmldb:encode($path) || ".xml", $teiDoc)
-                        else
-                            xmldb:store($collectionPath, xmldb:encode($path), $data)
-                    else
-                        error($errors:NOT_FOUND, "Collection not found: " || $collectionPath)
+
+        let $path := capi:storeFile($root, $path,$data)
+
         return
             map {
                 "name": $path,
@@ -92,65 +70,69 @@ declare function capi:uploadDOI($request as map(*)) {
     let $server-root := $request?config?spec?servers(1)?url
     return
         array { capi:uploadDOI($server-root,$request?parameters?collection, $name, $data, $avalability) }
-
-(:
-        array {
-            map {
-                "availability": $url
-            }
-        }
-:)
-
 };
 
+(:
+    file upload with DOI registration.
+
+    @server the absolute http URL of the server including port
+    @root the root collection of this app
+    @paths the filenames of the uploaded files
+    @payloads the binary uploaded files
+    @availability used during registration of DOI
+
+    todo: more error handling
+
+:)
 declare %private function capi:uploadDOI($server, $root, $paths, $payloads, $availability) {
     for-each-pair($paths, $payloads, function($path, $data) {
-        (: hm, questionable naming of var below - overwrites the incoming param :)
 
+        (: hm, questionable naming of var below - overwrites the incoming param :)
         let $origPath := $path
-        let $path :=
-            if (ends-with($path, ".odd")) then
-                xmldb:store($config:odd-root, xmldb:encode($path), $data)
-            else
-                let $collectionPath := $config:data-root || "/" || $root
-                return
-                    if (xmldb:collection-available($collectionPath)) then
-                        if (ends-with($path, ".docx")) then
-                            let $mediaPath := $config:data-root || "/" || $root || "/" || xmldb:encode($path) || ".media"
-                            let $stored := xmldb:store($collectionPath, xmldb:encode($path), $data)
-                            let $tei :=
-                                docx:process($stored, $config:data-root, $pm-config:tei-transform(?, ?, "docx.odd"), $mediaPath)
-                            let $teiDoc :=
-                                document {
-                                    processing-instruction teipublisher {
-                                        $config:default-docx-pi
-                                    },
-                                    $tei
-                                }
-                            return
-                                xmldb:store($collectionPath, xmldb:encode($path) || ".xml", $teiDoc)
-                        else
-                            xmldb:store($collectionPath, xmldb:encode($path), $data)
-                    else
-                        error($errors:NOT_FOUND, "Collection not found: " || $collectionPath)
+
+        let $path := capi:storeFile($root, $path,$data)
 
         (: ### DOI registration part ### :)
         let $url := $server || $config:data-dir || "/" || $origPath
-        let $doi := register:register-doi-for-document(doc($path), xmldb:encode($url), $availability)
-
-        (: ### write newly created DOI to document :)
-        let $doc := doc()
+        let $stored := doc($path)
+        let $doi := register:register-doi-for-document($stored, xmldb:encode($url), $availability)
+        let $updated := update insert attribute doi {$doi?doi} into $stored/*[1]
         return
-            $doi
-(:
             map {
-                "name": $doi,
+                "name": $path,
                 "path": substring-after($path, $config:data-root || "/" || $root),
                 "type": xmldb:get-mime-type($path),
-                "size": 93928
+                "size": 93928,
+                "doi": $doi?doi
             }
-:)
 
     })
+};
+
+declare %private function capi:storeFile($root, $path, $data){
+    if (ends-with($path, ".odd")) then
+        xmldb:store($config:odd-root, xmldb:encode($path), $data)
+    else
+        let $collectionPath := $config:data-root || "/" || $root
+        return
+            if (xmldb:collection-available($collectionPath)) then
+                if (ends-with($path, ".docx")) then
+                    let $mediaPath := $config:data-root || "/" || $root || "/" || xmldb:encode($path) || ".media"
+                    let $stored := xmldb:store($collectionPath, xmldb:encode($path), $data)
+                    let $tei :=
+                        docx:process($stored, $config:data-root, $pm-config:tei-transform(?, ?, "docx.odd"), $mediaPath)
+                    let $teiDoc :=
+                        document {
+                            processing-instruction teipublisher {
+                                $config:default-docx-pi
+                            },
+                            $tei
+                        }
+                    return
+                        xmldb:store($collectionPath, xmldb:encode($path) || ".xml", $teiDoc)
+                else
+                    xmldb:store($collectionPath, xmldb:encode($path), $data)
+                else
+                    error($errors:NOT_FOUND, "Collection not found: " || $collectionPath)
 };
 
