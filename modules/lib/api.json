@@ -561,6 +561,9 @@
                                         },
                                         "doi": {
                                             "type": "string"
+                                        },
+                                        "doi-detail":{
+                                        	"type": "string"
                                         }
                                     }
                                 }
@@ -682,6 +685,9 @@
                                         },
                                         "doi": {
                                             "type": "string"
+                                        },
+                                        "doi-detail":{
+                                        	"type": "string"
                                         }
                                     }
                                 }

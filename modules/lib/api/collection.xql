@@ -78,40 +78,53 @@ declare function capi:uploadDOI($request as map(*)) {
 (:
     file upload with DOI registration.
 
+    Upload will not stop when DOI registration fails but log an error and return appropriate
+    error message to the client. However it must be noted that this requires that a consumer
+    analyzes 200 responses for potential errors.
+
     @server the absolute http URL of the server including port
     @root the root collection of this app
     @paths the filenames of the uploaded files
     @payloads the binary uploaded files
     @availability used during registration of DOI
 
-    todo: more error handling
+    
 
 :)
 declare %private function capi:uploadDOI($server, $root, $paths, $payloads, $length, $availability) {
     for-each-pair($paths, $payloads, function($path, $data) {
 
-        (: hm, questionable naming of var below - overwrites the incoming param :)
         let $origPath := $path
-
         let $path := capi:storeFile($root, $path,$data)
 
         (: ### DOI registration part ### :)
         let $url := $server || $config:data-dir || "/" || $origPath
         let $stored := doc($path)
-        let $doi := register:register-doi-for-document($stored, xmldb:encode($url), $availability)
-        (: todo: more error-handling  :)
-        
-        
-        let $updated := update insert attribute doi {$doi?doi} into $stored/*[1]
         return
-            map {
-                "name": $path,
-                "path": substring-after($path, $config:data-root || "/" || $root),
-                "type": xmldb:get-mime-type($path),
-                "size": $length,
-                "doi": $doi?doi
+            try {        
+                let $doi := register:register-doi-for-document($stored, xmldb:encode($url), $availability)
+                let $updated := update insert attribute doi {$doi?doi} into $stored/*[1]
+                return
+                    map {
+                        "name": $path,
+                        "path": substring-after($path, $config:data-root || "/" || $root),
+                        "type": xmldb:get-mime-type($path),
+                        "size": $length,
+                        "doi": $doi?doi,
+                        "doi-detail":"DOI created"
+                    }
+            } catch * {
+                let $log := util:log('error', 'DOI Registration failed ' || $err:description)
+                return
+                map {
+                    "name": $path,
+                    "path": substring-after($path, $config:data-root || "/" || $root),
+                    "type": xmldb:get-mime-type($path),
+                    "size": $length,
+                    "doi": "DOI registration failed",
+                    "doi-detail": $err:description 
+                }
             }
-
     })
 };
 
