@@ -292,6 +292,15 @@
                 "x-constraints": {
                     "group": "tei"
                 },
+                "parameters": [
+                    {
+                        "name": "content-Length",
+                        "in": "header",
+                        "schema":{
+                            "type": "number"
+                        }
+                    }
+				],
                 "requestBody": {
                     "content": {
                         "multipart/form-data": {
@@ -387,6 +396,13 @@
                     "group": "tei"
                 },
                 "parameters": [
+                    {
+                        "name": "content-Length",
+                        "in": "header",
+                        "schema":{
+                            "type": "number"
+                        }
+                    },
                     {
                         "name": "collection",
                         "in": "path",
@@ -491,6 +507,13 @@
                     "group": "tei"
                 },
                 "parameters": [
+                    {
+                        "name": "content-Length",
+                        "in": "header",
+                        "schema":{
+                            "type": "number"
+                        }
+                    },
                     {
                         "name": "availability",
                         "in": "path",
@@ -597,6 +620,13 @@
                     "group": "tei"
                 },
                 "parameters": [
+                    {
+                        "name": "content-Length",
+                        "in": "header",
+                        "schema":{
+                            "type": "number"
+                        }
+                    },
                     {
                         "name": "collection",
                         "in": "path",

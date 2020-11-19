@@ -44,11 +44,12 @@ declare function capi:list($request as map(*)) {
 declare function capi:upload($request as map(*)) {
     let $name := request:get-uploaded-file-name("files[]")
     let $data := request:get-uploaded-file-data("files[]")
+    let $length := $request?parameters?content-Length
     return
-        array { capi:upload($request?parameters?collection, $name, $data) }
+        array { capi:upload($request?parameters?collection, $name, $data, $length) }
 };
 
-declare %private function capi:upload($root, $paths, $payloads) {
+declare %private function capi:upload($root, $paths, $payloads,$length) {
     for-each-pair($paths, $payloads, function($path, $data) {
 
         let $path := capi:storeFile($root, $path,$data)
@@ -58,7 +59,7 @@ declare %private function capi:upload($root, $paths, $payloads) {
                 "name": $path,
                 "path": substring-after($path, $config:data-root || "/" || $root),
                 "type": xmldb:get-mime-type($path),
-                "size": 93928
+                "size": $length
             }
     })
 };
@@ -68,8 +69,10 @@ declare function capi:uploadDOI($request as map(*)) {
     let $data := request:get-uploaded-file-data("files[]")
     let $avalability := $request?parameters?availability
     let $server-root := $request?config?spec?servers(1)?url
+(:    let $log := util:log('info', "LENGTH" || $request?parameters?content-Length):)
+    let $length := $request?parameters?content-Length
     return
-        array { capi:uploadDOI($server-root,$request?parameters?collection, $name, $data, $avalability) }
+        array { capi:uploadDOI($server-root,$request?parameters?collection, $name, $data, $length,$avalability) }
 };
 
 (:
@@ -84,7 +87,7 @@ declare function capi:uploadDOI($request as map(*)) {
     todo: more error handling
 
 :)
-declare %private function capi:uploadDOI($server, $root, $paths, $payloads, $availability) {
+declare %private function capi:uploadDOI($server, $root, $paths, $payloads, $length, $availability) {
     for-each-pair($paths, $payloads, function($path, $data) {
 
         (: hm, questionable naming of var below - overwrites the incoming param :)
@@ -96,13 +99,16 @@ declare %private function capi:uploadDOI($server, $root, $paths, $payloads, $ava
         let $url := $server || $config:data-dir || "/" || $origPath
         let $stored := doc($path)
         let $doi := register:register-doi-for-document($stored, xmldb:encode($url), $availability)
+        (: todo: more error-handling  :)
+        
+        
         let $updated := update insert attribute doi {$doi?doi} into $stored/*[1]
         return
             map {
                 "name": $path,
                 "path": substring-after($path, $config:data-root || "/" || $root),
                 "type": xmldb:get-mime-type($path),
-                "size": 93928,
+                "size": $length,
                 "doi": $doi?doi
             }
 
