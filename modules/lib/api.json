@@ -17,6 +17,10 @@
             "description": "Retrieve document content transformed to target format"
         },
         {
+            "name": "DOI",
+            "description": "DOI support"
+        },
+        {
             "name": "collection",
             "description": "Browse the collection hierarchy and upload new files"
         },
@@ -496,11 +500,11 @@
                 }
             }
         },
-        "/api/upload/doi/{availability}": {
+        "/api/doi/upload": {
             "post": {
                 "summary": "Upload a number of files to the top-level data collection of the app and creating a DOI for them.",
                 "tags": [
-                    "collection"
+                    "DOI"
                 ],
                 "operationId": "capi:uploadDOI",
                 "x-constraints": {
@@ -516,7 +520,7 @@
                     },
                     {
                         "name": "availability",
-                        "in": "path",
+                        "in": "query",
                         "schema":{
                             "type": "string"
                         }
@@ -612,24 +616,17 @@
                 }
             }
         },
-        "/api/upload/doi/{collection}/{availability}": {
+        "/api/doi/upload/{collection}": {
             "post": {
                 "summary": "Upload a number of files",
                 "tags": [
-                    "collection"
+                    "DOI"
                 ],
                 "operationId": "capi:upload",
                 "x-constraints": {
                     "group": "tei"
                 },
                 "parameters": [
-                    {
-                        "name": "content-Length",
-                        "in": "header",
-                        "schema":{
-                            "type": "number"
-                        }
-                    },
                     {
                         "name": "collection",
                         "in": "path",
@@ -640,7 +637,7 @@
                     },
                     {
                         "name": "availability",
-                        "in": "path",
+                        "in": "query",
                         "schema":{
                             "type": "string"
                         }

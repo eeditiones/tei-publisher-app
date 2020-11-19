@@ -67,12 +67,11 @@ declare %private function capi:upload($root, $paths, $payloads,$length) {
 declare function capi:uploadDOI($request as map(*)) {
     let $name := request:get-uploaded-file-name("files[]")
     let $data := request:get-uploaded-file-data("files[]")
-    let $avalability := $request?parameters?availability
+    let $availability := $request?parameters?availability
     let $server-root := $request?config?spec?servers(1)?url
-(:    let $log := util:log('info', "LENGTH" || $request?parameters?content-Length):)
     let $length := $request?parameters?content-Length
     return
-        array { capi:uploadDOI($server-root,$request?parameters?collection, $name, $data, $length,$avalability) }
+        array { capi:uploadDOI($server-root,$request?parameters?collection, $name, $data, $length,$availability) }
 };
 
 (:
