@@ -215,7 +215,8 @@ app-drawer-layout:not([narrow]) [drawer-toggle] {
 .logo {
     background-image: var(--pb-logo-image);
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: auto auto;
+    background-position: left center;
     width: var(--pb-logo-image-width);
     height: var(--pb-logo-image-height);
     cursor: pointer;
