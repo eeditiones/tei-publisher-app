@@ -1,6 +1,10 @@
 body {
     --pb-splash-image: url(../images/tei-publisher-logo-color.svg);
     --pb-splash-image-size: 360px auto;
+    --pb-splash-background-color: var(--pb-color-inverse);
+    --pb-logo-image: url(../images/tei-publisher-logo-contrast-color.svg);
+    --pb-logo-image-width: 140px;
+    --pb-logo-image-height: 60px;
     --pb-base-font-family: 'Roboto', 'Noto', sans-serif;
     --pb-base-font-size: 16px;
     --pb-base-line-height: 1.42857143;
@@ -84,9 +88,9 @@ app-toolbar {
 }
 
 app-toolbar pb-search {
-    --pb-search-label-color: var(--pb-color-inverse);
-    --pb-search-input-color: var(--pb-color-inverse);
-    --pb-search-focus-color: var(--paper-orange-500);
+    --pb-search-label-color: var(--pb-menubar-color);
+    --pb-search-input-color: var(--pb-menubar-color);
+    --pb-search-focus-color: var(--pb-color-focus);
     padding-left: 20px;
 }
 
@@ -95,8 +99,8 @@ app-toolbar .menuitem {
 }
 
 app-drawer {
-    --pb-lang-item-color: black;
-    --pb-lang-input-color: black;
+    --pb-lang-item-color: var(--pb-color-primary);
+    --pb-lang-input-color: var(--pb-color-primary);
     --pb-lang-label-color: var(--paper-grey-600);
 }
 
@@ -163,8 +167,8 @@ app-drawer-layout:not([narrow]) [drawer-toggle] {
     background-image: var(--pb-menubar-background-image);
     background-color: var(--pb-menubar-background-color);
     color: var(--pb-menubar-color);
-    --pb-search-suggestions-color: var(--pb-color-primary);
-    --pb-search-suggestions-background: white;
+    --pb-search-suggestions-color: var(--pb-menubar-color);
+    --pb-search-suggestions-background: var(--pb-menubar-background-color);
 }
 
 .menubar pb-media-query {
@@ -174,7 +178,7 @@ app-drawer-layout:not([narrow]) [drawer-toggle] {
 .menubar a, .menubar paper-menu-button {
     margin: auto 8px;
     display: block;
-    color: white;
+    color: var(--pb-menubar-color);
     text-decoration: none;
 }
 
@@ -196,11 +200,11 @@ app-drawer-layout:not([narrow]) [drawer-toggle] {
 .menubar pb-lang {
     text-align: right;
     flex: 1 0;
-    --pb-lang-item-color: white;
+    --pb-lang-item-color: var(--pb-menubar-color);
 }
 
 .menubar paper-item a {
-    color: black;
+    color: var(--pb-color-primary);
     margin: 0;
 }
 
@@ -208,10 +212,12 @@ app-drawer-layout:not([narrow]) [drawer-toggle] {
     display: inline-block;
 }
 
-.logo img {
-    width: 140px;
-    height: 60px;
+.logo {
+    background-image: var(--pb-logo-image);
+    background-repeat: no-repeat;
     background-size: 100% 100%;
+    width: var(--pb-logo-image-width);
+    height: var(--pb-logo-image-height);
     cursor: pointer;
 }
 
