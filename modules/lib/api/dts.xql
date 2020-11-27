@@ -35,8 +35,9 @@ declare function dts:collection($request as map(*)) {
     return
         if (exists($collectionInfo)) then
             let $resources := if (map:contains($collectionInfo, "members")) then $collectionInfo?members() else ()
+            let $pageSize := xs:int(($request?parameters?per-page, $config:dts-page-size)[1])
             let $count := count($resources)
-            let $paged := subsequence($resources, ($request?parameters?page - 1) * $config:dts-page-size + 1, $config:dts-page-size)
+            let $paged := subsequence($resources, ($request?parameters?page - 1) * $pageSize + 1, $pageSize)
             let $memberResources := dts:get-members($collectionInfo, $paged)
             let $memberCollections := dts:get-members($collectionInfo, $collectionInfo?memberCollections)
             return

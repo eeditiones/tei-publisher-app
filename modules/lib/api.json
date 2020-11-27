@@ -1850,6 +1850,13 @@
                             "type": "integer",
                             "default": 1
                         }
+                    },
+                    {
+                        "name": "per-page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
                     }
                 ],
                 "responses": {
