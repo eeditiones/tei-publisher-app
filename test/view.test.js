@@ -18,6 +18,7 @@ describe('/{doc}', function () {
 
         const parser = new JSDOM(res.data);
         const doc = parser.window.document;
+        const fragment = JSDOM.fragment(res.data);
         const meta = doc.querySelector('meta[name="description"]');
         expect(meta).to.exist;
         expect(meta.getAttribute('content')).to.equal('Serafin Letter');
@@ -34,9 +35,8 @@ describe('/{doc}', function () {
         axios.get(`${server}/foo.xml`)
             .catch((error) => {
                 expect(error.response.status).to.equal(404);
-                const parser = new JSDOM(error.response.data);
-                const doc = parser.window.document;
-                const msg = doc.querySelector('pre.error');
+                const fragment = JSDOM.fragment(error.response.data);
+                const msg = fragment.querySelector('pre.error');
                 expect(msg.innerHTML).to.match(/not found/);
                 expect(error.response).to.satisfyApiSpec;
                 done();
@@ -48,9 +48,8 @@ describe('/{file}.html', function () {
     it('Should retrieve HTML file', async function () {
         const res = await axios.get(`${server}/index.html`);
         expect(res.status).to.equal(200);
-        const parser = new JSDOM(res.data);
-        const doc = parser.window.document;
-        const pbBrowse = doc.querySelector('pb-browse-docs');
+        const fragment = JSDOM.fragment(res.data);
+        const pbBrowse = fragment.querySelector('pb-browse-docs');
         expect(pbBrowse).to.exist;
 
         expect(res).to.satisfyApiSpec;
@@ -61,9 +60,8 @@ describe('/{file}.html', function () {
             .catch((error) => {
                 expect(error.response.status).to.equal(404);
                 expect(error.response).to.satisfyApiSpec;
-                const parser = new JSDOM(error.response.data);
-                const doc = parser.window.document;
-                const msg = doc.querySelector('pre.error');
+                const fragment = JSDOM.fragment(error.response.data);
+                const msg = fragment.querySelector('pre.error');
                 expect(msg.innerHTML).to.match(/not found/);
                 done();
             });

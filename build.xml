@@ -68,6 +68,7 @@
                 <exclude name="rollup.config.js" />
                 <exclude name=".existdb.json" />
                 <exclude name=".editorconfig" />
+                <exclude name=".devcontainer"/>
                 <exclude name="node_modules/**" />
                 <exclude name="Dockerfile*"/>
                 <exclude name=".github/**"/>

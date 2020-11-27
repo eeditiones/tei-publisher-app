@@ -53,23 +53,32 @@ declare function dapi:html($request as map(*)) {
             error($errors:BAD_REQUEST, "No document specified")
 };
 
-declare %private function dapi:postprocess($nodes as node()*, $styles as element()?, $odd as xs:string) {
-    let $oddName := replace($odd, "^.*/([^/\.]+)\.?.*$", "$1")
+declare %private function dapi:postprocess($nodes as node()*, $styles as element()?, $odd as xs:string?) {
     for $node in $nodes
     return
         typeswitch($node)
             case element(head) return
-                element { node-name($node) } {
-                    $node/@*,
-                    $node/node(),
-                    <link rel="stylesheet" type="text/css" href="../transform/{replace($oddName, "^(.*)\.odd$", "$1")}-print.css" media="print"/>,
-                    $styles
-                }
+                let $oddName := replace($odd, "^.*/([^/\.]+)\.?.*$", "$1")
+                return
+                    element { node-name($node) } {
+                        $node/@*,
+                        $node/node(),
+                        <link rel="stylesheet" type="text/css" href="../transform/{replace($oddName, "^(.*)\.odd$", "$1")}-print.css" media="print"/>,
+                        $styles
+                    }
             case element(body) return
                 element { node-name($node) } {
                     $node/@*,
                     dapi:postprocess($node/node(), $styles, $odd),
-                    nav:output-footnotes(root($node)//*[@class = "footnote"])
+                    let $footnotes := 
+                        for $fn in root($node)//*[@class = "footnote"]
+                        return
+                            element { node-name($fn) } {
+                                $fn/@*,
+                                dapi:postprocess($fn/node(), $styles, $odd)
+                            }
+                    return
+                        nav:output-footnotes($footnotes)
                 }
             case element() return
                 if ($node/@class = "footnote") then
@@ -375,7 +384,7 @@ declare function dapi:get-collection($data) {
 };
 
 declare %private function dapi:extract-footnotes($html as element()*) {
-    map {
+        map {
         "footnotes": $html/div[@class="footnotes"],
         "content":
             element { node-name($html) } {

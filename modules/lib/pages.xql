@@ -168,12 +168,19 @@ declare function pages:process-content($xml as node()*, $root as node()*, $confi
 	let $html := $pm-config:web-transform($xml, $params, $config?odd)
     let $class := if ($html//*[@class = ('margin-note')]) then "margin-right" else ()
     let $body := pages:clean-footnotes($html)
+    let $footnotes := 
+        for $fn in $html//*[@class = "footnote"]
+        return
+            element { node-name($fn) } {
+                $fn/@*,
+                pages:clean-footnotes($fn/node())
+            }
     return
         <div class="{$config:css-content-class} {$class}">
         {
             $body,
-            if ($html//*[@class="footnote"]) then
-                nav:output-footnotes($html//*[@class = "footnote"])
+            if ($footnotes) then
+                nav:output-footnotes($footnotes)
             else
                 ()
             ,
@@ -187,7 +194,7 @@ declare function pages:clean-footnotes($nodes as node()*) {
     return
         typeswitch($node)
             case element(paper-tooltip) return
-		()
+		        ()
             case element() return
                 if ($node/@class = "footnote") then
                     ()
@@ -199,6 +206,7 @@ declare function pages:clean-footnotes($nodes as node()*) {
             default return
                 $node
 };
+
 declare function pages:toc-div($node, $model as map(*), $target as xs:string?,
     $icons as xs:boolean?) {
     let $view := $model?config?view
