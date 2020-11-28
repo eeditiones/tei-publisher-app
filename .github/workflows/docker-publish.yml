@@ -29,8 +29,10 @@ jobs:
         run: docker build -t exist-db -f Dockerfile .
       - name: Start docker image
         run: docker run --publish 8080:8080 --name db --detach exist-db
+      - name: Run npm install
+        run: npm install
       - name: Run tests
-        run: npm install test
+        run: npm test
       - name: Stop docker
         run: docker stop db
 
