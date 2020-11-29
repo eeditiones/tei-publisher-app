@@ -33,6 +33,15 @@ jobs:
         run: npm install
       - name: Run tests
         run: npm test
+      - name: Retrieve eXist log
+        if: failure()
+        run: docker cp db:/exist/logs/exist.log .
+      - name: Publish log as artifact
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: exist.log
+          path: ./exist.log
       - name: Stop docker
         run: docker stop db
 
