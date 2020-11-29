@@ -110,7 +110,7 @@ declare %private function dts:check-pi($doc as document-node()) {
         if ($pi) then
             $doc
         else
-            let $config := config:default-config(util:document-name($doc))
+            let $config := config:default-config(document-uri($doc))
             return
                 document {
                     processing-instruction teipublisher {

@@ -3785,47 +3785,47 @@ declare variable $config:odd-available :=("shakespeare.odd");]]></programlisting
           <title>Using different ODDs depending on the collection</title>
           <para>By default the same ODD will be used for all documents within the app. It is possible though
             to organize documents into a <link linkend="subcollections">hierarchy of collections</link> beneath <parameter>$config:data-root</parameter>
-            and use different ODDs and general view settings for each collection.
+            and use different ODDs and general view settings for each collection or document type.
           </para>
-          <para>To do so, search for the function <function>config:collection-config</function>, comment out
-            the <parameter>$defaultConfig</parameter> and enable the switch/case statement below to return
-            a different config depending on the current collection. The <parameter>$collection</parameter> will
-            be a relative path, i.e. relative to <parameter>$config:data-root</parameter>. So for a single level hierarchy
+          <para>To do so, search for the function <function>config:collection-config</function>, which by default returns
+            an empty sequence - meaning that the default configuration should be used. Comment
+            this out and enable the switch/case statement below to return
+            a different config depending on the current collection. The <parameter>$collection</parameter> and
+            <parameter>$docUri</parameter> parameters
+            be relative paths, i.e. relative to <parameter>$config:data-root</parameter>. So for a single level hierarchy
             as used in TEI Publisher by default, <parameter>$collection</parameter> will be either <code>test</code>,
             <code>playground</code> or <code>doc</code>. For multi-level hierarchies it might also be e.g. 
             <code>volume1/transcripts</code>. In this case a simple switch/case might not be enough, but you can just
             replace it with an if/then/else and apply any path matching you like.</para>
 
           <programlisting language="xquery" xml:space="preserve">
-declare function config:collection-config($collection as xs:string?) {
-    let $defaultConfig := map {
-        "odd": $config:default-odd,
-        "view": $config:default-view,
-        "depth": $config:pagination-depth,
-        "fill": $config:pagination-fill,
-        "template": $config:default-template
-    }
-    return
-        $defaultConfig
-        (: 
-         : Replace line above with the following code to switch between different view configurations per collection.
-         : $collection corresponds to the relative collection path (i.e. after $config:data-root). 
-         :)
-        (:
-        switch ($collection)
-            case "playground" return
-                map {
-                    "odd": "dodis.odd",
-                    "view": "body",
-                    "depth": $config:pagination-depth,
-                    "fill": $config:pagination-fill,
-                    "template": "facsimile.html"
-                }
-            default return
-                $defaultConfig 
-        :)
+declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
+    (: Return empty sequence to use default config :)
+    ()
+
+    (: 
+     : Replace line above with the following code to switch between different view configurations per collection.
+     : $collection corresponds to the relative collection path (i.e. after $config:data-root). 
+     :)
+    (:
+    switch ($collection)
+        case "playground" return
+            map {
+                "odd": "dodis.odd",
+                "view": "body",
+                "depth": $config:pagination-depth,
+                "fill": $config:pagination-fill,
+                "template": "facsimile.html"
+            }
+        default return
+            ()
+    :)
 };
           </programlisting>
+          <para>Instead of switching by collection, you could also configure different views depending on the type
+            of document, e.g. by checking the type of the first div:
+          </para>
+          <synopsis language="xquery">doc($config:data-root || "/" || $docUri)//tei:body/tei:div/@type</synopsis>
         </section>
       </section>
     </section>
