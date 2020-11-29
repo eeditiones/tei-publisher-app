@@ -381,16 +381,47 @@ declare variable $config:dts-page-size := 10;
 declare variable $config:dts-import-collection := $config:data-default || "/playground";
 
 (:~
- : Returns a default display configuration as a map for the given relative collection
- : path.
+ : Returns a default display configuration as a map for the given collection and
+ : document path. If an empty value is returned, the default configuration (as configured
+ : by global variables in this module) will be
+ : used. If a map is returned, it will be merged with the default configuration, so
+ : you can selectively overwrite particular settings.
  :
- : Change this to support different configurations for different collections.
+ : Change this to support different configurations for different collections or document types.
  : By default this returns a configuration based on the default settings defined
  : by other variables in this module.
  : 
  : @param $collection relative collection path (i.e. with $config:data-root stripped off)
+ : @param $docUri relative document path (including $collection)
  :)
-declare function config:collection-config($collection as xs:string?) {
+declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
+    (: Return empty sequence to use default config :)
+    ()
+
+    (: 
+     : Replace line above with the following code to switch between different view configurations per collection.
+     : $collection corresponds to the relative collection path (i.e. after $config:data-root). 
+     :)
+    (:
+    switch ($collection)
+        case "playground" return
+            map {
+                "odd": "dodis.odd",
+                "view": "body",
+                "depth": $config:pagination-depth,
+                "fill": $config:pagination-fill,
+                "template": "facsimile.html"
+            }
+        default return
+            ()
+    :)
+};
+
+(:~
+ : Helper function to retrieve the default config for the given document path.
+ : Delegates to config:collection-config().
+ :)
+declare function config:default-config($docUri as xs:string?) {
     let $defaultConfig := map {
         "odd": $config:default-odd,
         "view": $config:default-view,
@@ -398,36 +429,21 @@ declare function config:collection-config($collection as xs:string?) {
         "fill": $config:pagination-fill,
         "template": $config:default-template
     }
+    let $collection := 
+        if (exists($docUri)) then
+            replace($docUri, "^(.*)/[^/]+$", "$1") => substring-after($config:data-root || "/")
+        else
+            ()
+    let $collectionConfig :=
+        if (exists($docUri)) then
+            config:collection-config($collection, substring-after($docUri, $config:data-root || "/"))
+        else
+            config:collection-config((), ())
     return
-        $defaultConfig
-        (: 
-         : Replace line above with the following code to switch between different view configurations per collection.
-         : $collection corresponds to the relative collection path (i.e. after $config:data-root). 
-         :)
-        (: 
-        switch ($collection)
-            case "playground" return
-                map {
-                    "odd": "dta.odd",
-                    "view": "page",
-                    "depth": $config:pagination-depth,
-                    "fill": $config:pagination-fill,
-                    "template": "facsimile.html"
-                }
-            default return
-                $defaultConfig 
-        :)
-};
-
-(:~
- : Helper function to retrieve the default config for the given absolute collection path.
- : Delegates to config:collection-config().
- :)
-declare function config:default-config($collection as xs:string?) {
-    if (exists($collection)) then
-        config:collection-config(substring-after($collection, $config:data-root || "/"))
-    else
-        config:collection-config(())
+        if (exists($collectionConfig)) then
+            map:merge(($defaultConfig, $collectionConfig))
+        else
+            $defaultConfig
 };
 
 declare function config:document-type($div as element()) {

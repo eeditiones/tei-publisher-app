@@ -409,7 +409,7 @@ declare variable $config:dts-import-collection := $config:data-default || "/play
  :)
 declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
     (: Return empty sequence to use default config :)
-    (: () :)
+    ()
 
     (: 
      : Replace line above with the following code to switch between different view configurations per collection.
