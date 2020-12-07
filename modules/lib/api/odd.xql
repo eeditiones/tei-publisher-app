@@ -73,7 +73,7 @@ declare function oapi:recompile($request as map(*)) {
                     odd:get-compiled($oddRoot, $source),
                     $outputRoot,
                     $module,
-                    "../" || $outputPrefix,
+                    $outputPrefix,
                     $oddConfig)
                 let $file := $output?module
                 return
@@ -243,7 +243,7 @@ declare %private function oapi:compile($odd) {
             odd:get-compiled($config:odd-root, $odd || ".odd"),
             $config:output-root,
             $module,
-            "../" || $config:output,
+            $config:output,
             $config:module-config
         )
     return

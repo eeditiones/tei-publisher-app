@@ -6,6 +6,8 @@ const expect = chai.expect;
 const chaiResponseValidator = require('chai-openapi-response-validator');
 const axios = require('axios');
 const pdfjsLib = require("pdfjs-dist/es5/build/pdf.js");
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 
 const server = 'http://localhost:8080/exist/apps/tei-publisher/api';
 
@@ -23,10 +25,16 @@ const axiosInstance = axios.create({
 describe('/api/document/{id}/html', function () {
     this.slow(4000);
     it('retrieves as html', async function () {
-        const res = await axiosInstance.get('document/test%2Fcortes_to_dantiscus.xml/html');
+        const res = await axiosInstance.get('document/test%2Fcortes_to_dantiscus.xml/html', {
+            params: {
+                "base": "http://foo.com"
+            }
+        });
 
         expect(res.status).to.equal(200);
-        expect(res.data).to.match(/title/);
+        const fragment = JSDOM.fragment(res.data);
+        expect(fragment.querySelector('title')).to.exist;
+        expect(fragment.querySelector('base[href="http://foo.com"]')).to.exist;
         expect(res).to.satisfyApiSpec;
     });
 

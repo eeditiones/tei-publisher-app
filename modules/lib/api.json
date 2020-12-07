@@ -530,6 +530,23 @@
                             "type": "string",
                             "example": "shakespeare.odd"
                         }
+                    },
+                    {
+                        "name": "base",
+                        "description": "Base URI to use",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "wc",
+                        "description": "Include TEI Publisher webcomponents",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
                     }
                 ],
                 "responses": {
@@ -1570,6 +1587,23 @@
                         "in": "query",
                         "schema":{
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "base",
+                        "description": "Base URI to use for the HTML document",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "wc",
+                        "description": "Include TEI Publisher webcomponents",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
