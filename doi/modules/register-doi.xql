@@ -24,10 +24,11 @@ declare function register:register-doi-for-document($document, $url, $availabili
 };
 
 (:
-    todo: design a mapping facility that allows to read specific fields for specific incoming documents. Entities
-    like e.g. the author can be encoded in TEI in many different ways. It will be hard to provide a all-fits-all
-    solution. Best guess: allow some mapping table to be configured per collection that contains XPathes for the
-    required properties of the DOI resource file.
+    create minimal metadata set. Data are filled in from incomimg TEI document (except for availability).
+
+    Matching of TEI pathes to metadata assume standards of the "Deutsches Textarchiv".
+
+    Note: for a generalized approach a mapping configuration needs to be added to this implementation.
 :)
 declare function register:create-metadata($document,$url,$availability){
     <resource xmlns="http://da-ra.de/schema/kernel-4"
@@ -37,29 +38,22 @@ declare function register:create-metadata($document,$url,$availability){
         <titles>
             <title>
                 <language>en</language>
-                <titleName>{data($document//tei:title[1]),'Anon'}</titleName>
+                <titleName>{data($document//tei:title[1]),'NO_TITLE'}</titleName>
             </title>
         </titles>
 
-        <!-- todo: author needs to be parsed into fore and last name -->
-
-
         <creators>
             <creator>
-                <person>
-                    <firstName>Henning</firstName>
-                    <lastName>{data($document//tei:author),'Anon'}</lastName>
-                </person>
+                <institution>{data($document//tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:respStmt/tei:orgName),'NO_ORGNAME'}</institution>
             </creator>
         </creators>
         
         <dataURLs>
-            <dataURL>http://foobar.com/myresource</dataURL>
+            <dataURL>{$url}</dataURL>
         </dataURLs>
 
-        <!-- first date in tei:revisionDesc -->
         <publicationDate>
-            <date>2020-10-01</date>
+            <date>{data($document//tei:publicationStmt/date[@type="publication"]),"NO_DATE"}</date>
         </publicationDate>
 
         <publisher>
@@ -67,18 +61,20 @@ declare function register:create-metadata($document,$url,$availability){
                 <institutionName>BBF - Bibliothek für Bildungsgeschichtliche Forschung</institutionName>
                 <institutionIDs>
                     <institutionID>
-                        <identifierURI>http://d-nb.info/gnd/2008623-4</identifierURI>
+                        <identifierURI>http://d-nb.info/gnd/2127361-3</identifierURI>
                         <identifierSchema>GND</identifierSchema>
                     </institutionID>
                     <institutionID>
-                        <identifierURI>http://viaf.org/viaf/126599419</identifierURI>
+                        <identifierURI>https://viaf.org/viaf/144277281/</identifierURI>
                         <identifierSchema>VIAF</identifierSchema>
                     </institutionID>
                 </institutionIDs>
             </institution>
         </publisher>
 
-
+        <rights>
+            <freetext>{data($document//tei:header/tei:fileDesc/tei:publicationStmt/tei:availability/tei:licence/tei:p),"NO_LICENSE"}</freetext>
+        </rights>
 
         <availability>
             <availabilityType>{$availability}</availabilityType>
