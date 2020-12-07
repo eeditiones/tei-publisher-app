@@ -1,0 +1,6 @@
+<config>
+    <registrar description="DOI-Registrar Service URL">https://labs.da-ra.de/dara</registrar>
+    <get description="URL to GET resourceIdentifier for DOI">/api/getResouceIdentifier</get>
+    <post description="URL to POST XML and creating a DOI for it">/study/importXML</post>
+</config>
+

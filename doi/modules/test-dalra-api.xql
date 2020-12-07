@@ -12,7 +12,7 @@ declare function local:get-resource(){
 declare function local:post-resource() {
      let $doc := doc("/db/apps/tei-publisher/doi/data/example/10.4232-10.mdsdoc.4.0.xml")
      return 
-         doi:create-update-resource($doc, false())
+         doi:create-update-resource($doc, true())
 };
 
 declare function local:validate() {
@@ -48,6 +48,7 @@ declare function local:validate-dois() {
                 attribute valid { matches($doi, $regex) }
             }
 };
+
 (:   XSD Validation :) 
 (: <validate>{local:validate()}</validate> :) 
 

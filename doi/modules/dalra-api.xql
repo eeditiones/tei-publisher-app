@@ -2,12 +2,14 @@ xquery version "3.1";
 
 module namespace doi = "http://existsolutions.com/app/doi";
 import module namespace errors = "http://exist-db.org/xquery/router/errors";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 
 import module namespace http = "http://expath.org/ns/http-client";
 
+
 (:  
     Testsystem:
-        https://labs.da-ra.de/dara/mydara?lang=en 
+        {$doi:registrar}/mydara?lang=en 
         Username: dipf2
         Passwort: labs_dipf#2019
     DOI Registration: 
@@ -15,15 +17,22 @@ import module namespace http = "http://expath.org/ns/http-client";
     API
         https://labs.da-ra.de/apireference/#/DOI/getResourceIdentifier 
   :)
-  
-declare variable $doi:username := "dipf2";
-declare variable $doi:password := "labs_dipf#2019";
+
+declare variable $doi:config := doc("../config.xml");
+declare variable $doi:registrar := $doi:config//registrar/text();
+declare variable $doi:getUrl := $doi:config//get/text();
+declare variable $doi:postUrl := $doi:config//post/text();
+
+
+declare variable $doi:secret := doc("/db/system/security/doi-secret.xml");
+declare variable $doi:username := $doi:secret/secret/user/text();
+declare variable $doi:password := $doi:secret/secret/password/text();
 
 
 declare function doi:get-resource-identifier($doi) {
     let $request := 
         <http:request 
-            href="https://labs.da-ra.de/dara/api/getResourceIdentifier?doi={encode-for-uri($doi)}"
+            href="{$doi:registrar}{$doi:getUrl}?doi={encode-for-uri($doi)}"
             method="get"
             username="{ $doi:username }"
             password="{ $doi:password }"
@@ -70,9 +79,9 @@ declare function doi:create-update-resource($resource, $registration) {
                     <http:body media-type='application/xml'/>
                     <http:header name="accept" value="application/json"/>
         </http:request>
-    
+    let $href := $doi:registrar || $doi:postUrl || '?registration=' || $registration
     let $response := http:send-request($request,
-                                        "https://labs.da-ra.de/dara/study/importXML?registration=" || $registration,
+                                        $href,
                                         $resource)
     
     let $log := util:log('info',util:binary-to-string($response[2]))
