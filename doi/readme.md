@@ -5,6 +5,19 @@ to avoid fragmenting them within the rest of the TEI-Publisher sourcecode.
 
 Also eases an opt-out build of TEI-Publisher.
 
+upda## Feature description
+
+The DOI feature allows to bulk upload a set of TEI documents and register DOIs for them with the DARA registrar.
+
+### Current Restrictions
+
+The TEI documents must conform to the standards of the "Deutsches Textarchiv" which defines a standard
+for the TEI-encoding of certain information. If the incoming document will not conform to these rules only
+default values can be set for the DOI metadata.
+
+DOI registration errors during upload do not stop the upload process. However the DOI creation may
+fail due to various reasons like network outage or invalidity of the metadata.
+
 ## Configuration
 
 Configuration params are defined in config.xml in this directory. Here the URL of the DOI registrar and the endpoints
