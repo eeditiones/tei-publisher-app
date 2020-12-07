@@ -522,7 +522,8 @@
                         "name": "availability",
                         "in": "query",
                         "schema":{
-                            "type": "string"
+                            "type": "string",
+                            "default": "Download"
                         }
                     }
                 ],
@@ -639,7 +640,8 @@
                         "name": "availability",
                         "in": "query",
                         "schema":{
-                            "type": "string"
+                            "type": "string",
+                            "default": "Download"
                         }
                     }
                 ],
