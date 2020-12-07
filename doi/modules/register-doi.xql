@@ -2,7 +2,7 @@ xquery version "3.1";
 
 
 module namespace register = "http://existsolutions.com/app/doi/registration";
-import module namespace doi = "http://existsolutions.com/app/doi" at "dalra-api.xql";
+import module namespace dara = "http://existsolutions.com/app/dara" at "dalra-api.xql";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 (:
@@ -14,13 +14,11 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
     @param the document payload
     @param $url - a fully qualified URL (incl. hostname)
     @param $availability - a valid value for the 'availability' Element
-
-
 :)
 declare function register:register-doi-for-document($document, $url, $availability){
     let $metadata := register:create-metadata($document,$url,$availability)
     return
-        doi:create-update-resource($metadata, true())
+        dara:create-update-resource($metadata, true())
 };
 
 (:
@@ -44,16 +42,18 @@ declare function register:create-metadata($document,$url,$availability){
 
         <creators>
             <creator>
-                <institution>{data($document//tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:respStmt/tei:orgName),'NO_ORGNAME'}</institution>
+                <institution>
+                    <institutionName>{data($document//tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:respStmt/tei:orgName),'NO_ORGNAME'}</institutionName>
+                </institution>
             </creator>
         </creators>
         
         <dataURLs>
-            <dataURL>{$url}</dataURL>
+            <dataURL>https://tei-publisher.com</dataURL>
         </dataURLs>
 
         <publicationDate>
-            <date>{data($document//tei:publicationStmt/date[@type="publication"]),"NO_DATE"}</date>
+            <date>{data($document//tei:publicationStmt/date[@type="publication"]),"1970-01-01"}</date>
         </publicationDate>
 
         <publisher>
@@ -72,13 +72,16 @@ declare function register:create-metadata($document,$url,$availability){
             </institution>
         </publisher>
 
-        <rights>
-            <freetext>{data($document//tei:header/tei:fileDesc/tei:publicationStmt/tei:availability/tei:licence/tei:p),"NO_LICENSE"}</freetext>
-        </rights>
-
         <availability>
             <availabilityType>{$availability}</availabilityType>
         </availability>
+
+        <rights>
+            <right>
+                <language>de</language>
+                <freetext>{data($document//tei:header/tei:fileDesc/tei:publicationStmt/tei:availability/tei:licence/tei:p),"NO_LICENSE"}</freetext>
+            </right>
+        </rights>
 
     </resource>
 };

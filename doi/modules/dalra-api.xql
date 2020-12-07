@@ -1,6 +1,6 @@
 xquery version "3.1";
 
-module namespace doi = "http://existsolutions.com/app/doi";
+module namespace dara = "http://existsolutions.com/app/dara";
 import module namespace errors = "http://exist-db.org/xquery/router/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 
@@ -9,7 +9,7 @@ import module namespace http = "http://expath.org/ns/http-client";
 
 (:  
     Testsystem:
-        {$doi:registrar}/mydara?lang=en 
+        {$dara:registrar}/mydara?lang=en 
         Username: dipf2
         Passwort: labs_dipf#2019
     DOI Registration: 
@@ -18,24 +18,24 @@ import module namespace http = "http://expath.org/ns/http-client";
         https://labs.da-ra.de/apireference/#/DOI/getResourceIdentifier 
   :)
 
-declare variable $doi:config := doc("../config.xml");
-declare variable $doi:registrar := $doi:config//registrar/text();
-declare variable $doi:getUrl := $doi:config//get/text();
-declare variable $doi:postUrl := $doi:config//post/text();
+declare variable $dara:config := doc("../config.xml");
+declare variable $dara:registrar := $dara:config//registrar/text();
+declare variable $dara:getUrl := $dara:config//get/text();
+declare variable $dara:postUrl := $dara:config//post/text();
 
 
-declare variable $doi:secret := doc("/db/system/security/doi-secret.xml");
-declare variable $doi:username := $doi:secret/secret/user/text();
-declare variable $doi:password := $doi:secret/secret/password/text();
+declare variable $dara:secret := doc("/db/system/security/doi-secret.xml");
+declare variable $dara:username := $dara:secret/secret/user/text();
+declare variable $dara:password := $dara:secret/secret/password/text();
 
 
-declare function doi:get-resource-identifier($doi) {
+declare function dara:get-resource-identifier($dara) {
     let $request := 
         <http:request 
-            href="{$doi:registrar}{$doi:getUrl}?doi={encode-for-uri($doi)}"
+            href="{$dara:registrar}{$dara:getUrl}?doi={encode-for-uri($dara)}"
             method="get"
-            username="{ $doi:username }"
-            password="{ $doi:password }"
+            username="{ $dara:username }"
+            password="{ $dara:password }"
             auth-method="basic"
             send-authorization="true">
             <http:header name="accept" value="application/json"/>
@@ -71,15 +71,15 @@ declare function doi:get-resource-identifier($doi) {
   @param $resource the DOI metadata for the resource to be registered
   @param $registration boolean value - if true() a new DOI will be created for the resource
 :)
-declare function doi:create-update-resource($resource, $registration) {
+declare function dara:create-update-resource($resource, $registration) {
 
     let $request := 
-        <http:request method="post" username="{$doi:username}" password="{$doi:password}" auth-method="basic"
+        <http:request method="post" username="{$dara:username}" password="{$dara:password}" auth-method="basic"
                 send-authorization="true">
                     <http:body media-type='application/xml'/>
                     <http:header name="accept" value="application/json"/>
         </http:request>
-    let $href := $doi:registrar || $doi:postUrl || '?registration=' || $registration
+    let $href := $dara:registrar || $dara:postUrl || '?registration=' || $registration
     let $response := http:send-request($request,
                                         $href,
                                         $resource)
@@ -98,5 +98,5 @@ declare function doi:create-update-resource($resource, $registration) {
         else if($status = 403) then
             error($errors:FORBIDDEN, $json?errors?detail)
         else
-            error(xs:QName("errors:SERVER_ERROR_500"),"internal Server Error at DOI Registrar")
+            error(xs:QName("errors:SERVER_ERROR_500"),"internal Server Error at dara Registrar")
 };

@@ -506,7 +506,7 @@
                 "tags": [
                     "DOI"
                 ],
-                "operationId": "capi:uploadDOI",
+                "operationId": "doi:upload",
                 "x-constraints": {
                     "group": "tei"
                 },
@@ -623,7 +623,7 @@
                 "tags": [
                     "DOI"
                 ],
-                "operationId": "capi:upload",
+                "operationId": "doi:uploadCollection",
                 "x-constraints": {
                     "group": "tei"
                 },

@@ -64,69 +64,6 @@ declare %private function capi:upload($root, $paths, $payloads,$length) {
     })
 };
 
-declare function capi:uploadDOI($request as map(*)) {
-    let $name := request:get-uploaded-file-name("files[]")
-    let $data := request:get-uploaded-file-data("files[]")
-    let $availability := $request?parameters?availability
-    let $server-root := $request?config?spec?servers(1)?url
-    let $length := $request?parameters?content-Length
-    return
-        array { capi:uploadDOI($server-root,$request?parameters?collection, $name, $data, $length,$availability) }
-};
-
-(:
-    file upload with DOI registration.
-
-    Upload will not stop when DOI registration fails but log an error and return appropriate
-    error message to the client. However it must be noted that this requires that a consumer
-    analyzes 200 responses for potential errors.
-
-    @server the absolute http URL of the server including port
-    @root the root collection of this app
-    @paths the filenames of the uploaded files
-    @payloads the binary uploaded files
-    @availability used during registration of DOI
-
-    
-
-:)
-declare %private function capi:uploadDOI($server, $root, $paths, $payloads, $length, $availability) {
-    for-each-pair($paths, $payloads, function($path, $data) {
-
-        let $origPath := $path
-        let $path := capi:storeFile($root, $path,$data)
-
-        (: ### DOI registration part ### :)
-        let $url := $server || $config:data-dir || "/" || $origPath
-        let $stored := doc($path)
-        return
-            try {        
-                let $doi := register:register-doi-for-document($stored, xmldb:encode($url), $availability)
-                let $updated := update insert attribute doi {$doi?doi} into $stored/*[1]
-                return
-                    map {
-                        "name": $path,
-                        "path": substring-after($path, $config:data-root || "/" || $root),
-                        "type": xmldb:get-mime-type($path),
-                        "size": $length,
-                        "doi": $doi?doi,
-                        "doi-detail":"DOI created"
-                    }
-            } catch * {
-                let $log := util:log('error', 'DOI Registration failed ' || $err:description)
-                return
-                map {
-                    "name": $path,
-                    "path": substring-after($path, $config:data-root || "/" || $root),
-                    "type": xmldb:get-mime-type($path),
-                    "size": $length,
-                    "doi": "DOI registration failed",
-                    "doi-detail": $err:description 
-                }
-            }
-    })
-};
-
 declare %private function capi:storeFile($root, $path, $data){
     if (ends-with($path, ".odd")) then
         xmldb:store($config:odd-root, xmldb:encode($path), $data)
