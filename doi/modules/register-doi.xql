@@ -29,31 +29,43 @@ declare function register:register-doi-for-document($document, $url, $availabili
     Note: for a generalized approach a mapping configuration needs to be added to this implementation.
 :)
 declare function register:create-metadata($document,$url,$availability){
+
+let $fields := map {
+    "url": "https://tei-publisher.com",
+    "title-lang": "en",
+    "title": data(head(($document//tei:titleStmt/tei:title, 'NO_TITLE'))),
+    "institution": data(head(($document//tei:editionStmt/tei:respStmt/tei:orgName, 'NO_ORGNAME'))),
+    "publication": data(head(($document//tei:publicationStmt/date[@type="publication"],"1970-01-01"))),
+    "license": data(head((data($document//tei:header/tei:fileDesc/tei:publicationStmt/tei:availability/tei:licence/tei:p),"NO_LICENSE"))),
+    "license-lang": "de"
+}
+
+return
     <resource xmlns="http://da-ra.de/schema/kernel-4"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
         <resourceType>Text</resourceType>
         <titles>
             <title>
-                <language>en</language>
-                <titleName>{data($document//tei:title[1]),'NO_TITLE'}</titleName>
+                <language>{$fields?title-lang}</language>
+                <titleName>{$fields?title}</titleName>
             </title>
         </titles>
 
         <creators>
             <creator>
                 <institution>
-                    <institutionName>{data($document//tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:respStmt/tei:orgName),'NO_ORGNAME'}</institutionName>
+                    <institutionName>{$fields?institution}</institutionName>
                 </institution>
             </creator>
         </creators>
         
         <dataURLs>
-            <dataURL>https://tei-publisher.com</dataURL>
+            <dataURL>{$fields?url}</dataURL>
         </dataURLs>
 
         <publicationDate>
-            <date>{data($document//tei:publicationStmt/date[@type="publication"]),"1970-01-01"}</date>
+            <date>{$fields?publication}</date>
         </publicationDate>
 
         <publisher>
@@ -78,11 +90,10 @@ declare function register:create-metadata($document,$url,$availability){
 
         <rights>
             <right>
-                <language>de</language>
-                <freetext>{data($document//tei:header/tei:fileDesc/tei:publicationStmt/tei:availability/tei:licence/tei:p),"NO_LICENSE"}</freetext>
+                <language>{$fields?license-lang}</language>
+                <freetext>{$fields?license}</freetext>
             </right>
         </rights>
-
     </resource>
 };
 
