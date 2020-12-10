@@ -8,6 +8,7 @@ import module namespace docx="http://existsolutions.com/teipublisher/docx";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
 import module namespace register = "http://existsolutions.com/app/doi/registration" at "../../../doi/modules/register-doi.xql";
 
+declare namespace tei="http://www.tei-c.org/ns/1.0";
 (:
     file upload with DOI registration.
 
@@ -59,7 +60,14 @@ declare %private function doi:uploadCollection($server, $root, $paths, $payloads
         return
             try {        
                 let $doi := register:register-doi-for-document($stored, $url, $availability)
-                let $updated := update insert attribute doi {$doi?doi} into $stored/*[1]
+                let $idno := <idno xmlns="http://www.tei-c.org/ns/1.0" type="DOI">{$doi?doi}</idno>
+                let $updated := 
+                
+                (
+                    update delete $stored//tei:teiHeader/tei:fileDesc/tei:publicationStmt/tei:idno[@type="DOI"],
+                    update insert $idno into $stored//tei:teiHeader/tei:fileDesc/tei:publicationStmt
+                )
+                
                 return
                     map {
                         "name": $path,
