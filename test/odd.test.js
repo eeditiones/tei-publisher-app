@@ -110,7 +110,6 @@ describe('/api/odd [authenticated]', function () {
 
     before(util.login);
 
-
     it('retrieves a list of odds', async function() {
         const res = await util.axios.get('odd');
         const publisherOdd = [{

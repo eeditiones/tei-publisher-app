@@ -23,14 +23,12 @@ declare variable $vapi:template-config := map {
 :)
 declare function vapi:lookup($name as xs:string, $arity as xs:int) {
     try {
-        let $cfun := custom:lookup($name, $arity)
-        return
-            if (empty($cfun)) then
-                function-lookup(xs:QName($name), $arity)
-            else
-                $cfun
-    } catch * {
-        ()
+        (
+            custom:lookup($name, $arity),
+            function-lookup(xs:QName($name), $arity)
+        )[1]
+    } catch err:XPST0081 {
+        function-lookup(xs:QName($name), $arity)
     }
 };
 

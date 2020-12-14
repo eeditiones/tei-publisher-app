@@ -24,16 +24,14 @@ declare function capi:list($request as map(*)) {
         $templates:CONFIG_APP_ROOT : $config:app-root,
         $templates:CONFIG_STOP_ON_ERROR : true()
     }
-    let $lookup := function($name as xs:string, $arity as xs:int) {
+    let $lookup := function($name as xs:string, $arity as xs:integer) {
         try {
-            let $cfun := custom:lookup($name, $arity)
-            return
-                if (empty($cfun)) then
-                    function-lookup(xs:QName($name), $arity)
-                else
-                    $cfun
-        } catch * {
-            ()
+            (
+                custom:lookup($name, $arity),
+                error(err:XPST0081)
+            )[1]
+        } catch err:XPST0081 {
+            function-lookup(xs:QName($name), $arity)
         }
     }
     return

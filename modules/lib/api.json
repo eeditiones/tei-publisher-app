@@ -290,7 +290,7 @@
                 ],
                 "operationId": "capi:upload",
                 "x-constraints": {
-                    "group": "tei"
+                    "groups": "tei"
                 },
                 "requestBody": {
                     "content": {
@@ -384,7 +384,7 @@
                 ],
                 "operationId": "capi:upload",
                 "x-constraints": {
-                    "group": "tei"
+                    "groups": "tei"
                 },
                 "parameters": [
                     {
@@ -486,7 +486,7 @@
                 "tags": ["documents"],
                 "operationId": "dapi:delete",
                 "x-constraints": {
-                    "group": "tei"
+                    "groups": "tei"
                 },
                 "parameters": [
                     {
@@ -1061,7 +1061,7 @@
                 ],
                 "operationId": "oapi:delete-odd",
                 "x-constraints": {
-                    "group": "tei"
+                    "groups": "tei"
                 },
                 "parameters": [
                     {
@@ -1090,7 +1090,7 @@
                 "tags": [ "odd" ],
                 "operationId": "oapi:create-odd",
                 "x-constraints": {
-                    "group": "tei"
+                    "groups": "tei"
                 },
                 "parameters": [
                     {
@@ -1145,7 +1145,7 @@
                 "tags": [ "odd" ],
                 "operationId": "oapi:save-odd",
                 "x-constraints": {
-                    "group": "tei"
+                    "groups": "tei"
                 },
                 "parameters": [
                     {
@@ -1272,7 +1272,7 @@
                 "operationId": "oapi:recompile",
                 "tags": [ "odd" ],
                 "x-constraints": {
-                    "group": "tei"
+                    "groups": "tei"
                 },
                 "parameters": [
                     {
@@ -1602,11 +1602,11 @@
                 "summary": "Login the user",
                 "description": "Login the given user",
                 "tags": [ "user" ],
-                "operationId": "rutil:login",
+                "operationId": "auth:login",
                 "parameters": [
                     {
                         "name": "user",
-                        "in": "query",
+                        "in": "body",
                         "description": "Name of the user",
                         "schema": {
                             "type": "string",
@@ -1616,7 +1616,7 @@
                     },
                     {
                         "name": "password",
-                        "in": "query",
+                        "in": "body",
                         "schema": {
                             "type": "string",
                             "format": "password",
@@ -1909,7 +1909,7 @@
                 "tags": [ "dts" ],
                 "operationId": "dts:import",
                 "x-constraints": {
-                    "group": "tei"
+                    "groups": "tei"
                 },
                 "parameters": [
                     {
