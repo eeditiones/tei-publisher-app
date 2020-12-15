@@ -164,19 +164,25 @@ function app:browse($node as node(), $model as map(*), $start as xs:int, $per-pa
 declare
     %templates:wrap
 function app:short-header($node as node(), $model as map(*)) {
-    let $work := root($model("work"))/*
-    let $relPath := config:get-identifier($work)
-    let $config := tpu:parse-pi(root($work), (), ())
-    let $header :=
-        $pm-config:web-transform(nav:get-header($model?config, $work), map {
-            "header": "short",
-            "doc": $relPath
-        }, $config?odd)
-    return
-        if ($header) then
-            $header
-        else
-            <a href="{$relPath}">{util:document-name($work)}</a>
+        let $work := root($model("work"))/*
+        let $relPath := config:get-identifier($work)
+        return
+            try {
+                let $config := tpu:parse-pi(root($work), (), ())
+                let $header :=
+                    $pm-config:web-transform(nav:get-header($model?config, $work), map {
+                        "header": "short",
+                        "doc": $relPath
+                    }, $config?odd)
+                return
+                    if ($header) then
+                        $header
+                    else
+                        <a href="{$relPath}">{util:document-name($work)}</a>
+            } catch * {
+                <a href="{$relPath}">{util:document-name($work)}</a>,
+                <p class="error">Failed to output document metadata: {$err:description}</p>
+            }
 };
 
 declare function app:download-link($node as node(), $model as map(*), $mode as xs:string?) {
