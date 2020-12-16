@@ -5,7 +5,7 @@
         <paper-icon-button icon="icons:folder-open"></paper-icon-button>
     </a>
     <pb-restricted login="login">
-        <pb-ajax subscribe="transcription" emit="transcription" url="${app}/api/odd" method="post" 
+        <pb-ajax subscribe="transcription" emit="transcription" url="api/odd" method="post" 
             data-template="pages:parse-params" event="pb-refresh"
             title="Recompile ODD" data-i18n="[title]menu.admin.recompile">
             <h3 slot="title"><pb-i18n key="menu.admin.recompile"></pb-i18n></h3>

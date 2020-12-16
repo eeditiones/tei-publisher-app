@@ -6,7 +6,6 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace router="http://exist-db.org/xquery/router";
 import module namespace rutil="http://exist-db.org/xquery/router/util";
-import module namespace oapi="http://teipublisher.com/api/odd" at "api/odd.xql";
 import module namespace dapi="http://teipublisher.com/api/documents" at "api/document.xql";
 import module namespace capi="http://teipublisher.com/api/collection" at "api/collection.xql";
 import module namespace sapi="http://teipublisher.com/api/search" at "api/search.xql";
