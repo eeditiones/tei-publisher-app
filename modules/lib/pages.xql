@@ -56,9 +56,9 @@ declare function pages:pb-document($node as node(), $model as map(*)) {
 
 declare
     %templates:wrap
-function pages:pb-markdown($node as node(), $model as map(*), $doc as xs:string) {
+function pages:pb-markdown($node as node(), $model as map(*)) {
     attribute url  {
-        "raw/" || $doc
+        "api/document/" || $model?doc
     }
 };
 

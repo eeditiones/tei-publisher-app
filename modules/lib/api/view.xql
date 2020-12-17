@@ -49,7 +49,11 @@ declare function vapi:get-template($doc as xs:string, $template as xs:string?, $
 };
 
 declare function vapi:view($request as map(*)) {
-    let $path := xmldb:decode($request?parameters?doc)
+    let $path := 
+        if ($request?parameters?suffix) then 
+            xmldb:decode($request?parameters?doc) || $request?parameters?suffix
+        else
+            xmldb:decode($request?parameters?doc)
     let $templateName := head((vapi:get-template($path, $request?parameters?template, $request?parameters?view), $config:default-template))
     let $templatePath := $config:app-root || "/templates/pages/" || $templateName
     let $template :=

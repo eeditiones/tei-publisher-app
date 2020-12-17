@@ -22,6 +22,25 @@ const axiosInstance = axios.create({
     withCredentials: true
 });
 
+describe('/api/document/{id}', function () {
+    it('retrieves as xml', async function () {
+        const res = await axiosInstance.get('document/test%2Fgraves6.xml');
+
+        expect(res.status).to.equal(200);
+        expect(res.headers['content-type']).to.equal('application/xml');
+        expect(res.data).to.contain('<date when="1957-11-15">November 15, 1957</date>');
+        expect(res).to.satisfyApiSpec;
+    });
+    it('retrieves as markdown', async function () {
+        const res = await axiosInstance.get('document/about.md');
+
+        expect(res.status).to.equal(200);
+        expect(res.headers['content-type']).to.equal('text/markdown');
+        expect(res.data).to.contain('# Markdown');
+        expect(res).to.satisfyApiSpec;
+    });
+});
+
 describe('/api/document/{id}/html', function () {
     this.slow(4000);
     it('retrieves as html', async function () {

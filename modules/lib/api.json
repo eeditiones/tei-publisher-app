@@ -180,6 +180,87 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "An error occurred",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/{doc}.md": {
+            "get": {
+                "summary": "Retrieve the HTML template for a markdown file and render it",
+                "description": "Get the HTML template associated with the given markdown document. This is called whenever the users tries to view a markdown file. The actual content of the document will then be loaded by the template.",
+                "tags": [ "view" ],
+                "operationId": "vapi:view",
+                "x-error-handler": "vapi:handle-error",
+                "parameters": [
+                    {
+                        "name": "doc",
+                        "in": "path",
+                        "description": "Relative path to the document",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "about.md"
+                        },
+                        "allowReserved": true
+                    },
+                    {
+                        "name": "template",
+                        "in": "query",
+                        "description": "Name of the template to be used. Overwrites any default template setting.",
+                        "schema":{
+                            "type": "string",
+                            "default": "markdown.html"
+                        }
+                    },
+                    {
+                        "name": "suffix",
+                        "in": "query",
+                        "schema":{
+                            "type": "string",
+                            "default": ".md"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTML view for the document",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The document was not found",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An error occurred",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -481,6 +562,55 @@
             }
         },
         "/api/document/{id}": {
+            "get": {
+                "summary": "Get the source of a document",
+                "description": "Get the source of a document, either as XML, text or binary.",
+                "tags": ["documents"],
+                "operationId": "dapi:source",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema":{
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Content of the document",
+                        "content": {
+                            "application/xml": {
+                                "schema":{
+                                    "type": "string"
+                                }
+                            },
+                            "text/markdown": {
+                                "schema":{
+                                    "type": "string"
+                                }
+                            },
+                            "text/text": {
+                                "schema":{
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "410": {
+                        "description": "Document deleted"
+                    }
+                }
+
+            },
             "delete": {
                 "summary": "Delete a document",
                 "tags": ["documents"],
