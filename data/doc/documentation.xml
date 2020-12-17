@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?teipublisher odd="docbook.odd" template="documentation.html" depth="3" fill="2"?>
+<?teipublisher odd="docbook.odd" template="documentation.html" depth="5" fill="2"?>
 <?xml-model href="https://docbook.org/xml/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
   version="5.0">
@@ -166,113 +166,108 @@
         future work is primarily conducted by <link xlink:show="new"
           xlink:href="https://e-editiones.org">e-editiones.org</link>.</para>
 
-      <section>
+      <section xml:id="v7">
+        <title>What's new in TEI Publisher 7.0.0</title>
+        <para>Version 7 brought another major refactoring and restructuring of TEI Publisher app ,
+          particularly regarding the server-side modules.</para>
+        <para>TEI Publisher now exposes a well-defined, clear <link xlink:href="../api.html"
+            xlink:show="new">API specification</link> following the <link xlink:show="new"
+            xlink:href="http://spec.openapis.org/oas/v3.0.3">Open API standard</link>. This API is
+          used in TEI Publisher by client-side UI components but can be equally well utilized by
+          independent software which harnesses functionality exposed via the API without being
+          forced to rely on Publisher's client-side components.</para>
+        <para>On the server a new package, <filename>oas-router</filename>, reads the API
+          specification and uses it to map HTTP requests to XQuery functions which perform actual
+          API operations. Other packages, particularly UI web components
+            (<filename>pb-components</filename>) and TEI Processing Model library
+            (<filename>tei-publisher-lib</filename>) underwent necessary changes to communicate with
+          the new API as well as retain full backwards compatibility.</para>
 
-        <section xml:id="v7">
-          <title>What's new in TEI Publisher 7.0.0</title>
-          <para>Version 7 brought another major refactoring and restructuring of TEI Publisher app ,
-            particularly regarding the server-side modules.</para>
-          <para>TEI Publisher now exposes a well-defined, clear <link xlink:href="../api.html"
-              xlink:show="new">API specification</link> following the <link xlink:show="new"
-              xlink:href="http://spec.openapis.org/oas/v3.0.3">Open API standard</link>. This API is
-            used in TEI Publisher by client-side UI components but can be equally well utilized by
-            independent software which harnesses functionality exposed via the API without being
-            forced to rely on Publisher's client-side components.</para>
-          <para>On the server a new package, <filename>oas-router</filename>, reads the API
-            specification and uses it to map HTTP requests to XQuery functions which perform actual
-            API operations. Other packages, particularly UI web components
-              (<filename>pb-components</filename>) and TEI Processing Model library
-              (<filename>tei-publisher-lib</filename>) underwent necessary changes to communicate
-            with the new API as well as retain full backwards compatibility.</para>
+        <para>Beyond the structural changes a number of reported issues has been fixed and broader
+          test coverage for all packages introduced. A sophisticated CI setup based on Docker has
+          been created. Extensive test suite has been prepared for individual components.
+          Furthermore, every API operation is independently tested against the specification, to
+          assure that e.g. parameter and response types correspond exactly to the definition.</para>
 
-          <para>Beyond the structural changes a number of reported issues has been fixed and broader
-            test coverage for all packages introduced. A sophisticated CI setup based on Docker has
-            been created. Extensive test suite has been prepared for individual components.
-            Furthermore, every API operation is independently tested against the specification, to
-            assure that e.g. parameter and response types correspond exactly to the
-            definition.</para>
+        <para>Thanks to community contributions via <link xlink:show="new"
+            xlink:href="https://crwd.in/tei-publisher">Crowdin</link>, TEI Publisher is now
+          available in 20 languages.</para>
 
-          <para>Thanks to community contributions via <link xlink:show="new"
-              xlink:href="https://crwd.in/tei-publisher">Crowdin</link>, TEI Publisher is now
-            available in 20 languages.</para>
-
-          <para>See chapter on <link linkend="updating">Updating</link> for information how to
-            update your app to take advantake of these developments.</para>
-        </section>
-        <section xml:id="v6">
-          <title>What's new in TEI Publisher 6.0.0</title>
-          <para>Version 6 brought a major refactoring and restructuring of TEI Publisher app
-            libraries along with new specialized components and use case examples.</para>
-          <orderedlist>
-            <listitem>
-              <para>Web components overhaul: migration to <link xlink:show="new"
-                  xlink:href="https://lit-element.polymer-project.org/">LitElement</link> and to the
-                npm library</para>
-              <para>While invisible to users, this redesign greatly improves the modularity of
-                Publisher-based applications. With Publisher web component releases published on
-                npm, updating the user interface for all Publisher-based apps is just a question of
-                changing a single variable in the configuration file.</para>
-              <para>Furthermore, Publisher's library of web components - true to the basic idea of
-                  <link xlink:show="new"
-                  xlink:href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">Web
-                  Components Standard</link> can be included in any HTML webpage e.g. can be
-                embedded into existing CMS or any other publishing solution, even if it's not
-                running eXist-db.</para>
-              <para>Similarly, if you prefer to write your own application using any of the popular
-                frameworks like <emphasis>angular, vue or react</emphasis> you can easily import the
-                  <code>pb-components</code> package from npm and use it directly in your
-                project.</para>
-              <para>As a final consequence, this change decouples the component library from the TEI
-                Publisher app. It is now possible to host multiple applications, which depend on
-                different versions of the component library, without conflict within the same
-                eXist-db instance, a point of importance for institutions with numerous
-                projects.</para>
-            </listitem>
-            <listitem>
-              <para>Redesigned and simplified CSS styling customization</para>
-              <para>Encapsulation of styles offered by web components can be a mixed blessing and
-                poses some challenges when customizing the aesthetics of components to fit a
-                project. While some aspects of component styling remained unaccessible for
-                customization in previous versions, Publisher 6 exposes majority of styling
-                properties via standard CSS files and theme variables. Stylesheets can also be
-                specified within the ODD, as previously, or through <code>pb-view</code> component
-                configuration attributes.</para>
-            </listitem>
-            <listitem>
-              <para>Extended internationalization</para>
-              <para>I18n support has been extended to cover not only the labels in HTML templates
-                but also within web components. A mechanism for project specific language files
-                extending the default Publisher label collection has been added.</para>
-              <para>Thanks to community contributions via <link xlink:show="new"
-                  xlink:href="https://crwd.in/tei-publisher">Crowdin</link> a number of new
-                languages has been added and existing ones updated.</para>
-            </listitem>
-            <listitem>
-              <para>Subcorpora - new TEI Publisher data organization</para>
-              <para>Publisher's pre-populated data collection is now split into
-                  <emphasis>Playground</emphasis> and <emphasis>TEI Publisher demo
-                  collection</emphasis> areas which illustrate how this mechanism could be used to
-                host multiple subcorpora within single TEI Publisher application.</para>
-            </listitem>
-            <listitem>
-              <para>New and improved web components</para>
-              <para><code>pb-select-feature</code> and <code>pb-toggle-feature</code> components
-                have been extended to allow for interactive changing of display parameters (like
-                switching between regularized or original spelling) which can be then processed
-                client or server-side.</para>
-              <para>New components have been created to handle MEI music notation as well as for web
-                component API documentation and demo pages.</para>
-            </listitem>
-            <listitem>
-              <para>User interface of the ODD editor has been improved.</para>
-            </listitem>
-            <listitem>
-              <para>Experimental incremental scroll mode has been introduced to improve performance
-                for very long documents presented in single page mode.</para>
-            </listitem>
-          </orderedlist>
-        </section>
+        <para>See chapter on <link linkend="updating">Updating</link> for information how to update
+          your app to take advantake of these developments.</para>
       </section>
+      <section xml:id="v6">
+        <title>What's new in TEI Publisher 6.0.0</title>
+        <para>Version 6 brought a major refactoring and restructuring of TEI Publisher app libraries
+          along with new specialized components and use case examples.</para>
+        <orderedlist>
+          <listitem>
+            <para>Web components overhaul: migration to <link xlink:show="new"
+                xlink:href="https://lit-element.polymer-project.org/">LitElement</link> and to the
+              npm library</para>
+            <para>While invisible to users, this redesign greatly improves the modularity of
+              Publisher-based applications. With Publisher web component releases published on npm,
+              updating the user interface for all Publisher-based apps is just a question of
+              changing a single variable in the configuration file.</para>
+            <para>Furthermore, Publisher's library of web components - true to the basic idea of
+                <link xlink:show="new"
+                xlink:href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">Web
+                Components Standard</link> can be included in any HTML webpage e.g. can be embedded
+              into existing CMS or any other publishing solution, even if it's not running
+              eXist-db.</para>
+            <para>Similarly, if you prefer to write your own application using any of the popular
+              frameworks like <emphasis>angular, vue or react</emphasis> you can easily import the
+                <code>pb-components</code> package from npm and use it directly in your
+              project.</para>
+            <para>As a final consequence, this change decouples the component library from the TEI
+              Publisher app. It is now possible to host multiple applications, which depend on
+              different versions of the component library, without conflict within the same eXist-db
+              instance, a point of importance for institutions with numerous projects.</para>
+          </listitem>
+          <listitem>
+            <para>Redesigned and simplified CSS styling customization</para>
+            <para>Encapsulation of styles offered by web components can be a mixed blessing and
+              poses some challenges when customizing the aesthetics of components to fit a project.
+              While some aspects of component styling remained unaccessible for customization in
+              previous versions, Publisher 6 exposes majority of styling properties via standard CSS
+              files and theme variables. Stylesheets can also be specified within the ODD, as
+              previously, or through <code>pb-view</code> component configuration attributes.</para>
+          </listitem>
+          <listitem>
+            <para>Extended internationalization</para>
+            <para>I18n support has been extended to cover not only the labels in HTML templates but
+              also within web components. A mechanism for project specific language files extending
+              the default Publisher label collection has been added.</para>
+            <para>Thanks to community contributions via <link xlink:show="new"
+                xlink:href="https://crwd.in/tei-publisher">Crowdin</link> a number of new languages
+              has been added and existing ones updated.</para>
+          </listitem>
+          <listitem>
+            <para>Subcorpora - new TEI Publisher data organization</para>
+            <para>Publisher's pre-populated data collection is now split into
+                <emphasis>Playground</emphasis> and <emphasis>TEI Publisher demo
+                collection</emphasis> areas which illustrate how this mechanism could be used to
+              host multiple subcorpora within single TEI Publisher application.</para>
+          </listitem>
+          <listitem>
+            <para>New and improved web components</para>
+            <para><code>pb-select-feature</code> and <code>pb-toggle-feature</code> components have
+              been extended to allow for interactive changing of display parameters (like switching
+              between regularized or original spelling) which can be then processed client or
+              server-side.</para>
+            <para>New components have been created to handle MEI music notation as well as for web
+              component API documentation and demo pages.</para>
+          </listitem>
+          <listitem>
+            <para>User interface of the ODD editor has been improved.</para>
+          </listitem>
+          <listitem>
+            <para>Experimental incremental scroll mode has been introduced to improve performance
+              for very long documents presented in single page mode.</para>
+          </listitem>
+        </orderedlist>
+      </section>
+
     </section>
     <section xml:id="quickstart">
       <title>Quickstart</title>
