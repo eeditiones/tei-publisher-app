@@ -74,13 +74,15 @@ else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt|mei)$", "s")
 
 (: all other requests are passed on the Open API router :)
 else
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/modules/lib/api.xql">
-            <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
-            { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
-            <set-header name="Access-Control-Allow-Methods" value="GET, POST, DELETE, PUT, PATCH, OPTIONS"/>
-            <set-header name="Access-Control-Allow-Headers" value="Content-Type, api_key, Authorization"/>
-            <set-header name="Access-Control-Expose-Headers" value="pb-start, pb-total"/>
-            <set-header name="Cache-Control" value="no-cache"/>
-        </forward>
-    </dispatch>
+    let $main := if (matches($exist:path, "^/api/(?:odd|lint)")) then "api-odd.xql" else "api.xql"
+    return
+        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+            <forward url="{$exist:controller}/modules/lib/{$main}">
+                <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>
+                { if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/> }
+                <set-header name="Access-Control-Allow-Methods" value="GET, POST, DELETE, PUT, PATCH, OPTIONS"/>
+                <set-header name="Access-Control-Allow-Headers" value="Content-Type, api_key, Authorization"/>
+                <set-header name="Access-Control-Expose-Headers" value="pb-start, pb-total"/>
+                <set-header name="Cache-Control" value="no-cache"/>
+            </forward>
+        </dispatch>
