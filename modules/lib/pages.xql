@@ -247,7 +247,7 @@ declare function pages:toc-div($node, $model as map(*), $target as xs:string?,
                                 <span slot="collapse-trigger">
                                 {
                                     if ($xmlId) then
-                                        <pb-link xml-id="{$xmlId}" emit="{$target}" subscribe="{$target}">{$subsect, $html}</pb-link>
+                                        <pb-link xml-id="{$xmlId}" node-id="{$nodeId}" emit="{$target}" subscribe="{$target}">{$subsect, $html}</pb-link>
                                     else
                                         <pb-link node-id="{$nodeId}" emit="{$target}" subscribe="{$target}">{$subsect, $html}</pb-link>
                                 }
@@ -257,7 +257,7 @@ declare function pages:toc-div($node, $model as map(*), $target as xs:string?,
                                 </span>
                             </pb-collapse>
                         else if ($xmlId) then
-                            <pb-link xml-id="{$xmlId}" emit="{$target}" subscribe="{$target}">{$subsect, $html}</pb-link>
+                            <pb-link xml-id="{$xmlId}" node-id="{$nodeId}" emit="{$target}" subscribe="{$target}">{$subsect, $html}</pb-link>
                         else
                             <pb-link node-id="{$nodeId}" emit="{$target}" subscribe="{$target}">{$subsect, $html}</pb-link>
                     }
