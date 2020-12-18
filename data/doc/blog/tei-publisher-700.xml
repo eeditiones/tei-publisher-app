@@ -23,9 +23,10 @@
         <title>Release Highlight: Open API</title>
         <para>Version 7 represents the logical next step on our mission to improve 
             interoperability, sustainability and long-term maintenance of editions created with TEI Publisher. 
-            A major redesign to the server side allowed us to expose a well-defined, clear <link xlink:href="../../api.html">API specification</link> 
-            following the Open API standard. Integrated Swagger UI, allows you to visualize and interact with 
-            the API’s resources without having any of the implementation logic in place. 
+            A major redesign to the server side allowed us to expose a well-defined, clear 
+            <link xlink:href="../../api.html" xlink:show="new">API specification</link> 
+            following the Open API standard. Integrated Swagger UI allows you to visualize and interact with 
+            the API’s resources. 
             Read more in <link xlink:href="tei-publisher-70.xml">7.0.0 Release Candidate notice</link>.
         </para>
         <para>The API can be easily extended to cover project-specific functionality.</para>
@@ -41,8 +42,8 @@
         <title>Release Highlight: Markdown support</title>
         <para>In addition to various XML vocabularies, like TEI or DocBook, you can now use Markdown format. 
             Markdown documents with <parameter>.md</parameter> extension will be correctly rendered via 
-            <link xlink:href="https://marked.js.org/">marked</link> library. This feature is particularly useful for static content, 
-            like introductory material or project news.</para>
+            <link xlink:href="https://marked.js.org/" xlink:show="new">marked</link> library. This feature is particularly 
+            useful for static content, like introductory material or project news.</para>
     </section>
     <section>
         <title>Release Highlight: Flexible collection configuration</title>
@@ -63,8 +64,10 @@
         <para>Furthermore we have fixed some issues with DocBook configuration, introduced more sensible defaults for indexing and sorting and 
             streamlined naming conventions of commonly customized modules. Support for nested footnotes has been improved.</para>
         <para>Publisher 7 is available in 20 languages and we'll be happy to collaborate on extending the coverage for other, 
-            especially non-European languages. Extended FAQ section has been moved to an <link xlink:href="https://faq.teipublisher.com/">external site</link>,
-             automatically generated from markdown files stored in <link xlink:href="https://github.com/eeditiones/tei-publisher-faq/tree/master/content">tei-publisher-faq</link>
+            especially non-European languages. Extended FAQ section has been moved to an 
+            <link xlink:href="https://faq.teipublisher.com/" xlink:show="new">external site</link>,
+             automatically generated from markdown files stored in 
+             <link xlink:href="https://github.com/eeditiones/tei-publisher-faq/tree/master/content" xlink:show="new">tei-publisher-faq</link>
              repository. Quick edits are possible via GitHub, all contributions are welcome.
         </para>
     </section>
@@ -77,14 +80,14 @@
     </section>
     <section>
         <title>Get It!</title>
-        <para>TEI Publisher 7.0.0 is available as an application package on top of the <link xlink:href="https://exist-db.org">eXist XML Database</link>. Install it into a
+        <para>TEI Publisher 7.0.0 is available as an application package on top of the <link xlink:href="https://exist-db.org" xlink:show="new">eXist XML Database</link>. Install it into a
             recent eXist (5.0.0 or newer) by going to the dashboard and selecting TEI Publisher from
             the package manager.</para>
         <para>For more information refer to the <link xlink:href="https://teipublisher.com/exist/apps/tei-publisher/doc/documentation.xml">documentation</link> or visit the <link xlink:href="https://teipublisher.com">homepage</link> to play around with it.</para>
     </section>
     <section>
         <title>Thanks</title>
-        <para>Again our special thanks go to the <link xlink:href="https://www.nie-ine.ch/">Swiss Nationale Infrastruktur für Editionen 
+        <para>Again our special thanks go to the <link xlink:href="https://www.nie-ine.ch/" xlink:show="new">Swiss Nationale Infrastruktur für Editionen 
             - Infrastructure nationale pour les éditions</link> for funding most of the redesign!</para>
         <para>
             <link xlink:href="https://www.nie-ine.ch/" xlink:show="new">
@@ -96,7 +99,7 @@
             </link>
         </para>
         <para>The Open API implementation was inspired
-            by earlier work funded by <link xlink:href="https://uni-heidelberg.de/ecpo">Early Chinese Periodicals Online</link> (ECPO).
-            A lot of bug fixes were supported by the <link xlink:href="https://www.ssrq-sds-fds.ch/home/">Sammlung Schweizerischer Rechtsquellen</link>.</para>
+            by earlier work funded by <link xlink:href="https://uni-heidelberg.de/ecpo" xlink:show="new">Early Chinese Periodicals Online</link> (ECPO).
+            A lot of bug fixes were supported by the <link xlink:href="https://www.ssrq-sds-fds.ch/home/" xlink:show="new">Sammlung Schweizerischer Rechtsquellen</link>.</para>
     </section>
 </article>
