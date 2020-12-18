@@ -77,7 +77,7 @@ else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt|mei)$", "s")
 
 (: all other requests are passed on the Open API router :)
 else
-    let $main := if (matches($exist:path, "^/api/(?:odd|lint)")) then "api-odd.xql" else "api.xql"
+    let $main := if (matches($exist:path, "^/+api/+(?:odd|lint)")) then "api-odd.xql" else "api.xql"
     return
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
             <forward url="{$exist:controller}/modules/lib/{$main}">
