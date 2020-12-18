@@ -1,8 +1,13 @@
+/* Due to a safari issue, relative paths to background images won't work as variables, so we list them here */
+.logo { background-image: url("../images/tei-publisher-logo-contrast-color.svg"); }
+.splash { background-image: url("../images/tei-publisher-logo-color.svg"); }
+.menubar { background-image: none; }
+.toolbar { background-image: none; }
+app-header { background-image: none; }
+
 body {
-    --pb-splash-image: url(../images/tei-publisher-logo-color.svg);
     --pb-splash-image-size: 360px auto;
     --pb-splash-background-color: var(--pb-color-inverse);
-    --pb-logo-image: url(../images/tei-publisher-logo-contrast-color.svg);
     --pb-logo-image-width: 140px;
     --pb-logo-image-height: 60px;
     --pb-base-font-family: 'Roboto', 'Noto', sans-serif;
@@ -21,13 +26,10 @@ body {
     --pb-color-inverse: #F0F0F0;
     --pb-color-lighter: #35424b;
     --pb-color-focus: #f6a623;
-    --pb-header-background-image: none;
     --pb-drawer-background-color: var(--pb-color-inverse);
     --pb-menubar-background-color: #35424b;
-    --pb-menubar-background-image: none;
     --pb-menubar-color: var(--pb-color-inverse);
     --pb-toolbar-background-color: #d1dae0;
-    --pb-toolbar-background-image: none;
     --pb-toolbar-color: var(--pb-color-primary);
     --paper-tooltip-delay-in: 200;
     --pb-footnote-font-size: 13px;
@@ -65,7 +67,6 @@ body {
     right: 0;
     visibility: hidden;
     opacity: 0;
-    background-image: var(--pb-splash-image);
     background-color: #ffffff;
     background-position: center center;
     background-size: var(--pb-splash-image-size);
@@ -77,10 +78,6 @@ pb-page[unresolved]~.splash {
     visibility: visible;
     opacity: 1;
     transition: visibility 0s linear 0s, opacity 300ms;
-}
-
-app-header {
-    background-image: var(--pb-header-background-image);
 }
 
 app-toolbar {
@@ -148,7 +145,6 @@ app-drawer-layout:not([narrow]) [drawer-toggle] {
 
 .toolbar {
     justify-content: space-between;
-    background-image: var(--pb-toolbar-background-image);
     background-color: var(--pb-toolbar-background-color);
     color: var(--pb-toolbar-color);
 }
@@ -164,7 +160,6 @@ app-drawer-layout:not([narrow]) [drawer-toggle] {
 
 .menubar {
     justify-content: space-between;
-    background-image: var(--pb-menubar-background-image);
     background-color: var(--pb-menubar-background-color);
     color: var(--pb-menubar-color);
     --pb-search-suggestions-color: var(--pb-menubar-color);
@@ -213,7 +208,6 @@ app-drawer-layout:not([narrow]) [drawer-toggle] {
 }
 
 .logo {
-    background-image: var(--pb-logo-image);
     background-repeat: no-repeat;
     background-size: auto auto;
     background-position: left center;
