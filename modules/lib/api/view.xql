@@ -80,5 +80,5 @@ declare function vapi:handle-error($error) {
     let $path := $config:app-root || "/templates/error-page.html"
     let $template := doc($path)
     return
-        templates:apply($template, vapi:lookup#2, map { "description": $error }, $vapi:template-config)
+        templates:apply($template, vapi:lookup#2, map { "description": $error?description }, $vapi:template-config)
 };
