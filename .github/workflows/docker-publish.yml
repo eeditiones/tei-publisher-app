@@ -1,4 +1,4 @@
-name: TEI Publisher Docker Snapshots
+name: TEI Publisher CI and Docker Snapshots
 
 on:
   push:
