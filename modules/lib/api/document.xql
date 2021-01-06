@@ -414,7 +414,12 @@ declare function dapi:get-fragment($request as map(*)) {
                                     <output:indent>no</output:indent>
                                     <output:method>html5</output:method>
                                         </output:serialization-parameters>),
-                                "footnotes": $transformed?footnotes,
+                                "footnotes": serialize($transformed?footnotes,
+                                    <output:serialization-parameters xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                                        <output:indent>no</output:indent>
+                                        <output:method>html5</output:method>
+                                    </output:serialization-parameters>
+                                ),
                                 "userParams": $userParams,
                                 "collection": dapi:get-collection($xml?data[1])
                             }
