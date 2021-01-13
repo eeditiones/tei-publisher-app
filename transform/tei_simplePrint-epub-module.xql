@@ -8,7 +8,7 @@ import module namespace m='http://www.tei-c.org/pm/models/tei_simplePrint/epub' 
 declare function pml:transform($xml as node()*, $parameters as map(*)?) {
 
    let $options := map {
-       "styles": ["../transform/tei_simplePrint.css"],
+       "styles": ["transform/tei_simplePrint.css"],
        "collection": "/db/apps/tei-publisher/transform",
        "parameters": if (exists($parameters)) then $parameters else map {}
    }

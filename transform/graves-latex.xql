@@ -26,7 +26,7 @@ declare %private function model:glossary($config as map(*), $node as node()*, $c
 
         return
 
-        ``[\newglossaryentry{`{string-join($config?apply-children($config, $node, $id))}`} {
+        ``[newglossaryentry{`{string-join($config?apply-children($config, $node, $id))}`} {
 name=`{string-join($config?apply-children($config, $node, $name))}`,
 description={`{string-join($config?apply-children($config, $node, $note))}`}
 }]``
@@ -35,55 +35,55 @@ description={`{string-join($config?apply-children($config, $node, $note))}`}
 
 (: generated template function for element spec: teiHeader :)
 declare %private function model:template-teiHeader($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\def\volume{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+    ``[def\volume{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (: generated template function for element spec: TEI :)
 declare %private function model:template-TEI($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\documentclass[10pt,a4paper,fromalign=right]{scrlttr2}
-\usepackage[british]{babel}
-\usepackage{hyperref}
-\usepackage{glossaries}
-\makenoidxglossaries
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[LO,RE]{\footnotesize\volume}
-\fancyfoot[LE,RO]{\footnotesize\thepage}
-\setkomavar{date}{`{string-join($config?apply-children($config, $node, $params?date))}`}
-`{string-join($config?apply-children($config, $node, $params?glossary))}`
-\begin{document}
-`{string-join($config?apply-children($config, $node, $params?header))}`
-\begin{letter}`{string-join($config?apply-children($config, $node, $params?to))}`
-`{string-join($config?apply-children($config, $node, $params?from))}`
-`{string-join($config?apply-children($config, $node, $params?content))}`
-\end{letter}
-\printnoidxglossaries
-\end{document}]``
+    ``[documentclass[10pt,a4paper,fromalign=right]{scrlttr2}
+usepackage[british]{babel}
+usepackage{hyperref}
+usepackage{glossaries}
+makenoidxglossaries
+usepackage{fancyhdr}
+pagestyle{fancy}
+fancyhf{}
+fancyhead[LO,RE]{\footnotesize\volume}
+fancyfoot[LE,RO]{\footnotesize\thepage}
+setkomavar{date}{`{string-join($config?apply-children($config, $node, $params?date))}`}
+{string-join($config?apply-children($config, $node, $params?glossary))}`
+begin{document}
+{string-join($config?apply-children($config, $node, $params?header))}`
+begin{letter}`{string-join($config?apply-children($config, $node, $params?to))}`
+{string-join($config?apply-children($config, $node, $params?from))}`
+{string-join($config?apply-children($config, $node, $params?content))}`
+end{letter}
+printnoidxglossaries
+end{document}]``
 };
 (: generated template function for element spec: opener :)
 declare %private function model:template-opener($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\opening{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+    ``[opening{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (: generated template function for element spec: closer :)
 declare %private function model:template-closer($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\closing{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+    ``[closing{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (: generated template function for element spec: name :)
 declare %private function model:template-name($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\glslink{`{string-join($config?apply-children($config, $node, $params?id))}`}{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+    ``[glslink{`{string-join($config?apply-children($config, $node, $params?id))}`}{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (: generated template function for element spec: postscript :)
 declare %private function model:template-postscript($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\ps `{string-join($config?apply-children($config, $node, $params?content))}`]``
+    ``[ps `{string-join($config?apply-children($config, $node, $params?content))}`]``
 };
 (: generated template function for element spec: correspAction :)
 declare %private function model:template-correspAction($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\setkomavar{fromname}{`{string-join($config?apply-children($config, $node, $params?name))}`}
-\setkomavar{fromaddress}{`{string-join($config?apply-children($config, $node, $params?location))}`}]``
+    ``[setkomavar{fromname}{`{string-join($config?apply-children($config, $node, $params?name))}`}
+setkomavar{fromaddress}{`{string-join($config?apply-children($config, $node, $params?location))}`}]``
 };
 (: generated template function for element spec: correspAction :)
 declare %private function model:template-correspAction2($config as map(*), $node as node()*, $params as map(*)) {
-    ``[{`{string-join($config?apply-children($config, $node, $params?name))}`\\`{string-join($config?apply-children($config, $node, $params?location))}`}]``
+    ``[`{string-join($config?apply-children($config, $node, $params?name))}`\\`{string-join($config?apply-children($config, $node, $params?location))}`}]``
 };
 (:~
 
@@ -158,6 +158,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                                         latex:inline($config, ., ("tei-supplied5"), .)
                     case element(milestone) return
                         latex:inline($config, ., ("tei-milestone"), .)
+                    case element(ptr) return
+                        if (parent::notatedMusic) then
+                            (: No function found for behavior: webcomponent :)
+                            $config?apply($config, ./node())
+                        else
+                            $config?apply($config, ./node())
                     case element(label) return
                         latex:inline($config, ., ("tei-label"), .)
                     case element(signed) return
@@ -190,7 +196,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (@rendition='simple:display') then
                             latex:block($config, ., ("tei-formula1"), .)
                         else
-                            latex:inline($config, ., ("tei-formula2"), .)
+                            if (@rend='display') then
+                                (: No function found for behavior: webcomponent :)
+                                $config?apply($config, ./node())
+                            else
+                                (: No function found for behavior: webcomponent :)
+                                $config?apply($config, ./node())
                     case element(choice) return
                         if (sic and corr) then
                             latex:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
@@ -213,16 +224,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(code) return
                         latex:inline($config, ., ("tei-code"), .)
                     case element(note) return
-                        if (@place) then
-                            latex:note($config, ., ("tei-note1"), ., @place, @n)
-                        else
-                            if (parent::div and not(@place)) then
-                                latex:block($config, ., ("tei-note2"), .)
-                            else
-                                if (not(@place)) then
-                                    latex:inline($config, ., ("tei-note3"), .)
-                                else
-                                    $config?apply($config, ./node())
+                        latex:note($config, ., ("tei-note"), ., @place, @n)
                     case element(dateline) return
                         latex:omit($config, ., ("tei-dateline1"), .)
                     case element(back) return
@@ -281,6 +283,8 @@ declare function model:apply($config as map(*), $input as node()*) {
 
                         else
                             latex:title($config, ., ("tei-fileDesc4"), titleStmt)
+                    case element(notatedMusic) return
+                        latex:figure($config, ., ("tei-notatedMusic"), ptr, label)
                     case element(seg) return
                         latex:inline($config, ., css:get-rendition(., ("tei-seg")), .)
                     case element(profileDesc) return

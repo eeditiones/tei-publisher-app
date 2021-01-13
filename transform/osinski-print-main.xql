@@ -5,7 +5,7 @@ declare variable $xml external;
 declare variable $parameters external;
 
 let $options := map {
-    "styles": ["../transform/osinski.css"],
+    "styles": ["transform/osinski.css"],
     "collection": "/db/apps/tei-publisher/transform",
     "parameters": if (exists($parameters)) then $parameters else map {}
 }

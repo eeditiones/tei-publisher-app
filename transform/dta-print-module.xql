@@ -8,7 +8,7 @@ import module namespace m='http://www.tei-c.org/pm/models/dta/fo' at '/db/apps/t
 declare function pml:transform($xml as node()*, $parameters as map(*)?) {
 
    let $options := map {
-       "styles": ["../transform/dta.css"],
+       "styles": ["transform/dta.css"],
        "collection": "/db/apps/tei-publisher/transform",
        "parameters": if (exists($parameters)) then $parameters else map {}
    }

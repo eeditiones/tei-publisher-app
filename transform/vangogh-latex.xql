@@ -23,7 +23,7 @@ import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/
 
 (: generated template function for element spec: pb :)
 declare %private function model:template-pb($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\marginpar{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+    ``[marginpar{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (: generated template function for element spec: TEI :)
 declare %private function model:template-TEI($config as map(*), $node as node()*, $params as map(*)) {
@@ -55,7 +55,7 @@ declare %private function model:template-TEI($config as map(*), $node as node()*
 };
 (: generated template function for element spec: lb :)
 declare %private function model:template-lb($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\\]``
+    ``[\]``
 };
 (:~
 
@@ -122,6 +122,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                                         latex:inline($config, ., ("tei-supplied5"), .)
                     case element(milestone) return
                         latex:inline($config, ., ("tei-milestone"), .)
+                    case element(ptr) return
+                        if (parent::notatedMusic) then
+                            (: No function found for behavior: webcomponent :)
+                            $config?apply($config, ./node())
+                        else
+                            $config?apply($config, ./node())
                     case element(label) return
                         latex:inline($config, ., ("tei-label"), .)
                     case element(signed) return
@@ -162,7 +168,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (@rendition='simple:display') then
                             latex:block($config, ., ("tei-formula1"), .)
                         else
-                            latex:inline($config, ., ("tei-formula2"), .)
+                            if (@rend='display') then
+                                (: No function found for behavior: webcomponent :)
+                                $config?apply($config, ./node())
+                            else
+                                (: No function found for behavior: webcomponent :)
+                                $config?apply($config, ./node())
                     case element(choice) return
                         if (sic and corr) then
                             latex:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
@@ -252,6 +263,8 @@ declare function model:apply($config as map(*), $input as node()*) {
 
                         else
                             latex:title($config, ., ("tei-fileDesc4"), titleStmt)
+                    case element(notatedMusic) return
+                        latex:figure($config, ., ("tei-notatedMusic"), ptr, label)
                     case element(seg) return
                         latex:inline($config, ., css:get-rendition(., ("tei-seg")), .)
                     case element(profileDesc) return

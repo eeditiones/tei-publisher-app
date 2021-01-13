@@ -80,6 +80,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:inline($config, ., ("tei-supplied"), .)
                     case element(milestone) return
                         latex:inline($config, ., ("tei-milestone"), .)
+                    case element(ptr) return
+                        if (parent::notatedMusic) then
+                            (: No function found for behavior: webcomponent :)
+                            $config?apply($config, ./node())
+                        else
+                            $config?apply($config, ./node())
                     case element(label) return
                         latex:inline($config, ., ("tei-label"), .)
                     case element(signed) return
@@ -110,7 +116,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (@rendition='simple:display') then
                             latex:block($config, ., ("tei-formula1"), .)
                         else
-                            latex:inline($config, ., ("tei-formula2"), .)
+                            if (@rend='display') then
+                                (: No function found for behavior: webcomponent :)
+                                $config?apply($config, ./node())
+                            else
+                                (: No function found for behavior: webcomponent :)
+                                $config?apply($config, ./node())
                     case element(choice) return
                         if (sic and corr) then
                             latex:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
@@ -211,6 +222,8 @@ declare function model:apply($config as map(*), $input as node()*) {
 
                         else
                             latex:title($config, ., ("tei-fileDesc4"), titleStmt)
+                    case element(notatedMusic) return
+                        latex:figure($config, ., ("tei-notatedMusic"), ptr, label)
                     case element(seg) return
                         latex:inline($config, ., css:get-rendition(., ("tei-seg")), .)
                     case element(profileDesc) return

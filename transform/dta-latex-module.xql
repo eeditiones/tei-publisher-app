@@ -11,7 +11,7 @@ declare function pml:transform($xml as node()*, $parameters as map(*)?) {
     "class": "article",
     "section-numbers": false(),
     "font-size": "11pt",
-       "styles": ["../transform/dta.css"],
+       "styles": ["transform/dta.css"],
        "collection": "/db/apps/tei-publisher/transform",
        "parameters": if (exists($parameters)) then $parameters else map {}
    }

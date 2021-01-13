@@ -55,10 +55,6 @@
 .tei-hi1 { font-style: italic; }
 .tei-hi2 { font-style: italic; }
 .tei-code { font-family:monospace }
-.tei-note2 { margin-left: 10px;margin-right: 10px; font-size:smaller; }
-.tei-note3:before { content:" ["; }
-.tei-note3:after { content:"] "; }
-.tei-note3 { font-size:small; }
 .tei-del { text-decoration: line-through; }
 .tei-trailer { color: green; }
 .tei-speaker { font-style:italic; }

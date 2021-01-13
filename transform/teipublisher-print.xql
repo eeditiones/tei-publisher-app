@@ -103,7 +103,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (@rendition='simple:display') then
                             fo:block($config, ., ("tei-formula1"), .)
                         else
-                            fo:inline($config, ., ("tei-formula2"), .)
+                            if (@rend='display') then
+                                (: No function found for behavior: webcomponent :)
+                                $config?apply($config, ./node())
+                            else
+                                (: No function found for behavior: webcomponent :)
+                                $config?apply($config, ./node())
                     case element(choice) return
                         if (sic and corr) then
                             fo:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])

@@ -8,7 +8,7 @@ import module namespace m='http://www.tei-c.org/pm/models/vangogh/epub' at '/db/
 declare function pml:transform($xml as node()*, $parameters as map(*)?) {
 
    let $options := map {
-       "styles": ["../transform/vangogh.css"],
+       "styles": ["transform/vangogh.css"],
        "collection": "/db/apps/tei-publisher/transform",
        "parameters": if (exists($parameters)) then $parameters else map {}
    }

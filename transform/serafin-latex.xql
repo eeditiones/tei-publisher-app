@@ -26,7 +26,7 @@ declare %private function model:glossary($config as map(*), $node as node()*, $c
 
         return
 
-        ``[\newglossaryentry{`{string-join($config?apply-children($config, $node, $id))}`} {
+        ``[newglossaryentry{`{string-join($config?apply-children($config, $node, $id))}`} {
 name=`{string-join($config?apply-children($config, $node, $name))}`,
 description={`{string-join($config?apply-children($config, $node, $note))}`}
 }]``
@@ -35,60 +35,60 @@ description={`{string-join($config?apply-children($config, $node, $note))}`}
 
 (: generated template function for element spec: teiHeader :)
 declare %private function model:template-teiHeader($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\def\volume{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+    ``[def\volume{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (: generated template function for element spec: TEI :)
 declare %private function model:template-TEI($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\documentclass[10pt,a4paper,twoside]{article}
-\usepackage[latin,polish]{babel}
-\usepackage{reledmac}
-\usepackage{reledpar}
-\usepackage{hyperref}
-\usepackage{glossaries}
-\makenoidxglossaries
-\usepackage{fancyhdr,extramarks,xifthen}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[LO,RE]{\footnotesize\volume}
-\fancyhead[LE,RO]{\footnotesize\thepage}
-`{string-join($config?apply-children($config, $node, $params?styles))}`
-`{string-join($config?apply-children($config, $node, $params?glossary))}`
-\begin{document}
-\setlength{\columnrulewidth}{0.2pt}
-\setlength{\Lcolwidth}{0.425\textwidth}
-\setlength{\Rcolwidth}{0.425\textwidth}
-\columnsposition{C}
-\numberlinefalse
-`{string-join($config?apply-children($config, $node, $params?header))}`
-\begin{pairs}
-\begin{Leftside}
-\beginnumbering
-\selectlanguage{latin}
-`{string-join($config?apply-children($config, $node, $params?content))}`
-\endnumbering
-\end{Leftside}
-\begin{Rightside}
-\beginnumbering
-\selectlanguage{polish}
-`{string-join($config?apply-children($config, $node, $params?translation))}`
-\endnumbering
-\end{Rightside}
-\end{pairs}
-\Columns
-\printnoidxglossaries
-\end{document}]``
+    ``[documentclass[10pt,a4paper,twoside]{article}
+usepackage[latin,polish]{babel}
+usepackage{reledmac}
+usepackage{reledpar}
+usepackage{hyperref}
+usepackage{glossaries}
+makenoidxglossaries
+usepackage{fancyhdr,extramarks,xifthen}
+pagestyle{fancy}
+fancyhf{}
+fancyhead[LO,RE]{\footnotesize\volume}
+fancyhead[LE,RO]{\footnotesize\thepage}
+{string-join($config?apply-children($config, $node, $params?styles))}`
+{string-join($config?apply-children($config, $node, $params?glossary))}`
+begin{document}
+setlength{\columnrulewidth}{0.2pt}
+setlength{\Lcolwidth}{0.425\textwidth}
+setlength{\Rcolwidth}{0.425\textwidth}
+columnsposition{C}
+numberlinefalse
+{string-join($config?apply-children($config, $node, $params?header))}`
+begin{pairs}
+begin{Leftside}
+beginnumbering
+selectlanguage{latin}
+{string-join($config?apply-children($config, $node, $params?content))}`
+endnumbering
+end{Leftside}
+begin{Rightside}
+beginnumbering
+selectlanguage{polish}
+{string-join($config?apply-children($config, $node, $params?translation))}`
+endnumbering
+end{Rightside}
+end{pairs}
+Columns
+printnoidxglossaries
+end{document}]``
 };
 (: generated template function for element spec: seg :)
 declare %private function model:template-seg($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\pstart `{string-join($config?apply-children($config, $node, $params?content))}` \pend]``
+    ``[pstart `{string-join($config?apply-children($config, $node, $params?content))}` \pend]``
 };
 (: generated template function for element spec: persName :)
 declare %private function model:template-persName($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\glslink{`{string-join($config?apply-children($config, $node, $params?id))}`}{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+    ``[glslink{`{string-join($config?apply-children($config, $node, $params?id))}`}{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (: generated template function for element spec: placeName :)
 declare %private function model:template-placeName($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\glslink{`{string-join($config?apply-children($config, $node, $params?id))}`}{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+    ``[glslink{`{string-join($config?apply-children($config, $node, $params?id))}`}{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (:~
 
@@ -163,6 +163,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                                         latex:inline($config, ., ("tei-supplied5"), .)
                     case element(milestone) return
                         latex:inline($config, ., ("tei-milestone"), .)
+                    case element(ptr) return
+                        if (parent::notatedMusic) then
+                            (: No function found for behavior: webcomponent :)
+                            $config?apply($config, ./node())
+                        else
+                            $config?apply($config, ./node())
                     case element(label) return
                         latex:inline($config, ., ("tei-label"), .)
                     case element(signed) return
@@ -195,7 +201,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (@rendition='simple:display') then
                             latex:block($config, ., ("tei-formula1"), .)
                         else
-                            latex:inline($config, ., ("tei-formula2"), .)
+                            if (@rend='display') then
+                                (: No function found for behavior: webcomponent :)
+                                $config?apply($config, ./node())
+                            else
+                                (: No function found for behavior: webcomponent :)
+                                $config?apply($config, ./node())
                     case element(choice) return
                         if (sic and corr) then
                             latex:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
@@ -272,6 +283,8 @@ declare function model:apply($config as map(*), $input as node()*) {
 
                         else
                             latex:title($config, ., ("tei-fileDesc4"), titleStmt)
+                    case element(notatedMusic) return
+                        latex:figure($config, ., ("tei-notatedMusic"), ptr, label)
                     case element(seg) return
                         let $params := 
                             map {

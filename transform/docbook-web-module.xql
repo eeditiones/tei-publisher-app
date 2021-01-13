@@ -8,7 +8,7 @@ import module namespace m='http://www.tei-c.org/pm/models/docbook/web' at '/db/a
 declare function pml:transform($xml as node()*, $parameters as map(*)?) {
 
    let $options := map {
-       "styles": ["../transform/docbook.css"],
+       "styles": ["transform/docbook.css"],
        "collection": "/db/apps/tei-publisher/transform",
        "parameters": if (exists($parameters)) then $parameters else map {}
    }

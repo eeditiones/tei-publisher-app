@@ -8,7 +8,7 @@ import module namespace m='http://www.tei-c.org/pm/models/dantiscus/fo' at '/db/
 declare function pml:transform($xml as node()*, $parameters as map(*)?) {
 
    let $options := map {
-       "styles": ["../transform/dantiscus.css"],
+       "styles": ["transform/dantiscus.css"],
        "collection": "/db/apps/tei-publisher/transform",
        "parameters": if (exists($parameters)) then $parameters else map {}
    }

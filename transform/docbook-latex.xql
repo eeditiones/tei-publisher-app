@@ -27,9 +27,9 @@ declare %private function model:code($config as map(*), $node as node()*, $class
 
         return
 
-        ``[\begin{lstlisting}`{string-join($config?apply-children($config, $node, $language))}`
-`{string-join($config?apply-children($config, $node, $code))}`
-\end{lstlisting} ]``
+        ``[begin{lstlisting}`{string-join($config?apply-children($config, $node, $language))}`
+{string-join($config?apply-children($config, $node, $code))}`
+end{lstlisting} ]``
     )
 };
 
@@ -38,9 +38,9 @@ declare %private function model:definitionList($config as map(*), $node as node(
     $node ! (
 
         
-        ``[\begin{description}
-`{string-join($config?apply-children($config, $node, $content))}`
-\end{description}]``
+        ``[begin{description}
+{string-join($config?apply-children($config, $node, $content))}`
+end{description}]``
     )
 };
 
@@ -49,7 +49,7 @@ declare %private function model:definition($config as map(*), $node as node()*, 
     $node ! (
 
         
-        ``[\item [`{string-join($config?apply-children($config, $node, $term))}`] `{string-join($config?apply-children($config, $node, $content))}`]``
+        ``[item [`{string-join($config?apply-children($config, $node, $term))}`] `{string-join($config?apply-children($config, $node, $content))}`]``
     )
 };
 
@@ -64,53 +64,53 @@ declare %private function model:iframe($config as map(*), $node as node()*, $cla
 
 (: generated template function for element spec: article :)
 declare %private function model:template-article($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\documentclass[english,a4paper,`{string-join($config?apply-children($config, $node, $params?fontSize))}`]{`{string-join($config?apply-children($config, $node, $params?class))}`}
-\usepackage[english]{babel}
-\usepackage{colortbl}
-\usepackage{xcolor}
-\usepackage{fancyhdr}
-\usepackage{listings}
-\usepackage{graphicx}
-\usepackage{mdframed}
-\usepackage[export]{adjustbox}
-\usepackage{hyperref}
-\usepackage{longtable}
-\usepackage{tabu}
-\pagestyle{fancy}
-\definecolor{myblue}{rgb}{0,0.1,0.6}
-\definecolor{mygray}{rgb}{0.5,0.5,0.5}
-\definecolor{mymauve}{rgb}{0.58,0,0.82}
-\lstset{
+    ``[documentclass[english,a4paper,`{string-join($config?apply-children($config, $node, $params?fontSize))}`]{`{string-join($config?apply-children($config, $node, $params?class))}`}
+usepackage[english]{babel}
+usepackage{colortbl}
+usepackage{xcolor}
+usepackage{fancyhdr}
+usepackage{listings}
+usepackage{graphicx}
+usepackage{mdframed}
+usepackage[export]{adjustbox}
+usepackage{hyperref}
+usepackage{longtable}
+usepackage{tabu}
+pagestyle{fancy}
+definecolor{myblue}{rgb}{0,0.1,0.6}
+definecolor{mygray}{rgb}{0.5,0.5,0.5}
+definecolor{mymauve}{rgb}{0.58,0,0.82}
+lstset{
 basicstyle=\small\ttfamily,
 columns=flexible,
 keepspaces=true,
 breaklines=true,
 keywordstyle=\color{myblue}
-}
-\lstloadlanguages{xml}
-\def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}
-\graphicspath{{`{string-join($config?apply-children($config, $node, $params?image-dir))}`/doc/}}
-`{string-join($config?apply-children($config, $node, $params?styles))}`
-\begin{document}
-`{string-join($config?apply-children($config, $node, $params?content))}`
-\end{document}]``
+
+lstloadlanguages{xml}
+def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}
+graphicspath{{`{string-join($config?apply-children($config, $node, $params?image-dir))}`/doc/}}
+{string-join($config?apply-children($config, $node, $params?styles))}`
+begin{document}
+{string-join($config?apply-children($config, $node, $params?content))}`
+end{document}]``
 };
 (: generated template function for element spec: info :)
 declare %private function model:template-info($config as map(*), $node as node()*, $params as map(*)) {
-    ``[`{string-join($config?apply-children($config, $node, $params?content))}` \author{`{string-join($config?apply-children($config, $node, $params?author))}`}
-\maketitle]``
+    ``[{string-join($config?apply-children($config, $node, $params?content))}` \author{`{string-join($config?apply-children($config, $node, $params?author))}`}
+maketitle]``
 };
 (: generated template function for element spec: author :)
 declare %private function model:template-author($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\and `{string-join($config?apply-children($config, $node, $params?content))}`]``
+    ``[and `{string-join($config?apply-children($config, $node, $params?content))}`]``
 };
 (: generated template function for element spec: author :)
 declare %private function model:template-author2($config as map(*), $node as node()*, $params as map(*)) {
-    ``[`{string-join($config?apply-children($config, $node, $params?content))}`]``
+    ``[{string-join($config?apply-children($config, $node, $params?content))}`]``
 };
 (: generated template function for element spec: title :)
 declare %private function model:template-title($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\title{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+    ``[title{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (: generated template function for element spec: title :)
 declare %private function model:template-title2($config as map(*), $node as node()*, $params as map(*)) {
@@ -120,19 +120,19 @@ declare %private function model:template-title2($config as map(*), $node as node
 };
 (: generated template function for element spec: code :)
 declare %private function model:template-code($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\texttt{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
+    ``[texttt{`{string-join($config?apply-children($config, $node, $params?content))}`}]``
 };
 (: generated template function for element spec: note :)
 declare %private function model:template-note2($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\begin{mdframed}[frametitle={`{string-join($config?apply-children($config, $node, $params?title))}`}]
-`{string-join($config?apply-children($config, $node, $params?content))}`
-\end{mdframed}]``
+    ``[begin{mdframed}[frametitle={`{string-join($config?apply-children($config, $node, $params?title))}`}]
+{string-join($config?apply-children($config, $node, $params?content))}`
+end{mdframed}]``
 };
 (: generated template function for element spec: videodata :)
 declare %private function model:template-videodata($config as map(*), $node as node()*, $params as map(*)) {
-    ``[\begin{center}
-Not available in PDF edition. Go to \url{`{string-join($config?apply-children($config, $node, $params?content))}`} to view.
-\end{center}]``
+    ``[begin{center}
+ot available in PDF edition. Go to \url{`{string-join($config?apply-children($config, $node, $params?content))}`} to view.
+end{center}]``
 };
 (:~
 

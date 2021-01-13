@@ -89,6 +89,11 @@ declare function model:apply($config as map(*), $input as node()*) {
                                         html:inline($config, ., ("tei-supplied5"), .)
                     case element(milestone) return
                         html:inline($config, ., ("tei-milestone"), .)
+                    case element(ptr) return
+                        if (parent::notatedMusic) then
+                            html:webcomponent($config, ., ("tei-ptr"), ., 'pb-mei', map {"url": @target})
+                        else
+                            $config?apply($config, ./node())
                     case element(label) return
                         html:inline($config, ., ("tei-label"), .)
                     case element(signed) return
@@ -108,7 +113,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (@rendition='simple:display') then
                             epub:block($config, ., ("tei-formula1"), .)
                         else
-                            html:inline($config, ., ("tei-formula2"), .)
+                            if (@rend='display') then
+                                html:webcomponent($config, ., ("tei-formula2"), ., 'pb-formula', map {"display": true()})
+                            else
+                                html:webcomponent($config, ., ("tei-formula3"), ., 'pb-formula', map {})
                     case element(choice) return
                         if (sic and corr) then
                             epub:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
@@ -131,16 +139,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(code) return
                         html:inline($config, ., ("tei-code"), .)
                     case element(note) return
-                        if (@place) then
-                            epub:note($config, ., ("tei-note1"), ., @place, @n)
-                        else
-                            if (parent::div and not(@place)) then
-                                epub:block($config, ., ("tei-note2"), .)
-                            else
-                                if (not(@place)) then
-                                    html:inline($config, ., ("tei-note3"), .)
-                                else
-                                    $config?apply($config, ./node())
+                        epub:note($config, ., ("tei-note"), ., @place, @n)
                     case element(dateline) return
                         epub:block($config, ., css:get-rendition(., ("tei-dateline2")), .)
                     case element(back) return
@@ -191,6 +190,8 @@ declare function model:apply($config as map(*), $input as node()*) {
 
                         else
                             html:title($config, ., ("tei-fileDesc4"), titleStmt)
+                    case element(notatedMusic) return
+                        html:figure($config, ., ("tei-notatedMusic"), ptr, label)
                     case element(seg) return
                         html:inline($config, ., css:get-rendition(., ("tei-seg")), .)
                     case element(profileDesc) return

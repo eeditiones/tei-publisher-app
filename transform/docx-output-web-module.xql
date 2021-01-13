@@ -8,7 +8,7 @@ import module namespace m='http://www.tei-c.org/pm/models/docx-output/web' at '/
 declare function pml:transform($xml as node()*, $parameters as map(*)?) {
 
    let $options := map {
-       "styles": ["../transform/docx-output.css"],
+       "styles": ["transform/docx-output.css"],
        "collection": "/db/apps/tei-publisher/transform",
        "parameters": if (exists($parameters)) then $parameters else map {}
    }
