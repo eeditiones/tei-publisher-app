@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="teipublisher_odds.xsd"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
     <teiHeader>
@@ -30,6 +29,9 @@
                 <p>born digital</p>
             </sourceDesc>
         </fileDesc>
+        <encodingDesc>
+            <tagsDecl/>
+        </encodingDesc>
         <revisionDesc>
             <change when="2017-09-08">adjust metadata in teiHeader</change>
         </revisionDesc>
@@ -54,6 +56,7 @@
                     <model output="web" predicate="@place='top' and $parameters?view='page'" behaviour="inline">
             <outputRendition xml:space="preserve">
             
+            
                             
                             display: inline-block;
                             margin-top: .5em;
@@ -61,10 +64,12 @@
                             color: #CCC;
                             
                         
+            
             </outputRendition>
         </model>
                     <model output="web" predicate="@type='sig' and $parameters?view='page'" behaviour="block">
             <outputRendition xml:space="preserve">
+            
             
                             
                             
@@ -76,10 +81,12 @@
                             
                             
                         
+            
             </outputRendition>
         </model>
                     <model output="web" predicate="@type='catch' and $parameters?view='page'" behaviour="block">
             <outputRendition xml:space="preserve">
+            
             
                             
                             
@@ -90,6 +97,7 @@
                             
                             
                         
+            
             </outputRendition>
         </model>
                     <model behaviour="omit"/>
@@ -104,7 +112,7 @@
                 <param name="label" value="@n"/>
             </model>
         </modelSequence>
-                    <model output="web" predicate="$parameters?view='page' and not(following-sibling::*[1][self::p])" behaviour="break" useSourceRendition="true">
+                    <model output="web" predicate="$parameters?view='page' and not(following-sibling::*[1][self::p|self::div])" behaviour="break" useSourceRendition="true">
             <param name="type" value="'line'"/>
             <param name="label" value="@n"/>
         </model>

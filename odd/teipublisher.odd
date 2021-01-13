@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="teipublisher_odds.xsd"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
     <teiHeader>
@@ -214,17 +213,27 @@
         </model>
                 </elementSpec>
             <elementSpec ident="notatedMusic" mode="add">
-        <model behaviour="figure">
+                    <model behaviour="figure">
             <param name="title" value="label"/>
             <param name="content" value="ptr"/>
         </model>
-    </elementSpec>
+                </elementSpec>
                 <elementSpec ident="ptr" mode="add">
-        <model predicate="parent::notatedMusic" behaviour="webcomponent">
+                    <model predicate="parent::notatedMusic" behaviour="webcomponent">
             <param name="name" value="'pb-mei'"/>
             <param name="url" value="@target"/>
         </model>
-    </elementSpec>
+                </elementSpec>
+            <elementSpec ident="formula" mode="change">
+                    <model predicate="@rendition='simple:display'" behaviour="block"/>
+                    <model predicate="@rend='display'" behaviour="webcomponent">
+            <param name="name" value="'pb-formula'"/>
+            <param name="display" value="true()"/>
+        </model>
+                    <model behaviour="webcomponent">
+            <param name="name" value="'pb-formula'"/>
+        </model>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>
