@@ -19,6 +19,10 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
+(: generated template function for element spec: fw :)
+declare %private function model:template-fw2($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><div class="catch">{$config?apply-children($config, $node, $params?catch)}</div><div class="sig">{$config?apply-children($config, $node, $params?content)}</div></t>/*
+};
 (:~
 
     Main entry point for the transformation.
@@ -103,7 +107,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (count(../*) = 1 and count(ancestor::*) = 1) then
                             html:inline($config, ., css:get-rendition(., ("tei-pb2")), '[Empty page]')
                         else
-                            html:omit($config, ., ("tei-pb3"), .)
+                            html:webcomponent($config, ., ("tei-pb3"), ., 'pb-facs-link', map {"facs": let $name := replace(util:document-name($parameters?root), '^([^\.]+)\..*$', '$1') return  ``[`{$name}`/`{$name}`_`{substring-after(@facs, '#f')}`_800px.jpg]``})
                     case element(pc) return
                         html:inline($config, ., ("tei-pc"), .)
                     case element(anchor) return
@@ -506,12 +510,24 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:inline($config, ., ("tei-fw1"), .)
                         else
                             if (@type='sig' and $parameters?view='page') then
-                                html:block($config, ., ("tei-fw2"), .)
+                                let $params := 
+                                    map {
+                                        "catch": following-sibling::fw/node(),
+                                        "content": .
+                                    }
+
+                                                                let $content := 
+                                    model:template-fw2($config, ., $params)
+                                return
+                                                                html:block(map:merge(($config, map:entry("template", true()))), ., ("tei-fw2"), $content)
                             else
-                                if (@type='catch' and $parameters?view='page') then
-                                    html:block($config, ., ("tei-fw3"), .)
+                                if (@type='catch' and $parameters?view='page' and preceding-sibling::fw) then
+                                    html:omit($config, ., ("tei-fw3"), .)
                                 else
-                                    html:omit($config, ., ("tei-fw4"), .)
+                                    if (@type='catch' and $parameters?view='page') then
+                                        html:block($config, ., ("tei-fw4", "catch"), .)
+                                    else
+                                        html:omit($config, ., ("tei-fw5"), .)
                     case element(encodingDesc) return
                         html:omit($config, ., ("tei-encodingDesc"), .)
                     case element(addrLine) return

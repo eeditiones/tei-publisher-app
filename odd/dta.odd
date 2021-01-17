@@ -30,7 +30,9 @@
             </sourceDesc>
         </fileDesc>
         <encodingDesc>
-            <tagsDecl/>
+            <tagsDecl>
+                <rendition source="dta.css"/>
+            </tagsDecl>
         </encodingDesc>
         <revisionDesc>
             <change when="2017-09-08">adjust metadata in teiHeader</change>
@@ -50,11 +52,15 @@
             color: #CCC;
             </outputRendition>
         </model>
-                    <model behaviour="omit"/>
+                    <model behaviour="webcomponent">
+            <param name="name" value="'pb-facs-link'"/>
+            <param name="facs" value="let $name := replace(util:document-name($parameters?root), '^([^\.]+)\..*$', '$1') return  ``[`{$name}`/`{$name}`_`{substring-after(@facs, '#f')}`_800px.jpg]``"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="fw" mode="change">
                     <model output="web" predicate="@place='top' and $parameters?view='page'" behaviour="inline">
             <outputRendition xml:space="preserve">
+            
             
             
                             
@@ -65,39 +71,26 @@
                             
                         
             
+            
             </outputRendition>
         </model>
                     <model output="web" predicate="@type='sig' and $parameters?view='page'" behaviour="block">
+            <param name="catch" value="following-sibling::fw/node()"/>
+            <pb:template xmlns="" xml:space="preserve"><div class="catch">[[catch]]</div><div class="sig">[[content]]</div></pb:template>
             <outputRendition xml:space="preserve">
-            
-            
-                            
-                            
-                            
-                            margin-top: 1em;
-                            color: #A0A0A0;
-                            text-align: left;
-                            
-                            
-                            
-                        
-            
+            margin-top: 1em;
+color: #A0A0A0;
             </outputRendition>
         </model>
-                    <model output="web" predicate="@type='catch' and $parameters?view='page'" behaviour="block">
+                    <model output="web" predicate="@type='catch' and $parameters?view='page' and preceding-sibling::fw" behaviour="omit">
             <outputRendition xml:space="preserve">
-            
-            
-                            
-                            
-                            
-                            margin-left: 20em;
-                            color: #A0A0A0;
-                            
-                            
-                            
-                        
-            
+            color: #A0A0A0;
+            </outputRendition>
+        </model>
+                    <model output="web" predicate="@type='catch' and $parameters?view='page'" behaviour="block" cssClass="catch">
+            <outputRendition xml:space="preserve">
+            margin-top: 1em;
+color: #A0A0A0;
             </outputRendition>
         </model>
                     <model behaviour="omit"/>
@@ -117,6 +110,53 @@
             <param name="label" value="@n"/>
         </model>
                     <model behaviour="omit"/>
+                </elementSpec>
+            <elementSpec ident="title" mode="change">
+                    <model predicate="$parameters?header='short'" behaviour="heading">
+            <param name="level" value="5"/>
+        </model>
+                    <modelSequence predicate="parent::titleStmt/parent::fileDesc">
+            <model predicate="preceding-sibling::title" behaviour="text">
+                <param name="content" value="' — '"/>
+            </model>
+            <model behaviour="inline"/>
+        </modelSequence>
+                    <model predicate="not(@level) and parent::bibl" behaviour="inline"/>
+                    <modelSequence predicate="@level='m' or not(@level)">
+            <model behaviour="inline">
+                <outputRendition xml:space="preserve">
+                font-style: italic;
+                </outputRendition>
+            </model>
+            <model predicate="ancestor::biblFull" behaviour="text">
+                <param name="content" value="', '"/>
+            </model>
+        </modelSequence>
+                    <modelSequence predicate="@level='s' or @level='j'">
+            <model behaviour="inline">
+                <outputRendition xml:space="preserve">
+                font-style: italic;
+                </outputRendition>
+            </model>
+            <model predicate="following-sibling::* and     (  ancestor::biblFull)" behaviour="text">
+                <param name="content" value="', '"/>
+            </model>
+        </modelSequence>
+                    <modelSequence predicate="@level='u' or @level='a'">
+            <model behaviour="inline">
+                <outputRendition xml:space="preserve">
+                font-style: italic;
+                </outputRendition>
+            </model>
+            <model predicate="following-sibling::* and     (    ancestor::biblFull)" behaviour="text">
+                <param name="content" value="'. '"/>
+            </model>
+        </modelSequence>
+                    <model behaviour="inline">
+            <outputRendition xml:space="preserve">
+            font-style: italic;
+            </outputRendition>
+        </model>
                 </elementSpec>
             </schemaSpec>
         </body>

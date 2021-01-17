@@ -101,7 +101,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (count(../*) = 1 and count(ancestor::*) = 1) then
                             latex:inline($config, ., css:get-rendition(., ("tei-pb2")), '[Empty page]')
                         else
-                            latex:omit($config, ., ("tei-pb3"), .)
+                            (: No function found for behavior: webcomponent :)
+                            $config?apply($config, ./node())
                     case element(pc) return
                         latex:inline($config, ., ("tei-pc"), .)
                     case element(anchor) return
@@ -482,7 +483,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(spGrp) return
                         latex:block($config, ., ("tei-spGrp"), .)
                     case element(fw) return
-                        latex:omit($config, ., ("tei-fw4"), .)
+                        latex:omit($config, ., ("tei-fw5"), .)
                     case element(encodingDesc) return
                         latex:omit($config, ., ("tei-encodingDesc"), .)
                     case element(addrLine) return

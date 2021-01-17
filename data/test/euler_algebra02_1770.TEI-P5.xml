@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?teipublisher view="page" odd="dta.odd"?>
+<?teipublisher view="page" odd="dta.odd" template="dta.html"?>
+
 <?xml-model href="http://www.deutschestextarchiv.de/basisformat.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0">   <teiHeader>
 <fileDesc>
