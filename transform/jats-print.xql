@@ -55,48 +55,48 @@ declare function model:apply($config as map(*), $input as node()*) {
             return
                             typeswitch(.)
                     case element(body) return
-                        fo:body($config, ., ("tei-body"), .)
+                        fo:body($config, ., ("tei-body", css:map-rend-to-class(.)), .)
                     case element(sec) return
-                        fo:section($config, ., ("tei-sec"), .)
+                        fo:section($config, ., ("tei-sec", css:map-rend-to-class(.)), .)
                     case element(title) return
-                        fo:heading($config, ., ("tei-title"), ., count(ancestor::sec))
+                        fo:heading($config, ., ("tei-title", css:map-rend-to-class(.)), ., count(ancestor::sec))
                     case element(p) return
-                        fo:paragraph($config, ., ("tei-p"), .)
+                        fo:paragraph($config, ., ("tei-p", css:map-rend-to-class(.)), .)
                     case element(list) return
-                        fo:list($config, ., ("tei-list"), ., if (@list-type = 'order') then 'ordered' else ())
+                        fo:list($config, ., ("tei-list", css:map-rend-to-class(.)), ., if (@list-type = 'order') then 'ordered' else ())
                     case element(list-item) return
-                        fo:listItem($config, ., ("tei-list-item"), ., ())
+                        fo:listItem($config, ., ("tei-list-item", css:map-rend-to-class(.)), ., ())
                     case element(uri) return
-                        fo:link($config, ., ("tei-uri"), ., @xlink:href, map {})
+                        fo:link($config, ., ("tei-uri", css:map-rend-to-class(.)), ., @xlink:href, map {})
                     case element(bold) return
-                        fo:inline($config, ., ("tei-bold"), .)
+                        fo:inline($config, ., ("tei-bold", css:map-rend-to-class(.)), .)
                     case element(italic) return
-                        fo:inline($config, ., ("tei-italic"), .)
+                        fo:inline($config, ., ("tei-italic", css:map-rend-to-class(.)), .)
                     case element(table-wrap) return
-                        fo:block($config, ., ("tei-table-wrap"), .)
+                        fo:block($config, ., ("tei-table-wrap", css:map-rend-to-class(.)), .)
                     case element(table) return
-                        fo:table($config, ., ("tei-table", "table"), .)
+                        fo:table($config, ., ("tei-table", "table", css:map-rend-to-class(.)), .)
                     case element(tr) return
-                        fo:row($config, ., ("tei-tr"), .)
+                        fo:row($config, ., ("tei-tr", css:map-rend-to-class(.)), .)
                     case element(td) return
-                        fo:cell($config, ., ("tei-td"), ., ())
+                        fo:cell($config, ., ("tei-td", css:map-rend-to-class(.)), ., ())
                     case element(th) return
-                        fo:cell($config, ., css:get-rendition(., ("tei-th")), ., ())
+                        fo:cell($config, ., css:get-rendition(., ("tei-th", css:map-rend-to-class(.))), ., ())
                     case element(article-meta) return
-                        fo:block($config, ., ("tei-article-meta"), title-group)
+                        fo:block($config, ., ("tei-article-meta", css:map-rend-to-class(.)), title-group)
                     case element(title-group) return
                         (
-                            fo:link($config, ., ("tei-title-group1"), article-title, $parameters?doc, map {}),
-                            fo:block($config, ., ("tei-title-group2"), subtitle)
+                            fo:link($config, ., ("tei-title-group1", css:map-rend-to-class(.)), article-title, $parameters?doc, map {}),
+                            fo:block($config, ., ("tei-title-group2", css:map-rend-to-class(.)), subtitle)
                         )
 
                     case element(article-title) return
                         if ($parameters?header='short') then
-                            fo:heading($config, ., ("tei-article-title"), ., 5)
+                            fo:heading($config, ., ("tei-article-title", css:map-rend-to-class(.)), ., 5)
                         else
                             $config?apply($config, ./node())
                     case element(subtitle) return
-                        fo:heading($config, ., ("tei-subtitle"), ., 6)
+                        fo:heading($config, ., ("tei-subtitle", css:map-rend-to-class(.)), ., 6)
                     case element() return
                         if (namespace-uri(.) = '') then
                             $config?apply($config, ./node())

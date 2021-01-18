@@ -19,6 +19,14 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
+(: generated template function for element spec: formula :)
+declare %private function model:template-formula2($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\begin{equation}`{string-join($config?apply-children($config, $node, $params?content))}`\end{equation}]``
+};
+(: generated template function for element spec: formula :)
+declare %private function model:template-formula3($config as map(*), $node as node()*, $params as map(*)) {
+    ``[\begin{math}`{string-join($config?apply-children($config, $node, $params?content))}`\end{math}]``
+};
 (:~
 
     Main entry point for the transformation.
@@ -58,32 +66,32 @@ declare function model:apply($config as map(*), $input as node()*) {
                             typeswitch(.)
                     case element(castItem) return
                         (: Insert item, rendered as described in parent list rendition. :)
-                        latex:listItem($config, ., ("tei-castItem"), ., ())
+                        latex:listItem($config, ., ("tei-castItem", css:map-rend-to-class(.)), ., ())
                     case element(item) return
-                        latex:listItem($config, ., ("tei-item"), ., ())
+                        latex:listItem($config, ., ("tei-item", css:map-rend-to-class(.)), ., ())
                     case element(figure) return
                         if (head or @rendition='simple:display') then
-                            latex:block($config, ., ("tei-figure1"), .)
+                            latex:block($config, ., ("tei-figure1", css:map-rend-to-class(.)), .)
                         else
-                            latex:inline($config, ., ("tei-figure2"), .)
+                            latex:inline($config, ., ("tei-figure2", css:map-rend-to-class(.)), .)
                     case element(teiHeader) return
-                        latex:metadata($config, ., ("tei-teiHeader2"), .)
+                        latex:metadata($config, ., ("tei-teiHeader2", css:map-rend-to-class(.)), .)
                     case element(supplied) return
                         if (parent::choice) then
-                            latex:inline($config, ., ("tei-supplied1"), .)
+                            latex:inline($config, ., ("tei-supplied1", css:map-rend-to-class(.)), .)
                         else
                             if (@reason='damage') then
-                                latex:inline($config, ., ("tei-supplied2"), .)
+                                latex:inline($config, ., ("tei-supplied2", css:map-rend-to-class(.)), .)
                             else
                                 if (@reason='illegible' or not(@reason)) then
-                                    latex:inline($config, ., ("tei-supplied3"), .)
+                                    latex:inline($config, ., ("tei-supplied3", css:map-rend-to-class(.)), .)
                                 else
                                     if (@reason='omitted') then
-                                        latex:inline($config, ., ("tei-supplied4"), .)
+                                        latex:inline($config, ., ("tei-supplied4", css:map-rend-to-class(.)), .)
                                     else
-                                        latex:inline($config, ., ("tei-supplied5"), .)
+                                        latex:inline($config, ., ("tei-supplied5", css:map-rend-to-class(.)), .)
                     case element(milestone) return
-                        latex:inline($config, ., ("tei-milestone"), .)
+                        latex:inline($config, ., ("tei-milestone", css:map-rend-to-class(.)), .)
                     case element(ptr) return
                         if (parent::notatedMusic) then
                             (: No function found for behavior: webcomponent :)
@@ -91,12 +99,12 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             $config?apply($config, ./node())
                     case element(label) return
-                        latex:inline($config, ., ("tei-label"), .)
+                        latex:inline($config, ., ("tei-label", css:map-rend-to-class(.)), .)
                     case element(signed) return
                         if (parent::closer) then
-                            latex:block($config, ., ("tei-signed1"), .)
+                            latex:block($config, ., ("tei-signed1", css:map-rend-to-class(.)), .)
                         else
-                            latex:inline($config, ., ("tei-signed2"), .)
+                            latex:inline($config, ., ("tei-signed2", css:map-rend-to-class(.)), .)
                     case element(pb) return
                         if (starts-with(@facs, 'iiif:')) then
                             (: No function found for behavior: webcomponent :)
@@ -104,338 +112,357 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             $config?apply($config, ./node())
                     case element(pc) return
-                        latex:inline($config, ., ("tei-pc"), .)
+                        latex:inline($config, ., ("tei-pc", css:map-rend-to-class(.)), .)
                     case element(anchor) return
-                        latex:anchor($config, ., ("tei-anchor"), ., @xml:id)
+                        latex:anchor($config, ., ("tei-anchor", css:map-rend-to-class(.)), ., @xml:id)
                     case element(TEI) return
-                        latex:document($config, ., ("tei-TEI"), .)
+                        latex:document($config, ., ("tei-TEI", css:map-rend-to-class(.)), .)
                     case element(formula) return
                         if (@rendition='simple:display') then
-                            latex:block($config, ., ("tei-formula1"), .)
+                            latex:block($config, ., ("tei-formula1", css:map-rend-to-class(.)), .)
                         else
-                            if (@rend='display') then
-                                (: No function found for behavior: webcomponent :)
-                                $config?apply($config, ./node())
+                            if (@rend="display") then
+                                let $params := 
+                                    map {
+                                        "content": string()
+                                    }
+
+                                                                let $content := 
+                                    model:template-formula2($config, ., $params)
+                                return
+                                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-formula2", css:map-rend-to-class(.)), $content)
                             else
-                                (: No function found for behavior: webcomponent :)
-                                $config?apply($config, ./node())
+                                if (@rend='display') then
+                                    (: No function found for behavior: webcomponent :)
+                                    $config?apply($config, ./node())
+                                else
+                                    (: More than one model without predicate found for ident formula. Choosing first one. :)
+                                    let $params := 
+                                        map {
+                                            "content": string()
+                                        }
+
+                                                                        let $content := 
+                                        model:template-formula3($config, ., $params)
+                                    return
+                                                                        latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-formula3", css:map-rend-to-class(.)), $content)
                     case element(choice) return
                         if (sic and corr) then
-                            latex:alternate($config, ., ("tei-choice4"), ., corr[1], sic[1])
+                            latex:alternate($config, ., ("tei-choice4", css:map-rend-to-class(.)), ., corr[1], sic[1])
                         else
                             if (abbr and expan) then
-                                latex:alternate($config, ., ("tei-choice5"), ., expan[1], abbr[1])
+                                latex:alternate($config, ., ("tei-choice5", css:map-rend-to-class(.)), ., expan[1], abbr[1])
                             else
                                 if (orig and reg) then
-                                    latex:alternate($config, ., ("tei-choice6"), ., reg[1], orig[1])
+                                    latex:alternate($config, ., ("tei-choice6", css:map-rend-to-class(.)), ., reg[1], orig[1])
                                 else
                                     $config?apply($config, ./node())
                     case element(hi) return
                         if (@rendition) then
-                            latex:inline($config, ., css:get-rendition(., ("tei-hi1")), .)
+                            latex:inline($config, ., css:get-rendition(., ("tei-hi1", css:map-rend-to-class(.))), .)
                         else
                             if (not(@rendition)) then
-                                latex:inline($config, ., ("tei-hi2"), .)
+                                latex:inline($config, ., ("tei-hi2", css:map-rend-to-class(.)), .)
                             else
                                 $config?apply($config, ./node())
                     case element(code) return
-                        latex:inline($config, ., ("tei-code"), .)
+                        latex:inline($config, ., ("tei-code", css:map-rend-to-class(.)), .)
                     case element(note) return
-                        latex:note($config, ., ("tei-note"), ., @place, @n)
+                        latex:note($config, ., ("tei-note", css:map-rend-to-class(.)), ., @place, @n)
                     case element(dateline) return
-                        latex:block($config, ., ("tei-dateline"), .)
+                        latex:block($config, ., ("tei-dateline", css:map-rend-to-class(.)), .)
                     case element(back) return
-                        latex:block($config, ., ("tei-back"), .)
+                        latex:block($config, ., ("tei-back", css:map-rend-to-class(.)), .)
                     case element(del) return
-                        latex:inline($config, ., ("tei-del"), .)
+                        latex:inline($config, ., ("tei-del", css:map-rend-to-class(.)), .)
                     case element(trailer) return
-                        latex:block($config, ., ("tei-trailer"), .)
+                        latex:block($config, ., ("tei-trailer", css:map-rend-to-class(.)), .)
                     case element(titlePart) return
-                        latex:block($config, ., css:get-rendition(., ("tei-titlePart")), .)
+                        latex:block($config, ., css:get-rendition(., ("tei-titlePart", css:map-rend-to-class(.))), .)
                     case element(ab) return
-                        latex:paragraph($config, ., ("tei-ab"), .)
+                        latex:paragraph($config, ., ("tei-ab", css:map-rend-to-class(.)), .)
                     case element(revisionDesc) return
-                        latex:omit($config, ., ("tei-revisionDesc"), .)
+                        latex:omit($config, ., ("tei-revisionDesc", css:map-rend-to-class(.)), .)
                     case element(am) return
-                        latex:inline($config, ., ("tei-am"), .)
+                        latex:inline($config, ., ("tei-am", css:map-rend-to-class(.)), .)
                     case element(subst) return
-                        latex:inline($config, ., ("tei-subst"), .)
+                        latex:inline($config, ., ("tei-subst", css:map-rend-to-class(.)), .)
                     case element(roleDesc) return
-                        latex:block($config, ., ("tei-roleDesc"), .)
+                        latex:block($config, ., ("tei-roleDesc", css:map-rend-to-class(.)), .)
                     case element(orig) return
-                        latex:inline($config, ., ("tei-orig"), .)
+                        latex:inline($config, ., ("tei-orig", css:map-rend-to-class(.)), .)
                     case element(opener) return
-                        latex:block($config, ., ("tei-opener"), .)
+                        latex:block($config, ., ("tei-opener", css:map-rend-to-class(.)), .)
                     case element(speaker) return
-                        latex:block($config, ., ("tei-speaker"), .)
+                        latex:block($config, ., ("tei-speaker", css:map-rend-to-class(.)), .)
                     case element(imprimatur) return
-                        latex:block($config, ., ("tei-imprimatur"), .)
+                        latex:block($config, ., ("tei-imprimatur", css:map-rend-to-class(.)), .)
                     case element(publisher) return
                         if (ancestor::teiHeader) then
                             (: Omit if located in teiHeader. :)
-                            latex:omit($config, ., ("tei-publisher"), .)
+                            latex:omit($config, ., ("tei-publisher", css:map-rend-to-class(.)), .)
                         else
                             $config?apply($config, ./node())
                     case element(figDesc) return
-                        latex:inline($config, ., ("tei-figDesc"), .)
+                        latex:inline($config, ., ("tei-figDesc", css:map-rend-to-class(.)), .)
                     case element(rs) return
-                        latex:inline($config, ., ("tei-rs"), .)
+                        latex:inline($config, ., ("tei-rs", css:map-rend-to-class(.)), .)
                     case element(foreign) return
-                        latex:inline($config, ., ("tei-foreign"), .)
+                        latex:inline($config, ., ("tei-foreign", css:map-rend-to-class(.)), .)
                     case element(fileDesc) return
                         if ($parameters?mode='metadata') then
-                            latex:block($config, ., ("tei-fileDesc1"), .)
+                            latex:block($config, ., ("tei-fileDesc1", css:map-rend-to-class(.)), .)
                         else
                             if ($parameters?header='short') then
                                 (
-                                    latex:block($config, ., ("tei-fileDesc2", "header-short"), titleStmt),
-                                    latex:block($config, ., ("tei-fileDesc3", "header-short"), editionStmt),
-                                    latex:block($config, ., ("tei-fileDesc4", "header-short"), publicationStmt)
+                                    latex:block($config, ., ("tei-fileDesc2", "header-short", css:map-rend-to-class(.)), titleStmt),
+                                    latex:block($config, ., ("tei-fileDesc3", "header-short", css:map-rend-to-class(.)), editionStmt),
+                                    latex:block($config, ., ("tei-fileDesc4", "header-short", css:map-rend-to-class(.)), publicationStmt)
                                 )
 
                             else
-                                latex:title($config, ., ("tei-fileDesc5"), titleStmt)
+                                latex:title($config, ., ("tei-fileDesc5", css:map-rend-to-class(.)), titleStmt)
                     case element(notatedMusic) return
-                        latex:figure($config, ., ("tei-notatedMusic"), ptr, label)
+                        latex:figure($config, ., ("tei-notatedMusic", css:map-rend-to-class(.)), ptr, label)
                     case element(seg) return
-                        latex:inline($config, ., css:get-rendition(., ("tei-seg")), .)
+                        latex:inline($config, ., css:get-rendition(., ("tei-seg", css:map-rend-to-class(.))), .)
                     case element(profileDesc) return
-                        latex:omit($config, ., ("tei-profileDesc"), .)
+                        latex:omit($config, ., ("tei-profileDesc", css:map-rend-to-class(.)), .)
                     case element(email) return
-                        latex:inline($config, ., ("tei-email"), .)
+                        latex:inline($config, ., ("tei-email", css:map-rend-to-class(.)), .)
                     case element(text) return
-                        latex:body($config, ., ("tei-text"), .)
+                        latex:body($config, ., ("tei-text", css:map-rend-to-class(.)), .)
                     case element(floatingText) return
-                        latex:block($config, ., ("tei-floatingText"), .)
+                        latex:block($config, ., ("tei-floatingText", css:map-rend-to-class(.)), .)
                     case element(sp) return
-                        latex:block($config, ., ("tei-sp"), .)
+                        latex:block($config, ., ("tei-sp", css:map-rend-to-class(.)), .)
                     case element(abbr) return
-                        latex:inline($config, ., ("tei-abbr"), .)
+                        latex:inline($config, ., ("tei-abbr", css:map-rend-to-class(.)), .)
                     case element(table) return
-                        latex:table($config, ., ("tei-table"), ., map {})
+                        latex:table($config, ., ("tei-table", css:map-rend-to-class(.)), ., map {})
                     case element(cb) return
-                        latex:break($config, ., ("tei-cb"), ., 'column', @n)
+                        latex:break($config, ., ("tei-cb", css:map-rend-to-class(.)), ., 'column', @n)
                     case element(group) return
-                        latex:block($config, ., ("tei-group"), .)
+                        latex:block($config, ., ("tei-group", css:map-rend-to-class(.)), .)
                     case element(licence) return
-                        latex:omit($config, ., ("tei-licence2"), .)
+                        latex:omit($config, ., ("tei-licence2", css:map-rend-to-class(.)), .)
                     case element(editor) return
                         if (ancestor::teiHeader) then
-                            latex:block($config, ., ("tei-editor1"), .)
+                            latex:block($config, ., ("tei-editor1", css:map-rend-to-class(.)), .)
                         else
-                            latex:inline($config, ., ("tei-editor2"), .)
+                            latex:inline($config, ., ("tei-editor2", css:map-rend-to-class(.)), .)
                     case element(c) return
-                        latex:inline($config, ., ("tei-c"), .)
+                        latex:inline($config, ., ("tei-c", css:map-rend-to-class(.)), .)
                     case element(listBibl) return
                         if (bibl) then
-                            latex:list($config, ., ("tei-listBibl1"), bibl, ())
+                            latex:list($config, ., ("tei-listBibl1", css:map-rend-to-class(.)), bibl, ())
                         else
-                            latex:block($config, ., ("tei-listBibl2"), .)
+                            latex:block($config, ., ("tei-listBibl2", css:map-rend-to-class(.)), .)
                     case element(address) return
-                        latex:block($config, ., ("tei-address"), .)
+                        latex:block($config, ., ("tei-address", css:map-rend-to-class(.)), .)
                     case element(g) return
                         if (not(text())) then
-                            latex:glyph($config, ., ("tei-g1"), .)
+                            latex:glyph($config, ., ("tei-g1", css:map-rend-to-class(.)), .)
                         else
-                            latex:inline($config, ., ("tei-g2"), .)
+                            latex:inline($config, ., ("tei-g2", css:map-rend-to-class(.)), .)
                     case element(author) return
                         if (ancestor::teiHeader) then
-                            latex:block($config, ., ("tei-author1"), .)
+                            latex:block($config, ., ("tei-author1", css:map-rend-to-class(.)), .)
                         else
-                            latex:inline($config, ., ("tei-author2"), .)
+                            latex:inline($config, ., ("tei-author2", css:map-rend-to-class(.)), .)
                     case element(castList) return
                         if (child::*) then
-                            latex:list($config, ., css:get-rendition(., ("tei-castList")), castItem, ())
+                            latex:list($config, ., css:get-rendition(., ("tei-castList", css:map-rend-to-class(.))), castItem, ())
                         else
                             $config?apply($config, ./node())
                     case element(l) return
-                        latex:block($config, ., css:get-rendition(., ("tei-l")), .)
+                        latex:block($config, ., css:get-rendition(., ("tei-l", css:map-rend-to-class(.))), .)
                     case element(closer) return
-                        latex:block($config, ., ("tei-closer"), .)
+                        latex:block($config, ., ("tei-closer", css:map-rend-to-class(.)), .)
                     case element(rhyme) return
-                        latex:inline($config, ., ("tei-rhyme"), .)
+                        latex:inline($config, ., ("tei-rhyme", css:map-rend-to-class(.)), .)
                     case element(list) return
                         if (@rendition) then
-                            latex:list($config, ., css:get-rendition(., ("tei-list1")), item, ())
+                            latex:list($config, ., css:get-rendition(., ("tei-list1", css:map-rend-to-class(.))), item, ())
                         else
                             if (not(@rendition)) then
-                                latex:list($config, ., ("tei-list2"), item, ())
+                                latex:list($config, ., ("tei-list2", css:map-rend-to-class(.)), item, ())
                             else
                                 $config?apply($config, ./node())
                     case element(p) return
-                        latex:paragraph($config, ., css:get-rendition(., ("tei-p")), .)
+                        latex:paragraph($config, ., css:get-rendition(., ("tei-p", css:map-rend-to-class(.))), .)
                     case element(measure) return
-                        latex:inline($config, ., ("tei-measure"), .)
+                        latex:inline($config, ., ("tei-measure", css:map-rend-to-class(.)), .)
                     case element(q) return
                         if (l) then
-                            latex:block($config, ., css:get-rendition(., ("tei-q1")), .)
+                            latex:block($config, ., css:get-rendition(., ("tei-q1", css:map-rend-to-class(.))), .)
                         else
                             if (ancestor::p or ancestor::cell) then
-                                latex:inline($config, ., css:get-rendition(., ("tei-q2")), .)
+                                latex:inline($config, ., css:get-rendition(., ("tei-q2", css:map-rend-to-class(.))), .)
                             else
-                                latex:block($config, ., css:get-rendition(., ("tei-q3")), .)
+                                latex:block($config, ., css:get-rendition(., ("tei-q3", css:map-rend-to-class(.))), .)
                     case element(actor) return
-                        latex:inline($config, ., ("tei-actor"), .)
+                        latex:inline($config, ., ("tei-actor", css:map-rend-to-class(.)), .)
                     case element(epigraph) return
-                        latex:block($config, ., ("tei-epigraph"), .)
+                        latex:block($config, ., ("tei-epigraph", css:map-rend-to-class(.)), .)
                     case element(s) return
-                        latex:inline($config, ., ("tei-s"), .)
+                        latex:inline($config, ., ("tei-s", css:map-rend-to-class(.)), .)
                     case element(docTitle) return
-                        latex:block($config, ., css:get-rendition(., ("tei-docTitle")), .)
+                        latex:block($config, ., css:get-rendition(., ("tei-docTitle", css:map-rend-to-class(.))), .)
                     case element(lb) return
-                        latex:break($config, ., css:get-rendition(., ("tei-lb")), ., 'line', @n)
+                        latex:break($config, ., css:get-rendition(., ("tei-lb", css:map-rend-to-class(.))), ., 'line', @n)
                     case element(w) return
-                        latex:inline($config, ., ("tei-w"), .)
+                        latex:inline($config, ., ("tei-w", css:map-rend-to-class(.)), .)
                     case element(stage) return
-                        latex:block($config, ., ("tei-stage"), .)
+                        latex:block($config, ., ("tei-stage", css:map-rend-to-class(.)), .)
                     case element(titlePage) return
-                        latex:block($config, ., css:get-rendition(., ("tei-titlePage")), .)
+                        latex:block($config, ., css:get-rendition(., ("tei-titlePage", css:map-rend-to-class(.))), .)
                     case element(name) return
-                        latex:inline($config, ., ("tei-name"), .)
+                        latex:inline($config, ., ("tei-name", css:map-rend-to-class(.)), .)
                     case element(front) return
-                        latex:block($config, ., ("tei-front"), .)
+                        latex:block($config, ., ("tei-front", css:map-rend-to-class(.)), .)
                     case element(lg) return
-                        latex:block($config, ., ("tei-lg"), .)
+                        latex:block($config, ., ("tei-lg", css:map-rend-to-class(.)), .)
                     case element(publicationStmt) return
-                        latex:omit($config, ., ("tei-publicationStmt2"), .)
+                        latex:omit($config, ., ("tei-publicationStmt2", css:map-rend-to-class(.)), .)
                     case element(biblScope) return
-                        latex:inline($config, ., ("tei-biblScope"), .)
+                        latex:inline($config, ., ("tei-biblScope", css:map-rend-to-class(.)), .)
                     case element(desc) return
-                        latex:inline($config, ., ("tei-desc"), .)
+                        latex:inline($config, ., ("tei-desc", css:map-rend-to-class(.)), .)
                     case element(role) return
-                        latex:block($config, ., ("tei-role"), .)
+                        latex:block($config, ., ("tei-role", css:map-rend-to-class(.)), .)
                     case element(docEdition) return
-                        latex:inline($config, ., ("tei-docEdition"), .)
+                        latex:inline($config, ., ("tei-docEdition", css:map-rend-to-class(.)), .)
                     case element(num) return
-                        latex:inline($config, ., ("tei-num"), .)
+                        latex:inline($config, ., ("tei-num", css:map-rend-to-class(.)), .)
                     case element(docImprint) return
-                        latex:inline($config, ., ("tei-docImprint"), .)
+                        latex:inline($config, ., ("tei-docImprint", css:map-rend-to-class(.)), .)
                     case element(postscript) return
-                        latex:block($config, ., ("tei-postscript"), .)
+                        latex:block($config, ., ("tei-postscript", css:map-rend-to-class(.)), .)
                     case element(edition) return
                         if (ancestor::teiHeader) then
-                            latex:block($config, ., ("tei-edition"), .)
+                            latex:block($config, ., ("tei-edition", css:map-rend-to-class(.)), .)
                         else
                             $config?apply($config, ./node())
                     case element(cell) return
                         (: Insert table cell. :)
-                        latex:cell($config, ., ("tei-cell"), ., ())
+                        latex:cell($config, ., ("tei-cell", css:map-rend-to-class(.)), ., ())
                     case element(relatedItem) return
-                        latex:inline($config, ., ("tei-relatedItem"), .)
+                        latex:inline($config, ., ("tei-relatedItem", css:map-rend-to-class(.)), .)
                     case element(div) return
                         if (@type='title_page') then
-                            latex:block($config, ., ("tei-div1"), .)
+                            latex:block($config, ., ("tei-div1", css:map-rend-to-class(.)), .)
                         else
                             if (parent::body or parent::front or parent::back) then
-                                latex:section($config, ., ("tei-div2"), .)
+                                latex:section($config, ., ("tei-div2", css:map-rend-to-class(.)), .)
                             else
-                                latex:block($config, ., ("tei-div3"), .)
+                                latex:block($config, ., ("tei-div3", css:map-rend-to-class(.)), .)
                     case element(graphic) return
-                        latex:graphic($config, ., ("tei-graphic"), ., @url, @width, @height, @scale, desc)
+                        latex:graphic($config, ., ("tei-graphic", css:map-rend-to-class(.)), ., @url, @width, @height, @scale, desc)
                     case element(reg) return
-                        latex:inline($config, ., ("tei-reg"), .)
+                        latex:inline($config, ., ("tei-reg", css:map-rend-to-class(.)), .)
                     case element(ref) return
                         if (parent::cit or parent::def) then
                             (: references (authors) within translations, examples or definitions :)
-                            latex:inline($config, ., ("tei-ref1", "ref-author"), .)
+                            latex:inline($config, ., ("tei-ref1", "ref-author", css:map-rend-to-class(.)), .)
                         else
                             if (not(@target)) then
-                                latex:inline($config, ., ("tei-ref2"), .)
+                                latex:inline($config, ., ("tei-ref2", css:map-rend-to-class(.)), .)
                             else
                                 if (not(node())) then
-                                    latex:link($config, ., ("tei-ref3"), @target, @target, map {})
+                                    latex:link($config, ., ("tei-ref3", css:map-rend-to-class(.)), @target, @target, map {})
                                 else
-                                    latex:link($config, ., ("tei-ref4"), ., @target, map {})
+                                    latex:link($config, ., ("tei-ref4", css:map-rend-to-class(.)), ., @target, map {})
                     case element(pubPlace) return
                         if (ancestor::teiHeader) then
                             (: Omit if located in teiHeader. :)
-                            latex:omit($config, ., ("tei-pubPlace"), .)
+                            latex:omit($config, ., ("tei-pubPlace", css:map-rend-to-class(.)), .)
                         else
                             $config?apply($config, ./node())
                     case element(add) return
-                        latex:inline($config, ., ("tei-add"), .)
+                        latex:inline($config, ., ("tei-add", css:map-rend-to-class(.)), .)
                     case element(docDate) return
-                        latex:inline($config, ., ("tei-docDate"), .)
+                        latex:inline($config, ., ("tei-docDate", css:map-rend-to-class(.)), .)
                     case element(head) return
                         if ($parameters?header='short') then
-                            latex:inline($config, ., ("tei-head1"), replace(string-join(.//text()[not(parent::ref)]), '^(.*?)[^\w]*$', '$1'))
+                            latex:inline($config, ., ("tei-head1", css:map-rend-to-class(.)), replace(string-join(.//text()[not(parent::ref)]), '^(.*?)[^\w]*$', '$1'))
                         else
                             if (parent::figure) then
-                                latex:block($config, ., ("tei-head2"), .)
+                                latex:block($config, ., ("tei-head2", css:map-rend-to-class(.)), .)
                             else
                                 if (parent::table) then
-                                    latex:block($config, ., ("tei-head3"), .)
+                                    latex:block($config, ., ("tei-head3", css:map-rend-to-class(.)), .)
                                 else
                                     if (parent::lg) then
-                                        latex:block($config, ., ("tei-head4"), .)
+                                        latex:block($config, ., ("tei-head4", css:map-rend-to-class(.)), .)
                                     else
                                         if (parent::list) then
-                                            latex:block($config, ., ("tei-head5"), .)
+                                            latex:block($config, ., ("tei-head5", css:map-rend-to-class(.)), .)
                                         else
                                             if (parent::div) then
-                                                latex:heading($config, ., ("tei-head6"), ., count(ancestor::div))
+                                                latex:heading($config, ., ("tei-head6", css:map-rend-to-class(.)), ., count(ancestor::div))
                                             else
-                                                latex:block($config, ., ("tei-head7"), .)
+                                                latex:block($config, ., ("tei-head7", css:map-rend-to-class(.)), .)
                     case element(ex) return
-                        latex:inline($config, ., ("tei-ex"), .)
+                        latex:inline($config, ., ("tei-ex", css:map-rend-to-class(.)), .)
                     case element(castGroup) return
                         if (child::*) then
                             (: Insert list. :)
-                            latex:list($config, ., ("tei-castGroup"), castItem|castGroup, ())
+                            latex:list($config, ., ("tei-castGroup", css:map-rend-to-class(.)), castItem|castGroup, ())
                         else
                             $config?apply($config, ./node())
                     case element(time) return
-                        latex:inline($config, ., ("tei-time"), .)
+                        latex:inline($config, ., ("tei-time", css:map-rend-to-class(.)), .)
                     case element(bibl) return
                         if (parent::listBibl) then
-                            latex:listItem($config, ., ("tei-bibl1"), ., ())
+                            latex:listItem($config, ., ("tei-bibl1", css:map-rend-to-class(.)), ., ())
                         else
-                            latex:inline($config, ., ("tei-bibl2"), .)
+                            latex:inline($config, ., ("tei-bibl2", css:map-rend-to-class(.)), .)
                     case element(salute) return
                         if (parent::closer) then
-                            latex:inline($config, ., ("tei-salute1"), .)
+                            latex:inline($config, ., ("tei-salute1", css:map-rend-to-class(.)), .)
                         else
-                            latex:block($config, ., ("tei-salute2"), .)
+                            latex:block($config, ., ("tei-salute2", css:map-rend-to-class(.)), .)
                     case element(unclear) return
-                        latex:inline($config, ., ("tei-unclear"), .)
+                        latex:inline($config, ., ("tei-unclear", css:map-rend-to-class(.)), .)
                     case element(argument) return
-                        latex:block($config, ., ("tei-argument"), .)
+                        latex:block($config, ., ("tei-argument", css:map-rend-to-class(.)), .)
                     case element(date) return
                         if (text()) then
-                            latex:inline($config, ., ("tei-date1"), .)
+                            latex:inline($config, ., ("tei-date1", css:map-rend-to-class(.)), .)
                         else
                             if (@when and not(text())) then
-                                latex:inline($config, ., ("tei-date2"), @when)
+                                latex:inline($config, ., ("tei-date2", css:map-rend-to-class(.)), @when)
                             else
                                 if (text()) then
-                                    latex:inline($config, ., ("tei-date4"), .)
+                                    latex:inline($config, ., ("tei-date4", css:map-rend-to-class(.)), .)
                                 else
                                     $config?apply($config, ./node())
                     case element(title) return
                         if ($parameters?mode='metadata') then
-                            latex:omit($config, ., ("tei-title1"), .)
+                            latex:omit($config, ., ("tei-title1", css:map-rend-to-class(.)), .)
                         else
                             if ($parameters?header='short') then
-                                latex:heading($config, ., ("tei-title2"), ., 5)
+                                latex:heading($config, ., ("tei-title2", css:map-rend-to-class(.)), ., 5)
                             else
                                 if (parent::titleStmt/parent::fileDesc) then
                                     (
                                         if (preceding-sibling::title) then
-                                            latex:text($config, ., ("tei-title3"), ' — ')
+                                            latex:text($config, ., ("tei-title3", css:map-rend-to-class(.)), ' — ')
                                         else
                                             (),
-                                        latex:inline($config, ., ("tei-title4", "foo"), .)
+                                        latex:inline($config, ., ("tei-title4", "foo", css:map-rend-to-class(.)), .)
                                     )
 
                                 else
                                     if (not(@level) and parent::bibl) then
-                                        latex:inline($config, ., ("tei-title5"), .)
+                                        latex:inline($config, ., ("tei-title5", css:map-rend-to-class(.)), .)
                                     else
                                         if (@level='m' or not(@level)) then
                                             (
-                                                latex:inline($config, ., ("tei-title6"), .),
+                                                latex:inline($config, ., ("tei-title6", css:map-rend-to-class(.)), .),
                                                 if (ancestor::biblFull) then
-                                                    latex:text($config, ., ("tei-title7"), ', ')
+                                                    latex:text($config, ., ("tei-title7", css:map-rend-to-class(.)), ', ')
                                                 else
                                                     ()
                                             )
@@ -443,9 +470,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                                         else
                                             if (@level='s' or @level='j') then
                                                 (
-                                                    latex:inline($config, ., ("tei-title8"), .),
+                                                    latex:inline($config, ., ("tei-title8", css:map-rend-to-class(.)), .),
                                                     if (following-sibling::* and     (  ancestor::biblFull)) then
-                                                        latex:text($config, ., ("tei-title9"), ', ')
+                                                        latex:text($config, ., ("tei-title9", css:map-rend-to-class(.)), ', ')
                                                     else
                                                         ()
                                                 )
@@ -453,27 +480,27 @@ declare function model:apply($config as map(*), $input as node()*) {
                                             else
                                                 if (@level='u' or @level='a') then
                                                     (
-                                                        latex:inline($config, ., ("tei-title10"), .),
+                                                        latex:inline($config, ., ("tei-title10", css:map-rend-to-class(.)), .),
                                                         if (following-sibling::* and     (    ancestor::biblFull)) then
-                                                            latex:text($config, ., ("tei-title11"), '. ')
+                                                            latex:text($config, ., ("tei-title11", css:map-rend-to-class(.)), '. ')
                                                         else
                                                             ()
                                                     )
 
                                                 else
-                                                    latex:inline($config, ., ("tei-title12"), .)
+                                                    latex:inline($config, ., ("tei-title12", css:map-rend-to-class(.)), .)
                     case element(corr) return
                         if (parent::choice and count(parent::*/*) gt 1) then
                             (: simple inline, if in parent choice. :)
-                            latex:inline($config, ., ("tei-corr1"), .)
+                            latex:inline($config, ., ("tei-corr1", css:map-rend-to-class(.)), .)
                         else
-                            latex:inline($config, ., ("tei-corr2"), .)
+                            latex:inline($config, ., ("tei-corr2", css:map-rend-to-class(.)), .)
                     case element(cit) return
                         if (@type='example') then
-                            latex:block($config, ., ("tei-cit1", "example"), .)
+                            latex:block($config, ., ("tei-cit1", "example", css:map-rend-to-class(.)), .)
                         else
                             if (@type='translation') then
-                                latex:block($config, ., ("tei-cit2", "translation"), .)
+                                latex:block($config, ., ("tei-cit2", "translation", css:map-rend-to-class(.)), .)
                             else
                                 $config?apply($config, ./node())
                     case element(titleStmt) return
@@ -481,59 +508,59 @@ declare function model:apply($config as map(*), $input as node()*) {
                         $config?apply($config, ./node())
                     case element(sic) return
                         if (parent::choice and count(parent::*/*) gt 1) then
-                            latex:inline($config, ., ("tei-sic1"), .)
+                            latex:inline($config, ., ("tei-sic1", css:map-rend-to-class(.)), .)
                         else
-                            latex:inline($config, ., ("tei-sic2"), .)
+                            latex:inline($config, ., ("tei-sic2", css:map-rend-to-class(.)), .)
                     case element(expan) return
-                        latex:inline($config, ., ("tei-expan"), .)
+                        latex:inline($config, ., ("tei-expan", css:map-rend-to-class(.)), .)
                     case element(body) return
                         (
-                            latex:index($config, ., ("tei-body1"), ., 'toc'),
-                            latex:block($config, ., ("tei-body2"), .)
+                            latex:index($config, ., ("tei-body1", css:map-rend-to-class(.)), ., 'toc'),
+                            latex:block($config, ., ("tei-body2", css:map-rend-to-class(.)), .)
                         )
 
                     case element(spGrp) return
-                        latex:block($config, ., ("tei-spGrp"), .)
+                        latex:block($config, ., ("tei-spGrp", css:map-rend-to-class(.)), .)
                     case element(fw) return
                         if (ancestor::p or ancestor::ab) then
-                            latex:inline($config, ., ("tei-fw1"), .)
+                            latex:inline($config, ., ("tei-fw1", css:map-rend-to-class(.)), .)
                         else
-                            latex:block($config, ., ("tei-fw2"), .)
+                            latex:block($config, ., ("tei-fw2", css:map-rend-to-class(.)), .)
                     case element(encodingDesc) return
-                        latex:omit($config, ., ("tei-encodingDesc"), .)
+                        latex:omit($config, ., ("tei-encodingDesc", css:map-rend-to-class(.)), .)
                     case element(addrLine) return
-                        latex:block($config, ., ("tei-addrLine"), .)
+                        latex:block($config, ., ("tei-addrLine", css:map-rend-to-class(.)), .)
                     case element(gap) return
                         if (desc) then
-                            latex:inline($config, ., ("tei-gap1"), .)
+                            latex:inline($config, ., ("tei-gap1", css:map-rend-to-class(.)), .)
                         else
                             if (@extent) then
-                                latex:inline($config, ., ("tei-gap2"), @extent)
+                                latex:inline($config, ., ("tei-gap2", css:map-rend-to-class(.)), @extent)
                             else
-                                latex:inline($config, ., ("tei-gap3"), .)
+                                latex:inline($config, ., ("tei-gap3", css:map-rend-to-class(.)), .)
                     case element(quote) return
                         if (ancestor::cit) then
                             (: quotes within cit should be treated as inline, cit is the block unit :)
-                            latex:inline($config, ., ("tei-quote1"), .)
+                            latex:inline($config, ., ("tei-quote1", css:map-rend-to-class(.)), .)
                         else
                             if (ancestor::p) then
                                 (: If it is inside a paragraph then it is inline, otherwise it is block level :)
-                                latex:inline($config, ., css:get-rendition(., ("tei-quote2")), .)
+                                latex:inline($config, ., css:get-rendition(., ("tei-quote2", css:map-rend-to-class(.))), .)
                             else
                                 (: If it is inside a paragraph then it is inline, otherwise it is block level :)
-                                latex:block($config, ., css:get-rendition(., ("tei-quote3")), .)
+                                latex:block($config, ., css:get-rendition(., ("tei-quote3", css:map-rend-to-class(.))), .)
                     case element(row) return
                         if (@role='label') then
-                            latex:row($config, ., ("tei-row1"), .)
+                            latex:row($config, ., ("tei-row1", css:map-rend-to-class(.)), .)
                         else
                             (: Insert table row. :)
-                            latex:row($config, ., ("tei-row2"), .)
+                            latex:row($config, ., ("tei-row2", css:map-rend-to-class(.)), .)
                     case element(docAuthor) return
-                        latex:inline($config, ., ("tei-docAuthor"), .)
+                        latex:inline($config, ., ("tei-docAuthor", css:map-rend-to-class(.)), .)
                     case element(byline) return
-                        latex:block($config, ., ("tei-byline"), .)
+                        latex:block($config, ., ("tei-byline", css:map-rend-to-class(.)), .)
                     case element(entryFree) return
-                        latex:block($config, ., ("tei-entryFree"), .)
+                        latex:block($config, ., ("tei-entryFree", css:map-rend-to-class(.)), .)
                     case element(form) return
                         if (starts-with(@facs, 'iiif:')) then
                             (: No function found for behavior: webcomponent :)
@@ -541,31 +568,31 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             $config?apply($config, ./node())
                     case element(gram) return
-                        latex:inline($config, ., ("tei-gram"), .)
+                        latex:inline($config, ., ("tei-gram", css:map-rend-to-class(.)), .)
                     case element(oRef) return
                         (: marker for headword reference; rendered as dash :)
-                        latex:inline($config, ., ("tei-oRef"), .)
+                        latex:inline($config, ., ("tei-oRef", css:map-rend-to-class(.)), .)
                     case element(gen) return
-                        latex:alternate($config, ., ("tei-gen"), ., ., @norm)
+                        latex:alternate($config, ., ("tei-gen", css:map-rend-to-class(.)), ., ., @norm)
                     case element(pos) return
-                        latex:alternate($config, ., ("tei-pos"), ., ., @norm)
+                        latex:alternate($config, ., ("tei-pos", css:map-rend-to-class(.)), ., ., @norm)
                     case element(msDesc) return
                         (
                             (: retrieves the primary language :)
-                            latex:block($config, ., ("tei-msDesc1"), (root(.)//langUsage/language)),
+                            latex:block($config, ., ("tei-msDesc1", css:map-rend-to-class(.)), (root(.)//langUsage/language)),
                             (: retrieves the form of the source from taxonomy file :)
-                            latex:block($config, ., ("tei-msDesc2"), id(substring-after(root(.)//catRef[@scheme='#form']/@target, '#'), doc('/db/apps/tei-publisher/data/taxonomy.xml'))),
-                            latex:block($config, ., ("tei-msDesc3"), .)
+                            latex:block($config, ., ("tei-msDesc2", css:map-rend-to-class(.)), id(substring-after(root(.)//catRef[@scheme='#form']/@target, '#'), doc('/db/apps/tei-publisher/data/taxonomy.xml'))),
+                            latex:block($config, ., ("tei-msDesc3", css:map-rend-to-class(.)), .)
                         )
 
                     case element(institution) return
-                        latex:inline($config, ., ("tei-institution"), .)
+                        latex:inline($config, ., ("tei-institution", css:map-rend-to-class(.)), .)
                     case element(respStmt) return
-                        latex:alternate($config, ., ("tei-respStmt"), ., persName, resp)
+                        latex:alternate($config, ., ("tei-respStmt", css:map-rend-to-class(.)), ., persName, resp)
                     case element(idno) return
                         (
-                            latex:inline($config, ., ("tei-idno1"), .),
-                            latex:inline($config, ., ("tei-idno2"), ancestor::msDesc/@type)
+                            latex:inline($config, ., ("tei-idno1", css:map-rend-to-class(.)), .),
+                            latex:inline($config, ., ("tei-idno2", css:map-rend-to-class(.)), ancestor::msDesc/@type)
                         )
 
                     case element() return

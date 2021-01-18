@@ -55,48 +55,48 @@ declare function model:apply($config as map(*), $input as node()*) {
             return
                             typeswitch(.)
                     case element(body) return
-                        latex:body($config, ., ("tei-body"), .)
+                        latex:body($config, ., ("tei-body", css:map-rend-to-class(.)), .)
                     case element(sec) return
-                        latex:section($config, ., ("tei-sec"), .)
+                        latex:section($config, ., ("tei-sec", css:map-rend-to-class(.)), .)
                     case element(title) return
-                        latex:heading($config, ., ("tei-title"), ., count(ancestor::sec))
+                        latex:heading($config, ., ("tei-title", css:map-rend-to-class(.)), ., count(ancestor::sec))
                     case element(p) return
-                        latex:paragraph($config, ., ("tei-p"), .)
+                        latex:paragraph($config, ., ("tei-p", css:map-rend-to-class(.)), .)
                     case element(list) return
-                        latex:list($config, ., ("tei-list"), ., if (@list-type = 'order') then 'ordered' else ())
+                        latex:list($config, ., ("tei-list", css:map-rend-to-class(.)), ., if (@list-type = 'order') then 'ordered' else ())
                     case element(list-item) return
-                        latex:listItem($config, ., ("tei-list-item"), ., ())
+                        latex:listItem($config, ., ("tei-list-item", css:map-rend-to-class(.)), ., ())
                     case element(uri) return
-                        latex:link($config, ., ("tei-uri"), ., @xlink:href, map {})
+                        latex:link($config, ., ("tei-uri", css:map-rend-to-class(.)), ., @xlink:href, map {})
                     case element(bold) return
-                        latex:inline($config, ., ("tei-bold"), .)
+                        latex:inline($config, ., ("tei-bold", css:map-rend-to-class(.)), .)
                     case element(italic) return
-                        latex:inline($config, ., ("tei-italic"), .)
+                        latex:inline($config, ., ("tei-italic", css:map-rend-to-class(.)), .)
                     case element(table-wrap) return
-                        latex:block($config, ., ("tei-table-wrap"), .)
+                        latex:block($config, ., ("tei-table-wrap", css:map-rend-to-class(.)), .)
                     case element(table) return
-                        latex:table($config, ., ("tei-table", "table"), ., map {})
+                        latex:table($config, ., ("tei-table", "table", css:map-rend-to-class(.)), ., map {})
                     case element(tr) return
-                        latex:row($config, ., ("tei-tr"), .)
+                        latex:row($config, ., ("tei-tr", css:map-rend-to-class(.)), .)
                     case element(td) return
-                        latex:cell($config, ., ("tei-td"), ., ())
+                        latex:cell($config, ., ("tei-td", css:map-rend-to-class(.)), ., ())
                     case element(th) return
-                        latex:cell($config, ., css:get-rendition(., ("tei-th")), ., ())
+                        latex:cell($config, ., css:get-rendition(., ("tei-th", css:map-rend-to-class(.))), ., ())
                     case element(article-meta) return
-                        latex:block($config, ., ("tei-article-meta"), title-group)
+                        latex:block($config, ., ("tei-article-meta", css:map-rend-to-class(.)), title-group)
                     case element(title-group) return
                         (
-                            latex:link($config, ., ("tei-title-group1"), article-title, $parameters?doc, map {}),
-                            latex:block($config, ., ("tei-title-group2"), subtitle)
+                            latex:link($config, ., ("tei-title-group1", css:map-rend-to-class(.)), article-title, $parameters?doc, map {}),
+                            latex:block($config, ., ("tei-title-group2", css:map-rend-to-class(.)), subtitle)
                         )
 
                     case element(article-title) return
                         if ($parameters?header='short') then
-                            latex:heading($config, ., ("tei-article-title"), ., 5)
+                            latex:heading($config, ., ("tei-article-title", css:map-rend-to-class(.)), ., 5)
                         else
                             $config?apply($config, ./node())
                     case element(subtitle) return
-                        latex:heading($config, ., ("tei-subtitle"), ., 6)
+                        latex:heading($config, ., ("tei-subtitle", css:map-rend-to-class(.)), ., 6)
                     case element() return
                         if (namespace-uri(.) = '') then
                             $config?apply($config, ./node())

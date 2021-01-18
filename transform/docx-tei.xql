@@ -95,38 +95,38 @@ declare function model:apply($config as map(*), $input as node()*) {
             return
                             typeswitch(.)
                     case element(body) return
-                        tei:body($config, ., ("tei-body"), .)
+                        tei:body($config, ., ("tei-body", css:map-rend-to-class(.)), .)
                     case element(p) return
                         if ($parameters?pstyle(.)/name[starts-with(@w:val, 'tei:')]) then
-                            tei:inline($config, ., ("tei-p1"), ., map {"tei_element": substring-after($parameters?pstyle(.)/name/@w:val, 'tei:')})
+                            tei:inline($config, ., ("tei-p1", css:map-rend-to-class(.)), ., map {"tei_element": substring-after($parameters?pstyle(.)/name/@w:val, 'tei:')})
                         else
                             if ($parameters?pstyle(.)/name[matches(@w:val, "quote$", "i")]) then
-                                tei:cit($config, ., ("tei-p2"), ., ())
+                                tei:cit($config, ., ("tei-p2", css:map-rend-to-class(.)), ., ())
                             else
                                 if ($parameters?nstyle(.)/numFmt) then
-                                    tei:listItem($config, ., ("tei-p3"), ., (), map {"level": $parameters?nstyle(.)/@w:ilvl, "type": if ($parameters?nstyle(.)/numFmt[@w:val = 'bullet']) then  () else  'ordered'})
+                                    tei:listItem($config, ., ("tei-p3", css:map-rend-to-class(.)), ., (), map {"level": $parameters?nstyle(.)/@w:ilvl, "type": if ($parameters?nstyle(.)/numFmt[@w:val = 'bullet']) then  () else  'ordered'})
                                 else
                                     if ($parameters?pstyle(.)/name[matches(@w:val, "^(heading|title|subtitle)", "i")]) then
-                                        tei:heading($config, ., ("tei-p4"), ., let $l := $parameters?pstyle(.)//outlineLvl/@w:val return  if ($l) then $l/number() + 1 else 0)
+                                        tei:heading($config, ., ("tei-p4", css:map-rend-to-class(.)), ., let $l := $parameters?pstyle(.)//outlineLvl/@w:val return  if ($l) then $l/number() + 1 else 0)
                                     else
-                                        tei:paragraph($config, ., ("tei-p5"), .)
+                                        tei:paragraph($config, ., ("tei-p5", css:map-rend-to-class(.)), .)
                     case element(r) return
                         if (drawing) then
-                            tei:inline($config, ., ("tei-r1"), .//pic:pic, map {})
+                            tei:inline($config, ., ("tei-r1", css:map-rend-to-class(.)), .//pic:pic, map {})
                         else
                             if (ancestor::w:footnote and $parameters?cstyle(.)/name/@w:val = 'footnote reference') then
                                 (: Omit footnote characters inside the footnote text itself :)
-                                tei:omit($config, ., ("tei-r2"), .)
+                                tei:omit($config, ., ("tei-r2", css:map-rend-to-class(.)), .)
                             else
                                 if (footnoteReference[@w:customMarkFollows]) then
                                     (: Footnote reference with a custom mark is encoded with type=original :)
-                                    tei:note($config, ., ("tei-r3"), $parameters?footnote(.), 'footnote', w:t, map {"type": 'original'})
+                                    tei:note($config, ., ("tei-r3", css:map-rend-to-class(.)), $parameters?footnote(.), 'footnote', w:t, map {"type": 'original'})
                                 else
                                     if (footnoteReference) then
-                                        tei:note($config, ., ("tei-r4"), $parameters?footnote(.), 'footnote', w:t, map {})
+                                        tei:note($config, ., ("tei-r4", css:map-rend-to-class(.)), $parameters?footnote(.), 'footnote', w:t, map {})
                                     else
                                         if (endnoteReference) then
-                                            tei:note($config, ., ("tei-r5"), $parameters?endnote(.), 'endnote', (), map {})
+                                            tei:note($config, ., ("tei-r5", css:map-rend-to-class(.)), $parameters?endnote(.), 'endnote', (), map {})
                                         else
                                             if ($parameters?cstyle(.)/name[@w:val = 'tei:persName'] and matches(., '&#60;.*&#62;')) then
                                                 (: Example for encoding @ref attached to a tei:persName element using a convention. Content between angle brackets will be stripped by post-processing :)
@@ -139,18 +139,18 @@ declare function model:apply($config as map(*), $input as node()*) {
                                                                                                 let $content := 
                                                     model:template-r6($config, ., $params)
                                                 return
-                                                                                                tei:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-r6"), $content, map {"ref": replace(., '^.*?&#60;(.*)&#62;.*$', '$1')})
+                                                                                                tei:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-r6", css:map-rend-to-class(.)), $content, map {"ref": replace(., '^.*?&#60;(.*)&#62;.*$', '$1')})
                                             else
                                                 if ($parameters?cstyle(.)/name[@w:val = 'tei:tag']) then
                                                     (: tei:tag may contain angle brackets, so needs to be handled separately :)
-                                                    tei:inline($config, ., ("tei-r7"), ., map {"tei_element": 'tag'})
+                                                    tei:inline($config, ., ("tei-r7", css:map-rend-to-class(.)), ., map {"tei_element": 'tag'})
                                                 else
                                                     if ($parameters?cstyle(.)/name[starts-with(@w:val, 'tei:')] and matches(., '&#60;.*=.*&#62;')) then
                                                         (: Character style starts with 'tei:' and has parameters in content, which will be interpreted as attribute list :)
-                                                        tei:inline($config, ., ("tei-r8"), ., map {"tei_element": substring-after($parameters?cstyle(.)/name/@w:val, 'tei:'), "tei_attributes": tokenize(replace(., '^.*?&#60;(.*)&#62;.*$', '$1'), '\s*;\s*')})
+                                                        tei:inline($config, ., ("tei-r8", css:map-rend-to-class(.)), ., map {"tei_element": substring-after($parameters?cstyle(.)/name/@w:val, 'tei:'), "tei_attributes": tokenize(replace(., '^.*?&#60;(.*)&#62;.*$', '$1'), '\s*;\s*')})
                                                     else
                                                         if ($parameters?cstyle(.)/name[starts-with(@w:val, 'tei:')]) then
-                                                            tei:inline($config, ., ("tei-r9"), ., map {"tei_element": substring-after($parameters?cstyle(.)/name/@w:val, 'tei:')})
+                                                            tei:inline($config, ., ("tei-r9", css:map-rend-to-class(.)), ., map {"tei_element": substring-after($parameters?cstyle(.)/name/@w:val, 'tei:')})
                                                         else
                                                             if (rPr/(u|i|caps|b) or $parameters?cstyle(.)/rPr/(u|i|caps|b)) then
                                                                 let $params := 
@@ -162,21 +162,21 @@ declare function model:apply($config as map(*), $input as node()*) {
                                                                                                                                 let $content := 
                                                                     model:template-r10($config, ., $params)
                                                                 return
-                                                                                                                                tei:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-r10"), $content, map {"rend": (rPr/(u|i|caps|b), $parameters?cstyle(.)/rPr/(u|i|caps|b)) ! local-name(.)})
+                                                                                                                                tei:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-r10", css:map-rend-to-class(.)), $content, map {"rend": (rPr/(u|i|caps|b), $parameters?cstyle(.)/rPr/(u|i|caps|b)) ! local-name(.)})
                                                             else
-                                                                tei:inline($config, ., ("tei-r11"), ., map {})
+                                                                tei:inline($config, ., ("tei-r11", css:map-rend-to-class(.)), ., map {})
                     case element(document) return
-                        tei:document($config, ., ("tei-document"), ($parameters?properties, .))
+                        tei:document($config, ., ("tei-document", css:map-rend-to-class(.)), ($parameters?properties, .))
                     case element(bookmarkStart) return
                         if (not(starts-with(@w:name, 'OLE') or @w:name='_GoBack')) then
-                            tei:anchor($config, ., ("tei-bookmarkStart"), ., @w:name, map {})
+                            tei:anchor($config, ., ("tei-bookmarkStart", css:map-rend-to-class(.)), ., @w:name, map {})
                         else
                             $config?apply($config, ./node())
                     case element(hyperlink) return
                         if (@w:anchor) then
-                            tei:link($config, ., ("tei-hyperlink1"), ., '#' || @w:anchor, ())
+                            tei:link($config, ., ("tei-hyperlink1", css:map-rend-to-class(.)), ., '#' || @w:anchor, ())
                         else
-                            tei:link($config, ., ("tei-hyperlink2"), ., $parameters?link(.)/@Target/string(), ())
+                            tei:link($config, ., ("tei-hyperlink2", css:map-rend-to-class(.)), ., $parameters?link(.)/@Target/string(), ())
                     case element(cp:coreProperties) return
                         let $params := 
                             map {
@@ -188,33 +188,33 @@ declare function model:apply($config as map(*), $input as node()*) {
                                                 let $content := 
                             model:template-cp_coreProperties($config, ., $params)
                         return
-                                                tei:metadata(map:merge(($config, map:entry("template", true()))), ., ("tei-cp_coreProperties"), $content)
+                                                tei:metadata(map:merge(($config, map:entry("template", true()))), ., ("tei-cp_coreProperties", css:map-rend-to-class(.)), $content)
                     case element(dc:title) return
-                        tei:inline($config, ., ("tei-dc_title"), ., map {})
+                        tei:inline($config, ., ("tei-dc_title", css:map-rend-to-class(.)), ., map {})
                     case element(dc:creator) return
-                        tei:inline($config, ., ("tei-dc_creator"), ., map {"tei_element": 'author'})
+                        tei:inline($config, ., ("tei-dc_creator", css:map-rend-to-class(.)), ., map {"tei_element": 'author'})
                     case element(tbl) return
-                        tei:table($config, ., ("tei-tbl"), tr)
+                        tei:table($config, ., ("tei-tbl", css:map-rend-to-class(.)), tr)
                     case element(tr) return
-                        tei:row($config, ., ("tei-tr"), tc)
+                        tei:row($config, ., ("tei-tr", css:map-rend-to-class(.)), tc)
                     case element(tc) return
-                        tei:cell($config, ., ("tei-tc"), p, (), map {"cols": tcPr/gridSpan/@w:val})
+                        tei:cell($config, ., ("tei-tc", css:map-rend-to-class(.)), p, (), map {"cols": tcPr/gridSpan/@w:val})
                     case element(t) return
-                        tei:text($config, ., ("tei-t"), .)
+                        tei:text($config, ., ("tei-t", css:map-rend-to-class(.)), .)
                     case element(pic:pic) return
-                        tei:graphic($config, ., ("tei-pic_pic"), ., let $id := .//a:blip/@r:embed  let $mediaColl := $parameters?filename || ".media/"  let $target := $parameters?rels/rel:Relationship[@Id=$id]/@Target return  $mediaColl || substring-after($target, "media/"), (), (), (), ())
+                        tei:graphic($config, ., ("tei-pic_pic", css:map-rend-to-class(.)), ., let $id := .//a:blip/@r:embed  let $mediaColl := $parameters?filename || ".media/"  let $target := $parameters?rels/rel:Relationship[@Id=$id]/@Target return  $mediaColl || substring-after($target, "media/"), (), (), (), ())
                     case element(smartTag) return
-                        tei:inline($config, ., ("tei-smartTag"), ., map {})
+                        tei:inline($config, ., ("tei-smartTag", css:map-rend-to-class(.)), ., map {})
                     case element(pict) return
-                        tei:inline($config, ., ("tei-pict"), .//v:imagedata, map {})
+                        tei:inline($config, ., ("tei-pict", css:map-rend-to-class(.)), .//v:imagedata, map {})
                     case element(v:imagedata) return
-                        tei:graphic($config, ., ("tei-v_imagedata"), ., let $id := @r:id let $mediaColl := $parameters?filename || ".media/"  let $relationship := $parameters?rels/rel:Relationship[@Id=$id] let $target := $relationship/@Target return  if ($relationship/@TargetMode = "External") then      $target     else   $mediaColl || substring-after($target, "media/"), (), (), (), ())
+                        tei:graphic($config, ., ("tei-v_imagedata", css:map-rend-to-class(.)), ., let $id := @r:id let $mediaColl := $parameters?filename || ".media/"  let $relationship := $parameters?rels/rel:Relationship[@Id=$id] let $target := $relationship/@Target return  if ($relationship/@TargetMode = "External") then      $target     else   $mediaColl || substring-after($target, "media/"), (), (), (), ())
                     case element(commentRangeStart) return
-                        tei:anchor($config, ., ("tei-commentRangeStart"), ., 'ac'||@w:id, map {"type": 'note'})
+                        tei:anchor($config, ., ("tei-commentRangeStart", css:map-rend-to-class(.)), ., 'ac'||@w:id, map {"type": 'note'})
                     case element(commentRangeEnd) return
-                        tei:note($config, ., ("tei-commentRangeEnd"), $parameters?comment(.), 'footnote', (), map {"target": 'ac' || @w:id})
+                        tei:note($config, ., ("tei-commentRangeEnd", css:map-rend-to-class(.)), $parameters?comment(.), 'footnote', (), map {"target": 'ac' || @w:id})
                     case element() return
-                        tei:omit($config, ., ("tei--element"), .)
+                        tei:omit($config, ., ("tei--element", css:map-rend-to-class(.)), .)
                     case text() | xs:anyAtomicType return
                         tei:escapeChars(.)
                     default return 
