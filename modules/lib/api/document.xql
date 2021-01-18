@@ -173,24 +173,41 @@ declare function dapi:latex($request as map(*)) {
                                 <option>
                                     <workingDir>{$config:tex-temp-dir}</workingDir>
                                 </option>
-                            let $output :=
-                                for $i in 1 to 3
-                                return
-                                    process:execute(
-                                        ( $config:tex-command($file) ), $options
-                                    )
+                            let $outputPath := $config:tex-temp-dir || "/" || $file || ".pdf"
+                            let $cleanup := if (file:exists($outputPath)) then file:delete($outputPath) else ()
+                            let $output0 :=
+                                process:execute(
+                                    ( $config:tex-command($file) ), $options
+                                )
                             return
-                                if ($output[last()]/@exitCode < 2) then
-                                    let $pdf := file:read-binary($config:tex-temp-dir || "/" || $file || ".pdf")
-                                    return
-                                        response:stream-binary($pdf, "media-type=application/pdf", $file || ".pdf")
+                                if (not(file:exists($outputPath))) then
+                                    error($errors:BAD_REQUEST, "LaTeX reported errors", dapi:latex-error($output0))
                                 else
-                                    $output
+                                    let $output :=
+                                        for $i in 1 to 2
+                                        return
+                                            process:execute(
+                                                ( $config:tex-command($file) ), $options
+                                            )
+                                    return
+                                        let $pdf := file:read-binary($config:tex-temp-dir || "/" || $file || ".pdf")
+                                        return
+                                            response:stream-binary($pdf, "media-type=application/pdf", $file || ".pdf")
                 else
                     error($errors:NOT_FOUND, "Document " || $id || " not found")
         else
             error($errors:BAD_REQUEST, "No document specified")
     )
+};
+
+declare function dapi:latex-error($output as element()) {
+    "exit code: " || $output/@exitCode/string() || "&#10;&#10;" ||
+    string-join(
+        for $line in $output//line
+        return
+            $line || "&#10;"
+    )
+
 };
 
 declare function dapi:cache($id as xs:string, $output as xs:base64Binary) {

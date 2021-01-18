@@ -784,6 +784,7 @@
                 "description": "Retrieve whole document transformed via ODD and LaTeX",
                 "tags": [ "documents" ],
                 "operationId": "dapi:latex",
+                "x-error-handler": "vapi:handle-error",
                 "parameters": [
                     {
                         "name": "id",
@@ -826,6 +827,26 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "LaTeX processing failed",
+                        "content": {
+                            "text/html":{
+                                "schema":{
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "text/html":{
+                                "schema":{
+                                    "type": "string"
                                 }
                             }
                         }
