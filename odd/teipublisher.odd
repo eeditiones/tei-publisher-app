@@ -226,6 +226,14 @@
                 </elementSpec>
             <elementSpec ident="formula" mode="change">
                     <model predicate="@rendition='simple:display'" behaviour="block"/>
+                    <model output="latex" predicate="@rend=&#34;display&#34;" behaviour="inline">
+            <param name="content" value="string()"/>
+            <pb:template xmlns="" xml:space="preserve">\begin{equation}[[content]]\end{equation}</pb:template>
+        </model>
+                    <model output="latex" behaviour="inline">
+            <param name="content" value="string()"/>
+            <pb:template xmlns="" xml:space="preserve">\begin{math}[[content]]\end{math}</pb:template>
+        </model>
                     <model predicate="@rend='display'" behaviour="webcomponent">
             <param name="name" value="'pb-formula'"/>
             <param name="display" value="true()"/>
