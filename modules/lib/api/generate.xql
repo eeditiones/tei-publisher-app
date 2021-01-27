@@ -24,7 +24,7 @@ declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
-import module namespace errors = "http://exist-db.org/xquery/router/errors";
+import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace dbutil="http://exist-db.org/xquery/dbutil";
 
 declare variable $deploy:EXPATH_DESCRIPTOR :=

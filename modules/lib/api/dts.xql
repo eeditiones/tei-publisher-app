@@ -4,7 +4,7 @@ module namespace dts="http://teipublisher.com/api/dts";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace http = "http://expath.org/ns/http-client";
-import module namespace router="http://exist-db.org/xquery/router";
+import module namespace router="http://e-editiones.org/roaster";
 
 declare %private function dts:base-path() {
     let $appLink := substring-after($config:app-root, repo:get-root())
