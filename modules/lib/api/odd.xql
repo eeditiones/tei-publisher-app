@@ -13,7 +13,6 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../.
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
-import module namespace dbutil = "http://exist-db.org/xquery/dbutil";
 
 declare variable $oapi:EXIDE :=
     let $path := collection(repo:get-root())//expath:package[@name = "http://exist-db.org/apps/eXide"]
@@ -122,26 +121,24 @@ declare function oapi:recompile($request as map(*)) {
 
 declare function oapi:list-odds($request as map(*)) {
     array {
-        dbutil:scan-resources(xs:anyURI($config:odd-root), function ($resource) {
-            if (ends-with($resource, ".odd")) then
-                let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
-                let $displayName := (
-                    doc($resource)/TEI/teiHeader/fileDesc/titleStmt/title[@type = "short"]/string(),
-                    doc($resource)/TEI/teiHeader/fileDesc/titleStmt/title/text(),
-                    $name
-                )[1]
-                let $description :=  doc($resource)/TEI/teiHeader/fileDesc/titleStmt/title/desc/string()
-                return
-                    map {
-                        "name": $name,
-                        "label": $displayName,
-                        "description": $description,
-                        "path": $resource,
-                        "canWrite": sm:has-access(xs:anyURI($resource), "rw-")
-                    }
-            else
-                ()
-        })
+        for $doc in xmldb:get-child-resources(xs:anyURI($config:odd-root))
+        let $resource := $config:odd-root || "/" || $doc
+        where ends-with($resource, ".odd")
+        let $name := replace($resource, "^.*/([^/\.]+)\..*$", "$1")
+        let $displayName := (
+            doc($resource)/TEI/teiHeader/fileDesc/titleStmt/title[@type = "short"]/string(),
+            doc($resource)/TEI/teiHeader/fileDesc/titleStmt/title/text(),
+            $name
+        )[1]
+        let $description :=  doc($resource)/TEI/teiHeader/fileDesc/titleStmt/title/desc/string()
+        return
+            map {
+                "name": $name,
+                "label": $displayName,
+                "description": $description,
+                "path": $resource,
+                "canWrite": sm:has-access(xs:anyURI($resource), "rw-")
+            }
     }
 };
 

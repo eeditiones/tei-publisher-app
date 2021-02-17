@@ -25,7 +25,6 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace errors = "http://exist-db.org/xquery/router/errors";
-import module namespace dbutil="http://exist-db.org/xquery/dbutil";
 
 declare variable $deploy:EXPATH_DESCRIPTOR :=
     <package xmlns="http://expath.org/ns/pkg"
@@ -443,9 +442,25 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         $collection
 };
 
+declare function deploy:scan($root as xs:anyURI, $func as function(xs:anyURI, xs:anyURI?) as item()*) {
+    $func($root, ()),
+    if (sm:has-access($root, "rx")) then
+        for $child in xmldb:get-child-resources($root)
+        return
+            $func($root, xs:anyURI($root || "/" || $child))
+    else
+        (),
+    if (sm:has-access($root, "rx")) then
+        for $child in xmldb:get-child-collections($root)
+        return
+            deploy:scan(xs:anyURI($root || "/" || $child), $func)
+    else
+        ()
+};
+
 declare %private function deploy:zip-entries($app-collection as xs:string) {
     (: compression:zip doesn't seem to store empty collections, so we'll scan for only resources :)
-    dbutil:scan(xs:anyURI($app-collection), function($collection as xs:anyURI, $resource as xs:anyURI?) {
+    deploy:scan(xs:anyURI($app-collection), function($collection as xs:anyURI, $resource as xs:anyURI?) {
         if (exists($resource)) then
             let $relative-path := substring-after($resource, $app-collection || "/")
             return
