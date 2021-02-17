@@ -10,11 +10,6 @@ import module namespace browse="http://www.tei-c.org/tei-simple/templates" at ".
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
 import module namespace custom="http://teipublisher.com/api/custom" at "../../custom-api.xql";
 
-declare variable $vapi:template-config := map {
-    $templates:CONFIG_APP_ROOT : $config:app-root,
-    $templates:CONFIG_STOP_ON_ERROR : true()
-};
-
 (:
 : We have to provide a lookup function to templates:apply to help it
 : find functions in the imported application modules. The templates
@@ -63,12 +58,10 @@ declare function vapi:view($request as map(*)) {
             error($errors:NOT_FOUND, "template " || $templatePath || " not found")
     let $model := map { 
         "doc": $path,
-        "template": $templateName,
-        "odd": $request?parameters?odd,
-        "view": $request?parameters?view
+        "template": $templateName
     }
     return
-        templates:apply($template, vapi:lookup#2, $model, $vapi:template-config)
+        templates:apply($template, vapi:lookup#2, $model, tpu:get-template-config($request))
 };
 
 declare function vapi:html($request as map(*)) {
@@ -79,12 +72,12 @@ declare function vapi:html($request as map(*)) {
         else
             error($errors:NOT_FOUND, "HTML file " || $path || " not found")
     return
-        templates:apply($template, vapi:lookup#2, (), $vapi:template-config)
+        templates:apply($template, vapi:lookup#2, (), tpu:get-template-config($request))
 };
 
 declare function vapi:handle-error($error) {
     let $path := $config:app-root || "/templates/error-page.html"
     let $template := doc($path)
     return
-        templates:apply($template, vapi:lookup#2, map { "description": $error }, $vapi:template-config)
+        templates:apply($template, vapi:lookup#2, map { "description": $error }, $tpu:template-config)
 };

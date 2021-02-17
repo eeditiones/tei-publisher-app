@@ -6,6 +6,7 @@ import module namespace errors = "http://exist-db.org/xquery/router/errors" at "
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "../browse.xql";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace docx="http://existsolutions.com/teipublisher/docx";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
@@ -20,10 +21,6 @@ declare function capi:list($request as map(*)) {
             $templatePath
         else
             $config:app-root || "/templates/documents.html"
-    let $config := map {
-        $templates:CONFIG_APP_ROOT : $config:app-root,
-        $templates:CONFIG_STOP_ON_ERROR : true()
-    }
     let $lookup := function($name as xs:string, $arity as xs:int) {
         try {
             let $cfun := custom:lookup($name, $arity)
@@ -37,7 +34,7 @@ declare function capi:list($request as map(*)) {
         }
     }
     return
-        templates:apply(doc($template), $lookup, map { "root": $path }, $config)
+        templates:apply(doc($template), $lookup, map { "root": $path }, tpu:get-template-config($request))
 };
 
 declare function capi:upload($request as map(*)) {
