@@ -164,9 +164,10 @@ im Double-Keying-Verfahren von Nicht-Muttersprachlern erfasst und in XML/TEI P5 
 </encodingDesc>
 <profileDesc>
 <langUsage>
-<language ident="deu">German</language>
+<language ident="de">German</language>
 </langUsage>
 <textClass>
+    <catRef scheme="#genre" target="#mathematics"/>
 <classCode scheme="http://www.deutschestextarchiv.de/doku/klassifikation#dtamain">Fachtext</classCode>
 <classCode scheme="http://www.deutschestextarchiv.de/doku/klassifikation#dtasub">Mathematik</classCode>
 <classCode scheme="http://www.deutschestextarchiv.de/doku/klassifikation#dwds1main">Wissenschaft</classCode>
