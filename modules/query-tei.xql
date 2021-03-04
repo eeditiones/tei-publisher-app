@@ -32,14 +32,14 @@ declare function teis:query-default($fields as xs:string+, $query as xs:string, 
         return
             switch ($field)
                 case "head" return
-                    if ($target-texts) then
+                    if (exists($target-texts)) then
                         for $text in $target-texts
                         return
                             $config:data-root ! doc(. || "/" || $text)//tei:head[ft:query(., $query, query:options($sortBy))]
                     else
                         collection($config:data-root)//tei:head[ft:query(., $query, query:options($sortBy))]
                 default return
-                    if ($target-texts) then
+                    if (exists($target-texts)) then
                         for $text in $target-texts
                         return
                             $config:data-root ! doc(. || "/" || $text)//tei:div[ft:query(., $query, query:options($sortBy))] |

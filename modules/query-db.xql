@@ -32,14 +32,14 @@ declare function dbs:query-default($fields as xs:string+, $query as xs:string, $
         return
             switch ($field)
                 case "head" return
-                    if ($target-texts) then
+                    if (exists($target-texts)) then
                         for $text in $target-texts
                         return
                             $config:data-root ! doc(. || "/" || $text)//db:title[ft:query(., $query, query:options($sortBy))]
                     else
                         collection($config:data-root)//db:title[ft:query(., $query, query:options($sortBy))]
                 default return
-                    if ($target-texts) then
+                    if (exists($target-texts)) then
                         for $text in $target-texts
                         return
                             $config:data-root ! doc(. || "/" || $text)//db:section[ft:query(., $query, query:options($sortBy))] |
