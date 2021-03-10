@@ -66,7 +66,7 @@ declare %private function sapi:show-hits($request as map(*), $hits as item()*, $
     let $config := tpu:parse-pi(root($hit), $request?parameters?view)
     let $parent := query:get-parent-section($config, $hit)
     let $parent-id := config:get-identifier($parent)
-    let $parent-id := if ($docs) then replace($parent-id, "^.*?([^/]*)$", "$1") else $parent-id
+    let $parent-id := if (exists($docs)) then replace($parent-id, "^.*?([^/]*)$", "$1") else $parent-id
     let $div := query:get-current($config, $parent)
     let $expanded := util:expand($hit, "add-exist-id=all")
     let $docId := config:get-identifier($div)

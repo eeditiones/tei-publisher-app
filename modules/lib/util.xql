@@ -81,9 +81,10 @@ declare function tpu:get-template-config($request as map(*)) {
             $templates:CONFIG_PARAM_RESOLVER : function($param) {
                 let $pval := array:fold-right(
                     [
-                        $request?parameters($param),
                         request:get-parameter($param, ()),
-                        request:get-attribute($param)
+                        $request?parameters($param),
+                        request:get-attribute($param),
+                        session:get-attribute($config:session-prefix || "." || $param)
                     ], (),
                     function($zero, $current) {
                         if (exists($zero)) then

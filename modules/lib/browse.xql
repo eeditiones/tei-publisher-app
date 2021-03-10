@@ -73,7 +73,7 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
     let $filtered :=
         if (app:use-cache($params, $cached)) then
             $cached
-        else if (exists($filter)) then
+        else if (exists($filter) and $filter != '') then
             query:query-metadata($browse, $filter, $sort)
         else
             let $options := query:options($sort)

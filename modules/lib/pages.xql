@@ -362,8 +362,9 @@ declare function pages:parse-params($node as node(), $model as map(*)) {
                                 case element(fn:match) return
                                     let $paramName := $token/fn:group[1]/string()
                                     let $default := $token/fn:group[2]/string()
+                                    let $param := $model($templates:CONFIGURATION)($templates:CONFIG_PARAM_RESOLVER)($paramName)
                                     let $found := [
-                                        request:get-parameter($paramName, $default),
+                                        if ($param) then $param else $default,
                                         $model($paramName),
                                         session:get-attribute($config:session-prefix || "." || $paramName)
                                     ]
