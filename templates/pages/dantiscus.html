@@ -68,12 +68,12 @@
                                 <iron-icon icon="icons:info-outline"></iron-icon>Metadata
                             </paper-button>
                             <a href="${app}/index.html?collection=${collection}" data-i18n="[title]browse.${collection}.title" title=""
-                                data-template="pages:parse-params">
+                                data-template="templates:parse-params">
                                 <paper-icon-button icon="icons:folder-open"></paper-icon-button>
                             </a>
                             <pb-restricted login="login">
                                 <pb-ajax subscribe="transcription" emit="transcription" url="${app}/api/odd" method="post" 
-                                    data-template="pages:parse-params" event="pb-refresh"
+                                    data-template="templates:parse-params" event="pb-refresh"
                                     title="Recompile ODD" data-i18n="[title]menu.admin.recompile">
                                     <h3 slot="title"><pb-i18n key="menu.admin.recompile"></pb-i18n></h3>
                                     <paper-icon-button icon="icons:refresh"></paper-icon-button>

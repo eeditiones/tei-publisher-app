@@ -262,9 +262,9 @@
                 <app-header-layout>
                 <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
                     <app-toolbar class="menubar">
-                        <a href="${app}/index.html" class="logo" data-template="pages:parse-params"></a>
+                        <a href="${app}/index.html" class="logo" data-template="templates:parse-params"></a>
                         <pb-media-query query="(min-width: 1024px)">
-                            <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
+                            <a href="${app}/index.html" data-template="templates:parse-params">Start</a>
                             <pb-restricted login="login" group="tei">
                                 <paper-menu-button>
                                     <a href="#" slot="dropdown-trigger">
@@ -278,13 +278,13 @@
                                         </paper-item>
                                         <paper-item data-template="pages:edit-odd-list"></paper-item>
                                         <paper-item>
-                                            <a href="${app}/api.html" data-template="pages:parse-params" target="_blank">API Documentation</a>
+                                            <a href="${app}/api.html" data-template="templates:parse-params" target="_blank">API Documentation</a>
                                         </paper-item>
                                     </paper-listbox>
                                 </paper-menu-button>
                             </pb-restricted>
                             <!-- Search input -->
-                            <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}"  redirect="redirect"></pb-search>
+                            <pb-search action="${app}/search.html" data-template="templates:parse-params" value="${query}"  redirect="redirect"></pb-search>
 
                             <!-- language selector -->
                             <pb-lang name="lang" data-template="pages:languages"/>
@@ -298,7 +298,7 @@
                     <pb-media-query query="(max-width: 1023px)">
                         <app-toolbar class="toolbar" sticky="sticky">
                             <!-- Search input -->
-                            <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}" redirect="redirect"></pb-search>
+                            <pb-search action="${app}/search.html" data-template="templates:parse-params" value="${query}" redirect="redirect"></pb-search>
                             <paper-icon-button icon="icons:menu" drawer-toggle="drawer-toggle"></paper-icon-button>
                         </app-toolbar>
                     </pb-media-query>
@@ -317,7 +317,7 @@
                                         filter-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"},{"label": "browse.file", "value": "file"}]' filter-by="title" auto="auto" history="history" login="login" emit="docs" subscribe="docs">
                                         <pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" emit="docs" subscribe="docs"></pb-paginate>
                                         <pb-restricted login="login" slot="toolbar">
-                                            <pb-ajax emit="docs" url="api/odd" method="post" data-template="pages:parse-params" event="pb-search-resubmit" title="Recompile ODD" data-i18n="[title]odd.manage.regenerate-all">
+                                            <pb-ajax emit="docs" url="api/odd" method="post" data-template="templates:parse-params" event="pb-search-resubmit" title="Recompile ODD" data-i18n="[title]odd.manage.regenerate-all">
                                                 <h3 slot="title">
                                                     <pb-i18n key="odd.manage.regenerate-all"/>
                                                 </h3>
