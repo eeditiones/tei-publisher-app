@@ -4,5 +4,5 @@
     <dependency processor="http://exist-db.org" semver-min="5.0.0-RC8" />
     <dependency package="http://exist-db.org/apps/shared" />
     <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver-min="2.8.11" />
-    <dependency package="http://exist-db.org/open-api/router" semver-min="0.5.0" semver-max="0"/>
+    <dependency package="http://e-editiones.org/roaster" semver-min="1.1.5" semver-max="0"/>
 </package>
