@@ -3,7 +3,7 @@ xquery version "3.1";
 module namespace dapi="http://teipublisher.com/api/documents";
 
 import module namespace router="http://e-editiones.org/roaster/router";
-import module namespace errors = "http://e-editiones.org/roaster/router/errors";
+import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
