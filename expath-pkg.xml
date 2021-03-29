@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<package xmlns="http://expath.org/ns/pkg" name="http://existsolutions.com/apps/tei-publisher" abbrev="tei-publisher" version="7.0.0" spec="1.0">
+<package xmlns="http://expath.org/ns/pkg" name="http://existsolutions.com/apps/tei-publisher" abbrev="tei-publisher" version="8.0.0-SNAPSHOT" spec="1.0">
     <title>TEI Publisher</title>
-    <dependency processor="http://exist-db.org" semver-min="5.0.0-RC8" />
+    <dependency processor="http://exist-db.org" semver-min="5.0.0" />
     <dependency package="http://exist-db.org/apps/shared" />
     <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver-min="2.8.11" />
-    <dependency package="http://e-editiones.org/roaster" semver-min="1.1.5" semver-max="0"/>
+    <dependency package="http://e-editiones.org/roaster" semver-min="1.1.0" />
 </package>
