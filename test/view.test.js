@@ -31,7 +31,7 @@ describe('/{doc}', function () {
         expect(res).to.satisfyApiSpec;
     });
 
-    it('fails to load template for non-existing document', function () {
+    it('fails to load template for non-existing document', function (done) {
         return axios.get(`${server}/foo.xml`)
             .catch((error) => {
                 expect(error.response.status).to.equal(404);
@@ -39,6 +39,7 @@ describe('/{doc}', function () {
                 const msg = fragment.querySelector('pre.error');
                 expect(msg.innerHTML).to.match(/not found/);
                 expect(error.response).to.satisfyApiSpec;
+                done();
             });
     });
 });
@@ -54,7 +55,7 @@ describe('/{file}.html', function () {
         expect(res).to.satisfyApiSpec;
     });
 
-    it('fails to load HTML file', function () {
+    it('fails to load HTML file', function (done) {
         return axios.get(`${server}/foo.html`)
             .catch((error) => {
                 expect(error.response.status).to.equal(404);
@@ -62,6 +63,7 @@ describe('/{file}.html', function () {
                 const fragment = JSDOM.fragment(error.response.data);
                 const msg = fragment.querySelector('pre.error');
                 expect(msg.innerHTML).to.match(/not found/);
+                done();
             });
     });
 });
