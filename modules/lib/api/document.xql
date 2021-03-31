@@ -2,8 +2,8 @@ xquery version "3.1";
 
 module namespace dapi="http://teipublisher.com/api/documents";
 
-import module namespace router="http://e-editiones.org/roaster";
-import module namespace errors = "http://e-editiones.org/roaster/errors";
+import module namespace roaster="http://e-editiones.org/roaster";
+import module namespace errors="http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
@@ -30,7 +30,7 @@ declare function dapi:delete($request as map(*)) {
         if ($doc) then
             let $del := xmldb:remove(util:collection-name($doc), util:document-name($doc))
             return
-                router:response(410, '')
+                roaster:response(410, '')
         else
             error($errors:NOT_FOUND, "Document " || $id || " not found")
 };
@@ -46,7 +46,7 @@ declare function dapi:source($request as map(*)) {
                 if (util:binary-doc-available($path)) then
                     response:stream-binary(util:binary-doc($path), $mime, $filename)
                 else if (doc-available($path)) then
-                    router:response(200, $mime, doc($path))
+                    roaster:response(200, $mime, doc($path))
                 else
                     error($errors:NOT_FOUND, "Document " || $doc || " not found")
         else
@@ -166,7 +166,7 @@ declare function dapi:latex($request as map(*)) {
                         replace($id, "^.*?([^/]+)$", "$1") || format-dateTime(current-dateTime(), "-[Y0000][M00][D00]-[H00][m00]")
                     return
                         if ($source) then
-                            router:response(200, "application/x-latex", $tex)
+                            roaster:response(200, "application/x-latex", $tex)
                         else
                             let $serialized := file:serialize-binary(util:string-to-binary($tex), $config:tex-temp-dir || "/" || $file || ".tex")
                             let $options :=
@@ -256,7 +256,7 @@ declare function dapi:pdf($request as map(*)) {
                     let $fo := $pm-config:print-transform($doc, map { "root": $doc }, $config?odd)
                     return (
                         if ($request?parameters?source) then
-                            router:response(200, "application/xml", $fo)
+                            roaster:response(200, "application/xml", $fo)
                         else
                             let $output := xslfo:render($fo, "application/pdf", (), $config:fop-config)
                             return
@@ -386,12 +386,12 @@ declare function dapi:get-fragment($request as map(*)) {
             let $doc := replace($doc, "^.*/([^/]+)$", "$1")
             return
                 if ($request?parameters?format = "html") then
-                    router:response(200, "text/html", $transformed?content)
+                    roaster:response(200, "text/html", $transformed?content)
                 else
                     let $next := if ($view = "single") then () else $config:next-page($xml?config, $xml?data, $view)
                     let $prev := if ($view = "single") then () else $config:previous-page($xml?config, $xml?data, $view)
                     return
-                        router:response(200, "application/json",
+                        roaster:response(200, "application/json",
                             map {
                                 "format": $request?parameters?format,
                                 "view": $view,
