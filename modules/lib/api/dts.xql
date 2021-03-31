@@ -3,8 +3,8 @@ xquery version "3.1";
 module namespace dts="http://teipublisher.com/api/dts";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
-import module namespace http = "http://expath.org/ns/http-client";
-import module namespace router="http://e-editiones.org/roaster";
+import module namespace http="http://expath.org/ns/http-client";
+import module namespace roaster="http://e-editiones.org/roaster";
 
 declare %private function dts:base-path() {
     let $appLink := substring-after($config:app-root, repo:get-root())
@@ -154,7 +154,7 @@ declare function dts:import($request as map(*)) {
                 else
                     dts:store(tail($response), util:hash($request?parameters?uri, "md5") || ".xml")
             return
-                router:response(201, "application/json",
+                roaster:response(201, "application/json",
                     map {
                         "path": substring-after($stored, $config:data-root || "/")
                     }
