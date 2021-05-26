@@ -2133,6 +2133,38 @@
                     }
                 }
             }
+        },
+        "/api/annotations/merge/{path}": {
+            "post": {
+                "summary": "Merge annotations into source TEI",
+                "tags": ["annotations"],
+                "operationId": "anno:save",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "path",
+                        "in": "path",
+                        "schema": {
+							"type": "string",
+							"example": "playground/d80.xml"
+						},
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Content merged and saved"
+                    }
+                }
+            }
         }
     },
     "security": [
