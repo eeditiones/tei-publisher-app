@@ -53,12 +53,12 @@ declare %private function anno:apply($node, $annotations) {
         $node
     else
         let $anno := head($annotations)
-        let $output := anno:apply($node, $anno?start + 1, $anno?end + 1)
+        let $output := anno:apply($node, $anno?start + 1, $anno?end + 1, $anno)
         return
             anno:apply($output, tail($annotations))
 };
 
-declare %private function anno:apply($nodes as node()*, $start as xs:int, $end as xs:int) {
+declare %private function anno:apply($nodes as node()*, $start as xs:int, $end as xs:int, $annotation as map(*)) {
     let $start := anno:find-offset($nodes, $start)
     let $end := anno:find-offset($nodes, $end)
     let $startAdjusted :=
@@ -67,7 +67,7 @@ declare %private function anno:apply($nodes as node()*, $start as xs:int, $end a
         else
             $start
     return
-        anno:transform($nodes, $startAdjusted, $end, false())
+        anno:transform($nodes, $startAdjusted, $end, false(), $annotation)
 };
 
 declare %private function anno:find-offset($nodes as node()*, $offset as xs:int) {
@@ -92,7 +92,7 @@ declare %private function anno:find-offset($nodes as node()*, $offset as xs:int)
                     ()
 };
 
-declare %private function anno:transform($nodes as node()*, $start, $end, $inAnno) {
+declare %private function anno:transform($nodes as node()*, $start, $end, $inAnno, $annotation as map(*)) {
     for $node in $nodes
     return
         typeswitch ($node)
@@ -100,10 +100,10 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
                 (: current element is start node? :)
                 if ($node is $start?1) then
                     (: entire element is wrapped :)
-                    element hi {
+                    anno:wrap($annotation, function() {
                         $node,
-                        anno:transform($node/following-sibling::node(), $start, $end, true())
-                    }
+                        anno:transform($node/following-sibling::node(), $start, $end, true(), $annotation)
+                    })
                 (: called inside the annotation being processed? :)
                 else if ($inAnno) then
                     (: element appears after end: ignore :)
@@ -112,26 +112,26 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
                     else
                         element { node-name($node) } {
                             $node/@*,
-                            anno:transform($node/node(), $start, $end, $inAnno)
+                            anno:transform($node/node(), $start, $end, $inAnno, $annotation)
                         }
                 (: outside the annotation :)
                 else if ($node << $start?1 or $node >> $end?1) then
                     element { node-name($node) } {
                         $node/@*,
-                        anno:transform($node/node(), $start, $end, $inAnno)
+                        anno:transform($node/node(), $start, $end, $inAnno, $annotation)
                     }
                 else
                     ()
             case text() return
                 if ($node is $start?1) then (
                     text { substring($node, 1, $start?2 - 1) },
-                    element hi {
+                    anno:wrap($annotation, function() {
                         if ($node is $end?1) then
                             substring($node, $start?2, $end?2 - $start?2)
                         else
                             substring($node, $start?2),
-                        anno:transform($node/following-sibling::node(), $start, $end, true())
-                    },
+                        anno:transform($node/following-sibling::node(), $start, $end, true(), $annotation)
+                    }),
                     if ($node is $end?1) then
                         text { substring($node, $end?2) }
                     else
@@ -147,4 +147,10 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
                     $node
             default return
                 $node
+};
+
+declare function anno:wrap($annotation as map(*), $content as function(*)) {
+    let $localName := if ($annotation?type) then $annotation?type else 'hi'
+    return
+         element { QName("http://www.tei-c.org/ns/1.0", $localName) } { $content() }
 };
