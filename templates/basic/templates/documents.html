@@ -9,7 +9,7 @@
             <li class="document">
                 <pb-restricted login="login" group="tei">
                     <div class="document-select">
-                        <paper-checkbox data-template="templates:parse-params" name="documentCheckbox" value="${ident}"></paper-checkbox>
+                        <paper-checkbox data-template="lib:parse-params" name="documentCheckbox" value="${ident}"></paper-checkbox>
                     </div>
                 </pb-restricted>
                 <div class="document-info">
@@ -48,7 +48,7 @@
                                     </pb-download>
                                 </paper-item>
                                 <paper-item>
-                                    <pb-edit-xml data-i18n="[title]menu.download.view-tei" title="i18n(view-tei)" path="${path}" data-template="templates:parse-params">
+                                    <pb-edit-xml data-i18n="[title]menu.download.view-tei" title="i18n(view-tei)" path="${path}" data-template="lib:parse-params">
                                         XML
                                     </pb-edit-xml>
                                 </paper-item>

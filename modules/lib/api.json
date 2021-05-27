@@ -104,7 +104,7 @@
                 }
             }
         },
-        "/{doc}": {
+        "/{docid}": {
             "get": {
                 "summary": "Retrieve the HTML template used for displaying a document",
                 "description": "Get the HTML template associated with the given document. This is called whenever the users tries to view a document. The actual content of the document will then be loaded by the template.",
@@ -113,7 +113,7 @@
                 "x-error-handler": "vapi:handle-error",
                 "parameters": [
                     {
-                        "name": "doc",
+                        "name": "docid",
                         "in": "path",
                         "description": "Relative path to the document",
                         "required": true,
@@ -194,7 +194,7 @@
                 }
             }
         },
-        "/{doc}.md": {
+        "/{docid}.md": {
             "get": {
                 "summary": "Retrieve the HTML template for a markdown file and render it",
                 "description": "Get the HTML template associated with the given markdown document. This is called whenever the users tries to view a markdown file. The actual content of the document will then be loaded by the template.",
@@ -203,7 +203,7 @@
                 "x-error-handler": "vapi:handle-error",
                 "parameters": [
                     {
-                        "name": "doc",
+                        "name": "docid",
                         "in": "path",
                         "description": "Relative path to the document",
                         "required": true,

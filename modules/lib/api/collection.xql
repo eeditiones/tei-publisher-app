@@ -2,12 +2,13 @@ xquery version "3.1";
 
 module namespace capi="http://teipublisher.com/api/collection";
 
-import module namespace errors = "http://exist-db.org/xquery/router/errors" at "/db/apps/oas-router/content/errors.xql";
+import module namespace errors = "http://exist-db.org/xquery/router/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "../browse.xql";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 import module namespace templates="http://exist-db.org/xquery/html-templating";
+import module namespace lib="http://exist-db.org/xquery/html-templating/lib";
 import module namespace docx="http://existsolutions.com/teipublisher/docx";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
 import module namespace custom="http://teipublisher.com/api/custom" at "../../custom-api.xql";

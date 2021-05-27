@@ -111,15 +111,15 @@
             <app-header-layout>
                 <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
                     <app-toolbar class="menubar">
-                        <a href="${app}/index.html" class="logo" data-template="templates:parse-params"></a>
-                        <a href="${app}/index.html" data-template="templates:parse-params">Start</a>
+                        <a href="${app}/index.html" class="logo" data-template="lib:parse-params"></a>
+                        <a href="${app}/index.html" data-template="lib:parse-params">Start</a>
                         <paper-menu-button>
                             <a href="#" slot="dropdown-trigger">
                                 <pb-i18n key="menu.documentation">Documentation</pb-i18n>
                             </a>
                             <paper-listbox slot="dropdown-content">
                                 <paper-item>
-                                    <a href="${app}/doc/documentation.xml?odd=docbook.odd" data-template="templates:parse-params">
+                                    <a href="${app}/doc/documentation.xml?odd=docbook.odd" data-template="lib:parse-params">
                                         <pb-i18n key="menu.documentation">Documentation</pb-i18n>
                                     </a>
                                 </paper-item>
@@ -130,7 +130,7 @@
                                     <a href="https://unpkg.com/@teipublisher/pb-components@latest/dist/api.html" target="_blank">Webcomponents API</a>
                                 </paper-item>
                                 <paper-item>
-                                    <a href="${app}/api.html" data-template="templates:parse-params" target="_blank">TEI Publisher API</a>
+                                    <a href="${app}/api.html" data-template="lib:parse-params" target="_blank">TEI Publisher API</a>
                                 </paper-item>
                             </paper-listbox>
                         </paper-menu-button>
@@ -139,7 +139,7 @@
                         </a>
 
                         <!-- Search input -->
-                        <pb-search action="${app}/search.html" data-template="templates:parse-params" value="${query}"
+                        <pb-search action="${app}/search.html" data-template="lib:parse-params" value="${query}"
                                    redirect="redirect"></pb-search>
 
                         <!-- language selector -->
@@ -160,7 +160,7 @@
                         <paper-card>
                             <div class="card-content">
                                 <pb-search id="search-form" subscribe="search"
-                                    data-template="templates:parse-params" value="${query}" submit-on-load="submit-on-load">
+                                    data-template="lib:parse-params" value="${query}" submit-on-load="submit-on-load">
                                     <div class="targets">
                                         <paper-checkbox name="field" value="text">Search sections</paper-checkbox>
                                         <paper-checkbox name="field" value="head">Search headings</paper-checkbox>

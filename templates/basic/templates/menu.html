@@ -1,7 +1,7 @@
 <app-toolbar class="menubar">
-    <a href="${app}/index.html" class="logo" data-template="templates:parse-params"></a>
+    <a href="${app}/index.html" class="logo" data-template="lib:parse-params"></a>
     <pb-media-query query="min-width: 1024px">
-        <a href="${app}/index.html" data-template="templates:parse-params">Start</a>
+        <a href="${app}/index.html" data-template="lib:parse-params">Start</a>
         <paper-menu-button>
             <a href="#" slot="dropdown-trigger" data-i18n="[title]menu.download.title" title="i18n(download)">
                 <pb-i18n key="menu.download.title">Download</pb-i18n>
@@ -50,7 +50,7 @@
                         </pb-download>
                     </paper-item>
                     <paper-item>
-                        <a href="${app}/api.html" data-template="templates:parse-params" target="_blank">API Documentation</a>
+                        <a href="${app}/api.html" data-template="lib:parse-params" target="_blank">API Documentation</a>
                     </paper-item>
                 </paper-listbox>
             </paper-menu-button>
@@ -58,7 +58,7 @@
     </pb-media-query>
 
     <!-- Search input -->
-    <pb-search action="${app}/search.html" data-template="templates:parse-params" value="${query}"
+    <pb-search action="${app}/search.html" data-template="lib:parse-params" value="${query}"
        redirect="redirect"></pb-search>
     <pb-media-query query="min-width: 1024px">
        <!-- language selector -->

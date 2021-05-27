@@ -10,7 +10,7 @@ import module namespace http = "http://expath.org/ns/http-client";
 import module namespace nav = "http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
 import module namespace tpu = "http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 
-declare namespace templates = "http://exist-db.org/xquery/templates";
+declare namespace templates = "http://exist-db.org/xquery/html-templating";
 
 declare namespace repo = "http://exist-db.org/xquery/repo";
 declare namespace expath = "http://expath.org/ns/pkg";
@@ -45,7 +45,7 @@ declare variable $config:origin-whitelist := (
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port 
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "1.20.0";
+declare variable $config:webcomponents := "1.23.0";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your

@@ -60,7 +60,7 @@
             <app-drawer-layout force-narrow="force-narrow">
                 <app-drawer data-template="templates:include" data-template-path="templates/drawer.html"/>
                 <app-header-layout>
-                    <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                    <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
                         <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
                         <!-- Overwrite toolbar to add metadata toggle -->
                         <app-toolbar class="toolbar" sticky="sticky">
@@ -68,12 +68,12 @@
                                 <iron-icon icon="icons:info-outline"></iron-icon>Metadata
                             </paper-button>
                             <a href="${app}/index.html?collection=${collection}" data-i18n="[title]browse.${collection}.title" title=""
-                                data-template="templates:parse-params">
+                                data-template="lib:parse-params">
                                 <paper-icon-button icon="icons:folder-open"></paper-icon-button>
                             </a>
                             <pb-restricted login="login">
                                 <pb-ajax subscribe="transcription" emit="transcription" url="${app}/api/odd" method="post" 
-                                    data-template="templates:parse-params" event="pb-refresh"
+                                    data-template="lib:parse-params" event="pb-refresh"
                                     title="Recompile ODD" data-i18n="[title]menu.admin.recompile">
                                     <h3 slot="title"><pb-i18n key="menu.admin.recompile"></pb-i18n></h3>
                                     <paper-icon-button icon="icons:refresh"></paper-icon-button>

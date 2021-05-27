@@ -73,7 +73,7 @@
                     <app-toolbar class="toolbar" sticky="sticky">
                         <paper-icon-button id="tocToggle" class="toc-toggle" icon="icons:view-list" />
                         <a href="${app}/index.html?collection=${collection}" data-i18n="[title]browse.${collection}.title" title=""
-                            data-template="templates:parse-params">
+                            data-template="lib:parse-params">
                             <paper-icon-button icon="icons:folder-open"></paper-icon-button>
                         </a>
                         <pb-toggle-feature name="norm2" selector=".choice,.choice-alternate,br" emit="transcription" subscribe="transcription">

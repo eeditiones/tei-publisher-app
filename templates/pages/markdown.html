@@ -38,7 +38,7 @@
                         <app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/>
                     </app-header>
                     <main class="content-body">
-                        <pb-markdown data-template="pages:pb-markdown"></pb-markdown>
+                        <pb-markdown data-template="lib:parse-params" url="api/document/${doc}"></pb-markdown>
                     </main>
                 </app-header-layout>
             </app-drawer-layout>

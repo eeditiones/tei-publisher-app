@@ -54,14 +54,6 @@ declare function pages:pb-document($node as node(), $model as map(*)) {
         </pb-document>
 };
 
-declare
-    %templates:wrap
-function pages:pb-markdown($node as node(), $model as map(*)) {
-    attribute url  {
-        "api/document/" || $model?doc
-    }
-};
-
 (:~
  : Generate the actual script tag to import pb-components.
  :)
@@ -80,14 +72,6 @@ declare function pages:load-components($node as node(), $model as map(*)) {
         default return
             <script type="module"
                 src="{$config:webcomponents-cdn}@{$config:webcomponents}/dist/{$node/@src}"></script>
-};
-
-declare function pages:current-language($node as node(), $model as map(*), $lang as xs:string?) {
-    element { node-name($node) } {
-        $node/@*,
-        attribute selected { $lang },
-        $node/*
-    }
 };
 
 declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc as xs:string) {
@@ -369,12 +353,6 @@ function pages:api-version($node as node(), $model as map(*)) {
     let $json := json-doc($config:app-root || "/modules/lib/api.json")
     return
         $json?info?version
-};
-
-declare 
-    %templates:wrap
-function pages:error-description($node as node(), $model as map(*)) {
-    $model?description
 };
 
 declare

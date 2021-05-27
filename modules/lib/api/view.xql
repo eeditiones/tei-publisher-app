@@ -6,6 +6,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../.
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 import module namespace errors = "http://exist-db.org/xquery/router/errors";
 import module namespace templates="http://exist-db.org/xquery/html-templating";
+import module namespace lib="http://exist-db.org/xquery/html-templating/lib";
 import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "../browse.xql";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
 import module namespace custom="http://teipublisher.com/api/custom" at "../../custom-api.xql";
@@ -44,11 +45,11 @@ declare function vapi:get-template($doc as xs:string, $template as xs:string?, $
 };
 
 declare function vapi:view($request as map(*)) {
-    let $path := 
+    let $path :=
         if ($request?parameters?suffix) then 
-            xmldb:decode($request?parameters?doc) || $request?parameters?suffix
+            xmldb:decode($request?parameters?docid) || $request?parameters?suffix
         else
-            xmldb:decode($request?parameters?doc)
+            xmldb:decode($request?parameters?docid)
     let $templateName := head((vapi:get-template($path, $request?parameters?template, $request?parameters?view), $config:default-template))
     let $templatePath := $config:app-root || "/templates/pages/" || $templateName
     let $template :=
