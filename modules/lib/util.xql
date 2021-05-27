@@ -21,7 +21,7 @@ module namespace tpu="http://www.tei-c.org/tei-publisher/util";
 
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
-import module namespace templates="http://exist-db.org/xquery/templates";
+import module namespace templates="http://exist-db.org/xquery/html-templating";
 
 declare variable $tpu:template-config := map {
     $templates:CONFIG_APP_ROOT : $config:app-root,
