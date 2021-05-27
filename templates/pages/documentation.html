@@ -21,37 +21,16 @@
         <pb-page data-template="pages:pb-page" unresolved="unresolved">
             <pb-document id="document1" data-template="pages:pb-document"/>
             <app-drawer-layout force-narrow="force-narrow">
-                <app-drawer data-template="templates:include" data-template-path="templates/drawer.html"/>
+                <app-drawer data-template="lib:include" data-template-path="templates/drawer.html"/>
                 <app-header-layout>
                     <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
-                        <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
+                        <app-toolbar data-template="lib:include" data-template-path="templates/menu.html"/>
                         <!-- Overwrite toolbar to change navigation to parent button -->
-                        <app-toolbar class="toolbar" sticky="sticky">
-                            <paper-icon-button id="tocToggle" class="toc-toggle" icon="icons:view-list"/>
+                        <app-toolbar data-template="lib:include" data-template-path="templates/toolbar.html">
                             <a href="${app}/index.html" data-i18n="[title]browse.${collection}.title" title=""
-                                data-template="lib:parse-params">
+                                data-template="lib:parse-params" data-target="toolbar-parent">
                                 <paper-icon-button icon="icons:folder-open"></paper-icon-button>
                             </a>
-                            <pb-restricted login="login">
-                                <pb-ajax subscribe="transcription" emit="transcription" url="${app}/api/odd" method="post" 
-                                    data-template="lib:parse-params" event="pb-refresh"
-                                    title="Recompile ODD" data-i18n="[title]menu.admin.recompile">
-                                    <h3 slot="title"><pb-i18n key="menu.admin.recompile"></pb-i18n></h3>
-                                    <paper-icon-button icon="icons:refresh"></paper-icon-button>
-                                </pb-ajax>
-                            </pb-restricted>
-                            <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
-                            <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
-                            <pb-navigation emit="transcription" keyboard="left"
-                                subscribe="transcription" direction="backward" unit="page">
-                                <paper-icon-button icon="icons:chevron-left"/>
-                            </pb-navigation>
-                            <pb-navigation emit="transcription" keyboard="right"
-                                subscribe="transcription" direction="forward" unit="page">
-                                <paper-icon-button icon="icons:chevron-right"/>
-                            </pb-navigation>
-                            <paper-icon-button icon="icons:menu" drawer-toggle="drawer-toggle"/>
-                            <pb-progress subscribe="transcription" indeterminate="indeterminate" bottom-item="bottom-item"/>
                         </app-toolbar>
                     </app-header>
 

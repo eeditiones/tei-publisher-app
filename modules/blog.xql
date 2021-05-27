@@ -16,7 +16,7 @@ declare function bapi:article($request as map(*)) {
         $request,
         map {
             "parameters": map:merge(($request?parameters, map { 
-                    "doc": "doc/blog/" || $request?parameters?article,
+                    "docid": "doc/blog/" || $request?parameters?article,
                     "template": "blog.html"
             }))
         }
@@ -39,7 +39,7 @@ declare function bapi:home($request as map(*)) {
         $request,
         map {
             "parameters": map:merge(($request?parameters, 
-                map { "doc": "doc/blog/" || $lastEntry, "template": "blog.html"}))
+                map { "docid": "doc/blog/" || $lastEntry, "template": "blog.html"}))
         }
     ))
     return

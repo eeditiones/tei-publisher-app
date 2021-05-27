@@ -4289,8 +4289,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <para>To avoid redundancy, the page template files use eXist's templating feature to drag in
           some repeating parts which are the same for all pages, for example, the toolbar and the
           menu. You'll find these files in the corresponding sub-collection:</para>
-      <programlisting xml:space="preserve">&lt;app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/&gt;
-&lt;app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/&gt;</programlisting>
+      <programlisting xml:space="preserve">&lt;app-toolbar data-template="lib:include" data-template-path="templates/menu.html"/&gt;
+&lt;app-toolbar data-template="lib:include" data-template-path="templates/toolbar.html"/&gt;</programlisting>
       <para>The following page templates are currently available in TEI Publisher:</para>
       <variablelist>
         <varlistentry>
