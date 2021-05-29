@@ -1,0 +1,15 @@
+.content {
+    line-height: 1.5;
+}
+
+.persName {
+    color: #ffac41;
+}
+
+.placeName {
+    color: #aa41ff;
+}
+
+.term {
+    font-weight: bold;
+}

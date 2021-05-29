@@ -18,14 +18,9 @@
   </teiHeader>
   <text>
       <body>
+         <p>lorem <persName>ipsum</persName> dolor</p>
          <p><persName corresp="#p_SEA_1">SHEVARDNADZE</persName> opened the meeting by welcoming
             the Secretary and his delegation, noting that he was glad to see Mr. <persName corresp="#p_CFC_1">Carlucci</persName> and Ambassador <persName corresp="#p_RRL_1">Ridgway</persName> once again.</p>
-         <p>The Foreign Minister expressed satisfaction that the Secretary had been able to reach
-            Moscow despite the transportation problems he had faced. The meeting was one of
-            great importance. <persName corresp="#p_SEA_1">Shevardnadze</persName> did not need
-            to tell the Secretary how critical their Washington discussions<note n="2" xml:id="d80fn2" place="foot">See <ref target="#d66">Documents 66</ref>–<ref target="#d76">76</ref>.</note> had been; he had already given his assessment
-            at the time and when they met in New York.<note n="3" xml:id="d80fn3" place="foot">See <ref target="#d78">Document 78</ref>.</note> The whole world had responded
-            to the results of the Washington visit.</p>
          <p>The Foreign Minister expressed satisfaction that the Secretary had been able to reach
             Moscow despite the transportation problems he had faced. The meeting was one of
             great importance. <persName corresp="#p_SEA_1">Shevardnadze</persName> did not need
