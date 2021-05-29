@@ -2161,7 +2161,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Content merged and saved"
+                        "description": "Content merged and saved",
+                        "content": {
+                            "text/xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
                     }
                 }
             }

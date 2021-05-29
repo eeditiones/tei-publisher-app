@@ -58,16 +58,22 @@ declare %private function anno:apply($node, $annotations) {
             anno:apply($output, tail($annotations))
 };
 
-declare %private function anno:apply($nodes as node()*, $start as xs:int, $end as xs:int, $annotation as map(*)) {
-    let $start := anno:find-offset($nodes, $start)
-    let $end := anno:find-offset($nodes, $end)
+declare %private function anno:apply($node as node(), $startOffset as xs:int, $endOffset as xs:int, $annotation as map(*)) {
+    let $start := anno:find-offset($node, $startOffset)
+    let $end := anno:find-offset($node, $endOffset)
     let $startAdjusted :=
-        if ($start?2 = 1 and not($start?1 is $end?1)) then
+        if (not($start?1/.. is $node) and $start?2 = 1 and not($start?1 is $end?1)) then
             [$start?1/.., 1]
         else
             $start
+    let $endAdjusted :=
+        if (not($end?1/.. is $node) and $end?2 = string-length($end?1) and not($start?1 is $end?1)) then
+            [$end?1/.., 1]
+        else
+            $end
+    let $log := util:log('INFO', ($startAdjusted, $endAdjusted))
     return
-        anno:transform($nodes, $startAdjusted, $end, false(), $annotation)
+        anno:transform($node, $startAdjusted, $endAdjusted, false(), $annotation)
 };
 
 declare %private function anno:find-offset($nodes as node()*, $offset as xs:int) {
@@ -109,6 +115,8 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
                     (: element appears after end: ignore :)
                     if ($node >> $end?1) then
                         ()
+                    else if ($node is $end?1) then
+                        $node
                     else
                         element { node-name($node) } {
                             $node/@*,
@@ -138,9 +146,9 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
                         ()
                 ) else if ($node is $end?1) then
                     if ($inAnno) then
-                        text { substring($node, 1, $end?2) }
+                        text { substring($node, 1, $end?2 - 1) }
                     else
-                        text { substring($node, $end?2 + 1) }
+                        text { substring($node, $end?2) }
                 else if ($inAnno and $node >> $end?1) then
                     ()
                 else

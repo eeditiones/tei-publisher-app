@@ -16,6 +16,8 @@ import module namespace vapi="http://teipublisher.com/api/view" at "api/view.xql
 import module namespace anno="http://teipublisher.com/api/annotations" at "api/annotations.xql";
 import module namespace custom="http://teipublisher.com/api/custom" at "../custom-api.xql";
 
+declare option output:indent "no";
+
 let $lookup := function($name as xs:string, $arity as xs:integer) {
     try {
         let $cfun := custom:lookup($name, $arity)
