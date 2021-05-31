@@ -1,15 +1,20 @@
-.content {
-    line-height: 1.5;
+.persName {
+    font-style: italic;
 }
 
-.persName {
-    color: #ffac41;
+.orgName {
+    font-style: italic;
 }
 
 .placeName {
-    color: #aa41ff;
+    font-variant: small-caps;
 }
 
 .term {
-    font-weight: bold;
+    color: #3a86ff;
+    font-style: italic;
+}
+
+.date {
+    font-weight: bolder;
 }
