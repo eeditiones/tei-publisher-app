@@ -158,7 +158,12 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
 };
 
 declare function anno:wrap($annotation as map(*), $content as function(*)) {
-    let $localName := if ($annotation?type) then $annotation?type else 'hi'
+    let $localName := if ($annotation?tag) then $annotation?tag else 'hi'
     return
-         element { QName("http://www.tei-c.org/ns/1.0", $localName) } { $content() }
+        element { QName("http://www.tei-c.org/ns/1.0", $localName) } {
+            map:for-each($annotation?properties, function($key, $value) {
+                attribute { $key } { $value }
+            }),
+            $content() 
+        }
 };
