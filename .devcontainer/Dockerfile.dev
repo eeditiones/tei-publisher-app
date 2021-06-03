@@ -1,6 +1,7 @@
 FROM mcr.microsoft.com/vscode/devcontainers/java:dev-8
 
 ARG EXIST_VERSION=5.2.0
+ARG TEMPLATING_VERSION=v1.0.0
 ARG PUBLISHER_LIB_VERSION=v2.8.11
 ARG PUBLISHER_VERSION=master
 ARG ROASTER_VERSION=v0.5.1
@@ -37,10 +38,18 @@ RUN if [ "${INSTALL_NODE}" = "true" ]; then su vscode -c "source /usr/local/shar
 
 WORKDIR /apps
 
-RUN curl -L -o exist-distribution-${EXIST_VERSION}-unix.tar.bz2 https://bintray.com/existdb/releases/download_file?file_path=exist-distribution-${EXIST_VERSION}-unix.tar.bz2 \
+RUN curl -L -o exist-distribution-${EXIST_VERSION}-unix.tar.bz2 https://github.com/eXist-db/exist/releases/download/eXist-${EXIST_VERSION}/exist-distribution-${EXIST_VERSION}-unix.tar.bz2 \
     && tar xfj exist-distribution-${EXIST_VERSION}-unix.tar.bz2 -C /usr/local \
     && rm exist-distribution-${EXIST_VERSION}-unix.tar.bz2 \
     && mv /usr/local/exist-distribution-${EXIST_VERSION} /usr/local/exist
+
+RUN git clone https://github.com/eXist-db/templating.git \
+    && cd templating \
+    && git checkout ${TEMPLATING_VERSION} \
+    && npm start \
+    && cp -v templating*.xar /usr/local/exist/autodeploy \
+    && cd .. \
+    && rm -rf templating
 
 # Build tei-publisher-lib
 RUN  git clone https://github.com/eeditiones/tei-publisher-lib.git \

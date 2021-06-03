@@ -12,7 +12,8 @@ WORKDIR /tmp
 
 RUN apt-get update && apt-get install -y \
     wget \
-    git
+    git \
+    curl
 
 RUN wget http://www-us.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz \
     && mkdir ant-${ANT_VERSION} \
@@ -25,8 +26,13 @@ RUN wget http://www-us.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bi
 
 ENV PATH ${PATH}:${ANT_HOME}/bin
 
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
+    && apt-get install -y nodejs \
+    && curl -L https://www.npmjs.com/install.sh | sh
+
 FROM builder as tei
 
+ARG TEMPLATING_VERSION=v1.0.0
 ARG PUBLISHER_LIB_VERSION=v2.8.11
 ARG OAS_ROUTER_VERSION=v0.5.1
 ARG PUBLISHER_VERSION=master
@@ -35,6 +41,11 @@ ARG VANGOGH_VERSION=1.0.6
 
 # add key
 RUN  mkdir -p ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+
+RUN git clone https://github.com/eXist-db/templating.git \
+    && cd templating \
+    && git checkout ${TEMPLATING_VERSION} \
+    && npm start
 
 # Build tei-publisher-lib
 RUN  git clone https://github.com/eeditiones/tei-publisher-lib.git \
@@ -68,6 +79,7 @@ RUN  git clone https://github.com/eeditiones/tei-publisher-app.git \
 
 FROM existdb/existdb:${EXIST_VERSION}
 
+COPY --from=tei /tmp/templating/templating-*.xar /exist/autodeploy
 COPY --from=tei /tmp/tei-publisher-lib/build/*.xar /exist/autodeploy
 COPY --from=tei /tmp/roaster/build/*.xar /exist/autodeploy
 COPY --from=tei /tmp/tei-publisher-app/build/*.xar /exist/autodeploy
