@@ -44,7 +44,7 @@
         <body>
             <schemaSpec start="TEI teiCorpus" ident="annotations" source="teipublisher.odd">
                 <elementSpec ident="persName" mode="add">
-                    <model behaviour="inline" cssClass="annotation annotation-persName persName"/>
+                    <model behaviour="inline" cssClass="annotation annotation-person person"/>
                 </elementSpec>
                 <elementSpec ident="hi" mode="change">
                     <model predicate="@rendition" behaviour="inline" useSourceRendition="true">
@@ -81,7 +81,7 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="placeName" mode="add">
-                    <model behaviour="inline" cssClass="annotation annotation-placeName placeName"/>
+                    <model behaviour="inline" cssClass="annotation annotation-place place"/>
                 </elementSpec>
                 <elementSpec ident="term" mode="add">
                     <model behaviour="inline" cssClass="annotation annotation-term term"/>

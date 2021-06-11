@@ -9,6 +9,13 @@ import module namespace errors = "http://exist-db.org/xquery/router/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 
+declare variable $anno:tags := map {
+    "person": QName("http://www.tei-c.org/ns/1.0", "persName"),
+    "place": QName("http://www.tei-c.org/ns/1.0", "placeName"),
+    "term": QName("http://www.tei-c.org/ns/1.0", "term"),
+    "orgName": QName("http://www.tei-c.org/ns/1.0", "orgName")
+};
+
 declare function anno:save($request as map(*)) {
     let $annotations := $request?body
     let $path := xmldb:decode($request?parameters?path)
@@ -158,9 +165,9 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
 };
 
 declare function anno:wrap($annotation as map(*), $content as function(*)) {
-    let $localName := if ($annotation?tag) then $annotation?tag else 'hi'
+    let $log := util:log('INFO', $anno:tags($annotation?type))
     return
-        element { QName("http://www.tei-c.org/ns/1.0", $localName) } {
+        element { $anno:tags($annotation?type) } {
             map:for-each($annotation?properties, function($key, $value) {
                 attribute { $key } { $value }
             }),

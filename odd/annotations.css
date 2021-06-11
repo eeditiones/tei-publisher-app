@@ -1,12 +1,12 @@
-.persName {
+.person {
     font-style: italic;
 }
 
-.orgName {
+.organisation {
     font-style: italic;
 }
 
-.placeName {
+.place {
     font-variant: small-caps;
 }
 
