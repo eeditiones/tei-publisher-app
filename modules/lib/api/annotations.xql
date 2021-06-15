@@ -9,13 +9,6 @@ import module namespace errors = "http://exist-db.org/xquery/router/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 
-declare variable $anno:tags := map {
-    "person": QName("http://www.tei-c.org/ns/1.0", "persName"),
-    "place": QName("http://www.tei-c.org/ns/1.0", "placeName"),
-    "term": QName("http://www.tei-c.org/ns/1.0", "term"),
-    "orgName": QName("http://www.tei-c.org/ns/1.0", "orgName")
-};
-
 declare function anno:save($request as map(*)) {
     let $annotations := $request?body
     let $path := xmldb:decode($request?parameters?path)
@@ -60,9 +53,60 @@ declare %private function anno:apply($node, $annotations) {
         $node
     else
         let $anno := head($annotations)
-        let $output := anno:apply($node, $anno?start + 1, $anno?end + 1, $anno)
         return
-            anno:apply($output, tail($annotations))
+            if ($anno?type = "modify") then
+                let $target := util:node-by-id(root($node), $anno?node)
+                let $output := anno:modify($node, $target, $anno)
+                return
+                    anno:apply($output, tail($annotations))
+            else if ($anno?type = "delete") then
+                let $target := util:node-by-id(root($node), $anno?node)
+                let $output := anno:delete($node, $target)
+                let $log := util:log('INFO', $output)
+                return
+                    anno:apply($output, tail($annotations))
+            else
+                let $output := anno:apply($node, $anno?start + 1, $anno?end + 1, $anno)
+                let $log := util:log('INFO', $output)
+                return
+                    anno:apply($output, tail($annotations))
+};
+
+declare %private function anno:delete($nodes as node()*, $target as node()) {
+    for $node in $nodes
+    return
+        typeswitch($node)
+            case element() return
+                if ($node is $target) then
+                    anno:delete($node/node(), $target)
+                else
+                    element { node-name($node) } {
+                        $node/@*,
+                        anno:delete($node/node(), $target)
+                    }
+            default return
+                $node
+};
+
+declare %private function anno:modify($nodes as node()*, $target as node(), $annotation as map(*)) {
+    for $node in $nodes
+    return
+        typeswitch($node)
+            case element() return
+                if ($node is $target) then
+                    element { node-name($node) } {
+                        map:for-each($annotation?properties, function($key, $value) {
+                            attribute { $key } { $value }
+                        }),
+                        anno:modify($node/node(), $target, $annotation)
+                    }
+                else
+                    element { node-name($node) } {
+                        $node/@*,
+                        anno:modify($node/node(), $target, $annotation)
+                    }
+            default return
+                $node
 };
 
 declare %private function anno:apply($node as node(), $startOffset as xs:int, $endOffset as xs:int, $annotation as map(*)) {
@@ -165,12 +209,7 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
 };
 
 declare function anno:wrap($annotation as map(*), $content as function(*)) {
-    let $log := util:log('INFO', $anno:tags($annotation?type))
+    let $callback := $config:annotations($annotation?type)
     return
-        element { $anno:tags($annotation?type) } {
-            map:for-each($annotation?properties, function($key, $value) {
-                attribute { $key } { $value }
-            }),
-            $content() 
-        }
+        $callback($annotation?properties, $content)
 };

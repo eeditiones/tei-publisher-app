@@ -98,6 +98,19 @@
                     </model>
                     <model predicate="text()" behaviour="inline" cssClass="annotation annotation-date date"/>
                 </elementSpec>
+                <elementSpec ident="note" mode="change">
+                    <model predicate="@type='annotation'" behaviour="omit"/>
+                    <model behaviour="note">
+                        <param name="place" value="@place"/>
+                        <param name="label" value="@n"/>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="seg" mode="change">
+                    <model behaviour="alternate" cssClass="annotation annotation-note" useSourceRendition="true">
+                        <param name="default" value="."/>
+                        <param name="alternate" value="note[@type='annotation']/node()"/>
+                    </model>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>

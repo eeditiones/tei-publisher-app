@@ -131,6 +131,8 @@ declare variable $config:facets := [
     }
 ];
 
+declare variable $config:annotation-support := true();
+
 (:
  : The function to be called to determine the next content chunk to display.
  : It takes two parameters:
@@ -345,6 +347,25 @@ declare variable $config:expath-descriptor := doc(concat($config:app-root, "/exp
 declare variable $config:session-prefix := $config:expath-descriptor/@abbrev/string();
 
 declare variable $config:default-fields := ();
+
+declare variable $config:annotations := map {
+    "person": function($properties as map(*), $content as function(*)) {
+        <persName xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</persName>
+    },
+    "place": function($properties as map(*), $content as function(*)) {
+        <placeName xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</placeName>
+    },
+    "term": function($properties as map(*), $content as function(*)) {
+        <term xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</term>
+    },
+    "orgName": function($properties as map(*), $content as function(*)) {
+        <orgName xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</orgName>
+    },
+    "note": function($properties as map(*), $content as function(*)) {
+        <seg xmlns="http://www.tei-c.org/ns/1.0" type="annotated">{$content()}
+        <note xmlns="http://www.tei-c.org/ns/1.0" type="annotation">{$properties?note}</note></seg>
+    }
+};
 
 declare variable $config:dts-collections := map {
     "id": "default",
