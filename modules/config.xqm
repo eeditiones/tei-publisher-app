@@ -45,7 +45,7 @@ declare variable $config:origin-whitelist := (
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port 
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "1.23.1";
+declare variable $config:webcomponents := "local";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
@@ -430,26 +430,14 @@ declare variable $config:dts-import-collection := $config:data-default || "/play
  : @param $docUri relative document path (including $collection)
  :)
 declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
-    (: Return empty sequence to use default config :)
-    ()
-
-    (: 
-     : Replace line above with the following code to switch between different view configurations per collection.
-     : $collection corresponds to the relative collection path (i.e. after $config:data-root). 
-     :)
-    (:
     switch ($collection)
-        case "playground" return
+        case "annotate" return
             map {
-                "odd": "dodis.odd",
-                "view": "body",
-                "depth": $config:pagination-depth,
-                "fill": $config:pagination-fill,
-                "template": "facsimile.html"
+                "odd": "annotations.odd",
+                "template": "annotate.html"
             }
         default return
             ()
-    :)
 };
 
 (:~

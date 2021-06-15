@@ -19,8 +19,14 @@ declare function anno:save($request as map(*)) {
                 for $annoGroup in $annotations?*
                 group by $id := $annoGroup?context
                 let $node := util:node-by-id($doc, $id)
+                where exists($node)
+                let $ordered :=
+                    for $anno in $annoGroup
+                    (: handle deletions first :)
+                    order by $anno?type empty least
+                    return $anno
                 return
-                    map:entry($node, anno:apply($node, $annoGroup))
+                    map:entry($node, anno:apply($node, $ordered))
             )
             return
                 anno:merge($doc, $map)
@@ -62,12 +68,10 @@ declare %private function anno:apply($node, $annotations) {
             else if ($anno?type = "delete") then
                 let $target := util:node-by-id(root($node), $anno?node)
                 let $output := anno:delete($node, $target)
-                let $log := util:log('INFO', $output)
                 return
                     anno:apply($output, tail($annotations))
             else
                 let $output := anno:apply($node, $anno?start + 1, $anno?end + 1, $anno)
-                let $log := util:log('INFO', $output)
                 return
                     anno:apply($output, tail($annotations))
 };
@@ -122,7 +126,6 @@ declare %private function anno:apply($node as node(), $startOffset as xs:int, $e
             [$end?1/.., 1]
         else
             $end
-    let $log := util:log('INFO', ($startAdjusted, $endAdjusted))
     return
         anno:transform($node, $startAdjusted, $endAdjusted, false(), $annotation)
 };
