@@ -6,8 +6,32 @@ function disableButtons(disable) {
 
 window.addEventListener("WebComponentsReady", () => {
     const form = document.getElementById("edit-form");
-    
-    function showForm(type) {
+	let selection = null;
+	let activeSpan = null;
+	const view = document.getElementById("view1");
+	const occurDiv = document.getElementById("occurrences");
+	const occurrences = occurDiv.querySelector('ul');
+	const saveBtn = document.getElementById('form-save');
+	const refInput = document.getElementById("form-ref");
+	const authorityInfo = document.getElementById("authority-info");
+	const authorityDialog = document.getElementById("authority-dialog");
+	let autoSave = false;
+	let type = "";
+	let text = "";
+
+	/**
+	 * Display the main form
+	 * 
+	 * @param {string} type the annotation type
+	 * @param {any} data properties of the annotation (if any); used to prefill the form
+	 */
+    function showForm(type, data) {
+		form.reset();
+		if (autoSave) {
+			saveBtn.style.display = 'none';
+		} else {
+			saveBtn.style.display = '';
+		}
 		form.style.display = "";
 		form.querySelectorAll(`.annotation-form:not(.${type})`).forEach((elem) => {
 			elem.style.display = "none";
@@ -15,26 +39,87 @@ window.addEventListener("WebComponentsReady", () => {
 		form.querySelectorAll(`.annotation-form.${type}`).forEach((elem) => {
 			elem.style.display = "";
 		});
+		occurDiv.style.display = "";
+		occurrences.innerHTML = '';
+
+		if (data) {
+			Object.keys(data).forEach((key) => {
+				const field = form.querySelector(`[name="${key}"]`);
+				if (field) {
+					field.value = data[key];
+				}
+			});
+		}
 	}
 
 	function hideForm() {
 		form.style.display = "none";
+		occurDiv.style.display = "none";
 	}
     
-	hideForm();
+	/**
+	 * The user selected an authority entry.
+	 * 
+	 * @param {any} data details of the selected authority entry
+	 */
+	function authoritySelected(data) {
+		authorityDialog.close();
+		refInput.value = data.properties.ref;
+		if (autoSave) {
+			save();
+		}
+	}
 
-	let selection = null;
-	let activeSpan = null;
-	const refInput = document.getElementById("form-ref");
-	const authorityInfo = document.getElementById("authority-info");
-	const authorityDialog = document.getElementById("authority-dialog");
-	let type = "";
-	let text = "";
-	document.getElementById("form-save").addEventListener("click", () => {
+	/**
+	 * Search the text for other potential occurrences of an authority entry
+	 * 
+	 * @param {any} info details of the selected authority entry
+	 */
+	function findOther(info) {
+		let strings = [text];
+		if (info) {
+			strings = strings.concat(info.strings);
+		}
+		const occur = view.search(type, strings);
+		occurrences.innerHTML = "";
+		occur.forEach((o) => {
+			const li = document.createElement("li");
+			const cb = document.createElement("paper-checkbox");
+			if (o.annotated) {
+				cb.setAttribute('checked', 'checked');
+			}
+			cb.addEventListener("change", () => {
+				const range = document.createRange();
+				range.setStart(o.node, o.start);
+				range.setEnd(o.node, o.end);
+				const data = form.serializeForm();
+				view.addAnnotation({
+					type,
+					range,
+					properties: data
+				});
+				// refresh occurrences
+				findOther(info);
+			});
+
+			li.appendChild(cb);
+			const span = document.createElement("span");
+			span.innerHTML = o.kwic;
+			li.appendChild(span);
+			occurrences.appendChild(li);
+			li.addEventListener("mouseover", () => {
+				const range = document.createRange();
+				range.setStart(o.node, o.start);
+				range.setEnd(o.node, o.end);
+				view.scrollTo(range);
+			});
+			li.addEventListener('mouseleave', () => view.hideMarker());
+		});
+	}
+
+	function save() {
 		const data = form.serializeForm();
-		form.reset();
-		refInput.value = "";
-		hideForm();
+		// hideForm();
 		if (activeSpan) {
 			window.pbEvents.emit("pb-edit-annotation", "transcription", {
 				target: activeSpan,
@@ -42,12 +127,17 @@ window.addEventListener("WebComponentsReady", () => {
 			});
 			activeSpan = null;
 		} else {
-			window.pbEvents.emit("pb-add-annotation", "transcription", {
+			activeSpan = view.addAnnotation({
 				type,
-				properties: data,
+				properties: data
 			});
 		}
-	});
+	}
+
+	hideForm();
+
+	saveBtn.addEventListener("click", () => save());
+
 	document.querySelector('#form-ref [slot="prefix"]').addEventListener("click", () => {
 		window.pbEvents.emit("pb-authority-lookup", "transcription", {
 			type,
@@ -56,30 +146,28 @@ window.addEventListener("WebComponentsReady", () => {
 		authorityDialog.open();
 	});
 	refInput.addEventListener("value-changed", () => {
-		document.querySelector("pb-authority-lookup").lookup(type, refInput.value, authorityInfo);
+		document.querySelector("pb-authority-lookup").lookup(type, refInput.value, authorityInfo).then(findOther);
 	});
 	document.querySelectorAll(".annotation-action").forEach((button) => {
 		button.addEventListener("click", () => {
 			if (selection) {
 				type = button.getAttribute("data-type");
-				showForm(type);
-				text = selection;
-				activeSpan = null;
 				if (button.classList.contains("authority")) {
+					autoSave = true;
 					window.pbEvents.emit("pb-authority-lookup", "transcription", {
 						type,
 						query: selection,
 					});
 					authorityDialog.open();
 				}
+				showForm(type);
+				text = selection;
+				activeSpan = null;
 			}
 			disableButtons(true);
 		});
 	});
-	window.pbEvents.subscribe("pb-authority-select", "transcription", (ev) => {
-		authorityDialog.close();
-		refInput.value = ev.detail.properties.ref;
-	});
+	window.pbEvents.subscribe("pb-authority-select", "transcription", (ev) => authoritySelected(ev.detail));
 	window.pbEvents.subscribe("pb-selection-changed", "transcription", (ev) => {
 		disableButtons(!ev.detail.hasContent);
 		if (ev.detail.hasContent) {
@@ -120,13 +208,14 @@ window.addEventListener("WebComponentsReady", () => {
 					});
 			});
 	});
+
 	window.pbEvents.subscribe("pb-annotation-edit", "transcription", (ev) => {
 		activeSpan = ev.detail.target;
 		text = activeSpan.textContent;
 		type = ev.detail.type;
-		showForm(type);
-		refInput.value = ev.detail.properties.ref;
+		showForm(type, ev.detail.properties);
 	});
+
 	const clearAll = document.getElementById("clear-all");
 	clearAll.addEventListener("click", () => window.pbEvents.emit("pb-refresh", "transcription"));
 });

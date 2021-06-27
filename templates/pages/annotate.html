@@ -48,7 +48,7 @@
             }
 
             pb-authority-lookup::part(output) {
-                font-size: 13px;
+                font-size: 1rem;
             }
 
             .text {
@@ -93,11 +93,32 @@
 
             #view1::part(content) {
                 line-height: 2;
-                font-size: 18px;
+                font-size: 85%;
             }
 
             #form-save {
                 float: right;
+            }
+
+            #view1::part(highlight) {
+                background-color: #ff8800;
+                opacity: 0.3;
+            }
+
+            #occurrences {
+                margin-top: 16px;
+                padding: 0 8px;
+                font-size: .85rem;
+            }
+
+            #occurrences ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            #occurrences li {
+                margin-bottom: 4px;
             }
         </style>
     </head>
@@ -145,6 +166,10 @@
                                     <paper-icon-button id="form-save" icon="icons:save"></paper-icon-button>
                                 </form>
                             </iron-form>
+                            <div id="occurrences">
+                                <h4>Occurrences in text</h4>
+                                <ul></ul>
+                            </div>
                         </aside>
                         <div class="text">
                             <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
