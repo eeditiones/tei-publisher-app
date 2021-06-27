@@ -89,15 +89,19 @@ window.addEventListener("WebComponentsReady", () => {
 				cb.setAttribute('checked', 'checked');
 			}
 			cb.addEventListener("change", () => {
-				const range = document.createRange();
-				range.setStart(o.node, o.start);
-				range.setEnd(o.node, o.end);
-				const data = form.serializeForm();
-				view.addAnnotation({
-					type,
-					range,
-					properties: data
-				});
+				if (!o.annotated) {
+					const range = document.createRange();
+					range.setStart(o.node, o.start);
+					range.setEnd(o.node, o.end);
+					const data = form.serializeForm();
+					view.addAnnotation({
+						type,
+						range,
+						properties: data
+					});
+				} else {
+					view.deleteAnnotation(o.node.parentNode);
+				}
 				// refresh occurrences
 				findOther(info);
 			});
@@ -146,7 +150,10 @@ window.addEventListener("WebComponentsReady", () => {
 		authorityDialog.open();
 	});
 	refInput.addEventListener("value-changed", () => {
-		document.querySelector("pb-authority-lookup").lookup(type, refInput.value, authorityInfo).then(findOther);
+		const ref = refInput.value;
+		if (ref && ref.length > 0) {
+			document.querySelector("pb-authority-lookup").lookup(type, refInput.value, authorityInfo).then(findOther);
+		}
 	});
 	document.querySelectorAll(".annotation-action").forEach((button) => {
 		button.addEventListener("click", () => {

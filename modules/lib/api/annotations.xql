@@ -20,18 +20,32 @@ declare function anno:save($request as map(*)) {
                 group by $id := $annoGroup?context
                 let $node := util:node-by-id($doc, $id)
                 where exists($node)
+                let $expanded := util:expand($node, 'add-exist-id=all')
                 let $ordered :=
                     for $anno in $annoGroup
                     (: handle deletions first :)
                     order by $anno?type empty least
                     return $anno
                 return
-                    map:entry($node, anno:apply($node, $ordered))
+                    map:entry($node, anno:apply($expanded, $ordered) => anno:strip-exist-id())
             )
             return
                 anno:merge($doc, $map)
         else
             error($errors:NOT_FOUND, "Document " || $path || " not found")
+};
+
+declare %private function anno:strip-exist-id($nodes as node()*) {
+    for $node in $nodes
+    return
+        typeswitch($node)
+            case element() return
+                element { node-name($node) } {
+                    $node/@* except $node/@exist:*,
+                    anno:strip-exist-id($node/node())
+                }
+            default return
+                $node
 };
 
 declare %private function anno:merge($nodes as node()*, $elements as map(*)) {
@@ -61,13 +75,16 @@ declare %private function anno:apply($node, $annotations) {
         let $anno := head($annotations)
         return
             if ($anno?type = "modify") then
-                let $target := util:node-by-id(root($node), $anno?node)
+                let $target := root($node)//*[@exist:id=$anno?node]
+                (: let $target := util:node-by-id(root($node), $anno?node) :)
                 let $output := anno:modify($node, $target, $anno)
                 return
                     anno:apply($output, tail($annotations))
             else if ($anno?type = "delete") then
-                let $target := util:node-by-id(root($node), $anno?node)
+                let $target := $node//*[@exist:id=$anno?node]
+                (: let $target := util:node-by-id(root($node), $anno?node) :)
                 let $output := anno:delete($node, $target)
+                let $log := util:log('INFO', $output)
                 return
                     anno:apply($output, tail($annotations))
             else

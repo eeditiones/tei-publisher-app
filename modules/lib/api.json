@@ -2154,7 +2154,7 @@
                         "in": "path",
                         "schema": {
 							"type": "string",
-							"example": "playground/d80.xml"
+							"example": "annotate/graves20.xml"
 						},
                         "required": true
                     }
