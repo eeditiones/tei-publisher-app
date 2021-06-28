@@ -1,22 +1,36 @@
+:root {
+    --pb-annotation-person: #fb5607;
+    --pb-annotation-organisation: #ffbe0b;
+    --pb-annotation-place: #8338ec;
+    --pb-annotation-term: #3a86ff;
+    --pb-annotation-date: #ff006e;
+    --pb-annotation-note: #175014;
+}
+
 .person {
     font-style: italic;
+    color: var(--pb-annotation-person);
 }
 
 .organisation {
     font-style: italic;
+    color: var(--pb-annotation-organisation);
 }
 
 .place {
     font-variant: small-caps;
+    color: var(--pb-annotation-place);
 }
 
 .term {
     color: #3a86ff;
     font-style: italic;
+    color: var(--pb-annotation-term);
 }
 
 .date {
     font-weight: bolder;
+    color: var(--pb-annotation-date);
 }
 
 .annotation-note {

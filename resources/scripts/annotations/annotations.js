@@ -18,6 +18,7 @@ window.addEventListener("WebComponentsReady", () => {
 	let autoSave = false;
 	let type = "";
 	let text = "";
+	let enablePreview = true;
 
 	/**
 	 * Display the main form
@@ -70,6 +71,22 @@ window.addEventListener("WebComponentsReady", () => {
 		}
 	}
 
+	function selectOccurrence(data, o) {
+		if (!o.annotated) {
+			const teiRange = {
+				type,
+				properties: data,
+				context: o.context,
+				start: o.start,
+				end: o.end,
+				text: o.text
+			};
+			return view.updateAnnotation(teiRange);
+		} else {
+			view.deleteAnnotation(o.textNode.parentNode);
+		}
+	}
+
 	/**
 	 * Search the text for other potential occurrences of an authority entry
 	 * 
@@ -85,25 +102,14 @@ window.addEventListener("WebComponentsReady", () => {
 		occur.forEach((o) => {
 			const li = document.createElement("li");
 			const cb = document.createElement("paper-checkbox");
+			cb._options = o;
+			cb._info = info;
 			if (o.annotated) {
 				cb.setAttribute('checked', 'checked');
 			}
-			cb.addEventListener("change", () => {
-				if (!o.annotated) {
-					const range = document.createRange();
-					range.setStart(o.node, o.start);
-					range.setEnd(o.node, o.end);
-					const data = form.serializeForm();
-					view.addAnnotation({
-						type,
-						range,
-						properties: data
-					});
-				} else {
-					view.deleteAnnotation(o.node.parentNode);
-				}
-				// refresh occurrences
-				findOther(info);
+			cb.addEventListener("click", () => {
+				const data = form.serializeForm();
+				selectOccurrence(data, o);
 			});
 
 			li.appendChild(cb);
@@ -111,11 +117,8 @@ window.addEventListener("WebComponentsReady", () => {
 			span.innerHTML = o.kwic;
 			li.appendChild(span);
 			occurrences.appendChild(li);
-			li.addEventListener("mouseover", () => {
-				const range = document.createRange();
-				range.setStart(o.node, o.start);
-				range.setEnd(o.node, o.end);
-				view.scrollTo(range);
+			li.addEventListener("mouseenter", () => {
+				view.scrollTo(o);
 			});
 			li.addEventListener('mouseleave', () => view.hideMarker());
 		});
@@ -136,6 +139,46 @@ window.addEventListener("WebComponentsReady", () => {
 				properties: data
 			});
 		}
+	}
+
+	/**
+	 * Preview the current document with annotations merged in.
+	 * 
+	 * @param {any} annotations the current list of annotations
+	 */
+	function preview(annotations) {
+		const endpoint = document.querySelector("pb-page").getEndpoint();
+		const doc = document.getElementById("document1");
+		document.getElementById("json").innerText = JSON.stringify(annotations, null, 2);
+		document.getElementById("output").code = "";
+		console.log('Retrieving preview for %s', doc.path);
+		fetch(`${endpoint}/api/annotations/merge/${doc.path}`, {
+			method: "POST",
+			mode: "cors",
+			credentials: "same-origin",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(annotations),
+		})
+			.then((response) => response.text())
+			.then((text) => {
+				document.getElementById("output").code = text;
+				fetch(`${endpoint}/api/preview?odd=${doc.odd}.odd&base=${endpoint}/`, {
+					method: "POST",
+					mode: "cors",
+					credentials: "same-origin",
+					headers: {
+						"Content-Type": "application/xml",
+					},
+					body: text,
+				})
+					.then((response) => response.text())
+					.then((html) => {
+						const iframe = document.getElementById("html");
+						iframe.srcdoc = html;
+					});
+			});
 	}
 
 	hideForm();
@@ -182,38 +225,10 @@ window.addEventListener("WebComponentsReady", () => {
 		}
 	});
 	window.pbEvents.subscribe("pb-annotations-changed", "transcription", (ev) => {
-		const annotations = ev.detail.ranges;
-		const endpoint = document.querySelector("pb-page").getEndpoint();
-		const doc = document.getElementById("document1");
-		document.getElementById("json").innerText = JSON.stringify(annotations, null, 2);
-		document.getElementById("output").code = "";
-		fetch(`${endpoint}/api/annotations/merge/${doc.path}`, {
-			method: "POST",
-			mode: "cors",
-			credentials: "same-origin",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(annotations),
-		})
-			.then((response) => response.text())
-			.then((text) => {
-				document.getElementById("output").code = text;
-				fetch(`${endpoint}/api/preview?odd=${doc.odd}.odd&base=${endpoint}/`, {
-					method: "POST",
-					mode: "cors",
-					credentials: "same-origin",
-					headers: {
-						"Content-Type": "application/xml",
-					},
-					body: text,
-				})
-					.then((response) => response.text())
-					.then((html) => {
-						const iframe = document.getElementById("html");
-						iframe.srcdoc = html;
-					});
-			});
+		if (enablePreview) {
+			const annotations = ev.detail.ranges;
+			preview(annotations);
+		}
 	});
 
 	window.pbEvents.subscribe("pb-annotation-edit", "transcription", (ev) => {
@@ -225,4 +240,16 @@ window.addEventListener("WebComponentsReady", () => {
 
 	const clearAll = document.getElementById("clear-all");
 	clearAll.addEventListener("click", () => window.pbEvents.emit("pb-refresh", "transcription"));
+
+	const markAll = document.getElementById('mark-all');
+	markAll.addEventListener('click', () => {
+		enablePreview = false;
+		const data = form.serializeForm();
+		const checkboxes = document.querySelectorAll('#occurrences li paper-checkbox:not([checked])');
+		checkboxes.forEach(cb => {
+			cb.checked = selectOccurrence(data, cb._options) !== null;
+		});
+		enablePreview = true;
+		preview(view.annotations);
+	});
 });

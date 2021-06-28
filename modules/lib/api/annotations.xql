@@ -7,7 +7,6 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 import module namespace router="http://exist-db.org/xquery/router";
 import module namespace errors = "http://exist-db.org/xquery/router/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
-import module namespace console="http://exist-db.org/xquery/console";
 
 declare function anno:save($request as map(*)) {
     let $annotations := $request?body
@@ -131,8 +130,8 @@ declare %private function anno:modify($nodes as node()*, $target as node(), $ann
 };
 
 declare %private function anno:apply($node as node(), $startOffset as xs:int, $endOffset as xs:int, $annotation as map(*)) {
-    let $start := anno:find-offset($node, $startOffset)
-    let $end := anno:find-offset($node, $endOffset)
+    let $start := anno:find-offset($node, $startOffset, $node instance of element(tei:note))
+    let $end := anno:find-offset($node, $endOffset, $node instance of element(tei:note))
     let $startAdjusted :=
         if (not($start?1/.. is $node) and $start?2 = 1 and not($start?1 is $end?1)) then
             [$start?1/.., 1]
@@ -147,7 +146,7 @@ declare %private function anno:apply($node as node(), $startOffset as xs:int, $e
         anno:transform($node, $startAdjusted, $endAdjusted, false(), $annotation)
 };
 
-declare %private function anno:find-offset($nodes as node()*, $offset as xs:int) {
+declare %private function anno:find-offset($nodes as node()*, $offset as xs:int, $isNote as xs:boolean?) {
     if (empty($nodes)) then
         ()
     else
@@ -155,16 +154,21 @@ declare %private function anno:find-offset($nodes as node()*, $offset as xs:int)
         return
             typeswitch($node)
                 case element(tei:note) return
-                    anno:find-offset(tail($nodes), $offset)
+                    if ($isNote) then
+                        let $found := anno:find-offset($node/node(), $offset, ())
+                        return
+                            if (exists($found)) then $found else anno:find-offset(tail($nodes), $offset - string-length($node), ())
+                    else
+                        anno:find-offset(tail($nodes), $offset, ())
                 case element() return
-                    let $found := anno:find-offset($node/node(), $offset)
+                    let $found := anno:find-offset($node/node(), $offset, ())
                     return
-                        if (exists($found)) then $found else anno:find-offset(tail($nodes), $offset - string-length($node))
+                        if (exists($found)) then $found else anno:find-offset(tail($nodes), $offset - string-length($node), ())
                 case text() return
                     if ($offset <= string-length($node)) then
                         [$node, $offset]
                     else
-                        anno:find-offset(tail($nodes), $offset - string-length($node))
+                        anno:find-offset(tail($nodes), $offset - string-length($node), ())
                 default return
                     ()
 };

@@ -28,8 +28,9 @@
             }
 
             .annotation-editor {
-                display: flex;
-                flex-direction: column;
+                display: grid;
+                grid-template-columns: auto;
+                grid-template-rows: auto auto 1fr;
             }
 
             .annotation-editor .toolbar {
@@ -106,6 +107,7 @@
             }
 
             #occurrences {
+                overflow: auto;
                 margin-top: 16px;
                 padding: 0 8px;
                 font-size: .85rem;
@@ -168,6 +170,7 @@
                             </iron-form>
                             <div id="occurrences">
                                 <h4>Occurrences in text</h4>
+                                <paper-icon-button id="mark-all" icon="icons:check"></paper-icon-button>
                                 <ul></ul>
                             </div>
                         </aside>
@@ -199,15 +202,24 @@
             <paper-dialog id="authority-dialog">
                 <paper-dialog-scrollable>
                     <pb-authority-lookup subscribe="transcription" emit="transcription">
+                        <pb-authority connector="Airtable" name="person" 
+                            api-key="keyqMS5jr8hJiCWmQ" base="appcVM9MIZSxyvkCU"
+                            table="People"
+                            fields="Name"
+                            label="${Name}"
+                            detail="" info="&lt;h3>${Name}&lt;/h3>"
+                            filter="find('${key}', lower({Name}))">
+                            <pb-property name="ref" value="${id}"/>
+                        </pb-authority>
                         <pb-authority connector="GeoNames" name="place" user="existdb">
                             <pb-property name="ref" value="geo:${id}"/>
                         </pb-authority>
                         <pb-authority connector="GND" name="term">
                             <pb-property name="ref" value="gnd:${id}"/>
                         </pb-authority>
-                        <pb-authority connector="GND" name="person">
+                        <!--pb-authority connector="GND" name="person">
                             <pb-property name="ref" value="gnd:${id}"/>
-                        </pb-authority>
+                        </pb-authority-->
                         <pb-authority connector="Metagrid" name="organisation">
                             <pb-property name="ref" value="${provider}:${id}"/>
                         </pb-authority>
