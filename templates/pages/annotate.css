@@ -12,7 +12,7 @@ main {
     grid-template-rows: auto auto 1fr;
 }
 
-.annotation-editor .toolbar {
+main .toolbar {
     background-color: var(--pb-color-inverse);
 }
 
@@ -35,6 +35,11 @@ pb-authority-lookup::part(output) {
     height: 100%;
     display: flex;
     flex-direction: column;
+}
+
+.preview {
+    display: grid;
+    grid-template-rows: auto 1fr;
 }
 
 pb-tabs {

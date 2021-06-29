@@ -223,6 +223,7 @@ window.addEventListener("WebComponentsReady", () => {
 	hideForm();
 
 	saveBtn.addEventListener("click", () => save());
+	document.getElementById('reload-preview').addEventListener('click', () => preview(view.annotations));
 
 	document.querySelector('#form-ref [slot="prefix"]').addEventListener("click", () => {
 		window.pbEvents.emit("pb-authority-lookup", "transcription", {
@@ -234,7 +235,10 @@ window.addEventListener("WebComponentsReady", () => {
 	refInput.addEventListener("value-changed", () => {
 		const ref = refInput.value;
 		if (ref && ref.length > 0) {
+			authorityInfo.innerHTML = 'Loading ...';
 			document.querySelector("pb-authority-lookup").lookup(type, refInput.value, authorityInfo).then(findOther);
+		} else {
+			authorityInfo.innerHTML = '';
 		}
 	});
 	document.querySelectorAll(".annotation-action").forEach((button) => {
@@ -276,6 +280,8 @@ window.addEventListener("WebComponentsReady", () => {
 			case 'note':
         		const data = JSON.parse(ev.detail.span.dataset.annotation);
 				ev.detail.container.innerHTML = data.properties.note;
+				break;
+			case 'date':
 				break;
 			default:
 				document.querySelector("pb-authority-lookup").lookup(ev.detail.type, ev.detail.id, ev.detail.container)

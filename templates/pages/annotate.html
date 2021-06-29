@@ -48,7 +48,7 @@
                                 <paper-icon-button class="annotation-action authority" data-type="organisation" data-shortcut="command+shift+o" icon="social:people" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action authority" data-type="place" icon="maps:place" data-shortcut="command+shift+g" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action authority" data-type="term" icon="icons:bookmark" data-shortcut="command+shift+t" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button class="annotation-action authority" data-type="date" icon="icons:today" data-shortcut="command+shift+d" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action" data-type="date" icon="icons:today" data-shortcut="command+shift+d" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action" data-type="note" icon="editor:insert-comment" data-shortcut="command+shift+c" disabled="disabled"></paper-icon-button>
                             </div>
                             <iron-form id="edit-form">
@@ -57,7 +57,7 @@
                                         <paper-input id="form-ref" name="ref" label="Reference">
                                             <paper-icon-button slot="prefix" icon="search"></paper-icon-button>
                                         </paper-input>
-                                        <div id="authority-info"></div>
+                                        <div id="authority-info">Loading ...</div>
                                     </div>
                                     <div class="annotation-form note">
                                         <paper-textarea label="Note" name="note" height="10" rows="6"></paper-textarea>
@@ -85,18 +85,23 @@
                                 <pb-param name="track-ids" value="yes"/>
                             </pb-view-annotate>
                         </div>
-                        <pb-tabs>
-                            <paper-tab slot="tab">HTML</paper-tab>
-                            <paper-tab slot="tab">TEI</paper-tab>
-                            <paper-tab slot="tab">JSON</paper-tab>
-                            <iframe slot="page" id="html" src="about:blank"></iframe>
-                            <div slot="page">
-                                <pb-code-highlight id="output" language="xml" theme="default"></pb-code-highlight>
+                        <aside class="preview">
+                            <div class="toolbar">
+                                <paper-icon-button id="reload-preview" icon="icons:refresh"></paper-icon-button>
                             </div>
-                            <div slot="page">
-                                <pre id="json"></pre>
-                            </div>
-                        </pb-tabs>
+                            <pb-tabs>
+                                <paper-tab slot="tab">HTML</paper-tab>
+                                <paper-tab slot="tab">TEI</paper-tab>
+                                <paper-tab slot="tab">JSON</paper-tab>
+                                <iframe slot="page" id="html" src="about:blank"></iframe>
+                                <div slot="page">
+                                    <pb-code-highlight id="output" language="xml" theme="default"></pb-code-highlight>
+                                </div>
+                                <div slot="page">
+                                    <pre id="json"></pre>
+                                </div>
+                            </pb-tabs>
+                        </aside>
                     </main>
                 </app-header-layout>
             </app-drawer-layout>
