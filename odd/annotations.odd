@@ -48,38 +48,38 @@
                 </elementSpec>
                 <elementSpec ident="hi" mode="change">
                     <model predicate="@rendition" behaviour="inline" useSourceRendition="true">
-                        <pb:template xmlns="" xml:space="preserve">annotation</pb:template>
-                        <outputRendition xml:space="preserve">
+            <pb:template xmlns="" xml:space="preserve">annotation</pb:template>
+            <outputRendition xml:space="preserve">
             font-style: italic;
             </outputRendition>
-                    </model>
+        </model>
                     <model predicate="not(@rendition)" behaviour="inline" cssClass="annotation">
-                        <outputRendition xml:space="preserve">
+            <outputRendition xml:space="preserve">
             text-decoration: #419dff underline solid 3px;
             </outputRendition>
-                    </model>
+        </model>
                 </elementSpec>
                 <elementSpec ident="gloss" mode="add">
                     <model behaviour="inline">
-                        <outputRendition xml:space="preserve">
+            <outputRendition xml:space="preserve">
             text-decoration: #c041ff underline solid 3px;
             </outputRendition>
-                    </model>
+        </model>
                 </elementSpec>
                 <elementSpec ident="pb" mode="change">
                     <model behaviour="omit" useSourceRendition="true">
-                        <param name="type" value="'page'"/>
-                        <param name="label" value="(concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else ''))"/>
-                        <outputRendition xml:space="preserve">
+            <param name="type" value="'page'"/>
+            <param name="label" value="(concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else ''))"/>
+            <outputRendition xml:space="preserve">
             display: block; margin-left: 4pt; color: grey; float: right;
             </outputRendition>
-                        <outputRendition xml:space="preserve" scope="before">
+            <outputRendition xml:space="preserve" scope="before">
             content: '[Page ';
             </outputRendition>
-                        <outputRendition xml:space="preserve" scope="after">
+            <outputRendition xml:space="preserve" scope="after">
             content: ']';
             </outputRendition>
-                    </model>
+        </model>
                 </elementSpec>
                 <elementSpec ident="placeName" mode="add">
                     <model behaviour="inline" cssClass="annotation annotation-place place"/>
@@ -90,28 +90,31 @@
                 <elementSpec ident="date" mode="change">
                     <model output="print" predicate="text()" behaviour="inline"/>
                     <model output="print" predicate="@when and not(text())" behaviour="inline">
-                        <param name="content" value="@when"/>
-                    </model>
+            <param name="content" value="@when"/>
+        </model>
                     <model predicate="parent::opener" behaviour="block" cssClass="annotation annotation-date date"/>
                     <model output="web" predicate="@when" behaviour="alternate">
-                        <param name="default" value="."/>
-                        <param name="alternate" value="@when"/>
-                    </model>
+            <param name="default" value="."/>
+            <param name="alternate" value="@when"/>
+        </model>
                     <model predicate="text()" behaviour="inline" cssClass="annotation annotation-date date"/>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
                     <model predicate="@type='annotation'" behaviour="omit"/>
                     <model behaviour="note">
-                        <param name="place" value="@place"/>
-                        <param name="label" value="@n"/>
-                    </model>
+            <param name="place" value="@place"/>
+            <param name="label" value="@n"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="seg" mode="change">
                     <model behaviour="alternate" cssClass="annotation annotation-note" useSourceRendition="true">
-                        <param name="default" value="."/>
-                        <param name="alternate" value="note[@type='annotation']/node()"/>
-                    </model>
+            <param name="default" value="."/>
+            <param name="alternate" value="note[@type='annotation']/node()"/>
+        </model>
                 </elementSpec>
+            <elementSpec ident="orgName" mode="add">
+        <model behaviour="inline" cssClass="annotation annotation-organisation organisation"/>
+    </elementSpec>
             </schemaSpec>
         </body>
     </text>

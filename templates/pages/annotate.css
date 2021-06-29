@@ -1,0 +1,117 @@
+main {
+    display: grid;
+    grid-template-columns: 260px 1fr 30%;
+    grid-template-rows: 100%;
+    gap: 0 10px;
+    height: calc(100vh - 128px);
+}
+
+.annotation-editor {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto 1fr;
+}
+
+.annotation-editor .toolbar {
+    background-color: var(--pb-color-inverse);
+}
+
+.annotation-editor iron-form {
+    padding: 0 8px;
+}
+#authority-dialog {
+    width: 33vw;
+}
+
+pb-authority-lookup {
+    min-height: 60vw;
+}
+
+pb-authority-lookup::part(output) {
+    font-size: 1rem;
+}
+
+.text {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+pb-tabs {
+    --paper-tabs-selection-bar-color: #607D8B;
+    height: 100%;
+}
+
+pb-tabs::part(pages) {
+    height: calc(100% - 48px);
+}
+
+pb-tabs [slot="page"] {
+    height: 100%;
+    overflow: auto;
+}
+
+#output {
+    font-size: .75em;
+    --pb-code-highlight-white-space: pre-wrap;
+}
+
+#html {
+    width: 100%;
+    border: 0;
+}
+
+#view1 {
+    overflow: auto;
+    --pb-annotation-person: #fb5607;
+    --pb-annotation-organisation: #ffbe0b;
+    --pb-annotation-place: #8338ec;
+    --pb-annotation-term: #3a86ff;
+    --pb-annotation-date: #ff006e;
+    --pb-annotation-note: #175014;
+
+    --pb-annotation-person-border: 0;
+    --pb-annotation-organisation-border: 0;
+    --pb-annotation-place-border: 0;
+    --pb-annotation-term-border: 0;
+    --pb-annotation-note-border: 0;
+    --pb-annotation-date-border: 0;
+}
+
+#view1::part(content) {
+    line-height: 2;
+    font-size: 85%;
+}
+
+#form-save {
+    float: right;
+}
+
+#view1::part(highlight) {
+    background-color: #ff8800;
+    opacity: 0.3;
+}
+
+#occurrences {
+    overflow: auto;
+    margin-top: 16px;
+    padding: 0 8px;
+    font-size: .85rem;
+}
+
+#occurrences h4 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--pb-color-inverse);
+}
+
+#occurrences ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#occurrences li {
+    margin-bottom: 4px;
+}
