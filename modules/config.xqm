@@ -358,7 +358,7 @@ declare variable $config:annotations := map {
     "term": function($properties as map(*), $content as function(*)) {
         <term xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</term>
     },
-    "orgName": function($properties as map(*), $content as function(*)) {
+    "organisation": function($properties as map(*), $content as function(*)) {
         <orgName xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</orgName>
     },
     "note": function($properties as map(*), $content as function(*)) {

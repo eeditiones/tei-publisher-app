@@ -5,34 +5,42 @@
     --pb-annotation-term: #3a86ff;
     --pb-annotation-date: #ff006e;
     --pb-annotation-note: #175014;
+
+    --pb-annotation-person-border: 2px solid var(--pb-annotation-person);
+    --pb-annotation-organisation-border: 2px solid var(--pb-annotation-organisation);
+    --pb-annotation-place-border: 2px solid var(--pb-annotation-place);
+    --pb-annotation-term-border: 2px solid var(--pb-annotation-term);
+    --pb-annotation-note-border: 2px solid var(--pb-annotation-note);
+    --pb-annotation-date-border: 2px solid var(--pb-annotation-date);
 }
 
 .person {
     font-style: italic;
-    color: var(--pb-annotation-person);
+    border-bottom: var(--pb-annotation-person-border);
 }
 
 .organisation {
     font-style: italic;
-    color: var(--pb-annotation-organisation);
+    border-bottom: var(--pb-annotation-organisation-border);
 }
 
 .place {
     font-variant: small-caps;
-    color: var(--pb-annotation-place);
+    border-bottom: var(--pb-annotation-place-border);
 }
 
 .term {
     color: #3a86ff;
     font-style: italic;
-    color: var(--pb-annotation-term);
+    border-bottom: var(--pb-annotation-term-border);
 }
 
 .date {
     font-weight: bolder;
-    color: var(--pb-annotation-date);
+    border-bottom: var(--pb-annotation-date-border);
 }
 
 .annotation-note {
     color: #175014;
+    border-bottom: var(--pb-annotation-note-border);
 }

@@ -90,6 +90,13 @@
                 --pb-annotation-term: #3a86ff;
                 --pb-annotation-date: #ff006e;
                 --pb-annotation-note: #175014;
+
+                --pb-annotation-person-border: 0;
+                --pb-annotation-organisation-border: 0;
+                --pb-annotation-place-border: 0;
+                --pb-annotation-term-border: 0;
+                --pb-annotation-note-border: 0;
+                --pb-annotation-date-border: 0;
             }
 
             #view1::part(content) {
@@ -111,6 +118,13 @@
                 margin-top: 16px;
                 padding: 0 8px;
                 font-size: .85rem;
+            }
+
+            #occurrences h4 {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: var(--pb-color-inverse);
             }
 
             #occurrences ul {
@@ -148,11 +162,11 @@
                         <aside class="annotation-editor">
                             <div class="toolbar">
                                 <paper-icon-button id="clear-all" icon="icons:refresh"></paper-icon-button>
-                                <paper-icon-button class="annotation-action authority" data-type="person" icon="social:person" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button class="annotation-action authority" data-type="organisation" icon="social:people" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button class="annotation-action authority" data-type="place" icon="maps:place" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button class="annotation-action authority" data-type="term" icon="icons:bookmark" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button class="annotation-action" data-type="note" icon="editor:insert-comment" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action authority" data-type="person" data-shortcut="command+shift+p" icon="social:person" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action authority" data-type="organisation" data-shortcut="command+shift+o" icon="social:people" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action authority" data-type="place" icon="maps:place" data-shortcut="command+shift+g" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action authority" data-type="term" icon="icons:bookmark" data-shortcut="command+shift+t" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action" data-type="note" icon="editor:insert-comment" data-shortcut="command+shift+c" disabled="disabled"></paper-icon-button>
                             </div>
                             <iron-form id="edit-form">
                                 <form action="">
@@ -169,8 +183,7 @@
                                 </form>
                             </iron-form>
                             <div id="occurrences">
-                                <h4>Occurrences in text</h4>
-                                <paper-icon-button id="mark-all" icon="icons:check"></paper-icon-button>
+                                <h4><div>Occurrences in text</div> <paper-icon-button id="mark-all" icon="icons:done-all"></paper-icon-button></h4>
                                 <ul></ul>
                             </div>
                         </aside>
@@ -202,15 +215,24 @@
             <paper-dialog id="authority-dialog">
                 <paper-dialog-scrollable>
                     <pb-authority-lookup subscribe="transcription" emit="transcription">
+                        <pb-authority connector="Airtable" name="person" 
+                            api-key="keyFpBEqgkRWCNrfK" base="appcVM9MIZSxyvkCU"
+                            table="People"
+                            fields="Name"
+                            label="${Name}"
+                            detail="" info="&lt;h3>${Name}&lt;/h3>"
+                            filter="find('${key}', lower({Name}))">
+                            <pb-property name="ref" value="${id}"/>
+                        </pb-authority>
                         <pb-authority connector="GeoNames" name="place" user="existdb">
                             <pb-property name="ref" value="geo:${id}"/>
                         </pb-authority>
                         <pb-authority connector="GND" name="term">
                             <pb-property name="ref" value="gnd:${id}"/>
                         </pb-authority>
-                        <pb-authority connector="GND" name="person">
+                        <!--pb-authority connector="GND" name="person">
                             <pb-property name="ref" value="gnd:${id}"/>
-                        </pb-authority>
+                        </pb-authority-->
                         <pb-authority connector="Metagrid" name="organisation">
                             <pb-property name="ref" value="${provider}:${id}"/>
                         </pb-authority>

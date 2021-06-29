@@ -235,5 +235,8 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
 declare function anno:wrap($annotation as map(*), $content as function(*)) {
     let $callback := $config:annotations($annotation?type)
     return
-        $callback($annotation?properties, $content)
+        if (exists($callback)) then
+            $callback($annotation?properties, $content)
+        else
+            (text { "NOT FOUND: " }, $content())
 };

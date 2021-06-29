@@ -72,18 +72,23 @@ window.addEventListener("WebComponentsReady", () => {
 	}
 
 	function selectOccurrence(data, o) {
-		if (!o.annotated) {
-			const teiRange = {
-				type,
-				properties: data,
-				context: o.context,
-				start: o.start,
-				end: o.end,
-				text: o.text
-			};
-			return view.updateAnnotation(teiRange);
-		} else {
-			view.deleteAnnotation(o.textNode.parentNode);
+		try {
+			if (!o.annotated) {
+				const teiRange = {
+					type,
+					properties: data,
+					context: o.context,
+					start: o.start,
+					end: o.end,
+					text: o.text
+				};
+				return view.updateAnnotation(teiRange);
+			} else {
+				view.deleteAnnotation(o.textNode.parentNode);
+			}
+		} catch (e) {
+			console.error(e);
+			return false;
 		}
 	}
 
@@ -181,6 +186,40 @@ window.addEventListener("WebComponentsReady", () => {
 			});
 	}
 
+	function actionHandler(button) {
+		if (selection) {
+			type = button.getAttribute('data-type');
+			autoSave = false;
+			if (button.classList.contains("authority")) {
+				autoSave = true;
+				window.pbEvents.emit("pb-authority-lookup", "transcription", {
+					type,
+					query: selection,
+				});
+				authorityDialog.open();
+			}
+			showForm(type);
+			text = selection;
+			activeSpan = null;
+		}
+		disableButtons(true);
+	}
+
+	function markAll(ev) {
+		ev.preventDefault();
+		ev.stopPropagation();
+		window.pbEvents.emit('pb-start-update', 'transcription');
+		enablePreview = false;
+		const data = form.serializeForm();
+		const checkboxes = document.querySelectorAll('#occurrences li paper-checkbox:not([checked])');
+		checkboxes.forEach(cb => {
+			cb.checked = selectOccurrence(data, cb._options) !== null;
+		});
+		enablePreview = true;
+		preview(view.annotations);
+		window.pbEvents.emit('pb-end-update', 'transcription');
+	}
+
 	hideForm();
 
 	saveBtn.addEventListener("click", () => save());
@@ -199,22 +238,16 @@ window.addEventListener("WebComponentsReady", () => {
 		}
 	});
 	document.querySelectorAll(".annotation-action").forEach((button) => {
+		const shortcut = button.getAttribute('data-shortcut');
+		if (shortcut) {
+			window.pbKeyboard(shortcut, (ev) => {
+				ev.preventDefault();
+				ev.stopPropagation();
+				actionHandler(button);
+			});
+		}
 		button.addEventListener("click", () => {
-			if (selection) {
-				type = button.getAttribute("data-type");
-				if (button.classList.contains("authority")) {
-					autoSave = true;
-					window.pbEvents.emit("pb-authority-lookup", "transcription", {
-						type,
-						query: selection,
-					});
-					authorityDialog.open();
-				}
-				showForm(type);
-				text = selection;
-				activeSpan = null;
-			}
-			disableButtons(true);
+			actionHandler(button);
 		});
 	});
 	window.pbEvents.subscribe("pb-authority-select", "transcription", (ev) => authoritySelected(ev.detail));
@@ -238,18 +271,23 @@ window.addEventListener("WebComponentsReady", () => {
 		showForm(type, ev.detail.properties);
 	});
 
+	window.pbEvents.subscribe('pb-annotation-detail', 'transcription', (ev) => {
+		switch (ev.detail.type) {
+			case 'note':
+        		const data = JSON.parse(ev.detail.span.dataset.annotation);
+				ev.detail.container.innerHTML = data.properties.note;
+				break;
+			default:
+				document.querySelector("pb-authority-lookup").lookup(ev.detail.type, ev.detail.id, ev.detail.container)
+					.catch(e => ev.detail.container.innerHTML = `No record found for key ${ev.detail.id}`);
+				break;
+		}
+	});
+
 	const clearAll = document.getElementById("clear-all");
 	clearAll.addEventListener("click", () => window.pbEvents.emit("pb-refresh", "transcription"));
 
-	const markAll = document.getElementById('mark-all');
-	markAll.addEventListener('click', () => {
-		enablePreview = false;
-		const data = form.serializeForm();
-		const checkboxes = document.querySelectorAll('#occurrences li paper-checkbox:not([checked])');
-		checkboxes.forEach(cb => {
-			cb.checked = selectOccurrence(data, cb._options) !== null;
-		});
-		enablePreview = true;
-		preview(view.annotations);
-	});
+	const markAllBtn = document.getElementById('mark-all');
+	window.pbKeyboard('command+option+a', markAll);
+	markAllBtn.addEventListener('click', markAll);
 });
