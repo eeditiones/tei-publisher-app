@@ -122,6 +122,7 @@ window.addEventListener("WebComponentsReady", () => {
 
 			li.appendChild(cb);
 			const span = document.createElement("span");
+			// console.log('%o = %o', o, info);
 			if (info.id && o.ref && o.ref !== info.id) {
 				span.className = 'id-warning';
 			}
@@ -245,7 +246,7 @@ window.addEventListener("WebComponentsReady", () => {
 	refInput.addEventListener("value-changed", () => {
 		const ref = refInput.value;
 		if (ref && ref.length > 0) {
-			authorityInfo.innerHTML = 'Loading ...';
+			authorityInfo.innerHTML = `Loading ${refInput.value}...`;
 			document.querySelector("pb-authority-lookup").lookup(type, refInput.value, authorityInfo).then(findOther);
 		} else {
 			authorityInfo.innerHTML = '';
