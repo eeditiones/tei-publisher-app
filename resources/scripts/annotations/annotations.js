@@ -157,13 +157,12 @@ window.addEventListener("WebComponentsReady", () => {
 	 * 
 	 * @param {any} annotations the current list of annotations
 	 */
-	function preview(annotations) {
+	function preview(annotations, doStore) {
 		const endpoint = document.querySelector("pb-page").getEndpoint();
 		const doc = document.getElementById("document1");
 		document.getElementById("json").innerText = JSON.stringify(annotations, null, 2);
 		document.getElementById("output").code = "";
-		console.log('Retrieving preview for %s', doc.path);
-		fetch(`${endpoint}/api/annotations/merge/${doc.path}`, {
+		fetch(`${endpoint}/api/annotations/merge/${doc.path}?${doStore ? 'store=true' : ''}`, {
 			method: "POST",
 			mode: "cors",
 			credentials: "same-origin",
@@ -231,6 +230,7 @@ window.addEventListener("WebComponentsReady", () => {
 
 	saveBtn.addEventListener("click", () => save());
 	document.getElementById('reload-preview').addEventListener('click', () => preview(view.annotations));
+	document.getElementById('document-save').addEventListener('click', () => preview(view.annotations, true));
 
 	document.querySelector('#form-ref [slot="prefix"]').addEventListener("click", () => {
 		window.pbEvents.emit("pb-authority-lookup", "transcription", {

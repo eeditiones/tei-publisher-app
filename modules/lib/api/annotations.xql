@@ -28,8 +28,14 @@ declare function anno:save($request as map(*)) {
                 return
                     map:entry($node, anno:apply($expanded, $ordered) => anno:strip-exist-id())
             )
+            let $merged := anno:merge($doc, $map)
+            let $stored :=
+                if ($request?parameters?store) then
+                    xmldb:store($config:annotation-output-collection, replace($path, "^.*/([^/]+)$", "$1"), $merged)
+                else
+                    ()
             return
-                anno:merge($doc, $map)
+                $merged
         else
             error($errors:NOT_FOUND, "Document " || $path || " not found")
 };

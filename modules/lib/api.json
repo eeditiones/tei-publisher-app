@@ -2157,6 +2157,14 @@
 							"example": "annotate/graves20.xml"
 						},
                         "required": true
+                    },
+                    {
+                        "name": "store",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
                     }
                 ],
                 "responses": {

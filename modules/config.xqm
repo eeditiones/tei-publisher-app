@@ -348,6 +348,8 @@ declare variable $config:session-prefix := $config:expath-descriptor/@abbrev/str
 
 declare variable $config:default-fields := ();
 
+declare variable $config:annotation-output-collection := $config:data-root || "/test";
+
 declare variable $config:annotations := map {
     "person": function($properties as map(*), $content as function(*)) {
         <persName xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</persName>
@@ -364,6 +366,9 @@ declare variable $config:annotations := map {
     "note": function($properties as map(*), $content as function(*)) {
         <seg xmlns="http://www.tei-c.org/ns/1.0" type="annotated">{$content()}
         <note xmlns="http://www.tei-c.org/ns/1.0" type="annotation">{$properties?note}</note></seg>
+    },
+    "date": function($properties as map(*), $content as function(*)) {
+        <date xmlns="http://www.tei-c.org/ns/1.0" from="{$properties?from}" to="{$properties?to}">{$content()}</date>
     }
 };
 
