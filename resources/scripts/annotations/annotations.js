@@ -83,6 +83,8 @@ window.addEventListener("WebComponentsReady", () => {
 					text: o.text
 				};
 				return view.updateAnnotation(teiRange);
+			} else if (data.ref !== o.ref) {
+				view.editAnnotation(o.textNode.parentNode, data);
 			} else {
 				view.deleteAnnotation(o.textNode.parentNode);
 			}
@@ -109,16 +111,20 @@ window.addEventListener("WebComponentsReady", () => {
 			const cb = document.createElement("paper-checkbox");
 			cb._options = o;
 			cb._info = info;
-			if (o.annotated) {
+			if (o.annotated && o.ref === info.id) {
 				cb.setAttribute('checked', 'checked');
 			}
 			cb.addEventListener("click", () => {
 				const data = form.serializeForm();
 				selectOccurrence(data, o);
+				findOther(info);
 			});
 
 			li.appendChild(cb);
 			const span = document.createElement("span");
+			if (info.id && o.ref && o.ref !== info.id) {
+				span.className = 'id-warning';
+			}
 			span.innerHTML = o.kwic;
 			li.appendChild(span);
 			occurrences.appendChild(li);
@@ -208,16 +214,17 @@ window.addEventListener("WebComponentsReady", () => {
 	function markAll(ev) {
 		ev.preventDefault();
 		ev.stopPropagation();
-		window.pbEvents.emit('pb-start-update', 'transcription');
+		window.pbEvents.emit('pb-start-update', 'transcription', {});
 		enablePreview = false;
 		const data = form.serializeForm();
 		const checkboxes = document.querySelectorAll('#occurrences li paper-checkbox:not([checked])');
 		checkboxes.forEach(cb => {
 			cb.checked = selectOccurrence(data, cb._options) !== null;
 		});
+		findOther(checkboxes[0]._info);
 		enablePreview = true;
 		preview(view.annotations);
-		window.pbEvents.emit('pb-end-update', 'transcription');
+		window.pbEvents.emit('pb-end-update', 'transcription', {});
 	}
 
 	hideForm();
@@ -232,6 +239,9 @@ window.addEventListener("WebComponentsReady", () => {
 		});
 		authorityDialog.open();
 	});
+	/**
+	 * Reference changed: update authority information and search for other occurrences
+	 */
 	refInput.addEventListener("value-changed", () => {
 		const ref = refInput.value;
 		if (ref && ref.length > 0) {
@@ -263,8 +273,7 @@ window.addEventListener("WebComponentsReady", () => {
 	});
 	window.pbEvents.subscribe("pb-annotations-changed", "transcription", (ev) => {
 		if (enablePreview) {
-			const annotations = ev.detail.ranges;
-			preview(annotations);
+			preview(ev.detail.ranges);
 		}
 	});
 

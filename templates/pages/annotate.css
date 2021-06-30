@@ -118,5 +118,9 @@ pb-tabs [slot="page"] {
 }
 
 #occurrences li {
-    margin-bottom: 4px;
+    margin-bottom: 8px;
+}
+
+#occurrences .id-warning {
+    border-bottom: 1px dotted #ff3333;
 }
