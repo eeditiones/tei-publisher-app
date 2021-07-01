@@ -31,7 +31,7 @@ declare function anno:save($request as map(*)) {
             let $merged := anno:merge($doc, $map)
             let $stored :=
                 if ($request?parameters?store) then
-                    xmldb:store($config:annotation-output-collection, replace($path, "^.*/([^/]+)$", "$1"), $merged)
+                    xmldb:store(util:collection-name($doc), util:document-name($doc), $merged)
                 else
                     ()
             return

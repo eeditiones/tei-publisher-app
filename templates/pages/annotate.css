@@ -1,9 +1,9 @@
 main {
     display: grid;
-    grid-template-columns: 260px 1fr 30%;
+    grid-template-columns: 310px 1fr 30%;
     grid-template-rows: 100%;
     gap: 0 10px;
-    height: calc(100vh - 128px);
+    height: calc(100vh - 132px);
 }
 
 .annotation-editor {
@@ -13,6 +13,8 @@ main {
 }
 
 main .toolbar {
+    display: flex;
+    justify-content: space-between;
     background-color: var(--pb-color-inverse);
 }
 
@@ -31,20 +33,21 @@ pb-authority-lookup::part(output) {
     font-size: 1rem;
 }
 
+#authority-info {
+    font-size: .9rem;
+    max-height: 25vh;
+    overflow: auto;
+}
+
 .text {
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.preview {
-    display: grid;
-    grid-template-rows: auto 1fr;
-}
-
 pb-tabs {
     --paper-tabs-selection-bar-color: #607D8B;
-    height: 100%;
+    height: calc(100% - 40px);
 }
 
 pb-tabs::part(pages) {

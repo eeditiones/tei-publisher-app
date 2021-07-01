@@ -300,8 +300,8 @@ window.addEventListener("WebComponentsReady", () => {
 		}
 	});
 
-	const clearAll = document.getElementById("clear-all");
-	clearAll.addEventListener("click", () => window.pbEvents.emit("pb-refresh", "transcription"));
+	// const clearAll = document.getElementById("clear-all");
+	// clearAll.addEventListener("click", () => window.pbEvents.emit("pb-refresh", "transcription"));
 
 	const markAllBtn = document.getElementById('mark-all');
 	window.pbKeyboard('command+option+a', markAll);

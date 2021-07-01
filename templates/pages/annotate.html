@@ -43,13 +43,14 @@
                     <main>
                         <aside class="annotation-editor">
                             <div class="toolbar">
-                                <paper-icon-button id="clear-all" icon="icons:refresh"></paper-icon-button>
-                                <paper-icon-button class="annotation-action authority" data-type="person" data-shortcut="command+shift+p" icon="social:person" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button class="annotation-action authority" data-type="organisation" data-shortcut="command+shift+o" icon="social:people" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button class="annotation-action authority" data-type="place" icon="maps:place" data-shortcut="command+shift+g" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button class="annotation-action authority" data-type="term" icon="icons:bookmark" data-shortcut="command+shift+t" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button class="annotation-action" data-type="date" icon="icons:today" data-shortcut="command+shift+d" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button class="annotation-action" data-type="note" icon="editor:insert-comment" data-shortcut="command+shift+c" disabled="disabled"></paper-icon-button>
+                                <!--paper-icon-button id="clear-all" icon="icons:refresh"></paper-icon-button-->
+                                <paper-icon-button class="annotation-action authority" title="Person" data-type="person" data-shortcut="command+shift+p" icon="social:person" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action authority" title="Organisation" data-type="organisation" data-shortcut="command+shift+o" icon="social:people" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action authority" title="Place" data-type="place" icon="maps:place" data-shortcut="command+shift+g" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action authority" title="Term" data-type="term" icon="icons:bookmark" data-shortcut="command+shift+t" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action authority" title="Abbreviation" data-type="abbreviation" icon="icons:translate" data-shortcut="command+shift+b" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action" title="Date" data-type="date" icon="icons:today" data-shortcut="command+shift+d" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action" title="Note" data-type="note" icon="editor:insert-comment" data-shortcut="command+shift+c" disabled="disabled"></paper-icon-button>
                             </div>
                             <iron-form id="edit-form">
                                 <form action="">
@@ -95,12 +96,8 @@
                                 <paper-tab slot="tab">TEI</paper-tab>
                                 <paper-tab slot="tab">JSON</paper-tab>
                                 <iframe slot="page" id="html" src="about:blank"></iframe>
-                                <div slot="page">
-                                    <pb-code-highlight id="output" language="xml" theme="default"></pb-code-highlight>
-                                </div>
-                                <div slot="page">
-                                    <pre id="json"></pre>
-                                </div>
+                                <pb-code-highlight slot="page" id="output" language="xml" theme="default"></pb-code-highlight>
+                                <pre slot="page" id="json"></pre>
                             </pb-tabs>
                         </aside>
                     </main>
@@ -109,10 +106,11 @@
             <paper-dialog id="authority-dialog">
                 <paper-dialog-scrollable>
                     <pb-authority-lookup subscribe="transcription" emit="transcription">
+                        <pb-authority connector="KBGA" name="abbreviation"></pb-authority>
+                        <pb-authority connector="Metagrid" name="organisation"></pb-authority>
                         <pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority>
                         <pb-authority connector="GND" name="term" prefix="gnd"></pb-authority>
                         <pb-authority connector="GND" name="person" prefix="gnd"></pb-authority>
-                        <pb-authority connector="Metagrid" name="organisation"></pb-authority>
                     </pb-authority-lookup>
                 </paper-dialog-scrollable>
                 <div class="buttons">
