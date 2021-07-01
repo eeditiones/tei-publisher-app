@@ -131,6 +131,9 @@ declare variable $config:facets := [
     }
 ];
 
+(:
+ : Enable support for annotating texts within the application.
+ :)
 declare variable $config:annotation-support := true();
 
 (:

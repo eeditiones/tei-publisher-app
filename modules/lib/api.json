@@ -2140,10 +2140,34 @@
                 "tags": ["annotations"],
                 "operationId": "anno:save",
                 "requestBody": {
+                    "description": "An array of annotations to be applied",
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "object"
+                                "type": "array",
+                                "items":{
+                                    "type": "object",
+                                    "properties": {
+                                        "context":{
+                                            "type": "string"
+                                        },
+                                        "start":{
+                                            "type": "number"
+                                        },
+                                        "end":{
+                                            "type": "number"
+                                        },
+                                        "type":{
+                                            "type": "string"
+                                        },
+                                        "text":{
+                                            "type": "string"
+                                        },
+                                        "properties":{
+                                            "type": "object"
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -2152,6 +2176,7 @@
                     {
                         "name": "path",
                         "in": "path",
+                        "description": "Relative path to the TEI document to be changed",
                         "schema": {
 							"type": "string",
 							"example": "annotate/graves20.xml"
@@ -2161,6 +2186,7 @@
                     {
                         "name": "store",
                         "in": "query",
+                        "description": "If set, overwrite the existing TEI document with the merged version",
                         "schema": {
                             "type": "boolean",
                             "default": false
@@ -2169,7 +2195,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Content merged and saved",
+                        "description": "Returns the merged TEI XML",
                         "content": {
                             "text/xml": {
                                 "schema": {
