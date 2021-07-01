@@ -11,24 +11,24 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../.
 declare function anno:save($request as map(*)) {
     let $annotations := $request?body
     let $path := xmldb:decode($request?parameters?path)
-    let $doc := config:get-document($path)
+    let $srcDoc := config:get-document($path)
     return
-        if ($doc) then
+        if ($srcDoc) then
+            let $doc := util:expand($srcDoc, 'add-exist-id=all')
             let $map := map:merge(
                 for $annoGroup in $annotations?*
                 group by $id := $annoGroup?context
-                let $node := util:node-by-id($doc, $id)
+                let $node := $doc//*[@exist:id = $id]
                 where exists($node)
-                let $expanded := util:expand($node, 'add-exist-id=all')
                 let $ordered :=
                     for $anno in $annoGroup
                     (: handle deletions first :)
                     order by $anno?type empty least
                     return $anno
                 return
-                    map:entry($node, anno:apply($expanded, $ordered) => anno:strip-exist-id())
+                    map:entry($id, anno:apply($node, $ordered))
             )
-            let $merged := anno:merge($doc, $map)
+            let $merged := anno:merge($doc, $map) => anno:strip-exist-id()
             let $stored :=
                 if ($request?parameters?store) then
                     xmldb:store(util:collection-name($doc), util:document-name($doc), $merged)
@@ -44,6 +44,10 @@ declare %private function anno:strip-exist-id($nodes as node()*) {
     for $node in $nodes
     return
         typeswitch($node)
+            case document-node() return
+                document {
+                    anno:strip-exist-id($node/node())
+                }
             case element() return
                 element { node-name($node) } {
                     $node/@* except $node/@exist:*,
@@ -60,10 +64,13 @@ declare %private function anno:merge($nodes as node()*, $elements as map(*)) {
             case document-node() return
                 document { anno:merge($node/node(), $elements) }
             case element() return
-                let $replacement := $elements($node)
+                let $replacement := if ($node/@exist:id) then $elements($node/@exist:id) else ()
                 return
                     if ($replacement) then 
-                        $replacement
+                        element { node-name($replacement) } {
+                            $replacement/@*,
+                            anno:merge($replacement/node(), $elements)
+                        }
                     else
                         element { node-name($node) } {
                             $node/@*,
@@ -89,7 +96,6 @@ declare %private function anno:apply($node, $annotations) {
                 let $target := $node//*[@exist:id=$anno?node]
                 (: let $target := util:node-by-id(root($node), $anno?node) :)
                 let $output := anno:delete($node, $target)
-                let $log := util:log('INFO', $output)
                 return
                     anno:apply($output, tail($annotations))
             else
