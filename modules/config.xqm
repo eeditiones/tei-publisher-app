@@ -369,7 +369,14 @@ declare variable $config:annotations := map {
         <note xmlns="http://www.tei-c.org/ns/1.0" type="annotation">{$properties?note}</note></seg>
     },
     "date": function($properties as map(*), $content as function(*)) {
-        <date xmlns="http://www.tei-c.org/ns/1.0" from="{$properties?from}" to="{$properties?to}">{$content()}</date>
+        <date xmlns="http://www.tei-c.org/ns/1.0">
+        {
+            for $prop in map:keys($properties)[. = ('when', 'from', 'to')]
+            return
+                attribute { $prop } { $properties($prop) },
+            $content()
+        }
+        </date>
     }
 };
 
