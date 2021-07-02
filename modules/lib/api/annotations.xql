@@ -14,7 +14,7 @@ declare function anno:save($request as map(*)) {
     let $srcDoc := config:get-document($path)
     return
         if ($srcDoc) then
-            let $doc := util:expand($srcDoc, 'add-exist-id=all')
+            let $doc := util:expand($srcDoc/*, 'add-exist-id=all')
             let $map := map:merge(
                 for $annoGroup in $annotations?*
                 group by $id := $annoGroup?context
@@ -29,13 +29,20 @@ declare function anno:save($request as map(*)) {
                     map:entry($id, anno:apply($node, $ordered))
             )
             let $merged := anno:merge($doc, $map) => anno:strip-exist-id()
+            let $output := document {
+                $srcDoc/(processing-instruction()|comment()),
+                $merged
+            }
             let $stored :=
                 if ($request?parameters?store) then
-                    xmldb:store(util:collection-name($srcDoc), util:document-name($srcDoc), $merged)
+                    xmldb:store(util:collection-name($srcDoc), util:document-name($srcDoc), $output)
                 else
                     ()
             return
-                $merged
+                map {
+                    "content": serialize($output, map { "indent": true() }),
+                    "changes": array { $map?* }
+                }
         else
             error($errors:NOT_FOUND, "Document " || $path || " not found")
 };

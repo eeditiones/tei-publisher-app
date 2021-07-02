@@ -2197,9 +2197,9 @@
                     "200": {
                         "description": "Returns the merged TEI XML",
                         "content": {
-                            "text/xml": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object"
                                 }
                             }
                         }

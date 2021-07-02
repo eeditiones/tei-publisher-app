@@ -172,17 +172,30 @@ window.addEventListener("WebComponentsReady", () => {
 			},
 			body: JSON.stringify(annotations),
 		})
-			.then((response) => response.text())
-			.then((text) => {
-				document.getElementById("output").code = text;
-				fetch(`${endpoint}/api/preview?odd=${doc.odd}.odd&base=${endpoint}/`, {
+			.then((response) => {
+				if (response.ok) {
+					return response.json();
+				}
+				throw new Error(response.status);
+			})
+			.then((json) => {
+				document.getElementById("output").code = json.content;
+				const changeList = document.getElementById("changes");
+				changeList.innerHTML = '';
+				json.changes.forEach((change) => {
+					const pre = document.createElement('pb-code-highlight');
+					pre.setAttribute('language', 'xml');
+					pre.textContent = change;
+					changeList.appendChild(pre);
+				});
+				fetch(`${endpoint}/api/preview?odd=${doc.odd}.odd&base=${encodeURIComponent(endpoint)}%2F&user.track-ids=yes`, {
 					method: "POST",
 					mode: "cors",
 					credentials: "same-origin",
 					headers: {
 						"Content-Type": "application/xml",
 					},
-					body: text,
+					body: json.content
 				})
 					.then((response) => response.text())
 					.then((html) => {

@@ -59,9 +59,13 @@ pb-tabs [slot="page"] {
     overflow: auto;
 }
 
-#output {
+#output, #changes {
     font-size: .75em;
     --pb-code-highlight-white-space: pre-wrap;
+}
+
+#changes pb-code-highlight {
+    margin-bottom: 10px;
 }
 
 #html {
