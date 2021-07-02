@@ -195,6 +195,10 @@ window.addEventListener("WebComponentsReady", () => {
 	function actionHandler(button) {
 		if (selection) {
 			type = button.getAttribute('data-type');
+			if (button.classList.contains('toggle')) {
+				save();
+				return;
+			}
 			autoSave = false;
 			if (button.classList.contains("authority")) {
 				autoSave = true;
