@@ -31,7 +31,7 @@ declare function anno:save($request as map(*)) {
             let $merged := anno:merge($doc, $map) => anno:strip-exist-id()
             let $stored :=
                 if ($request?parameters?store) then
-                    xmldb:store(util:collection-name($doc), util:document-name($doc), $merged)
+                    xmldb:store(util:collection-name($srcDoc), util:document-name($srcDoc), $merged)
                 else
                     ()
             return
