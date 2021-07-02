@@ -44,3 +44,11 @@
     color: #175014;
     border-bottom: var(--pb-annotation-note-border);
 }
+
+.annotation-type {
+    display: inline-block;
+    text-align: right;
+    padding: 4px;
+    background-color: #fbae07;
+    color: var(--pb-color-inverse);
+}
