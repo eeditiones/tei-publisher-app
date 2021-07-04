@@ -5,13 +5,13 @@ function disableButtons(disable) {
 }
 
 window.addEventListener("WebComponentsReady", () => {
-    const form = document.getElementById("edit-form");
+	const form = document.getElementById("edit-form");
 	let selection = null;
 	let activeSpan = null;
 	const view = document.getElementById("view1");
 	const occurDiv = document.getElementById("occurrences");
-	const occurrences = occurDiv.querySelector('ul');
-	const saveBtn = document.getElementById('form-save');
+	const occurrences = occurDiv.querySelector("ul");
+	const saveBtn = document.getElementById("form-save");
 	const refInput = document.getElementById("form-ref");
 	const authorityInfo = document.getElementById("authority-info");
 	const authorityDialog = document.getElementById("authority-dialog");
@@ -22,16 +22,16 @@ window.addEventListener("WebComponentsReady", () => {
 
 	/**
 	 * Display the main form
-	 * 
+	 *
 	 * @param {string} type the annotation type
 	 * @param {any} data properties of the annotation (if any); used to prefill the form
 	 */
-    function showForm(type, data) {
+	function showForm(type, data) {
 		form.reset();
 		if (autoSave) {
-			saveBtn.style.display = 'none';
+			saveBtn.style.display = "none";
 		} else {
-			saveBtn.style.display = '';
+			saveBtn.style.display = "";
 		}
 		form.style.display = "";
 		form.querySelectorAll(`.annotation-form:not(.${type})`).forEach((elem) => {
@@ -41,7 +41,7 @@ window.addEventListener("WebComponentsReady", () => {
 			elem.style.display = "";
 		});
 		occurDiv.style.display = "";
-		occurrences.innerHTML = '';
+		occurrences.innerHTML = "";
 
 		if (data) {
 			Object.keys(data).forEach((key) => {
@@ -57,10 +57,10 @@ window.addEventListener("WebComponentsReady", () => {
 		form.style.display = "none";
 		occurDiv.style.display = "none";
 	}
-    
+
 	/**
 	 * The user selected an authority entry.
-	 * 
+	 *
 	 * @param {any} data details of the selected authority entry
 	 */
 	function authoritySelected(data) {
@@ -80,10 +80,10 @@ window.addEventListener("WebComponentsReady", () => {
 					context: o.context,
 					start: o.start,
 					end: o.end,
-					text: o.text
+					text: o.text,
 				};
 				return view.updateAnnotation(teiRange);
-			} else if (data.ref !== o.ref) {
+			} else if (data[view.key] !== o[view.key]) {
 				view.editAnnotation(o.textNode.parentNode, data);
 			} else {
 				view.deleteAnnotation(o.textNode.parentNode);
@@ -96,7 +96,7 @@ window.addEventListener("WebComponentsReady", () => {
 
 	/**
 	 * Search the text for other potential occurrences of an authority entry
-	 * 
+	 *
 	 * @param {any} info details of the selected authority entry
 	 */
 	function findOther(info) {
@@ -111,8 +111,8 @@ window.addEventListener("WebComponentsReady", () => {
 			const cb = document.createElement("paper-checkbox");
 			cb._options = o;
 			cb._info = info;
-			if (o.annotated && o.ref === info.id) {
-				cb.setAttribute('checked', 'checked');
+			if (o.annotated && o[view.key] === info.id) {
+				cb.setAttribute("checked", "checked");
 			}
 			cb.addEventListener("click", () => {
 				const data = form.serializeForm();
@@ -122,9 +122,8 @@ window.addEventListener("WebComponentsReady", () => {
 
 			li.appendChild(cb);
 			const span = document.createElement("span");
-			// console.log('%o = %o', o, info);
-			if (info.id && o.ref && o.ref !== info.id) {
-				span.className = 'id-warning';
+			if (info.id && o[view.key] && o[view.key] !== info.id) {
+				span.className = "id-warning";
 			}
 			span.innerHTML = o.kwic;
 			li.appendChild(span);
@@ -132,7 +131,7 @@ window.addEventListener("WebComponentsReady", () => {
 			li.addEventListener("mouseenter", () => {
 				view.scrollTo(o);
 			});
-			li.addEventListener('mouseleave', () => view.hideMarker());
+			li.addEventListener("mouseleave", () => view.hideMarker());
 		});
 	}
 
@@ -148,14 +147,14 @@ window.addEventListener("WebComponentsReady", () => {
 		} else {
 			activeSpan = view.addAnnotation({
 				type,
-				properties: data
+				properties: data,
 			});
 		}
 	}
 
 	/**
 	 * Preview the current document with annotations merged in.
-	 * 
+	 *
 	 * @param {any} annotations the current list of annotations
 	 */
 	function preview(annotations, doStore) {
@@ -163,7 +162,7 @@ window.addEventListener("WebComponentsReady", () => {
 		const doc = document.getElementById("document1");
 		document.getElementById("json").innerText = JSON.stringify(annotations, null, 2);
 		document.getElementById("output").code = "";
-		fetch(`${endpoint}/api/annotations/merge/${doc.path}?${doStore ? 'store=true' : ''}`, {
+		fetch(`${endpoint}/api/annotations/merge/${doc.path}?${doStore ? "store=true" : ""}`, {
 			method: "POST",
 			mode: "cors",
 			credentials: "same-origin",
@@ -181,22 +180,27 @@ window.addEventListener("WebComponentsReady", () => {
 			.then((json) => {
 				document.getElementById("output").code = json.content;
 				const changeList = document.getElementById("changes");
-				changeList.innerHTML = '';
+				changeList.innerHTML = "";
 				json.changes.forEach((change) => {
-					const pre = document.createElement('pb-code-highlight');
-					pre.setAttribute('language', 'xml');
+					const pre = document.createElement("pb-code-highlight");
+					pre.setAttribute("language", "xml");
 					pre.textContent = change;
 					changeList.appendChild(pre);
 				});
-				fetch(`${endpoint}/api/preview?odd=${doc.odd}.odd&base=${encodeURIComponent(endpoint)}%2F&user.track-ids=yes`, {
-					method: "POST",
-					mode: "cors",
-					credentials: "same-origin",
-					headers: {
-						"Content-Type": "application/xml",
-					},
-					body: json.content
-				})
+				fetch(
+					`${endpoint}/api/preview?odd=${doc.odd}.odd&base=${encodeURIComponent(
+						endpoint
+					)}%2F&user.track-ids=yes`,
+					{
+						method: "POST",
+						mode: "cors",
+						credentials: "same-origin",
+						headers: {
+							"Content-Type": "application/xml",
+						},
+						body: json.content,
+					}
+				)
 					.then((response) => response.text())
 					.then((html) => {
 						const iframe = document.getElementById("html");
@@ -207,8 +211,8 @@ window.addEventListener("WebComponentsReady", () => {
 
 	function actionHandler(button) {
 		if (selection) {
-			type = button.getAttribute('data-type');
-			if (button.classList.contains('toggle')) {
+			type = button.getAttribute("data-type");
+			if (button.classList.contains("toggle")) {
 				save();
 				return;
 			}
@@ -231,24 +235,30 @@ window.addEventListener("WebComponentsReady", () => {
 	function markAll(ev) {
 		ev.preventDefault();
 		ev.stopPropagation();
-		window.pbEvents.emit('pb-start-update', 'transcription', {});
+		window.pbEvents.emit("pb-start-update", "transcription", {});
 		enablePreview = false;
 		const data = form.serializeForm();
-		const checkboxes = document.querySelectorAll('#occurrences li paper-checkbox:not([checked])');
-		checkboxes.forEach(cb => {
+		const checkboxes = document.querySelectorAll(
+			"#occurrences li paper-checkbox:not([checked])"
+		);
+		checkboxes.forEach((cb) => {
 			cb.checked = selectOccurrence(data, cb._options) !== null;
 		});
 		findOther(checkboxes[0]._info);
 		enablePreview = true;
 		preview(view.annotations);
-		window.pbEvents.emit('pb-end-update', 'transcription', {});
+		window.pbEvents.emit("pb-end-update", "transcription", {});
 	}
 
 	hideForm();
 
 	saveBtn.addEventListener("click", () => save());
-	document.getElementById('reload-preview').addEventListener('click', () => preview(view.annotations));
-	document.getElementById('document-save').addEventListener('click', () => preview(view.annotations, true));
+	document
+		.getElementById("reload-preview")
+		.addEventListener("click", () => preview(view.annotations));
+	document
+		.getElementById("document-save")
+		.addEventListener("click", () => preview(view.annotations, true));
 
 	document.querySelector('#form-ref [slot="prefix"]').addEventListener("click", () => {
 		window.pbEvents.emit("pb-authority-lookup", "transcription", {
@@ -264,13 +274,16 @@ window.addEventListener("WebComponentsReady", () => {
 		const ref = refInput.value;
 		if (ref && ref.length > 0) {
 			authorityInfo.innerHTML = `Loading ${refInput.value}...`;
-			document.querySelector("pb-authority-lookup").lookup(type, refInput.value, authorityInfo).then(findOther);
+			document
+				.querySelector("pb-authority-lookup")
+				.lookup(type, refInput.value, authorityInfo)
+				.then(findOther);
 		} else {
-			authorityInfo.innerHTML = '';
+			authorityInfo.innerHTML = "";
 		}
 	});
 	document.querySelectorAll(".annotation-action").forEach((button) => {
-		const shortcut = button.getAttribute('data-shortcut');
+		const shortcut = button.getAttribute("data-shortcut");
 		if (shortcut) {
 			window.pbKeyboard(shortcut, (ev) => {
 				ev.preventDefault();
@@ -282,7 +295,9 @@ window.addEventListener("WebComponentsReady", () => {
 			actionHandler(button);
 		});
 	});
-	window.pbEvents.subscribe("pb-authority-select", "transcription", (ev) => authoritySelected(ev.detail));
+	window.pbEvents.subscribe("pb-authority-select", "transcription", (ev) =>
+		authoritySelected(ev.detail)
+	);
 	window.pbEvents.subscribe("pb-selection-changed", "transcription", (ev) => {
 		disableButtons(!ev.detail.hasContent);
 		if (ev.detail.hasContent) {
@@ -299,20 +314,35 @@ window.addEventListener("WebComponentsReady", () => {
 		activeSpan = ev.detail.target;
 		text = activeSpan.textContent;
 		type = ev.detail.type;
+		autoSave = false;
+		const trigger = document.querySelector(`[data-type=${type}]`);
+		if (trigger && trigger.classList.contains("authority")) {
+			autoSave = true;
+			window.pbEvents.emit("pb-authority-lookup", "transcription", {
+				type,
+				query: text,
+			});
+			authorityDialog.open();
+		}
 		showForm(type, ev.detail.properties);
 	});
 
-	window.pbEvents.subscribe('pb-annotation-detail', 'transcription', (ev) => {
+	window.pbEvents.subscribe("pb-annotation-detail", "transcription", (ev) => {
 		switch (ev.detail.type) {
-			case 'note':
-        		const data = JSON.parse(ev.detail.span.dataset.annotation);
+			case "note":
+				const data = JSON.parse(ev.detail.span.dataset.annotation);
 				ev.detail.container.innerHTML = data.properties.note;
 				break;
-			case 'date':
+			case "date":
 				break;
 			default:
-				document.querySelector("pb-authority-lookup").lookup(ev.detail.type, ev.detail.id, ev.detail.container)
-					.catch(e => ev.detail.container.innerHTML = `No record found for key ${ev.detail.id}`);
+				document
+					.querySelector("pb-authority-lookup")
+					.lookup(ev.detail.type, ev.detail.id, ev.detail.container)
+					.catch(
+						(e) =>
+							(ev.detail.container.innerHTML = `No record found for key ${ev.detail.id}`)
+					);
 				break;
 		}
 	});
@@ -320,7 +350,7 @@ window.addEventListener("WebComponentsReady", () => {
 	// const clearAll = document.getElementById("clear-all");
 	// clearAll.addEventListener("click", () => window.pbEvents.emit("pb-refresh", "transcription"));
 
-	const markAllBtn = document.getElementById('mark-all');
-	window.pbKeyboard('command+option+a', markAll);
-	markAllBtn.addEventListener('click', markAll);
+	const markAllBtn = document.getElementById("mark-all");
+	window.pbKeyboard("command+option+a", markAll);
+	markAllBtn.addEventListener("click", markAll);
 });
