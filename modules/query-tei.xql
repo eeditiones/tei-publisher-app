@@ -58,52 +58,53 @@ declare function teis:query-metadata($field as xs:string, $query as xs:string, $
 };
 
 declare function teis:autocomplete($doc as xs:string?, $fields as xs:string+, $q as xs:string) {
+    let $lower-case-q := lower-case($q)
     for $field in $fields
     return
         switch ($field)
             case "author" return
-                collection($config:data-root)/ft:index-keys-for-field("author", $q,
+                collection($config:data-root)/ft:index-keys-for-field("author", $lower-case-q,
                     function($key, $count) {
                         $key
                     }, 30)
             case "file" return
-                collection($config:data-root)/ft:index-keys-for-field("file", $q,
+                collection($config:data-root)/ft:index-keys-for-field("file", $lower-case-q,
                     function($key, $count) {
                         $key
                     }, 30)
             case "text" return
                 if ($doc) then (
-                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:div"), $q,
+                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:div"), $lower-case-q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index"),
-                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:text"), $q,
+                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:text"), $lower-case-q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index")
                 ) else (
-                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:div"), $q,
+                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:div"), $lower-case-q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index"),
-                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:text"), $q,
+                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:text"), $lower-case-q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index")
                 )
             case "head" return
                 if ($doc) then
-                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:head"), $q,
+                    doc($config:data-root || "/" || $doc)/util:index-keys-by-qname(xs:QName("tei:head"), $lower-case-q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index")
                 else
-                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:head"), $q,
+                    collection($config:data-root)/util:index-keys-by-qname(xs:QName("tei:head"), $lower-case-q,
                         function($key, $count) {
                             $key
                         }, 30, "lucene-index")
             default return
-                collection($config:data-root)/ft:index-keys-for-field("title", $q,
+                collection($config:data-root)/ft:index-keys-for-field("title", $lower-case-q,
                     function($key, $count) {
                         $key
                     }, 30)
