@@ -25,7 +25,8 @@ declare namespace tei = "http://www.tei-c.org/ns/1.0";
 declare variable $config:origin-whitelist := (
     "(?:https?://localhost:.*|https?://127.0.0.1:.*)",
     "https?://unpkg.com",
-    "https?://cdpn.io"
+    "https?://cdpn.io",
+    "http://foo.com"
 );
 
 (:~~
