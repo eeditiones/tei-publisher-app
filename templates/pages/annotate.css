@@ -14,6 +14,7 @@ main {
 
 main .toolbar {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     background-color: var(--pb-color-inverse);
 }
@@ -21,6 +22,7 @@ main .toolbar {
 .annotation-editor iron-form {
     padding: 0 8px;
 }
+
 #authority-dialog {
     width: 33vw;
 }
@@ -31,6 +33,17 @@ pb-authority-lookup {
 
 pb-authority-lookup::part(output) {
     font-size: 1rem;
+}
+
+pb-authority-lookup::part(details) {
+    font-size: .85rem;
+}
+
+pb-authority-lookup::part(occurrences) {
+    background-color: #ff8800;
+    padding: 4px;
+    vertical-align: middle;
+    color: white;
 }
 
 #authority-info {
@@ -81,13 +94,18 @@ pb-tabs [slot="page"] {
     --pb-annotation-term: #3a86ff;
     --pb-annotation-date: #ff006e;
     --pb-annotation-note: #175014;
-
+    --pb-annotation-event: #503414;
+    --pb-annotation-mandate: #006977;
+    --pb-annotation-compound-subject: #0400d3;
     --pb-annotation-person-border: 0;
     --pb-annotation-organisation-border: 0;
     --pb-annotation-place-border: 0;
     --pb-annotation-term-border: 0;
     --pb-annotation-note-border: 0;
     --pb-annotation-date-border: 0;
+    --pb-annotation-event-border: 0;
+    --pb-annotation-mandate-border: 0;
+    --pb-annotation-compound-subject-border: 0;
 }
 
 #view1::part(content) {

@@ -280,9 +280,6 @@ window.addEventListener("WebComponentsReady", () => {
 			document
 				.querySelector("pb-authority-lookup")
 				.lookup(type, refInput.value, authorityInfo)
-				.catch((err) => {
-					authorityInfo.innerHTML = `<h3>Not found: ${err}</h3>`;
-				})
 				.then(findOther);
 		} else {
 			authorityInfo.innerHTML = "";
@@ -307,7 +304,7 @@ window.addEventListener("WebComponentsReady", () => {
 	window.pbEvents.subscribe("pb-selection-changed", "transcription", (ev) => {
 		disableButtons(!ev.detail.hasContent);
 		if (ev.detail.hasContent) {
-			selection = ev.detail.range.cloneContents().textContent;
+			selection = ev.detail.range.cloneContents().textContent.replace(/\s+/g, " ");
 		}
 	});
 	window.pbEvents.subscribe("pb-annotations-changed", "transcription", (ev) => {

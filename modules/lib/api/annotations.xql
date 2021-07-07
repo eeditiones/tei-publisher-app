@@ -8,6 +8,21 @@ import module namespace router="http://exist-db.org/xquery/router";
 import module namespace errors = "http://exist-db.org/xquery/router/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 
+declare function anno:find-references($request as map(*)) {
+    let $fn := $config:annotation-occurrences($request?parameters?register)
+    return
+        if (exists($fn)) then
+            map:merge(
+                for $id in $request?parameters?id
+                let $matches := $fn($id)
+                where count($matches) > 0
+                return
+                    map:entry($id, count($matches))
+            )
+        else
+            map {}
+};
+
 declare function anno:save($request as map(*)) {
     let $annotations := $request?body
     let $path := xmldb:decode($request?parameters?path)

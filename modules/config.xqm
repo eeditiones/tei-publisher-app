@@ -380,6 +380,21 @@ declare variable $config:annotations := map {
     }
 };
 
+declare variable $config:annotation-occurrences := map {
+    "person": function($key as xs:string) {
+        collection($config:data-default)//tei:persName[@ref = $key]
+    },
+    "place": function($key as xs:string) {
+        collection($config:data-default)//tei:placeName[@ref = $key]
+    },
+    "term": function($key as xs:string) {
+        collection($config:data-default)//tei:term[@ref = $key]
+    },
+    "organisation": function($key as xs:string) {
+        collection($config:data-default)//tei:orgName[@ref = $key]
+    }
+};
+
 declare variable $config:dts-collections := map {
     "id": "default",
     "title": "TEI Publisher Default Collection",
