@@ -37,5 +37,13 @@ Structure of that file needs to be:
 </secret>
 ```
 
+## Resources
+
+* [Dara API Reference](https://labs.da-ra.de/apireference/)
+* [Test System](https://labs.da-ra.de/dara/mydara?lang=en)
+* [MetaData Schema Documentation](https://www.da-ra.de/fileadmin/media/da-ra.de/PDFs/FINAL_GESIS-Paper_25-2017.pdf)
+
+  
+
 
 
