@@ -33,14 +33,15 @@ declare function anno:save($request as map(*)) {
                 $srcDoc/(processing-instruction()|comment()),
                 $merged
             }
+            let $serialized := serialize($output, map { "indent": false() })
             let $stored :=
                 if ($request?parameters?store) then
-                    xmldb:store(util:collection-name($srcDoc), util:document-name($srcDoc), $output)
+                    xmldb:store(util:collection-name($srcDoc), util:document-name($srcDoc), $serialized)
                 else
                     ()
             return
                 map {
-                    "content": serialize($output, map { "indent": true() }),
+                    "content": $serialized,
                     "changes": array { $map?* }
                 }
         else
