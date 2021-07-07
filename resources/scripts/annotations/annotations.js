@@ -178,6 +178,9 @@ window.addEventListener("WebComponentsReady", () => {
 				throw new Error(response.status);
 			})
 			.then((json) => {
+				if (doStore) {
+					window.pbEvents.emit("pb-refresh", "transcription");
+				}
 				document.getElementById("output").code = json.content;
 				const changeList = document.getElementById("changes");
 				changeList.innerHTML = "";
@@ -190,7 +193,7 @@ window.addEventListener("WebComponentsReady", () => {
 				fetch(
 					`${endpoint}/api/preview?odd=${doc.odd}.odd&base=${encodeURIComponent(
 						endpoint
-					)}%2F&user.track-ids=yes`,
+					)}%2F`,
 					{
 						method: "POST",
 						mode: "cors",
@@ -277,6 +280,9 @@ window.addEventListener("WebComponentsReady", () => {
 			document
 				.querySelector("pb-authority-lookup")
 				.lookup(type, refInput.value, authorityInfo)
+				.catch((err) => {
+					authorityInfo.innerHTML = `<h3>Not found: ${err}</h3>`;
+				})
 				.then(findOther);
 		} else {
 			authorityInfo.innerHTML = "";
@@ -312,7 +318,7 @@ window.addEventListener("WebComponentsReady", () => {
 
 	window.pbEvents.subscribe("pb-annotation-edit", "transcription", (ev) => {
 		activeSpan = ev.detail.target;
-		text = activeSpan.textContent;
+		text = activeSpan.textContent.replace(/\s+/g, " ");
 		type = ev.detail.type;
 		autoSave = false;
 		const trigger = document.querySelector(`[data-type=${type}]`);
@@ -339,10 +345,20 @@ window.addEventListener("WebComponentsReady", () => {
 				document
 					.querySelector("pb-authority-lookup")
 					.lookup(ev.detail.type, ev.detail.id, ev.detail.container)
-					.catch(
-						(e) =>
-							(ev.detail.container.innerHTML = `No record found for key ${ev.detail.id}`)
-					);
+					.catch(() => {
+						const div = document.createElement("div");
+						const h = document.createElement("h3");
+						h.innerHTML = "Not found";
+						div.appendChild(h);
+						ev.detail.container.appendChild(h);
+						const pre = document.createElement("pre");
+						pre.className = "error-notFound";
+						const json = JSON.parse(ev.detail.span.dataset.annotation);
+						pre.innerText = JSON.stringify(json.properties, null, 2);
+						div.appendChild(pre);
+						ev.detail.container.innerHTML = "";
+						ev.detail.container.appendChild(div);
+					});
 				break;
 		}
 	});
