@@ -100,9 +100,11 @@ window.addEventListener("WebComponentsReady", () => {
 	 * @param {any} info details of the selected authority entry
 	 */
 	function findOther(info) {
-		let strings = [text];
 		if (info) {
-			strings = strings.concat(info.strings);
+			strings = info.strings || [];
+			strings.push(text);
+		} else {
+			strings = [text];
 		}
 		const occur = view.search(type, strings);
 		occurrences.innerHTML = "";
@@ -276,11 +278,14 @@ window.addEventListener("WebComponentsReady", () => {
 	refInput.addEventListener("value-changed", () => {
 		const ref = refInput.value;
 		if (ref && ref.length > 0) {
-			authorityInfo.innerHTML = `Loading ${refInput.value}...`;
+			authorityInfo.innerHTML = `Loading ${ref}...`;
 			document
 				.querySelector("pb-authority-lookup")
 				.lookup(type, refInput.value, authorityInfo)
-				.then(findOther);
+				.then(findOther)
+				.catch(() => {
+					authorityInfo.innerHTML = `Failed to load ${ref}`;
+				});
 		} else {
 			authorityInfo.innerHTML = "";
 		}
@@ -343,17 +348,17 @@ window.addEventListener("WebComponentsReady", () => {
 					.querySelector("pb-authority-lookup")
 					.lookup(ev.detail.type, ev.detail.id, ev.detail.container)
 					.catch(() => {
-						const div = document.createElement("div");
-						const h = document.createElement("h3");
-						h.innerHTML = "Not found";
+						const div = document.createElement('div');
+						const h = document.createElement('h3');
+						h.innerHTML = 'Not found';
 						div.appendChild(h);
 						ev.detail.container.appendChild(h);
-						const pre = document.createElement("pre");
-						pre.className = "error-notFound";
+						const pre = document.createElement('pre');
+						pre.className = 'error-notFound';
 						const json = JSON.parse(ev.detail.span.dataset.annotation);
 						pre.innerText = JSON.stringify(json.properties, null, 2);
 						div.appendChild(pre);
-						ev.detail.container.innerHTML = "";
+						ev.detail.container.innerHTML = '';
 						ev.detail.container.appendChild(div);
 					});
 				break;
