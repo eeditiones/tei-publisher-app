@@ -47,7 +47,11 @@
 		{
 			"name": "info",
 			"description": "Information about the server"
-		}
+		},
+        {
+            "name": "register",
+            "description": "Manage entries in the local authority file"
+        }
 	],
 	"components": {
 		"securitySchemes": {
@@ -2199,8 +2203,134 @@
 					}
 				}
 			}
-		}
-	},
+		},
+        "/api/register/search/{type}" : {
+            "get": {
+				"summary": "Search for a register entry",
+				"operationId": "anno:query-register",
+                "tags": ["register"],
+				"parameters": [
+					{
+						"name": "type",
+						"in": "path",
+						"schema": {
+							"type": "string"
+						},
+						"required": true,
+						"example": "place"
+					},
+					{
+						"name": "query",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						},
+						"required": true,
+						"example": "Deya"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Results from the local register",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array"
+								}
+							}
+						}
+					}
+				}
+			}
+        },
+        "/api/register/{type}/{id}" : {
+            "post": {
+                "summary": "Create a local entry",
+                "description": "Create a local register entry based on the provided data",
+                "tags": ["register"],
+                "operationId": "anno:save-local-copy",
+                "requestBody": {
+                    "description": "JSON record providing base information for the entry",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "example": "place"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "example": "Deia"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Results from the local register",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve a register entry",
+                "operationId": "anno:register-entry",
+                "tags": ["register"],
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "example": "place"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "example": "Deia"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Results from the local register",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
 	"security": [
 		{
 			"cookieAuth": []

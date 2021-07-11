@@ -106,35 +106,39 @@ window.addEventListener("WebComponentsReady", () => {
 		} else {
 			strings = [text];
 		}
-		const occur = view.search(type, strings);
-		occurrences.innerHTML = "";
-		occur.forEach((o) => {
-			const li = document.createElement("li");
-			const cb = document.createElement("paper-checkbox");
-			cb._options = o;
-			cb._info = info;
-			if (o.annotated && o[view.key] === info.id) {
-				cb.setAttribute("checked", "checked");
-			}
-			cb.addEventListener("click", () => {
-				const data = form.serializeForm();
-				selectOccurrence(data, o);
-				findOther(info);
-			});
+		try {
+			const occur = view.search(type, strings);
+			occurrences.innerHTML = "";
+			occur.forEach((o) => {
+				const li = document.createElement("li");
+				const cb = document.createElement("paper-checkbox");
+				cb._options = o;
+				cb._info = info;
+				if (o.annotated && o[view.key] === info.id) {
+					cb.setAttribute("checked", "checked");
+				}
+				cb.addEventListener("click", () => {
+					const data = form.serializeForm();
+					selectOccurrence(data, o);
+					findOther(info);
+				});
 
-			li.appendChild(cb);
-			const span = document.createElement("span");
-			if (info.id && o[view.key] && o[view.key] !== info.id) {
-				span.className = "id-warning";
-			}
-			span.innerHTML = o.kwic;
-			li.appendChild(span);
-			occurrences.appendChild(li);
-			li.addEventListener("mouseenter", () => {
-				view.scrollTo(o);
+				li.appendChild(cb);
+				const span = document.createElement("span");
+				if (info.id && o[view.key] && o[view.key] !== info.id) {
+					span.className = "id-warning";
+				}
+				span.innerHTML = o.kwic;
+				li.appendChild(span);
+				occurrences.appendChild(li);
+				li.addEventListener("mouseenter", () => {
+					view.scrollTo(o);
+				});
+				li.addEventListener("mouseleave", () => view.hideMarker());
 			});
-			li.addEventListener("mouseleave", () => view.hideMarker());
-		});
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 	function save() {

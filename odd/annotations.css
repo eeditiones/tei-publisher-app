@@ -52,3 +52,7 @@
     background-color: #fbae07;
     color: var(--pb-color-inverse);
 }
+
+.annotation-popup .toolbar {
+    margin-top: 1em;
+}

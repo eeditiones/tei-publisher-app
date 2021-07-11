@@ -82,6 +82,10 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="placeName" mode="add">
+                    <model predicate="ancestor::place" behaviour="link">
+            <param name="uri" value="ancestor::place/ptr/@target"/>
+            <param name="target" value="'_blank'"/>
+        </model>
                     <model behaviour="inline" cssClass="annotation annotation-place place"/>
                 </elementSpec>
                 <elementSpec ident="term" mode="add">
@@ -113,8 +117,22 @@
         </model>
                 </elementSpec>
             <elementSpec ident="orgName" mode="add">
-        <model behaviour="inline" cssClass="annotation annotation-organisation organisation"/>
-    </elementSpec>
+                    <model behaviour="inline" cssClass="annotation annotation-organisation organisation"/>
+                </elementSpec>
+            <elementSpec ident="place" mode="add">
+                    <modelSequence>
+            <model behaviour="heading">
+                <param name="content" value="placeName[@type=&#34;full&#34;]"/>
+                <param name="level" value="3"/>
+            </model>
+            <model behaviour="paragraph">
+                <param name="content" value="string-join((country, region), ', ')"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="note/node()"/>
+            </model>
+        </modelSequence>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>

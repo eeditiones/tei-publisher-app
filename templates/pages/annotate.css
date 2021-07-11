@@ -5,6 +5,7 @@ main {
     gap: 0 10px;
     height: calc(100vh - 132px);
     --pb-popover-min-width: 20vw;
+    --pb-popover-max-width: 360px;
 }
 
 .annotation-editor {
@@ -34,17 +35,6 @@ pb-authority-lookup {
 
 pb-authority-lookup::part(output) {
     font-size: 1rem;
-}
-
-pb-authority-lookup::part(details) {
-    font-size: .85rem;
-}
-
-pb-authority-lookup::part(occurrences) {
-    background-color: #ff8800;
-    padding: 4px;
-    vertical-align: middle;
-    color: white;
 }
 
 #authority-info {

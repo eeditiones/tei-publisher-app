@@ -7,20 +7,61 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 import module namespace router="http://exist-db.org/xquery/router";
 import module namespace errors = "http://exist-db.org/xquery/router/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
+import module namespace annocfg = "http://teipublisher.com/api/annotations/config" at "../../annotation-config.xqm";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
 
 declare function anno:find-references($request as map(*)) {
-    let $fn := $config:annotation-occurrences($request?parameters?register)
+    map:merge(
+        for $id in $request?parameters?id
+        let $matches := annocfg:occurrences($request?parameters?register, $id)
+        where count($matches) > 0
+        return
+            map:entry($id, count($matches))
+    )
+};
+
+declare function anno:query-register($request as map(*)) {
+    let $type := $request?parameters?type
+    let $query := $request?parameters?query
     return
-        if (exists($fn)) then
-            map:merge(
-                for $id in $request?parameters?id
-                let $matches := $fn($id)
-                where count($matches) > 0
-                return
-                    map:entry($id, count($matches))
-            )
+        array {
+            annocfg:query($type, $query)
+        }
+};
+
+declare function anno:save-local-copy($request as map(*)) {
+    let $data := $request?body
+    let $type := $request?parameters?type
+    let $id := xmldb:decode($request?parameters?id)
+    let $record := doc($annocfg:local-authority-file)/id($id)
+    return
+        if ($record) then
+            map {
+                "status": "found"
+            }
         else
-            map {}
+            let $record := annocfg:create-record($type, $id, $data)
+            return (
+                update insert $record into doc($annocfg:local-authority-file)//tei:listPlace,
+                map {
+                    "status": "updated"
+                }
+            )
+};
+
+declare function anno:register-entry($request as map(*)) {
+    let $type := $request?parameters?type
+    let $id := $request?parameters?id
+    let $place := doc($annocfg:local-authority-file)/id($id)
+    return
+        if ($place) then
+            map {
+                "id": $place/@xml:id/string(),
+                "strings": array { $place/tei:placeName/string() },
+                "details": <div>{$pm-config:web-transform($place, map {}, "annotations.odd")}</div>
+            }
+        else
+            error($errors:NOT_FOUND, "Entry for " || $id || " not found")
 };
 
 declare function anno:save($request as map(*)) {
@@ -268,10 +309,5 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
 };
 
 declare function anno:wrap($annotation as map(*), $content as function(*)) {
-    let $callback := $config:annotations($annotation?type)
-    return
-        if (exists($callback)) then
-            $callback($annotation?properties, $content)
-        else
-            (text { "NOT FOUND: " }, $content())
+    annocfg:annotations($annotation?type, $annotation?properties, $content)
 };

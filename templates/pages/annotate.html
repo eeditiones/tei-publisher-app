@@ -110,7 +110,10 @@
                     <pb-authority-lookup subscribe="transcription" emit="transcription">
                         <pb-authority connector="KBGA" name="abbreviation"></pb-authority>
                         <pb-authority connector="Metagrid" name="organisation"></pb-authority>
-                        <pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority>
+                        <!--pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority-->
+                        <pb-authority connector="Custom" name="place">
+                            <pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority>
+                        </pb-authority>
                         <pb-authority connector="GND" name="term" prefix="gnd"></pb-authority>
                         <pb-authority connector="GND" name="person" prefix="gnd"></pb-authority>
                     </pb-authority-lookup>
