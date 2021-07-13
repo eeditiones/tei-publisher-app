@@ -13,57 +13,48 @@
             <p>Information about the source</p>
          </sourceDesc>
       </fileDesc>
-      <profileDesc>
-         <particDesc>
-            <listPerson/>
-            <listOrg/>
-         </particDesc>
-         <settingDesc>
-            <listPlace>
-               <place xml:id="custom-Deia">
-                  <placeName>Deya</placeName>
-                  <placeName>Deià</placeName>
-                  <location>
-                     <geo>39.7484 2.64918</geo>
-                  </location>
-                  <location type="geopolitical">
-                     <settlement>Deya</settlement>
-                     <region>Majorca</region>
-                     <region>Balearic Islands</region>
-                     <country>Spain</country>
-                  </location>
-                  <note>Deià is a small coastal village in the Serra de Tramuntana, which forms the northern ridge of the Spanish island of Mallorca. It is
-                     located about ten miles north of Valldemossa, and it is known for its literary and musical residents. Its idyllic landscape, orange and
-                     olive groves on steep cliffs overlooking the Mediterranean, served as a draw for German, English, and American expatriates after the First
-                     World War.</note>
-               </place>
-               <place xml:id="geo-2512989">
-                  <placeName type="full">Palma</placeName>
-                  <location>
-                     <geo>39.56939 2.65024</geo>
-                  </location>
-                  <country>Spain</country>
-                  <region>Balearic Islands</region>
-                  <note>Palma, unofficially known as Palma de Mallorca, is the capital and largest city of the autonomous community of the Balearic Islands in Spain. It is situated on the south coast of Mallorca on the Bay of Palma.</note>
-                  <ptr type="geonames" target="https://www.geonames.org/2512989"/>
-               </place>
-               <place xml:id="geo-5391959">
-                  <placeName type="full">San Francisco</placeName>
-                  <location>
-                     <geo>37.77493 -122.41942</geo>
-                  </location>
-                  <country>United States</country>
-                  <region>California</region>
-                  <note>San Francisco, officially the City and County of San Francisco, is a cultural, commercial, and financial center in Northern California. San Francisco is the 16th most populous city in the United States, and the fourth most populous in California, with 881,549 residents as of 2019.</note>
-                  <ptr type="geonames" target="https://www.geonames.org/5391959"/>
-               </place>
-            </listPlace>
-         </settingDesc>
-      </profileDesc>
    </teiHeader>
-   <text>
-      <body>
-         <p/>
-      </body>
-   </text>
+   <standOff>
+      <listPerson/>
+      <listOrg/>
+      <listPlace>
+         <place xml:id="custom-Deia">
+            <placeName>Deya</placeName>
+            <placeName>Deià</placeName>
+            <location>
+               <geo>39.7484 2.64918</geo>
+            </location>
+            <location type="geopolitical">
+               <settlement>Deya</settlement>
+               <region>Majorca</region>
+               <region>Balearic Islands</region>
+               <country>Spain</country>
+            </location>
+            <note>Deià is a small coastal village in the Serra de Tramuntana, which forms the northern ridge of the Spanish island of Mallorca. It is
+               located about ten miles north of Valldemossa, and it is known for its literary and musical residents. Its idyllic landscape, orange and
+               olive groves on steep cliffs overlooking the Mediterranean, served as a draw for German, English, and American expatriates after the First
+               World War.</note>
+         </place>
+         <place xml:id="geo-2512989">
+            <placeName type="full">Palma</placeName>
+            <location>
+               <geo>39.56939 2.65024</geo>
+            </location>
+            <country>Spain</country>
+            <region>Balearic Islands</region>
+            <note>Palma, unofficially known as Palma de Mallorca, is the capital and largest city of the autonomous community of the Balearic Islands in Spain. It is situated on the south coast of Mallorca on the Bay of Palma.</note>
+            <ptr type="geonames" target="https://www.geonames.org/2512989"/>
+         </place>
+         <place xml:id="geo-5391959">
+            <placeName type="full">San Francisco</placeName>
+            <location>
+               <geo>37.77493 -122.41942</geo>
+            </location>
+            <country>United States</country>
+            <region>California</region>
+            <note>San Francisco, officially the City and County of San Francisco, is a cultural, commercial, and financial center in Northern California. San Francisco is the 16th most populous city in the United States, and the fourth most populous in California, with 881,549 residents as of 2019.</note>
+            <ptr type="geonames" target="https://www.geonames.org/5391959"/>
+         </place>
+      </listPlace>
+   </standOff>
 </tei:TEI>
