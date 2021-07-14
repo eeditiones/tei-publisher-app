@@ -41,8 +41,16 @@ declare function anno:save-local-copy($request as map(*)) {
             }
         else
             let $record := annocfg:create-record($type, $id, $data)
+            let $target :=
+                switch ($type)
+                    case "place" return
+                        doc($annocfg:local-authority-file)//tei:listPlace
+                    case "organisation" return
+                        doc($annocfg:local-authority-file)//tei:listOrg
+                    default return
+                        doc($annocfg:local-authority-file)//tei:listPerson
             return (
-                update insert $record into doc($annocfg:local-authority-file)//tei:listPlace,
+                update insert $record into $target,
                 map {
                     "status": "updated"
                 }
@@ -52,13 +60,18 @@ declare function anno:save-local-copy($request as map(*)) {
 declare function anno:register-entry($request as map(*)) {
     let $type := $request?parameters?type
     let $id := $request?parameters?id
-    let $place := doc($annocfg:local-authority-file)/id($id)
+    let $entry := doc($annocfg:local-authority-file)/id($id)
+    let $strings :=
+        switch($type)
+            case "place" return $entry/tei:placeName/string()
+            case "organisation" return $entry/tei:orgName/string()
+            default return $entry/tei:persName/string()
     return
-        if ($place) then
+        if ($entry) then
             map {
-                "id": $place/@xml:id/string(),
-                "strings": array { $place/tei:placeName/string() },
-                "details": <div>{$pm-config:web-transform($place, map {}, "annotations.odd")}</div>
+                "id": $entry/@xml:id/string(),
+                "strings": array { $strings },
+                "details": <div>{$pm-config:web-transform($entry, map {}, "annotations.odd")}</div>
             }
         else
             error($errors:NOT_FOUND, "Entry for " || $id || " not found")
