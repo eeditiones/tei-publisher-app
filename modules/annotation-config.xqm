@@ -55,16 +55,44 @@ declare function anno:create-record($type as xs:string, $id as xs:string, $data 
                 {
                     if (exists($data?lat) and exists($data?lng)) then
                         <location>
-                            <geo>{$data?lat, ' ', $data?lng}</geo>
+                            <geo>{string-join(($data?lat,  $data?lng), ' ')}</geo>
                         </location>
                     else
                         ()
                 }
-                <country>{$data?countryName}</country>
-                <region>{$data?adminName1}</region>
-                <note>{$data?fcodeName}</note>
-                <ptr type="geonames" target="https://www.geonames.org/{xs:int($data?geonameId)}"/>
+                <country>{$data?country}</country>
+                <region>{$data?region}</region>
+                <note>{$data?note}</note>
+                <ptr type="geonames" target="{$data?link}"/>
+                <ptr type="info" target="{$data?info}"/>
             </place>
+        case "person" return
+            <person xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
+                <persName type="full">{$data?name}</persName>
+                {
+                    if (exists($data?birth)) then
+                        <birth when="{$data?birth}"/>
+                    else
+                        (),
+                    if (exists($data?death)) then
+                        <death when="{$data?death}"/>
+                    else
+                        ()
+                }
+                <note>{$data?note}</note>
+                {
+                    if (exists($data?profession)) then
+                        for $prof in $data?profession?*
+                        return
+                            <occupation>{$prof}</occupation>
+                    else
+                        ()
+                }
+            </person>
+        case "organisation" return
+            <org xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
+                <orgName type="full">{$data?name}</orgName>
+            </org>
         default return
             ()
 };
