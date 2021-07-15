@@ -1,0 +1,66 @@
+:root {
+    --pb-annotation-person: #fb5607;
+    --pb-annotation-organisation: #ffbe0b;
+    --pb-annotation-place: #8338ec;
+    --pb-annotation-term: #3a86ff;
+    --pb-annotation-date: #ff006e;
+    --pb-annotation-note: #175014;
+
+    --pb-annotation-person-border: 2px solid var(--pb-annotation-person);
+    --pb-annotation-organisation-border: 2px solid var(--pb-annotation-organisation);
+    --pb-annotation-place-border: 2px solid var(--pb-annotation-place);
+    --pb-annotation-term-border: 2px solid var(--pb-annotation-term);
+    --pb-annotation-note-border: 2px solid var(--pb-annotation-note);
+    --pb-annotation-date-border: 2px solid var(--pb-annotation-date);
+}
+
+.annotation-type {
+    display: inline-block;
+    text-align: right;
+    padding: 4px;
+    background-color: #fbae07;
+    color: var(--pb-color-inverse);
+}
+
+.annotation-popup .toolbar {
+    margin-top: 1em;
+}
+
+.annotation {
+    pointer-events: none;
+    cursor: text;
+}
+
+.annotation::after {
+    content: attr(data-type);
+    margin-left: 4px;
+    pointer-events: all;
+    font-family: var(--pb-base-font-family);
+    font-size: .8rem;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: normal;
+    font-variant: normal;
+    padding: 2px;
+}
+
+.annotation-place::after {
+    color: white;
+    background-color: var(--pb-annotation-place);
+}
+
+.annotation-person::after {
+    color: white;
+    background-color: var(--pb-annotation-person);
+}
+
+.annotation-term::after {
+    color: white;
+    background-color: var(--pb-annotation-term);
+}
+
+.annotation-organisation::after {
+    color: white;
+    background-color: var(--pb-annotation-organisation);
+}
+

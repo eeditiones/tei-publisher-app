@@ -1,58 +1,24 @@
-:root {
-    --pb-annotation-person: #fb5607;
-    --pb-annotation-organisation: #ffbe0b;
-    --pb-annotation-place: #8338ec;
-    --pb-annotation-term: #3a86ff;
-    --pb-annotation-date: #ff006e;
-    --pb-annotation-note: #175014;
-
-    --pb-annotation-person-border: 2px solid var(--pb-annotation-person);
-    --pb-annotation-organisation-border: 2px solid var(--pb-annotation-organisation);
-    --pb-annotation-place-border: 2px solid var(--pb-annotation-place);
-    --pb-annotation-term-border: 2px solid var(--pb-annotation-term);
-    --pb-annotation-note-border: 2px solid var(--pb-annotation-note);
-    --pb-annotation-date-border: 2px solid var(--pb-annotation-date);
-}
-
 .person {
     font-style: italic;
-    border-bottom: var(--pb-annotation-person-border);
 }
 
 .organisation {
     font-style: italic;
-    border-bottom: var(--pb-annotation-organisation-border);
 }
 
 .place {
     font-variant: small-caps;
-    border-bottom: var(--pb-annotation-place-border);
 }
 
 .term {
     color: #3a86ff;
     font-style: italic;
-    border-bottom: var(--pb-annotation-term-border);
 }
 
 .date {
     font-weight: bolder;
-    border-bottom: var(--pb-annotation-date-border);
 }
 
 .annotation-note {
     color: #175014;
-    border-bottom: var(--pb-annotation-note-border);
-}
-
-.annotation-type {
-    display: inline-block;
-    text-align: right;
-    padding: 4px;
-    background-color: #fbae07;
-    color: var(--pb-color-inverse);
-}
-
-.annotation-popup .toolbar {
-    margin-top: 1em;
 }

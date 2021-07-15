@@ -80,7 +80,7 @@
                             <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
                                 <pb-param name="header" value="short"/>
                             </pb-view>
-                            <pb-view-annotate id="view1" src="document1"
+                            <pb-view-annotate id="view1" src="document1" load-css="resources/css/annotations.css"
                                 column-separator=".tei-cb" append-footnotes="append-footnotes"
                                 subscribe="transcription" emit="transcription">
                                 <pb-param name="track-ids" value="yes"/>
@@ -109,13 +109,17 @@
                 <paper-dialog-scrollable>
                     <pb-authority-lookup subscribe="transcription" emit="transcription">
                         <pb-authority connector="KBGA" name="abbreviation"></pb-authority>
-                        <pb-authority connector="Metagrid" name="organisation"></pb-authority>
+                        <pb-authority connector="Custom" name="organisation">
+                            <pb-authority connector="GND" prefix="gnd"></pb-authority>
+                        </pb-authority>
                         <!--pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority-->
                         <pb-authority connector="Custom" name="place">
-                            <pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority>
+                            <pb-authority connector="GeoNames" user="existdb" prefix="geo"></pb-authority>
                         </pb-authority>
                         <pb-authority connector="GND" name="term" prefix="gnd"></pb-authority>
-                        <pb-authority connector="GND" name="person" prefix="gnd"></pb-authority>
+                        <pb-authority connector="Custom" name="person">
+                            <pb-authority connector="GND" prefix="gnd"></pb-authority>
+                        </pb-authority>
                     </pb-authority-lookup>
                 </paper-dialog-scrollable>
                 <div class="buttons">
