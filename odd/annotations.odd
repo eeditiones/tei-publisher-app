@@ -79,16 +79,7 @@
                     <model behaviour="inline" cssClass="annotation annotation-term term"/>
                 </elementSpec>
                 <elementSpec ident="date" mode="change">
-                    <model output="print" predicate="text()" behaviour="inline"/>
-                    <model output="print" predicate="@when and not(text())" behaviour="inline">
-            <param name="content" value="@when"/>
-        </model>
-                    <model predicate="parent::opener" behaviour="block" cssClass="annotation annotation-date date"/>
-                    <model output="web" predicate="@when" behaviour="alternate">
-            <param name="default" value="."/>
-            <param name="alternate" value="@when"/>
-        </model>
-                    <model predicate="text()" behaviour="inline" cssClass="annotation annotation-date date"/>
+                    <model behaviour="inline" cssClass="annotation annotation-date date"/>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
                     <model predicate="@type='annotation'" behaviour="omit"/>
@@ -119,6 +110,10 @@
                 <param name="content" value="note/node()"/>
             </model>
         </modelSequence>
+                </elementSpec>
+            <elementSpec ident="rs" mode="change">
+                    <model predicate="@type='abbreviation'" behaviour="inline" cssClass="annotation annotation-abbreviation abbreviation"/>
+                    <model behaviour="inline"/>
                 </elementSpec>
             </schemaSpec>
         </body>
