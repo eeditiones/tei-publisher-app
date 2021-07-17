@@ -18,13 +18,15 @@ declare function anno:annotations($type as xs:string, $properties as map(*), $co
             <term xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</term>
         case "organisation" return
             <orgName xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</orgName>
+        case "abbreviation" return
+            <rs xmlns="http://www.tei-c.org/ns/1.0" type="abbreviation" ref="{$properties?ref}">{$content()}</rs>
         case "note" return
             <seg xmlns="http://www.tei-c.org/ns/1.0" type="annotated">{$content()}
             <note xmlns="http://www.tei-c.org/ns/1.0" type="annotation">{$properties?note}</note></seg>
         case "date" return
             <date xmlns="http://www.tei-c.org/ns/1.0">
             {
-                for $prop in map:keys($properties)[. = ('when', 'from', 'to')]
+                for $prop in map:keys($properties)[. != '']
                 return
                     attribute { $prop } { $properties($prop) },
                 $content()
@@ -44,7 +46,9 @@ declare function anno:occurrences($type as xs:string, $key as xs:string) {
             collection($config:data-default)//tei:term[@ref = $key]
         case "organisation" return
             collection($config:data-default)//tei:orgName[@ref = $key]
-        default return ()
+        case "abbreviation" return
+            collection($config:data-default)//tei:rs[@ref = $key][@type = "abbreviation"]
+         default return ()
 };
 
 declare function anno:create-record($type as xs:string, $id as xs:string, $data as map(*)) {
