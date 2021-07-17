@@ -79,24 +79,6 @@ pb-tabs [slot="page"] {
 
 #view1 {
     overflow: auto;
-    --pb-annotation-person: #fb5607;
-    --pb-annotation-organisation: #ffbe0b;
-    --pb-annotation-place: #8338ec;
-    --pb-annotation-term: #3a86ff;
-    --pb-annotation-date: #ff006e;
-    --pb-annotation-note: #175014;
-    --pb-annotation-event: #503414;
-    --pb-annotation-mandate: #006977;
-    --pb-annotation-compound-subject: #0400d3;
-    --pb-annotation-person-border: 0;
-    --pb-annotation-organisation-border: 0;
-    --pb-annotation-place-border: 0;
-    --pb-annotation-term-border: 0;
-    --pb-annotation-note-border: 0;
-    --pb-annotation-date-border: 0;
-    --pb-annotation-event-border: 0;
-    --pb-annotation-mandate-border: 0;
-    --pb-annotation-compound-subject-border: 0;
 }
 
 #view1::part(content) {
