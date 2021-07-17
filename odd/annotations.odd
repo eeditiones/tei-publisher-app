@@ -46,19 +46,6 @@
                 <elementSpec ident="persName" mode="add">
                     <model behaviour="inline" cssClass="annotation annotation-person person"/>
                 </elementSpec>
-                <elementSpec ident="hi" mode="change">
-                    <model predicate="@rendition" behaviour="inline" useSourceRendition="true">
-            <pb:template xmlns="" xml:space="preserve">annotation</pb:template>
-            <outputRendition xml:space="preserve">
-            font-style: italic;
-            </outputRendition>
-        </model>
-                    <model predicate="not(@rendition)" behaviour="inline" cssClass="annotation">
-            <outputRendition xml:space="preserve">
-            text-decoration: #419dff underline solid 3px;
-            </outputRendition>
-        </model>
-                </elementSpec>
                 <elementSpec ident="gloss" mode="add">
                     <model behaviour="inline">
             <outputRendition xml:space="preserve">
