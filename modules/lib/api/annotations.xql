@@ -111,7 +111,7 @@ declare function anno:save($request as map(*)) {
             return
                 map {
                     "content": $serialized,
-                    "changes": array { $map?* }
+                    "changes": array { $map?* ! anno:strip-exist-id(.) }
                 }
         else
             error($errors:NOT_FOUND, "Document " || $path || " not found")
