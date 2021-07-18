@@ -44,6 +44,7 @@
         <body>
             <schemaSpec start="TEI teiCorpus" ident="annotations" source="teipublisher.odd">
                 <elementSpec ident="persName" mode="add">
+                    <model predicate="parent::person" behaviour="inline"/>
                     <model behaviour="inline" cssClass="annotation annotation-person person"/>
                 </elementSpec>
                 <elementSpec ident="gloss" mode="add">
@@ -114,6 +115,20 @@
             <elementSpec ident="rs" mode="change">
                     <model predicate="@type='abbreviation'" behaviour="inline" cssClass="annotation annotation-abbreviation abbreviation"/>
                     <model behaviour="inline"/>
+                </elementSpec>
+            <elementSpec ident="person" mode="add">
+                    <modelSequence>
+            <model behaviour="heading">
+                <param name="content" value="persName[@type=&#34;full&#34;]"/>
+                <param name="level" value="3"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="string-join(occupation, ', ')"/>
+            </model>
+            <model behaviour="paragraph">
+                <param name="content" value="./note/node()"/>
+            </model>
+        </modelSequence>
                 </elementSpec>
             </schemaSpec>
         </body>

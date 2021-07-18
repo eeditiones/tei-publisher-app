@@ -67,8 +67,12 @@ declare function anno:create-record($type as xs:string, $id as xs:string, $data 
                 <country>{$data?country}</country>
                 <region>{$data?region}</region>
                 <note>{$data?note}</note>
-                <ptr type="geonames" target="{$data?link}"/>
-                <ptr type="info" target="{$data?info}"/>
+                <ptr type="geonames" target="{$data?links?1}"/>
+                {
+                    array:subarray($data?links, 2) => array:for-each(function ($link) {
+                        <ptr xmlns="http://www.tei-c.org/ns/1.0" type="info" target="{$link}"/>
+                    })
+                }
             </place>
         case "person" return
             <person xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
@@ -108,9 +112,27 @@ declare function anno:query($type as xs:string, $query as xs:string?) {
             return
                 map {
                     "id": $place/@xml:id/string(),
-                    "label": string-join($place/tei:placeName, ', '),
+                    "label": $place/tei:placeName[@type="full"]/string(),
                     "details": ``[`{$place/tei:note/string()}` - `{$place/tei:country/string()}`, `{$place/tei:region/string()}`]``,
                     "link": $place/tei:ptr/@target/string()
+                }
+        case "person" return
+            for $person in doc($anno:local-authority-file)//tei:person[ft:query(tei:persName, $query)]
+            return
+                map {
+                    "id": $person/@xml:id/string(),
+                    "label": $person/tei:persName[@type="full"]/string(),
+                    "details": ``[`{$person/tei:note/string()}` - `{$person/tei:country/string()}`, `{$person/tei:region/string()}`]``,
+                    "link": $person/tei:ptr/@target/string()
+                }
+        case "organisation" return
+            for $org in doc($anno:local-authority-file)//tei:org[ft:query(tei:orgName, $query)]
+            return
+                map {
+                    "id": $org/@xml:id/string(),
+                    "label": $org/tei:orgName[@type="full"]/string(),
+                    "details": $org/tei:note/string(),
+                    "link": $org/tei:ptr/@target/string()
                 }
         default return
             ()
