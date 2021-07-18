@@ -417,11 +417,29 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
     switch ($collection)
         case "annotate" return
             map {
-                "odd": "annotations.odd",
                 "template": "annotate.html"
             }
         default return
+            (: Return empty sequence to use default config :)
             ()
+
+    (: 
+     : Replace line above with the following code to switch between different view configurations per collection.
+     : $collection corresponds to the relative collection path (i.e. after $config:data-root). 
+     :)
+    (:
+    switch ($collection)
+        case "playground" return
+            map {
+                "odd": "dodis.odd",
+                "view": "body",
+                "depth": $config:pagination-depth,
+                "fill": $config:pagination-fill,
+                "template": "facsimile.html"
+            }
+        default return
+            ()
+    :)
 };
 
 (:~
