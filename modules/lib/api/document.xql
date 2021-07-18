@@ -106,6 +106,8 @@ declare function dapi:postprocess($nodes as node()*, $styles as element()?, $odd
                             </style>,
                             <script defer="defer" src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js"></script>,
                             switch ($config:webcomponents)
+                                case "dev" return
+                                    <script type="module" src="{$config:webcomponents-cdn}/src/pb-components-bundle.js"></script>
                                 case "local" return
                                     <script type="module" src="resources/scripts/pb-components-bundle.js"></script>
                                 default return
