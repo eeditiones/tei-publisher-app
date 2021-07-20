@@ -295,8 +295,8 @@ window.addEventListener("WebComponentsReady", () => {
 				.querySelector("pb-authority-lookup")
 				.lookup(type, refInput.value, authorityInfo)
 				.then(findOther)
-				.catch(() => {
-					authorityInfo.innerHTML = `Failed to load ${ref}`;
+				.catch((msg) => {
+					authorityInfo.innerHTML = `Failed to load ${ref}: ${msg}`;
 				});
 		} else {
 			authorityInfo.innerHTML = "";
@@ -353,22 +353,23 @@ window.addEventListener("WebComponentsReady", () => {
 				const data = JSON.parse(ev.detail.span.dataset.annotation);
 				ev.detail.container.innerHTML = data.properties.note;
 				break;
-			case "date":
-				break;
 			default:
 				document
 					.querySelector("pb-authority-lookup")
 					.lookup(ev.detail.type, ev.detail.id, ev.detail.container)
-					.catch(() => {
+					.catch((msg) => {
 						const div = document.createElement('div');
 						const h = document.createElement('h3');
-						h.innerHTML = 'Not found';
+						if (msg) {
+							h.innerHTML = msg;
+						} else {
+							h.innerHTML = 'Not found';
+						}
 						div.appendChild(h);
-						ev.detail.container.appendChild(h);
 						const pre = document.createElement('pre');
 						pre.className = 'error-notFound';
 						const json = JSON.parse(ev.detail.span.dataset.annotation);
-						pre.innerText = JSON.stringify(json.properties, null, 2);
+						pre.innerText = JSON.stringify(json, null, 2);
 						div.appendChild(pre);
 						ev.detail.container.innerHTML = '';
 						ev.detail.container.appendChild(div);
