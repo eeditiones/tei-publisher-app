@@ -71,7 +71,7 @@ window.addEventListener("WebComponentsReady", () => {
 		}
 	}
 
-	function selectOccurrence(data, o) {
+	function selectOccurrence(data, o, inBatch) {
 		try {
 			if (!o.annotated) {
 				const teiRange = {
@@ -82,7 +82,7 @@ window.addEventListener("WebComponentsReady", () => {
 					end: o.end,
 					text: o.text,
 				};
-				return view.updateAnnotation(teiRange);
+				return view.updateAnnotation(teiRange, inBatch);
 			} else if (data[view.key] !== o[view.key]) {
 				view.editAnnotation(o.textNode.parentNode, data);
 			} else {
@@ -250,9 +250,14 @@ window.addEventListener("WebComponentsReady", () => {
 		const checkboxes = document.querySelectorAll(
 			"#occurrences li paper-checkbox:not([checked])"
 		);
-		checkboxes.forEach((cb) => {
-			cb.checked = selectOccurrence(data, cb._options) !== null;
-		});
+		try {
+			checkboxes.forEach((cb) => {
+				cb.checked = selectOccurrence(data, cb._options, true) !== null;
+			});
+			view.refreshMarkers();
+		} catch (e) {
+			console.error(e);
+		}
 		findOther(checkboxes[0]._info);
 		enablePreview = true;
 		preview(view.annotations);
@@ -265,9 +270,11 @@ window.addEventListener("WebComponentsReady", () => {
 	document
 		.getElementById("reload-preview")
 		.addEventListener("click", () => preview(view.annotations));
-	document
-		.getElementById("document-save")
-		.addEventListener("click", () => preview(view.annotations, true));
+	const saveDocBtn = document.getElementById("document-save");
+	saveDocBtn.addEventListener("click", () => preview(view.annotations, true));
+	if (saveDocBtn.dataset.shortcut) {
+		window.pbKeyboard(saveDocBtn.dataset.shortcut, () => preview(view.annotations, true));
+	}
 
 	document.querySelector('#form-ref [slot="prefix"]').addEventListener("click", () => {
 		window.pbEvents.emit("pb-authority-lookup", "transcription", {
@@ -276,6 +283,7 @@ window.addEventListener("WebComponentsReady", () => {
 		});
 		authorityDialog.open();
 	});
+
 	/**
 	 * Reference changed: update authority information and search for other occurrences
 	 */
@@ -373,6 +381,13 @@ window.addEventListener("WebComponentsReady", () => {
 	// clearAll.addEventListener("click", () => window.pbEvents.emit("pb-refresh", "transcription"));
 
 	const markAllBtn = document.getElementById("mark-all");
-	window.pbKeyboard("command+option+a", markAll);
+	if (markAllBtn.dataset.shortcut) {
+		window.pbKeyboard(markAllBtn.dataset.shortcut, markAll);
+	}
 	markAllBtn.addEventListener("click", markAll);
+
+	document.querySelectorAll('[data-shortcut]').forEach((elem) => {
+		const title = elem.getAttribute('title') || '';
+		elem.title = `${title} ${elem.dataset.shortcut}`;
+	});
 });
