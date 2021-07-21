@@ -417,7 +417,10 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
     switch ($collection)
         case "annotate" return
             map {
-                "template": "annotate.html"
+                "template": "annotate.html",
+                "overwrite": true(),
+                "depth": 1,
+                "fill": 0
             }
         default return
             (: Return empty sequence to use default config :)
