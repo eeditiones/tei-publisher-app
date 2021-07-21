@@ -71,6 +71,14 @@ window.addEventListener("WebComponentsReady", () => {
 		}
 	}
 
+	/**
+	 * Called if user selects or deselects an occurrence
+	 * 
+	 * @param {any} data form data
+	 * @param {any} o range data associated with the selected occurrence
+	 * @param {boolean} inBatch true if this is a batch operation
+	 * @returns 
+	 */
 	function selectOccurrence(data, o, inBatch) {
 		try {
 			if (!o.annotated) {
@@ -141,6 +149,9 @@ window.addEventListener("WebComponentsReady", () => {
 		}
 	}
 
+	/**
+	 * Apply the current annotation.
+	 */
 	function save() {
 		const data = form.serializeForm();
 		// hideForm();
@@ -185,6 +196,7 @@ window.addEventListener("WebComponentsReady", () => {
 			})
 			.then((json) => {
 				if (doStore) {
+					window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}`);
 					window.pbEvents.emit("pb-refresh", "transcription");
 				}
 				document.getElementById("output").code = json.content;
@@ -218,6 +230,12 @@ window.addEventListener("WebComponentsReady", () => {
 			});
 	}
 
+	/**
+	 * Handler called if user clicks on an annotation action.
+	 * 
+	 * @param {HTMLButton} button the button
+	 * @returns 
+	 */
 	function actionHandler(button) {
 		if (selection) {
 			type = button.getAttribute("data-type");
@@ -241,6 +259,11 @@ window.addEventListener("WebComponentsReady", () => {
 		disableButtons(true);
 	}
 
+	/**
+	 * Handler called if user clicks the mark-all occurrences button.
+	 * 
+	 * @param {Event} ev event
+	 */
 	function markAll(ev) {
 		ev.preventDefault();
 		ev.stopPropagation();
@@ -266,15 +289,29 @@ window.addEventListener("WebComponentsReady", () => {
 
 	hideForm();
 
+	// apply annotation action
 	saveBtn.addEventListener("click", () => save());
-	document
-		.getElementById("reload-preview")
-		.addEventListener("click", () => preview(view.annotations));
+	// reload the preview action
+	document.getElementById("reload-preview").addEventListener("click", () => preview(view.annotations));
+	// save document action
 	const saveDocBtn = document.getElementById("document-save");
 	saveDocBtn.addEventListener("click", () => preview(view.annotations, true));
 	if (saveDocBtn.dataset.shortcut) {
 		window.pbKeyboard(saveDocBtn.dataset.shortcut, () => preview(view.annotations, true));
 	}
+
+	// mark-all occurrences action
+	const markAllBtn = document.getElementById("mark-all");
+	if (markAllBtn.dataset.shortcut) {
+		window.pbKeyboard(markAllBtn.dataset.shortcut, markAll);
+	}
+	markAllBtn.addEventListener("click", markAll);
+
+	// display configured keyboard shortcuts on mouseover
+	document.querySelectorAll('[data-shortcut]').forEach((elem) => {
+		const title = elem.getAttribute('title') || '';
+		elem.title = `${title} ${elem.dataset.shortcut}`;
+	});
 
 	document.querySelector('#form-ref [slot="prefix"]').addEventListener("click", () => {
 		window.pbEvents.emit("pb-authority-lookup", "transcription", {
@@ -283,6 +320,20 @@ window.addEventListener("WebComponentsReady", () => {
 		});
 		authorityDialog.open();
 	});
+
+	const doc = view.getDocument();
+	if (doc && doc.path) {
+		const ranges = window.localStorage.getItem(`tei-publisher.annotations.${doc.path}`);
+		if (ranges) {
+			annotations = JSON.parse(ranges);
+			if (annotations.length > 0 && window.confirm('Annotations made for this document in a previous session have been found. Would you like to reload them?')) {
+				console.log('loading annotations from local storage: %o', ranges);
+				view.annotations = annotations;
+				preview(annotations);
+			}
+			window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}`);
+		}
+	}
 
 	/**
 	 * Reference changed: update authority information and search for other occurrences
@@ -324,7 +375,12 @@ window.addEventListener("WebComponentsReady", () => {
 			selection = ev.detail.range.cloneContents().textContent.replace(/\s+/g, " ");
 		}
 	});
+	/* Annotations changed: reload the preview panels */
 	window.pbEvents.subscribe("pb-annotations-changed", "transcription", (ev) => {
+		const doc = view.getDocument();
+		if (doc && doc.path) {
+			window.localStorage.setItem(`tei-publisher.annotations.${doc.path}`, JSON.stringify(ev.detail.ranges));
+		}
 		if (enablePreview) {
 			preview(ev.detail.ranges);
 		}
@@ -380,15 +436,4 @@ window.addEventListener("WebComponentsReady", () => {
 
 	// const clearAll = document.getElementById("clear-all");
 	// clearAll.addEventListener("click", () => window.pbEvents.emit("pb-refresh", "transcription"));
-
-	const markAllBtn = document.getElementById("mark-all");
-	if (markAllBtn.dataset.shortcut) {
-		window.pbKeyboard(markAllBtn.dataset.shortcut, markAll);
-	}
-	markAllBtn.addEventListener("click", markAll);
-
-	document.querySelectorAll('[data-shortcut]').forEach((elem) => {
-		const title = elem.getAttribute('title') || '';
-		elem.title = `${title} ${elem.dataset.shortcut}`;
-	});
 });
