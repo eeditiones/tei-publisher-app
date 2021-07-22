@@ -83,7 +83,6 @@ pb-tabs [slot="page"] {
 
 #view1::part(content) {
     line-height: 2;
-    font-size: 85%;
 }
 
 #form-save {
