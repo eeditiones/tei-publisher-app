@@ -44,35 +44,44 @@
                         <aside class="annotation-editor">
                             <div class="toolbar">
                                 <!--paper-icon-button id="clear-all" icon="icons:refresh"></paper-icon-button-->
-                                <paper-icon-button class="annotation-action authority" title="Person" data-type="person" data-shortcut="command+shift+p" icon="social:person" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button class="annotation-action authority" title="Organisation" data-type="organisation" data-shortcut="command+shift+o" icon="social:people" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button class="annotation-action authority" title="Place" data-type="place" icon="maps:place" data-shortcut="command+shift+g" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button class="annotation-action authority" title="Term" data-type="term" icon="icons:bookmark" data-shortcut="command+shift+t" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button class="annotation-action authority" title="Abbreviation" data-type="abbreviation" icon="icons:translate" data-shortcut="command+shift+b" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button class="annotation-action" title="Date" data-type="date" icon="icons:today" data-shortcut="command+shift+d" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button class="annotation-action" title="Note" data-type="note" icon="editor:insert-comment" data-shortcut="command+shift+c" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.person" title="Person" data-type="person" data-shortcut="command+shift+p" icon="social:person" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.organisation" title="Organisation" data-type="organisation" data-shortcut="command+shift+o" icon="social:people" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.place" title="Place" data-type="place" icon="maps:place" data-shortcut="command+shift+l" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.term" title="Term" data-type="term" icon="icons:bookmark" data-shortcut="command+shift+t" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action" data-i18n="[title]annotations.date" title="Date" data-type="date" icon="icons:today" data-shortcut="command+shift+d" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action" data-i18n="[title]annotations.abbreviation" title="Abbreviation" data-type="abbreviation" icon="icons:translate" data-shortcut="command+shift+b" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action" title="Sic" data-type="sic" icon="editor:strikethrough-s" data-shortcut="command+shift+e" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action" data-i18n="[title]annotations.reg" title="Regularization" data-type="reg" icon="editor:wrap-text" data-shortcut="command+shift+g" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action" data-i18n="[title]annotations.hi" title="Highlight" data-type="hi" icon="editor:format-bold" data-shortcut="command+shift+h" disabled="disabled"></paper-icon-button>
                             </div>
                             <iron-form id="edit-form">
                                 <form action="">
                                     <div class="annotation-form person organisation place term">
-                                        <paper-input id="form-ref" name="ref" label="Reference">
+                                        <paper-input id="form-ref" name="ref" data-i18n="[label]annotations.reference" label="Reference">
                                             <paper-icon-button slot="prefix" icon="search"></paper-icon-button>
                                         </paper-input>
-                                        <div id="authority-info">Loading ...</div>
+                                        <div id="authority-info"><pb-i18n key="dialogs.loading">Loading ...</pb-i18n></div>
                                     </div>
                                     <div class="annotation-form note">
                                         <paper-textarea label="Note" name="note" height="10" rows="6"></paper-textarea>
                                     </div>
                                     <div class="annotation-form date">
-                                        <paper-input name="when" label="When"></paper-input>
-                                        <paper-input name="from" label="From"></paper-input>
-                                        <paper-input name="to" label="To"></paper-input>
+                                        <paper-input name="when" label="when"></paper-input>
+                                        <paper-input name="from" label="from"></paper-input>
+                                        <paper-input name="to" label="to"></paper-input>
                                     </div>
-                                    <paper-icon-button id="form-save" icon="icons:save"></paper-icon-button>
+                                    <div class="annotation-form hi">
+                                        <paper-input name="rend" label="rend"></paper-input>
+                                        <paper-input name="rendition" label="rendition"></paper-input>
+                                    </div>
+                                    <paper-input class="annotation-form sic" name="corr" data-i18n="[label]annotations.correction" label="Correction"></paper-input>
+                                    <paper-input class="annotation-form abbreviation" name="expan" data-i18n="[label]annotations.expansion" label="Expansion"></paper-input>
+                                    <paper-input class="annotation-form reg" name="reg" data-i18n="[label]annotations.reg" label="Regularization"></paper-input>
+                                    <paper-icon-button id="form-save" icon="icons:save" data-i18n="[label]annotations.apply"></paper-icon-button>
                                 </form>
                             </iron-form>
                             <div id="occurrences">
-                                <h4><div>Occurrences in text</div> <paper-icon-button id="mark-all" icon="icons:done-all" data-shortcut="command+option+a"></paper-icon-button></h4>
+                                <h4><div><pb-i18n key="annotations.occurrences">Occurrences in text</pb-i18n></div> <paper-icon-button id="mark-all" icon="icons:done-all" data-shortcut="command+option+a"></paper-icon-button></h4>
                                 <ul></ul>
                             </div>
                         </aside>
@@ -95,7 +104,7 @@
                                 <paper-tab slot="tab">HTML</paper-tab>
                                 <paper-tab slot="tab">TEI</paper-tab>
                                 <paper-tab slot="tab">JSON</paper-tab>
-                                <paper-tab slot="tab">Changes</paper-tab>
+                                <paper-tab slot="tab"><pb-i18n key="annotations.changes">Changes</pb-i18n></paper-tab>
                                 <iframe slot="page" id="html" src="about:blank"></iframe>
                                 <pb-code-highlight slot="page" id="output" language="xml" theme="default"></pb-code-highlight>
                                 <pre slot="page" id="json"></pre>

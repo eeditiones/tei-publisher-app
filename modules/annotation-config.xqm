@@ -18,8 +18,20 @@ declare function anno:annotations($type as xs:string, $properties as map(*), $co
             <term xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</term>
         case "organisation" return
             <orgName xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</orgName>
+        case "hi" return
+            <hi xmlns="http://www.tei-c.org/ns/1.0">
+            { 
+                if ($properties?rend) then attribute rend { $properties?rend } else (),
+                if ($properties?rendition) then attribute rendition { $properties?rendition } else (),
+                $content()
+            }
+            </hi>
         case "abbreviation" return
-            <rs xmlns="http://www.tei-c.org/ns/1.0" type="abbreviation" ref="{$properties?ref}">{$content()}</rs>
+            <choice xmlns="http://www.tei-c.org/ns/1.0"><abbr>{$content()}</abbr><expan>{$properties?expan}</expan></choice>
+        case "sic" return
+            <choice xmlns="http://www.tei-c.org/ns/1.0"><sic>{$content()}</sic><corr>{$properties?corr}</corr></choice>
+        case "reg" return
+            <choice xmlns="http://www.tei-c.org/ns/1.0"><orig>{$content()}</orig><reg>{$properties?reg}</reg></choice>
         case "note" return
             <seg xmlns="http://www.tei-c.org/ns/1.0" type="annotated">{$content()}
             <note xmlns="http://www.tei-c.org/ns/1.0" type="annotation">{$properties?note}</note></seg>
@@ -46,8 +58,6 @@ declare function anno:occurrences($type as xs:string, $key as xs:string) {
             collection($config:data-default)//tei:term[@ref = $key]
         case "organisation" return
             collection($config:data-default)//tei:orgName[@ref = $key]
-        case "abbreviation" return
-            collection($config:data-default)//tei:rs[@ref = $key][@type = "abbreviation"]
          default return ()
 };
 

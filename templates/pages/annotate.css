@@ -1,6 +1,6 @@
 main {
     display: grid;
-    grid-template-columns: 310px 1fr 30%;
+    grid-template-columns: 280px 1fr 30%;
     grid-template-rows: 100%;
     gap: 0 10px;
     height: calc(100vh - 132px);
@@ -17,7 +17,7 @@ main {
 main .toolbar {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
     background-color: var(--pb-color-inverse);
 }
 

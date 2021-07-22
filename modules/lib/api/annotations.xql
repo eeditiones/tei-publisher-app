@@ -57,6 +57,9 @@ declare function anno:save-local-copy($request as map(*)) {
             )
 };
 
+(:~ 
+ : TODO: move placeName/orgName extraction to annotation-config.xqm
+:)
 declare function anno:register-entry($request as map(*)) {
     let $type := $request?parameters?type
     let $id := $request?parameters?id
@@ -185,6 +188,22 @@ declare %private function anno:delete($nodes as node()*, $target as node()) {
     for $node in $nodes
     return
         typeswitch($node)
+            case element(tei:sic) | element(tei:abbr) | element(tei:orig) return
+                if ($target instance of element(tei:choice) and $target is $node/..) then (
+                    anno:delete($node/node(), $target)
+                ) else
+                    element { node-name($node) } {
+                        $node/@*,
+                        anno:delete($node/node(), $target)
+                    }
+            case element(tei:corr) | element(tei:expan) | element(tei:reg) return
+                if ($target instance of element(tei:choice) and $target is $node/..) then
+                    ()
+                else
+                    element { node-name($node) } {
+                        $node/@*,
+                        anno:delete($node/node(), $target)
+                    }
             case element() return
                 if ($node is $target) then
                     anno:delete($node/node(), $target)
@@ -201,6 +220,22 @@ declare %private function anno:modify($nodes as node()*, $target as node(), $ann
     for $node in $nodes
     return
         typeswitch($node)
+            case element(tei:choice) return
+                element { node-name($node) } {
+                    $node/@*,
+                    anno:modify($node/node(), $target, $annotation)
+                }
+            case element(tei:expan) | element(tei:corr) | element(tei:reg) return
+                if ($node/parent::tei:choice is $target) then
+                    element { node-name($node) } {
+                        $node/@*,
+                        text { $annotation?properties(local-name($node)) }
+                    }
+                else
+                    element { node-name($node) } {
+                        $node/@*,
+                        anno:modify($node/node(), $target, $annotation)
+                    }
             case element() return
                 if ($node is $target) then
                     element { node-name($node) } {
@@ -242,6 +277,12 @@ declare %private function anno:find-offset($nodes as node()*, $offset as xs:int,
         let $node := head($nodes)
         return
             typeswitch($node)
+                case element(tei:choice) return
+                    let $primary := $node/tei:sic | $node/tei:expan
+                    return (
+                        anno:find-offset($primary, $offset, ()),
+                        anno:find-offset(tail($nodes), $offset - string-length($primary), ())
+                    )
                 case element(tei:note) return
                     if ($isNote) then
                         let $found := anno:find-offset($node/node(), $offset, ())
