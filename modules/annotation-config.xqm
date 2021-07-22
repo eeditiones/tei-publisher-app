@@ -38,12 +38,23 @@ declare function anno:annotations($type as xs:string, $properties as map(*), $co
         case "date" return
             <date xmlns="http://www.tei-c.org/ns/1.0">
             {
-                for $prop in map:keys($properties)[. != '']
+                for $prop in map:keys($properties)[. = ('when', 'from', 'to')]
                 return
                     attribute { $prop } { $properties($prop) },
                 $content()
             }
             </date>
+        case "app" return
+            <app xmlns="http://www.tei-c.org/ns/1.0">
+                <lem>{$content()}</lem>
+                {
+                    for $prop in map:keys($properties)[starts-with(., 'rdg')]
+                    let $n := replace($prop, "^.*\[(.*)\]$", "$1")
+                    order by number($n)
+                    return
+                        <rdg wit="{$properties('wit[' || $n || ']')}">{$properties($prop)}</rdg>
+                }
+            </app>
         default return
             <hi rend="annotation-not-found">{$content()}</hi>
 };

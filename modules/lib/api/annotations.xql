@@ -188,6 +188,22 @@ declare %private function anno:delete($nodes as node()*, $target as node()) {
     for $node in $nodes
     return
         typeswitch($node)
+            case element(tei:lem) return
+                if ($target is $node/..) then (
+                    anno:delete($node/node(), $target)
+                ) else
+                    element { node-name($node) } {
+                        $node/@*,
+                        anno:delete($node/node(), $target)
+                    }
+            case element(tei:rdg) return
+                if ($target is $node/..) then
+                    ()
+                else
+                    element { node-name($node) } {
+                        $node/@*,
+                        anno:delete($node/node(), $target)
+                    }
             case element(tei:sic) | element(tei:abbr) | element(tei:orig) return
                 if ($target instance of element(tei:choice) and $target is $node/..) then (
                     anno:delete($node/node(), $target)
@@ -220,13 +236,27 @@ declare %private function anno:modify($nodes as node()*, $target as node(), $ann
     for $node in $nodes
     return
         typeswitch($node)
-            case element(tei:choice) return
+            case element(tei:choice) | element(tei:app) return
                 element { node-name($node) } {
                     $node/@*,
                     anno:modify($node/node(), $target, $annotation)
                 }
+            case element(tei:rdg) return
+                if ($node/.. is $target) then
+                    let $pos := count($node/preceding-sibling::tei:rdg) + 1
+                    return
+                        element { node-name($node) } {
+                            $node/@* except $node/@wit,
+                            attribute wit { $annotation?properties("wit[" || $pos || "]") },
+                            text { $annotation?properties("rdg[" || $pos || "]") }
+                        }
+                else
+                    element { node-name($node) } {
+                        $node/@*,
+                        anno:modify($node/node(), $target, $annotation)
+                    }
             case element(tei:expan) | element(tei:corr) | element(tei:reg) return
-                if ($node/parent::tei:choice is $target) then
+                if ($node/.. is $target) then
                     element { node-name($node) } {
                         $node/@*,
                         text { $annotation?properties(local-name($node)) }
@@ -240,7 +270,10 @@ declare %private function anno:modify($nodes as node()*, $target as node(), $ann
                 if ($node is $target) then
                     element { node-name($node) } {
                         map:for-each($annotation?properties, function($key, $value) {
-                            attribute { $key } { $value }
+                            if ($value != '') then
+                                attribute { $key } { $value }
+                            else
+                                ()
                         }),
                         anno:modify($node/node(), $target, $annotation)
                     }

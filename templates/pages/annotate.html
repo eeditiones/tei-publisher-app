@@ -52,6 +52,7 @@
                                 <paper-icon-button class="annotation-action" data-i18n="[title]annotations.abbreviation" title="Abbreviation" data-type="abbreviation" icon="icons:translate" data-shortcut="command+shift+b" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action" title="Sic" data-type="sic" icon="editor:strikethrough-s" data-shortcut="command+shift+e" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action" data-i18n="[title]annotations.reg" title="Regularization" data-type="reg" icon="editor:wrap-text" data-shortcut="command+shift+g" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action" data-i18n="[title]annotations.app" title="Apparatus" data-type="app" icon="icons:visibility" data-shortcut="command+shift+v" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action" data-i18n="[title]annotations.hi" title="Highlight" data-type="hi" icon="editor:format-bold" data-shortcut="command+shift+h" disabled="disabled"></paper-icon-button>
                             </div>
                             <iron-form id="edit-form">
@@ -73,6 +74,14 @@
                                     <div class="annotation-form hi">
                                         <paper-input name="rend" label="rend"></paper-input>
                                         <paper-input name="rendition" label="rendition"></paper-input>
+                                    </div>
+                                    <div class="annotation-form app">
+                                        <pb-repeat>
+                                            <template>
+                                                <paper-input name="wit" label="wit"></paper-input>
+                                                <paper-input name="rdg" label="rdg"></paper-input>
+                                            </template>
+                                        </pb-repeat>
                                     </div>
                                     <paper-input class="annotation-form sic" name="corr" data-i18n="[label]annotations.correction" label="Correction"></paper-input>
                                     <paper-input class="annotation-form abbreviation" name="expan" data-i18n="[label]annotations.expansion" label="Expansion"></paper-input>

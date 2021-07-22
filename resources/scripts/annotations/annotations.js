@@ -50,6 +50,7 @@ window.addEventListener("WebComponentsReady", () => {
 					field.value = data[key];
 				}
 			});
+			form.querySelectorAll('pb-repeat').forEach(repeat => repeat.setData(data));
 		}
 	}
 
@@ -154,7 +155,9 @@ window.addEventListener("WebComponentsReady", () => {
 	 */
 	function save() {
 		const data = form.serializeForm();
-		// hideForm();
+		if (!autoSave) {
+			hideForm();
+		}
 		if (activeSpan) {
 			window.pbEvents.emit("pb-edit-annotation", "transcription", {
 				target: activeSpan,
@@ -197,6 +200,7 @@ window.addEventListener("WebComponentsReady", () => {
 			.then((json) => {
 				if (doStore) {
 					window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}`);
+					hideForm();
 					window.pbEvents.emit("pb-refresh", "transcription");
 				}
 				document.getElementById("output").code = json.content;
