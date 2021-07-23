@@ -277,17 +277,19 @@ window.addEventListener("WebComponentsReady", () => {
 		const checkboxes = document.querySelectorAll(
 			"#occurrences li paper-checkbox:not([checked])"
 		);
-		try {
-			checkboxes.forEach((cb) => {
-				cb.checked = selectOccurrence(data, cb._options, true) !== null;
-			});
-			view.refreshMarkers();
-		} catch (e) {
-			console.error(e);
+		if (checkboxes.length > 0) {
+			try {
+				checkboxes.forEach((cb) => {
+					cb.checked = selectOccurrence(data, cb._options, true) !== null;
+				});
+				view.refreshMarkers();
+			} catch (e) {
+				console.error(e);
+			}
+			findOther(checkboxes[0]._info);
+			enablePreview = true;
+			preview(view.annotations);
 		}
-		findOther(checkboxes[0]._info);
-		enablePreview = true;
-		preview(view.annotations);
 		window.pbEvents.emit("pb-end-update", "transcription", {});
 	}
 
