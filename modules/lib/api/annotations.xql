@@ -287,8 +287,8 @@ declare %private function anno:modify($nodes as node()*, $target as node(), $ann
 };
 
 declare %private function anno:apply($node as node(), $startOffset as xs:int, $endOffset as xs:int, $annotation as map(*)) {
-    let $start := anno:find-offset($node, $startOffset, $node instance of element(tei:note))
-    let $end := anno:find-offset($node, $endOffset, $node instance of element(tei:note))
+    let $start := anno:find-offset($node, $startOffset, "start", $node instance of element(tei:note))
+    let $end := anno:find-offset($node, $endOffset, "end", $node instance of element(tei:note))
     let $startAdjusted :=
         if (not($start?1/.. is $node) and $start?2 = 1 and not($start?1 is $end?1)) then
             [$start?1/.., 1]
@@ -303,7 +303,7 @@ declare %private function anno:apply($node as node(), $startOffset as xs:int, $e
         anno:transform($node, $startAdjusted, $endAdjusted, false(), $annotation)
 };
 
-declare %private function anno:find-offset($nodes as node()*, $offset as xs:int, $isNote as xs:boolean?) {
+declare %private function anno:find-offset($nodes as node()*, $offset as xs:int, $pos as xs:string, $isNote as xs:boolean?) {
     if (empty($nodes)) then
         ()
     else
@@ -313,25 +313,36 @@ declare %private function anno:find-offset($nodes as node()*, $offset as xs:int,
                 case element(tei:choice) return
                     let $primary := $node/tei:sic | $node/tei:expan
                     return (
-                        anno:find-offset($primary, $offset, ()),
-                        anno:find-offset(tail($nodes), $offset - string-length($primary), ())
+                        anno:find-offset($primary, $offset, $pos, ()),
+                        anno:find-offset(tail($nodes), $offset - string-length($primary), $pos, ())
+                    )
+                case element(tei:app) return
+                    let $primary := $node/tei:lem
+                    return (
+                        anno:find-offset($primary, $offset, $pos, ()),
+                        anno:find-offset(tail($nodes), $offset - string-length($primary), $pos, ())
                     )
                 case element(tei:note) return
                     if ($isNote) then
-                        let $found := anno:find-offset($node/node(), $offset, ())
+                        let $found := anno:find-offset($node/node(), $offset, $pos, ())
                         return
-                            if (exists($found)) then $found else anno:find-offset(tail($nodes), $offset - string-length($node), ())
+                            if (exists($found)) then $found else anno:find-offset(tail($nodes), $offset - string-length($node), $pos, ())
                     else
-                        anno:find-offset(tail($nodes), $offset, ())
+                        anno:find-offset(tail($nodes), $offset, $pos, ())
                 case element() return
-                    let $found := anno:find-offset($node/node(), $offset, ())
+                    let $found := anno:find-offset($node/node(), $offset, $pos, ())
                     return
-                        if (exists($found)) then $found else anno:find-offset(tail($nodes), $offset - string-length($node), ())
+                        if (exists($found)) then $found else anno:find-offset(tail($nodes), $offset - string-length($node), $pos, ())
                 case text() return
-                    if ($offset <= string-length($node)) then
-                        [$node, $offset]
-                    else
-                        anno:find-offset(tail($nodes), $offset - string-length($node), ())
+                    let $len := string-length($node)
+                    return
+                        if ($offset <= $len) then
+                            [$node, $offset]
+                        (: end is immediately after the node :)
+                        else if ($pos = "end" and $offset = $len + 1) then
+                            [$node, $len + 1]
+                        else
+                            anno:find-offset(tail($nodes), $offset - $len, $pos, ())
                 default return
                     ()
 };
