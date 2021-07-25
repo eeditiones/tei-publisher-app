@@ -89,12 +89,7 @@
             <param name="label" value="@n"/>
         </model>
                 </elementSpec>
-                <elementSpec ident="seg" mode="change">
-                    <model behaviour="alternate" cssClass="annotation annotation-note" useSourceRendition="true">
-            <param name="default" value="."/>
-            <param name="alternate" value="note[@type='annotation']/node()"/>
-        </model>
-                </elementSpec>
+                <elementSpec ident="seg" mode="change"/>
             <elementSpec ident="orgName" mode="add">
                     <model behaviour="inline" cssClass="annotation annotation-organisation organisation"/>
                 </elementSpec>
@@ -137,8 +132,8 @@
             <pb:template xmlns="" xml:space="preserve"><span class="annotation annotation-sic" data-type="sic" data-annotation="{{&#34;corr&#34;: &#34;[[corr]]&#34;}}">[[sic]]</span></pb:template>
         </model>
                     <model predicate="abbr and expan" behaviour="pass-through">
-            <param name="default" value="expan[1]/node()"/>
-            <param name="alternate" value="abbr[1]/node()"/>
+            <param name="expan" value="expan[1]/node()"/>
+            <param name="abbr" value="abbr[1]/node()"/>
             <pb:template xmlns="" xml:space="preserve"><span class="annotation annotation-sic" data-type="abbr" data-annotation="{{&#34;expan&#34;: &#34;[[expan]]&#34;}}">[[abbr]]</span></pb:template>
         </model>
                     <model predicate="orig and reg" behaviour="pass-through">
