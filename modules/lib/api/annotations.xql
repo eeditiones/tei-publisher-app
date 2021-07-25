@@ -29,6 +29,12 @@ declare function anno:query-register($request as map(*)) {
         }
 };
 
+(:~
+ : Save a local copy of an authority entry - if it has not been stored already -
+ : based on the information provided by the client.
+ :
+ : Dispatches the actual record creation to annocfg:create-record.
+ :)
 declare function anno:save-local-copy($request as map(*)) {
     let $data := $request?body
     let $type := $request?parameters?type
@@ -41,14 +47,7 @@ declare function anno:save-local-copy($request as map(*)) {
             }
         else
             let $record := annocfg:create-record($type, $id, $data)
-            let $target :=
-                switch ($type)
-                    case "place" return
-                        doc($annocfg:local-authority-file)//tei:listPlace
-                    case "organisation" return
-                        doc($annocfg:local-authority-file)//tei:listOrg
-                    default return
-                        doc($annocfg:local-authority-file)//tei:listPerson
+            let $target := annocfg:insert-point($type)
             return (
                 update insert $record into $target,
                 map {
@@ -58,17 +57,13 @@ declare function anno:save-local-copy($request as map(*)) {
 };
 
 (:~ 
- : TODO: move placeName/orgName extraction to annotation-config.xqm
+ : Search for an authority entry in the local register.
 :)
 declare function anno:register-entry($request as map(*)) {
     let $type := $request?parameters?type
     let $id := $request?parameters?id
     let $entry := doc($annocfg:local-authority-file)/id($id)
-    let $strings :=
-        switch($type)
-            case "place" return $entry/tei:placeName/string()
-            case "organisation" return $entry/tei:orgName/string()
-            default return $entry/tei:persName/string()
+    let $strings := annocfg:local-search-strings($type, $entry)
     return
         if ($entry) then
             map {

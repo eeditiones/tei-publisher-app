@@ -25,6 +25,7 @@
             <text match="//tei:listPlace/tei:place/tei:placeName"/>
             <text match="//tei:listPerson/tei:person/tei:persName"/>
             <text match="//tei:listOrg/tei:org/tei:orgName"/>
+            <text match="//tei:taxonomy/tei:category/tei:catDesc"/>
             <text qname="dbk:article">
                 <ignore qname="dbk:section"/>
                 <field name="db-title" expression="nav:get-metadata(., 'title')"/>

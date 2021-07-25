@@ -134,7 +134,9 @@
                         <pb-authority connector="Custom" name="place">
                             <pb-authority connector="GeoNames" user="existdb" prefix="geo"></pb-authority>
                         </pb-authority>
-                        <pb-authority connector="GND" name="term" prefix="gnd"></pb-authority>
+                        <pb-authority connector="Custom" name="term">
+                            <pb-authority connector="GND" prefix="gnd"></pb-authority>
+                        </pb-authority>
                         <pb-authority connector="Custom" name="person">
                             <pb-authority connector="GND" prefix="gnd"></pb-authority>
                         </pb-authority>

@@ -13,6 +13,11 @@
             <p>Information about the source</p>
          </sourceDesc>
       </fileDesc>
+      <encodingDesc>
+         <classDecl>
+            <taxonomy></taxonomy>
+         </classDecl>
+      </encodingDesc>
    </teiHeader>
    <standOff>
       <listPerson/>

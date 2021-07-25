@@ -8,6 +8,10 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 
 declare variable $anno:local-authority-file := $config:data-root || "/register.xml";
 
+(:~
+ : Create TEI for the given type, properties and content of an annotation and return it.
+ : This function is called when annotations are merged into the original TEI.
+ :)
 declare function anno:annotations($type as xs:string, $properties as map(*), $content as function(*)) {
     switch ($type)
         case "person" return
@@ -59,6 +63,12 @@ declare function anno:annotations($type as xs:string, $properties as map(*), $co
             <hi rend="annotation-not-found">{$content()}</hi>
 };
 
+(:~
+ : Search for existing occurrences of annotations of the given type and key
+ : in the data collection.
+ :
+ : Used to display the occurrence count next to authority entries.
+ :)
 declare function anno:occurrences($type as xs:string, $key as xs:string) {
     switch ($type)
         case "person" return
@@ -72,6 +82,10 @@ declare function anno:occurrences($type as xs:string, $key as xs:string) {
          default return ()
 };
 
+(:~
+ : Create a local copy of an authority record based on the given type, id and data
+ : passed in by the client.
+ :)
 declare function anno:create-record($type as xs:string, $id as xs:string, $data as map(*)) {
     switch ($type)
         case "place" return
@@ -122,10 +136,17 @@ declare function anno:create-record($type as xs:string, $id as xs:string, $data 
             <org xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
                 <orgName type="full">{$data?name}</orgName>
             </org>
+        case "term" return
+            <category xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
+                <catDesc>{$data?name}</catDesc>
+            </category>
         default return
             ()
 };
 
+(:~
+ : Query the local register for existing authority entries matching the given type and query string. 
+ :)
 declare function anno:query($type as xs:string, $query as xs:string?) {
     switch ($type)
         case "place" return
@@ -155,6 +176,41 @@ declare function anno:query($type as xs:string, $query as xs:string?) {
                     "details": $org/tei:note/string(),
                     "link": $org/tei:ptr/@target/string()
                 }
+        case "term" return
+            for $term in doc($anno:local-authority-file)//tei:taxonomy[ft:query(tei:category, $query)]
+            return
+                map {
+                    "id": $term/@xml:id/string(),
+                    "label": $term/tei:catDesc/string()
+                }
         default return
             ()
+};
+
+(:~
+ : Return the insertion point to which a local authority record should be appended
+ : when creating a local copy.
+ :)
+declare function anno:insert-point($type as xs:string) {
+    switch ($type)
+        case "place" return
+            doc($anno:local-authority-file)//tei:listPlace
+        case "organisation" return
+            doc($anno:local-authority-file)//tei:listOrg
+        case "term" return
+            doc($anno:local-authority-file)//tei:taxonomy
+        default return
+            doc($anno:local-authority-file)//tei:listPerson
+};
+
+(:~
+ : For the given local authority entry, return a sequence of other strings (e.g. alternate names) 
+ : which should be used when parsing the text for occurrences.
+ :)
+declare function anno:local-search-strings($type as xs:string, $entry as element()?) {
+    switch($type)
+        case "place" return $entry/tei:placeName/string()
+        case "organisation" return $entry/tei:orgName/string()
+        case "term" return $entry/tei:catDesc/string()
+        default return $entry/tei:persName/string()
 };
