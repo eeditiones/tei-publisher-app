@@ -153,6 +153,9 @@
             <pb:template xmlns="" xml:space="preserve"><span class="annotation annotation-app" data-type="app" data-annotation="{{[[rdg]]}}">[[lem]]</span></pb:template>
         </model>
                 </elementSpec>
+            <elementSpec ident="ref" mode="change">
+        <model behaviour="inline" cssClass="annotation annotation-ref"/>
+    </elementSpec>
             </schemaSpec>
         </body>
     </text>

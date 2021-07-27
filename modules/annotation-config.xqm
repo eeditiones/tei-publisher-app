@@ -59,6 +59,8 @@ declare function anno:annotations($type as xs:string, $properties as map(*), $co
                         <rdg wit="{$properties('wit[' || $n || ']')}">{$properties($prop)}</rdg>
                 }
             </app>
+        case "link" return
+            <ref xmlns="http://www.tei-c.org/ns/1.0" target="{$properties?target}">{$content()}</ref>
         default return
             <hi rend="annotation-not-found">{$content()}</hi>
 };

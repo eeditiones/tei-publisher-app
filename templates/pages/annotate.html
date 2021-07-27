@@ -49,6 +49,7 @@
                                 <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.place" title="Place" data-type="place" icon="maps:place" data-shortcut="command+shift+l" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.term" title="Term" data-type="term" icon="icons:bookmark" data-shortcut="command+shift+t" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action" data-i18n="[title]annotations.date" title="Date" data-type="date" icon="icons:today" data-shortcut="command+shift+d" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action" data-i18n="[title]annotations.ref" title="Reference" data-type="link" icon="icons:link" data-shortcut="command+shift+l" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action" data-i18n="[title]annotations.abbreviation" title="Abbreviation" data-type="abbreviation" icon="icons:translate" data-shortcut="command+shift+b" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action" title="Sic" data-type="sic" icon="editor:strikethrough-s" data-shortcut="command+shift+e" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action" data-i18n="[title]annotations.reg" title="Regularization" data-type="reg" icon="editor:wrap-text" data-shortcut="command+shift+g" disabled="disabled"></paper-icon-button>
@@ -63,9 +64,6 @@
                                         </paper-input>
                                         <div id="authority-info"><pb-i18n key="dialogs.loading">Loading ...</pb-i18n></div>
                                     </div>
-                                    <div class="annotation-form note">
-                                        <paper-textarea label="Note" name="note" height="10" rows="6"></paper-textarea>
-                                    </div>
                                     <div class="annotation-form date">
                                         <paper-input name="when" label="when"></paper-input>
                                         <paper-input name="from" label="from"></paper-input>
@@ -74,6 +72,9 @@
                                     <div class="annotation-form hi">
                                         <paper-input name="rend" label="rend"></paper-input>
                                         <paper-input name="rendition" label="rendition"></paper-input>
+                                    </div>
+                                    <div class="annotation-form link">
+                                        <paper-input name="target" label="target"></paper-input>
                                     </div>
                                     <div class="annotation-form app">
                                         <pb-repeat>
