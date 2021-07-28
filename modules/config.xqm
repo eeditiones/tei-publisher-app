@@ -53,6 +53,7 @@ declare variable $config:webcomponents := "local";
  :)
 declare variable $config:webcomponents-cdn := "https://unpkg.com/@teipublisher/pb-components";
 (: declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components"; :)
+(: declare variable $config:webcomponents-cdn := "http://localhost:8000"; :)
 
 (:~
  : Should documents be located by xml:id or filename?
