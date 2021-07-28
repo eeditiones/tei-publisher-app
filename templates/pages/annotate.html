@@ -76,14 +76,12 @@
                                     <div class="annotation-form link">
                                         <paper-input name="target" label="target"></paper-input>
                                     </div>
-                                    <div class="annotation-form app">
-                                        <pb-repeat>
-                                            <template>
-                                                <paper-input name="wit" label="wit"></paper-input>
-                                                <paper-input name="rdg" label="rdg"></paper-input>
-                                            </template>
-                                        </pb-repeat>
-                                    </div>
+                                    <pb-repeat class="annotation-form app" initial="1">
+                                        <template>
+                                            <paper-input name="wit" label="wit"></paper-input>
+                                            <paper-input name="rdg" label="rdg"></paper-input>
+                                        </template>
+                                    </pb-repeat>
                                     <paper-input class="annotation-form sic" name="corr" data-i18n="[label]annotations.correction" label="Correction"></paper-input>
                                     <paper-input class="annotation-form abbreviation" name="expan" data-i18n="[label]annotations.expansion" label="Expansion"></paper-input>
                                     <paper-input class="annotation-form reg" name="reg" data-i18n="[label]annotations.reg" label="Regularization"></paper-input>
@@ -109,6 +107,7 @@
                             <div class="toolbar">
                                 <paper-icon-button id="reload-preview" icon="icons:refresh"></paper-icon-button>
                                 <paper-icon-button id="document-save" icon="icons:save" data-shortcut="command+shift+s"></paper-icon-button>
+                                <paper-icon-button id="undo-history" icon="icons:undo" data-i18n="[title]annotations.undo"></paper-icon-button>
                             </div>
                             <pb-tabs>
                                 <paper-tab slot="tab">HTML</paper-tab>
@@ -146,6 +145,19 @@
                 <div class="buttons">
                     <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
                         <pb-i18n key="dialogs.close">Close</pb-i18n>
+                    </paper-button>
+                </div>
+            </paper-dialog>
+            <paper-dialog id="restore-dialog">
+                <paper-dialog-scrollable>
+                    <p><pb-i18n key="annotations.restore"></pb-i18n></p>
+                </paper-dialog-scrollable>
+                <div class="buttons">
+                    <paper-button dialog-dismiss="dialog-dismiss">
+                        <pb-i18n key="dialogs.no">No</pb-i18n>
+                    </paper-button>
+                    <paper-button dialog-confirm="dialog-confirm" id="confirm-restore">
+                        <pb-i18n key="dialogs.yes">Yes</pb-i18n>
                     </paper-button>
                 </div>
             </paper-dialog>

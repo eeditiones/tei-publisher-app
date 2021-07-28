@@ -128,6 +128,7 @@ window.addEventListener("WebComponentsReady", () => {
 				}
 				cb.addEventListener("click", () => {
 					const data = form.serializeForm();
+					view.saveHistory();
 					selectOccurrence(data, o);
 					findOther(info);
 				});
@@ -154,6 +155,7 @@ window.addEventListener("WebComponentsReady", () => {
 	 * Apply the current annotation.
 	 */
 	function save() {
+		view.saveHistory();
 		const data = form.serializeForm();
 		if (!autoSave) {
 			hideForm();
@@ -200,6 +202,8 @@ window.addEventListener("WebComponentsReady", () => {
 			.then((json) => {
 				if (doStore) {
 					window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}`);
+					window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}.history`);
+					view.clearHistory();
 					hideForm();
 					window.pbEvents.emit("pb-refresh", "transcription");
 				}
@@ -278,6 +282,7 @@ window.addEventListener("WebComponentsReady", () => {
 			"#occurrences li paper-checkbox:not([checked])"
 		);
 		if (checkboxes.length > 0) {
+			view.saveHistory();
 			try {
 				checkboxes.forEach((cb) => {
 					cb.checked = selectOccurrence(data, cb._options, true) !== null;
@@ -299,6 +304,8 @@ window.addEventListener("WebComponentsReady", () => {
 	saveBtn.addEventListener("click", () => save());
 	// reload the preview action
 	document.getElementById("reload-preview").addEventListener("click", () => preview(view.annotations));
+	// undo action
+	document.getElementById('undo-history').addEventListener('click', () => view.popHistory());
 	// save document action
 	const saveDocBtn = document.getElementById("document-save");
 	saveDocBtn.addEventListener("click", () => preview(view.annotations, true));
@@ -327,17 +334,28 @@ window.addEventListener("WebComponentsReady", () => {
 		authorityDialog.open();
 	});
 
+	// check if annotations were saved to local storage
 	const doc = view.getDocument();
+	let annotations;
+	document.getElementById('confirm-restore').addEventListener('click', () => {
+		console.log('loading annotations from local storage: %o', annotations);
+		view.annotations = annotations;
+		const history = window.localStorage.getItem(`tei-publisher.annotations.${doc.path}.history`);
+		if (history) {
+			view.clearHistory(JSON.parse(history));
+		}
+		window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}`);
+		window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}.history`);
+		preview(annotations);
+	});
 	if (doc && doc.path) {
 		const ranges = window.localStorage.getItem(`tei-publisher.annotations.${doc.path}`);
 		if (ranges) {
 			annotations = JSON.parse(ranges);
-			if (annotations.length > 0 && window.confirm('Annotations made for this document in a previous session have been found. Would you like to reload them?')) {
-				console.log('loading annotations from local storage: %o', ranges);
-				view.annotations = annotations;
-				preview(annotations);
+			if (annotations.length > 0) {
+				const dialog = document.getElementById('restore-dialog');
+				dialog.open();
 			}
-			window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}`);
 		}
 	}
 
@@ -391,7 +409,13 @@ window.addEventListener("WebComponentsReady", () => {
 			preview(ev.detail.ranges);
 		}
 	});
-
+	window.pbEvents.subscribe('pb-annotations-history', 'transcription', (ev) => {
+		const doc = view.getDocument();
+		if (doc && doc.path) {
+			window.localStorage.setItem(`tei-publisher.annotations.${doc.path}.history`, JSON.stringify(view.getHistory()));
+		}
+	});
+	
 	window.pbEvents.subscribe("pb-annotation-edit", "transcription", (ev) => {
 		activeSpan = ev.detail.target;
 		text = activeSpan.textContent.replace(/\s+/g, " ");
