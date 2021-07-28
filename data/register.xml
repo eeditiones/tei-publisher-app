@@ -24,7 +24,7 @@
       <listOrg/>
       <listPlace>
          <place xml:id="custom-Deia">
-            <placeName>Deya</placeName>
+            <placeName type="full">Deya</placeName>
             <placeName>Deià</placeName>
             <location>
                <geo>39.7484 2.64918</geo>
