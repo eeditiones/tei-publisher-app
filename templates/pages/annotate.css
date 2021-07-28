@@ -121,3 +121,7 @@ pb-tabs [slot="page"] {
 #occurrences .id-warning {
     border-bottom: 1px dotted #ff3333;
 }
+
+#restore-dialog {
+    width: 70vw;
+}
