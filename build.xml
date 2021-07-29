@@ -50,7 +50,7 @@
         </copy>
     </target>
 
-    <target name="xar-local" depends="npm.install,prepare,xar" />
+    <target name="xar-local" depends="clean,npm.install,prepare,xar" />
 
     <target name="xar">
         <mkdir dir="${build}" />

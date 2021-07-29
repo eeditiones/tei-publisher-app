@@ -105,7 +105,7 @@ declare variable $deploy:ANT_FILE :=
             <zip basedir="." destfile="${{build.dir}}/${{project.app}}-${{project.version}}.xar"
                 excludes="${{build.dir}}/* node_modules/**"/>
         </target>
-        <target name="xar-complete" depends="npm.install,xar"/>
+        <target name="xar-complete" depends="clean,npm.install,xar"/>
         <target name="npm.install">
             <exec executable="${{npm}}" outputproperty="npm.output">
                 <arg line="install" />
