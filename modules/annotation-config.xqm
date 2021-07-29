@@ -62,7 +62,7 @@ declare function anno:annotations($type as xs:string, $properties as map(*), $co
         case "link" return
             <ref xmlns="http://www.tei-c.org/ns/1.0" target="{$properties?target}">{$content()}</ref>
         default return
-            <hi rend="annotation-not-found">{$content()}</hi>
+            <hi xmlns="http://www.tei-c.org/ns/1.0" rend="annotation-not-found">{$content()}</hi>
 };
 
 (:~
