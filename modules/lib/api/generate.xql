@@ -29,7 +29,7 @@ import module namespace errors = "http://exist-db.org/xquery/router/errors";
 declare variable $deploy:EXPATH_DESCRIPTOR :=
     <package xmlns="http://expath.org/ns/pkg"
         version="0.1" spec="1.0">
-        <dependency package="http://exist-db.org/apps/shared"/>
+        <dependency package="http://exist-db.org/html-templating"/>
         <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver-min="2.8.8"/>
         <dependency package="http://exist-db.org/open-api/router" semver-min="0.2.0"/>
     </package>
@@ -105,7 +105,7 @@ declare variable $deploy:ANT_FILE :=
             <zip basedir="." destfile="${{build.dir}}/${{project.app}}-${{project.version}}.xar"
                 excludes="${{build.dir}}/* node_modules/**"/>
         </target>
-        <target name="xar-complete" depends="npm.install,xar"/>
+        <target name="xar-complete" depends="clean,npm.install,xar"/>
         <target name="npm.install">
             <exec executable="${{npm}}" outputproperty="npm.output">
                 <arg line="install" />
@@ -275,6 +275,7 @@ declare function deploy:store-xconf($collection as xs:string?, $json as map(*)) 
                     <text qname="tei:head"/>
                     <text match="//tei:titleStmt/tei:title"/>
                     <text match="//tei:msDesc/tei:head"/>
+                    <text match="//tei:listPlace/tei:place/tei:placeName"/>
                     <text qname="dbk:article">
                         <ignore qname="dbk:section"/>
                         <field name="title" expression="nav:get-metadata(., 'title')"/>
@@ -339,7 +340,7 @@ declare function deploy:expand($collection as xs:string, $resource as xs:string,
 
 declare function deploy:store-libs($target as xs:string, $userData as xs:string+, $permissions as xs:string) {
     let $path := $config:app-root || "/modules"
-    for $lib in ("map.xql", "facets.xql", xmldb:get-child-resources($path)[starts-with(., "navigation")],
+    for $lib in ("map.xql", "facets.xql", "annotation-config.xqm", xmldb:get-child-resources($path)[starts-with(., "navigation")],
         xmldb:get-child-resources($path)[starts-with(., "query")])
     return (
         xmldb:copy-resource($path, $lib, $target || "/modules", $lib)
@@ -422,6 +423,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:copy-collection($collection, $base || "/templates/basic", ($json?owner, "tei"), "rw-r--r--"),
         deploy:copy-collection($collection || "/templates/pages", $base || "/templates/pages", ($json?owner, "tei"), "rw-r--r--"),
         deploy:copy-collection($collection || "/resources/fonts", $base || "/resources/fonts", ($json?owner, "tei"), "rw-r--r--"),
+        deploy:copy-collection($collection || "/resources/scripts/annotations", $base || "/resources/scripts/annotations", ($json?owner, "tei"), "rw-r--r--"),
         deploy:expand($collection || "/modules", "config.xqm", $replacements),
         deploy:store-libs($collection, ($json?owner, "tei"), "rw-r--r--"),
         deploy:expand($collection || "/modules/lib", "api.json", $replacements),

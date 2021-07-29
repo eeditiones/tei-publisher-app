@@ -1,9 +1,24 @@
 /* Due to a safari issue, relative paths to background images won't work as variables, so we list them here */
-.logo { background-image: url("../images/tei-publisher-logo-contrast-color.svg"); }
-.splash { background-image: url("../images/tei-publisher-logo-color.svg"); }
-.menubar { background-image: none; }
-.toolbar { background-image: none; }
-app-header { background-image: none; }
+
+.logo {
+    background-image: url("../images/tei-publisher-logo-contrast-color.svg");
+}
+
+.splash {
+    background-image: url("../images/tei-publisher-logo-color.svg");
+}
+
+.menubar {
+    background-image: none;
+}
+
+.toolbar {
+    background-image: none;
+}
+
+app-header {
+    background-image: none;
+}
 
 body {
     --pb-splash-image-size: 360px auto;
@@ -240,11 +255,11 @@ pb-view-type {
     margin: 10px 0 0 20px;
 }
 
-pb-view {
+pb-view, pb-view-annotate {
     font-family: var(--pb-content-font-family);
     font-size: var(--pb-content-font-size);
     margin: 0 16px;
-    position:relative;
+    position: relative;
 }
 
 .breadcrumbs pb-view {
@@ -254,7 +269,7 @@ pb-view {
 }
 
 @media (min-width: 769px) {
-    pb-view {
+    pb-view, pb-view-annotate {
         max-width: var(--pb-view-max-width);
     }
 }

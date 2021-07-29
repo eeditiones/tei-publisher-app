@@ -71,7 +71,7 @@ declare function dapi:html($request as map(*)) {
             error($errors:BAD_REQUEST, "No document specified")
 };
 
-declare %private function dapi:postprocess($nodes as node()*, $styles as element()?, $odd as xs:string?, 
+declare function dapi:postprocess($nodes as node()*, $styles as element()?, $odd as xs:string?, 
     $base as xs:string?, $components as xs:boolean?) {
     for $node in $nodes
     return
@@ -85,7 +85,9 @@ declare %private function dapi:postprocess($nodes as node()*, $styles as element
                             <base href="{$base}"/>
                         else
                             (),
+                        <meta charset="utf-8"/>,
                         $node/node(),
+                        <link rel="stylesheet" type="text/css" href="transform/{replace($oddName, "^(.*)\.odd$", "$1")}.css"/>,
                         <link rel="stylesheet" type="text/css" href="transform/{replace($oddName, "^(.*)\.odd$", "$1")}-print.css" media="print"/>,
                         $styles,
                         if ($components) then (
@@ -103,7 +105,13 @@ declare %private function dapi:postprocess($nodes as node()*, $styles as element
                             }}
                             </style>,
                             <script defer="defer" src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js"></script>,
-                            <script type="module" src="{$config:webcomponents-cdn}@{$config:webcomponents}/dist/pb-components-bundle.js"></script>
+                            switch ($config:webcomponents)
+                                case "dev" return
+                                    <script type="module" src="{$config:webcomponents-cdn}/src/pb-components-bundle.js"></script>
+                                case "local" return
+                                    <script type="module" src="resources/scripts/pb-components-bundle.js"></script>
+                                default return
+                                    <script type="module" src="{$config:webcomponents-cdn}@{$config:webcomponents}/dist/pb-components-bundle.js"></script>
                         ) else
                             ()
 
@@ -124,7 +132,7 @@ declare %private function dapi:postprocess($nodes as node()*, $styles as element
                 return
                     element { node-name($node) } {
                         $node/@*,
-                        if ($components) then
+                        if ($components and not($node//pb-page)) then
                             <pb-page endpoint="{$base}">{$content}</pb-page>
                         else
                             $content
