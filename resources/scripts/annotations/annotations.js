@@ -1,3 +1,11 @@
+/*
+ * This file contains the javascript code, which connects the various elements of the
+ * user interface for the annotation editor.
+ * 
+ * You should not need to change this unless you want to add new features.
+ */
+
+
 function disableButtons(disable) {
 	document.querySelectorAll(".annotation-action").forEach((button) => {
 		button.disabled = disable;

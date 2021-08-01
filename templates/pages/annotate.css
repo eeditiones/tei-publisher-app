@@ -63,6 +63,10 @@ pb-tabs [slot="page"] {
     overflow: auto;
 }
 
+pb-tabs pre {
+    margin: 0;
+}
+
 #output, #changes {
     font-size: .75em;
     --pb-code-highlight-white-space: pre-wrap;
@@ -124,4 +128,8 @@ pb-tabs [slot="page"] {
 
 #restore-dialog {
     width: 70vw;
+}
+
+.toc-toggle {
+    display: none;
 }

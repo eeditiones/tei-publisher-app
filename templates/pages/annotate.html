@@ -32,14 +32,6 @@
                         <app-toolbar data-template="lib:include" data-template-path="templates/toolbar.html"/>
                     </app-header>
 
-                    <pb-drawer toggle="tocToggle" class="toc" emit="toc" subscribe="transcription">
-                        <div class="drawer-content">
-                            <h3>
-                                <pb-i18n key="document.contents">Contents</pb-i18n>
-                            </h3>
-                            <pb-load id="toc" url="api/document/{doc}/contents?target=transcription&amp;icons=true" expand="expand" src="document1" subscribe="toc" load-once="load-once"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
-                        </div>
-                    </pb-drawer>
                     <main>
                         <aside class="annotation-editor">
                             <div class="toolbar">
