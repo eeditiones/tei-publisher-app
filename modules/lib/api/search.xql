@@ -98,8 +98,8 @@ declare %private function sapi:show-hits($request as map(*), $hits as item()*, $
                                     else
                                         util:node-id($div)
                     else
-                        util:node-id($div)
-                let $config := <config width="60" table="no" link="{$docId}?root={$docLink}&amp;action=search&amp;view={$config?view}&amp;odd={$config?odd}#{$matchId}"/>
+                        if ($div instance of element(tei:div)) then util:node-id($div) else ()
+                let $config := <config width="60" table="no" link="{$docId}?{if ($docLink) then 'root=' || $docLink || '&amp;' else ()}action=search&amp;view={$config?view}&amp;odd={$config?odd}#{$matchId}"/>
                 return
                     kwic:get-summary($expanded, $match, $config)
             }
