@@ -332,9 +332,17 @@ window.addEventListener("WebComponentsReady", () => {
 	markAllBtn.addEventListener("click", markAll);
 
 	// display configured keyboard shortcuts on mouseover
-	document.querySelectorAll('[data-shortcut]').forEach((elem) => {
-		const title = elem.getAttribute('title') || '';
-		elem.title = `${title} ${elem.dataset.shortcut}`;
+	document.addEventListener('pb-page-ready', () => {
+		document.querySelectorAll('[data-shortcut]').forEach((elem) => {
+			const shortcut = elem.dataset.shortcut;
+			let output = [];
+            const keys = shortcut.split(/\s*,\s*/);
+            keys.forEach((key) => {
+                output.push(key.replaceAll('+', '-'));
+            });
+			const title = elem.getAttribute('title') || '';
+			elem.title = `${title} ${output.join(', ')}`;
+		});
 	});
 
 	document.querySelector('#form-ref [slot="prefix"]').addEventListener("click", () => {
