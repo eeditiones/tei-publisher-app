@@ -90,7 +90,7 @@
                                 <pb-param name="header" value="short"/>
                             </pb-view>
                             <pb-view-annotate id="view1" src="document1" odd="annotations"
-                                append-footnotes="append-footnotes"
+                                append-footnotes="append-footnotes" suppress-highlight="suppress-highlight"
                                 subscribe="transcription" emit="transcription">
                                 <pb-param name="track-ids" value="yes"/>
                             </pb-view-annotate>
@@ -117,7 +117,7 @@
             </app-drawer-layout>
             <paper-dialog id="authority-dialog">
                 <paper-dialog-scrollable>
-                    <pb-authority-lookup subscribe="transcription" emit="transcription">
+                    <pb-authority-lookup subscribe="transcription" emit="transcription" sort-by-label="sort-by-label">
                         <pb-authority connector="KBGA" name="abbreviation"></pb-authority>
                         <pb-authority connector="Custom" name="organisation">
                             <pb-authority connector="GND" prefix="gnd"></pb-authority>
