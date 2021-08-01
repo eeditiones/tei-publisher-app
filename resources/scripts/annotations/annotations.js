@@ -305,7 +305,10 @@ window.addEventListener("WebComponentsReady", () => {
 	// reload the preview action
 	document.getElementById("reload-preview").addEventListener("click", () => preview(view.annotations));
 	// undo action
-	document.getElementById('undo-history').addEventListener('click', () => view.popHistory());
+	document.getElementById('undo-history').addEventListener('click', () => {
+		hideForm();
+		view.popHistory();
+	});
 	// save document action
 	const saveDocBtn = document.getElementById("document-save");
 	saveDocBtn.addEventListener("click", () => preview(view.annotations, true));
