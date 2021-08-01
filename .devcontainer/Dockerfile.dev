@@ -71,6 +71,7 @@ RUN  git clone https://github.com/eeditiones/roaster.git \
 RUN curl -L -o /usr/local/exist/autodeploy/atom-editor-${EDITOR_VERSION}.xar https://github.com/wolfgangmm/existdb-langserver/raw/master/resources/atom-editor-${EDITOR_VERSION}.xar
 
 WORKDIR /usr/local/exist
+ENV JAVA_HOME=/usr/local/sdkman/candidates/java/current
 
 RUN bin/client.sh -l --no-gui --xpath "system:get-version()"
 
