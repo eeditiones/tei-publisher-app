@@ -12,6 +12,65 @@ function disableButtons(disable) {
 	});
 }
 
+/**
+ * Create a handle to a new (text) file on the local file system.
+ *
+ * @return {!Promise<FileSystemFileHandle>} Handle to the new file.
+ */
+function getNewFileHandle(name) {
+	const opts = {
+		suggestedName: name,
+		types: [{
+			description: 'XML Document',
+			accept: { 'application/xml': ['.xml'] },
+		}],
+	};
+	return window.showSaveFilePicker(opts);
+}
+
+/**
+ * Writes the contents to disk.
+ *
+ * @param {FileSystemFileHandle} fileHandle File handle to write to.
+ * @param {string} contents Contents to write.
+ */
+async function writeFile(fileHandle, contents) {
+	// For Chrome 83 and later.
+	// Create a FileSystemWritableFileStream to write to.
+	const writable = await fileHandle.createWritable();
+	// Write the contents of the file to the stream.
+	await writable.write(contents);
+	// Close the file and write the contents to disk.
+	await writable.close();
+}
+
+/**
+ * Verify the user has granted permission to read or write to the file, if
+ * permission hasn't been granted, request permission.
+ *
+ * @param {FileSystemFileHandle} fileHandle File handle to check.
+ * @param {boolean} withWrite True if write permission should be checked.
+ * @return {boolean} True if the user has granted read/write permission.
+ */
+async function verifyPermission(fileHandle, withWrite) {
+	const opts = {};
+	if (withWrite) {
+		opts.writable = true;
+		// For Chrome 86 and later...
+		opts.mode = 'readwrite';
+	}
+	// Check if we already have permission, if so, return true.
+	if (await fileHandle.queryPermission(opts) === 'granted') {
+		return true;
+	}
+	// Request permission to the file, if the user grants permission, return true.
+	if (await fileHandle.requestPermission(opts) === 'granted') {
+		return true;
+	}
+	// The user did nt grant permission, return false.
+	return false;
+}
+
 window.addEventListener("WebComponentsReady", () => {
 	const form = document.getElementById("edit-form");
 	let selection = null;
@@ -192,15 +251,16 @@ window.addEventListener("WebComponentsReady", () => {
 		const doc = document.getElementById("document1");
 		document.getElementById("json").innerText = JSON.stringify(annotations, null, 2);
 		document.getElementById("output").code = "";
-		fetch(`${endpoint}/api/annotations/merge/${doc.path}?${doStore ? "store=true" : ""}`, {
-			method: "POST",
-			mode: "cors",
-			credentials: "same-origin",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(annotations),
-		})
+		return new Promise((resolve) => {
+			fetch(`${endpoint}/api/annotations/merge/${doc.path}?${doStore ? "store=true" : ""}`, {
+				method: "POST",
+				mode: "cors",
+				credentials: "same-origin",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(annotations),
+			})
 			.then((response) => {
 				if (response.ok) {
 					return response.json();
@@ -215,6 +275,7 @@ window.addEventListener("WebComponentsReady", () => {
 					hideForm();
 					window.pbEvents.emit("pb-refresh", "transcription");
 				}
+				resolve(json.content);
 				document.getElementById("output").code = json.content;
 				const changeList = document.getElementById("changes");
 				changeList.innerHTML = "";
@@ -244,6 +305,7 @@ window.addEventListener("WebComponentsReady", () => {
 						iframe.srcdoc = html;
 					});
 			});
+		});
 	}
 
 	/**
@@ -322,6 +384,26 @@ window.addEventListener("WebComponentsReady", () => {
 	saveDocBtn.addEventListener("click", () => preview(view.annotations, true));
 	if (saveDocBtn.dataset.shortcut) {
 		window.pbKeyboard(saveDocBtn.dataset.shortcut, () => preview(view.annotations, true));
+	}
+
+	const downloadBtn = document.getElementById('document-download');
+	if ('showSaveFilePicker' in window) {
+		downloadBtn.addEventListener('click', () => {
+			const doc = document.getElementById("document1");
+			getNewFileHandle(doc.getFileName())
+			.then((fh) => {
+				if (verifyPermission(fh, true)) {
+					preview(view.annotations, true)
+					.then((xml) => {
+						writeFile(fh, xml);
+					});
+				} else {
+					alert('Permission denied to store files locally');
+				}
+			});
+		});
+	} else {
+		downloadBtn.style.display = 'none';
 	}
 
 	// mark-all occurrences action
