@@ -126,10 +126,6 @@ pb-tabs pre {
     border-bottom: 1px dotted #ff3333;
 }
 
-#restore-dialog {
-    width: 70vw;
-}
-
 .toc-toggle {
     display: none;
 }

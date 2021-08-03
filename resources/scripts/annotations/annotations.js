@@ -273,7 +273,7 @@ window.addEventListener("WebComponentsReady", () => {
 					window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}.history`);
 					view.clearHistory();
 					hideForm();
-					window.pbEvents.emit("pb-refresh", "transcription");
+					window.pbEvents.emit("pb-refresh", "transcription", { preserveScroll: true });
 				}
 				resolve(json.content);
 				document.getElementById("output").code = json.content;
@@ -372,6 +372,19 @@ window.addEventListener("WebComponentsReady", () => {
 
 	// apply annotation action
 	saveBtn.addEventListener("click", () => save());
+	// reload source TEI, discarding current annotations
+	document.getElementById('reload-all').addEventListener('click', () => {
+		function reload() {
+			window.pbEvents.emit("pb-refresh", "transcription", { preserveScroll: true });
+			hideForm();
+		}
+		if (view.annotations.length > 0) {
+			document.getElementById('confirm-reload-dialog').confirm()
+			.then(reload);
+		} else {
+			reload();
+		}
+	});
 	// reload the preview action
 	document.getElementById("reload-preview").addEventListener("click", () => preview(view.annotations));
 	// undo action
@@ -386,6 +399,7 @@ window.addEventListener("WebComponentsReady", () => {
 		window.pbKeyboard(saveDocBtn.dataset.shortcut, () => preview(view.annotations, true));
 	}
 
+	// save and download merged TEI to local file
 	const downloadBtn = document.getElementById('document-download');
 	if ('showSaveFilePicker' in window) {
 		downloadBtn.addEventListener('click', () => {
@@ -437,25 +451,23 @@ window.addEventListener("WebComponentsReady", () => {
 
 	// check if annotations were saved to local storage
 	const doc = view.getDocument();
-	let annotations;
-	document.getElementById('confirm-restore').addEventListener('click', () => {
-		console.log('loading annotations from local storage: %o', annotations);
-		view.annotations = annotations;
-		const history = window.localStorage.getItem(`tei-publisher.annotations.${doc.path}.history`);
-		if (history) {
-			view.clearHistory(JSON.parse(history));
-		}
-		window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}`);
-		window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}.history`);
-		preview(annotations);
-	});
 	if (doc && doc.path) {
 		const ranges = window.localStorage.getItem(`tei-publisher.annotations.${doc.path}`);
 		if (ranges) {
-			annotations = JSON.parse(ranges);
+			const annotations = JSON.parse(ranges);
 			if (annotations.length > 0) {
-				const dialog = document.getElementById('restore-dialog');
-				dialog.open();
+				document.getElementById('restore-dialog').confirm()
+				.then(() => {
+					console.log('loading annotations from local storage: %o', annotations);
+					view.annotations = annotations;
+					const history = window.localStorage.getItem(`tei-publisher.annotations.${doc.path}.history`);
+					if (history) {
+						view.clearHistory(JSON.parse(history));
+					}
+					window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}`);
+					window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}.history`);
+					preview(annotations);
+				});
 			}
 		}
 	}

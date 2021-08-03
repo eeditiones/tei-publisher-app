@@ -97,10 +97,11 @@
                         </div>
                         <aside class="preview">
                             <div class="toolbar">
-                                <paper-icon-button id="reload-preview" icon="icons:refresh" data-i18n="[title]annotations.preview"></paper-icon-button>
+                                <paper-icon-button id="reload-all" icon="icons:restore" data-i18n="[title]annotations.reload"></paper-icon-button>
                                 <paper-icon-button id="document-save" icon="icons:save" data-i18n="[title]annotations.save" data-shortcut="command+shift+s"></paper-icon-button>
                                 <paper-icon-button id="document-download" icon="icons:cloud-download" data-i18n="[title]annotations.download" data-shortcut="command+shift+d"></paper-icon-button>
                                 <paper-icon-button id="undo-history" icon="icons:undo" data-i18n="[title]annotations.undo"></paper-icon-button>
+                                <paper-icon-button id="reload-preview" icon="icons:refresh" data-i18n="[title]annotations.preview"></paper-icon-button>
                             </div>
                             <pb-tabs>
                                 <paper-tab slot="tab">HTML</paper-tab>
@@ -141,19 +142,8 @@
                     </paper-button>
                 </div>
             </paper-dialog>
-            <paper-dialog id="restore-dialog" modal="modal">
-                <paper-dialog-scrollable>
-                    <p><pb-i18n key="annotations.restore"></pb-i18n></p>
-                </paper-dialog-scrollable>
-                <div class="buttons">
-                    <paper-button dialog-dismiss="dialog-dismiss">
-                        <pb-i18n key="dialogs.no">No</pb-i18n>
-                    </paper-button>
-                    <paper-button dialog-confirm="dialog-confirm" id="confirm-restore" autofocus="autofocus">
-                        <pb-i18n key="dialogs.yes">Yes</pb-i18n>
-                    </paper-button>
-                </div>
-            </paper-dialog>
+            <pb-message id="restore-dialog" data-i18n="[title]annotations.confirm-restore-title;[message]annotations.restore"></pb-message>
+            <pb-message id="confirm-reload-dialog" data-i18n="[title]annotations.confirm-reload-title;[message]annotations.confirm-reload"></pb-message>
         </pb-page>
         <div class="splash"></div>
     </body>
