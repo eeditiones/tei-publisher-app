@@ -75,6 +75,9 @@ declare function anno:register-entry($request as map(*)) {
             error($errors:NOT_FOUND, "Entry for " || $id || " not found")
 };
 
+(:~
+ : Merge and optionally save the annotations passed in the request body.
+ :)
 declare function anno:save($request as map(*)) {
     let $annotations := $request?body
     let $path := xmldb:decode($request?parameters?path)
@@ -89,8 +92,7 @@ declare function anno:save($request as map(*)) {
                 where exists($node)
                 let $ordered :=
                     for $anno in $annoGroup
-                    (: handle deletions first :)
-                    order by $anno?type empty least
+                    order by anno:order($anno?type) ascending
                     return $anno
                 return
                     map:entry($id, anno:apply($node, $ordered))
@@ -113,6 +115,16 @@ declare function anno:save($request as map(*)) {
                 }
         else
             error($errors:NOT_FOUND, "Document " || $path || " not found")
+};
+
+(:~
+ : Sort annotations: "edit" actions should be process last, "delete" first
+ :)
+declare function anno:order($type as xs:string) {
+    switch ($type)
+        case "edit" return 2
+        case "delete" return 0
+        default return 1
 };
 
 declare %private function anno:strip-exist-id($nodes as node()*) {

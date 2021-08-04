@@ -47,6 +47,7 @@
                                 <paper-icon-button class="annotation-action" data-i18n="[title]annotations.reg" title="Regularization" data-type="reg" icon="editor:wrap-text" data-shortcut="command+shift+g" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action" data-i18n="[title]annotations.app" title="Apparatus" data-type="app" icon="icons:visibility" data-shortcut="command+shift+v" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action" data-i18n="[title]annotations.hi" title="Highlight" data-type="hi" icon="editor:format-bold" data-shortcut="command+shift+h" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action" data-i18n="[title]annotations.modify" title="Edit" data-type="edit" icon="editor:mode-edit" data-shortcut="command+shift+m" disabled="disabled"></paper-icon-button>
                             </div>
                             <iron-form id="edit-form">
                                 <form action="">
@@ -77,6 +78,10 @@
                                     <paper-input class="annotation-form sic" name="corr" data-i18n="[label]annotations.correction" label="Correction"></paper-input>
                                     <paper-input class="annotation-form abbreviation" name="expan" data-i18n="[label]annotations.expansion" label="Expansion"></paper-input>
                                     <paper-input class="annotation-form reg" name="reg" data-i18n="[label]annotations.reg" label="Regularization"></paper-input>
+                                    <div class="annotation-form edit">
+                                        <p><pb-i18n key="annotations.modify-info"></pb-i18n></p>
+                                        <paper-input name="content" data-i18n="[label]annotations.correction" label="Correction"></paper-input>
+                                    </div>
                                     <paper-icon-button id="form-save" icon="icons:save" data-i18n="[label]annotations.apply"></paper-icon-button>
                                 </form>
                             </iron-form>

@@ -31,6 +31,7 @@ main .toolbar {
 
 pb-authority-lookup {
     min-height: 60vw;
+    max-height: 80vh;
 }
 
 pb-authority-lookup::part(output) {
@@ -128,4 +129,8 @@ pb-tabs pre {
 
 .toc-toggle {
     display: none;
+}
+
+paper-icon-button[data-type="edit"] {
+    background-color: var(--pb-toolbar-background-color);
 }

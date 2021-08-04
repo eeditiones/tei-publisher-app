@@ -6,10 +6,16 @@
  */
 
 
-function disableButtons(disable) {
-	document.querySelectorAll(".annotation-action").forEach((button) => {
+function disableButtons(disable, range) {
+	document.querySelectorAll(".annotation-action:not([data-type=edit])").forEach((button) => {
 		button.disabled = disable;
 	});
+	const editBtn = document.querySelector(".annotation-action[data-type=edit]");
+	if (!disable && range.startContainer === range.endContainer && range.startContainer.nodeType === Node.TEXT_NODE) {
+		editBtn.disabled = false;
+	} else {
+		editBtn.disabled = true;
+	}
 }
 
 /**
@@ -118,6 +124,8 @@ window.addEventListener("WebComponentsReady", () => {
 				}
 			});
 			form.querySelectorAll('pb-repeat').forEach(repeat => repeat.setData(data));
+		} else if (type === 'edit') {
+			form.querySelector('.annotation-form.edit [name=content]').value = selection;
 		}
 	}
 
@@ -490,6 +498,9 @@ window.addEventListener("WebComponentsReady", () => {
 			authorityInfo.innerHTML = "";
 		}
 	});
+	/**
+	 * Handle click on one of the toolbar buttons for adding a new annotation.
+	 */
 	document.querySelectorAll(".annotation-action").forEach((button) => {
 		const shortcut = button.getAttribute("data-shortcut");
 		if (shortcut) {
@@ -507,7 +518,7 @@ window.addEventListener("WebComponentsReady", () => {
 		authoritySelected(ev.detail)
 	);
 	window.pbEvents.subscribe("pb-selection-changed", "transcription", (ev) => {
-		disableButtons(!ev.detail.hasContent);
+		disableButtons(!ev.detail.hasContent, ev.detail.range);
 		if (ev.detail.hasContent) {
 			selection = ev.detail.range.cloneContents().textContent.replace(/\s+/g, " ");
 		}
