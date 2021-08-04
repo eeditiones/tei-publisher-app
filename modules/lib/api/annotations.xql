@@ -405,7 +405,7 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
                         text { substring($node, 1, $end?2 - 1) }
                     else
                         text { substring($node, $end?2) }
-                else if ($inAnno and $node >> $end?1) then
+                else if (($inAnno and $node >> $end?1) or (not($inAnno) and $node >> $start?1 and $node << $end?1)) then
                     ()
                 else
                     $node
