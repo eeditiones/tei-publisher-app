@@ -259,9 +259,9 @@ window.addEventListener("WebComponentsReady", () => {
 		const doc = document.getElementById("document1");
 		document.getElementById("json").innerText = JSON.stringify(annotations, null, 2);
 		document.getElementById("output").code = "";
-		return new Promise((resolve) => {
-			fetch(`${endpoint}/api/annotations/merge/${doc.path}?${doStore ? "store=true" : ""}`, {
-				method: "POST",
+		return new Promise((resolve, reject) => {
+			fetch(`${endpoint}/api/annotations/merge/${doc.path}`, {
+				method: doStore ? "PUT" : "POST",
 				mode: "cors",
 				credentials: "same-origin",
 				headers: {
@@ -273,7 +273,10 @@ window.addEventListener("WebComponentsReady", () => {
 				if (response.ok) {
 					return response.json();
 				}
-				throw new Error(response.status);
+				if (response.status === 401) {
+					document.getElementById('permission-denied-dialog').show();
+				}
+				document.getElementById('error-dialog').show();
 			})
 			.then((json) => {
 				if (doStore) {

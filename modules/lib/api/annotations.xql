@@ -104,7 +104,7 @@ declare function anno:save($request as map(*)) {
             }
             let $serialized := serialize($output, map { "indent": false() })
             let $stored :=
-                if ($request?parameters?store) then
+                if ($request?method = 'PUT') then
                     xmldb:store(util:collection-name($srcDoc), util:document-name($srcDoc), $serialized)
                 else
                     ()
