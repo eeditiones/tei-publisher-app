@@ -152,43 +152,47 @@ declare function anno:create-record($type as xs:string, $id as xs:string, $data 
  : Query the local register for existing authority entries matching the given type and query string. 
  :)
 declare function anno:query($type as xs:string, $query as xs:string?) {
-    switch ($type)
-        case "place" return
-            for $place in doc($anno:local-authority-file)//tei:place[ft:query(tei:placeName, $query)]
-            return
-                map {
-                    "id": $place/@xml:id/string(),
-                    "label": $place/tei:placeName[@type="full"]/string(),
-                    "details": ``[`{$place/tei:note/string()}` - `{$place/tei:country/string()}`, `{$place/tei:region/string()}`]``,
-                    "link": $place/tei:ptr/@target/string()
-                }
-        case "person" return
-            for $person in doc($anno:local-authority-file)//tei:person[ft:query(tei:persName, $query)]
-            return
-                map {
-                    "id": $person/@xml:id/string(),
-                    "label": $person/tei:persName[@type="full"]/string(),
-                    "details": ``[`{$person/tei:note/string()}` - `{$person/tei:country/string()}`, `{$person/tei:region/string()}`]``,
-                    "link": $person/tei:ptr/@target/string()
-                }
-        case "organisation" return
-            for $org in doc($anno:local-authority-file)//tei:org[ft:query(tei:orgName, $query)]
-            return
-                map {
-                    "id": $org/@xml:id/string(),
-                    "label": $org/tei:orgName[@type="full"]/string(),
-                    "details": $org/tei:note/string(),
-                    "link": $org/tei:ptr/@target/string()
-                }
-        case "term" return
-            for $term in doc($anno:local-authority-file)//tei:taxonomy[ft:query(tei:category, $query)]
-            return
-                map {
-                    "id": $term/@xml:id/string(),
-                    "label": $term/tei:catDesc/string()
-                }
-        default return
-            ()
+    try {
+        switch ($type)
+            case "place" return
+                for $place in doc($anno:local-authority-file)//tei:place[ft:query(tei:placeName, $query)]
+                return
+                    map {
+                        "id": $place/@xml:id/string(),
+                        "label": $place/tei:placeName[@type="full"]/string(),
+                        "details": ``[`{$place/tei:note/string()}` - `{$place/tei:country/string()}`, `{$place/tei:region/string()}`]``,
+                        "link": $place/tei:ptr/@target/string()
+                    }
+            case "person" return
+                for $person in doc($anno:local-authority-file)//tei:person[ft:query(tei:persName, $query)]
+                return
+                    map {
+                        "id": $person/@xml:id/string(),
+                        "label": $person/tei:persName[@type="full"]/string(),
+                        "details": ``[`{$person/tei:note/string()}` - `{$person/tei:country/string()}`, `{$person/tei:region/string()}`]``,
+                        "link": $person/tei:ptr/@target/string()
+                    }
+            case "organisation" return
+                for $org in doc($anno:local-authority-file)//tei:org[ft:query(tei:orgName, $query)]
+                return
+                    map {
+                        "id": $org/@xml:id/string(),
+                        "label": $org/tei:orgName[@type="full"]/string(),
+                        "details": $org/tei:note/string(),
+                        "link": $org/tei:ptr/@target/string()
+                    }
+            case "term" return
+                for $term in doc($anno:local-authority-file)//tei:taxonomy[ft:query(tei:category, $query)]
+                return
+                    map {
+                        "id": $term/@xml:id/string(),
+                        "label": $term/tei:catDesc/string()
+                    }
+            default return
+                ()
+    } catch * {
+        ()
+    }
 };
 
 (:~
