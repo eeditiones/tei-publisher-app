@@ -242,7 +242,7 @@ window.addEventListener("WebComponentsReady", () => {
 			});
 			activeSpan = null;
 		} else {
-			activeSpan = view.addAnnotation({
+			view.addAnnotation({
 				type,
 				properties: data,
 			});
