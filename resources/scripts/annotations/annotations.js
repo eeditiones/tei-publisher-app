@@ -275,6 +275,7 @@ window.addEventListener("WebComponentsReady", () => {
 				}
 				if (response.status === 401) {
 					document.getElementById('permission-denied-dialog').show();
+					return;
 				}
 				document.getElementById('error-dialog').show();
 			})
