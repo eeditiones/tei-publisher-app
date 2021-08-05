@@ -404,7 +404,7 @@ window.addEventListener("WebComponentsReady", () => {
 	const saveDocBtn = document.getElementById("document-save");
 	saveDocBtn.addEventListener("click", () => preview(view.annotations, true));
 	if (saveDocBtn.dataset.shortcut) {
-		window.pbKeyboard(saveDocBtn.dataset.shortcut, () => preview(view.annotations, true));
+		window.hotkeys(saveDocBtn.dataset.shortcut, () => preview(view.annotations, true));
 	}
 
 	// save and download merged TEI to local file
@@ -431,7 +431,7 @@ window.addEventListener("WebComponentsReady", () => {
 	// mark-all occurrences action
 	const markAllBtn = document.getElementById("mark-all");
 	if (markAllBtn.dataset.shortcut) {
-		window.pbKeyboard(markAllBtn.dataset.shortcut, markAll);
+		window.hotkeys(markAllBtn.dataset.shortcut, markAll);
 	}
 	markAllBtn.addEventListener("click", markAll);
 
@@ -439,13 +439,13 @@ window.addEventListener("WebComponentsReady", () => {
 	document.addEventListener('pb-page-ready', () => {
 		document.querySelectorAll('[data-shortcut]').forEach((elem) => {
 			const shortcut = elem.dataset.shortcut;
-			let output = [];
             const keys = shortcut.split(/\s*,\s*/);
-            keys.forEach((key) => {
-                output.push(key.replaceAll('+', '-'));
-            });
+			let output = keys[0];
+			if (navigator.userAgent.indexOf('Mac OS X') === -1) {
+                output = keys[1];
+            }
 			const title = elem.getAttribute('title') || '';
-			elem.title = `${title} ${output.join(', ')}`;
+			elem.title = `${title} [${output.replaceAll('+', ' ')}]`;
 		});
 	});
 
@@ -504,7 +504,7 @@ window.addEventListener("WebComponentsReady", () => {
 	document.querySelectorAll(".annotation-action").forEach((button) => {
 		const shortcut = button.getAttribute("data-shortcut");
 		if (shortcut) {
-			window.pbKeyboard(shortcut, (ev) => {
+			window.hotkeys(shortcut, (ev) => {
 				ev.preventDefault();
 				ev.stopPropagation();
 				actionHandler(button);
