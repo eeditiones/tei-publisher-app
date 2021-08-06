@@ -8136,4 +8136,194 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       </variablelist></para>
   </section>
   </section>
+  <section>
+    <title>Configuring the Annotation Editor</title>
+    <para>The annotation editor is fully configurable. This includes<orderedlist>
+        <listitem>
+          <para>the connectors used for authority lookups</para>
+        </listitem>
+        <listitem>
+          <para>how authority entries can be extended with additional information</para>
+        </listitem>
+        <listitem>
+          <para>how annotations are mapped to TEI elements</para>
+        </listitem>
+      </orderedlist></para>
+    <section>
+      <title>Configuring Authorities</title>
+      <para>In its current state, TEI Publisher supports the following external authorities for entity lookup:<variablelist>
+          <varlistentry>
+            <term>GeoNames</term>
+            <listitem>
+              <para><link xlink:href="https://www.geonames.org/"
+                >geonames.org</link> - for places</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>GND</term>
+            <listitem>
+              <para><link xlink:href="https://gnd.network/">Gemeinsame Normdatei</link> via <link
+                  xlink:href="http://lobid.org/"
+                >lobid.org</link> - for people, organisations and terms</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Metagrid</term>
+            <listitem>
+              <para><link xlink:href="https://metagrid.ch/">metagrid.ch</link> - for people</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Airtable</term>
+            <listitem>
+              <para><link xlink:href="https://www.airtable.com/"
+                >airtable.com</link> - arbitrary entities, each corresponding to a table</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>KBGA</term>
+            <listitem>
+              <para><link
+                  xlink:href="https://theologie.unibas.ch/de/karl-barth-zentrum/gesamtausgabe/"
+                  >Karl Barth Gesamtausgabe</link> - for people, organisations, terms, abbreviations</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Custom</term>
+            <listitem>
+              <para>A custom connector, which delegates to one or more authorities, but also searches a local TEI register</para>
+            </listitem>
+          </varlistentry>
+        </variablelist></para>
+      <para>Which authority is used for which annotation type can be configured in the HTML template defining the user interface of the annotations editor. It resides in the file <filename>templates/pages/annotate.html</filename> and can be changed in eXide (or any editor of your choice). A simple configuration looks as follows:</para>
+      <programlisting language="xml" xml:space="preserve"><![CDATA[
+<pb-authority-lookup subscribe="transcription" emit="transcription">
+    <pb-authority connector="GND" name="organisation" prefix="gnd"></pb-authority>
+    <pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority>
+    <pb-authority connector="GND" name="term" prefix="gnd"></pb-authority>
+    <pb-authority connector="GND" name="person" prefix="gnd"></pb-authority>
+</pb-authority-lookup>]]>
+      </programlisting>
+      <para>Each top-level pb-authority needs at least two attributes:<itemizedlist>
+          <listitem>
+            <para>a <option>name</option> indicating the annotation type for which it should be used</para>
+          </listitem>
+          <listitem>
+            <para>a <option>connector</option>, which selects one of the authority connectors listed above</para>
+          </listitem>
+        </itemizedlist></para>
+      <para>In addition, you may define a <option>prefix</option>: this will be prepended to the xml:id referenced by the resulting TEI element. For example, you may want to prefix the numeric IDs received from GND to obtain an XML ID like "gnd-124507514". A number alone would not be a valid @xml:id.</para>
+      <para>Some connectors also need additional configuration attributes. At the moment those are the <emphasis>GeoNames</emphasis> and <emphasis>Airtable</emphasis> connectors. GeoNames requires you to register a user, whose name is given in the <option>user</option> attribute.</para>
+      <para>The <emphasis>Airtable</emphasis> and <emphasis>Custom</emphasis> connectors are special and need some further explanation:</para>
+      <section>
+        <title>Airtable Connector</title>
+        <para><link xlink:href="https://www.airtable.com/"
+            >airtable.com</link> is not really an authority, but rather a commercial online database, allowing users to define their own tables and forms. It can thus be turned into an authority, e.g. by defining a <emphasis>people</emphasis> or <emphasis>places</emphasis> table and connecting it with the airtable connector. It thus requires a slightly more complex configuration as you need to tell the connector how to access your tables and extract the required information. An example configuration for a single table is shown below:</para>
+        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Airtable" name="topic" api-key="my-api-key" base="database-id" 
+  table="Topics" fields="Name, Variants, Definition, Term Type" label="${Name}" 
+  tokenize="Name, Variants" tokenize-regex="\s*;\s*"
+  filter="or(find('${key}', lower({Name})), find('${key}', lower({Variants})))">
+  &lt;template class="info">
+    &lt;h3>${Name}&lt;/h3>
+    &lt;p>
+        ${Term Type}
+        &lt;br/>
+        ${Definition}
+        &lt;br/>
+        ${Variants}
+    &lt;/p>
+  &lt;/template>
+  &lt;template class="detail">
+    ${Term Type}. ${Definition}. ${Variants}.
+  &lt;/template>
+&lt;/pb-authority></programlisting>
+        <para>This will retrieve authority entries from a table called 'Topics' using the columns Name, Variants, Definition and Term Type.</para>
+        <variablelist>
+          <varlistentry>
+            <term>api-key</term>
+            <listitem>
+              <para>The personal API key obtained from your airtable.com user profile</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>base</term>
+            <listitem>
+              <para>The API key for your database</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>table</term>
+            <listitem>
+              <para>Name of the table to use</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>fields</term>
+            <listitem>
+              <para>A list of table column names to be retrieved as fields. Fields can be referenced in other configuration expressions using the notation <code>${column}</code></para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>label</term>
+            <listitem>
+              <para>The field or expression to use as main label when displaying authority lookup results</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>filter</term>
+            <listitem>
+              <para>The airtable formula to be used for searching</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>template class="info"</term>
+            <listitem>
+              <para>An HTML fragment to show when displaying details for an authority entry</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>template class="detail"</term>
+            <listitem>
+              <para>HTML fragment to show in the details below the main label in the authority dialog</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>tokenize</term>
+            <listitem>
+              <para>Defines which columns should be used when searching the text for other potential occurrences of the entity. For the search, the column values are split using the regular expression given in <option>tokenize-regex</option></para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>tokenize-regex</term>
+            <listitem>
+              <para>an optional regular expression used to split values before searching the text for other occurrences. This is useful if you have variant names separated by , or ; and each variant should be searched for separately.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+      <section>
+        <title>Custom Connector</title>
+        <para>The custom connector delegates queries to one or more authorities, but most important: it creates a copy of every authority entry you select and writes it to a local TEI register. Background: for many editions the information provided by an external authority will not be sufficient. It may be incomplete, e.g. lack important information which is relevant in the context of the edition. And for historic manuscripts, many entities will not even appear in any authority.</para>
+        <para>Using the custom connector thus gives you a possibility to extend or complement the information about an entity, or add new entities. This works as follows:<orderedlist>
+            <listitem>
+              <para>whenever you select an entry obtained from the external authority, the custom connector creates a skeleton <tag>person</tag>, <tag>place</tag> or <tag>category</tag> TEI element in the local TEI registry (the exact place can be configured) using the information provided by the authority</para>
+            </listitem>
+            <listitem>
+              <para>you can extend the local entry with additional information, e.g. add a note to explain why the person is important in the context of the edition</para>
+            </listitem>
+            <listitem>
+              <para>any subsequent authority query will also search the local registry and matches found there will be ranked to the top of the results</para>
+            </listitem>
+            <listitem>
+              <para>to support entites which do not exist in an external authority, just create an entry in the local registry and assign it a local xml:id</para>
+            </listitem>
+          </orderedlist></para>
+        <para>To configure the custom connector, simply wrap it around the definition for the external authority you want to use, e.g.:</para>
+        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Custom" name="person">
+    &lt;pb-authority connector="GND" prefix="gnd">&lt;/pb-authority>
+&lt;/pb-authority></programlisting>
+        <para>This defines a custom connector for the annotation type 'person', delegating queries to the GND connector, but also maintaining a local registry.</para>
+      </section>
+    </section>
+  </section>
 </article>
