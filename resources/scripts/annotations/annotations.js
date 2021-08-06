@@ -275,9 +275,10 @@ window.addEventListener("WebComponentsReady", () => {
 				}
 				if (response.status === 401) {
 					document.getElementById('permission-denied-dialog').show();
-					return;
+					throw new Error(response.statusText);
 				}
 				document.getElementById('error-dialog').show();
+				throw new Error(response.statusText);
 			})
 			.then((json) => {
 				if (doStore) {
