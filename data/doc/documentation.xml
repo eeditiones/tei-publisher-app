@@ -7994,26 +7994,50 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
   </section>
   <section xml:id="web-annotations">
     <title>Annotating Documents</title>
-    <para>Since version 7.1.0, TEI Publisher supports annotating TEI documents via a web based interface. This means you can enhance existing TEI documents directly within TEI Publisher.</para>
-    <para>The web based annotation editor targets one of the most tedious and time consuming tasks in any edition project: adding semantic, analytic or text-critical annotations. Most projects will use a workflow as follows:</para>
+    <para>Since version 7.1.0, TEI Publisher supports annotating TEI documents via a graphic, web based interface. This means you can 
+      enhance existing TEI documents directly within TEI Publisher in a user-friendly environment where XML code is neatly hidden from sight when not needed.</para>
+    <para>The annotation editor is not meant for creating documents from scratch but targets one of the most tedious and time consuming tasks in any edition project: 
+      adding semantic, analytic or text-critical markup to an existing transcription.</para>
+      <figure>
+        <title>Annotation editor</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ann-overview.png" width="900px" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Typical workflow for many projects will look as follows:</para>
+
     <orderedlist>
       <listitem>
-        <para>a base transcription is created, either manually or using tools like Transkribus. This transcription already contains the basic structural markup, i.e. sections, titles, paragraphs etc.</para>
+        <para>An initial transcription is created, either manually in a text editor, or using OCR or HTR tools like Transkribus. 
+          It contains the basic structural markup, i.e. divisions, headings, paragraphs etc.</para>
       </listitem>
       <listitem>
-        <para>the base transcription is enriched: people, places or terms appearing in the text are tagged and linked to an authority; dates or measures are normalized; abbreviations expanded, corrections applied.</para>
-      </listitem>
-      <listitem>
-        <para>the resulting TEI is reviewed, which may result in further changes to be made, going back to step 2 in an interative process.</para>
+        <para>That initial transcription is gradually enriched: textual features like emphasis can be marked, abbreviations expanded, corrections and regularizations applied;
+          people, places or terms appearing in the text can be explicitly tagged and linked to an authority; dates or measures normalized. This is an iterative process: the resulting TEI encoding is 
+          constantly reviewed, which may result in further changes to be made.</para>
       </listitem>
     </orderedlist>
-    <para>Web annotations try to ease the burden of 2 by allowing editors to apply tagging directly within the web environment, where it is much easier to read than in an XML editor. Just highlight the text fragment to annotate with the mouse, click on the annotation type and optionally select an authority entry to link to or enter additional information.</para>
+    <para>Web annotations try to ease the burden of the enrichment phase by allowing editors to mark everything directly within the user-friendly environment, closely resembling the publication view.
+      It is much easier to read and doesn't require half as much TEI experience as using an XML editor. Just use your mouse to highlight the text fragment to annotate, click on the annotation type 
+      and optionally select additional information, e.g. to link with an external authority file.</para>
     <section>
-      <title>Prerequisites</title>
-      <para>The annotation editor requires a modern browser like Firefox, Chrome or a Chrome-based browser like the newest Edge on Windows 10. <emphasis>Safari</emphasis> will not work due to a known bug in text selection, which Apple seems reluctant to fix.</para>
-      <para>One feature: directly exporting the resulting text to a directory of the user's choice, is only supported on Chrome.</para>
-      <para>Annotations have been tested extensively, mainly on modern texts, and should work reliably for tagging entities and other inline markup. For sure there might still be bugs, so please be careful and keep an eye on the resulting TEI.</para>
-      <para>The editor should work fine for texts up to the length of a journal article or chapter. Really long texts (e.g. a whole book) will be automatically split by top divisions, but you may still experience a recognizable time lag for long divisions.</para>
+      <title>Prerequisites and considerations</title>
+      
+      <itemizedlist>
+        <listitem>
+          <para><emphasis role="bold">Browsers</emphasis></para>
+          <para>The annotation editor requires a modern browser like Firefox, Chrome or a Chrome-based browser like the newest Edge on Windows 10. <emphasis>Safari</emphasis> will not work due to a known bug in text selection, which Apple seems reluctant to fix.</para>
+          <para>Directly exporting the resulting text to a directory of the user's choice, is currently only supported in Chrome.</para>
+        </listitem>
+        <listitem>
+          <para><emphasis role="bold">Division size</emphasis></para>
+          <para>The editor should work fine for texts up to the length of a journal article or chapter. Really long texts (e.g. a whole book) will be automatically split by top divisions, but you may still experience a recognizable time lag for long divisions.</para>
+        </listitem>
+      </itemizedlist>
+      <para>Annotations have been extensively tested, and should work reliably for tagging entities and other inline markup. 
+        You may want to keep an eye on the resulting TEI when testing annotations on your material. We appreciate bug reports and suggestions for improvement.</para>
     </section>
     <section>
       <title>The Base Text</title>
