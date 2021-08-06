@@ -8166,23 +8166,71 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       For example, if you selected the authority entry for "Ronald Reagan", you may see other occurrences of "Reagan", which have already been annotated as "Nancy Reagan". 
       You will see those occurrences underlined with red dots. You can switch them to "Ronald Reagan" by checking their box.</para>
     <para>Unchecking a box will remove the existing annotation, e.g. incorrectly applied one.</para>
+    <figure>
+      <title>Inconsistency warning</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="ann-reagan.jpg" width="800px" />
+        </imageobject>
+      </mediaobject>
+    </figure>
     </section>
     <section>
       <title>Toggle Annotations</title>
-      <para>Toggle annotations are immediately applied when you click the annotation button. They are simple on/off switches and do not require any further input.</para>
+      <para>Toggle annotations are immediately applied when you click the annotation button. Since they do not require any further input they are just simply applied without much ado.
+        Some good candidates might be titles or deletions.
+      </para>
+      <para>It is worth noting that it's not a textual fenomenon that constitutes a <emphasis>toggle</emphasis> annotation 
+        versus <emphasis>semantic</emphasis> or <emphasis>analytic</emphasis> in our simple category scheme. It is rather what kinds of detail a particular project
+        decides to encode or not. Encoding of titles can be a <emphasis>toggle</emphasis> if we just decide to simply say that a text fragment is a title. It could become a
+        <emphasis>semantic</emphasis> annotation if we'd like to associate it with a bibliographical reference or other detailed information.
+      </para>
     </section>
     <section>
       <title>Analytic and Text Critical Annotations</title>
-      <para>Those include annotations like the ones for applying a <tag>date</tag>, <tag>hi</tag> or <tag>ref</tag>, but also <tag>abbr</tag>/<tag>expan</tag>, <tag>sic</tag>/<tag>corr</tag>, <tag>orig</tag>/<tag>reg</tag> or <tag>lem</tag>/<tag>rdg</tag>. Those annotation types are not connected to an external authority, but they may require further input to be made by the user. Therefore an input form will be shown into which you can enter the required or optional information. The exact contents of the form depend on the annotation type.</para>
-      <para>To actually apply the annotation, you must click on the save button beneath the form.</para>
+      <para>These annotations are not connecting to an authority reference, but typically require further input to be made by the user. 
+        For example a <tag>date</tag> annotation requires the editor to supply a normalized date, while normalizations, abbreviations and corrections need 
+        regularized, expanded or corrected form, respectively. Apparatus entries will require all the variant readings. 
+        For all these annotations an input form will be shown into which such information can be entered. The exact content of the form depends on the annotation type.</para>
+      <para>To store the annotation, you must click on the save button beneath the form after filling the required fields.</para>
+      <figure>
+        <title>Correction</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ann-correction.png" width="800px" />
+          </imageobject>
+        </mediaobject>
+      </figure>
     </section>
   </section>
   <section>
     <title>Modifying Annotations</title>
-    <para>The annotation view shows a colored line beneath the text spanned by each annotation. You can select text within an existing or across multiple annotations and apply another annotation to it, thus resulting in <emphasis>nested annotations</emphasis>. However, the editor will ensure that you do not select partial elements, for example, a range of text followed by half of a <tag>placeName</tag>. This would result in invalid XML, so the editor will automatically expand your selection to include the entire <tag>placeName</tag>.</para>
-      <para>To the right of the annotated text, a colored box indicates the type of the annotation. The sequence of boxes also indicates how annotations are nested: the once appearing more to the left are inside those to the right.</para>
+    <para>The annotation view shows a colored line beneath the text spanned by each annotation. You can select text within an existing or 
+      across multiple annotations and apply another annotation to it, thus resulting in <emphasis>nested annotations</emphasis>. 
+      However, the editor will ensure that you do not select partial elements, for example, a range of text followed by half of a <tag>persName</tag>. 
+      This would result in invalid XML, so the editor will automatically expand your selection to include the entire <tag>persName</tag>.</para>
+    <figure>
+      <title>Nested annotations</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="ann-nested.png" width="600px" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>To the right of the annotated text, a colored box indicates the type of the annotation. The sequence of boxes also indicates 
+      how annotations are nested: the ones appearing to the right are wrapping those to the left. In the example above the "church of 
+      San Francisco" is a reference to a place, while "San Francisco" refers to a person, a patron saint of the church. The <tag>persName</tag> 
+      element is nested in the <tag>placeName</tag>.</para>
     <para>Click on the colored box to see details about the annotation. For semantic annotations, the details will include a summary of the entity drawn from the connected authority or the local TEI register. For analytic and text critical annotations, a table is shown, listing the corresponding attributes associated with the annotation.</para>
-    <para>The toolbar at the bottom of the popup allows to delete or modify the annotation. Clicking the delete button will immediately (!) remove the annotation, leaving just the contained text.</para>
+    <figure>
+      <title>Annotation details</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="ann-details.png" width="800px" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>The toolbar at the bottom of the popup allows to delete or modify the annotation. Clicking the delete button will immediately remove the annotation, without asking for confirmation.</para>
     <para>Clicking on the pen icon will open the annotation in the left sidebar, where you can change it. For semantic annotations, the authority lookup dialog will pop up automatically and you can change the connected authority entry by selecting a different one.</para>
     <para>Again, semantic annotations are applied immediately, while analytic and text critical annotations require a click on the save button after making modifications.</para>
   </section>
