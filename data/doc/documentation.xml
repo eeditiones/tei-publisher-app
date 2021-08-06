@@ -8006,8 +8006,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           </imageobject>
         </mediaobject>
       </figure>
-      <para>Typical workflow for many projects will look as follows:</para>
-
+      <para>Typical workflow for many projects will resemble the following:</para>
     <orderedlist>
       <listitem>
         <para>An initial transcription is created, either manually in a text editor, or using OCR or HTR tools like Transkribus. 
@@ -8024,7 +8023,6 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       and optionally select additional information, e.g. to link with an external authority file.</para>
     <section>
       <title>Prerequisites and considerations</title>
-      
       <itemizedlist>
         <listitem>
           <para><emphasis role="bold">Browsers</emphasis></para>
@@ -8040,18 +8038,46 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         You may want to keep an eye on the resulting TEI when testing annotations on your material. We appreciate bug reports and suggestions for improvement.</para>
     </section>
     <section>
-      <title>The Base Text</title>
-      <para>Basically you can use annotations for any kind of inline markup. The only hard requirement is that the <emphasis>base text</emphasis> remains stable during an editing session. The base text represents the established reading of the text at a certain point in time. Annotations are applied on top of it, but they should not change the established reading.</para>
-      <para>The way the annotation editor works is easy to understand if you imagine how you would review a text without using a computer: you print it out, then use a marker to highlight certain passages, write corrections below or over the text with a pen, or scribble notes into the margin. Once you're back at your computer, you copy all the changes and marked passages into the TEI. You may then continue with a second round of review by printing out the result again.</para>
-      <para>Within our electronic environment, the printout corresponds to the base text and the marks and scribbles are annotations. Until you explicitely merge the annotations into the source TEI, they will be kept separate from the document they apply to. Once merged, a new base text is established and the editing process restarts.</para>
-      <para>However, TEI Publisher is able to detect existing markup in the base text when it is loaded. Any markup corresponding to a known annotation type will be displayed as such, and can be modified. In this sense it is slightly different from working with pen and paper.</para>
-      <para>From the printout example it should be clear that you cannot change the print itself (unless you had some magic paper). Accordingly, annotations are not allowed to change the base text, i.e. the text "printed" on the screen. If you want to explicitely indicate a correction, you can use the corr or reg annotation type, corresponding to the TEI elements choice/sic/corr or choice/orig/reg. There's also a special edit annotation, which will change the base text without leaving traces in the TEI. But this as well is only applied when you merge, i.e. establish a new base text.</para>
-      <para>You also cannot modify the structural markup of the base text, i.e. block-level elements like divs, paragraphs, headings or notes. So if you have to apply changes to the structure, you need to merge and save your annotations first, switch to a proper XML editor and change the XML there. You can then reload the new base text into the annotation editor and continue.</para>
-      <para>As already indicated, it is possible to support complex elements like <tag>choice</tag> or <tag>app</tag> as annotations. The contained elements, i.e. <tag>lem</tag>, <tag>rdg</tag>, <tag>sic</tag>, <tag>corr</tag>, <tag>orig</tag>, <tag>reg</tag> or <tag>abbrev</tag> and <tag>expan</tag>, need to have simple content: they cannot be annotated themselves (for now at least).</para>
+      <title>Annotations: the pen and paper of the digital world</title>
+      <para>How the annotation editor works is easy to understand if you imagine reviewing a text the old-fashioned way: print it out, 
+        then use a marker to highlight certain passages, write corrections over the text with a pen, or scribble notes into the margin. 
+        Once back at your computer, all the changes need to be transferred into the TEI. You may then continue with a second round 
+        of review by printing out the results again.</para>
+
+      <para>Within our electronic environment, the printout corresponds to the source TEI document and the marks and scribbles are annotations. 
+        Until you explicitely merge the annotations into the source TEI, they will be kept separate from the document they apply to. Once merged, 
+        a new version of the source TEI document is established and the editing process restarts.</para>
+      <para>Notably, TEI Publisher is able to detect existing markup in the base text when it is loaded. Any markup corresponding to a known annotation 
+        type will be recognized and displayed as such, therefore it can be modified. In this sense it is slightly different from working with pen and paper.</para>
+      <para>From the printout example it should be clear that you cannot change the printed text itself (unless you had some magic paper). Accordingly, 
+        annotations are not allowed to change the base text, i.e. the text "printed" on the screen. If you want to explicitly indicate a correction, 
+        you can use the <emphasis>corr</emphasis> or <emphasis>reg</emphasis> annotation type, which corresponds to the TEI encoding with choice/sic/corr or choice/orig/reg.
+      </para>
+      <para>You can use annotations for virtually any kind of inline markup. The only strict requirement is that the <emphasis>base text</emphasis>, our source document,
+        remains stable <emphasis>during an editing session</emphasis> i.e. until annotations are merged. Reason for that is the annotations are anchored to a 
+        certain position in the document, so any changes to it would mean that our coordinates might suddenly point to different fragments.</para>
+      <para>That said, there's also a special <emphasis>edit</emphasis> annotation type, which will just "seamlessly" change the transcription text fragment 
+        without adding any explicit markup. Nevertheless, such a change to the TEI document is only applied when you merge and therefore 
+        establish a new base text.</para>
+      <para>You also cannot use the annotation editor to modify the structural markup of the base text, i.e. block-level elements like divs, paragraphs, headings or notes. In case you need to change
+        the structure, you have to merge your annotations first, saving a new version of the TEI document and switch to an XML editor to change the XML there. 
+        The new document can be then reloaded into the annotation editor and you can continue.</para>
+      <para>As already indicated, it is possible to handle common nested encoding structures like <tag>choice</tag> or <tag>app</tag> as annotations. 
+        Nevertheless the inner elements, i.e. <tag>lem</tag>, <tag>rdg</tag>, <tag>sic</tag>, <tag>corr</tag> or <tag>orig</tag>, <tag>reg</tag>, need to have 
+        simple text content: they cannot be annotated themselves (at least not in the current version).</para>
     </section>
   <section>
     <title>Applying Annotations</title>
-    <para>To start annotating a document, select or upload one into the annotations collection in TEI Publisher. Selecting any document in this collection will load the annotation view. This view is split into three areas:</para>
+    <para>To start annotating a document, select or upload one into the annotations collection in TEI Publisher.</para>
+    <figure>
+      <title>Annotation playground</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="ann-playground.png" width="900px" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>Selecting any document in this collection will load the annotation view. This view is split into three areas:</para>
     <orderedlist>
       <listitem>
         <para>a sidebar to the left, initially showing only a toolbar with a disabled button for each annotation type</para>
@@ -8063,29 +8089,84 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         <para>a preview panel to the right: this is initially empty, but will come to life once you start making annotations</para>
       </listitem>
     </orderedlist>
-    <para>To annotate a certain passage, select it with your mouse. The toolbar buttons in the left sidebar (1) should now become enabled. Choose an annotation by clicking the corresponding button.</para>
-    <para>Depending on the chosen annotation type, a form will appear beneath the toolbar. We distinguish three categories of annotations:<orderedlist>
+    <figure>
+      <title>Annotation view</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="ann-init.png" width="900px" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>To annotate a certain passage, select it with your mouse. The toolbar buttons in the left sidebar now become active. Choose an annotation 
+      by clicking the corresponding button or using a keyboard shortcut. Hovering over buttons you can see an info text with a brief description 
+      and a keyboard shortut.</para>
+      <figure>
+        <title>Annotation types</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ann-types.png" width="300px" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+    <para>Depending on the chosen annotation type, a form will appear beneath the toolbar. We distinguish three categories of annotations:
+      <orderedlist>
         <listitem>
-          <para>semantic annotations, which are (often) connected to an external authority.</para>
+          <para>semantic annotations, which are (usually) connected to an external authority, e.g. for people, places, organizations or terms.</para>
         </listitem>
         <listitem>
-          <para>toggle annotations, which do not need any additional information, so they simply switch an annotation on/off.</para>
+          <para>"toggle" annotations, which do not need require additional information, so they simply switch an annotation on/off, e.g. for deletions 
+            or titles (not part of the default annotation editor setup).</para>
         </listitem>
         <listitem>
-          <para>analytic or text critical annotations, which may require further input by the user, e.g. a normalized date.</para>
+          <para>analytic or text critical annotations, which may require further input from the user, e.g. a normalized date.</para>
         </listitem>
-      </orderedlist></para>
+      </orderedlist>
+    These categories are not mutually exclusive but may be helpful to explain the main functional differences between the three use scenarios.
+    </para>
     <section>
       <title>Semantic Annotations</title>
-      <para>Semantic annotations include markup for entities like people, places or terms. Most editions will try to link those to a description of the entity, either provided by an external authority or a local TEI file. In any case you want to identify the same entity throughout the edition by using a unique ID.</para>
-    <para>When choosing a semantic annotation from the toolbar, you will thus see a dialog pop up by default. It runs a query against the external authority configured for the annotation type and displays the results for you to choose from.</para>
-    <para>The query sent to the authority at first corresponds to the text selection made. Often this may not find the correct entity, but you can change the query in the input field on top of the dialog and press enter to re-run the search.</para>
-    <para>If you select an authority entry, its ID will be copied into the top input field in the left sidebar and a short description of the entity should appear beneath. The ID will be used as reference in the resulting TEI, i.e. it will appear in either a @ref, @key or @corresp attribute attached to the <tag>persName</tag> or other TEI element. The exact mapping to TEI can be freely configured (see below).</para>
-    <para>Semantic annotations are applied immediately after you select an authority entry, so you don't have to click anywhere else.</para>
-    <para>The left sidebar will also show another section on the bottom, displaying a list of other potential occurrences of the same entity in the current text. The list is compiled by traversing the text shown on screen, searching for other strings which may indicate the same entity. The strings searched for depend on the authority used: e.g. if the authority provides alternative names, those will be added to the search strings.</para>
+      <para>Semantic annotations include markup for entities like people, places or terms. Most editions will try to link those to a description of the entity, either provided by an external authority file or from a local resource. 
+        In any case you will want to reference a unique identifier to mark occurrences of the same entity throughout the edition.</para>
+    <para>When choosing a semantic annotation from the toolbar, you will thus see a dialog which runs a query against the authority 
+      file configured for the annotation type, e.g. Geonames for places or GND for people.
+       </para>
+       <figure>
+        <title>Annotating a person</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ann-person.png" width="800px" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+    <para>The semantic annotation dialog displays the query results for you to choose from and the query sent initially corresponds to 
+      the text selection made. Often this may not find the relevant entity, but you can change the query in the input field on top of the dialog 
+      and run the search again by pressing enter. Compare the screenshots above and below to note the difference when searching for 
+      <emphasis>William</emphasis> vs <emphasis>William Graves</emphasis></para>
+      <figure>
+        <title>Re-running the query</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ann-person2.png" width="800px" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+    <para>When you use the + sign to select an authority entry, its ID will be copied into the top input field in the left sidebar and a short 
+      description of the entity should appear beneath. The ID will be used as reference in the resulting TEI, i.e. it will appear in an attribute 
+      attached to e.g. <tag>persName</tag> or other TEI element. The exact mapping between an annotation type and a TEI snippet produced can be freely configured (see below).</para>
+    <para>Semantic annotations are stored in the annotation list immediately after you select an authority entry, so you don't have to click anywhere else.</para>
+    <para><emphasis role="bold">Batch edits and suggestions</emphasis></para>
+    <para>It is not uncommon that the same person will be mentioned multiple times in a document. To simplify and speed up the editing process, the annotation
+      editor tries to detect possible other occurrences of the currently selected entity throughout the document. A list of potential matches is presented at the 
+    bottom of the left sidebar.</para>
+    <para>The list is compiled by traversing the text shown on screen, searching for strings which may indicate the same entity. The actual query depends on the information provided authority used: e.g. if the authority supplies alternative names, those will be added to the searched for strings.</para>
     <para>Each occurrence will show a checkbox to the left. Checking it will immediately tag the corresponding passage as another instance of the same entity. You can also check all boxes at once by clicking on the icon to the top right above the list.</para>
-    <para>Existing annotations referencing the same entity will also be shown in the list - with their checkbox checked. Sometimes you may also see an entry with red dots beneath, indicating that this is an existing annotation referencing a different entity. For example, if you selected the authority entry for "Ronald Reagan", you may see other occurrences of "Reagan", which have already been annotated as "Nancy Reagan". You will thus see those occurrences underlined with red dots. You can switch them to "Ronald Reagan" by checking their box.</para>
-    <para>Unchecking a box will remove the existing annotation, e.g. if you incorrectly applied one. Moving your mouse over an entry will also scroll the text to the corresponding occurrence, showing you the match in its context.</para></section>
+    <para>Moving your mouse over an entry will scroll the text to the corresponding occurrence, showing you the match in its context.</para>
+    <para>Existing annotations referencing the same entity will also be shown in the list - with their checkbox checked. Sometimes you may also see 
+      an entry with red dots beneath, indicating that this is an existing annotation referencing a different entity, so considered a potential inconsistency to review.
+      For example, if you selected the authority entry for "Ronald Reagan", you may see other occurrences of "Reagan", which have already been annotated as "Nancy Reagan". 
+      You will see those occurrences underlined with red dots. You can switch them to "Ronald Reagan" by checking their box.</para>
+    <para>Unchecking a box will remove the existing annotation, e.g. incorrectly applied one.</para>
+    </section>
     <section>
       <title>Toggle Annotations</title>
       <para>Toggle annotations are immediately applied when you click the annotation button. They are simple on/off switches and do not require any further input.</para>
