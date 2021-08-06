@@ -7992,4 +7992,148 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
     </section>
 
   </section>
+  <section xml:id="web-annotations">
+    <title>Annotating Documents</title>
+    <para>Since version 7.1.0, TEI Publisher supports annotating TEI documents via a web based interface. This means you can enhance existing TEI documents directly within TEI Publisher.</para>
+    <para>The web based annotation editor targets one of the most tedious and time consuming tasks in any edition project: adding semantic, analytic or text-critical annotations. Most projects will use a workflow as follows:</para>
+    <orderedlist>
+      <listitem>
+        <para>a base transcription is created, either manually or using tools like Transkribus. This transcription already contains the basic structural markup, i.e. sections, titles, paragraphs etc.</para>
+      </listitem>
+      <listitem>
+        <para>the base transcription is enriched: people, places or terms appearing in the text are tagged and linked to an authority; dates or measures are normalized; abbreviations expanded, corrections applied.</para>
+      </listitem>
+      <listitem>
+        <para>the resulting TEI is reviewed, which may result in further changes to be made, going back to step 2 in an interative process.</para>
+      </listitem>
+    </orderedlist>
+    <para>Web annotations try to ease the burden of 2 by allowing editors to apply tagging directly within the web environment, where it is much easier to read than in an XML editor. Just highlight the text fragment to annotate with the mouse, click on the annotation type and optionally select an authority entry to link to or enter additional information.</para>
+    <section>
+      <title>Prerequisites</title>
+      <para>The annotation editor requires a modern browser like Firefox, Chrome or a Chrome-based browser like the newest Edge on Windows 10. <emphasis>Safari</emphasis> will not work due to a known bug in text selection, which Apple seems reluctant to fix.</para>
+      <para>One feature: directly exporting the resulting text to a directory of the user's choice, is only supported on Chrome.</para>
+      <para>Annotations have been tested extensively, mainly on modern texts, and should work reliably for tagging entities and other inline markup. For sure there might still be bugs, so please be careful and keep an eye on the resulting TEI.</para>
+      <para>The editor should work fine for texts up to the length of a journal article or chapter. Really long texts (e.g. a whole book) will be automatically split by top divisions, but you may still experience a recognizable time lag for long divisions.</para>
+    </section>
+    <section>
+      <title>The Base Text</title>
+      <para>Basically you can use annotations for any kind of inline markup. The only hard requirement is that the <emphasis>base text</emphasis> remains stable during an editing session. The base text represents the established reading of the text at a certain point in time. Annotations are applied on top of it, but they should not change the established reading.</para>
+      <para>The way the annotation editor works is easy to understand if you imagine how you would review a text without using a computer: you print it out, then use a marker to highlight certain passages, write corrections below or over the text with a pen, or scribble notes into the margin. Once you're back at your computer, you copy all the changes and marked passages into the TEI. You may then continue with a second round of review by printing out the result again.</para>
+      <para>Within our electronic environment, the printout corresponds to the base text and the marks and scribbles are annotations. Until you explicitely merge the annotations into the source TEI, they will be kept separate from the document they apply to. Once merged, a new base text is established and the editing process restarts.</para>
+      <para>However, TEI Publisher is able to detect existing markup in the base text when it is loaded. Any markup corresponding to a known annotation type will be displayed as such, and can be modified. In this sense it is slightly different from working with pen and paper.</para>
+      <para>From the printout example it should be clear that you cannot change the print itself (unless you had some magic paper). Accordingly, annotations are not allowed to change the base text, i.e. the text "printed" on the screen. If you want to explicitely indicate a correction, you can use the corr or reg annotation type, corresponding to the TEI elements choice/sic/corr or choice/orig/reg. There's also a special edit annotation, which will change the base text without leaving traces in the TEI. But this as well is only applied when you merge, i.e. establish a new base text.</para>
+      <para>You also cannot modify the structural markup of the base text, i.e. block-level elements like divs, paragraphs, headings or notes. So if you have to apply changes to the structure, you need to merge and save your annotations first, switch to a proper XML editor and change the XML there. You can then reload the new base text into the annotation editor and continue.</para>
+      <para>As already indicated, it is possible to support complex elements like <tag>choice</tag> or <tag>app</tag> as annotations. The contained elements, i.e. <tag>lem</tag>, <tag>rdg</tag>, <tag>sic</tag>, <tag>corr</tag>, <tag>orig</tag>, <tag>reg</tag> or <tag>abbrev</tag> and <tag>expan</tag>, need to have simple content: they cannot be annotated themselves (for now at least).</para>
+    </section>
+  <section>
+    <title>Applying Annotations</title>
+    <para>To start annotating a document, select or upload one into the annotations collection in TEI Publisher. Selecting any document in this collection will load the annotation view. This view is split into three areas:</para>
+    <orderedlist>
+      <listitem>
+        <para>a sidebar to the left, initially showing only a toolbar with a disabled button for each annotation type</para>
+      </listitem>
+      <listitem>
+        <para>the annotation view in the middle, displaying the text content to be annotated</para>
+      </listitem>
+      <listitem>
+        <para>a preview panel to the right: this is initially empty, but will come to life once you start making annotations</para>
+      </listitem>
+    </orderedlist>
+    <para>To annotate a certain passage, select it with your mouse. The toolbar buttons in the left sidebar (1) should now become enabled. Choose an annotation by clicking the corresponding button.</para>
+    <para>Depending on the chosen annotation type, a form will appear beneath the toolbar. We distinguish three categories of annotations:<orderedlist>
+        <listitem>
+          <para>semantic annotations, which are (often) connected to an external authority.</para>
+        </listitem>
+        <listitem>
+          <para>toggle annotations, which do not need any additional information, so they simply switch an annotation on/off.</para>
+        </listitem>
+        <listitem>
+          <para>analytic or text critical annotations, which may require further input by the user, e.g. a normalized date.</para>
+        </listitem>
+      </orderedlist></para>
+    <section>
+      <title>Semantic Annotations</title>
+      <para>Semantic annotations include markup for entities like people, places or terms. Most editions will try to link those to a description of the entity, either provided by an external authority or a local TEI file. In any case you want to identify the same entity throughout the edition by using a unique ID.</para>
+    <para>When choosing a semantic annotation from the toolbar, you will thus see a dialog pop up by default. It runs a query against the external authority configured for the annotation type and displays the results for you to choose from.</para>
+    <para>The query sent to the authority at first corresponds to the text selection made. Often this may not find the correct entity, but you can change the query in the input field on top of the dialog and press enter to re-run the search.</para>
+    <para>If you select an authority entry, its ID will be copied into the top input field in the left sidebar and a short description of the entity should appear beneath. The ID will be used as reference in the resulting TEI, i.e. it will appear in either a @ref, @key or @corresp attribute attached to the <tag>persName</tag> or other TEI element. The exact mapping to TEI can be freely configured (see below).</para>
+    <para>Semantic annotations are applied immediately after you select an authority entry, so you don't have to click anywhere else.</para>
+    <para>The left sidebar will also show another section on the bottom, displaying a list of other potential occurrences of the same entity in the current text. The list is compiled by traversing the text shown on screen, searching for other strings which may indicate the same entity. The strings searched for depend on the authority used: e.g. if the authority provides alternative names, those will be added to the search strings.</para>
+    <para>Each occurrence will show a checkbox to the left. Checking it will immediately tag the corresponding passage as another instance of the same entity. You can also check all boxes at once by clicking on the icon to the top right above the list.</para>
+    <para>Existing annotations referencing the same entity will also be shown in the list - with their checkbox checked. Sometimes you may also see an entry with red dots beneath, indicating that this is an existing annotation referencing a different entity. For example, if you selected the authority entry for "Ronald Reagan", you may see other occurrences of "Reagan", which have already been annotated as "Nancy Reagan". You will thus see those occurrences underlined with red dots. You can switch them to "Ronald Reagan" by checking their box.</para>
+    <para>Unchecking a box will remove the existing annotation, e.g. if you incorrectly applied one. Moving your mouse over an entry will also scroll the text to the corresponding occurrence, showing you the match in its context.</para></section>
+    <section>
+      <title>Toggle Annotations</title>
+      <para>Toggle annotations are immediately applied when you click the annotation button. They are simple on/off switches and do not require any further input.</para>
+    </section>
+    <section>
+      <title>Analytic and Text Critical Annotations</title>
+      <para>Those include annotations like the ones for applying a <tag>date</tag>, <tag>hi</tag> or <tag>ref</tag>, but also <tag>abbr</tag>/<tag>expan</tag>, <tag>sic</tag>/<tag>corr</tag>, <tag>orig</tag>/<tag>reg</tag> or <tag>lem</tag>/<tag>rdg</tag>. Those annotation types are not connected to an external authority, but they may require further input to be made by the user. Therefore an input form will be shown into which you can enter the required or optional information. The exact contents of the form depend on the annotation type.</para>
+      <para>To actually apply the annotation, you must click on the save button beneath the form.</para>
+    </section>
+  </section>
+  <section>
+    <title>Modifying Annotations</title>
+    <para>The annotation view shows a colored line beneath the text spanned by each annotation. You can select text within an existing or across multiple annotations and apply another annotation to it, thus resulting in <emphasis>nested annotations</emphasis>. However, the editor will ensure that you do not select partial elements, for example, a range of text followed by half of a <tag>placeName</tag>. This would result in invalid XML, so the editor will automatically expand your selection to include the entire <tag>placeName</tag>.</para>
+      <para>To the right of the annotated text, a colored box indicates the type of the annotation. The sequence of boxes also indicates how annotations are nested: the once appearing more to the left are inside those to the right.</para>
+    <para>Click on the colored box to see details about the annotation. For semantic annotations, the details will include a summary of the entity drawn from the connected authority or the local TEI register. For analytic and text critical annotations, a table is shown, listing the corresponding attributes associated with the annotation.</para>
+    <para>The toolbar at the bottom of the popup allows to delete or modify the annotation. Clicking the delete button will immediately (!) remove the annotation, leaving just the contained text.</para>
+    <para>Clicking on the pen icon will open the annotation in the left sidebar, where you can change it. For semantic annotations, the authority lookup dialog will pop up automatically and you can change the connected authority entry by selecting a different one.</para>
+    <para>Again, semantic annotations are applied immediately, while analytic and text critical annotations require a click on the save button after making modifications.</para>
+  </section>
+  <section>
+    <title>The Preview Pane</title>
+    <para>Whenever you add, remove or edit an annotation, the preview pane to the right will show you an updated preview of your changes. It shows<orderedlist>
+        <listitem>
+          <para>the resulting HTML, i.e. how your document would display in TEI Publisher if the annotations were merged, rendered through the ODD associated with the document</para>
+        </listitem>
+        <listitem>
+          <para>the TEI of the entire document if annotations were merged</para>
+        </listitem>
+        <listitem>
+          <para>the internal JSON structure representing the annotations (for debugging purposes)</para>
+        </listitem>
+        <listitem>
+          <para>the TEI fragments which would be changed if annotations were merged</para>
+        </listitem>
+      </orderedlist></para>
+    <para>The preview does not actually change the TEI source document: it just applies the annotations in memory, leaving the source untouched. It allows you though to check if annotations will be applied in the correct way.</para>
+    <para>Both, the annotation text view in the middle and the preview HTML panel in the right pane render the document through ODD. However, they use different ODDs: the annotation view renders the text through a specialized ODD (annotations.odd) because we need to make sure that all relevant bits of the base text are displayed and there's no hidden information, which would be inaccessible to the editor. Contrary to this, the preview HTML panel is based on the ODD associated with the document (or the base teipublisher.odd otherwise).</para>
+  </section>
+  <section>
+    <title>Merge, Export and Undo</title>
+    <para>The toolbar on top of the preview pane provides important actions:<variablelist>
+        <varlistentry>
+          <term>Reload source TEI</term>
+          <listitem>
+            <para>This will reload the source TEI XML into the annotation view, discarding any existing annotations. Use this if you had to change the TEI in an external editor and want to continue annotating.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Merge and save annotations to TEI</term>
+          <listitem>
+            <para>Finally merges the current set of annotations into the TEI document and saves it, thus establishing a new base text. The annotation view will be reloaded to reflect the new base text.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Save merged TEI to local file</term>
+          <listitem>
+            <para>(Chrome only) As above, merges and saves the annotations, but additionally prompts for a local file into which a copy of the resulting TEI will be written.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Undo last change</term>
+          <listitem>
+            <para>Reverts the last action applied. For batch operations (if you clicked the "apply all" button above the occurrences list) this may comprise multiple annotations. Again the annotation view is being reloaded and the remaining annotations are re-applied.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Preview merge results</term>
+          <listitem>
+            <para>Forces the preview pane to refresh.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist></para>
+  </section>
+  </section>
 </article>
