@@ -8346,7 +8346,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Custom" name="person">
     &lt;pb-authority connector="GND" prefix="gnd">&lt;/pb-authority>
 &lt;/pb-authority></programlisting>
-        <para>This defines a custom connector for the annotation type 'person', delegating queries to the GND connector, but also maintaining a local registry.</para>
+        <para>This defines a custom connector for the annotation type 'person', delegating queries to the GND connector, but also maintaining a local registry. By default the local registry is written into a TEI document residing in <filename>data/registry.xml</filename>. You can change the location by modifying the variable <varname>$anno:local-authority-file</varname> in the annotation configuration, <filename>modules/annotation-config.xqm</filename>. You can also change the function <function>anno:insert-point</function> to configure where exactly the local entity definitions will be stored.</para> 
       </section>
     </section>
   </section>
