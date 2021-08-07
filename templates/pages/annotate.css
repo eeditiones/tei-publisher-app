@@ -50,6 +50,13 @@ pb-authority-lookup::part(output) {
     flex-direction: column;
 }
 
+.preview header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--pb-color-inverse);
+}
+
 pb-tabs {
     --paper-tabs-selection-bar-color: #607D8B;
     height: calc(100% - 40px);

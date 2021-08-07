@@ -597,6 +597,10 @@ window.addEventListener("WebComponentsReady", () => {
 		}
 	});
 
-	// const clearAll = document.getElementById("clear-all");
-	// clearAll.addEventListener("click", () => window.pbEvents.emit("pb-refresh", "transcription"));
+	// wire the ODD selector for the preview
+	const oddSelector = document.querySelector('pb-select-odd');
+	oddSelector.odd = doc.odd;
+	window.pbEvents.subscribe('pb-refresh', 'preview', (ev) => {
+		doc.odd = ev.detail.odd;
+	});
 });
