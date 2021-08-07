@@ -242,10 +242,14 @@ window.addEventListener("WebComponentsReady", () => {
 			});
 			activeSpan = null;
 		} else {
-			view.addAnnotation({
-				type,
-				properties: data,
-			});
+			try {
+				view.addAnnotation({
+					type,
+					properties: data,
+				});
+			} catch (e) {
+				document.getElementById('runtime-error-dialog').show('Error', e);
+			}
 		}
 	}
 
