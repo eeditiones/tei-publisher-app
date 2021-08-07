@@ -225,6 +225,11 @@ declare %private function anno:delete($nodes as node()*, $target as node()) {
                         $node/@*,
                         anno:delete($node/node(), $target)
                     }
+                else if ($node is $target) then
+                    element exist:delete {
+                        $node/@*,
+                        anno:delete($node/node(), $target)
+                    }
                 else
                     element { node-name($node) } {
                         $node/@*,
@@ -281,6 +286,16 @@ declare %private function anno:modify($nodes as node()*, $target as node(), $ann
                     element { node-name($node) } {
                         $node/@*,
                         text { $annotation?properties(local-name($node)) }
+                    }
+                else if ($node is $target) then
+                    element { node-name($node) } {
+                        map:for-each($annotation?properties, function($key, $value) {
+                            if ($value != '') then
+                                attribute { $key } { $value }
+                            else
+                                ()
+                        }),
+                        anno:modify($node/node(), $target, $annotation)
                     }
                 else
                     element { node-name($node) } {
