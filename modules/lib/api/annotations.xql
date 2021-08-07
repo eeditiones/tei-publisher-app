@@ -135,6 +135,8 @@ declare %private function anno:strip-exist-id($nodes as node()*) {
                 document {
                     anno:strip-exist-id($node/node())
                 }
+            case element(exist:delete) return
+                anno:strip-exist-id($node/node())
             case element() return
                 element { node-name($node) } {
                     $node/@* except $node/@exist:*,
@@ -153,11 +155,14 @@ declare %private function anno:merge($nodes as node()*, $elements as map(*)) {
             case element() return
                 let $replacement := if ($node/@exist:id) then $elements($node/@exist:id) else ()
                 return
-                    if ($replacement) then 
-                        element { node-name($replacement) } {
-                            $replacement/@*,
+                    if ($replacement) then
+                        if ($node instance of element(exist:delete)) then
                             anno:merge($replacement/node(), $elements)
-                        }
+                        else
+                            element { node-name($replacement) } {
+                                $replacement/@*,
+                                anno:merge($replacement/node(), $elements)
+                            }
                     else
                         element { node-name($node) } {
                             $node/@*,
@@ -196,9 +201,12 @@ declare %private function anno:delete($nodes as node()*, $target as node()) {
     return
         typeswitch($node)
             case element(tei:lem) return
-                if ($target is $node/..) then (
-                    anno:delete($node/node(), $target)
-                ) else
+                if ($target is $node/..) then
+                    element exist:delete {
+                        $node/@*,
+                        anno:delete($node/node(), $target)
+                    }
+                else
                     element { node-name($node) } {
                         $node/@*,
                         anno:delete($node/node(), $target)
@@ -212,9 +220,12 @@ declare %private function anno:delete($nodes as node()*, $target as node()) {
                         anno:delete($node/node(), $target)
                     }
             case element(tei:sic) | element(tei:abbr) | element(tei:orig) return
-                if ($target instance of element(tei:choice) and $target is $node/..) then (
-                    anno:delete($node/node(), $target)
-                ) else
+                if ($target instance of element(tei:choice) and $target is $node/..) then
+                    element exist:delete {
+                        $node/@*,
+                        anno:delete($node/node(), $target)
+                    }
+                else
                     element { node-name($node) } {
                         $node/@*,
                         anno:delete($node/node(), $target)
@@ -229,7 +240,10 @@ declare %private function anno:delete($nodes as node()*, $target as node()) {
                     }
             case element() return
                 if ($node is $target) then
-                    anno:delete($node/node(), $target)
+                    element exist:delete {
+                        $node/@*,
+                        anno:delete($node/node(), $target)
+                    }
                 else
                     element { node-name($node) } {
                         $node/@*,
