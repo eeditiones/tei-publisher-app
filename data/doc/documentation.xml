@@ -8509,7 +8509,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         <varlistentry>
           <term>class</term>
           <listitem>
-            <para>must at least contain <option>annotation-action</option>. The <option>toggle</option> indicates that this is a toggling annotation, which just switches between on and off and does not need further input.</para>
+            <para>must at least contain <option>annotation-action</option>. The <option>toggle</option> indicates that this is a toggling annotation, which just switches between on and off and does not need further input. For semantic annotations you can also add <option>authority</option>, which would trigger the authority lookup.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -8563,7 +8563,9 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <para>As a general guideline, the ODD rules for annotations should produce simple inline tags. They should output the content of the element without any modification. They may use <tag>outputRendition</tag> to change the appearance or supply other parameters (than <option>content</option>).</para>
       <para>After saving the ODD, reloading the annotation editor should properly display the <tag>foreign</tag> as an annotation and we can start using our new annotation type.</para>
       <para>However, we may not be entirely happy with the simple on/off toggle: it would be much better if we could also indicate the used language in <tag>foreign</tag>. This means we have to change our annotation from a mere toggle into one which can take an additional parameter:</para>
-      <para>To achieve this, go back to <filename>templates/pages/annotate.html</filename> and remove the <option>toggle</option>class from the <tag>paper-icon-button</tag>. We would also like to provide an input field into which the user can enter the language. Scroll down to where the <tag>form</tag> is defined and add another input on top:</para>
+      <para>To achieve this, go back to <filename>templates/pages/annotate.html</filename> and remove the <option>toggle</option> class from the <tag>paper-icon-button</tag>:</para>
+      <programlisting>&lt;paper-icon-button class="annotation-action" title="Foreign" data-type="foreign" icon="icons:language" data-shortcut="⌘+⇧+b,ctrl+⇧+b" disabled="disabled">&lt;/paper-icon-button></programlisting>
+      <para>We would also like to provide an input field into which the user can enter the language. Scroll down to where the <tag>form</tag> is defined and add another input on top:</para>
       <programlisting>&lt;iron-form id="edit-form">
     &lt;form action="">
         &lt;paper-input class="annotation-form foreign" name="lang" label="Language">&lt;/paper-input>
