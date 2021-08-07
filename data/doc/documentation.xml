@@ -8478,5 +8478,108 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         <para>This defines a custom connector for the annotation type 'person', delegating queries to the GND connector, but also maintaining a local registry. By default the local registry is written into a TEI document residing in <filename>data/registry.xml</filename>. You can change the location by modifying the variable <varname>$anno:local-authority-file</varname> in the annotation configuration, <filename>modules/annotation-config.xqm</filename>. You can also change the function <function>anno:insert-point</function> to configure where exactly the local entity definitions will be stored.</para> 
       </section>
     </section>
+    <section>
+      <title>Configuring Annotations</title>
+      <para>Adding new annotations or modifying existing ones involves the following three files within TEI Publisher or generated apps:</para>
+      <variablelist>
+        <varlistentry>
+          <term><filename>templates/pages/annotate.html</filename></term>
+          <listitem>
+            <para>The HTML page for the annotation editor</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><filename>modules/annotation-config.xqm</filename></term>
+          <listitem>
+            <para>Defines how annotations are mapped to TEI</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><filename>odd/annotations.odd</filename></term>
+          <listitem>
+            <para>The ODD used to render the annotation text view. In generated apps this will live in <filename>resources/odd/annotations.odd</filename>.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <para>Let's assume we would like to support an annotation to tag foreign language passages with TEI element <tag>foreign</tag>:</para>
+      <para>First, open <filename>templates/pages/annotate.html</filename> in eXide and locate the <tag>div</tag> with class <option>toolbar</option>. This contains a list of <tag>paper-icon-button</tag> elements. Like many elements in TEI Publisher, <tag>paper-icon-button</tag> is a webcomponent from the polymer library, which renders a button compliant with Google's material design. You could use any other button-type element here, but for consistency, let's stick with <tag>paper-icon-button</tag>. We define our new button like this:</para>
+      <programlisting>&lt;paper-icon-button class="annotation-action toggle" title="Foreign" data-type="foreign" icon="icons:language" data-shortcut="⌘+⇧+b,ctrl+⇧+b" disabled="disabled">&lt;/paper-icon-button></programlisting>
+      <para>Make sure to include all the attributes shown:</para>
+      <variablelist>
+        <varlistentry>
+          <term>class</term>
+          <listitem>
+            <para>must at least contain <option>annotation-action</option>. The <option>toggle</option> indicates that this is a toggling annotation, which just switches between on and off and does not need further input.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>title</term>
+          <listitem>
+            <para>a label to be shown when the mouse is moved over the button.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>data-type</term>
+          <listitem>
+            <para>indicates the annotation type.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>icon</term>
+          <listitem>
+            <para>the <link
+                xlink:href="http://kevingleason.me/Polymer-Todo/bower_components/iron-icons/demo/index.html"
+                >material design icon</link> to use</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>data-shortcut</term>
+          <listitem>
+            <para>an optional keyboard shortcut: here we use command-shift-b for Mac and ctrl-shift-b on windows</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>disabled</term>
+          <listitem>
+            <para>initially disables the button</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <para>If you reload the annotation editor in the browser, you should now see your new button. However, TEI Publisher does not yet know how to translate the new annotation into actual TEI markup. To fix this, open <filename>modules/annotation-config.xqm</filename> and search for the function <function>anno:annotations</function>. This is a long switch statement with cases corresponding to the different annotation types. Add a new case to the top:</para>
+      <programlisting>declare function anno:annotations($type as xs:string, $properties as map(*), $content as function(*)) {
+    switch ($type)
+        case "foreign" return
+            &lt;foreign xmlns="http://www.tei-c.org/ns/1.0">{$content()}&lt;/foreign>
+    ...
+};</programlisting>
+      <para>This will simply wrap a <tag>foreign</tag> tag around the existing content. Note that <parameter>$content</parameter> is passed in as a function pointer, so it is important to call it as <code>$content()</code>. Also note how we need to declare the TEI namespace. Without this namespace declaration, the element would not be recognized as TEI.</para>
+      <para>Now we can try our new annotation: select some passage, click on the button and see how the text is marked as annotation. The color is chosen automatically. You can also check in the TEI preview pane that the annotation is correctly output as a TEI <tag>foreign</tag> element.</para>
+      <para>However, if you save the annotations, you'll notice that - once the annotation view refreshes - the foreign text is rendered in italics, but not marked as an annotation! To fix this, we need to modify the ODD used for rendering the annotation view.</para>
+      <para>Open <filename>odd/annotations.odd</filename> (named "Annotations"), either in eXide or the ODD editor. Add an <tag>elementSpec</tag> for element <tag>foreign</tag> with an inline model and a <option>cssClass</option> containing <code>annotation annotation-foreign</code>.</para>
+      <programlisting>&lt;elementSpec ident="foreign" mode="change">
+    &lt;model behaviour="inline" cssClass="annotation annotation-foreign"/>
+&lt;/elementSpec></programlisting>
+      <para>If you like, you can also keep the <tag>outputRendition</tag>, which renders the text in italic. Key is that you declare the two CSS classes, because those will tell TEI Publisher that the element should be treated as an annotation.</para>
+      <para>As a general guideline, the ODD rules for annotations should produce simple inline tags. They should output the content of the element without any modification. They may use <tag>outputRendition</tag> to change the appearance or supply other parameters (than <option>content</option>).</para>
+      <para>After saving the ODD, reloading the annotation editor should properly display the <tag>foreign</tag> as an annotation and we can start using our new annotation type.</para>
+      <para>However, we may not be entirely happy with the simple on/off toggle: it would be much better if we could also indicate the used language in <tag>foreign</tag>. This means we have to change our annotation from a mere toggle into one which can take an additional parameter:</para>
+      <para>To achieve this, go back to <filename>templates/pages/annotate.html</filename> and remove the <option>toggle</option>class from the <tag>paper-icon-button</tag>. We would also like to provide an input field into which the user can enter the language. Scroll down to where the <tag>form</tag> is defined and add another input on top:</para>
+      <programlisting>&lt;iron-form id="edit-form">
+    &lt;form action="">
+        &lt;paper-input class="annotation-form foreign" name="lang" label="Language">&lt;/paper-input>
+    ...
+&lt;/iron-form></programlisting>
+      <para>Again we're using a webcomponent for the input to get the material design look and feel. Important is the class, which should always contain <option>annotation-form</option>, followed by the annotation type: <option>foreign</option>. The name is arbitrary, but should be unique and we need to remember it for later. The label should contain a short title, which will be shown next to the input.</para>
+      <para>Finally, we need to change our rule in <filename>modules/annotation-config.xqm</filename> to add the new parameter to the generated <tag>foreign</tag> element. Navigate to the file and change the <function>anno:annotations</function> function as follows:</para>
+      <programlisting>declare function anno:annotations($type as xs:string, $properties as map(*), $content as function(*)) {
+    switch ($type)
+        case "foreign" return
+            &lt;foreign xmlns="http://www.tei-c.org/ns/1.0" xml:lang="{$properties?lang}">{$content()}&lt;/foreign>
+    ...
+};</programlisting>
+      <para>The function receives all the parameters entered into the form fields in the <varname>$properties</varname> map. In the form we used <code>name="lang"</code>, so the corresponding value is retrieved from the map with <code>$properties?lang</code>.</para>
+      <para>That's all. You should now be able to modify your existing foreign annotation, enter a language and see how it is output into TEI.</para>
+      
+    </section>
   </section>
 </article>
