@@ -216,10 +216,17 @@ window.addEventListener("WebComponentsReady", () => {
 				span.innerHTML = o.kwic;
 				li.appendChild(span);
 				occurrences.appendChild(li);
-				li.addEventListener("mouseenter", () => {
+
+				const mark = span.querySelector('mark');
+				let scrollTop;
+				mark.addEventListener("mouseenter", () => {
+					scrollTop = view.scrollTop;
 					view.scrollTo(o);
 				});
-				li.addEventListener("mouseleave", () => view.hideMarker());
+				mark.addEventListener("mouseleave", () => {
+					view.scrollTop = scrollTop;
+					view.hideMarker();
+				});
 			});
 		} catch (e) {
 			console.error(e);

@@ -3,7 +3,7 @@ main {
     grid-template-columns: 280px 1fr 30%;
     grid-template-rows: 100%;
     gap: 0 10px;
-    height: calc(100vh - 132px);
+    height: calc(100vh - 150px);
     --pb-popover-min-width: 20vw;
     --pb-popover-max-width: 360px;
 }
@@ -63,7 +63,7 @@ pb-tabs {
 }
 
 pb-tabs::part(pages) {
-    height: calc(100% - 48px);
+    height: calc(100% - 62px);
 }
 
 pb-tabs [slot="page"] {
@@ -127,11 +127,15 @@ pb-tabs pre {
 }
 
 #occurrences li {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 }
 
 #occurrences .id-warning {
     border-bottom: 1px dotted #ff3333;
+}
+
+#occurrences mark {
+    padding: 2px 4px;
 }
 
 .toc-toggle {
