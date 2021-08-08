@@ -31,6 +31,7 @@ import module namespace templates="http://exist-db.org/xquery/html-templating";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
+import module namespace lib="http://exist-db.org/xquery/html-templating/lib";
 
 declare variable $pages:EXIDE :=
     let $pkg := collection(repo:get-root())//expath:package[@name = "http://exist-db.org/apps/eXide"]
@@ -42,6 +43,13 @@ declare variable $pages:EXIDE :=
     let $path := string-join((request:get-context-path(), request:get-attribute("$exist:prefix"), $appLink, "index.html"), "/")
     return
         replace($path, "/+", "/");
+
+(:~
+ : Needed for backwards compatibility with TEI Publisher 7.0
+ :)
+declare function pages:parse-params($node as node(), $model as map(*)) {
+    lib:parse-params($node, $model, "\$\{", "\}")
+};
 
 declare function pages:pb-document($node as node(), $model as map(*)) {
     let $odd := ($node/@odd, $model?odd)[1]
