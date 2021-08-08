@@ -5777,6 +5777,9 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
             <para>Copy <filename>odd/annotations.odd</filename> to <filename>resources/odd</filename> in the generated app.</para>
           </step>
           <step>
+            <para>Copy <filename>modules/annotation-config.xqm</filename></para>
+          </step>
+          <step>
             <para>Copy <filename>templates/pages/annotate.html</filename> and <filename>templates/pages/annotate.css</filename> to the corresponding folders.</para>
           </step>
           <step>
