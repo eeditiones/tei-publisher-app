@@ -79,7 +79,7 @@ declare function local:generate-code($collection as xs:string) {
         "transform",
         (:    $config as element(modules)?    :)
         doc($collection || "/resources/odd/configuration.xml")/*,
-        if ($module = "web") then $config:annotation-support else false())
+        $module = "web")
     return
         (),
     let $permissions := $repoxml//repo:permissions[1]

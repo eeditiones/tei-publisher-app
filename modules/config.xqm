@@ -45,7 +45,7 @@ declare variable $config:origin-whitelist := (
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port 
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "1.24.9";
+declare variable $config:webcomponents := "1.24.12";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
@@ -131,11 +131,6 @@ declare variable $config:facets := [
         }
     }
 ];
-
-(:
- : Enable support for annotating texts within the application.
- :)
-declare variable $config:annotation-support := true();
 
 (:
  : The function to be called to determine the next content chunk to display.

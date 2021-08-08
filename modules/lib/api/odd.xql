@@ -74,7 +74,7 @@ declare function oapi:recompile($request as map(*)) {
                     $module,
                     $outputPrefix,
                     $oddConfig,
-                    if ($module = "web") then $config:annotation-support else false())
+                    $module = "web")
                 let $file := $output?module
                 return
                     if ($output?error) then
@@ -243,7 +243,7 @@ declare %private function oapi:compile($odd) {
             $module,
             $config:output,
             $config:module-config,
-            if ($module = "web") then $config:annotation-support else false()
+            $module = "web"
         )
     return
         ()
