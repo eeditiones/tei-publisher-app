@@ -218,13 +218,10 @@ window.addEventListener("WebComponentsReady", () => {
 				occurrences.appendChild(li);
 
 				const mark = span.querySelector('mark');
-				let scrollTop;
 				mark.addEventListener("mouseenter", () => {
-					scrollTop = view.scrollTop;
 					view.scrollTo(o);
 				});
 				mark.addEventListener("mouseleave", () => {
-					view.scrollTop = scrollTop;
 					view.hideMarker();
 				});
 			});
