@@ -5771,7 +5771,7 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
       </procedure>
       <section>
         <title>Extra Steps for TEI Publisher 7.1</title>
-        <para>The new annotation editor in TEI Publisher 7.1 requires an extra variable and a bunch of files to be copied:</para>
+        <para>The new annotation editor in TEI Publisher 7.1 requires a bunch of files to be copied:</para>
         <procedure>
           <step>
             <para>Copy <filename>odd/annotations.odd</filename> to <filename>resources/odd</filename> in the generated app.</para>
@@ -8615,6 +8615,45 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <para>The function receives all the parameters entered into the form fields in the <varname>$properties</varname> map. In the form we used <code>name="lang"</code>, so the corresponding value is retrieved from the map with <code>$properties?lang</code>.</para>
       <para>That's all. You should now be able to modify your existing foreign annotation, enter a language and see how it is output into TEI.</para>
       
+    </section>
+    <section>
+      <title>Other Considerations</title>
+      <para>Web annotations require a clear mapping between the HTML view of the text in the browser and the TEI document in the database. It is thus important to respect the following restrictions:</para>
+      <orderedlist>
+        <listitem>
+          <para>TEI Publisher's page-by-page display of a text will not work in the annotation editor</para>
+        </listitem>
+        <listitem>
+          <para>Likewise, the <option>fill</option> parameter, which causes TEI Publisher to fill up short fragments with content from nested divs, should be set to 0 for annotation purposes.</para>
+        </listitem>
+        <listitem>
+          <para>The annotation editor can operate on documents with multiple division and will show them one after the other. However, those need to be top-level divisions. Therefore the <option>depth</option> parameter should be set to 1.</para>
+        </listitem>
+      </orderedlist>
+      <para>To ensure this, TEI Publisher sets the following configuration for the annotate collection in <filename>config.xqm</filename>:</para>
+      <programlisting language="xquery">declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
+    switch ($collection)
+        (: For annotations we need to overwrite document-specific settings :)
+        case "annotate" return
+            map {
+                "template": "annotate.html",
+                "overwrite": true(),
+                "depth": 1,
+                "fill": 0
+            }
+        default return
+            (: Return empty sequence to use default config :)
+            ()
+};</programlisting>
+      <para>Generated applications should choose similar settings. If you create a separate app just for annotations, the following function would suffice to impose the right settings for all documents:</para>
+      <programlisting>declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
+    map {
+        "template": "annotate.html",
+        "overwrite": true(),
+        "depth": 1,
+        "fill": 0
+    }
+};</programlisting>
     </section>
   </section>
 </article>

@@ -411,6 +411,7 @@ declare variable $config:dts-import-collection := $config:data-default || "/play
  :)
 declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
     switch ($collection)
+        (: For annotations we need to overwrite document-specific settings :)
         case "annotate" return
             map {
                 "template": "annotate.html",
