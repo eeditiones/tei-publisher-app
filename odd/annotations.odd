@@ -75,7 +75,7 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="orgName" mode="add">
-                    <model behaviour="inline" cssClass="annotation annotation-organisation"/>
+                    <model behaviour="inline" cssClass="annotation annotation-organization"/>
                 </elementSpec>
                 <elementSpec ident="place" mode="add">
                     <modelSequence>

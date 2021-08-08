@@ -37,7 +37,7 @@
                             <div class="toolbar">
                                 <!--paper-icon-button id="clear-all" icon="icons:refresh"></paper-icon-button-->
                                 <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.person" title="Person" data-type="person" data-shortcut="⌘+⇧+p,ctrl+⇧+p" icon="social:person" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.organisation" title="Organisation" data-type="organisation" data-shortcut="⌘+⇧+o,ctrl+⇧+o" icon="social:people" disabled="disabled"></paper-icon-button>
+                                <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.organization" title="organization" data-type="organization" data-shortcut="⌘+⇧+o,ctrl+⇧+o" icon="social:people" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.place" title="Place" data-type="place" icon="maps:place" data-shortcut="⌘+⇧+q,ctrl+⇧+q" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action authority" data-i18n="[title]annotations.term" title="Term" data-type="term" icon="icons:bookmark" data-shortcut="⌘+⇧+t,ctrl+⇧+t" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action" data-i18n="[title]annotations.date" title="Date" data-type="date" icon="icons:today" data-shortcut="⌘+⇧+d,ctrl+⇧+d" disabled="disabled"></paper-icon-button>
@@ -51,7 +51,7 @@
                             </div>
                             <iron-form id="edit-form">
                                 <form action="">
-                                    <div class="annotation-form person organisation place term">
+                                    <div class="annotation-form person organization place term">
                                         <paper-input id="form-ref" name="ref" data-i18n="[label]annotations.reference" label="Reference">
                                             <paper-icon-button slot="prefix" icon="search" data-i18n="[label]annotations.lookup"></paper-icon-button>
                                         </paper-input>
@@ -128,7 +128,7 @@
             <paper-dialog id="authority-dialog">
                 <paper-dialog-scrollable>
                     <pb-authority-lookup subscribe="transcription" emit="transcription">
-                        <pb-authority connector="Custom" name="organisation">
+                        <pb-authority connector="Custom" name="organization">
                             <pb-authority connector="GND" prefix="gnd"></pb-authority>
                         </pb-authority>
                         <!--pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority-->

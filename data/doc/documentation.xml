@@ -8084,7 +8084,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         you can use the <emphasis>corr</emphasis> or <emphasis>reg</emphasis> annotation type, which corresponds to the TEI encoding with choice/sic/corr or choice/orig/reg.
       </para>
       <para>You can use annotations for virtually any kind of inline markup. The only strict requirement is that the <emphasis>base text</emphasis>, our source document,
-        remains stable <emphasis>during an editing session</emphasis> i.e. until annotations are merged. Reason for that is the annotations are anchored to a 
+        remains stable <emphasis>during an editing session</emphasis> i.e. until annotations are merged. The reason for that is the annotations are anchored to a 
         certain position in the document, so any changes to it would mean that our coordinates might suddenly point to different fragments.</para>
       <para>That said, there's also a special <emphasis>edit</emphasis> annotation type, which will just "seamlessly" change the transcription text fragment 
         without adding any explicit markup. Nevertheless, such a change to the TEI document is only applied when you merge and therefore 
@@ -8210,7 +8210,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <para>Toggle annotations are immediately applied when you click the annotation button. Since they do not require any further input they are just simply applied without much ado.
         Some good candidates might be titles or deletions.
       </para>
-      <para>It is worth noting that it's not a textual fenomenon that constitutes a <emphasis>toggle</emphasis> annotation 
+      <para>It is worth noting that it's not a textual phenomenon that constitutes a <emphasis>toggle</emphasis> annotation 
         versus <emphasis>semantic</emphasis> or <emphasis>analytic</emphasis> in our simple category scheme. It is rather what kinds of detail a particular project
         decides to encode or not. Encoding of titles can be a <emphasis>toggle</emphasis> if we just decide to simply say that a text fragment is a title. It could become a
         <emphasis>semantic</emphasis> annotation if we'd like to associate it with a bibliographical reference or other detailed information.
@@ -8347,7 +8347,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <listitem>
               <para><link xlink:href="https://gnd.network/">Gemeinsame Normdatei</link> via <link
                   xlink:href="http://lobid.org/"
-                >lobid.org</link> - for people, organisations and terms</para>
+                >lobid.org</link> - for people, organizations and terms</para>
             </listitem>
           </varlistentry>
           <varlistentry>
@@ -8368,7 +8368,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <listitem>
               <para><link
                   xlink:href="https://theologie.unibas.ch/de/karl-barth-zentrum/gesamtausgabe/"
-                  >Karl Barth Gesamtausgabe</link> - for people, organisations, terms, abbreviations</para>
+                  >Karl Barth Gesamtausgabe</link> - for people, organizations, terms, abbreviations</para>
             </listitem>
           </varlistentry>
           <varlistentry>
@@ -8381,7 +8381,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <para>Which authority is used for which annotation type can be configured in the HTML template defining the user interface of the annotations editor. It resides in the file <filename>templates/pages/annotate.html</filename> and can be changed in eXide (or any editor of your choice). A simple configuration looks as follows:</para>
       <programlisting language="xml" xml:space="preserve"><![CDATA[
 <pb-authority-lookup subscribe="transcription" emit="transcription">
-    <pb-authority connector="GND" name="organisation" prefix="gnd"></pb-authority>
+    <pb-authority connector="GND" name="organization" prefix="gnd"></pb-authority>
     <pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority>
     <pb-authority connector="GND" name="term" prefix="gnd"></pb-authority>
     <pb-authority connector="GND" name="person" prefix="gnd"></pb-authority>
