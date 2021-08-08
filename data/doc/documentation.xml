@@ -8335,6 +8335,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           <para>how annotations are mapped to TEI elements</para>
         </listitem>
       </orderedlist></para>
+    <para>If you would like to customize the editor for your own needs, we recommend to generate a <emphasis>separate application just for annotation purposes</emphasis>. This makes it easier to configure and you maintain a clear separation between data which is still being worked on and the final edition you want to show to users.</para>
     <section>
       <title>Configuring Authorities</title>
       <para>In its current state, TEI Publisher supports the following external authorities for entity lookup:<variablelist>
@@ -8646,7 +8647,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             ()
 };</programlisting>
       <para>Generated applications should choose similar settings. If you create a separate app just for annotations, the following function would suffice to impose the right settings for all documents:</para>
-      <programlisting>declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
+      <programlisting language="xquery">declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
     map {
         "template": "annotate.html",
         "overwrite": true(),
