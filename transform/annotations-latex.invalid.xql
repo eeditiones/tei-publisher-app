@@ -555,7 +555,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(term) return
                         latex:inline($config, ., ("tei-term", "annotation", "annotation-term", "term", css:map-rend-to-class(.)), .)
                     case element(orgName) return
-                        latex:inline($config, ., ("tei-orgName", "annotation", "annotation-organisation", "organisation", css:map-rend-to-class(.)), .)
+                        latex:inline($config, ., ("tei-orgName", "annotation", "annotation-organization", "organization", css:map-rend-to-class(.)), .)
                     case element(place) return
                         (
                             latex:heading($config, ., ("tei-place1", css:map-rend-to-class(.)), placeName[@type="full"], 3),

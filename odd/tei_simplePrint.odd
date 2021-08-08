@@ -856,7 +856,7 @@ live without God in the world, and only mind earthly things.
             images represent double page spreads, or where there are multiple images of the same
             page (for example at different resolutions). </p>
           <p>A more powerful approach, discussed in section <ptr target="#Simple-fax"/> below, is to
-            use the <gi>facsimile</gi> element to define the organisation of the set of images
+            use the <gi>facsimile</gi> element to define the organization of the set of images
             representing the text, and then use the <att>facs</att> attribute to point to individual
             components of that representation. </p>
         </div>

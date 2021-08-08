@@ -541,7 +541,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(term) return
                         html:inline($config, ., ("tei-term", "annotation", "annotation-term", "term", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(orgName) return
-                        html:inline($config, ., ("tei-orgName", "annotation", "annotation-organisation", "organisation", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
+                        html:inline($config, ., ("tei-orgName", "annotation", "annotation-organization", "organization", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(place) return
                         (
                             html:heading($config, ., ("tei-place1", css:map-rend-to-class(.)), placeName[@type="full"], 3)                            => model:map($node, $trackIds),

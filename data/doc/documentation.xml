@@ -8347,7 +8347,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <listitem>
               <para><link xlink:href="https://gnd.network/">Gemeinsame Normdatei</link> via <link
                   xlink:href="http://lobid.org/"
-                >lobid.org</link> - for people, organisations and terms</para>
+                >lobid.org</link> - for people, organizations and terms</para>
             </listitem>
           </varlistentry>
           <varlistentry>
@@ -8368,7 +8368,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <listitem>
               <para><link
                   xlink:href="https://theologie.unibas.ch/de/karl-barth-zentrum/gesamtausgabe/"
-                  >Karl Barth Gesamtausgabe</link> - for people, organisations, terms, abbreviations</para>
+                  >Karl Barth Gesamtausgabe</link> - for people, organizations, terms, abbreviations</para>
             </listitem>
           </varlistentry>
           <varlistentry>
@@ -8381,7 +8381,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <para>Which authority is used for which annotation type can be configured in the HTML template defining the user interface of the annotations editor. It resides in the file <filename>templates/pages/annotate.html</filename> and can be changed in eXide (or any editor of your choice). A simple configuration looks as follows:</para>
       <programlisting language="xml" xml:space="preserve"><![CDATA[
 <pb-authority-lookup subscribe="transcription" emit="transcription">
-    <pb-authority connector="GND" name="organisation" prefix="gnd"></pb-authority>
+    <pb-authority connector="GND" name="organization" prefix="gnd"></pb-authority>
     <pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority>
     <pb-authority connector="GND" name="term" prefix="gnd"></pb-authority>
     <pb-authority connector="GND" name="person" prefix="gnd"></pb-authority>

@@ -20,7 +20,7 @@ declare function anno:annotations($type as xs:string, $properties as map(*), $co
             <placeName xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</placeName>
         case "term" return
             <term xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</term>
-        case "organisation" return
+        case "organization" return
             <orgName xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</orgName>
         case "hi" return
             <hi xmlns="http://www.tei-c.org/ns/1.0">
@@ -81,7 +81,7 @@ declare function anno:occurrences($type as xs:string, $key as xs:string) {
             collection($config:data-default)//tei:placeName[@ref = $key]
         case "term" return
             collection($config:data-default)//tei:term[@ref = $key]
-        case "organisation" return
+        case "organization" return
             collection($config:data-default)//tei:orgName[@ref = $key]
          default return ()
 };
@@ -136,7 +136,7 @@ declare function anno:create-record($type as xs:string, $id as xs:string, $data 
                         ()
                 }
             </person>
-        case "organisation" return
+        case "organization" return
             <org xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
                 <orgName type="full">{$data?name}</orgName>
             </org>
@@ -172,7 +172,7 @@ declare function anno:query($type as xs:string, $query as xs:string?) {
                         "details": ``[`{$person/tei:note/string()}` - `{$person/tei:country/string()}`, `{$person/tei:region/string()}`]``,
                         "link": $person/tei:ptr/@target/string()
                     }
-            case "organisation" return
+            case "organization" return
                 for $org in doc($anno:local-authority-file)//tei:org[ft:query(tei:orgName, $query)]
                 return
                     map {
@@ -203,7 +203,7 @@ declare function anno:insert-point($type as xs:string) {
     switch ($type)
         case "place" return
             doc($anno:local-authority-file)//tei:listPlace
-        case "organisation" return
+        case "organization" return
             doc($anno:local-authority-file)//tei:listOrg
         case "term" return
             doc($anno:local-authority-file)//tei:taxonomy
@@ -218,7 +218,7 @@ declare function anno:insert-point($type as xs:string) {
 declare function anno:local-search-strings($type as xs:string, $entry as element()?) {
     switch($type)
         case "place" return $entry/tei:placeName/string()
-        case "organisation" return $entry/tei:orgName/string()
+        case "organization" return $entry/tei:orgName/string()
         case "term" return $entry/tei:catDesc/string()
         default return $entry/tei:persName/string()
 };
