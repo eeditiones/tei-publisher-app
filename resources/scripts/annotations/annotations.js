@@ -542,7 +542,7 @@ window.addEventListener("WebComponentsReady", () => {
 		if (doc && doc.path) {
 			window.localStorage.setItem(`tei-publisher.annotations.${doc.path}`, JSON.stringify(ev.detail.ranges));
 		}
-		if (enablePreview) {
+		if (enablePreview && !ev.detail.refresh) {
 			preview(ev.detail.ranges);
 		}
 	});
