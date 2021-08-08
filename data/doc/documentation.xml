@@ -8084,7 +8084,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         you can use the <emphasis>corr</emphasis> or <emphasis>reg</emphasis> annotation type, which corresponds to the TEI encoding with choice/sic/corr or choice/orig/reg.
       </para>
       <para>You can use annotations for virtually any kind of inline markup. The only strict requirement is that the <emphasis>base text</emphasis>, our source document,
-        remains stable <emphasis>during an editing session</emphasis> i.e. until annotations are merged. Reason for that is the annotations are anchored to a 
+        remains stable <emphasis>during an editing session</emphasis> i.e. until annotations are merged. The reason for that is the annotations are anchored to a 
         certain position in the document, so any changes to it would mean that our coordinates might suddenly point to different fragments.</para>
       <para>That said, there's also a special <emphasis>edit</emphasis> annotation type, which will just "seamlessly" change the transcription text fragment 
         without adding any explicit markup. Nevertheless, such a change to the TEI document is only applied when you merge and therefore 
@@ -8210,7 +8210,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <para>Toggle annotations are immediately applied when you click the annotation button. Since they do not require any further input they are just simply applied without much ado.
         Some good candidates might be titles or deletions.
       </para>
-      <para>It is worth noting that it's not a textual fenomenon that constitutes a <emphasis>toggle</emphasis> annotation 
+      <para>It is worth noting that it's not a textual phenomenon that constitutes a <emphasis>toggle</emphasis> annotation 
         versus <emphasis>semantic</emphasis> or <emphasis>analytic</emphasis> in our simple category scheme. It is rather what kinds of detail a particular project
         decides to encode or not. Encoding of titles can be a <emphasis>toggle</emphasis> if we just decide to simply say that a text fragment is a title. It could become a
         <emphasis>semantic</emphasis> annotation if we'd like to associate it with a bibliographical reference or other detailed information.
