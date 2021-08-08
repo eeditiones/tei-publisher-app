@@ -8238,8 +8238,8 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
   </section>
   <section>
     <title>Modifying Annotations</title>
-    <para>The annotation view shows a colored line beneath the text spanned by each annotation. You can select text within an existing or 
-      across multiple annotations and apply another annotation to it, thus resulting in <emphasis>nested annotations</emphasis>. 
+    <para>The annotation view shows a colored line beneath the text spanned by each annotation. You can select text within an existing annotation or 
+      across multiple different ones and apply yet another annotation to it, thus resulting in <emphasis>nested annotations</emphasis>. 
       However, the editor will ensure that you do not select partial elements, for example, a range of text followed by half of a <tag>persName</tag>. 
       This would result in invalid XML, so the editor will automatically expand your selection to include the entire <tag>persName</tag>.</para>
     <figure>
@@ -8283,12 +8283,32 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           <para>the TEI fragments which would be changed if annotations were merged</para>
         </listitem>
       </orderedlist></para>
-    <para>The preview does not actually change the TEI source document: it just applies the annotations in memory, leaving the source untouched. It allows you though to check if annotations will be applied in the correct way.</para>
-    <para>Both, the annotation text view in the middle and the preview HTML panel in the right pane render the document through ODD. However, they use different ODDs: the annotation view renders the text through a specialized ODD (annotations.odd) because we need to make sure that all relevant bits of the base text are displayed and there's no hidden information, which would be inaccessible to the editor. Contrary to this, the preview HTML panel is based on the ODD associated with the document (or the base teipublisher.odd otherwise).</para>
+    <para>The preview does not actually change the TEI source document: it just applies the annotations in memory, leaving the source untouched. It just allows you though to check if annotations will be applied in the correct way.</para>
+    <figure>
+      <title>HTML preview</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="ann-preview.png" width="800px" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>The annotation text view in the middle and the preview HTML panel to the right, both render the document through ODD. However, they use 
+      different ODDs: the annotation view renders the text through a dedicated ODD (annotations.odd) to make sure that all relevant 
+      bits of the base text are displayed and there's no hidden information, which would be inaccessible to the editor. The preview HTML panel simply uses
+      the ODD associated with the document (or the base teipublisher.odd otherwise).</para>
   </section>
   <section>
     <title>Merge, Export and Undo</title>
-    <para>The toolbar on top of the preview pane provides important actions:<variablelist>
+    <para>The toolbar on top of the preview pane provides important actions:
+      <figure>
+        <title>Toolbar</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ann-toolbar.png" width="500px" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <variablelist>
         <varlistentry>
           <term>Reload source TEI</term>
           <listitem>
@@ -8298,11 +8318,11 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         <varlistentry>
           <term>Merge and save annotations to TEI</term>
           <listitem>
-            <para>Finally merges the current set of annotations into the TEI document and saves it, thus establishing a new base text. The annotation view will be reloaded to reflect the new base text.</para>
+            <para>Merges the current set of annotations into the TEI and saves it, establishing a new version of the base document. The annotation view will be reloaded to reflect the new base.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
-          <term>Save merged TEI to local file</term>
+          <term>Save and export TEI to a local file</term>
           <listitem>
             <para>(Chrome only) As above, merges and saves the annotations, but additionally prompts for a local file into which a copy of the resulting TEI will be written.</para>
           </listitem>
@@ -8310,7 +8330,8 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         <varlistentry>
           <term>Undo last change</term>
           <listitem>
-            <para>Reverts the last action applied. For batch operations (if you clicked the "apply all" button above the occurrences list) this may comprise multiple annotations. Again the annotation view is being reloaded and the remaining annotations are re-applied.</para>
+            <para>Reverts the last action applied. For batch operations (if you clicked the "apply all" button above the occurrences list) this may comprise multiple annotations. 
+              The annotation view will be reloaded and the remaining annotations are re-applied.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -8383,7 +8404,8 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             </listitem>
           </varlistentry>
         </variablelist></para>
-      <para>Which authority is used for which annotation type can be configured in the HTML template defining the user interface of the annotations editor. It resides in the file <filename>templates/pages/annotate.html</filename> and can be changed in eXide (or any editor of your choice). A simple configuration looks as follows:</para>
+      <para>The HTML template defining the user interface of the annotations editor determines which authority is used for which annotation type and can be easily adjusted. 
+        Just edit the <filename>templates/pages/annotate.html</filename> file, which can be done in eXide (or any editor of your choice). A simple configuration looks as follows:</para>
       <programlisting language="xml" xml:space="preserve"><![CDATA[
 <pb-authority-lookup subscribe="transcription" emit="transcription">
     <pb-authority connector="GND" name="organization" prefix="gnd"></pb-authority>
@@ -8400,13 +8422,15 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <para>a <option>connector</option>, which selects one of the authority connectors listed above</para>
           </listitem>
         </itemizedlist></para>
-      <para>In addition, you may define a <option>prefix</option>: this will be prepended to the xml:id referenced by the resulting TEI element. For example, you may want to prefix the numeric IDs received from GND to obtain an XML ID like "gnd-124507514". A number alone would not be a valid @xml:id.</para>
-      <para>Some connectors also need additional configuration attributes. At the moment those are the <emphasis>GeoNames</emphasis> and <emphasis>Airtable</emphasis> connectors. GeoNames requires you to register a user, whose name is given in the <option>user</option> attribute.</para>
-      <para>The <emphasis>Airtable</emphasis> and <emphasis>Custom</emphasis> connectors are special and need some further explanation:</para>
+      <para>In addition, you may define a <option>prefix</option>: this will be prepended to the xml:id referenced by the resulting TEI element. 
+        For example, you may want to prefix the numeric IDs received from GND to obtain an XML ID like "gnd-124507514" since a number alone would not be a valid @xml:id.</para>
+      <para>Some connectors require additional configuration attributes. At the moment those are the <emphasis>GeoNames</emphasis> and <emphasis>Airtable</emphasis> connectors. GeoNames requires you to register a user, whose name is given in the <option>user</option> attribute.</para>
+      <para>The <emphasis>Airtable</emphasis> and <emphasis>Custom</emphasis> connectors are described in more detail below.</para>
       <section>
         <title>Airtable Connector</title>
         <para><link xlink:href="https://www.airtable.com/"
-            >airtable.com</link> is not really an authority, but rather a commercial online database, allowing users to define their own tables and forms. It can thus be turned into an authority, e.g. by defining a <emphasis>people</emphasis> or <emphasis>places</emphasis> table and connecting it with the airtable connector. It thus requires a slightly more complex configuration as you need to tell the connector how to access your tables and extract the required information. An example configuration for a single table is shown below:</para>
+            >airtable.com</link> is not an authority file as such, but rather a commercial online database, allowing users to define their own tables and forms. It can therefore be turned into an authority, e.g. by defining a <emphasis>people</emphasis> or <emphasis>places</emphasis> table and connecting it with the airtable connector. 
+            Since any kind of data can be stored in an airtable, a slightly more complex configuration is necessary to specify how to access relevant tables and extract the required information. An example configuration for a single table is shown below:</para>
         <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Airtable" name="topic" api-key="my-api-key" base="database-id" 
   table="Topics" fields="Name, Variants, Definition, Term Type" label="${Name}" 
   tokenize="Name, Variants" tokenize-regex="\s*;\s*"
@@ -8448,7 +8472,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           <varlistentry>
             <term>fields</term>
             <listitem>
-              <para>A list of table column names to be retrieved as fields. Fields can be referenced in other configuration expressions using the notation <code>${column}</code></para>
+              <para>A list of table column names to be retrieved as fields. Fields can be referenced in other configuration expressions using the <code>${column}</code> notation</para>
             </listitem>
           </varlistentry>
           <varlistentry>
@@ -8491,16 +8515,17 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       </section>
       <section>
         <title>Custom Connector</title>
-        <para>The custom connector delegates queries to one or more authorities, but most important: it creates a copy of every authority entry you select and writes it to a local TEI register. Background: for many editions the information provided by an external authority will not be sufficient. It may be incomplete, e.g. lack important information which is relevant in the context of the edition. And for historic manuscripts, many entities will not even appear in any authority.</para>
-        <para>Using the custom connector thus gives you a possibility to extend or complement the information about an entity, or add new entities. This works as follows:<orderedlist>
+        <para>The custom connector delegates queries to one or more authorities, but most importantly it creates a copy of every authority entry you select and writes it to a local TEI register.</para>
+        <para>For many editions the information provided by an external authority will not be sufficient. It may be incomplete, in the sense it may lack important information relevant in the context of the edition but also many historical persons or places may not yet appear in any authority.</para>
+        <para>Using the custom connector gives you a possibility to extend the information about an entity, or add new ones. This works as follows:<orderedlist>
             <listitem>
-              <para>whenever you select an entry obtained from the external authority, the custom connector creates a skeleton <tag>person</tag>, <tag>place</tag> or <tag>category</tag> TEI element in the local TEI registry (the exact place can be configured) using the information provided by the authority</para>
+              <para>whenever you select an entry from the external authority, the custom connector creates a skeleton <tag>person</tag>, <tag>place</tag> or <tag>category</tag> TEI element in the local TEI registry (the exact location of the registry can be configured) using the information provided by the authority</para>
             </listitem>
             <listitem>
               <para>you can extend the local entry with additional information, e.g. add a note to explain why the person is important in the context of the edition</para>
             </listitem>
             <listitem>
-              <para>any subsequent authority query will also search the local registry and matches found there will be ranked to the top of the results</para>
+              <para>any subsequent authority query will also search the local registry and matches found there will be ranked at the top of the results</para>
             </listitem>
             <listitem>
               <para>to support entites which do not exist in an external authority, just create an entry in the local registry and assign it a local xml:id</para>
@@ -8510,12 +8535,12 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Custom" name="person">
     &lt;pb-authority connector="GND" prefix="gnd">&lt;/pb-authority>
 &lt;/pb-authority></programlisting>
-        <para>This defines a custom connector for the annotation type 'person', delegating queries to the GND connector, but also maintaining a local registry. By default the local registry is written into a TEI document residing in <filename>data/registry.xml</filename>. You can change the location by modifying the variable <varname>$anno:local-authority-file</varname> in the annotation configuration, <filename>modules/annotation-config.xqm</filename>. You can also change the function <function>anno:insert-point</function> to configure where exactly the local entity definitions will be stored.</para> 
+        <para>This defines a custom connector for the annotation type 'person', delegating queries to the GND connector, but also maintaining a local registry. By default the local registry is stored in a TEI document residing in <filename>data/registry.xml</filename>. You can change the location by modifying the variable <varname>$anno:local-authority-file</varname> in the annotation configuration, <filename>modules/annotation-config.xqm</filename>. You can also change the function <function>anno:insert-point</function> to configure where exactly the local entity definitions will be stored.</para> 
       </section>
     </section>
     <section>
       <title>Configuring Annotations</title>
-      <para>Adding new annotations or modifying existing ones involves the following three files within TEI Publisher or generated apps:</para>
+      <para>Adding new annotation types or modifying existing ones involves the following three files within TEI Publisher or generated apps:</para>
       <variablelist>
         <varlistentry>
           <term><filename>templates/pages/annotate.html</filename></term>
@@ -8536,9 +8561,17 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           </listitem>
         </varlistentry>
       </variablelist>
-      <para>Let's assume we would like to support an annotation to tag foreign language passages with TEI element <tag>foreign</tag>:</para>
+      <para>Let's assume we would like to support an annotation to tag foreign language passages with the TEI <tag>foreign</tag> element:</para>
       <para>First, open <filename>templates/pages/annotate.html</filename> in eXide and locate the <tag>div</tag> with class <option>toolbar</option>. This contains a list of <tag>paper-icon-button</tag> elements. Like many elements in TEI Publisher, <tag>paper-icon-button</tag> is a webcomponent from the polymer library, which renders a button compliant with Google's material design. You could use any other button-type element here, but for consistency, let's stick with <tag>paper-icon-button</tag>. We define our new button like this:</para>
       <programlisting>&lt;paper-icon-button class="annotation-action toggle" title="Foreign" data-type="foreign" icon="icons:language" data-shortcut="⌘+⇧+b,ctrl+⇧+b" disabled="disabled">&lt;/paper-icon-button></programlisting>
+      <figure>
+        <title>Configure a new annotation type</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ann-configure.png" width="800px" />
+          </imageobject>
+        </mediaobject>
+      </figure>
       <para>Make sure to include all the attributes shown:</para>
       <variablelist>
         <varlistentry>
@@ -8588,14 +8621,14 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
     ...
 };</programlisting>
       <para>This will simply wrap a <tag>foreign</tag> tag around the existing content. Note that <parameter>$content</parameter> is passed in as a function pointer, so it is important to call it as <code>$content()</code>. Also note how we need to declare the TEI namespace. Without this namespace declaration, the element would not be recognized as TEI.</para>
-      <para>Now we can try our new annotation: select some passage, click on the button and see how the text is marked as annotation. The color is chosen automatically. You can also check in the TEI preview pane that the annotation is correctly output as a TEI <tag>foreign</tag> element.</para>
+      <para>Now we can try our new annotation: select a passage, click on the button and see how the text is marked as an annotation. The color is chosen automatically. You can also check in the TEI preview pane that the annotation is correctly output as a TEI <tag>foreign</tag> element.</para>
       <para>However, if you save the annotations, you'll notice that - once the annotation view refreshes - the foreign text is rendered in italics, but not marked as an annotation! To fix this, we need to modify the ODD used for rendering the annotation view.</para>
       <para>Open <filename>odd/annotations.odd</filename> (named "Annotations"), either in eXide or the ODD editor. Add an <tag>elementSpec</tag> for element <tag>foreign</tag> with an inline model and a <option>cssClass</option> containing <code>annotation annotation-foreign</code>.</para>
       <programlisting>&lt;elementSpec ident="foreign" mode="change">
     &lt;model behaviour="inline" cssClass="annotation annotation-foreign"/>
 &lt;/elementSpec></programlisting>
-      <para>If you like, you can also keep the <tag>outputRendition</tag>, which renders the text in italic. Key is that you declare the two CSS classes, because those will tell TEI Publisher that the element should be treated as an annotation.</para>
-      <para>As a general guideline, the ODD rules for annotations should produce simple inline tags. They should output the content of the element without any modification. They may use <tag>outputRendition</tag> to change the appearance or supply other parameters (than <option>content</option>).</para>
+      <para>If you like, you can also keep the <tag>outputRendition</tag>, which renders the text in italic. Key is that you declare the two <emphasis>annotation annotation-foreign</emphasis> CSS classes, because those will tell TEI Publisher that the element should be treated as an annotation.</para>
+      <para>As a general guideline, the ODD rules for annotations should produce simple inline tags. They should output the content of the element without any modification. They may use <tag>outputRendition</tag> to change the appearance, or supply other parameters (than <option>content</option>).</para>
       <para>After saving the ODD, reloading the annotation editor should properly display the <tag>foreign</tag> as an annotation and we can start using our new annotation type.</para>
       <para>However, we may not be entirely happy with the simple on/off toggle: it would be much better if we could also indicate the used language in <tag>foreign</tag>. This means we have to change our annotation from a mere toggle into one which can take an additional parameter:</para>
       <para>To achieve this, go back to <filename>templates/pages/annotate.html</filename> and remove the <option>toggle</option> class from the <tag>paper-icon-button</tag>:</para>
@@ -8606,7 +8639,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         &lt;paper-input class="annotation-form foreign" name="lang" label="Language">&lt;/paper-input>
     ...
 &lt;/iron-form></programlisting>
-      <para>Again we're using a webcomponent for the input to get the material design look and feel. Important is the class, which should always contain <option>annotation-form</option>, followed by the annotation type: <option>foreign</option>. The name is arbitrary, but should be unique and we need to remember it for later. The label should contain a short title, which will be shown next to the input.</para>
+      <para>Again we're using a webcomponent for the input to get the material design look and feel. The class attribute is particularly important: it must always contain <option>annotation-form</option>, followed by the annotation type: <option>foreign</option>. The name is arbitrary, but should be unique and we need to remember it for later. The label should contain a short title, which will be shown next to the input.</para>
       <para>Finally, we need to change our rule in <filename>modules/annotation-config.xqm</filename> to add the new parameter to the generated <tag>foreign</tag> element. Navigate to the file and change the <function>anno:annotations</function> function as follows:</para>
       <programlisting>declare function anno:annotations($type as xs:string, $properties as map(*), $content as function(*)) {
     switch ($type)
