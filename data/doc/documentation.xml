@@ -8336,6 +8336,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         </listitem>
       </orderedlist></para>
     <para>If you would like to customize the editor for your own needs, we recommend to generate a <emphasis>separate application just for annotation purposes</emphasis>. This makes it easier to configure and you maintain a clear separation between data which is still being worked on and the final edition you want to show to users.</para>
+    <para>To generate a separate application for annotations, select <guimenuitem>Admin</guimenuitem>/<guimenuitem>App Generator</guimenuitem>. In the form, make sure to choose the ODD called "Annotations" and select "Annotation Editing" as template.</para>
     <section>
       <title>Configuring Authorities</title>
       <para>In its current state, TEI Publisher supports the following external authorities for entity lookup:<variablelist>

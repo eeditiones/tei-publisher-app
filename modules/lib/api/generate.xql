@@ -364,7 +364,7 @@ declare function deploy:copy-odd($collection as xs:string, $json as map(*)) {
     let $target := $collection || "/resources/odd"
     return (
         let $mkcol := deploy:mkcol($target, ("tei", "tei"), "rwxr-x---")
-        for $file in distinct-values(("docx.odd", "tei_simplePrint.odd", "teipublisher.odd", deploy:get-odds($json)))
+        for $file in distinct-values(("docx.odd", "tei_simplePrint.odd", "teipublisher.odd", "annotations.odd", deploy:get-odds($json)))
         let $source := doc($config:odd-root || "/" || $file)
         let $cssLink := $source//tei:teiHeader/tei:encodingDesc/tei:tagsDecl/tei:rendition/@source
         let $css := util:binary-doc($config:odd-root || "/" || $cssLink)
