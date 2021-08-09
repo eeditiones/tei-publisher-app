@@ -19,6 +19,12 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace fo="http://www.tei-c.org/tei-simple/xquery/functions/fo";
 
+(: generated template function for element spec: ptr :)
+declare %private function model:template-ptr($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><pb-mei url="{$config?apply-children($config, $node, $params?url)}" player="player">
+  <pb-option name="appXPath" on="./rdg[contains(@label, 'original')]" off="">Original Clefs</pb-option>
+</pb-mei></t>/*
+};
 (:~
 
     Main entry point for the transformation.
@@ -48,6 +54,8 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $trackIds := 
+        $parameters?track-ids
         let $get := 
         model:source($parameters, ?)
     return
@@ -86,7 +94,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:inline($config, ., ("tei-milestone", css:map-rend-to-class(.)), .)
                     case element(ptr) return
                         if (parent::notatedMusic) then
-                            (: No function found for behavior: webcomponent :)
+                            (: No function found for behavior: pass-through :)
                             $config?apply($config, ./node())
                         else
                             $config?apply($config, ./node())
@@ -566,5 +574,58 @@ declare function model:source($parameters as map(*), $elem as element()) {
             util:node-by-id($parameters?root, $id)
         else
             $elem
+};
+
+declare function model:process-annotation($html, $context as node()) {
+        
+    let $classRegex := analyze-string($html/@class, '\s?annotation-([^\s]+)\s?')
+    return
+        if ($classRegex//fn:match) then (
+            if ($html/@data-type) then
+                ()
+            else
+                attribute data-type { ($classRegex//fn:group)[1]/string() },
+            if ($html/@data-annotation) then
+                ()
+            else
+                attribute data-annotation {
+                    map:merge($context/@* ! map:entry(node-name(.), ./string()))
+                    => serialize(map { "method": "json" })
+                }
+        ) else
+            ()
+                    
+};
+
+declare function model:map($html, $context as node(), $trackIds as item()?) {
+        
+    if ($trackIds) then
+        for $node in $html
+        return
+            typeswitch ($node)
+                case document-node() | comment() | processing-instruction() return 
+                    $node
+                case element() return
+                    if ($node/@class = ("footnote")) then
+                        if (local-name($node) = 'pb-popover') then
+                            ()
+                        else
+                            element { node-name($node) }{
+                                $node/@*,
+                                $node/*[@class="fn-number"],
+                                model:map($node/*[@class="fn-content"], $context, $trackIds)
+                            }
+                    else
+                        element { node-name($node) }{
+                            attribute data-tei { util:node-id($context) },
+                            $node/@*,
+                            model:process-annotation($node, $context),
+                            $node/node()
+                        }
+                default return
+                    <pb-anchor data-tei="{ util:node-id($context) }">{$node}</pb-anchor>
+    else
+        $html
+                    
 };
 

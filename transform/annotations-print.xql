@@ -19,6 +19,12 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace fo="http://www.tei-c.org/tei-simple/xquery/functions/fo";
 
+(: generated template function for element spec: ptr :)
+declare %private function model:template-ptr($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><pb-mei url="{$config?apply-children($config, $node, $params?url)}" player="player">
+  <pb-option name="appXPath" on="./rdg[contains(@label, 'original')]" off="">Original Clefs</pb-option>
+</pb-mei></t>/*
+};
 (: generated template function for element spec: choice :)
 declare %private function model:template-choice($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><span class="annotation annotation-sic" data-type="sic" data-annotation="{{&#34;corr&#34;: &#34;{$config?apply-children($config, $node, $params?corr)}&#34;}}">{$config?apply-children($config, $node, $params?sic)}</span></t>/*
@@ -104,7 +110,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:inline($config, ., ("tei-milestone", css:map-rend-to-class(.)), .)
                     case element(ptr) return
                         if (parent::notatedMusic) then
-                            (: No function found for behavior: webcomponent :)
+                            (: No function found for behavior: pass-through :)
                             $config?apply($config, ./node())
                         else
                             $config?apply($config, ./node())
@@ -116,7 +122,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             fo:inline($config, ., ("tei-signed2", css:map-rend-to-class(.)), .)
                     case element(pb) return
-                        fo:omit($config, ., css:get-rendition(., ("tei-pb", css:map-rend-to-class(.))), .)
+                        fo:inline($config, ., ("tei-pb", css:map-rend-to-class(.)), .)
                     case element(pc) return
                         fo:inline($config, ., ("tei-pc", css:map-rend-to-class(.)), .)
                     case element(anchor) return
@@ -194,7 +200,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:inline($config, ., ("tei-figDesc", css:map-rend-to-class(.)), .)
                     case element(rs) return
                         if (@type='abbreviation') then
-                            fo:inline($config, ., ("tei-rs1", "annotation", "annotation-abbreviation", "abbreviation", css:map-rend-to-class(.)), .)
+                            fo:inline($config, ., ("tei-rs1", "annotation", "annotation-abbreviation", css:map-rend-to-class(.)), .)
                         else
                             fo:inline($config, ., ("tei-rs2", css:map-rend-to-class(.)), .)
                     case element(foreign) return
@@ -405,7 +411,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(argument) return
                         fo:block($config, ., ("tei-argument", css:map-rend-to-class(.)), .)
                     case element(date) return
-                        fo:inline($config, ., ("tei-date", "annotation", "annotation-date", "date", css:map-rend-to-class(.)), .)
+                        fo:inline($config, ., ("tei-date", "annotation", "annotation-date", css:map-rend-to-class(.)), .)
                     case element(title) return
                         if ($parameters?header='short') then
                             fo:heading($config, ., ("tei-title1", css:map-rend-to-class(.)), ., 5)
@@ -521,23 +527,25 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (parent::person) then
                             fo:inline($config, ., ("tei-persName1", css:map-rend-to-class(.)), .)
                         else
-                            fo:inline($config, ., ("tei-persName2", "annotation", "annotation-person", "person", css:map-rend-to-class(.)), .)
-                    case element(gloss) return
-                        fo:inline($config, ., ("tei-gloss", css:map-rend-to-class(.)), .)
+                            fo:inline($config, ., ("tei-persName2", "annotation", "annotation-person", css:map-rend-to-class(.)), .)
                     case element(placeName) return
                         if (ancestor::place) then
                             fo:link($config, ., ("tei-placeName1", css:map-rend-to-class(.)), ., ancestor::place/ptr/@target, map {"target": '_blank'})
                         else
-                            fo:inline($config, ., ("tei-placeName2", "annotation", "annotation-place", "place", css:map-rend-to-class(.)), .)
+                            fo:inline($config, ., ("tei-placeName2", "annotation", "annotation-place", css:map-rend-to-class(.)), .)
                     case element(term) return
-                        fo:inline($config, ., ("tei-term", "annotation", "annotation-term", "term", css:map-rend-to-class(.)), .)
+                        fo:inline($config, ., ("tei-term", "annotation", "annotation-term", css:map-rend-to-class(.)), .)
                     case element(orgName) return
-                        fo:inline($config, ., ("tei-orgName", "annotation", "annotation-organization", "organization", css:map-rend-to-class(.)), .)
+                        fo:inline($config, ., ("tei-orgName", "annotation", "annotation-organization", css:map-rend-to-class(.)), .)
                     case element(place) return
                         (
                             fo:heading($config, ., ("tei-place1", css:map-rend-to-class(.)), placeName[@type="full"], 3),
-                            fo:paragraph($config, ., ("tei-place2", css:map-rend-to-class(.)), string-join((country, region), ', ')),
-                            fo:block($config, ., ("tei-place3", css:map-rend-to-class(.)), note/node())
+                            if (placeName[not(@type)]) then
+                                fo:heading($config, ., ("tei-place2", css:map-rend-to-class(.)), string-join(placeName[not(@type)]/string(), '; '), 4)
+                            else
+                                (),
+                            fo:paragraph($config, ., ("tei-place3", css:map-rend-to-class(.)), string-join((country, region), ', ')),
+                            fo:block($config, ., ("tei-place4", css:map-rend-to-class(.)), note/node())
                         )
 
                     case element(person) return

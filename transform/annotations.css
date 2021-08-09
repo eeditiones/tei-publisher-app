@@ -1,33 +1,6 @@
 /* Generated stylesheet. Do not edit. */
 /* Global styles */
 
-/* external styles loaded from annotations.css */
-
-
-.person {
-    font-style: italic;
-}
-
-.organization {
-    font-style: italic;
-}
-
-.place {
-    font-variant: small-caps;
-}
-
-.term {
-    color: #3a86ff;
-    font-style: italic;
-}
-
-.date {
-    font-weight: bolder;
-}
-
-.annotation-note {
-    color: #175014;
-}
 .simple_allcaps { text-transform: uppercase; }
 .simple_blackletter { font-family: fantasy; }
 .simple_bold { font-weight: bold; }
@@ -78,9 +51,7 @@
 .tei-supplied5:after { content:"}"; }
 .tei-signed1 { text-align: right; }
 .tei-signed2 { font-style: italic; }
-.tei-pb { display: block; margin-left: 4pt; color: grey; float: right; }
-.tei-pb:before { content: '[Page '; }
-.tei-pb:after { content: ']'; }
+.tei-pb:after { content: '|'; }
 .tei-code { font-family:monospace }
 .tei-del { text-decoration: line-through; }
 .tei-trailer { color: green; }
@@ -132,4 +103,4 @@
 .tei-quote1:after { content: '’'; }
 .tei-quote2 { margin-left: 10px; margin-right: 10px; }
 .tei-row1 { font-weight: bold; }
-.tei-gloss { text-decoration: #c041ff underline solid 3px; }
+.tei-term { font-style: italic; }

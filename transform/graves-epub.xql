@@ -21,6 +21,12 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
 import module namespace epub="http://www.tei-c.org/tei-simple/xquery/functions/epub";
 
+(: generated template function for element spec: ptr :)
+declare %private function model:template-ptr($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><pb-mei url="{$config?apply-children($config, $node, $params?url)}" player="player">
+  <pb-option name="appXPath" on="./rdg[contains(@label, 'original')]" off="">Original Clefs</pb-option>
+</pb-mei></t>/*
+};
 (:~
 
     Main entry point for the transformation.
@@ -50,6 +56,8 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $trackIds := 
+        $parameters?track-ids
         let $get := 
         model:source($parameters, ?)
     return
@@ -91,7 +99,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:inline($config, ., ("tei-milestone", css:map-rend-to-class(.)), .)
                     case element(ptr) return
                         if (parent::notatedMusic) then
-                            html:webcomponent($config, ., ("tei-ptr", css:map-rend-to-class(.)), ., 'pb-mei', map {"url": @target})
+                            let $params := 
+                                map {
+                                    "url": @target,
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template-ptr($config, ., $params)
+                            return
+                                                        html:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-ptr", css:map-rend-to-class(.)), $content)
                         else
                             $config?apply($config, ./node())
                     case element(label) return
@@ -585,10 +602,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                         )
 
                     case element(persName) return
-                        if (forename or surname) then
+                        if (parent::person and (forename or surname)) then
                             html:inline($config, ., ("tei-persName1", css:map-rend-to-class(.)), (forename, ' ', surname[not(@type='married')], if (surname[@type='married']) then (' (', string-join(surname[@type='married'], ', '), ')') else ()))
                         else
-                            html:inline($config, ., ("tei-persName2", css:map-rend-to-class(.)), .)
+                            if (parent::person) then
+                                html:inline($config, ., ("tei-persName2", css:map-rend-to-class(.)), .)
+                            else
+                                epub:alternate($config, ., ("tei-persName3", css:map-rend-to-class(.)), ., ., id(@ref, doc("/db/apps/tei-publisher/data/register.xml")))
                     case element(birth) return
                         if (following-sibling::death) then
                             html:inline($config, ., ("tei-birth1", css:map-rend-to-class(.)), ('* ', ., '; '))
@@ -612,6 +632,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                                         html:link($config, ., ("tei-idno4", css:map-rend-to-class(.)), 'LoC Authority', 'https://lccn.loc.gov/' || string(), (), map {})
                                     else
                                         $config?apply($config, ./node())
+                    case element(placeName) return
+                        epub:alternate($config, ., ("tei-placeName", css:map-rend-to-class(.)), ., ., id(@ref, doc("/db/apps/tei-publisher/data/register.xml")))
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return
@@ -653,5 +675,58 @@ declare function model:source($parameters as map(*), $elem as element()) {
             util:node-by-id($parameters?root, $id)
         else
             $elem
+};
+
+declare function model:process-annotation($html, $context as node()) {
+        
+    let $classRegex := analyze-string($html/@class, '\s?annotation-([^\s]+)\s?')
+    return
+        if ($classRegex//fn:match) then (
+            if ($html/@data-type) then
+                ()
+            else
+                attribute data-type { ($classRegex//fn:group)[1]/string() },
+            if ($html/@data-annotation) then
+                ()
+            else
+                attribute data-annotation {
+                    map:merge($context/@* ! map:entry(node-name(.), ./string()))
+                    => serialize(map { "method": "json" })
+                }
+        ) else
+            ()
+                    
+};
+
+declare function model:map($html, $context as node(), $trackIds as item()?) {
+        
+    if ($trackIds) then
+        for $node in $html
+        return
+            typeswitch ($node)
+                case document-node() | comment() | processing-instruction() return 
+                    $node
+                case element() return
+                    if ($node/@class = ("footnote")) then
+                        if (local-name($node) = 'pb-popover') then
+                            ()
+                        else
+                            element { node-name($node) }{
+                                $node/@*,
+                                $node/*[@class="fn-number"],
+                                model:map($node/*[@class="fn-content"], $context, $trackIds)
+                            }
+                    else
+                        element { node-name($node) }{
+                            attribute data-tei { util:node-id($context) },
+                            $node/@*,
+                            model:process-annotation($node, $context),
+                            $node/node()
+                        }
+                default return
+                    <pb-anchor data-tei="{ util:node-id($context) }">{$node}</pb-anchor>
+    else
+        $html
+                    
 };
 

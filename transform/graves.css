@@ -122,5 +122,7 @@
 .tei-geo2 { color: #1565c0; cursor: pointer; }
 .tei-person2 { margin-bottom: 0; }
 .tei-person3 { font-size: .85em; margin-bottom: .5em; }
+.tei-persName3 { text-decoration: underline; --pb-popover-theme: 'light'; }
 .tei-idno1:after { content: ', '; }
 .tei-idno3 { content: ', '; }
+.tei-placeName { text-decoration: underline; --pb-popover-theme: 'light'; }
