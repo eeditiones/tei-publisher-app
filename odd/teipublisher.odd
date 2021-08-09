@@ -219,9 +219,11 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="ptr" mode="add">
-                    <model predicate="parent::notatedMusic" behaviour="webcomponent">
-            <param name="name" value="'pb-mei'"/>
+                    <model predicate="parent::notatedMusic" behaviour="pass-through">
             <param name="url" value="@target"/>
+            <pb:template xmlns="" xml:space="preserve"><pb-mei url="[[url]]" player="player">
+  <pb-option name="appXPath" on="./rdg[contains(@label, 'original')]" off="">Original Clefs</pb-option>
+</pb-mei></pb:template>
         </model>
                 </elementSpec>
             <elementSpec ident="formula" mode="change">
