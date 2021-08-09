@@ -50,16 +50,19 @@
             <note>Palma, unofficially known as Palma de Mallorca, is the capital and largest city of the autonomous community of the Balearic Islands in Spain. It is situated on the south coast of Mallorca on the Bay of Palma.</note>
             <ptr type="geonames" target="https://www.geonames.org/2512989"/>
          </place>
-         <place xml:id="geo-5391959">
-            <placeName type="full">San Francisco</placeName>
+         <place xml:id="geo-6946437">
+            <placeName type="full">Basilika San Francisco</placeName>
+            <placeName>Convento de San Francisco</placeName>
+            <placeName>Sant Francesc de Palma</placeName>
             <location>
-               <geo>37.77493 -122.41942</geo>
+                <geo>39.5689 2.65306</geo>
             </location>
-            <country>United States</country>
-            <region>California</region>
-            <note>San Francisco, officially the City and County of San Francisco, is a cultural, commercial, and financial center in Northern California. San Francisco is the 16th most populous city in the United States, and the fourth most populous in California, with 881,549 residents as of 2019.</note>
-            <ptr type="geonames" target="https://www.geonames.org/5391959"/>
-         </place>
+            <country>Spain</country>
+            <region>Balearic Islands</region>
+            <ptr type="geonames" target="https://www.geonames.org/6946437"/>
+            <ptr type="info" target="https://es.wikipedia.org/wiki/Convento_de_San_Francisco_(Palma_de_Mallorca)"/>
+            <note>El Convento de San Francisco de Palma de Mallorca es un conjunto formado por la basílica menor del mismo nombre, el claustro y varias edificaciones adosadas. Se inició la construcción a finales de siglo XIII.</note>
+        </place>
       </listPlace>
    </standOff>
 </tei:TEI>
