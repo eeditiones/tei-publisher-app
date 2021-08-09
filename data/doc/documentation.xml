@@ -8490,13 +8490,29 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           <varlistentry>
             <term>template class="info"</term>
             <listitem>
-              <para>An HTML fragment to show when displaying details for an authority entry</para>
+              <para>An HTML fragment to show when displaying a popover with annotation details in the annotation editor</para>
+              <figure>
+                <title>"Info" template in action</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="ann-airtable-info.png" width="500px" />
+                  </imageobject>
+                </mediaobject>
+              </figure>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>template class="detail"</term>
             <listitem>
-              <para>HTML fragment to show in the details below the main label in the authority dialog</para>
+              <para>HTML fragment to show as the detailed match description in the dialog presenting the results of querying the authority register</para>
+              <figure>
+                <title>"Detail" template in action</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="ann-airtable-detail.png" width="500px" />
+                  </imageobject>
+                </mediaobject>
+              </figure>
             </listitem>
           </varlistentry>
           <varlistentry>
