@@ -85,7 +85,7 @@
                 <param name="content" value="placeName[@type=&#34;full&#34;]"/>
                 <param name="level" value="3"/>
             </model>
-            <model behaviour="heading">
+            <model predicate="placeName[not(@type)]" behaviour="heading">
                 <param name="content" value="string-join(placeName[not(@type)]/string(), '; ')"/>
                 <param name="level" value="4"/>
             </model>
