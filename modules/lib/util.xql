@@ -42,37 +42,42 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd
         "template": $defaultConfig?template
     }
     let $pis :=
-        if ($defaultConfig?overwrite) then
-            $default
-        else
-            map:merge(
-                for $pi in $doc/processing-instruction("teipublisher")
-                let $analyzed := analyze-string($pi, '([^\s]+)\s*=\s*"(.*?)"')
-                for $match in $analyzed/fn:match
-                let $key := $match/fn:group[@nr="1"]/string()
-                let $value := $match/fn:group[@nr="2"]/string()
-                return
-                    if ($key = "view" and $value != $view) then
-                        ()
-                    else if ($key = ('depth', 'fill')) then
-                        map:entry($key, number($value))
-                    else
-                        map:entry($key, $value)
-            )
+        map:merge(
+            for $pi in $doc/processing-instruction("teipublisher")
+            let $analyzed := analyze-string($pi, '([^\s]+)\s*=\s*"(.*?)"')
+            for $match in $analyzed/fn:match
+            let $key := $match/fn:group[@nr="1"]/string()
+            let $value := $match/fn:group[@nr="2"]/string()
+            return
+                if ($key = "view" and $value != $view) then
+                    ()
+                else if ($key = ('depth', 'fill')) then
+                    map:entry($key, number($value))
+                else
+                    map:entry($key, $value)
+        )
     (: Check if ODD configured in PI is available :)
     let $cfgOddAvail :=
         if ($pis?odd) then
             doc-available($config:odd-root || "/" || $pis?odd)
         else
             false()
+    let $pisWithOdd :=
+        if ($defaultConfig?overwrite) then
+            if ($cfgOddAvail) then
+                map:merge(($default, map { "odd": $pis?odd }))
+            else
+                $default
+        else
+            $pis
     (: ODD from parameter should overwrite ODD defined in PI :)
     let $config :=
         if ($odd) then
-            map:merge(($pis, map { "odd": $odd }))
+            map:merge(($pisWithOdd, map { "odd": $odd }))
         else if ($cfgOddAvail) then
-            $pis
+            $pisWithOdd
         else
-            map:merge(($pis, map { "odd": $defaultConfig?odd }))
+            map:merge(($pisWithOdd, map { "odd": $defaultConfig?odd }))
     return
         map:merge(($default, $config))
 };
