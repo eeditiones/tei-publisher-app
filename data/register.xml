@@ -20,7 +20,12 @@
       </encodingDesc>
    </teiHeader>
    <standOff>
-      <listPerson/>
+      <listPerson>
+         <person xml:id="gnd-139890289">
+            <persName type="full">Lucia Graves</persName>
+            <note>Robert Graves' first daughter by Beryl</note>
+        </person>
+      </listPerson>
       <listOrg/>
       <listPlace>
          <place xml:id="custom-Deia">
