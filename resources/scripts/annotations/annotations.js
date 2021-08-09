@@ -265,7 +265,6 @@ window.addEventListener("WebComponentsReady", () => {
 	function preview(annotations, doStore) {
 		const endpoint = document.querySelector("pb-page").getEndpoint();
 		const doc = document.getElementById("document1");
-		document.getElementById("json").innerText = JSON.stringify(annotations, null, 2);
 		document.getElementById("output").code = "";
 		return new Promise((resolve, reject) => {
 			fetch(`${endpoint}/api/annotations/merge/${doc.path}`, {
@@ -289,23 +288,26 @@ window.addEventListener("WebComponentsReady", () => {
 				throw new Error(response.statusText);
 			})
 			.then((json) => {
+				const changeList = document.getElementById("changes");
+				changeList.innerHTML = "";
+				document.getElementById("json").innerText = '';
+				document.getElementById("output").code = json.content;
 				if (doStore) {
 					window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}`);
 					window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}.history`);
 					view.clearHistory();
 					hideForm();
 					window.pbEvents.emit("pb-refresh", "transcription", { preserveScroll: true });
+				} else {
+					document.getElementById("json").innerText = JSON.stringify(annotations, null, 2);
+					json.changes.forEach((change) => {
+						const pre = document.createElement("pb-code-highlight");
+						pre.setAttribute("language", "xml");
+						pre.textContent = change;
+						changeList.appendChild(pre);
+					});
 				}
 				resolve(json.content);
-				document.getElementById("output").code = json.content;
-				const changeList = document.getElementById("changes");
-				changeList.innerHTML = "";
-				json.changes.forEach((change) => {
-					const pre = document.createElement("pb-code-highlight");
-					pre.setAttribute("language", "xml");
-					pre.textContent = change;
-					changeList.appendChild(pre);
-				});
 				fetch(
 					`${endpoint}/api/preview?odd=${doc.odd}.odd&base=${encodeURIComponent(
 						endpoint
