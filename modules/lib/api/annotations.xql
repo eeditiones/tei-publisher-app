@@ -82,8 +82,11 @@ declare function anno:save($request as map(*)) {
     let $annotations := $request?body
     let $path := xmldb:decode($request?parameters?path)
     let $srcDoc := config:get-document($path)
+    let $hasAccess := sm:has-access(document-uri(root($srcDoc)), "rw-")
     return
-        if ($srcDoc) then
+        if (not($hasAccess) and request:get-method() = 'PUT') then
+            error($errors:FORBIDDEN, "Not allowed to write to " || $path)
+        else if ($srcDoc) then
             let $doc := util:expand($srcDoc/*, 'add-exist-id=all')
             let $map := map:merge(
                 for $annoGroup in $annotations?*

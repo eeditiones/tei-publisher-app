@@ -280,7 +280,7 @@ window.addEventListener("WebComponentsReady", () => {
 				if (response.ok) {
 					return response.json();
 				}
-				if (response.status === 401) {
+				if (response.status === 401 || response.status === 403) {
 					document.getElementById('permission-denied-dialog').show();
 					throw new Error(response.statusText);
 				}
