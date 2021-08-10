@@ -57,6 +57,10 @@ pb-authority-lookup::part(output) {
     background-color: var(--pb-color-inverse);
 }
 
+.preview header .toolbar {
+    flex-wrap: nowrap;
+}
+
 pb-tabs {
     --paper-tabs-selection-bar-color: #607D8B;
     height: calc(100% - 40px);
