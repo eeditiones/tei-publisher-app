@@ -59,6 +59,7 @@ declare function bapi:list($request as map(*)) {
             "mode": "summary",
             "root": $article,
             "active": $doc,
+            "skipAuthors": true(),
             "path": substring-after(document-uri(root($article)), $config:data-root || '/')
         }
         order by xs:date($date) descending

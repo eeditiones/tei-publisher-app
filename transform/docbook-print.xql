@@ -123,12 +123,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 )
 
                             else
-                                fo:block($config, ., ("tei-info6", css:map-rend-to-class(.)), (title, author, pubdate, abstract))
+                                fo:block($config, ., ("tei-info6", css:map-rend-to-class(.)), (title, if ($parameters?skipAuthors) then () else author, pubdate, abstract))
                     case element(author) return
-                        if (preceding-sibling::author) then
+                        if (preceding-sibling::author and not($parameters?skipAuthors)) then
                             fo:inline($config, ., ("tei-author3", css:map-rend-to-class(.)), (', ', personname, affiliation))
                         else
-                            fo:inline($config, ., ("tei-author4", css:map-rend-to-class(.)), (personname, affiliation))
+                            if (not($parameters?skipAuthors)) then
+                                fo:inline($config, ., ("tei-author4", css:map-rend-to-class(.)), (personname, affiliation))
+                            else
+                                $config?apply($config, ./node())
                     case element(personname) return
                         fo:inline($config, ., ("tei-personname", css:map-rend-to-class(.)), (firstname, ' ', surname))
                     case element(affiliation) return

@@ -78,12 +78,6 @@
                     padding: 0;
                 }
 
-                .pubdate::before {
-                    content: '\00B7';
-                    padding-right: 8px;
-                    padding-left: 8px;
-                }
-
                 .pubdate {
                     color: #808080;
                 }
@@ -187,7 +181,9 @@
                         </pb-media-query>
                         <div class="content">
                             <pb-view id="view1" src="document1" view="single" subscribe="transcription" load-css="odd/docbook.css"
-                                emit="transcription" append-footnotes="append-footnotes" odd="docbook"/>
+                                emit="transcription" append-footnotes="append-footnotes" odd="docbook">
+                                <pb-param name="skipAuthors" value="true"/>
+                            </pb-view>
                         </div>
                     </main>
                 </app-header-layout>

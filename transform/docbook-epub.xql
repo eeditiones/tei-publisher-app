@@ -126,10 +126,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 (: More than one model without predicate found for ident info. Choosing first one. :)
                                 epub:block($config, ., ("tei-info3", css:map-rend-to-class(.)), (title, author))
                     case element(author) return
-                        if (preceding-sibling::author) then
+                        if (preceding-sibling::author and not($parameters?skipAuthors)) then
                             html:inline($config, ., ("tei-author3", css:map-rend-to-class(.)), (', ', personname, affiliation))
                         else
-                            html:inline($config, ., ("tei-author4", css:map-rend-to-class(.)), (personname, affiliation))
+                            if (not($parameters?skipAuthors)) then
+                                html:inline($config, ., ("tei-author4", css:map-rend-to-class(.)), (personname, affiliation))
+                            else
+                                $config?apply($config, ./node())
                     case element(personname) return
                         html:inline($config, ., ("tei-personname", css:map-rend-to-class(.)), (firstname, ' ', surname))
                     case element(affiliation) return

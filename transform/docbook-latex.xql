@@ -213,7 +213,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     )
 
                                 else
-                                    latex:block($config, ., ("tei-info6", css:map-rend-to-class(.)), (title, author, pubdate, abstract))
+                                    latex:block($config, ., ("tei-info6", css:map-rend-to-class(.)), (title, if ($parameters?skipAuthors) then () else author, pubdate, abstract))
                     case element(author) return
                         if (preceding-sibling::author) then
                             let $params := 
@@ -226,19 +226,21 @@ declare function model:apply($config as map(*), $input as node()*) {
                             return
                                                         latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-author1", css:map-rend-to-class(.)), $content)
                         else
-                            if (preceding-sibling::author) then
+                            if (preceding-sibling::author and not($parameters?skipAuthors)) then
                                 latex:inline($config, ., ("tei-author3", css:map-rend-to-class(.)), (', ', personname, affiliation))
                             else
-                                (: More than one model without predicate found for ident author. Choosing first one. :)
-                                let $params := 
-                                    map {
-                                        "content": (personname, affiliation)
-                                    }
+                                if (not($parameters?skipAuthors)) then
+                                    latex:inline($config, ., ("tei-author4", css:map-rend-to-class(.)), (personname, affiliation))
+                                else
+                                    let $params := 
+                                        map {
+                                            "content": (personname, affiliation)
+                                        }
 
-                                                                let $content := 
-                                    model:template-author2($config, ., $params)
-                                return
-                                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-author2", css:map-rend-to-class(.)), $content)
+                                                                        let $content := 
+                                        model:template-author2($config, ., $params)
+                                    return
+                                                                        latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-author2", css:map-rend-to-class(.)), $content)
                     case element(personname) return
                         latex:inline($config, ., ("tei-personname", css:map-rend-to-class(.)), (firstname, ' ', surname))
                     case element(affiliation) return

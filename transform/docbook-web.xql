@@ -121,12 +121,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 )
 
                             else
-                                html:block($config, ., ("tei-info6", css:map-rend-to-class(.)), (title, author, pubdate, abstract))                                => model:map($node, $trackIds)
+                                html:block($config, ., ("tei-info6", css:map-rend-to-class(.)), (title, if ($parameters?skipAuthors) then () else author, pubdate, abstract))                                => model:map($node, $trackIds)
                     case element(author) return
-                        if (preceding-sibling::author) then
+                        if (preceding-sibling::author and not($parameters?skipAuthors)) then
                             html:inline($config, ., ("tei-author3", css:map-rend-to-class(.)), (', ', personname, affiliation))                            => model:map($node, $trackIds)
                         else
-                            html:inline($config, ., ("tei-author4", css:map-rend-to-class(.)), (personname, affiliation))                            => model:map($node, $trackIds)
+                            if (not($parameters?skipAuthors)) then
+                                html:inline($config, ., ("tei-author4", css:map-rend-to-class(.)), (personname, affiliation))                                => model:map($node, $trackIds)
+                            else
+                                $config?apply($config, ./node())
                     case element(personname) return
                         html:inline($config, ., ("tei-personname", css:map-rend-to-class(.)), (firstname, ' ', surname))                        => model:map($node, $trackIds)
                     case element(affiliation) return
