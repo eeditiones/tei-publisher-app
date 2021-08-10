@@ -5769,7 +5769,7 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
           <para>Update server-side modules: those live in <filename>modules/lib</filename>. You can safely remove the entire folder and replace it with the corresponding one from the new version.</para>
         </step>
       </procedure>
-      <section>
+      <section xml:id="upgrade71">
         <title>Extra Steps for TEI Publisher 7.1</title>
         <para>The new annotation editor in TEI Publisher 7.1 requires a bunch of files to be copied. If you do not intend to support web annotations in your app (we recommend having a separate app for this), you only need step 1 and 2:</para>
         <procedure>
