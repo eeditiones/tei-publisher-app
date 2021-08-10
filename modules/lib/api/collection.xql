@@ -8,7 +8,7 @@ import module namespace browse="http://www.tei-c.org/tei-simple/templates" at ".
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 import module namespace templates="http://exist-db.org/xquery/html-templating";
-import module namespace lib="http://exist-db.org/xquery/html-templating/lib";
+import module namespace lib="http://exist-db.org/xquery/html-templating/lib" at "../templates-lib.xqm";
 import module namespace docx="http://existsolutions.com/teipublisher/docx";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
 import module namespace custom="http://teipublisher.com/api/custom" at "../../custom-api.xql";
@@ -47,6 +47,7 @@ declare function capi:upload($request as map(*)) {
 
 declare %private function capi:upload($root, $paths, $payloads) {
     for-each-pair($paths, $payloads, function($path, $data) {
+        let $user := util:log('INFO', sm:id())
         let $path :=
             if (ends-with($path, ".odd")) then
                 xmldb:store($config:odd-root, xmldb:encode($path), $data)
@@ -54,22 +55,25 @@ declare %private function capi:upload($root, $paths, $payloads) {
                 let $collectionPath := $config:data-root || "/" || $root
                 return
                     if (xmldb:collection-available($collectionPath)) then
-                        if (ends-with($path, ".docx")) then
-                            let $mediaPath := $config:data-root || "/" || $root || "/" || xmldb:encode($path) || ".media"
-                            let $stored := xmldb:store($collectionPath, xmldb:encode($path), $data)
-                            let $tei :=
-                                docx:process($stored, $config:data-root, $pm-config:tei-transform(?, ?, "docx.odd"), $mediaPath)
-                            let $teiDoc :=
-                                document {
-                                    processing-instruction teipublisher {
-                                        $config:default-docx-pi
-                                    },
-                                    $tei
-                                }
-                            return
-                                xmldb:store($collectionPath, xmldb:encode($path) || ".xml", $teiDoc)
+                        if (capi:check-permissions($collectionPath, xmldb:encode($path))) then
+                            if (ends-with($path, ".docx")) then
+                                let $mediaPath := $config:data-root || "/" || $root || "/" || xmldb:encode($path) || ".media"
+                                let $stored := xmldb:store($collectionPath, xmldb:encode($path), $data)
+                                let $tei :=
+                                    docx:process($stored, $config:data-root, $pm-config:tei-transform(?, ?, "docx.odd"), $mediaPath)
+                                let $teiDoc :=
+                                    document {
+                                        processing-instruction teipublisher {
+                                            $config:default-docx-pi
+                                        },
+                                        $tei
+                                    }
+                                return
+                                    xmldb:store($collectionPath, xmldb:encode($path) || ".xml", $teiDoc)
+                            else
+                                xmldb:store($collectionPath, xmldb:encode($path), $data)
                         else
-                            xmldb:store($collectionPath, xmldb:encode($path), $data)
+                            error($errors:FORBIDDEN, "Access to " || $path || " denied")
                     else
                         error($errors:NOT_FOUND, "Collection not found: " || $collectionPath)
         return
@@ -80,4 +84,12 @@ declare %private function capi:upload($root, $paths, $payloads) {
                 "size": 93928
             }
     })
+};
+
+declare %private function capi:check-permissions($collectionPath as xs:string, $path as xs:string) {
+    util:log("INFO", $collectionPath || "/" || $path),
+    if (doc-available($collectionPath || "/" || $path)) then
+        sm:has-access(xs:anyURI($collectionPath || "/" || $path), "rw-")
+    else
+        sm:has-access(xs:anyURI($collectionPath), "rw-")
 };
