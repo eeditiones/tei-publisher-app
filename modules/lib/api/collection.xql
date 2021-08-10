@@ -47,7 +47,6 @@ declare function capi:upload($request as map(*)) {
 
 declare %private function capi:upload($root, $paths, $payloads) {
     for-each-pair($paths, $payloads, function($path, $data) {
-        let $user := util:log('INFO', sm:id())
         let $path :=
             if (ends-with($path, ".odd")) then
                 xmldb:store($config:odd-root, xmldb:encode($path), $data)
@@ -55,25 +54,22 @@ declare %private function capi:upload($root, $paths, $payloads) {
                 let $collectionPath := $config:data-root || "/" || $root
                 return
                     if (xmldb:collection-available($collectionPath)) then
-                        if (capi:check-permissions($collectionPath, xmldb:encode($path))) then
-                            if (ends-with($path, ".docx")) then
-                                let $mediaPath := $config:data-root || "/" || $root || "/" || xmldb:encode($path) || ".media"
-                                let $stored := xmldb:store($collectionPath, xmldb:encode($path), $data)
-                                let $tei :=
-                                    docx:process($stored, $config:data-root, $pm-config:tei-transform(?, ?, "docx.odd"), $mediaPath)
-                                let $teiDoc :=
-                                    document {
-                                        processing-instruction teipublisher {
-                                            $config:default-docx-pi
-                                        },
-                                        $tei
-                                    }
-                                return
-                                    xmldb:store($collectionPath, xmldb:encode($path) || ".xml", $teiDoc)
-                            else
-                                xmldb:store($collectionPath, xmldb:encode($path), $data)
+                        if (ends-with($path, ".docx")) then
+                            let $mediaPath := $config:data-root || "/" || $root || "/" || xmldb:encode($path) || ".media"
+                            let $stored := xmldb:store($collectionPath, xmldb:encode($path), $data)
+                            let $tei :=
+                                docx:process($stored, $config:data-root, $pm-config:tei-transform(?, ?, "docx.odd"), $mediaPath)
+                            let $teiDoc :=
+                                document {
+                                    processing-instruction teipublisher {
+                                        $config:default-docx-pi
+                                    },
+                                    $tei
+                                }
+                            return
+                                xmldb:store($collectionPath, xmldb:encode($path) || ".xml", $teiDoc)
                         else
-                            error($errors:FORBIDDEN, "Access to " || $path || " denied")
+                            xmldb:store($collectionPath, xmldb:encode($path), $data)
                     else
                         error($errors:NOT_FOUND, "Collection not found: " || $collectionPath)
         return
@@ -84,12 +80,4 @@ declare %private function capi:upload($root, $paths, $payloads) {
                 "size": 93928
             }
     })
-};
-
-declare %private function capi:check-permissions($collectionPath as xs:string, $path as xs:string) {
-    util:log("INFO", $collectionPath || "/" || $path),
-    if (doc-available($collectionPath || "/" || $path)) then
-        sm:has-access(xs:anyURI($collectionPath || "/" || $path), "rw-")
-    else
-        sm:has-access(xs:anyURI($collectionPath), "rw-")
 };
