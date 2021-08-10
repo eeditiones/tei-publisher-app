@@ -29,7 +29,7 @@
             even quick fixes for typos in your transcription.</para>
         <para>As usual, everything is customizable and extendable, so if you want a particular kind of annotation we
             do not support out of the box, it's not difficult to add your own or tinker existing ones. Read more in the
-            <link xlink:href="https://teipublisher.com/exist/apps/tei-publisher/doc/documentation.xml?id=web-annotations">documentation</link>
+            <link  xlink:show="new" xlink:href="https://teipublisher.com/exist/apps/tei-publisher/doc/documentation.xml?id=web-annotations">documentation</link>
         </para>
         <informalfigure>
             <mediaobject>
@@ -46,7 +46,10 @@
             <programlisting language="xml" xml:space="preserve">
                 &lt;formula notation="TeX"&gt;\frac{24}{20 - x}&lt;/formula&gt;
                           </programlisting>
-        <para>can be nicely rendered in HTML thanks to the new <code>pb-formula</code> component.</para> 
+        <para>can be nicely rendered in HTML thanks to the new <code>pb-formula</code> component. See the component's 
+            <link  xlink:show="new" xlink:href="https://unpkg.com/@teipublisher/pb-components@1.24.17/dist/api.html#pb-formula.1">demo page</link>
+            which presents some elaborate formulae. 
+        </para> 
        
         <informalfigure>
             <mediaobject>
@@ -70,8 +73,8 @@
     </section>
     <section>
         <title>Upgrading</title>
-        <para>Version 7.1.0 is fully compatible with 7 except for two minor changes which are described in the 
-            <link xlink:href="https://teipublisher.com/exist/apps/tei-publisher/doc/documentation.xml?id=upgrade71">documentation</link>.
+        <para>Version 7.1.0 is fully compatible with 7 except for some minor changes which are described in the 
+            <link  xlink:show="new" xlink:href="https://teipublisher.com/exist/apps/tei-publisher/doc/documentation.xml?id=upgrade7">documentation</link>.
         </para>
     </section>
     <section>
