@@ -6,7 +6,8 @@
                 <title>Graves' Letters
 
                  
-                  <desc>Modern correspondence with visualization of prosopographical and geographical information</desc>
+                  
+                 <desc>Modern correspondence with visualization of prosopographical and geographical information</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -89,10 +90,12 @@
             <outputRendition xml:space="preserve">
             
             
+            
 
             color: #1565c0;
 cursor: pointer;
 
+            
             
             
             </outputRendition>
@@ -106,10 +109,12 @@ cursor: pointer;
             <outputRendition xml:space="preserve">
             
             
+            
 
             color: #bf360c;
 cursor: pointer;
 
+            
             
             
             </outputRendition>
@@ -162,6 +167,7 @@ cursor: pointer;
                 <outputRendition xml:space="preserve">
                 
                 
+                
 
 
 
@@ -214,6 +220,7 @@ border-bottom: 1px solid #A0A0A0;
 
 
 
+                
                 
                 
                 </outputRendition>
@@ -227,6 +234,7 @@ border-bottom: 1px solid #A0A0A0;
                 <outputRendition xml:space="preserve">
                 
                 
+                
 
 
 
@@ -257,6 +265,7 @@ border-bottom: 1px solid #A0A0A0;
 
 
 
+                
                 
                 
                 </outputRendition>
@@ -316,10 +325,12 @@ border-bottom: 1px solid #A0A0A0;
                 <outputRendition xml:space="preserve">
                 
                 
+                
 
                 color: #1565c0;
 cursor: pointer;
 
+                
                 
                 
                 </outputRendition>
@@ -351,8 +362,10 @@ cursor: pointer;
                 <outputRendition xml:space="preserve">
                 
                 
+                
                 font-size: .85em;
 margin-bottom: .5em;
+                
                 
                 
                 </outputRendition>
@@ -376,10 +389,12 @@ margin-bottom: .5em;
                 <outputRendition xml:space="preserve">
                 
                 
+                
                 margin-top: 10px;
 padding-top: 10px;
 border-top: 1px solid #A0A0A0;
 font-style: italic;
+                
                 
                 
                 </outputRendition>
@@ -396,8 +411,10 @@ font-style: italic;
             <param name="alternate" value="id(@ref, doc(&#34;/db/apps/tei-publisher/data/register.xml&#34;))"/>
             <param name="default" value="."/>
             <outputRendition xml:space="preserve">
+            
             text-decoration: underline;
 --pb-popover-theme: 'light';
+            
             </outputRendition>
         </model>
                 </elementSpec>
@@ -512,12 +529,23 @@ font-style: italic;
             <param name="default" value="."/>
             <outputRendition xml:space="preserve">
             
+            
             text-decoration: underline;
 --pb-popover-theme: 'light';
+            
             
             </outputRendition>
         </model>
                 </elementSpec>
+            <elementSpec ident="term" mode="add">
+        <model behaviour="alternate">
+            <param name="alternate" value="id(@ref, doc(&#34;/db/apps/tei-publisher/data/register.xml&#34;))"/>
+            <param name="default" value="."/>
+            <outputRendition xml:space="preserve">
+            font-style: italic;
+            </outputRendition>
+        </model>
+    </elementSpec>
             </schemaSpec>
         </body>
     </text>
