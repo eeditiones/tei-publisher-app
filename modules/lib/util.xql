@@ -65,9 +65,9 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd
     let $pisWithOdd :=
         if ($defaultConfig?overwrite) then
             if ($cfgOddAvail) then
-                map:merge(($default, map { "odd": $pis?odd }))
+                map:merge(($default, map { "odd": $pis?odd, "output": $pis?output }))
             else
-                $default
+                map:merge(($default, map { "output": $pis?output }))
         else
             $pis
     (: ODD from parameter should overwrite ODD defined in PI :)
