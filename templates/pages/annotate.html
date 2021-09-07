@@ -22,7 +22,7 @@
     </head>
 
     <body>
-        <pb-page data-template="pages:pb-page" unresolved="unresolved" require-language="require-language">
+        <pb-page data-template="pages:pb-page" unresolved="unresolved" require-language="require-language" locales="resources/i18n/{{ns}}/{{lng}}.json">
             <pb-document id="document1" data-template="pages:pb-document"/>
             <app-drawer-layout force-narrow="force-narrow">
                 <app-drawer data-template="lib:include" data-template-path="templates/drawer.html"/>
@@ -58,9 +58,9 @@
                                         <div id="authority-info"><pb-i18n key="dialogs.loading">Loading ...</pb-i18n></div>
                                     </div>
                                     <div class="annotation-form date">
-                                        <paper-input name="when" label="when"></paper-input>
-                                        <paper-input name="from" label="from"></paper-input>
-                                        <paper-input name="to" label="to"></paper-input>
+                                        <paper-input name="when" label="when" type="date"></paper-input>
+                                        <paper-input name="from" label="from" type="date"></paper-input>
+                                        <paper-input name="to" label="to" type="date"></paper-input>
                                     </div>
                                     <div class="annotation-form hi">
                                         <paper-input name="rend" label="rend"></paper-input>
