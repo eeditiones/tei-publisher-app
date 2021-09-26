@@ -51,10 +51,10 @@ declare function pages:parse-params($node as node(), $model as map(*)) {
     lib:parse-params($node, $model, "\$\{", "\}")
 };
 
-declare function pages:pb-document($node as node(), $model as map(*)) {
-    let $odd := ($node/@odd, $model?odd)[1]
+declare function pages:pb-document($node as node(), $model as map(*), $odd as xs:string?) {
+    let $oddParam := ($node/@odd, $model?odd, $odd)[1]
     let $data := config:get-document($model?doc)
-    let $config := tpu:parse-pi(root($data), $model?view, $odd)
+    let $config := tpu:parse-pi(root($data), $model?view, $oddParam)
     return
         <pb-document path="{$model?doc}" root-path="{$config:data-root}" view="{$config?view}" odd="{replace($config?odd, '^(.*)\.odd', '$1')}"
             source-view="{$pages:EXIDE}">
