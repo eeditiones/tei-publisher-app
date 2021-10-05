@@ -2004,6 +2004,17 @@
 						"schema": {
 							"type": "integer"
 						}
+					},
+					{
+						"name": "nav",
+						"in": "query",
+						"schema":{
+							"type": "string",
+							"enum": [
+								"parents",
+								"children"
+							]
+						}
 					}
 				],
 				"responses": {

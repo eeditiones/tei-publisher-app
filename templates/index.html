@@ -42,7 +42,7 @@
             }
             
             .tp-title {
-                font-family: "Oswald", Verdana, "Helvetica", sans-serif;
+                font-family: var(--pb-heading-font-family);
                 font-size: 36px;
                 font-weight: 400;
             }
@@ -80,7 +80,7 @@
             .panels .doclist {
                 --paper-tabs-selection-bar-color: #607D8B;
                 --paper-tab-content: {
-                    font-family: "Oswald", Verdana, "Helvetica", sans-serif;
+                    font-family: var(--pb-heading-font-family);
                     font-weight: 400;
                 }
                 ;
@@ -89,7 +89,7 @@
                 }
                 ;
                 --paper-card-header-text: {
-                    font-family: "Oswald", Verdana, "Helvetica", sans-serif;
+                    font-family: var(--pb-heading-font-family);
                     font-size: 16px;
                     font-weight: 400;
                 }
@@ -130,7 +130,7 @@
                 }
                 ;
                 --paper-card-header-text: {
-                    font-family: "Oswald", Verdana, "Helvetica", sans-serif;
+                    font-family: var(--pb-heading-font-family);
                     font-size: 16px;
                     font-weight: 400;
                     color: white;
@@ -217,7 +217,7 @@
             h4,
             h5,
             h6 {
-                font-family: "Oswald", Verdana, "Helvetica", sans-serif;
+                font-family: var(--pb-heading-font-family);
                 font-weight: 400 !important;
                 line-height: 1.2;
             }
@@ -268,6 +268,15 @@
             
             dts-client pb-paginate {
                 margin-bottom: 1em;
+            }
+
+            dts-client::part(title), dts-client::part(collection-title) {
+                font-family: var(--pb-heading-font-family);
+            }
+
+            dts-client::part(link) {
+                color: #303F9F;
+                text-decoration: none;
             }
         </style>
     </custom-style>
@@ -457,7 +466,8 @@
         const dtsConfig = [
             {
                 "url": "http://localhost:8080/exist/apps/tei-publisher/api/dts",
-                "title": "Localhost"
+                "title": "Localhost",
+                "collection": "documents"
             },
         {
             "url": "https://teipublisher.com/exist/apps/vangogh/api/dts",
@@ -466,7 +476,7 @@
             "url": "https://teipublisher.com/exist/apps/shakespeare-pm/api/dts",
             "title": "Shakespeare Plays"
         }, {
-            "url": "http://texts.alpheios.net/api/dts",
+            "url": "https://texts.alpheios.net/api/dts",
             "title": "Alpheios Project"
         }];
         window.addEventListener('WebComponentsReady', () => {

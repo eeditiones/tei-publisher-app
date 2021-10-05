@@ -29,7 +29,7 @@ declare function dts:base-endpoint($request as map(*)) {
 declare function dts:collection($request as map(*)) {
     let $collectionInfo :=
         if ($request?parameters?id) then
-            dts:collection-by-id($config:dts-collections, $request?parameters?id)
+            dts:collection-by-id($config:dts-collections, $request?parameters?id, (), $request?parameters?nav = "parents")
         else
             $config:dts-collections
     return
@@ -40,6 +40,11 @@ declare function dts:collection($request as map(*)) {
             let $paged := subsequence($resources, ($request?parameters?page - 1) * $pageSize + 1, $pageSize)
             let $memberResources := dts:get-members($collectionInfo, $paged)
             let $memberCollections := dts:get-members($collectionInfo, $collectionInfo?memberCollections)
+            let $parentInfo := 
+                if ($request?parameters?id) then
+                    dts:collection-by-id($config:dts-collections, $request?parameters?id, (), true())
+                else
+                    ()
             return
                 map {
                     "@context": map {
@@ -48,21 +53,25 @@ declare function dts:collection($request as map(*)) {
                         "dts": "https://w3id.org/dts/api#"
                     },
                     "@type": "Collection",
+                    "@id": $collectionInfo?id,
                     "title": $collectionInfo?title,
                     "totalItems": $count,
+                    "dts:totalChildren": $count,
+                    "dts:totalParents": count($parentInfo),
                     "member": array { $memberResources, $memberCollections }
                 }
         else
             response:set-status-code(404)
 };
 
-declare %private function dts:collection-by-id($collectionInfo as map(*), $id as xs:string) {
+declare %private function dts:collection-by-id($collectionInfo as map(*), $id as xs:string, $parentInfo as map(*)?, 
+    $returnParent as xs:boolean?) {
     if ($collectionInfo?id = $id) then
-        $collectionInfo
+        if ($returnParent) then $parentInfo else $collectionInfo
     else
         for $member in $collectionInfo?memberCollections
         return
-            dts:collection-by-id($member, $id)
+            dts:collection-by-id($member, $id, $collectionInfo, $returnParent)
 };
 
 declare %private function dts:get-members($collectionInfo as map(*), $resources as item()*) {
