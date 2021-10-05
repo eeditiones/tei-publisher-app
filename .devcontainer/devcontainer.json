@@ -7,6 +7,7 @@
             "HTTPS_PORT": "8443"
         }
     },
+    "runArgs": ["--name=TEIPublisherDev"],
     "forwardPorts": [ 8080 ],
     "extensions": [ "exist-db.existdb-vscode", "42crunch.vscode-openapi", "redhat.vscode-xml" ],
     "overrideCommand": false,
