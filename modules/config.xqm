@@ -45,7 +45,7 @@ declare variable $config:origin-whitelist := (
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port 
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "1.24.18";
+declare variable $config:webcomponents := "1.25.0";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
@@ -355,25 +355,41 @@ declare variable $config:dts-collections := map {
             "id": "documents",
             "title": "Document Collection",
             "path": $config:data-default,
-            "members": function() {
-                nav:get-root((), map {
-                    "leading-wildcard": "yes",
-                    "filter-rewrite": "yes"
-                })
-            },
-            "metadata": function($doc as document-node()) {
-                let $properties := tpu:parse-pi($doc, ())
-                return
-                    map:merge((
-                        map:entry("title", string-join(nav:get-metadata($properties, $doc/*, "title"), ', ')),
-                        map {
-                            "dts:dublincore": map {
-                                "dc:creator": string-join(nav:get-metadata($properties, $doc/*, "author"), "; "),
-                                "dc:license": nav:get-metadata($properties, $doc/*, "license")
-                            }
-                        }
-                    ))
-            }
+            "memberCollections": (
+                map {
+                    "id": "demo",
+                    "title": "TEI Publisher Demo Documents",
+                    "path": $config:data-default || "/test",
+                    "members": function() {
+                        nav:get-root("test", map {
+                            "leading-wildcard": "yes",
+                            "filter-rewrite": "yes"
+                        })
+                    },
+                    "metadata": config:dts-metadata#1
+                },
+                map {
+                    "id": "playground",
+                    "title": "Playground",
+                    "path": $config:data-default || "/playground",
+                    "members": function() {
+                        nav:get-root("playground", map {
+                            "leading-wildcard": "yes",
+                            "filter-rewrite": "yes"
+                        })
+                    },
+                    "metadata": config:dts-metadata#1
+                },
+                map {
+                    "id": "documentation",
+                    "title": "Documentation",
+                    "path": $config:data-default || "/doc",
+                    "members": function() {
+                        doc($config:data-default || "/doc/documentation.xml")
+                    },
+                    "metadata": config:dts-metadata#1
+                }
+            )
         },
         map {
             "id": "odd",
@@ -394,6 +410,20 @@ declare variable $config:dts-collections := map {
 declare variable $config:dts-page-size := 10;
 
 declare variable $config:dts-import-collection := $config:data-default || "/playground";
+
+declare function config:dts-metadata($doc as document-node()) {
+    let $properties := tpu:parse-pi($doc, ())
+    return
+        map:merge((
+            map:entry("title", string-join(nav:get-metadata($properties, $doc/*, "title"), ', ')),
+            map {
+                "dts:dublincore": map {
+                    "dc:creator": string-join(nav:get-metadata($properties, $doc/*, "author"), "; "),
+                    "dc:license": nav:get-metadata($properties, $doc/*, "license")
+                }
+            }
+        ))
+};
 
 (:~
  : Returns a default display configuration as a map for the given collection and
