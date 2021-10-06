@@ -29,13 +29,13 @@ describe('/api/dts/collection', function () {
     });
 
     it('navigates to child collection', async function () {
-        const res = await util.axios.get('dts/collection?id=documents&per-page=1000');
+        const res = await util.axios.get('dts/collection?id=https://teipublisher.com/dts/demo&nav=children');
         expect(res.status).to.equal(200);
         expect(res.data['@type']).to.equal('Collection');
         expect(res.data.member.length).to.be.greaterThan(1);
         expect(res).to.satisfyApiSpec;
 
-        const member = res.data.member.find((m) => m['@id'] === 'test/let695.xml');
+        const member = res.data.member.find((m) => m['@id'] === 'https://teipublisher.com/dts/demo/let695.xml');
         expect(member).to.exist;
         expect(member).to.have.property('dts:passage');
         downloadLink = new URL(member['dts:passage'], 'http://localhost:8080').toString();
@@ -50,8 +50,6 @@ describe('/api/dts/document', function () {
         expect(res.status).to.equal(200);
         expect(res.headers['content-type']).to.equal('application/xml');
         expect(res).to.satisfyApiSpec;
-
-
     });
 
     it('imports resource', async function () {

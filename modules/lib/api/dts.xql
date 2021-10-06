@@ -89,7 +89,7 @@ declare %private function dts:get-members($collectionInfo as map(*), $resources 
                 return
                     map:merge((
                         map {
-                            "@id": $id,
+                            "@id": $collectionInfo?id || "/" || $id,
                             "title": $id,
                             "@type": "Resource",
                             "dts:passage": dts:base-path() || "/document?id=" || $collectionInfo?path || "/" || $id

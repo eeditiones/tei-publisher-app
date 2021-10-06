@@ -25,7 +25,8 @@ declare namespace tei = "http://www.tei-c.org/ns/1.0";
 declare variable $config:origin-whitelist := (
     "(?:https?://localhost:.*|https?://127.0.0.1:.*)",
     "https?://unpkg.com",
-    "https?://cdpn.io"
+    "https?://cdpn.io",
+    "https?://teipublisher.onrender.com"
 );
 
 (:~~
@@ -357,7 +358,7 @@ declare variable $config:dts-collections := map {
             "path": $config:data-default,
             "memberCollections": (
                 map {
-                    "id": "demo",
+                    "id": "https://teipublisher.com/dts/demo",
                     "title": "TEI Publisher Demo Documents",
                     "path": $config:data-default || "/test",
                     "members": function() {
@@ -369,7 +370,7 @@ declare variable $config:dts-collections := map {
                     "metadata": config:dts-metadata#1
                 },
                 map {
-                    "id": "playground",
+                    "id": "https://teipublisher.com/dts/playground",
                     "title": "Playground",
                     "path": $config:data-default || "/playground",
                     "members": function() {
@@ -381,7 +382,7 @@ declare variable $config:dts-collections := map {
                     "metadata": config:dts-metadata#1
                 },
                 map {
-                    "id": "documentation",
+                    "id": "https://teipublisher.com/dts/documentation",
                     "title": "Documentation",
                     "path": $config:data-default || "/doc",
                     "members": function() {
@@ -392,7 +393,7 @@ declare variable $config:dts-collections := map {
             )
         },
         map {
-            "id": "odd",
+            "id": "https://teipublisher.com/dts/odd",
             "title": "ODD Collection",
             "path": $config:odd-root,
             "members": function() {
