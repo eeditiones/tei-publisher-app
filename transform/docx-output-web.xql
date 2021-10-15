@@ -163,16 +163,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                             return
                                                         html:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-hi1", css:map-rend-to-class(.)), $content)                            => model:map($node, $trackIds)
                         else
-                            if (@rend='b') then
-                                html:inline($config, ., ("tei-hi2", css:map-rend-to-class(.)), .)                                => model:map($node, $trackIds)
+                            if (@rendition) then
+                                html:inline($config, ., css:get-rendition(., ("tei-hi2", css:map-rend-to-class(.))), .)                                => model:map($node, $trackIds)
                             else
-                                if (@rendition) then
-                                    html:inline($config, ., css:get-rendition(., ("tei-hi3", css:map-rend-to-class(.))), .)                                    => model:map($node, $trackIds)
+                                if (not(@rendition)) then
+                                    html:inline($config, ., ("tei-hi3", css:map-rend-to-class(.)), .)                                    => model:map($node, $trackIds)
                                 else
-                                    if (not(@rendition)) then
-                                        html:inline($config, ., ("tei-hi4", css:map-rend-to-class(.)), .)                                        => model:map($node, $trackIds)
-                                    else
-                                        $config?apply($config, ./node())
+                                    $config?apply($config, ./node())
                     case element(code) return
                         html:inline($config, ., ("tei-code", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(note) return
@@ -388,7 +385,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                             if (not(node())) then
                                 html:link($config, ., ("tei-ref2", css:map-rend-to-class(.)), @target, @target, (), map {})                                => model:map($node, $trackIds)
                             else
-                                html:link($config, ., ("tei-ref3", css:map-rend-to-class(.)), ., @target, (), map {})                                => model:map($node, $trackIds)
+                                if (starts-with(@target, '#')) then
+                                    html:link($config, ., ("tei-ref3", css:map-rend-to-class(.)), ., '?id=' || substring-after(@target, '#') || @target, (), map {})                                    => model:map($node, $trackIds)
+                                else
+                                    html:link($config, ., ("tei-ref4", css:map-rend-to-class(.)), ., @target, (), map {})                                    => model:map($node, $trackIds)
                     case element(pubPlace) return
                         if (ancestor::teiHeader) then
                             (: Omit if located in teiHeader. :)

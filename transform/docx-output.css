@@ -51,6 +51,9 @@ h4 {
 .u {
     text-decoration: underline;
 }
+.strike {
+    text-decoration: line-through;
+}
 .simple_allcaps { text-transform: uppercase; }
 .simple_blackletter { font-family: fantasy; }
 .simple_bold { font-weight: bold; }
@@ -97,10 +100,8 @@ h4 {
 .tei-pb { display: block; margin-left: 4pt; color: grey; float: right; }
 .tei-pb:before { content: '[Page '; }
 .tei-pb:after { content: ']'; }
-.tei-hi1 { text-decoration: underline; }
-.tei-hi2 { font-weight: bold; }
+.tei-hi2 { font-style: italic; }
 .tei-hi3 { font-style: italic; }
-.tei-hi4 { font-style: italic; }
 .tei-code { font-family:monospace }
 .tei-note3 { margin-left: 10px;margin-right: 10px; font-size:smaller; }
 .tei-note4:before { content:" ["; }

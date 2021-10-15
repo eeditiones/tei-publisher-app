@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?teipublisher output="tei"?>
-<?xml-model href="teipublisher_odds.xsd"?>
+<?teipublisher output="tei"?><?xml-model href="teipublisher_odds.xsd"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pb="http://teipublisher.com/1.0" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:rel="http://schemas.openxmlformats.org/package/2006/relationships" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:lang="en">
     <teiHeader>
         <fileDesc>
@@ -27,7 +26,8 @@
                  
                     
                   
-                 <desc>Convert DOCX via ODD</desc>
+                 
+                  <desc>Convert DOCX via ODD</desc>
                 </title>
                 <title type="short">DOCX Import</title>
             </titleStmt>
@@ -53,6 +53,9 @@
                 <p>born digital</p>
             </sourceDesc>
         </fileDesc>
+        <encodingDesc>
+            <tagsDecl/>
+        </encodingDesc>
         <revisionDesc>
             <change when="2019-05-07+02:00">Initial version</change>
         </revisionDesc>
@@ -72,7 +75,7 @@
             <param name="type" value="if ($parameters?nstyle(.)/numFmt[@w:val = 'bullet']) then  () else  'ordered'"/>
         </model>
                     <model predicate="$parameters?pstyle(.)/name[matches(@w:val, &#34;^(heading|title|subtitle)&#34;, &#34;i&#34;)]" behaviour="heading">
-            <param name="level" value="let $l := $parameters?pstyle(.)//outlineLvl/@w:val return  if ($l) then $l/number() + 1 else 0"/>
+            <param name="level" value="let $l := $parameters?pstyle(.)//outlineLvl/@w:val return  if ($l) then $l/number() else 0"/>
         </model>
                     <model behaviour="paragraph"/>
                 </elementSpec>
@@ -104,6 +107,11 @@
             <param name="ref" value="replace(., '^.*?&amp;#60;(.*)&amp;#62;.*$', '$1')"/>
             <pb:template xmlns="" xml:space="preserve"><persName xmlns="http://www.tei-c.org/ns/1.0" ref="http://d-nb.info/gnd/[[ref]]">[[content]]</persName></pb:template>
         </model>
+                    <model predicate="$parameters?cstyle(.)/name[@w:val = 'tei:code']" behaviour="inline">
+            <desc>tei:code may contain angle brackets, so needs to be handled separately</desc>
+            <param name="tei_element" value="'code'"/>
+            <param name="tei_attributes" value="()"/>
+        </model>
                     <model predicate="$parameters?cstyle(.)/name[@w:val = 'tei:tag']" behaviour="inline">
             <desc>tei:tag may contain angle brackets, so needs to be handled separately</desc>
             <param name="tei_element" value="'tag'"/>
@@ -116,8 +124,8 @@
                     <model predicate="$parameters?cstyle(.)/name[starts-with(@w:val, 'tei:')]" behaviour="inline">
             <param name="tei_element" value="substring-after($parameters?cstyle(.)/name/@w:val, 'tei:')"/>
         </model>
-                    <model predicate="rPr/(u|i|caps|b) or $parameters?cstyle(.)/rPr/(u|i|caps|b)" behaviour="inline">
-            <param name="rend" value="(rPr/(u|i|caps|b), $parameters?cstyle(.)/rPr/(u|i|caps|b)) ! local-name(.)"/>
+                    <model predicate="rPr/(u|i|caps|b|strike) or $parameters?cstyle(.)/rPr/(u|i|caps|b|strike)" behaviour="inline">
+            <param name="rend" value="(rPr/(u|i|caps|b|strike), $parameters?cstyle(.)/rPr/(u|i|caps|b|strike)) ! local-name(.)"/>
             <pb:template xmlns="" xml:space="preserve"><hi xmlns="http://www.tei-c.org/ns/1.0" rend="[[rend]]">[[content]]</hi></pb:template>
         </model>
                     <model behaviour="inline"/>

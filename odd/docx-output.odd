@@ -9,6 +9,7 @@
                  
                       
                  
+                 
                  <desc>A test ODD to preview TEI imported from Word docx</desc>
                 </title>
             </titleStmt>
@@ -59,8 +60,10 @@
             
             
             
+            
             font-family: Menlo, Consolas, monospace;
 font-size: 0.85em;
+            
             
             
             
@@ -89,8 +92,10 @@ font-size: 0.85em;
             
             
             
+            
             color: #e24329;
 font-variant: small-caps;
+            
             
             
             
@@ -126,8 +131,10 @@ font-variant: small-caps;
                     <model behaviour="inline">
             <outputRendition xml:space="preserve">
             
+            
             font-family: Menlo, Consolas, monospace;
 font-size: .85em;
+            
             
             </outputRendition>
             <outputRendition xml:space="preserve" scope="before">
@@ -162,10 +169,12 @@ font-size: .85em;
             
             
             
+            
             margin-left: 10px; 
 margin-right: 10px;
 padding-left: 10px;
 border-left: 1px solid #C0C0C0;
+            
             
             
             
@@ -198,14 +207,6 @@ border-left: 1px solid #C0C0C0;
                     <model predicate="@rend" behaviour="inline">
             <param name="rend" value="@rend"/>
             <pb:template xmlns="" xml:space="preserve"><span class="[[rend]]">[[content]]</span></pb:template>
-            <outputRendition xml:space="preserve">
-            text-decoration: underline;
-            </outputRendition>
-        </model>
-                    <model predicate="@rend='b'" behaviour="inline">
-            <outputRendition xml:space="preserve">
-            font-weight: bold;
-            </outputRendition>
         </model>
                     <model predicate="@rendition" behaviour="inline" useSourceRendition="true">
             <outputRendition xml:space="preserve">
@@ -266,8 +267,10 @@ border-left: 1px solid #C0C0C0;
         </model>
                     <model predicate="parent::div and not(@place)" behaviour="block">
             <outputRendition xml:space="preserve">
+            
             margin-left: 10px;margin-right: 10px;
                   font-size:smaller;
+            
             </outputRendition>
         </model>
                     <model predicate="not(@place)" behaviour="inline">
@@ -282,6 +285,19 @@ border-left: 1px solid #C0C0C0;
             </outputRendition>
         </model>
                 </elementSpec>
+            <elementSpec ident="ref" mode="change">
+        <model predicate="not(@target)" behaviour="inline"/>
+        <model predicate="not(node())" behaviour="link">
+            <param name="content" value="@target"/>
+            <param name="uri" value="@target"/>
+        </model>
+        <model predicate="starts-with(@target, '#')" behaviour="link">
+            <param name="uri" value="'?id=' || substring-after(@target, '#') || @target"/>
+        </model>
+        <model behaviour="link">
+            <param name="uri" value="@target"/>
+        </model>
+    </elementSpec>
             </schemaSpec>
         </body>
     </text>

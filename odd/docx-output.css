@@ -45,3 +45,6 @@ h4 {
 .u {
     text-decoration: underline;
 }
+.strike {
+    text-decoration: line-through;
+}
