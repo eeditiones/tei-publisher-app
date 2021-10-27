@@ -108,10 +108,14 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 if ($parameters?nstyle(.)/numFmt) then
                                     tei:listItem($config, ., ("tei-p3", css:map-rend-to-class(.)), ., (), map {"level": $parameters?nstyle(.)/@w:ilvl, "type": if ($parameters?nstyle(.)/numFmt[@w:val = 'bullet']) then  () else  'ordered'})
                                 else
-                                    if ($parameters?pstyle(.)/name[matches(@w:val, "^(heading|title|subtitle)", "i")]) then
-                                        tei:heading($config, ., ("tei-p4", css:map-rend-to-class(.)), ., let $l := $parameters?pstyle(.)//outlineLvl/@w:val return  if ($l) then $l/number() else 0)
+                                    if ($parameters?pstyle(.)/name[matches(@w:val, "^title", "i")]) then
+                                        (: The default "title" style gets level 0 assigned :)
+                                        tei:heading($config, ., ("tei-p4", css:map-rend-to-class(.)), ., 0)
                                     else
-                                        tei:paragraph($config, ., ("tei-p5", css:map-rend-to-class(.)), .)
+                                        if ($parameters?pstyle(.)/name[matches(@w:val, "^(heading|subtitle)", "i")]) then
+                                            tei:heading($config, ., ("tei-p5", css:map-rend-to-class(.)), ., let $l := $parameters?pstyle(.)//outlineLvl/@w:val return  if ($l) then $l/number() + 1 else 1)
+                                        else
+                                            tei:paragraph($config, ., ("tei-p6", css:map-rend-to-class(.)), .)
                     case element(r) return
                         if (drawing) then
                             tei:inline($config, ., ("tei-r1", css:map-rend-to-class(.)), .//pic:pic, map {})

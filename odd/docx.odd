@@ -27,7 +27,8 @@
                     
                   
                  
-                  <desc>Convert DOCX via ODD</desc>
+                  
+                 <desc>Convert DOCX via ODD</desc>
                 </title>
                 <title type="short">DOCX Import</title>
             </titleStmt>
@@ -74,8 +75,12 @@
             <param name="level" value="$parameters?nstyle(.)/@w:ilvl"/>
             <param name="type" value="if ($parameters?nstyle(.)/numFmt[@w:val = 'bullet']) then  () else  'ordered'"/>
         </model>
-                    <model predicate="$parameters?pstyle(.)/name[matches(@w:val, &#34;^(heading|title|subtitle)&#34;, &#34;i&#34;)]" behaviour="heading">
-            <param name="level" value="let $l := $parameters?pstyle(.)//outlineLvl/@w:val return  if ($l) then $l/number() else 0"/>
+                    <model predicate="$parameters?pstyle(.)/name[matches(@w:val, &#34;^title&#34;, &#34;i&#34;)]" behaviour="heading">
+            <desc>The default "title" style gets level 0 assigned</desc>
+            <param name="level" value="0"/>
+        </model>
+                    <model predicate="$parameters?pstyle(.)/name[matches(@w:val, &#34;^(heading|subtitle)&#34;, &#34;i&#34;)]" behaviour="heading">
+            <param name="level" value="let $l := $parameters?pstyle(.)//outlineLvl/@w:val return  if ($l) then $l/number() + 1 else 1"/>
         </model>
                     <model behaviour="paragraph"/>
                 </elementSpec>
