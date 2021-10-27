@@ -31,8 +31,8 @@ declare variable $deploy:EXPATH_DESCRIPTOR :=
         version="0.1" spec="1.0">
         <dependency processor="http://exist-db.org" semver-min="5.2.0"/>
         <dependency package="http://exist-db.org/html-templating"/>
-        <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver-min="2.8.8"/>
-        <dependency package="http://exist-db.org/open-api/router" semver-min="0.2.0"/>
+        <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver-min="2.9.2"/>
+        <dependency package="http://exist-db.org/open-api/router" semver-min="0.5.1"/>
     </package>
 ;
 
