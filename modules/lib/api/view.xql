@@ -37,7 +37,7 @@ declare function vapi:get-template($doc as xs:string, $template as xs:string?, $
         let $document := config:get-document($doc)
         return
             if (exists($document)) then
-                let $config := tpu:parse-pi($document, $view)
+                let $config := tpu:parse-pi(root($document), $view)
                 return
                     $config?template
             else

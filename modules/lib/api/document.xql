@@ -326,7 +326,7 @@ declare function dapi:get-fragment($request as map(*)) {
     let $xml :=
         if ($request?parameters?xpath) then
             for $document in config:get-document($doc)
-            let $namespace := namespace-uri-from-QName(node-name($document/*))
+            let $namespace := namespace-uri-from-QName(node-name(root($document)/*))
             let $xquery := "declare default element namespace '" || $namespace || "'; $document" || $request?parameters?xpath
             let $data := util:eval($xquery)
             return
@@ -337,7 +337,7 @@ declare function dapi:get-fragment($request as map(*)) {
 
         else if (exists($request?parameters?id)) then (
             for $document in config:get-document($doc)
-            let $config := tpu:parse-pi($document, $view)
+            let $config := tpu:parse-pi(root($document), $view)
             let $data :=
                 if (count($request?parameters?id) = 1) then
                     nav:get-section-for-node($config, $document/id($request?parameters?id))
