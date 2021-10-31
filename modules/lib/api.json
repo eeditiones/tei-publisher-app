@@ -51,7 +51,11 @@
         {
             "name": "register",
             "description": "Manage entries in the local authority file"
-        }
+        },
+		{
+			"name": "nlp",
+			"description": "Entity recognition and other natural language processing features"
+		}
 	],
 	"components": {
 		"securitySchemes": {
@@ -2304,6 +2308,79 @@
 							"application/json": {
 								"schema": {
 									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/nlp/entities/{id}": {
+			"get": {
+				"summary": "Call entity extraction on a document",
+				"operationId": "nlp:entity-recognition",
+				"tags": ["nlp"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"name": "lang",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"default": "de"
+						}
+					},
+					{
+						"name": "mode",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "JSON structure listing the entities found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/nlp/text/{id}": {
+			"get": {
+				"summary": "Get the plain text of the given document fragment",
+				"operationId": "nlp:plain-text",
+				"tags": ["nlp"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Plain text of the document fragment",
+						"content": {
+							"text/text": {
+								"schema": {
+									"type": "string"
 								}
 							}
 						}

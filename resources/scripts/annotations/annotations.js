@@ -395,6 +395,24 @@ window.addEventListener("WebComponentsReady", () => {
 
 	// apply annotation action
 	saveBtn.addEventListener("click", () => save());
+	document.getElementById('nlp').addEventListener('click', () => {
+		const endpoint = document.querySelector("pb-page").getEndpoint();
+		window.pbEvents.emit("pb-start-update", "transcription", {});
+		fetch(`${endpoint}/api/nlp/entities/${doc.path}`, {
+			method: "GET",
+			mode: "cors",
+			credentials: "same-origin"
+		})
+		.then((response) => {
+			if (response.ok) {
+				return response.json();
+			}
+		}).then((json) => {
+			view.annotations = json;
+			window.pbEvents.emit("pb-end-update", "transcription", {});
+			preview(view.annotations);
+		});
+	});
 	// reload source TEI, discarding current annotations
 	document.getElementById('reload-all').addEventListener('click', () => {
 		function reload() {
