@@ -13,7 +13,7 @@ declare function nlp:entity-recognition($request as map(*)) {
     let $lang := $request?parameters?lang
     let $doc := config:get-document($path)//tei:body
     let $pairs := nlp:extract-plain-text($doc)
-    let $offsets := nlp:compute-offsets($pairs, 0)
+    let $offsets := nlp:mapping-table($pairs, 0)
     let $plain := string-join($pairs ! .?2)
     return
         switch ($request?parameters?mode)
@@ -52,20 +52,48 @@ declare function nlp:extract-plain-text($nodes as node()*) {
                 nlp:extract-plain-text($node/*)
             case element(tei:p) | element(tei:head) return (
                 nlp:extract-plain-text($node/node()),
+                (: output empty line :)
                 [(), "&#10;", 0]
             )
-            case element() return
+            case element(tei:note) return (
+                (: output empty line before footnote starts :)
+                [(), "&#10;", 0],
+                nlp:extract-plain-text($node/node())
+            ) case element() return
                 nlp:extract-plain-text($node/node())
             case text() return
                 if (normalize-space($node) = (" ", "")) then
                     ()
                 (: if there are preceding siblings, we need to calculate the absolute character offset within the parent node:)
                 else if ($node/preceding-sibling::node()) then
-                    [util:node-id($node/..), $node/string(), string-length(string-join($node/..//text()[. << $node]))]
+                    [util:node-id($node/..), $node/string(), nlp:absolute-offset($node/../node()[. << $node], 0)]
                 else
                     [util:node-id($node/..), $node/string(), 0]
             default return
                 ()
+};
+
+(:~
+ : Accumulate the string lengths of a sequence of nodes to obtain an absolute character
+ : offset. Some elements need special treatment, e.g. tei:note should be ignored.
+ :)
+declare %private function nlp:absolute-offset($nodes as node()*, $start as xs:int) {
+    if ($nodes) then
+        let $head := head($nodes)
+        let $offset :=
+            typeswitch($head)
+                case element(tei:note) return
+                    $start
+                case element() return
+                    nlp:absolute-offset($head/node(), $start)
+                case comment() | processing-instruction() return
+                    $start
+                default return
+                    $start + string-length($head)
+        return
+            nlp:absolute-offset(tail($nodes), $offset)
+    else
+        $start
 };
 
 (:~
@@ -76,7 +104,7 @@ declare function nlp:extract-plain-text($nodes as node()*) {
  : The resulting data structure is later used by nlp:convert to re-map the
  : detected entities back to the XML being annotated.
  :)
-declare function nlp:compute-offsets($pairs as array(*)*, $accum as xs:int) {
+declare function nlp:mapping-table($pairs as array(*)*, $accum as xs:int) {
     if (empty($pairs)) then
         ()
     else
@@ -92,7 +120,7 @@ declare function nlp:compute-offsets($pairs as array(*)*, $accum as xs:int) {
                 }
             else
                 (),
-            nlp:compute-offsets(tail($pairs), $end)
+            nlp:mapping-table(tail($pairs), $end)
         )
 };
 
