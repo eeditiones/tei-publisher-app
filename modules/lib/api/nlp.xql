@@ -36,6 +36,14 @@ declare function nlp:plain-text($request as map(*)) {
         $plain
 };
 
+(:~
+ : Extract the plain text of the document while recording the node id and 
+ : character offset of each text node.
+ :
+ : @return a sequence of arrays with the first array element containing the
+ : id of the text node, the second the text, and the third the absolute character
+ : offset into the parent node
+ :)
 declare function nlp:extract-plain-text($nodes as node()*) {
     for $node in $nodes
     return
@@ -51,14 +59,23 @@ declare function nlp:extract-plain-text($nodes as node()*) {
             case text() return
                 if (normalize-space($node) = (" ", "")) then
                     ()
-                else if ($node/.. instance of element(tei:p) and not($node/preceding-sibling::*)) then
-                    [util:node-id($node/..), $node/string(), 0]
+                (: if there are preceding siblings, we need to calculate the absolute character offset within the parent node:)
+                else if ($node/preceding-sibling::node()) then
+                    [util:node-id($node/..), $node/string(), string-length(string-join($node/..//text()[. << $node]))]
                 else
-                    [util:node-id($node/../..), $node/string(), string-length(string-join($node/../..//text()[. << $node]))]
+                    [util:node-id($node/..), $node/string(), 0]
             default return
                 ()
 };
 
+(:~
+ : Processes the sequence of arrays returned by nlp:plain-text and return
+ : a map for each, mapping the absolute offset of the text fragment in the
+ : plain text to the corresponding XML node and original offset.
+ :
+ : The resulting data structure is later used by nlp:convert to re-map the
+ : detected entities back to the XML being annotated.
+ :)
 declare function nlp:compute-offsets($pairs as array(*)*, $accum as xs:int) {
     if (empty($pairs)) then
         ()
@@ -79,6 +96,11 @@ declare function nlp:compute-offsets($pairs as array(*)*, $accum as xs:int) {
         )
 };
 
+(:~
+ : For each entity found, create a JSON annotation record which can be consumed
+ : by the annotation editor. Uses the mapping created by nlp:compute-offsets
+ : to re-map each entity to the original XML.
+ :)
 declare function nlp:convert($entities as array(*), $offsets as map(*)*) {
     for $entity in $entities?*
     let $insertPoint := filter($offsets, function($offset as map(*)) {
