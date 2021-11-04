@@ -151,3 +151,7 @@ pb-tabs pre {
 paper-icon-button[data-type="edit"] {
     background-color: var(--pb-toolbar-background-color);
 }
+
+#nlp {
+    margin-left: 40px;
+}
