@@ -210,20 +210,22 @@ declare function nlp:mapping-table($pairs as array(*)*, $accum as xs:int) {
  : to re-map each entity to the original XML.
  :)
 declare function nlp:convert($entities as array(*), $offsets as map(*)*) {
-    for $entity in $entities?*
-    let $insertPoint := filter($offsets, function($offset as map(*)) {
-        $entity?start >= $offset?start and $entity?start < $offset?end
-    })
-    let $start := xs:int($entity?start - $insertPoint?start[1])
-    return
-        map {
-            "context": $insertPoint?node,
-            "start": $insertPoint?origOffset + $start,
-            "end": $insertPoint?origOffset + $start + string-length($entity?text),
-            "type": $entity?type,
-            "text": $entity?text,
-            "properties": map {}
-        }
+    array {
+        for $entity in $entities?*
+        let $insertPoint := filter($offsets, function($offset as map(*)) {
+            $entity?start >= $offset?start and $entity?start < $offset?end
+        })
+        let $start := xs:int($entity?start - $insertPoint?start[1])
+        return
+            map {
+                "context": $insertPoint?node,
+                "start": $insertPoint?origOffset + $start,
+                "end": $insertPoint?origOffset + $start + string-length($entity?text),
+                "type": $entity?type,
+                "text": $entity?text,
+                "properties": map {}
+            }
+    }
 };
 
 declare %private function nlp:entities($input as xs:string*) {

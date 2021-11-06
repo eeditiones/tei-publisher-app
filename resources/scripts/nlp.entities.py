@@ -23,30 +23,45 @@ if path.exists():
 else:
     nlp = spacy.load(args.model, disable=["tok2vec", "tagger", "parser", "attribute_ruler", "lemmatizer"])
 
+if args.meta:
+    info = {
+        "lang": nlp.meta['lang'],
+        "components": nlp.meta['components'],
+        "labels": nlp.meta['labels']
+    }
+    print(json.dumps(info, ensure_ascii=False))
+    sys.exit(0)
+
 lang = nlp.meta["lang"]
 labels = {}
 if lang == 'de':
     labels = {
         "PER": "person",
-        "LOC": "place"
+        "LOC": "place",
+        "ORG": "organisation"
     }
 elif lang == 'en':
     labels = {
         "PERSON": "person",
-        "GPE": "place"
+        "GPE": "place",
+        "ORG": "organisation"
     }
 
-doc = nlp(inFile.read())
+try:
+    doc = nlp(inFile.read())
 
-entities = []
-for ent in doc.ents:
-    if ent.label_ in labels:
-        entities.append({
-            'text': ent.text,
-            'type': labels[ent.label_],
-            'start': ent.start_char
-        })
+    entities = []
+    for ent in doc.ents:
+        if ent.label_ in labels:
+            entities.append({
+                'text': ent.text,
+                'type': labels[ent.label_],
+                'start': ent.start_char
+            })
 
-output = json.dumps(entities, ensure_ascii=False)
+    output = json.dumps(entities, ensure_ascii=False)
 
-print(output)
+    print(output)
+except Exception as err:
+    print(f"Fehler: {err}")
+    sys.exit(1)

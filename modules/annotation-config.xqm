@@ -17,8 +17,8 @@ declare variable $anno:ner-python-path := "python3";
  : Named entity recognition: spacy model to use. Can either be a path or the name
  : of an installed model.
  :)
-(: declare variable $anno:ner-model := "/workspaces/ner_demo/training/model-last/"; :)
-declare variable $anno:ner-model := "en_core_web_sm";
+declare variable $anno:ner-model := "/workspaces/ner_demo/training/model-last/";
+(: declare variable $anno:ner-model := "en_core_web_sm"; :)
 
 (:~
  : Create TEI for the given type, properties and content of an annotation and return it.
