@@ -1,32 +1,49 @@
 import sys
+import spacy.util
 import spacy
 import json
+import argparse
+from pathlib import Path
 
-def mapType(label):
-    if label == "LOC" or label == "placeName":
-        return "place"
-    else:
-        return "person"
+parser = argparse.ArgumentParser(description='Process the input text given on stdin via named entity recognition')
+parser.add_argument('--info', help='list class for selected language', action='store_true')
+parser.add_argument('--meta', help='get metadata for a model', action='store_true')
+parser.add_argument('--model', help='explicitely use the given model', nargs='?', default='en_core_web_sm')
+args = parser.parse_args()
+
+if args.info:
+    print(json.dumps(spacy.util.get_installed_models(), ensure_ascii=False))
+    sys.exit(0)
 
 inFile = sys.stdin
-lang = sys.argv[1]
 
-model = "en_core_web_sm"
+path = Path(args.model)
+if path.exists():
+    nlp = spacy.load(path, disable=["tok2vec", "tagger", "parser", "attribute_ruler", "lemmatizer"])
+else:
+    nlp = spacy.load(args.model, disable=["tok2vec", "tagger", "parser", "attribute_ruler", "lemmatizer"])
 
+lang = nlp.meta["lang"]
+labels = {}
 if lang == 'de':
-    model = "de_core_news_sm"
-elif lang == 'pl':
-    model = "pl_core_news_sm"
+    labels = {
+        "PER": "person",
+        "LOC": "place"
+    }
+elif lang == 'en':
+    labels = {
+        "PERSON": "person",
+        "GPE": "place"
+    }
 
-nlp = spacy.load(model)
 doc = nlp(inFile.read())
 
 entities = []
 for ent in doc.ents:
-    if ent.label_ == 'PER' or ent.label_ == 'LOC' or ent.label_ == 'persName' or ent.label_ == 'placeName':
+    if ent.label_ in labels:
         entities.append({
             'text': ent.text,
-            'type': mapType(ent.label_),
+            'type': labels[ent.label_],
             'start': ent.start_char
         })
 

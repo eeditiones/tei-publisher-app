@@ -6,25 +6,23 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
+import module namespace anno-config="http://teipublisher.com/api/annotations/config" at "../../annotation-config.xqm";
 import module namespace errors = "http://exist-db.org/xquery/router/errors";
 
 declare function nlp:entity-recognition($request as map(*)) {
     let $path := xmldb:decode($request?parameters?id)
-    let $lang := $request?parameters?lang
     let $doc := config:get-document($path)//tei:body
     let $pairs := nlp:extract-plain-text($doc)
     let $offsets := nlp:mapping-table($pairs, 0)
     let $plain := string-join($pairs ! .?2)
     return
-        switch ($request?parameters?mode)
-            case "debug" return
-                map {
-                    "input": array { $pairs },
-                    "plain": $plain,
-                    "offsets": $offsets
-                }
-            default return
-                nlp:convert(nlp:entities($plain, $lang), $offsets)
+        if ($request?parameters?debug) then
+            map {
+                "plain": $plain,
+                "offsets": $offsets
+            }
+        else
+            nlp:convert(nlp:entities($plain), $offsets)
 };
 
 declare function nlp:plain-text($request as map(*)) {
@@ -34,6 +32,88 @@ declare function nlp:plain-text($request as map(*)) {
     let $plain := string-join($pairs ! .?2)
     return
         $plain
+};
+
+declare function nlp:train($request as map(*)) {
+    let $path := xmldb:decode($request?parameters?id)
+    let $document := config:get-document($path)
+    let $input :=
+        if ($document) then
+            $document//tei:body
+        else
+            collection($config:data-root || "/" || $path)//tei:body
+    for $doc in $input
+    return (
+        for $block in $doc/(descendant::tei:p|descendant::tei:head)
+        let $data := nlp:training-data($block, false())
+        let $plain := string-join($data ! .?2)
+        let $entities := array { nlp:collect-training-entities($data, 0, ()) }
+        return
+            map {
+                "source": substring-after(document-uri(root($doc)), $config:data-root || "/"),
+                "text": $plain,
+                "entities": $entities
+            },
+        for $block in $doc//tei:note
+        let $data := nlp:training-data($block, true())
+        let $plain := string-join($data ! .?2)
+        let $entities := array { nlp:collect-training-entities($data, 0, ()) }
+        return
+            map {
+                "source": substring-after(document-uri(root($doc)), $config:data-root || "/"),
+                "text": $plain,
+                "entities": $entities
+            }
+    )
+};
+
+(:~
+ : Scan the sequence of arrays returned by nlp:training-data and extract the entities found,
+ : recomputing the offsets.
+ :)
+declare %private function nlp:collect-training-entities($data as array(*)*, $offset as xs:int, $result as array(*)*) {
+    if (exists($data)) then
+        let $head := head($data)
+        let $end := $offset + string-length($head?2)
+        return (
+            if ($head?1 = ("PER", "LOC")) then
+                nlp:collect-training-entities(tail($data), $end, ($result, [ $head?1, $offset, $end]))
+            else
+                nlp:collect-training-entities(tail($data), $end, $result)
+        )
+    else
+        $result
+};
+
+(:~
+ : Generate training data: returns a sequence of arrays containing an entity name or the empty sequence as first,
+ : a text fragment as 2nd item.
+ :)
+declare %private function nlp:training-data($nodes as node()*, $outputNotes as xs:boolean?) {
+    for $node in $nodes
+    return
+        typeswitch ($node)
+            case document-node() return
+                nlp:training-data($node/*, $outputNotes)
+            case element(tei:note) return 
+                if ($outputNotes) then
+                    nlp:training-data($node/node(), $outputNotes)
+                else
+                    ()
+            case element(tei:persName) | element(tei:author) return
+                ["PER", nlp:normalize($node)]
+            case element(tei:placeName) | element(tei:pubPlace) return
+                ["LOC", nlp:normalize($node)]
+            case element() return
+                nlp:training-data($node/node(), $outputNotes)
+            case text() return
+                    [(), replace($node/string(), "[\s\n]{2,}", " ")]
+            default return
+                ()
+};
+
+declare %private function nlp:normalize($input as xs:string) {
+    replace($input, "[\s\n]{2,}", " ") => replace("^\W+", "") => replace("\W+$", "")
 };
 
 (:~
@@ -146,14 +226,14 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*) {
         }
 };
 
-declare function nlp:entities($input as xs:string*, $lang as xs:string) {
+declare %private function nlp:entities($input as xs:string*) {
     let $options :=
         <option>
             <stdin>
             { for $in in $input return <line>{$in}</line> }
             </stdin>
         </option>
-    let $result := process:execute(("python3", config:get-repo-dir() || "/resources/scripts/nlp.entities.py", $lang), $options)
+    let $result := process:execute(($anno-config:ner-python-path, config:get-repo-dir() || "/resources/scripts/nlp.entities.py", "--model", $anno-config:ner-model), $options)
     return
         if ($result/@exitCode = "0") then
             parse-json($result/stdout/line[1]/string())

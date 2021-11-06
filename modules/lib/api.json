@@ -2330,18 +2330,11 @@
 						"required": true
 					},
 					{
-						"name": "lang",
+						"name": "debug",
 						"in": "query",
 						"schema": {
-							"type": "string",
-							"default": "de"
-						}
-					},
-					{
-						"name": "mode",
-						"in": "query",
-						"schema": {
-							"type": "string"
+							"type": "boolean",
+							"default": false
 						}
 					}
 				],
@@ -2361,7 +2354,8 @@
 		},
 		"/api/nlp/text/{id}": {
 			"get": {
-				"summary": "Get the plain text of the given document fragment",
+				"summary": "Retrieve plain text of a document",
+				"description": "Get the plain text of the given document fragment to be fed into entity recognition",
 				"operationId": "nlp:plain-text",
 				"tags": ["nlp"],
 				"parameters": [
@@ -2381,6 +2375,37 @@
 							"text/text": {
 								"schema": {
 									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/nlp/train/{id}": {
+			"get": {
+				"summary": "Generate training data for NER",
+				"description": "Generate training data for NER from a given document or collection",
+				"tags": ["nlp"],
+				"operationId": "nlp:train",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "Relative path to document or collection",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "JSON array with training data",
+						"content": {
+							"application/json":{
+								"schema": {
+									"type": "array"
 								}
 							}
 						}
