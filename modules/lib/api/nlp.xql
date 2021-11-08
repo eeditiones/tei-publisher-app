@@ -8,11 +8,29 @@ import module namespace process="http://exist-db.org/xquery/process" at "java:or
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace anno-config="http://teipublisher.com/api/annotations/config" at "../../annotation-config.xqm";
 import module namespace errors = "http://exist-db.org/xquery/router/errors";
+import module namespace http = "http://expath.org/ns/http-client";
+
+declare function nlp:status($request as map(*)) {
+    try {
+        let $request := <http:request method="GET" timeout="10"/>
+        let $response := http:send-request($request, $anno-config:ner-api-endpoint || "/status/")
+        return
+            if ($response[1]/@status = "200") then
+                parse-json(util:binary-to-string($response[2]))
+            else
+                error($errors:BAD_REQUEST, $response[2])
+    } catch * {
+        error($errors:NOT_FOUND, "Failed to connect to NER API endpoint")
+    }
+};
 
 declare function nlp:entity-recognition($request as map(*)) {
     let $path := xmldb:decode($request?parameters?id)
     let $doc := config:get-document($path)//tei:body
-    let $pairs := nlp:extract-plain-text($doc)
+    let $pairs := (
+        nlp:extract-plain-text($doc, true()), 
+        nlp:extract-plain-text($doc//tei:note, false())
+    )
     let $offsets := nlp:mapping-table($pairs, 0)
     let $plain := string-join($pairs ! .?2)
     return
@@ -22,16 +40,25 @@ declare function nlp:entity-recognition($request as map(*)) {
                 "offsets": $offsets
             }
         else
-            nlp:convert(nlp:entities($plain), $offsets)
+            nlp:convert(nlp:entities-remote($plain), $offsets)
 };
 
 declare function nlp:plain-text($request as map(*)) {
     let $path := xmldb:decode($request?parameters?id)
     let $doc := config:get-document($path)//tei:body
-    let $pairs := nlp:extract-plain-text($doc)
+    let $pairs := (
+        nlp:extract-plain-text($doc, true()), 
+        nlp:extract-plain-text($doc//tei:note, false())
+    )
     let $plain := string-join($pairs ! .?2)
     return
         $plain
+};
+
+declare function nlp:train-model($request as map(*)) {
+    let $data := nlp:train($request)
+    return
+        nlp:train-remote($data)
 };
 
 declare function nlp:train($request as map(*)) {
@@ -44,27 +71,22 @@ declare function nlp:train($request as map(*)) {
             collection($config:data-root || "/" || $path)//tei:body
     for $doc in $input
     return (
-        for $block in $doc/(descendant::tei:p|descendant::tei:head)
-        let $data := nlp:training-data($block, false())
-        let $plain := string-join($data ! .?2)
-        let $entities := array { nlp:collect-training-entities($data, 0, ()) }
-        return
-            map {
-                "source": substring-after(document-uri(root($doc)), $config:data-root || "/"),
-                "text": $plain,
-                "entities": $entities
-            },
-        for $block in $doc//tei:note
-        let $data := nlp:training-data($block, true())
-        let $plain := string-join($data ! .?2)
-        let $entities := array { nlp:collect-training-entities($data, 0, ()) }
-        return
-            map {
-                "source": substring-after(document-uri(root($doc)), $config:data-root || "/"),
-                "text": $plain,
-                "entities": $entities
-            }
+        nlp:training-data-from-blocks($doc/(descendant::tei:p|descendant::tei:head), false()),
+        nlp:training-data-from-blocks($doc//tei:note, true())
     )
+};
+
+declare %private function nlp:training-data-from-blocks($blocks as element()*, $processFn as xs:boolean?) {
+    for $block in $blocks
+    let $data := nlp:training-data($block, $processFn)
+    let $plain := string-join($data ! .?2)
+    let $entities := array { nlp:collect-training-entities($data, 0, ()) }
+    return
+        map {
+            "source": substring-after(document-uri(root($block)), $config:data-root || "/"),
+            "text": $plain,
+            "entities": $entities
+        }
 };
 
 (:~
@@ -77,7 +99,7 @@ declare %private function nlp:collect-training-entities($data as array(*)*, $off
         let $end := $offset + string-length($head?2)
         return (
             if ($head?1 = ("PER", "LOC")) then
-                nlp:collect-training-entities(tail($data), $end, ($result, [ $head?1, $offset, $end]))
+                nlp:collect-training-entities(tail($data), $end, ($result, [ $offset, $end, $head?1]))
             else
                 nlp:collect-training-entities(tail($data), $end, $result)
         )
@@ -124,23 +146,28 @@ declare %private function nlp:normalize($input as xs:string) {
  : id of the text node, the second the text, and the third the absolute character
  : offset into the parent node
  :)
-declare function nlp:extract-plain-text($nodes as node()*) {
+declare function nlp:extract-plain-text($nodes as node()*, $skipNotes as xs:boolean?) {
     for $node in $nodes
     return
         typeswitch ($node)
             case document-node() return
-                nlp:extract-plain-text($node/*)
+                nlp:extract-plain-text($node/*, $skipNotes)
             case element(tei:p) | element(tei:head) return (
-                nlp:extract-plain-text($node/node()),
+                nlp:extract-plain-text($node/node(), $skipNotes),
                 (: output empty line :)
                 [(), "&#10;", 0]
             )
-            case element(tei:note) return (
-                (: output empty line before footnote starts :)
-                [(), "&#10;", 0],
-                nlp:extract-plain-text($node/node())
-            ) case element() return
-                nlp:extract-plain-text($node/node())
+            case element(tei:note) return 
+                if ($skipNotes) then
+                    ()
+                else
+                (
+                    (: output empty line before footnote starts :)
+                    [(), "&#10;", 0],
+                    nlp:extract-plain-text($node/node(), $skipNotes)
+                ) 
+            case element() return
+                nlp:extract-plain-text($node/node(), $skipNotes)
             case text() return
                 if (normalize-space($node) = (" ", "")) then
                     ()
@@ -223,7 +250,9 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*) {
                 "end": $insertPoint?origOffset + $start + string-length($entity?text),
                 "type": $entity?type,
                 "text": $entity?text,
-                "properties": map {}
+                "properties": map {
+                    "ref": ""
+                }
             }
     }
 };
@@ -241,4 +270,31 @@ declare %private function nlp:entities($input as xs:string*) {
             parse-json($result/stdout/line[1]/string())
         else
             error($errors:BAD_REQUEST, "Failed to execute python: " || string-join($result/stdout/line))
+};
+
+declare function nlp:entities-remote($input as xs:string*) {
+    let $request := 
+        <http:request method="POST" timeout="10">
+            <http:body media-type="text/text"/>
+        </http:request>
+    let $response := http:send-request($request, $anno-config:ner-api-endpoint || "/entities/" || $anno-config:ner-model, string-join($input))
+    return
+        if ($response[1]/@status = "200") then
+            parse-json(util:binary-to-string($response[2]))
+        else
+            error($errors:BAD_REQUEST, $response[2])
+};
+
+declare function nlp:train-remote($data) {
+    let $request := 
+        <http:request method="POST">
+            <http:body media-type="application/json"/>
+        </http:request>
+    let $serialized := util:string-to-binary(serialize($data, map { "method": "json" }))
+    let $response := http:send-request($request, $anno-config:ner-api-endpoint || "/train/" || $anno-config:ner-model, $serialized)
+    return
+        if ($response[1]/@status = "200") then
+            parse-json(util:binary-to-string($response[2]))
+        else
+            error($errors:BAD_REQUEST, util:binary-to-string($response[2]))
 };

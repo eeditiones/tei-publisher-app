@@ -9,22 +9,22 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 declare variable $anno:local-authority-file := $config:data-root || "/register.xml";
 
 (:~
- : Named entity recognition: path to the python executable.
+ : Named entity recognition: endpoint of the python API
  :)
-declare variable $anno:ner-python-path := "python3";
+declare variable $anno:ner-api-endpoint := "http://localhost:8001";
 
 (:~
  : Named entity recognition: spacy model to use. Can either be a path or the name
  : of an installed model.
  :)
-declare variable $anno:ner-model := "/workspaces/ner_demo/training/model-last/";
-(: declare variable $anno:ner-model := "en_core_web_sm"; :)
+(: declare variable $anno:ner-model := "model-best"; :)
+declare variable $anno:ner-model := "de_core_news_sm";
 
 (:~
  : Create TEI for the given type, properties and content of an annotation and return it.
  : This function is called when annotations are merged into the original TEI.
  :)
-declare function anno:annotations($type as xs:string, $properties as map(*), $content as function(*)) {
+declare function anno:annotations($type as xs:string, $properties as map(*)?, $content as function(*)) {
     switch ($type)
         case "person" return
             <persName xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</persName>

@@ -2382,9 +2382,60 @@
 				}
 			}
 		},
+		"/api/nlp/status": {
+			"get": {
+				"summary": "Return status information about NER",
+				"description": "Return status information about NER, including installed pipelines",
+				"tags": ["nlp"],
+				"operationId": "nlp:status",
+				"responses": {
+					"200": {
+						"description": "JSON object describing status",
+						"content": {
+							"application/json":{
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 		"/api/nlp/train/{id}": {
 			"get": {
 				"summary": "Generate training data for NER",
+				"description": "Generate training data for NER from a given document or collection",
+				"tags": ["nlp"],
+				"operationId": "nlp:train-model",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "Relative path to document or collection",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "JSON array with training data",
+						"content": {
+							"application/json":{
+								"schema": {
+									"type": "array"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/nlp/data/{id}": {
+			"get": {
+				"summary": "Download training data for NER",
 				"description": "Generate training data for NER from a given document or collection",
 				"tags": ["nlp"],
 				"operationId": "nlp:train",

@@ -41,6 +41,8 @@ body {
     --pb-color-inverse: #F0F0F0;
     --pb-color-lighter: #35424b;
     --pb-color-focus: #f6a623;
+    --pb-annotation-stripes-light: #e0e0ef;
+    --pb-annotation-stripes-dark: #50505f;
     --pb-drawer-background-color: var(--pb-color-inverse);
     --pb-menubar-background-color: #35424b;
     --pb-menubar-color: var(--pb-color-inverse);
