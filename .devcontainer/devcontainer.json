@@ -11,7 +11,7 @@
     "forwardPorts": [ 8080, 8001 ],
     "extensions": [ "exist-db.existdb-vscode", "42crunch.vscode-openapi", "redhat.vscode-xml" ],
     "overrideCommand": false,
-    "postStartCommand": [
+    "postCreateCommand": [
         "${containerWorkspaceFolder}/.devcontainer/init.sh"
     ]
 }
