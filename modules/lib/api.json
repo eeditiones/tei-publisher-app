@@ -2330,6 +2330,15 @@
 						"required": true
 					},
 					{
+						"name": "model",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"example": "en_core_web_sm"
+						},
+						"required": true
+					},
+					{
 						"name": "debug",
 						"in": "query",
 						"schema": {
@@ -2366,6 +2375,31 @@
 							"type": "string"
 						},
 						"required": true
+					},
+					{
+						"name": "name",
+						"in": "query",
+						"description": "Name of the model to create",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"name": "base",
+						"in": "query",
+						"description": "Base model to extend",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "lang",
+						"in": "query",
+						"description": "Language to create the model for",
+						"schema": {
+							"type": "string"
+						}
 					}
 				],
 				"responses": {
@@ -2395,6 +2429,25 @@
 							"application/json":{
 								"schema": {
 									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/nlp/status/models": {
+			"get": {
+				"summary": "Return list of available models",
+				"tags": ["nlp"],
+				"operationId": "nlp:models",
+				"responses": {
+					"200": {
+						"description": "JSON array listing models",
+						"content": {
+							"application/json":{
+								"schema": {
+									"type": "array"
 								}
 							}
 						}

@@ -24,6 +24,17 @@ declare function nlp:status($request as map(*)) {
     }
 };
 
+declare function nlp:models($request as map(*)) {
+    let $request := 
+        <http:request method="GET" timeout="10"/>
+    let $response := http:send-request($request, $anno-config:ner-api-endpoint || "/model")
+    return
+        if ($response[1]/@status = "200") then
+            parse-json(util:binary-to-string($response[2]))
+        else
+            error($errors:BAD_REQUEST, $response[2])
+};
+
 declare function nlp:entity-recognition($request as map(*)) {
     let $path := xmldb:decode($request?parameters?id)
     let $doc := config:get-document($path)//tei:body
@@ -40,7 +51,7 @@ declare function nlp:entity-recognition($request as map(*)) {
                 "offsets": $offsets
             }
         else
-            nlp:convert(nlp:entities-remote($plain), $offsets)
+            nlp:convert(nlp:entities-remote($plain, $request?parameters?model), $offsets)
 };
 
 declare function nlp:plain-text($request as map(*)) {
@@ -56,9 +67,12 @@ declare function nlp:plain-text($request as map(*)) {
 };
 
 declare function nlp:train-model($request as map(*)) {
+    let $base := $request?parameters?base
+    let $name := $request?parameters?name
+    let $lang := $request?parameters?lang
     let $data := nlp:train($request)
     return
-        nlp:train-remote($data)
+        nlp:train-remote($name, $base, $lang, $data)
 };
 
 declare function nlp:train($request as map(*)) {
@@ -155,7 +169,7 @@ declare function nlp:extract-plain-text($nodes as node()*, $skipNotes as xs:bool
             case element(tei:p) | element(tei:head) return (
                 nlp:extract-plain-text($node/node(), $skipNotes),
                 (: output empty line :)
-                [(), "&#10;", 0]
+                [(), " ", 0]
             )
             case element(tei:note) return 
                 if ($skipNotes) then
@@ -163,7 +177,7 @@ declare function nlp:extract-plain-text($nodes as node()*, $skipNotes as xs:bool
                 else
                 (
                     (: output empty line before footnote starts :)
-                    [(), "&#10;", 0],
+                    [(), " ", 0],
                     nlp:extract-plain-text($node/node(), $skipNotes)
                 ) 
             case element() return
@@ -272,12 +286,15 @@ declare %private function nlp:entities($input as xs:string*) {
             error($errors:BAD_REQUEST, "Failed to execute python: " || string-join($result/stdout/line))
 };
 
-declare function nlp:entities-remote($input as xs:string*) {
+declare function nlp:entities-remote($input as xs:string*, $model as xs:string) {
     let $request := 
         <http:request method="POST" timeout="10">
             <http:body media-type="text/text"/>
         </http:request>
-    let $response := http:send-request($request, $anno-config:ner-api-endpoint || "/entities/" || $anno-config:ner-model, string-join($input))
+    let $response := http:send-request(
+            $request, 
+            $anno-config:ner-api-endpoint || "/entities/" || $model,
+            string-join($input))
     return
         if ($response[1]/@status = "200") then
             parse-json(util:binary-to-string($response[2]))
@@ -285,13 +302,19 @@ declare function nlp:entities-remote($input as xs:string*) {
             error($errors:BAD_REQUEST, $response[2])
 };
 
-declare function nlp:train-remote($data) {
+declare function nlp:train-remote($name, $base, $lang, $data) {
     let $request := 
         <http:request method="POST">
             <http:body media-type="application/json"/>
         </http:request>
-    let $serialized := util:string-to-binary(serialize($data, map { "method": "json" }))
-    let $response := http:send-request($request, $anno-config:ner-api-endpoint || "/train/" || $anno-config:ner-model, $serialized)
+    let $body := map {
+        "name": $name,
+        "base": $base,
+        "lang": $lang,
+        "samples": $data
+    }
+    let $serialized := util:string-to-binary(serialize($body, map { "method": "json" }))
+    let $response := http:send-request($request, $anno-config:ner-api-endpoint || "/train/", $serialized)
     return
         if ($response[1]/@status = "200") then
             parse-json(util:binary-to-string($response[2]))

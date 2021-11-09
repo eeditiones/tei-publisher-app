@@ -14,13 +14,6 @@ declare variable $anno:local-authority-file := $config:data-root || "/register.x
 declare variable $anno:ner-api-endpoint := "http://localhost:8001";
 
 (:~
- : Named entity recognition: spacy model to use. Can either be a path or the name
- : of an installed model.
- :)
-(: declare variable $anno:ner-model := "model-best"; :)
-declare variable $anno:ner-model := "de_core_news_sm";
-
-(:~
  : Create TEI for the given type, properties and content of an annotation and return it.
  : This function is called when annotations are merged into the original TEI.
  :)

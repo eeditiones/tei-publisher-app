@@ -87,6 +87,7 @@ window.addEventListener("WebComponentsReady", () => {
 	const saveBtn = document.getElementById("form-save");
 	const refInput = document.querySelectorAll(".form-ref");
 	const authorityDialog = document.getElementById("authority-dialog");
+	const nerDialog = document.getElementById("ner-dialog");
 	let autoSave = false;
 	let type = "";
 	let text = "";
@@ -391,14 +392,34 @@ window.addEventListener("WebComponentsReady", () => {
 		window.pbEvents.emit("pb-end-update", "transcription", {});
 	}
 
-	hideForm();
+	function ner() {
+		const endpoint = document.querySelector("pb-page").getEndpoint();
+		fetch(`${endpoint}/api/nlp/status/models`, {
+			method: "GET",
+			mode: "cors",
+			credentials: "same-origin"
+		})
+		.then((response) => {
+			if (response.ok) {
+				return response.json();
+			}
+		})
+		.then((json) => {
+			const list = [];
+			json.forEach((item) => {
+				list.push(`<paper-item>${item}</paper-item>`);
+			});
+			nerDialog.querySelector('paper-listbox').innerHTML = list.join('\n');
+			nerDialog.open();
+		});
+	}
 
-	// apply annotation action
-	saveBtn.addEventListener("click", () => save());
-	document.getElementById('nlp').addEventListener('click', () => {
+	function runNER() {
+		const model = nerDialog.querySelector('paper-dropdown-menu').selectedItemLabel;
+		console.log('Using model %s', model)
 		const endpoint = document.querySelector("pb-page").getEndpoint();
 		window.pbEvents.emit("pb-start-update", "transcription", {});
-		fetch(`${endpoint}/api/nlp/entities/${doc.path}`, {
+		fetch(`${endpoint}/api/nlp/entities/${doc.path}?model=${model}`, {
 			method: "GET",
 			mode: "cors",
 			credentials: "same-origin"
@@ -412,7 +433,20 @@ window.addEventListener("WebComponentsReady", () => {
 			window.pbEvents.emit("pb-end-update", "transcription", {});
 			preview(view.annotations);
 		});
+	}
+
+	hideForm();
+
+	// apply annotation action
+	saveBtn.addEventListener("click", () => save());
+	document.getElementById('ner-action').addEventListener('click', () => {
+		if (view.annotations.length > 0) {
+			document.getElementById('ner-denied-dialog').show();
+		} else {
+			ner();
+		}
 	});
+	document.getElementById('ner-run').addEventListener('click', () => runNER());
 	// reload source TEI, discarding current annotations
 	document.getElementById('reload-all').addEventListener('click', () => {
 		function reload() {

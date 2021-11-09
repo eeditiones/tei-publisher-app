@@ -48,7 +48,7 @@
                                 <paper-icon-button class="annotation-action" data-i18n="[title]annotations.app" title="Apparatus" data-type="app" icon="icons:visibility" data-shortcut="⌘+⇧+v,ctrl+⇧+v" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action" data-i18n="[title]annotations.hi" title="Highlight" data-type="hi" icon="editor:format-bold" data-shortcut="⌘+⇧+h,ctrl+⇧+h" disabled="disabled"></paper-icon-button>
                                 <paper-icon-button class="annotation-action" data-i18n="[title]annotations.modify" title="Edit" data-type="edit" icon="editor:mode-edit" data-shortcut="⌘+⇧+m,ctrl+⇧+m" disabled="disabled"></paper-icon-button>
-                                <paper-icon-button id="nlp" icon="social:group-add" data-i18n="[title]annotations.nlp"></paper-icon-button>
+                                <paper-icon-button id="ner-action" icon="social:group-add" data-i18n="[title]annotations.ner.title"></paper-icon-button>
                             </div>
                             <iron-form id="edit-form">
                                 <form action="">
@@ -150,9 +150,27 @@
                     </paper-button>
                 </div>
             </paper-dialog>
+            <paper-dialog id="ner-dialog">
+                <paper-dialog-scrollable>
+                    <h2><pb-i18n key="annotations.ner.title">Named Entity Extraction</pb-i18n></h2>
+                    <p><pb-i18n key="annotations.ner.description">Try to automatically find named entities in the text and mark them as annotations.</pb-i18n></p>
+                    <paper-dropdown-menu data-i18n="[label]annotations.ner.model" label="Select a model">
+                        <paper-listbox slot="dropdown-content" selected="0"></paper-listbox>
+                    </paper-dropdown-menu>
+                </paper-dialog-scrollable>
+                <div class="buttons">
+                    <paper-button id="ner-run" dialog-confirm="dialog-confirm" autofocus="autofocus">
+                        <pb-i18n key="annotations.ner.run">Find entities</pb-i18n>
+                    </paper-button>
+                    <paper-button dialog-confirm="dialog-confirm">
+                        <pb-i18n key="dialogs.close">Close</pb-i18n>
+                    </paper-button>
+                </div>
+            </paper-dialog>
             <pb-message id="restore-dialog" data-i18n="[title]annotations.confirm-restore-title;[message]annotations.restore"></pb-message>
             <pb-message id="confirm-reload-dialog" data-i18n="[title]annotations.confirm-reload-title;[message]annotations.confirm-reload"></pb-message>
             <pb-message id="permission-denied-dialog" data-i18n="[title]dialogs.error;[message]annotations.permission"></pb-message>
+            <pb-message id="ner-denied-dialog" data-i18n="[title]dialogs.error;[message]annotations.ner.denied"></pb-message>
             <pb-message id="error-dialog" data-i18n="[title]dialogs.error;[message]dialogs.serverError"></pb-message>
             <pb-message id="runtime-error-dialog" data-i18n="[title]dialogs.error;[message]dialogs.serverError"></pb-message>
         </pb-page>
