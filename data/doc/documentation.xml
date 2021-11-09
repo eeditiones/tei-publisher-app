@@ -8401,6 +8401,13 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             </listitem>
           </varlistentry>
           <varlistentry>
+            <term>Reconciliation</term>
+            <listitem>
+              <para><link xlink:href="https://reconciliation-api.github.io/testbench/"
+                >Reconciliation Service</link> - arbitrary entities, provided by any reconciliation service</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
             <term>KBGA</term>
             <listitem>
               <para><link
@@ -8433,10 +8440,10 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <para>a <option>connector</option>, which selects one of the authority connectors listed above</para>
           </listitem>
         </itemizedlist></para>
-      <para>In addition, you may define a <option>prefix</option>: this will be prepended to the xml:id referenced by the resulting TEI element. 
-        For example, you may want to prefix the numeric IDs received from GND to obtain an XML ID like "gnd-124507514" since a number alone would not be a valid @xml:id.</para>
-      <para>Some connectors require additional configuration attributes. At the moment those are the <emphasis>GeoNames</emphasis> and <emphasis>Airtable</emphasis> connectors. GeoNames requires you to register a user, whose name is given in the <option>user</option> attribute.</para>
-      <para>The <emphasis>Airtable</emphasis> and <emphasis>Custom</emphasis> connectors are described in more detail below.</para>
+      <para>In addition, you may define a <option>prefix</option>: this will be prepended to the xml:id referenced by the resulting TEI element (separated by a hyphen "-"). 
+        For example, you may want to prefix the numeric IDs received from GND with the prefix "gnd" to obtain an XML ID like "gnd-124507514" since a number alone would not be a valid @xml:id.</para>
+      <para>Some connectors require additional configuration attributes. At the moment those are the <emphasis>GeoNames</emphasis>, <emphasis>Airtable</emphasis> and <emphasis>Reconciliation</emphasis> connectors. GeoNames requires you to register a user, whose name is given in the <option>user</option> attribute and Reconciliation requires that you specify a service URL.</para>
+      <para>The <emphasis>Airtable</emphasis>, <emphasis>Reconciliation</emphasis> and <emphasis>Custom</emphasis> connectors are described in more detail below.</para>
       <section>
         <title>Airtable Connector</title>
         <para><link xlink:href="https://www.airtable.com/"
@@ -8541,6 +8548,25 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         </variablelist>
       </section>
       <section>
+        <title>Reconciliation Service Connector</title>
+        <para>Like the airtable connector described above, the <link
+            xlink:href="https://reconciliation-api.github.io/specs/latest/">Reconciliation
+            Service</link> is not really an authority file itself. Rather, it is a communication
+          protocol for authority data providers originally developed for the open-source data
+          cleaning software <link xlink:href="openrefine.org/">OpenRefine</link>. The specification
+          is an open, <link xlink:href="https://www.w3.org/community/reconciliation/"
+            >community-maintained</link> standard now, and several authority data providers offer
+          comforming API endpoints. GeoNames, the German GND (again via lobid), Getty vocabularies
+          and Wikidata are some examples - find a list of current services at the <link
+            xlink:href="https://reconciliation-api.github.io/testbench/">service testbench</link>.
+          In addition to the general attributes described above, the only additional bit of
+          configuration is the service URL that should be queried. You specify it in the "endpoint"
+          attribute:</para>
+        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Reconciliation" name="term" prefix="wd" endpoint="https://wikidata.reconci.link/api"/></programlisting>
+        <para>This will retrieve authority entries from wikidata.</para>
+        <para>Currently, the Reconciliation connector cannot be used as a data provider for the Custom connector described below. This will be added in a future release.</para>
+      </section>
+      <section>
         <title>Custom Connector</title>
         <para>The custom connector delegates queries to one or more authorities, but most importantly it creates a copy of every authority entry you select and writes it to a local TEI register.</para>
         <para>For many editions the information provided by an external authority will not be sufficient. It may be incomplete, in the sense it may lack important information relevant in the context of the edition but also many historical persons or places may not yet appear in any authority.</para>
@@ -8563,6 +8589,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
     &lt;pb-authority connector="GND" prefix="gnd">&lt;/pb-authority>
 &lt;/pb-authority></programlisting>
         <para>This defines a custom connector for the annotation type 'person', delegating queries to the GND connector, but also maintaining a local registry. By default the local registry is stored in a TEI document residing in <filename>data/registry.xml</filename>. You can change the location by modifying the variable <varname>$anno:local-authority-file</varname> in the annotation configuration, <filename>modules/annotation-config.xqm</filename>. You can also change the function <function>anno:insert-point</function> to configure where exactly the local entity definitions will be stored.</para> 
+        <para>Currently, it is not possible to use the Reconciliation connector described above in the context of the Custom connector. This will be added in a future release.</para>
       </section>
     </section>
     <section>
