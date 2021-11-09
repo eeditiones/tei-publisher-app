@@ -8440,8 +8440,8 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
             <para>a <option>connector</option>, which selects one of the authority connectors listed above</para>
           </listitem>
         </itemizedlist></para>
-      <para>In addition, you may define a <option>prefix</option>: this will be prepended to the xml:id referenced by the resulting TEI element. 
-        For example, you may want to prefix the numeric IDs received from GND to obtain an XML ID like "gnd-124507514" since a number alone would not be a valid @xml:id.</para>
+      <para>In addition, you may define a <option>prefix</option>: this will be prepended to the xml:id referenced by the resulting TEI element (separated by a hyphen "-"). 
+        For example, you may want to prefix the numeric IDs received from GND with the prefix "gnd" to obtain an XML ID like "gnd-124507514" since a number alone would not be a valid @xml:id.</para>
       <para>Some connectors require additional configuration attributes. At the moment those are the <emphasis>GeoNames</emphasis>, <emphasis>Airtable</emphasis> and <emphasis>Reconciliation</emphasis> connectors. GeoNames requires you to register a user, whose name is given in the <option>user</option> attribute and Reconciliation requires that you specify a service URL.</para>
       <para>The <emphasis>Airtable</emphasis>, <emphasis>Reconciliation</emphasis> and <emphasis>Custom</emphasis> connectors are described in more detail below.</para>
       <section>
