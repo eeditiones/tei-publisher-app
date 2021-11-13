@@ -13,5 +13,6 @@
     "overrideCommand": false,
     "postCreateCommand": [
         "${containerWorkspaceFolder}/.devcontainer/init.sh"
-    ]
+    ],
+    "postStartCommand": "${containerWorkspaceFolder}/.devcontainer/python-api.sh"
 }

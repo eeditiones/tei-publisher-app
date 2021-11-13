@@ -62,11 +62,8 @@ ENV JAVA_HOME=/usr/local/sdkman/candidates/java/current
 
 RUN bin/client.sh -l --no-gui --xpath "system:get-version()"
 
-COPY entrypoint.sh /
-RUN chmod +x /entrypoint.sh
-
 EXPOSE ${HTTP_PORT} 8001
 
 ENV EXIST_HOME=/usr/local/exist
 ENV JAVA_OPTS=-Djetty.port=${HTTP_PORT} -Djetty.ssl.port=${HTTPS_PORT}
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "/usr/local/exist/bin/startup.sh" ]
