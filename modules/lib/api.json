@@ -2457,8 +2457,8 @@
 		},
 		"/api/nlp/train/{id}": {
 			"get": {
-				"summary": "Generate training data for NER",
-				"description": "Generate training data for NER from a given document or collection",
+				"summary": "Train an NER model",
+				"description": "Train an NER model based on training data, which will be generated from a given document or collection",
 				"tags": ["nlp"],
 				"operationId": "nlp:train-model",
 				"parameters": [
@@ -2476,9 +2476,9 @@
 					"200": {
 						"description": "JSON array with training data",
 						"content": {
-							"application/json":{
+							"text/text":{
 								"schema": {
-									"type": "array"
+									"type": "string"
 								}
 							}
 						}
