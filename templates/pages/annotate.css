@@ -152,6 +152,7 @@ paper-icon-button[data-type="edit"] {
     background-color: var(--pb-toolbar-background-color);
 }
 
-#nlp {
+#ner-action {
+    display: none; /* Hide initially, show later if NER is available */
     margin-left: 40px;
 }

@@ -392,6 +392,23 @@ window.addEventListener("WebComponentsReady", () => {
 		window.pbEvents.emit("pb-end-update", "transcription", {});
 	}
 
+	function checkNERAvailable() {
+		const endpoint = document.querySelector("pb-page").getEndpoint();
+		fetch(`${endpoint}/api/nlp/status`, {
+			method: "GET",
+			mode: "cors",
+			credentials: "same-origin"
+		})
+		.then((response) => {
+			if (response.ok) {
+				document.getElementById('ner-action').style.display = 'block';
+				response.json().then(json => console.log(`NER: found spaCy version ${json.spacy_version}.`));
+			} else {
+				console.error("NER endpoint not available");
+			}
+		}).catch(() => console.error("NER endpoint not available"));
+	}
+
 	function ner() {
 		const endpoint = document.querySelector("pb-page").getEndpoint();
 		fetch(`${endpoint}/api/nlp/status/models`, {
@@ -446,6 +463,7 @@ window.addEventListener("WebComponentsReady", () => {
 			ner();
 		}
 	});
+	checkNERAvailable();
 	document.getElementById('ner-run').addEventListener('click', () => runNER());
 	// reload source TEI, discarding current annotations
 	document.getElementById('reload-all').addEventListener('click', () => {

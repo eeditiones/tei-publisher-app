@@ -27,12 +27,17 @@ declare function nlp:status($request as map(*)) {
 declare function nlp:models($request as map(*)) {
     let $request := 
         <http:request method="GET" timeout="10"/>
-    let $response := http:send-request($request, $anno-config:ner-api-endpoint || "/model")
     return
-        if ($response[1]/@status = "200") then
-            parse-json(util:binary-to-string($response[2]))
-        else
-            error($errors:BAD_REQUEST, $response[2])
+        try {
+            let $response := http:send-request($request, $anno-config:ner-api-endpoint || "/model")
+            return
+                if ($response[1]/@status = "200") then
+                    parse-json(util:binary-to-string($response[2]))
+                else
+                    error($errors:BAD_REQUEST, $response[2])
+        } catch * {
+            error($errors:NOT_FOUND)
+        }
 };
 
 declare function nlp:entity-recognition($request as map(*)) {
@@ -319,5 +324,5 @@ declare function nlp:train-remote($name, $base, $lang, $data) {
         if ($response[1]/@status = "200") then
             parse-json(util:binary-to-string($response[2]))
         else
-            error($errors:BAD_REQUEST, util:binary-to-string($response[2]))
+            error($errors:BAD_REQUEST, $response[2])
 };
