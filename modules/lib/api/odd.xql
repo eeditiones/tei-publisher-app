@@ -260,6 +260,7 @@ declare %private function oapi:models($spec as element()) {
                 "behaviour": $model/@behaviour/string(),
                 "predicate": $model/@predicate/string(),
                 "css": $model/@cssClass/string(),
+                "mode": if ($model/@pb:mode) then $model/@pb:mode/string() else '',
                 "sourcerend": $model/@useSourceRendition = 'true',
                 "renditions": oapi:renditions($model),
                 "parameters": oapi:parameters($model),
@@ -276,6 +277,13 @@ declare %private function oapi:parameters($model as element()) {
             map {
                 "name": $param/@name/string(),
                 "value": $param/@value/string()
+            },
+        for $param in $model/pb:set-param
+        return
+            map {
+                "name": $param/@name/string(),
+                "value": $param/@value/string(),
+                "set": true()
             }
     }
 };
@@ -367,7 +375,7 @@ declare function oapi:get-odd($request as map(*)) {
 
 declare function oapi:lint($request as map(*)) {
     let $code := $request?parameters?code
-    let $query := ``[xquery version "3.1";declare variable $parameters := map {};declare variable $node := ();declare variable $get := (); () ! (
+    let $query := ``[xquery version "3.1";declare variable $parameters := map {};declare variable $mode := '';declare variable $node := ();declare variable $get := (); () ! (
 `{$code}`
 )]``
     let $r := util:compile-query($query, ())
@@ -491,7 +499,7 @@ declare %private function oapi:normalize-ns($nodes as node()*) {
                     $node/@*,
                     oapi:normalize-ns($node/node())
                 }
-            case element(pb:behaviour) | element(pb:param) return
+            case element(pb:behaviour) | element(pb:param) | element(pb:set-param) return
                 element { node-name($node) } {
                     $node/@*,
                     oapi:normalize-ns($node/node())
