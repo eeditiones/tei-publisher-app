@@ -463,7 +463,6 @@ window.addEventListener("WebComponentsReady", () => {
 			ner();
 		}
 	});
-	checkNERAvailable();
 	document.getElementById('ner-run').addEventListener('click', () => runNER());
 	// reload source TEI, discarding current annotations
 	document.getElementById('reload-all').addEventListener('click', () => {
@@ -532,6 +531,7 @@ window.addEventListener("WebComponentsReady", () => {
 			const title = elem.getAttribute('title') || '';
 			elem.title = `${title} [${output.replaceAll('+', ' ')}]`;
 		});
+		checkNERAvailable();
 	});
 
 	document.querySelectorAll('.form-ref [slot="prefix"]').forEach(elem => {

@@ -2474,9 +2474,9 @@
 				],
 				"responses": {
 					"200": {
-						"description": "JSON array with training data",
+						"description": "Training log",
 						"content": {
-							"text/text":{
+							"text/html":{
 								"schema": {
 									"type": "string"
 								}

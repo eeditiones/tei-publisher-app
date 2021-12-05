@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+        <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
+
+        <title data-template="config:app-title"></title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
+        <link rel="stylesheet" href="resources/css/theme.css" />
+        <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
+        <style>
+            main {
+                padding: 0 20px 0 20px;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            .tp-title {
+                font-family: "Oswald",Verdana,"Helvetica",sans-serif;
+                font-size: 36px;
+                font-weight: 400;
+            }
+
+            fieldset {
+                padding: 0;
+                border: 0;
+                width: 100%;
+            }
+            legend {
+                color: #909090;
+            }
+        </style>
+    </head>
+    <body>
+        <pb-page data-template="pages:pb-page" unresolved="unresolved">
+            <app-header-layout>
+                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
+                    <app-toolbar class="menubar">
+                        <a href="${app}/index.html" class="logo" data-template="lib:parse-params"></a>
+                        <a href="${app}/index.html" data-template="lib:parse-params">Start</a>
+                        <paper-menu-button data-template="lib:include" data-template-path="templates/menu.documentation.html"/>
+                        <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on GitHub" class="gitlab">
+                            <img src="resources/images/github.svg"/>
+                        </a>
+                        <!-- language selector -->
+                        <pb-lang name="lang" data-template="pages:languages"/>
+                        <pb-login id="login" group="tei">
+                            <iron-icon slot="icon" icon="account-circle"></iron-icon>
+                        </pb-login>
+                        <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"></pb-progress>
+                    </app-toolbar>
+                </app-header>
+                <main>
+                    <section>
+                        <h1 class="tp-title"><pb-i18n key="menu.admin.ner.title">Train a Named Entity Recognition Model</pb-i18n></h1>
+                    </section>
+                    <iron-form id="form">
+                        <form method="GET">
+                            <fieldset>
+                                <legend>Enter path to a document or collection to use as training input. Should be relative to TEI Publisher's data root.</legend>
+                                <paper-input label="Path" placeholder="Relative path to document or collection" name="id"></paper-input>
+                            </fieldset>
+                            <paper-input label="Name" placeholder="Name of the model to create" name="name"></paper-input>
+                            <paper-dropdown-menu id="models" data-i18n="[label]annotations.ner.model" label="Base Model" placeholder="Base model to extend" name="base">
+                                <paper-listbox slot="dropdown-content"></paper-listbox>
+                            </paper-dropdown-menu>
+                            <fieldset>
+                                <legend>A language is required unless you specify a base model to extend.</legend>
+                                <paper-input label="Language" name="lang" placeholder="Language to create the model for"></paper-input>
+                            </fieldset>
+
+                            <paper-button id="submit"><iron-icon icon="save"></iron-icon> Start</paper-button>
+                        </form>
+                    </iron-form>
+                    <pre id="log"></pre>
+                </main>
+            </app-header-layout>
+        </pb-page>
+        <script>
+            window.addEventListener("WebComponentsReady", function() {
+                const log = document.getElementById('log');
+                let endpoint;
+
+                document.addEventListener('pb-page-ready', () => {
+                    endpoint = document.querySelector("pb-page").getAttribute('endpoint');
+                    fetch(`${endpoint}/api/nlp/status/models`, {
+                        method: "GET",
+                        mode: "cors",
+                        credentials: "same-origin"
+                    })
+                    .then((response) => {
+                        if (response.ok) {
+                            return response.json();
+                        }
+                    })
+                    .then((json) => {
+                        const list = [];
+                        json.forEach((item) => {
+                            list.push(`<paper-item>${item}</paper-item>`);
+                        });
+                        document.querySelector('#models paper-listbox').innerHTML = list.join('\n');
+                    });
+                });
+
+                const submit = document.getElementById('submit');
+                submit.addEventListener('click', function() {
+                    pbEvents.emit('pb-start-update');
+                    log.innerHTML = 'Training in progress ...<br>This may take several minutes.';
+                    const formParams = document.getElementById('form').serializeForm();
+                    const params = {
+                        name: formParams.name
+                    };
+                    if (formParams.base) {
+                        params.base = formParams.base;
+                    }
+                    if (formParams.lang) {
+                        params.lang = formParams.lang;
+                    }
+                    fetch(`${endpoint}/api/nlp/train/${formParams.id}?${new URLSearchParams(params)}`, {
+                        method: "GET",
+                        mode: "cors",
+                        credentials: "same-origin"
+                    })
+                    .then(function(response) {
+                        pbEvents.emit('pb-end-update');
+                        if (response.ok) {
+                            return response.text();
+                        }
+                    })
+                    .then(function(text) {
+                        log.innerHTML = text;
+                    });
+                });
+            });
+                    
+        </script>
+    </body>
+</html>

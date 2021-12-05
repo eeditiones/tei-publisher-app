@@ -190,11 +190,14 @@ declare function nlp:extract-plain-text($nodes as node()*, $skipNotes as xs:bool
             case text() return
                 if (normalize-space($node) = (" ", "")) then
                     ()
-                (: if there are preceding siblings, we need to calculate the absolute character offset within the parent node:)
-                else if ($node/preceding-sibling::node()) then
-                    [util:node-id($node/..), $node/string(), nlp:absolute-offset($node/../node()[. << $node], 0)]
                 else
-                    [util:node-id($node/..), $node/string(), 0]
+                    let $parent := $node/..
+                    return
+                        (: if there are preceding siblings, we need to calculate the absolute character offset within the parent node:)
+                        if ($parent/node()[. << $node]) then
+                            [util:node-id($parent), $node/string(), nlp:absolute-offset($parent/node()[. << $node], 0)]
+                        else
+                            [util:node-id($parent), $node/string(), 0]
             default return
                 ()
 };
@@ -322,7 +325,7 @@ declare function nlp:train-remote($name, $base, $lang, $data) {
     let $response := http:send-request($request, $anno-config:ner-api-endpoint || "/train/", $serialized)
     return
         if ($response[1]/@status = "200") then
-            parse-json(util:binary-to-string($response[2]))
+            $response[2]
         else
             error($errors:BAD_REQUEST, $response[2])
 };
