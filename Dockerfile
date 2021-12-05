@@ -66,10 +66,10 @@ RUN curl -L -o /tmp/templating-${TEMPLATING_VERSION}.xar http://exist-db.org/exi
 
 FROM existdb/existdb:${EXIST_VERSION}
 
-COPY --from=tei /tmp/tei-publisher-app/build/*.xar /exist/autodeploy
-COPY --from=tei /tmp/shakespeare/build/*.xar /exist/autodeploy
-COPY --from=tei /tmp/vangogh/build/*.xar /exist/autodeploy
-COPY --from=tei /tmp/*.xar /exist/autodeploy
+COPY --from=tei /tmp/tei-publisher-app/build/*.xar /exist/autodeploy/
+COPY --from=tei /tmp/shakespeare/build/*.xar /exist/autodeploy/
+COPY --from=tei /tmp/vangogh/build/*.xar /exist/autodeploy/
+COPY --from=tei /tmp/*.xar /exist/autodeploy/
 
 ENV DATA_DIR /exist-data
 
