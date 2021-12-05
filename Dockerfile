@@ -31,31 +31,15 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
 
 FROM builder as tei
 
-ARG TEMPLATING_VERSION=v1.0.0
-ARG PUBLISHER_LIB_VERSION=v2.9.0
-ARG OAS_ROUTER_VERSION=v0.5.1
+ARG TEMPLATING_VERSION=1.0.2
+ARG PUBLISHER_LIB_VERSION=2.10.0
+ARG ROUTER_VERSION=0.5.1
 ARG PUBLISHER_VERSION=master
 ARG SHAKESPEARE_VERSION=1.1.2
 ARG VANGOGH_VERSION=1.0.6
 
 # add key
 RUN  mkdir -p ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-
-RUN git clone https://github.com/eXist-db/templating.git \
-    && cd templating \
-    && git checkout ${TEMPLATING_VERSION} \
-    && npm start
-
-# Build tei-publisher-lib
-RUN  git clone https://github.com/eeditiones/tei-publisher-lib.git \
-    && cd tei-publisher-lib \
-    && git checkout ${PUBLISHER_LIB_VERSION} \
-    && ant
-
-RUN  git clone https://github.com/eeditiones/roaster.git \
-    && cd roaster \
-    && git checkout ${OAS_ROUTER_VERSION} \
-    && ant
 
 # Build shakespeare
 RUN  git clone https://github.com/eeditiones/shakespeare.git \
@@ -76,14 +60,16 @@ RUN  git clone https://github.com/eeditiones/tei-publisher-app.git \
     && git checkout ${PUBLISHER_VERSION} \
     && ant
 
+RUN curl -L -o /tmp/oas-router-${ROUTER_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/oas-router-${ROUTER_VERSION}.xar
+RUN curl -L -o /tmp/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar
+RUN curl -L -o /tmp/templating-${TEMPLATING_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/templating-${TEMPLATING_VERSION}.xar
+
 FROM existdb/existdb:${EXIST_VERSION}
 
-COPY --from=tei /tmp/templating/templating-*.xar /exist/autodeploy
-COPY --from=tei /tmp/tei-publisher-lib/build/*.xar /exist/autodeploy
-COPY --from=tei /tmp/roaster/build/*.xar /exist/autodeploy
 COPY --from=tei /tmp/tei-publisher-app/build/*.xar /exist/autodeploy
 COPY --from=tei /tmp/shakespeare/build/*.xar /exist/autodeploy
 COPY --from=tei /tmp/vangogh/build/*.xar /exist/autodeploy
+COPY --from=tei /tmp/*.xar /exist/autodeploy
 
 ENV DATA_DIR /exist-data
 
