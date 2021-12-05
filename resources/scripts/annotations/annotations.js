@@ -280,7 +280,7 @@ window.addEventListener("WebComponentsReady", () => {
 				if (response.ok) {
 					return response.json();
 				}
-				if (response.status === 401 || response.status === 403) {
+				if (response.status === 401) {
 					document.getElementById('permission-denied-dialog').show();
 					throw new Error(response.statusText);
 				}
@@ -601,6 +601,27 @@ window.addEventListener("WebComponentsReady", () => {
 					});
 				break;
 		}
+	});
+
+	window.pbEvents.subscribe("pb-annotation-colors", "transcription", (ev) => {
+		const colors = ev.detail.colors;
+		const styles = [];
+		colors.forEach((color, type) => {
+			styles.push(`
+				.annotation-action[data-type=${type}] {
+					color: ${color.color};
+					border-bottom: 2px solid ${color.color};
+				}
+			`);
+		});
+
+		let css = document.head.querySelector('#annotation_colors');
+		if (!css) {
+			css = document.createElement('style');
+			css.id = 'annotation_colors';
+			document.head.appendChild(css);
+		}
+		css.innerHTML = styles.join('\n');
 	});
 
 	// wire the ODD selector for the preview
