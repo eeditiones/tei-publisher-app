@@ -35,6 +35,7 @@ ARG TEMPLATING_VERSION=1.0.2
 ARG PUBLISHER_LIB_VERSION=2.10.0
 ARG ROUTER_VERSION=0.5.1
 ARG PUBLISHER_VERSION=master
+ARG SHARED_RESOURCES_VERSION=0.9.1
 ARG SHAKESPEARE_VERSION=1.1.2
 ARG VANGOGH_VERSION=1.0.6
 
@@ -63,6 +64,7 @@ RUN  git clone https://github.com/eeditiones/tei-publisher-app.git \
 RUN curl -L -o /tmp/oas-router-${ROUTER_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/oas-router-${ROUTER_VERSION}.xar
 RUN curl -L -o /tmp/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar
 RUN curl -L -o /tmp/templating-${TEMPLATING_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/templating-${TEMPLATING_VERSION}.xar
+RUN curl -L -o /tmp/shared-resources-${SHARED_RESOURCES_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/shared-resources-${SHARED_RESOURCES_VERSION}.xar
 
 FROM existdb/existdb:${EXIST_VERSION}
 
