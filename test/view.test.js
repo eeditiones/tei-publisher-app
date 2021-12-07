@@ -16,14 +16,12 @@ describe('/{doc}', function () {
         const res = await axios.get(`${server}/test%2Forlik_to_serafin.xml`);
         expect(res.status).to.equal(200);
 
-        const parser = new JSDOM(res.data);
-        const doc = parser.window.document;
         const fragment = JSDOM.fragment(res.data);
-        const meta = doc.querySelector('meta[name="description"]');
+        const meta = fragment.querySelector('meta[name="description"]');
         expect(meta).to.exist;
         expect(meta.getAttribute('content')).to.equal('Serafin Letter');
 
-        const pbDocument = doc.querySelector('pb-document');
+        const pbDocument = fragment.querySelector('pb-document');
         expect(pbDocument).to.exist;
         expect(pbDocument.getAttribute('path')).to.equal('test/orlik_to_serafin.xml');
         expect(pbDocument.getAttribute('odd')).to.equal('serafin');

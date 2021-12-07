@@ -329,17 +329,31 @@ declare %private function anno:apply($node as node(), $startOffset as xs:int, $e
     let $start := anno:find-offset($node, $startOffset, "start", $node instance of element(tei:note))
     let $end := anno:find-offset($node, $endOffset, "end", $node instance of element(tei:note))
     let $startAdjusted :=
-        if (not($start?1/.. is $node) and $start?2 = 1 and not($start?1 is $end?1)) then
-            [$start?1/.., 1]
+        if ($start?2 = 1 and not($start?1 is $end?1)) then
+            [anno:find-outermost($node, $start?1, "start"), 1]
         else
             $start
     let $endAdjusted :=
-        if (not($end?1/.. is $node) and $end?2 = string-length($end?1) and not($start?1 is $end?1)) then
-            [$end?1/.., 1]
+        if ($end?2 = string-length($end?1) and not($start?1 is $end?1)) then
+            [anno:find-outermost($node, $end?1, "end"), 1]
         else
             $end
     return
         anno:transform($node, $startAdjusted, $endAdjusted, false(), $annotation)
+};
+
+declare %private function anno:find-outermost($context as node(), $node as node(), $pos as xs:string) {
+    let $parent := $node/..
+    return
+        if ($parent is $context) then
+            $node
+        else if (
+            ($pos = "start" and empty($parent/preceding-sibling::node()))
+            or ($pos = "end" and empty($parent/following-sibling::node()))
+        ) then
+            anno:find-outermost($context, $parent, $pos)
+        else
+            $parent
 };
 
 declare %private function anno:find-offset($nodes as node()*, $offset as xs:int, $pos as xs:string, $isNote as xs:boolean?) {
