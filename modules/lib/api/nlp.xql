@@ -166,7 +166,7 @@ declare %private function nlp:normalize($input as xs:string) {
  : offset into the parent node
  :)
 declare function nlp:extract-plain-text($nodes as node()*, $skipNotes as xs:boolean?) {
-    for $node in $nodes
+    for $node at $pos in $nodes
     return
         typeswitch ($node)
             case document-node() return
@@ -188,16 +188,18 @@ declare function nlp:extract-plain-text($nodes as node()*, $skipNotes as xs:bool
             case element() return
                 nlp:extract-plain-text($node/node(), $skipNotes)
             case text() return
-                if (normalize-space($node) = (" ", "")) then
-                    ()
-                else
                     let $parent := $node/..
+                    let $text :=
+                        if (matches($node, "^[\s\n]+$")) then
+                            ' '
+                        else
+                            $node/string()
                     return
                         (: if there are preceding siblings, we need to calculate the absolute character offset within the parent node:)
-                        if ($parent/node()[. << $node]) then
-                            [util:node-id($parent), $node/string(), nlp:absolute-offset($parent/node()[. << $node], 0)]
+                        if ($pos > 1) then
+                            [util:node-id($parent), $text, nlp:absolute-offset($parent/node()[. << $node], 0)]
                         else
-                            [util:node-id($parent), $node/string(), 0]
+                            [util:node-id($parent), $text, 0]
             default return
                 ()
 };
