@@ -32,8 +32,10 @@ const testXml = `
             <p>(<persName type="author" ref="Gauger">Gauger</persName> I, 113).</p>
             <p>(113, <persName type="author" ref="Gauger">Gauger</persName> I).</p>
             <p>113, <persName type="author" ref="Gauger">Gauger</persName></p>
-            <p><seg type="bio">Starb am<note place="footnote">Fehlt.</note></seg>. Sammlung: Opuscula theologica.</p>
+            <p><ref target="#">Starb am<note place="footnote">Fehlt.</note></ref>. Sammlung: Opuscula theologica.</p>
             <p><hi>Zum <choice><abbr>Bsp.</abbr><expan>Beispiel</expan></choice></hi> Opuscula theologica.</p>
+            <p>Lorem ipsum dolor sit amet.</p>
+            <p>Lorem <choice><abbr>ipsum dolor</abbr><expan>sit amet</expan></choice> sit amet.</p>
         </body>
     </text>
 </TEI>
@@ -153,7 +155,7 @@ describe('/api/annotations/merge', function() {
         }
       ]);
       const para = document.querySelector("body p:nth-child(4)");
-      expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0"><seg type="bio">Starb am<note place="footnote">Fehlt.</note></seg>. Sammlung: <hi>Opuscula theologica</hi>.</p>');
+      expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0"><ref target="#">Starb am<note place="footnote">Fehlt.</note></ref>. Sammlung: <hi>Opuscula theologica</hi>.</p>');
     });
 
     it('annotate after nested choice', async function() {
@@ -169,6 +171,65 @@ describe('/api/annotations/merge', function() {
       ]);
       const para = document.querySelector("body p:nth-child(5)");
       expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0"><hi>Zum <choice><abbr>Bsp.</abbr><expan>Beispiel</expan></choice></hi> <hi>Opuscula theologica</hi>.</p>');
+    });
+
+    it('insert choice/abbr/expan', async function() {
+      const document = await annotate([
+        {
+          "context": "1.4.2.12",
+          "start": 6,
+          "end": 17,
+          "text": "ipsum dolor",
+          "type": "abbreviation",
+          "properties": {
+            "expan": "sit amet"
+          }
+        }
+      ]);
+      const para = document.querySelector("body p:nth-child(6)");
+      expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0">Lorem <choice><abbr>ipsum dolor</abbr><expan>sit amet</expan></choice> sit amet.</p>');
+    });
+
+    it('insert app/lem/rdg', async function() {
+      const document = await annotate([
+        {
+          "context": "1.4.2.12",
+          "start": 6,
+          "end": 17,
+          "text": "ipsum dolor",
+          "type": "app",
+          "properties": {
+            "wit[1]": "#me",
+            "rdg[1]": "sit amet"
+          }
+        }
+      ]);
+      const para = document.querySelector("body p:nth-child(6)");
+      expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0">Lorem <app><lem>ipsum dolor</lem><rdg wit="#me">sit amet</rdg></app> sit amet.</p>');
+    });
+
+    it('delete choice/abbr/expan', async function() {
+      const document = await annotate([
+        {
+          "type": "delete",
+          "node": "1.4.2.14.2",
+          "context": "1.4.2.14"
+        }
+      ]);
+      const para = document.querySelector("body p:nth-child(7)");
+      expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0">Lorem ipsum dolor sit amet.</p>');
+    });
+
+    it('delete element containing note', async function() {
+      const document = await annotate([
+        {
+          "type": "delete",
+          "node": "1.4.2.8.1",
+          "context": "1.4.2.8"
+        }
+      ]);
+      const para = document.querySelector("body p:nth-child(4)");
+      expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0">Starb am<note place="footnote">Fehlt.</note>. Sammlung: Opuscula theologica.</p>');
     });
 
     after(util.logout);
