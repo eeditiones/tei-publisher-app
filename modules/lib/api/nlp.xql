@@ -10,10 +10,22 @@ import module namespace anno-config="http://teipublisher.com/api/annotations/con
 import module namespace errors = "http://exist-db.org/xquery/router/errors";
 import module namespace http = "http://expath.org/ns/http-client";
 
+(:~
+ : Named entity recognition: endpoint of the python API
+ :)
+declare variable $nlp:api-endpoint := "http://localhost:8001";
+
+declare variable $nlp:entity-types := (
+    xs:QName("tei:persName"),
+    xs:QName("tei:placeName"),
+    xs:QName("tei:orgName")
+);
+
+
 declare function nlp:status($request as map(*)) {
     try {
         let $request := <http:request method="GET" timeout="10"/>
-        let $response := http:send-request($request, $anno-config:ner-api-endpoint || "/status/")
+        let $response := http:send-request($request, $nlp:api-endpoint || "/status/")
         return
             if ($response[1]/@status = "200") then
                 parse-json(util:binary-to-string($response[2]))
@@ -29,7 +41,7 @@ declare function nlp:models($request as map(*)) {
         <http:request method="GET" timeout="10"/>
     return
         try {
-            let $response := http:send-request($request, $anno-config:ner-api-endpoint || "/model")
+            let $response := http:send-request($request, $nlp:api-endpoint || "/model")
             return
                 if ($response[1]/@status = "200") then
                     parse-json(util:binary-to-string($response[2]))
@@ -197,9 +209,9 @@ declare function nlp:extract-plain-text($nodes as node()*, $skipNotes as xs:bool
                     return
                         (: if there are preceding siblings, we need to calculate the absolute character offset within the parent node:)
                         if ($pos > 1) then
-                            [util:node-id($parent), $text, nlp:absolute-offset($parent/node()[. << $node], 0)]
+                            [$parent, $text, nlp:absolute-offset($parent/node()[. << $node], 0)]
                         else
-                            [util:node-id($parent), $text, 0]
+                            [$parent, $text, 0]
             default return
                 ()
 };
@@ -266,10 +278,11 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*) {
         let $insertPoint := filter($offsets, function($offset as map(*)) {
             $entity?start >= $offset?start and $entity?start < $offset?end
         })
+        where not(node-name($insertPoint?node) = $nlp:entity-types)
         let $start := xs:int($entity?start - $insertPoint?start[1])
         return
             map {
-                "context": $insertPoint?node,
+                "context": util:node-id($insertPoint?node),
                 "start": $insertPoint?origOffset + $start,
                 "end": $insertPoint?origOffset + $start + string-length($entity?text),
                 "type": $entity?type,
@@ -281,21 +294,6 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*) {
     }
 };
 
-declare %private function nlp:entities($input as xs:string*) {
-    let $options :=
-        <option>
-            <stdin>
-            { for $in in $input return <line>{$in}</line> }
-            </stdin>
-        </option>
-    let $result := process:execute(($anno-config:ner-python-path, config:get-repo-dir() || "/resources/scripts/nlp.entities.py", "--model", $anno-config:ner-model), $options)
-    return
-        if ($result/@exitCode = "0") then
-            parse-json($result/stdout/line[1]/string())
-        else
-            error($errors:BAD_REQUEST, "Failed to execute python: " || string-join($result/stdout/line))
-};
-
 declare function nlp:entities-remote($input as xs:string*, $model as xs:string) {
     let $request := 
         <http:request method="POST" timeout="10">
@@ -303,7 +301,7 @@ declare function nlp:entities-remote($input as xs:string*, $model as xs:string) 
         </http:request>
     let $response := http:send-request(
             $request, 
-            $anno-config:ner-api-endpoint || "/entities/" || $model,
+            $nlp:api-endpoint || "/entities/" || $model,
             string-join($input))
     return
         if ($response[1]/@status = "200") then
@@ -324,7 +322,7 @@ declare function nlp:train-remote($name, $base, $lang, $data) {
         "samples": $data
     }
     let $serialized := util:string-to-binary(serialize($body, map { "method": "json" }))
-    let $response := http:send-request($request, $anno-config:ner-api-endpoint || "/train/", $serialized)
+    let $response := http:send-request($request, $nlp:api-endpoint || "/train/", $serialized)
     return
         if ($response[1]/@status = "200") then
             $response[2]

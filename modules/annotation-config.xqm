@@ -9,11 +9,6 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 declare variable $anno:local-authority-file := $config:data-root || "/register.xml";
 
 (:~
- : Named entity recognition: endpoint of the python API
- :)
-declare variable $anno:ner-api-endpoint := "http://localhost:8001";
-
-(:~
  : Create TEI for the given type, properties and content of an annotation and return it.
  : This function is called when annotations are merged into the original TEI.
  :)
