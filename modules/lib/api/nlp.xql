@@ -54,12 +54,12 @@ declare function nlp:models($request as map(*)) {
 
 declare function nlp:entity-recognition($request as map(*)) {
     let $path := xmldb:decode($request?parameters?id)
-    let $doc := config:get-document($path)//tei:body
+    let $doc := config:get-document($path)/tei:TEI/tei:text
     let $pairs := (
         nlp:extract-plain-text($doc, true()), 
         nlp:extract-plain-text($doc//tei:note, false())
     )
-    let $offsets := nlp:mapping-table($pairs, 0)
+    let $offsets := nlp:mapping-table($pairs, 0, $request?parameters?debug)
     let $plain := string-join($pairs ! .?2)
     return
         if ($request?parameters?debug) then
@@ -73,7 +73,7 @@ declare function nlp:entity-recognition($request as map(*)) {
 
 declare function nlp:plain-text($request as map(*)) {
     let $path := xmldb:decode($request?parameters?id)
-    let $doc := config:get-document($path)//tei:body
+    let $doc := config:get-document($path)/tei:TEI/tei:text
     let $pairs := (
         nlp:extract-plain-text($doc, true()), 
         nlp:extract-plain-text($doc//tei:note, false())
@@ -247,7 +247,7 @@ declare %private function nlp:absolute-offset($nodes as node()*, $start as xs:in
  : The resulting data structure is later used by nlp:convert to re-map the
  : detected entities back to the XML being annotated.
  :)
-declare function nlp:mapping-table($pairs as array(*)*, $accum as xs:int) {
+declare function nlp:mapping-table($pairs as array(*)*, $accum as xs:int, $debug as xs:boolean?) {
     if (empty($pairs)) then
         ()
     else
@@ -256,14 +256,14 @@ declare function nlp:mapping-table($pairs as array(*)*, $accum as xs:int) {
         return (
             if (exists($pair?1)) then
                 map {
-                    "node": $pair?1,
+                    "node": if ($debug) then util:node-id($pair?1) else $pair?1,
                     "start": $accum,
                     "end": $end,
                     "origOffset": $pair?3
                 }
             else
                 (),
-            nlp:mapping-table(tail($pairs), $end)
+            nlp:mapping-table(tail($pairs), $end, $debug)
         )
 };
 
