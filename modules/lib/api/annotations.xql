@@ -370,7 +370,7 @@ declare %private function anno:find-offset($nodes as node()*, $offset as xs:int,
                         if (exists($found)) then
                             $found
                         else
-                            anno:find-offset(tail($nodes), $offset - string-length($primary), $pos, ())
+                            anno:find-offset(tail($nodes), $offset - anno:string-length($primary), $pos, ())
                 case element(tei:app) return
                     let $primary := $node/tei:lem
                     let $found := anno:find-offset($primary, $offset, $pos, ())
@@ -378,18 +378,18 @@ declare %private function anno:find-offset($nodes as node()*, $offset as xs:int,
                         if (exists($found)) then
                             $found
                         else
-                            anno:find-offset(tail($nodes), $offset - string-length($primary), $pos, ())
+                            anno:find-offset(tail($nodes), $offset - anno:string-length($primary), $pos, ())
                 case element(tei:note) return
                     if ($isNote) then
                         let $found := anno:find-offset($node/node(), $offset, $pos, ())
                         return
-                            if (exists($found)) then $found else anno:find-offset(tail($nodes), $offset - string-length($node), $pos, ())
+                            if (exists($found)) then $found else anno:find-offset(tail($nodes), $offset - anno:string-length($node), $pos, ())
                     else
                         anno:find-offset(tail($nodes), $offset, $pos, ())
                 case element() return
                     let $found := anno:find-offset($node/node(), $offset, $pos, ())
                     return
-                        if (exists($found)) then $found else anno:find-offset(tail($nodes), $offset - string-length($node), $pos, ())
+                        if (exists($found)) then $found else anno:find-offset(tail($nodes), $offset - anno:string-length($node), $pos, ())
                 case text() return
                     let $len := string-length($node)
                     return
@@ -402,6 +402,35 @@ declare %private function anno:find-offset($nodes as node()*, $offset as xs:int,
                             anno:find-offset(tail($nodes), $offset - $len, $pos, ())
                 default return
                     ()
+};
+
+declare %private function anno:string-length($nodes as node()*) {
+    anno:string-length($nodes, 0)
+};
+
+(:~
+ : Compute the string-length of the given node set, taking into account footnotes, choices and app,
+ : which should be counted in part only or not at all.
+ :)
+declare %private function anno:string-length($nodes as node()*, $length as xs:int) {
+    if ($nodes) then
+        let $node := head($nodes)
+        let $newLength :=
+            typeswitch ($node)
+                case element(tei:note) return
+                    $length
+                case element(tei:choice) return
+                    anno:string-length($node/tei:sic | $node/tei:abbr, $length)
+                case element(tei:app) return
+                    anno:string-length($node/tei:lem, $length)
+                case element() return
+                    anno:string-length($node/node(), $length)
+                default return
+                    $length + string-length($node)
+        return
+            anno:string-length(tail($nodes), $newLength)
+    else
+        $length
 };
 
 declare %private function anno:transform($nodes as node()*, $start, $end, $inAnno, $annotation as map(*)) {

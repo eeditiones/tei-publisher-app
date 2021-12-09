@@ -2,6 +2,7 @@ const util = require('./util.js');
 const path = require('path');
 const FormData = require('form-data');
 const chai = require('chai');
+const chaiXML = require('chai-xml');
 const expect = chai.expect;
 const chaiResponseValidator = require('chai-openapi-response-validator');
 const jsdom = require("jsdom");
@@ -9,6 +10,7 @@ const { JSDOM } = jsdom;
 
 const spec = path.resolve("./modules/lib/api.json");
 chai.use(chaiResponseValidator(spec));
+chai.use(chaiXML);
 
 const testXml = `
     <TEI xmlns="http://www.tei-c.org/ns/1.0">
@@ -30,6 +32,8 @@ const testXml = `
             <p>(<persName type="author" ref="Gauger">Gauger</persName> I, 113).</p>
             <p>(113, <persName type="author" ref="Gauger">Gauger</persName> I).</p>
             <p>113, <persName type="author" ref="Gauger">Gauger</persName></p>
+            <p><seg type="bio">Starb am<note place="footnote">Fehlt.</note></seg>. Sammlung: Opuscula theologica.</p>
+            <p><hi>Zum <choice><abbr>Bsp.</abbr><expan>Beispiel</expan></choice></hi> Opuscula theologica.</p>
         </body>
     </text>
 </TEI>
@@ -48,25 +52,18 @@ async function annotate(json) {
     return document;
 }
 
-describe('/api/upload', function() {
-    before(util.login);
-
-    it('uploads a document to playground collection', async function () {
-        const formData = new FormData()
-        formData.append('files[]', testXml, "annotations.xml");
-        const res = await util.axios.post('upload/annotate', formData, {
-            headers: formData.getHeaders()
-        });
-        expect(res.data).to.have.length(1);
-        expect(res.data[0].name).to.equal('/db/apps/tei-publisher/data/annotate/annotations.xml');
-        expect(res).to.satisfyApiSpec;
-    });
-
-    after(util.logout);
-});
-
 describe('/api/annotations/merge', function() {
-    before(util.login);
+    before(async () => {
+      await util.login();
+      const formData = new FormData()
+      formData.append('files[]', testXml, "annotations.xml");
+      const res = await util.axios.post('upload/annotate', formData, {
+          headers: formData.getHeaders()
+      });
+      expect(res.data).to.have.length(1);
+      expect(res.data[0].name).to.equal('/db/apps/tei-publisher/data/annotate/annotations.xml');
+      expect(res).to.satisfyApiSpec;
+    });
 
     it('deletes at start and wraps', async function() {
         const document = await annotate([
@@ -103,7 +100,7 @@ describe('/api/annotations/merge', function() {
             }
         ]);
         const para = document.querySelector("body p:nth-child(1)");
-        expect(para.innerHTML).to.equal('(<ref xmlns="http://www.tei-c.org/ns/1.0" target="#foo"><hi>Gauger I</hi>, <hi>113</hi></ref>).');
+        expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0">(<ref target="#foo"><hi>Gauger I</hi>, <hi>113</hi></ref>).</p>');
     });
 
     it('deletes at end and wraps', async function() {
@@ -141,6 +138,38 @@ describe('/api/annotations/merge', function() {
             }
         ]);
         const para = document.querySelector("body p:nth-child(2)");
-        expect(para.innerHTML).to.equal('(<ref xmlns="http://www.tei-c.org/ns/1.0" target="#foo"><hi>113</hi>, <hi>Gauger I</hi></ref>).');
+        expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0">(<ref target="#foo"><hi>113</hi>, <hi>Gauger I</hi></ref>).</p>');
     });
+
+    it('annotate after nested note', async function() {
+      const document = await annotate([
+        {
+          "context": "1.4.2.8",
+          "start": 20,
+          "end": 39,
+          "text": "Opuscula theologica",
+          "type": "hi",
+          "properties": {}
+        }
+      ]);
+      const para = document.querySelector("body p:nth-child(4)");
+      expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0"><seg type="bio">Starb am<note place="footnote">Fehlt.</note></seg>. Sammlung: <hi>Opuscula theologica</hi>.</p>');
+    });
+
+    it('annotate after nested choice', async function() {
+      const document = await annotate([
+        {
+          "context": "1.4.2.10",
+          "start": 9,
+          "end": 28,
+          "text": "Opuscula theologica",
+          "type": "hi",
+          "properties": {}
+        }
+      ]);
+      const para = document.querySelector("body p:nth-child(5)");
+      expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0"><hi>Zum <choice><abbr>Bsp.</abbr><expan>Beispiel</expan></choice></hi> <hi>Opuscula theologica</hi>.</p>');
+    });
+
+    after(util.logout);
 });
