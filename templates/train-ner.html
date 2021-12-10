@@ -19,20 +19,21 @@
                 max-width: 1200px;
                 margin: 0 auto;
             }
-
-            .tp-title {
-                font-family: "Oswald",Verdana,"Helvetica",sans-serif;
-                font-size: 36px;
-                font-weight: 400;
-            }
-
+            
             fieldset {
                 padding: 0;
                 border: 0;
                 width: 100%;
+                margin-top: 20px;
             }
             legend {
                 color: #909090;
+            }
+
+            #spacy-notfound {
+                color: var(--pb-color-focus);
+                margin: 30px 0;
+                text-align: center;
             }
         </style>
     </head>
@@ -56,22 +57,25 @@
                     </app-toolbar>
                 </app-header>
                 <main>
-                    <section>
-                        <h1 class="tp-title"><pb-i18n key="menu.admin.ner.title">Train a Named Entity Recognition Model</pb-i18n></h1>
-                    </section>
+                    <h1><pb-i18n key="menu.admin.ner.title">Train a Named Entity Recognition Model</pb-i18n></h1>
+                    <h2 id="spacy-notfound">This feature requires the TEI Publisher NER service to be
+                        running! Failed to contact the service.</h2>
+                    <p id="spacy-found">Found TEI Publisher NER with spaCy version <span id="spacy-version"></span>.</p>
                     <iron-form id="form">
                         <form method="GET">
-                            <fieldset>
-                                <legend>Enter path to a document or collection to use as training input. Should be relative to TEI Publisher's data root.</legend>
-                                <paper-input label="Path" placeholder="Relative path to document or collection" name="id"></paper-input>
-                            </fieldset>
                             <paper-input label="Name" placeholder="Name of the model to create" name="name"></paper-input>
-                            <paper-dropdown-menu id="models" data-i18n="[label]annotations.ner.model" label="Base Model" placeholder="Base model to extend" name="base">
-                                <paper-listbox slot="dropdown-content"></paper-listbox>
-                            </paper-dropdown-menu>
                             <fieldset>
-                                <legend>A language is required unless you specify a base model to extend.</legend>
+                                <paper-input label="Path" placeholder="Relative path to document or collection" name="id"></paper-input>
+                                <legend>Enter path to a document or collection to use as training input. Should be relative to TEI Publisher's data root.</legend>
+                            </fieldset>
+                            <fieldset>
+                                <legend>You may either train a new model for a language or select an existing model to extend below.
+                                    If not extending an existing model, you must specify a language. Otherwise leave it empty.
+                                </legend>
                                 <paper-input label="Language" name="lang" placeholder="Language to create the model for"></paper-input>
+                                <paper-dropdown-menu id="models" data-i18n="[label]annotations.ner.model" label="Base Model" placeholder="Base model to extend" name="base">
+                                    <paper-listbox slot="dropdown-content"></paper-listbox>
+                                </paper-dropdown-menu>
                             </fieldset>
 
                             <paper-button id="submit"><iron-icon icon="save"></iron-icon> Start</paper-button>
@@ -88,7 +92,7 @@
 
                 document.addEventListener('pb-page-ready', () => {
                     endpoint = document.querySelector("pb-page").getAttribute('endpoint');
-                    fetch(`${endpoint}/api/nlp/status/models`, {
+                    fetch(`${endpoint}/api/nlp/status`, {
                         method: "GET",
                         mode: "cors",
                         credentials: "same-origin"
@@ -97,10 +101,15 @@
                         if (response.ok) {
                             return response.json();
                         }
+                        document.getElementById('spacy-notfound').style.display = 'block';
+                        document.getElementById('spacy-found').style.display = 'none';
                     })
                     .then((json) => {
+                        document.getElementById('spacy-notfound').style.display = 'none';
+                        document.getElementById('spacy-version').innerHTML = json.spacy_version;
                         const list = [];
-                        json.forEach((item) => {
+                        const pipelines = json.pipelines;
+                        pipelines.forEach((item) => {
                             list.push(`<paper-item>${item}</paper-item>`);
                         });
                         document.querySelector('#models paper-listbox').innerHTML = list.join('\n');
@@ -110,7 +119,7 @@
                 const submit = document.getElementById('submit');
                 submit.addEventListener('click', function() {
                     pbEvents.emit('pb-start-update');
-                    log.innerHTML = 'Training in progress ...<br>This may take several minutes.';
+                    log.innerHTML = 'Training in progress ... This may take several minutes.';
                     const formParams = document.getElementById('form').serializeForm();
                     const params = {
                         name: formParams.name
