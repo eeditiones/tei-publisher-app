@@ -36,6 +36,7 @@ const testXml = `
             <p><hi>Zum <choice><abbr>Bsp.</abbr><expan>Beispiel</expan></choice></hi> Opuscula theologica.</p>
             <p>Lorem ipsum dolor sit amet.</p>
             <p>Lorem <choice><abbr>ipsum dolor</abbr><expan>sit amet</expan></choice> sit amet.</p>
+            <p>Bei <persName type="author" ref="kbga-actors-8470">Budé</persName> (Anm. 21), S. 56f.59, finden sich zwei Briefe von Fontenelle an Turettini, in denen <persName ref="kbga-actors-8482">Fontenelle</persName> sich lobend über <persName ref="kbga-actors-1319">Werenfels</persName> äußert. Den erwähnten Dank formulierte <persName ref="kbga-actors-1319">Werenfels</persName> in Form eines Epigramms; vgl. <persName type="author" ref="kbga-actors-1319">S. Werenfels</persName>, <hi rend="i">Fasciculus Epigrammatum</hi>, in: ders., <hi rend="i">Opuscula</hi> III (Anm. 20), S. 337–428, dort S. 384:</p>
         </body>
     </text>
 </TEI>
@@ -156,6 +157,23 @@ describe('/api/annotations/merge', function() {
       ]);
       const para = document.querySelector("body p:nth-child(4)");
       expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0"><ref target="#">Starb am<note place="footnote">Fehlt.</note></ref>. Sammlung: <hi>Opuscula theologica</hi>.</p>');
+    });
+
+    it('wrap to end of paragraph', async function() {
+      const document = await annotate([
+        {
+          "context": "1.4.2.16",
+          "start": 210,
+          "end": 308,
+          "text": "S. Werenfels, Fasciculus Epigrammatum, in: ders., Opuscula III (Anm. 20), S. 337–428, dort S. 384:",
+          "type": "link",
+          "properties": {
+            "target": "#foo"
+          }
+        }
+      ]);
+      const para = document.querySelector("body p:nth-child(8)");
+      expect(para.outerHTML).xml.to.equal('<p xmlns="http://www.tei-c.org/ns/1.0">Bei <persName type="author" ref="kbga-actors-8470">Budé</persName> (Anm. 21), S. 56f.59, finden sich zwei Briefe von Fontenelle an Turettini, in denen <persName ref="kbga-actors-8482">Fontenelle</persName> sich lobend über <persName ref="kbga-actors-1319">Werenfels</persName> äußert. Den erwähnten Dank formulierte <persName ref="kbga-actors-1319">Werenfels</persName> in Form eines Epigramms; vgl. <ref target="#foo"><persName type="author" ref="kbga-actors-1319">S. Werenfels</persName>, <hi rend="i">Fasciculus Epigrammatum</hi>, in: ders., <hi rend="i">Opuscula</hi> III (Anm. 20), S. 337–428, dort S. 384:</ref></p>');
     });
 
     it('annotate after nested choice', async function() {

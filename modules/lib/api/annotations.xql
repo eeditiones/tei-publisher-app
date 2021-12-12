@@ -335,7 +335,10 @@ declare %private function anno:apply($node as node(), $startOffset as xs:int, $e
             $start
     let $endAdjusted :=
         if ($end?2 = string-length($end?1) and not($start?1 is $end?1)) then
-            [anno:find-outermost($node, $end?1, "end"), 1]
+            let $outer := anno:find-outermost($node, $end?1, "end")
+            let $offset := if ($outer/following-sibling::node()) then 1 else $end?2
+            return
+                [anno:find-outermost($node, $end?1, "end"), $offset]
         else
             $end
     return
