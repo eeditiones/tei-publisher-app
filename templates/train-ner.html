@@ -107,12 +107,23 @@
                     .then((json) => {
                         document.getElementById('spacy-notfound').style.display = 'none';
                         document.getElementById('spacy-version').innerHTML = json.spacy_version;
-                        const list = [];
-                        const pipelines = json.pipelines;
-                        pipelines.forEach((item) => {
-                            list.push(`<paper-item>${item}</paper-item>`);
+                        fetch(`${endpoint}/api/nlp/status/models`, {
+                            method: "GET",
+                            mode: "cors",
+                            credentials: "same-origin"
+                        })
+                        .then((response) => {
+                            if (response.ok) {
+                                return response.json();
+                            }
+                        })
+                        .then((json) => {
+                            const list = [];
+                            json.forEach((item) => {
+                                list.push(`<paper-item>${item}</paper-item>`);
+                            });
+                            document.querySelector('#models paper-listbox').innerHTML = list.join('\n');
                         });
-                        document.querySelector('#models paper-listbox').innerHTML = list.join('\n');
                     });
                 });
 
