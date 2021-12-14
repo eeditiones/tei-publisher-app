@@ -1,4 +1,4 @@
-ARG EXIST_VERSION=5.3.0
+ARG EXIST_VERSION=5.3.1
 
 # START STAGE 1
 FROM openjdk:8-jdk-slim as builder
