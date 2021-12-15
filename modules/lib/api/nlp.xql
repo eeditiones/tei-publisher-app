@@ -4,28 +4,15 @@ module namespace nlp="http://teipublisher.com/api/nlp";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
-import module namespace anno-config="http://teipublisher.com/api/annotations/config" at "../../annotation-config.xqm";
+import module namespace nlp-config="http://teipublisher.com/api/nlp/config" at "../../nlp-config.xqm";
 import module namespace errors = "http://exist-db.org/xquery/router/errors";
 import module namespace http = "http://expath.org/ns/http-client";
-
-(:~
- : Named entity recognition: endpoint of the python API
- :)
-declare variable $nlp:api-endpoint := "http://localhost:8001";
-
-declare variable $nlp:entity-types := (
-    xs:QName("tei:persName"),
-    xs:QName("tei:placeName"),
-    xs:QName("tei:orgName")
-);
-
 
 declare function nlp:status($request as map(*)) {
     try {
         let $request := <http:request method="GET" timeout="10"/>
-        let $response := http:send-request($request, $nlp:api-endpoint || "/status/")
+        let $response := http:send-request($request, $nlp-config:api-endpoint || "/status/")
         return
             if ($response[1]/@status = "200") then
                 parse-json(util:binary-to-string($response[2]))
@@ -41,7 +28,7 @@ declare function nlp:models($request as map(*)) {
         <http:request method="GET" timeout="10"/>
     return
         try {
-            let $response := http:send-request($request, $nlp:api-endpoint || "/model")
+            let $response := http:send-request($request, $nlp-config:api-endpoint || "/model")
             return
                 if ($response[1]/@status = "200") then
                     parse-json(util:binary-to-string($response[2]))
@@ -102,8 +89,8 @@ declare function nlp:train($request as map(*)) {
             collection($config:data-root || "/" || $path)//tei:body
     for $doc in $input
     return (
-        nlp:training-data-from-blocks($doc/(descendant::tei:p|descendant::tei:head), false()),
-        nlp:training-data-from-blocks($doc//tei:note, true())
+        nlp:training-data-from-blocks(nlp-config:blocks($doc, false()), false()),
+        nlp:training-data-from-blocks(nlp-config:blocks($doc, true()), true())
     )
 };
 
@@ -129,7 +116,7 @@ declare %private function nlp:collect-training-entities($data as array(*)*, $off
         let $head := head($data)
         let $end := $offset + string-length($head?2)
         return (
-            if ($head?1 = ("PER", "LOC")) then
+            if ($head?1 = ("PER", "LOC", "ORG")) then
                 nlp:collect-training-entities(tail($data), $end, ($result, [ $offset, $end, $head?1]))
             else
                 nlp:collect-training-entities(tail($data), $end, $result)
@@ -153,14 +140,15 @@ declare %private function nlp:training-data($nodes as node()*, $outputNotes as x
                     nlp:training-data($node/node(), $outputNotes)
                 else
                     ()
-            case element(tei:persName) | element(tei:author) return
-                ["PER", nlp:normalize($node)]
-            case element(tei:placeName) | element(tei:pubPlace) return
-                ["LOC", nlp:normalize($node)]
             case element() return
-                nlp:training-data($node/node(), $outputNotes)
+                let $type := nlp-config:entity-type($node)
+                return
+                    if ($type) then
+                        [$type, nlp:normalize($node)]
+                    else
+                    nlp:training-data($node/node(), $outputNotes)
             case text() return
-                    [(), replace($node/string(), "[\s\n]{2,}", " ")]
+                [(), replace($node/string(), "[\s\n]{2,}", " ")]
             default return
                 ()
 };
@@ -278,7 +266,8 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*) {
         let $insertPoint := filter($offsets, function($offset as map(*)) {
             $entity?start >= $offset?start and $entity?start < $offset?end
         })
-        where not(node-name($insertPoint?node) = $nlp:entity-types)
+        (: ignore if the element is already marked as entity :)
+        where empty(nlp-config:entity-type($insertPoint?node))
         let $start := xs:int($entity?start - $insertPoint?start[1])
         return
             map {
@@ -301,7 +290,7 @@ declare function nlp:entities-remote($input as xs:string*, $model as xs:string) 
         </http:request>
     let $response := http:send-request(
             $request, 
-            $nlp:api-endpoint || "/entities/" || $model,
+            $nlp-config:api-endpoint || "/entities/" || $model,
             string-join($input))
     return
         if ($response[1]/@status = "200") then
@@ -322,7 +311,7 @@ declare function nlp:train-remote($name, $base, $lang, $data) {
         "samples": $data
     }
     let $serialized := util:string-to-binary(serialize($body, map { "method": "json" }))
-    let $response := http:send-request($request, $nlp:api-endpoint || "/train/", $serialized)
+    let $response := http:send-request($request, $nlp-config:api-endpoint || "/train/", $serialized)
     return
         if ($response[1]/@status = "200") then
             $response[2]
