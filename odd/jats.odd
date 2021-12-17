@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="teipublisher_odds.xsd"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
                 <title>JATS
-                    <desc>Processing of JATS XML (Journal Article Tag Suite)</desc>
+                    
+                 <desc>Processing of JATS XML (Journal Article Tag Suite)</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -17,6 +17,9 @@
                 </p>
             </sourceDesc>
         </fileDesc>
+        <encodingDesc>
+            <tagsDecl/>
+        </encodingDesc>
     </teiHeader>
     <text>
         <body>
@@ -28,86 +31,138 @@
                     <model behaviour="section"/>
                 </elementSpec>
                 <elementSpec ident="title" mode="add">
+                    <model predicate="parent::caption" behaviour="heading">
+            <param name="level" value="3"/>
+            <outputRendition xml:space="preserve">
+            margin-bottom: 0;
+            </outputRendition>
+        </model>
                     <model behaviour="heading">
-                        <param name="level" value="count(ancestor::sec)"/>
-                    </model>
+            <param name="level" value="count(ancestor::sec)"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="p" mode="add">
+                    <model predicate="ancestor::td" behaviour="block"/>
                     <model behaviour="paragraph"/>
                 </elementSpec>
                 <elementSpec ident="list" mode="add">
                     <model behaviour="list">
-                        <param name="type" value="if (@list-type = 'order') then 'ordered' else ()"/>
-                    </model>
+            <param name="type" value="if (@list-type = 'order') then 'ordered' else ()"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="list-item" mode="add">
                     <model behaviour="listItem"/>
                 </elementSpec>
                 <elementSpec ident="uri" mode="add">
                     <model behaviour="link">
-                        <param name="uri" value="@xlink:href"/>
-                    </model>
+            <param name="uri" value="@xlink:href"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="bold" mode="add">
                     <model behaviour="inline">
-                        <outputRendition>
-                            font-weight: bold;
-                        </outputRendition>
-                    </model>
+            <outputRendition xml:space="preserve">
+            font-weight: bold;
+            </outputRendition>
+        </model>
                 </elementSpec>
                 <elementSpec ident="italic" mode="add">
                     <model behaviour="inline">
-                        <outputRendition>
-                            font-style: italic;
-                        </outputRendition>
-                    </model>
+            <outputRendition xml:space="preserve">
+            font-style: italic;
+            </outputRendition>
+        </model>
                 </elementSpec>
                 <elementSpec ident="table-wrap" mode="add">
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="table" mode="add">
-                    <model behaviour="table" cssClass="table"/>
+                    <model behaviour="table" cssClass="table">
+            <outputRendition xml:space="preserve">
+            
+            </outputRendition>
+        </model>
                 </elementSpec>
                 <elementSpec ident="tr">
                     <model behaviour="row"/>
                 </elementSpec>
                 <elementSpec ident="td">
-                    <model behaviour="cell"/>
+                    <model behaviour="cell">
+            <outputRendition xml:space="preserve">
+            padding 0 4px;
+            </outputRendition>
+        </model>
                 </elementSpec>
                 <elementSpec ident="th">
                     <model behaviour="cell" useSourceRendition="true">
-                        <outputRendition>
-                            font-weight: bold;
-                            text-align: center;
-                        </outputRendition>
-                    </model>
+            <outputRendition xml:space="preserve">
+            font-weight: bold;
+text-align: left;
+padding: 0 4px;
+            </outputRendition>
+        </model>
                 </elementSpec>
                 <elementSpec ident="article-meta" mode="add">
+                    <model predicate="$parameters?header='short'" behaviour="block">
+            <param name="content" value="(title-group, contrib-group)"/>
+        </model>
                     <model behaviour="block">
-                        <param name="content" value="title-group"/>
-                    </model>
+            <param name="content" value="title-group"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="title-group" mode="add">
                     <modelSequence>
-                        <model behaviour="link">
-                            <param name="content" value="article-title"/>
-                            <param name="uri" value="$parameters?doc"/>
-                        </model>
-                        <model behaviour="block">
-                            <param name="content" value="subtitle"/>
-                        </model>
-                    </modelSequence>
+            <model behaviour="link">
+                <param name="content" value="article-title"/>
+                <param name="uri" value="$parameters?doc"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="subtitle"/>
+            </model>
+        </modelSequence>
                 </elementSpec>
                 <elementSpec ident="article-title" mode="add">
                     <model predicate="$parameters?header='short'" behaviour="heading">
-                        <param name="level" value="5"/>
-                    </model>
+            <param name="level" value="5"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="subtitle" mode="add">
                     <model behaviour="heading">
-                        <param name="level" value="6"/>
-                    </model>
+            <param name="level" value="5"/>
+        </model>
                 </elementSpec>
+            <elementSpec ident="caption" mode="add">
+                    <model behaviour="body"/>
+                </elementSpec>
+                <elementSpec ident="disp-quote" mode="add">
+                    <model behaviour="cit"/>
+                </elementSpec>
+                <elementSpec ident="fn" mode="add">
+                    <model behaviour="pass-through">
+            <param name="content" value="p"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="label" mode="add">
+                    <model behaviour="block">
+            <outputRendition xml:space="preserve">
+            font-weight: bold;
+            </outputRendition>
+        </model>
+                </elementSpec>
+                <elementSpec ident="xref" mode="add">
+                    <model predicate="@ref-type='fn'" behaviour="note">
+            <param name="content" value="let $rid := @rid return root($parameters?root)//fn[@id=$rid]"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="contrib" mode="add">
+        <model behaviour="inline">
+            <param name="content" value="string-join((name/given-names, name/surname), ' ')"/>
+        </model>
+    </elementSpec>
+                <elementSpec ident="contrib-group" mode="add">
+        <model behaviour="inline">
+            <param name="content" value="string-join(contrib, ', ')"/>
+        </model>
+    </elementSpec>
             </schemaSpec>
         </body>
     </text>

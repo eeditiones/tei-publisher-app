@@ -31,12 +31,15 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
                 string-join((
                     $header//tei:msDesc/tei:head, $header//tei:titleStmt/tei:title[@type = 'main'],
                     $header//tei:titleStmt/tei:title,
-                    $root/dbk:info/dbk:title
+                    $root/dbk:info/dbk:title,
+                    $root//article-meta/title-group/article-title,
+                    $root//article-meta/title-group/subtitle
                 ), " - ")
             case "author" return (
                 $header//tei:correspDesc/tei:correspAction/tei:persName,
                 $header//tei:titleStmt/tei:author,
-                $root/dbk:info/dbk:author
+                $root/dbk:info/dbk:author,
+                $root//article-meta/contrib-group/contrib/name
             )
             case "language" return
                 head((

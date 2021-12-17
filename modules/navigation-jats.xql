@@ -21,6 +21,14 @@ module namespace nav="http://www.tei-c.org/tei-simple/navigation/jats";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
+declare function nav:get-root($root as xs:string?, $options as map(*)?) {
+    $config:data-default ! (
+        for $doc in collection(. || "/" || $root)//body[ft:query(., "file:*", $options)]
+        return
+            $doc/ancestor::article
+    )
+};
+
 declare function nav:get-header($config as map(*), $node as element()) {
     $node/front/article-meta
 };
@@ -52,6 +60,14 @@ declare function nav:get-metadata($config as map(*), $root as element(), $field 
             ($root/@xml:lang/string(), "en")[1]
         default return
             ()
+};
+
+declare function nav:sort($sortBy as xs:string, $items as element()*) {
+    switch ($sortBy)
+        case "date" return
+            sort($items, (), ft:field(?, "date", "xs:date"))
+        default return
+            sort($items, 'http://www.w3.org/2013/collation/UCA', ft:field(?, $sortBy))
 };
 
 declare function nav:get-content($config as map(*), $div as element()) {
