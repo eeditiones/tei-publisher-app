@@ -123,6 +123,9 @@
                         document.getElementById('submit').disabled = true;
                     })
                     .then((json) => {
+                        if (!json) {
+                            return;
+                        }
                         document.getElementById('spacy-notfound').style.display = 'none';
                         document.getElementById('spacy-version').innerHTML = json.spacy_version;
                         fetch(`${endpoint}/api/nlp/status/models`, {
