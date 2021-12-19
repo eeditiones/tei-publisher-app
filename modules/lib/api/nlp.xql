@@ -74,9 +74,10 @@ declare function nlp:train-model($request as map(*)) {
     let $base := $request?parameters?base
     let $name := $request?parameters?name
     let $lang := $request?parameters?lang
+    let $vectors := $request?parameters?copy_vectors
     let $data := nlp:train($request)
-    return
-        nlp:train-remote($name, $base, $lang, $data)
+    let $pid := nlp:train-remote($name, $base, $lang, $vectors, $data)
+    return $nlp-config:api-endpoint || "/train/" || $pid
 };
 
 declare function nlp:train($request as map(*)) {
@@ -116,7 +117,7 @@ declare %private function nlp:collect-training-entities($data as array(*)*, $off
         let $head := head($data)
         let $end := $offset + string-length($head?2)
         return (
-            if ($head?1 = ("PER", "LOC", "ORG")) then
+            if ($head?1 = $nlp-config:entities) then
                 nlp:collect-training-entities(tail($data), $end, ($result, [ $offset, $end, $head?1]))
             else
                 nlp:collect-training-entities(tail($data), $end, $result)
@@ -299,7 +300,7 @@ declare function nlp:entities-remote($input as xs:string*, $model as xs:string) 
             error($errors:BAD_REQUEST, $response[2])
 };
 
-declare function nlp:train-remote($name, $base, $lang, $data) {
+declare function nlp:train-remote($name, $base, $lang, $vectors, $data) {
     let $request := 
         <http:request method="POST">
             <http:body media-type="application/json"/>
@@ -308,13 +309,14 @@ declare function nlp:train-remote($name, $base, $lang, $data) {
         "name": $name,
         "base": $base,
         "lang": $lang,
+        "copy_vectors": $vectors,
         "samples": $data
     }
     let $serialized := util:string-to-binary(serialize($body, map { "method": "json" }))
     let $response := http:send-request($request, $nlp-config:api-endpoint || "/train/", $serialized)
     return
         if ($response[1]/@status = "200") then
-            $response[2]
+            parse-json(util:binary-to-string($response[2]))
         else
             error($errors:BAD_REQUEST, $response[2])
 };

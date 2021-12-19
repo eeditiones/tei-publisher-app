@@ -26,8 +26,19 @@
                 width: 100%;
                 margin-top: 20px;
             }
+
             legend {
                 color: #909090;
+            }
+
+            [name=vectors] {
+                margin-left: 3rem;
+            }
+            [name=base] {
+                margin-top: 1rem;
+            }
+            #submit {
+                margin-top: 2rem;
             }
 
             #spacy-notfound {
@@ -63,19 +74,21 @@
                     <p id="spacy-found">Found TEI Publisher NER with spaCy version <span id="spacy-version"></span>.</p>
                     <iron-form id="form">
                         <form method="GET">
-                            <paper-input label="Name" placeholder="Name of the model to create" name="name"></paper-input>
+                            <paper-input label="Name" placeholder="Name of the model to create" name="name" required="" auto-validate=""></paper-input>
                             <fieldset>
-                                <paper-input label="Path" placeholder="Relative path to document or collection" name="id"></paper-input>
+                                <paper-input label="Path" placeholder="Relative path to document or collection" name="id" required="" auto-validate=""></paper-input>
                                 <legend>Enter path to a document or collection to use as training input. Should be relative to TEI Publisher's data root.</legend>
                             </fieldset>
                             <fieldset>
                                 <legend>You may either train a new model for a language or select an existing model to extend below.
                                     If not extending an existing model, you must specify a language. Otherwise leave it empty.
                                 </legend>
-                                <paper-input label="Language" name="lang" placeholder="Language to create the model for"></paper-input>
+                                <paper-input label="Language" name="lang" placeholder="Language to create the model for"
+                                    error-message="Either a language or a base model are required"></paper-input>
                                 <paper-dropdown-menu id="models" data-i18n="[label]annotations.ner.model" label="Base Model" placeholder="Base model to extend" name="base">
                                     <paper-listbox slot="dropdown-content"></paper-listbox>
                                 </paper-dropdown-menu>
+                                <paper-checkbox name="vectors">Only copy vectors from base</paper-checkbox>
                             </fieldset>
 
                             <paper-button id="submit"><iron-icon icon="save"></iron-icon> Start</paper-button>
@@ -103,6 +116,7 @@
                         }
                         document.getElementById('spacy-notfound').style.display = 'block';
                         document.getElementById('spacy-found').style.display = 'none';
+                        document.getElementById('submit').disabled = true;
                     })
                     .then((json) => {
                         document.getElementById('spacy-notfound').style.display = 'none';
@@ -127,11 +141,36 @@
                     });
                 });
 
+                function poll(url) {
+                    let status = -1;
+                    fetch(url)
+                    .then(function(response) {
+                        status = response.status;
+                        if (response.ok) {
+                            return response.text();
+                        }
+                    })
+                    .then(function(text) {
+                        log.innerHTML = text;
+                        window.scrollTo(0, document.body.scrollHeight);
+                        if (status === 202) {
+                            setTimeout(function() { poll(url); }, 1000);
+                        }
+                    });
+                }
+
                 const submit = document.getElementById('submit');
                 submit.addEventListener('click', function() {
+                    const form = document.getElementById('form');
+                    const formParams = form.serializeForm();
+                    if (!form.validate()) {
+                        return;
+                    } else if (!(formParams.base || formParams.lang)) {
+                        form.querySelector('[name=lang]').invalid = true;
+                        return;
+                    }
                     pbEvents.emit('pb-start-update');
-                    log.innerHTML = 'Training in progress ... This may take several minutes.';
-                    const formParams = document.getElementById('form').serializeForm();
+                    log.innerHTML = 'Preparing data ...';
                     const params = {
                         name: formParams.name
                     };
@@ -141,6 +180,9 @@
                     if (formParams.lang) {
                         params.lang = formParams.lang;
                     }
+                    if (formParams.vectors === 'on') {
+                        params.copy_vectors = formParams.base;
+                    }
                     fetch(`${endpoint}/api/nlp/train/${formParams.id}?${new URLSearchParams(params)}`, {
                         method: "GET",
                         mode: "cors",
@@ -149,11 +191,11 @@
                     .then(function(response) {
                         pbEvents.emit('pb-end-update');
                         if (response.ok) {
-                            return response.text();
+                            return response.json();
                         }
                     })
-                    .then(function(text) {
-                        log.innerHTML = text;
+                    .then(function(json) {
+                        setTimeout(function() { poll(json); }, 1000);
                     });
                 });
             });

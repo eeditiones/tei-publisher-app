@@ -2470,15 +2470,48 @@
 							"type": "string"
 						},
 						"required": true
+					},
+					{
+						"name": "name",
+						"in": "query",
+						"description": "Name of the model to create",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"name": "base",
+						"in": "query",
+						"description": "Base model to extend",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "lang",
+						"in": "query",
+						"description": "Language to create the model for",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "copy_vectors",
+						"in": "query",
+						"description": "Base model to copy vector layer from",
+						"schema":{
+							"type": "string"
+						}
 					}
 				],
 				"responses": {
 					"200": {
 						"description": "Training log",
 						"content": {
-							"text/html":{
+							"application/json":{
 								"schema": {
-									"type": "string"
+									"type": "object"
 								}
 							}
 						}

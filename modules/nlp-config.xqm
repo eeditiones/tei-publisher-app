@@ -10,6 +10,11 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare variable $nlp:api-endpoint := "http://localhost:8001";
 
 (:~
+ : List of named entity types to be used for training, see nlp:entity-type below
+ :)
+declare variable $nlp:entities := ("PER", "LOC", "ORG");
+
+(:~
  : Defines which TEI elements should be mapped to which named entity type.
  : This is in particular used for training new models. Only elements mapped
  : below will be considered as training entities.
