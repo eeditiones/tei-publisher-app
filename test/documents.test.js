@@ -94,7 +94,7 @@ describe('/api/document/{id}/tex', function () {
     });
 });
 
-describe('/api/document/{id}/pdf', function () {
+describe.skip('/api/document/{id}/pdf', function () {
     this.slow(4000);
     it('retrieves as PDF transformed via FO', async function () {
         const token = new Date().toISOString();
