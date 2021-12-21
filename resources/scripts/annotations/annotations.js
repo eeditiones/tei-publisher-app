@@ -433,9 +433,9 @@ window.addEventListener("WebComponentsReady", () => {
 
 	function runNER() {
 		const endpoint = document.querySelector("pb-page").getEndpoint();
-		const ruleBased = nerDialog.querySelector('paper-checkbox').checked;
+		const cb = nerDialog.querySelector('paper-checkbox');
 		let url;
-		if (ruleBased) {
+		if (cb && cb.checked) {
 			const lang = nerDialog.querySelector('paper-input').value;
 			url = `${endpoint}/api/nlp/patterns/${doc.path}?lang=${lang}`;
 		} else {
