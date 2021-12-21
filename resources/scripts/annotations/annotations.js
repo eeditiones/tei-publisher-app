@@ -432,11 +432,19 @@ window.addEventListener("WebComponentsReady", () => {
 	}
 
 	function runNER() {
-		const model = nerDialog.querySelector('paper-dropdown-menu').selectedItemLabel;
-		console.log('Using model %s', model)
 		const endpoint = document.querySelector("pb-page").getEndpoint();
+		const ruleBased = nerDialog.querySelector('paper-checkbox').checked;
+		let url;
+		if (ruleBased) {
+			const lang = nerDialog.querySelector('paper-input').value;
+			url = `${endpoint}/api/nlp/patterns/${doc.path}?lang=${lang}`;
+		} else {
+			const model = nerDialog.querySelector('paper-dropdown-menu').selectedItemLabel;
+			console.log('Using model %s', model)
+			url = `${endpoint}/api/nlp/entities/${doc.path}?model=${model}`;
+		}
 		window.pbEvents.emit("pb-start-update", "transcription", {});
-		fetch(`${endpoint}/api/nlp/entities/${doc.path}?model=${model}`, {
+		fetch(url, {
 			method: "GET",
 			mode: "cors",
 			credentials: "same-origin"

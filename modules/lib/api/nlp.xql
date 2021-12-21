@@ -149,13 +149,13 @@ declare %private function nlp:training-data($nodes as node()*, $outputNotes as x
                     else
                     nlp:training-data($node/node(), $outputNotes)
             case text() return
-                [(), replace($node/string(), "[\s\n]{2,}", " ")]
+                [(), replace($node/string(), "[\s\n]{2,}|\n", " ")]
             default return
                 ()
 };
 
 declare %private function nlp:normalize($input as xs:string) {
-    replace($input, "[\s\n]{2,}", " ") => replace("^\W+", "") => replace("\W+$", "")
+    replace($input, "[\s\n]{2,}|\n", " ") => replace("^\W+", "") => replace("\W+$", "")
 };
 
 (:~
@@ -284,6 +284,71 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*) {
     }
 };
 
+declare function nlp:pattern-recognition($request as map(*)) {
+    let $path := xmldb:decode($request?parameters?id)
+    let $lang := $request?parameters?lang
+    let $doc := config:get-document($path)/tei:TEI
+    let $text := $doc/tei:text
+    let $patterns := nlp:person-patterns($doc)
+    let $pairs := (
+        nlp:extract-plain-text($text, true()), 
+        nlp:extract-plain-text($text//tei:note, false())
+    )
+    let $offsets := nlp:mapping-table($pairs, 0, $request?parameters?debug)
+    let $plain := string-join($pairs ! .?2)
+    return
+        if ($request?parameters?debug) then
+            map {
+                "plain": $plain,
+                "offsets": $offsets,
+                "patterns": $patterns
+            }
+        else
+            nlp:convert(nlp:patterns-remote($plain, $patterns, $lang), $offsets)
+};
+
+declare %private function nlp:person-patterns($doc as element(tei:TEI)) {
+    let $patterns :=
+        for $name in $doc//tei:listPerson/tei:person/tei:persName[not(@type)]
+        return
+            if ($name/tei:surname) then
+                nlp:to-pattern($name/tei:forename, $name/tei:surname)
+            else if (contains($name, ',')) then
+                let $names := tokenize($name, ",\s*")
+                return
+                    nlp:to-pattern($names[2], $names[1])
+            else
+                map { "lower": $name/string() }
+    return
+        array {
+            for $p in $patterns
+            return
+                map {
+                    "label": "PER",
+                    "pattern": $p
+                }
+        }
+};
+
+declare %private function nlp:to-pattern($forename as xs:string, $surname as xs:string) {
+    let $forename := lower-case($forename)
+    return
+        [
+            map {
+                "lower": map {
+                    "regex": substring($forename, 1, 1) || "(?:\.|" ||
+                        substring($forename, 2) || ")"
+                },
+                "op": "?"
+            },
+            map {
+                "lower": map {
+                    "regex": lower-case($surname) || "\'?s?"
+                }
+            }
+        ]
+};
+
 declare function nlp:entities-remote($input as xs:string*, $model as xs:string) {
     let $request := 
         <http:request method="POST" timeout="10">
@@ -293,6 +358,30 @@ declare function nlp:entities-remote($input as xs:string*, $model as xs:string) 
             $request, 
             $nlp-config:api-endpoint || "/entities/" || $model,
             string-join($input))
+    return
+        if ($response[1]/@status = "200") then
+            parse-json(util:binary-to-string($response[2]))
+        else
+            error($errors:BAD_REQUEST, $response[2])
+};
+
+declare function nlp:patterns-remote($input as xs:string*, $patterns as array(*), $lang as xs:string) {
+    let $request := 
+        <http:request method="POST" timeout="10">
+            <http:body media-type="application/json"/>
+        </http:request>
+    let $body := map {
+        "lang": $lang,
+        "text": string-join($input),
+        "patterns": $patterns
+    }
+    let $serialized := util:string-to-binary(serialize($body, map { "method": "json" }))
+    let $response := 
+        http:send-request(
+            $request, 
+            $nlp-config:api-endpoint || "/patterns/",
+            $serialized
+        )
     return
         if ($response[1]/@status = "200") then
             parse-json(util:binary-to-string($response[2]))

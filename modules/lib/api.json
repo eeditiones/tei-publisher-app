@@ -2361,6 +2361,52 @@
 				}
 			}
 		},
+		"/api/nlp/patterns/{id}": {
+			"get": {
+				"summary": "Apply rule-based pattern matching",
+				"description": "Use rule-based pattern matching to find entities in a document",
+				"operationId": "nlp:pattern-recognition",
+				"tags": ["nlp"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"name": "lang",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"default": "en"
+						}
+					},
+					{
+						"name": "debug",
+						"in": "query",
+						"schema": {
+							"type": "boolean",
+							"default": false
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "JSON structure listing the entities found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 		"/api/nlp/text/{id}": {
 			"get": {
 				"summary": "Retrieve plain text of a document",
