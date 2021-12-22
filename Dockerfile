@@ -34,7 +34,7 @@ FROM builder as tei
 ARG TEMPLATING_VERSION=1.0.2
 ARG PUBLISHER_LIB_VERSION=2.10.0
 ARG ROUTER_VERSION=0.5.1
-ARG PUBLISHER_VERSION=master
+ARG PUBLISHER_VERSION=feature/annotations-nlp
 ARG SHARED_RESOURCES_VERSION=0.9.1
 ARG SHAKESPEARE_VERSION=1.1.2
 ARG VANGOGH_VERSION=1.0.6
@@ -68,6 +68,8 @@ RUN curl -L -o /tmp/shared-resources-${SHARED_RESOURCES_VERSION}.xar http://exis
 
 FROM existdb/existdb:${EXIST_VERSION}
 
+ENV NER_ENDPOINT=http://localhost:8001
+
 COPY --from=tei /tmp/tei-publisher-app/build/*.xar /exist/autodeploy/
 COPY --from=tei /tmp/shakespeare/build/*.xar /exist/autodeploy/
 COPY --from=tei /tmp/vangogh/build/*.xar /exist/autodeploy/
@@ -86,14 +88,14 @@ ENV JAVA_TOOL_OPTIONS \
     -Dexist.configurationFile=/exist/etc/conf.xml \
     -Djetty.home=/exist \
     -Dexist.jetty.config=/exist/etc/jetty/standard.enabled-jetty-configs \
-    -XX:+UnlockExperimentalVMOptions \
-    -XX:+UseCGroupMemoryLimitForHeap \
     -XX:+UseG1GC \
     -XX:+UseStringDeduplication \
-    -XX:MaxRAMFraction=1 \
+    -XX:+UseContainerSupport \
+    -XX:MaxRAMPercentage=${JVM_MAX_RAM_PERCENTAGE:-75.0} \ 
     -XX:+ExitOnOutOfMemoryError \
     -Dorg.exist.db-connection.files=${DATA_DIR} \
-    -Dorg.exist.db-connection.recovery.journal-dir=${DATA_DIR}
+    -Dorg.exist.db-connection.recovery.journal-dir=${DATA_DIR} \
+    -Dteipublisher.ner-endpoint=${NER_ENDPOINT}
 
 # pre-populate the database by launching it once
 RUN [ "java", \
