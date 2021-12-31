@@ -2553,11 +2553,50 @@
 				],
 				"responses": {
 					"200": {
-						"description": "Training log",
+						"description": "Process ID of the running training",
 						"content": {
 							"application/json":{
 								"schema": {
-									"type": "object"
+									"type": "integer"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/nlp/log/{pid}": {
+			"get": {
+				"summary": "Return log messages for an ongoing training",
+				"tags": ["nlp"],
+				"operationId": "nlp:log",
+				"parameters": [
+					{
+						"name": "pid",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Training completed",
+						"content": {
+							"text/text":{
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"202": {
+						"description": "Training in progress",
+						"content": {
+							"text/text":{
+								"schema": {
+									"type": "string"
 								}
 							}
 						}
