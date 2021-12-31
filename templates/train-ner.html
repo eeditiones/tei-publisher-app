@@ -204,9 +204,13 @@
                         if (response.ok) {
                             return response.json();
                         }
+                        if (response.status === 404) {
+                            log.innerHTML = `Training data could not be found in path "${formParams.id}"`;
+                            throw new Error();
+                        }
                     })
                     .then(function(json) {
-                        setTimeout(function() { poll(json); }, 1000);
+                        setTimeout(function() { poll(`${endpoint}/api/nlp/log/${json}`); }, 1000);
                     });
                 });
             });

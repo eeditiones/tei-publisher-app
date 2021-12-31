@@ -8,6 +8,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../.
 import module namespace nlp-config="http://teipublisher.com/api/nlp/config" at "../../nlp-config.xqm";
 import module namespace errors = "http://exist-db.org/xquery/router/errors";
 import module namespace http = "http://expath.org/ns/http-client";
+import module namespace router="http://exist-db.org/xquery/router";
 
 declare function nlp:status($request as map(*)) {
     try {
@@ -77,7 +78,7 @@ declare function nlp:train-model($request as map(*)) {
     let $vectors := $request?parameters?copy_vectors
     let $data := nlp:train($request)
     let $pid := nlp:train-remote($name, $base, $lang, $vectors, $data)
-    return $nlp-config:api-endpoint || "/train/" || $pid
+    return $pid
 };
 
 declare function nlp:train($request as map(*)) {
@@ -88,11 +89,28 @@ declare function nlp:train($request as map(*)) {
             $document//tei:body
         else
             collection($config:data-root || "/" || $path)//tei:body
-    for $doc in $input
-    return (
-        nlp:training-data-from-blocks(nlp-config:blocks($doc, false()), false()),
-        nlp:training-data-from-blocks(nlp-config:blocks($doc, true()), true())
-    )
+    return
+        if (exists($input)) then
+            for $doc in $input
+            return (
+                nlp:training-data-from-blocks(nlp-config:blocks($doc, false()), false()),
+                nlp:training-data-from-blocks(nlp-config:blocks($doc, true()), true())
+            )
+        else
+            error($errors:NOT_FOUND, "Training data not found: " || $path)
+};
+
+declare function nlp:log($request as map(*)) {
+    let $pid := $request?parameters?pid
+    return
+        try {
+            let $request := <http:request method="GET" timeout="10"/>
+            let $response := http:send-request($request, $nlp-config:api-endpoint || "/train/" || $pid)
+            return
+                router:response($response[1]/@status, "text/text", $response[2])
+        } catch * {
+            error($errors:NOT_FOUND, "Failed to connect to NER API endpoint")
+        }
 };
 
 declare %private function nlp:training-data-from-blocks($blocks as element()*, $processFn as xs:boolean?) {
@@ -407,5 +425,5 @@ declare function nlp:train-remote($name, $base, $lang, $vectors, $data) {
         if ($response[1]/@status = "200") then
             parse-json(util:binary-to-string($response[2]))
         else
-            error($errors:BAD_REQUEST, $response[2])
+            error($errors:BAD_REQUEST, parse-json(util:binary-to-string($response[2])))
 };
