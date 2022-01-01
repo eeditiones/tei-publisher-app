@@ -1,5 +1,3 @@
-ARG EXIST_VERSION=5.3.1
-
 # START STAGE 1
 FROM openjdk:8-jdk-slim as builder
 
@@ -25,9 +23,9 @@ RUN curl -L -o apache-ant-${ANT_VERSION}-bin.tar.gz http://www.apache.org/dist/a
 
 ENV PATH ${PATH}:${ANT_HOME}/bin
 
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-    && apt-get install -y nodejs \
-    && curl -L https://www.npmjs.com/install.sh | sh
+# RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
+#     && apt-get install -y nodejs \
+#     && curl -L https://www.npmjs.com/install.sh | sh
 
 FROM builder as tei
 
@@ -66,28 +64,30 @@ RUN curl -L -o /tmp/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar http://exist-
 RUN curl -L -o /tmp/templating-${TEMPLATING_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/templating-${TEMPLATING_VERSION}.xar
 RUN curl -L -o /tmp/shared-resources-${SHARED_RESOURCES_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/shared-resources-${SHARED_RESOURCES_VERSION}.xar
 
-FROM adoptopenjdk/openjdk8:x86_64-alpine-jre8u312-b07
+FROM eclipse-temurin:11-jre-alpine
 
 ARG EXIST_VERSION=5.3.1
 
 RUN apk add curl
 
 RUN curl -L -o /tmp/exist-distribution-${EXIST_VERSION}-unix.tar.bz2 https://github.com/eXist-db/exist/releases/download/eXist-${EXIST_VERSION}/exist-distribution-${EXIST_VERSION}-unix.tar.bz2 \
-    && tar xfj /tmp/exist-distribution-${EXIST_VERSION}-unix.tar.bz2 -C /usr/local \
+    && tar xfj /tmp/exist-distribution-${EXIST_VERSION}-unix.tar.bz2 -C /tmp \
     && rm /tmp/exist-distribution-${EXIST_VERSION}-unix.tar.bz2 \
-    && mv /usr/local/exist-distribution-${EXIST_VERSION} /usr/local/exist
+    && mv /tmp/exist-distribution-${EXIST_VERSION} /exist
 
-COPY --from=tei /tmp/tei-publisher-app/build/*.xar /usr/local/exist/autodeploy/
-COPY --from=tei /tmp/shakespeare/build/*.xar /usr/local/exist/autodeploy/
-COPY --from=tei /tmp/vangogh/build/*.xar /usr/local/exist/autodeploy/
-COPY --from=tei /tmp/*.xar /usr/local/exist/autodeploy/
+COPY --from=tei /tmp/tei-publisher-app/build/*.xar /exist/autodeploy/
+COPY --from=tei /tmp/shakespeare/build/*.xar /exist/autodeploy/
+COPY --from=tei /tmp/vangogh/build/*.xar /exist/autodeploy/
+COPY --from=tei /tmp/*.xar /exist/autodeploy/
 
-WORKDIR /usr/local/exist
+WORKDIR /exist
 
 ARG HTTP_PORT=8080
 ARG HTTPS_PORT=8443
 
 ENV NER_ENDPOINT http://localhost:8001
+ENV CONTEXT_PATH "auto"
+
 ENV JAVA_OPTS \
     -Djetty.port=${HTTP_PORT} \
     -Djetty.ssl.port=${HTTPS_PORT} \
@@ -104,4 +104,4 @@ RUN bin/client.sh -l --no-gui --xpath "system:get-version()"
 
 EXPOSE ${HTTP_PORT}
 
-ENTRYPOINT JAVA_OPTS="${JAVA_OPTS} -Dteipublisher.ner-endpoint=${NER_ENDPOINT}" /usr/local/exist/bin/startup.sh
+ENTRYPOINT JAVA_OPTS="${JAVA_OPTS} -Dteipublisher.ner-endpoint=${NER_ENDPOINT} -Dteipublisher.context-path=${CONTEXT_PATH}" /usr/local/exist/bin/startup.sh
