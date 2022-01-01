@@ -1,0 +1,18 @@
+services:
+  publisher:
+    ports:
+      - 8080:8080
+    environment:
+      NER_ENDPOINT: http://ner:8001
+    build:
+      context: .
+      dockerfile: Dockerfile
+    links:
+      - ner
+  ner:
+    image: ghcr.io/eeditiones/tei-publisher-ner/teipublisher-ner:master
+    ports:
+      - "8001:8001"
+    build:
+      context: ../tei-publisher-ner
+      dockerfile: Dockerfile
