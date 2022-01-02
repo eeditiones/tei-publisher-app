@@ -104,4 +104,4 @@ RUN bin/client.sh -l --no-gui --xpath "system:get-version()"
 
 EXPOSE ${HTTP_PORT}
 
-ENTRYPOINT JAVA_OPTS="${JAVA_OPTS} -Dteipublisher.ner-endpoint=${NER_ENDPOINT} -Dteipublisher.context-path=${CONTEXT_PATH}" /usr/local/exist/bin/startup.sh
+ENTRYPOINT JAVA_OPTS="${JAVA_OPTS} -Dteipublisher.ner-endpoint=${NER_ENDPOINT} -Dteipublisher.context-path=${CONTEXT_PATH}" /exist/bin/startup.sh
