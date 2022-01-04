@@ -82,6 +82,8 @@ COPY --from=tei /tmp/*.xar /exist/autodeploy/
 
 WORKDIR /exist
 
+ARG ADMIN_PASS "none"
+
 ARG HTTP_PORT=8080
 ARG HTTPS_PORT=8443
 
@@ -101,6 +103,8 @@ ENV JAVA_OPTS \
 
 # pre-populate the database by launching it once
 RUN bin/client.sh -l --no-gui --xpath "system:get-version()"
+
+RUN if [ "${ADMIN_PASS}" != "none" ]; then bin/client.sh -l --no-gui --xpath "sm:passwd('admin', '${ADMIN_PASS}')"; fi
 
 EXPOSE ${HTTP_PORT}
 
