@@ -82,13 +82,13 @@ COPY --from=tei /tmp/*.xar /exist/autodeploy/
 
 WORKDIR /exist
 
-ARG ADMIN_PASS "none"
+ARG ADMIN_PASS=none
 
 ARG HTTP_PORT=8080
 ARG HTTPS_PORT=8443
 
-ENV NER_ENDPOINT http://localhost:8001
-ENV CONTEXT_PATH "auto"
+ENV NER_ENDPOINT=http://localhost:8001
+ENV CONTEXT_PATH=auto
 
 ENV JAVA_OPTS \
     -Djetty.port=${HTTP_PORT} \
