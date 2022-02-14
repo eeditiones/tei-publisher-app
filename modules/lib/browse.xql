@@ -145,7 +145,8 @@ function app:browse($node as node(), $model as map(*), $start as xs:int, $per-pa
     return (
         response:set-header("pb-start", xs:string($start)),
         response:set-header("pb-total", xs:string($total)),
-
+        attribute data-pagination-start { $start },
+        attribute data-pagination-total { $total },
         if (empty($model?all) and (empty($filter) or $filter = "")) then
             templates:process($node/*[@class="empty"], $model)
         else
