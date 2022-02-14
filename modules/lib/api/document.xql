@@ -23,6 +23,22 @@ declare variable $dapi:CACHE := true();
 
 declare variable $dapi:CACHE_COLLECTION := $config:app-root || "/cache";
 
+declare function dapi:metadata($request as map(*)) {
+    let $doc := xmldb:decode($request?parameters?id)
+    let $xml := config:get-document($doc)
+    return
+        if (exists($xml)) then
+            let $config := tpu:parse-pi(root($xml), ())
+            return map {
+                "view": $config?view,
+                "odd": $config?odd,
+                "template": $config?template,
+                "collection": substring-after(util:collection-name($xml), $config:data-root || "/")
+            }
+        else
+            error($errors:NOT_FOUND, "Document " || $doc || " not found")
+};
+
 declare function dapi:delete($request as map(*)) {
     let $id := xmldb:decode($request?parameters?id)
     let $doc := config:get-document($id)

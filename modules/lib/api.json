@@ -907,11 +907,50 @@
 				}
 			}
 		},
+		"/api/document/{id}/meta": {
+			"get": {
+				"summary": "Returns some metadata about the document",
+				"tags": ["documents"],
+				"operationId": "dapi:metadata",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"example": "test/kant_rvernunft_1781.TEI-P5.xml"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Metadata about the document as JSON object",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Document not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 		"/api/document/{id}/contents": {
 			"get": {
 				"summary": "Retrieve a formatted table of contents for the document",
 				"description": "Retrieve a formatted table of contents for the document, transformed via ODD",
-
 				"tags": ["documents"],
 				"operationId": "dapi:table-of-contents",
 				"parameters": [
