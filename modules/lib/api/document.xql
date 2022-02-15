@@ -30,6 +30,7 @@ declare function dapi:metadata($request as map(*)) {
         if (exists($xml)) then
             let $config := tpu:parse-pi(root($xml), ())
             return map {
+                "title": nav:get-document-title($config, root($xml)/*) => normalize-space(),
                 "view": $config?view,
                 "odd": $config?odd,
                 "template": $config?template,
