@@ -285,8 +285,9 @@ declare function nav:milestone-chunk($ms1 as element(), $ms2 as element()?, $nod
             else if ( $descendantCheck($node, $ms1, $ms2) ) then
                 element { node-name($node) } {
                     $node/@*,
-                    for $i in ( $node/node() )
-                    return nav:milestone-chunk($ms1, $ms2, $i, $descendantCheck)
+                    for $i in $node/node()
+                    return 
+                        nav:milestone-chunk($ms1, $ms2, $i, $descendantCheck)
                 }
             else if ($node >> $ms1 and (empty($ms2) or $node << $ms2)) then
                 util:expand($node, "add-exist-id=all")
