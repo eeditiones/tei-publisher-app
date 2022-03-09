@@ -46,7 +46,7 @@ declare variable $config:origin-whitelist := (
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port 
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "1.30.1";
+declare variable $config:webcomponents := "1.36.1";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your

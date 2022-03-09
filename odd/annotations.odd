@@ -43,7 +43,7 @@
             <schemaSpec start="TEI teiCorpus" ident="annotations" source="teipublisher.odd">
                 <elementSpec ident="persName" mode="add">
                     <model predicate="parent::person" behaviour="inline"/>
-                    <model behaviour="inline" cssClass="annotation annotation-person"/>
+                    <model behaviour="inline" cssClass="annotation annotation-person authority"/>
                 </elementSpec>
                 <elementSpec ident="pb" mode="change">
                     <model behaviour="inline">
@@ -57,10 +57,10 @@
             <param name="uri" value="ancestor::place/ptr/@target"/>
             <param name="target" value="'_blank'"/>
         </model>
-                    <model behaviour="inline" cssClass="annotation annotation-place"/>
+                    <model behaviour="inline" cssClass="annotation annotation-place authority"/>
                 </elementSpec>
                 <elementSpec ident="term" mode="add">
-                    <model behaviour="inline" cssClass="annotation annotation-term">
+                    <model behaviour="inline" cssClass="annotation annotation-term authority">
             <outputRendition xml:space="preserve">
             font-style: italic;
             </outputRendition>
@@ -77,7 +77,7 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="orgName" mode="add">
-                    <model behaviour="inline" cssClass="annotation annotation-organization"/>
+                    <model behaviour="inline" cssClass="annotation annotation-organization authority"/>
                 </elementSpec>
                 <elementSpec ident="place" mode="add">
                     <modelSequence>

@@ -6,6 +6,8 @@ main {
     height: calc(100vh - 150px);
     --pb-popover-min-width: 20vw;
     --pb-popover-max-width: 360px;
+    --pb-annotation-stripes-light: #e0e0ef;
+    --pb-annotation-stripes-dark: #50505f;
 }
 
 .annotation-editor {

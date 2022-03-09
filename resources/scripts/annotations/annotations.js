@@ -85,8 +85,7 @@ window.addEventListener("WebComponentsReady", () => {
 	const occurDiv = document.getElementById("occurrences");
 	const occurrences = occurDiv.querySelector("ul");
 	const saveBtn = document.getElementById("form-save");
-	const refInput = document.getElementById("form-ref");
-	const authorityInfo = document.getElementById("authority-info");
+	const refInput = document.querySelectorAll(".form-ref");
 	const authorityDialog = document.getElementById("authority-dialog");
 	let autoSave = false;
 	let type = "";
@@ -141,7 +140,7 @@ window.addEventListener("WebComponentsReady", () => {
 	 */
 	function authoritySelected(data) {
 		authorityDialog.close();
-		refInput.value = data.properties.ref;
+		refInput.forEach((input) => { input.value = data.properties.ref });
 		if (autoSave) {
 			save();
 		}
@@ -191,6 +190,7 @@ window.addEventListener("WebComponentsReady", () => {
 			strings = [text];
 		}
 		try {
+			const key = view.getKey(type);
 			const occur = view.search(type, strings);
 			occurrences.innerHTML = "";
 			occur.forEach((o) => {
@@ -198,7 +198,7 @@ window.addEventListener("WebComponentsReady", () => {
 				const cb = document.createElement("paper-checkbox");
 				cb._options = o;
 				cb._info = info;
-				if (o.annotated && o[view.key] === info.id) {
+				if (o.annotated && o[key] === info.id) {
 					cb.setAttribute("checked", "checked");
 				}
 				cb.addEventListener("click", () => {
@@ -210,7 +210,7 @@ window.addEventListener("WebComponentsReady", () => {
 
 				li.appendChild(cb);
 				const span = document.createElement("span");
-				if (info.id && o[view.key] && o[view.key] !== info.id) {
+				if (info.id && o[key] && o[key] !== info.id) {
 					span.className = "id-warning";
 				}
 				span.innerHTML = o.kwic;
@@ -464,12 +464,14 @@ window.addEventListener("WebComponentsReady", () => {
 		});
 	});
 
-	document.querySelector('#form-ref [slot="prefix"]').addEventListener("click", () => {
-		window.pbEvents.emit("pb-authority-lookup", "transcription", {
-			type,
-			query: text,
+	document.querySelectorAll('.form-ref [slot="prefix"]').forEach(elem => {
+		elem.addEventListener("click", () => {
+			window.pbEvents.emit("pb-authority-lookup", "transcription", {
+				type,
+				query: text,
+			});
+			authorityDialog.open();
 		});
-		authorityDialog.open();
 	});
 
 	// check if annotations were saved to local storage
@@ -498,21 +500,25 @@ window.addEventListener("WebComponentsReady", () => {
 	/**
 	 * Reference changed: update authority information and search for other occurrences
 	 */
-	refInput.addEventListener("value-changed", () => {
-		const ref = refInput.value;
-		if (ref && ref.length > 0) {
-			authorityInfo.innerHTML = `Loading ${ref}...`;
-			document
-				.querySelector("pb-authority-lookup")
-				.lookup(type, refInput.value, authorityInfo)
-				.then(findOther)
-				.catch((msg) => {
-					authorityInfo.innerHTML = `Failed to load ${ref}: ${msg}`;
-				});
-		} else {
-			authorityInfo.innerHTML = "";
-		}
+	refInput.forEach(input => {
+		input.addEventListener("value-changed", () => {
+			const ref = input.value;
+			const authorityInfo = input.parentElement.querySelector('.authority-info');
+			if (ref && ref.length > 0) {
+				authorityInfo.innerHTML = `Loading ${ref}...`;
+				document
+					.querySelector("pb-authority-lookup")
+					.lookup(type, input.value, authorityInfo)
+					.then(findOther)
+					.catch((msg) => {
+						authorityInfo.innerHTML = `Failed to load ${ref}: ${msg}`;
+					});
+			} else {
+				authorityInfo.innerHTML = "";
+			}
+		});
 	});
+
 	/**
 	 * Handle click on one of the toolbar buttons for adding a new annotation.
 	 */
