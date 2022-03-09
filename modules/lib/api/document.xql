@@ -421,7 +421,8 @@ declare function dapi:get-fragment($request as map(*)) {
                                 "format": $request?parameters?format,
                                 "view": $view,
                                 "doc": $doc,
-                                "root": head(($request?parameters?root, util:node-id($xml?data[1]))),
+                                "root": $request?parameters?root,
+                                "rootNode": util:node-id($xml?data[1]),
                                 "id": $content/@xml:id/string(),
                                 "odd": $xml?config?odd,
                                 "next":
