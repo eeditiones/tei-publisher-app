@@ -29,7 +29,7 @@ describe('/api/dts/collection', function () {
     });
 
     it('navigates to child collection', async function () {
-        const res = await util.axios.get('dts/collection?id=https://teipublisher.com/dts/demo&nav=children');
+        const res = await util.axios.get('dts/collection?id=https://teipublisher.com/dts/demo&nav=children&per-page=50');
         expect(res.status).to.equal(200);
         expect(res.data['@type']).to.equal('Collection');
         expect(res.data.member.length).to.be.greaterThan(1);
