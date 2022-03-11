@@ -12,7 +12,7 @@ declare variable $anno:local-authority-file := $config:data-root || "/register.x
  : Create TEI for the given type, properties and content of an annotation and return it.
  : This function is called when annotations are merged into the original TEI.
  :)
-declare function anno:annotations($type as xs:string, $properties as map(*), $content as function(*)) {
+declare function anno:annotations($type as xs:string, $properties as map(*)?, $content as function(*)) {
     switch ($type)
         case "person" return
             <persName xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</persName>

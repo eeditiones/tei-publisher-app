@@ -1,5 +1,3 @@
-ARG EXIST_VERSION=5.3.1
-
 # START STAGE 1
 FROM openjdk:8-jdk-slim as builder
 
@@ -25,9 +23,9 @@ RUN curl -L -o apache-ant-${ANT_VERSION}-bin.tar.gz http://www.apache.org/dist/a
 
 ENV PATH ${PATH}:${ANT_HOME}/bin
 
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-    && apt-get install -y nodejs \
-    && curl -L https://www.npmjs.com/install.sh | sh
+# RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
+#     && apt-get install -y nodejs \
+#     && curl -L https://www.npmjs.com/install.sh | sh
 
 FROM builder as tei
 
@@ -66,36 +64,48 @@ RUN curl -L -o /tmp/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar http://exist-
 RUN curl -L -o /tmp/templating-${TEMPLATING_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/templating-${TEMPLATING_VERSION}.xar
 RUN curl -L -o /tmp/shared-resources-${SHARED_RESOURCES_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/shared-resources-${SHARED_RESOURCES_VERSION}.xar
 
-FROM existdb/existdb:${EXIST_VERSION}
+FROM eclipse-temurin:11-jre-alpine
+
+ARG EXIST_VERSION=5.3.1
+
+RUN apk add curl
+
+RUN curl -L -o /tmp/exist-distribution-${EXIST_VERSION}-unix.tar.bz2 https://github.com/eXist-db/exist/releases/download/eXist-${EXIST_VERSION}/exist-distribution-${EXIST_VERSION}-unix.tar.bz2 \
+    && tar xfj /tmp/exist-distribution-${EXIST_VERSION}-unix.tar.bz2 -C /tmp \
+    && rm /tmp/exist-distribution-${EXIST_VERSION}-unix.tar.bz2 \
+    && mv /tmp/exist-distribution-${EXIST_VERSION} /exist
 
 COPY --from=tei /tmp/tei-publisher-app/build/*.xar /exist/autodeploy/
 COPY --from=tei /tmp/shakespeare/build/*.xar /exist/autodeploy/
 COPY --from=tei /tmp/vangogh/build/*.xar /exist/autodeploy/
 COPY --from=tei /tmp/*.xar /exist/autodeploy/
 
-ENV DATA_DIR /exist-data
+WORKDIR /exist
 
-ENV JAVA_TOOL_OPTIONS \
+ARG ADMIN_PASS=none
+
+ARG HTTP_PORT=8080
+ARG HTTPS_PORT=8443
+
+ENV NER_ENDPOINT=http://localhost:8001
+ENV CONTEXT_PATH=auto
+
+ENV JAVA_OPTS \
+    -Djetty.port=${HTTP_PORT} \
+    -Djetty.ssl.port=${HTTPS_PORT} \
     -Dfile.encoding=UTF8 \
     -Dsun.jnu.encoding=UTF-8 \
-    -Djava.awt.headless=true \
-    -Dorg.exist.db-connection.cacheSize=${CACHE_MEM:-256}M \
-    -Dorg.exist.db-connection.pool.max=${MAX_BROKER:-20} \
-    -Dlog4j.configurationFile=/exist/etc/log4j2.xml \
-    -Dexist.home=/exist \
-    -Dexist.configurationFile=/exist/etc/conf.xml \
-    -Djetty.home=/exist \
-    -Dexist.jetty.config=/exist/etc/jetty/standard.enabled-jetty-configs \
-    -XX:+UnlockExperimentalVMOptions \
-    -XX:+UseCGroupMemoryLimitForHeap \
     -XX:+UseG1GC \
     -XX:+UseStringDeduplication \
-    -XX:MaxRAMFraction=1 \
-    -XX:+ExitOnOutOfMemoryError \
-    -Dorg.exist.db-connection.files=${DATA_DIR} \
-    -Dorg.exist.db-connection.recovery.journal-dir=${DATA_DIR}
+    -XX:+UseContainerSupport \
+    -XX:MaxRAMPercentage=${JVM_MAX_RAM_PERCENTAGE:-75.0} \ 
+    -XX:+ExitOnOutOfMemoryError
 
 # pre-populate the database by launching it once
-RUN [ "java", \
-    "org.exist.start.Main", "client", "-l", \
-    "--no-gui",  "--xpath", "system:get-version()" ]
+RUN bin/client.sh -l --no-gui --xpath "system:get-version()"
+
+RUN if [ "${ADMIN_PASS}" != "none" ]; then bin/client.sh -l --no-gui --xpath "sm:passwd('admin', '${ADMIN_PASS}')"; fi
+
+EXPOSE ${HTTP_PORT}
+
+ENTRYPOINT JAVA_OPTS="${JAVA_OPTS} -Dteipublisher.ner-endpoint=${NER_ENDPOINT} -Dteipublisher.context-path=${CONTEXT_PATH}" /exist/bin/startup.sh
