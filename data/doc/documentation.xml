@@ -3309,10 +3309,10 @@
       <section xml:id="pm-extensions-templates">
         <title>Code Templates and Custom Behaviours</title>
         <para>The two dozen behaviours defined by the TEI processing model are enough to cover
-            most HTML output tasks, but other output formats like LaTeX may require more
-            customization and control over the generated output. The TEI Publisher library thus
-            extends the processing model syntax with two custom elements for defining code
-            templates.</para>
+          most standard HTML output tasks like a listItem or heading, but more complex HTML markup or even other output formats like LaTeX require more
+          customization and control over the generated output. The TEI Publisher library thus
+          extends the processing model syntax with two custom elements for defining code
+          templates.</para>
         <para>While TEI Publisher does provide ways to write your own behaviours in XQuery and
             thus extend the ones defined in the guidelines, this should only be used as last resort:
             custom XQuery behaviours limit the portability of the ODD and are bad for
