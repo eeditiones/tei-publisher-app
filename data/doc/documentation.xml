@@ -3416,10 +3416,25 @@
               '#'.
           </para>
           <para>The templating mechanism is not limited to LaTeX, but may also be used to generate
-              HTML or FO, for example, if you have to generate a complex HTML fragment to represent
-              a single TEI element. This is hard and sometimes impossible to achieve without
-              templates. We'll see some examples in the next section.</para>
-        </section>
+            HTML or FO, for example, if you have to generate a complex HTML fragment to represent
+            a single TEI element. This is hard and sometimes impossible to achieve without
+            templates</para>
+          <para>This following sample uses the <parameter>pb-popover</parameter> webcomponent to display 
+            the tei:persName from a person register for a given tei:persName/@key of your TEI 
+            document. </para>
+        <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="persName" mode="add"&gt;
+        &lt;model behaviour="inline" cssClass="popover"&gt;
+            &lt;param name="content" value="."/&gt;
+            &lt;param name="key" value="@key"/&gt;
+            &lt;param name="person-from-register" value="doc('/path/to/person.xml')//person[@id = @key]/persName[@type='full']/text()"&gt;
+            &lt;pb:template xmlns="" xml:space="preserve"&gt;
+                &lt;pb-popover data-ref="[[key]]"&gt;
+                    &lt;span slot="default"&gt;[[content]]&lt;/span&gt;
+                    &lt;span slot="alternate"&gt;[[person-from-register]]&lt;/span&gt;
+                &lt;/pb-popover&gt;
+            &lt;/pb:template&gt;
+        &lt;/model&gt;
+        </programlisting>              
       </section>
       <section xml:id="pb-behaviour">
         <title>Defining New Behaviours in the ODD</title>
