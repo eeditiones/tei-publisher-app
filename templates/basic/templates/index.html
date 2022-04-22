@@ -313,7 +313,7 @@
                             <div class="card-content">
                                 <div class="browse" slot="page">
                                     <pb-custom-form id="facets" url="api/search/facets" event="pb-results-received" subscribe="docs" emit="docs"></pb-custom-form>
-                                    <pb-browse-docs id="document-list" url="api/collection/" sort-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"}]' sort-by="title"
+                                    <pb-browse-docs id="document-list" url="api/collection" sort-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"}]' sort-by="title"
                                         filter-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"},{"label": "browse.file", "value": "file"}]' filter-by="title" auto="auto" history="history" login="login" emit="docs" subscribe="docs">
                                         <pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" emit="docs" subscribe="docs"></pb-paginate>
                                         <pb-restricted login="login" slot="toolbar">
@@ -332,7 +332,7 @@
                             <aside>
                                 <paper-card class="upload" data-i18n="[heading]upload.upload" heading="Upload">
                                     <div class="card-content">
-                                        <pb-upload id="upload" emit="docs" accept=".xml, .tei, .odd, .docx, .mei"/>
+                                        <pb-upload id="upload" emit="docs" subscribe="docs" accept=".xml, .tei, .odd, .docx, .mei"/>
                                     </div>
                                 </paper-card>
                             </aside>
