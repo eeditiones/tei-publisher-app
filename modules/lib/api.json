@@ -1001,6 +1001,13 @@
 							"default": true
 						},
 						"description": "Should an expand/collapse icon be displayed next to headings having nested child sections?"
+					},
+					{
+						"name": "If-Modified-Since",
+						"in": "header",
+						"schema": {
+							"type": "string"
+						}
 					}
 				],
 				"responses": {
@@ -1107,6 +1114,13 @@
 					{
 						"name": "highlight",
 						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "If-Modified-Since",
+						"in": "header",
 						"schema": {
 							"type": "string"
 						}
