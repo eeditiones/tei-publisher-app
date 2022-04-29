@@ -16,6 +16,7 @@ import module namespace process="http://exist-db.org/xquery/process" at "java:or
 import module namespace xslfo="http://exist-db.org/xquery/xslfo" at "java:org.exist.xquery.modules.xslfo.XSLFOModule";
 import module namespace epub="http://exist-db.org/xquery/epub" at "../epub.xql";
 import module namespace docx="http://existsolutions.com/teipublisher/docx";
+import module namespace cutil="http://teipublisher.com/api/cache" at "caching.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
@@ -338,22 +339,28 @@ declare %private function dapi:work2epub($request as map(*), $id as xs:string, $
 };
 
 declare function dapi:get-fragment($request as map(*)) {
-    let $doc := xmldb:decode-uri($request?parameters?doc)
+    let $path := xmldb:decode-uri($request?parameters?doc)
+    let $docs := config:get-document($path)
+    return
+        cutil:check-last-modified($request, $docs, dapi:get-fragment(?, ?, $path))
+};
+
+declare function dapi:get-fragment($request as map(*), $docs as node()*, $path as xs:string) {
     let $view := head(($request?parameters?view, $config:default-view))
     let $xml :=
         if ($request?parameters?xpath) then
-            for $document in config:get-document($doc)
+            for $document in $docs
             let $namespace := namespace-uri-from-QName(node-name(root($document)/*))
             let $xquery := "declare default element namespace '" || $namespace || "'; $document" || $request?parameters?xpath
             let $data := util:eval($xquery)
             return
                 if ($data) then
-                    pages:load-xml($data, $view, $request?parameters?root, $doc)
+                    pages:load-xml($data, $view, $request?parameters?root, $path)
                 else
                     ()
 
         else if (exists($request?parameters?id)) then (
-            for $document in config:get-document($doc)
+            for $document in $docs
             let $config := tpu:parse-pi(root($document), $view)
             let $data :=
                 if (count($request?parameters?id) = 1) then
@@ -374,7 +381,7 @@ declare function dapi:get-fragment($request as map(*)) {
                     "data": $data
                 }
         ) else
-            pages:load-xml($view, $request?parameters?root, $doc)
+            pages:load-xml($docs, $view, $request?parameters?root, $path)
     return
         if ($xml?data) then
             let $userParams :=
@@ -408,7 +415,7 @@ declare function dapi:get-fragment($request as map(*)) {
                     default return
                         $content
             let $transformed := dapi:extract-footnotes($html[1])
-            let $doc := replace($doc, "^.*/([^/]+)$", "$1")
+            let $path := replace($path, "^.*/([^/]+)$", "$1")
             return
                 if ($request?parameters?format = "html") then
                     router:response(200, "text/html", $transformed?content)
@@ -420,7 +427,7 @@ declare function dapi:get-fragment($request as map(*)) {
                             map {
                                 "format": $request?parameters?format,
                                 "view": $view,
-                                "doc": $doc,
+                                "doc": $path,
                                 "root": $request?parameters?root,
                                 "rootNode": util:node-id($xml?data[1]),
                                 "id": $content/@xml:id/string(),
@@ -469,7 +476,7 @@ declare function dapi:get-fragment($request as map(*)) {
                             }
                         )
         else
-            error($errors:NOT_FOUND, "Document " || $doc || " not found")
+            error($errors:NOT_FOUND, "Document " || $path || " not found")
 };
 
 declare function dapi:get-collection($data) {
@@ -494,13 +501,17 @@ declare %private function dapi:extract-footnotes($html as element()*) {
 
 declare function dapi:table-of-contents($request as map(*)) {
     let $doc := xmldb:decode-uri($request?parameters?id)
+    let $documents := config:get-document($doc)
+    return
+        cutil:check-last-modified($request, $documents, function($request as map(*), $documents as node()*) {
     let $view := head(($request?parameters?view, $config:default-view))
-    let $xml := pages:load-xml($view, (), $doc)
+            let $xml := pages:load-xml($documents, $view, (), $doc)
     return
         if (exists($xml)) then
             pages:toc-div(root($xml?data), $xml, $request?parameters?target, $request?parameters?icons)
         else
             error($errors:NOT_FOUND, "Document " || $doc || " not found")
+        })
 };
 
 declare function dapi:preview($request as map(*)) {
