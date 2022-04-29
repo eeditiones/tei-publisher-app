@@ -3841,7 +3841,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       </section>
     </section>
   </section>
-
+  </section>
   <section xml:id="css-styling">
     <title>Custom CSS styling</title>
 
