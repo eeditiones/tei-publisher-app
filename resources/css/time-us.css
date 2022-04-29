@@ -1,0 +1,132 @@
+body {
+    --pb-logo-image-width: 64px;
+    --pb-logo-image-height: 64px;
+    
+    --pb-splash-image-size: 720px auto;
+
+    --pb-menubar-background-color: #000000;
+    --pb-menubar-background-image: linear-gradient(rgba(87, 85, 80, 0.815), rgba(190, 187, 179, 0.726)), url('../images/cropped-Armand_Kohl48-1-e1591262489346.jpg');
+    --pb-toolbar-background-color: #bebbb3;
+    --pb-drawer-background-color: #d1cec4b7;
+
+    --person-background-color : #929fc4;
+    
+    --location-background-color : #c49992;
+
+    --organization-background-color : #92c4a3cc;
+    --company-background-color : #92c4a3;
+    
+    --date-background-color : #b092c4;
+    --number-background-color : #c492c4;
+
+    --transfer-background-color : #bbbbbb;
+    
+    --material-background-color : #838080;
+    
+}
+
+.logo {
+    background-image: linear-gradient(rgba(87, 85, 80, 0.815), rgba(190, 187, 179, 0.726)), url("../images/logo-time-us.png");
+}
+
+.splash { 
+    background-image: url("../images/47FI_006.jpg"); 
+}
+
+.menubar { 
+    justify-content: space-between;
+    background-image: var(--pb-menubar-background-image)   ;
+    background-color: var(--pb-menubar-background-color);
+    color: var(--pb-menubar-color);
+
+    --pb-search-suggestions-color: var(--pb-menubar-color);
+    --pb-search-suggestions-background: var(--pb-menubar-background-color);
+}
+
+.toolbar {
+    justify-content: space-between;
+    background-color: #bebbb3;
+}
+
+pb-drawer {
+    top: 128px;
+    background-color: var(--pb-drawer-background-color);
+    overflow: auto;
+    height: calc(100vh - 128px);
+}
+
+pb-search {
+    width: 33%;
+    background-color: var(--pb-drawer-background-color);
+}
+
+[value="person"] {
+    color: var(--person-background-color);
+}
+[value="location"] {
+    color: var(--location-background-color);
+}
+[value="organization"] {
+    color: var(--organization-background-color);
+}
+[value="company"] {
+    color: var(--company-background-color);
+}
+[value="date"] {
+    color: var(--date-background-color);
+}
+[value="heure"] {
+    color: var(--date-background-color);
+}
+[value="number"] {
+    color: var(--number-background-color);
+}
+[value="dimension"] {
+    color: var(--number-background-color);
+}
+[value="currency"] {
+    color: var(--number-background-color);
+}
+
+[value="agent"] {
+    color: var(--person-background-color);
+}
+[value="act"] {
+    color: var(--person-background-color);
+}
+[value="build"] {
+    color: var(--person-background-color);
+}
+[value="job"] {
+    color: var(--person-background-color);
+}
+[value="tool"] {
+    color: var(--person-background-color);
+}
+[value="task"] {
+    color: var(--person-background-color);
+}
+[value="material"] {
+    color: var(--material-background-color);
+}
+[value="produit"] {
+    color: var(--material-background-color);
+}
+[value="property"] {
+    color: var(--material-background-color);
+}
+[value="document"] {
+    color: var(--material-background-color);
+}
+[value="organisation"] {
+    color: var(--organization-background-color);
+}
+[value="transfer"] {
+    color: var(--transfer-background-color);
+}
+[value="time"] {
+    color: var(--date-background-color);
+}
+[value="money"] {
+    color: var(--number-background-color);
+}
