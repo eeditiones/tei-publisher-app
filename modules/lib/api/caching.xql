@@ -31,7 +31,9 @@ declare function cutil:check-last-modified($request as map(*), $nodes as node()*
         else
             ()
     return (
-        response:set-header("Last-Modified", cutil:format-http-date(head($lastModified))),
+        if(string-length($lastModified) >0) 
+        then (response:set-header("Last-Modified", cutil:format-http-date(head($lastModified)))) 
+        else (),        
         if ($shouldReturn304) then
             router:response(304, "", "")
         else
