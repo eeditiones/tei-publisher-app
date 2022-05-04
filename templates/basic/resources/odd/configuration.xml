@@ -15,9 +15,9 @@
         <property name="class">"article"</property>
         <property name="section-numbers">false()</property>
         <property name="font-size">"12pt"</property>
-        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latex" prefix="ext-latex" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-latex.xql"/>
+        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latex" prefix="ext-latex" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-latex.xqm"/>
     </output-->
     <!--output mode="web" odd="documentation">
-        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql"/>
+        <module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xqm"/>
     </output-->
 </modules>

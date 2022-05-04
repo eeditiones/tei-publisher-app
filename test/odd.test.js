@@ -134,7 +134,7 @@ describe('/api/odd [authenticated]', function () {
 
         const res = await util.axios.post('odd');
         expect(res.status).to.equal(200);
-        expect(res.data).to.be.a('string').that.includes('/db/apps/tei-publisher/transform/teipublisher-web.xql: OK');
+        expect(res.data).to.be.a('string').that.includes('/db/apps/tei-publisher/transform/teipublisher-web.xqm: OK');
         expect(res.data).to.not.include('Error for output mode');
         expect(res).to.satisfyApiSpec;
     });
@@ -150,11 +150,11 @@ describe('/api/odd [authenticated]', function () {
             }
         });
         expect(res.status).to.equal(200);
-        expect(res.data).to.be.a('string').that.includes('/db/apps/tei-publisher/transform/dta-web.xql: OK');
-        expect(res.data).to.include('/db/apps/tei-publisher/transform/dta-print.xql: OK');
-        expect(res.data).to.include('/db/apps/tei-publisher/transform/dta-latex.xql: OK');
-        expect(res.data).to.include('/db/apps/tei-publisher/transform/dta-epub.xql: OK');
-        expect(res.data).to.not.include('/db/apps/tei-publisher/transform/teipublisher-web.xql: OK');
+        expect(res.data).to.be.a('string').that.includes('/db/apps/tei-publisher/transform/dta-web.xqm: OK');
+        expect(res.data).to.include('/db/apps/tei-publisher/transform/dta-print.xqm: OK');
+        expect(res.data).to.include('/db/apps/tei-publisher/transform/dta-latex.xqm: OK');
+        expect(res.data).to.include('/db/apps/tei-publisher/transform/dta-epub.xqm: OK');
+        expect(res.data).to.not.include('/db/apps/tei-publisher/transform/teipublisher-web.xqm: OK');
         expect(res.data).to.not.include('Error for output mode');
         expect(res).to.satisfyApiSpec;
     });

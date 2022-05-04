@@ -3592,15 +3592,15 @@
         <programlisting language="xml" xml:space="preserve">&lt;modules&gt;
     &lt;!-- functions or behaviours common to all output modes --&gt;
     &lt;output&gt;
-      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/common-functions" prefix="tc" at="xmldb:exist:///db/apps/my-app/modules/common.xql"/&gt;
+      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/common-functions" prefix="tc" at="xmldb:exist:///db/apps/my-app/modules/common.xqm"/&gt;
     &lt;/output&gt;
     &lt;!-- General fo extension functions --&gt;
     &lt;output mode="print"&gt;
-      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/ext-fo" prefix="ext-fo" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-fo.xql"/&gt;
+      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/ext-fo" prefix="ext-fo" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-fo.xqm"/&gt;
     &lt;/output&gt;
     &lt;!-- Special web configuration for the documentation (to handle &lt;code&gt;) --&gt;
     &lt;output mode="web" odd="documentation"&gt;
-      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql"/&gt;
+      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xqm"/&gt;
     &lt;/output&gt;
 &lt;/modules&gt;</programlisting>
         <para>
@@ -3694,7 +3694,7 @@
           <code>code</code>
           for syntax highlighting in
             an extension module named
-          <filename>ext-html.xql</filename>
+          <filename>ext-html.xqm</filename>
           might look as
             follows:
         </para>
@@ -3713,7 +3713,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           <function>pmf:code</function>
           , which can be called from the
             ODD as follows, provided that the
-          <filename>ext-html.xql</filename>
+          <filename>ext-html.xqm</filename>
           module has been
             configured as described in the
           <link linkend="extension-configuration">previous
@@ -3786,7 +3786,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         <title>Advanced Use</title>
         <para>
           To further tweak the building process you can call the functions of the
-          <filename>odd-by-example.xql</filename>
+          <filename>odd-by-example.xq</filename>
           module from your own XQuery code. If you wish
             to generate your own basis for the comparison you can call the following function to
             store a compiled ODD in the default odd location of tei-publisher:
@@ -4527,7 +4527,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           further passed through the processing model.</para>
       <para>
         The XQuery mapping function should be defined in the module
-        <filename>modules/map.xql</filename>
+        <filename>modules/map.xqm</filename>
         . It takes an element as its only argument and may
           return any valid TEI fragment, which will become the input for futher processing through
           the processing model.
@@ -4764,13 +4764,13 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         property specifies the XQuery function to be called
           to process the request. All function module with the function definition needs to be
           imported into
-        <filename>modules/custom-api.xql</filename>
+        <filename>modules/custom-api.xqm</filename>
         so that the request can be
           correctly resolved.
       </para>
       <para>
         The function implementation can either be added to the XQuery module
-        <filename>modules/custom-api.xql</filename>
+        <filename>modules/custom-api.xqm</filename>
         or to a new module, which should be imported
           into this file to make it known. See the
         <link xlink:show="new" xlink:href="https://github.com/eeditiones/oas-router">README</link>
@@ -4787,7 +4787,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       </figure>
       <para>
         To reference a custom function declared directly in
-        <filename>modules/custom-api.xql</filename>
+        <filename>modules/custom-api.xqm</filename>
         , use the prefix
         <parameter>custom:</parameter>
         in the
@@ -5248,13 +5248,13 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
                   Model. In case of an issue, it may help to know the files: </para>
               <variablelist>
                 <varlistentry>
-                  <term>{myodd}-web.xql</term>
+                  <term>{myodd}-web.xqm</term>
                   <listitem>
                     <para>The transformation module generated for output mode "web".</para>
                   </listitem>
                 </varlistentry>
                 <varlistentry>
-                  <term>{myodd}-web-module.xql</term>
+                  <term>{myodd}-web-module.xqm</term>
                   <listitem>
                     <para>Library module which calls the transformation module.</para>
                   </listitem>
@@ -5344,19 +5344,19 @@ declare variable $config:default-odd :="shakespeare.odd";
 
 (:~
  : Complete list of ODD files used by the app. If you add another ODD to this list,
- : make sure to run modules/generate-pm-config.xql to update the main configuration
- : module for transformations (modules/pm-config.xql).
+ : make sure to run modules/generate-pm-config.xq to update the main configuration
+ : module for transformations (modules/pm-config.xqm).
  :)
 declare variable $config:odd-available :=("shakespeare.odd");</programlisting>
           </step>
           <step>
             <para>
               In eXide, open
-              <filename>modules/generate-pm-config.xql</filename>
+              <filename>modules/generate-pm-config.xq</filename>
               (path
                 relative to your app root) and execute it once. This will regenerate the XQuery
                 module
-              <filename>modules/pm-config.xql</filename>
+              <filename>modules/pm-config.xqm</filename>
               , which registers all the ODD
                 modules known to the app.
             </para>
@@ -5673,7 +5673,7 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
           to add custom API functions (written in XQuery) to
           <filename>custom-api.json</filename>
           and
-          <filename>custom-api.xql</filename>
+          <filename>custom-api.xqm</filename>
         </para>
       </listitem>
     </orderedlist>
@@ -5695,7 +5695,7 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
       </varlistentry>
       <varlistentry>
         <term>
-          <filename>custom-api.xql</filename>
+          <filename>custom-api.xqm</filename>
         </term>
         <listitem>
           <para>Custom API functions should be defined in this module - or a module imported by
@@ -5705,7 +5705,7 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
       </varlistentry>
       <varlistentry>
         <term>
-          <filename>app.xql</filename>
+          <filename>app.xqm</filename>
         </term>
         <listitem>
           <para>Add your own HTML templating functions in XQuery here if needed. With TEI
@@ -5715,12 +5715,12 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
       </varlistentry>
       <varlistentry>
         <term>
-          <filename>pm-config.xql</filename>
+          <filename>pm-config.xqm</filename>
         </term>
         <listitem>
           <para>
             This file is usually generated by calling
-            <filename>modules/generate-pm-config.xql</filename>
+            <filename>modules/generate-pm-config.xq</filename>
             (see the
             <link linkend="multiple-odds">corresponding section</link>
             ). It defines the functions to
@@ -5733,7 +5733,7 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
       </varlistentry>
       <varlistentry>
         <term>
-          <filename>navigation-*.xql</filename>
+          <filename>navigation-*.xqm</filename>
         </term>
         <listitem>
           <para>This group of modules contains functions relevant for the display and navigation
@@ -5742,7 +5742,7 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
       </varlistentry>
       <varlistentry>
         <term>
-          <filename>query-*.xql</filename>
+          <filename>query-*.xqm</filename>
         </term>
         <listitem>
           <para>Modules with functions powering the search features</para>
@@ -5750,7 +5750,7 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
       </varlistentry>
       <varlistentry>
         <term>
-          <filename>view.xql</filename>
+          <filename>view.xq</filename>
         </term>
         <listitem>
           <para>The main module of the app. This module initializes eXist's templating system. The
@@ -6396,7 +6396,7 @@ declare variable $config:data-root := $config:app-root || "/data";
           for details but it is common practice to store a
             collection configuration in the data package and rely on mechanisms of pre-install
             script (
-          <filename>pre-install.xql</filename>
+          <filename>pre-install.xq</filename>
           ) to copy the file to its required position
             in
           <filename>/db/system/config</filename>
@@ -6709,7 +6709,7 @@ declare variable $config:data-default := $config:data-root;
       </varlistentry>
       <varlistentry>
         <term>
-          <filename>index.xql</filename>
+          <filename>index.xqm</filename>
         </term>
         <listitem>
           <para>
@@ -6720,14 +6720,14 @@ declare variable $config:data-default := $config:data-root;
             <function>nav:get-metadata</function>
             . This
               function is declared in
-            <filename>index.xql</filename>
+            <filename>index.xqm</filename>
             . By externalizing most of the
               code into a separate function, we can keep the index configuration clean and
               short.
           </para>
           <para>
             The default
-            <filename>index.xql</filename>
+            <filename>index.xqm</filename>
             already does some advanced
               preprocessing, in particular for the "genre" facet: each of the sample documents
               references a central taxonomy (contained in
@@ -7976,7 +7976,7 @@ static get styles() {
           critical for many kinds of user interactions - from browsing through pages to creating the
           table of contents.</para>
       <para>
-        <filename>modules/navigation.xql</filename>
+        <filename>modules/navigation.xqm</filename>
         is the main "control room" for all tasks
           related to navigation. You will note that it imports custom modules for all supported
           vocabularies:
@@ -7993,18 +7993,18 @@ static get styles() {
       <programlisting language="xquery" xml:space="preserve">
 module namespace nav="http://www.tei-c.org/tei-simple/navigation";
 
-import module namespace tei-nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xql";
-import module namespace jats-nav="http://www.tei-c.org/tei-simple/navigation/jats" at "navigation-jats.xql";
-import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/docbook" at "navigation-dbk.xql";
+import module namespace tei-nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xqm";
+import module namespace jats-nav="http://www.tei-c.org/tei-simple/navigation/jats" at "navigation-jats.xqm";
+import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/docbook" at "navigation-dbk.xqm";
       </programlisting>
       <para>Customizing yet unsupported vocabulary will require:</para>
       <itemizedlist>
         <listitem>
           <para>
             create a new navigation module for the new vocabulary (e.g.
-            <filename>navigation-foo.xql</filename>
+            <filename>navigation-foo.xqm</filename>
             ; it should implement all the functions that
-            <function>navigation.xql</function>
+            <function>navigation.xqm</function>
             dispatches to; you can use
             <filename>navigation-tei</filename>
             as a starting point for customization
@@ -8013,7 +8013,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         <listitem>
           <para>
             import it into
-            <filename>navigation.xql</filename>
+            <filename>navigation.xqm</filename>
           </para>
         </listitem>
         <listitem>
@@ -8035,15 +8035,15 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <title>Search</title>
       <para>
         Full text search is realized via the same modular approach that governs navigation.
-        <filename>modules/query.xql</filename>
+        <filename>modules/query.xqm</filename>
         is the main "control room", dispatching requests
           to functions in specialized modules. See implementation of
-        <filename>query-db.xql</filename>
+        <filename>query-db.xqm</filename>
         or
-        <filename>query-tei.xql</filename>
+        <filename>query-tei.xqm</filename>
         before creating
           a dedicated module for your vocabulary. Make sure to import your module into
-        <filename>query.xql</filename>
+        <filename>query.xqm</filename>
         .
       </para>
     </section>

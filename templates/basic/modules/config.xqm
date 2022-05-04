@@ -7,8 +7,8 @@ xquery version "3.1";
 module namespace config="http://www.tei-c.org/tei-simple/config";
 
 import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
-import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xqm";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xqm";
 
 declare namespace templates="http://exist-db.org/xquery/html-templating";
 
@@ -314,8 +314,8 @@ declare variable $config:default-odd := "$$config-odd$$";
 
 (:~
  : Complete list of ODD files used by the app. If you add another ODD to this list,
- : make sure to run modules/generate-pm-config.xql to update the main configuration
- : module for transformations (modules/pm-config.xql).
+ : make sure to run modules/generate-pm-config.xq to update the main configuration
+ : module for transformations (modules/pm-config.xqm).
  :)
 declare variable $config:odd-available := ( $config:default-odd );
 

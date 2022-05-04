@@ -8,8 +8,8 @@
     <copyright>true</copyright>
     <type>application</type>
     <target>tei-publisher</target>
-    <prepare>pre-install.xql</prepare>
-    <finish>post-install.xql</finish>
+    <prepare>pre-install.xq</prepare>
+    <finish>post-install.xq</finish>
     <changelog>
         <change version="5.0.2">
             <ul xmlns="http://www.w3.org/1999/xhtml">
