@@ -69,5 +69,15 @@ RUN bin/client.sh -l --no-gui --xpath "system:get-version()"
 EXPOSE ${HTTP_PORT} 8001
 
 ENV EXIST_HOME=/usr/local/exist
-ENV JAVA_OPTS=-Djetty.port=${HTTP_PORT} -Djetty.ssl.port=${HTTPS_PORT}
+ENV JAVA_OPTS \
+    -Djetty.port=${HTTP_PORT} \
+    -Djetty.ssl.port=${HTTPS_PORT} \
+    -Dfile.encoding=UTF8 \
+    -Dsun.jnu.encoding=UTF-8 \
+    -XX:+UseG1GC \
+    -XX:+UseStringDeduplication \
+    -XX:+UseContainerSupport \
+    -XX:MaxRAMPercentage=${JVM_MAX_RAM_PERCENTAGE:-75.0} \ 
+    -XX:+ExitOnOutOfMemoryError
+
 ENTRYPOINT [ "/usr/local/exist/bin/startup.sh" ]
