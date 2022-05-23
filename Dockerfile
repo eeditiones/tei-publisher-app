@@ -89,6 +89,7 @@ ARG HTTPS_PORT=8443
 
 ENV NER_ENDPOINT=http://localhost:8001
 ENV CONTEXT_PATH=auto
+ENV PROXY_CACHING=false
 
 ENV JAVA_OPTS \
     -Djetty.port=${HTTP_PORT} \
@@ -108,4 +109,4 @@ RUN if [ "${ADMIN_PASS}" != "none" ]; then bin/client.sh -l --no-gui --xpath "sm
 
 EXPOSE ${HTTP_PORT}
 
-ENTRYPOINT JAVA_OPTS="${JAVA_OPTS} -Dteipublisher.ner-endpoint=${NER_ENDPOINT} -Dteipublisher.context-path=${CONTEXT_PATH}" /exist/bin/startup.sh
+ENTRYPOINT JAVA_OPTS="${JAVA_OPTS} -Dteipublisher.ner-endpoint=${NER_ENDPOINT} -Dteipublisher.context-path=${CONTEXT_PATH} -Dteipublisher.proxy-caching=${PROXY_CACHING}" /exist/bin/startup.sh

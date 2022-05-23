@@ -29,7 +29,19 @@ declare variable $config:origin-whitelist := (
     "https?://teipublisher.onrender.com"
 );
 
-(:~~
+(:~
+ : Set to true to allow caching: if the browser sends an If-Modified-Since header,
+ : TEI Publisher will respond with a 304 if the resource has not changed since last
+ : access. However, this does *not* take into account changes to ODD or other auxiliary 
+ : files, so don't use it during development.
+ :)
+declare variable $config:enable-proxy-caching :=
+    let $prop := util:system-property("teipublisher.proxy-caching")
+    return
+        exists($prop) and lower-case($prop) = 'true'
+;
+
+(:~
  : The version of the pb-components webcomponents library to be used by this app.
  : Should either point to a version published on npm,
  : or be set to 'local' or 'dev'. 
