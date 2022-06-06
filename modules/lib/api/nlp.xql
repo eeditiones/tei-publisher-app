@@ -255,12 +255,16 @@ declare %private function nlp:absolute-offset($nodes as node()*, $start as xs:in
  : detected entities back to the XML being annotated.
  :)
 declare function nlp:mapping-table($pairs as array(*)*, $accum as xs:int, $debug as xs:boolean?) {
+    nlp:mapping-table((), $pairs, $accum, $debug)
+};
+
+declare function nlp:mapping-table($result as map(*)*, $pairs as array(*)*, $accum as xs:int, $debug as xs:boolean?) {
     if (empty($pairs)) then
-        ()
+        $result
     else
         let $pair := head($pairs)
         let $end := $accum + string-length($pair?2)
-        return (
+        let $entry :=
             if (exists($pair?1)) then
                 map {
                     "node": if ($debug) then util:node-id($pair?1) else $pair?1,
@@ -269,9 +273,9 @@ declare function nlp:mapping-table($pairs as array(*)*, $accum as xs:int, $debug
                     "origOffset": $pair?3
                 }
             else
-                (),
-            nlp:mapping-table(tail($pairs), $end, $debug)
-        )
+                ()
+        return
+            nlp:mapping-table(($result, $entry), tail($pairs), $end, $debug)
 };
 
 (:~
