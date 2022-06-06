@@ -2435,31 +2435,6 @@
 							"type": "string"
 						},
 						"required": true
-					},
-					{
-						"name": "name",
-						"in": "query",
-						"description": "Name of the model to create",
-						"schema": {
-							"type": "string"
-						},
-						"required": true
-					},
-					{
-						"name": "base",
-						"in": "query",
-						"description": "Base model to extend",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "lang",
-						"in": "query",
-						"description": "Language to create the model for",
-						"schema": {
-							"type": "string"
-						}
 					}
 				],
 				"responses": {
