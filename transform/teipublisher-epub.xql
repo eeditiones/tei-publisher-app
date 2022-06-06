@@ -64,7 +64,7 @@ declare function model:apply($config as map(*), $input as node()*) {
     $input !         (
             let $node := 
                 .
-            return
+            let $output := 
                             typeswitch(.)
                     case element(castItem) return
                         (: Insert item, rendered as described in parent list rendition. :)
@@ -553,8 +553,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                     default return 
                         $config?apply($config, ./node())
 
+            return
+                if (./ancestor-or-self::note) then
+                    let $rend := concat(./@rend, ' ')
+                    let $styled := $output
+                    let $styled := if (contains($rend, 'italic ')) then <em>{$styled}</em> else $styled
+                    let $styled := if (contains($rend, 'bold ')) then <strong>{$styled}</strong> else $styled
+                    let $styled := if (contains($rend, 'underline ')) then <u>{$styled}</u> else $styled
+                    return $styled
+                else $output
         )
-
 };
 
 declare function model:apply-children($config as map(*), $node as element(), $content as item()*) {
