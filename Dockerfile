@@ -32,7 +32,6 @@ FROM builder as tei
 ARG TEMPLATING_VERSION=1.0.4
 ARG PUBLISHER_LIB_VERSION=2.10.0
 ARG ROUTER_VERSION=0.5.1
-ARG PUBLISHER_VERSION=master
 ARG SHARED_RESOURCES_VERSION=0.9.1
 ARG SHAKESPEARE_VERSION=1.1.2
 ARG VANGOGH_VERSION=1.0.6
@@ -53,10 +52,8 @@ RUN  git clone https://github.com/eeditiones/vangogh.git \
     && ant
 
 # Build tei-publisher-app
-RUN  git clone https://github.com/eeditiones/tei-publisher-app.git \
-    && cd tei-publisher-app \
-    && echo Checking out ${PUBLISHER_VERSION} \
-    && git checkout ${PUBLISHER_VERSION} \
+COPY . tei-publisher-app/
+RUN  cd tei-publisher-app \
     && ant
 
 RUN curl -L -o /tmp/oas-router-${ROUTER_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/oas-router-${ROUTER_VERSION}.xar
