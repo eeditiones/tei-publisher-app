@@ -15,9 +15,11 @@
     "@teipublisher/pb-components": "latest"
   },
   "devDependencies": {
+    "adm-zip": "^0.5.9",
     "axios": "^0.21.1",
     "chai": "^4.2.0",
     "chai-openapi-response-validator": "^0.9.4",
+    "chai-xml": "^0.4.0",
     "form-data": "^3.0.0",
     "jsdom": "^16.4.0",
     "mocha": "^8.1.3",
