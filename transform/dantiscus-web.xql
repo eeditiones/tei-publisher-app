@@ -411,7 +411,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                         html:block($config, ., ("tei-head4", css:map-rend-to-class(.)), .)                                        => model:map($node, $trackIds)
                                     else
                                         if (parent::list) then
-                                            html:block($config, ., ("tei-head5", css:map-rend-to-class(.)), .)                                            => model:map($node, $trackIds)
+                                            html:listItem($config, ., ("tei-head5", css:map-rend-to-class(.)), ., ())                                            => model:map($node, $trackIds)
                                         else
                                             if (parent::div) then
                                                 html:heading($config, ., ("tei-head6", css:map-rend-to-class(.)), ., count(ancestor::div))                                                => model:map($node, $trackIds)

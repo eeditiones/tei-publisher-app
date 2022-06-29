@@ -247,7 +247,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     latex:block($config, ., ("tei-head3", css:map-rend-to-class(.)), .)
                                 else
                                     if (parent::list) then
-                                        latex:block($config, ., ("tei-head4", css:map-rend-to-class(.)), .)
+                                        latex:listItem($config, ., ("tei-head4", css:map-rend-to-class(.)), .)
                                     else
                                         if (parent::div) then
                                             latex:heading($config, ., ("tei-head5", css:map-rend-to-class(.)), ., count(ancestor::div))

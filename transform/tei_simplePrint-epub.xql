@@ -246,7 +246,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     epub:block($config, ., ("tei-head3", css:map-rend-to-class(.)), .)
                                 else
                                     if (parent::list) then
-                                        epub:block($config, ., ("tei-head4", css:map-rend-to-class(.)), .)
+                                        epub:listItem($config, ., ("tei-head4", css:map-rend-to-class(.)), .)
                                     else
                                         if (parent::div) then
                                             html:heading($config, ., ("tei-head5", css:map-rend-to-class(.)), ., count(ancestor::div))

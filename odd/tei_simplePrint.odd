@@ -4523,7 +4523,7 @@ live without God in the world, and only mind earthly things.
               <model predicate="parent::lg" behaviour="block">
                 <outputRendition>font-style: italic;</outputRendition>
               </model>
-              <model predicate="parent::list" behaviour="block">
+              <model predicate="parent::list" behaviour="listItem">
                 <outputRendition>font-weight: bold;</outputRendition>
               </model>
               <model predicate="parent::div" behaviour="heading">
