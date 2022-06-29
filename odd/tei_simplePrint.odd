@@ -4579,10 +4579,10 @@ live without God in the world, and only mind earthly things.
             </elementSpec>
             <elementSpec ident="list" mode="change">
               <model predicate="@rendition" behaviour="list" useSourceRendition="true">
-                <param name="content" value="item"/>
+                <param name="content" value="node()[self::item or self::head]"/>
               </model>
               <model predicate="not(@rendition)" behaviour="list">
-                <param name="content" value="item"/>
+                <param name="content" value="node()[self::item or self::head]"/>
               </model>
             </elementSpec>
             <elementSpec ident="listBibl" mode="change">

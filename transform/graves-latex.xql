@@ -387,10 +387,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:inline($config, ., ("tei-rhyme", css:map-rend-to-class(.)), .)
                     case element(list) return
                         if (@rendition) then
-                            latex:list($config, ., css:get-rendition(., ("tei-list1", css:map-rend-to-class(.))), item, ())
+                            latex:list($config, ., css:get-rendition(., ("tei-list1", css:map-rend-to-class(.))), node()[self::item or self::head], ())
                         else
                             if (not(@rendition)) then
-                                latex:list($config, ., ("tei-list2", css:map-rend-to-class(.)), item, ())
+                                latex:list($config, ., ("tei-list2", css:map-rend-to-class(.)), node()[self::item or self::head], ())
                             else
                                 $config?apply($config, ./node())
                     case element(p) return
@@ -747,6 +747,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 $config?apply($config, ./node())
                     case element(placeName) return
                         latex:alternate($config, ., ("tei-placeName", css:map-rend-to-class(.)), ., ., id(@ref, doc("/db/apps/tei-publisher/data/register.xml")))
+                    case element(term) return
+                        latex:alternate($config, ., ("tei-term", css:map-rend-to-class(.)), ., ., id(@ref, doc("/db/apps/tei-publisher/data/register.xml")))
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

@@ -13,6 +13,8 @@ declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
 declare namespace xi='http://www.w3.org/2001/XInclude';
 
+declare namespace pb='http://teipublisher.com/1.0';
+
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
@@ -56,6 +58,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                 .
             return
                             typeswitch(.)
+                    case element(text) return
+                        latex:body($config, ., ("tei-text1", css:map-rend-to-class(.)), .)
                     case element(ab) return
                         latex:paragraph($config, ., ("tei-ab", css:map-rend-to-class(.)), .)
                     case element(abbr) return
@@ -271,10 +275,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:block($config, ., ("tei-lg", css:map-rend-to-class(.)), .)
                     case element(list) return
                         if (@rendition) then
-                            latex:list($config, ., css:get-rendition(., ("tei-list1", css:map-rend-to-class(.))), item, ())
+                            latex:list($config, ., css:get-rendition(., ("tei-list1", css:map-rend-to-class(.))), node()[self::item or self::head], ())
                         else
                             if (not(@rendition)) then
-                                latex:list($config, ., ("tei-list2", css:map-rend-to-class(.)), item, ())
+                                latex:list($config, ., ("tei-list2", css:map-rend-to-class(.)), node()[self::item or self::head], ())
                             else
                                 $config?apply($config, ./node())
                     case element(listBibl) return
@@ -313,6 +317,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:inline($config, ., ("tei-pc", css:map-rend-to-class(.)), .)
                     case element(postscript) return
                         latex:block($config, ., ("tei-postscript", css:map-rend-to-class(.)), .)
+                    case element(profileDesc) return
+                        latex:omit($config, ., ("tei-profileDesc", css:map-rend-to-class(.)), .)
                     case element(publisher) return
                         if (ancestor::teiHeader) then
                             (: Omit if located in teiHeader. :)
@@ -424,7 +430,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(TEI) return
                         latex:document($config, ., ("tei-TEI", css:map-rend-to-class(.)), .)
                     case element(text) return
-                        latex:body($config, ., ("tei-text", css:map-rend-to-class(.)), .)
+                        latex:body($config, ., ("tei-text1", css:map-rend-to-class(.)), .)
                     case element(time) return
                         latex:inline($config, ., ("tei-time", css:map-rend-to-class(.)), .)
                     case element(title) return

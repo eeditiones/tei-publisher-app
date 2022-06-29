@@ -252,10 +252,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:paragraph($config, ., css:get-rendition(., ("tei-p", css:map-rend-to-class(.))), .)
                     case element(list) return
                         if (@rendition) then
-                            html:list($config, ., css:get-rendition(., ("tei-list1", css:map-rend-to-class(.))), item, ())
+                            html:list($config, ., css:get-rendition(., ("tei-list1", css:map-rend-to-class(.))), node()[self::item or self::head], ())
                         else
                             if (not(@rendition)) then
-                                html:list($config, ., ("tei-list2", css:map-rend-to-class(.)), item, ())
+                                html:list($config, ., ("tei-list2", css:map-rend-to-class(.)), node()[self::item or self::head], ())
                             else
                                 $config?apply($config, ./node())
                     case element(q) return

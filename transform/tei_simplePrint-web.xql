@@ -13,6 +13,8 @@ declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
 declare namespace xi='http://www.w3.org/2001/XInclude';
 
+declare namespace pb='http://teipublisher.com/1.0';
+
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
@@ -56,6 +58,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                 .
             return
                             typeswitch(.)
+                    case element(text) return
+                        html:body($config, ., ("tei-text1", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(ab) return
                         html:paragraph($config, ., ("tei-ab", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(abbr) return
@@ -268,10 +272,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:block($config, ., ("tei-lg", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(list) return
                         if (@rendition) then
-                            html:list($config, ., css:get-rendition(., ("tei-list1", css:map-rend-to-class(.))), item, ())                            => model:map($node, $trackIds)
+                            html:list($config, ., css:get-rendition(., ("tei-list1", css:map-rend-to-class(.))), node()[self::item or self::head], ())                            => model:map($node, $trackIds)
                         else
                             if (not(@rendition)) then
-                                html:list($config, ., ("tei-list2", css:map-rend-to-class(.)), item, ())                                => model:map($node, $trackIds)
+                                html:list($config, ., ("tei-list2", css:map-rend-to-class(.)), node()[self::item or self::head], ())                                => model:map($node, $trackIds)
                             else
                                 $config?apply($config, ./node())
                     case element(listBibl) return
@@ -310,6 +314,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:inline($config, ., ("tei-pc", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(postscript) return
                         html:block($config, ., ("tei-postscript", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
+                    case element(profileDesc) return
+                        html:omit($config, ., ("tei-profileDesc", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(publisher) return
                         if (ancestor::teiHeader) then
                             (: Omit if located in teiHeader. :)
@@ -421,7 +427,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(TEI) return
                         html:document($config, ., ("tei-TEI", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(text) return
-                        html:body($config, ., ("tei-text", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
+                        html:body($config, ., ("tei-text1", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(time) return
                         html:inline($config, ., ("tei-time", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(title) return
