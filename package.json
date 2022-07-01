@@ -15,7 +15,7 @@
     "@teipublisher/pb-components": "latest"
   },
   "devDependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "chai": "^4.2.0",
     "chai-openapi-response-validator": "^0.9.4",
     "chai-xml": "^0.4.0",
