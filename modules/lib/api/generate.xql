@@ -277,6 +277,9 @@ declare function deploy:store-xconf($collection as xs:string?, $json as map(*)) 
                     <text match="//tei:titleStmt/tei:title"/>
                     <text match="//tei:msDesc/tei:head"/>
                     <text match="//tei:listPlace/tei:place/tei:placeName"/>
+                    <text match="//tei:listPerson/tei:person/tei:persName"/>
+                    <text match="//tei:listOrg/tei:org/tei:orgName"/>
+                    <text match="//tei:taxonomy/tei:category/tei:catDesc"/>
                     <text qname="dbk:article">
                         <ignore qname="dbk:section"/>
                         <field name="title" expression="nav:get-metadata(., 'title')"/>
