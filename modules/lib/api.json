@@ -884,6 +884,14 @@
 							"type": "string",
 							"example": "docbook.odd"
 						}
+					},
+					{
+						"name": "skip-title",
+						"in": "query",
+						"schema": {
+							"type": "boolean",
+							"example": "true"
+						}
 					}
 				],
 				"responses": {
