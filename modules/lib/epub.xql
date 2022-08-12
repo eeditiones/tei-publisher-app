@@ -257,7 +257,7 @@ declare function epub:nav-entry($config, $text) {
             <body>
                 <nav epub:type="toc">
                 {
-                    epub:toc-nav-div($config, nav:get-section($config?docConfig, $text)/..)
+                    epub:toc-nav-div($config, if ($config?navRoot) then $config?navRoot else nav:get-section($config?docConfig, $text)/..)
                 }
                 </nav>
             </body>

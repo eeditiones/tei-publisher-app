@@ -884,6 +884,14 @@
 							"type": "string",
 							"example": "docbook.odd"
 						}
+					},
+					{
+						"name": "nav-root",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"example": "/1/4"
+						}
 					}
 				],
 				"responses": {
