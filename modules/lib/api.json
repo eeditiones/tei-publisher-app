@@ -884,6 +884,14 @@
 							"type": "string",
 							"example": "docbook.odd"
 						}
+					},
+					{
+						"name": "images-collection",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"example": "/apps/tei-publisher/data"
+						}
 					}
 				],
 				"responses": {

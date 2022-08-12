@@ -50,7 +50,7 @@ declare function epub:generate-epub($config as map(*), $doc, $css, $filename) {
             epub:container-entry(),
             epub:content-opf-entry($config, $doc, $xhtml),
             epub:title-xhtml-entry($config?metadata?language, $doc, $config),
-            epub:images-entry($doc, $xhtml),
+            epub:images-entry($config, $doc, $xhtml),
             epub:stylesheet-entry($css),
             epub:toc-ncx-entry($config, $doc),
             epub:nav-entry($config, $doc),
@@ -162,8 +162,8 @@ declare function epub:content-opf-entry($config as map(*), $text, $xhtml as elem
         <entry name="OEBPS/content.opf" type="xml">{$content-opf}</entry>
 };
 
-declare function epub:images-entry($doc, $entries as element()*) {
-    let $root := util:collection-name($doc)
+declare function epub:images-entry($config, $doc, $entries as element()*) {
+    let $root := if ($config?imagesCollection) then $config?imagesCollection else util:collection-name($doc)
     for $relPath in distinct-values($entries//*:img/@src)
     let $path :=
         if ($config:epub-images-path) then
