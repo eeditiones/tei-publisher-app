@@ -274,7 +274,7 @@ declare function epub:toc-nav-div($config, $root as element()) {
         let $headings := nav:get-section-heading($config?docConfig, $div)
         let $html :=
             if ($headings) then
-                normalize-space(string-join($headings//text()))
+                normalize-space(string-join($headings//text()[not(./ancestor::tei:note)]))
             else
                 "[no title]"
         let $file := epub:generate-id(nav:get-section-for-node($config?docConfig, $div))
