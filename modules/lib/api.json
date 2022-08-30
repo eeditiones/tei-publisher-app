@@ -890,7 +890,7 @@
 						"in": "query",
 						"schema": {
 							"type": "string",
-							"example": "/1/4"
+							"example": "1/4"
 						}
 					}
 				],
