@@ -84,7 +84,7 @@ describe('/api/document/{document}}/epub?nav-root=', function() {
     });
 
     it('define navigation root', async () => {
-      const res = await util.axios.get('document/playground%2Fnav.xml/epub?nav-root=1/4', { responseType: 'arraybuffer' });
+      const res = await util.axios.get('document/playground%2Fnav.xml/epub?nav-root=1.4', { responseType: 'arraybuffer' });
       expect(res.status).to.equal(200);
       const document = new JSDOM(getNav(res.data), { contentType: "application/xml" }).window.document;
       expect(document.querySelectorAll('li').length).to.equal(6);
