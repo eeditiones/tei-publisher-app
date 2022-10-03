@@ -12,7 +12,7 @@
 
     <title data-template="config:app-title" />
     <meta name="description" content="Cortez Letter (Madrid)" />
-    <meta name="pb-template" content="translation.html" />
+    <meta name="pb-template" content="cortez-with-translation.html" />
 
     <link rel="stylesheet" type="text/css" href="resources/fonts/font.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald&amp;display=swap" />
@@ -70,11 +70,11 @@
                 <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
                     <app-toolbar data-template="lib:include" data-template-path="templates/menu.html" />
                     <app-toolbar data-template="lib:include" data-template-path="templates/toolbar.html">
-                        <pb-toggle-feature name="norm2" selector=".choice,.choice-alternate,br" emit="transcription" subscribe="transcription"
+                        <pb-toggle-feature name="p_norm" selector=".choice,.choice-alternate,br" emit="transcription" subscribe="transcription"
                             data-target="toolbar-start">
                             <pb-i18n key="document.normalized">Normalized View</pb-i18n>
                         </pb-toggle-feature>
-                        <pb-toggle-feature name="highlight2" selector=".tei-foreign,pb-highlight,pb-popover"
+                        <pb-toggle-feature name="p_highlight" selector=".tei-foreign,pb-highlight,pb-popover"
                         action="disable" default="off" emit="transcription" subscribe="transcription"
                         data-target="toolbar-start">
                             <pb-i18n key="document.plain">Plain Reading View</pb-i18n>
