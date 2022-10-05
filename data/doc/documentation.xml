@@ -7618,7 +7618,7 @@ static get styles() {
         <step>
           <para>
             edit
-            <filename>build.properties</filename>
+            <filename>build.xml</filename>
             and change
             <parameter>scripts.dir</parameter>
             to point to the replacement library
@@ -7648,7 +7648,7 @@ static get styles() {
         </programlisting>
       <para>
         then change
-        <filename>build.properties</filename>
+        <filename>build.xml</filename>
         to contain:
       </para>
       <programlisting language="js" xml:space="preserve">scripts.dir=node_modules/@teipublisher/pb-extension-template/dist</programlisting>
