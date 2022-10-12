@@ -1,11 +1,11 @@
-ARG EXIST_VERSION=5.3.0
+ARG EXIST_VERSION=5.4.1
 
 # START STAGE 1
 FROM openjdk:8-jdk-slim as builder
 
 USER root
 
-ENV ANT_VERSION 1.10.11
+ENV ANT_VERSION 1.10.12
 ENV ANT_HOME /etc/ant-${ANT_VERSION}
 
 WORKDIR /tmp
@@ -27,7 +27,7 @@ ENV PATH ${PATH}:${ANT_HOME}/bin
 FROM builder as tei
 
 ARG PUBLISHER_LIB_VERSION=v2.9.0
-ARG PUBLISHER_VERSION=master
+ARG PUBLISHER_VERSION=release/7.1.1
 
 # add key
 RUN  mkdir -p ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
