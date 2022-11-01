@@ -35,7 +35,8 @@ declare function dapi:metadata($request as map(*)) {
                 "view": $config?view,
                 "odd": $config?odd,
                 "template": $config?template,
-                "collection": substring-after(util:collection-name($xml), $config:data-root || "/")
+                "collection": substring-after(util:collection-name($xml), $config:data-root || "/"),
+                "lastModified": xmldb:last-modified(util:collection-name($xml), util:document-name($xml))
             }
         else
             error($errors:NOT_FOUND, "Document " || $doc || " not found")
