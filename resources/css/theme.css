@@ -1,3 +1,5 @@
+@import url("../fonts/font.css");
+
 /* Due to a safari issue, relative paths to background images won't work as variables, so we list them here */
 
 .logo {
