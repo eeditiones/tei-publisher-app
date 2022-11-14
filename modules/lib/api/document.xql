@@ -2,8 +2,8 @@ xquery version "3.1";
 
 module namespace dapi="http://teipublisher.com/api/documents";
 
-import module namespace router="http://exist-db.org/xquery/router";
-import module namespace errors = "http://exist-db.org/xquery/router/errors";
+import module namespace router="http://e-editiones.org/roaster";
+import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
@@ -347,7 +347,7 @@ declare function dapi:get-fragment($request as map(*)) {
         then (
             cutil:check-last-modified($request, $docs, dapi:get-fragment(?, ?, $path))
         ) else (
-            router:response(404, "document not found", $path)    
+            router:response(404, "text/text", $path)    
         )
 };
 
@@ -520,7 +520,7 @@ declare function dapi:table-of-contents($request as map(*)) {
                     error($errors:NOT_FOUND, "Document " || $doc || " not found")
                 })
         ) else (
-            router:response(404, "document not found", $doc)        
+            router:response(404, "text/text", $doc)        
         )
 };
 

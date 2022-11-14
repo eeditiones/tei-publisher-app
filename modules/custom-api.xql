@@ -7,8 +7,8 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace bapi="http://teipublisher.com/api/blog" at "blog.xql";
 import module namespace dapi="http://teipublisher.com/api/documents" at "lib/api/document.xql";
-import module namespace errors = "http://exist-db.org/xquery/router/errors";
-import module namespace rutil="http://exist-db.org/xquery/router/util";
+import module namespace errors = "http://e-editiones.org/roaster/errors";
+import module namespace rutil="http://e-editiones.org/roaster/util";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
 

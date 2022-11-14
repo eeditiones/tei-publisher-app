@@ -4,7 +4,7 @@ module namespace vapi="http://teipublisher.com/api/view";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
-import module namespace errors = "http://exist-db.org/xquery/router/errors";
+import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace templates="http://exist-db.org/xquery/html-templating";
 import module namespace lib="http://exist-db.org/xquery/html-templating/lib" at "../templates-lib.xql";
 import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "../browse.xql";
@@ -80,5 +80,5 @@ declare function vapi:handle-error($error) {
     let $path := $config:app-root || "/templates/error-page.html"
     let $template := doc($path)
     return
-        templates:apply($template, vapi:lookup#2, map { "description": $error }, $tpu:template-config)
+        templates:apply($template, vapi:lookup#2, map { "description": $error?description }, $tpu:template-config)
 };

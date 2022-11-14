@@ -24,7 +24,7 @@ declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
-import module namespace errors = "http://exist-db.org/xquery/router/errors";
+import module namespace errors = "http://e-editiones.org/roaster/errors";
 
 declare variable $deploy:EXPATH_DESCRIPTOR :=
     <package xmlns="http://expath.org/ns/pkg"
@@ -32,7 +32,7 @@ declare variable $deploy:EXPATH_DESCRIPTOR :=
         <dependency processor="http://exist-db.org" semver-min="5.3.0"/>
         <dependency package="http://exist-db.org/html-templating"/>
         <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver-min="2.10.0"/>
-        <dependency package="http://exist-db.org/open-api/router" semver-min="0.5.1"/>
+        <dependency package="http://e-editiones.org/roaster" semver-min="1.7.3"/>
     </package>
 ;
 

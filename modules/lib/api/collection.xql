@@ -2,7 +2,7 @@ xquery version "3.1";
 
 module namespace capi="http://teipublisher.com/api/collection";
 
-import module namespace errors = "http://exist-db.org/xquery/router/errors";
+import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "../browse.xql";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
