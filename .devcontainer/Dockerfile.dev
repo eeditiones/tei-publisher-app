@@ -55,7 +55,7 @@ RUN curl -L -o exist-distribution-${EXIST_VERSION}-unix.tar.bz2 https://github.c
     && rm exist-distribution-${EXIST_VERSION}-unix.tar.bz2 \
     && mv /usr/local/exist-distribution-${EXIST_VERSION} /usr/local/exist
 
-RUN curl -L -o /usr/local/exist/autodeploy/oas-router-${ROUTER_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/oas-router-${ROUTER_VERSION}.xar
+RUN curl -L -o /usr/local/exist/autodeploy/roaster-${ROUTER_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar
 RUN curl -L -o /usr/local/exist/autodeploy/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar
 RUN curl -L -o /usr/local/exist/autodeploy/templating-${TEMPLATING_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/templating-${TEMPLATING_VERSION}.xar
 RUN curl -L -o /usr/local/exist/autodeploy/atom-editor-${EDITOR_VERSION}.xar https://github.com/wolfgangmm/existdb-langserver/raw/master/resources/atom-editor-${EDITOR_VERSION}.xar
