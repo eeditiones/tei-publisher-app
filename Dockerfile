@@ -63,7 +63,7 @@ RUN curl -L -o /tmp/shared-resources-${SHARED_RESOURCES_VERSION}.xar http://exis
 
 FROM eclipse-temurin:11-jre-alpine
 
-ARG EXIST_VERSION=5.4.1
+ARG EXIST_VERSION=6.0.1
 
 RUN apk add curl
 
