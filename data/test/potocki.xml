@@ -31,7 +31,12 @@
                   <reg>Przypowieści</reg>
                </choice></head>
             <div>
-               <head>Oitra vinum amulentiа</head>
+               <head><ref n="Chilias I Centuria III Adagium 3" source="Proverbia.1.3.3"
+                     target="http://ihrim.huma-num.fr/nmh/Erasmus/Proverbia/Adagium_203.html"
+                     corresp="EEBO_Proverbia.1.3.3">Citra vinum <choice>
+                        <sic>tmulentiа</sic>
+                        <corr>temulentiа</corr>
+                     </choice></ref></head>
                <lg>
                   <note place="margin"><choice>
                         <orig>Pijanstwo</orig>
