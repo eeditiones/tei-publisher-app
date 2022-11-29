@@ -47,6 +47,8 @@
             <outputRendition xml:space="preserve">
             
             
+            
+            
             font-size: 16px;
                             color: #888888;
                             cursor: pointer;
@@ -56,21 +58,12 @@
                             float: right;
             
             
+            
+            
             </outputRendition>
         </model>
                 </elementSpec>
-                <elementSpec ident="form" mode="add">
-                    <model predicate="starts-with(@facs, 'iiif:')" behaviour="webcomponent" cssClass="facs columnbreak">
-            <param name="name" value="'pb-facs-link'"/>
-            <param name="facs" value="replace(@facs, '^iiif:([^/]+).*$', '$1')"/>
-            <param name="content" value="."/>
-            <param name="coordinates" value="('[' || replace(@facs, '^iiif:[^/]+/(.*)$', '$1') || ']')"/>
-            <param name="emit" value="'transcription'"/>
-            <outputRendition xml:space="preserve">
-            font-weight: bold;
-            </outputRendition>
-        </model>
-                </elementSpec>
+                
                 <elementSpec ident="gram" mode="add">
                     <model behaviour="inline">
             <outputRendition xml:space="preserve">
@@ -281,9 +274,10 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="respStmt" mode="add">
-                    <model behaviour="alternate">
-            <param name="default" value="persName"/>
-            <param name="alternate" value="resp"/>
+                    <model behaviour="pass-through">
+            <param name="resp" value="resp"/>
+            <param name="name" value="persName"/>
+            <pb:template xmlns="" xml:space="preserve"><div>[[resp]]: [[name]]</div></pb:template>
         </model>
                 </elementSpec>
                 <elementSpec ident="idno" mode="add">
@@ -310,7 +304,17 @@
             <param name="label" value="@n"/>
         </model>
                 </elementSpec>
-                <elementSpec ident="ab" mode="change">
+            <elementSpec ident="ab" mode="change">
+                    <model predicate="starts-with(@facs, 'iiif:')" behaviour="block" cssClass="ab">
+            <param name="facs" value="replace(@facs, '^iiif:([^/]+).*$', '$1')"/>
+            <param name="content" value="."/>
+            <param name="coordinates" value="('[' || replace(@facs, '^iiif:[^/]+/(.*)$', '$1') || ']')"/>
+            <pb:template xmlns="" xml:space="preserve">
+                        <pb-facs-link facs="[[facs]]" coordinates="[[coordinates]]" emit="transcription">[[content]]</pb-facs-link></pb:template>
+            <outputRendition xml:space="preserve">
+            margin-bottom: 2em;
+            </outputRendition>
+        </model>
                     <model behaviour="block" cssClass="ab">
             <outputRendition xml:space="preserve">
             margin-bottom: 2em;
@@ -321,9 +325,13 @@
                     <model predicate="@type='location'" behaviour="inline">
             <outputRendition xml:space="preserve">
             
+            
+            
             display: block;
 font-size: 0.9em;
 text-indent: 3em;
+            
+            
             
             </outputRendition>
         </model>
@@ -336,13 +344,21 @@ text-indent: 3em;
             <pb:template xmlns="" xml:space="preserve"><span><a href="[[href]]" target="_ebbe"><iron-icon icon="launch"/></a>[[content]]</span></pb:template>
             <outputRendition xml:space="preserve">
             
+            
+            
             display: block;
 font-weight: 600;
+            
+            
             
             </outputRendition>
         </model>
                 </elementSpec>
                 <elementSpec ident="div" mode="change"/>
+            <elementSpec ident="author" mode="change">
+                    <model predicate="ancestor::teiHeader" behaviour="block"/>
+                    <model behaviour="inline"/>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>
