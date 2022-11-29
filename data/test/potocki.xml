@@ -26,24 +26,37 @@
 
          <div>
             <pb facs="iiif:przypowiesci.png"/>
-            <head><choice><orig>Przypowieśći</orig><reg>Przypowieści</reg></choice></head>
+            <head><choice>
+                  <orig>Przypowieśći</orig>
+                  <reg>Przypowieści</reg>
+               </choice></head>
             <div>
                <head>Oitra vinum amulentiа</head>
                <lg>
-                  <note place="margin"><choice><orig>Pijanstwo</orig><reg>Pijaństwo</reg></choice> bez wina</note>
+                  <note place="margin"><choice>
+                        <orig>Pijanstwo</orig>
+                        <reg>Pijaństwo</reg>
+                     </choice> bez wina</note>
                   <l>
                      <choice>
                         <orig>Niechay</orig>
                         <reg>Niechaj</reg>
-                     </choice> się nikt nie <choice>
-                        <orig>myl</orig>
+                     </choice>
+                     <choice>
+                        <orig>śię</orig>
+                        <reg>się</reg>
+                     </choice> nikt nie <choice>
+                        <orig>my</orig>
                         <reg>myli</reg>
                      </choice> żeby tylko <choice>
                         <orig>Winem</orig>
                         <reg>winem</reg>
                      </choice>, </l>
                   <l>Abo więc, trunkiem ludzie upijali inem,</l>
-                  <l>Zadnym masłokiem, <choice>
+                  <l><choice>
+                        <orig>Zadnym</orig>
+                        <reg>Żadnym</reg>
+                     </choice> masłokiem, <choice>
                         <orig>ktory</orig>
                         <reg>który</reg>
                      </choice>
@@ -121,7 +134,11 @@
                   <l>Ten chorobą, bywszy <choice>
                         <orig>zdrow</orig>
                         <reg>zdrów</reg>
-                     </choice>: ten się <choice>
+                     </choice>: ten <choice>
+                        <orig>śię</orig>
+                        <reg>się</reg>
+                     </choice>
+                     <choice>
                         <orig>Czartem</orig>
                         <reg>czartem</reg>
                      </choice> pęta,</l>
