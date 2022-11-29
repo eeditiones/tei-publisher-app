@@ -89,6 +89,7 @@
             
             
             
+            
             font-size: 16px;
                             color: #888888;
                             cursor: pointer;
@@ -101,10 +102,28 @@
             
             
             
+            
             </outputRendition>
         </model>
                 </elementSpec>
                
+            <elementSpec ident="ref" mode="change">
+                    <model predicate="@corresp and @target" behaviour="inline">
+            <param name="content" value="."/>
+            <param name="corresp" value="let $corresp:= @corresp return  collection('/db/apps/tei-publisher/data/test')/id($corresp)  "/>
+            <param name="target" value="@target"/>
+            <param name="label" value="@n"/>
+            <pb:template xmlns="" xml:space="preserve"><pb-popover persistent="[[persistent]]">[[content]]<span slot="alternate"><span>[[label]]</span><br/><a href="[[target]]" target="_blank">Nouveaux mondes humanistes &lt; Erasmus</a><br/>[[corresp]]</span></pb-popover></pb:template>
+        </model>
+                    <model predicate="not(@target)" behaviour="inline"/>
+                    <model predicate="not(node())" behaviour="link">
+            <param name="content" value="@target"/>
+            <param name="uri" value="@target"/>
+        </model>
+                    <model behaviour="link">
+            <param name="uri" value="@target"/>
+        </model>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>
