@@ -160,7 +160,9 @@
                      </choice><choice>
                         <orig>:</orig>
                         <reg>,</reg>
-                     </choice> tego nie widząc że kawi, pijany,</l>
+                     </choice> tego nie widząc że <distinct><seg>kawi</seg><note>bredzi, cf. <ref
+                              target="https://pl.wikisource.org/wiki/M._Arcta_S%C5%82ownik_Staropolski/Kawi%C4%87"
+                              >kawić</ref></note></distinct>, pijany,</l>
                   <l>Drugi <choice>
                         <orig>śię</orig>
                         <reg>się</reg>
@@ -267,7 +269,10 @@
                   <l>Często skutek <choice>
                         <orig>nadzieią</orig>
                         <reg>nadzieją</reg>
-                     </choice> skołozrywą spłoszy.</l>
+                     </choice>
+                     <distinct><seg>skołozrywą</seg><note>przedwczesną, cf. <ref
+                              target="https://pl.wikisource.org/wiki/M._Arcta_S%C5%82ownik_Staropolski/Skoro%C5%BArzy"
+                              >skoroźrzy</ref></note></distinct> spłoszy.</l>
                   <l><choice>
                         <orig>Tułakomce</orig>
                         <reg>Tu łakomce</reg>
@@ -312,7 +317,10 @@
                      </choice> tu <choice>
                         <orig>swiecka</orig>
                         <reg>świecka</reg>
-                     </choice> swacha<choice>
+                     </choice>
+                     <distinct><seg>swacha</seg><note>swatka, cf. <ref
+                              target="https://sjp.pwn.pl/doroszewski/swacha"
+                        >swacha</ref></note></distinct><choice>
                         <orig>:</orig>
                         <reg/>
                      </choice> winem swym zalewa,</l>
