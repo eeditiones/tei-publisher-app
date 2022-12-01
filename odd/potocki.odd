@@ -53,6 +53,18 @@
                 <rendition selector=".choice.toggle">
                     display: none;
                 </rendition>
+                <rendition selector=".pc-choice-alternate">
+                    display: none;
+                </rendition>
+                <rendition selector=".pc-choice-alternate.toggle">
+                    display: inline;
+                </rendition>
+                <rendition selector=".pc-choice.toggle">
+                    display: none;
+                </rendition>
+                <rendition selector=".pc-choice">
+                    display: inline;
+                </rendition>
                 <rendition selector=".lb.toggle">
                     display: none;
                 </rendition>
@@ -66,14 +78,24 @@
         <body>
             <schemaSpec start="TEI teiCorpus" ident="potocki" source="teipublisher.odd"> 
                                 <elementSpec ident="choice" mode="change">
-                    <modelSequence>
-            <model behaviour="alternate" cssClass="choice">
+                    <modelSequence predicate="parent::pc">
+            <model behaviour="alternate" cssClass="pc-choice">
+                <param name="default" value="*[2]"/>
+                <param name="alternate" value="*[1]"/>
+            </model>
+            <model behaviour="alternate" cssClass="pc-choice-alternate">
                 <param name="default" value="*[1]"/>
                 <param name="alternate" value="*[2]"/>
             </model>
-            <model behaviour="alternate" cssClass="choice-alternate">
+        </modelSequence>
+                    <modelSequence>
+            <model behaviour="alternate" cssClass="choice">
                 <param name="default" value="*[2]"/>
                 <param name="alternate" value="*[1]"/>
+            </model>
+            <model behaviour="alternate" cssClass="choice-alternate">
+                <param name="default" value="*[1]"/>
+                <param name="alternate" value="*[2]"/>
             </model>
         </modelSequence>
                 </elementSpec>
@@ -90,6 +112,9 @@
             
             
             
+            
+            
+            
             font-size: 16px;
                             color: #888888;
                             cursor: pointer;
@@ -97,6 +122,9 @@
                             display: block;
                             margin-right: -32px;
                             float: right;
+            
+            
+            
             
             
             
