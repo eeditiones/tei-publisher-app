@@ -95,9 +95,12 @@
                     <app-header slot="header" fixed="fixed">
                         <app-toolbar data-template="lib:include" data-template-path="templates/menu.html"/>
                         <app-toolbar data-template="lib:include" data-template-path="templates/toolbar.html">
-                            <pb-toggle-feature name="norm" selector=".choice,.choice-alternate" emit="transcription" subscribe="transcription" data-target="toolbar-start">
-                            <pb-i18n key="document.normalized">Normalized View</pb-i18n>
-                        </pb-toggle-feature>
+                            <pb-toggle-feature name="norm" selector=".choice,.choice-alternate" emit="transcription" subscribe="transcription" data-target="toolbar-start" default="off">
+                                <pb-i18n key="document.original">Transliterated View</pb-i18n>
+                            </pb-toggle-feature>
+                            <pb-toggle-feature name="punct" selector=".pc-choice,.pc-choice-alternate" emit="transcription" subscribe="transcription" data-target="toolbar-start" default="off">
+                                <pb-i18n key="document.punct">Original punctuation</pb-i18n>
+                            </pb-toggle-feature>
                         
                         </app-toolbar>
                     </app-header>
