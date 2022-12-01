@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="Adagia">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>Adagiorvm Chiliades</title>
+            <title type="sub">Des. Erasmi Roterodami Qvatvor Cvm Dimidia Ex Postrema Avtoris
+               Recognitione</title>
+         </titleStmt>
+         <publicationStmt>
+            <p>Publication Information</p>
+         </publicationStmt>
+         <sourceDesc>
+            <p>Information about the source</p>
+         </sourceDesc>
+      </fileDesc>
+   </teiHeader>
+   <text>
+      <body>
+         <div>
+            <div>
+               <head>Chilias I, Centuria III</head>
+               <div xml:id="Adagium_203">
+                  <div xml:lang="la" n="203">
+                     <head n="III">Citra vinum temulentia</head>
+                     <note place="margin"> Ἄοινος μέθη, Ebrietas absque vino</note>
+                     <p><foreign xml:lang="gr">Ἄοινος μέθη</foreign>, id est Ebrietas absque vino.
+                        Theophrastus, ut testatur in Symposiacis Plutarchus, <foreign xml:lang="gr"
+                           >τὰ κουρεῖα ἄοινον μέθην ἐκάλει</foreign>, id est tonstrinas ebrietatem
+                        absque vino vocabat. Propterea quod illic desidentes sermonibus ita
+                        temulenti redderentur, ut non aliter effutirent quicquid esset in animo quam
+                        inter pocula solent ebrii <hi hand="WP">voces interdum per temulentiam effutientes per
+                        jugulum, ut ait Plinius, redituras</hi>. Horatius insolentiam ebrietatem appellat
+                        : Fortunaque dulci ebria. Vulgo panariam ebrietatem appellant arrogantiam
+                        licentiamque morum, quae secundis rebus comes esse consuevit. Et est haec
+                        quidem non paulo periculosior illa quam vinum adduxit. Siquidem vini aestus
+                        pauculis horis aut etiam somno defervescit, haec multis in omnem usque vitam
+                        durare consuevit.</p>
+                  </div>
+                  <div xml:lang="en">
+                     <head n="III">Citra vinum temulentia</head>
+                     <p>Ἄοινος μέθη, that is, drunkenness without wine. As Theophrastus testifies in
+                        Plutarch's Symposia, τὰ κουρεῖα ἄοινον μέθην ἐκάλει, that is, he called
+                        barbershops drunkenness without wine. For the reason that those wanting
+                        there were rendered so inebriated with speech, that they could no other way
+                        spit out whatever was in their minds, than drunkards are wont to spit out
+                        their voices in the midst of cups, sometimes spitting out through their
+                        throats through drunkenness, as Pliny says. Horace calls insolence
+                        drunkenness: And fortune is drunken with sweetness. Commonly they call the
+                        drunkenness of bread an arrogance and licentiousness of manners, which is
+                        wont to be accompanied by second things. And this is indeed not a little
+                        more dangerous than that which brought the wine. For if the heat of wine
+                        boils away in a few hours, or even in sleep, this is wont to last for many a
+                        lifetime.</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>
