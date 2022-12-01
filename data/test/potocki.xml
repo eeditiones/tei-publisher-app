@@ -31,9 +31,10 @@
                   <reg>Przypowieści</reg>
                </choice></head>
             <div>
-               <head><ref n="Chilias I Centuria III Adagium 3" source="Proverbia.1.3.3"
-                     target="http://ihrim.huma-num.fr/nmh/Erasmus/Proverbia/Adagium_203.html"
-                     corresp="EEBO_Proverbia.1.3.3">Citra vinum <choice>
+               <!-- http://ihrim.huma-num.fr/nmh/Erasmus/Proverbia/Adagium_203.html -->
+               <head><ref n="Chilias I Centuria III, 203"
+                     target="ihrim:Adagium_203"
+                     corresp="eebo:Proverbia_203">Citra vinum <choice>
                         <sic>tmulentiа</sic>
                         <corr>temulentiа</corr>
                      </choice></ref></head>
@@ -42,7 +43,7 @@
                         <orig>Pijanstwo</orig>
                         <reg>Pijaństwo</reg>
                      </choice> bez wina</note>
-                  <l>
+                  <l facs="iiif:przypowiesci.png/150,200,430,40">
                      <choice>
                         <orig>Niechay</orig>
                         <reg>Niechaj</reg>
@@ -57,7 +58,7 @@
                         <orig>Winem</orig>
                         <reg>winem</reg>
                      </choice>, </l>
-                  <l>Abo więc, trunkiem ludzie upijali inem,</l>
+                  <l facs="iiif:przypowiesci.png/150,225,430,40">Abo więc, trunkiem ludzie upijali inem,</l>
                   <l><choice>
                         <orig>Zadnym</orig>
                         <reg>Żadnym</reg>
@@ -98,8 +99,7 @@
                   <l>I rozpuszczony <choice>
                         <orig>ięzyk</orig>
                         <reg>język</reg>
-                     </choice><pc><choice>
-                           <orig>:</orig>
+                     </choice><pc><choice><orig>:</orig>
                            <reg>,</reg>
                         </choice></pc>
                      <choice>

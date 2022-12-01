@@ -68,6 +68,7 @@
                 <rendition selector=".lb.toggle">
                     display: none;
                 </rendition>
+                <rendition source="potocki.css"/>
             </tagsDecl>
         </encodingDesc>
         <revisionDesc>
@@ -115,6 +116,11 @@
             
             
             
+            
+            
+            
+            
+            
             font-size: 16px;
                             color: #888888;
                             cursor: pointer;
@@ -131,6 +137,11 @@
             
             
             
+            
+            
+            
+            
+            
             </outputRendition>
         </model>
                 </elementSpec>
@@ -138,10 +149,11 @@
             <elementSpec ident="ref" mode="change">
                     <model predicate="@corresp and @target" behaviour="inline">
             <param name="content" value="."/>
-            <param name="corresp" value="let $corresp:= @corresp return  collection('/db/apps/tei-publisher/data/test')/id($corresp)  "/>
-            <param name="target" value="@target"/>
+            <param name="eebo" value="let $corresp:= substring-after(@corresp, ':') return  collection('/db/apps/tei-publisher/data/test')/id($corresp)"/>
+            <param name="target" value="if(starts-with(@target, 'ihrim')) then 'http://ihrim.huma-num.fr/nmh/Erasmus/Proverbia/' || substring-after(@target, ':') || '.html' else ()"/>
             <param name="label" value="@n"/>
-            <pb:template xmlns="" xml:space="preserve"><pb-popover persistent="[[persistent]]">[[content]]<span slot="alternate"><span>[[label]]</span><br/><a href="[[target]]" target="_blank">Nouveaux mondes humanistes &lt; Erasmus</a><br/>[[corresp]]</span></pb-popover></pb:template>
+            <param name="ihrim" value="let $ihrim:= substring-after(@target, ':') return  collection('/db/apps/tei-publisher/data/test')/id($ihrim)"/>
+            <pb:template xmlns="" xml:space="preserve"><pb-popover persistent="[[persistent]]">[[content]] <iron-icon icon="launch"/><span slot="alternate"><span>[[label]]</span><br/><a href="[[target]]" target="_blank">Nouveaux mondes humanistes &gt; Erasmus</a><br/>[[ihrim]]<br/>[[eebo]]</span></pb-popover></pb:template>
         </model>
                     <model predicate="not(@target)" behaviour="inline"/>
                     <model predicate="not(node())" behaviour="link">
@@ -152,6 +164,29 @@
             <param name="uri" value="@target"/>
         </model>
                 </elementSpec>
+            <elementSpec ident="l" mode="change">
+                    <model predicate="starts-with(@facs, 'iiif:')" behaviour="block" cssClass="verse">
+            <param name="facs" value="replace(@facs, '^iiif:([^/]+).*$', '$1')"/>
+            <param name="content" value="."/>
+            <param name="coordinates" value="('[' || replace(@facs, '^iiif:[^/]+/(.*)$', '$1') || ']')"/>
+            <pb:template xmlns="" xml:space="preserve">
+                                <pb-facs-link facs="[[facs]]" coordinates="[[coordinates]]" emit="transcription">[[content]]</pb-facs-link></pb:template>
+        </model>
+                    <model behaviour="block" cssClass="verse" useSourceRendition="true"/>
+                </elementSpec>
+            <elementSpec ident="hi" mode="change">
+        <model predicate="@hand" behaviour="inline" cssClass="underline"/>
+        <model predicate="@rendition" behaviour="inline" useSourceRendition="true">
+            <outputRendition xml:space="preserve">
+            font-style: italic;
+            </outputRendition>
+        </model>
+        <model predicate="not(@rendition)" behaviour="inline">
+            <outputRendition xml:space="preserve">
+            font-style: italic;
+            </outputRendition>
+        </model>
+    </elementSpec>
             </schemaSpec>
         </body>
     </text>
