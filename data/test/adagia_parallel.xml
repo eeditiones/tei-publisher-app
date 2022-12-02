@@ -24,11 +24,10 @@
          <div>
             <div>
                <head>Chilias I, Centuria III</head>
+               
                <div xml:id="Adagium_203">
                   <div xml:lang="la" n="203">
-                     <pb facs="adagia_citravinumtemulentia.jpg" n="p. 158"/>
                      <head n="III">Citra vinum temulentia</head>
-                     <note place="margin"> Ἄοινος μέθη, Ebrietas absque vino</note>
                      <p><foreign xml:lang="gr">Ἄοινος μέθη</foreign>, id est Ebrietas absque vino.
                         Theophrastus, ut testatur in Symposiacis Plutarchus, <foreign xml:lang="gr"
                            >τὰ κουρεῖα ἄοινον μέθην ἐκάλει</foreign>, id est tonstrinas ebrietatem
@@ -42,6 +41,7 @@
                         pauculis horis aut etiam somno defervescit, haec multis in omnem usque vitam
                         durare consuevit.</p>
                   </div>
+                  <cb/>
                   <div xml:lang="en">
                      <head n="III">Citra vinum temulentia</head>
                      <p>Ἄοινος μέθη, that is, drunkenness without wine. As Theophrastus testifies in
@@ -58,6 +58,7 @@
                         boils away in a few hours, or even in sleep, this is wont to last for many a
                         lifetime.</p>
                   </div>
+                  <pb facs="adagia_citravinumtemulentia.jpg" n="p. 158"/>
                </div>
             </div>
          </div>
