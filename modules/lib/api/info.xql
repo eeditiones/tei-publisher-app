@@ -22,6 +22,7 @@ declare function iapi:list-templates($request as map(*)) {
     array {
         for $html in collection($config:app-root || "/templates/pages")/*
         let $description := $html//meta[@name="description"]/@content/string()
+        order by $description
         return
             map {
                 "name": util:document-name($html),
