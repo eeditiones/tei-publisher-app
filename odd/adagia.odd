@@ -61,38 +61,46 @@ IBL PAN, call no. XVI.3.3 </a> [[content]]
         </model>
                 </elementSpec>
                 <elementSpec ident="head" mode="change">
-        <model predicate="@n" behaviour="heading">
+                    <model predicate="@n" behaviour="heading">
             <param name="level" value="count(ancestor::div)"/>
             <param name="content" value="(@n, '. ', .)"/>
         </model>
-        <model predicate="$parameters?header='short'" behaviour="inline">
+                    <model predicate="$parameters?header='short'" behaviour="inline">
             <param name="content" value="replace(string-join(.//text()[not(parent::ref)]), '^(.*?)[^\w]*$', '$1')"/>
         </model>
-        <model predicate="parent::figure" behaviour="block">
+                    <model predicate="parent::figure" behaviour="block">
             <outputRendition xml:space="preserve">
             font-style: italic;
             </outputRendition>
         </model>
-        <model predicate="parent::table" behaviour="block">
+                    <model predicate="parent::table" behaviour="block">
             <outputRendition xml:space="preserve">
             font-style: italic;
             </outputRendition>
         </model>
-        <model predicate="parent::lg" behaviour="block">
+                    <model predicate="parent::lg" behaviour="block">
             <outputRendition xml:space="preserve">
             font-style: italic;
             </outputRendition>
         </model>
-        <model predicate="parent::list" behaviour="block">
+                    <model predicate="parent::list" behaviour="block">
             <outputRendition xml:space="preserve">
             font-weight: bold;
             </outputRendition>
         </model>
-        <model predicate="parent::div" behaviour="heading">
+                    <model predicate="parent::div" behaviour="heading">
             <param name="level" value="count(ancestor::div)"/>
         </model>
-        <model behaviour="block"/>
-    </elementSpec>
+                    <model behaviour="block"/>
+                </elementSpec>
+            <elementSpec ident="seg" mode="change">
+                    <model predicate="@n" behaviour="webcomponent">
+            <param name="name" value="'pb-highlight'"/>
+            <param name="key" value="@n"/>
+            <param name="highlight-self" value="'highlight-self'"/>
+        </model>
+                    <model behaviour="inline" useSourceRendition="true"/>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>

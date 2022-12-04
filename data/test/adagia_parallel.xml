@@ -10,6 +10,14 @@
             <title>Adagiorvm Chiliades</title>
             <title type="sub">Des. Erasmi Roterodami Qvatvor Cvm Dimidia Ex Postrema Avtoris
                Recognitione</title>
+            <respStmt>
+               <resp>translation</resp>
+               <persName>Katarzyna Tomaszuk i Katarzyna Jasińska-Zdun</persName>
+            </respStmt>
+            <respStmt>
+               <resp>TEI</resp>
+               <persName>Magdalena Turska</persName>
+            </respStmt>
          </titleStmt>
          <publicationStmt>
             <p>Publication Information</p>
@@ -24,39 +32,69 @@
          <div>
             <div>
                <head>Chilias I, Centuria III</head>
-               
+
                <div xml:id="Adagium_203">
                   <div xml:lang="la" n="203">
                      <head n="III">Citra vinum temulentia</head>
-                     <p><foreign xml:lang="gr">Ἄοινος μέθη</foreign>, id est Ebrietas absque vino.
-                        Theophrastus, ut testatur in Symposiacis Plutarchus, <foreign xml:lang="gr"
-                           >τὰ κουρεῖα ἄοινον μέθην ἐκάλει</foreign>, id est tonstrinas ebrietatem
-                        absque vino vocabat. Propterea quod illic desidentes sermonibus ita
-                        temulenti redderentur, ut non aliter effutirent quicquid esset in animo quam
-                        inter pocula solent ebrii <hi hand="WP">voces interdum per temulentiam effutientes per
-                        jugulum, ut ait Plinius, redituras</hi>. Horatius insolentiam ebrietatem appellat
-                        : Fortunaque dulci ebria. Vulgo panariam ebrietatem appellant arrogantiam
-                        licentiamque morum, quae secundis rebus comes esse consuevit. Et est haec
-                        quidem non paulo periculosior illa quam vinum adduxit. Siquidem vini aestus
-                        pauculis horis aut etiam somno defervescit, haec multis in omnem usque vitam
-                        durare consuevit.</p>
+                     <p><seg n="1"><foreign xml:lang="gr">Ἄοινος μέθη</foreign>, id est Ebrietas
+                           absque vino. Theophrastus, ut testatur in Symposiacis Plutarchus,
+                              <foreign xml:lang="gr">τὰ κουρεῖα ἄοινον μέθην ἐκάλει</foreign>, id
+                           est tonstrinas ebrietatem absque vino vocabat.</seg>
+                        <seg n="2">Propterea quod illic desidentes sermonibus ita temulenti
+                           redderentur, ut non aliter effutirent quicquid esset in animo quam inter
+                           pocula solent ebrii <hi hand="WP">voces interdum per temulentiam
+                              effutientes per jugulum, ut ait Plinius, redituras</hi>.</seg>
+                        <seg n="3">Horatius insolentiam ebrietatem appellat : Fortunaque dulci
+                           ebria.</seg>
+                        <seg n="4">Vulgo panariam ebrietatem appellant arrogantiam licentiamque
+                           morum, quae secundis rebus comes esse consuevit.</seg>
+                        <seg n="5">Et est haec quidem non paulo periculosior illa quam vinum
+                           adduxit.</seg>
+                        <seg n="6">Siquidem vini aestus pauculis horis aut etiam somno defervescit,
+                           haec multis in omnem usque vitam durare consuevit.</seg></p>
                   </div>
                   <cb/>
+                  <div>
+                     <head n="III">Citra vinum temulentia</head>
+                     <p><seg n="1"><foreign xml:lang="gr">Ἄοινος μέθη</foreign> to jest pijaństwo
+                           bez wina. Teofrast, jak zaświadcza Plutarch w „Zagadnieniach
+                           biesiadnych”, nazywał zakłady fryzjerskie „pijaństwem bez wina” (<foreign
+                              xml:lang="gr">τὰ κουρεῖα ἄοινον μέθην ἐκάλει</foreign>).</seg>
+                        <seg n="2">A to dlatego, że przesiadujący tam ludzie tak są upojeni
+                           gadulstwem, że plotą, cokolwiek leży im na sercu czy przychodzi im do
+                           głowy, jak mają zwyczaj czynić to ludzie pijani, między jednym kielichem
+                           a drugim wygadujący niekiedy w upojeniu słowa, które, jak mówi Pliniusz,
+                              <q>powrócą wołem</q><note>dosł. powrócą przez gardło, np.
+                              zabijając</note>.</seg>
+                        <seg n="3">Horacy nazywa pijaństwem butę: <ref
+                              target="http://www.perseus.tufts.edu/hopper/text.jsp?doc=Perseus:text:1999.02.0024:book=1:poem=37"
+                                 ><q>upojona słodkim powodzeniem</q><note>to o Kleopatrze, Nunc est
+                                 bibendum</note></ref>.</seg>
+                        <seg n="4">Powszechnie „od-chleba” upojeniem nazywana jest zuchwałość i
+                           swawola, która zwykle towarzyszy pomyślności.</seg>
+                        <seg n="5">A jest ono<note>owo „chlebowe” upojenie</note> znacznie
+                           niebezpieczniejsze niż to, które spowodowało wino.</seg>
+                        <seg n="6">Gorączka bowiem spowodowana winem stygnie już po kilku godzinach
+                           albo po wyspaniu się, a upojenie „chlebowe” zwykło trwać u wielu przez
+                           całe życie.</seg>
+                     </p>
+                  </div>
                   <div xml:lang="en">
                      <head n="III">Citra vinum temulentia</head>
-                     <p>Ἄοινος μέθη, that is, drunkenness without wine. As Theophrastus testifies in
-                        Plutarch's Symposia, τὰ κουρεῖα ἄοινον μέθην ἐκάλει, that is, he called
-                        barbershops drunkenness without wine. For the reason that those wanting
-                        there were rendered so inebriated with speech, that they could no other way
-                        spit out whatever was in their minds, than drunkards are wont to spit out
-                        their voices in the midst of cups, sometimes spitting out through their
-                        throats through drunkenness, as Pliny says. Horace calls insolence
-                        drunkenness: And fortune is drunken with sweetness. Commonly they call the
-                        drunkenness of bread an arrogance and licentiousness of manners, which is
-                        wont to be accompanied by second things. And this is indeed not a little
-                        more dangerous than that which brought the wine. For if the heat of wine
-                        boils away in a few hours, or even in sleep, this is wont to last for many a
-                        lifetime.</p>
+                     <p><foreign>Ἄοινος μέθη</foreign>, that is, drunkenness without wine. As
+                        Theophrastus testifies in Plutarch's Symposia, τὰ κουρεῖα ἄοινον μέθην
+                        ἐκάλει, that is, he called barbershops drunkenness without wine. For the
+                        reason that those spending time there were rendered so inebriated with their
+                        own chat, that they blabbed whatever was on their minds, like drunkards are
+                        known to talk nonsense between sips, sometimes letting out words which might
+                           <q>return through your throat</q>, as Pliny says. Horace calls insolence
+                        drunkenness: <ref
+                           target="http://www.perseus.tufts.edu/hopper/text.jsp?doc=Perseus:text:1999.02.0025:book=1:poem=37"
+                              ><q>by Fortune’s sweet new wine befool’d</q></ref>. So-called "bread"
+                        drunkenness is an arrogance and licentiousness of manners, which is often
+                        accompanying affluence. And this is indeed not a little more dangerous than
+                        that which is brought by the wine. For if the heat of wine boils away in a
+                        few hours, or even in sleep, this one for many may last a lifetime.</p>
                   </div>
                   <pb facs="adagia_citravinumtemulentia.jpg" n="p. 158"/>
                </div>
