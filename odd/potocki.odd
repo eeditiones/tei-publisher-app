@@ -122,6 +122,7 @@
             
             
             
+            
             font-size: 16px;
                             color: #888888;
                             cursor: pointer;
@@ -129,6 +130,7 @@
                             display: block;
                             margin-right: -32px;
                             float: right;
+            
             
             
             
@@ -154,7 +156,7 @@
             <param name="eebo" value="let $corresp:= substring-after(@corresp, ':') return  collection('/db/apps/tei-publisher/data/test')/id($corresp)"/>
             <param name="target" value="if(starts-with(@target, 'ihrim')) then 'http://ihrim.huma-num.fr/nmh/Erasmus/Proverbia/' || substring-after(@target, ':') || '.html' else ()"/>
             <param name="label" value="@n"/>
-            <param name="ihrim" value="let $ihrim:= substring-after(@target, ':') return  collection('/db/apps/tei-publisher/data/test')/id($ihrim)"/>
+            <param name="ihrim" value="let $ihrim:= substring-after(@target, ':') return  collection('/db/apps/tei-publisher/data/test')/id($ihrim)/div[@xml:lang='la']"/>
             <pb:template xmlns="" xml:space="preserve"><pb-popover persistent="[[persistent]]">[[content]] <iron-icon icon="launch"/><span slot="alternate"><span>[[label]]</span><a href="adagia_parallel.xml" target="_blank">Adagia <iron-icon icon="launch"/></a><br/><a href="[[target]]" target="_blank">Nouveaux mondes humanistes &gt; Erasmus</a><br/>[[ihrim]]<br/>[[eebo]]</span></pb-popover></pb:template>
         </model>
                     <model predicate="not(@target)" behaviour="inline"/>
