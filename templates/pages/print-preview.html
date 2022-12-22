@@ -14,19 +14,27 @@
     <link rel="stylesheet" href="resources/css/theme.css"/>
     <style>
         @media screen {
-            paper-fab {
+            pb-page > aside {
                 position: fixed;
                 left: 20px;
                 top: 20px;
             }
     
-            main {
+            #close-action {
+                --paper-fab-background: #00ACC1;
+                margin-bottom: 10px;
+            }
+
+            #print-action {
+                --paper-fab-background: #7E57C2;
+            }
+            pb-page > main {
                 margin-left: 60px;
             }
         }
 
         @media print {
-            paper-fab {
+            pb-page > aside, pb-progress {
                 display: none;
             }
         }
@@ -38,9 +46,13 @@
 <body>
     <pb-page data-template="pages:pb-page" unresolved="unresolved">
         <pb-document id="document1" data-template="pages:pb-document"/>
-        <main>
+        <aside>
+            <paper-fab icon="icons:close" id="close-action"></paper-fab>
             <paper-fab icon="icons:print" id="print-action"></paper-fab>
-            <pb-print-preview src="document1" styles="resources/css/print.css" emit="transcription"></pb-print-preview>
+        </aside>
+        <pb-progress subscribe="preview"></pb-progress>
+        <main>
+            <pb-print-preview src="document1" styles="resources/css/print.css" emit="preview"></pb-print-preview>
         </main>
     </pb-page>
     <div class="splash"></div>
@@ -48,8 +60,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             const btn = document.getElementById('print-action');
             btn.addEventListener('click', function() {
-                console.log(btn);
                 window.print();
+            });
+
+            const closeBtn = document.getElementById('close-action');
+            closeBtn.addEventListener('click', function() {
+                window.close();
             });
         });
     </script>
