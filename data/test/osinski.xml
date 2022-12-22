@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?teipublisher template="osinski.html" odd="osinski.odd" view="page"?>
+<?teipublisher template="osinski.html" odd="osinski.odd" view="page" media="epub,printcss"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
    <teiHeader>
       <fileDesc>

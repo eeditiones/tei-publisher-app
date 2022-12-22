@@ -154,7 +154,7 @@ pb-code-highlight {
         page: Title;
     }
 
-    h1 {
+    h1.title {
         string-set: title1 content(text);
         break-before: page;
     }

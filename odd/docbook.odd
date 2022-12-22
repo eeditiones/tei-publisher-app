@@ -7,6 +7,7 @@
                     Processing Model for Docbook v5
                     
                   
+                 
                  <desc>Processing of Docbook format</desc>
                 </title>
                 <title type="short">Docbook v5 </title>
@@ -98,6 +99,7 @@
                         <iframe src="[[src]]" width="[[width]]" height="[[height]]" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"/>
                     </pb:template>
                 </pb:behaviour>
+                <rendition source="docbook.css"/>
             </tagsDecl>
         </encodingDesc>
     </teiHeader>
@@ -153,6 +155,9 @@
                     <model behaviour="document"/>
                 </elementSpec>
                 <elementSpec ident="info">
+                    <model output="printcss" predicate="parent::article|parent::book" behaviour="block" cssClass="frontmatter">
+            <param name="content" value="(title, if ($parameters?skipAuthors) then () else author, pubdate, abstract)"/>
+        </model>
                     <model output="latex" predicate="parent::article|parent::book" behaviour="inline">
             <param name="content" value="title"/>
             <param name="author" value="author"/>
@@ -228,6 +233,7 @@
             
             
             
+            
 
 
 
@@ -244,6 +250,7 @@
 
 
 
+            
             
             
             
@@ -296,8 +303,10 @@
             
             
             
+            
             font-weight: 400;
 font-style: italic;
+            
             
             
             
@@ -427,6 +436,7 @@ font-style: italic;
             
             
             
+            
 
 
 
@@ -437,6 +447,7 @@ white-space: pre-wrap;
 
 
 
+            
             
             
             
@@ -487,6 +498,7 @@ white-space: pre-wrap;
             
             
             
+            
 
 
 
@@ -497,6 +509,7 @@ white-space: pre-wrap;
 
 
 
+            
             
             
             
@@ -550,6 +563,7 @@ white-space: pre-wrap;
             
             
             
+            
 
 
 
@@ -565,6 +579,7 @@ padding: 1em 0 1em .5em;
 
 
 
+            
             
             
             
@@ -671,6 +686,7 @@ Not available in PDF edition. Go to \url{[[content]]} to view.
             
             
             
+            
 
 
 
@@ -684,6 +700,7 @@ border-left: 3px solid #c0c0c0;
 
 
 
+            
             
             
             

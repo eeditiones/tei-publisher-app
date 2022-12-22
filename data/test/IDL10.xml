@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?teipublisher template="dantiscus.html" odd="dantiscus2.odd" view="page"?>
+<?teipublisher template="dantiscus.html" odd="dantiscus2.odd" view="page" media="printcss"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
    <teiHeader>
       <fileDesc>
