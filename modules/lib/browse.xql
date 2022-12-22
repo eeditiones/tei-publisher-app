@@ -150,13 +150,16 @@ function app:browse($node as node(), $model as map(*), $start as xs:int, $per-pa
         if (empty($model?all) and (empty($filter) or $filter = "")) then
             templates:process($node/*[@class="empty"], $model)
         else
-            subsequence($model?all, $start, $per-page) !
+            for $work in subsequence($model?all, $start, $per-page)
+            let $config := tpu:parse-pi(root($work), ())
+            return
                 templates:process($node/*[not(@class="empty")], map:merge(
                     ($model, map {
-                        "work": .,
-                        "config": tpu:parse-pi(root(.), ()),
-                        "ident": config:get-identifier(.),
-                        "path": document-uri(root(.))
+                        "work": $work,
+                        "config": $config,
+                        "media": if (map:contains($config, 'media')) then $config?media else (),
+                        "ident": config:get-identifier($work),
+                        "path": document-uri(root($work))
                     }))
                 )
     )
