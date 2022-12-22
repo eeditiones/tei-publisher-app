@@ -53,6 +53,8 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd
                     ()
                 else if ($key = ('depth', 'fill')) then
                     map:entry($key, number($value))
+                else if ($key = 'media') then
+                    map:entry($key, tokenize($value, '\s*,\s*'))
                 else
                     map:entry($key, $value)
         )

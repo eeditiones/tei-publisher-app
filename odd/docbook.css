@@ -4,23 +4,23 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
 }
 
-h1 {
+.doc-title {
     font-size: 2.488em;
 }
 
-h2 {
+h1 {
     font-size: 2.074em;
 }
 
-h3 {
+h2 {
     font-size: 1.728em;
 }
 
-h4 {
+h3 {
     font-size: 1.44em;
 }
 
-h5 {
+h4 {
     font-size: 1.2em;
 }
 
@@ -79,7 +79,7 @@ dd {
     margin-bottom: 0;
 }
 
-a:link, a:visited {
+.content a:link, .content a:visited {
     text-decoration: none;
     color: #d07f00;
 }
@@ -97,4 +97,74 @@ pb-edit-xml {
 
 pb-code-highlight {
     font-size: .85em;
+}
+
+@media print {
+
+    @page {
+        size: A4;
+        font-family: var(--pb-content-font-family);
+        
+        @top-left {
+            content: string(title1) ' – ' string(title2);
+        }
+
+        @footnote {
+            float: bottom;
+        }
+    }
+
+    @page:left {
+        margin-left: 3cm;
+        margin-right: 2cm;
+
+        @bottom-left-corner {
+            content: counter(page);
+        }
+    }
+
+    @page:right {
+        margin-left: 2cm;
+        margin-right: 3cm;
+
+        @bottom-right-corner {
+            content: counter(page);
+        }
+    }
+
+    @page Title {
+        margin-left: 2cm;
+        margin-right: 2cm;
+
+        @top-left {
+            content: '';
+        }
+    }
+
+    .note {
+        box-shadow: none;
+        border-left: 4px solid #d07f00;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin: 0;
+        break-inside: avoid;
+    }
+
+    .frontmatter {
+        page: Title;
+    }
+
+    h1 {
+        string-set: title1 content(text);
+        break-before: page;
+    }
+
+    h2 {
+        string-set: title2 content(text);
+    }
+
+    .frontmatter h1 {
+        break-before: auto;
+        page: Title;
+    }
 }

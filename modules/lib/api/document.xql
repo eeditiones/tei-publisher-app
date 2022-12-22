@@ -73,6 +73,14 @@ declare function dapi:source($request as map(*)) {
 };
 
 declare function dapi:html($request as map(*)) {
+    dapi:generate-html($request, "web")
+};
+
+declare function dapi:print($request as map(*)) {
+    dapi:generate-html($request, "print")
+};
+
+declare %private function dapi:generate-html($request as map(*), $outputMode as xs:string) {
     let $doc := xmldb:decode($request?parameters?id)
     return
         if ($doc) then
@@ -80,7 +88,11 @@ declare function dapi:html($request as map(*)) {
             return
                 if (exists($xml)) then
                     let $config := tpu:parse-pi(root($xml), ())
-                    let $out := $pm-config:web-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
+                    let $out := 
+                        if ($outputMode = 'print') then
+                            $pm-config:printcss-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
+                        else
+                            $pm-config:web-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
                     let $styles := if (count($out) > 1) then $out[1] else ()
                     return
                         dapi:postprocess(($out[2], $out[1])[1], $styles, $config?odd, $request?parameters?base, $request?parameters?wc)
@@ -107,7 +119,6 @@ declare function dapi:postprocess($nodes as node()*, $styles as element()?, $odd
                         <meta charset="utf-8"/>,
                         $node/node(),
                         <link rel="stylesheet" type="text/css" href="transform/{replace($oddName, "^(.*)\.odd$", "$1")}.css"/>,
-                        <link rel="stylesheet" type="text/css" href="transform/{replace($oddName, "^(.*)\.odd$", "$1")}-print.css" media="print"/>,
                         $styles,
                         if ($components) then (
                             <style rel="stylesheet" type="text/css">
@@ -155,6 +166,14 @@ declare function dapi:postprocess($nodes as node()*, $styles as element()?, $odd
                             <pb-page endpoint="{$base}">{$content}</pb-page>
                         else
                             $content
+                    }
+            case element(img) return
+                if (starts-with($node/@src, '/')) then
+                    $node
+                else
+                    element { node-name($node) } {
+                        $node/@* except $node/@src,
+                        attribute src { $base || '/' || $node/@src }
                     }
             case element() return
                 if ($node/@class = "footnote") then

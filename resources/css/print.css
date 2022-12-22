@@ -1,0 +1,50 @@
+@media print {
+    @page {
+        size: A4;
+        font-family: var(--pb-content-font-family);
+        --pb-heading-font-family: var(--pb-content-font-family);
+
+        @footnote {
+            float: bottom;
+            margin-top: 1em;
+        }
+    }
+
+    @page:left {
+        margin-left: 3cm;
+        margin-right: 2cm;
+
+        @bottom-left-corner {
+            content: counter(page);
+        }
+    }
+
+    @page:right {
+        margin-left: 2cm;
+        margin-right: 3cm;
+
+        @bottom-right-corner {
+            content: counter(page);
+        }
+    }
+
+    .footnote {
+        float: footnote;
+    }
+
+    ::footnote-call {
+        content: counter(footnote, decimal);
+    }
+
+    ::footnote-marker {
+        content: counter(footnote-marker, decimal) ". ";
+    }
+
+    pb-code-highlight {
+        --pb-code-highlight-white-space: pre-wrap;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        break-after: avoid;
+    }
+}

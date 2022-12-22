@@ -6,7 +6,8 @@
                 <title>Serafin Letters
 
 
-                 <desc>15th c. manuscript correspondence with parallel translation</desc>
+                 
+                  <desc>15th c. manuscript correspondence with parallel translation</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -37,11 +38,12 @@
                     <pb:param name="id" value="@xml:id"/>
                     <pb:param name="name"/>
                     <pb:param name="note"/>
-                    <pb:template>\newglossaryentry{[[id]]} {
+                    <pb:template xmlns="" xml:space="preserve">\newglossaryentry{[[id]]} {
                         name=[[name]],
                         description={[[note]]}
                     }</pb:template>
                 </pb:behaviour>
+                <rendition source="serafin.css"/>
             </tagsDecl>
         </encodingDesc>
         <revisionDesc>
@@ -59,7 +61,7 @@
             <param name="translation" value=".//text[@xml:lang='pl']"/>
             <param name="glossary" value="(teiHeader//particDesc/listPerson/person, teiHeader//settingDesc/listPlace/place)"/>
             <param name="styles" value="$config('latex-styles')"/>
-            <pb:template>\documentclass[10pt,a4paper,twoside]{article}
+            <pb:template xmlns="" xml:space="preserve">\documentclass[10pt,a4paper,twoside]{article}
 
 \usepackage[latin,polish]{babel}
 \usepackage{reledmac}
@@ -118,7 +120,7 @@
                 <elementSpec ident="p" mode="change">
                     <model output="latex" behaviour="paragraph"/>
                     <model behaviour="paragraph" useSourceRendition="true">
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             text-align: justify;
             </outputRendition>
         </model>
@@ -134,30 +136,38 @@
                 <elementSpec ident="persName" mode="add">
                     <model output="latex" behaviour="inline">
             <param name="id" value="substring-after(@ref, '#')"/>
-            <pb:template>\glslink{[[id]]}{[[content]]}</pb:template>
+            <pb:template xmlns="" xml:space="preserve">\glslink{[[id]]}{[[content]]}</pb:template>
         </model>
                     <model output="print" behaviour="inline">
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             color: #1565c0;
             </outputRendition>
         </model>
-                    <model predicate="parent::person" behaviour="inline">
-            <outputRendition scope="after">
+                    <model output="printcss" predicate="$mode='register'" behaviour="cell" cssClass="persName"/>
+                    <model predicate="parent::person" behaviour="inline" cssClass="persName">
+            <outputRendition xml:space="preserve" scope="after">
             content: ': ';
             </outputRendition>
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             font-weight: bold;
             </outputRendition>
+        </model>
+                    <model output="printcss" behaviour="alternate">
+            <param name="default" value="."/>
+            <param name="alternate" value="id(substring-after(@ref, '#'), root(.))/persName"/>
         </model>
                     <model behaviour="alternate">
             <param name="default" value="."/>
             <param name="alternate" value="id(substring-after(@ref, '#'), root(.))"/>
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             color: #1565c0;
             </outputRendition>
         </model>
                 </elementSpec>
                 <elementSpec ident="person" mode="add">
+                    <model output="printcss" behaviour="row" pb:mode="register">
+            <param name="content" value="(persName, note)"/>
+        </model>
                     <model output="latex" behaviour="glossary">
             <param name="name" value="persName/text()"/>
             <param name="note" value="note"/>
@@ -165,56 +175,70 @@
                     <model predicate="parent::listPerson" behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
+                    <model output="printcss" predicate="$mode='register'" behaviour="cell"/>
                     <model predicate="parent::person" behaviour="inline">
-            <outputRendition scope="selected">
+            <outputRendition xml:space="preserve" scope="selected">
             content: ': ';
             </outputRendition>
+        </model>
+                    <model output="printcss" behaviour="pass-through">
+            <pb:template xmlns="" xml:space="preserve"><span lang="pl">[[content]]</span></pb:template>
         </model>
                 </elementSpec>
         <elementSpec ident="placeName" mode="add">
                     <model output="latex" behaviour="inline">
             <param name="id" value="substring-after(@ref, '#')"/>
-            <pb:template>\glslink{[[id]]}{[[content]]}</pb:template>
+            <pb:template xmlns="" xml:space="preserve">\glslink{[[id]]}{[[content]]}</pb:template>
         </model>
                     <model output="print" behaviour="inline">
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             color: #ef6c00;
             </outputRendition>
         </model>
-                    <model predicate="parent::place" behaviour="inline">
-            <outputRendition scope="after">
+                    <model output="printcss" predicate="$mode='register'" behaviour="cell" cssClass="placeName"/>
+                    <model predicate="parent::place" behaviour="inline" cssClass="placeName">
+            <outputRendition xml:space="preserve" scope="after">
             content: ': ';
             </outputRendition>
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             font-weight: bold;
             </outputRendition>
+        </model>
+                    <model output="printcss" behaviour="alternate">
+            <param name="default" value="."/>
+            <param name="alternate" value="id(substring-after(@ref, '#'), root(.))/placeName"/>
         </model>
                     <model behaviour="alternate">
             <param name="default" value="."/>
             <param name="alternate" value="id(substring-after(@ref, '#'), root(.))"/>
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             color: #ef6c00;
             </outputRendition>
         </model>
                 </elementSpec>
                 <elementSpec ident="orgName" mode="add">
                     <model output="print" behaviour="inline">
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             color: #2e7d32;
             </outputRendition>
         </model>
+                    <model output="printcss" predicate="$mode='register'" behaviour="cell"/>
                     <model predicate="parent::org" behaviour="inline">
-            <outputRendition scope="after">
+            <outputRendition xml:space="preserve" scope="after">
             content: ': ';
             </outputRendition>
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             font-weight: bold;
             </outputRendition>
+        </model>
+                    <model output="printcss" behaviour="alternate">
+            <param name="default" value="."/>
+            <param name="alternate" value="id(substring-after(@ref, '#'), root(.))/orgName"/>
         </model>
                     <model behaviour="alternate">
             <param name="default" value="."/>
             <param name="alternate" value="id(substring-after(@ref, '#'), root(.))"/>
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             color: #2e7d32;
             </outputRendition>
         </model>
@@ -232,7 +256,7 @@
                     <model predicate="not(@level) and parent::bibl" behaviour="inline"/>
                     <modelSequence predicate="@level='m' or not(@level)">
             <model behaviour="inline">
-                <outputRendition>
+                <outputRendition xml:space="preserve">
                 font-style: italic;
                 </outputRendition>
             </model>
@@ -242,7 +266,7 @@
         </modelSequence>
                     <modelSequence predicate="@level='s' or @level='j'">
             <model behaviour="inline">
-                <outputRendition>
+                <outputRendition xml:space="preserve">
                 font-style: italic;
                 </outputRendition>
             </model>
@@ -252,7 +276,7 @@
         </modelSequence>
                     <modelSequence predicate="@level='u' or @level='a'">
             <model behaviour="inline">
-                <outputRendition>
+                <outputRendition xml:space="preserve">
                 font-style: italic;
                 </outputRendition>
             </model>
@@ -261,14 +285,15 @@
             </model>
         </modelSequence>
                     <model behaviour="inline">
-            <outputRendition>
+            <outputRendition xml:space="preserve">
             font-style: italic;
             </outputRendition>
         </model>
                 </elementSpec>
                 <elementSpec ident="seg" mode="change">
+                    <model output="printcss" behaviour="inline"/>
                     <model output="latex" behaviour="inline">
-            <pb:template>\pstart [[content]] \pend</pb:template>
+            <pb:template xmlns="" xml:space="preserve">\pstart [[content]] \pend</pb:template>
         </model>
                     <model behaviour="webcomponent" useSourceRendition="true">
             <param name="name" value="'pb-highlight'"/>
@@ -302,7 +327,7 @@
                 <elementSpec ident="teiHeader" mode="change">
                     <model output="latex" behaviour="block">
             <param name="content" value="(fileDesc/titleStmt/title[not(@type)], profileDesc/correspDesc)"/>
-            <pb:template>\def\volume{[[content]]}</pb:template>
+            <pb:template xmlns="" xml:space="preserve">\def\volume{[[content]]}</pb:template>
         </model>
                     <model output="fo" behaviour="omit"/>
                     <model output="web" predicate="$parameters?header='short'" behaviour="block"/>
@@ -310,12 +335,15 @@
             <param name="content" value="(fileDesc/titleStmt/title[not(@type)], profileDesc/correspDesc)"/>
             <param name="level" value="5"/>
         </model>
+                    <model output="printcss" behaviour="block" cssClass="doc-title">
+            <param name="content" value="(fileDesc/titleStmt/title[not(@type)], profileDesc/correspDesc)"/>
+        </model>
                     <model output="web" behaviour="metadata"/>
                 </elementSpec>
                 <elementSpec ident="correspAction" mode="add">
                     <model predicate="@type='sent'" behaviour="inline">
             <param name="content" value="(placeName, ', ', date)"/>
-            <outputRendition scope="before">
+            <outputRendition xml:space="preserve" scope="before">
             content: ' — ';
             </outputRendition>
         </model>
@@ -332,10 +360,51 @@
                     <model predicate="text()" behaviour="inline"/>
                 </elementSpec>
             <elementSpec ident="place" mode="add">
+                    <model output="printcss" behaviour="row" pb:mode="register">
+            <param name="content" value="(placeName, note)"/>
+        </model>
                     <model output="latex" behaviour="glossary">
             <param name="name" value="placeName/text()"/>
             <param name="note" value="note"/>
         </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
+            <elementSpec ident="text" mode="change">
+                    <model predicate="@type" behaviour="pass-through" cssClass="translation">
+            <param name="type" value="@type"/>
+            <param name="lang" value="if (@type='source') then 'la' else 'pl'"/>
+            <pb:template xmlns="" xml:space="preserve"><div class="[[type]]" lang="[[lang]]">[[content]]</div></pb:template>
+        </model>
+                    <model behaviour="section"/>
+                </elementSpec>
+                <elementSpec ident="back" mode="change">
+                    <model behaviour="omit"/>
+                </elementSpec>
+                <elementSpec ident="group" mode="change">
+                    <model output="printcss" behaviour="body">
+            <param name="content" value="(., root(.)//profileDesc)"/>
+        </model>
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="profileDesc" mode="change">
+                    <model output="printcss" behaviour="pass-through">
+            <param name="content" value="(.//listPerson/person[note], .//listPlace/place, .//listOrg/org)"/>
+            <pb:template xmlns="" xml:space="preserve"><div class="register">
+  <h1>Rejestr</h1>
+  <table>
+    [[content]]
+  </table>
+</div></pb:template>
+        </model>
+                    <model behaviour="omit"/>
+                </elementSpec>
+                <elementSpec ident="org" mode="add">
+                    <model output="printcss" behaviour="row" pb:mode="register">
+            <param name="content" value="(orgName, desc)"/>
+        </model>
+                </elementSpec>
+                <elementSpec ident="desc" mode="change">
+                    <model output="printcss" predicate="$mode='register'" behaviour="cell"/>
                     <model behaviour="inline"/>
                 </elementSpec>
             </schemaSpec>
