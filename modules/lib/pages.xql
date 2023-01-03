@@ -113,10 +113,7 @@ declare function pages:load-xml($data as node()*, $view as xs:string?, $root as 
                         else
                             nav:get-first-page-start($config, $data)
                     case "single" return
-                        if ($root) then
-                            util:node-by-id($data, $root)
-                        else
-                            $data
+                        $data
                     default return
                         if ($root) then
                             util:node-by-id($data, $root)
