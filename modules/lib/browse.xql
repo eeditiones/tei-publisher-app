@@ -87,7 +87,8 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
         session:set-attribute($config:session-prefix || ".works", $sorted),
         map {
             "all" : $sorted,
-            "mode": "browse"
+            "mode": "browse",
+            "app": $config:context-path
         }
     )
 };
