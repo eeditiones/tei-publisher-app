@@ -7,6 +7,10 @@
         @footnote {
             float: bottom;
             margin-top: 1em;
+            font-size: var(--pb-footnote-font-size);
+            font-family: var(--pb-footnote-font-family);
+            font-weight: var(--pb-footnote-font-weight);
+            color: var(--pb-footnote-color);
         }
     }
 
@@ -30,6 +34,7 @@
 
     .footnote {
         float: footnote;
+        padding: var(--pb-footnote-padding);
     }
 
     ::footnote-call {
