@@ -94,6 +94,8 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $mode := 
+        if (exists($config?mode)) then $config?mode else ()
         let $trackIds := 
         $parameters?track-ids
         let $get := 
@@ -111,19 +113,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                             fo:document($config, ., ("tei-article3", css:map-rend-to-class(.)), .)
                     case element(info) return
                         if (not(parent::article or parent::book)) then
-                            fo:block($config, ., ("tei-info2", css:map-rend-to-class(.)), .)
+                            fo:block($config, ., ("tei-info3", css:map-rend-to-class(.)), .)
                         else
                             if ($parameters?header='short') then
                                 (
-                                    fo:heading($config, ., ("tei-info4", css:map-rend-to-class(.)), title, 5),
+                                    fo:heading($config, ., ("tei-info5", css:map-rend-to-class(.)), title, 5),
                                     if (author) then
-                                        fo:block($config, ., ("tei-info5", css:map-rend-to-class(.)), author)
+                                        fo:block($config, ., ("tei-info6", css:map-rend-to-class(.)), author)
                                     else
                                         ()
                                 )
 
                             else
-                                fo:block($config, ., ("tei-info6", css:map-rend-to-class(.)), (title, if ($parameters?skipAuthors) then () else author, pubdate, abstract))
+                                fo:block($config, ., ("tei-info7", css:map-rend-to-class(.)), (title, if ($parameters?skipAuthors) then () else author, pubdate, abstract))
                     case element(author) return
                         if (preceding-sibling::author and not($parameters?skipAuthors)) then
                             fo:inline($config, ., ("tei-author3", css:map-rend-to-class(.)), (', ', personname, affiliation))
@@ -158,7 +160,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     if (parent::info and $parameters?header='short') then
                                         fo:link($config, ., ("tei-title5", css:map-rend-to-class(.)), ., $parameters?doc, map {})
                                     else
-                                        fo:heading($config, ., ("tei-title6", "title", css:map-rend-to-class(.)), ., if ($parameters?view='single') then count(ancestor::section) + 1 else count($get(.)/ancestor::section))
+                                        if (parent::info) then
+                                            fo:heading($config, ., ("tei-title6", "doc-title", css:map-rend-to-class(.)), ., ())
+                                        else
+                                            fo:heading($config, ., ("tei-title7", "title", css:map-rend-to-class(.)), ., if ($parameters?view='single') then count(ancestor::section) + 1 else count($get(.)/ancestor::section))
                     case element(section) return
                         if ($parameters?mode='breadcrumbs') then
                             (

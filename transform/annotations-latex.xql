@@ -71,13 +71,15 @@ declare function model:transform($options as map(*), $input as node()*) {
         
         let $output := model:apply($config, $input)
         return
-            $output
+            latex:finish($config, $output)
     )
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $mode := 
+        if (exists($config?mode)) then $config?mode else ()
         let $trackIds := 
         $parameters?track-ids
         let $get := 
@@ -118,8 +120,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:inline($config, ., ("tei-milestone", css:map-rend-to-class(.)), .)
                     case element(ptr) return
                         if (parent::notatedMusic) then
-                            (: No function found for behavior: pass-through :)
-                            $config?apply($config, ./node())
+                            let $params := 
+                                map {
+                                    "url": @target,
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template-ptr($config, ., $params)
+                            return
+                                                        latex:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-ptr", css:map-rend-to-class(.)), $content)
                         else
                             $config?apply($config, ./node())
                     case element(label) return
@@ -168,16 +178,43 @@ declare function model:apply($config as map(*), $input as node()*) {
                                                                         latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-formula3", css:map-rend-to-class(.)), $content)
                     case element(choice) return
                         if (sic and corr) then
-                            (: No function found for behavior: pass-through :)
-                            $config?apply($config, ./node())
+                            let $params := 
+                                map {
+                                    "sic": sic[1]/node(),
+                                    "corr": corr[1]/node(),
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template-choice($config, ., $params)
+                            return
+                                                        latex:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-choice1", css:map-rend-to-class(.)), $content)
                         else
                             if (abbr and expan) then
-                                (: No function found for behavior: pass-through :)
-                                $config?apply($config, ./node())
+                                let $params := 
+                                    map {
+                                        "expan": expan[1]/node(),
+                                        "abbr": abbr[1]/node(),
+                                        "content": .
+                                    }
+
+                                                                let $content := 
+                                    model:template-choice2($config, ., $params)
+                                return
+                                                                latex:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-choice2", css:map-rend-to-class(.)), $content)
                             else
                                 if (orig and reg) then
-                                    (: No function found for behavior: pass-through :)
-                                    $config?apply($config, ./node())
+                                    let $params := 
+                                        map {
+                                            "reg": reg[1]/node(),
+                                            "orig": orig[1]/node(),
+                                            "content": .
+                                        }
+
+                                                                        let $content := 
+                                        model:template-choice3($config, ., $params)
+                                    return
+                                                                        latex:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-choice3", css:map-rend-to-class(.)), $content)
                                 else
                                     $config?apply($config, ./node())
                     case element(hi) return
@@ -555,16 +592,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (parent::person) then
                             latex:inline($config, ., ("tei-persName1", css:map-rend-to-class(.)), .)
                         else
-                            latex:inline($config, ., ("tei-persName2", "annotation", "annotation-person", css:map-rend-to-class(.)), .)
+                            latex:inline($config, ., ("tei-persName2", "annotation", "annotation-person", "authority", css:map-rend-to-class(.)), .)
                     case element(placeName) return
                         if (ancestor::place) then
                             latex:link($config, ., ("tei-placeName1", css:map-rend-to-class(.)), ., ancestor::place/ptr/@target, map {"target": '_blank'})
                         else
-                            latex:inline($config, ., ("tei-placeName2", "annotation", "annotation-place", css:map-rend-to-class(.)), .)
+                            latex:inline($config, ., ("tei-placeName2", "annotation", "annotation-place", "authority", css:map-rend-to-class(.)), .)
                     case element(term) return
-                        latex:inline($config, ., ("tei-term", "annotation", "annotation-term", css:map-rend-to-class(.)), .)
+                        latex:inline($config, ., ("tei-term", "annotation", "annotation-term", "authority", css:map-rend-to-class(.)), .)
                     case element(orgName) return
-                        latex:inline($config, ., ("tei-orgName", "annotation", "annotation-organization", css:map-rend-to-class(.)), .)
+                        latex:inline($config, ., ("tei-orgName", "annotation", "annotation-organization", "authority", css:map-rend-to-class(.)), .)
                     case element(place) return
                         (
                             latex:heading($config, ., ("tei-place1", css:map-rend-to-class(.)), placeName[@type="full"], 3),
@@ -584,8 +621,17 @@ declare function model:apply($config as map(*), $input as node()*) {
                         )
 
                     case element(app) return
-                        (: No function found for behavior: pass-through :)
-                        $config?apply($config, ./node())
+                        let $params := 
+                            map {
+                                "lem": lem[1]/node(),
+                                "rdg": string-join(  for $rdg at $p in ./rdg return (      '"rdg[' || $p || ']":"' || $rdg/string() || '"',         '"wit[' || $p || ']":"' || $rdg/@wit/string() || '"'     ),     ',' ),
+                                "content": .
+                            }
+
+                                                let $content := 
+                            model:template-app($config, ., $params)
+                        return
+                                                latex:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-app", css:map-rend-to-class(.)), $content)
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

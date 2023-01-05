@@ -25,6 +25,10 @@ declare %private function model:template-ptr($config as map(*), $node as node()*
   <pb-option name="appXPath" on="./rdg[contains(@label, 'original')]" off="">Original Clefs</pb-option>
 </pb-mei></t>/*
 };
+(: generated template function for element spec: text :)
+declare %private function model:template-text($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><div class="{$config?apply-children($config, $node, $params?type)}" lang="{$config?apply-children($config, $node, $params?lang)}">{$config?apply-children($config, $node, $params?content)}</div></t>/*
+};
 (:~
 
     Main entry point for the transformation.
@@ -54,6 +58,8 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $mode := 
+        if (exists($config?mode)) then $config?mode else ()
         let $trackIds := 
         $parameters?track-ids
         let $get := 
@@ -146,13 +152,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:inline($config, ., ("tei-code", css:map-rend-to-class(.)), .)
                     case element(note) return
                         if (parent::person) then
-                            fo:inline($config, ., ("tei-note", css:map-rend-to-class(.)), .)
+                            fo:inline($config, ., ("tei-note2", css:map-rend-to-class(.)), .)
                         else
                             $config?apply($config, ./node())
                     case element(dateline) return
                         fo:block($config, ., ("tei-dateline", css:map-rend-to-class(.)), .)
                     case element(back) return
-                        fo:block($config, ., ("tei-back", css:map-rend-to-class(.)), .)
+                        fo:omit($config, ., ("tei-back", css:map-rend-to-class(.)), .)
                     case element(del) return
                         fo:inline($config, ., ("tei-del", css:map-rend-to-class(.)), .)
                     case element(trailer) return
@@ -205,11 +211,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                         (: No function found for behavior: webcomponent :)
                         $config?apply($config, ./node())
                     case element(profileDesc) return
-                        fo:omit($config, ., ("tei-profileDesc", css:map-rend-to-class(.)), .)
+                        fo:omit($config, ., ("tei-profileDesc2", css:map-rend-to-class(.)), .)
                     case element(email) return
                         fo:inline($config, ., ("tei-email", css:map-rend-to-class(.)), .)
                     case element(text) return
-                        fo:body($config, ., ("tei-text", css:map-rend-to-class(.)), .)
+                        if (@type) then
+                            (: No function found for behavior: pass-through :)
+                            $config?apply($config, ./node())
+                        else
+                            fo:section($config, ., ("tei-text2", css:map-rend-to-class(.)), .)
                     case element(floatingText) return
                         fo:block($config, ., ("tei-floatingText", css:map-rend-to-class(.)), .)
                     case element(sp) return
@@ -221,7 +231,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(cb) return
                         fo:break($config, ., ("tei-cb", css:map-rend-to-class(.)), ., 'column', @n)
                     case element(group) return
-                        fo:block($config, ., ("tei-group", css:map-rend-to-class(.)), .)
+                        fo:block($config, ., ("tei-group2", css:map-rend-to-class(.)), .)
                     case element(licence) return
                         fo:omit($config, ., ("tei-licence2", css:map-rend-to-class(.)), .)
                     case element(editor) return
@@ -306,7 +316,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(biblScope) return
                         fo:inline($config, ., ("tei-biblScope", css:map-rend-to-class(.)), .)
                     case element(desc) return
-                        fo:inline($config, ., ("tei-desc", css:map-rend-to-class(.)), .)
+                        fo:inline($config, ., ("tei-desc2", css:map-rend-to-class(.)), .)
                     case element(role) return
                         fo:block($config, ., ("tei-role", css:map-rend-to-class(.)), .)
                     case element(docEdition) return
@@ -527,7 +537,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:inline($config, ., ("tei-persName2", css:map-rend-to-class(.)), .)
                     case element(person) return
                         if (parent::listPerson) then
-                            fo:inline($config, ., ("tei-person2", css:map-rend-to-class(.)), .)
+                            fo:inline($config, ., ("tei-person3", css:map-rend-to-class(.)), .)
                         else
                             $config?apply($config, ./node())
                     case element(placeName) return
@@ -540,7 +550,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             $config?apply($config, ./node())
                     case element(place) return
-                        fo:inline($config, ., ("tei-place2", css:map-rend-to-class(.)), .)
+                        fo:inline($config, ., ("tei-place3", css:map-rend-to-class(.)), .)
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

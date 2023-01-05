@@ -70,6 +70,8 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $mode := 
+        if (exists($config?mode)) then $config?mode else ()
         let $trackIds := 
         $parameters?track-ids
         let $get := 
@@ -577,16 +579,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (parent::person) then
                             html:inline($config, ., ("tei-persName1", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
                         else
-                            html:inline($config, ., ("tei-persName2", "annotation", "annotation-person", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
+                            html:inline($config, ., ("tei-persName2", "annotation", "annotation-person", "authority", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
                     case element(placeName) return
                         if (ancestor::place) then
                             html:link($config, ., ("tei-placeName1", css:map-rend-to-class(.)), ., ancestor::place/ptr/@target, '_blank', map {})                            => model:map($node, $trackIds)
                         else
-                            html:inline($config, ., ("tei-placeName2", "annotation", "annotation-place", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
+                            html:inline($config, ., ("tei-placeName2", "annotation", "annotation-place", "authority", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
                     case element(term) return
-                        html:inline($config, ., ("tei-term", "annotation", "annotation-term", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
+                        html:inline($config, ., ("tei-term", "annotation", "annotation-term", "authority", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(orgName) return
-                        html:inline($config, ., ("tei-orgName", "annotation", "annotation-organization", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
+                        html:inline($config, ., ("tei-orgName", "annotation", "annotation-organization", "authority", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(place) return
                         (
                             html:heading($config, ., ("tei-place1", css:map-rend-to-class(.)), placeName[@type="full"], 3)                            => model:map($node, $trackIds),

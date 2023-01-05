@@ -70,6 +70,8 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $mode := 
+        if (exists($config?mode)) then $config?mode else ()
         let $trackIds := 
         $parameters?track-ids
         let $get := 
@@ -527,16 +529,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (parent::person) then
                             fo:inline($config, ., ("tei-persName1", css:map-rend-to-class(.)), .)
                         else
-                            fo:inline($config, ., ("tei-persName2", "annotation", "annotation-person", css:map-rend-to-class(.)), .)
+                            fo:inline($config, ., ("tei-persName2", "annotation", "annotation-person", "authority", css:map-rend-to-class(.)), .)
                     case element(placeName) return
                         if (ancestor::place) then
                             fo:link($config, ., ("tei-placeName1", css:map-rend-to-class(.)), ., ancestor::place/ptr/@target, map {"target": '_blank'})
                         else
-                            fo:inline($config, ., ("tei-placeName2", "annotation", "annotation-place", css:map-rend-to-class(.)), .)
+                            fo:inline($config, ., ("tei-placeName2", "annotation", "annotation-place", "authority", css:map-rend-to-class(.)), .)
                     case element(term) return
-                        fo:inline($config, ., ("tei-term", "annotation", "annotation-term", css:map-rend-to-class(.)), .)
+                        fo:inline($config, ., ("tei-term", "annotation", "annotation-term", "authority", css:map-rend-to-class(.)), .)
                     case element(orgName) return
-                        fo:inline($config, ., ("tei-orgName", "annotation", "annotation-organization", css:map-rend-to-class(.)), .)
+                        fo:inline($config, ., ("tei-orgName", "annotation", "annotation-organization", "authority", css:map-rend-to-class(.)), .)
                     case element(place) return
                         (
                             fo:heading($config, ., ("tei-place1", css:map-rend-to-class(.)), placeName[@type="full"], 3),

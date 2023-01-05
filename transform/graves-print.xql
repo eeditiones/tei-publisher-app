@@ -54,6 +54,8 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $mode := 
+        if (exists($config?mode)) then $config?mode else ()
         let $trackIds := 
         $parameters?track-ids
         let $get := 
@@ -615,6 +617,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                                         $config?apply($config, ./node())
                     case element(placeName) return
                         fo:alternate($config, ., ("tei-placeName", css:map-rend-to-class(.)), ., ., id(@ref, doc("/db/apps/tei-publisher/data/register.xml")))
+                    case element(term) return
+                        fo:alternate($config, ., ("tei-term", css:map-rend-to-class(.)), ., ., id(@ref, doc("/db/apps/tei-publisher/data/register.xml")))
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

@@ -1,6 +1,109 @@
 /* Generated stylesheet. Do not edit. */
 /* Global styles */
 
+/* external styles loaded from serafin.css */
+
+
+@media print {
+    @page {
+        size: A4;
+        font-family: var(--pb-content-font-family);
+        
+        @top-right {
+            content: element(titleRunning);
+        }
+
+        @top-left {
+            content: '';
+        }
+
+        @footnote {
+            float: bottom;
+            font-size: var(--pb-footnote-font-size);
+        }
+    }
+
+    @page:left {
+        margin-left: 2cm;
+        margin-right: 1cm;
+
+        @bottom-left-corner {
+            content: counter(page);
+        }
+    }
+
+    @page:right {
+        margin-left: 1cm;
+        margin-right: 2cm;
+
+        @bottom-right-corner {
+            content: counter(page);
+        }
+    }
+
+    .source, .translation {
+        hyphens: auto;
+        margin-left: 3cm;
+        break-after: page;
+    }
+
+    .footnote {
+        float: footnote;
+        hyphens: auto;
+    }
+
+    .alternate {
+        font-size: var(--pb-footnote-font-size);
+        float: left;
+        margin-left: -3cm;
+        width: 2.5cm;
+        clear: left;
+        text-align: left;
+    }
+
+    /* .translation .alternate {
+        display: none;
+    } */
+
+    .default {
+        text-decoration: underline;
+    }
+
+    .persName::after, .placeName::after, .orgName::after {
+        content: '';
+    }
+
+    .doc-title .alternate {
+        display: none;
+        float: none;
+    }
+    
+    ::footnote-call {
+        content: counter(footnote, decimal);
+    }
+
+    ::footnote-marker {
+        content: counter(footnote-marker, decimal) ". ";
+    }
+
+    .doc-title {
+        position: running(titleRunning);
+        string-set: '';
+    }
+
+    .register {
+        break-before: page;
+    }
+    
+    .register table td:nth-child(1) {
+        width: 25%;
+        vertical-align: top;
+    }
+
+    h1:first-child {
+        margin-top: 0;
+    }
+}
 .simple_allcaps { text-transform: uppercase; }
 .simple_blackletter { font-family: fantasy; }
 .simple_bold { font-weight: bold; }
@@ -57,7 +160,7 @@
 .tei-hi1 { font-style: italic; }
 .tei-hi2 { font-style: italic; }
 .tei-code { font-family:monospace }
-.tei-note:selected { content: ': '; }
+.tei-note2:selected { content: ': '; }
 .tei-del { text-decoration: line-through; }
 .tei-trailer { color: green; }
 .tei-speaker { font-style:italic; }
@@ -109,15 +212,15 @@
 .tei-quote2 { margin-left: 10px; margin-right: 10px; }
 .tei-row1 { font-weight: bold; }
 .tei-persName2 { color: #1565c0; }
-.tei-persName3:after { content: ': '; }
-.tei-persName3 { font-weight: bold; }
-.tei-persName4 { color: #1565c0; }
+.tei-persName4:after { content: ': '; }
+.tei-persName4 { font-weight: bold; }
+.tei-persName6 { color: #1565c0; }
 .tei-placeName2 { color: #ef6c00; }
-.tei-placeName3:after { content: ': '; }
-.tei-placeName3 { font-weight: bold; }
-.tei-placeName4 { color: #ef6c00; }
+.tei-placeName4:after { content: ': '; }
+.tei-placeName4 { font-weight: bold; }
+.tei-placeName6 { color: #ef6c00; }
 .tei-orgName1 { color: #2e7d32; }
-.tei-orgName2:after { content: ': '; }
-.tei-orgName2 { font-weight: bold; }
-.tei-orgName3 { color: #2e7d32; }
+.tei-orgName3:after { content: ': '; }
+.tei-orgName3 { font-weight: bold; }
+.tei-orgName5 { color: #2e7d32; }
 .tei-correspAction:before { content: ' — '; }

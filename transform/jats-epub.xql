@@ -11,6 +11,8 @@ declare default element namespace "";
 
 declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
+declare namespace pb='http://teipublisher.com/1.0';
+
 declare namespace xlink='http://www.w3.org/1999/xlink';
 
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
@@ -48,6 +50,8 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $mode := 
+        if (exists($config?mode)) then $config?mode else ()
         let $trackIds := 
         $parameters?track-ids
         let $get := 
@@ -63,9 +67,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(sec) return
                         html:section($config, ., ("tei-sec", css:map-rend-to-class(.)), .)
                     case element(title) return
-                        html:heading($config, ., ("tei-title", css:map-rend-to-class(.)), ., count(ancestor::sec))
+                        if (parent::caption) then
+                            html:heading($config, ., ("tei-title1", css:map-rend-to-class(.)), ., 3)
+                        else
+                            html:heading($config, ., ("tei-title2", css:map-rend-to-class(.)), ., count(ancestor::sec))
                     case element(p) return
-                        html:paragraph($config, ., ("tei-p", css:map-rend-to-class(.)), .)
+                        if (ancestor::td) then
+                            epub:block($config, ., ("tei-p1", css:map-rend-to-class(.)), .)
+                        else
+                            html:paragraph($config, ., ("tei-p2", css:map-rend-to-class(.)), .)
                     case element(list) return
                         html:list($config, ., ("tei-list", css:map-rend-to-class(.)), ., if (@list-type = 'order') then 'ordered' else ())
                     case element(list-item) return
@@ -87,7 +97,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(th) return
                         html:cell($config, ., css:get-rendition(., ("tei-th", css:map-rend-to-class(.))), ., ())
                     case element(article-meta) return
-                        epub:block($config, ., ("tei-article-meta", css:map-rend-to-class(.)), title-group)
+                        if ($parameters?header='short') then
+                            epub:block($config, ., ("tei-article-meta1", css:map-rend-to-class(.)), (title-group, contrib-group))
+                        else
+                            epub:block($config, ., ("tei-article-meta2", css:map-rend-to-class(.)), title-group)
                     case element(title-group) return
                         (
                             html:link($config, ., ("tei-title-group1", css:map-rend-to-class(.)), article-title, $parameters?doc, (), map {}),
@@ -100,7 +113,24 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             $config?apply($config, ./node())
                     case element(subtitle) return
-                        html:heading($config, ., ("tei-subtitle", css:map-rend-to-class(.)), ., 6)
+                        html:heading($config, ., ("tei-subtitle", css:map-rend-to-class(.)), ., 5)
+                    case element(caption) return
+                        html:body($config, ., ("tei-caption", css:map-rend-to-class(.)), .)
+                    case element(disp-quote) return
+                        html:cit($config, ., ("tei-disp-quote", css:map-rend-to-class(.)), ., ())
+                    case element(fn) return
+                        html:pass-through($config, ., ("tei-fn", css:map-rend-to-class(.)), p)
+                    case element(label) return
+                        epub:block($config, ., ("tei-label", css:map-rend-to-class(.)), .)
+                    case element(xref) return
+                        if (@ref-type='fn') then
+                            epub:note($config, ., ("tei-xref", css:map-rend-to-class(.)), let $rid := @rid return root($parameters?root)//fn[@id=$rid], (), ())
+                        else
+                            $config?apply($config, ./node())
+                    case element(contrib) return
+                        html:inline($config, ., ("tei-contrib", css:map-rend-to-class(.)), string-join((name/given-names, name/surname), ' '))
+                    case element(contrib-group) return
+                        html:inline($config, ., ("tei-contrib-group", css:map-rend-to-class(.)), string-join(contrib, ', '))
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return

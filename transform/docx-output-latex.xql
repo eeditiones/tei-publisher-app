@@ -63,13 +63,15 @@ declare function model:transform($options as map(*), $input as node()*) {
         
         let $output := model:apply($config, $input)
         return
-            $output
+            latex:finish($config, $output)
     )
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $mode := 
+        if (exists($config?mode)) then $config?mode else ()
         let $trackIds := 
         $parameters?track-ids
         let $get := 
@@ -98,8 +100,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:inline($config, ., ("tei-milestone", css:map-rend-to-class(.)), .)
                     case element(ptr) return
                         if (parent::notatedMusic) then
-                            (: No function found for behavior: pass-through :)
-                            $config?apply($config, ./node())
+                            let $params := 
+                                map {
+                                    "url": @target,
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template-ptr($config, ., $params)
+                            return
+                                                        latex:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-ptr", css:map-rend-to-class(.)), $content)
                         else
                             $config?apply($config, ./node())
                     case element(label) return

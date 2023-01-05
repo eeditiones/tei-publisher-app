@@ -126,3 +126,4 @@
 .tei-idno1:after { content: ', '; }
 .tei-idno3 { content: ', '; }
 .tei-placeName { text-decoration: underline; --pb-popover-theme: 'light'; }
+.tei-term { font-style: italic; }

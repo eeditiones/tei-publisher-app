@@ -11,6 +11,8 @@ declare default element namespace "";
 
 declare namespace xhtml='http://www.w3.org/1999/xhtml';
 
+declare namespace pb='http://teipublisher.com/1.0';
+
 declare namespace xlink='http://www.w3.org/1999/xlink';
 
 import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
@@ -46,6 +48,8 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $mode := 
+        if (exists($config?mode)) then $config?mode else ()
         let $trackIds := 
         $parameters?track-ids
         let $get := 
@@ -61,9 +65,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(sec) return
                         html:section($config, ., ("tei-sec", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(title) return
-                        html:heading($config, ., ("tei-title", css:map-rend-to-class(.)), ., count(ancestor::sec))                        => model:map($node, $trackIds)
+                        if (parent::caption) then
+                            html:heading($config, ., ("tei-title1", css:map-rend-to-class(.)), ., 3)                            => model:map($node, $trackIds)
+                        else
+                            html:heading($config, ., ("tei-title2", css:map-rend-to-class(.)), ., count(ancestor::sec))                            => model:map($node, $trackIds)
                     case element(p) return
-                        html:paragraph($config, ., ("tei-p", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
+                        if (ancestor::td) then
+                            html:block($config, ., ("tei-p1", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
+                        else
+                            html:paragraph($config, ., ("tei-p2", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
                     case element(list) return
                         html:list($config, ., ("tei-list", css:map-rend-to-class(.)), ., if (@list-type = 'order') then 'ordered' else ())                        => model:map($node, $trackIds)
                     case element(list-item) return
@@ -85,7 +95,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(th) return
                         html:cell($config, ., css:get-rendition(., ("tei-th", css:map-rend-to-class(.))), ., ())                        => model:map($node, $trackIds)
                     case element(article-meta) return
-                        html:block($config, ., ("tei-article-meta", css:map-rend-to-class(.)), title-group)                        => model:map($node, $trackIds)
+                        if ($parameters?header='short') then
+                            html:block($config, ., ("tei-article-meta1", css:map-rend-to-class(.)), (title-group, contrib-group))                            => model:map($node, $trackIds)
+                        else
+                            html:block($config, ., ("tei-article-meta2", css:map-rend-to-class(.)), title-group)                            => model:map($node, $trackIds)
                     case element(title-group) return
                         (
                             html:link($config, ., ("tei-title-group1", css:map-rend-to-class(.)), article-title, $parameters?doc, (), map {})                            => model:map($node, $trackIds),
@@ -98,7 +111,24 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             $config?apply($config, ./node())
                     case element(subtitle) return
-                        html:heading($config, ., ("tei-subtitle", css:map-rend-to-class(.)), ., 6)                        => model:map($node, $trackIds)
+                        html:heading($config, ., ("tei-subtitle", css:map-rend-to-class(.)), ., 5)                        => model:map($node, $trackIds)
+                    case element(caption) return
+                        html:body($config, ., ("tei-caption", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
+                    case element(disp-quote) return
+                        html:cit($config, ., ("tei-disp-quote", css:map-rend-to-class(.)), ., ())                        => model:map($node, $trackIds)
+                    case element(fn) return
+                        html:pass-through($config, ., ("tei-fn", css:map-rend-to-class(.)), p)                        => model:map($node, $trackIds)
+                    case element(label) return
+                        html:block($config, ., ("tei-label", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
+                    case element(xref) return
+                        if (@ref-type='fn') then
+                            html:note($config, ., ("tei-xref", css:map-rend-to-class(.)), let $rid := @rid return root($parameters?root)//fn[@id=$rid], (), ())                            => model:map($node, $trackIds)
+                        else
+                            $config?apply($config, ./node())
+                    case element(contrib) return
+                        html:inline($config, ., ("tei-contrib", css:map-rend-to-class(.)), string-join((name/given-names, name/surname), ' '))                        => model:map($node, $trackIds)
+                    case element(contrib-group) return
+                        html:inline($config, ., ("tei-contrib-group", css:map-rend-to-class(.)), string-join(contrib, ', '))                        => model:map($node, $trackIds)
                     case element(exist:match) return
                         html:match($config, ., .)
                     case element() return
