@@ -20,6 +20,9 @@ resources/scripts/*.map
 resources/lib/
 resources/css/leaflet/
 resources/css/prismjs
+resources/css/pagedjs
+resources/css/gridjs
+resources/css/tom-select
 resources/images/openseadragon
 resources/images/leaflet
 resources/i18n/common

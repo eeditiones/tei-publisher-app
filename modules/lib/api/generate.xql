@@ -68,7 +68,7 @@ declare variable $deploy:ANT_FILE :=
         <property name="scripts.dir" value="node_modules/@teipublisher/pb-components/dist"/>
 
         <target name="clean">
-            <delete dir="${{build}}" />
+            <delete dir="${build}" />
             <delete dir="resources/scripts" includes="*.js *.map" />
             <delete dir="resources/images/leaflet" />
             <delete dir="resources/images/openseadragon" />
@@ -79,24 +79,26 @@ declare variable $deploy:ANT_FILE :=
 
         <target name="prepare">
             <copy todir="resources/scripts">
-                <fileset dir="${{scripts.dir}}">
+                <fileset dir="${scripts.dir}">
                     <include name="*.js" />
                     <include name="*.map" />
                 </fileset>
             </copy>
-            <copy file="node_modules/leaflet/dist/leaflet.css" todir="resources/css/leaflet" />
-            <copy todir="resources/images/leaflet">
-                <fileset dir="node_modules/leaflet/dist/images" />
+            <copy todir="resources/images">
+                <fileset dir="node_modules/@teipublisher/pb-components/images">
+                    <include name="leaflet/*"/>
+                    <include name="openseadragon/*"/>
+                </fileset>
             </copy>
-            <copy todir="resources/images/openseadragon">
-                <fileset dir="node_modules/openseadragon/build/openseadragon/images" />
+            <copy todir="resources/css">
+                <fileset dir="node_modules/@teipublisher/pb-components/css"/>
             </copy>
-            <copy file="node_modules/openseadragon/build/openseadragon/openseadragon.min.js" todir="resources/lib" />
-            <copy todir="resources/css/prismjs">
-                <fileset dir="node_modules/prismjs/themes" />
+            <copy todir="resources/lib">
+                <fileset dir="node_modules/@teipublisher/pb-components/lib"/>
             </copy>
+            
             <copy todir="resources/i18n/common">
-                <fileset dir="node_modules/@teipublisher/pb-components/i18n/common" />
+                <fileset dir="${scripts.dir}/../i18n/common" />
             </copy>
         </target>
 
