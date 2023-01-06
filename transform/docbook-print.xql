@@ -59,6 +59,10 @@ declare %private function model:iframe($config as map(*), $node as node()*, $cla
     )
 };
 
+(: generated template function for element spec: article :)
+declare %private function model:template-article3($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><html lang="{$config?apply-children($config, $node, $params?lang)}">{$config?apply-children($config, $node, $params?content)}</html></t>/*
+};
 (: generated template function for element spec: title :)
 declare %private function model:template-title2($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><h1>
@@ -110,7 +114,11 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if ($parameters?mode='summary') then
                             fo:block($config, ., ("tei-article2", css:map-rend-to-class(.)), info)
                         else
-                            fo:document($config, ., ("tei-article3", css:map-rend-to-class(.)), .)
+                            if (@xml:lang) then
+                                (: No function found for behavior: pass-through :)
+                                $config?apply($config, ./node())
+                            else
+                                fo:document($config, ., ("tei-article4", css:map-rend-to-class(.)), .)
                     case element(info) return
                         if (not(parent::article or parent::book)) then
                             fo:block($config, ., ("tei-info3", css:map-rend-to-class(.)), .)

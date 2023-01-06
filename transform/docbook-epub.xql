@@ -48,6 +48,10 @@ declare %private function model:iframe($config as map(*), $node as node()*, $cla
     )
 };
 
+(: generated template function for element spec: article :)
+declare %private function model:template-article3($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><html lang="{$config?apply-children($config, $node, $params?lang)}">{$config?apply-children($config, $node, $params?content)}</html></t>/*
+};
 (: generated template function for element spec: title :)
 declare %private function model:template-title2($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><h1>
@@ -110,7 +114,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if ($parameters?mode='summary') then
                             epub:block($config, ., ("tei-article2", css:map-rend-to-class(.)), info)
                         else
-                            html:document($config, ., ("tei-article3", css:map-rend-to-class(.)), .)
+                            if (@xml:lang) then
+                                let $params := 
+                                    map {
+                                        "lang": @xml:lang,
+                                        "content": .
+                                    }
+
+                                                                let $content := 
+                                    model:template-article3($config, ., $params)
+                                return
+                                                                html:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-article3", css:map-rend-to-class(.)), $content)
+                            else
+                                html:document($config, ., ("tei-article4", css:map-rend-to-class(.)), .)
                     case element(info) return
                         if (not(parent::article or parent::book)) then
                             epub:block($config, ., ("tei-info3", css:map-rend-to-class(.)), .)

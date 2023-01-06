@@ -169,6 +169,11 @@ pb-code-highlight {
         break-inside: avoid;
     }
 
+    p {
+        hyphens: auto;
+        text-align: justify;
+    }
+
     .frontmatter {
         page: Title;
     }
