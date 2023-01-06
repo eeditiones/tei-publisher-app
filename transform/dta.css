@@ -24,6 +24,48 @@ p * {
 .catch {
     float: right;
 }
+
+@media print {
+
+    @page:left {
+        margin-left: 3cm;
+        margin-right: 2cm;
+
+        @top-left {
+            content: string(runningHead);
+            font-family: var(--pb-heading-font-family);
+        }
+
+        @bottom-left-corner {
+            content: counter(page);
+            font-family: var(--pb-heading-font-family);
+        }
+    }
+
+    @page:right {
+        margin-left: 2cm;
+        margin-right: 3cm;
+
+        @top-right {
+            content: string(runningHead);
+            font-family: var(--pb-heading-font-family);
+        }
+
+        @bottom-right-corner {
+            content: counter(page);
+            font-family: var(--pb-heading-font-family);
+        }
+    }
+
+    .running {
+        string-set: runningHead content(text);
+        display: none;
+    }
+
+    section {
+        break-before: page;
+    }
+}
 .simple_allcaps { text-transform: uppercase; }
 .simple_blackletter { font-family: fantasy; }
 .simple_bold { font-weight: bold; }
@@ -93,7 +135,7 @@ p * {
 .tei-castList { list-style: ordered; }
 .tei-l { margin-left: 1em; }
 .tei-closer { margin-top: 1em; margin-left: 1em; margin-left: 1em; }
-.tei-p { text-align: justify; }
+.tei-p2 { text-align: justify; }
 .tei-q1 { margin-left: 10px; margin-right: 10px; }
 .tei-q2:before { content: '‘'; }
 .tei-q2:after { content: '’'; }
@@ -118,10 +160,10 @@ p * {
 .tei-corr2:after { content: ']'; }
 .tei-sic2:before { content: '{'; }
 .tei-sic2:after { content: '}'; }
-.tei-fw1 { display: inline-block; margin-top: .5em; margin-bottom: 1em; color: #CCC; }
-.tei-fw2 { margin-top: 1em; color: #A0A0A0; }
-.tei-fw3 { color: #A0A0A0; }
-.tei-fw4 { margin-top: 1em; color: #A0A0A0; }
+.tei-fw2 { display: inline-block; margin-top: .5em; margin-bottom: 1em; color: #CCC; }
+.tei-fw3 { margin-top: 1em; color: #A0A0A0; }
+.tei-fw4 { color: #A0A0A0; }
+.tei-fw5 { margin-top: 1em; color: #A0A0A0; }
 .tei-addrLine { white-space: nowrap; }
 .tei-gap1 { color: grey; }
 .tei-gap2:before { content: '[..'; }

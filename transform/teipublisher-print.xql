@@ -248,7 +248,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(rhyme) return
                         fo:inline($config, ., ("tei-rhyme", css:map-rend-to-class(.)), .)
                     case element(p) return
-                        fo:paragraph($config, ., css:get-rendition(., ("tei-p", css:map-rend-to-class(.))), .)
+                        fo:paragraph($config, ., css:get-rendition(., ("tei-p2", css:map-rend-to-class(.))), .)
                     case element(list) return
                         if (@rendition) then
                             fo:list($config, ., css:get-rendition(., ("tei-list1", css:map-rend-to-class(.))), item, ())

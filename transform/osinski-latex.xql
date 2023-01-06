@@ -308,7 +308,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 $config?apply($config, ./node())
                     case element(p) return
-                        latex:paragraph($config, ., css:get-rendition(., ("tei-p", css:map-rend-to-class(.))), .)
+                        latex:paragraph($config, ., css:get-rendition(., ("tei-p2", css:map-rend-to-class(.))), .)
                     case element(measure) return
                         latex:inline($config, ., ("tei-measure", css:map-rend-to-class(.)), .)
                     case element(q) return

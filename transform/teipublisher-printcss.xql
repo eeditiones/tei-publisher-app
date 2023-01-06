@@ -251,7 +251,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(rhyme) return
                         html:inline($config, ., ("tei-rhyme", css:map-rend-to-class(.)), .)
                     case element(p) return
-                        html:paragraph($config, ., css:get-rendition(., ("tei-p", css:map-rend-to-class(.))), .)
+                        if (ancestor::note) then
+                            html:inline($config, ., ("tei-p1", css:map-rend-to-class(.)), .)
+                        else
+                            html:paragraph($config, ., css:get-rendition(., ("tei-p2", css:map-rend-to-class(.))), .)
                     case element(list) return
                         if (@rendition) then
                             html:list($config, ., css:get-rendition(., ("tei-list1", css:map-rend-to-class(.))), item, ())

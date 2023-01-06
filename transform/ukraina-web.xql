@@ -278,7 +278,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 $config?apply($config, ./node())
                     case element(p) return
-                        html:paragraph($config, ., css:get-rendition(., ("tei-p", css:map-rend-to-class(.))), .)                        => model:map($node, $trackIds)
+                        html:paragraph($config, ., css:get-rendition(., ("tei-p2", css:map-rend-to-class(.))), .)                        => model:map($node, $trackIds)
                     case element(measure) return
                         html:inline($config, ., ("tei-measure", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(q) return

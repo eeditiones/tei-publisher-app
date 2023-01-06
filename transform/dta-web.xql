@@ -26,7 +26,7 @@ declare %private function model:template-ptr($config as map(*), $node as node()*
 </pb-mei></t>/*
 };
 (: generated template function for element spec: fw :)
-declare %private function model:template-fw2($config as map(*), $node as node()*, $params as map(*)) {
+declare %private function model:template-fw3($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><div class="catch">{$config?apply-children($config, $node, $params?catch)}</div><div class="sig">{$config?apply-children($config, $node, $params?content)}</div></t>/*
 };
 (:~
@@ -285,7 +285,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 $config?apply($config, ./node())
                     case element(p) return
-                        html:paragraph($config, ., css:get-rendition(., ("tei-p", css:map-rend-to-class(.))), .)                        => model:map($node, $trackIds)
+                        html:paragraph($config, ., css:get-rendition(., ("tei-p2", css:map-rend-to-class(.))), .)                        => model:map($node, $trackIds)
                     case element(measure) return
                         html:inline($config, ., ("tei-measure", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(q) return
@@ -526,7 +526,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:block($config, ., ("tei-spGrp", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(fw) return
                         if (@place='top' and $parameters?view='page') then
-                            html:inline($config, ., ("tei-fw1", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
+                            html:inline($config, ., ("tei-fw2", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
                         else
                             if (@type='sig' and $parameters?view='page') then
                                 let $params := 
@@ -536,17 +536,17 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     }
 
                                                                 let $content := 
-                                    model:template-fw2($config, ., $params)
+                                    model:template-fw3($config, ., $params)
                                 return
-                                                                html:block(map:merge(($config, map:entry("template", true()))), ., ("tei-fw2", css:map-rend-to-class(.)), $content)                                => model:map($node, $trackIds)
+                                                                html:block(map:merge(($config, map:entry("template", true()))), ., ("tei-fw3", css:map-rend-to-class(.)), $content)                                => model:map($node, $trackIds)
                             else
                                 if (@type='catch' and $parameters?view='page' and preceding-sibling::fw) then
-                                    html:omit($config, ., ("tei-fw3", css:map-rend-to-class(.)), .)                                    => model:map($node, $trackIds)
+                                    html:omit($config, ., ("tei-fw4", css:map-rend-to-class(.)), .)                                    => model:map($node, $trackIds)
                                 else
                                     if (@type='catch' and $parameters?view='page') then
-                                        html:block($config, ., ("tei-fw4", "catch", css:map-rend-to-class(.)), .)                                        => model:map($node, $trackIds)
+                                        html:block($config, ., ("tei-fw5", "catch", css:map-rend-to-class(.)), .)                                        => model:map($node, $trackIds)
                                     else
-                                        html:omit($config, ., ("tei-fw5", css:map-rend-to-class(.)), .)                                        => model:map($node, $trackIds)
+                                        html:omit($config, ., ("tei-fw6", css:map-rend-to-class(.)), .)                                        => model:map($node, $trackIds)
                     case element(encodingDesc) return
                         html:omit($config, ., ("tei-encodingDesc", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(addrLine) return
