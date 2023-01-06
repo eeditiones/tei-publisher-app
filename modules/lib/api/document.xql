@@ -107,7 +107,7 @@ declare %private function dapi:generate-html($request as map(*), $outputMode as 
                         <link rel="stylesheet" type="text/css" href="transform/{replace($config?odd, "^.*?/?([^/]+)\.odd$", "$1")}.css"/>
                     )
                     return
-                        dapi:postprocess(($out[2], $out[1])[1], $styles, $addScripts, $request?parameters?base, exists($request?parameters?wc))
+                        dapi:postprocess(($out[2], $out[1])[1], $styles, $addScripts, $request?parameters?base, $request?parameters?wc)
                 else
                     error($errors:NOT_FOUND, "Document " || $doc || " not found")
         else
@@ -115,7 +115,7 @@ declare %private function dapi:generate-html($request as map(*), $outputMode as 
 };
 
 declare function dapi:postprocess($nodes as node()*, $styles as element()*, $scripts as element()*,
-    $base as xs:string?, $components as xs:boolean) {
+    $base as xs:string?, $components as xs:string?) {
     for $node in $nodes
     return
         typeswitch($node)
@@ -168,7 +168,7 @@ declare function dapi:postprocess($nodes as node()*, $styles as element()*, $scr
                 return
                     element { node-name($node) } {
                         $node/@*,
-                        if ($components and not($node//pb-page)) then
+                        if ($components = 'full' and not($node//pb-page)) then
                             <pb-page endpoint="{$base}">{$content}</pb-page>
                         else
                             $content
@@ -185,7 +185,7 @@ declare function dapi:postprocess($nodes as node()*, $styles as element()*, $scr
                 $node
 };
 
-declare %private function dapi:webcomponents($components as xs:boolean?) {
+declare %private function dapi:webcomponents($components as xs:string?) {
     if ($components) then (
         <style rel="stylesheet" type="text/css">
         a[rel=footnote] {{

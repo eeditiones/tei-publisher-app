@@ -792,7 +792,7 @@
 					},
 					{
 						"name": "base",
-						"description": "Base URI to use",
+						"description": "Base URI to use for resolving links and images",
 						"in": "query",
 						"schema": {
 							"type": "string"
@@ -800,7 +800,7 @@
 					},
 					{
 						"name": "wc",
-						"description": "Include TEI Publisher webcomponents",
+						"description": "Include TEI Publisher webcomponents if set. 'page' will also inject a <pb-page> wrapper if not present, using parameter 'base' as endpoint.",
 						"in": "query",
 						"schema": {
 							"type": "string"
@@ -808,12 +808,14 @@
 					},
 					{
 						"name": "style",
+						"description": "Additional CSS stylesheet URLs to be loaded",
 						"in": "query",
 						"schema": {
 							"type": "string"
 						}
 					},
 					{
+						"description": "Additional script URLs to be loaded",
 						"name": "script",
 						"in": "query",
 						"schema": {
