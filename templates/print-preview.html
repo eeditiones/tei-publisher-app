@@ -25,11 +25,21 @@
                 margin-bottom: 10px;
             }
 
+            #preview-toggle {
+                --paper-fab-background: #78909c;
+            }
+            
             #print-action {
                 --paper-fab-background: #7E57C2;
+                margin-bottom: 10px;
             }
+
             pb-page > main {
-                margin-left: 60px;
+                margin-left: 90px;
+            }
+
+            pb-print-preview {
+                height: 100vh;
             }
         }
 
@@ -49,23 +59,37 @@
         <aside>
             <paper-fab icon="icons:close" id="close-action"></paper-fab>
             <paper-fab icon="icons:print" id="print-action"></paper-fab>
+            <paper-fab icon="icons:visibility" active="active" toggles="toggles" id="preview-toggle"></paper-fab>
         </aside>
         <pb-progress subscribe="preview"></pb-progress>
         <main>
-            <pb-print-preview src="document1" styles="resources/css/print.css" emit="preview"></pb-print-preview>
+            <pb-print-preview src="document1" styles="resources/fonts/font.css,resources/css/print.css" emit="preview"></pb-print-preview>
         </main>
     </pb-page>
     <div class="splash"></div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const preview = document.querySelector('pb-print-preview');
             const btn = document.getElementById('print-action');
             btn.addEventListener('click', function() {
-                window.print();
+                preview.print();
             });
 
             const closeBtn = document.getElementById('close-action');
             closeBtn.addEventListener('click', function() {
                 window.close();
+            });
+
+            const previewToggle = document.getElementById('preview-toggle');
+            previewToggle.addEventListener('active-changed', function(ev) {
+                const value = ev.detail.value;
+                if (value) {
+                    previewToggle.icon = 'icons:visibility';
+                } else {
+                    previewToggle.icon = 'icons:visibility-off';
+                }
+                preview.raw = !value;
+                preview.refresh();
             });
         });
     </script>

@@ -13,7 +13,6 @@
 
         @footnote {
             float: bottom;
-            font-size: var(--pb-footnote-font-size);
         }
     }
 
@@ -72,14 +71,6 @@
         float: none;
     }
     
-    ::footnote-call {
-        content: counter(footnote, decimal);
-    }
-
-    ::footnote-marker {
-        content: counter(footnote-marker, decimal) ". ";
-    }
-
     .doc-title {
         position: running(titleRunning);
         string-set: '';

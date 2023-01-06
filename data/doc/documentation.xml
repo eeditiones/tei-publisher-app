@@ -4,22 +4,7 @@
   <info>
     <title>TEI Publisher Documentation</title>
     <author>
-      <personname>
-        <firstname>Wolfgang</firstname>
-        <surname>Meier</surname>
-      </personname>
-      <affiliation>
-        <orgname>eXist Solutions GmbH</orgname>
-      </affiliation>
-    </author>
-    <author>
-      <personname>
-        <firstname>Magdalena</firstname>
-        <surname>Turska</surname>
-      </personname>
-      <affiliation>
-        <orgname>eXist Solutions GmbH</orgname>
-      </affiliation>
+      <orgname>TEI Publisher Community</orgname>
     </author>
     <keywordset vocab="#genre">
       <keyword>Documentation</keyword>

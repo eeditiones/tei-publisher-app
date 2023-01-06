@@ -198,10 +198,9 @@
 				}
 			}
 		},
-		"/{docid}.md": {
+		"/print/{docid}": {
 			"get": {
-				"summary": "Retrieve the HTML template for a markdown file and render it",
-				"description": "Get the HTML template associated with the given markdown document. This is called whenever the users tries to view a markdown file. The actual content of the document will then be loaded by the template.",
+				"summary": "Generate a print preview using Paged Media CSS",
 				"tags": ["view"],
 				"operationId": "vapi:view",
 				"x-error-handler": "vapi:handle-error",
@@ -213,7 +212,7 @@
 						"required": true,
 						"schema": {
 							"type": "string",
-							"example": "about.md"
+							"example": "test/orlik_to_serafin.xml"
 						},
 						"allowReserved": true
 					},
@@ -223,15 +222,14 @@
 						"description": "Name of the template to be used. Overwrites any default template setting.",
 						"schema": {
 							"type": "string",
-							"default": "markdown.html"
+							"default": "print-preview.html"
 						}
 					},
 					{
-						"name": "suffix",
+						"name": "odd",
 						"in": "query",
 						"schema": {
-							"type": "string",
-							"default": ".md"
+							"type": "string"
 						}
 					}
 				],
@@ -269,10 +267,10 @@
 				}
 			}
 		},
-		"/print/{docid}": {
+		"/{docid}.md": {
 			"get": {
-				"summary": "Retrieve the HTML template used for displaying a document",
-				"description": "Get the HTML template associated with the given document. This is called whenever the users tries to view a document. The actual content of the document will then be loaded by the template.",
+				"summary": "Retrieve the HTML template for a markdown file and render it",
+				"description": "Get the HTML template associated with the given markdown document. This is called whenever the users tries to view a markdown file. The actual content of the document will then be loaded by the template.",
 				"tags": ["view"],
 				"operationId": "vapi:view",
 				"x-error-handler": "vapi:handle-error",
@@ -284,7 +282,7 @@
 						"required": true,
 						"schema": {
 							"type": "string",
-							"example": "test/orlik_to_serafin.xml"
+							"example": "about.md"
 						},
 						"allowReserved": true
 					},
@@ -294,31 +292,15 @@
 						"description": "Name of the template to be used. Overwrites any default template setting.",
 						"schema": {
 							"type": "string",
-							"default": "print-preview.html"
+							"default": "markdown.html"
 						}
 					},
 					{
-						"name": "view",
+						"name": "suffix",
 						"in": "query",
 						"schema": {
 							"type": "string",
-							"enum": ["page", "div", "single"]
-						},
-						"example": "div",
-						"description": "The view type used by the main view which displays the document, e.g. 'page' or 'div'. This has an influence on the generated links, which need to differ when linking to a page rather than a section."
-					},
-					{
-						"name": "odd",
-						"in": "query",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "action",
-						"in": "query",
-						"schema": {
-							"type": "string"
+							"default": ".md"
 						}
 					}
 				],
@@ -823,6 +805,20 @@
 						"schema": {
 							"type": "boolean",
 							"default": true
+						}
+					},
+					{
+						"name": "style",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "script",
+						"in": "query",
+						"schema": {
+							"type": "string"
 						}
 					}
 				],

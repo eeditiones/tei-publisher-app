@@ -1,7 +1,7 @@
 h1, h2, h3, h4, h5, h6 {
-    font-family: "Oswald", Verdana, "Helvetica", sans-serif;
+    font-family: var(--pb-heading-font-family);
     line-height: 1.2;
-    font-weight: 400;
+    font-weight: var(--pb-heading-font-weight);
 }
 
 .doc-title {
@@ -103,11 +103,8 @@ pb-code-highlight {
 
     @page {
         size: A4;
-        font-family: var(--pb-content-font-family);
-        
-        @top-left {
-            content: string(title1) ' – ' string(title2);
-        }
+
+        --pb-heading-font-family: "Oswald", Verdana, "Helvetica", sans-serif;
 
         @footnote {
             float: bottom;
@@ -118,8 +115,14 @@ pb-code-highlight {
         margin-left: 3cm;
         margin-right: 2cm;
 
+        @top-left {
+            content: string(title1) ' – ' string(title2);
+            font-family: var(--pb-heading-font-family);
+        }
+
         @bottom-left-corner {
             content: counter(page);
+            font-family: var(--pb-heading-font-family);
         }
     }
 
@@ -127,8 +130,14 @@ pb-code-highlight {
         margin-left: 2cm;
         margin-right: 3cm;
 
+        @top-right {
+            content: string(title1) ' – ' string(title2);
+            font-family: var(--pb-heading-font-family);
+        }
+
         @bottom-right-corner {
             content: counter(page);
+            font-family: var(--pb-heading-font-family);
         }
     }
 
@@ -137,6 +146,10 @@ pb-code-highlight {
         margin-right: 2cm;
 
         @top-left {
+            content: '';
+        }
+
+        @top-right {
             content: '';
         }
     }

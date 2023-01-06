@@ -54,20 +54,25 @@ declare function vapi:view($request as map(*)) {
             xmldb:decode($request?parameters?docid)
     let $config := vapi:get-config($path, $request?parameters?view)
     let $templateName := head((vapi:get-template($config, $request?parameters?template), $config:default-template))
-    let $templatePath := $config:app-root || "/templates/pages/" || $templateName
+    let $templatePaths := ($config:app-root || "/templates/pages/" || $templateName, $config:app-root || "/templates/" || $templateName)
     let $template :=
-        if (doc-available($templatePath)) then
-            doc($templatePath)
-        else
-            error($errors:NOT_FOUND, "template " || $templatePath || " not found")
-    let $model := map { 
-        "doc": $path,
-        "template": $templateName,
-        "media": if (map:contains($config, 'media')) then $config?media else ()
-    }
-    let $log := util:log('INFO', $model)
+        for-each($templatePaths, function($path) {
+            if (doc-available($path)) then
+                doc($path)
+            else
+                ()
+        }) => head()
     return
-        templates:apply($template, vapi:lookup#2, $model, tpu:get-template-config($request))
+        if (not($template)) then
+            error($errors:NOT_FOUND, "template " || $templateName || " not found")
+        else
+            let $model := map { 
+                "doc": $path,
+                "template": $templateName,
+                "media": if (map:contains($config, 'media')) then $config?media else ()
+            }
+            return
+                templates:apply($template, vapi:lookup#2, $model, tpu:get-template-config($request))
 };
 
 declare function vapi:html($request as map(*)) {
