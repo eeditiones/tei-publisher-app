@@ -107,7 +107,7 @@ declare %private function dapi:generate-html($request as map(*), $outputMode as 
                         <link rel="stylesheet" type="text/css" href="transform/{replace($config?odd, "^.*?/?([^/]+)\.odd$", "$1")}.css"/>
                     )
                     return
-                        dapi:postprocess(($out[2], $out[1])[1], $styles, $addScripts, $request?parameters?base, $request?parameters?wc)
+                        dapi:postprocess(($out[2], $out[1])[1], $styles, $addScripts, $request?parameters?base, exists($request?parameters?wc))
                 else
                     error($errors:NOT_FOUND, "Document " || $doc || " not found")
         else
@@ -115,7 +115,7 @@ declare %private function dapi:generate-html($request as map(*), $outputMode as 
 };
 
 declare function dapi:postprocess($nodes as node()*, $styles as element()*, $scripts as element()*,
-    $base as xs:string?, $components as xs:boolean?) {
+    $base as xs:string?, $components as xs:boolean) {
     for $node in $nodes
     return
         typeswitch($node)
@@ -133,6 +133,7 @@ declare function dapi:postprocess($nodes as node()*, $styles as element()*, $scr
                             <meta charset="utf-8"/>
                             { $styles }
                             { $scripts }
+                            { dapi:webcomponents($components) }
                         </head>
                     else
                         (),
@@ -149,31 +150,7 @@ declare function dapi:postprocess($nodes as node()*, $styles as element()*, $scr
                         $node/node(),
                         $styles,
                         $scripts,
-                        if ($components) then (
-                            <style rel="stylesheet" type="text/css">
-                            a[rel=footnote] {{
-                                font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
-                                font-family: var(--pb-footnote-font-family, --pb-content-font-family);
-                                vertical-align: super;
-                                text-decoration: none;
-                                padding: var(--pb-footnote-padding, 0 0 0 .25em);
-                            }}
-                            .footnote .fn-number {{
-                                float: left;
-                                font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
-                            }}
-                            </style>,
-                            <script defer="defer" src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js"></script>,
-                            switch ($config:webcomponents)
-                                case "dev" return
-                                    <script type="module" src="{$config:webcomponents-cdn}/src/pb-components-bundle.js"></script>
-                                case "local" return
-                                    <script type="module" src="resources/scripts/pb-components-bundle.js"></script>
-                                default return
-                                    <script type="module" src="{$config:webcomponents-cdn}@{$config:webcomponents}/dist/pb-components-bundle.js"></script>
-                        ) else
-                            ()
-
+                        dapi:webcomponents($components)
                     }
             case element(body) return
                 let $content := (
@@ -206,6 +183,33 @@ declare function dapi:postprocess($nodes as node()*, $styles as element()*, $scr
                     }
             default return
                 $node
+};
+
+declare %private function dapi:webcomponents($components as xs:boolean?) {
+    if ($components) then (
+        <style rel="stylesheet" type="text/css">
+        a[rel=footnote] {{
+            font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
+            font-family: var(--pb-footnote-font-family, --pb-content-font-family);
+            vertical-align: super;
+            text-decoration: none;
+            padding: var(--pb-footnote-padding, 0 0 0 .25em);
+        }}
+        .footnote .fn-number {{
+            float: left;
+            font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
+        }}
+        </style>,
+        <script defer="defer" src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js"></script>,
+        switch ($config:webcomponents)
+            case "dev" return
+                <script type="module" src="{$config:webcomponents-cdn}/src/pb-components-bundle.js"></script>
+            case "local" return
+                <script type="module" src="resources/scripts/pb-components-bundle.js"></script>
+            default return
+                <script type="module" src="{$config:webcomponents-cdn}@{$config:webcomponents}/dist/pb-components-bundle.js"></script>
+    ) else
+        ()
 };
 
 declare function dapi:latex($request as map(*)) {

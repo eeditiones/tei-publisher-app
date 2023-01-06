@@ -803,8 +803,7 @@
 						"description": "Include TEI Publisher webcomponents",
 						"in": "query",
 						"schema": {
-							"type": "boolean",
-							"default": true
+							"type": "string"
 						}
 					},
 					{
