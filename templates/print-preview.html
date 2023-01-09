@@ -20,18 +20,21 @@
                 top: 20px;
             }
     
+            paper-fab {
+                margin-bottom: 10px;
+            }
+
             #close-action {
                 --paper-fab-background: #00ACC1;
                 margin-bottom: 10px;
             }
 
-            #preview-toggle {
+            #preview-toggle, #copy-action {
                 --paper-fab-background: #78909c;
             }
             
             #print-action {
                 --paper-fab-background: #7E57C2;
-                margin-bottom: 10px;
             }
 
             pb-page > main {
@@ -51,7 +54,6 @@
         }
     </style>
     <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
-    <script type="module" src="pb-print-preview.js" data-template="pages:load-components"></script>
 </head>
 
 <body>
@@ -60,7 +62,9 @@
         <aside>
             <paper-fab icon="icons:close" id="close-action"></paper-fab>
             <paper-fab icon="icons:print" id="print-action"></paper-fab>
-            <paper-fab icon="icons:visibility" active="active" toggles="toggles" id="preview-toggle"></paper-fab>
+            <paper-fab icon="icons:visibility" active="active" toggles="toggles" id="preview-toggle"
+                title="Show raw HTML instead of preview"></paper-fab>
+            <paper-fab icon="icons:content-copy" id="copy-action" title="Copy URL to download HTML for use with external tools"></paper-fab>
         </aside>
         <pb-progress subscribe="preview"></pb-progress>
         <main>
@@ -91,6 +95,13 @@
                 }
                 preview.raw = !value;
                 preview.refresh();
+            });
+
+            const copyBtn = document.getElementById('copy-action');
+            copyBtn.addEventListener('click', function() {
+                const url = new URL(preview.getAttribute('url'), location.href);
+                console.log('Copying URL: %s', url.toString())
+                navigator.clipboard.writeText(url.toString());
             });
         });
     </script>
