@@ -121,7 +121,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             html:inline($config, ., ("tei-signed2", css:map-rend-to-class(.)), .)
                     case element(pb) return
-                        html:webcomponent($config, ., ("tei-pb", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"facs": replace(@facs, '^FFimg:(.*)$', '$1')})
+                        html:webcomponent($config, ., ("tei-pb2", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"facs": replace(@facs, '^FFimg:(.*)$', '$1')})
                     case element(pc) return
                         html:inline($config, ., ("tei-pc", css:map-rend-to-class(.)), .)
                     case element(anchor) return
@@ -269,10 +269,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             $config?apply($config, ./node())
                     case element(l) return
-                        if (preceding-sibling::*[1][self::speaker]) then
-                            html:inline($config, ., ("tei-l1", css:map-rend-to-class(.)), .)
-                        else
-                            epub:block($config, ., css:get-rendition(., ("tei-l2", css:map-rend-to-class(.))), .)
+                        epub:block($config, ., css:get-rendition(., ("tei-l", css:map-rend-to-class(.))), .)
                     case element(closer) return
                         epub:block($config, ., ("tei-closer", css:map-rend-to-class(.)), .)
                     case element(rhyme) return
@@ -312,7 +309,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (not(parent::p)) then
                             html:omit($config, ., ("tei-lb1", css:map-rend-to-class(.)), .)
                         else
-                            epub:break($config, ., css:get-rendition(., ("tei-lb2", css:map-rend-to-class(.))), ., 'line', @n)
+                            html:omit($config, ., css:get-rendition(., ("tei-lb2", css:map-rend-to-class(.))), .)
                     case element(w) return
                         html:inline($config, ., ("tei-w", css:map-rend-to-class(.)), .)
                     case element(stage) return
@@ -529,15 +526,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                         epub:block($config, ., ("tei-spGrp", css:map-rend-to-class(.)), .)
                     case element(fw) return
                         if (@type='rh') then
-                            epub:block($config, ., ("tei-fw1", css:map-rend-to-class(.)), .)
+                            epub:block($config, ., ("tei-fw1", "running", css:map-rend-to-class(.)), .)
                         else
                             if (@type='catchword') then
-                                epub:block($config, ., ("tei-fw2", "catchword", css:map-rend-to-class(.)), .)
+                                epub:block($config, ., ("tei-fw3", "catchword", css:map-rend-to-class(.)), .)
                             else
                                 if (@type='sig') then
-                                    epub:block($config, ., ("tei-fw3", "sig", css:map-rend-to-class(.)), .)
+                                    epub:block($config, ., ("tei-fw4", "sig", css:map-rend-to-class(.)), .)
                                 else
-                                    html:omit($config, ., ("tei-fw4", css:map-rend-to-class(.)), .)
+                                    html:omit($config, ., ("tei-fw5", css:map-rend-to-class(.)), .)
                     case element(encodingDesc) return
                         html:omit($config, ., ("tei-encodingDesc", css:map-rend-to-class(.)), .)
                     case element(addrLine) return

@@ -95,10 +95,6 @@ keywordstyle=\color{myblue}
 `{string-join($config?apply-children($config, $node, $params?content))}`
 \end{document}]``
 };
-(: generated template function for element spec: article :)
-declare %private function model:template-article3($config as map(*), $node as node()*, $params as map(*)) {
-    <t xmlns=""><html lang="{$config?apply-children($config, $node, $params?lang)}">{$config?apply-children($config, $node, $params?content)}</html></t>/*
-};
 (: generated template function for element spec: info :)
 declare %private function model:template-info2($config as map(*), $node as node()*, $params as map(*)) {
     ``[`{string-join($config?apply-children($config, $node, $params?content))}` \author{`{string-join($config?apply-children($config, $node, $params?author))}`}

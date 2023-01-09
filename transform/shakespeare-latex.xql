@@ -291,10 +291,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             $config?apply($config, ./node())
                     case element(l) return
-                        if (preceding-sibling::*[1][self::speaker]) then
-                            latex:inline($config, ., ("tei-l1", css:map-rend-to-class(.)), .)
-                        else
-                            latex:block($config, ., css:get-rendition(., ("tei-l2", css:map-rend-to-class(.))), .)
+                        latex:block($config, ., css:get-rendition(., ("tei-l", css:map-rend-to-class(.))), .)
                     case element(closer) return
                         latex:block($config, ., ("tei-closer", css:map-rend-to-class(.)), .)
                     case element(rhyme) return
@@ -334,7 +331,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (not(parent::p)) then
                             latex:omit($config, ., ("tei-lb1", css:map-rend-to-class(.)), .)
                         else
-                            latex:break($config, ., css:get-rendition(., ("tei-lb2", css:map-rend-to-class(.))), ., 'line', @n)
+                            latex:omit($config, ., css:get-rendition(., ("tei-lb2", css:map-rend-to-class(.))), .)
                     case element(w) return
                         latex:inline($config, ., ("tei-w", css:map-rend-to-class(.)), .)
                     case element(stage) return
@@ -543,7 +540,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(spGrp) return
                         latex:block($config, ., ("tei-spGrp", css:map-rend-to-class(.)), .)
                     case element(fw) return
-                        latex:omit($config, ., ("tei-fw4", css:map-rend-to-class(.)), .)
+                        latex:omit($config, ., ("tei-fw5", css:map-rend-to-class(.)), .)
                     case element(encodingDesc) return
                         latex:omit($config, ., ("tei-encodingDesc", css:map-rend-to-class(.)), .)
                     case element(addrLine) return
