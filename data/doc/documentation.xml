@@ -3047,7 +3047,13 @@
         <varlistentry>
           <term>epub</term>
           <listitem>
-            <para>Similar to web concerning features, but targetted at epub documents</para>
+            <para>A specialization of the web output mode targetted at epub documents</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>printcss</term>
+          <listitem>
+            <para>Also extends web output, but with a focus on Print and Paged Media</para>
           </listitem>
         </varlistentry>
       </variablelist>
@@ -3185,6 +3191,16 @@
             all generated epub files and may be used to configure general settings like page breaks,
             hyphenation, font sizes etc.
         </para>
+      </section>
+      <section xml:id="output-print-css">
+        <title>Print CSS</title>
+        <para>This output mode targets printed HTML. Browser support for the corresponding CSS specifications is not very good, but there are various tools to improve this. If you select the print CSS download option for any of the documents in TEI Publisher, which support it, you will be directed to a preview page. This page uses a library called <link xlink:href="https://pagedjs.org/">paged.js</link> to "teach" the browser how to handle certain layout aspects. Thanks to this, using the <command>print page</command> dialog of your browser will result in a much nicer page layout than if you just tried to print TEI Publisher's document view.</para>
+        <para>The preview page uses TEI Publisher's <code>pb-print-preview</code> web component. This component will retrieve the full HTML of the document, enhanced with additional CSS stylesheets for print, and passes it to paged.js for the page formatting. For testing purposes you can also click on the bottom-most button with the <guibutton>eye</guibutton> icon to see the raw HTML (without paged.js applied).</para>
+        <para>To generate the HTML of the document, the component calls Publisher's API endpoint:</para>
+        <synopsis>/api/document/doc%2Fdocumentation.xml/print?base=%2Fexist%2Fapps%2Ftei-publisher%2Fdoc%2F&amp;style=resources%2Ffonts%2Ffont.css&amp;style=resources%2Fcss%2Fprint.css</synopsis>
+        <para>The optional <parameter>base</parameter> parameter specifies the base URI for resolving relative links, e.g. to locate images. Additional CSS stylesheets can be imported with the <parameter>style</parameter> parameter, extra Javascript imports with <parameter>script</parameter>. By default, web components in the page won't be enabled (paper unfortunately does not support interactive content yet). If you need them (e.g. to format the source code examples in the documentation), pass <parameter>wc</parameter> with a value of "true".</para>
+        <para>For sure, being an open source project, paged.js does not support every fancy layout you may wish for. For example, support for formatting footnotes will be limited. There are other, mainly commercial tools, which you may use to generate PDF out of your HTML. Those include e.g. <link xlink:href="https://www.princexml.com/">Prince XML</link>, <link xlink:href="https://www.pdfreactor.com/">PDF Reactor</link> or <link xlink:href="https://antennahouse.com/">Antennahouse</link>. Each of those may have different strengths and weaknesses. Please try yourself.</para>
+        <para>For command line tools, you can use the API endpoint described above to retrieve the full HTML of the page and feed this to princeXML or whatever you want to use.</para>
       </section>
     </section>
 
