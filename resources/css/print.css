@@ -3,19 +3,6 @@
     @page {
         size: A4;
 
-        --pb-content-font-family: "Junicode", Georgia, "Times New Roman", serif;
-        --pb-content-font-size: 12pt;
-        --pb-heading-font-family: var(--pb-content-font-family);
-        --pb-footnote-font-size: 10pt;
-        --pb-footnote-font-family: var(--pb-content-font-family);
-        --pb-footnote-font-weight: var(--pb-content-font-weight);
-        --pb-footnote-color: #303030;
-        --pb-footnote-padding: 0 0 0 .25em;
-
-        font-family: var(--pb-content-font-family);
-        font-size: var(--pb-content-font-size);
-        line-height: var(--pb-base-line-height);
-
         @footnote {
             float: bottom;
             margin-top: 1em;
@@ -44,6 +31,21 @@
         }
     }
 
+    body {
+        --pb-content-font-family: "Junicode", Georgia, "Times New Roman", serif;
+        --pb-content-font-size: 12pt;
+        --pb-heading-font-family: var(--pb-content-font-family);
+        --pb-footnote-font-size: 10pt;
+        --pb-footnote-font-family: var(--pb-content-font-family);
+        --pb-footnote-font-weight: var(--pb-content-font-weight);
+        --pb-footnote-color: #303030;
+        --pb-footnote-padding: 0 0 0 .25em;
+
+        font-family: var(--pb-content-font-family);
+        font-size: var(--pb-content-font-size);
+        line-height: var(--pb-base-line-height);
+    }
+    
     .footnote {
         float: footnote;
         counter-increment: footnote;

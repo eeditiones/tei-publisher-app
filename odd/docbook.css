@@ -104,8 +104,6 @@ pb-code-highlight {
     @page {
         size: A4;
 
-        --pb-heading-font-family: "Oswald", Verdana, "Helvetica", sans-serif;
-
         @footnote {
             float: bottom;
         }
@@ -152,6 +150,10 @@ pb-code-highlight {
         @top-right {
             content: '';
         }
+    }
+
+    body {
+        --pb-heading-font-family: "Oswald", Verdana, "Helvetica", sans-serif;
     }
 
     .note {
