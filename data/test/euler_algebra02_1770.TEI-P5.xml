@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><?teipublisher view="page" odd="dta.odd" template="dta.html" media="epub,printcss"?><?xml-model href="http://www.deutschestextarchiv.de/basisformat.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><TEI xmlns="http://www.tei-c.org/ns/1.0">   <teiHeader>
+<?xml version="1.0" encoding="UTF-8"?><?teipublisher view="page" odd="dta.odd" template="dta.html" media="epub,print"?><?xml-model href="http://www.deutschestextarchiv.de/basisformat.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><TEI xmlns="http://www.tei-c.org/ns/1.0">   <teiHeader>
 <fileDesc>
 <titleStmt>
 <title type="main">Vollständige Anleitung zur Algebra</title>

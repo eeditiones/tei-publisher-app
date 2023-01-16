@@ -195,7 +195,7 @@ declare function app:download-link($node as node(), $model as map(*), $mode as x
     return
         element { node-name($node) } {
             $node/@*,
-            attribute url { $model?app || "api/document/" || escape-uri($file, true()) },
+            attribute url { "api/document/" || escape-uri($file, true()) },
             attribute odd { ($model?config?odd, $config:default-odd)[1] },
             $node/node()
         }

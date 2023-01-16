@@ -155,7 +155,7 @@
                     <model behaviour="document"/>
                 </elementSpec>
                 <elementSpec ident="info">
-                    <model output="printcss" predicate="parent::article|parent::book" behaviour="block" cssClass="frontmatter">
+                    <model output="print" predicate="parent::article|parent::book" behaviour="block" cssClass="frontmatter">
             <param name="content" value="(title, if ($parameters?skipAuthors) then () else author, pubdate, abstract)"/>
         </model>
                     <model output="latex" predicate="parent::article|parent::book" behaviour="inline">

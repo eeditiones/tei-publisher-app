@@ -245,7 +245,7 @@
         </model>
                 </elementSpec>
             <elementSpec ident="p" mode="change">
-        <model output="printcss" predicate="ancestor::note" behaviour="inline"/>
+        <model output="print" predicate="ancestor::note" behaviour="inline"/>
         <model behaviour="paragraph" useSourceRendition="true">
             <outputRendition xml:space="preserve">
             text-align: justify;

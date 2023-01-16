@@ -8,25 +8,25 @@
                 <pb-i18n key="menu.download.title">Download</pb-i18n>
             </a>
             <paper-listbox slot="dropdown-content" data-template="lib:parse-params">
-                <paper-item data-template="pages:if-supported" data-template-media="printcss">
+                <paper-item data-template="pages:if-supported" data-template-media="print">
                     <a href="${app}/print/${doc}" target="_new">Print CSS</a>
                 </paper-item>
-                <paper-item data-template="pages:if-supported" data-template-media="tex">
+                <paper-item data-template="pages:if-supported" data-template-media="latex">
                     <pb-download type="tex" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-latex" title="i18n(pdf-latex)">
                         <pb-i18n key="menu.download.pdf-latex">Download</pb-i18n>
                     </pb-download>
                 </paper-item>
-                <paper-item data-template="pages:if-supported" data-template-media="tex">
+                <paper-item data-template="pages:if-supported" data-template-media="latex">
                     <pb-download type="tex" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-latex" title="i18n(pdf-latex)" source="source">
                         <pb-i18n key="menu.download.latex-source"></pb-i18n>
                     </pb-download>
                 </paper-item>
-                <paper-item data-template="pages:if-supported" data-template-media="pdf">
+                <paper-item data-template="pages:if-supported" data-template-media="fo">
                     <pb-download type="pdf" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-fo" title="i18n(pdf-fo)">
                         <pb-i18n key="menu.download.pdf-fo"></pb-i18n>
                     </pb-download>
                 </paper-item>
-                <paper-item data-template="pages:if-supported" data-template-media="pdf">
+                <paper-item data-template="pages:if-supported" data-template-media="fo">
                     <pb-download type="pdf" src="document1" dialog="downloadDialog" data-i18n="[title]menu.download.fo-source" title="pdf-fo" source="source">
                         <pb-i18n key="menu.download.fo-source"></pb-i18n>
                     </pb-download>

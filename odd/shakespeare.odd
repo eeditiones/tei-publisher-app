@@ -40,7 +40,7 @@
         <body>
             <schemaSpec start="TEI teiCorpus" ident="shakespare" source="teipublisher.odd">
                 <elementSpec ident="pb" mode="change">
-                    <model output="printcss" behaviour="omit"/>
+                    <model output="print" behaviour="omit"/>
                     <model behaviour="webcomponent" cssClass="facs">
             <param name="name" value="'pb-facs-link'"/>
             <param name="content" value="@n"/>
@@ -143,7 +143,7 @@
             color: #CCC;
             </outputRendition>
         </model>
-                    <model output="printcss" predicate="@type" behaviour="omit">
+                    <model output="print" predicate="@type" behaviour="omit">
             <desc>Omit except for running head</desc>
         </model>
                     <model output="web" predicate="@type='catchword'" behaviour="block" cssClass="catchword">

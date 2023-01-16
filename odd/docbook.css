@@ -187,4 +187,8 @@ pb-code-highlight {
         break-before: auto;
         page: Title;
     }
+
+    dt {
+        break-after: avoid;
+    }
 }

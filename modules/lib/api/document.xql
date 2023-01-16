@@ -98,7 +98,7 @@ declare %private function dapi:generate-html($request as map(*), $outputMode as 
                     let $config := tpu:parse-pi(root($xml), ())
                     let $out := 
                         if ($outputMode = 'print') then
-                            $pm-config:printcss-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
+                            $pm-config:print-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
                         else
                             $pm-config:web-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
                     let $styles := (
@@ -324,7 +324,7 @@ declare function dapi:pdf($request as map(*)) {
                     response:stream-binary($cached, "media-type=application/pdf", $id || ".pdf")
                 ) else
                     let $start := util:system-time()
-                    let $fo := $pm-config:print-transform($doc, map { "root": $doc }, $config?odd)
+                    let $fo := $pm-config:fo-transform($doc, map { "root": $doc }, $config?odd)
                     return (
                         if ($request?parameters?source) then
                             router:response(200, "application/xml", $fo)

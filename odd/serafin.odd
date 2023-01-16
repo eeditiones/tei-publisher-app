@@ -138,12 +138,7 @@
             <param name="id" value="substring-after(@ref, '#')"/>
             <pb:template xmlns="" xml:space="preserve">\glslink{[[id]]}{[[content]]}</pb:template>
         </model>
-                    <model output="print" behaviour="inline">
-            <outputRendition xml:space="preserve">
-            color: #1565c0;
-            </outputRendition>
-        </model>
-                    <model output="printcss" predicate="$mode='register'" behaviour="cell" cssClass="persName"/>
+                    <model output="print" predicate="$mode='register'" behaviour="cell" cssClass="persName"/>
                     <model predicate="parent::person" behaviour="inline" cssClass="persName">
             <outputRendition xml:space="preserve" scope="after">
             content: ': ';
@@ -152,7 +147,7 @@
             font-weight: bold;
             </outputRendition>
         </model>
-                    <model output="printcss" behaviour="alternate">
+                    <model output="print" behaviour="alternate">
             <param name="default" value="."/>
             <param name="alternate" value="id(substring-after(@ref, '#'), root(.))/persName"/>
         </model>
@@ -165,7 +160,7 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="person" mode="add">
-                    <model output="printcss" behaviour="row" pb:mode="register">
+                    <model output="print" behaviour="row" pb:mode="register">
             <param name="content" value="(persName, note)"/>
         </model>
                     <model output="latex" behaviour="glossary">
@@ -175,13 +170,13 @@
                     <model predicate="parent::listPerson" behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
-                    <model output="printcss" predicate="$mode='register'" behaviour="cell"/>
+                    <model output="print" predicate="$mode='register'" behaviour="cell"/>
                     <model predicate="parent::person" behaviour="inline">
             <outputRendition xml:space="preserve" scope="selected">
             content: ': ';
             </outputRendition>
         </model>
-                    <model output="printcss" behaviour="pass-through">
+                    <model output="print" behaviour="pass-through">
             <pb:template xmlns="" xml:space="preserve"><span lang="pl">[[content]]</span></pb:template>
         </model>
                 </elementSpec>
@@ -190,12 +185,7 @@
             <param name="id" value="substring-after(@ref, '#')"/>
             <pb:template xmlns="" xml:space="preserve">\glslink{[[id]]}{[[content]]}</pb:template>
         </model>
-                    <model output="print" behaviour="inline">
-            <outputRendition xml:space="preserve">
-            color: #ef6c00;
-            </outputRendition>
-        </model>
-                    <model output="printcss" predicate="$mode='register'" behaviour="cell" cssClass="placeName"/>
+                    <model output="print" predicate="$mode='register'" behaviour="cell" cssClass="placeName"/>
                     <model predicate="parent::place" behaviour="inline" cssClass="placeName">
             <outputRendition xml:space="preserve" scope="after">
             content: ': ';
@@ -204,7 +194,7 @@
             font-weight: bold;
             </outputRendition>
         </model>
-                    <model output="printcss" behaviour="alternate">
+                    <model output="print" behaviour="alternate">
             <param name="default" value="."/>
             <param name="alternate" value="id(substring-after(@ref, '#'), root(.))/placeName"/>
         </model>
@@ -217,12 +207,7 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="orgName" mode="add">
-                    <model output="print" behaviour="inline">
-            <outputRendition xml:space="preserve">
-            color: #2e7d32;
-            </outputRendition>
-        </model>
-                    <model output="printcss" predicate="$mode='register'" behaviour="cell"/>
+                    <model output="print" predicate="$mode='register'" behaviour="cell"/>
                     <model predicate="parent::org" behaviour="inline">
             <outputRendition xml:space="preserve" scope="after">
             content: ': ';
@@ -231,7 +216,7 @@
             font-weight: bold;
             </outputRendition>
         </model>
-                    <model output="printcss" behaviour="alternate">
+                    <model output="print" behaviour="alternate">
             <param name="default" value="."/>
             <param name="alternate" value="id(substring-after(@ref, '#'), root(.))/orgName"/>
         </model>
@@ -291,7 +276,7 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="seg" mode="change">
-                    <model output="printcss" behaviour="inline"/>
+                    <model output="print" behaviour="inline"/>
                     <model output="latex" behaviour="inline">
             <pb:template xmlns="" xml:space="preserve">\pstart [[content]] \pend</pb:template>
         </model>
@@ -335,7 +320,7 @@
             <param name="content" value="(fileDesc/titleStmt/title[not(@type)], profileDesc/correspDesc)"/>
             <param name="level" value="5"/>
         </model>
-                    <model output="printcss" behaviour="block" cssClass="doc-title">
+                    <model output="print" behaviour="block" cssClass="doc-title">
             <param name="content" value="(fileDesc/titleStmt/title[not(@type)], profileDesc/correspDesc)"/>
         </model>
                     <model output="web" behaviour="metadata"/>
@@ -360,7 +345,7 @@
                     <model predicate="text()" behaviour="inline"/>
                 </elementSpec>
             <elementSpec ident="place" mode="add">
-                    <model output="printcss" behaviour="row" pb:mode="register">
+                    <model output="print" behaviour="row" pb:mode="register">
             <param name="content" value="(placeName, note)"/>
         </model>
                     <model output="latex" behaviour="glossary">
@@ -381,13 +366,13 @@
                     <model behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="group" mode="change">
-                    <model output="printcss" behaviour="body">
+                    <model output="print" behaviour="body">
             <param name="content" value="(., root(.)//profileDesc)"/>
         </model>
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="profileDesc" mode="change">
-                    <model output="printcss" behaviour="pass-through">
+                    <model output="print" behaviour="pass-through">
             <param name="content" value="(.//listPerson/person[note], .//listPlace/place, .//listOrg/org)"/>
             <pb:template xmlns="" xml:space="preserve"><div class="register">
   <h1>Rejestr</h1>
@@ -399,12 +384,12 @@
                     <model behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="org" mode="add">
-                    <model output="printcss" behaviour="row" pb:mode="register">
+                    <model output="print" behaviour="row" pb:mode="register">
             <param name="content" value="(orgName, desc)"/>
         </model>
                 </elementSpec>
                 <elementSpec ident="desc" mode="change">
-                    <model output="printcss" predicate="$mode='register'" behaviour="cell"/>
+                    <model output="print" predicate="$mode='register'" behaviour="cell"/>
                     <model behaviour="inline"/>
                 </elementSpec>
             </schemaSpec>
