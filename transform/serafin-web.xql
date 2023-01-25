@@ -566,9 +566,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                         html:block($config, ., ("tei-byline", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(persName) return
                         if (parent::person) then
-                            html:inline($config, ., ("tei-persName4", "persName", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
+                            html:inline($config, ., ("tei-persName3", "persName", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
                         else
-                            html:alternate($config, ., ("tei-persName6", css:map-rend-to-class(.)), ., ., id(substring-after(@ref, '#'), root(.)), map {})                            => model:map($node, $trackIds)
+                            html:alternate($config, ., ("tei-persName5", css:map-rend-to-class(.)), ., ., id(substring-after(@ref, '#'), root(.)), map {})                            => model:map($node, $trackIds)
                     case element(person) return
                         if (parent::listPerson) then
                             html:inline($config, ., ("tei-person3", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
@@ -576,14 +576,14 @@ declare function model:apply($config as map(*), $input as node()*) {
                             $config?apply($config, ./node())
                     case element(placeName) return
                         if (parent::place) then
-                            html:inline($config, ., ("tei-placeName4", "placeName", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
+                            html:inline($config, ., ("tei-placeName3", "placeName", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
                         else
-                            html:alternate($config, ., ("tei-placeName6", css:map-rend-to-class(.)), ., ., id(substring-after(@ref, '#'), root(.)), map {})                            => model:map($node, $trackIds)
+                            html:alternate($config, ., ("tei-placeName5", css:map-rend-to-class(.)), ., ., id(substring-after(@ref, '#'), root(.)), map {})                            => model:map($node, $trackIds)
                     case element(orgName) return
                         if (parent::org) then
-                            html:inline($config, ., ("tei-orgName3", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
+                            html:inline($config, ., ("tei-orgName2", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
                         else
-                            html:alternate($config, ., ("tei-orgName5", css:map-rend-to-class(.)), ., ., id(substring-after(@ref, '#'), root(.)), map {})                            => model:map($node, $trackIds)
+                            html:alternate($config, ., ("tei-orgName4", css:map-rend-to-class(.)), ., ., id(substring-after(@ref, '#'), root(.)), map {})                            => model:map($node, $trackIds)
                     case element(correspAction) return
                         if (@type='sent') then
                             html:inline($config, ., ("tei-correspAction", css:map-rend-to-class(.)), (placeName, ', ', date))                            => model:map($node, $trackIds)

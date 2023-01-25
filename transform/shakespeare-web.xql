@@ -119,7 +119,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             html:inline($config, ., ("tei-signed2", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
                     case element(pb) return
-                        html:webcomponent($config, ., ("tei-pb2", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"facs": replace(@facs, '^FFimg:(.*)$', '$1')})                        => model:map($node, $trackIds)
+                        html:webcomponent($config, ., ("tei-pb2", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"facs": replace(@facs, '^FFimg:(.*)$', '$1'), "emit": 'transcription'})                        => model:map($node, $trackIds)
                     case element(pc) return
                         html:inline($config, ., ("tei-pc", css:map-rend-to-class(.)), .)                        => model:map($node, $trackIds)
                     case element(anchor) return

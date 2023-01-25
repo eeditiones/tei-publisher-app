@@ -270,7 +270,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 $config?apply($config, ./node())
                     case element(p) return
-                        fo:paragraph($config, ., css:get-rendition(., ("tei-p2", css:map-rend-to-class(.))), .)
+                        if (ancestor::note) then
+                            fo:inline($config, ., ("tei-p1", css:map-rend-to-class(.)), .)
+                        else
+                            fo:paragraph($config, ., css:get-rendition(., ("tei-p2", css:map-rend-to-class(.))), .)
                     case element(measure) return
                         fo:inline($config, ., ("tei-measure", css:map-rend-to-class(.)), .)
                     case element(q) return
@@ -492,7 +495,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(spGrp) return
                         fo:block($config, ., ("tei-spGrp", css:map-rend-to-class(.)), .)
                     case element(fw) return
-                        fo:omit($config, ., ("tei-fw6", css:map-rend-to-class(.)), .)
+                        if (@place='top') then
+                            fo:inline($config, ., ("tei-fw1", "running", css:map-rend-to-class(.)), string(.))
+                        else
+                            fo:omit($config, ., ("tei-fw6", css:map-rend-to-class(.)), .)
                     case element(encodingDesc) return
                         fo:omit($config, ., ("tei-encodingDesc", css:map-rend-to-class(.)), .)
                     case element(addrLine) return

@@ -102,7 +102,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         
         let $output := model:apply($config, $input)
         return
-            latex:finish($config, $output)
+            $output
     )
 };
 
@@ -159,16 +159,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:inline($config, ., ("tei-milestone", css:map-rend-to-class(.)), .)
                     case element(ptr) return
                         if (parent::notatedMusic) then
-                            let $params := 
-                                map {
-                                    "url": @target,
-                                    "content": .
-                                }
-
-                                                        let $content := 
-                                model:template-ptr($config, ., $params)
-                            return
-                                                        latex:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-ptr", css:map-rend-to-class(.)), $content)
+                            (: No function found for behavior: pass-through :)
+                            $config?apply($config, ./node())
                         else
                             $config?apply($config, ./node())
                     case element(label) return

@@ -121,7 +121,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             html:inline($config, ., ("tei-signed2", css:map-rend-to-class(.)), .)
                     case element(pb) return
-                        html:webcomponent($config, ., ("tei-pb2", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"facs": replace(@facs, '^FFimg:(.*)$', '$1')})
+                        html:webcomponent($config, ., ("tei-pb2", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"facs": replace(@facs, '^FFimg:(.*)$', '$1'), "emit": 'transcription'})
                     case element(pc) return
                         html:inline($config, ., ("tei-pc", css:map-rend-to-class(.)), .)
                     case element(anchor) return

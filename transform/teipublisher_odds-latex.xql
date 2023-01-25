@@ -45,7 +45,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         
         let $output := model:apply($config, $input)
         return
-            latex:finish($config, $output)
+            $output
     )
 };
 

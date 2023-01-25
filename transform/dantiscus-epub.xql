@@ -129,7 +129,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:inline($config, ., ("tei-signed2", css:map-rend-to-class(.)), .)
                     case element(pb) return
                         if (starts-with(@facs, 'iiif:')) then
-                            html:webcomponent($config, ., ("tei-pb1", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"facs": replace(@facs, '^iiif:(.*)$', '$1')})
+                            html:webcomponent($config, ., ("tei-pb1", "facs", css:map-rend-to-class(.)), @n, 'pb-facs-link', map {"facs": replace(@facs, '^iiif:(.*)$', '$1'), "emit": 'transcription'})
                         else
                             html:omit($config, ., ("tei-pb2", css:map-rend-to-class(.)), .)
                     case element(pc) return

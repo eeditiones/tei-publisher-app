@@ -112,20 +112,23 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             fo:document($config, ., ("tei-article3", css:map-rend-to-class(.)), .)
                     case element(info) return
-                        if (not(parent::article or parent::book)) then
-                            fo:block($config, ., ("tei-info3", css:map-rend-to-class(.)), .)
+                        if (parent::article|parent::book) then
+                            fo:block($config, ., ("tei-info1", "frontmatter", css:map-rend-to-class(.)), (title, if ($parameters?skipAuthors) then () else author, pubdate, abstract))
                         else
-                            if ($parameters?header='short') then
-                                (
-                                    fo:heading($config, ., ("tei-info5", css:map-rend-to-class(.)), title, 5),
-                                    if (author) then
-                                        fo:block($config, ., ("tei-info6", css:map-rend-to-class(.)), author)
-                                    else
-                                        ()
-                                )
-
+                            if (not(parent::article or parent::book)) then
+                                fo:block($config, ., ("tei-info3", css:map-rend-to-class(.)), .)
                             else
-                                fo:block($config, ., ("tei-info7", css:map-rend-to-class(.)), (title, if ($parameters?skipAuthors) then () else author, pubdate, abstract))
+                                if ($parameters?header='short') then
+                                    (
+                                        fo:heading($config, ., ("tei-info5", css:map-rend-to-class(.)), title, 5),
+                                        if (author) then
+                                            fo:block($config, ., ("tei-info6", css:map-rend-to-class(.)), author)
+                                        else
+                                            ()
+                                    )
+
+                                else
+                                    fo:block($config, ., ("tei-info7", css:map-rend-to-class(.)), (title, if ($parameters?skipAuthors) then () else author, pubdate, abstract))
                     case element(author) return
                         if (preceding-sibling::author and not($parameters?skipAuthors)) then
                             fo:inline($config, ., ("tei-author3", css:map-rend-to-class(.)), (', ', personname, affiliation))

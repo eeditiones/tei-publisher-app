@@ -41,7 +41,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         
         let $output := model:apply($config, $input)
         return
-            latex:finish($config, $output)
+            $output
     )
 };
 
@@ -117,7 +117,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(disp-quote) return
                         latex:cit($config, ., ("tei-disp-quote", css:map-rend-to-class(.)), ., ())
                     case element(fn) return
-                        latex:pass-through($config, ., ("tei-fn", css:map-rend-to-class(.)), p)
+                        (: No function found for behavior: pass-through :)
+                        $config?apply($config, ./node())
                     case element(label) return
                         latex:block($config, ., ("tei-label", css:map-rend-to-class(.)), .)
                     case element(xref) return

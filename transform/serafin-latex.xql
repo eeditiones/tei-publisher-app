@@ -92,9 +92,22 @@ declare %private function model:template-formula2($config as map(*), $node as no
 declare %private function model:template-formula3($config as map(*), $node as node()*, $params as map(*)) {
     ``[\begin{math}`{string-join($config?apply-children($config, $node, $params?content))}`\end{math}]``
 };
+(: generated template function for element spec: note :)
+declare %private function model:template-note3($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><span lang="pl">{$config?apply-children($config, $node, $params?content)}</span></t>/*
+};
 (: generated template function for element spec: seg :)
 declare %private function model:template-seg2($config as map(*), $node as node()*, $params as map(*)) {
     ``[\pstart `{string-join($config?apply-children($config, $node, $params?content))}` \pend]``
+};
+(: generated template function for element spec: profileDesc :)
+declare %private function model:template-profileDesc($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><div class="register">
+  <h1>Rejestr</h1>
+  <table>
+    {$config?apply-children($config, $node, $params?content)}
+  </table>
+</div></t>/*
 };
 (: generated template function for element spec: text :)
 declare %private function model:template-text($config as map(*), $node as node()*, $params as map(*)) {
@@ -130,7 +143,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         
         let $output := model:apply($config, $input)
         return
-            latex:finish($config, $output)
+            $output
     )
 };
 
@@ -187,16 +200,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:inline($config, ., ("tei-milestone", css:map-rend-to-class(.)), .)
                     case element(ptr) return
                         if (parent::notatedMusic) then
-                            let $params := 
-                                map {
-                                    "url": @target,
-                                    "content": .
-                                }
-
-                                                        let $content := 
-                                model:template-ptr($config, ., $params)
-                            return
-                                                        latex:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-ptr", css:map-rend-to-class(.)), $content)
+                            (: No function found for behavior: pass-through :)
+                            $config?apply($config, ./node())
                         else
                             $config?apply($config, ./node())
                     case element(label) return
@@ -278,10 +283,14 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(code) return
                         latex:inline($config, ., ("tei-code", css:map-rend-to-class(.)), .)
                     case element(note) return
-                        if (parent::person) then
-                            latex:inline($config, ., ("tei-note2", css:map-rend-to-class(.)), .)
+                        if ($mode='register') then
+                            latex:cell($config, ., ("tei-note1", css:map-rend-to-class(.)), ., ())
                         else
-                            $config?apply($config, ./node())
+                            if (parent::person) then
+                                latex:inline($config, ., ("tei-note2", css:map-rend-to-class(.)), .)
+                            else
+                                (: No function found for behavior: pass-through :)
+                                $config?apply($config, ./node())
                     case element(dateline) return
                         latex:block($config, ., ("tei-dateline", css:map-rend-to-class(.)), .)
                     case element(back) return
@@ -335,32 +344,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(notatedMusic) return
                         latex:figure($config, ., ("tei-notatedMusic", css:map-rend-to-class(.)), ptr, label)
                     case element(seg) return
-                        let $params := 
-                            map {
-                                "content": .
-                            }
-
-                                                let $content := 
-                            model:template-seg2($config, ., $params)
-                        return
-                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-seg2", css:map-rend-to-class(.)), $content)
+                        latex:inline($config, ., ("tei-seg1", css:map-rend-to-class(.)), .)
                     case element(profileDesc) return
-                        latex:omit($config, ., ("tei-profileDesc2", css:map-rend-to-class(.)), .)
+                        (: No function found for behavior: pass-through :)
+                        $config?apply($config, ./node())
                     case element(email) return
                         latex:inline($config, ., ("tei-email", css:map-rend-to-class(.)), .)
                     case element(text) return
                         if (@type) then
-                            let $params := 
-                                map {
-                                    "type": @type,
-                                    "lang": if (@type='source') then 'la' else 'pl',
-                                    "content": .
-                                }
-
-                                                        let $content := 
-                                model:template-text($config, ., $params)
-                            return
-                                                        latex:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-text1", "translation", css:map-rend-to-class(.)), $content)
+                            (: No function found for behavior: pass-through :)
+                            $config?apply($config, ./node())
                         else
                             latex:section($config, ., ("tei-text2", css:map-rend-to-class(.)), .)
                     case element(floatingText) return
@@ -374,7 +367,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(cb) return
                         latex:break($config, ., ("tei-cb", css:map-rend-to-class(.)), ., 'column', @n)
                     case element(group) return
-                        latex:block($config, ., ("tei-group2", css:map-rend-to-class(.)), .)
+                        latex:body($config, ., ("tei-group1", css:map-rend-to-class(.)), (., root(.)//profileDesc))
                     case element(licence) return
                         latex:omit($config, ., ("tei-licence2", css:map-rend-to-class(.)), .)
                     case element(editor) return
@@ -459,7 +452,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(biblScope) return
                         latex:inline($config, ., ("tei-biblScope", css:map-rend-to-class(.)), .)
                     case element(desc) return
-                        latex:inline($config, ., ("tei-desc2", css:map-rend-to-class(.)), .)
+                        if ($mode='register') then
+                            latex:cell($config, ., ("tei-desc1", css:map-rend-to-class(.)), ., ())
+                        else
+                            latex:inline($config, ., ("tei-desc2", css:map-rend-to-class(.)), .)
                     case element(role) return
                         latex:block($config, ., ("tei-role", css:map-rend-to-class(.)), .)
                     case element(docEdition) return
@@ -689,7 +685,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                         return
                                                 latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-persName1", css:map-rend-to-class(.)), $content)
                     case element(person) return
-                        model:glossary($config, ., ("tei-person2", css:map-rend-to-class(.)), ., persName/text(), note)
+                        let $config := map:merge(($config, map { "mode": "register" })) return
+                                                            latex:row($config, ., ("tei-person1", css:map-rend-to-class(.)), (persName, note))
                     case element(placeName) return
                         let $params := 
                             map {
@@ -702,14 +699,25 @@ declare function model:apply($config as map(*), $input as node()*) {
                         return
                                                 latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-placeName1", css:map-rend-to-class(.)), $content)
                     case element(orgName) return
-                        latex:inline($config, ., ("tei-orgName1", css:map-rend-to-class(.)), .)
+                        if ($mode='register') then
+                            latex:cell($config, ., ("tei-orgName1", css:map-rend-to-class(.)), ., ())
+                        else
+                            if (parent::org) then
+                                latex:inline($config, ., ("tei-orgName2", css:map-rend-to-class(.)), .)
+                            else
+                                (: More than one model without predicate found for ident orgName. Choosing first one. :)
+                                latex:alternate($config, ., ("tei-orgName3", css:map-rend-to-class(.)), ., ., id(substring-after(@ref, '#'), root(.))/orgName)
                     case element(correspAction) return
                         if (@type='sent') then
                             latex:inline($config, ., ("tei-correspAction", css:map-rend-to-class(.)), (placeName, ', ', date))
                         else
                             $config?apply($config, ./node())
                     case element(place) return
-                        model:glossary($config, ., ("tei-place2", css:map-rend-to-class(.)), ., placeName/text(), note)
+                        let $config := map:merge(($config, map { "mode": "register" })) return
+                                                            latex:row($config, ., ("tei-place1", css:map-rend-to-class(.)), (placeName, note))
+                    case element(org) return
+                        let $config := map:merge(($config, map { "mode": "register" })) return
+                                                            latex:row($config, ., ("tei-org", css:map-rend-to-class(.)), (orgName, desc))
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

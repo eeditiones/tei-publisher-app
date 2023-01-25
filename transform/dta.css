@@ -65,6 +65,8 @@ p * {
     section {
         break-before: page;
     }
+
+   
 }
 .simple_allcaps { text-transform: uppercase; }
 .simple_blackletter { font-family: fantasy; }

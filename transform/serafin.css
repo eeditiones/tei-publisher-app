@@ -202,16 +202,13 @@
 .tei-quote1:after { content: '’'; }
 .tei-quote2 { margin-left: 10px; margin-right: 10px; }
 .tei-row1 { font-weight: bold; }
-.tei-persName2 { color: #1565c0; }
-.tei-persName4:after { content: ': '; }
-.tei-persName4 { font-weight: bold; }
-.tei-persName6 { color: #1565c0; }
-.tei-placeName2 { color: #ef6c00; }
-.tei-placeName4:after { content: ': '; }
-.tei-placeName4 { font-weight: bold; }
-.tei-placeName6 { color: #ef6c00; }
-.tei-orgName1 { color: #2e7d32; }
-.tei-orgName3:after { content: ': '; }
-.tei-orgName3 { font-weight: bold; }
-.tei-orgName5 { color: #2e7d32; }
+.tei-persName3:after { content: ': '; }
+.tei-persName3 { font-weight: bold; }
+.tei-persName5 { color: #1565c0; }
+.tei-placeName3:after { content: ': '; }
+.tei-placeName3 { font-weight: bold; }
+.tei-placeName5 { color: #ef6c00; }
+.tei-orgName2:after { content: ': '; }
+.tei-orgName2 { font-weight: bold; }
+.tei-orgName4 { color: #2e7d32; }
 .tei-correspAction:before { content: ' — '; }

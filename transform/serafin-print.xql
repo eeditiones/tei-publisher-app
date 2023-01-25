@@ -25,6 +25,19 @@ declare %private function model:template-ptr($config as map(*), $node as node()*
   <pb-option name="appXPath" on="./rdg[contains(@label, 'original')]" off="">Original Clefs</pb-option>
 </pb-mei></t>/*
 };
+(: generated template function for element spec: note :)
+declare %private function model:template-note3($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><span lang="pl">{$config?apply-children($config, $node, $params?content)}</span></t>/*
+};
+(: generated template function for element spec: profileDesc :)
+declare %private function model:template-profileDesc($config as map(*), $node as node()*, $params as map(*)) {
+    <t xmlns=""><div class="register">
+  <h1>Rejestr</h1>
+  <table>
+    {$config?apply-children($config, $node, $params?content)}
+  </table>
+</div></t>/*
+};
 (: generated template function for element spec: text :)
 declare %private function model:template-text($config as map(*), $node as node()*, $params as map(*)) {
     <t xmlns=""><div class="{$config?apply-children($config, $node, $params?type)}" lang="{$config?apply-children($config, $node, $params?lang)}">{$config?apply-children($config, $node, $params?content)}</div></t>/*
@@ -151,10 +164,14 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(code) return
                         fo:inline($config, ., ("tei-code", css:map-rend-to-class(.)), .)
                     case element(note) return
-                        if (parent::person) then
-                            fo:inline($config, ., ("tei-note2", css:map-rend-to-class(.)), .)
+                        if ($mode='register') then
+                            fo:cell($config, ., ("tei-note1", css:map-rend-to-class(.)), ., ())
                         else
-                            $config?apply($config, ./node())
+                            if (parent::person) then
+                                fo:inline($config, ., ("tei-note2", css:map-rend-to-class(.)), .)
+                            else
+                                (: No function found for behavior: pass-through :)
+                                $config?apply($config, ./node())
                     case element(dateline) return
                         fo:block($config, ., ("tei-dateline", css:map-rend-to-class(.)), .)
                     case element(back) return
@@ -208,10 +225,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(notatedMusic) return
                         fo:figure($config, ., ("tei-notatedMusic", css:map-rend-to-class(.)), ptr, label)
                     case element(seg) return
-                        (: No function found for behavior: webcomponent :)
-                        $config?apply($config, ./node())
+                        fo:inline($config, ., ("tei-seg1", css:map-rend-to-class(.)), .)
                     case element(profileDesc) return
-                        fo:omit($config, ., ("tei-profileDesc2", css:map-rend-to-class(.)), .)
+                        (: No function found for behavior: pass-through :)
+                        $config?apply($config, ./node())
                     case element(email) return
                         fo:inline($config, ., ("tei-email", css:map-rend-to-class(.)), .)
                     case element(text) return
@@ -231,7 +248,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(cb) return
                         fo:break($config, ., ("tei-cb", css:map-rend-to-class(.)), ., 'column', @n)
                     case element(group) return
-                        fo:block($config, ., ("tei-group2", css:map-rend-to-class(.)), .)
+                        fo:body($config, ., ("tei-group1", css:map-rend-to-class(.)), (., root(.)//profileDesc))
                     case element(licence) return
                         fo:omit($config, ., ("tei-licence2", css:map-rend-to-class(.)), .)
                     case element(editor) return
@@ -316,7 +333,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(biblScope) return
                         fo:inline($config, ., ("tei-biblScope", css:map-rend-to-class(.)), .)
                     case element(desc) return
-                        fo:inline($config, ., ("tei-desc2", css:map-rend-to-class(.)), .)
+                        if ($mode='register') then
+                            fo:cell($config, ., ("tei-desc1", css:map-rend-to-class(.)), ., ())
+                        else
+                            fo:inline($config, ., ("tei-desc2", css:map-rend-to-class(.)), .)
                     case element(role) return
                         fo:block($config, ., ("tei-role", css:map-rend-to-class(.)), .)
                     case element(docEdition) return
@@ -534,23 +554,46 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(byline) return
                         fo:block($config, ., ("tei-byline", css:map-rend-to-class(.)), .)
                     case element(persName) return
-                        fo:inline($config, ., ("tei-persName2", css:map-rend-to-class(.)), .)
-                    case element(person) return
-                        if (parent::listPerson) then
-                            fo:inline($config, ., ("tei-person3", css:map-rend-to-class(.)), .)
+                        if ($mode='register') then
+                            fo:cell($config, ., ("tei-persName2", "persName", css:map-rend-to-class(.)), ., ())
                         else
-                            $config?apply($config, ./node())
+                            if (parent::person) then
+                                fo:inline($config, ., ("tei-persName3", "persName", css:map-rend-to-class(.)), .)
+                            else
+                                (: More than one model without predicate found for ident persName. Choosing first one. :)
+                                fo:alternate($config, ., ("tei-persName4", css:map-rend-to-class(.)), ., ., id(substring-after(@ref, '#'), root(.))/persName)
+                    case element(person) return
+                        let $config := map:merge(($config, map { "mode": "register" })) return
+                                                            fo:row($config, ., ("tei-person1", css:map-rend-to-class(.)), (persName, note))
                     case element(placeName) return
-                        fo:inline($config, ., ("tei-placeName2", css:map-rend-to-class(.)), .)
+                        if ($mode='register') then
+                            fo:cell($config, ., ("tei-placeName2", "placeName", css:map-rend-to-class(.)), ., ())
+                        else
+                            if (parent::place) then
+                                fo:inline($config, ., ("tei-placeName3", "placeName", css:map-rend-to-class(.)), .)
+                            else
+                                (: More than one model without predicate found for ident placeName. Choosing first one. :)
+                                fo:alternate($config, ., ("tei-placeName4", css:map-rend-to-class(.)), ., ., id(substring-after(@ref, '#'), root(.))/placeName)
                     case element(orgName) return
-                        fo:inline($config, ., ("tei-orgName1", css:map-rend-to-class(.)), .)
+                        if ($mode='register') then
+                            fo:cell($config, ., ("tei-orgName1", css:map-rend-to-class(.)), ., ())
+                        else
+                            if (parent::org) then
+                                fo:inline($config, ., ("tei-orgName2", css:map-rend-to-class(.)), .)
+                            else
+                                (: More than one model without predicate found for ident orgName. Choosing first one. :)
+                                fo:alternate($config, ., ("tei-orgName3", css:map-rend-to-class(.)), ., ., id(substring-after(@ref, '#'), root(.))/orgName)
                     case element(correspAction) return
                         if (@type='sent') then
                             fo:inline($config, ., ("tei-correspAction", css:map-rend-to-class(.)), (placeName, ', ', date))
                         else
                             $config?apply($config, ./node())
                     case element(place) return
-                        fo:inline($config, ., ("tei-place3", css:map-rend-to-class(.)), .)
+                        let $config := map:merge(($config, map { "mode": "register" })) return
+                                                            fo:row($config, ., ("tei-place1", css:map-rend-to-class(.)), (placeName, note))
+                    case element(org) return
+                        let $config := map:merge(($config, map { "mode": "register" })) return
+                                                            fo:row($config, ., ("tei-org", css:map-rend-to-class(.)), (orgName, desc))
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

@@ -108,8 +108,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             fo:inline($config, ., ("tei-signed2", css:map-rend-to-class(.)), .)
                     case element(pb) return
-                        (: No function found for behavior: webcomponent :)
-                        $config?apply($config, ./node())
+                        fo:omit($config, ., ("tei-pb1", css:map-rend-to-class(.)), .)
                     case element(pc) return
                         fo:inline($config, ., ("tei-pc", css:map-rend-to-class(.)), .)
                     case element(anchor) return
@@ -504,7 +503,11 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(spGrp) return
                         fo:block($config, ., ("tei-spGrp", css:map-rend-to-class(.)), .)
                     case element(fw) return
-                        fo:omit($config, ., ("tei-fw5", css:map-rend-to-class(.)), .)
+                        if (@type) then
+                            (: Omit except for running head :)
+                            fo:omit($config, ., ("tei-fw2", css:map-rend-to-class(.)), .)
+                        else
+                            fo:omit($config, ., ("tei-fw5", css:map-rend-to-class(.)), .)
                     case element(encodingDesc) return
                         fo:omit($config, ., ("tei-encodingDesc", css:map-rend-to-class(.)), .)
                     case element(addrLine) return

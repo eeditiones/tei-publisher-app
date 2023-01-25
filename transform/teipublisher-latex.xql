@@ -55,7 +55,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         
         let $output := model:apply($config, $input)
         return
-            latex:finish($config, $output)
+            $output
     )
 };
 
@@ -275,7 +275,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(rhyme) return
                         latex:inline($config, ., ("tei-rhyme", css:map-rend-to-class(.)), .)
                     case element(p) return
-                        latex:paragraph($config, ., css:get-rendition(., ("tei-p2", css:map-rend-to-class(.))), .)
+                        if (ancestor::note) then
+                            latex:inline($config, ., ("tei-p1", css:map-rend-to-class(.)), .)
+                        else
+                            latex:paragraph($config, ., css:get-rendition(., ("tei-p2", css:map-rend-to-class(.))), .)
                     case element(list) return
                         if (@rendition) then
                             latex:list($config, ., css:get-rendition(., ("tei-list1", css:map-rend-to-class(.))), item, ())
@@ -545,16 +548,8 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:figure($config, ., ("tei-notatedMusic", css:map-rend-to-class(.)), ptr, label)
                     case element(ptr) return
                         if (parent::notatedMusic) then
-                            let $params := 
-                                map {
-                                    "url": @target,
-                                    "content": .
-                                }
-
-                                                        let $content := 
-                                model:template-ptr($config, ., $params)
-                            return
-                                                        latex:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-ptr", css:map-rend-to-class(.)), $content)
+                            (: No function found for behavior: pass-through :)
+                            $config?apply($config, ./node())
                         else
                             $config?apply($config, ./node())
                     case element() return

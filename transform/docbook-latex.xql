@@ -156,7 +156,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         
         let $output := model:apply($config, $input)
         return
-            latex:finish($config, $output)
+            $output
     )
 };
 
@@ -191,31 +191,34 @@ declare function model:apply($config as map(*), $input as node()*) {
                                                 latex:block(map:merge(($config, map:entry("template", true()))), ., ("tei-article1", css:map-rend-to-class(.)), $content)
                     case element(info) return
                         if (parent::article|parent::book) then
-                            let $params := 
-                                map {
-                                    "content": title,
-                                    "author": author
-                                }
-
-                                                        let $content := 
-                                model:template-info2($config, ., $params)
-                            return
-                                                        latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-info2", css:map-rend-to-class(.)), $content)
+                            latex:block($config, ., ("tei-info1", "frontmatter", css:map-rend-to-class(.)), (title, if ($parameters?skipAuthors) then () else author, pubdate, abstract))
                         else
-                            if (not(parent::article or parent::book)) then
-                                latex:block($config, ., ("tei-info3", css:map-rend-to-class(.)), .)
-                            else
-                                if ($parameters?header='short') then
-                                    (
-                                        latex:heading($config, ., ("tei-info5", css:map-rend-to-class(.)), title, 5),
-                                        if (author) then
-                                            latex:block($config, ., ("tei-info6", css:map-rend-to-class(.)), author)
-                                        else
-                                            ()
-                                    )
+                            if (parent::article|parent::book) then
+                                let $params := 
+                                    map {
+                                        "content": title,
+                                        "author": author
+                                    }
 
+                                                                let $content := 
+                                    model:template-info2($config, ., $params)
+                                return
+                                                                latex:inline(map:merge(($config, map:entry("template", true()))), ., ("tei-info2", css:map-rend-to-class(.)), $content)
+                            else
+                                if (not(parent::article or parent::book)) then
+                                    latex:block($config, ., ("tei-info3", css:map-rend-to-class(.)), .)
                                 else
-                                    latex:block($config, ., ("tei-info7", css:map-rend-to-class(.)), (title, if ($parameters?skipAuthors) then () else author, pubdate, abstract))
+                                    if ($parameters?header='short') then
+                                        (
+                                            latex:heading($config, ., ("tei-info5", css:map-rend-to-class(.)), title, 5),
+                                            if (author) then
+                                                latex:block($config, ., ("tei-info6", css:map-rend-to-class(.)), author)
+                                            else
+                                                ()
+                                        )
+
+                                    else
+                                        latex:block($config, ., ("tei-info7", css:map-rend-to-class(.)), (title, if ($parameters?skipAuthors) then () else author, pubdate, abstract))
                     case element(author) return
                         if (preceding-sibling::author) then
                             let $params := 
