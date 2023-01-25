@@ -117,8 +117,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(disp-quote) return
                         fo:cit($config, ., ("tei-disp-quote", css:map-rend-to-class(.)), ., ())
                     case element(fn) return
-                        (: No function found for behavior: pass-through :)
-                        $config?apply($config, ./node())
+                        fo:pass-through($config, ., ("tei-fn", css:map-rend-to-class(.)), p)
                     case element(label) return
                         fo:block($config, ., ("tei-label", css:map-rend-to-class(.)), .)
                     case element(xref) return

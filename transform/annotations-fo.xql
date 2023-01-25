@@ -112,8 +112,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:inline($config, ., ("tei-milestone", css:map-rend-to-class(.)), .)
                     case element(ptr) return
                         if (parent::notatedMusic) then
-                            (: No function found for behavior: pass-through :)
-                            $config?apply($config, ./node())
+                            let $params := 
+                                map {
+                                    "url": @target,
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template-ptr($config, ., $params)
+                            return
+                                                        fo:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-ptr", css:map-rend-to-class(.)), $content)
                         else
                             $config?apply($config, ./node())
                     case element(label) return
@@ -143,16 +151,43 @@ declare function model:apply($config as map(*), $input as node()*) {
                                 $config?apply($config, ./node())
                     case element(choice) return
                         if (sic and corr) then
-                            (: No function found for behavior: pass-through :)
-                            $config?apply($config, ./node())
+                            let $params := 
+                                map {
+                                    "sic": sic[1]/node(),
+                                    "corr": corr[1]/node(),
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template-choice($config, ., $params)
+                            return
+                                                        fo:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-choice1", css:map-rend-to-class(.)), $content)
                         else
                             if (abbr and expan) then
-                                (: No function found for behavior: pass-through :)
-                                $config?apply($config, ./node())
+                                let $params := 
+                                    map {
+                                        "expan": expan[1]/node(),
+                                        "abbr": abbr[1]/node(),
+                                        "content": .
+                                    }
+
+                                                                let $content := 
+                                    model:template-choice2($config, ., $params)
+                                return
+                                                                fo:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-choice2", css:map-rend-to-class(.)), $content)
                             else
                                 if (orig and reg) then
-                                    (: No function found for behavior: pass-through :)
-                                    $config?apply($config, ./node())
+                                    let $params := 
+                                        map {
+                                            "reg": reg[1]/node(),
+                                            "orig": orig[1]/node(),
+                                            "content": .
+                                        }
+
+                                                                        let $content := 
+                                        model:template-choice3($config, ., $params)
+                                    return
+                                                                        fo:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-choice3", css:map-rend-to-class(.)), $content)
                                 else
                                     $config?apply($config, ./node())
                     case element(hi) return
@@ -558,8 +593,17 @@ declare function model:apply($config as map(*), $input as node()*) {
                         )
 
                     case element(app) return
-                        (: No function found for behavior: pass-through :)
-                        $config?apply($config, ./node())
+                        let $params := 
+                            map {
+                                "lem": lem[1]/node(),
+                                "rdg": string-join(  for $rdg at $p in ./rdg return (      '"rdg[' || $p || ']":"' || $rdg/string() || '"',         '"wit[' || $p || ']":"' || $rdg/@wit/string() || '"'     ),     ',' ),
+                                "content": .
+                            }
+
+                                                let $content := 
+                            model:template-app($config, ., $params)
+                        return
+                                                fo:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-app", css:map-rend-to-class(.)), $content)
                     case element() return
                         if (namespace-uri(.) = 'http://www.tei-c.org/ns/1.0') then
                             $config?apply($config, ./node())

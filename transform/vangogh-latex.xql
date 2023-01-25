@@ -81,7 +81,7 @@ declare function model:transform($options as map(*), $input as node()*) {
     let $config :=
         map:merge(($options,
             map {
-                "output": ["latex","print"],
+                "output": ["latex"],
                 "odd": "/db/apps/tei-publisher/odd/vangogh.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
@@ -93,7 +93,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         
         let $output := model:apply($config, $input)
         return
-            $output
+            latex:finish($config, $output)
     )
 };
 
@@ -142,8 +142,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:inline($config, ., ("tei-milestone", css:map-rend-to-class(.)), .)
                     case element(ptr) return
                         if (parent::notatedMusic) then
-                            (: No function found for behavior: pass-through :)
-                            $config?apply($config, ./node())
+                            let $params := 
+                                map {
+                                    "url": @target,
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template-ptr($config, ., $params)
+                            return
+                                                        latex:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-ptr", css:map-rend-to-class(.)), $content)
                         else
                             $config?apply($config, ./node())
                     case element(label) return
@@ -248,20 +256,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(titlePart) return
                         latex:block($config, ., css:get-rendition(., ("tei-titlePart", css:map-rend-to-class(.))), .)
                     case element(ab) return
-                        if (@rend='indent') then
-                            latex:paragraph($config, ., ("tei-ab1", css:map-rend-to-class(.)), .)
+                        if ((ancestor::div[@type='translation'] or $parameters?view='normalized') and @rend='indent') then
+                            latex:paragraph($config, ., ("tei-ab3", css:map-rend-to-class(.)), .)
                         else
-                            if ((ancestor::div[@type='translation'] or $parameters?view='normalized') and @rend='indent') then
-                                latex:paragraph($config, ., ("tei-ab3", css:map-rend-to-class(.)), .)
+                            if (ancestor::div[@type='translation'] or $parameters?view='normalized') then
+                                latex:paragraph($config, ., ("tei-ab4", css:map-rend-to-class(.)), .)
                             else
-                                if (ancestor::div[@type='translation'] or $parameters?view='normalized') then
-                                    latex:paragraph($config, ., ("tei-ab4", css:map-rend-to-class(.)), .)
+                                if (@rend='indent') then
+                                    latex:inline($config, ., ("tei-ab5", css:map-rend-to-class(.)), .)
                                 else
-                                    if (@rend='indent') then
-                                        latex:inline($config, ., ("tei-ab5", css:map-rend-to-class(.)), .)
-                                    else
-                                        (: More than one model without predicate found for ident ab. Choosing first one. :)
-                                        latex:paragraph($config, ., ("tei-ab2", css:map-rend-to-class(.)), .)
+                                    latex:inline($config, ., ("tei-ab6", css:map-rend-to-class(.)), .)
                     case element(revisionDesc) return
                         latex:omit($config, ., ("tei-revisionDesc", css:map-rend-to-class(.)), .)
                     case element(am) return
@@ -374,10 +378,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 $config?apply($config, ./node())
                     case element(p) return
-                        if (ancestor::note) then
-                            latex:inline($config, ., ("tei-p1", css:map-rend-to-class(.)), .)
-                        else
-                            latex:paragraph($config, ., css:get-rendition(., ("tei-p2", css:map-rend-to-class(.))), .)
+                        latex:paragraph($config, ., css:get-rendition(., ("tei-p2", css:map-rend-to-class(.))), .)
                     case element(measure) return
                         latex:inline($config, ., ("tei-measure", css:map-rend-to-class(.)), .)
                     case element(q) return
@@ -523,15 +524,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                         latex:block($config, ., ("tei-argument", css:map-rend-to-class(.)), .)
                     case element(date) return
                         if (text()) then
-                            latex:inline($config, ., ("tei-date1", css:map-rend-to-class(.)), .)
+                            latex:inline($config, ., ("tei-date4", css:map-rend-to-class(.)), .)
                         else
-                            if (@when and not(text())) then
-                                latex:inline($config, ., ("tei-date2", css:map-rend-to-class(.)), @when)
-                            else
-                                if (text()) then
-                                    latex:inline($config, ., ("tei-date4", css:map-rend-to-class(.)), .)
-                                else
-                                    $config?apply($config, ./node())
+                            $config?apply($config, ./node())
                     case element(title) return
                         if ($parameters?header='short') then
                             latex:heading($config, ., ("tei-title1", css:map-rend-to-class(.)), ., 5)
@@ -656,8 +651,6 @@ declare function model:apply($config as map(*), $input as node()*) {
                             latex:block($config, ., ("tei-vg_letDesc8", css:map-rend-to-class(.)), note[@type='additionalDetail']/node())
                         )
 
-                    case element(surface) return
-                        latex:omit($config, ., ("tei-surface", css:map-rend-to-class(.)), .)
                     case element(vg:whiteline) return
                         latex:break($config, ., ("tei-vg_whiteline", css:map-rend-to-class(.)), ., 'column', ())
                     case element() return

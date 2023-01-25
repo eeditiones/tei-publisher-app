@@ -100,8 +100,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:inline($config, ., ("tei-milestone", css:map-rend-to-class(.)), .)
                     case element(ptr) return
                         if (parent::notatedMusic) then
-                            (: No function found for behavior: pass-through :)
-                            $config?apply($config, ./node())
+                            let $params := 
+                                map {
+                                    "url": @target,
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template-ptr($config, ., $params)
+                            return
+                                                        fo:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-ptr", css:map-rend-to-class(.)), $content)
                         else
                             $config?apply($config, ./node())
                     case element(label) return
@@ -216,8 +224,17 @@ declare function model:apply($config as map(*), $input as node()*) {
                         fo:inline($config, ., ("tei-email", css:map-rend-to-class(.)), .)
                     case element(text) return
                         if (@type) then
-                            (: No function found for behavior: pass-through :)
-                            $config?apply($config, ./node())
+                            let $params := 
+                                map {
+                                    "type": @type,
+                                    "lang": if (@type='source') then 'la' else 'pl',
+                                    "content": .
+                                }
+
+                                                        let $content := 
+                                model:template-text($config, ., $params)
+                            return
+                                                        fo:pass-through(map:merge(($config, map:entry("template", true()))), ., ("tei-text1", "translation", css:map-rend-to-class(.)), $content)
                         else
                             fo:section($config, ., ("tei-text2", css:map-rend-to-class(.)), .)
                     case element(floatingText) return

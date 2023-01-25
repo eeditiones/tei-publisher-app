@@ -29,7 +29,7 @@ declare function model:transform($options as map(*), $input as node()*) {
     let $config :=
         map:merge(($options,
             map {
-                "output": ["latex","print"],
+                "output": ["latex"],
                 "odd": "/db/apps/tei-publisher/odd/jats.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
@@ -41,7 +41,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         
         let $output := model:apply($config, $input)
         return
-            $output
+            latex:finish($config, $output)
     )
 };
 
@@ -117,8 +117,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(disp-quote) return
                         latex:cit($config, ., ("tei-disp-quote", css:map-rend-to-class(.)), ., ())
                     case element(fn) return
-                        (: No function found for behavior: pass-through :)
-                        $config?apply($config, ./node())
+                        latex:pass-through($config, ., ("tei-fn", css:map-rend-to-class(.)), p)
                     case element(label) return
                         latex:block($config, ., ("tei-label", css:map-rend-to-class(.)), .)
                     case element(xref) return

@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/ukraina/fo' at '/db/apps/tei-publisher/transform/ukraina-print.xql';
+import module namespace m='http://www.tei-c.org/pm/models/ukraina/print' at '/db/apps/tei-publisher/transform/ukraina-print.xql';
 
 declare variable $xml external;
 
