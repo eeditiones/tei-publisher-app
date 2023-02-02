@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/vscode/devcontainers/java:dev-8
 
 ARG EXIST_VERSION=6.0.1
 ARG TEMPLATING_VERSION=1.0.4
-ARG PUBLISHER_LIB_VERSION=3.0.0
+ARG PUBLISHER_LIB_VERSION=master
 ARG ROUTER_VERSION=1.7.6
 ARG EDITOR_VERSION=1.0.1
 
@@ -70,8 +70,16 @@ RUN curl -L -o exist-distribution-${EXIST_VERSION}-unix.tar.bz2 https://github.c
     && rm exist-distribution-${EXIST_VERSION}-unix.tar.bz2 \
     && mv /usr/local/exist-distribution-${EXIST_VERSION} /usr/local/exist
 
+RUN if [ "${PUBLISHER_LIB_VERSION}" = "master" ]; then \
+        git clone https://github.com/eeditiones/tei-publisher-lib.git \
+        && cd tei-publisher-lib \
+        && ant \
+        && cp build/*.xar /usr/local/exist/autodeploy; \
+    else \
+        curl -L -o /usr/local/exist/autodeploy/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar; \
+    fi
+
 RUN curl -L -o /usr/local/exist/autodeploy/roaster-${ROUTER_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar
-RUN curl -L -o /usr/local/exist/autodeploy/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar
 RUN curl -L -o /usr/local/exist/autodeploy/templating-${TEMPLATING_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/templating-${TEMPLATING_VERSION}.xar
 RUN curl -L -o /usr/local/exist/autodeploy/atom-editor-${EDITOR_VERSION}.xar https://github.com/wolfgangmm/existdb-langserver/raw/master/resources/atom-editor-${EDITOR_VERSION}.xar
 
