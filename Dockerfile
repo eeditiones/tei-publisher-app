@@ -56,9 +56,9 @@ RUN if [ "${PUBLISHER_LIB_VERSION}" = "master" ]; then \
         git clone https://github.com/eeditiones/tei-publisher-lib.git \
         && cd tei-publisher-lib \
         && ant \
-        && cp build/*.xar /usr/local/exist/autodeploy; \
+        && cp build/*.xar /tmp; \
     else \
-        curl -L -o /usr/local/exist/autodeploy/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar; \
+        curl -L -o /tmp/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar; \
     fi
 
 # Build tei-publisher-app
