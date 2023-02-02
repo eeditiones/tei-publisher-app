@@ -1,4 +1,5 @@
 @media print {
+
     @page {
         size: A4;
         font-family: var(--pb-content-font-family);
@@ -54,6 +55,26 @@
         text-align: left;
     }
 
+    @supports (-prince-float: sidenote) {
+        @page {
+            @leftnote {
+                width: 2.5cm;
+                margin-right: .5cm;
+            }
+        }
+
+        .source, .translation {
+            margin-left: 0;
+        }
+
+        .alternate {
+            background-color: beige;
+            float: leftnote;
+            width: 100%;
+            margin-left: auto;
+        }
+    }
+
     /* .translation .alternate {
         display: none;
     } */
@@ -63,7 +84,7 @@
     }
 
     .persName::after, .placeName::after, .orgName::after {
-        content: '';
+        content: '' !important;
     }
 
     .doc-title .alternate {

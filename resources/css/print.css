@@ -1,5 +1,9 @@
 @media print {
 
+    @prince-pdf {
+        -prince-pdf-page-layout: two-column-right;
+    }
+
     @page {
         size: A4;
 
@@ -62,6 +66,12 @@
         content: counter(footnote-marker, decimal) ". ";
         font-size: var(--pb-footnote-font-size);
         vertical-align: super;
+    }
+
+    @supports (-prince-float: sidenote) {
+        ::footnote-marker {
+            content: counter(footnote, decimal) ". ";
+        }
     }
 
     pb-code-highlight {
