@@ -45,7 +45,7 @@ main {
     overflow: auto;
     font-family: var(--pb-base-font-family);
     font-size: 20px;
-    padding: 0;
+    padding: 1em 0 0 0;
 }
 
 footer {

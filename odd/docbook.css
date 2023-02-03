@@ -2,6 +2,7 @@ h1, h2, h3, h4, h5, h6 {
     font-family: var(--pb-heading-font-family);
     line-height: 1.2;
     font-weight: var(--pb-heading-font-weight);
+    margin-top: 0;
 }
 
 .doc-title {
@@ -168,10 +169,24 @@ pb-code-highlight {
     p {
         hyphens: auto;
         text-align: justify;
+        widows: 2;
+        orphans: 2;
     }
 
     .frontmatter {
         page: Title;
+    }
+
+    section {
+        margin-bottom: 2.5em;
+    }
+    
+    section section {
+        margin-bottom: 1.5em;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        break-after: avoid;
     }
 
     h1.title {
@@ -190,5 +205,10 @@ pb-code-highlight {
 
     dt {
         break-after: avoid;
+    }
+
+    figure {
+        break-inside: avoid;
+        -prince-float: snap;
     }
 }
