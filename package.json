@@ -12,7 +12,7 @@
   },
   "license": "GPL-3.0",
   "dependencies": {
-    "@teipublisher/pb-components": "^1.42.3"
+    "@teipublisher/pb-components": "^1.43.1"
   },
   "devDependencies": {
     "axios": "^0.21.2",
