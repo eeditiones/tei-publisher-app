@@ -1,4 +1,4 @@
-<?teipublisher template="translation.html" odd="serafin.odd" view="div"?>
+<?teipublisher template="translation.html" odd="serafin.odd" view="div" media="print,latex,epub"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS2">
    <teiHeader>
       <fileDesc>

@@ -65,7 +65,7 @@ declare function oapi:recompile($request as map(*)) {
             if ($pi?output) then
                 tokenize($pi?output)
             else
-                ("web", "print", "latex", "epub")
+                ("web", "print", "latex", "epub", "fo")
         return
             try {
                 for $output in pmu:process-odd(
@@ -235,7 +235,7 @@ return
 };
 
 declare %private function oapi:compile($odd) {
-    for $module in ("web", "print", "latex", "epub")
+    for $module in ("web", "print", "latex", "epub", "fo")
     let $result :=
         pmu:process-odd(
             odd:get-compiled($config:odd-root, $odd || ".odd"),

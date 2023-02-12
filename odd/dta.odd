@@ -58,20 +58,15 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="fw" mode="change">
+                    <model output="print" predicate="@place='top'" behaviour="inline" cssClass="running">
+            <param name="content" value="string(.)"/>
+        </model>
                     <model output="web" predicate="@place='top' and $parameters?view='page'" behaviour="inline">
             <outputRendition xml:space="preserve">
-            
-            
-            
-                            
-                            display: inline-block;
+            display: inline-block;
                             margin-top: .5em;
                             margin-bottom: 1em;
                             color: #CCC;
-                            
-                        
-            
-            
             </outputRendition>
         </model>
                     <model output="web" predicate="@type='sig' and $parameters?view='page'" behaviour="block">

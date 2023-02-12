@@ -259,6 +259,22 @@ declare function pages:get-content($config as map(*), $div as element()) {
     nav:get-content($config, $div)
 };
 
+declare function pages:if-supported($node as node(), $model as map(*), $media as xs:string?) {
+    if ($media and exists($model?media)) then
+        if ($media = $model?media) then
+            element { node-name($node) } {
+                $node/@*,
+                templates:process($node/node(), $model)
+            }
+        else
+            ()
+    else
+        element { node-name($node) } {
+            $node/@*,
+            templates:process($node/node(), $model)
+        }
+};
+
 declare function pages:pb-page($node as node(), $model as map(*)) {
     let $docPath := 
         if (matches($model?doc, "^.*/[^/]*$")) then

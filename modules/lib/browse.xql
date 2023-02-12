@@ -87,7 +87,8 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
         session:set-attribute($config:session-prefix || ".works", $sorted),
         map {
             "all" : $sorted,
-            "mode": "browse"
+            "mode": "browse",
+            "app": $config:context-path
         }
     )
 };
@@ -150,13 +151,16 @@ function app:browse($node as node(), $model as map(*), $start as xs:int, $per-pa
         if (empty($model?all) and (empty($filter) or $filter = "")) then
             templates:process($node/*[@class="empty"], $model)
         else
-            subsequence($model?all, $start, $per-page) !
+            for $work in subsequence($model?all, $start, $per-page)
+            let $config := tpu:parse-pi(root($work), ())
+            return
                 templates:process($node/*[not(@class="empty")], map:merge(
                     ($model, map {
-                        "work": .,
-                        "config": tpu:parse-pi(root(.), ()),
-                        "ident": config:get-identifier(.),
-                        "path": document-uri(root(.))
+                        "work": $work,
+                        "config": $config,
+                        "media": if (map:contains($config, 'media')) then $config?media else (),
+                        "ident": config:get-identifier($work),
+                        "path": document-uri(root($work))
                     }))
                 )
     )
@@ -191,7 +195,7 @@ declare function app:download-link($node as node(), $model as map(*), $mode as x
     return
         element { node-name($node) } {
             $node/@*,
-            attribute url { $model?app || "api/document/" || escape-uri($file, true()) },
+            attribute url { "api/document/" || escape-uri($file, true()) },
             attribute odd { ($model?config?odd, $config:default-odd)[1] },
             $node/node()
         }

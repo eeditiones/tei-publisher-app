@@ -4,6 +4,10 @@
 
 /* Model rendition styles */
 
+.tei-title1 { margin-bottom: 0; }
 .tei-bold { font-weight: bold; }
 .tei-italic { font-style: italic; }
-.tei-th { font-weight: bold; text-align: center; }
+.tei-table {  }
+.tei-td { padding 0 4px; }
+.tei-th { font-weight: bold; text-align: left; padding: 0 4px; }
+.tei-label { font-weight: bold; }

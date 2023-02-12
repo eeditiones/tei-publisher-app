@@ -73,31 +73,73 @@ declare function dapi:source($request as map(*)) {
 };
 
 declare function dapi:html($request as map(*)) {
+    dapi:generate-html($request, "web")
+};
+
+declare function dapi:print($request as map(*)) {
+    dapi:generate-html($request, "print")
+};
+
+declare %private function dapi:generate-html($request as map(*), $outputMode as xs:string) {
     let $doc := xmldb:decode($request?parameters?id)
+    let $addStyles :=
+        for $href in $request?parameters?style
+        return
+            <link rel="Stylesheet" href="{$href}"/>
+    let $addScripts :=
+        for $src in $request?parameters?script
+        return
+            <script src="{$src}"></script>
     return
         if ($doc) then
             let $xml := config:get-document($doc)
             return
                 if (exists($xml)) then
                     let $config := tpu:parse-pi(root($xml), ())
-                    let $out := $pm-config:web-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
-                    let $styles := if (count($out) > 1) then $out[1] else ()
+                    let $out := 
+                        if ($outputMode = 'print') then
+                            $pm-config:print-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
+                        else
+                            $pm-config:web-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
+                    let $styles := (
+                        $addStyles,
+                        if (count($out) > 1) then $out[1] else (),
+                        <link rel="stylesheet" type="text/css" href="transform/{replace($config?odd, "^.*?/?([^/]+)\.odd$", "$1")}.css"/>
+                    )
                     return
-                        dapi:postprocess(($out[2], $out[1])[1], $styles, $config?odd, $request?parameters?base, $request?parameters?wc)
+                        dapi:postprocess(($out[2], $out[1])[1], $styles, $addScripts, $request?parameters?base, $request?parameters?wc)
                 else
                     error($errors:NOT_FOUND, "Document " || $doc || " not found")
         else
             error($errors:BAD_REQUEST, "No document specified")
 };
 
-declare function dapi:postprocess($nodes as node()*, $styles as element()?, $odd as xs:string?, 
-    $base as xs:string?, $components as xs:boolean?) {
+declare function dapi:postprocess($nodes as node()*, $styles as element()*, $scripts as element()*,
+    $base as xs:string?, $components as xs:string?) {
     for $node in $nodes
     return
         typeswitch($node)
+            case element(html) return
+                element { node-name($node) } {
+                    $node/@*,
+                    if (empty($node/head)) then
+                        <head>
+                            {
+                                if ($base) then
+                                    <base href="{$base}"/>
+                                else
+                                    ()
+                            }
+                            <meta charset="utf-8"/>
+                            { $styles }
+                            { $scripts }
+                            { dapi:webcomponents($components) }
+                        </head>
+                    else
+                        (),
+                    dapi:postprocess($node/node(), $styles, $scripts, $base, $components)
+                }
             case element(head) return
-                let $oddName := replace($odd, "^.*/([^/\.]+)\.?.*$", "$1")
-                return
                     element { node-name($node) } {
                         $node/@*,
                         if ($base) then
@@ -106,44 +148,19 @@ declare function dapi:postprocess($nodes as node()*, $styles as element()?, $odd
                             (),
                         <meta charset="utf-8"/>,
                         $node/node(),
-                        <link rel="stylesheet" type="text/css" href="transform/{replace($oddName, "^(.*)\.odd$", "$1")}.css"/>,
-                        <link rel="stylesheet" type="text/css" href="transform/{replace($oddName, "^(.*)\.odd$", "$1")}-print.css" media="print"/>,
                         $styles,
-                        if ($components) then (
-                            <style rel="stylesheet" type="text/css">
-                            a[rel=footnote] {{
-                                font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
-                                font-family: var(--pb-footnote-font-family, --pb-content-font-family);
-                                vertical-align: super;
-                                text-decoration: none;
-                                padding: var(--pb-footnote-padding, 0 0 0 .25em);
-                            }}
-                            .footnote .fn-number {{
-                                float: left;
-                                font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
-                            }}
-                            </style>,
-                            <script defer="defer" src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js"></script>,
-                            switch ($config:webcomponents)
-                                case "dev" return
-                                    <script type="module" src="{$config:webcomponents-cdn}/src/pb-components-bundle.js"></script>
-                                case "local" return
-                                    <script type="module" src="resources/scripts/pb-components-bundle.js"></script>
-                                default return
-                                    <script type="module" src="{$config:webcomponents-cdn}@{$config:webcomponents}/dist/pb-components-bundle.js"></script>
-                        ) else
-                            ()
-
+                        $scripts,
+                        dapi:webcomponents($components)
                     }
             case element(body) return
                 let $content := (
-                    dapi:postprocess($node/node(), $styles, $odd, $base, $components),
+                    dapi:postprocess($node/node(), $styles, $scripts, $base, $components),
                     let $footnotes := 
                         for $fn in root($node)//*[@class = "footnote"]
                         return
                             element { node-name($fn) } {
                                 $fn/@*,
-                                dapi:postprocess($fn/node(), $styles, $odd, $base, $components)
+                                dapi:postprocess($fn/node(), $styles, $scripts, $base, $components)
                             }
                     return
                         nav:output-footnotes($footnotes)
@@ -151,7 +168,7 @@ declare function dapi:postprocess($nodes as node()*, $styles as element()?, $odd
                 return
                     element { node-name($node) } {
                         $node/@*,
-                        if ($components and not($node//pb-page)) then
+                        if ($components = 'full' and not($node//pb-page)) then
                             <pb-page endpoint="{$base}">{$content}</pb-page>
                         else
                             $content
@@ -162,10 +179,37 @@ declare function dapi:postprocess($nodes as node()*, $styles as element()?, $odd
                 else
                     element { node-name($node) } {
                         $node/@*,
-                        dapi:postprocess($node/node(), $styles, $odd, $base, $components)
+                        dapi:postprocess($node/node(), $styles, $scripts, $base, $components)
                     }
             default return
                 $node
+};
+
+declare %private function dapi:webcomponents($components as xs:string?) {
+    if ($components) then (
+        <style rel="stylesheet" type="text/css">
+        a[rel=footnote] {{
+            font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
+            font-family: var(--pb-footnote-font-family, --pb-content-font-family);
+            vertical-align: super;
+            text-decoration: none;
+            padding: var(--pb-footnote-padding, 0 0 0 .25em);
+        }}
+        .footnote .fn-number {{
+            float: left;
+            font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
+        }}
+        </style>,
+        <script defer="defer" src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js"></script>,
+        switch ($config:webcomponents)
+            case "dev" return
+                <script type="module" src="{$config:webcomponents-cdn}/src/pb-components-bundle.js"></script>
+            case "local" return
+                <script type="module" src="resources/scripts/pb-components-bundle.js"></script>
+            default return
+                <script type="module" src="{$config:webcomponents-cdn}@{$config:webcomponents}/dist/pb-components-bundle.js"></script>
+    ) else
+        ()
 };
 
 declare function dapi:latex($request as map(*)) {
@@ -280,7 +324,7 @@ declare function dapi:pdf($request as map(*)) {
                     response:stream-binary($cached, "media-type=application/pdf", $id || ".pdf")
                 ) else
                     let $start := util:system-time()
-                    let $fo := $pm-config:print-transform($doc, map { "root": $doc }, $config?odd)
+                    let $fo := $pm-config:fo-transform($doc, map { "root": $doc }, $config?odd)
                     return (
                         if ($request?parameters?source) then
                             router:response(200, "application/xml", $fo)
@@ -527,8 +571,9 @@ declare function dapi:table-of-contents($request as map(*)) {
 declare function dapi:preview($request as map(*)) {
     let $config := tpu:parse-pi($request?body, (), $request?parameters?odd)
     let $html := $pm-config:web-transform($request?body, map { "root": $request?body, "webcomponents": 7 }, $config?odd)
+    let $styles := <link rel="stylesheet" type="text/css" href="transform/{replace($config?odd, "^.*?/?([^/]+)\.odd$", "$1")}.css"/>
     return
-        dapi:postprocess($html, (), $config?odd, $request?parameters?base, $request?parameters?wc)
+        dapi:postprocess($html, $styles, (), $request?parameters?base, $request?parameters?wc)
 };
 
 declare function dapi:convert-docx($request as map(*)) {

@@ -4,7 +4,8 @@
         "dockerfile": "Dockerfile.dev",
         "args": {
             "HTTP_PORT": "8080",
-            "HTTPS_PORT": "8443"
+            "HTTPS_PORT": "8443",
+            "INSTALL_TEXLIVE": "false"
         }
     },
     "runArgs": ["--name=TEIPublisherDev"],

@@ -92,6 +92,8 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $mode := 
+        if (exists($config?mode)) then $config?mode else ()
         let $trackIds := 
         $parameters?track-ids
         let $get := 
@@ -109,19 +111,19 @@ declare function model:apply($config as map(*), $input as node()*) {
                             html:document($config, ., ("tei-article3", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
                     case element(info) return
                         if (not(parent::article or parent::book)) then
-                            html:block($config, ., ("tei-info2", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
+                            html:block($config, ., ("tei-info3", css:map-rend-to-class(.)), .)                            => model:map($node, $trackIds)
                         else
                             if ($parameters?header='short') then
                                 (
-                                    html:heading($config, ., ("tei-info4", css:map-rend-to-class(.)), title, 5)                                    => model:map($node, $trackIds),
+                                    html:heading($config, ., ("tei-info5", css:map-rend-to-class(.)), title, 5)                                    => model:map($node, $trackIds),
                                     if (author) then
-                                        html:block($config, ., ("tei-info5", css:map-rend-to-class(.)), author)                                        => model:map($node, $trackIds)
+                                        html:block($config, ., ("tei-info6", css:map-rend-to-class(.)), author)                                        => model:map($node, $trackIds)
                                     else
                                         ()
                                 )
 
                             else
-                                html:block($config, ., ("tei-info6", css:map-rend-to-class(.)), (title, if ($parameters?skipAuthors) then () else author, pubdate, abstract))                                => model:map($node, $trackIds)
+                                html:block($config, ., ("tei-info7", css:map-rend-to-class(.)), (title, if ($parameters?skipAuthors) then () else author, pubdate, abstract))                                => model:map($node, $trackIds)
                     case element(author) return
                         if (preceding-sibling::author and not($parameters?skipAuthors)) then
                             html:inline($config, ., ("tei-author3", css:map-rend-to-class(.)), (', ', personname, affiliation))                            => model:map($node, $trackIds)
@@ -156,7 +158,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                                     if (parent::info and $parameters?header='short') then
                                         html:link($config, ., ("tei-title5", css:map-rend-to-class(.)), ., $parameters?doc, (), map {})                                        => model:map($node, $trackIds)
                                     else
-                                        html:heading($config, ., ("tei-title6", "title", css:map-rend-to-class(.)), ., if ($parameters?view='single') then count(ancestor::section) + 1 else count($get(.)/ancestor::section))                                        => model:map($node, $trackIds)
+                                        if (parent::info) then
+                                            html:heading($config, ., ("tei-title6", "doc-title", css:map-rend-to-class(.)), ., ())                                            => model:map($node, $trackIds)
+                                        else
+                                            html:heading($config, ., ("tei-title7", "title", css:map-rend-to-class(.)), ., if ($parameters?view='single') then count(ancestor::section) + 1 else count($get(.)/ancestor::section))                                            => model:map($node, $trackIds)
                     case element(section) return
                         if ($parameters?mode='breadcrumbs') then
                             (

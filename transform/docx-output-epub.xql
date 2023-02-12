@@ -64,6 +64,8 @@ declare function model:transform($options as map(*), $input as node()*) {
 declare function model:apply($config as map(*), $input as node()*) {
         let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
+        let $mode := 
+        if (exists($config?mode)) then $config?mode else ()
         let $trackIds := 
         $parameters?track-ids
         let $get := 
@@ -309,7 +311,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                             else
                                 $config?apply($config, ./node())
                     case element(p) return
-                        html:paragraph($config, ., css:get-rendition(., ("tei-p", css:map-rend-to-class(.))), .)
+                        html:paragraph($config, ., css:get-rendition(., ("tei-p2", css:map-rend-to-class(.))), .)
                     case element(measure) return
                         html:inline($config, ., ("tei-measure", css:map-rend-to-class(.)), .)
                     case element(q) return
