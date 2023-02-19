@@ -1,4 +1,4 @@
-ARG EXIST_VERSION=5.4.1
+ARG EXIST_VERSION=6.2.0
 
 # START STAGE 1
 FROM openjdk:8-jdk-slim as builder
@@ -31,12 +31,12 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
 
 FROM builder as tei
 
-ARG TEMPLATING_VERSION=v1.0.0
-ARG PUBLISHER_LIB_VERSION=v2.9.0
+ARG TEMPLATING_VERSION=v1.1.0
+ARG PUBLISHER_LIB_VERSION=v2.10.1
 ARG OAS_ROUTER_VERSION=v0.5.1
-ARG PUBLISHER_VERSION=release/7.1.1
-ARG SHAKESPEARE_VERSION=1.1.2
-ARG VANGOGH_VERSION=1.0.6
+ARG PUBLISHER_VERSION=release/7.1.2
+ARG SHAKESPEARE_VERSION=1.1.3
+ARG VANGOGH_VERSION=1.0.7
 
 # add key
 RUN  mkdir -p ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
