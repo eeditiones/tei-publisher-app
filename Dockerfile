@@ -76,6 +76,8 @@ RUN  git clone https://github.com/eeditiones/tei-publisher-app.git \
     && git checkout ${PUBLISHER_VERSION} \
     && ant
 
+RUN curl -L -o /tmp/shared-resources-0.9.1.xar https://exist-db.org/exist/apps/public-repo/public/shared-resources-0.9.1.xar
+
 FROM existdb/existdb:${EXIST_VERSION}
 
 COPY --from=tei /tmp/templating/templating-*.xar /exist/autodeploy
@@ -84,6 +86,7 @@ COPY --from=tei /tmp/roaster/build/*.xar /exist/autodeploy
 COPY --from=tei /tmp/tei-publisher-app/build/*.xar /exist/autodeploy
 COPY --from=tei /tmp/shakespeare/build/*.xar /exist/autodeploy
 COPY --from=tei /tmp/vangogh/build/*.xar /exist/autodeploy
+COPY --from=tei /tmp/shared-resources-0.9.1.xar /exist/autodeploy
 
 ENV DATA_DIR /exist-data
 
