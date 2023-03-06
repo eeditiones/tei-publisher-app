@@ -1,4 +1,3 @@
-<?teipublisher template="ukraina.html" odd="ukraina.odd"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="uk" xml:id="UKR18583">
   <teiHeader>
     <fileDesc>
@@ -55,12 +54,7 @@
     </revisionDesc>
     
   </teiHeader>
-  <facsimile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <graphic url="KozachkaPeople.jpeg"/>
-      <graphic url="KozachkaVovchok.jpeg"/>
-      <graphic url="KozachkaUeUkrFlag.jpeg"/>
-      <graphic url="KozachkaStamp.jpeg"/>
-  </facsimile>
+  
   <text xml:lang="uk">
     
     <body>
