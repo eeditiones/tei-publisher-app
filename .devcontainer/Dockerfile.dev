@@ -1,37 +1,20 @@
-FROM mcr.microsoft.com/vscode/devcontainers/java:dev-8
+FROM mcr.microsoft.com/devcontainers/java:17-bullseye
 
-ARG EXIST_VERSION=6.0.1
-ARG TEMPLATING_VERSION=1.0.4
-ARG PUBLISHER_LIB_VERSION=master
-ARG ROUTER_VERSION=1.7.6
+ARG EXIST_VERSION=6.2.0
+ARG TEMPLATING_VERSION=1.1.0
+ARG PUBLISHER_LIB_VERSION=3.0.0
+ARG ROUTER_VERSION=1.8.0
 ARG EDITOR_VERSION=1.0.1
 
 ARG HTTP_PORT=8080
 ARG HTTPS_PORT=8443
 
-# [Option] Install Maven
-ARG INSTALL_MAVEN="false"
-ARG MAVEN_VERSION=""
-# [Option] Install Gradle
-ARG INSTALL_GRADLE="false"
-ARG GRADLE_VERSION=""
-
 ARG INSTALL_TEXLIVE="false"
 
-RUN if [ "${INSTALL_MAVEN}" = "true" ]; then su vscode -c "source /usr/local/sdkman/bin/sdkman-init.sh && sdk install maven \"${MAVEN_VERSION}\""; fi \
-    && if [ "${INSTALL_GRADLE}" = "true" ]; then su vscode -c "source /usr/local/sdkman/bin/sdkman-init.sh && sdk install gradle \"${GRADLE_VERSION}\""; fi
-
+# Install Ant for building TEI Publisher libraries
 RUN su vscode -c "source /usr/local/sdkman/bin/sdkman-init.sh && sdk install ant"
 ENV ANT_HOME=/usr/local/sdkman/candidates/ant/current
 ENV PATH=${PATH}:${ANT_HOME}/bin
-
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends bzip2
-
-# [Option] Install Node.js
-ARG INSTALL_NODE="true"
-ARG NODE_VERSION="lts/*"
-RUN if [ "${INSTALL_NODE}" = "true" ]; then su vscode -c "source /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
 
 # Install python pip and upgrade it to latest version
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
@@ -39,6 +22,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends python3-pip \
     && pip3 install --upgrade pip
 
+# Install the TeXLive distribution for LaTeX support
 RUN if [ "${INSTALL_TEXLIVE}" = "true" ]; then \
     apt-get -y install --no-install-recommends \
     texlive-xetex \
@@ -52,9 +36,6 @@ RUN if [ "${INSTALL_TEXLIVE}" = "true" ]; then \
     latexmk; \
     fi
 
-# [Optional] Uncomment this line to install global node packages.
-# RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
-
 WORKDIR /workspaces
 
 # Install tei-publisher-ner plus German and English language models
@@ -65,11 +46,13 @@ RUN git clone https://github.com/eeditiones/tei-publisher-ner.git \
     && python3 -m spacy download de_core_news_sm \
     && python3 -m spacy download en_core_web_sm
 
+# Download and install eXist-db
 RUN curl -L -o exist-distribution-${EXIST_VERSION}-unix.tar.bz2 https://github.com/eXist-db/exist/releases/download/eXist-${EXIST_VERSION}/exist-distribution-${EXIST_VERSION}-unix.tar.bz2 \
     && tar xfj exist-distribution-${EXIST_VERSION}-unix.tar.bz2 -C /usr/local \
     && rm exist-distribution-${EXIST_VERSION}-unix.tar.bz2 \
     && mv /usr/local/exist-distribution-${EXIST_VERSION} /usr/local/exist
 
+# If tei-publisher-lib version is "master", build it. Otherwise download the specified version.
 RUN if [ "${PUBLISHER_LIB_VERSION}" = "master" ]; then \
         git clone https://github.com/eeditiones/tei-publisher-lib.git \
         && cd tei-publisher-lib \
@@ -85,19 +68,20 @@ RUN curl -L -o /usr/local/exist/autodeploy/atom-editor-${EDITOR_VERSION}.xar htt
 
 WORKDIR /usr/local/exist
 
-ENV JAVA_HOME=/usr/local/sdkman/candidates/java/current
+ENV EXIST_HOME=/usr/local/exist
+ENV JAVA_HOME=/usr/lib/jvm/msopenjdk-current
 
 RUN bin/client.sh -l --no-gui --xpath "system:get-version()"
 
-EXPOSE ${HTTP_PORT} 8001
+EXPOSE ${HTTP_PORT} ${HTTPS_PORT} 8001
 
-ENV EXIST_HOME=/usr/local/exist
 ENV JAVA_OPTS \
     -Djetty.port=${HTTP_PORT} \
     -Djetty.ssl.port=${HTTPS_PORT} \
     -Dfile.encoding=UTF8 \
     -Dsun.jnu.encoding=UTF-8 \
-    -XX:+UseG1GC \
+    -XX:+UseNUMA \
+    -XX:+UseZGC \
     -XX:+UseStringDeduplication \
     -XX:+UseContainerSupport \
     -XX:MaxRAMPercentage=${JVM_MAX_RAM_PERCENTAGE:-75.0} \ 
