@@ -23,7 +23,7 @@
         <delete dir="resources/images/leaflet" />
         <delete dir="resources/images/openseadragon" />
         <delete dir="resources/i18n/common" />
-        <delete dir="resources/css" includes="leaflet/** prismjs/**" />
+        <delete dir="resources/css" includes="leaflet/** prismjs/** pagedjs/** gridjs/** tom-select/**" />
         <delete dir="resources/lib" />
     </target>
 
