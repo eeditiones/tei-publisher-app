@@ -320,12 +320,18 @@ declare variable $config:data-root := $config:app-root || "/data";
  :)
 declare variable $config:data-default := $config:data-root;
 
+
+(:~
+ : Location of the taxonomies.
+ :)
+declare variable $config:taxonomy := $config:data-root || "/taxonomy.xml";
+
 (:~
  : A sequence of root elements which should be excluded from the list of
  : documents displayed in the browsing view.
  :)
 declare variable $config:data-exclude := (
-    doc($config:data-root || "/taxonomy.xml")/tei:TEI,
+    doc($config:taxonomy)/tei:TEI,
     collection($config:data-root || "/doc")/tei:TEI
 );
 
