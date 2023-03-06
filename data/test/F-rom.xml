@@ -297,6 +297,11 @@
             <textClass>
                 <catRef scheme="#genre" target="#drama"/>
                 <catRef scheme="#form" target="#print"/>
+                <catRef scheme="#feature" target="#image"/>
+                <catRef scheme="#feature" target="#pages"/>
+                <catRef scheme="#feature" target="#columns"/>
+                <catRef scheme="#feature" target="#ltr"/>
+                <catRef scheme="#period" target="#early-modern"/>
             </textClass>
             <langUsage>
                 <language ident="en">English</language>

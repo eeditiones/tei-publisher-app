@@ -45,9 +45,16 @@
          <textClass>
             <catRef scheme="#genre" target="#correspondence"/>
             <catRef scheme="#form" target="#manuscript"/>
+            <catRef scheme="#feature" target="#translation"/>
+            <catRef scheme="#feature" target="#person"/>
+            <catRef scheme="#feature" target="#place"/>
+            <catRef scheme="#feature" target="#alignment"/>
+            <catRef scheme="#feature" target="#ltr"/>
+            <catRef scheme="#period" target="#medieval"/>
          </textClass>
          <langUsage>
             <language ident="la">Latin</language>
+            <language ident="pl">Polish</language>
          </langUsage>
          <particDesc>
             <listPerson>

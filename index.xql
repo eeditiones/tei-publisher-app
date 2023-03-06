@@ -58,12 +58,31 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
                 idx:get-genre($header),
                 $root/dbk:info/dbk:keywordset[@vocab="#genre"]/dbk:keyword
             )
+            case "feature" return (
+                idx:get-classification($header, 'feature'),
+                $root/dbk:info/dbk:keywordset[@vocab="#feature"]/dbk:keyword
+            )
+            case "form" return (
+                idx:get-classification($header, 'form'),
+                $root/dbk:info/dbk:keywordset[@vocab="#form"]/dbk:keyword
+            )
+            case "period" return (
+                idx:get-classification($header, 'period'),
+                $root/dbk:info/dbk:keywordset[@vocab="#period"]/dbk:keyword
+            )
             default return
                 ()
 };
 
 declare function idx:get-genre($header as element()?) {
     for $target in $header//tei:textClass/tei:catRef[@scheme="#genre"]/@target
+    let $category := id(substring($target, 2), doc($idx:app-root || "/data/taxonomy.xml"))
+    return
+        $category/ancestor-or-self::tei:category[parent::tei:category]/tei:catDesc
+};
+
+declare function idx:get-classification($header as element()?, $scheme as xs:string) {
+    for $target in $header//tei:textClass/tei:catRef[@scheme="#" || $scheme]/@target
     let $category := id(substring($target, 2), doc($idx:app-root || "/data/taxonomy.xml"))
     return
         $category/ancestor-or-self::tei:category[parent::tei:category]/tei:catDesc

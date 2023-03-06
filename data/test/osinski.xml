@@ -31,6 +31,9 @@
          <textClass>
             <catRef scheme="#genre" target="#lexicography"/>
             <catRef scheme="#form" target="#manuscript"/>
+            <catRef scheme="#feature" target="#ltr"/>
+            <catRef scheme="#feature" target="#image"/>
+            <catRef scheme="#period" target="#modern"/>
          </textClass>
          <langUsage>
             <language ident="pl">Polish</language>

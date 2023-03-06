@@ -188,6 +188,9 @@
             <textClass>
                 <catRef scheme="#genre" target="#philosophy"/>
                 <catRef scheme="#form" target="#print"/>
+                <catRef scheme="#feature" target="#image"/>
+                <catRef scheme="#feature" target="#ltr"/>
+                <catRef scheme="#period" target="#early-modern"/>
                 <classCode scheme="http://www.deutschestextarchiv.de/doku/klassifikation#dtamain"
                     >Fachtext</classCode>
                 <classCode scheme="http://www.deutschestextarchiv.de/doku/klassifikation#dtasub"

@@ -18,6 +18,17 @@
 				<p>Text witness for this edition: Alfred Einstein papers, University of California, Berkeley, Music Library</p>
 			</sourceDesc>
 		</fileDesc>
+		<profileDesc>
+            <textClass>
+                <catRef scheme="#genre" target="#prose"/>
+                <catRef scheme="#form" target="#print"/>
+				<catRef scheme="#feature" target="#mei"/>
+                <catRef scheme="#period" target="#modern"/>
+            </textClass>
+            <langUsage>
+                <language ident="de">German</language>
+            </langUsage>
+		</profileDesc>
 	</teiHeader>
 	<text>
 		<body>

@@ -68,6 +68,12 @@
       <textClass>
         <catRef scheme="#genre" target="#correspondence"/>
         <catRef scheme="#form" target="#manuscript"/>
+        <catRef scheme="#feature" target="#ltr"/>
+        <catRef scheme="#feature" target="#image"/>
+        <catRef scheme="#feature" target="#translation"/>
+        <catRef scheme="#feature" target="#person"/>
+        <catRef scheme="#feature" target="#place"/>
+        <catRef scheme="#period" target="#modern"/>
       </textClass>
       <langUsage>
         <language ident="fr">French</language>

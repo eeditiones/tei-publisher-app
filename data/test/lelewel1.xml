@@ -16,6 +16,20 @@
          </sourceDesc>
       </fileDesc>
       <profileDesc>
+         <langUsage>
+               <language ident="pl">Polish</language>
+         </langUsage>
+         <textClass>
+               <catRef scheme="#genre" target="#correspondence"/>
+               <catRef scheme="#form" target="#manuscript"/>
+               <catRef scheme="#feature" target="#image"/>
+               <catRef scheme="#feature" target="#pages"/>
+               <catRef scheme="#feature" target="#person"/>
+               <catRef scheme="#feature" target="#place"/>
+               <catRef scheme="#feature" target="#variants"/>
+               <catRef scheme="#feature" target="#ltr"/>
+               <catRef scheme="#period" target="#modern"/>
+         </textClass>
          <correspDesc>
             <correspAction type="sent">
                <persName ref="gnd-118779362" role="sender">Joachim Lelewel</persName>

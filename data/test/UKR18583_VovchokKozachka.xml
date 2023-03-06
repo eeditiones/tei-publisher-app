@@ -40,6 +40,13 @@
       <langUsage>
         <language ident="uk">українська</language>
       </langUsage>
+      <textClass>
+        <catRef scheme="#genre" target="#prose"/>
+        <catRef scheme="#form" target="#print"/>
+        <catRef scheme="#feature" target="#script"/>
+        <catRef scheme="#feature" target="#ltr"/>
+        <catRef scheme="#period" target="#modern"/>
+      </textClass>
       <textDesc>
         <authorGender xmlns="http://distantreading.net/eltec/ns" key="F"/>
         <size xmlns="http://distantreading.net/eltec/ns" key="short"/>

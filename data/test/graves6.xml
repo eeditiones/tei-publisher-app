@@ -55,6 +55,13 @@
         <profileDesc>
             <textClass>
                 <catRef scheme="#genre" target="#correspondence"/>
+                <catRef scheme="#form" target="#manuscript"/>
+                <catRef scheme="#feature" target="#pages"/>
+                <catRef scheme="#feature" target="#person"/>
+                <catRef scheme="#feature" target="#place"/>
+                <catRef scheme="#feature" target="#map"/>
+                <catRef scheme="#feature" target="#ltr"/>
+                <catRef scheme="#period" target="#modern"/>
             </textClass>
             <langUsage>
                 <language ident="en">English</language>
