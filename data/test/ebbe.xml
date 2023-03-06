@@ -32,6 +32,10 @@
       <profileDesc>
          <textClass>
             <catRef scheme="#form" target="#print"/>
+            <catRef scheme="#genre" target="#lexicography"/>
+            <catRef scheme="#feature" target="#ltr"/>
+            <catRef scheme="#feature" target="#image"/>
+            <catRef scheme="#period" target="#modern"/>
          </textClass>
          <langUsage>
             <language ident="pl">Polish</language>

@@ -94,6 +94,10 @@
             <language ident="eng">eng</language>
          </langUsage>
          <textClass>
+            <catRef scheme="#genre" target="#prose"/>
+            <catRef scheme="#form" target="#print"/>
+            <catRef scheme="#feature" target="#ltr"/>
+            <catRef scheme="#period" target="#early-modern"/>
             <keywords scheme="http://authorities.loc.gov/">
                <term>Proverbs.</term>
             </keywords>

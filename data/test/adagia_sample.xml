@@ -7,11 +7,11 @@
    <teiHeader>
       <fileDesc>
          <titleStmt>
-            <title>Adagiorvm Chiliades</title>
+            <title>Citra Vinum Temulentia - Adagiorvm Chiliades - Sample</title>
             <title type="sub">Des. Erasmi Roterodami Qvatvor Cvm Dimidia Ex Postrema Avtoris
                Recognitione</title>
             <respStmt>
-               <resp>translation</resp>
+               <resp>Polish translation</resp>
                <persName>Katarzyna Tomaszuk i Katarzyna Jasińska-Zdun</persName>
             </respStmt>
             <respStmt>
@@ -26,6 +26,22 @@
             <p>Information about the source</p>
          </sourceDesc>
       </fileDesc>
+      <profileDesc>
+         <textClass>
+            <catRef scheme="#genre" target="#correspondence"/>
+            <catRef scheme="#form" target="#print"/>
+            <catRef scheme="#feature" target="#translation"/>
+            <catRef scheme="#feature" target="#image"/>
+            <catRef scheme="#feature" target="#ltr"/>
+            <catRef scheme="#period" target="#early-modern"/>
+         </textClass>
+         <langUsage>
+            <language ident="la">Latin</language>
+            <language ident="en">English</language>
+            <language ident="pl">Polish</language>
+            <language ident="gr">Greek</language>
+         </langUsage>
+      </profileDesc>
    </teiHeader>
    <text>
       <body>
