@@ -1,5 +1,6 @@
 <?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
 	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?teipublisher odd="lelewel.odd" template="lelewel.html" view="page"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="Lelewel_S1">
    <teiHeader>
       <fileDesc>
@@ -164,7 +165,8 @@
                   <lem>za spod</lem>
                   <rdg wit="Ż">z za</rdg>
                </app>
-               <placeName ref="geo-765876">Lublina</placeName> z <placeName ref="geo-764324">Motyczy</placeName> i pisałeś, że w Lubli- <lb/>nie prócz tradycji o zabawach
+               <placeName ref="geo-765876">Lublina</placeName> z <placeName ref="geo-764324">Motyczy</placeName> i pisałeś, że w 
+               Lubli<lb/>nie prócz tradycji o zabawach
                zapustowych zapo<lb/>minano dla niesnasek majętniejszych z uboższymi. <lb/>Niesnasek
                podobnych wszędzie po świecie pełno, a przecie <lb/>dlatego ludzie się bawią. I w
                   <placeName ref="geo-704143">Krzemieńcu</placeName> jakkolwiek długie były

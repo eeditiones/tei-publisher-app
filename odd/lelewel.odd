@@ -57,6 +57,13 @@
             </outputRendition>
         </model>
                 </elementSpec>
+                <elementSpec ident="lb" mode="change">
+                    <model predicate="$parameters?mode='norm'" behaviour="omit"/>
+                    <model behaviour="break" useSourceRendition="true" cssClass="lb">
+                        <param name="type" value="'line'"/>
+                        <param name="label" value="@n"/>
+                    </model>
+                </elementSpec>
                 <elementSpec ident="app" mode="add">
         <model behaviour="alternate">
             <param name="default" value="lem"/>

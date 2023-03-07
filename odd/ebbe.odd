@@ -49,6 +49,7 @@
             
             
             
+            
             font-size: 16px;
                             color: #888888;
                             cursor: pointer;
@@ -56,6 +57,7 @@
                             display: block;
                             margin-right: -32px;
                             float: right;
+            
             
             
             
@@ -246,20 +248,6 @@
                 <elementSpec ident="msDesc" mode="add">
                     <modelSequence>
             <model behaviour="block">
-                <desc>retrieves the primary language </desc>
-                <param name="content" value="(root(.)//langUsage/language)"/>
-                <outputRendition xml:space="preserve" scope="before">
-                content: 'Primary language: ';
-                </outputRendition>
-            </model>
-            <model behaviour="block">
-                <desc>retrieves the form of the source from taxonomy file</desc>
-                <param name="content" value="id(substring-after(root(.)//catRef[@scheme='#form']/@target, '#'), doc('/db/apps/tei-publisher/data/taxonomy.xml'))"/>
-                <outputRendition xml:space="preserve" scope="before">
-                content: 'Primary source: ';
-                </outputRendition>
-            </model>
-            <model behaviour="block">
                 <outputRendition xml:space="preserve">
                 content: 'Location: ';
                 </outputRendition>
@@ -327,9 +315,11 @@
             
             
             
+            
             display: block;
 font-size: 0.9em;
 text-indent: 3em;
+            
             
             
             
@@ -346,8 +336,10 @@ text-indent: 3em;
             
             
             
+            
             display: block;
 font-weight: 600;
+            
             
             
             
