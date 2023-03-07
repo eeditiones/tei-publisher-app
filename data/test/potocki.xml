@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?teipublisher template="potocki.html" odd="potocki.odd" view="page"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>Moralia</title>
+            <author>Wacław Potocki</author>
+            <respStmt>
+               <resp>transcription, TEI encoding</resp>
+               <persName>Magdalena Turska</persName>
+            </respStmt>
+         </titleStmt>
+         <publicationStmt>
+            <p>Sample</p>
+         </publicationStmt>
+         <sourceDesc>
+            <p>Information about the source</p>
+         </sourceDesc>
+      </fileDesc>
+   </teiHeader>
+   <text>
+      <body>
+
+         <div>
+            <pb facs="iiif:przypowiesci.png"/>
+            <head><choice>
+                  <orig>Przypowieśći</orig>
+                  <reg>Przypowieści</reg>
+               </choice></head>
+            <div>
+               <!-- http://ihrim.huma-num.fr/nmh/Erasmus/Proverbia/Adagium_203.html -->
+               <head><ref n="Chilias I Centuria III, 203"
+                     target="ihrim:Adagium_203"
+                     corresp="eebo:Proverbia_203">Citra vinum <choice>
+                        <sic>tmulentiа</sic>
+                        <corr>temulentiа</corr>
+                     </choice></ref></head>
+               <lg>
+                  <note place="margin"><choice>
+                        <orig>Pijanstwo</orig>
+                        <reg>Pijaństwo</reg>
+                     </choice> bez wina</note>
+                  <l facs="iiif:przypowiesci.png/150,200,430,40">
+                     <choice>
+                        <orig>Niechay</orig>
+                        <reg>Niechaj</reg>
+                     </choice>
+                     <choice>
+                        <orig>śię</orig>
+                        <reg>się</reg>
+                     </choice> nikt nie <choice>
+                        <orig>my</orig>
+                        <reg>myli</reg>
+                     </choice> żeby tylko <choice>
+                        <orig>Winem</orig>
+                        <reg>winem</reg>
+                     </choice>, </l>
+                  <l facs="iiif:przypowiesci.png/150,225,430,40">Abo więc, trunkiem ludzie upijali inem,</l>
+                  <l><choice>
+                        <orig>Zadnym</orig>
+                        <reg>Żadnym</reg>
+                     </choice> masłokiem, <choice>
+                        <orig>ktory</orig>
+                        <reg>który</reg>
+                     </choice>
+                     <pc><choice>
+                           <orig>:</orig>
+                           <reg/>
+                        </choice></pc>
+                     <choice>
+                        <orig>da</orig>
+                        <reg>dla</reg>
+                     </choice> szaleństwa piją<pc><choice>
+                           <orig/>
+                           <reg>,</reg>
+                        </choice></pc></l>
+                  <l>Ani tak drwią gorzałką<pc><choice>
+                           <orig/>
+                           <reg>,</reg>
+                        </choice></pc>
+                     <choice>
+                        <orig>iako</orig>
+                        <reg>jako</reg>
+                     </choice> opinią.</l>
+                  <l>
+                     <choice>
+                        <orig>Małosz</orig>
+                        <reg>Małoż</reg>
+                     </choice> w <choice>
+                        <orig>miłośći</orig>
+                        <reg>miłości</reg>
+                     </choice>? mało<pc><choice>
+                           <orig>:</orig>
+                           <reg/>
+                        </choice></pc> ich szaleje w gniewie?</l>
+                  <l>I rozpuszczony <choice>
+                        <orig>ięzyk</orig>
+                        <reg>język</reg>
+                     </choice><pc><choice><orig>:</orig>
+                           <reg>,</reg>
+                        </choice></pc>
+                     <choice>
+                        <orig>samco</orig>
+                        <reg>sam, co</reg>
+                     </choice> gada, nie wie,</l>
+                  <l>A <choice>
+                        <orig>czegosz</orig>
+                        <reg>czegoż</reg>
+                     </choice> nie <choice>
+                        <sic>rozumienie</sic>
+                        <corr>rozumie</corr>
+                     </choice>
+                     <pc><choice>
+                           <orig>:</orig>
+                           <reg>,</reg>
+                        </choice></pc>
+                     <choice>
+                        <orig>w</orig>
+                        <reg>o</reg>
+                     </choice> sobie? <choice>
+                        <orig>se</orig>
+                        <reg>nie</reg>
+                     </choice> broi </l>
+                  <l>Pycha <choice>
+                        <orig>naprzod</orig>
+                        <reg>naprzód</reg>
+                     </choice>, kiedy kto głowę nią opoi,</l>
+                  <l>Lub <choice>
+                        <orig>imaginatia</orig>
+                        <reg>imaginacya</reg>
+                     </choice>
+                     <pc><choice>
+                           <orig>:</orig>
+                           <reg>,</reg>
+                        </choice></pc> mocno przedsięwzięta,</l>
+                  <l>Ten chorobą, bywszy <choice>
+                        <orig>zdrow</orig>
+                        <reg>zdrów</reg>
+                     </choice>: ten <choice>
+                        <orig>śię</orig>
+                        <reg>się</reg>
+                     </choice>
+                     <choice>
+                        <orig>Czartem</orig>
+                        <reg>czartem</reg>
+                     </choice> pęta,</l>
+                  <l>Prostak z mądrymi; chudy <pc><choice>
+                           <orig>:</orig>
+                           <reg/>
+                        </choice></pc> chce pachołek z <choice>
+                        <orig>Pany</orig>
+                        <reg>pany</reg>
+                     </choice>,</l>
+                  <l><choice>
+                        <orig>Rownać</orig>
+                        <reg>Równać</reg>
+                     </choice><pc><choice>
+                           <orig>:</orig>
+                           <reg>,</reg>
+                        </choice></pc> tego nie widząc że <distinct><seg>kawi</seg><note>bredzi, cf.
+                              <ref
+                              target="https://pl.wikisource.org/wiki/M._Arcta_S%C5%82ownik_Staropolski/Kawi%C4%87"
+                              >kawić</ref></note></distinct>, pijany,</l>
+                  <l>Drugi <choice>
+                        <orig>śię</orig>
+                        <reg>się</reg>
+                     </choice>
+                     <choice>
+                        <orig>boiąc</orig>
+                        <reg>bojąc</reg>
+                     </choice>
+                     <choice>
+                        <orig>śmierći</orig>
+                        <reg>śmierci</reg>
+                     </choice>
+                     <pc><choice>
+                           <orig>:</orig>
+                           <reg/>
+                        </choice></pc> do gardła <choice>
+                        <orig>iey</orig>
+                        <reg>jej</reg>
+                     </choice> lezie,</l>
+                  <l>Drugi omylony w <choice>
+                        <orig>swey</orig>
+                        <reg>swej</reg>
+                     </choice>: wiesza <choice>
+                        <orig>śię</orig>
+                        <reg>się</reg>
+                     </choice> imprezie,</l>
+                  <l>A <choice>
+                        <orig>cosz</orig>
+                        <reg>cóż</reg>
+                     </choice> mowić <choice>
+                        <orig>ożalu</orig>
+                        <reg>o żalu</reg>
+                     </choice>
+                     <pc><choice>
+                           <orig>?</orig>
+                           <reg/>
+                        </choice></pc> y zbytniem frasunku?</l>
+                  <l>
+                     <choice>
+                        <orig>Zaden</orig>
+                        <reg>Żaden</reg>
+                     </choice>, z <choice>
+                        <orig>naymocńieyszego</orig>
+                        <reg>najmocniejszego</reg>
+                     </choice>
+                     <pc><choice>
+                           <orig>:</orig>
+                           <reg/>
+                        </choice></pc> tak nie bredzi trunku,</l>
+                  <l>Kiedy <choice>
+                        <orig>y</orig>
+                        <reg>i</reg>
+                     </choice>
+                     <choice>
+                        <orig>Boga </orig>
+                        <reg>Bogu</reg>
+                     </choice> bluźni<pc>
+                        <choice>
+                           <orig/>
+                           <reg>.</reg>
+                        </choice>
+                     </pc>
+                     <choice>
+                        <orig>pot</orig>
+                        <reg>Pod</reg>
+                     </choice>
+                     <choice>
+                        <orig>tąsz</orig>
+                        <reg>tąż</reg>
+                     </choice> kładę wiechą, </l>
+                  <l>Nagłą, a wielką serce pijane <choice>
+                        <orig>poćiechą</orig>
+                        <reg>pociechą</reg>
+                     </choice>,</l>
+                  <l>Drugi ledwie nadzieję<pc><choice>
+                           <orig> :</orig>
+                           <reg>,</reg>
+                        </choice></pc> nie samę rzecz trzyma,</l>
+                  <l>Nie wie <choice>
+                        <orig>iako</orig>
+                        <reg>jako</reg>
+                     </choice> ma <choice>
+                        <orig>stąpać</orig>
+                        <reg>stąpić</reg>
+                     </choice><pc><choice>
+                           <orig>:</orig>
+                           <reg>,</reg>
+                        </choice></pc>
+                     <choice>
+                        <orig>y</orig>
+                        <reg>i</reg>
+                     </choice> tak <choice>
+                        <orig>śię</orig>
+                        <reg>się</reg>
+                     </choice> odyma,</l>
+                  <l>Tak się, przenosząc okiem<choice>
+                        <orig>:</orig>
+                        <reg/>
+                     </choice>
+                     <choice>
+                        <orig>rownych</orig>
+                        <reg>równych</reg>
+                     </choice> swych, kokoszy,</l>
+                  <l>Często skutek <choice>
+                        <orig>nadzieią</orig>
+                        <reg>nadzieją</reg>
+                     </choice>
+                     <distinct><seg>skołozrywą</seg><note>przedwczesną, cf. <ref
+                              target="https://pl.wikisource.org/wiki/M._Arcta_S%C5%82ownik_Staropolski/Skoro%C5%BArzy"
+                              >skoroźrzy</ref></note></distinct> spłoszy.</l>
+                  <l><choice>
+                        <orig>Tułakomce</orig>
+                        <reg>Tu łakomce</reg>
+                     </choice>, tu liczę<pc><choice>
+                           <orig>:</orig>
+                           <reg/>
+                        </choice></pc>
+                     <choice>
+                        <orig>nie uważne</orig>
+                        <reg>nieuważne</reg>
+                     </choice> śmiałki,</l>
+                  <l>Wszyscy bez wina<pc><choice>
+                           <orig>:</orig>
+                           <reg>,</reg>
+                        </choice></pc> miodu drwią <choice>
+                        <orig>y</orig>
+                        <reg>i</reg>
+                     </choice> bez gorzałki.</l>
+                  <l>Ci <choice>
+                        <orig>iusz</orig>
+                        <reg>już</reg>
+                     </choice> nie drwią, ale <choice>
+                        <orig>spią</orig>
+                        <reg>śpią</reg>
+                     </choice>
+                     <pc><choice>
+                           <orig>:</orig>
+                           <reg/>
+                        </choice></pc> sami<pc><choice>
+                           <orig/>
+                           <reg>,</reg>
+                        </choice></pc>
+                     <choice>
+                        <orig>iako</orig>
+                        <reg>jako</reg>
+                     </choice> drzewa</l>
+                  <l>
+                     <note place="margin">Apoc: 17. 4.</note>
+                     <choice>
+                        <orig>Ktorych</orig>
+                        <reg>Których</reg>
+                     </choice> tu <choice>
+                        <orig>swiecka</orig>
+                        <reg>świecka</reg>
+                     </choice>
+                     <distinct><seg>swacha</seg><note>swatka, cf. <ref
+                              target="https://sjp.pwn.pl/doroszewski/swacha"
+                        >swacha</ref></note></distinct><pc><choice>
+                           <orig>:</orig>
+                           <reg/>
+                        </choice></pc> winem swym zalewa,</l>
+                  <l>Cokolwiek drwią, co brydzą <choice>
+                        <orig>Żyiąc</orig>
+                        <reg>żyjąc</reg>
+                     </choice> tu <choice>
+                        <orig>cielesńie</orig>
+                        <reg>cieleśnie</reg>
+                     </choice>.</l>
+                  <l>Nie na <choice>
+                        <orig>iawi</orig>
+                        <reg>jawi</reg>
+                     </choice>: wszytko to<pc><choice>
+                           <orig>:</orig>
+                           <reg/>
+                        </choice></pc> drwią, <choice>
+                        <orig>y</orig>
+                        <reg>i</reg>
+                     </choice> bredzą, we <choice>
+                        <orig>sńie</orig>
+                        <reg>śnie</reg>
+                     </choice>. </l>
+               </lg>
+            </div>
+            <div>
+               <head>Vigila, veculus Canis Latrat</head>
+               <lg>
+                  <l>Darmo się drą szczęnięta: ale kiedy poczńie</l>
+                  <l>Stary szczekać? Gospodarz: niechay nieodwłoczńie,</l>
+                  <gap reason="sampling"/>
+               </lg>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

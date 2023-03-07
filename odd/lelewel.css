@@ -1,0 +1,17 @@
+
+
+.choice-alternate {
+	display: none;
+	}
+
+.choice-alternate.toggle {
+	display: inline;
+	}
+
+.choice.toggle {
+	display: none;
+	}
+
+    .lb.toggle {
+        display: none;
+    }
