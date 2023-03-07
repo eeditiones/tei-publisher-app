@@ -1,4 +1,4 @@
-<?teipublisher  depth="2" fill="0" view="div"?>
+<?teipublisher  depth="2" fill="0" view="div" media="web epub"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="A00313">
    <teiHeader>
       <fileDesc>
@@ -91,7 +91,7 @@
       </encodingDesc>
       <profileDesc>
          <langUsage>
-            <language ident="eng">eng</language>
+            <language ident="en">English</language>
          </langUsage>
          <textClass>
             <keywords scheme="http://authorities.loc.gov/">
