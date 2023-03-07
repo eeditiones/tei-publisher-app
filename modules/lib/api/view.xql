@@ -52,7 +52,11 @@ declare function vapi:view($request as map(*)) {
             xmldb:decode($request?parameters?docid) || $request?parameters?suffix
         else
             xmldb:decode($request?parameters?docid)
-    let $config := vapi:get-config($path, $request?parameters?view)
+    let $config :=
+        if ($request?parameters?suffix = '.md') then
+            map {}
+        else 
+            vapi:get-config($path, $request?parameters?view)
     let $templateName := head((vapi:get-template($config, $request?parameters?template), $config:default-template))
     let $templatePaths := ($config:app-root || "/templates/pages/" || $templateName, $config:app-root || "/templates/" || $templateName)
     let $template :=
