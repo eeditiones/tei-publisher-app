@@ -44,10 +44,11 @@
    <text>
       <body>
          <div>
-            <div>
+            <div> 
                <head>Chilias I, Centuria III</head>
                <div xml:id="Adagium_203">
                   <div xml:lang="la" n="203">
+                     <pb facs="adagia_citravinumtemulentia.jpg" n="p. 158"/>
                      <head n="III">Citra vinum temulentia</head>
                      <p>
                                 <seg n="1">
@@ -59,7 +60,8 @@
                            redderentur, ut non aliter effutirent quicquid esset in animo quam inter
                            pocula solent ebrii <hi hand="WP">voces interdum per temulentiam
                               effutientes per jugulum, ut ait Plinius, redituras</hi>.</seg>
-                        <seg n="3">Horatius insolentiam ebrietatem appellat : <ref target="http://www.perseus.tufts.edu/hopper/text.jsp?doc=Perseus:text:1999.02.0024:book=1:poem=37">
+                        <seg n="3">Horatius insolentiam ebrietatem appellat : 
+                           <ref target="http://www.perseus.tufts.edu/hopper/text.jsp?doc=Perseus:text:1999.02.0024:book=1:poem=37">
                                         <q>Fortunaque dulci ebria</q>
                                     </ref>.</seg>
                         <seg n="4">Vulgo panariam ebrietatem appellant arrogantiam licentiamque
@@ -70,25 +72,29 @@
                            haec multis in omnem usque vitam durare consuevit.</seg>
                             </p>
                   </div>
-                  <pb facs="adagia_citravinumtemulentia.jpg" n="p. 158"/>
-                  <cb/>
                   <div xml:lang="en">
                      <head n="III">Citra vinum temulentia</head>
                      <p>
+                        <seg n="1">
                                 <foreign xml:lang="gr">Ἄοινος μέθη</foreign>, that is, drunkenness without
                         wine. As Theophrastus testifies in Plutarch's Symposia, <foreign xml:lang="gr">τὰ κουρεῖα ἄοινον μέθην ἐκάλει</foreign>, that is, he
-                        called barbershops drunkenness without wine. For the reason that those
+                        called barbershops drunkenness without wine.</seg>
+                        <seg n="2"> For the reason that those
                         spending time there were rendered so inebriated with their own chat, that
                         they blabbed whatever was on their minds, like drunkards are known to talk
                         nonsense between sips, sometimes letting out words which might <q>return
-                           through your throat</q>, as Pliny says. Horace calls insolence
+                           through your throat</q>, as Pliny says.</seg> 
+                           <seg n="3">Horace calls insolence
                         drunkenness: <ref target="http://www.perseus.tufts.edu/hopper/text.jsp?doc=Perseus:text:1999.02.0025:book=1:poem=37">
                                     <q>by Fortune’s sweet new wine befool’d</q>
-                                </ref>. So-called "bread"
+                                </ref>. </seg>
+                        <seg n="4">So-called "bread"
                         drunkenness is an arrogance and licentiousness of manners, which is often
-                        accompanying affluence. And this is indeed even more dangerous than that
-                        which is brought by the wine. For if the heat of wine boils away in a few
-                        hours, or even in sleep, this one for many may last a lifetime.</p>
+                        accompanying affluence.</seg>
+                        <seg n="5"> And this is indeed even more dangerous than that
+                        which is brought by the wine.</seg>
+                        <seg n="6"> For if the heat of wine boils away in a few
+                        hours, or even in sleep, this one for many may last a lifetime.</seg></p>
                   </div>
                   <div>
                      <head n="III">Citra vinum temulentia</head>
@@ -101,17 +107,15 @@
                            gadulstwem, że plotą, cokolwiek leży im na sercu czy przychodzi im do
                            głowy, jak mają zwyczaj czynić to ludzie pijani, między jednym kielichem
                            a drugim wygadujący niekiedy w upojeniu słowa, które, jak mówi Pliniusz,
-                              <q>powrócą wołem</q>
-                                    <note>dosł. powrócą przez gardło, np.
-                              zabijając</note>.</seg>
+                              <q>powrócą wołem<note>dosł. powrócą przez gardło</note></q>
+                                    .</seg>
                         <seg n="3">Horacy nazywa pijaństwem butę: <ref target="http://www.perseus.tufts.edu/hopper/text.jsp?doc=Perseus:text:1999.02.0024:book=1:poem=37">
-                                        <q>upojona słodkim powodzeniem</q>
-                                        <note>to o Kleopatrze, Nunc est
-                                 bibendum</note>
+                                        <q>upojona słodkim powodzeniem<note>to o Kleopatrze, Nunc est
+                                          bibendum</note></q>    
                                     </ref>.</seg>
                         <seg n="4">Powszechnie „od-chleba” upojeniem nazywana jest zuchwałość i
                            swawola, która zwykle towarzyszy pomyślności.</seg>
-                        <seg n="5">A jest ono<note>owo „chlebowe” upojenie</note> znacznie
+                        <seg n="5">A jest ono znacznie
                            niebezpieczniejsze niż to, które spowodowało wino.</seg>
                         <seg n="6">Gorączka bowiem spowodowana winem stygnie już po kilku godzinach
                            albo po wyspaniu się, a upojenie „chlebowe” zwykło trwać u wielu przez

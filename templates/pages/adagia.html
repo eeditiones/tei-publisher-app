@@ -70,7 +70,9 @@
                 margin-bottom: 2em;
             }
 
-
+ #tocToggle {
+    display: none;
+ }
 .choice-alternate {
 	display: none;
 	}
@@ -94,15 +96,7 @@
                 <app-header-layout>
                     <app-header slot="header" fixed="fixed">
                         <app-toolbar data-template="lib:include" data-template-path="templates/menu.html"/>
-                        <app-toolbar data-template="lib:include" data-template-path="templates/toolbar.html">
-                            <pb-toggle-feature name="norm" selector=".choice,.choice-alternate" emit="transcription" subscribe="transcription" data-target="toolbar-start" default="off">
-                                <pb-i18n key="document.original">Transliterated View</pb-i18n>
-                            </pb-toggle-feature>
-                            <pb-toggle-feature name="punct" selector=".pc-choice,.pc-choice-alternate" emit="transcription" subscribe="transcription" data-target="toolbar-start" default="off">
-                                <pb-i18n key="document.punct">Original punctuation</pb-i18n>
-                            </pb-toggle-feature>
-                        
-                        </app-toolbar>
+                        <app-toolbar data-template="lib:include" data-template-path="templates/toolbar.html"/>
                     </app-header>
                     <pb-drawer toggle="tocToggle" class="tocDrawer" emit="toc" subscribe="transcription">
                         <div class="drawer-content">
@@ -114,24 +108,9 @@
                     </pb-drawer>                    
                     <main class="content-body">
                         <div class="text">
-                            <pb-collapse class="metadata">
-                                <h3 slot="collapse-trigger">
-                                    <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt" view="single">
-                                        <pb-param name="mode" value="title"/>
-                                    </pb-view>
-                                </h3>
-                                <div slot="collapse-content">
-                                    <pb-view id="metadata-view1" src="document1" xpath="//teiHeader" view="single">
-                                        <pb-param name="mode" value="metadata"/>
-                                    </pb-view>
-                                    <hr/>
-                                </div>
-                            </pb-collapse>
                             <pb-view id="view1" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" wait-for="#facsimile"/>
                         </div>
-                        
                         <pb-facsimile id="facsimile" subscribe="transcription" type="image"/>
-                            
                     </main>
                 </app-header-layout>
             </app-drawer-layout>
