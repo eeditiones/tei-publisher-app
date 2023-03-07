@@ -28,7 +28,9 @@
             </sourceDesc>
         </fileDesc>
         <encodingDesc>
-            <tagsDecl/>
+            <tagsDecl>
+                <rendition source="lelewel.css"/>
+            </tagsDecl>
         </encodingDesc>
         <revisionDesc>
             <change when="2023-03-01Z">Initial version</change>
@@ -58,11 +60,26 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="app" mode="add">
-        <model behaviour="alternate">
+                    <model behaviour="alternate">
             <param name="default" value="lem"/>
             <param name="alternate" value="rdg"/>
         </model>
-    </elementSpec>
+                </elementSpec>
+            <elementSpec ident="lb" mode="change">
+                    <modelSequence predicate="@break">
+            <model behaviour="inline" cssClass="lb-hyphen">
+                <param name="content" value="'-'"/>
+            </model>
+            <model behaviour="break" cssClass="lb">
+                <param name="type" value="'line'"/>
+                <param name="label" value="@n"/>
+            </model>
+        </modelSequence>
+                    <model behaviour="break" cssClass="lb" useSourceRendition="true">
+            <param name="type" value="'line'"/>
+            <param name="label" value="@n"/>
+        </model>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>
