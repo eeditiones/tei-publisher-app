@@ -26,6 +26,7 @@ declare variable $config:origin-whitelist := (
     "(?:https?://localhost:.*|https?://127.0.0.1:.*)",
     "https?://unpkg.com",
     "https?://cdpn.io",
+    "https://cdn.tei-publisher.com",
     "https?://teipublisher.onrender.com"
 );
 
@@ -58,7 +59,7 @@ declare variable $config:enable-proxy-caching :=
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port 
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "1.43.1";
+declare variable $config:webcomponents := "1.43.5";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
@@ -66,6 +67,7 @@ declare variable $config:webcomponents := "1.43.1";
  :)
 (: declare variable $config:webcomponents-cdn := "https://unpkg.com/@teipublisher/pb-components"; :)
 declare variable $config:webcomponents-cdn := "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components";
+(: declare variable $config:webcomponents-cdn := "https://cdn.tei-publisher.com/"; :)
 (: declare variable $config:webcomponents-cdn := "http://localhost:8000"; :)
 
 (:~
