@@ -1,6 +1,27 @@
 /* Generated stylesheet. Do not edit. */
 /* Global styles */
 
+/* external styles loaded from lelewel.css */
+
+
+
+
+.choice-alternate {
+	display: none;
+	}
+
+.choice-alternate.toggle {
+	display: inline;
+	}
+
+.choice.toggle {
+	display: none;
+	}
+
+    .lb.toggle {
+        display: none;
+    }
+
 .simple_allcaps { text-transform: uppercase; }
 .simple_blackletter { font-family: fantasy; }
 .simple_bold { font-weight: bold; }

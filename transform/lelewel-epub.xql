@@ -303,7 +303,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(docTitle) return
                         epub:block($config, ., css:get-rendition(., ("tei-docTitle", css:map-rend-to-class(.))), .)
                     case element(lb) return
-                        epub:break($config, ., css:get-rendition(., ("tei-lb", css:map-rend-to-class(.))), ., 'line', @n)
+                        if ($parameters?mode='norm') then
+                            html:omit($config, ., ("tei-lb1", css:map-rend-to-class(.)), .)
+                        else
+                            epub:break($config, ., css:get-rendition(., ("tei-lb2", "lb", css:map-rend-to-class(.))), ., 'line', @n)
                     case element(w) return
                         html:inline($config, ., ("tei-w", css:map-rend-to-class(.)), .)
                     case element(stage) return

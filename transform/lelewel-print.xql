@@ -306,7 +306,10 @@ declare function model:apply($config as map(*), $input as node()*) {
                     case element(docTitle) return
                         html:block($config, ., css:get-rendition(., ("tei-docTitle", css:map-rend-to-class(.))), .)
                     case element(lb) return
-                        html:break($config, ., css:get-rendition(., ("tei-lb", css:map-rend-to-class(.))), ., 'line', @n)
+                        if ($parameters?mode='norm') then
+                            html:omit($config, ., ("tei-lb1", css:map-rend-to-class(.)), .)
+                        else
+                            html:break($config, ., css:get-rendition(., ("tei-lb2", "lb", css:map-rend-to-class(.))), ., 'line', @n)
                     case element(w) return
                         html:inline($config, ., ("tei-w", css:map-rend-to-class(.)), .)
                     case element(stage) return
