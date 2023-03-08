@@ -349,3 +349,25 @@ pb-drawer {
 .version span {
     font-weight: bold;
 }
+
+/* Display KWIC search results */
+.matches {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.matches .hi {
+    color: var(--pb-color-focus);
+}
+
+.matches .count {
+    margin-top: 1em;
+}
+
+.matches .count::before {
+    content: '[';
+}
+
+.matches .count::after {
+    content: ']';
+}

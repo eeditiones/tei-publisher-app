@@ -50,11 +50,35 @@ declare function teis:query-default($fields as xs:string+, $query as xs:string, 
     else ()
 };
 
-declare function teis:query-metadata($field as xs:string, $query as xs:string, $sort as xs:string) {
-    for $rootCol in $config:data-root
-    for $doc in collection($rootCol)//tei:text[ft:query(., $field || ":(" || $query || ")", query:options($sort))]
+declare function teis:query-metadata($field as xs:string?, $query as xs:string?, $sort as xs:string) {
+    let $queryExpr := 
+        if ($field = "file" or empty($query) or $query = '') then 
+            "file:*" 
+        else 
+            ($field, "div")[1] || ":" || $query
+    let $options := query:options($sort, ($field, "div")[1])
+    let $mode := if ((empty($query) or $query = '') and empty($options?facets?*)) then "browse" else "search"
+    let $result :=
+        for $rootCol in $config:data-root
+        return
+            collection($rootCol)//tei:text[ft:query(., $queryExpr, $options)]
+    return map {
+        "all": teis:sort($result, $sort),
+        "mode": $mode
+    }
+};
+
+declare %private function teis:sort($items as element()*, $sortBy as xs:string?) {
+    let $items :=
+        if (exists($config:data-exclude)) then
+            $items except $config:data-exclude
+        else
+            $items
     return
-        $doc/ancestor::tei:TEI
+        if ($sortBy) then
+            nav:sort($sortBy, $items)
+        else
+            $items
 };
 
 declare function teis:autocomplete($doc as xs:string?, $fields as xs:string+, $q as xs:string) {

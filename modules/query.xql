@@ -51,6 +51,10 @@ declare function query:query-default($fields as xs:string+, $query as xs:string,
 };
 
 declare function query:options($sortBy as xs:string*) {
+    query:options($sortBy, ())
+};
+
+declare function query:options($sortBy as xs:string*, $field as xs:string?) {
     map:merge((
         $query:QUERY_OPTIONS,
         map {
@@ -65,13 +69,13 @@ declare function query:options($sortBy as xs:string*) {
                 ))
         },
         if ($sortBy) then
-            map { "fields": ($sortBy, $config:default-fields) }
+            map { "fields": ($sortBy, $config:default-fields, $field) }
         else
-            map { "fields": $config:default-fields }
+            map { "fields": ($config:default-fields, $field) }
     ))
 };
 
-declare function query:query-metadata($field as xs:string, $query as xs:string, $sort as xs:string) {
+declare function query:query-metadata($field as xs:string?, $query as xs:string?, $sort as xs:string) {
     tei-query:query-metadata($field, $query, $sort),
     docbook-query:query-metadata($field, $query, $sort)
 };

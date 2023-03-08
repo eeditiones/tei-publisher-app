@@ -12,13 +12,16 @@ import module namespace lib="http://exist-db.org/xquery/html-templating/lib";
 import module namespace docx="http://existsolutions.com/teipublisher/docx";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
 import module namespace custom="http://teipublisher.com/api/custom" at "../../custom-api.xql";
+import module namespace query="http://www.tei-c.org/tei-simple/query" at "../query.xql";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 
 declare function capi:list($request as map(*)) {
     let $path := if ($request?parameters?path) then xmldb:decode($request?parameters?path) else ()
+    let $works := capi:list-works($path)
     let $templatePath := $config:data-root || "/" || $path || "/collection.html"
     let $templateAvail := doc-available($templatePath) or util:binary-doc-available($templatePath)
     let $template := 
-        if ($templateAvail) then 
+        if ($templateAvail and $works?mode = 'browse') then 
             $templatePath
         else
             $config:app-root || "/templates/documents.html"
@@ -34,8 +37,60 @@ declare function capi:list($request as map(*)) {
             ()
         }
     }
+    let $model := map:merge(($works, map {
+        "app": $config:context-path,
+        "mode": "browse"
+    }))
     return
-        templates:apply(doc($template), $lookup, map { "root": $path }, tpu:get-template-config($request))
+        templates:apply(doc($template), $lookup, $model, tpu:get-template-config($request))
+};
+
+declare
+    %private
+function capi:list-works($root as xs:string?) {
+    let $params := capi:params2map($root)
+    let $sort := request:get-parameter("sort", "title")
+    let $filter := request:get-parameter("field", ())
+    let $query := request:get-parameter("query", ())
+    let $cached := session:get-attribute($config:session-prefix || ".works")
+    let $filtered :=
+        if (capi:use-cache($params, $cached)) then (
+            $cached,
+            util:log('INFO', ('Using cached'))
+        ) else
+            query:query-metadata(($filter, "div")[1], $query, $sort)
+    return (
+        session:set-attribute($config:session-prefix || ".timestamp", current-dateTime()),
+        session:set-attribute($config:session-prefix || '.hits', $filtered?all),
+        session:set-attribute($config:session-prefix || '.params', $params),
+        session:set-attribute($config:session-prefix || ".works", $filtered),
+        map:merge((
+            $filtered,
+            map {
+                "query": $query,
+                "field": $filter
+            }
+        ))
+    )
+};
+
+declare %private function capi:params2map($root as xs:string?) {
+    map:merge((
+        for $param in request:get-parameter-names()[not(. = ("start", "per-page"))]
+        return
+            map:entry($param, request:get-parameter($param, ())),
+        map { "root": $root }
+    ))
+};
+
+declare %private function capi:use-cache($params as map(*), $cached) {
+    let $cachedParams := session:get-attribute($config:session-prefix || ".params")
+    let $timestamp := session:get-attribute($config:session-prefix || ".timestamp")
+    return
+        if (exists($cached) and exists($cachedParams) and deep-equal($params, $cachedParams) and exists($timestamp)) then
+            empty(xmldb:find-last-modified-since(collection($config:data-root), $timestamp))
+        else
+            false()
 };
 
 declare function capi:upload($request as map(*)) {

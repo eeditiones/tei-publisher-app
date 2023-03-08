@@ -102,13 +102,14 @@ declare function dbs:autocomplete($doc as xs:string?, $fields as xs:string+, $q 
                     }, 30)
 };
 
-declare function dbs:query-metadata($field as xs:string, $query as xs:string, $sort as xs:string) {
+declare function dbs:query-metadata($field as xs:string?, $query as xs:string?, $sort as xs:string) {
+    ()
     (: map default publisher field names to db- prefixed which are defined for dbk :)
-    let $field := if ($field = ('author', 'title', 'file')) then 'db-' || $field else $field
+    (: let $field := if ($field = ('author', 'title', 'file')) then 'db-' || $field else $field
 
     for $doc in collection($config:data-root)//db:article[ft:query(., $field || ":" || $query, query:options($sort))]
         return
-        root($doc)/*
+        root($doc)/* :)
 };
 
 declare function dbs:get-parent-section($node as node()) {

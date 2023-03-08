@@ -52,23 +52,14 @@
                 margin-top: 12px;
             }
 
-            pb-results {
-                overflow: scroll;
-                margin: 0 20px;
-                height: calc(100vh - 128px);
-            }
-            
             @media (min-width: 1024px) {
                 .toolbar {
                     display: none;
                 }
                 .panels {
-                    display: flex;
-                    flex-direction: row;
-                }
-                .panels .doclist {
-                    flex: 2 auto;
-                    margin-right: 20px;
+                    display: grid;
+                    grid-template-columns: 1fr minmax(220px, 20vw);
+                    column-gap: 16px;
                 }
             }
             
@@ -100,9 +91,9 @@
             }
             
             .panels .doclist .browse {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
+                display: grid;
+                grid-template-columns: auto 1fr;
+                column-gap: 16px;
                 padding: 0;
             }
             
@@ -110,16 +101,14 @@
                 padding: 0 20px;
             }
             
-            #document-list {
-                flex: 2;
-                margin-right: 20px;
+            .panels pb-search {
+                padding: 0 10px;
             }
             
             aside {
                 flex: 1;
                 display: flex;
                 flex-direction: column;
-                min-width: 360px;
             }
             
             aside .odds,
@@ -172,13 +161,6 @@
                 list-style: none;
             }
             
-            .documents app-toolbar {
-                @apply --layout-start-justified;
-                font-size: 14px;
-                margin-top: 10px;
-                padding-left: 0;
-            }
-            
             .documents div {
                 margin: 0;
             }
@@ -226,39 +208,36 @@
                 margin: 0;
             }
             
-            #facets {
+            .facets {
                 flex: 0;
                 min-width: 220px;
-                margin-right: 20px;
-                background-color: #F0F0F0;
-                padding: 0 10px;
             }
             
-            #facets h3 {
+            .facets h3 {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
             }
             
-            #facets h3 paper-checkbox {
+            .facets h3 paper-checkbox {
                 margin-left: 16px;
                 font-size: 11px;
             }
             
-            #facets table {
+            .facets table {
                 font-size: 14px;
             }
             
-            #facets table table {
+            .facets table table {
                 padding-left: 16px;
                 width: 100%;
             }
             
-            #facets table td {
+            .facets table td {
                 padding: 4px 0;
             }
             
-            #facets table td:nth-child(2) {
+            .facets table td:nth-child(2) {
                 color: #808080;
                 text-align: right;
                 padding-left: 1em;
@@ -282,7 +261,7 @@
 </head>
 
 <body>
-    <pb-page data-template="pages:pb-page" api-version="1.0" unresolved="unresolved">
+    <pb-page data-template="pages:pb-page" api-version="1.0" unresolved="unresolved" theme="resources/css/components.css">
         <app-drawer-layout force-narrow="force-narrow">
             <app-drawer slot="drawer" align="right">
                 <div class="drawer-content">
@@ -358,7 +337,7 @@
                             <iron-icon slot="icon" icon="account-circle"></iron-icon>
                         </pb-login>
                         <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"
-                            subscribe="docs"></pb-progress>
+                            subscribe="results"></pb-progress>
                     </app-toolbar>
                     <pb-media-query query="(max-width: 1023px)">
                         <app-toolbar class="toolbar" sticky="sticky">
@@ -369,7 +348,7 @@
                     </pb-media-query>
                 </app-header>
 
-                <main>
+                <main data-template="browse:form">
                     <section>
                         <h1 class="tp-title">TEI Publisher <span>The Instant Publishing Toolbox</span></h1>
                         <p><pb-i18n key="browse.description">Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD.</pb-i18n></p>
@@ -383,11 +362,20 @@
                                     <paper-tab slot="tab"><pb-i18n key="browse.dts">Distributed Text Services (Experimental)</pb-i18n></paper-tab>
 
                                     <div class="browse" slot="page">
-                                        <pb-custom-form id="facets" url="api/search/facets" event="pb-results-received" subscribe="docs" emit="docs"></pb-custom-form>
-                                        <pb-browse-docs id="document-list" url="api/collection" sort-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"}]' sort-by="title"
-                                            filter-options='[{"label": "browse.title", "value": "title"},{"label": "browse.author", "value": "author"},{"label": "browse.file", "value": "file"}]' filter-by="title" auto="auto" history="history" login="login" emit="docs" subscribe="docs">
-                                            <pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" emit="docs" subscribe="docs"></pb-paginate>
-                                        </pb-browse-docs>
+                                        <aside>
+                                            <pb-custom-form class="options">
+                                                <pb-select name="field" value="${field}" data-template="lib:parse-params">
+                                                    <paper-item value="div"><pb-i18n key="search.sections"></pb-i18n></paper-item>
+                                                    <paper-item value="title"><pb-i18n key="search.headings"></pb-i18n></paper-item>
+                                                </pb-select>
+                                            </pb-custom-form>
+                                            <pb-search id="search-form" subscribe="search" data-template="lib:parse-params" value="${query}"
+                                                subforms=".facets,.options" submit-on-load="submit-on-load">
+                                                <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="results" emit="search"></pb-custom-form>
+                                            </pb-search>
+                                        </aside>
+                                        <!--pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" subscribe="results"></pb-paginate-->
+                                        <pb-load id="document-list" url="api/collection" emit="results"></pb-load>
                                     </div>
                                     <dts-client slot="page" emit="dts">
                                         <dts-select-endpoint id="dts" slot="toolbar">
@@ -446,7 +434,7 @@
     </pb-page>
     <div class="splash"></div>
     <script>
-        const facets = document.getElementById('facets');
+        const facets = document.querySelector('.facets');
         if (facets) {
             facets.addEventListener('pb-custom-form-loaded', function(ev) {
                 const elems = ev.detail.querySelectorAll('.facet');
@@ -460,6 +448,7 @@
                                 }
                             });
                         }
+                        console.log('Submitting facets');
                         facets.submit();
                     });
                 });
