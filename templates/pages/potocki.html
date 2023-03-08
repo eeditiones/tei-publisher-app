@@ -26,34 +26,24 @@
             }
 
             #view1 {
-                flex: 1 1;
                 padding: 0 16px;
                 height: var(--pb-view-height);
                 overflow: auto;
             }
 
-            .content-body {
-                position: relative;
-                display: flex;
-                justify-content: center;
-                padding: 0 20px;
-            }
-            
-            .metadata {
-                width: 100%;
-                padding: 0 20px 20px;
-            }
-            .metadata pb-view {
-                font: var(--pb-base-font);
-            }
-            .metadata h3 pb-view {
-                font-family: var(--pb-heading-font-family);
-                font-weight: var(--pb-heading-font-weight);
+            pb-view {
+                margin: 0;
             }
 
-            .text {
-                flex: 1;
+            .content-body {
+                position: relative;
+                display: grid;
+                grid-template-columns: 1fr 35% 35%;
+                column-gap: 1em;
+                justify-content: center;
+                padding: 0 1em;
             }
+            
 
             .content-body pb-facsimile {
                 flex: 1;
@@ -68,6 +58,15 @@
             
             .ab {
                 margin-bottom: 2em;
+            }
+
+            #tocToggle {
+                display: none;
+            }
+
+            .introduction {
+                font-family: var(--pb-heading-font-family);
+                padding: 1em;
             }
 
         </style>
@@ -91,32 +90,14 @@
                         
                         </app-toolbar>
                     </app-header>
-                    <pb-drawer toggle="tocToggle" class="tocDrawer" emit="toc" subscribe="transcription">
-                        <div class="drawer-content">
-                            <h3>
-                                <pb-i18n key="contents">Contents</pb-i18n>
-                            </h3>
-                            <pb-load id="toc" url="api/document/{doc}/contents?target=transcription&amp;icons=true" expand="expand" src="document1" subscribe="toc" load-once="load-once">Loading ...</pb-load>
-                        </div>
-                    </pb-drawer>                    
+                                    
                     <main class="content-body">
-                        <div class="text">
-                            <pb-collapse class="metadata">
-                                <h3 slot="collapse-trigger">
-                                    <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt" view="single">
-                                        <pb-param name="mode" value="title"/>
-                                    </pb-view>
-                                </h3>
-                                <div slot="collapse-content">
-                                    <pb-view id="metadata-view1" src="document1" xpath="//teiHeader" view="single">
-                                        <pb-param name="mode" value="metadata"/>
-                                    </pb-view>
-                                    <hr/>
-                                </div>
-                            </pb-collapse>
-                            <pb-view id="view1" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" wait-for="#facsimile"/>
-                        </div>
+                        <pb-view id="introduction" src="document1" subscribe="transcription" emit="transcription">
+                            <pb-param name="view" value="introduction" />
+                        </pb-view>
+                        <pb-view id="view1" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" wait-for="#facsimile"/>
                         <pb-facsimile id="facsimile" base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/" default-zoom-level="0" show-navigation-control="show-navigation-control" show-navigator="show-navigator" subscribe="transcription"/>
+                       
                     </main>
                 </app-header-layout>
             </app-drawer-layout>

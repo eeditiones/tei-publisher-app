@@ -9,6 +9,10 @@
             <title>Moralia</title>
             <author>Wacław Potocki</author>
             <respStmt>
+               <resp>commentary</resp>
+               <persName>Albert Gorzkowski</persName>
+            </respStmt>
+            <respStmt>
                <resp>transcription, TEI encoding</resp>
                <persName>Magdalena Turska</persName>
             </respStmt>
@@ -20,6 +24,60 @@
             <p>Information about the source</p>
          </sourceDesc>
       </fileDesc>
+      <profileDesc>
+         <particDesc>
+            <listPerson>
+               <person xml:id="gnd-118595091">
+                  <persName type="full">Plinius Caecilius Secundus, Gaius</persName>
+                  <birth when="0061"/>
+                  <death when="0114"/>
+                  <note>Römischer Politiker und Schriftsteller. Neffe und Adoptivsohn von Plinius
+                     dem Älteren. Geboren zwischen 25. August 61 und 24. August 62 in Novum Comum,
+                     jetzt Como, Oberitalien; gestorben um 113 oder 115 wahrscheinlich in der
+                     Provinz Bithynia et Pontus</note>
+                  <occupation>Politiker</occupation>
+                  <occupation>Rechtsanwalt</occupation>
+                  <occupation>Schriftsteller</occupation>
+               </person>
+               <person xml:id="gnd-118553569">
+                  <persName type="full">Horatius Flaccus, Quintus</persName>
+                  <birth when="-0065"/>
+                  <death when="-0008"/>
+                  <note>Augusteischer römischer Dichter aus dem Kreis des Maecenas</note>
+                  <occupation>Schriftsteller</occupation>
+                  <occupation>Philosoph</occupation>
+               </person>
+               <person xml:id="gnd-118595237">
+                  <persName type="full">Plutarchus</persName>
+                  <birth when="0045"/>
+                  <death when="0120"/>
+                  <note/>
+                  <occupation>Schriftsteller</occupation>
+                  <occupation>Philosoph</occupation>
+               </person>
+               <person xml:id="gnd-118530666">
+                  <persName type="full">Erasmus, Desiderius</persName>
+                  <birth when="1466-10-28"/>
+                  <death when="1536-07-12"/>
+                  <note/>
+                  <occupation>Theologe</occupation>
+                  <occupation>Priester</occupation>
+                  <occupation>Schriftsteller</occupation>
+                  <occupation>Philologe</occupation>
+                  <occupation>Pädagoge</occupation>
+                  <occupation>Humanist</occupation>
+               </person>
+               <person xml:id="gnd-118621793">
+                  <persName type="full">Theophrastus</persName>
+                  <birth when="-0369"/>
+                  <death when="-0288"/>
+                  <note>Philosoph, Griechenland; Griech. Philosoph und Schüler des Aristoteles,
+                     Leiter der Peripatetischen Schule</note>
+                  <occupation>Philosoph</occupation>
+               </person>
+            </listPerson>
+         </particDesc>
+      </profileDesc>
    </teiHeader>
    <text>
       <body>
@@ -30,14 +88,51 @@
                   <orig>Przypowieśći</orig>
                   <reg>Przypowieści</reg>
                </choice></head>
-            <div>
-               <!-- http://ihrim.huma-num.fr/nmh/Erasmus/Proverbia/Adagium_203.html -->
-               <head><ref n="Chilias I Centuria III, 203"
-                     target="ihrim:Adagium_203"
-                     corresp="eebo:Proverbia_203">Citra vinum <choice>
-                        <sic>tmulentiа</sic>
-                        <corr>temulentiа</corr>
-                     </choice></ref></head>
+            <div n="Chilias I Centuria III, 203">
+               <note type="introduction"><p>Wiersz jest parafrazą Erazmiańskiego adagium
+                        <title>Citra vinum temulentia</title> ‘Pijaństwo bez wina’ <ref
+                        target="https://adagia.resources.huygens.knaw.nl/erasmusa3.htm">Ad. I, 3,
+                        3</ref>, opartego na starożytnym motywie obecnym w pismach Teofrasta
+                        (<persName type="author" ref="gnd-118621793">Thphr</persName> fr. 76
+                     Wimmer), którego Erazm cytuje za pośrednictwem <persName type="author"
+                        ref="gnd-118595237">Plutarcha</persName> (<title>Zagadnienia
+                        biesiadne</title> zawarte w <title>Moraliach</title>, zob. <ref
+                        target="https://www.perseus.tufts.edu/hopper/text?doc=Plut.+Quaes.+Conv.+716a&amp;fromdoc=Perseus%3Atext%3A2008.01.0311"
+                        >Plut. Mor. 716a</ref>). Plutarch określa tam balwiernie rodzajem
+                        <hi>„upojenia bez wina”</hi> (<foreign>ἄοινος μέθη</foreign>), ponieważ
+                     ludzie spędzając w nich czas bezczynnie, stają się tak odurzeni gadaniną, że
+                        „<hi>wylewają wszystko, co mają na języku, tak jak pijacy czynią to w
+                        trakcie wychylania kolejnych kielichów</hi>”. Rotterdamczyk wyzyskuje też
+                     przy egzemplifikacji tego motywu fragmenty z <title>Pieśni</title>
+                     <persName type="author" ref="gnd-118553569">Horacego</persName> oraz Historii
+                     naturalnej <persName type="author" ref="gnd-118595091">Pliniusza
+                        Starszego</persName> (zob. przypisy). Potocki, który pomija milczeniem
+                     balwiernie, przyrównuje powszechne „upojenie” plotką, gniewem, urojeniami,
+                     chciwością i pychą do stanu pijackiego zamroczenia.</p>
+                  <p>Nb. w drugiej części księgi pierwszej Moraliów znajdujemy jeszcze trzy inne
+                     parafrazy Ad. I, 3, 3 (M II, 146; 188; 189).</p>
+                  <figure>
+                     <graphic url="adagia_citravinumtemulentia.jpg"/>
+                     <caption><ref
+                           target="https://rcin.org.pl/dlibra/publication/74578/edition/66983/content"
+                           n="p.158">
+                           <bibl><persName type="author">Erasmus Roterodamus</persName>,
+                                 <title>Adagia</title>, Basileae 1551 [Joannes Frobenius et Nicolaus
+                              Episcopus], p. 97</bibl>
+                        </ref></caption>
+
+                  </figure>
+                  <ptr target="https://adagia.resources.huygens.knaw.nl/erasmusa3.htm"/>
+                  <ptr target="http://ihrim.huma-num.fr/nmh/Erasmus/Proverbia/Adagium_203.html"/>
+                  <!-- http://ihrim.huma-num.fr/nmh/Erasmus/Proverbia/Adagium_203.html -->
+                  <ptr target="eebo:Proverbia_203"/>
+               </note>
+
+               <head>Citra vinum <choice>
+                     <sic>tmulentiа</sic>
+                     <corr>temulentiа</corr>
+                  </choice>
+               </head>
                <lg>
                   <note place="margin"><choice>
                         <orig>Pijanstwo</orig>
@@ -58,7 +153,8 @@
                         <orig>Winem</orig>
                         <reg>winem</reg>
                      </choice>, </l>
-                  <l facs="iiif:przypowiesci.png/150,225,430,40">Abo więc, trunkiem ludzie upijali inem,</l>
+                  <l facs="iiif:przypowiesci.png/150,225,430,40">Abo więc, trunkiem ludzie upijali
+                     inem,</l>
                   <l><choice>
                         <orig>Zadnym</orig>
                         <reg>Żadnym</reg>
@@ -84,7 +180,11 @@
                      <choice>
                         <orig>iako</orig>
                         <reg>jako</reg>
-                     </choice> opinią.</l>
+                     </choice>
+                     <choice>
+                        <orig>opinią</orig>
+                        <reg>opiniją</reg>
+                     </choice>.</l>
                   <l>
                      <choice>
                         <orig>Małosz</orig>
@@ -99,7 +199,8 @@
                   <l>I rozpuszczony <choice>
                         <orig>ięzyk</orig>
                         <reg>język</reg>
-                     </choice><pc><choice><orig>:</orig>
+                     </choice><pc><choice>
+                           <orig>:</orig>
                            <reg>,</reg>
                         </choice></pc>
                      <choice>
@@ -127,7 +228,14 @@
                   <l>Pycha <choice>
                         <orig>naprzod</orig>
                         <reg>naprzód</reg>
-                     </choice>, kiedy kto głowę nią opoi,</l>
+                     </choice>, kiedy kto głowę nią opoi<note type="commentary">Prawdopodobnie
+                        nawiązanie do, cytowanego w adagium Erazma, wyrażenia <persName
+                           type="author" ref="gnd-118553569">Horacego</persName>:
+                           <foreign>fortunaque dulci ebria</foreign>
+                        <hi>‘upojona słodyczą władzy’</hi> ze słynnej ody konwiwialnej <title>Nunc
+                           est bibendum</title>, zob. <ref
+                           target="http://www.perseus.tufts.edu/hopper/text?doc=Hor.+Od.+1.37&amp;fromdoc=Perseus%3Atext%3A1999.02.0024"
+                           >Hor. Carm. I, 37, 11-12</ref>, . </note>,</l>
                   <l>Lub <choice>
                         <orig>imaginatia</orig>
                         <reg>imaginacya</reg>
@@ -160,8 +268,8 @@
                      </choice><pc><choice>
                            <orig>:</orig>
                            <reg>,</reg>
-                        </choice></pc> tego nie widząc że <distinct><seg>kawi</seg><note>bredzi, cf.
-                              <ref
+                        </choice></pc> tego nie widząc że <distinct><seg>kawi</seg><note type="ling"
+                           >bredzić, zob. <ref
                               target="https://pl.wikisource.org/wiki/M._Arcta_S%C5%82ownik_Staropolski/Kawi%C4%87"
                               >kawić</ref></note></distinct>, pijany,</l>
                   <l>Drugi <choice>
@@ -182,7 +290,18 @@
                         </choice></pc> do gardła <choice>
                         <orig>iey</orig>
                         <reg>jej</reg>
-                     </choice> lezie,</l>
+                     </choice> lezie<note type="commentary">Por. <ref
+                           target="https://polona.pl/item/k-pliniusza-starszego-historyi-naturalnej-ksiag-xxxvii-c-plinii-secundi-historiae,OTczMzk3MDI/6/#info:metadata"
+                           >Plin. Nat. XIV, 141</ref>: <foreign>„Alii mortifera loquuntur,
+                           rediturasque per jugulum voces non continent, quam multis ita
+                           interemptis”</foreign> (<hi>„Inny plecie zabójcze słowa i nie może
+                           wstrzymać wychodzących z gardzieli wyrazów, chociaż wie, iż wielu tym
+                           sposobem życia pozbawi”</hi>, tłum. J. Łukaszewicz). Na egzemplarzu
+                        Adagiów Erazma (<bibl><persName type="author">Erasmus
+                           Roterodamus</persName>, <title>Adagia</title>, Basileae 1551 [Joannes
+                           Frobenius et Nicolaus Episcopus], p. 97</bibl>), będącym ongiś w
+                        posiadaniu Potockiego, cytowany fragment dzieła <persName type="author"
+                           >Plutarcha</persName> podkreślony ręką Łużnianina. </note>,</l>
                   <l>Drugi omylony w <choice>
                         <orig>swey</orig>
                         <reg>swej</reg>
@@ -220,8 +339,7 @@
                      <choice>
                         <orig>Boga </orig>
                         <reg>Bogu</reg>
-                     </choice> bluźni<pc>
-                        <choice>
+                     </choice> bluźni<pc><choice>
                            <orig/>
                            <reg>.</reg>
                         </choice>
@@ -271,7 +389,7 @@
                         <orig>nadzieią</orig>
                         <reg>nadzieją</reg>
                      </choice>
-                     <distinct><seg>skołozrywą</seg><note>przedwczesną, cf. <ref
+                     <distinct><seg>skołozrywą</seg><note type="ling">przedwczesną, zob. <ref
                               target="https://pl.wikisource.org/wiki/M._Arcta_S%C5%82ownik_Staropolski/Skoro%C5%BArzy"
                               >skoroźrzy</ref></note></distinct> spłoszy.</l>
                   <l><choice>
@@ -319,7 +437,7 @@
                         <orig>swiecka</orig>
                         <reg>świecka</reg>
                      </choice>
-                     <distinct><seg>swacha</seg><note>swatka, cf. <ref
+                     <distinct><seg>swacha</seg><note type="ling">swatka, zob. <ref
                               target="https://sjp.pwn.pl/doroszewski/swacha"
                         >swacha</ref></note></distinct><pc><choice>
                            <orig>:</orig>
@@ -344,16 +462,16 @@
                      </choice> bredzą, we <choice>
                         <orig>sńie</orig>
                         <reg>śnie</reg>
-                     </choice>. </l>
+                     </choice><note type="commentary"> Por. <ref type="adagia">Ad. I, 3, 3</ref>:
+                           <quote>„Siquidem vini aestus pauculis horis aut etiam somno defervescit,
+                           haec multis in omnem usque vitam durare consuevit.”</quote> (<hi>„Jeśli
+                           bowiem euforia wywołana winem opada po paru godzinach, hamowana snem, to
+                           ten [drugi rodzaj upojenia] jest skłonny trwać w wielu przypadkach aż do
+                           końca życia”</hi>). </note>. </l>
                </lg>
             </div>
             <div>
-               <head>Vigila, veculus Canis Latrat</head>
-               <lg>
-                  <l>Darmo się drą szczęnięta: ale kiedy poczńie</l>
-                  <l>Stary szczekać? Gospodarz: niechay nieodwłoczńie,</l>
-                  <gap reason="sampling"/>
-               </lg>
+               <gap/>
             </div>
          </div>
       </body>

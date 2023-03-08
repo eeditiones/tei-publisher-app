@@ -18,3 +18,43 @@ p {
 .underline {
     text-decoration: underline;
 }
+
+.content.margin-right {
+    margin-right: 100px;
+}
+
+.margin-note {
+    width: 100px;
+    margin-right: -100px;
+}
+
+.introduction {
+    margin-top: 2em;
+    font-family: Roboto, Noto, sans-serif;
+    font-size: smaller;
+    padding: 1em;
+}
+
+.quote {
+    font-style: italic;
+}
+
+.authors {
+    margin-top: 2em;
+}
+
+.person {
+    color: maroon;
+}
+
+.distinct {
+    font-style: italic;
+    color: darkolivegreen;
+}
+
+
+.graphic {
+    margin-top: 2em;
+    max-width: 100%;
+    object-fit: contain;
+}
