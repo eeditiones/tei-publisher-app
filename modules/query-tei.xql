@@ -50,18 +50,18 @@ declare function teis:query-default($fields as xs:string+, $query as xs:string, 
     else ()
 };
 
-declare function teis:query-metadata($field as xs:string?, $query as xs:string?, $sort as xs:string) {
+declare function teis:query-metadata($path as xs:string?, $field as xs:string?, $query as xs:string?, $sort as xs:string) {
     let $queryExpr := 
         if ($field = "file" or empty($query) or $query = '') then 
             "file:*" 
         else 
-            ($field, "div")[1] || ":" || $query
-    let $options := query:options($sort, ($field, "div")[1])
+            ($field, "text")[1] || ":" || $query
+    let $options := query:options($sort, ($field, "text")[1])
     let $mode := if ((empty($query) or $query = '') and empty($options?facets?*)) then "browse" else "search"
     let $result :=
-        for $rootCol in $config:data-root
-        return
-            collection($rootCol)//tei:text[ft:query(., $queryExpr, $options)]
+        $config:data-default ! (
+            collection(. || "/" || $path)//tei:text[ft:query(., $queryExpr, $options)]
+        )
     return map {
         "all": teis:sort($result, $sort),
         "mode": $mode

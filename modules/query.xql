@@ -75,8 +75,8 @@ declare function query:options($sortBy as xs:string*, $field as xs:string?) {
     ))
 };
 
-declare function query:query-metadata($field as xs:string?, $query as xs:string?, $sort as xs:string) {
-    tei-query:query-metadata($field, $query, $sort),
+declare function query:query-metadata($root as xs:string?, $field as xs:string?, $query as xs:string?, $sort as xs:string) {
+    tei-query:query-metadata($root, $field, $query, $sort),
     docbook-query:query-metadata($field, $query, $sort)
 };
 

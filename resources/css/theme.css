@@ -354,6 +354,7 @@ pb-drawer {
 .matches {
     margin-left: 20px;
     margin-top: 10px;
+    font-family: var(--pb-content-font-family);
 }
 
 .matches .hi {

@@ -54,11 +54,11 @@ function capi:list-works($root as xs:string?) {
     let $query := request:get-parameter("query", ())
     let $cached := session:get-attribute($config:session-prefix || ".works")
     let $filtered :=
-        if (capi:use-cache($params, $cached)) then (
+        (: if (capi:use-cache($params, $cached)) then (
             $cached,
             util:log('INFO', ('Using cached'))
-        ) else
-            query:query-metadata(($filter, "div")[1], $query, $sort)
+        ) else :)
+            query:query-metadata($root, ($filter, "div")[1], $query, $sort)
     return (
         session:set-attribute($config:session-prefix || ".timestamp", current-dateTime()),
         session:set-attribute($config:session-prefix || '.hits', $filtered?all),
@@ -68,7 +68,8 @@ function capi:list-works($root as xs:string?) {
             $filtered,
             map {
                 "query": $query,
-                "field": $filter
+                "field": $filter,
+                "root": $root
             }
         ))
     )
