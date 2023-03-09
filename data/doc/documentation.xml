@@ -146,13 +146,15 @@
         multiple editions. These ideas are in various stages of development - some already advanced,
         some in conceptual phase, some waiting for funding and implementation. Coordination of
         future work is primarily conducted by <link xlink:show="new"
-          xlink:href="https://e-editiones.org">e-editiones.org</link> . </para>
+          xlink:href="https://e-editiones.org">e-editiones.org</link>. </para>
       <section xml:id="v8">
         <title>What's new in TEI Publisher 8.0.0</title>
         <para>Version 8 has been focused on a major rework of the URL handling and redesign of
           search facilities. A number of further examples gives a better idea of the projects
           already using TEI Publisher for their editions. There have also been significant changes
           to connected resources: the tei-publisher-lib, webcomponents library and roaster.</para>
+        <para>See chapter on <link linkend="updating">Updating</link> for information how to update
+          your app to the newest version.</para>
       </section>
       <section xml:id="v7">
         <title>What's new in TEI Publisher 7.0.0</title>
@@ -182,7 +184,7 @@
           available in 20 languages. </para>
 
         <para> See chapter on <link linkend="updating">Updating</link> for information how to update
-          your app to take advantake of these developments. </para>
+          your app to take advantage of these developments. </para>
       </section>
       <section xml:id="v6">
         <title>What's new in TEI Publisher 6.0.0</title>
