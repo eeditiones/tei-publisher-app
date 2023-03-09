@@ -138,7 +138,7 @@
         major version is released, bringing important new features.</para>
       <para>Minor versions are released at shorter intervals and offer bug fixes, minor new features
         and improvements.</para>
-      <para>The current major version of the TEI Publisher is 7.0.0</para>
+      <para>The current major version of the TEI Publisher is 8.0.0</para>
 
       <para> There's a long list of ideas and features we'd like to see incorporated into TEI
         Publisher: from wider coverage of input and output formats (e.g. InDesign), CQL and DTS
@@ -147,7 +147,13 @@
         some in conceptual phase, some waiting for funding and implementation. Coordination of
         future work is primarily conducted by <link xlink:show="new"
           xlink:href="https://e-editiones.org">e-editiones.org</link> . </para>
-
+      <section xml:id="v8">
+        <title>What's new in TEI Publisher 8.0.0</title>
+        <para>Version 8 has been focused on a major rework of the URL handling and redesign of
+          search facilities. A number of further examples gives a better idea of the projects
+          already using TEI Publisher for their editions. There have also been significant changes
+          to connected resources: the tei-publisher-lib, webcomponents library and roaster.</para>
+      </section>
       <section xml:id="v7">
         <title>What's new in TEI Publisher 7.0.0</title>
         <para>Version 7 brought another major refactoring and restructuring of TEI Publisher app ,
