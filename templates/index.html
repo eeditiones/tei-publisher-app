@@ -395,12 +395,11 @@
                                             <!--pb-browse url="api/collection" emit="search"></pb-browse-->
                                         </div>
                                     </div>
-                                    <!--dts-client slot="page" emit="dts">
-                                        <dts-select-endpoint id="dts" slot="toolbar">
-                                        </dts-select-endpoint>
+                                    <dts-client slot="page" subscribe="dts" emit="dts">
+                                        <dts-select-endpoint id="dts" slot="toolbar" emit="dts"></dts-select-endpoint>
                                         <p class="dts-info" slot="toolbar"><pb-i18n key="dts.note">Experimental: access other editions which expose the DTS API</pb-i18n></p>
-                                        <pb-paginate slot="pagination" per-page="10" range="5" subscribe="dts"></pb-paginate>
-                                    </dts-client-->             
+                                        <pb-paginate slot="pagination" per-page="10" range="5" subscribe="dts" emit="dts"></pb-paginate>
+                                    </dts-client>
                                 </pb-tabs>
                             </div>
                         </paper-card>
