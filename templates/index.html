@@ -98,7 +98,7 @@
         .panels .doclist .card-content {
             padding: 0;
         }
-        
+
         .panels .doclist .browse {
             display: grid;
             grid-template-columns: auto 1fr;
@@ -238,6 +238,23 @@
             text-decoration: none;
         }
 
+        .welcome {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            align-items: center;
+            min-height: 15vh;
+            width: 100%;
+        }
+
+        .side {
+            max-width: 40vw;
+            padding-left: 3em;
+        }
+
+        .side strong {
+            color: var(--pb-color-focus);
+        }
+
         .thumbnail img {
             border-radius: 15px;
         }
@@ -335,10 +352,15 @@
                 </app-header>
 
                 <main data-template="browse:form">
-                    <section>
-                        <h1 class="tp-title">TEI Publisher <span>The Instant Publishing Toolbox</span></h1>
-                        <p><pb-i18n key="browse.description">Use this app to experiment and try out various ODDs containing processing model instructions. Upload your own files and create a custom ODD.</pb-i18n></p>
-                        <p><strong><pb-i18n key="login.login">Log in</pb-i18n></strong> <pb-i18n key="browse.login">to upload files or see administrative functions (default user: "tei", password: "simple").</pb-i18n></p>
+                    <section class="welcome">
+                        <div>
+                            <h1 class="tp-title">TEI Publisher </h1>
+                            <h2>The Instant Publishing Toolbox</h2>
+                        </div>
+                       <div class="side">
+                            <p><pb-i18n key="browse.login-1">Log in as</pb-i18n> <strong>tei-demo</strong> <pb-i18n key="browse.login-2">with password</pb-i18n> <strong>demo</strong> <pb-i18n key="browse.login-3">to experiment with your own files and ODDs</pb-i18n></p>
+                    
+                       </div> 
                     </section>
                     <section class="panels">
                         <paper-card class="doclist" data-i18n="[heading]browse.documents" heading="documents">
