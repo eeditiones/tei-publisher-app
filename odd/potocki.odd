@@ -205,7 +205,6 @@
                     <model predicate="$parameters?view=&#34;introduction&#34; and @type=&#34;introduction&#34;" behaviour="pass-through">
             <param name="refs" value="let $refs := parent::div//persName[@type=&#34;author&#34;]/@ref for $r in $refs group by $r return id( $r, $parameters?root)"/>
             <pb:template xmlns="" xml:space="preserve"><div class="introduction">
-  <h2>Commentary</h2>
   [[content]]
   <div class="authors"><h3>Related authors</h3>[[refs]]</div>
 </div></pb:template>

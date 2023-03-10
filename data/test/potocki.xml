@@ -84,10 +84,10 @@
 
          <div>
             <pb facs="iiif:przypowiesci.png"/>
-            <head><choice>
+            <!-- <head><choice>
                   <orig>Przypowieśći</orig>
                   <reg>Przypowieści</reg>
-               </choice></head>
+               </choice></head> -->
             <div n="Chilias I Centuria III, 203">
                <note type="introduction"><p>Wiersz jest parafrazą Erazmiańskiego adagium
                         <title>Citra vinum temulentia</title> ‘Pijaństwo bez wina’ <ref
@@ -470,9 +470,9 @@
                            końca życia”</hi>). </note>. </l>
                </lg>
             </div>
-            <div>
+            <!-- <div>
                <gap/>
-            </div>
+            </div> -->
          </div>
       </body>
    </text>
