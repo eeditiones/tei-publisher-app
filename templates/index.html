@@ -18,6 +18,12 @@
             margin: 0 20px 0 20px;
             --pb-browse-toolbar-justify-content: space-between;
         }
+
+        app-header-layout {
+            background-image: url('resources/images/network-background.jpg');
+            background-size: contain;
+            background-color: #e8fafa;
+        }
         
         @media (max-width: 1023px) {
             main {
@@ -37,6 +43,9 @@
             }
             #facets {
                 display: none;
+            }
+            app-header-layout {
+                background-repeat: no-repeat;
             }
         }
         
@@ -391,7 +400,8 @@
                 <footer class="version">
                     TEI Publisher <span data-template="pages:version"/> /
                     web components <pb-version></pb-version> /
-                    API <span data-template="pages:api-version"/>
+                    API <span data-template="pages:api-version"/> /
+                    background by <a href="http://www.freepik.com">Freepik</a>
                 </footer>
             </app-header-layout>
         </app-drawer-layout>
