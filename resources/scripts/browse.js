@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
            This is relevant for e.g. the pb-upload component */
         pbEvents.emit('pb-collection', 'search', {
             writable,
-            currentCollection
+            collection: currentCollection
         });
         /* hide any element on the page which has attribute can-write */
         document.querySelectorAll('[can-write]').forEach((elem) => {
